@@ -29,8 +29,14 @@
  catch (  MarkupException ex) {
     ;
   }
-  parser.parse("<wicket:remove>  </wicket:remove>");
-  parser.parse("<wicket:remove> <span id=\"test\"/> </wicket:remove>");
+  Markup markup=parser.parse("<wicket:remove>  </wicket:remove>");
+  assertEquals(0,markup.size());
+  markup=parser.parse("<wicket:remove> <span id=\"test\"/> </wicket:remove>");
+  assertEquals(0,markup.size());
+  markup=parser.parse("<div><wicket:remove> <span id=\"test\"/> </wicket:remove></div>");
+  assertEquals(2,markup.size());
+  assertEquals("<div>",((RawMarkup)markup.get(0)).toString());
+  assertEquals("</div>",((RawMarkup)markup.get(1)).toString());
   try {
     parser.parse("<wicket:remove> <wicket:remove> </wicket:remove> </wicket:remove>");
     assertTrue("Should have thrown an exception: remove regions must not contain wicket-components",false);
