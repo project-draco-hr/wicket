@@ -1,45 +1,16 @@
 {
-  final IResourceStream ajax=getAjaxResponse();
-  if (ajax != null) {
-    getResponse().setContentType(ajax.getContentType());
-    OutputStream os=getResponse().getOutputStream();
+  final Page page=getResponsePage();
+  if (page != null) {
     try {
-      InputStream is=ajax.getInputStream();
-      byte[] bytes=new byte[512];
-      int read=is.read(bytes);
-      while (read != -1) {
-        os.write(bytes,0,read);
-        read=is.read(bytes);
+      if (getRedirect()) {
+        redirectTo(page);
       }
-      os.flush();
-    }
- catch (    Exception e) {
-      log.error("Error sending AJAX response",e);
-      throw new ServletException(e);
-    }
- finally {
-      try {
-        ajax.close();
-      }
- catch (      IOException e) {
-        e.printStackTrace();
-      }
-    }
-  }
  else {
-    final Page page=getResponsePage();
-    if (page != null) {
-      try {
-        if (getRedirect()) {
-          redirectTo(page);
-        }
- else {
-          page.request();
-        }
+        page.request();
       }
- catch (      RuntimeException e) {
-        onRuntimeException(page,e);
-      }
+    }
+ catch (    RuntimeException e) {
+      onRuntimeException(page,e);
     }
   }
 }
