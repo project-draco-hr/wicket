@@ -1,10 +1,10 @@
 {
-  final String url=getURL().replaceAll("&","&amp;");
+  final Response response=getRequestCycle().getResponse();
+  final String url=getURL();
   final PopupSettings popupSettings=getPopupSettings();
   if (popupSettings != null) {
     popupSettings.setTarget("'" + url + "'");
     String popupScript=popupSettings.getPopupJavaScript();
-    popupScript=popupScript.replaceAll("&","&amp;");
     tag.put("onclick",popupScript);
   }
  else {
