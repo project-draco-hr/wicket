@@ -1,6 +1,9 @@
 {
   try {
-    Ognl.setValue(getExpression(),getContext(),getModel().getObject(),object);
+    String expr=getExpression();
+    Object target=getModel().getObject();
+    OgnlContext ctx=getContext();
+    Ognl.setValue(expr,ctx,target,object);
   }
  catch (  OgnlException e) {
     throw new WicketRuntimeException(e);
