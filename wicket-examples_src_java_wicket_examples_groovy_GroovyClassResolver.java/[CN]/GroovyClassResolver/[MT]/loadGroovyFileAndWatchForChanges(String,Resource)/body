@@ -1,0 +1,20 @@
+{
+  final ModificationWatcher watcher=settings.getResourceWatcher();
+  if (watcher != null) {
+    watcher.add(resource,new IChangeListener(){
+      public void changed(){
+        try {
+          log.info("Reloading groovy file from " + resource);
+          final Class clazz=loadGroovyFile(classname,resource);
+          log.debug("Groovy file contained definition for class: " + clazz.getName());
+        }
+ catch (        Exception e) {
+          log.error("Unable to load groovyy file: " + resource,e);
+        }
+      }
+    }
+);
+  }
+  log.info("Loading groovy file from " + resource);
+  return loadGroovyFile(classname,resource);
+}

@@ -1,0 +1,9 @@
+{
+  if (homePageClass == null && !Strings.isEmpty(homePageClassName)) {
+    homePageClass=Session.get().getClassResolver().resolveClass(homePageClassName);
+  }
+  if (homePageClass == null) {
+    throw new IllegalStateException("No home page was specified in application settings");
+  }
+  return homePageClass;
+}

@@ -8,15 +8,15 @@
       if (page.isStale()) {
         final Page freshestPage=session.getFreshestPage();
         if (freshestPage != null) {
-          setPage(newPage(application.getSettings().getStaleDataErrorPage(),freshestPage));
+          setPage(newPage(application.getPages().getStaleDataErrorPage(),freshestPage));
         }
  else {
-          setPage(newPage(application.getSettings().getHomePage()));
+          setPage(newPage(application.getPages().getHomePage()));
         }
         return true;
       }
  else       if (page.isRenderingStale(rendering)) {
-        setPage(newPage(application.getSettings().getStaleDataErrorPage(),page));
+        setPage(newPage(application.getPages().getStaleDataErrorPage(),page));
         return true;
       }
  else {
@@ -40,13 +40,13 @@ catch (          InvocationTargetException e) {
         }
  else {
           log.error("No component found for " + path);
-          setPage(newPage(application.getSettings().getInternalErrorPage()));
+          setPage(newPage(application.getPages().getInternalErrorPage()));
           return true;
         }
       }
     }
  else {
-      setPage(newPage(application.getSettings().getPageExpiredErrorPage()));
+      setPage(newPage(application.getPages().getPageExpiredErrorPage()));
       return true;
     }
   }

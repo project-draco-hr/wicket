@@ -1,26 +1,16 @@
 {
-  try {
-    handleRender();
-  }
- catch (  RuntimeException e) {
+synchronized (session) {
+    session.setRequestCycle(this);
     try {
-      ApplicationSettings settings=application.getSettings();
-      if (settings.getUnexpectedExceptionDisplay() != ApplicationSettings.SHOW_NO_EXCEPTION_PAGE) {
-        if (settings.getUnexpectedExceptionDisplay() == ApplicationSettings.SHOW_INTERNAL_ERROR_PAGE) {
-          setPage(getPageFactory().newPage(settings.getInternalErrorPage()));
-        }
- else {
-          setPage(new ExceptionErrorPage(e));
-        }
-        redirectToPage(getPage());
-      }
+      handleRender();
     }
- catch (    RuntimeException ignored) {
+ catch (    RuntimeException e) {
+      handleRenderingException(e);
     }
-    throw e;
-  }
  finally {
-    release();
-    response.close();
+      response.close();
+      session.setRequestCycle(null);
+      threadDetach();
+    }
   }
 }

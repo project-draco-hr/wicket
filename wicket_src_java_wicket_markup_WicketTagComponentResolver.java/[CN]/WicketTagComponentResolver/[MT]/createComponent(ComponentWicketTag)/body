@@ -5,10 +5,10 @@
     autoIndex++;
   }
   final String classname=tag.getAttributes().getString("class");
-  final Class clazz=RequestCycle.get().getApplication().getSettings().getDefaultPageFactory().classForName(classname);
+  final Class componentClass=Session.get().getClassResolver().resolveClass(classname);
   final Component component;
   try {
-    final Constructor constructor=clazz.getConstructor(new Class[]{String.class});
+    final Constructor constructor=componentClass.getConstructor(new Class[]{String.class});
     component=(Component)constructor.newInstance(new Object[]{componentName});
   }
  catch (  NoSuchMethodException ex) {

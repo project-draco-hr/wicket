@@ -1,7 +1,15 @@
 {
-  final Session session=getPage().getSession();
-  if (session == null) {
-    throw new IllegalStateException(exceptionMessage("Page not attached to session"));
+  final Page page=findPage();
+  if (page != null) {
+    final Session session=page.getSession();
+    if (session != null) {
+      return session;
+    }
+ else {
+      throw new IllegalStateException(exceptionMessage("Page not attached to session"));
+    }
   }
-  return session;
+ else {
+    return Session.get();
+  }
 }

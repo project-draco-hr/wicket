@@ -1,7 +1,8 @@
 {
   final String pageClassName=request.getParameter("bookmarkablePage");
   if (pageClassName != null) {
-    setPage(getPageFactory().newPage(pageClassName,new PageParameters(this.getRequest().getParameterMap())));
+    final Class pageClass=getSession().getClassResolver().resolveClass(pageClassName);
+    setPage(getPageFactory().newPage(pageClass,new PageParameters(getRequest().getParameterMap())));
     return true;
   }
   return false;

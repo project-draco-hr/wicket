@@ -10,7 +10,7 @@
       }
       final String path=Strings.stripEnding(href,".html");
       try {
-        automaticLinkPageClass=RequestCycle.get().getApplication().getSettings().getDefaultPageFactory().classForName(page.getClass().getPackage().getName() + "." + path);
+        automaticLinkPageClass=Session.get().getClassResolver().resolveClass(page.getClass().getPackage().getName() + "." + path);
         if (parameters != null) {
           automaticLinkPageParameters=new PageParameters(parameters);
         }

@@ -1,26 +1,18 @@
 {
-synchronized (session) {
-    session.setRequestCycle(this);
-    try {
-      if (callComponentListener() || bookmarkablePage() || homePage()) {
-        final Page page=getPage();
-        if (page != null) {
-          if (getRedirect()) {
-            redirectToPage(page);
-          }
- else {
-            page.render();
-          }
-        }
+  if (callComponentListener() || bookmarkablePage() || homePage()) {
+    final Page page=getPage();
+    if (page != null) {
+      if (getRedirect()) {
+        redirectToPage(page);
       }
  else {
-        if (!renderStaticContent()) {
-          response.write("<pre>Invalid request: " + request + "</pre>");
-        }
+        page.render();
       }
     }
-  finally {
-      session.setRequestCycle(null);
+  }
+ else {
+    if (!renderStaticContent()) {
+      response.write("<pre>Invalid request: " + request + "</pre>");
     }
   }
 }
