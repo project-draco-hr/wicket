@@ -4,7 +4,9 @@
   if (!visible) {
     cycle.setResponse(NullResponse.getInstance());
   }
-  handleRender();
+synchronized (getModelLock()) {
+    handleRender();
+  }
   cycle.setResponse(originalResponse);
   rendering++;
 }

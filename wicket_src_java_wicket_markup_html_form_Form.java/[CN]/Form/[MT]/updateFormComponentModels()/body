@@ -3,7 +3,9 @@
     public Object component(    final Component component){
       final FormComponent formComponent=(FormComponent)component;
       if (formComponent.isVisible() && formComponent.isValid()) {
-        formComponent.updateModel();
+synchronized (formComponent.getModelLock()) {
+          formComponent.updateModel();
+        }
       }
       return CONTINUE_TRAVERSAL;
     }
