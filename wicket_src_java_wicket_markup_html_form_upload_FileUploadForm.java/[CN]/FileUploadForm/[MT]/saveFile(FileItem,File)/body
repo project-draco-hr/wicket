@@ -1,13 +1,6 @@
 {
-  final File writeTo;
-  if (targetFile.exists()) {
-    writeTo=fileExistsConflictHandler.getFileForSaving(targetFile);
-  }
- else {
-    writeTo=targetFile;
-  }
   try {
-    item.write(writeTo);
+    item.write(targetFile.exists() ? fileExistsConflictHandler.getFileForSaving(targetFile) : targetFile);
   }
  catch (  Exception e) {
     throw new RuntimeException(e);

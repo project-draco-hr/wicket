@@ -1,6 +1,6 @@
 {
   if (item == null) {
-    throw new NullPointerException("no file");
+    throw new IllegalArgumentException("No file");
   }
   String originalName=item.getName();
   int extloc=originalName.lastIndexOf('.');
@@ -9,7 +9,7 @@
     fileName=originalName.substring(0,extloc);
   }
   if (fileName == null || fileName.trim().equals("")) {
-    throw new RuntimeException("no file name given");
+    throw new RuntimeException("No file name given");
   }
   File targetFile=new File(targetDirectory,fileName + "." + ext);
   saveFile(item,targetFile);
