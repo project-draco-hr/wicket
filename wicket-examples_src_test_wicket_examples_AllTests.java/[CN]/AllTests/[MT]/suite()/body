@@ -1,0 +1,11 @@
+{
+  TestSuite suite=new TestSuite();
+  suite.addTest(new HelloWorldTest("testHelloWorld"));
+  suite.addTest(new GuestbookTest("testHomePage"));
+  suite.addTest(new DisplaytagTest("testHomePage"));
+  JettyDecorator deco=new JettyDecorator(suite);
+  deco.setPort(8098);
+  deco.setWebappContextRoot("src/webapp");
+  deco.setContextPath("/wicket-examples");
+  return deco;
+}
