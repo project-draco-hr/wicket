@@ -1,12 +1,10 @@
 {
   visitChildren(FormComponent.class,new Component.IVisitor(){
     public Object component(    final Component component){
-      if (component instanceof FormComponent.ICookieValue && ((FormComponent)component).isPersistenceEnabled()) {
-        final IFormComponentPersistenceManager persister=getFormComponentPersistenceManager();
-        final String persistedValue=persister.retrieveValue(component.getPageRelativePath());
-        if (persistedValue != null) {
-          ((FormComponent.ICookieValue)component).setCookieValue(persistedValue);
-        }
+      final FormComponent formComponent=(FormComponent)component;
+      if (formComponent.isPersistent()) {
+        final IValuePersister persister=getValuePersister();
+        persister.load((FormComponent)component);
       }
       return CONTINUE_TRAVERSAL;
     }

@@ -1,14 +1,14 @@
 {
   if (getRequestCycle() instanceof HttpRequestCycle) {
-    final IFormComponentPersistenceManager persister=getFormComponentPersistenceManager();
-    visitChildren(FormComponent.ICookieValue.class,new IVisitor(){
+    final IValuePersister persister=getValuePersister();
+    visitChildren(FormComponent.class,new IVisitor(){
       public Object component(      final Component component){
         final FormComponent formComponent=(FormComponent)component;
-        if (formComponent.isPersistenceEnabled()) {
-          persister.save(formComponent.getPageRelativePath(),((FormComponent.ICookieValue)formComponent).getCookieValue());
+        if (formComponent.isPersistent()) {
+          persister.save(formComponent);
         }
  else {
-          persister.remove(formComponent.getPageRelativePath());
+          persister.clear(formComponent);
         }
         return CONTINUE_TRAVERSAL;
       }
