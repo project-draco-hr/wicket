@@ -1,5 +1,7 @@
 {
   final String url=getRequestCycle().urlFor(this,IOnChangeListener.class);
-  tag.put("onChange","location.href='" + url + "&"+ getPath()+ "=' + this.options[this.selectedIndex].value;");
+  if (wantOnSelectionChangedNotifications()) {
+    tag.put("onChange","location.href='" + url + "&"+ getPath()+ "=' + this.options[this.selectedIndex].value;");
+  }
   super.onComponentTag(tag);
 }
