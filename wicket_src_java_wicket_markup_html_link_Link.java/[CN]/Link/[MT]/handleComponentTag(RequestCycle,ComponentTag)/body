@@ -9,10 +9,13 @@
     tag.remove("href");
   }
  else {
-    tag.put("href",getURL(cycle));
+    String url=getURL(cycle);
+    url=url.replaceAll("&","&amp;");
+    tag.put("href",url);
   }
   if (popupSpecification != null) {
-    final String popupScript=popupSpecification.getPopupJavaScript();
+    String popupScript=popupSpecification.getPopupJavaScript();
+    popupScript=popupScript.replaceAll("&","&amp;");
     tag.put("onClick",popupScript);
   }
 }

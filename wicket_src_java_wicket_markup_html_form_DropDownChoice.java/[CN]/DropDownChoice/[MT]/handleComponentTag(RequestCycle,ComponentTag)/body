@@ -1,7 +1,8 @@
 {
   if (this instanceof IOnChangeListener) {
     String url=cycle.urlFor(this,IOnChangeListener.class);
-    tag.put("onChange","location.href='" + url + "&"+ getPath()+ "=' + this.options[this.selectedIndex].value;");
+    url=url.replaceAll("&","&amp;");
+    tag.put("onChange","location.href='" + url + "&amp;"+ getPath()+ "=' + this.options[this.selectedIndex].value;");
   }
   super.handleComponentTag(cycle,tag);
 }
