@@ -1,0 +1,8 @@
+{
+  NullPointerException npe=new NullPointerException();
+  Class c=Class.forName(getExceptionClassName());
+  Constructor constructor=c.getConstructor(new Class[]{Throwable.class});
+  Exception e=(Exception)constructor.newInstance(new Object[]{npe});
+  Assert.assertNotNull("Exception should be created",e);
+  Assert.assertSame(npe,e.getCause());
+}
