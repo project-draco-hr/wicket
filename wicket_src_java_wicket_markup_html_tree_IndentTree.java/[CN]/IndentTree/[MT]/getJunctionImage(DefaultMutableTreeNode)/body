@@ -1,0 +1,22 @@
+{
+  if (!node.isLeaf()) {
+    IModel imgModel=new Model(){
+      public Object getObject(){
+        final String url;
+        if (isExpanded(node)) {
+          url=getRequestCycle().urlFor(JUNCTION_IMG_MINUS,IResourceListener.class);
+        }
+ else {
+          url=getRequestCycle().urlFor(JUNCTION_IMG_PLUS,IResourceListener.class);
+        }
+        return url;
+      }
+    }
+;
+    DynamicLocalImage img=new DynamicLocalImage(JUNCTION_IMAGE_NAME,imgModel);
+    return img;
+  }
+ else {
+    return JUNCTION_IMG_BLANK;
+  }
+}
