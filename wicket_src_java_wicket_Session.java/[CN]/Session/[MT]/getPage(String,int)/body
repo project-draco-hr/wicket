@@ -1,0 +1,12 @@
+{
+  Page page=getPage(Integer.parseInt(Strings.firstPathComponent(path,componentPathSeparator)));
+  final Page pageVersion=page.getVersion(version);
+  if (pageVersion != page) {
+    page=pageVersion;
+    getPageMap().put(new Integer(pageVersion.getId()),page);
+    pageChanged(page);
+  }
+  page.onInternalBeginRequest();
+  page.onBeginRequest();
+  return page;
+}

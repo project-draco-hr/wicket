@@ -1,3 +1,10 @@
 {
-  return getVersionManager().getVersion(version);
+  if (versionManager == IPageVersionManager.NULL) {
+    return this;
+  }
+  final Page page=getVersionManager().getVersion(version);
+  if (page.getVersion() == -1) {
+    page.versionManager=IPageVersionManager.NULL;
+  }
+  return page;
 }

@@ -1,6 +1,14 @@
 {
-  for (int i=versions.size() - 1; i >= version; i--) {
-    ((Version)versions.get(i)).undo();
+  final Version version=(Version)versions.get(new Integer(versionNumber));
+  if (version != null) {
+    while (getVersion() > versionNumber) {
+      nextVersionNumber--;
+      final Integer key=new Integer(nextVersionNumber);
+      final Version versionToUndo=(Version)versions.get(key);
+      versionToUndo.undo();
+      versions.remove(key);
+    }
+    return page;
   }
-  return page;
+  return null;
 }

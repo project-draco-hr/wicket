@@ -1,17 +1,13 @@
 {
   final String path=request.getParameter("component");
   if (path != null) {
-    log.debug("Getting page for path " + path);
-    final Page page=session.getPage(path);
+    final String versionString=request.getParameter("version");
+    int version=Strings.isEmpty(versionString) ? 0 : Integer.parseInt(versionString);
+    log.debug("Getting page [path = " + path + ", version = "+ version+ "]");
+    final Page page=session.getPage(path,version);
     if (page != null) {
-      if (page.isStale()) {
-        onStalePage();
-        return true;
-      }
- else {
-        invokeInterface(page,path,request.getParameter("interface"));
-        return true;
-      }
+      invokeInterface(page,path,request.getParameter("interface"));
+      return true;
     }
  else {
       onExpiredPage();
