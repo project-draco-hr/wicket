@@ -1,7 +1,6 @@
 {
-  form.visitChildren(FormComponent.class,new IVisitor(){
-    public Object component(    final Component component){
-      final FormComponent formComponent=(FormComponent)component;
+  form.visitFormComponents(new FormComponent.IVisitor(){
+    public void formComponent(    final FormComponent formComponent){
       formComponent.validate();
       if (!formComponent.isValid()) {
         formComponent.invalid();
@@ -9,7 +8,6 @@
  else {
         formComponent.valid();
       }
-      return IVisitor.CONTINUE_TRAVERSAL;
     }
   }
 );

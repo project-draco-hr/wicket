@@ -1,16 +1,14 @@
 {
   if (getRequestCycle() instanceof WebRequestCycle) {
     final IValuePersister persister=getValuePersister();
-    visitChildren(FormComponent.class,new IVisitor(){
-      public Object component(      final Component component){
-        final FormComponent formComponent=(FormComponent)component;
+    visitFormComponents(new FormComponent.IVisitor(){
+      public void formComponent(      final FormComponent formComponent){
         if (formComponent.isPersistent()) {
           persister.save(formComponent);
         }
  else {
           persister.clear(formComponent);
         }
-        return CONTINUE_TRAVERSAL;
       }
     }
 );

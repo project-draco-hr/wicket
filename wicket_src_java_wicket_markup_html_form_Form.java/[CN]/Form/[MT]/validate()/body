@@ -1,12 +1,13 @@
 {
   getRequestCycle().setRedirect(true);
   getValidationDelegate().validate(this);
-  updateFormComponentModels();
-  persistFormComponentData();
   if (hasError()) {
+    invalid();
     onError();
   }
  else {
+    persistFormComponentData();
+    updateFormComponentModels();
     onSubmit();
   }
 }

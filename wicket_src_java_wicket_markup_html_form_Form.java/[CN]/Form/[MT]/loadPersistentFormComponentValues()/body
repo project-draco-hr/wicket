@@ -1,12 +1,10 @@
 {
-  visitChildren(FormComponent.class,new Component.IVisitor(){
-    public Object component(    final Component component){
-      final FormComponent formComponent=(FormComponent)component;
+  visitFormComponents(new FormComponent.IVisitor(){
+    public void formComponent(    final FormComponent formComponent){
       if (formComponent.isPersistent()) {
         final IValuePersister persister=getValuePersister();
-        persister.load((FormComponent)component);
+        persister.load(formComponent);
       }
-      return CONTINUE_TRAVERSAL;
     }
   }
 );

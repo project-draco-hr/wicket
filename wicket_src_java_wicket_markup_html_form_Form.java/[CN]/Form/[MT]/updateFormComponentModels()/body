@@ -1,13 +1,11 @@
 {
-  visitChildren(FormComponent.class,new IVisitor(){
-    public Object component(    final Component component){
-      final FormComponent formComponent=(FormComponent)component;
+  visitFormComponents(new FormComponent.IVisitor(){
+    public void formComponent(    final FormComponent formComponent){
       if (formComponent.isVisible() && formComponent.isValid()) {
 synchronized (formComponent.getModelLock()) {
           formComponent.updateModel();
         }
       }
-      return CONTINUE_TRAVERSAL;
     }
   }
 );
