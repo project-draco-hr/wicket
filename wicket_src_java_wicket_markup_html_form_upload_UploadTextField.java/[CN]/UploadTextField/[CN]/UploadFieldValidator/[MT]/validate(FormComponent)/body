@@ -1,0 +1,17 @@
+{
+  final FileItem item=getFile();
+  final String name=component.getRequestString();
+  if (item == null || item.getSize() == 0) {
+    if (uploadRequired) {
+      error(component,resourceKey(component) + ".file.required",new MicroMap("fileFieldName",fileFieldName));
+    }
+ else {
+      return;
+    }
+  }
+ else {
+    if (name == null || name.trim().equals("")) {
+      error(component,resourceKey(component) + ".name.required",name);
+    }
+  }
+}

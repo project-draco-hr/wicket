@@ -1,0 +1,10 @@
+{
+  final Map files=((MultipartWebRequest)getRequest()).getFiles();
+  for (final Iterator iterator=files.values().iterator(); iterator.hasNext(); ) {
+    final FileItem fileItem=(FileItem)iterator.next();
+    long sizeInBytes=fileItem.getSize();
+    if (sizeInBytes > 0) {
+      saveFile(fileItem,new File(uploadFolder,fileItem.getName()));
+    }
+  }
+}
