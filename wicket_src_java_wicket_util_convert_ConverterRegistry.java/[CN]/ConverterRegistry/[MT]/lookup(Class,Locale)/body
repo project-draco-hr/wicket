@@ -1,5 +1,5 @@
 {
-  Converter converter=null;
+  IConverter converter=null;
   if (locale != null) {
     String lockey=getLocKey(clazz,locale);
     converter=(LocaleConverter)localizedConverters.get(lockey);
@@ -21,7 +21,7 @@
     }
   }
   if (converter == null) {
-    converter=(Converter)converters.get(clazz);
+    converter=(IConverter)converters.get(clazz);
   }
   if ((converter == null) && useNoopConverter) {
     converter=NOOP_CONVERTER;
