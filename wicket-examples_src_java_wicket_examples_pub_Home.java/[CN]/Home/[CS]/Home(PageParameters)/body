@@ -1,6 +1,26 @@
 {
+  add(new NavigationPanel("mainNavigation","Helloworld example"));
   add(new Image("beer"));
   ValueMap map=new ValueMap();
   map.put("user","Jonathan");
-  add(new Label("salutation",getLocalizer().getString("salutation",this,new Model(map))));
+  StringResourceModel labelModel=new StringResourceModel("salutation",this,new Model(map));
+  add(new Label("salutation",labelModel));
+  add(new Link("goCanadian"){
+    public void linkClicked(    RequestCycle cycle){
+      currentLocale=Locale.CANADA;
+    }
+  }
+);
+  add(new Link("goUS"){
+    public void linkClicked(    RequestCycle cycle){
+      currentLocale=Locale.US;
+    }
+  }
+);
+  add(new Link("goDutch"){
+    public void linkClicked(    RequestCycle cycle){
+      currentLocale=new Locale("nl","NL");
+    }
+  }
+);
 }
