@@ -2,11 +2,10 @@
   super(componentName);
   this.ascending=false;
   this.group=group;
+  final SortableListViewHeader me=this;
   add(new Link("actionLink"){
     public void onLinkClicked(){
-      ascending=!ascending;
-      group.setSortedColumn(getName());
-      sort();
+      me.linkClicked();
       getRequestCycle().setRedirect(true);
     }
   }
