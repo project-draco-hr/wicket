@@ -1,0 +1,19 @@
+{
+  super(httpServletRequest);
+  final boolean isMultipart=FileUpload.isMultipartContent(httpServletRequest);
+  if (!isMultipart) {
+    throw new IllegalStateException("Request does not contain multipart content");
+  }
+  final DiskFileUpload diskFileUpload=new DiskFileUpload();
+  diskFileUpload.setSizeMax(uploadForm.maxSize.bytes());
+  final List items=diskFileUpload.parseRequest(httpServletRequest);
+  for (Iterator i=items.iterator(); i.hasNext(); ) {
+    final FileItem item=(FileItem)i.next();
+    if (item.isFormField()) {
+      parameters.put(item.getFieldName(),item.getString());
+    }
+ else {
+      files.put(item.getFieldName(),item);
+    }
+  }
+}

@@ -1,6 +1,21 @@
 {
   final HttpServletRequest request=((WebRequest)getRequest()).getHttpServletRequest();
-  final MultipartWebRequest multipartWebRequest=new MultipartWebRequest(request);
-  getRequestCycle().setRequest(multipartWebRequest);
+  try {
+    final MultipartWebRequest multipartWebRequest=new MultipartWebRequest(this,request);
+    getRequestCycle().setRequest(multipartWebRequest);
+  }
+ catch (  FileUploadException e) {
+    final HashMap model=new HashMap();
+    model.put("exception",e);
+    model.put("maxSize",maxSize);
+    if (e instanceof SizeLimitExceededException) {
+      final String defaultValue="Upload must be less than " + maxSize;
+      error(getString(getId() + ".uploadTooLarge",Model.valueOf(model),defaultValue));
+    }
+ else {
+      final String defaultValue="Upload failed: " + e.getLocalizedMessage();
+      error(getString(getId() + ".uploadFailed",Model.valueOf(model),defaultValue));
+    }
+  }
   super.onFormSubmitted();
 }
