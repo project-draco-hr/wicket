@@ -16,11 +16,13 @@
       if ((key != null) && ((attributeToBeIgnored == null) || !key.equalsIgnoreCase(attributeToBeIgnored))) {
         buffer.append(" ");
         buffer.append(key);
-        buffer.append("=\"");
         String value=getString(key);
-        value=value.replaceAll("\"","\\\"");
-        buffer.append(value);
-        buffer.append("\"");
+        if (value != null) {
+          buffer.append("=\"");
+          value=value.replaceAll("\"","\\\"");
+          buffer.append(value);
+          buffer.append("\"");
+        }
       }
     }
   }
