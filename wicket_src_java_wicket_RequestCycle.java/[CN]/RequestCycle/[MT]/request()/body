@@ -1,5 +1,6 @@
 {
-  beginResponse();
+  internalOnBeginRequest();
+  onBeginRequest();
 synchronized (session) {
     threadAttach();
     try {
@@ -15,14 +16,16 @@ synchronized (session) {
             }
           }
   finally {
-            endResponse();
-            page.onInternalEndRequest();
+            internalOnEndRequest();
+            onEndRequest();
+            page.internalOnEndRequest();
             page.onEndRequest();
           }
         }
       }
  else {
-        endResponse();
+        internalOnEndRequest();
+        onEndRequest();
       }
     }
  catch (    RuntimeException e) {

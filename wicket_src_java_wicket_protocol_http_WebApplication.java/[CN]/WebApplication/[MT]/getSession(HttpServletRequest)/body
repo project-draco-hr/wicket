@@ -3,7 +3,7 @@
   final String sessionAttributeName="session-" + request.getServletPath();
   WebSession webSession=(WebSession)httpSession.getAttribute(sessionAttributeName);
   if (webSession == null) {
-    final Session session=application.getSessionFactory().newSession();
+    final Session session=getSessionFactory().newSession();
     if (session instanceof WebSession) {
       webSession=(WebSession)session;
       webSession.sessionAttributeName=sessionAttributeName;

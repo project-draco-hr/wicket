@@ -1,4 +1,7 @@
 {
+  if (log.isDebugEnabled()) {
+    log.debug("Getting page [path = " + path + ", versionNumber = "+ versionNumber+ "]");
+  }
   Page page=getPage(Integer.parseInt(Strings.firstPathComponent(path,componentPathSeparator)));
   if (page != null) {
     final Page version=page.getVersion(versionNumber);
@@ -8,8 +11,6 @@
         getPageMap().put(new Integer(page.getId()),page);
         pageChanged(page);
       }
-      page.onInternalBeginRequest();
-      page.onBeginRequest();
       return page;
     }
   }

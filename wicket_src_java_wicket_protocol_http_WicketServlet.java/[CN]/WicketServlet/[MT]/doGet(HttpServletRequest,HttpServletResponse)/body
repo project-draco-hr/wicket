@@ -1,9 +1,9 @@
 {
-  final WebSession session=WebSession.getSession(webApplication,servletRequest);
+  final WebSession session=webApplication.getSession(servletRequest);
   final WebRequest request=new WebRequest(servletRequest);
   final WebResponse response=webApplication.getSettings().getBufferResponse() ? new BufferedWebResponse(servletResponse) : new WebResponse(servletResponse);
   try {
-    new WebRequestCycle(webApplication,session,request,response).respond();
+    webApplication.newRequestCycle(session,request,response).request();
   }
   finally {
     response.close();
