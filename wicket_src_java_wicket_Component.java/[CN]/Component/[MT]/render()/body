@@ -1,6 +1,7 @@
 {
   onInternalBeginRender();
   onBeginRender();
+  RuntimeException exception=null;
   try {
     final RequestCycle cycle=getRequestCycle();
     final Response originalResponse=cycle.getResponse();
@@ -13,9 +14,22 @@ synchronized (getModelLock()) {
     }
     cycle.setResponse(originalResponse);
   }
-  finally {
-    onEndRender();
-    onInternalEndRender();
-    detachModels();
+ catch (  RuntimeException e) {
+    exception=e;
+  }
+ finally {
+    try {
+      onEndRender();
+      onInternalEndRender();
+      detachModels();
+    }
+ catch (    RuntimeException ex) {
+      if (exception == null) {
+        exception=ex;
+      }
+    }
+  }
+  if (exception != null) {
+    throw exception;
   }
 }
