@@ -1,6 +1,11 @@
 {
   page.setId(this.state.pageId++);
   state.dirty=true;
-  pages.put(new Integer(page.getId()),page);
+  final MostRecentlyUsedMap pageMap=getPageMap();
+  pageMap.put(new Integer(page.getId()),page);
+  Page removedPage=(Page)pageMap.getRemovedValue();
+  if (removedPage != null) {
+    removeAttribute(removedPage.getName());
+  }
   pageChanged(page);
 }
