@@ -1,23 +1,37 @@
 {
-  final boolean isBodyTag=(tag instanceof WicketTag && markupStream.atOpenCloseTag("body"));
-  if (!isBodyTag) {
+  if (!(tag instanceof WicketTag)) {
     return false;
   }
- else {
-    if (!markupStream.atOpenCloseTag()) {
-      markupStream.throwMarkupException("A <wicket:body> tag must be an open-close tag.");
-    }
-    renderComponentTag(tag);
-    markupStream.next();
-    Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
-    if (border.getMarkupStream() == null) {
-      final MarkupContainer borderParent=border.getParent();
-      border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
-    }
-    final MarkupStream borderMarkup=border.findMarkupStream();
-    border.setMarkupStream(null);
-    border.renderComponentTagBody(border.findMarkupStream(),border.openTag);
-    border.setMarkupStream(borderMarkup);
-    return true;
+  final WicketTag wtag=(WicketTag)tag;
+  if (!wtag.isBodyTag()) {
+    return false;
   }
+  ComponentTag bodyTag=tag;
+  if (tag.isOpen()) {
+    markupStream.next();
+    markupStream.skipRawMarkup();
+  }
+ else   if (tag.isOpenClose()) {
+    bodyTag=tag.mutable();
+    bodyTag.setType(XmlTag.OPEN);
+  }
+ else {
+    markupStream.throwMarkupException("A <wicket:body> tag must be an open or open-close tag.");
+  }
+  renderComponentTag(bodyTag);
+  Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
+  if (border.getMarkupStream() == null) {
+    final MarkupContainer borderParent=border.getParent();
+    border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
+  }
+  final MarkupStream borderMarkup=border.findMarkupStream();
+  border.setMarkupStream(null);
+  border.renderComponentTagBody(border.findMarkupStream(),border.openTag);
+  border.setMarkupStream(borderMarkup);
+  if (tag.isOpenClose()) {
+    markupStream.next();
+    bodyTag.setType(XmlTag.CLOSE);
+    renderComponentTag(bodyTag);
+  }
+  return true;
 }
