@@ -2,10 +2,20 @@
   this.component=component;
   final IModel model=component.getModel();
   if (model != null) {
-    model.detach();
-    originalModel=(IModel)Objects.clone(model);
-  }
+    boolean cloneModel=true;
+    if (component instanceof FormComponent) {
+      if (((FormComponent)component).getForm().getModel() == model) {
+        cloneModel=false;
+      }
+    }
  else {
-    originalModel=null;
+      if (component.getPage().getModel() == model) {
+        cloneModel=false;
+      }
+    }
+    if (cloneModel) {
+      model.detach();
+      originalModel=(IModel)Objects.clone(model);
+    }
   }
 }
