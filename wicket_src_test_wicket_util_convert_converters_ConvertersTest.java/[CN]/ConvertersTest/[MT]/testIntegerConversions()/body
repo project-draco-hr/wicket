@@ -1,0 +1,17 @@
+{
+  assertEquals(new Integer(10),new IntegerConverter().convert(Integer.valueOf("10")));
+  assertEquals(new Integer(10),new IntegerConverter().convert("10"));
+  assertEquals("10",new StringConverter().convert(new Integer(10)));
+  try {
+    new IntegerConverter().convert("whatever");
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    new IntegerConverter().convert("" + ((long)Integer.MAX_VALUE + 1));
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

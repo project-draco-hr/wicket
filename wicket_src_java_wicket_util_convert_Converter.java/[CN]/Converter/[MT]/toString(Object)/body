@@ -1,22 +1,3 @@
 {
-  if (value == null) {
-    return null;
-  }
-  Class c=value.getClass();
-  IConverter converter=get(c);
-  if (converter == null) {
-    converter=fallThroughConverter;
-  }
-  if (converter instanceof ILocalizable) {
-    ((ILocalizable)converter).setLocale(locale);
-  }
-  try {
-    return (String)converter.convert(value,String.class);
-  }
- catch (  ConversionException e) {
-    throw e.setConverter(converter).setLocale(locale).setTargetType(c).setTriedValue(value);
-  }
-catch (  Exception e) {
-    throw new ConversionException(e).setConverter(converter).setLocale(locale).setTargetType(c).setTriedValue(value);
-  }
+  return (String)convert(value,String.class);
 }

@@ -1,0 +1,20 @@
+{
+  if (value instanceof Number) {
+    Number number=(Number)value;
+    return new Short(number.shortValue());
+  }
+  final String stringValue=value.toString();
+  try {
+    final NumberFormat numberFormat=getNumberFormat();
+    if (numberFormat != null) {
+      return new Short(numberFormat.parse(stringValue).shortValue());
+    }
+    return new Short(stringValue);
+  }
+ catch (  ParseException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Short",e);
+  }
+catch (  NumberFormatException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Short",e);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  assertEquals(new Byte((byte)10),new ByteConverter().convert(Byte.valueOf("10")));
+  assertEquals(new Byte((byte)10),new ByteConverter().convert("10"));
+  assertEquals("10",new StringConverter().convert(new Byte((byte)10)));
+  try {
+    new ByteConverter().convert("whatever");
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    new ByteConverter().convert("256");
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

@@ -1,0 +1,14 @@
+{
+  assertEquals("true",new StringConverter().convert(Boolean.TRUE));
+  assertEquals("false",new StringConverter().convert(Boolean.FALSE));
+  assertEquals(Boolean.TRUE,new BooleanConverter().convert(Boolean.TRUE));
+  assertEquals(Boolean.FALSE,new BooleanConverter().convert(Boolean.FALSE));
+  assertEquals(Boolean.TRUE,new BooleanConverter().convert("true"));
+  assertEquals(Boolean.FALSE,new BooleanConverter().convert("false"));
+  try {
+    new BooleanConverter().convert("whatever");
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

@@ -1,0 +1,28 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (value instanceof String) {
+    return value;
+  }
+  final Class c=value.getClass();
+  ITypeConverter converter=get(c);
+  if (converter == null) {
+    if (defaultConverter instanceof ILocalizable) {
+      ((ILocalizable)defaultConverter).setLocale(locale);
+    }
+    return defaultConverter.convert(value);
+  }
+  if (converter instanceof ILocalizable) {
+    ((ILocalizable)converter).setLocale(locale);
+  }
+  try {
+    return converter.convert(value);
+  }
+ catch (  ConversionException e) {
+    throw e.setTypeConverter(this).setLocale(locale).setTargetType(c).setSourceValue(value);
+  }
+catch (  Exception e) {
+    throw new ConversionException(e).setTypeConverter(this).setLocale(locale).setTargetType(c).setSourceValue(value);
+  }
+}

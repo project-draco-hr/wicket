@@ -1,8 +1,8 @@
 {
   final String value=component.getRequestString();
-  if (!isNullOrEmpty(value)) {
+  if (!Strings.isEmpty(value)) {
     final IConverter converter=component.getConverter();
-    final Locale localeForValidation=getLocaleForValidation();
+    ((ILocalizable)converter).setLocale(getLocale());
     try {
       converter.convert(value,type);
     }

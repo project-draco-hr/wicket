@@ -1,0 +1,20 @@
+{
+  if (value instanceof Number) {
+    Number number=(Number)value;
+    return new Integer(number.intValue());
+  }
+  final String stringValue=value.toString();
+  try {
+    final NumberFormat numberFormat=getNumberFormat();
+    if (numberFormat != null) {
+      return new Integer(numberFormat.parse(stringValue).intValue());
+    }
+    return new Integer(stringValue);
+  }
+ catch (  ParseException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Integer",e);
+  }
+catch (  NumberFormatException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Integer",e);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  if (value instanceof Number) {
+    Number number=(Number)value;
+    return new Double(number.doubleValue());
+  }
+  final String stringValue=value.toString();
+  try {
+    final NumberFormat numberFormat=getNumberFormat();
+    if (numberFormat != null) {
+      return new Double(numberFormat.parse(stringValue).doubleValue());
+    }
+    return new Double(stringValue);
+  }
+ catch (  ParseException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Double",e);
+  }
+catch (  NumberFormatException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Double",e);
+  }
+}

@@ -3,22 +3,28 @@
     return null;
   }
   if (c == null) {
-    c=Object.class;
+    throw new IllegalArgumentException("Class cannot be null");
   }
-  IConverter converter=get(c);
+  if (c.isAssignableFrom(value.getClass())) {
+    return value;
+  }
+  ITypeConverter converter=get(c);
   if (converter == null) {
-    converter=fallThroughConverter;
+    if (defaultConverter instanceof ILocalizable) {
+      ((ILocalizable)defaultConverter).setLocale(locale);
+    }
+    return defaultConverter.convert(value,c);
   }
   if (converter instanceof ILocalizable) {
     ((ILocalizable)converter).setLocale(locale);
   }
   try {
-    return converter.convert(value,c);
+    return converter.convert(value);
   }
  catch (  ConversionException e) {
-    throw e.setConverter(converter).setLocale(locale).setTargetType(c).setTriedValue(value);
+    throw e.setConverter(this).setTypeConverter(converter).setLocale(locale).setTargetType(c).setSourceValue(value);
   }
 catch (  Exception e) {
-    throw new ConversionException(e).setConverter(converter).setLocale(locale).setTargetType(c).setTriedValue(value);
+    throw new ConversionException(e).setConverter(this).setLocale(locale).setTargetType(c).setSourceValue(value);
   }
 }

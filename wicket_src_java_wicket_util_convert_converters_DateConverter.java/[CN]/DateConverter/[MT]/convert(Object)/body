@@ -1,0 +1,15 @@
+{
+  final String stringValue=value.toString();
+  try {
+    if (dateFormat != null) {
+      return dateFormat.parse(stringValue);
+    }
+    return new Date(stringValue);
+  }
+ catch (  ParseException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Date",e);
+  }
+catch (  NumberFormatException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Date",e);
+  }
+}

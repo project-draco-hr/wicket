@@ -1,0 +1,17 @@
+{
+  assertEquals(new Short((short)10),new ShortConverter().convert(Short.valueOf("10")));
+  assertEquals(new Short((short)10),new ShortConverter().convert("10"));
+  assertEquals("10",new StringConverter().convert(new Short((short)10)));
+  try {
+    new ShortConverter().convert("whatever");
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    new ShortConverter().convert("" + (Short.MAX_VALUE + 1));
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

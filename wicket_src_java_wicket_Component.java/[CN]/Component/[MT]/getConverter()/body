@@ -1,32 +1,3 @@
 {
-  final IStringConverter stringConverter;
-  final IConverter converter=(IConverter)getSession().getConverter();
-  if (converter instanceof IStringConverter) {
-    stringConverter=(IStringConverter)converter;
-  }
- else {
-    stringConverter=new IStringConverter(){
-      /** 
- * @see wicket.util.convert.IStringConverter#toString(java.lang.Object)
- */
-      public String toString(      Object value){
-        return (String)converter.convert(value,String.class);
-      }
-      /** 
- * Convert using the default converter.
- * @see wicket.util.convert.IStringConverter#valueOf(java.lang.String)
- */
-      public Object valueOf(      String string){
-        return converter.convert(string,null);
-      }
-      /** 
- * @see wicket.util.convert.IConverter#convert(java.lang.Object,java.lang.Class)
- */
-      public Object convert(      Object value,      Class c){
-        return converter.convert(value,c);
-      }
-    }
-;
-  }
-  return stringConverter;
+  return getSession().getConverter();
 }

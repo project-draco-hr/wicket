@@ -1,0 +1,20 @@
+{
+  if (value instanceof Number) {
+    Number number=(Number)value;
+    return new Float(number.floatValue());
+  }
+  final String stringValue=value.toString();
+  try {
+    final NumberFormat numberFormat=getNumberFormat();
+    if (numberFormat != null) {
+      return new Float(numberFormat.parse(stringValue).floatValue());
+    }
+    return new Float(stringValue);
+  }
+ catch (  ParseException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Float",e);
+  }
+catch (  NumberFormatException e) {
+    throw new ConversionException("Cannot convert '" + stringValue + "' to Float",e);
+  }
+}
