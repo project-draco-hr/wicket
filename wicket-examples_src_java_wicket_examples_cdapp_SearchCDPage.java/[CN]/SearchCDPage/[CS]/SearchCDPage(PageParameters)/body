@@ -9,9 +9,8 @@
   resultsListView=new SearchCDResultsListView("results",searchModel,rowsPerPage);
   add(resultsListView);
   WebMarkupContainer resultsTableHeader=new WebMarkupContainer("resultsHeader"){
-    public void render(){
-      setVisible(searchModel.hasResults());
-      super.render();
+    public boolean isVisible(){
+      return searchModel.hasResults();
     }
   }
 ;
