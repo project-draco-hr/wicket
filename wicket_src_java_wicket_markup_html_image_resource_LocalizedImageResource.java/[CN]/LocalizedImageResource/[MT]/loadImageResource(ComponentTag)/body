@@ -1,0 +1,25 @@
+{
+  if (locale != null && locale != component.getLocale()) {
+    imageResource=null;
+  }
+  if (imageResource == null) {
+    final String modelString=component.getModelObjectAsString();
+    final String resourcePath;
+    if (Strings.isEmpty(modelString)) {
+      resourcePath=tag.getString("src");
+    }
+ else {
+      resourcePath=modelString;
+    }
+    if (!Strings.isEmpty(resourcePath)) {
+      final Package basePackage=component.findParentWithAssociatedMarkup().getClass().getPackage();
+      this.imageResource=StaticImageResource.get(basePackage,resourcePath,component.getLocale(),component.getStyle());
+    }
+    if (imageResource == null) {
+      setImageResource(generateImageResource(tag));
+    }
+    this.locale=component.getLocale();
+  }
+  final String url=((WebRequestCycle)component.getRequestCycle()).urlFor(imageResource.getPath());
+  tag.put("src",component.getResponse().encodeURL(url).replaceAll("&","&amp;"));
+}
