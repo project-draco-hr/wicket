@@ -3,7 +3,7 @@
   final PageFactory childFactory=new MyPageFactory(application);
   Exception ex=null;
   try {
-    factory.getClassInstance("dummyPackage.dummyClass");
+    factory.classForName("dummyPackage.dummyClass");
   }
  catch (  RenderException e) {
     ex=e;
@@ -11,5 +11,5 @@
   assertNotNull("Should have thrown an exception, indicating that no class could be found",ex);
   factory.setChildFactory(childFactory);
   assertEquals(childFactory,factory.getChildFactory());
-  assertEquals(Object.class,factory.getClassInstance("dummyPackage.dummyClass"));
+  assertEquals(Object.class,factory.classForName("dummyPackage.dummyClass"));
 }

@@ -1,0 +1,11 @@
+{
+  try {
+    return PageFactory.class.getClassLoader().loadClass(classname);
+  }
+ catch (  ClassNotFoundException ex) {
+    if (childFactory == null) {
+      throw new RenderException("Unable to load class with name: " + classname);
+    }
+  }
+  return childFactory.classForName(classname);
+}
