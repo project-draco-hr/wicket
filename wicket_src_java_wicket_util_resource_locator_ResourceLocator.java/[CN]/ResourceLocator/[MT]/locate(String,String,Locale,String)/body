@@ -1,0 +1,16 @@
+{
+  final String extensionString;
+  if (extension == null) {
+    extensionString="." + Strings.lastPathComponent(path,'.');
+    path=Strings.beforeLastPathComponent(path,'.');
+  }
+ else {
+    if (extension.startsWith(".")) {
+      extensionString=extension;
+    }
+ else {
+      extensionString="." + extension;
+    }
+  }
+  return locator.locate(path.replace('.','/'),style,locale,extensionString);
+}

@@ -6,7 +6,7 @@ synchronized (markupCache) {
       IResource markupResource=null;
       Class containerClass=getClass();
       while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
-        markupResource=ResourceLocator.locate(getApplicationSettings().getSourcePath(),containerClass,getStyle(),getLocale(),getMarkupType());
+        markupResource=getApplication().getResourceLocator().locate(containerClass,getStyle(),getLocale(),getMarkupType());
         containerClass=containerClass.getSuperclass();
       }
       if (markupResource != null) {

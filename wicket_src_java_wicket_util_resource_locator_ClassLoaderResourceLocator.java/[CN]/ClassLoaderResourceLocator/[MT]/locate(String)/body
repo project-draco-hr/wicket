@@ -1,0 +1,11 @@
+{
+  if (classloader == null) {
+    classloader=getClass().getClassLoader();
+  }
+  log.debug("Attempting to locate resource '" + path + "' using classloader "+ classloader);
+  final URL url=classloader.getResource(path);
+  if (url != null) {
+    return new UrlResource(url);
+  }
+  return null;
+}

@@ -1,0 +1,21 @@
+{
+  if (style != null && locale != null) {
+    final IResource resource=locate(path + "_" + style,locale,extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (locale != null) {
+    final IResource resource=locate(path,locale,extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (style != null) {
+    final IResource resource=locate(path + "_" + style+ extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  return locate(path + extension);
+}
