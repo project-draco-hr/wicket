@@ -1,0 +1,25 @@
+{
+  HtmlPage page=new MockPage(null);
+  page.add(this.panel);
+  HttpRequestCycle cycle=new HttpRequestCycle(application,application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
+  FormComponent username=(FormComponent)panel.get("signInForm.username");
+  FormComponent password=(FormComponent)panel.get("signInForm.password");
+  username.setPersistent(true);
+  password.setPersistent(true);
+  page.removePersistedFormData(cycle,SignInPanel.SignInForm.class,true);
+  Collection cookieCollection=application.getServletResponse().getCookies();
+  Assert.assertEquals(0,cookieCollection.size());
+  final Cookie cookieUsername=new Cookie("panel.signInForm.username","juergen");
+  final Cookie cookiePassword=new Cookie("panel.signInForm.password","test");
+  final Cookie[] cookies=new Cookie[]{cookieUsername,cookiePassword};
+  application.getServletRequest().setCookies(cookies);
+  page.removePersistedFormData(cycle,SignInPanel.SignInForm.class,true);
+  cookieCollection=application.getServletResponse().getCookies();
+  Assert.assertEquals(2,cookieCollection.size());
+  Iterator iter=cookieCollection.iterator();
+  while (iter.hasNext()) {
+    Cookie cookie=(Cookie)iter.next();
+    Assert.assertNotNull(page.get(cookie.getName()));
+    Assert.assertEquals(cookie.getMaxAge(),0);
+  }
+}

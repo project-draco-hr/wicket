@@ -1,0 +1,14 @@
+{
+  final Cookie cookieUsername=new Cookie("panel.signInForm.username","juergen");
+  final Cookie cookiePassword=new Cookie("panel.signInForm.password","test");
+  final Cookie[] cookies=new Cookie[]{cookieUsername,cookiePassword};
+  application.getServletRequest().setCookies(cookies);
+  HtmlPage page=new MockPage(null);
+  page.add(this.panel);
+  application.getServletRequest().setRequestToComponent(this.form);
+  application.processRequestCycle();
+  FormComponent username=(FormComponent)panel.get("signInForm.username");
+  FormComponent password=(FormComponent)panel.get("signInForm.password");
+  Assert.assertEquals(cookieUsername.getValue(),username.getModelObjectAsString());
+  Assert.assertEquals(cookiePassword.getValue(),password.getModelObjectAsString());
+}
