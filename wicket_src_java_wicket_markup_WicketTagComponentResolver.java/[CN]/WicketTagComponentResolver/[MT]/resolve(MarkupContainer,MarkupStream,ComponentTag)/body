@@ -17,7 +17,10 @@
     }
   }
   if ((tag.getComponentName() != null) && nestedComponents.containsKey(container)) {
-    final MarkupContainer parent=container.getParent();
+    MarkupContainer parent=container.getParent();
+    while ((parent != null) && nestedComponents.containsKey(parent)) {
+      parent=parent.getParent();
+    }
     if (parent != null) {
       final Component component=parent.get(tag.getComponentName());
       if (component != null) {
