@@ -7,7 +7,10 @@
  * @see wicket.markup.html.tree.Tree#getTreeRowPanel(java.lang.String,wicket.markup.html.tree.TreeNodeModel)
  */
     protected Panel getTreeRowPanel(    String componentName,    TreeNodeModel nodeModel){
-      return new FileTreeRow(componentName,this,nodeModel);
+      TreeRowReplacementModel replacementModel=new TreeRowReplacementModel(nodeModel);
+      Panel rowPanel=new FileTreeRow(componentName,this,nodeModel);
+      rowPanel.add(new ComponentTagAttributeModifier("class",true,replacementModel));
+      return rowPanel;
     }
   }
 ;
