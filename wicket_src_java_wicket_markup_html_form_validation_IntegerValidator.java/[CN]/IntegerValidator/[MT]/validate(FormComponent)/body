@@ -1,0 +1,21 @@
+{
+  final String value=component.getRequestString();
+  if (value != null && !"".equals(value)) {
+    boolean error=false;
+    try {
+      final long longValue=Long.parseLong(value);
+      if (longValue < min || longValue > max) {
+        error=true;
+      }
+    }
+ catch (    NumberFormatException e) {
+      error=true;
+    }
+    if (error) {
+      final Map map=messageModel(component,value);
+      map.put("min",new Long(min));
+      map.put("max",new Long(max));
+      error(component,resourceKey(component),map,value);
+    }
+  }
+}

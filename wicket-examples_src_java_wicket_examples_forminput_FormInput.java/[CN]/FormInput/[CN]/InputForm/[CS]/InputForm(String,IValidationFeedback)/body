@@ -3,45 +3,20 @@
   RequiredValidator requiredValidator=new RequiredValidator();
   IModel inputModel=new Model(){
     public Object getObject(){
-      return input;
+      return testInputObject;
     }
   }
 ;
-  TextField stringInput=new TextField("stringInput",inputModel,"stringProperty");
-  stringInput.add(requiredValidator);
-  TextField integerInput=new TextField("integerInput",inputModel,"integerProperty");
-  integerInput.add(requiredValidator);
-  integerInput.add(new TypeValidator(Integer.class));
-  TextField doubleInput=new TextField("doubleInput",inputModel,"doubleProperty");
-  doubleInput.add(requiredValidator);
-  doubleInput.add(new TypeValidator(Double.class));
-  TextField dateInput=new TextField("dateInput",inputModel,"dateProperty");
-  dateInput.add(requiredValidator);
-  dateInput.add(new TypeValidator(Date.class));
-  add(stringInput);
-  add(integerInput);
-  add(doubleInput);
-  add(dateInput);
-  TextField integerInRangeInput=new TextField("integerInRangeInput",input,"integerInRangeProperty");
-  integerInRangeInput.add(requiredValidator);
-  integerInRangeInput.add(new AbstractValidator(){
-    public void validate(    FormComponent component){
-      final String input=component.getRequestString();
-      int value=Integer.parseInt(input.toString());
-      if ((value < 0) || (value > 100)) {
-        Map vars=new HashMap();
-        vars.put("input",input);
-        vars.put("lower","0");
-        vars.put("upper","100");
-        error("error.outOfRange",vars,input,component);
-      }
-    }
-  }
-);
+  add(new RequiredTextField("stringInput",inputModel,"stringProperty"));
+  add(new RequiredTextField("integerInput",inputModel,"integerProperty",Integer.class));
+  add(new RequiredTextField("doubleInput",inputModel,"doubleProperty",Double.class));
+  add(new RequiredTextField("dateInput",inputModel,"dateProperty",Date.class));
+  TextField integerInRangeInput=new TextField("integerInRangeInput",testInputObject,"integerInRangeProperty");
+  integerInRangeInput.add(IntegerValidator.range(0,100));
   add(integerInRangeInput);
   add(new OnClickLink("resetButton"){
     public void linkClicked(){
-      input=new TestInputObject();
+      testInputObject=new TestInputObject();
     }
   }
 );

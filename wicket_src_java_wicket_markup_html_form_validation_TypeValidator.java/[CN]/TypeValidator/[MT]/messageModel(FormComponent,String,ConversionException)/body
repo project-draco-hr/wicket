@@ -6,6 +6,9 @@
     model.put("locale",locale);
   }
   model.put("exception",e.getMessage());
-  model.put("format",e.getFormat());
+  Format format=e.getFormat();
+  if (format instanceof SimpleDateFormat) {
+    model.put("format",((SimpleDateFormat)format).toLocalizedPattern());
+  }
   return model;
 }
