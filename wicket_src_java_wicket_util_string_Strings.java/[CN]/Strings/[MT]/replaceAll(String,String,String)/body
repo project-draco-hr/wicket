@@ -1,0 +1,20 @@
+{
+  if (text != null) {
+    final StringBuffer buf=new StringBuffer();
+    int pos=0;
+    while (true) {
+      final int matchIndex=text.indexOf(searchFor,pos);
+      if (matchIndex == -1) {
+        buf.append(text.substring(pos));
+        break;
+      }
+ else {
+        buf.append(text.substring(pos,matchIndex));
+        pos=matchIndex + searchFor.length();
+        buf.append(replaceWith);
+      }
+    }
+    return buf.toString();
+  }
+  return null;
+}

@@ -1,0 +1,14 @@
+{
+  IModel mod=getModel();
+  if (mod != null) {
+    final Object property=getModel().getObject();
+    if (property != null) {
+      final String modelString=(property instanceof String) ? (String)property : String.valueOf(property);
+      if (shouldEscapeModelStrings) {
+        return Strings.escapeMarkup(modelString);
+      }
+      return modelString;
+    }
+  }
+  return "";
+}

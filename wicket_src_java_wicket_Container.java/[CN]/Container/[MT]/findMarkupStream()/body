@@ -1,0 +1,10 @@
+{
+  Container c=this;
+  while (c.markupStream == null) {
+    c=c.getParent();
+    if (c == null) {
+      throw new RenderException(exceptionMessage("No markup found"));
+    }
+  }
+  return c.markupStream;
+}

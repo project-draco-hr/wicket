@@ -1,0 +1,26 @@
+{
+  this(componentName,new IPageLink(){
+    /** 
+ * Serial Version ID 
+ */
+    private static final long serialVersionUID=319659497178801753L;
+    public Page getPage(){
+      try {
+        return (Page)c.newInstance();
+      }
+ catch (      InstantiationException e) {
+        throw new RenderException("Cannot instantiate page class " + c,e);
+      }
+catch (      IllegalAccessException e) {
+        throw new RenderException("Cannot instantiate page class " + c,e);
+      }
+    }
+    public Class getPageClass(){
+      return c;
+    }
+  }
+);
+  if (!Page.class.isAssignableFrom(c)) {
+    throw new IllegalArgumentException("Class " + c + " is not a subclass of Page");
+  }
+}

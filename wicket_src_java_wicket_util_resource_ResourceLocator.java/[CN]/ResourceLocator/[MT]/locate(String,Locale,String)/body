@@ -1,0 +1,21 @@
+{
+  Resource resource=locate(path + locale.toString() + extension);
+  if (resource != null) {
+    return resource;
+  }
+  if ((locale.getCountry() != null) && (locale.getCountry().length() > 0)) {
+    String localeString=locale.getLanguage() + "_" + locale.getCountry();
+    resource=locate(path + localeString + extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if ((locale.getLanguage() != null) && (locale.getLanguage().length() > 0)) {
+    String localeString=locale.getLanguage();
+    resource=locate(path + localeString + extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  return null;
+}

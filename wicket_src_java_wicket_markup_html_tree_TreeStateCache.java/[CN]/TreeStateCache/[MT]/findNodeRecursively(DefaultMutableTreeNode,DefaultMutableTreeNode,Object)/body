@@ -1,0 +1,15 @@
+{
+  int childCount=currentNode.getChildCount();
+  if (currentNode.getUserObject().equals(userObject)) {
+    resultNode=currentNode;
+  }
+ else   if (childCount > 0) {
+    for (int i=0; i < childCount; i++) {
+      resultNode=findNodeRecursively((DefaultMutableTreeNode)currentNode.getChildAt(i),resultNode,userObject);
+      if (resultNode != null) {
+        break;
+      }
+    }
+  }
+  return resultNode;
+}

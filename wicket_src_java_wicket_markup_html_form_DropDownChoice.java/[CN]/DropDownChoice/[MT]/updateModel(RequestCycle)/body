@@ -1,0 +1,16 @@
+{
+  final String indexOrId=getRequestString(cycle);
+  final List list=getValues();
+  if (list instanceof IIdList) {
+    setModelObject(((IIdList)list).getObjectById(indexOrId));
+  }
+ else {
+    final int index=Integer.parseInt(indexOrId);
+    if (index == NULL_VALUE) {
+      setModelObject(null);
+    }
+ else {
+      setModelObject(list.get(index));
+    }
+  }
+}

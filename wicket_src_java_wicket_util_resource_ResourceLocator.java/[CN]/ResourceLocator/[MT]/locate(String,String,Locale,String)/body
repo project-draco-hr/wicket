@@ -1,0 +1,23 @@
+{
+  Resource resource=null;
+  if ((style != null) && (locale != null)) {
+    resource=locate(resourcePath + "_" + style+ "_",locale,extensionString);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (locale != null) {
+    resource=locate(resourcePath + "_",locale,extensionString);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (style != null) {
+    resource=locate(resourcePath + "_" + style+ extensionString);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  resource=locate(resourcePath + extensionString);
+  return resource;
+}

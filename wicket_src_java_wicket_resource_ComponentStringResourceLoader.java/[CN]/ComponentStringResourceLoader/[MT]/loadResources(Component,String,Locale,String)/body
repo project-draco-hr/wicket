@@ -1,0 +1,32 @@
+{
+  ValueMap strings=(ValueMap)resourceCache.get(id);
+  if (strings != null) {
+    return strings;
+  }
+  final Properties properties=new Properties();
+  final Resource resource=Resource.locate(component.getApplicationSettings().getSourcePath(),component.getClass(),style,locale,"properties");
+  if (resource != null) {
+    try {
+      try {
+        properties.load(new BufferedInputStream(resource.getInputStream()));
+        strings=new ValueMap(properties);
+      }
+  finally {
+        resource.close();
+      }
+    }
+ catch (    ResourceNotFoundException e) {
+      log.warn("Unable to find resource " + resource,e);
+      strings=ValueMap.EMPTY_MAP;
+    }
+catch (    IOException e) {
+      log.warn("Unable to access resource " + resource,e);
+      strings=ValueMap.EMPTY_MAP;
+    }
+  }
+ else {
+    strings=ValueMap.EMPTY_MAP;
+  }
+  resourceCache.put(id,strings);
+  return strings;
+}

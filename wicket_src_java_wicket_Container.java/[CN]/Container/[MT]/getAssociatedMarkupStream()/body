@@ -1,0 +1,22 @@
+{
+synchronized (markupCache) {
+    final String key=getClass().getName() + getLocale() + getStyle()+ getMarkupType();
+    Markup markup=(Markup)markupCache.get(key);
+    if (markup == null) {
+      Resource markupResource=null;
+      Class containerClass=getClass();
+      while ((markupResource == null) && (containerClass != Container.class)) {
+        markupResource=Resource.locate(getApplicationSettings().getSourcePath(),containerClass,getStyle(),getLocale(),getMarkupType());
+        containerClass=containerClass.getSuperclass();
+      }
+      if (markupResource != null) {
+        markup=loadMarkupAndWatchForChanges(key,markupResource);
+      }
+ else {
+        throw new RenderException(exceptionMessage("Markup of type '" + getMarkupType() + "' not found"));
+      }
+      markupCache.put(key,markup);
+    }
+    return new MarkupStream(markup);
+  }
+}

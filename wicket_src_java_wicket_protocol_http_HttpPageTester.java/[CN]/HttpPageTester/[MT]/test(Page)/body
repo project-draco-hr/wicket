@@ -1,0 +1,12 @@
+{
+  if (showObjectSize || dumpObjects) {
+    final IObjectProfileNode profile=wicket.util.profile.ObjectProfiler.profile(page);
+    if (showObjectSize) {
+      System.out.println("Page " + page.getClass() + " object size = "+ profile.size()+ " bytes");
+    }
+    if (dumpObjects) {
+      System.out.println("Page " + page.getClass() + " objects: "+ profile.dump());
+    }
+  }
+  page.render(getRequestCycle());
+}

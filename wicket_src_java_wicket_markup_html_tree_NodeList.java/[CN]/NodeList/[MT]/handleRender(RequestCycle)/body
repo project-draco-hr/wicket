@@ -1,0 +1,22 @@
+{
+  final MarkupStream markupStream=findMarkupStream();
+  final int markupStart=markupStream.getCurrentIndex();
+  TreeNode currentNode=(TreeNode)getModelObject();
+  final int childCount=currentNode.getChildCount();
+  if (childCount > 0) {
+    for (int i=0; i < childCount; i++) {
+      final String componentName=Integer.toString(i);
+      Node node=(Node)get(componentName);
+      if (node == null) {
+        node=newNode(i);
+        add(node);
+        populateNode(node);
+      }
+      markupStream.setCurrentIndex(markupStart);
+      node.render(cycle);
+    }
+  }
+ else {
+    markupStream.skipComponent();
+  }
+}

@@ -1,0 +1,35 @@
+{
+  if (value == null) {
+    return ((String)null);
+  }
+ else   if (value.getClass().isArray()) {
+    if (Array.getLength(value) < 1) {
+      return (null);
+    }
+    value=Array.get(value,0);
+    if (value == null) {
+      return ((String)null);
+    }
+ else {
+      try {
+        Converter converter=this.converterRegistry.lookup(String.class);
+        Object converted=converter.convert(String.class,value);
+        return (converted instanceof String) ? (String)converted : String.valueOf(converted);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+        throw new ConversionException(e);
+      }
+    }
+  }
+ else {
+    try {
+      Converter converter=this.converterRegistry.lookup(String.class);
+      Object converted=converter.convert(String.class,value);
+      return (converted instanceof String) ? (String)converted : String.valueOf(converted);
+    }
+ catch (    Exception e) {
+      throw new ConversionException(e);
+    }
+  }
+}

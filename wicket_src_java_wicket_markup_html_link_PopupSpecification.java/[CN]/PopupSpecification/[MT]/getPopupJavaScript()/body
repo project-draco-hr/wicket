@@ -1,0 +1,31 @@
+{
+  String windowTitle=getWindowName();
+  if (windowTitle == null) {
+    windowTitle="";
+  }
+ else {
+    windowTitle=windowTitle.replace('.','_');
+  }
+  StringBuffer script=new StringBuffer("if (!window.focus) return true; window.open(href, '").append(windowTitle).append("', '");
+  script.append("scrollbars=").append(isScrollBars() ? "yes" : "no");
+  script.append(", location=").append(isLocationbar() ? "yes" : "no");
+  script.append(", menubar=").append(isMenubar() ? "yes" : "no");
+  script.append(", resizable=").append(isResizable() ? "yes" : "no");
+  script.append(", scrollbars=").append(isScrollBars() ? "yes" : "no");
+  script.append(", status=").append(isStatusBar() ? "yes" : "no");
+  script.append(", toolbar=").append(isToolbar() ? "yes" : "no");
+  if (getWidth() != -1) {
+    script.append(", width=").append(getWidth());
+  }
+  if (getHeight() != -1) {
+    script.append(", height=").append(getHeight());
+  }
+  if (getLeft() != -1) {
+    script.append(", left=").append(getLeft());
+  }
+  if (getTop() != -1) {
+    script.append(", top=").append(getTop());
+  }
+  script.append("'); ").append(" return false;");
+  return script.toString();
+}

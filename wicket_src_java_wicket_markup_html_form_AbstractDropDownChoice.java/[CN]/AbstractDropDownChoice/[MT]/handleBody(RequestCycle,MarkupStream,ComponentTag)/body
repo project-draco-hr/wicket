@@ -1,0 +1,28 @@
+{
+  final StringBuffer options=new StringBuffer();
+  final Object selected=getModelObject();
+  final List list=getValues();
+  if (selected == null && isRenderNullOption()) {
+    final String chooseOne=getLocalizer().getString(getPath() + ".null",this,"Choose One");
+    options.append("\n<option selected value=\"" + NULL_VALUE + "\">"+ chooseOne+ "</option>");
+  }
+  for (int i=0; i < list.size(); i++) {
+    final Object value=list.get(i);
+    if (value != null) {
+      options.append("\n<option " + (isSelected(value) ? "selected " : "") + "value=\"");
+      options.append((list instanceof IIdList) ? ((IIdList)list).getIdValue(i) : Integer.toString(i));
+      options.append("\">");
+      final String label=(list instanceof IIdList) ? ((IIdList)list).getDisplayValue(i) : value.toString();
+      options.append(getLocalizer().getString(getPath() + "." + label,this,label));
+      options.append("</option>");
+    }
+ else {
+      throw new IllegalArgumentException("Dropdown choice contains null value in values collection at index " + i);
+    }
+  }
+  options.append("\n");
+  replaceBody(cycle,markupStream,openTag,options.toString());
+  if (list instanceof IIdList) {
+    ((IIdList)list).detach(cycle);
+  }
+}

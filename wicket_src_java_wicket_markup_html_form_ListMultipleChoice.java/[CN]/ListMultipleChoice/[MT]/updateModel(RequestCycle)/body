@@ -1,0 +1,23 @@
+{
+  Collection selectedValues=(Collection)getModelObject();
+  if (selectedValues != null) {
+    selectedValues.clear();
+  }
+ else {
+    selectedValues=new ArrayList();
+    setModelObject(selectedValues);
+  }
+  final String[] indicesOrIds=getRequestStrings(cycle);
+  if (indicesOrIds != null) {
+    final List list=getValues();
+    for (int i=0; i < indicesOrIds.length; i++) {
+      if (list instanceof IIdList) {
+        selectedValues.add(((IIdList)list).getObjectById(indicesOrIds[i]));
+      }
+ else {
+        final int index=Integer.parseInt(indicesOrIds[i]);
+        selectedValues.add(list.get(index));
+      }
+    }
+  }
+}

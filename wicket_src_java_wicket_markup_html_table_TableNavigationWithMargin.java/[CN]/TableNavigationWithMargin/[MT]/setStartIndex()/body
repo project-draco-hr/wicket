@@ -1,0 +1,18 @@
+{
+  int firstCell=this.getStartIndex();
+  int viewSize=this.getViewSize();
+  int currentPage=table.getCurrentPage();
+  if (currentPage < (firstCell + this.margin)) {
+    firstCell=currentPage - viewSize + margin;
+  }
+ else   if (currentPage >= (firstCell + viewSize - this.margin)) {
+    firstCell=currentPage - margin;
+  }
+  if ((firstCell + viewSize) >= table.getPageCount()) {
+    firstCell=table.getPageCount() - viewSize;
+  }
+  if (firstCell < 0) {
+    firstCell=0;
+  }
+  this.setStartIndex(firstCell);
+}

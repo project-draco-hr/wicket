@@ -1,0 +1,37 @@
+{
+  return new AbstractSet(){
+    public Iterator iterator(){
+      return new Iterator(){
+        public boolean hasNext(){
+          return index < MicroMap.this.size();
+        }
+        public Object next(){
+          index++;
+          return new Map.Entry(){
+            public Object getKey(){
+              return key;
+            }
+            public Object getValue(){
+              return value;
+            }
+            public Object setValue(            final Object value){
+              final Object oldValue=MicroMap.this.value;
+              MicroMap.this.value=value;
+              return oldValue;
+            }
+          }
+;
+        }
+        public void remove(){
+          clear();
+        }
+        int index=0;
+      }
+;
+    }
+    public int size(){
+      return MicroMap.this.size();
+    }
+  }
+;
+}

@@ -1,0 +1,23 @@
+{
+  final String childName=child.getName();
+  if (log.isDebugEnabled()) {
+    log.debug("Add " + childName + " to "+ this);
+  }
+  if (child.getParent() != this) {
+    child.setParent(this);
+    if (optimizeChildMapsForSpace) {
+      if (childForName.size() == MicroMap.MAX_ENTRIES) {
+        childForName=new MiniMap(childForName,MINIMAP_MAX_ENTRIES);
+      }
+ else       if (childForName.size() == MINIMAP_MAX_ENTRIES) {
+        childForName=new HashMap(childForName);
+      }
+    }
+    final Object replaced=childForName.put(childName,child);
+    if (replaced == null) {
+      throw new IllegalArgumentException(exceptionMessage("A child component with the name '" + childName + "' didn't exists"));
+    }
+    ((Component)replaced).setParent(null);
+  }
+  return this;
+}

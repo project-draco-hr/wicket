@@ -1,0 +1,9 @@
+{
+  if (attributeModifiers != null && tag.getType() != ComponentTag.CLOSE) {
+    tag=tag.mutable();
+    for (Iterator it=attributeModifiers.iterator(); it.hasNext(); ) {
+      ((ComponentTagAttributeModifier)it.next()).replaceAttibuteValue(tag);
+    }
+  }
+  cycle.getResponse().write(tag);
+}

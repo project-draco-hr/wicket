@@ -1,0 +1,12 @@
+{
+  if (current.get() != null) {
+    log.error("messages were allready set for this thread!" + " Either a former cleanup failed, or the current thread has illegal" + " access. Trying to release the current messages first.");
+    release();
+  }
+ else {
+    if (log.isDebugEnabled()) {
+      log.debug(messages + " set for thread " + Thread.currentThread());
+    }
+  }
+  current.set(messages);
+}

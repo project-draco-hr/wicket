@@ -1,0 +1,12 @@
+{
+  Page freshest=null;
+  for (final Iterator iterator=pages.values().iterator(); iterator.hasNext(); ) {
+    final Page current=(Page)iterator.next();
+    if (!current.isStale()) {
+      if ((freshest == null) || (current.getId() < freshest.getId())) {
+        freshest=current;
+      }
+    }
+  }
+  return freshest;
+}

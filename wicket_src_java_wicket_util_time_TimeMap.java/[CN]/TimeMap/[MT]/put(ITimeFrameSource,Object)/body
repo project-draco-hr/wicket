@@ -1,0 +1,10 @@
+{
+  final TimeFrame timeframe=source.get();
+  for (final Iterator iterator=sources.keySet().iterator(); iterator.hasNext(); ) {
+    final TimeFrame current=((ITimeFrameSource)iterator.next()).get();
+    if (timeframe.overlaps(current)) {
+      throw new IllegalArgumentException("Timeframe " + timeframe + " overlaps timeframe "+ current);
+    }
+  }
+  sources.put(source,o);
+}

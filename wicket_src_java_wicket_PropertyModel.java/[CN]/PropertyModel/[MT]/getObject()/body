@@ -1,0 +1,25 @@
+{
+  if ((getExpression() == null) || (getExpression().trim().length() == 0)) {
+    return model.getObject();
+  }
+  IModel theModel=getModel();
+  if (theModel == null) {
+    return null;
+  }
+  Object modelObject=theModel.getObject();
+  if (modelObject == null) {
+    return null;
+  }
+  try {
+    Object raw=Ognl.getValue(getExpression(),getContext(),modelObject);
+    if (applyFormatting) {
+      return converterRegistry.getFormattingUtils().getObjectFormatted(raw,getLocale(),getFormatPattern(),getFormatPattern());
+    }
+ else {
+      return raw;
+    }
+  }
+ catch (  OgnlException e) {
+    throw new RuntimeException(e);
+  }
+}

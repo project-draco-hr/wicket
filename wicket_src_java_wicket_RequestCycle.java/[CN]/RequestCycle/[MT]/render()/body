@@ -1,0 +1,26 @@
+{
+  try {
+    handleRender();
+  }
+ catch (  RuntimeException e) {
+    try {
+      ApplicationSettings settings=application.getSettings();
+      if (settings.getUnexpectedExceptionDisplay() != ApplicationSettings.SHOW_NO_EXCEPTION_PAGE) {
+        if (settings.getUnexpectedExceptionDisplay() == ApplicationSettings.SHOW_INTERNAL_ERROR_PAGE) {
+          setPage(newPage(settings.getInternalErrorPage()));
+        }
+ else {
+          setPage(new ExceptionErrorPage(e));
+        }
+        redirectToPage(getPage());
+      }
+    }
+ catch (    RuntimeException ignored) {
+    }
+    throw e;
+  }
+ finally {
+    release();
+    response.close();
+  }
+}

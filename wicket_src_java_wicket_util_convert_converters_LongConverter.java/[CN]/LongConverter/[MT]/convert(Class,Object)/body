@@ -1,0 +1,17 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (value instanceof Long) {
+    return (value);
+  }
+ else   if (value instanceof Number) {
+    return new Long(((Number)value).longValue());
+  }
+  try {
+    return (new Long(value.toString()));
+  }
+ catch (  Exception e) {
+    throw new ConversionException(e);
+  }
+}

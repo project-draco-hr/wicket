@@ -1,0 +1,14 @@
+{
+  final MarkupStream originalMarkupStream=getMarkupStream();
+  final MarkupStream associatedMarkupStream=getAssociatedMarkupStream();
+  associatedMarkupStream.skipRawMarkup();
+  setMarkupStream(associatedMarkupStream);
+  if (!associatedMarkupStream.atOpenTag(openTagName)) {
+    associatedMarkupStream.throwMarkupException(exceptionMessage);
+  }
+  final ComponentTag associatedMarkupOpenTag=associatedMarkupStream.getTag();
+  renderTag(cycle,associatedMarkupStream,associatedMarkupOpenTag);
+  renderBody(cycle,associatedMarkupStream,associatedMarkupOpenTag);
+  renderCloseTag(cycle,associatedMarkupStream,associatedMarkupOpenTag);
+  setMarkupStream(originalMarkupStream);
+}

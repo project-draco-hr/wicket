@@ -1,0 +1,11 @@
+{
+  visitChildren(formClass,new IVisitor(){
+    public Object component(    final Component component){
+      if (component instanceof Form) {
+        ((Form)component).removePersistedFormComponentData(cycle,disablePersistence);
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

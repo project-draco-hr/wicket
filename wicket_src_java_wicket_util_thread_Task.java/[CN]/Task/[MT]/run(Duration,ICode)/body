@@ -1,0 +1,27 @@
+{
+  if (!isStarted) {
+    final Runnable runnable=new Runnable(){
+      public void run(){
+        startTime.fromNow().sleep();
+        while (true) {
+          final Time startOfPeriod=Time.now();
+          try {
+            code.run(log);
+          }
+ catch (          Exception e) {
+            log.error("Unhandled exception thrown by user code in task " + name,e);
+          }
+          startOfPeriod.add(frequency).fromNow().sleep();
+        }
+      }
+    }
+;
+    final Thread thread=new Thread(runnable,name + " Task");
+    thread.setDaemon(isDaemon);
+    thread.start();
+    isStarted=true;
+  }
+ else {
+    throw new IllegalStateException("Attempt to start task that is already started");
+  }
+}

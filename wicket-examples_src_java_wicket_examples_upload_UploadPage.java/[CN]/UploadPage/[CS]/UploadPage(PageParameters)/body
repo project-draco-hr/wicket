@@ -1,0 +1,12 @@
+{
+  super();
+  tempDir=new File(System.getProperty("java.io.tmpdir"),"wicket-wicket.examples.upload-test");
+  if (!tempDir.isDirectory()) {
+    tempDir.mkdir();
+  }
+  add(new UploadForm("wicket.examples.upload",null,tempDir));
+  add(new Label("dir",tempDir.getAbsolutePath()));
+  files.addAll(Arrays.asList(tempDir.list()));
+  fileTable=new FileTable("fileList",files);
+  add(fileTable);
+}

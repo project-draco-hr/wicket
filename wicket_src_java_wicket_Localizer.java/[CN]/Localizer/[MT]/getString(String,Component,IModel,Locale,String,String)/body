@@ -1,0 +1,19 @@
+{
+  String string=null;
+  for (Iterator it=settings.getStringResourceLoaders().iterator(); it.hasNext(); ) {
+    IStringResourceLoader loader=(IStringResourceLoader)it.next();
+    string=loader.get(component,key,locale,style);
+    if (string != null) {
+      return substituteOgnl(string,model);
+    }
+  }
+  if (settings.isUseDefaultOnMissingResource() && defaultValue != null) {
+    return defaultValue;
+  }
+  if (settings.isExceptionOnMissingResource()) {
+    throw new MissingResourceException("Unable to find resource: " + key,getClass().getName(),key);
+  }
+ else {
+    return "??" + key + "??";
+  }
+}

@@ -1,0 +1,16 @@
+{
+  final Task task=new Task("Watcher");
+  task.run(pollFrequency,new ICode(){
+    public void run(    final Log codeListener){
+      for (final Iterator iterator=changeableToEntry.values().iterator(); iterator.hasNext(); ) {
+        final Entry entry=(Entry)iterator.next();
+        final Time changeableLastModified=entry.changeable.lastModifiedTime();
+        if (changeableLastModified.after(entry.lastModifiedTime)) {
+          entry.listeners.notifyListeners();
+          entry.lastModifiedTime=changeableLastModified;
+        }
+      }
+    }
+  }
+);
+}

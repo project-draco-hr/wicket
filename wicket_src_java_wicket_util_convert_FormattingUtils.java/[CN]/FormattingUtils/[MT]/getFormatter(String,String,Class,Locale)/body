@@ -1,0 +1,31 @@
+{
+  Formatter formatter=null;
+  if (formatterName != null) {
+    formatter=this.converterRegistry.lookup(formatterName);
+  }
+  if ((formatter == null) && (pattern != null)) {
+    formatter=this.converterRegistry.lookup(pattern);
+  }
+  Converter converter=null;
+  if ((formatter == null) && (clazz != null)) {
+    try {
+      converter=this.converterRegistry.lookup(clazz,locale);
+    }
+ catch (    NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    }
+catch (    InstantiationException e) {
+      throw new RuntimeException(e);
+    }
+catch (    IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+catch (    InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+    if ((converter != null) && (converter instanceof Formatter)) {
+      formatter=(Formatter)converter;
+    }
+  }
+  return formatter;
+}

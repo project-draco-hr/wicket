@@ -1,0 +1,17 @@
+{
+  checkTag(tag,"img");
+  super.handleComponentTag(cycle,tag);
+  final String resourceToLoad;
+  String imageResource=(String)getModelObject();
+  if (imageResource != null) {
+    resourceToLoad=imageResource;
+  }
+ else {
+    resourceToLoad=tag.getString("src");
+  }
+  this.resource=getImageResource(resourceToLoad);
+  if (this.resource == null) {
+    throw new RenderException("Could not find image resource " + resourceToLoad);
+  }
+  tag.put("src",cycle.urlFor(this,IResourceListener.class));
+}

@@ -1,0 +1,34 @@
+{
+  Component c=getRelativeComponent();
+  if (getLocalizer() == null) {
+    if (c != null) {
+      setLocalizer(c.getLocalizer());
+    }
+ else {
+      throw new IllegalStateException("No localizer has been set");
+    }
+  }
+  String s=localizer.getString(getResourceKey(),c,getModel());
+  Object[] parameters=getParameters();
+  if (parameters != null) {
+    Object[] realParams=new Object[parameters.length];
+    for (int i=0; i < parameters.length; i++) {
+      if (parameters[i] instanceof IModel) {
+        realParams[i]=((IModel)parameters[i]).getObject();
+      }
+ else       if (model != null && parameters[i] instanceof String) {
+        realParams[i]=OgnlVariableInterpolator.interpolate((String)parameters[i],model.getObject());
+      }
+ else {
+        realParams[i]=parameters[i];
+      }
+    }
+    Locale workingLocale=locale;
+    if (c != null) {
+      workingLocale=c.getLocale();
+    }
+    MessageFormat format=new MessageFormat(s,workingLocale);
+    s=format.format(realParams);
+  }
+  return s;
+}

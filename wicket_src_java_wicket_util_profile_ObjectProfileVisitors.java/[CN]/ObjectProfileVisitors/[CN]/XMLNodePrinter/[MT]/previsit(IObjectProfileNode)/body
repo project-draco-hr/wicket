@@ -1,0 +1,38 @@
+{
+  final IObjectProfileNode root=node.root();
+  final boolean isRoot=root == node;
+  if (isRoot) {
+    m_out.println("<?xml version=\"1.0\" encoding=\"" + ENCODING + "\"?>");
+    m_out.println("<input>");
+  }
+  final StringBuffer indent=new StringBuffer();
+  for (int p=0, pLimit=node.pathlength(); p < pLimit; ++p) {
+    indent.append(m_indent);
+  }
+  final StringBuffer sb=new StringBuffer();
+  sb.append("<object");
+  sb.append(" size=\"");
+  sb.append(node.size());
+  sb.append('\"');
+  if (!isRoot) {
+    sb.append(" part=\"");
+    sb.append(m_format.format((double)node.size() / root.size()));
+    sb.append('\"');
+  }
+  sb.append(" name=\"");
+  XMLEscape(node.name(),sb);
+  sb.append('\"');
+  if (node.object() != null) {
+    sb.append(" objclass=\"");
+    XMLEscape(ObjectProfiler.typeName(node.object().getClass(),m_shortClassNames),sb);
+    sb.append('\"');
+    if (node.refcount() > 1) {
+      sb.append(" refcount=\"");
+      sb.append(node.refcount());
+      sb.append('\"');
+    }
+  }
+  sb.append('>');
+  m_out.print(indent);
+  m_out.println(sb);
+}

@@ -1,0 +1,24 @@
+{
+  try {
+    if (constructor.getParameterTypes().length == 0) {
+      return (Page)constructor.newInstance(new Object[0]);
+    }
+ else {
+      return (Page)constructor.newInstance(new Object[]{parameter});
+    }
+  }
+ catch (  InstantiationException e) {
+    throw new RenderException("Cannot instantiate page object with " + constructor,e);
+  }
+catch (  IllegalAccessException e) {
+    throw new RenderException("Cannot access " + constructor,e);
+  }
+catch (  InvocationTargetException e) {
+    ApplicationSettings settings=getApplication().getSettings();
+    Class homePageClass=settings.getHomePage();
+    if (homePageClass.getClassLoader() != constructor.getClass().getClassLoader()) {
+      log.error("Most probably Wicket-xxx.jar is not in /WEB-INF/lib");
+    }
+    throw new RenderException("Exception thown by " + constructor,e);
+  }
+}

@@ -1,0 +1,49 @@
+{
+  if (obj == null) {
+    return 0;
+  }
+  final LinkedList queue=new LinkedList();
+  visited.put(obj,obj);
+  queue.add(obj);
+  int result=0;
+  final ClassAccessPrivilegedAction caAction=new ClassAccessPrivilegedAction();
+  final FieldAccessPrivilegedAction faAction=new FieldAccessPrivilegedAction();
+  while (!queue.isEmpty()) {
+    obj=queue.removeFirst();
+    final Class objClass=obj.getClass();
+    if (objClass.isArray()) {
+      final int arrayLength=Array.getLength(obj);
+      final Class componentType=objClass.getComponentType();
+      result+=sizeofArrayShell(arrayLength,componentType);
+      if (!componentType.isPrimitive()) {
+        for (int i=0; i < arrayLength; ++i) {
+          final Object ref=Array.get(obj,i);
+          if ((ref != null) && !visited.containsKey(ref)) {
+            visited.put(ref,ref);
+            queue.addFirst(ref);
+          }
+        }
+      }
+    }
+ else {
+      final ClassMetadata metadata=getClassMetadata(objClass,metadataMap,caAction,faAction);
+      final Field[] fields=metadata.m_refFields;
+      result+=metadata.m_shellSize;
+      for (int f=0, fLimit=fields.length; f < fLimit; ++f) {
+        final Field field=fields[f];
+        final Object ref;
+        try {
+          ref=field.get(obj);
+        }
+ catch (        Exception e) {
+          throw new RuntimeException("cannot get field [" + field.getName() + "] of class ["+ field.getDeclaringClass().getName()+ "]: "+ e.toString());
+        }
+        if ((ref != null) && !visited.containsKey(ref)) {
+          visited.put(ref,ref);
+          queue.addFirst(ref);
+        }
+      }
+    }
+  }
+  return result;
+}

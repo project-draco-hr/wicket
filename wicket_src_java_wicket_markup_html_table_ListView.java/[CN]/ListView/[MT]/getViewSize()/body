@@ -1,0 +1,20 @@
+{
+  int size=this.viewSize;
+  Object modelObject=getModelObject();
+  if ((modelObject == null) && (viewSize == Integer.MAX_VALUE)) {
+    size=0;
+  }
+ else   if (modelObject instanceof List) {
+    final int modelSize=((List)modelObject).size();
+    if (firstIndex > modelSize) {
+      return 0;
+    }
+    if ((size == Integer.MAX_VALUE) || ((firstIndex + size) > modelSize)) {
+      size=modelSize - firstIndex;
+    }
+  }
+  if ((Integer.MAX_VALUE - size) <= firstIndex) {
+    throw new IllegalArgumentException("firstIndex + size must be smaller than Integer.MAX_VALUE");
+  }
+  return size;
+}

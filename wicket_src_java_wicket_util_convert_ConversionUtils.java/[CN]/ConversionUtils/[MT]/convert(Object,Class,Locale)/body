@@ -1,0 +1,25 @@
+{
+  Converter converter=null;
+  Object converted=null;
+  try {
+    converter=converterRegistry.lookup(toType,locale);
+    if (converter != null) {
+      if (!toType.isArray()) {
+        if (value instanceof String[] && (((String[])value).length == 1)) {
+          value=((String[])value)[0];
+        }
+      }
+      converted=converter.convert(toType,value);
+    }
+ else {
+      converted=OgnlOps.convertValue(value,toType);
+    }
+  }
+ catch (  ConversionException e) {
+    throw e.setConverter(converter).setLocale(locale).setTargetType(toType).setTriedValue(value);
+  }
+catch (  Exception e) {
+    throw new ConversionException(e).setConverter(converter).setLocale(locale).setTargetType(toType).setTriedValue(value);
+  }
+  return converted;
+}

@@ -1,0 +1,14 @@
+{
+  if (object == null) {
+    return null;
+  }
+  String formatted=null;
+  Formatter formatter=getFormatter(formatterName,formatPattern,object.getClass(),locale);
+  if (formatter != null) {
+    formatted=formatter.format(object,formatPattern);
+  }
+ else {
+    formatted=convertToString(object);
+  }
+  return formatted;
+}

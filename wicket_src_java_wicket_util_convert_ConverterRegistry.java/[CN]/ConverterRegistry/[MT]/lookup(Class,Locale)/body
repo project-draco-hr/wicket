@@ -1,0 +1,30 @@
+{
+  Converter converter=null;
+  if (locale != null) {
+    String lockey=getLocKey(clazz,locale);
+    converter=(LocaleConverter)localizedConverters.get(lockey);
+    if (converter == null) {
+      LocaleConverter _converter=(LocaleConverter)localizedConverters.get(clazz);
+      if (_converter != null) {
+        Class cls=_converter.getClass();
+        Class[] paramTypes=new Class[]{Locale.class};
+        Constructor constructor=cls.getConstructor(paramTypes);
+        Object[] initArgs=new Object[]{locale};
+        LocaleConverter _newConverter=(LocaleConverter)constructor.newInstance(initArgs);
+        if ((_converter instanceof BaseLocaleConverter) && (_newConverter instanceof BaseLocaleConverter)) {
+          String pattern=((BaseLocaleConverter)_converter).getPattern();
+          ((BaseLocaleConverter)_newConverter).setPattern(pattern);
+        }
+        localizedConverters.put(lockey,_newConverter);
+        converter=_newConverter;
+      }
+    }
+  }
+  if (converter == null) {
+    converter=(Converter)converters.get(clazz);
+  }
+  if ((converter == null) && useNoopConverter) {
+    converter=NOOP_CONVERTER;
+  }
+  return converter;
+}

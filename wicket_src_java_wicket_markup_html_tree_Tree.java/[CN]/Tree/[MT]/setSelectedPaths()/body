@@ -1,0 +1,17 @@
+{
+  TreePath selectedPath=treeState.getSelectedPath();
+  Enumeration e=treeState.getVisiblePathsFromRoot();
+  List visiblePathsList=new ArrayList();
+  while (e.hasMoreElements()) {
+    visiblePathsList.add(e.nextElement());
+  }
+  Model model=new Model((Serializable)visiblePathsList);
+  if (visibleTreePathTable == null) {
+    visibleTreePathTable=new VisibleTreePathTable("tree",model);
+    add(visibleTreePathTable);
+  }
+ else {
+    visibleTreePathTable.reset();
+    visibleTreePathTable.setModel(model);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  String decryptedValue;
+  try {
+    decryptedValue=getPage().getApplicationSettings().getCryptInstance().decryptStringToString(value);
+  }
+ catch (  Exception ex) {
+    decryptedValue=value;
+    log.error("Failed to instantiate encryption object. Continue without encryption");
+  }
+  setModelObject(decryptedValue);
+}

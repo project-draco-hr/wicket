@@ -1,0 +1,17 @@
+{
+  this.encoding=null;
+  try {
+    final String pushBack=determineEncoding(resource.getInputStream());
+    final String markup;
+    if (encoding == null) {
+      markup=pushBack + Streams.readString(resource.getInputStream());
+    }
+ else {
+      markup=Streams.readString(resource.getInputStream(),encoding);
+    }
+    return new Markup(resource,parseMarkup(markup));
+  }
+  finally {
+    resource.close();
+  }
+}

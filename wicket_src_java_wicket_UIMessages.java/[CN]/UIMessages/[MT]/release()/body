@@ -1,0 +1,24 @@
+{
+  UIMessages currentMessages=(UIMessages)current.get();
+  if (currentMessages != null) {
+    if (log.isDebugEnabled()) {
+      log.debug("UIMessages " + currentMessages + " released for thread "+ Thread.currentThread());
+    }
+    Set components=currentMessages.getErrorReporters();
+    for (Iterator i=components.iterator(); i.hasNext(); ) {
+      Component component=(Component)i.next();
+      IModel currentModel=component.getModel();
+      if (currentModel instanceof ValidationErrorModelDecorator) {
+        ValidationErrorModelDecorator deco=((ValidationErrorModelDecorator)currentModel);
+        IModel originalModel=deco.getOriginalModel();
+        component.setModel(originalModel);
+      }
+    }
+    current.set(null);
+  }
+ else {
+    if (log.isDebugEnabled()) {
+      log.debug("no UIMessages to release for thread " + Thread.currentThread());
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  final LinkedList queue=new LinkedList();
+  IObjectProfileNode lastFinished=null;
+  while (node != null) {
+    if ((node.m_size == 1) || (lastFinished == node.m_children[1])) {
+      node.finish();
+      lastFinished=node;
+    }
+ else {
+      queue.addFirst(node);
+      for (int i=1; i < node.m_size; ++i) {
+        final IObjectProfileNode child=node.m_children[i];
+        queue.addFirst(child);
+      }
+    }
+    if (queue.isEmpty()) {
+      return;
+    }
+ else {
+      node=(ObjectProfileNode)queue.removeFirst();
+    }
+  }
+}

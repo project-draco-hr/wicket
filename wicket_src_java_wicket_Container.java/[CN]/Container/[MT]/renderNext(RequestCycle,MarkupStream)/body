@@ -1,0 +1,47 @@
+{
+  final MarkupElement element=markupStream.get();
+  if (element instanceof ComponentTag) {
+    final ComponentTag tag=(ComponentTag)element;
+    final String componentName=tag.getComponentName();
+    Component component=get(componentName);
+    if ((component == null) && tag.isAutomaticLink()) {
+      component=tag.createAutomaticLink(getPage(),markupStream);
+      add(component);
+      if (log.isDebugEnabled()) {
+        log.debug("Added autolink " + component);
+      }
+    }
+    if (component != null) {
+      if (log.isDebugEnabled()) {
+        log.debug("Begin render of sub-component " + component);
+      }
+      component.render(cycle);
+      if (log.isDebugEnabled()) {
+        log.debug("End render of sub-component " + component);
+      }
+    }
+ else {
+      if (componentName.equals("[body]")) {
+        renderTag(cycle,tag);
+        markupStream.next();
+        Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
+        if (border.getMarkupStream() == null) {
+          Container borderParent=border.getParent();
+          border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
+        }
+        final MarkupStream borderMarkup=border.findMarkupStream();
+        border.setMarkupStream(null);
+        border.renderBody(cycle,border.findMarkupStream(),border.getOpenTag());
+        border.setMarkupStream(borderMarkup);
+      }
+ else {
+        markupStream.throwMarkupException("Unable to find component named '" + componentName + "' in "+ this);
+      }
+    }
+  }
+ else {
+    log.debug("Rendering raw markup");
+    cycle.getResponse().write(element.toString());
+    markupStream.next();
+  }
+}

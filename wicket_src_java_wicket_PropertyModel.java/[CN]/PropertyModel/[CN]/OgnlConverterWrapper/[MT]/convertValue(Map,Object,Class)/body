@@ -1,0 +1,13 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if ((!toType.isArray()) && value instanceof String[] && (((String[])value).length == 1)) {
+    value=((String[])value)[0];
+  }
+  if ((value instanceof String) && ((String)value).trim().equals("")) {
+    return null;
+  }
+  ConversionUtils conversionUtils=converterRegistry.getConversionUtils();
+  return conversionUtils.convert(value,toType,getLocale());
+}

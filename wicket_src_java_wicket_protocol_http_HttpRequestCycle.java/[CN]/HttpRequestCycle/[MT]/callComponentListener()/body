@@ -1,0 +1,54 @@
+{
+  final String path=request.getParameter("component");
+  if (path != null) {
+    code.debug("Getting page " + path);
+    final Page page=session.getPage(path);
+    final int rendering=Integer.parseInt(request.getParameter("rendering"));
+    if (page != null) {
+      if (page.isStale()) {
+        final Page freshestPage=session.getFreshestPage();
+        if (freshestPage != null) {
+          setPage(newPage(application.getSettings().getStaleDataErrorPage(),freshestPage));
+        }
+ else {
+          setPage(newPage(application.getSettings().getHomePage()));
+        }
+        return true;
+      }
+ else       if (page.isRenderingStale(rendering)) {
+        setPage(newPage(application.getSettings().getStaleDataErrorPage(),page));
+        return true;
+      }
+ else {
+        final Component component=page.get(Strings.afterFirstPathComponent(path,'.'));
+        if (component != null) {
+          setPage(page);
+          session.expireNewerThan(page);
+          final String interfaceName=request.getParameter("interface");
+          final Method method=getInterfaceMethod(interfaceName);
+          try {
+            method.invoke(component,new Object[]{this});
+          }
+ catch (          IllegalAccessException e) {
+            throw new RenderException("Cannot access method " + method + " of interface "+ interfaceName,e);
+          }
+catch (          InvocationTargetException e) {
+            throw new RenderException("Method " + method + " of interface "+ interfaceName+ " threw an exception",e);
+          }
+          setFormComponentValuesFromCookies(page);
+          return true;
+        }
+ else {
+          code.error("No component found for " + path);
+          setPage(newPage(application.getSettings().getInternalErrorPage()));
+          return true;
+        }
+      }
+    }
+ else {
+      setPage(newPage(application.getSettings().getPageExpiredErrorPage()));
+      return true;
+    }
+  }
+  return false;
+}

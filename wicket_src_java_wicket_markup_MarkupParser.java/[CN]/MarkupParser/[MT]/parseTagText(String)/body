@@ -1,0 +1,39 @@
+{
+  final int tagTextLength=tagText.length();
+  final WordParser tagnameParser=new WordParser(tagText);
+  final ComponentTag tag=new ComponentTag();
+  if (tagnameParser.matcher().lookingAt()) {
+    tag.name=tagnameParser.getWord().toLowerCase();
+    int pos=tagnameParser.matcher().end(0);
+    if (pos == tagTextLength) {
+      return tag;
+    }
+    final VariableAssignmentParser attributeParser=new VariableAssignmentParser(tagText);
+    while (attributeParser.matcher().find(pos)) {
+      String value=attributeParser.getValue();
+      pos=attributeParser.matcher().end(0);
+      if (value.startsWith("\"")) {
+        value=value.substring(1,value.length() - 1);
+      }
+      value=value.trim();
+      final String key=attributeParser.getKey();
+      boolean wcnId=key.equalsIgnoreCase("id") && value.startsWith(componentNameAttribute + "-");
+      if (wcnId) {
+        value=value.substring(componentNameAttribute.length() + 1).trim();
+      }
+      if (value.startsWith("[autolink") && ((value.charAt(9) == ']') || (value.charAt(9) == ':'))) {
+        value+=("-" + autoIndexPrefix + "-"+ autoIndex);
+        autoIndex++;
+        tag.automaticLink=true;
+      }
+      if (wcnId || key.equalsIgnoreCase(componentNameAttribute) || key.equalsIgnoreCase(ComponentTag.wicketComponentNameAttribute)) {
+        tag.componentName=value;
+      }
+      tag.attributes.put(key,StringValue.valueOf(value));
+      if (pos == tagTextLength) {
+        return tag;
+      }
+    }
+  }
+  return null;
+}

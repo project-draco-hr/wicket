@@ -1,0 +1,17 @@
+{
+  UIMessages uim=get();
+  if (object instanceof List) {
+    uim.setMessages((List)object);
+  }
+ else   if (object instanceof UIMessage[]) {
+    if (object != null) {
+      uim.setMessages(Arrays.asList((UIMessage[])object));
+    }
+ else {
+      uim.setMessages(null);
+    }
+  }
+ else {
+    throw new RuntimeException("invalid model type for UIMessages");
+  }
+}

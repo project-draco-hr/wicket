@@ -1,0 +1,19 @@
+{
+  StringBuffer pushBack=new StringBuffer(80);
+  int value;
+  while ((value=in.read()) != -1) {
+    pushBack.append((char)value);
+    if ((value == '>') || (value == '\n') || (value == '\r')|| (pushBack.length() > 75)) {
+      break;
+    }
+  }
+  final Matcher matcher=encodingPattern.matcher(pushBack);
+  if (!matcher.find()) {
+    return pushBack.toString();
+  }
+  encoding=matcher.group(3);
+  if ((encoding == null) || (encoding.length() == 0)) {
+    encoding=matcher.group(4);
+  }
+  return null;
+}

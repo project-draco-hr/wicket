@@ -1,0 +1,14 @@
+{
+  if (!IListener.class.isAssignableFrom(c)) {
+    throw new IllegalArgumentException("Class " + c + " must extend IListener");
+  }
+  final Method[] methods=c.getMethods();
+  for (int i=0; i < methods.length; i++) {
+    final Class[] parameters=methods[i].getParameterTypes();
+    if (parameters.length == 1 && parameters[0] == RequestCycle.class) {
+      listenerInterfaceMethods.put(Classes.name(c),methods[i]);
+      return;
+    }
+  }
+  throw new IllegalArgumentException("Internal error: " + c + " does not have a method that takes RequestCycle as a parameter");
+}

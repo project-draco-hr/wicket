@@ -1,0 +1,47 @@
+{
+  final int openBracketIndex=input.indexOf(openBracket,pos);
+  if (openBracketIndex != -1) {
+    final int closeBracketIndex=input.indexOf(closeBracket,openBracketIndex);
+    if (closeBracketIndex == -1) {
+      throw new ParseException("No matching close bracket at position " + openBracketIndex,pos);
+    }
+    String tagText=input.substring(openBracketIndex + openBracketLength,closeBracketIndex);
+    if (tagText.startsWith("!--")) {
+      pos=input.indexOf("--" + closeBracket,openBracketIndex + openBracketLength + 3);
+      if (pos == -1) {
+        throw new ParseException("Unclosed comment beginning at " + openBracketIndex,openBracketIndex);
+      }
+    }
+ else {
+      boolean isOpen=true;
+      boolean isClose=false;
+      if (tagText.endsWith("/")) {
+        isOpen=true;
+        isClose=true;
+        tagText=tagText.substring(0,tagText.length() - 1);
+      }
+      if (tagText.startsWith("/")) {
+        isClose=true;
+        isOpen=false;
+        tagText=tagText.substring(1);
+      }
+      final Tag tag=parseTagText(tagText);
+      if (tag != null) {
+        if ((name == null) || tag.name.equalsIgnoreCase(name)) {
+          tag.isClose=isClose;
+          tag.isOpen=isOpen;
+          tag.pos=openBracketIndex;
+          tag.length=(closeBracketIndex + closeBracketLength) - openBracketIndex;
+          tag.getAttributes().makeImmutable();
+          tag.text=input.substring(openBracketIndex,closeBracketIndex + closeBracketLength);
+          pos=closeBracketIndex + closeBracketLength;
+          return tag;
+        }
+      }
+ else {
+        throw new ParseException("Malformed tag at position " + openBracketIndex,openBracketIndex);
+      }
+    }
+  }
+  return null;
+}

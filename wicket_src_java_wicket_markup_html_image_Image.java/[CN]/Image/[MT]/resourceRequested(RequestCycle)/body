@@ -1,0 +1,21 @@
+{
+  cycle.setPage((Page)null);
+  final HttpServletResponse response=((HttpResponse)cycle.getResponse()).getServletResponse();
+  response.setContentType("image/" + resource.getExtension());
+  try {
+    final OutputStream out=new BufferedOutputStream(response.getOutputStream());
+    try {
+      Streams.writeStream(new BufferedInputStream(resource.getInputStream()),out);
+    }
+  finally {
+      resource.close();
+      out.flush();
+    }
+  }
+ catch (  IOException e) {
+    throw new RenderException("Unable to render resource " + resource,e);
+  }
+catch (  ResourceNotFoundException e) {
+    throw new RenderException("Unable to render resource " + resource,e);
+  }
+}

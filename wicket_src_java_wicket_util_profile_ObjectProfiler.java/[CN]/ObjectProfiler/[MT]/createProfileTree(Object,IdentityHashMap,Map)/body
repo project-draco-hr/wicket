@@ -1,0 +1,69 @@
+{
+  final ObjectProfileNode root=new ObjectProfileNode(null,obj,null);
+  final LinkedList queue=new LinkedList();
+  queue.addFirst(root);
+  visited.put(obj,root);
+  final ClassAccessPrivilegedAction caAction=new ClassAccessPrivilegedAction();
+  final FieldAccessPrivilegedAction faAction=new FieldAccessPrivilegedAction();
+  while (!queue.isEmpty()) {
+    final ObjectProfileNode node=(ObjectProfileNode)queue.removeFirst();
+    obj=node.m_obj;
+    final Class objClass=obj.getClass();
+    if (objClass.isArray()) {
+      final int arrayLength=Array.getLength(obj);
+      final Class componentType=objClass.getComponentType();
+      final AbstractShellProfileNode shell=new ArrayShellProfileNode(node,objClass,arrayLength);
+      shell.m_size=sizeofArrayShell(arrayLength,componentType);
+      node.m_shell=shell;
+      node.addFieldRef(shell);
+      if (!componentType.isPrimitive()) {
+        for (int i=0; i < arrayLength; ++i) {
+          final Object ref=Array.get(obj,i);
+          if (ref != null) {
+            ObjectProfileNode child=(ObjectProfileNode)visited.get(ref);
+            if (child != null) {
+              ++child.m_refcount;
+            }
+ else {
+              child=new ObjectProfileNode(node,ref,new ArrayIndexLink(node.m_link,i));
+              node.addFieldRef(child);
+              queue.addLast(child);
+              visited.put(ref,child);
+            }
+          }
+        }
+      }
+    }
+ else {
+      final ClassMetadata metadata=getClassMetadata(objClass,metadataMap,caAction,faAction);
+      final Field[] fields=metadata.m_refFields;
+      final AbstractShellProfileNode shell=new ObjectShellProfileNode(node,metadata.m_primitiveFieldCount,metadata.m_refFields.length);
+      shell.m_size=metadata.m_shellSize;
+      node.m_shell=shell;
+      node.addFieldRef(shell);
+      for (int f=0, fLimit=fields.length; f < fLimit; ++f) {
+        final Field field=fields[f];
+        final Object ref;
+        try {
+          ref=field.get(obj);
+        }
+ catch (        Exception e) {
+          throw new RuntimeException("cannot get field [" + field.getName() + "] of class ["+ field.getDeclaringClass().getName()+ "]: "+ e.toString());
+        }
+        if (ref != null) {
+          ObjectProfileNode child=(ObjectProfileNode)visited.get(ref);
+          if (child != null) {
+            ++child.m_refcount;
+          }
+ else {
+            child=new ObjectProfileNode(node,ref,new ClassFieldLink(field));
+            node.addFieldRef(child);
+            queue.addLast(child);
+            visited.put(ref,child);
+          }
+        }
+      }
+    }
+  }
+  return root;
+}

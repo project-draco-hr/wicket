@@ -1,0 +1,20 @@
+{
+  if (out == null) {
+    throw new RuntimeException("null input: out");
+  }
+  try {
+    m_out=new PrintWriter(new OutputStreamWriter(out,ENCODING));
+  }
+ catch (  UnsupportedEncodingException uee) {
+    throw new Error(uee);
+  }
+  m_indent=(indent != null) ? indent : "  ";
+  if (format != null) {
+    m_format=format;
+  }
+ else {
+    m_format=(DecimalFormat)NumberFormat.getPercentInstance();
+    m_format.setMaximumFractionDigits(2);
+  }
+  m_shortClassNames=shortClassNames;
+}

@@ -1,0 +1,12 @@
+{
+  if ((visitor != null) && ((filter == null) || filter.accept(this))) {
+    visitor.previsit(this);
+    final IObjectProfileNode[] children=m_children;
+    for (int i=0; i < children.length; ++i) {
+      children[i].traverse(filter,visitor);
+    }
+    visitor.postvisit(this);
+    return true;
+  }
+  return false;
+}

@@ -1,0 +1,38 @@
+{
+  final String componentName=getComponentName();
+  final Matcher matcher=automaticComponentPattern.matcher(componentName);
+  if (matcher.matches()) {
+    final String command=automaticCommand.get(matcher);
+    final String parameters=automaticParameters.get(matcher);
+    if (command.equals("autolink")) {
+      if (!getName().equalsIgnoreCase("a")) {
+        markupStream.throwMarkupException("Automatic link can only be attached to an anchor tag");
+      }
+      final String href=getAttributes().getString("href");
+      if (href == null) {
+        markupStream.throwMarkupException("Automatic link requires href attribute");
+      }
+      final String path=Strings.stripEnding(href,".html");
+      try {
+        automaticLinkPageClass=Classes.relativeClass(page.getClass().getPackage(),path);
+        if (parameters != null) {
+          automaticLinkPageParameters=new PageParameters(parameters);
+        }
+ else {
+          automaticLinkPageParameters=PageParameters.NULL;
+        }
+      }
+ catch (      ClassNotFoundException e) {
+        markupStream.throwMarkupException("Could not find page at " + path);
+      }
+    }
+ else {
+      if (!command.equals("children") && !command.equals("border")) {
+        markupStream.throwMarkupException("Special component names include [border], [body] and [autolink], " + "but not '" + command + "'");
+      }
+    }
+  }
+ else {
+    markupStream.throwMarkupException("Invalid syntax for automaticLink component");
+  }
+}

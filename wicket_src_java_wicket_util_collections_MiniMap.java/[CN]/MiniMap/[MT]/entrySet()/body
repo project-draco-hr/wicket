@@ -1,0 +1,40 @@
+{
+  return new AbstractSet(){
+    public Iterator iterator(){
+      return new Iterator(){
+        public boolean hasNext(){
+          return index < size;
+        }
+        public Object next(){
+          keyIndex=nextKey(nextIndex(keyIndex));
+          index++;
+          return new Map.Entry(){
+            public Object getKey(){
+              return keys[keyIndex];
+            }
+            public Object getValue(){
+              return values[keyIndex];
+            }
+            public Object setValue(            final Object value){
+              final Object oldValue=values[keyIndex];
+              values[keyIndex]=value;
+              return oldValue;
+            }
+          }
+;
+        }
+        public void remove(){
+          keys[keyIndex]=null;
+          values[keyIndex]=null;
+        }
+        int keyIndex=-1;
+        int index=0;
+      }
+;
+    }
+    public int size(){
+      return size;
+    }
+  }
+;
+}

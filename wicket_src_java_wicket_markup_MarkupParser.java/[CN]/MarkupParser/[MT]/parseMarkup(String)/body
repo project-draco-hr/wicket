@@ -1,0 +1,70 @@
+{
+  final List list=new ArrayList();
+  setInput(markup);
+  final Stack stack=new Stack();
+  int position=0;
+  for (ComponentTag tag; null != (tag=nextTag()); ) {
+    if (log.isDebugEnabled()) {
+      log.debug("tag: " + tag.toUserDebugString() + ", stack: "+ stack);
+    }
+    boolean addTag=false;
+    if (tag.type == ComponentTag.OPEN) {
+      stack.push(tag);
+      addTag=tag.componentName != null;
+    }
+ else     if (tag.type == ComponentTag.CLOSE) {
+      if (stack.size() > 0) {
+        ComponentTag top=(ComponentTag)stack.pop();
+        boolean mismatch=!top.getName().equalsIgnoreCase(tag.getName());
+        if (mismatch) {
+          while (mismatch && !top.requiresCloseTag()) {
+            top=(ComponentTag)stack.pop();
+            mismatch=!top.getName().equalsIgnoreCase(tag.getName());
+          }
+          if (mismatch) {
+            throw new ParseException("Tag " + top.toUserDebugString() + " has a mismatched close tag at "+ tag.toUserDebugString(),tag.getPos());
+          }
+        }
+        tag.closes=top;
+        addTag=top.componentName != null;
+      }
+ else {
+        throw new ParseException("Tag " + tag.toUserDebugString() + " does not have a matching open tag",tag.getPos());
+      }
+    }
+ else     if (tag.type == ComponentTag.OPEN_CLOSE) {
+      tag.closes=tag;
+      addTag=tag.componentName != null;
+    }
+    if (addTag) {
+      if (tag.getPos() > position) {
+        String rawMarkup=markup.substring(position,tag.getPos());
+        if (stripComments) {
+          rawMarkup=rawMarkup.replaceAll("<!--(.|\n|\r)*?-->","");
+        }
+        if (compressWhitespace) {
+          rawMarkup=rawMarkup.replaceAll("[ \\t]+"," ");
+          rawMarkup=rawMarkup.replaceAll("( ?[\\r\\n] ?)+","\n");
+        }
+        list.add(new RawMarkup(rawMarkup));
+      }
+      tag.makeImmutable();
+      list.add(tag);
+      position=tag.getPos() + tag.getLength();
+    }
+  }
+  while (stack.size() > 0) {
+    final ComponentTag top=(ComponentTag)stack.peek();
+    if (!top.requiresCloseTag()) {
+      stack.pop();
+    }
+ else {
+      throw new ParseException("Tag " + top + " at "+ top.getPos()+ " did not have a close tag",top.getPos());
+    }
+  }
+  if (position < markup.length()) {
+    list.add(new RawMarkup(markup.substring(position,markup.length())));
+  }
+  removePreviewComponents(list);
+  return Collections.unmodifiableList(list);
+}

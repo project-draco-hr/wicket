@@ -1,0 +1,13 @@
+{
+  if (!enabled)   return;
+  ValueMap attributes=tag.getAttributes();
+  if (attributes.containsKey(attribute)) {
+    String value=attributes.get(attribute).toString();
+    if (pattern == null || value.matches(pattern)) {
+      attributes.put(attribute,getReplaceModel().getObject());
+    }
+  }
+ else   if (addAttributeIfNotPresent) {
+    attributes.put(attribute,getReplaceModel().getObject());
+  }
+}

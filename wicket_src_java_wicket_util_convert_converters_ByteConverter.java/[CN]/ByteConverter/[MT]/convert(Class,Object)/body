@@ -1,0 +1,17 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (value instanceof Byte) {
+    return (value);
+  }
+ else   if (value instanceof Number) {
+    return new Byte(((Number)value).byteValue());
+  }
+  try {
+    return (new Byte(value.toString()));
+  }
+ catch (  Exception e) {
+    throw new ConversionException(e);
+  }
+}

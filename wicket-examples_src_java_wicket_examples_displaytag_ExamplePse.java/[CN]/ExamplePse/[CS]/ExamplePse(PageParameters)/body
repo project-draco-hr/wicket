@@ -1,0 +1,45 @@
+{
+  final ReportList data=new ReportList();
+  final PagedTableWithAlternatingRowStyle table=new PagedTableWithAlternatingRowStyle("rows",data,10){
+    private ReportableListObject previousValue=null;
+    /** 
+ * @see wicket.examples.wicket.examples.wicket.examples.displaytag.utils.PagedTableWithAlternatingRowStyle#populateCell(wicket.markup.html.table.Cell,wicket.Container)
+ */
+    public void populateItem(    final ListItem listItem){
+      super.populateItem(listItem);
+      final ReportableListObject value=(ReportableListObject)listItem.getModelObject();
+      if (previousValue == null) {
+        listItem.add(new Label("city",value.getCity()));
+        listItem.add(new Label("project",value.getProject()));
+      }
+ else {
+        boolean equal=value.getCity().equals(previousValue.getCity());
+        listItem.add(new Label("city",equal ? "" : value.getCity()));
+        equal&=value.getProject().equals(previousValue.getProject());
+        listItem.add(new Label("project",equal ? "" : value.getProject()));
+      }
+      listItem.add(new Label("hours",new Double(value.getAmount())));
+      listItem.add(new Label("task",value.getTask()));
+      previousValue=value;
+    }
+  }
+;
+  add(table);
+  add(new SortableTableHeaders("header",table,true){
+    protected Comparable getObjectToCompare(    final SortableTableHeader header,    final Object object){
+      final String name=header.getName();
+      if (name.equals("city")) {
+        return ((ReportableListObject)object).getCity();
+      }
+      if (name.equals("project")) {
+        return ((ReportableListObject)object).getProject();
+      }
+      return "";
+    }
+  }
+);
+  add(new PagedTableNavigator("pageTableNav",table));
+  add(new ExportLink("exportCsv",data,new CsvView(data,true,false,false)));
+  add(new ExportLink("exportExcel",data,new ExcelView(data,true,false,false)));
+  add(new ExportLink("exportXml",data,new XmlView(data,true,false,false)));
+}

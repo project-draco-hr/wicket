@@ -1,0 +1,40 @@
+{
+  if (value instanceof Number) {
+    return (Number)value;
+  }
+  Number temp=null;
+  try {
+    if (pattern != null) {
+      temp=(Number)parse(value,pattern);
+    }
+ else {
+      String stringval=null;
+      if (value instanceof String) {
+        stringval=(String)value;
+      }
+ else       if (value instanceof String[]) {
+        stringval=((String[])value)[0];
+      }
+ else {
+        stringval=String.valueOf(value);
+      }
+      Matcher nonDigitMatcher=nonDigitPattern.matcher(stringval);
+      if (nonDigitMatcher.matches()) {
+        throw new ConversionException(stringval + " is not a valid number");
+      }
+      temp=(Number)parse(value,this.pattern);
+    }
+  }
+ catch (  Exception e) {
+    String dpat=null;
+    if (pattern != null) {
+      dpat=pattern;
+    }
+ else {
+      DecimalFormat formatter=getFormat(pattern);
+      dpat=formatter.toLocalizedPattern();
+    }
+    throw new ConversionException(e).setPattern(dpat);
+  }
+  return temp;
+}

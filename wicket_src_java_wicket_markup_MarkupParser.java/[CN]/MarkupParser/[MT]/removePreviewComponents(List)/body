@@ -1,0 +1,27 @@
+{
+  for (int i=0; i < list.size(); i++) {
+    final MarkupElement element=(MarkupElement)list.get(i);
+    if (element instanceof ComponentTag) {
+      final ComponentTag openTag=(ComponentTag)element;
+      if (openTag.isOpen() && openTag.componentName.equalsIgnoreCase("[remove]")) {
+        list.remove(i);
+        if ((i < list.size()) && list.get(i) instanceof RawMarkup) {
+          list.remove(i);
+        }
+        if ((i < list.size()) && list.get(i) instanceof ComponentTag) {
+          ComponentTag closeTag=(ComponentTag)list.get(i);
+          if (closeTag.closes(openTag)) {
+            list.remove(i);
+            i--;
+          }
+ else {
+            throw new MarkupException("[Remove] open tag " + openTag + " not closed by "+ list.get(i));
+          }
+        }
+ else {
+          throw new MarkupException("[Remove] open tag " + openTag + " not closed by "+ list.get(i));
+        }
+      }
+    }
+  }
+}

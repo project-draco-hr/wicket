@@ -1,0 +1,18 @@
+{
+  checkTag(tag,"a");
+  super.handleComponentTag(cycle,tag);
+  if (autoEnable) {
+    setEnabled(!linksTo(getPage()));
+  }
+  if (!enabled) {
+    tag.setName("span");
+    tag.remove("href");
+  }
+ else {
+    tag.put("href",getURL(cycle));
+  }
+  if (popupSpecification != null) {
+    final String popupScript=popupSpecification.getPopupJavaScript();
+    tag.put("onClick",popupScript);
+  }
+}

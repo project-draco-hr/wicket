@@ -1,0 +1,10 @@
+{
+  final byte[] plainBytes;
+  try {
+    plainBytes=new BASE64Decoder().decodeBuffer(plainText);
+  }
+ catch (  IOException ex) {
+    throw new RuntimeException(ex.getMessage());
+  }
+  return crypt(plainBytes,Cipher.DECRYPT_MODE);
+}

@@ -1,0 +1,14 @@
+{
+  final ComponentTag startTag=getTag();
+  if (startTag.isOpen()) {
+    next();
+    skipToMatchingCloseTag(startTag);
+    next();
+  }
+ else   if (startTag.isOpenClose()) {
+    next();
+  }
+ else {
+    throwMarkupException("Skip component called on bad markup element " + startTag);
+  }
+}

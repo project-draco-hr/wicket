@@ -1,0 +1,16 @@
+{
+  super(componentName);
+  this.tableNavigation=newTableNavigation(table);
+  add(tableNavigation);
+  add(new Label("headline",null){
+    protected void handleBody(    final RequestCycle cycle,    final MarkupStream markupStream,    final ComponentTag openTag){
+      String text=getHeadlineText(table);
+      replaceBody(cycle,markupStream,openTag,text);
+    }
+  }
+);
+  add(new TableNavigationLink("first",table,0));
+  add(new TableNavigationIncrementLink("prev",table,-1));
+  add(new TableNavigationIncrementLink("next",table,1));
+  add(new TableNavigationLink("last",table,table.getPageCount() - 1));
+}

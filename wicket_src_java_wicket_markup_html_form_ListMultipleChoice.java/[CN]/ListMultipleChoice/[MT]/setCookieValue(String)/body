@@ -1,0 +1,22 @@
+{
+  Collection selectedValues=(Collection)getModelObject();
+  if (selectedValues == null) {
+    selectedValues=new ArrayList();
+    setModelObject(selectedValues);
+  }
+ else {
+    selectedValues.clear();
+  }
+  final List list=getValues();
+  final StringTokenizer st=new StringTokenizer(value,";");
+  while (st.hasMoreTokens()) {
+    final String idOrIndex=st.nextToken();
+    if (list instanceof IIdList) {
+      selectedValues.add(((IIdList)list).getObjectById(idOrIndex));
+    }
+ else {
+      final int index=Integer.parseInt(idOrIndex);
+      selectedValues.add(list.get(index));
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  final MarkupStream markupStream=findMarkupStream();
+  if (!markupStream.atOpenCloseTag()) {
+    markupStream.throwMarkupException("A panel must be referenced by an openclose tag.");
+  }
+  renderTag(cycle,markupStream);
+  renderAssociatedMarkup(cycle,"[panel]","Markup for a panel component must begin with a component named '[panel]'");
+}

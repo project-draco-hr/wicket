@@ -1,0 +1,19 @@
+{
+  final Collection selectedValues=(Collection)getModelObject();
+  final StringBuffer cookieValue=new StringBuffer();
+  if (selectedValues != null) {
+    final List list=getValues();
+    final Iterator it=selectedValues.iterator();
+    while (it.hasNext()) {
+      final int index=list.indexOf(it.next());
+      if (list instanceof IIdList) {
+        cookieValue.append(((IIdList)list).getIdValue(index));
+      }
+ else {
+        cookieValue.append(index);
+      }
+      cookieValue.append(";");
+    }
+  }
+  return cookieValue.toString();
+}

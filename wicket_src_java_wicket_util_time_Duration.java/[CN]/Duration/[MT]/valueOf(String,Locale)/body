@@ -1,0 +1,28 @@
+{
+  final Matcher matcher=pattern.matcher(string);
+  if (matcher.matches()) {
+    final double value=StringValue.valueOf(matcher.group(1),locale).toDouble();
+    final String units=matcher.group(3);
+    if (units.equalsIgnoreCase("millisecond")) {
+      return milliseconds(value);
+    }
+ else     if (units.equalsIgnoreCase("second")) {
+      return seconds(value);
+    }
+ else     if (units.equalsIgnoreCase("minute")) {
+      return minutes(value);
+    }
+ else     if (units.equalsIgnoreCase("hour")) {
+      return hours(value);
+    }
+ else     if (units.equalsIgnoreCase("day")) {
+      return days(value);
+    }
+ else {
+      throw new StringValueConversionException("Unrecognized units: " + string);
+    }
+  }
+ else {
+    throw new StringValueConversionException("Unable to parse duration: " + string);
+  }
+}

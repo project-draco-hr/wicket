@@ -1,0 +1,26 @@
+{
+  return new AbstractSet(){
+    public Iterator iterator(){
+      return new Iterator(){
+        public boolean hasNext(){
+          return i < size;
+        }
+        public Object next(){
+          i=nextKey(nextIndex(i));
+          return keys[i];
+        }
+        public void remove(){
+          keys[i]=null;
+          values[i]=null;
+          size--;
+        }
+        int i=-1;
+      }
+;
+    }
+    public int size(){
+      return size;
+    }
+  }
+;
+}

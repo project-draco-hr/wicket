@@ -1,0 +1,25 @@
+{
+  super(componentName);
+  final List data=new ArrayList();
+  add(new ListView("rows2",data){
+    protected void handleRender(    final RequestCycle cycle){
+      data.clear();
+      data.addAll(getComponentData(page));
+      Collections.sort(data,new Comparator(){
+        public int compare(        Object o1,        Object o2){
+          return ((ComponentData)o1).path.compareTo(((ComponentData)o2).path);
+        }
+      }
+);
+      super.handleRender(cycle);
+    }
+    protected void populateItem(    ListItem listItem){
+      final ComponentData cdata=(ComponentData)listItem.getModelObject();
+      listItem.add(new Label("row",new Integer(listItem.getIndex() + 1)));
+      listItem.add(new Label("path",cdata.path));
+      listItem.add(new Label("type",cdata.type));
+      listItem.add(new Label("model",cdata.value));
+    }
+  }
+);
+}

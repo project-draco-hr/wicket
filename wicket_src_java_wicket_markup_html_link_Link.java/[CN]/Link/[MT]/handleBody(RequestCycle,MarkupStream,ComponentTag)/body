@@ -1,0 +1,19 @@
+{
+  final Container disabledContainer=(Container)get("disabled");
+  if (disabledContainer != null) {
+    final Container enabledContainer=(DisabledLink)get("enabled");
+    enabledContainer.setVisible(enabled);
+    disabledContainer.setVisible(!enabled);
+  }
+  if (beforeDisabledLink == null) {
+    beforeDisabledLink=getApplicationSettings().getDefaultBeforeDisabledLink();
+    afterDisabledLink=getApplicationSettings().getDefaultAfterDisabledLink();
+  }
+  if (!enabled && (beforeDisabledLink != null)) {
+    cycle.getResponse().write(beforeDisabledLink);
+  }
+  renderBody(cycle,markupStream,openTag);
+  if (!enabled && (afterDisabledLink != null)) {
+    cycle.getResponse().write(afterDisabledLink);
+  }
+}

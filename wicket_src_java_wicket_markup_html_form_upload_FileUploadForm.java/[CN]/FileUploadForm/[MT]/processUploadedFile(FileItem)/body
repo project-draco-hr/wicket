@@ -1,0 +1,16 @@
+{
+  if (item == null) {
+    throw new NullPointerException("no file");
+  }
+  String originalName=item.getName();
+  int extloc=originalName.lastIndexOf('.');
+  String ext=originalName.substring((extloc + 1),originalName.length());
+  if (fileName == null) {
+    fileName=originalName.substring(0,extloc);
+  }
+  if (fileName == null || fileName.trim().equals("")) {
+    throw new RuntimeException("no file name given");
+  }
+  File targetFile=new File(targetDirectory,fileName + "." + ext);
+  saveFile(item,targetFile);
+}

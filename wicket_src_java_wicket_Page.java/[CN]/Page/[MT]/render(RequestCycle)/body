@@ -1,0 +1,13 @@
+{
+  try {
+    initUIMessages();
+    super.render(cycle);
+    if (getApplicationSettings().getComponentUseCheck() && !cycle.getResponse().isRedirect()) {
+      checkRendering(this);
+    }
+  }
+  finally {
+    final Page page=(Page)this;
+    detachModels(page);
+  }
+}

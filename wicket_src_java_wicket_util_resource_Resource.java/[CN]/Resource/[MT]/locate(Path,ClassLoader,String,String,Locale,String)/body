@@ -1,0 +1,48 @@
+{
+  final String extensionString;
+  if (extension == null) {
+    extensionString="." + Strings.lastPathComponent(resourcePath,'.');
+    resourcePath=Strings.beforeLastPathComponent(resourcePath,'.');
+  }
+ else {
+    extensionString="." + extension;
+  }
+  resourcePath=resourcePath.replace('.','/');
+  Resource resource=null;
+  if ((sourcePath != null) && (sourcePath.size() > 0)) {
+    resource=new ResourceLocator(){
+      /** 
+ * Check if file exists.
+ * @param filename name of the file
+ * @return null, if file not found
+ */
+      protected Resource locate(      final String filename){
+        final File file=sourcePath.find(filename);
+        if (file != null) {
+          return new Resource(file);
+        }
+        return null;
+      }
+    }
+.locate(resourcePath,style,locale,extensionString);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  resource=new ResourceLocator(){
+    /** 
+ * Check if file exists.
+ * @param filename the resource's filename
+ * @return null, if file not found
+ */
+    protected Resource locate(    final String filename){
+      final URL url=classloader.getResource(filename);
+      if (url != null) {
+        return new Resource(url);
+      }
+      return null;
+    }
+  }
+.locate(resourcePath,style,locale,extensionString);
+  return resource;
+}
