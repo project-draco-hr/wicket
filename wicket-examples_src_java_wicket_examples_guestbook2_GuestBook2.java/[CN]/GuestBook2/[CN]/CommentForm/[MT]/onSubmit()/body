@@ -1,6 +1,7 @@
 {
   final Comment newComment=new Comment(comment);
   newComment.setDate(new Date());
+  commentListView.modelChangeImpending();
   commentList.add(0,newComment);
   try {
     Session session=HibernateHelper.getSession();
@@ -19,5 +20,4 @@
 catch (  HibernateException e) {
     throw new WicketRuntimeException("Unable to save comment",e);
   }
-  commentListView.modelChangedStructure();
 }

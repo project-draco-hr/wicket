@@ -1,9 +1,10 @@
 {
+  final Comment comment=(Comment)getRootModelObject();
   final Comment newComment=new Comment(comment);
   newComment.setDate(new Date());
+  commentListView.modelChangeImpending();
 synchronized (commentListView.getModelLock()) {
     commentList.add(0,newComment);
   }
-  commentListView.modelChangedStructure();
   comment.setText("");
 }
