@@ -1,0 +1,17 @@
+{
+  super(componentName);
+  this.tree=tree;
+  if (nodeModel != null) {
+    TreeNodeLink link=new TreeNodeLink("link",tree,nodeModel){
+      public void linkClicked(      RequestCycle cycle,      TreeNodeModel node){
+        NLTreeRow.this.tree.linkClicked(cycle,node);
+      }
+    }
+;
+    link.add(new Label("label",String.valueOf(nodeModel.getUserObject())));
+    add(link);
+  }
+ else {
+    add(new HtmlContainer("link").add(new HtmlContainer("label")));
+  }
+}
