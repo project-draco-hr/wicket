@@ -1,0 +1,26 @@
+{
+  if (tag.isClose()) {
+    return tag;
+  }
+  if (tag.getComponentName() == null) {
+    componentTag=null;
+    return tag;
+  }
+  if (!(tag instanceof ComponentWicketTag) || !((ComponentWicketTag)tag).isParamTag()) {
+    componentTag=tag;
+    return tag;
+  }
+  final CharSequence rawMarkup=xmlParser.getInputSubsequence(lastTag.getPos() + lastTag.getLength(),tag.getPos());
+  if (rawMarkup.length() > 0) {
+    String text=rawMarkup.toString();
+    text=text.replaceAll("[\\r\\n]+","").trim();
+    if (text.length() > 0) {
+      throw new MarkupException("There must not be any text between a component tag and " + "it's related param tag. Only spaces and line breaks are allowed.");
+    }
+  }
+  tag.putAll(tag.getAttributes());
+  if (stripWicketParamTag == true) {
+    tag=(ComponentTag)parent.nextTag();
+  }
+  return tag;
+}

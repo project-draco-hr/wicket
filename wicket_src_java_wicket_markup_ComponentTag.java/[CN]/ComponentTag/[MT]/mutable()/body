@@ -1,20 +1,10 @@
 {
-  if (isMutable) {
+  if (xmlTag.isMutable()) {
     return this;
   }
  else {
-    final ComponentTag tag=new ComponentTag();
-    tag.namespace=namespace;
-    tag.name=name;
-    tag.pos=pos;
-    tag.length=length;
-    tag.text=text;
-    tag.attributes=new ValueMap(attributes);
-    tag.type=type;
-    tag.isMutable=true;
+    final ComponentTag tag=new ComponentTag(xmlTag.mutable());
     tag.componentName=componentName;
-    tag.closes=closes;
-    tag.copyOf=copyOf;
     return tag;
   }
 }

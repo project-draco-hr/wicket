@@ -1,5 +1,5 @@
 {
-  final MarkupParser parser=new MarkupParser("wicket","wicket");
+  final MarkupParser parser=new MarkupParser(new XmlPullParser(),"wicket","wicket");
   parser.parse("<span wicket=\"test\"/>");
   parser.parse("<span wicket=\"test\">Body</span>");
   parser.parse("This is a test <span wicket=\"test\"/>");
@@ -13,7 +13,7 @@
     parser.parse("<span id=\"wicket-test\"/>whatever<wicket:param key=\"value\" />");
     assertTrue("Should have thrown an exception",false);
   }
- catch (  ParseException ex) {
+ catch (  MarkupException ex) {
     ;
   }
   parser.parse("<span id=\"wicket-test\"/><wicket:param key=\"value\" /><wicket:param key2=\"value2\" />");

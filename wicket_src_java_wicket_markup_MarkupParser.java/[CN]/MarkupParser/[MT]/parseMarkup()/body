@@ -1,0 +1,40 @@
+{
+  final List list=new ArrayList();
+  final WicketComponentTagIdentifier detectWicketComponents=new WicketComponentTagIdentifier(xmlParser);
+  detectWicketComponents.setComponentNameAttribute(this.componentNameAttribute);
+  detectWicketComponents.setWicketNamespace(this.wicketNamespace);
+  final WicketParamTagHandler wicketParamTagHandler=new WicketParamTagHandler(new HtmlHandler(detectWicketComponents));
+  wicketParamTagHandler.setStripWicketParamTag(this.stripWicketParamTag);
+  final PreviewComponentTagRemover previewComponentTagRemover=new PreviewComponentTagRemover(wicketParamTagHandler);
+  final AutolinkHandler autolinkHandler=new AutolinkHandler(previewComponentTagRemover);
+  autolinkHandler.setAutomaticLinking(this.automaticLinking);
+  final IMarkupFilter parser=autolinkHandler;
+  for (ComponentTag tag; null != (tag=(ComponentTag)parser.nextTag()); ) {
+    boolean add=(tag.getComponentName() != null);
+    if ((add == false) && tag.getXmlTag().isClose()) {
+      add=((tag.getOpenTag() != null) && (tag.getOpenTag().getComponentName() != null));
+    }
+    if (add == true) {
+      final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getXmlTag().getPos());
+      if (text.length() > 0) {
+        String rawMarkup=text.toString();
+        if (stripComments) {
+          rawMarkup=rawMarkup.replaceAll("<!--(.|\n|\r)*?-->","");
+        }
+        if (compressWhitespace) {
+          rawMarkup=rawMarkup.replaceAll("[ \\t]+"," ");
+          rawMarkup=rawMarkup.replaceAll("( ?[\\r\\n] ?)+","\n");
+        }
+        list.add(new RawMarkup(rawMarkup));
+      }
+      tag.makeImmutable();
+      list.add(tag);
+      xmlParser.setPositionMarker();
+    }
+  }
+  final CharSequence text=((XmlPullParser)xmlParser).getInputFromPositionMarker(-1);
+  if (text.length() > 0) {
+    list.add(new RawMarkup(text));
+  }
+  return Collections.unmodifiableList(list);
+}

@@ -1,0 +1,28 @@
+{
+  XmlTag xmlTag=(XmlTag)parent.nextTag();
+  if (xmlTag == null) {
+    return xmlTag;
+  }
+  ComponentTag tag;
+  if (wicketNamespace.equalsIgnoreCase(xmlTag.getNamespace())) {
+    tag=new ComponentWicketTag(xmlTag);
+    tag.setComponentName(tag.getName());
+  }
+ else {
+    tag=new ComponentTag(xmlTag);
+  }
+  final String id=xmlTag.getAttributes().getString("id");
+  if ((id != null) && id.startsWith(componentNameAttribute + "-")) {
+    tag.setComponentName(id.substring(componentNameAttribute.length() + 1).trim());
+    if (this.removeWicketComponentTag) {
+      tag.put("id",tag.getComponentName());
+    }
+  }
+ else   if (tag.getAttributes().containsKey(componentNameAttribute)) {
+    tag.setComponentName(tag.getAttributes().getString(componentNameAttribute));
+  }
+ else   if (tag.getAttributes().containsKey(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE)) {
+    tag.setComponentName(tag.getAttributes().getString(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE));
+  }
+  return tag;
+}

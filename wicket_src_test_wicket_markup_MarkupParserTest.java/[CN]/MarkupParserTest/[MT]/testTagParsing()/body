@@ -1,5 +1,5 @@
 {
-  final MarkupParser parser=new MarkupParser("componentName","wicket");
+  final MarkupParser parser=new MarkupParser(new XmlPullParser(),"componentName","wicket");
   final Markup markup=parser.parse("This is a test <a componentName=\"a\" href=\"foo.html\"> <b componentName=\"b\">Bold!</b> " + "<img componentName=\"img\" width=9 height=10 src=\"foo\"> <marker componentName=\"marker\"/> </a>");
   final MarkupStream markupStream=new MarkupStream(markup);
   final ComponentTag aOpen=(ComponentTag)markupStream.next();
@@ -10,24 +10,24 @@
   final ComponentTag boldOpen=(ComponentTag)markupStream.next();
   System.out.println(boldOpen);
   Assert.assertTrue(boldOpen.getName().equals("b"));
-  Assert.assertEquals(ComponentTag.OPEN,boldOpen.getType());
+  Assert.assertEquals(XmlTag.OPEN,boldOpen.getType());
   markupStream.next();
   final ComponentTag boldClose=(ComponentTag)markupStream.next();
   System.out.println(boldClose);
   Assert.assertTrue(boldClose.getName().equals("b"));
-  Assert.assertEquals(ComponentTag.CLOSE,boldClose.getType());
+  Assert.assertEquals(XmlTag.CLOSE,boldClose.getType());
   markupStream.next();
   final ComponentTag img=(ComponentTag)markupStream.next();
   System.out.println(img);
   Assert.assertTrue(img.getName().equals("img"));
   Assert.assertEquals(9,img.getAttributes().getInt("width"));
   Assert.assertEquals(10,img.getAttributes().getInt("height"));
-  Assert.assertEquals(ComponentTag.OPEN,img.getType());
+  Assert.assertEquals(XmlTag.OPEN,img.getType());
   markupStream.next();
   final ComponentTag marker=(ComponentTag)markupStream.next();
   System.out.println(marker);
   Assert.assertTrue(marker.getName().equals("marker"));
-  Assert.assertEquals(ComponentTag.OPEN_CLOSE,marker.getType());
+  Assert.assertEquals(XmlTag.OPEN_CLOSE,marker.getType());
   markupStream.next();
   final ComponentTag aClose=(ComponentTag)markupStream.next();
   System.out.println(aClose);

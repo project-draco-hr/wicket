@@ -1,0 +1,44 @@
+{
+  final ComponentTag tag=(ComponentTag)parent.nextTag();
+  if (tag == null) {
+    while (stack.size() > 0) {
+      final XmlTag top=(XmlTag)stack.peek();
+      if (!requiresCloseTag(top.getName())) {
+        stack.pop();
+      }
+ else {
+        throw new ParseException("Tag " + top + " at "+ top.getPos()+ " did not have a close tag",top.getPos());
+      }
+    }
+    return tag;
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("tag: " + tag.toUserDebugString() + ", stack: "+ stack);
+  }
+  if (tag.isOpen()) {
+    stack.push(tag);
+  }
+ else   if (tag.isClose()) {
+    if (stack.size() > 0) {
+      ComponentTag top=(ComponentTag)stack.pop();
+      boolean mismatch=!top.getName().equalsIgnoreCase(tag.getName());
+      if (mismatch) {
+        while (mismatch && !requiresCloseTag(top.getName())) {
+          top=(ComponentTag)stack.pop();
+          mismatch=!top.getName().equalsIgnoreCase(tag.getName());
+        }
+        if (mismatch) {
+          throw new MarkupException("Tag " + top.toUserDebugString() + " has a mismatched close tag at "+ tag.toUserDebugString());
+        }
+      }
+      tag.setOpenTag(top);
+    }
+ else {
+      throw new ParseException("Tag " + tag.toUserDebugString() + " does not have a matching open tag",tag.getPos());
+    }
+  }
+ else   if (tag.isOpenClose()) {
+    tag.setOpenTag(tag);
+  }
+  return tag;
+}
