@@ -1,12 +1,5 @@
 {
-  String url=httpServletRequest.getContextPath() + httpServletRequest.getServletPath();
-  final String pathInfo=httpServletRequest.getPathInfo();
-  if (pathInfo != null) {
-    url+=pathInfo;
-  }
-  final String queryString=httpServletRequest.getQueryString();
-  if (queryString != null) {
-    url+=("?" + queryString);
-  }
+  String contextPath=httpServletRequest.getContextPath();
+  String url=contextPath + '/' + getRelativeURL();
   return url;
 }
