@@ -1,0 +1,16 @@
+{
+  FileBrowser.this.removeAll();
+  addDefaultComponents();
+  String type=(String)newSelection;
+  final AbstractTree tree;
+  if (TYPE_NESTED.equals(type)) {
+    tree=new Tree("fileTree",FileBrowser.this.model);
+  }
+ else   if (TYPE_FLAT.equals(type)) {
+    tree=new FlatFileTree("fileTree",FileBrowser.this.model);
+  }
+ else {
+    tree=new FileTree("fileTree",FileBrowser.this.model);
+  }
+  FileBrowser.this.add(tree);
+}

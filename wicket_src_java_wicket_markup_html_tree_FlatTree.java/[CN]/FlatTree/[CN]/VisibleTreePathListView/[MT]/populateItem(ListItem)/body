@@ -1,0 +1,26 @@
+{
+  TreeNodeModel treeNodeModel=(TreeNodeModel)listItem.getModelObject();
+  int level=treeNodeModel.getLevel();
+  List spacerList=new ArrayList(level);
+  for (int i=0; i < level; i++) {
+    spacerList.add(treeNodeModel);
+  }
+  listItem.add(new SpacerList("spacers",spacerList));
+  HtmlContainer nodeContainer=new HtmlContainer("node");
+  Serializable userObject=treeNodeModel.getUserObject();
+  if (userObject == null) {
+    throw new RuntimeException("userObject == null");
+  }
+  TreeNodeLink expandCollapsLink=new TreeNodeLink("expandCollapsLink",FlatTree.this,treeNodeModel);
+  HtmlContainer junctionImg=new HtmlContainer("junctionImg");
+  junctionImg.add(new ComponentTagAttributeModifier("src",true,new Model(getJunctionImageName(treeNodeModel))));
+  expandCollapsLink.add(junctionImg);
+  HtmlContainer nodeImg=new HtmlContainer("nodeImg");
+  nodeImg.add(new ComponentTagAttributeModifier("src",true,new Model(getNodeImageName(treeNodeModel))));
+  expandCollapsLink.add(nodeImg);
+  nodeContainer.add(expandCollapsLink);
+  TreeNodeLink selectLink=new TreeNodeLink("selectLink",FlatTree.this,treeNodeModel);
+  selectLink.add(new Label("label",getUserObjectAsString(userObject)));
+  nodeContainer.add(selectLink);
+  listItem.add(nodeContainer);
+}

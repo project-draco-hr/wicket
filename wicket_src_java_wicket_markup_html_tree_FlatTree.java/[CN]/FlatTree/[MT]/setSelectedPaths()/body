@@ -1,0 +1,21 @@
+{
+  TreeStateCache treeState=getTreeState();
+  TreePath selectedPath=treeState.getSelectedPath();
+  Enumeration e=treeState.getVisiblePathsFromRoot();
+  List visiblePathsList=new ArrayList();
+  while (e.hasMoreElements()) {
+    TreePath path=(TreePath)e.nextElement();
+    DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)path.getLastPathComponent();
+    TreeNodeModel treeNodeModel=new TreeNodeModel(treeNode,treeState,path);
+    visiblePathsList.add(treeNodeModel);
+  }
+  Model model=new Model((Serializable)visiblePathsList);
+  if (visibleTreePathTable == null) {
+    visibleTreePathTable=new VisibleTreePathListView("tree",model);
+    add(visibleTreePathTable);
+  }
+ else {
+    visibleTreePathTable.reset();
+    visibleTreePathTable.setModel(model);
+  }
+}
