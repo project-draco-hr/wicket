@@ -1,0 +1,12 @@
+{
+  HtmlDocumentValidator validator=new HtmlDocumentValidator();
+  Tag html=new Tag("html");
+  Tag body=new Tag("body");
+  body.addExpectedChild(new TextContent("\\s+"));
+  html.addExpectedChild(body);
+  Tag span=new Tag("span");
+  body.addExpectedChild(span);
+  span.addExpectedChild(new TextContent("\\s*Panel Content"));
+  validator.addRootElement(html);
+  return validator.isDocumentValid(document);
+}

@@ -1,0 +1,14 @@
+{
+  HtmlDocumentValidator validator=new HtmlDocumentValidator();
+  Tag html=new Tag("html");
+  Tag body=new Tag("body");
+  html.addExpectedChild(body);
+  body.addExpectedChild(new TextContent("\\s+"));
+  Tag span=new Tag("span");
+  body.addExpectedChild(span);
+  Tag wicket=new Tag("wicket:panel");
+  span.addExpectedChild(wicket);
+  wicket.addExpectedChild(new TextContent("\\s*Panel Content"));
+  validator.addRootElement(html);
+  return validator.isDocumentValid(document);
+}

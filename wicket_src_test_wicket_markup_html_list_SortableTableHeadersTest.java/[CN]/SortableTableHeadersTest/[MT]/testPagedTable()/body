@@ -28,6 +28,7 @@
   application.getServletRequest().setRequestToComponent(link);
   application.processRequestCycle();
   Assert.assertTrue("Response should be a redirect",application.getServletResponse().isRedirect());
+  application.getSettings().setStripWicketTags(true);
   redirect=application.getServletResponse().getRedirectLocation();
   application.setupRequestAndResponse();
   application.getServletRequest().setRequestToRedirectString(redirect);
