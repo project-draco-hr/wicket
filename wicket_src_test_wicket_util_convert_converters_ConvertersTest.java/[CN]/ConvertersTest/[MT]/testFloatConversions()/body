@@ -1,16 +1,16 @@
 {
-  FloatConverter converter=new FloatConverter(Locale.US);
-  assertEquals(new Float(1.1),converter.convert(new Float(1.1)));
-  assertEquals(new Float(1.1),converter.convert("1.1"));
-  assertEquals("1.1",new StringConverter(Locale.US).convert(new Float(1.1)));
+  FloatConverter converter=new FloatConverter();
+  assertEquals(new Float(1.1),converter.convert(new Float(1.1),Locale.US));
+  assertEquals(new Float(1.1),converter.convert("1.1",Locale.US));
+  assertEquals("1.1",new StringConverter().convert(new Float(1.1),Locale.US));
   try {
-    converter.convert("whatever");
+    converter.convert("whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
   }
   try {
-    converter.convert("1.1whatever");
+    converter.convert("1.1whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

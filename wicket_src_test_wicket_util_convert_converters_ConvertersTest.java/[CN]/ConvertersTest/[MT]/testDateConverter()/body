@@ -1,24 +1,22 @@
 {
-  DateConverter converter=new DateConverter(DUTCH_LOCALE);
-  StringConverter stringConverter=new StringConverter(DUTCH_LOCALE);
+  DateConverter converter=new DateConverter();
+  StringConverter stringConverter=new StringConverter();
   Calendar cal=Calendar.getInstance(DUTCH_LOCALE);
   cal.clear();
   cal.set(2002,Calendar.OCTOBER,24);
   Date date=cal.getTime();
-  assertEquals("24-10-02",stringConverter.convert(date));
-  assertEquals(date,converter.convert("24-10-02"));
-  converter.setLocale(Locale.US);
-  stringConverter.setLocale(Locale.US);
-  assertEquals("10/24/02",stringConverter.convert(date));
-  assertEquals(date,converter.convert("10/24/02"));
+  assertEquals("24-10-02",stringConverter.convert(date,DUTCH_LOCALE));
+  assertEquals(date,converter.convert("24-10-02",DUTCH_LOCALE));
+  assertEquals("10/24/02",stringConverter.convert(date,Locale.US));
+  assertEquals(date,converter.convert("10/24/02",Locale.US));
   try {
-    converter.convert("whatever");
+    converter.convert("whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
   }
   try {
-    converter.convert("10/24/02whatever");
+    converter.convert("10/24/02whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

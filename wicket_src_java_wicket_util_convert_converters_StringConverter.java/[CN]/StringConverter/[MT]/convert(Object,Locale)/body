@@ -1,0 +1,14 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (value instanceof String) {
+    return value;
+  }
+  final Class c=value.getClass();
+  ITypeConverter converter=get(c);
+  if (converter == null) {
+    return defaultConverter.convert(value,locale);
+  }
+  return converter.convert(value,locale);
+}

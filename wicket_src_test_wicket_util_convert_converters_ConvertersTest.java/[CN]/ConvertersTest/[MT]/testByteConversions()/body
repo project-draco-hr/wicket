@@ -1,23 +1,22 @@
 {
-  ByteConverter converter=new ByteConverter(Locale.US);
-  assertEquals(Locale.US,converter.getLocale());
-  assertEquals(new Byte((byte)10),converter.convert(Byte.valueOf("10")));
-  assertEquals(new Byte((byte)10),converter.convert("10"));
-  assertEquals("10",new StringConverter().convert(new Byte((byte)10)));
+  ByteConverter converter=new ByteConverter();
+  assertEquals(new Byte((byte)10),converter.convert(Byte.valueOf("10"),Locale.US));
+  assertEquals(new Byte((byte)10),converter.convert("10",Locale.US));
+  assertEquals("10",new StringConverter().convert(new Byte((byte)10),Locale.US));
   try {
-    converter.convert("whatever");
+    converter.convert("whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
   }
   try {
-    converter.convert("10whatever");
+    converter.convert("10whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
   }
   try {
-    converter.convert("256");
+    converter.convert("256",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

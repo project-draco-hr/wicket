@@ -1,17 +1,16 @@
 {
-  DoubleConverter converter=new DoubleConverter(Locale.US);
-  assertEquals(Locale.US,converter.getLocale());
-  assertEquals(new Double(1.1),converter.convert(new Double(1.1)));
-  assertEquals(new Double(1.1),converter.convert("1.1"));
-  assertEquals("1.1",new StringConverter(Locale.US).convert(new Double(1.1)));
+  DoubleConverter converter=new DoubleConverter();
+  assertEquals(new Double(1.1),converter.convert(new Double(1.1),Locale.US));
+  assertEquals(new Double(1.1),converter.convert("1.1",Locale.US));
+  assertEquals("1.1",new StringConverter().convert(new Double(1.1),Locale.US));
   try {
-    converter.convert("whatever");
+    converter.convert("whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
   }
   try {
-    converter.convert("1.1whatever");
+    converter.convert("1.1whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

@@ -1,23 +1,22 @@
 {
-  LongConverter converter=new LongConverter(Locale.US);
-  assertEquals(Locale.US,converter.getLocale());
-  assertEquals(new Long(10),converter.convert(Long.valueOf("10")));
-  assertEquals(new Long(10),converter.convert("10"));
-  assertEquals("10",new StringConverter(Locale.US).convert(new Long(10)));
+  LongConverter converter=new LongConverter();
+  assertEquals(new Long(10),converter.convert(Long.valueOf("10"),Locale.US));
+  assertEquals(new Long(10),converter.convert("10",Locale.US));
+  assertEquals("10",new StringConverter().convert(new Long(10),Locale.US));
   try {
-    converter.convert("whatever");
+    converter.convert("whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
   }
   try {
-    converter.convert("10whatever");
+    converter.convert("10whatever",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
   }
   try {
-    new LongConverter().convert("" + Long.MAX_VALUE + "0");
+    new LongConverter().convert("" + Long.MAX_VALUE + "0",Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
