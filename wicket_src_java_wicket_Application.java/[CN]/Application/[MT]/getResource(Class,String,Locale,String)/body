@@ -1,19 +1,25 @@
 {
-  Resource resource=null;
-  String key=name + (locale == null ? "" : "_" + locale.toString()) + (style == null ? "" : "_" + style);
-  resource=(Resource)resourceMap.get(new ResourceKey(scope,key));
-  if (resource != null) {
-    return resource;
+  final String baseName=scope.getName() + "_" + name;
+  if (locale != null && style != null) {
+    final String key=baseName + "_" + locale+ "_"+ style;
+    final Resource resource=getResource(key);
+    if (resource != null) {
+      return resource;
+    }
   }
-  key=name + (locale == null ? "" : "_" + locale.toString());
-  resource=(Resource)resourceMap.get(new ResourceKey(scope,key));
-  if (resource != null) {
-    return resource;
+  if (locale != null) {
+    final String key=baseName + "_" + locale;
+    final Resource resource=getResource(key);
+    if (resource != null) {
+      return resource;
+    }
   }
-  key=name + (style == null ? "" : "_" + style);
-  resource=(Resource)resourceMap.get(new ResourceKey(scope,key));
-  if (resource != null) {
-    return resource;
+  if (style != null) {
+    final String key=baseName + "_" + style;
+    final Resource resource=getResource(key);
+    if (resource != null) {
+      return resource;
+    }
   }
-  return (Resource)resourceMap.get(new ResourceKey(scope,name));
+  return getResource(baseName);
 }

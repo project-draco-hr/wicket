@@ -32,4 +32,12 @@
   }
   this.locale=component.getLocale();
   this.style=component.getStyle();
+  final String url;
+  if (this.resource instanceof SharedResource) {
+    url=component.getPage().urlFor("shared/" + ((SharedResource)resource).getPath());
+  }
+ else {
+    url=component.urlFor(IResourceListener.class);
+  }
+  tag.put("src",component.getResponse().encodeURL(url).replaceAll("&","&amp;"));
 }
