@@ -1,3 +1,10 @@
 {
-  return new ExternalPageLink(componentName,getApplicationSettings().getHomePage());
+  Map parameters=getApplicationSettings().getHomePageParameters();
+  if (parameters == null) {
+    return new ExternalPageLink(componentName,getApplicationSettings().getHomePage());
+  }
+ else {
+    Map map=new HashMap(parameters);
+    return new ExternalPageLink(componentName,getApplicationSettings().getHomePage(),new PageParameters(map));
+  }
 }

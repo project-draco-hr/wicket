@@ -5,7 +5,16 @@
       cycle.setPage((Page)null);
     }
  else {
-      cycle.setPage(getApplicationSettings().getPageFactory().newPage(getApplicationSettings().getHomePage()));
+      Map parameters=getApplicationSettings().getHomePageParameters();
+      if (parameters == null) {
+        cycle.setPage(getApplicationSettings().getPageFactory().newPage(getApplicationSettings().getHomePage()));
+      }
+ else {
+        HashMap hm=new HashMap(parameters);
+        hm.putAll(cycle.getRequest().getParameterMap());
+        Page page=getApplicationSettings().getPageFactory().newPage(getApplicationSettings().getHomePage(),new PageParameters(hm));
+        cycle.setPage(page);
+      }
     }
   }
  else {
