@@ -3,13 +3,13 @@
     public Object component(    final Component component){
       IModel componentModel=component.getModel();
       if ((componentModel != null) && (componentModel instanceof IDetachableModel)) {
-        ((IDetachableModel)componentModel).detach(getSession());
+        ((IDetachableModel)componentModel).detach();
       }
       if (component.attributeModifiers != null) {
         for (Iterator iterator=component.attributeModifiers.iterator(); iterator.hasNext(); ) {
           IModel modifierModel=(IModel)((ComponentTagAttributeModifier)iterator.next()).getReplaceModel();
           if ((modifierModel != null) && (modifierModel instanceof IDetachableModel)) {
-            ((IDetachableModel)modifierModel).detach(getSession());
+            ((IDetachableModel)modifierModel).detach();
           }
         }
       }

@@ -1,7 +1,8 @@
 {
   if (model instanceof IDetachableModel) {
-    ((IDetachableModel)model).attach(session);
+    ((IDetachableModel)model).attach();
   }
+  Session session=RequestCycle.get().getSession();
   this.locale=session.getLocale();
   ApplicationSettings settings=session.getApplication().getSettings();
   this.converterRegistry=settings.getConverterRegistry();
