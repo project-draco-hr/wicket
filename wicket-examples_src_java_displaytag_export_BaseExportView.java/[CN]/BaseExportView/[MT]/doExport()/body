@@ -1,0 +1,26 @@
+{
+  StringBuffer buffer=new StringBuffer(8000);
+  final String DOCUMENT_START=getDocumentStart();
+  final String DOCUMENT_END=getDocumentEnd();
+  final String ROW_START=getRowStart();
+  final String ROW_END=getRowEnd();
+  final String CELL_START=getCellStart();
+  final String CELL_END=getCellEnd();
+  final boolean ALWAYS_APPEND_CELL_END=getAlwaysAppendCellEnd();
+  final boolean ALWAYS_APPEND_ROW_END=getAlwaysAppendRowEnd();
+  buffer.append(DOCUMENT_START);
+  if (this.header) {
+    buffer.append(doHeaders());
+  }
+  Iterator rowIterator=model.iterator();
+  while (rowIterator.hasNext()) {
+    Object row=rowIterator.next();
+    buffer.append(ROW_START);
+    buffer.append(row.toString());
+    if (ALWAYS_APPEND_ROW_END || rowIterator.hasNext()) {
+      buffer.append(ROW_END);
+    }
+  }
+  buffer.append(DOCUMENT_END);
+  return buffer.toString();
+}

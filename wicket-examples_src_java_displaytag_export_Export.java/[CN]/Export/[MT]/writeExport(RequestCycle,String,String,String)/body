@@ -1,0 +1,28 @@
+{
+  HttpResponse response=(HttpResponse)cycle.getResponse();
+  HttpServletResponse servletResponse=response.getServletResponse();
+  if (servletResponse.isCommitted()) {
+    throw new RenderException("HTTP response already committed. Can not change that any more");
+  }
+  if (servletResponse.containsHeader("Cache-Control")) {
+    servletResponse.setHeader("Cache-Control","public");
+  }
+  if (servletResponse.containsHeader("Expires")) {
+    servletResponse.setHeader("Expires","Thu, 01 Dec 2069 16:00:00 GMT");
+  }
+  if (servletResponse.containsHeader("Pragma")) {
+    servletResponse.setHeader("Pragma","");
+  }
+  try {
+    servletResponse.resetBuffer();
+  }
+ catch (  Exception e) {
+    throw new RenderException("Unable to reset HTTP response",e);
+  }
+  response.setContentType(mimeType);
+  if ((filename != null) && (filename.trim().length() > 0)) {
+    servletResponse.setHeader("Content-Disposition","attachment; filename=\"" + filename + "\"");
+  }
+  response.write(exportString);
+  return 0;
+}

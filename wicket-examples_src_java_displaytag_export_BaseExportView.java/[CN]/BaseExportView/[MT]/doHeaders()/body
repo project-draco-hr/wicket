@@ -1,0 +1,25 @@
+{
+  if ((headerData == null) || headerData.isEmpty()) {
+    return "";
+  }
+  final String ROW_START=getRowStart();
+  final String ROW_END=getRowEnd();
+  final String CELL_START=getCellStart();
+  final String CELL_END=getCellEnd();
+  final boolean ALWAYS_APPEND_CELL_END=getAlwaysAppendCellEnd();
+  StringBuffer buffer=new StringBuffer(1000);
+  Iterator iterator=headerData.iterator();
+  buffer.append(ROW_START);
+  while (iterator.hasNext()) {
+    log.debug("iterator.hasNext()");
+    String headerCell=(String)iterator.next();
+    String columnHeader=headerCell;
+    buffer.append(CELL_START);
+    buffer.append(escapeColumnValue(columnHeader));
+    if (ALWAYS_APPEND_CELL_END || iterator.hasNext()) {
+      buffer.append(CELL_END);
+    }
+  }
+  buffer.append(ROW_END);
+  return buffer.toString();
+}
