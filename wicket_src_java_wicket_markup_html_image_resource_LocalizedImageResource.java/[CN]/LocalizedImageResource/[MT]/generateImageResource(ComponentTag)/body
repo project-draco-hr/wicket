@@ -1,18 +1,19 @@
 {
-  String label=tag.getString("value");
-  if (label == null) {
+  String value=tag.getString("value");
+  if (value == null) {
     throw new WicketRuntimeException("Component was not assigned an ImageResource, and had neither a src " + "attribute referencing a static image nor a value " + "attribute from which to generate an image.");
   }
-  if (label.indexOf(':') != -1) {
-    final String imageFactoryName=Strings.beforeFirst(label,':');
-    final ImageResourceFactory factory=(ImageResourceFactory)nameToImageFactory.get(imageFactoryName);
-    if (factory == null) {
-      throw new WicketRuntimeException("Could not find image resource factory named " + imageFactoryName);
-    }
-    final String imageLabel=Strings.afterFirst(label,':');
-    return factory.imageResource(imageLabel);
-  }
  else {
-    throw new WicketRuntimeException("Could not find or generate image from label \"" + label + "\".  Was expecting either a static image reference or a value or title attribute of the form \"imageResourceFactoryName.label\".");
+    final ImageValueParser valueParser=new ImageValueParser(value);
+    if (valueParser.matches()) {
+      final ImageResourceFactory factory=(ImageResourceFactory)nameToImageFactory.get(valueParser.getFactoryName());
+      if (factory == null) {
+        throw new WicketRuntimeException("Could not find image resource factory named " + valueParser.getFactoryName());
+      }
+      return factory.imageResource(valueParser.getWidth(),valueParser.getHeight(),valueParser.getLabel());
+    }
+ else {
+      throw new WicketRuntimeException("Could not find or generate image from label \"" + value + "\".  Was expecting either a static image reference or a value attribute of the form \"imageResourceFactoryName:(width,height:)?label\".");
+    }
   }
 }
