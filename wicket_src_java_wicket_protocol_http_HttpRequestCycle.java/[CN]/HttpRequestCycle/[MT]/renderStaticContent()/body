@@ -7,14 +7,17 @@
     if (in != null) {
       try {
         Streams.writeStream(in,((HttpResponse)response).getServletResponse().getOutputStream());
-        return true;
       }
   finally {
         in.close();
       }
+      return true;
+    }
+ else {
+      return false;
     }
   }
  catch (  IOException e) {
+    throw new RenderException("Cannot load static content for request " + request,e);
   }
-  return false;
 }

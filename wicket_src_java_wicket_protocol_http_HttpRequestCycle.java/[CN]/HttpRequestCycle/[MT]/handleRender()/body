@@ -11,10 +11,10 @@ synchronized (session) {
         }
       }
     }
- else     if (respondWithStaticContent()) {
-    }
  else {
-      response.write("<pre>Invalid request: " + request + "</pre>");
+      if (!renderStaticContent()) {
+        response.write("<pre>Invalid request: " + request + "</pre>");
+      }
     }
   }
 }

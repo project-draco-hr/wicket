@@ -1,7 +1,7 @@
 {
   final String path=request.getParameter("component");
   if (path != null) {
-    code.debug("Getting page " + path);
+    log.debug("Getting page " + path);
     final Page page=session.getPage(path);
     final int rendering=Integer.parseInt(request.getParameter("rendering"));
     if (page != null) {
@@ -39,7 +39,7 @@ catch (          InvocationTargetException e) {
           return true;
         }
  else {
-          code.error("No component found for " + path);
+          log.error("No component found for " + path);
           setPage(newPage(application.getSettings().getInternalErrorPage()));
           return true;
         }
