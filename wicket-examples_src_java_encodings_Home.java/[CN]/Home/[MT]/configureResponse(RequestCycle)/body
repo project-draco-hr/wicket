@@ -1,6 +1,9 @@
 {
+  final Locale orgLocale=cycle.getSession().getLocale();
+  cycle.getSession().setLocale(Locale.GERMANY);
   super.configureResponse(cycle);
   final String encoding="text/" + getMarkupType() + "; charset="+ CharSetUtil.configureResponse(cycle);
   ;
   ((HttpResponse)cycle.getResponse()).setContentType(encoding);
+  cycle.getSession().setLocale(orgLocale);
 }
