@@ -1,0 +1,14 @@
+{
+  List data=new TestList(6,false);
+  add(new MyTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("name",value.getName()));
+      tagClass.add(new CheckBox("activ",new Boolean(value.isActiv())));
+      tagClass.add(new TextField("comment",value.getStatus()));
+      return true;
+    }
+  }
+);
+}

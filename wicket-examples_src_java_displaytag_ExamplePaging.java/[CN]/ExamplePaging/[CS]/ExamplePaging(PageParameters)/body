@@ -1,0 +1,18 @@
+{
+  final List data=new TestList(60,false);
+  final MyPagedTable table=new MyPagedTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("name",value.getName()));
+      tagClass.add(new Label("email",value.getEmail()));
+      tagClass.add(new Label("status",value.getStatus()));
+      tagClass.add(new Label("comments",value.getDescription()));
+      return true;
+    }
+  }
+;
+  table.setNumberOfCellsToDisplay(10);
+  add(table);
+  add(new PagedTableNavigator("pageTableNav",table));
+}

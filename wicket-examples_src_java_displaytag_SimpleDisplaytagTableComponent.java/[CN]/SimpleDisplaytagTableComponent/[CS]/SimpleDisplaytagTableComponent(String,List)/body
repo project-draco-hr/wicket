@@ -1,0 +1,15 @@
+{
+  super(componentName);
+  this.data=data;
+  table=new MyTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("email",value.getEmail()));
+      tagClass.add(new Label("status",value.getStatus()));
+      return true;
+    }
+  }
+;
+  add(table);
+}

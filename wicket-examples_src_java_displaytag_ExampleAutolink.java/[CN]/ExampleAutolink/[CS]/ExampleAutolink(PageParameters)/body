@@ -1,0 +1,13 @@
+{
+  List data=new TestList(10,false);
+  add(new MyTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new SmartLinkLabel("email",value.getEmail()));
+      tagClass.add(new SmartLinkLabel("url",value.getUrl()));
+      return true;
+    }
+  }
+);
+}

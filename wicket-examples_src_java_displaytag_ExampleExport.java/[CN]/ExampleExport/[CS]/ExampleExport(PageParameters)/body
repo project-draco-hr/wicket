@@ -1,0 +1,18 @@
+{
+  final List data=new TestList(6,false);
+  MyTable table=new MyTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("email",value.getEmail()));
+      tagClass.add(new Label("status",value.getStatus()));
+      tagClass.add(new Label("date",Time.valueOf(value.getDate()).toDateString()));
+      return true;
+    }
+  }
+;
+  add(table);
+  add(new ExportLink("exportCsv",data));
+  add(new ExportLink("exportExcel",data));
+  add(new ExportLink("exportXml",data));
+}

@@ -1,0 +1,23 @@
+{
+  List data=new TestList(6,false);
+  add(new MyTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("status",value.getStatus()));
+      tagClass.add(new Label("comments",value.getDescription()));
+      List data2=new TestList(3,false);
+      tagClass.add(new MyTable("rows",data2){
+        public boolean populateCell(        final Cell cell,        final Container tagClass){
+          final ListObject value=(ListObject)cell.getModelObject();
+          tagClass.add(new Label("name",value.getName()));
+          tagClass.add(new Label("email",value.getEmail()));
+          return true;
+        }
+      }
+);
+      return true;
+    }
+  }
+);
+}

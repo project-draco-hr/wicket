@@ -1,0 +1,15 @@
+{
+  List data=new TestList(10,false);
+  add(new MyTable("rows",data){
+    private int i=1;
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("name",value.getName()));
+      tagClass.add(new Label("rowNumber",String.valueOf(i++)));
+      tagClass.add(new Label("money",value.getDescription()));
+      return true;
+    }
+  }
+);
+}

@@ -1,0 +1,26 @@
+{
+  List data=new TestList(10,false);
+  HtmlContainer styleList=new HtmlContainer("stylelist");
+  add(styleList);
+  styleList.add(new ExternalPageLink("isis",this.getClass()).setParameter("class","isis").setAutoEnable(false));
+  styleList.add(new ExternalPageLink("its",this.getClass()).setParameter("class","its").setAutoEnable(false));
+  styleList.add(new ExternalPageLink("mars",this.getClass()).setParameter("class","mars").setAutoEnable(false));
+  styleList.add(new ExternalPageLink("simple",this.getClass()).setParameter("class","simple").setAutoEnable(false));
+  styleList.add(new ExternalPageLink("report",this.getClass()).setParameter("class","report").setAutoEnable(false));
+  styleList.add(new ExternalPageLink("mark",this.getClass()).setParameter("class","mark").setAutoEnable(false));
+  CascadingStyleSheetStyle htmlTable=new CascadingStyleSheetStyle("htmlTable",parameters.getString("class"));
+  htmlTable.setEnable(true);
+  add(htmlTable);
+  htmlTable.add(new MyTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("name",value.getName()));
+      tagClass.add(new Label("email",value.getEmail()));
+      tagClass.add(new Label("status",value.getStatus()));
+      tagClass.add(new Label("comments",value.getDescription()));
+      return true;
+    }
+  }
+);
+}

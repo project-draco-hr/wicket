@@ -1,0 +1,13 @@
+{
+  List data=new TestList(10,false);
+  add(new MyTable("entries",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      Map attrs=new HashMap();
+      attrs.put("id","class");
+      tagClass.add(new Label("entry",value.getName()));
+      return true;
+    }
+  }
+);
+}

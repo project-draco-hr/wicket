@@ -1,0 +1,27 @@
+{
+  List data=new TestList(10,false);
+  add(new MyTable("rows",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",new Integer(value.getId())));
+      tagClass.add(new Label("email",value.getEmail()));
+      tagClass.add(new Label("status",value.getStatus()));
+      tagClass.add(new Label("date",Time.valueOf(value.getDate()).toString("yyyy-MM-dd")));
+      final DecimalFormat format=new DecimalFormat("$ #,##0.00");
+      tagClass.add(new Label("money",format.format(value.getMoney())));
+      return true;
+    }
+  }
+);
+  add(new MyTable("rows2",data){
+    public boolean populateCell(    final Cell cell,    final Container tagClass){
+      final ListObject value=(ListObject)cell.getModelObject();
+      tagClass.add(new Label("id",cell.getModel(),"id"));
+      tagClass.add(new Label("email",cell.getModel(),"email"));
+      tagClass.add(new Label("status",cell.getModel(),"status"));
+      tagClass.add(new Label("date",Time.valueOf(value.getDate()).toString("yyyy-MM-dd HH:mm:ss")));
+      return true;
+    }
+  }
+);
+}
