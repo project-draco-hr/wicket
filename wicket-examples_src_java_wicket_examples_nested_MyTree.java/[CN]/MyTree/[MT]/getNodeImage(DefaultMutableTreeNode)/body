@@ -1,13 +1,19 @@
 {
   if (node.isLeaf()) {
-    return IMG_NODE;
+    String url=getRequestCycle().urlFor(IMG_NODE,IResourceListener.class);
+    LocalImage img=new LocalImage(NODE_IMAGE_NAME,url);
+    return img;
   }
  else {
     if (isExpanded(node)) {
-      return IMG_FOLDER_OPEN;
+      String url=getRequestCycle().urlFor(IMG_FOLDER_OPEN,IResourceListener.class);
+      LocalImage img=new LocalImage(NODE_IMAGE_NAME,url);
+      return img;
     }
  else {
-      return IMG_FOLDER;
+      String url=getRequestCycle().urlFor(IMG_FOLDER,IResourceListener.class);
+      LocalImage img=new LocalImage(NODE_IMAGE_NAME,url);
+      return img;
     }
   }
 }
