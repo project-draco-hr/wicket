@@ -1,12 +1,9 @@
 {
-  getRequestCycle().setRedirect(true);
-  validationDelegate.validate(this);
-  updateFormComponentModels();
-  persistFormComponentData();
-  if (hasError()) {
-    handleErrors();
+  final int buttons=countButtons();
+  if (buttons <= 1) {
+    validate();
   }
- else {
-    handleSubmit();
+ else   if (buttons > 1) {
+    invokeButtonClicked();
   }
 }

@@ -1,0 +1,12 @@
+{
+  return (Button)visitChildren(Button.class,new IVisitor(){
+    public Object component(    final Component component){
+      final Button button=(Button)component;
+      if (!Strings.isEmpty(button.getRequestString()) || !Strings.isEmpty(getRequest().getParameter(button.getPath() + ".x"))) {
+        return button;
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}
