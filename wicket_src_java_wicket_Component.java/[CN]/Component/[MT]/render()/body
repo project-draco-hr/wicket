@@ -1,48 +1,28 @@
 {
-  RuntimeException renderException=null;
   final boolean isVisible=isVisible();
-  try {
-    final RequestCycle cycle=getRequestCycle();
-    final Response originalResponse;
-    if (isVisible) {
-      originalResponse=null;
-      if (log.isDebugEnabled()) {
-        log.debug("Begin render " + this);
-      }
+  final RequestCycle cycle=getRequestCycle();
+  final Response originalResponse;
+  if (isVisible) {
+    originalResponse=null;
+    if (log.isDebugEnabled()) {
+      log.debug("Begin render " + this);
     }
+  }
  else {
-      originalResponse=cycle.getResponse();
-      cycle.setResponse(NullResponse.getInstance());
-    }
+    originalResponse=cycle.getResponse();
+    cycle.setResponse(NullResponse.getInstance());
+  }
 synchronized (getModelLock()) {
-      onRender();
-      rendered();
-    }
-    if (!isVisible) {
-      cycle.setResponse(originalResponse);
+    onRender();
+    rendered();
+    detachModels();
+  }
+  if (isVisible) {
+    if (log.isDebugEnabled()) {
+      log.debug("End render " + this);
     }
   }
- catch (  RuntimeException e) {
-    renderException=e;
-    e.printStackTrace();
-    throw e;
-  }
- finally {
-    if (isVisible) {
-      if (log.isDebugEnabled()) {
-        log.debug("End render " + this);
-      }
-      try {
-        detachModels();
-      }
- catch (      RuntimeException e) {
-        if (renderException != null) {
-          throw new WicketRuntimeException("Exception thrown while cleaning up from the following exception which was thrown during rendering: " + Strings.toString(renderException),e);
-        }
  else {
-          throw e;
-        }
-      }
-    }
+    cycle.setResponse(originalResponse);
   }
 }
