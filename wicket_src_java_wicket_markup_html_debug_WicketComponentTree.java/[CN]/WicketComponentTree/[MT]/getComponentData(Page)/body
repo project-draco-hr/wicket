@@ -1,17 +1,20 @@
 {
   final List data=new ArrayList();
+  final Component me=this;
   page.visitChildren(new IVisitor(){
-    public Object component(    Component component){
-      final ComponentData object=new ComponentData();
-      String name=component.getClass().getName();
-      if (name.indexOf("$") > 0) {
-        name=component.getClass().getSuperclass().getName();
+    public Object component(    final Component component){
+      if (!component.getPath().startsWith(me.getPath())) {
+        final ComponentData object=new ComponentData();
+        String name=component.getClass().getName();
+        if (name.indexOf("$") > 0) {
+          name=component.getClass().getSuperclass().getName();
+        }
+        name=Strings.lastPathComponent(name,'.');
+        object.path=component.getPageRelativePath();
+        object.type=name;
+        object.value=component.getModelObjectAsString();
+        data.add(object);
       }
-      name=Strings.lastPathComponent(name,'.');
-      object.path=component.getPageRelativePath();
-      object.type=name;
-      object.value=component.getModelObjectAsString();
-      data.add(object);
       return IVisitor.CONTINUE_TRAVERSAL;
     }
   }
