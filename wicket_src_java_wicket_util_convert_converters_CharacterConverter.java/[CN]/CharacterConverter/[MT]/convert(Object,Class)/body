@@ -2,7 +2,7 @@
   if (value == null) {
     return null;
   }
-  if (Character.class.isAssignableFrom(c)) {
+  if (c == CONVERT_TO_DEFAULT_TYPE || Character.class.isAssignableFrom(c)) {
     if (value instanceof Character) {
       return (value);
     }
@@ -13,7 +13,7 @@
       throw new ConversionException(e);
     }
   }
-  if (String.class.isAssignableFrom(c)) {
+ else   if (String.class.isAssignableFrom(c)) {
     return toString(value);
   }
   throw new ConversionException(this + " cannot handle conversions of type " + c);
