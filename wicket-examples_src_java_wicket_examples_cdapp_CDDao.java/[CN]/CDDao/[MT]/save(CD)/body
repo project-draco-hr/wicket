@@ -1,0 +1,22 @@
+{
+  if (cd == null) {
+    throw new NullPointerException("cd must be not null");
+  }
+  Session session=null;
+  Transaction tx=null;
+  try {
+    session=HibernateHelper.getSession();
+    tx=session.beginTransaction();
+    session.saveOrUpdate(cd);
+    tx.commit();
+  }
+ catch (  HibernateException e) {
+    try {
+      tx.rollback();
+    }
+ catch (    HibernateException ex) {
+      ex.printStackTrace();
+    }
+    throw new WicketRuntimeException(e);
+  }
+}

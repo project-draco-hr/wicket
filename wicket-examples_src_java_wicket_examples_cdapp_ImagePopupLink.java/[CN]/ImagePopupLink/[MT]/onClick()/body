@@ -1,0 +1,16 @@
+{
+  final CD cd=(CD)getModelObject();
+  ImageResource imgResource=new ImageResource(){
+    public IResource getResource(){
+      DynamicImageResource img=new DynamicImageResource(){
+        protected byte[] getImageData(){
+          return cd.getImage();
+        }
+      }
+;
+      return img.getResource();
+    }
+  }
+;
+  getRequestCycle().setPage(new ImagePopup(imgResource));
+}
