@@ -2,9 +2,17 @@
   final StringBuffer options=new StringBuffer();
   final Object selected=getModelObject();
   final List list=getValues();
-  if (selected == null && getRenderNullOption()) {
+  if (emptyAllowed && selected == null) {
+    final String emptyOne=getLocalizer().getString(getName() + ".emptyOne",this,"");
+    options.append("\n<option selected=\"selected\" value=\"").append("\">").append(emptyOne).append("</option>");
+  }
+ else   if (emptyAllowed) {
+    final String emptyOne=getLocalizer().getString(getName() + ".emptyOne",this,"");
+    options.append("\n<option value=\"").append("\">").append(emptyOne).append("</option>");
+  }
+ else   if (selected == null && getRenderNullOption()) {
     final String chooseOne=getLocalizer().getString(getName() + ".null",this,DEFAULT_NULL_OPTION_VALUE);
-    options.append("\n<option selected value=\"").append("\">").append(chooseOne).append("</option>");
+    options.append("\n<option selected=\"selected\" value=\"").append("\">").append(chooseOne).append("</option>");
   }
   for (int i=0; i < list.size(); i++) {
     final Object value=list.get(i);
