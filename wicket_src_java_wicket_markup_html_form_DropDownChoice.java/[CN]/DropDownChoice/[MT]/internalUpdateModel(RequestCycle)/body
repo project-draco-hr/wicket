@@ -1,0 +1,20 @@
+{
+  final String indexOrId=getRequestString(cycle);
+  Object object=null;
+  final List list=getValues();
+  if (list instanceof IIdList) {
+    object=((IIdList)list).getObjectById(indexOrId);
+    setModelObject(object);
+  }
+ else {
+    final int index=Integer.parseInt(indexOrId);
+    if (index == NULL_VALUE) {
+      setModelObject(null);
+    }
+ else {
+      object=list.get(index);
+      setModelObject(object);
+    }
+  }
+  return object;
+}
