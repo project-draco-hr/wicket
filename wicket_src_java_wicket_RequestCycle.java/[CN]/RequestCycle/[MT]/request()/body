@@ -10,7 +10,10 @@ synchronized (session) {
       internalOnEndRequest();
       onEndRequest();
     }
-  finally {
+ catch (    RuntimeException e) {
+      onRuntimeException(null,e);
+    }
+ finally {
       threadDetach();
     }
   }
