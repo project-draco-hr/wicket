@@ -1,0 +1,14 @@
+{
+  if (attributeModifiers != null && tag.getType() != XmlTag.CLOSE) {
+    tag=tag.mutable();
+    for (Iterator it=attributeModifiers.iterator(); it.hasNext(); ) {
+      ((AttributeModifier)it.next()).replaceAttibuteValue(tag);
+    }
+  }
+  final ApplicationSettings settings=getApplication().getSettings();
+  if (settings.getStripComponentNames()) {
+    tag=tag.mutable();
+    tag.removeComponentName(settings.getComponentNameAttribute());
+  }
+  getResponse().write(tag);
+}

@@ -7,7 +7,7 @@
     if (!markupStream.atOpenCloseTag()) {
       markupStream.throwMarkupException("A <wicket:body> tag must be an open-close tag.");
     }
-    renderTag(tag);
+    renderComponentTag(tag);
     markupStream.next();
     Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
     if (border.getMarkupStream() == null) {
@@ -16,7 +16,7 @@
     }
     final MarkupStream borderMarkup=border.findMarkupStream();
     border.setMarkupStream(null);
-    border.renderBody(border.findMarkupStream(),border.openTag);
+    border.renderComponentTagBody(border.findMarkupStream(),border.openTag);
     border.setMarkupStream(borderMarkup);
     return true;
   }

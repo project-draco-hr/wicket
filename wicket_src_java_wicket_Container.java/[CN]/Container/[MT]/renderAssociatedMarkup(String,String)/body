@@ -7,8 +7,9 @@
   if (!(associatedMarkupStream.atOpenTag(openTagName) && (associatedMarkupOpenTag instanceof ComponentWicketTag))) {
     associatedMarkupStream.throwMarkupException(exceptionMessage);
   }
-  renderTag(associatedMarkupStream,associatedMarkupOpenTag);
-  renderBody(associatedMarkupStream,associatedMarkupOpenTag);
-  renderCloseTag(associatedMarkupStream,associatedMarkupOpenTag);
+  renderComponentTag(associatedMarkupOpenTag);
+  associatedMarkupStream.next();
+  renderComponentTagBody(associatedMarkupStream,associatedMarkupOpenTag);
+  renderClosingComponentTag(associatedMarkupStream,associatedMarkupOpenTag);
   setMarkupStream(originalMarkupStream);
 }
