@@ -1,0 +1,9 @@
+{
+  MockHttpApplication application=new MockHttpApplication(null);
+  application.getSettings().setHomePage(SimpleTablePage.class);
+  application.setupRequestAndResponse();
+  application.processRequestCycle();
+  SimpleTablePage page=(SimpleTablePage)application.getLastRenderedPage();
+  String document=application.getServletResponse().getDocument();
+  assertTrue(validateDocument(document));
+}
