@@ -1,5 +1,14 @@
 {
   final Response response=getResponse();
-  response.setContentType("text/" + getMarkupType());
+  final MarkupStream markupStream=findMarkupStream();
+  if (markupStream != null) {
+    if (markupStream.getXmlDeclaration() != null) {
+      response.setContentType("text/" + getMarkupType() + "; charset="+ markupStream.getEncoding());
+      response.write(markupStream.getXmlDeclaration());
+    }
+  }
+ else {
+    response.setContentType("text/" + getMarkupType());
+  }
   response.setLocale(getSession().getLocale());
 }
