@@ -6,12 +6,12 @@
         setPage(getPageFactory().newPage(application.getPages().getInternalErrorPage()));
       }
  else {
-        setPage(new ExceptionErrorPage(e,getPage()));
+        setPage(new ExceptionErrorPage(throwable,getPage()));
       }
       redirectToPage(getPage());
     }
   }
  catch (  RuntimeException ignored) {
   }
-  throw e;
+  throw new ServletException("Wicket could not render page",throwable);
 }

@@ -5,12 +5,15 @@ synchronized (session) {
     try {
       onRender();
     }
- catch (    RuntimeException e) {
+ catch (    StackOverflowError e) {
+      throw new ServletException("Wicket could not render page",e);
+    }
+catch (    RuntimeException e) {
       Page currentPage=getPage();
       if (currentPage != null) {
         currentPage.reset();
       }
-      handleRenderingException(e);
+      onException(e);
     }
  finally {
       response.close();
