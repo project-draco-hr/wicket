@@ -1,0 +1,12 @@
+{
+  RequestCycle requestCycle=RequestCycle.get();
+  if (requestCycle != null) {
+    ApplicationSettings settings=requestCycle.getApplication().getSettings();
+    ConverterRegistry converterRegistry=settings.getConverterRegistry();
+    return converterRegistry.getConversionUtils();
+  }
+ else {
+    log.error("no current request cycle found; using a dummy converter registry");
+    return new ConversionUtils(new ConverterRegistry());
+  }
+}

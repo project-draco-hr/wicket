@@ -1,0 +1,11 @@
+{
+  ConversionUtils conversionUtils=getConversionUtils();
+  Locale localeForValidation=getLocaleForValidation();
+  try {
+    conversionUtils.convert(input,type,localeForValidation);
+    return ValidationErrorMessage.NO_MESSAGE;
+  }
+ catch (  ConversionException e) {
+    return getError(input,component,e);
+  }
+}
