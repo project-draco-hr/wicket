@@ -1,13 +1,13 @@
 {
-  final String sharedResourceName=asString() + (enabled ? "_enabled" : "_disabled");
-  Resource resource=application.getResource(Application.class,sharedResourceName,null,null);
-  if (resource == null) {
-    DefaultButtonImageResource buttonResource=new DefaultButtonImageResource(30,30,asString());
-    if (!enabled) {
-      buttonResource.setColor(Color.GRAY);
+  final String name=asString() + (enabled ? "_enabled" : "_disabled");
+  return application.getSharedResource(Letter.class,name,new ISharedResourceFactory(){
+    public Resource newResource(){
+      final DefaultButtonImageResource buttonResource=new DefaultButtonImageResource(30,30,asString());
+      if (!enabled) {
+        buttonResource.setColor(Color.GRAY);
+      }
+      return buttonResource;
     }
-    application.addResource(sharedResourceName,buttonResource);
-    resource=buttonResource;
   }
-  return new SharedResource(sharedResourceName);
+);
 }
