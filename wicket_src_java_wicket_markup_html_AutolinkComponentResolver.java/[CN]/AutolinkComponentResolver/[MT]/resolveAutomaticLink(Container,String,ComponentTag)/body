@@ -1,13 +1,15 @@
 {
+  final Page page=container.getPage();
   final String originalHref=tag.getAttributes().getString("href");
   final int pos=originalHref.indexOf(".html");
   String classPath=originalHref.substring(0,pos);
   PageParameters pageParameters=null;
   if ((classPath.length() + 6) < originalHref.length()) {
-    String queryString=originalHref.substring(classPath.length() + 6);
+    final String queryString=originalHref.substring(classPath.length() + 6);
     pageParameters=new PageParameters(new ValueMap(queryString,"&"));
   }
   final String id=componentName + page.getAutoIndex();
+  tag.setComponentName(id);
   classPath=classPath.replaceAll("/",".");
   if (!classPath.startsWith(".")) {
     final String className=page.getClass().getPackage().getName() + "." + classPath;
