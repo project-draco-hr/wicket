@@ -6,7 +6,8 @@
  else {
     windowTitle=windowTitle.replace('.','_');
   }
-  StringBuffer script=new StringBuffer("if (!window.focus) return true; window.open(href, '").append(windowTitle).append("', '");
+  String target=getTarget();
+  StringBuffer script=new StringBuffer("if (!window.focus) return true; window.open(" + target + ", '").append(windowTitle).append("', '");
   script.append("scrollbars=").append(isScrollBars() ? "yes" : "no");
   script.append(", location=").append(isLocationbar() ? "yes" : "no");
   script.append(", menubar=").append(isMenubar() ? "yes" : "no");
