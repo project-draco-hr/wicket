@@ -3,22 +3,22 @@
   if (tag == null) {
     return tag;
   }
-  if ((autolinking == true) && (tag.getComponentName() == null) && tag.getAttributes().containsKey("href")) {
-    final int pos=tag.getAttributes().getString("href").indexOf(".html");
-    if (pos > 0) {
-      tag.enableAutolink(true);
-      tag.setComponentName("_autolink_");
-    }
+  final String href=tag.getAttributes().getString("href");
+  if ((autolinking == true) && (tag.getComponentName() == null) && (href != null)&& (href.endsWith(".html") || href.contains(".html?"))&& !href.startsWith("/")&& (href.indexOf(":") == -1)) {
+    tag.enableAutolink(true);
+    tag.setComponentName("_autolink_");
     return tag;
   }
   if (tag instanceof ComponentWicketTag) {
     final ComponentWicketTag wtag=(ComponentWicketTag)tag;
     if (wtag.isLinkTag()) {
-      if (tag.isOpen()) {
-        if (autolinkStatus == null) {
-          autolinkStatus=new Stack();
+      if (tag.isOpen() || tag.isOpenClose()) {
+        if (tag.isOpen()) {
+          if (autolinkStatus == null) {
+            autolinkStatus=new Stack();
+          }
+          autolinkStatus.push(new Boolean(autolinking));
         }
-        autolinkStatus.push(new Boolean(autolinking));
         final String autolink=tag.getAttributes().getString("autolink");
         if ((autolink == null) || "".equals(autolink) || "true".equalsIgnoreCase(autolink)|| "1".equals(autolink)) {
           autolinking=true;
@@ -29,9 +29,6 @@
       }
  else       if (tag.isClose()) {
         autolinking=((Boolean)autolinkStatus.pop()).booleanValue();
-      }
- else {
-        throw new ParseException("<wicket:link> can not be a open-close tag",tag.getPos());
       }
       return nextTag();
     }
