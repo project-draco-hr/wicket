@@ -1,20 +1,33 @@
 {
-  if (s != null) {
-    final StringBuffer buf=new StringBuffer();
-    int pos=0;
-    while (true) {
-      final int matchIndex=s.indexOf(searchFor,pos);
-      if (matchIndex == -1) {
-        buf.append(s.substring(pos));
-        break;
-      }
- else {
-        buf.append(s.substring(pos,matchIndex));
-        pos=matchIndex + searchFor.length();
-        buf.append(replaceWith);
-      }
-    }
-    return buf.toString();
+  if (s == null) {
+    throw new IllegalArgumentException("Cannot pass null target string to replaceAll");
   }
-  return null;
+  if (searchFor == null) {
+    throw new IllegalArgumentException("Cannot pass null searchFor string to replaceAll");
+  }
+  if (replaceWith == null) {
+    throw new IllegalArgumentException("Cannot pass null replaceWith string to replaceAll");
+  }
+  StringBuffer buffer=null;
+  final int searchForLength=searchFor.length();
+  int pos=0;
+  for (int matchIndex; -1 != (matchIndex=s.indexOf(searchFor,pos)); pos=matchIndex + searchForLength) {
+    if (buffer == null) {
+      int size=s.length();
+      final int replaceWithLength=replaceWith.length();
+      if (replaceWithLength > searchForLength) {
+        size+=(replaceWithLength - searchForLength);
+      }
+      buffer=new StringBuffer(size + 16);
+    }
+    buffer.append(s.substring(pos,matchIndex));
+    buffer.append(replaceWith);
+  }
+  if (buffer == null) {
+    return s;
+  }
+ else {
+    buffer.append(s.substring(pos));
+    return buffer.toString();
+  }
 }
