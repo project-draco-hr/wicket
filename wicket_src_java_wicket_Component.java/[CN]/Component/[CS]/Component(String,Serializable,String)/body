@@ -1,3 +1,12 @@
 {
-  this(name,new Model(object),expression);
+  setName(name);
+  if (object instanceof PropertyModel) {
+    this.model=(PropertyModel)object;
+  }
+ else   if (object instanceof IModel) {
+    this.model=new PropertyModel((IModel)object,expression);
+  }
+ else {
+    this.model=new PropertyModel(new Model(object),expression);
+  }
 }
