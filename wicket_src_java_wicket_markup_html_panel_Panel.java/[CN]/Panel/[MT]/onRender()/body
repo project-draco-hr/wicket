@@ -7,7 +7,6 @@
   openTag.setType(XmlTag.OPEN);
   renderComponentTag(openTag);
   renderAssociatedMarkup("panel","Markup for a panel component must begin with '<wicket:panel>'");
-  final String closeTag="</" + markupStream.getTag().getName() + ">";
-  getResponse().write(closeTag);
+  getResponse().write(openTag.syntheticCloseTagString());
   markupStream.next();
 }
