@@ -3,6 +3,11 @@
   if (!markupStream.atOpenCloseTag()) {
     markupStream.throwMarkupException("A panel must be referenced by an openclose tag.");
   }
-  renderComponentTag(markupStream);
+  final ComponentTag openTag=markupStream.getTag().mutable();
+  openTag.setType(XmlTag.OPEN);
+  renderComponentTag(openTag);
   renderAssociatedMarkup("panel","Markup for a panel component must begin with '<wicket:panel>'");
+  final String closeTag="</" + markupStream.getTag().getName() + ">";
+  getResponse().write(closeTag);
+  markupStream.next();
 }
