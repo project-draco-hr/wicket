@@ -1,15 +1,11 @@
 {
   if (advance(entryGroup)) {
-    final String value=entryGroup.get(matcher);
+    final String value=entryGroup.get(matcher());
     values.add(value);
-    while (true) {
-      if (advance(separatorPattern) && advance(entryGroup)) {
-        values.add(entryGroup.get(matcher));
-      }
- else {
-        return false;
-      }
+    while (advance(separatorPattern) && advance(entryGroup)) {
+      values.add(entryGroup.get(matcher()));
     }
+    return true;
   }
   return false;
 }
