@@ -1,18 +1,37 @@
 {
-  checkComponentTag(tag,"a");
   super.onComponentTag(tag);
   if (autoEnable) {
     setEnabled(!linksTo(getPage()));
   }
   if (!enabled) {
-    tag.setName("span");
-    tag.remove("href");
+    if (tag.getName().equalsIgnoreCase("a")) {
+      tag.setName("span");
+      tag.remove("href");
+      if (popupSettings != null) {
+        tag.remove("onclick");
+      }
+    }
+ else {
+      tag.remove("onclick");
+    }
   }
  else {
-    tag.put("href",getURL().replaceAll("&","&amp;"));
-  }
-  final PopupSettings popupSettings=getPopupSettings();
-  if (popupSettings != null) {
-    tag.put("onClick",popupSettings.getPopupJavaScript());
+    String url=getURL();
+    if (tag.getName().equalsIgnoreCase("a")) {
+      tag.put("href",url.replaceAll("&","&amp;"));
+      if (popupSettings != null) {
+        tag.put("onclick",popupSettings.getPopupJavaScript());
+      }
+    }
+ else {
+      if (popupSettings != null) {
+        popupSettings.setTarget("'" + url + "'");
+        String popupScript=popupSettings.getPopupJavaScript();
+        tag.put("onclick",popupScript);
+      }
+ else {
+        tag.put("onclick","location.href='" + url + "';");
+      }
+    }
   }
 }
