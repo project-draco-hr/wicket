@@ -4,6 +4,9 @@
   if (idFromRequest != null) {
     id=Long.valueOf(idFromRequest);
   }
-  HibernateObjectModel model=createObjectModel(id);
-  addComponents(model);
+  cdModel=new HibernateObjectModel(id,CD.class,new HibernateHelperSessionDelegate());
+  add(new Label("cdTitle",new TitleModel(cdModel)));
+  FeedbackPanel feedback=new FeedbackPanel("feedback");
+  add(feedback);
+  add(new DetailForm("detailForm",feedback,cdModel));
 }
