@@ -1,0 +1,25 @@
+{
+  removeAll();
+  addDefaultComponents();
+  currentTree=tree;
+  HtmlContainer treeContainer=new HtmlContainer("tree");
+  IModel idReplacementModel=new IModel(){
+    public Object getObject(){
+      if (TYPE_FLAT.equals(currentType)) {
+        return "flattree";
+      }
+ else       if (TYPE_NESTED.equals(currentType)) {
+        return "nestedtree";
+      }
+ else {
+        return "tree";
+      }
+    }
+    public void setObject(    Object object){
+    }
+  }
+;
+  treeContainer.add(tree);
+  treeContainer.add(new ComponentTagAttributeModifier("id",idReplacementModel));
+  add(treeContainer);
+}
