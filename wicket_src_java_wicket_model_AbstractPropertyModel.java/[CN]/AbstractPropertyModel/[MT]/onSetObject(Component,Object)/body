@@ -1,0 +1,18 @@
+{
+  try {
+    Object modelObject=modelObject(component);
+    if (object instanceof String) {
+      final String string=(String)object;
+      if (!Strings.isEmpty(string)) {
+        final Class propertyType=propertyType(component);
+        if (propertyType != null) {
+          object=converterSource.getConverter().convert(string,propertyType);
+        }
+      }
+    }
+    Ognl.setValue(ognlExpression(component),getContext(),modelObject,object);
+  }
+ catch (  OgnlException e) {
+    throw new WicketRuntimeException(e);
+  }
+}

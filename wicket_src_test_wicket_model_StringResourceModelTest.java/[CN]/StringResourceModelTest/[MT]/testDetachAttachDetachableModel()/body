@@ -1,5 +1,5 @@
 {
-  IModel wsDetachModel=new AbstractDetachableModel(){
+  IModel wsDetachModel=new AbstractReadOnlyDetachableModel(){
     private transient WeatherStation station;
     protected void onAttach(){
       station=new WeatherStation();
@@ -7,7 +7,7 @@
     protected void onDetach(){
       station=null;
     }
-    protected Object onGetObject(){
+    protected Object onGetObject(    final Component component){
       return station;
     }
   }
@@ -16,7 +16,7 @@
   application.setupRequestAndResponse();
   RequestCycle cycle=new WebRequestCycle(application,application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
   model.attach();
-  Assert.assertNotNull(model.getNestedModel().getObject());
+  Assert.assertNotNull(model.getNestedModel().getObject(page));
   Assert.assertNotNull(model.getLocalizer());
   model.detach();
   Assert.assertNull(model.getLocalizer());

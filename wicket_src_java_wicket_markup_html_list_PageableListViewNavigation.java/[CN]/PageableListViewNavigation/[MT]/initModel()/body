@@ -1,5 +1,5 @@
 {
-  return new AbstractDetachableModel(){
+  return new AbstractReadOnlyDetachableModel(){
     private transient List list;
     protected void onAttach(){
       this.list=new AbstractList(){
@@ -15,7 +15,7 @@
     protected void onDetach(){
       this.list=null;
     }
-    protected Object onGetObject(){
+    protected Object onGetObject(    final Component component){
       return list;
     }
   }
