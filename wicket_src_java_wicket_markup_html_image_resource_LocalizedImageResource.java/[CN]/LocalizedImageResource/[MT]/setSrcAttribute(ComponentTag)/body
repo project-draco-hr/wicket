@@ -1,13 +1,15 @@
 {
-  if ((locale != null && locale != component.getLocale()) || (style != null && style.equals(component.getStyle()))) {
+  if ((locale != null && !locale.equals(component.getLocale())) || (style != null && !style.equals(component.getStyle()))) {
+    this.locale=component.getLocale();
+    this.style=component.getStyle();
     if (resource instanceof SharedResource) {
       if (isFactoryResource) {
         this.resource=null;
       }
  else {
-        final SharedResource namedResource=(SharedResource)resource;
-        namedResource.setLocale(locale);
-        namedResource.setStyle(style);
+        final SharedResource sharedResource=(SharedResource)resource;
+        sharedResource.setLocale(locale);
+        sharedResource.setStyle(style);
       }
     }
  else {
@@ -30,8 +32,6 @@
       }
     }
   }
-  this.locale=component.getLocale();
-  this.style=component.getStyle();
   final String url;
   if (this.resource instanceof SharedResource) {
     url=component.getPage().urlFor(((SharedResource)resource).getPath());
