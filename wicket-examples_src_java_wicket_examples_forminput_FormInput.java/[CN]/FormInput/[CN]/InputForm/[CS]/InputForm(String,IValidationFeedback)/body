@@ -1,0 +1,36 @@
+{
+  super(name,validationErrorHandler);
+  RequiredValidator requiredValidator=new RequiredValidator();
+  TextField stringInput=new TextField("stringInput",input,"stringProperty");
+  stringInput.add(requiredValidator);
+  TextField integerInput=new TextField("integerInput",input,"integerProperty");
+  integerInput.add(requiredValidator);
+  integerInput.add(new TypeValidator(Integer.class));
+  TextField doubleInput=new TextField("doubleInput",input,"doubleProperty");
+  doubleInput.add(requiredValidator);
+  doubleInput.add(new TypeValidator(Double.class));
+  TextField dateInput=new TextField("dateInput",input,"dateProperty");
+  dateInput.add(requiredValidator);
+  dateInput.add(new TypeValidator(Date.class));
+  add(stringInput);
+  add(integerInput);
+  add(doubleInput);
+  add(dateInput);
+  TextField integerInRangeInput=new TextField("integerInRangeInput",input,"integerInRangeProperty");
+  integerInRangeInput.add(requiredValidator);
+  integerInRangeInput.add(new AbstractValidator(){
+    public void validate(    FormComponent component){
+      final String input=component.getRequestString();
+      int value=Integer.parseInt(input.toString());
+      if ((value < 0) || (value > 100)) {
+        Map vars=new HashMap();
+        vars.put("input",input);
+        vars.put("lower","0");
+        vars.put("upper","100");
+        error("error.outOfRange",vars,input,component);
+      }
+    }
+  }
+);
+  add(integerInRangeInput);
+}

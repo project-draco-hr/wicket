@@ -1,10 +1,11 @@
 {
   getRequestCycle().setRedirect(true);
-  final FeedbackMessages messages=validationDelegate.validate(this);
+  getSession().getFeedbackMessages().clear();
+  validationDelegate.validate(this);
   updateFormComponentModels();
   persistFormComponentData();
-  if (messages.hasErrorMessages()) {
-    handleErrors(messages.getErrorMessages());
+  if (hasError()) {
+    handleErrors();
   }
  else {
     handleSubmit();

@@ -1,13 +1,13 @@
 {
   final String value=component.getRequestString();
-  if (isNullOrEmpty(value))   return ValidationErrorMessage.NO_MESSAGE;
-  final ConversionUtils conversionUtils=getConversionUtils();
-  final Locale localeForValidation=getLocaleForValidation();
-  try {
-    conversionUtils.convert(component.getRequestString(),type,localeForValidation);
-    return ValidationErrorMessage.NO_MESSAGE;
-  }
- catch (  ConversionException e) {
-    return getError(value,component,e);
+  if (!isNullOrEmpty(value)) {
+    final ConversionUtils conversionUtils=getConversionUtils();
+    final Locale localeForValidation=getLocaleForValidation();
+    try {
+      conversionUtils.convert(component.getRequestString(),type,localeForValidation);
+    }
+ catch (    ConversionException e) {
+      conversionError(value,component,e);
+    }
   }
 }
