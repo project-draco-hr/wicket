@@ -1,8 +1,6 @@
 {
-  if (trackChanges && component.isVersioned()) {
-    onChanged();
-    if (versionManager != null) {
-      versionManager.componentAdded(component);
-    }
+  if (getFlag(FLAG_TRACK_CHANGES) && component.isVersioned()) {
+    newVersion();
+    versionManager.componentAdded(component);
   }
 }

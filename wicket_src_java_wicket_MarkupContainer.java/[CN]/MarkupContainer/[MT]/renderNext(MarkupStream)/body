@@ -2,8 +2,8 @@
   final MarkupElement element=markupStream.get();
   if (element instanceof ComponentTag && !markupStream.atCloseTag()) {
     final ComponentTag tag=(ComponentTag)element;
-    final String componentId=tag.getId();
-    final Component component=get(componentId);
+    final String id=tag.getId();
+    final Component component=get(id);
     if (component != null) {
       component.render();
     }
@@ -23,7 +23,7 @@
         }
         container=container.findParent(MarkupContainer.class);
       }
-      markupStream.throwMarkupException("Unable to find component named '" + componentId + "' in "+ this);
+      markupStream.throwMarkupException("Unable to find component named '" + id + "' in "+ this);
     }
   }
  else {

@@ -12,16 +12,15 @@
         final ListItem child=(ListItem)iterator.next();
         if (child != null) {
           final int index=child.getIndex();
-          if ((index < firstIndex) || (index >= maxIndex)) {
+          if (index < firstIndex || index >= maxIndex) {
             iterator.remove();
           }
         }
       }
     }
     for (int i=0; i < size; i++) {
-      int index=firstIndex + i;
-      final String componentName=Integer.toString(index);
-      ListItem listItem=(ListItem)get(componentName);
+      final int index=firstIndex + i;
+      ListItem listItem=(ListItem)get(Integer.toString(index));
       if (listItem == null) {
         listItem=newItem(index);
         onBeginPopulateItem(listItem);
