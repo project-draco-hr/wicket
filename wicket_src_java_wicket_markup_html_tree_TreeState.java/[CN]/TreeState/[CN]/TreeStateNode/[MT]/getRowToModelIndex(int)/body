@@ -1,0 +1,14 @@
+{
+  TreeStateNode child;
+  int lastRow=getRow() + 1;
+  int retValue=lastRow;
+  for (int counter=0, maxCounter=getChildCount(); counter < maxCounter; counter++) {
+    child=(TreeStateNode)getChildAt(counter);
+    if (child.childIndex >= index) {
+      if (child.childIndex == index)       return child.row;
+      if (counter == 0)       return getRow() + 1 + index;
+      return child.row - (child.childIndex - index);
+    }
+  }
+  return getRow() + 1 + getTotalChildCount() - (childCount - index);
+}

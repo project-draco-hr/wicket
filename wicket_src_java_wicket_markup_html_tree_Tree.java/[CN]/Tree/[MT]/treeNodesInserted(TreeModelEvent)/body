@@ -1,0 +1,26 @@
+{
+  modelChanging();
+  TreePath parentPath=e.getTreePath();
+  TreeState treeState=getTreeState();
+  Object[] newNodes=e.getChildren();
+  int len=newNodes.length;
+  for (int i=0; i < len; i++) {
+    DefaultMutableTreeNode newNode=(DefaultMutableTreeNode)newNodes[i];
+    DefaultMutableTreeNode previousNode=newNode.getPreviousSibling();
+    int insertRow;
+    if (previousNode == null) {
+      previousNode=(DefaultMutableTreeNode)newNode.getParent();
+    }
+    if (previousNode != null) {
+      insertRow=treePathList.indexOf(previousNode) + 1;
+      if (insertRow == -1) {
+        throw new IllegalStateException("node " + previousNode + " not found in backing list");
+      }
+    }
+ else {
+      insertRow=0;
+    }
+    treePathList.add(insertRow,newNode);
+  }
+  modelChanging();
+}

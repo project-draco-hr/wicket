@@ -1,0 +1,23 @@
+{
+  if (e != null) {
+    int changedIndexs[];
+    TreeStateNode changedParent=getNodeForPath(e.getTreePath(),false,false);
+    int maxCounter;
+    changedIndexs=e.getChildIndices();
+    if (changedParent != null) {
+      if (changedIndexs != null && (maxCounter=changedIndexs.length) > 0) {
+        Object parentValue=changedParent.getUserObject();
+        for (int counter=0; counter < maxCounter; counter++) {
+          TreeStateNode child=changedParent.getChildAtModelIndex(changedIndexs[counter]);
+          if (child != null) {
+            child.setUserObject(treeModel.getChild(parentValue,changedIndexs[counter]));
+          }
+        }
+        if (changedParent.isVisible() && changedParent.isExpanded())         visibleNodesChanged();
+      }
+ else       if (changedParent == root && changedParent.isVisible() && changedParent.isExpanded()) {
+        visibleNodesChanged();
+      }
+    }
+  }
+}

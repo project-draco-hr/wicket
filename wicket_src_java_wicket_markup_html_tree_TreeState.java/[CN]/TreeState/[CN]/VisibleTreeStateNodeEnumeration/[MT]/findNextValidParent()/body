@@ -1,0 +1,17 @@
+{
+  if (parent == root) {
+    parent=null;
+    return false;
+  }
+  while (parent != null) {
+    TreeStateNode newParent=(TreeStateNode)parent.getParent();
+    if (newParent != null) {
+      nextIndex=parent.childIndex;
+      parent=newParent;
+      childCount=treeModel.getChildCount(parent.getUserObject());
+      if (updateNextIndex())       return true;
+    }
+ else     parent=null;
+  }
+  return false;
+}

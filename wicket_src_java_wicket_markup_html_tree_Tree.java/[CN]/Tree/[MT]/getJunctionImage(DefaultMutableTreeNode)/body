@@ -1,0 +1,19 @@
+{
+  if (!node.isLeaf()) {
+    final ImageResource imgResource=new ImageResource(){
+      public IResource getResource(){
+        if (isExpanded(node)) {
+          return IMG_MINUS.getResource();
+        }
+ else {
+          return IMG_PLUS.getResource();
+        }
+      }
+    }
+;
+    return new Image(JUNCTION_IMAGE_NAME,imgResource);
+  }
+ else {
+    return new Image(JUNCTION_IMAGE_NAME,IMG_BLANK);
+  }
+}
