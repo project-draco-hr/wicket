@@ -1,0 +1,20 @@
+{
+  if (false == tag.getComponentName().equals("[body]")) {
+    return false;
+  }
+  if (!markupStream.atOpenCloseTag()) {
+    markupStream.throwMarkupException("A [body] tag must be an openclose tag.");
+  }
+  renderTag(cycle,tag);
+  markupStream.next();
+  Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
+  if (border.getMarkupStream() == null) {
+    Container borderParent=border.getParent();
+    border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
+  }
+  final MarkupStream borderMarkup=border.findMarkupStream();
+  border.setMarkupStream(null);
+  border.renderBody(cycle,border.findMarkupStream(),border.getOpenTag());
+  border.setMarkupStream(borderMarkup);
+  return true;
+}

@@ -1,14 +1,10 @@
 {
-  final String componentName=getComponentName();
   final Matcher matcher=automaticComponentPattern.matcher(componentName);
   if (matcher.matches()) {
     final String command=automaticCommand.get(matcher);
     final String parameters=automaticParameters.get(matcher);
     if (command.equals("autolink")) {
-      if (!getName().equalsIgnoreCase("a")) {
-        markupStream.throwMarkupException("Automatic link can only be attached to an anchor tag");
-      }
-      final String href=getAttributes().getString("href");
+      final String href=tag.getAttributes().getString("href");
       if (href == null) {
         markupStream.throwMarkupException("Automatic link requires href attribute");
       }
