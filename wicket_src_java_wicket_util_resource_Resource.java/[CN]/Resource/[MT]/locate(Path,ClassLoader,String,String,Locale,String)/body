@@ -8,17 +8,16 @@
     extensionString="." + extension;
   }
   resourcePath=resourcePath.replace('.','/');
-  Resource resource=null;
-  if ((sourcePath != null) && (sourcePath.size() > 0)) {
-    resource=new ResourceLocator(){
+  if (path != null && path.size() > 0) {
+    final Resource resource=new ResourceLocator(){
       /** 
  * Check if file exists.
- * @param filename name of the file
- * @return null, if file not found
+ * @param name Name of the resource to find
+ * @return Resource, or null if file not found
  */
-      protected Resource locate(      final String filename){
-        log.debug("locate Resource from source path: " + filename);
-        final File file=sourcePath.find(filename);
+      protected Resource locate(      final String name){
+        log.debug("Attempting to locate resource '" + name + "' on path");
+        final File file=path.find(name);
         if (file != null) {
           return new Resource(file);
         }
@@ -30,15 +29,15 @@
       return resource;
     }
   }
-  resource=new ResourceLocator(){
+  return new ResourceLocator(){
     /** 
- * Check if file exists.
- * @param filename the resource's filename
- * @return null, if file not found
+ * Locate resource using classloader
+ * @param name Name of resource
+ * @return The resource 
  */
-    protected Resource locate(    final String filename){
-      log.debug("locate Resource from class path: " + filename);
-      final URL url=classloader.getResource(filename);
+    protected Resource locate(    final String name){
+      log.debug("Attempting to locate resource '" + name + "' on classpath");
+      final URL url=classloader.getResource(name);
       if (url != null) {
         return new Resource(url);
       }
@@ -46,5 +45,4 @@
     }
   }
 .locate(resourcePath,style,locale,extensionString);
-  return resource;
 }
