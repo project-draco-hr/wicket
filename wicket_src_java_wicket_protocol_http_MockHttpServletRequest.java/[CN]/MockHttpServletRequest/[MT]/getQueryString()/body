@@ -1,17 +1,23 @@
 {
-  if (parameters.size() == 0)   return null;
-  StringBuffer buf=new StringBuffer();
-  try {
-    for (Iterator it=parameters.keySet().iterator(); it.hasNext(); ) {
-      String name=(String)it.next();
-      String value=parameters.getString(name);
-      buf.append(URLEncoder.encode(name,"UTF-8"));
-      buf.append('=');
-      buf.append(URLEncoder.encode(value,"UTF-8"));
-      if (it.hasNext())       buf.append('&');
+  if (parameters.size() == 0) {
+    return null;
+  }
+ else {
+    final StringBuffer buf=new StringBuffer();
+    try {
+      for (Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
+        final String name=(String)iterator.next();
+        final String value=parameters.getString(name);
+        buf.append(URLEncoder.encode(name,"UTF-8"));
+        buf.append('=');
+        buf.append(URLEncoder.encode(value,"UTF-8"));
+        if (iterator.hasNext()) {
+          buf.append('&');
+        }
+      }
     }
+ catch (    UnsupportedEncodingException e) {
+    }
+    return buf.toString();
   }
- catch (  UnsupportedEncodingException e) {
-  }
-  return buf.toString();
 }

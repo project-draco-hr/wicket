@@ -2,10 +2,22 @@
   parameters.put("component",component.getPath());
   parameters.put("rendering","" + component.getPage().getRendering());
   Class c=null;
-  if (component instanceof IRedirectListener)   c=IRedirectListener.class;
- else   if (component instanceof IResourceListener)   c=IResourceListener.class;
- else   if (component instanceof IFormSubmitListener)   c=IFormSubmitListener.class;
- else   if (component instanceof ILinkListener)   c=ILinkListener.class;
- else   if (component instanceof IOnChangeListener)   c=IOnChangeListener.class;
-  if (c != null)   parameters.put("interface",Classes.name(c));
+  if (component instanceof IRedirectListener) {
+    c=IRedirectListener.class;
+  }
+ else   if (component instanceof IResourceListener) {
+    c=IResourceListener.class;
+  }
+ else   if (component instanceof IFormSubmitListener) {
+    c=IFormSubmitListener.class;
+  }
+ else   if (component instanceof ILinkListener) {
+    c=ILinkListener.class;
+  }
+ else   if (component instanceof IOnChangeListener) {
+    c=IOnChangeListener.class;
+  }
+  if (c != null) {
+    parameters.put("interface",Classes.name(c));
+  }
 }
