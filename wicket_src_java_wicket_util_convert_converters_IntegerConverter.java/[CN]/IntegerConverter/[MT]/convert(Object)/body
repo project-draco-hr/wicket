@@ -1,20 +1,15 @@
 {
   if (value instanceof Number) {
-    Number number=(Number)value;
+    return new Integer(((Number)value).intValue());
+  }
+  try {
+    final Number number=getNumberFormat().parse(value.toString());
+    if (number.doubleValue() > Integer.MAX_VALUE || number.doubleValue() < Integer.MIN_VALUE) {
+      throw new ConversionException("Integer value out of range");
+    }
     return new Integer(number.intValue());
   }
-  final String stringValue=value.toString();
-  try {
-    final NumberFormat numberFormat=getNumberFormat();
-    if (numberFormat != null) {
-      return new Integer(numberFormat.parse(stringValue).intValue());
-    }
-    return new Integer(stringValue);
-  }
  catch (  ParseException e) {
-    throw new ConversionException("Cannot convert '" + stringValue + "' to Integer",e);
-  }
-catch (  NumberFormatException e) {
-    throw new ConversionException("Cannot convert '" + stringValue + "' to Integer",e);
+    throw new ConversionException("Cannot convert '" + value + "' to Integer",e);
   }
 }

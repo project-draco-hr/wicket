@@ -1,20 +1,15 @@
 {
   if (value instanceof Number) {
-    Number number=(Number)value;
+    return new Float(((Number)value).floatValue());
+  }
+  try {
+    final Number number=getNumberFormat().parse(value.toString());
+    if (number.doubleValue() > Float.MAX_VALUE || number.doubleValue() < Float.MIN_VALUE) {
+      throw new ConversionException("Float value out of range");
+    }
     return new Float(number.floatValue());
   }
-  final String stringValue=value.toString();
-  try {
-    final NumberFormat numberFormat=getNumberFormat();
-    if (numberFormat != null) {
-      return new Float(numberFormat.parse(stringValue).floatValue());
-    }
-    return new Float(stringValue);
-  }
  catch (  ParseException e) {
-    throw new ConversionException("Cannot convert '" + stringValue + "' to Float",e);
-  }
-catch (  NumberFormatException e) {
-    throw new ConversionException("Cannot convert '" + stringValue + "' to Float",e);
+    throw new ConversionException("Cannot convert '" + value + "' to Float",e);
   }
 }

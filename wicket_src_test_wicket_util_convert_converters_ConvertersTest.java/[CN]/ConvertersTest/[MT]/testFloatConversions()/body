@@ -1,9 +1,10 @@
 {
-  assertEquals(new Float(1.1),new FloatConverter().convert(new Float(1.1)));
-  assertEquals(new Float(1.1),new FloatConverter().convert("1.1"));
-  assertEquals("1.1",new StringConverter().convert(new Float(1.1)));
+  FloatConverter converter=new FloatConverter(Locale.US);
+  assertEquals(new Float(1.1),converter.convert(new Float(1.1)));
+  assertEquals(new Float(1.1),converter.convert("1.1"));
+  assertEquals("1.1",new StringConverter(Locale.US).convert(new Float(1.1)));
   try {
-    new FloatConverter().convert("whatever");
+    converter.convert("whatever");
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

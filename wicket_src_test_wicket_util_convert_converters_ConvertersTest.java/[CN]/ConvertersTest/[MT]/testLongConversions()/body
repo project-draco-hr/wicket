@@ -1,9 +1,11 @@
 {
-  assertEquals(new Integer(10),new IntegerConverter().convert(Integer.valueOf("10")));
-  assertEquals(new Integer(10),new IntegerConverter().convert("10"));
-  assertEquals("10",new StringConverter().convert(new Integer(10)));
+  LongConverter converter=new LongConverter(Locale.US);
+  assertEquals(Locale.US,converter.getLocale());
+  assertEquals(new Long(10),converter.convert(Long.valueOf("10")));
+  assertEquals(new Long(10),converter.convert("10"));
+  assertEquals("10",new StringConverter(Locale.US).convert(new Long(10)));
   try {
-    new IntegerConverter().convert("whatever");
+    converter.convert("whatever");
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

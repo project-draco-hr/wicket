@@ -1,20 +1,15 @@
 {
   if (value instanceof Number) {
-    Number number=(Number)value;
+    return new Short(((Number)value).shortValue());
+  }
+  try {
+    final Number number=getNumberFormat().parse(value.toString());
+    if (number.doubleValue() > Short.MAX_VALUE || number.doubleValue() < Short.MIN_VALUE) {
+      throw new ConversionException("Short value out of range");
+    }
     return new Short(number.shortValue());
   }
-  final String stringValue=value.toString();
-  try {
-    final NumberFormat numberFormat=getNumberFormat();
-    if (numberFormat != null) {
-      return new Short(numberFormat.parse(stringValue).shortValue());
-    }
-    return new Short(stringValue);
-  }
  catch (  ParseException e) {
-    throw new ConversionException("Cannot convert '" + stringValue + "' to Short",e);
-  }
-catch (  NumberFormatException e) {
-    throw new ConversionException("Cannot convert '" + stringValue + "' to Short",e);
+    throw new ConversionException("Cannot convert '" + value + "' to Short",e);
   }
 }
