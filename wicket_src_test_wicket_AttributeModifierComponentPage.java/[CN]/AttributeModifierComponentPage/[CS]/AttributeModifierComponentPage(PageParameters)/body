@@ -6,13 +6,13 @@
   label2.add(new AttributeModifier("unknown",new Model("invalid")));
   add(label2);
   Label label3=new Label("label3",new Model("Label 3"));
-  label3.add(new AttributeModifier("class",true,new IModel(){
+  label3.add(new AttributeModifier("class",true,new DetachableModel(){
     private String text=null;
-    public void detach(){
+    public void onDetach(){
       System.out.println("AttributeModifier model detached");
       text=null;
     }
-    public void attach(){
+    public void onAttach(){
       System.out.println("AttributeModifier model attached");
       text="insertLabel";
     }
