@@ -4,13 +4,16 @@
   }
   this.model=new AbstractModel(){
     private Object object=null;
-    public void setObject(    final Component component,    final Object object){
-      this.object=object;
-    }
     public Object getObject(    final Component component){
       if (object == null) {
         object=getApplicationContext().getBean(beanName);
       }
+      return object;
+    }
+    public void setObject(    final Component component,    final Object object){
+      this.object=object;
+    }
+    public Object getNestedModel(){
       return object;
     }
   }

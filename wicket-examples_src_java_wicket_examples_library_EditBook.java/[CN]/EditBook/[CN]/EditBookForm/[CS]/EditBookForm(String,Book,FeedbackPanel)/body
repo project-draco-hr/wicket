@@ -1,5 +1,5 @@
 {
-  super(componentName,book,feedback);
+  super(componentName,new CompoundPropertyModel(book),feedback);
   final TextField title=new TextField("title");
   title.add(RequiredValidator.getInstance());
   title.add(LengthValidator.max(30));
@@ -18,5 +18,5 @@
   add(new DropDownChoice("companionBook",books));
   final RadioChoice relatedBook=new RadioChoice("relatedBook",books);
   add(relatedBook);
-  add(new ListMultipleChoice("writingStyles",new PropertyModel(getModel(),"writingStyles"),EnumeratedType.getValues(Book.WritingStyle.class)));
+  add(new ListMultipleChoice("writingStyles",EnumeratedType.getValues(Book.WritingStyle.class)));
 }
