@@ -5,15 +5,7 @@
  */
     private static final long serialVersionUID=319659497178801753L;
     public Page getPage(){
-      try {
-        return (Page)c.newInstance();
-      }
- catch (      InstantiationException e) {
-        throw new WicketRuntimeException("Cannot instantiate page class " + c,e);
-      }
-catch (      IllegalAccessException e) {
-        throw new WicketRuntimeException("Cannot instantiate page class " + c,e);
-      }
+      return Session.get().getPageFactory().newPage(c);
     }
     public Class getPageIdentity(){
       return c;
