@@ -2,18 +2,17 @@
   checkTag(tag,"img");
   super.handleComponentTag(cycle,tag);
   final String resourceToLoad;
-  String imageResource=(String)getModelObject();
+  final String imageResource=(String)getModelObject();
   if (imageResource != null) {
     resourceToLoad=imageResource;
   }
  else {
     resourceToLoad=tag.getString("src");
   }
-  this.resource=getImageResource(resourceToLoad);
-  if (this.resource == null) {
+  this.image=getResource(resourceToLoad);
+  if (this.image == null) {
     throw new RenderException("Could not find image resource " + resourceToLoad);
   }
-  String url=cycle.urlFor(this,IResourceListener.class);
-  url=url.replaceAll("&","&amp;");
-  tag.put("src",url);
+  final String url=cycle.urlFor(this,IResourceListener.class);
+  tag.put("src",url.replaceAll("&","&amp;"));
 }

@@ -1,6 +1,6 @@
 {
-  if ((source.indexOf("..") != -1) || (source.indexOf("/") != -1)) {
-    throw new RenderException("Source for resource image cannot contain a path");
+  if (source.indexOf("..") != -1 || source.indexOf("/") != -1) {
+    throw new RenderException("Source for image resource cannot contain a path");
   }
   final String path=Classes.packageName(getPage().getClass()) + "." + source;
   return Resource.locate(getApplicationSettings().getSourcePath(),getPage().getClass().getClassLoader(),path,getStyle(),getLocale(),null);
