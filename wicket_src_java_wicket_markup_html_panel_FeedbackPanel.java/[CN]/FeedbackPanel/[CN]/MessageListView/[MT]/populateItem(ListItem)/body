@@ -2,8 +2,9 @@
   final FeedbackMessage message=(FeedbackMessage)listItem.getModelObject();
   IModel replacementModel=new IModel(){
     /** 
- * Returns feedbackPanel + the message level, eg 'feedbackPanelERROR'.
- * This is used as the class of the li/ span elements.
+ * Returns feedbackPanel + the message level, eg
+ * 'feedbackPanelERROR'. This is used as the class of the li /
+ * span elements.
  * @see wicket.model.IModel#getObject()
  */
     public Object getObject(){
@@ -16,8 +17,8 @@
     }
   }
 ;
-  Label label=new Label("message",message,"message");
-  ComponentTagAttributeModifier levelModifier=new ComponentTagAttributeModifier("class",replacementModel);
+  final Label label=new Label("message",message,"message");
+  final ComponentTagAttributeModifier levelModifier=new ComponentTagAttributeModifier("class",replacementModel);
   label.add(levelModifier);
   listItem.add(levelModifier);
   listItem.add(label);
