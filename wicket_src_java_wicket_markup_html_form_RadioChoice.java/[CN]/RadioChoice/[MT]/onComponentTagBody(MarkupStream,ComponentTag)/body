@@ -6,7 +6,12 @@
     final String label=choice.getDisplayValue();
     if (label != null) {
       buffer.append(getPrefix());
-      buffer.append("<input name=\"" + getPath() + "\""+ " type=\"radio\""+ (isSelected(choice) ? " checked" : "")+ " value=\""+ choice.getId()+ "\">");
+      buffer.append("<input name=\"" + getPath() + "\""+ " type=\"radio\""+ (isSelected(choice) ? " checked" : "")+ " value=\""+ choice.getId()+ "\"");
+      if (wantOnSelectionChangedNotifications()) {
+        final String url=urlFor(IOnChangeListener.class);
+        buffer.append(" onclick=\"location.href='" + url + "&"+ getPath()+ "="+ choice.getId()+ "';\"");
+      }
+      buffer.append(">");
       buffer.append(getLocalizer().getString(getId() + "." + label,this,label));
       buffer.append(getSuffix());
     }

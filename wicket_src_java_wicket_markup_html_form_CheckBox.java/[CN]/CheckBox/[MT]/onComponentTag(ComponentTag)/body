@@ -15,5 +15,9 @@
       throw new WicketRuntimeException("Invalid boolean value \"" + value + "\"",e);
     }
   }
+  if (wantOnSelectionChangedNotifications()) {
+    final String url=urlFor(IOnChangeListener.class);
+    tag.put("onclick","location.href='" + url + "&"+ getPath()+ "=' + this.checked;");
+  }
   super.onComponentTag(tag);
 }
