@@ -1,5 +1,6 @@
 {
-  if (getExpression() == null || getExpression().trim().length() == 0) {
+  String expr=getExpression();
+  if (expr == null || expr.trim().length() == 0) {
     return model.getObject();
   }
   IModel theModel=getModel();
@@ -11,10 +12,11 @@
     return null;
   }
   try {
-    Object raw=Ognl.getValue(getExpression(),getContext(),modelObject);
+    OgnlContext ctx=getContext();
+    Object raw=Ognl.getValue(expr,ctx,modelObject);
     if (applyFormatting) {
-      FormattingUtils formattingUtils=converterRegistry.getFormattingUtils();
-      return formattingUtils.getObjectFormatted(raw,getLocale(),getFormatPattern(),getFormatPattern());
+      IStringConverter converter=component.getConverter();
+      return converter.toString(raw);
     }
  else {
       return raw;

@@ -1,0 +1,14 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (Number.class.isAssignableFrom(c)) {
+    String pattern=getPattern();
+    Number temp=getNumber(value);
+    return (temp instanceof Double) ? (Double)temp : new Double(temp.doubleValue());
+  }
+  if (String.class.isAssignableFrom(c)) {
+    return toString(value);
+  }
+  throw new ConversionException(this + " cannot handle conversions of type " + c);
+}

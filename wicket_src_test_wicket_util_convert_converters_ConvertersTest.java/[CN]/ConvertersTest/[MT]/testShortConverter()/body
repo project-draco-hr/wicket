@@ -1,0 +1,23 @@
+{
+  ShortConverter conv=new ShortConverter();
+  assertEquals("10",conv.convert(Short.valueOf("10"),String.class));
+  assertEquals(Short.valueOf("10"),conv.convert("10",Short.class));
+  try {
+    conv.convert("true",Boolean.class);
+    fail("illegal conversion attempt should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    conv.convert("1.1",Short.class);
+    fail("illegal conversion attempt should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    conv.convert("32768",Short.class);
+    fail("illegal conversion attempt should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

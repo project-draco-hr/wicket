@@ -1,0 +1,29 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (Boolean.class.isAssignableFrom(c)) {
+    if (value instanceof Boolean) {
+      return (value);
+    }
+    try {
+      String stringValue=value.toString();
+      if (stringValue.equalsIgnoreCase("yes") || stringValue.equalsIgnoreCase("y") || stringValue.equalsIgnoreCase("true")|| stringValue.equalsIgnoreCase("on")|| stringValue.equalsIgnoreCase("1")) {
+        return (Boolean.TRUE);
+      }
+ else       if (stringValue.equalsIgnoreCase("no") || stringValue.equalsIgnoreCase("n") || stringValue.equalsIgnoreCase("false")|| stringValue.equalsIgnoreCase("off")|| stringValue.equalsIgnoreCase("0")) {
+        return (Boolean.FALSE);
+      }
+ else {
+        throw new ConversionException(stringValue);
+      }
+    }
+ catch (    ClassCastException e) {
+      throw new ConversionException(e);
+    }
+  }
+ else   if (String.class.isAssignableFrom(c)) {
+    return toString(value);
+  }
+  throw new ConversionException(this + " cannot handle conversions of type " + c);
+}

@@ -1,0 +1,13 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (Number.class.isAssignableFrom(c)) {
+    Number temp=getNumber(value);
+    return (temp instanceof Float) ? (Float)temp : new Float(temp.floatValue());
+  }
+  if (String.class.isAssignableFrom(c)) {
+    return toString(value);
+  }
+  throw new ConversionException(this + " cannot handle conversions of type " + c);
+}

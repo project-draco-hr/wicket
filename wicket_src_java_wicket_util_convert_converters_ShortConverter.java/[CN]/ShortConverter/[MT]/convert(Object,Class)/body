@@ -1,0 +1,23 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (Number.class.isAssignableFrom(c)) {
+    if (value instanceof Short) {
+      return (value);
+    }
+ else     if (value instanceof Number) {
+      return new Short(((Number)value).shortValue());
+    }
+    try {
+      return (new Short(value.toString()));
+    }
+ catch (    Exception e) {
+      throw new ConversionException(e);
+    }
+  }
+  if (String.class.isAssignableFrom(c)) {
+    return toString(value);
+  }
+  throw new ConversionException(this + " cannot handle conversions of type " + c);
+}

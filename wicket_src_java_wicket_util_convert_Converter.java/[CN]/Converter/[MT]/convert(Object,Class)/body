@@ -1,0 +1,24 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (c == null) {
+    throw new IllegalArgumentException("parameter c(lass( must be not-null");
+  }
+  IConverter converter=get(c);
+  if (converter == null) {
+    converter=fallThroughConverter;
+  }
+  if (converter instanceof ILocalizable) {
+    ((ILocalizable)converter).setLocale(locale);
+  }
+  try {
+    return converter.convert(value,c);
+  }
+ catch (  ConversionException e) {
+    throw e.setConverter(converter).setLocale(locale).setTargetType(c).setTriedValue(value);
+  }
+catch (  Exception e) {
+    throw new ConversionException(e).setConverter(converter).setLocale(locale).setTargetType(c).setTriedValue(value);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  if (value == null) {
+    return null;
+  }
+  if (Character.class.isAssignableFrom(c)) {
+    if (value instanceof Character) {
+      return (value);
+    }
+    try {
+      return (new Character(value.toString().charAt(0)));
+    }
+ catch (    Exception e) {
+      throw new ConversionException(e);
+    }
+  }
+  if (String.class.isAssignableFrom(c)) {
+    return toString(value);
+  }
+  throw new ConversionException(this + " cannot handle conversions of type " + c);
+}

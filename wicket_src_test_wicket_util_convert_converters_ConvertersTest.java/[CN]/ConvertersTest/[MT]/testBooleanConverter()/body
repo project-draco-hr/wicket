@@ -1,0 +1,13 @@
+{
+  BooleanConverter conv=new BooleanConverter();
+  assertEquals("true",conv.convert(Boolean.TRUE,String.class));
+  assertEquals("false",conv.convert(Boolean.FALSE,String.class));
+  assertEquals(Boolean.TRUE,conv.convert("true",Boolean.class));
+  assertEquals(Boolean.FALSE,conv.convert("false",Boolean.class));
+  try {
+    conv.convert("foo",Integer.class);
+    fail("illegal conversion attempt should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

@@ -1,0 +1,8 @@
+{
+  final String pattern=getPattern();
+  final Number parsed=(Number)super.parse(value,pattern);
+  if (Math.abs(parsed.doubleValue() - parsed.floatValue()) > (parsed.floatValue() * 0.00001)) {
+    throw new ConversionException("Suplied number is not of type Float: " + parsed.longValue());
+  }
+  return new Float(parsed.floatValue());
+}

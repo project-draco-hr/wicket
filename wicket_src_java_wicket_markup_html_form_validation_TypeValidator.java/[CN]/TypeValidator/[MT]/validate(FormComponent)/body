@@ -1,10 +1,10 @@
 {
   final String value=component.getRequestString();
   if (!isNullOrEmpty(value)) {
-    final ConversionUtils conversionUtils=getConversionUtils();
+    final IConverter converter=component.getConverter();
     final Locale localeForValidation=getLocaleForValidation();
     try {
-      conversionUtils.convert(component.getRequestString(),type,localeForValidation);
+      converter.convert(value,type);
     }
  catch (    ConversionException e) {
       conversionError(value,component,e);

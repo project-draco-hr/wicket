@@ -1,0 +1,10 @@
+{
+  if (converter == null) {
+    IConverterFactory converterFactory=getApplication().getConverterFactory();
+    converter=converterFactory.newConverter();
+    if (converter instanceof ILocalizable) {
+      ((ILocalizable)converter).setLocale(locale);
+    }
+  }
+  return converter;
+}

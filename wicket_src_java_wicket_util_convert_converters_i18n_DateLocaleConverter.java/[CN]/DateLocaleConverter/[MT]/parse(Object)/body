@@ -1,0 +1,17 @@
+{
+  final String pattern=getPattern();
+  DateFormat formatter=getFormat();
+  try {
+    return formatter.parse((String)value);
+  }
+ catch (  ParseException e) {
+    String dpat=null;
+    if (pattern != null) {
+      dpat=pattern;
+    }
+ else     if (formatter instanceof SimpleDateFormat) {
+      dpat=((SimpleDateFormat)formatter).toLocalizedPattern();
+    }
+    throw new ConversionException(e).setPattern(dpat);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  final Locale locale=getLocale();
+  final String pattern=getPattern();
+  DecimalFormat formatter=(DecimalFormat)DecimalFormat.getInstance(locale);
+  if (pattern != null) {
+    if (isLocPattern()) {
+      formatter.applyLocalizedPattern(pattern);
+    }
+ else {
+      formatter.applyPattern(pattern);
+    }
+  }
+  return formatter;
+}
