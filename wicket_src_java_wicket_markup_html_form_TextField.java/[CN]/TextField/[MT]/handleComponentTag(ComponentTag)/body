@@ -2,5 +2,10 @@
   checkTag(tag,"input");
   checkAttribute(tag,"type","text");
   super.handleComponentTag(tag);
-  tag.put("value",getModelObjectAsString());
+  if (invalidInput == null) {
+    tag.put("value",getModelObjectAsString());
+  }
+ else {
+    tag.put("value",invalidInput);
+  }
 }

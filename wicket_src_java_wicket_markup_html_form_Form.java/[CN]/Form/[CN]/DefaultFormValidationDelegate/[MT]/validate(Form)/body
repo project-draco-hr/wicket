@@ -2,14 +2,18 @@
   final FeedbackMessages messages=FeedbackMessages.get();
   form.visitChildren(FormComponent.class,new IVisitor(){
     public Object component(    final Component component){
-      final ValidationErrorMessage message=((FormComponent)component).validate();
+      FormComponent formComponent=(FormComponent)component;
+      final ValidationErrorMessage message=(formComponent).validate();
       if (message != ValidationErrorMessage.NO_MESSAGE) {
         if (log.isDebugEnabled()) {
           log.debug("validation error: " + message);
         }
         messages.add(message);
-        ValidationErrorModelDecorator deco=new ValidationErrorModelDecorator(component,message.getInput());
-        component.setModel(deco);
+        formComponent.setValid(false);
+        formComponent.invalid();
+      }
+ else {
+        formComponent.setValid(true);
       }
       return IVisitor.CONTINUE_TRAVERSAL;
     }

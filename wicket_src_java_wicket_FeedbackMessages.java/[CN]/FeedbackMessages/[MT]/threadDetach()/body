@@ -4,19 +4,6 @@
     if (log.isDebugEnabled()) {
       log.debug("FeedbackMessages " + currentMessages + " released for thread "+ Thread.currentThread());
     }
-    final Set components=currentMessages.getErrorReporters();
-    for (final Iterator i=components.iterator(); i.hasNext(); ) {
-      Component component=(Component)i.next();
-      IModel currentModel=component.getModel();
-      if (currentModel instanceof ValidationErrorModelDecorator) {
-        ValidationErrorModelDecorator decorator=((ValidationErrorModelDecorator)currentModel);
-        IModel originalModel=originalModel=decorator.getOriginalModel();
-        while (originalModel instanceof ValidationErrorModelDecorator) {
-          originalModel=((ValidationErrorModelDecorator)originalModel).getOriginalModel();
-        }
-        component.setModel(originalModel);
-      }
-    }
     current.set(null);
   }
  else {
