@@ -1,7 +1,9 @@
 {
-  final IModel model=getPage().getModel();
-  if (model != null) {
-    return model;
+  for (Component current=getParent(); current != null; current=current.getParent()) {
+    final IModel model=current.getModel();
+    if (model instanceof CompoundPropertyModel) {
+      return model;
+    }
   }
   return null;
 }

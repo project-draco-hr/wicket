@@ -1,6 +1,9 @@
 {
   final IModel model=getModel();
   if (model != null) {
+    if (getFlag(FLAG_HAS_ROOT_MODEL)) {
+      return getRootModel(model);
+    }
     return model.getObject(this);
   }
  else {

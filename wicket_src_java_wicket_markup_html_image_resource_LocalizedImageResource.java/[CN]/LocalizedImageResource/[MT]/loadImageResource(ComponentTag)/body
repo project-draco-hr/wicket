@@ -15,23 +15,21 @@
     }
   }
   if (resource == null) {
-    final String modelString=component.getModelObjectAsString();
-    final String resourcePath;
-    if (Strings.isEmpty(modelString)) {
-      resourcePath=tag.getString("src");
+    final String src=tag.getString("src");
+    if (src != null) {
+      this.resource=loadStaticImage(src);
     }
  else {
-      resourcePath=modelString;
+      final String value=tag.getString("value");
+      if (value != null) {
+        this.resource=newImage(value);
+        this.isFactoryResource=true;
+      }
+ else {
+        this.resource=loadStaticImage(component.getModelObjectAsString());
+      }
     }
-    if (!Strings.isEmpty(resourcePath)) {
-      final Package basePackage=component.findParentWithAssociatedMarkup().getClass().getPackage();
-      this.resource=StaticImageResource.get(basePackage,resourcePath,component.getLocale(),component.getStyle());
-    }
-    if (resource == null) {
-      this.resource=newImageResource(tag);
-      this.isFactoryResource=true;
-    }
-    this.locale=component.getLocale();
-    this.style=component.getStyle();
   }
+  this.locale=component.getLocale();
+  this.style=component.getStyle();
 }

@@ -1,5 +1,10 @@
 {
-  if (model != null) {
-    model.detach();
+  if (model instanceof CompoundPropertyModel && !getFlag(FLAG_HAS_ROOT_MODEL)) {
+    this.model=null;
+  }
+ else {
+    if (model != null) {
+      model.detach();
+    }
   }
 }
