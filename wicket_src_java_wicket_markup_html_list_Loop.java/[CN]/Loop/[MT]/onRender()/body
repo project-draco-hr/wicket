@@ -1,0 +1,23 @@
+{
+  final MarkupStream markupStream=findMarkupStream();
+  final int markupStart=markupStream.getCurrentIndex();
+  final int size=getSize();
+  if (size > 0) {
+    for (int i=0; i < size; i++) {
+      final String componentName=Integer.toString(i);
+      LoopItem loopItem=(LoopItem)get(componentName);
+      if (loopItem == null) {
+        loopItem=newItem(i);
+        onBeginPopulateItem(loopItem);
+        populateItem(loopItem);
+        add(loopItem);
+      }
+      markupStream.setCurrentIndex(markupStart);
+      renderItem(loopItem,i >= (size - 1));
+    }
+  }
+ else {
+    removeAll();
+    markupStream.skipComponent();
+  }
+}
