@@ -1,0 +1,17 @@
+{
+  final TabPanelModel model=(TabPanelModel)tabs.get(index);
+  if (!model.isEnabled()) {
+    throw new RuntimeException("Tab is disabled.");
+  }
+  if (model.isSelected()) {
+    selectedTab=index;
+    return;
+  }
+  final TabPanelModel old=getSelectedTabModel();
+  if (old != null) {
+    old.setSelected(false);
+  }
+  model.setSelected(true);
+  selectedTab=index;
+  replace(model.getComponent());
+}
