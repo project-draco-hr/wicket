@@ -1,23 +1,24 @@
 {
-  StringBuffer buffer=null;
-  final int searchForLength=searchFor.length();
-  int pos=0;
-  for (int matchIndex; -1 != (matchIndex=s.indexOf(searchFor,pos)); pos=matchIndex + searchForLength) {
-    if (buffer == null) {
-      int size=s.length();
-      final int replaceWithLength=replaceWith.length();
-      if (replaceWithLength > searchForLength) {
-        size+=(replaceWithLength - searchForLength);
-      }
-      buffer=new StringBuffer(size + 16);
-    }
-    buffer.append(s.substring(pos,matchIndex));
-    buffer.append(replaceWith);
-  }
-  if (buffer == null) {
+  int matchIndex=s.indexOf(searchFor);
+  if (matchIndex == -1) {
     return s;
   }
  else {
+    int size=s.length();
+    final int replaceWithLength=replaceWith.length();
+    final int searchForLength=searchFor.length();
+    if (replaceWithLength > searchForLength) {
+      size+=(replaceWithLength - searchForLength);
+    }
+    final StringBuffer buffer=new StringBuffer(size + 16);
+    int pos=0;
+    do {
+      buffer.append(s.substring(pos,matchIndex));
+      buffer.append(replaceWith);
+      pos=matchIndex + searchForLength;
+      matchIndex=s.indexOf(searchFor,pos);
+    }
+ while (matchIndex != -1);
     buffer.append(s.substring(pos));
     return buffer.toString();
   }
