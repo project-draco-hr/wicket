@@ -3,7 +3,7 @@
   if (element instanceof ComponentTag && !markupStream.atCloseTag()) {
     final ComponentTag tag=(ComponentTag)element;
     final String componentName=tag.getComponentName();
-    Component component=get(componentName);
+    final Component component=get(componentName);
     if (component != null) {
       if (log.isDebugEnabled()) {
         log.debug("Begin render of sub-component " + component);
@@ -18,13 +18,13 @@
       final Iterator iter=componentResolvers.iterator();
       while (iter.hasNext()) {
         final IComponentResolver resolver=(IComponentResolver)iter.next();
-        if (resolver.resolve(this,markupStream,tag) == true) {
+        if (resolver.resolve(this,markupStream,tag)) {
           return;
         }
       }
       Container container=this;
       while (container != null) {
-        if (container.resolveComponent(markupStream,tag) == true) {
+        if (container.resolveComponent(markupStream,tag)) {
           return;
         }
         container=container.findParent(Container.class);
