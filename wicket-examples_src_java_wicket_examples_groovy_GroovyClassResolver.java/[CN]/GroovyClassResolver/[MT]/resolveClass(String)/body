@@ -1,22 +1,28 @@
 {
-  Class clazz=(Class)classCache.get(classname);
-  if (clazz != null) {
-    return clazz;
-  }
-  final Resource resource=Resource.locate(classname,".groovy");
-  if (resource != null) {
-    try {
-      clazz=loadGroovyFileAndWatchForChanges(classname,resource);
-      if (clazz != null) {
-        return clazz;
-      }
-    }
- catch (    WicketRuntimeException ex) {
-      throw new WicketRuntimeException("Unable to load class with name: " + classname,ex);
-    }
+  final Class pageClass=defaultClassResolver.resolveClass(classname);
+  if (pageClass != null) {
+    return pageClass;
   }
  else {
-    throw new WicketRuntimeException("File not found: " + resource);
+    Class groovyPageClass=(Class)classCache.get(classname);
+    if (groovyPageClass != null) {
+      return groovyPageClass;
+    }
+    final Resource resource=Resource.locate(classname,".groovy");
+    if (resource != null) {
+      try {
+        groovyPageClass=loadGroovyFileAndWatchForChanges(classname,resource);
+        if (groovyPageClass != null) {
+          return groovyPageClass;
+        }
+      }
+ catch (      WicketRuntimeException ex) {
+        throw new WicketRuntimeException("Unable to load class with name: " + classname,ex);
+      }
+    }
+ else {
+      throw new WicketRuntimeException("File not found: " + resource);
+    }
+    throw new WicketRuntimeException("Unable to load class with name: " + classname);
   }
-  throw new WicketRuntimeException("Unable to load class with name: " + classname);
 }
