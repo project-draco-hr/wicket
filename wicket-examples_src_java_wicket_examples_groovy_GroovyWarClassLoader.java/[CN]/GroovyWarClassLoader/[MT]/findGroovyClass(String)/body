@@ -1,0 +1,34 @@
+{
+  log.debug("class name: " + name);
+  try {
+    return super.findGroovyClass(name);
+  }
+ catch (  ClassNotFoundException ex) {
+    String filename=Strings.replaceAll(name,".","/") + ".groovy";
+    final URL url=getResource(filename);
+    if (url != null) {
+      try {
+        final InputStream in=url.openStream();
+        if (in != null) {
+          Class clazz=parseClass(in);
+          if (clazz != null) {
+            return clazz;
+          }
+        }
+ else {
+          log.warn("Groovy file not found: " + filename);
+        }
+      }
+ catch (      CompilationFailedException e) {
+        throw new ClassNotFoundException("Error parsing groovy file: " + filename,e);
+      }
+catch (      IOException e) {
+        throw new ClassNotFoundException("Error reading groovy file: " + filename,e);
+      }
+catch (      Throwable e) {
+        throw new ClassNotFoundException("Error while reading groovy file: " + filename,e);
+      }
+    }
+    throw ex;
+  }
+}

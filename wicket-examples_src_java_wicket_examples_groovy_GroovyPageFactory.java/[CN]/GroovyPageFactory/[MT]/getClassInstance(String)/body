@@ -1,0 +1,23 @@
+{
+  Class clazz=(Class)classCache.get(classname);
+  if (clazz != null) {
+    return clazz;
+  }
+  String filename=Strings.replaceAll(classname,".","/") + ".groovy";
+  final URL url=new URL(filename);
+  if (url != null) {
+    try {
+      clazz=loadGroovyFileAndWatchForChanges(classname,url);
+      if (clazz != null) {
+        return clazz;
+      }
+    }
+ catch (    RenderException ex) {
+      throw new RenderException("Unable to load class with name: " + classname,ex);
+    }
+  }
+ else {
+    throw new RenderException("File not found: " + url.getAbsolutePath());
+  }
+  throw new RenderException("Unable to load class with name: " + classname);
+}
