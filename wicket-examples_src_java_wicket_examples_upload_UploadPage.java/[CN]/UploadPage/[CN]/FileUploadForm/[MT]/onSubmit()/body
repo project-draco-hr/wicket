@@ -1,16 +1,12 @@
 {
-  FileItem item=(FileItem)fileModel.getObject(this);
-  if (item != null) {
-    String fileName=item.getName();
-    fileName=afterLast(fileName,':');
-    fileName=afterLast(fileName,'\\');
-    fileName=afterLast(fileName,'/');
-    log.info("uploaded item: " + fileName);
-    File newFile=new File(uploadFolder,fileName);
+  final FileUpload upload=fileUploadField.getFileUpload();
+  if (upload != null) {
+    log.info("Uploaded file: " + upload.getFile());
+    File newFile=new File(uploadFolder,upload.getFile().getName());
     checkFileExists(newFile);
     try {
       newFile.createNewFile();
-      item.write(newFile);
+      upload.writeTo(newFile);
     }
  catch (    Exception e) {
       throw new IllegalStateException("Unable to write file");
