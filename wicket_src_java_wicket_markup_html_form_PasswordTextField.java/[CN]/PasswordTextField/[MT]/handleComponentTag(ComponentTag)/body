@@ -2,10 +2,5 @@
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","password");
   super.handleComponentTag(tag);
-  if (isResetPassword()) {
-    tag.put("value","");
-  }
- else {
-    tag.put("value",getModelObjectAsString());
-  }
+  tag.put("value",getResetPassword() ? "" : getModelObjectAsString());
 }

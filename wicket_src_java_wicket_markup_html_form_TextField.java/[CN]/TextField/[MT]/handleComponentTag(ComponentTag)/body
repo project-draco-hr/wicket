@@ -1,11 +1,13 @@
 {
   checkComponentTag(tag,"input");
-  checkComponentTagAttribute(tag,"type","text");
+  if (getClass() == TextField.class) {
+    checkComponentTagAttribute(tag,"type","text");
+  }
   super.handleComponentTag(tag);
-  if (invalidInput == null) {
+  if (getInvalidInput() == null) {
     tag.put("value",getModelObjectAsString());
   }
  else {
-    tag.put("value",invalidInput);
+    tag.put("value",getInvalidInput());
   }
 }
