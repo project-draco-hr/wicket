@@ -6,7 +6,6 @@
     final Session session=getSessionFactory().newSession();
     if (session instanceof WebSession) {
       webSession=(WebSession)session;
-      webSession.sessionAttributeName=sessionAttributeName;
     }
  else {
       throw new WicketRuntimeException("Session created by a WebApplication session factory must be a subclass of WebSession");
@@ -14,7 +13,6 @@
     webSession.setLocale(request.getLocale());
     httpSession.setAttribute(sessionAttributeName,webSession);
   }
-  webSession.httpSession=httpSession;
-  Session.set(webSession);
+  webSession.init(httpSession,sessionAttributeName);
   return webSession;
 }
