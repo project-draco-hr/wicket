@@ -12,11 +12,9 @@
     originalResponse=cycle.getResponse();
     cycle.setResponse(NullResponse.getInstance());
   }
-synchronized (getModelLock()) {
-    onRender();
-    rendered();
-    detachModels();
-  }
+  onRender();
+  rendered();
+  detachModels();
   if (isVisible) {
     if (log.isDebugEnabled()) {
       log.debug("End render " + this);
