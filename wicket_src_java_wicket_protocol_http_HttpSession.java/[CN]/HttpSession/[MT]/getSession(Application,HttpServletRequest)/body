@@ -1,10 +1,11 @@
 {
   final javax.servlet.http.HttpSession httpServletSession=request.getSession(true);
-  HttpSession session=(HttpSession)httpServletSession.getAttribute("session");
+  final String sessionAttributeName="session" + request.getServletPath();
+  HttpSession session=(HttpSession)httpServletSession.getAttribute(sessionAttributeName);
   if (session == null) {
     session=new HttpSession(application,httpServletSession);
     session.setLocale(request.getLocale());
-    httpServletSession.setAttribute("session",session);
+    httpServletSession.setAttribute(sessionAttributeName,session);
   }
  else {
     session.httpServletSession=httpServletSession;
