@@ -1,7 +1,7 @@
 {
   final MarkupParser parser=new MarkupParser(new XmlPullParser(),"wcn");
-  ResourceLocator locator=new ResourceLocator(new ClassLoaderResourceLocator());
-  IResource resource=locator.locate(this.getClass(),"1",null,"html");
+  ResourceStreamLocator locator=new ResourceStreamLocator(new ClassLoaderResourceStreamLocator());
+  IResourceStream resource=locator.locate(this.getClass(),"1",null,"html");
   Markup tokens=parser.readAndParse(resource);
   log.info("tok(0)=" + tokens.get(0));
   resource=locator.locate(this.getClass(),"2",null,"html");

@@ -1,0 +1,42 @@
+{
+  final Application application=getApplication();
+  try {
+    final ModificationWatcher watcher=application.getResourceWatcher();
+    if (watcher != null) {
+      watcher.add(markupResource,new IChangeListener(){
+        public void onChange(){
+synchronized (markupCache) {
+            try {
+              log.info("Reloading markup from " + markupResource);
+              loadMarkup(application,key,markupResource);
+            }
+ catch (            ParseException e) {
+              log.error("Unable to parse markup from " + markupResource,e);
+            }
+catch (            ResourceStreamNotFoundException e) {
+              log.error("Unable to find markup from " + markupResource,e);
+            }
+catch (            IOException e) {
+              log.error("Unable to read markup from " + markupResource,e);
+            }
+          }
+        }
+      }
+);
+    }
+    log.info("Loading markup from " + markupResource);
+    return loadMarkup(application,key,markupResource);
+  }
+ catch (  ParseException e) {
+    throw new MarkupException(markupResource,exceptionMessage("Unable to parse markup from " + markupResource),e);
+  }
+catch (  MarkupException e) {
+    throw new MarkupException(markupResource,exceptionMessage(e.getMessage()));
+  }
+catch (  ResourceStreamNotFoundException e) {
+    throw new MarkupException(markupResource,exceptionMessage("Unable to find markup from " + markupResource),e);
+  }
+catch (  IOException e) {
+    throw new MarkupException(markupResource,exceptionMessage("Unable to read markup from " + markupResource),e);
+  }
+}

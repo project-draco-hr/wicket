@@ -1,8 +1,8 @@
 {
   executeMultiple(new Path());
-  ResourceLocator locator=new ResourceLocator(new ClassLoaderResourceLocator());
-  IResource resource=locator.locate(getClass(),null,null,"txt");
-  String path=Strings.replaceAll(((UrlResource)resource).getFile().getAbsolutePath(),"\\","/");
+  ResourceStreamLocator locator=new ResourceStreamLocator(new ClassLoaderResourceStreamLocator());
+  IResourceStream resource=locator.locate(getClass(),null,null,"txt");
+  String path=Strings.replaceAll(((UrlResourceStream)resource).getFile().getAbsolutePath(),"\\","/");
   path=Strings.beforeLastPathComponent(path,'/') + "/sourcePath";
   executeMultiple(new Path(new Folder(path)));
 }

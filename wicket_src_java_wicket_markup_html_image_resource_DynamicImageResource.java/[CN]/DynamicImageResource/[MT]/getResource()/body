@@ -1,5 +1,5 @@
 {
-  return new IResource(){
+  return new IResourceStream(){
     /** 
  * Transient input stream to resource 
  */
@@ -14,7 +14,7 @@
       }
     }
     /** 
- * @see wicket.util.resource.IResource#getContentType()
+ * @see wicket.util.resource.IResourceStream#getContentType()
  */
     public String getContentType(){
       return "image/" + format;
@@ -22,7 +22,7 @@
     /** 
  * @see wicket.util.resource.IResourceStream#getInputStream()
  */
-    public InputStream getInputStream() throws ResourceNotFoundException {
+    public InputStream getInputStream() throws ResourceStreamNotFoundException {
       if (inputStream == null) {
         inputStream=new ByteArrayInputStream(getImageData());
         lastModifiedTime=Time.now();

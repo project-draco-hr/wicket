@@ -1,20 +1,20 @@
 {
   final XmlPullParser parser=new XmlPullParser();
-  parser.parse(new StringResource("<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>"));
+  parser.parse(new StringResourceStream("<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>"));
   assertEquals("iso-8859-1",parser.getEncoding());
   XmlTag tag=(XmlTag)parser.nextTag();
   assertNull(tag);
-  parser.parse(new StringResource("<?xml version=\"1.0\" encoding='iso-8859-1' ?> test test"));
+  parser.parse(new StringResourceStream("<?xml version=\"1.0\" encoding='iso-8859-1' ?> test test"));
   assertEquals("iso-8859-1",parser.getEncoding());
   tag=(XmlTag)parser.nextTag();
   assertNull(tag);
-  parser.parse(new StringResource("   <?xml encoding='iso-8859-1'version=\"1.0\"?> test test"));
+  parser.parse(new StringResourceStream("   <?xml encoding='iso-8859-1'version=\"1.0\"?> test test"));
   assertEquals("iso-8859-1",parser.getEncoding());
   tag=(XmlTag)parser.nextTag();
   assertNull(tag);
   Exception ex=null;
   try {
-    parser.parse(new StringResource("<?xml encoding=iso-8859-1 ?> test test"));
+    parser.parse(new StringResourceStream("<?xml encoding=iso-8859-1 ?> test test"));
   }
  catch (  UnsupportedEncodingException e) {
     ex=e;
@@ -22,21 +22,21 @@
   assertNotNull(ex);
   ex=null;
   try {
-    parser.parse(new StringResource("<?xml encoding='XXX' ?>"));
+    parser.parse(new StringResourceStream("<?xml encoding='XXX' ?>"));
   }
  catch (  UnsupportedEncodingException e) {
     ex=e;
   }
   assertNotNull(ex);
-  parser.parse(new StringResource("xxxx <?xml encoding='iso-8859-1' ?>"));
+  parser.parse(new StringResourceStream("xxxx <?xml encoding='iso-8859-1' ?>"));
   assertNull(parser.getEncoding());
   tag=(XmlTag)parser.nextTag();
   assertNull(tag);
-  parser.parse(new StringResource("<!-- Comment --!> <?xml encoding='iso-8859-1' ?>"));
+  parser.parse(new StringResourceStream("<!-- Comment --!> <?xml encoding='iso-8859-1' ?>"));
   assertNull(parser.getEncoding());
   tag=(XmlTag)parser.nextTag();
   assertNull(tag);
-  parser.parse(new StringResource("<?xml test='123' >"));
+  parser.parse(new StringResourceStream("<?xml test='123' >"));
   assertNull(parser.getEncoding());
   tag=(XmlTag)parser.nextTag();
   assertNull(tag);
