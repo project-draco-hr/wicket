@@ -1,27 +1,26 @@
 {
-  add(new Table("headers",headers){
-    protected void populateCell(    Cell cell){
-      Object header=headers.get(cell.getIndex());
-      if (populateHeader(cell,header) == false) {
+  add(new ListView("headers",headers){
+    protected void populateItem(    final ListItem listItem){
+      Object header=headers.get(listItem.getIndex());
+      if (populateHeader(listItem,header) == false) {
         String value=(String)(header instanceof String ? header : ((IModel)header).getObject());
-        cell.add(new Label("header",value));
+        listItem.add(new Label("header",value));
       }
     }
   }
 );
   add(new TableWithAlternatingRowStyle("rows",data){
-    protected boolean populateCell(    final Cell rowCell,    final Container tagClass){
-      tagClass.add(new Table("columns",columns){
-        protected void populateCell(        final Cell colCell){
-          Object column=columns.get(colCell.getIndex());
-          if (populateColumn(colCell,column) == false) {
+    protected void populateItem(    final ListItem rowItem){
+      rowItem.add(new ListView("columns",columns){
+        protected void populateItem(        final ListItem colItem){
+          Object column=columns.get(colItem.getIndex());
+          if (populateColumn(colItem,column) == false) {
             String value=(String)(column instanceof String ? column : ((IModel)column).getObject());
-            colCell.add(new Label("column",rowCell.getModel(),value));
+            colItem.add(new Label("column",rowItem.getModel(),value));
           }
         }
       }
 );
-      return true;
     }
   }
 );

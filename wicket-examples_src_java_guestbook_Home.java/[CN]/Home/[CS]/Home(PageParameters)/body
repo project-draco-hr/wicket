@@ -1,10 +1,10 @@
 {
   add(new CommentForm("commentForm"));
-  add(table=new Table("comments",commentList){
-    public void populateCell(    final Cell cell){
-      final Comment comment=(Comment)cell.getModelObject();
-      cell.add(new Label("date",comment.getDate()));
-      cell.add(new MultiLineLabel("text",comment.getText()));
+  add(table=new ListView("comments",commentList){
+    public void populateItem(    final ListItem listItem){
+      final Comment comment=(Comment)listItem.getModelObject();
+      listItem.add(new Label("date",comment.getDate()));
+      listItem.add(new MultiLineLabel("text",comment.getText()));
     }
   }
 );

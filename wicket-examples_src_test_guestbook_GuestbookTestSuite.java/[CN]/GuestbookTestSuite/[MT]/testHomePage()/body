@@ -1,0 +1,21 @@
+{
+  beginAt("/guestbook");
+  assertTitleEquals("Guestbook");
+  this.assertElementNotPresent("comments");
+  assertFormPresent("commentForm");
+  this.assertFormElementPresent("0.commentForm.text");
+  this.setFormElement("0.commentForm.text","test-1");
+  this.submit();
+  this.dumpResponse(System.err);
+  assertTitleEquals("Guestbook");
+  assertFormPresent("commentForm");
+  this.assertFormElementPresent("0.commentForm.text");
+  this.assertElementPresent("comments");
+  this.assertTextPresent("test-1");
+  this.setFormElement("0.commentForm.text","test-2");
+  this.submit();
+  assertTitleEquals("Guestbook");
+  this.assertElementPresent("comments");
+  this.assertTextPresent("test-1");
+  this.assertTextPresent("test-2");
+}

@@ -1,0 +1,18 @@
+{
+  final String fileName=(String)listItem.getModelObject();
+  listItem.add(new Label("file",fileName));
+  listItem.add(new Link("delete"){
+    public void linkClicked(    RequestCycle cycle){
+      File toDelete=new File(tempDir,fileName);
+      log.info("delete " + toDelete);
+      toDelete.delete();
+      try {
+        Thread.sleep(100);
+      }
+ catch (      InterruptedException e) {
+      }
+      refreshFiles();
+    }
+  }
+);
+}

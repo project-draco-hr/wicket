@@ -1,0 +1,34 @@
+{
+  final ReportList data=new ReportList();
+  final Map groups=new LinkedHashMap();
+  ReportableListObject previousValue=(ReportableListObject)data.get(0);
+  groups.put(previousValue.getCity(),new Integer(0));
+  int startIdx=0;
+  for (int i=1; i < data.size(); i++) {
+    final ReportableListObject value=(ReportableListObject)data.get(i);
+    boolean equal=value.getCity().equals(previousValue.getCity());
+    if (!equal) {
+      groups.put(previousValue.getCity(),new Integer(i - startIdx));
+      groups.put(value.getCity(),new Integer(0));
+      previousValue=value;
+    }
+  }
+  groups.put(previousValue.getCity(),new Integer(data.size() - startIdx));
+  List groupList=new ArrayList();
+  groupList.addAll(groups.keySet());
+  add(new ListView("border",groupList){
+    private int startIndex=0;
+    public void populateItem(    final ListItem listItem){
+      SubtotalTable subtable=new SubtotalTable("rows",data);
+      subtable.setStartIndex(startIndex);
+      String group=listItem.getModelObjectAsString();
+      int size=((Integer)groups.get(group)).intValue();
+      subtable.setViewSize(size);
+      startIndex=size;
+      listItem.add(subtable);
+      listItem.add(new Label("name",subtable,"group1"));
+      listItem.add(new Label("value",subtable,"subtotal"));
+    }
+  }
+);
+}
