@@ -1,24 +1,28 @@
 {
   if (!node.isLeaf()) {
-    IModel imgModel=new Model(){
-      public Object getObject(){
-        final String url;
+    ImageResource imgResource=new ImageResource(){
+      protected IResource getResource(){
         if (isExpanded(node)) {
-          url=getRequestCycle().urlFor(JUNCTION_IMG_MINUS,IResourceListener.class);
+          return IMG_MINUS.getResource();
         }
  else {
-          url=getRequestCycle().urlFor(JUNCTION_IMG_PLUS,IResourceListener.class);
+          return IMG_PLUS.getResource();
         }
-        return url;
+      }
+      /** 
+ * @see wicket.Component#getPath()
+ */
+      public String getPath(){
+        reset();
+        return super.getPath();
       }
     }
 ;
-    LocalImage img=new LocalImage(JUNCTION_IMAGE_NAME,imgModel);
+    Image img=new Image(JUNCTION_IMAGE_NAME,imgResource);
     return img;
   }
  else {
-    String url=getRequestCycle().urlFor(JUNCTION_IMG_BLANK,IResourceListener.class);
-    LocalImage img=new LocalImage(JUNCTION_IMAGE_NAME,url);
+    Image img=new Image(JUNCTION_IMAGE_NAME,IMG_BLANK);
     return img;
   }
 }
