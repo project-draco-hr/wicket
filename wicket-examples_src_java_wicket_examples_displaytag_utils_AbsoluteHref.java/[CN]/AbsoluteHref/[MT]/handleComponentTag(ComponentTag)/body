@@ -1,8 +1,8 @@
 {
   String href=tag.getString("href");
   if (href.charAt(0) != '/') {
-    HttpRequestCycle hcycle=(HttpRequestCycle)getRequestCycle();
-    String requestUrl=((HttpRequest)hcycle.getRequest()).getServletRequest().getRequestURL().toString();
+    WebRequestCycle hcycle=(WebRequestCycle)getRequestCycle();
+    String requestUrl=((WebRequest)hcycle.getRequest()).getHttpServletRequest().getRequestURL().toString();
     String urlPrefix=hcycle.urlPrefix().toString();
     int idx=requestUrl.indexOf(urlPrefix);
     if (idx > 0) {

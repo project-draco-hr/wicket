@@ -1,8 +1,8 @@
 {
-  final HttpSession session=HttpSession.getSession(webApplication,servletRequest);
-  final HttpRequest request=new HttpRequest(servletRequest);
-  final HttpResponse response=webApplication.getSettings().getBufferResponse() ? new BufferedHttpResponse(servletResponse) : new HttpResponse(servletResponse);
-  final HttpRequestCycle cycle=new HttpRequestCycle(webApplication,session,request,response);
+  final WebSession session=WebSession.getSession(webApplication,servletRequest);
+  final WebRequest request=new WebRequest(servletRequest);
+  final WebResponse response=webApplication.getSettings().getBufferResponse() ? new BufferedWebResponse(servletResponse) : new WebResponse(servletResponse);
+  final WebRequestCycle cycle=new WebRequestCycle(webApplication,session,request,response);
   cycle.render();
-  HttpSession.set(null);
+  WebSession.set(null);
 }

@@ -1,14 +1,14 @@
 {
   try {
-    HttpRequest httpRequest=(HttpRequest)getRequest();
-    HttpServletRequest request=(httpRequest).getServletRequest();
-    boolean isMultipart=FileUpload.isMultipartContent(request);
+    final WebRequest httpRequest=(WebRequest)getRequest();
+    final HttpServletRequest request=httpRequest.getHttpServletRequest();
+    final boolean isMultipart=FileUpload.isMultipartContent(request);
     if (!isMultipart) {
       throw new IllegalStateException("Request is not a multipart request");
     }
     prepareUpload();
-    FileUploadBase upload=createUpload();
-    List items=parseRequest(request,upload);
+    final FileUploadBase upload=createUpload();
+    final List items=parseRequest(request,upload);
     processFileItems(items);
     finishUpload();
   }

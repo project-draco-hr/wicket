@@ -1,0 +1,23 @@
+{
+  try {
+    final String url=((WebRequest)getRequest()).getURL();
+    final ServletContext context=((WebApplication)application).getWicketServlet().getServletContext();
+    response.setContentType(context.getMimeType(url));
+    final InputStream in=context.getResourceAsStream(url);
+    if (in != null) {
+      try {
+        Streams.writeStream(in,((WebResponse)response).getHttpServletResponse().getOutputStream());
+      }
+  finally {
+        in.close();
+      }
+      return true;
+    }
+ else {
+      return false;
+    }
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("Cannot load static content for request " + request,e);
+  }
+}

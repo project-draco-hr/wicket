@@ -1,0 +1,15 @@
+{
+  final StringBuffer buffer=new StringBuffer();
+  if (request != null) {
+    buffer.append(((WebRequest)request).getContextPath());
+    final String servletPath=((WebRequest)request).getServletPath();
+    if (servletPath.equals("")) {
+      buffer.append('/');
+      buffer.append(application.getName());
+    }
+ else {
+      buffer.append(servletPath);
+    }
+  }
+  return buffer;
+}
