@@ -20,11 +20,11 @@
           autolinkStatus.push(new Boolean(autolinking));
         }
         final String autolink=tag.getAttributes().getString("autolink");
-        if ((autolink == null) || "".equals(autolink) || "true".equalsIgnoreCase(autolink)|| "1".equals(autolink)) {
-          autolinking=true;
+        try {
+          autolinking=Strings.isEmpty(autolink) || Strings.isTrue(autolink);
         }
- else {
-          autolinking=false;
+ catch (        StringValueConversionException e) {
+          throw new WicketRuntimeException("Invalid autolink attribute value \"" + autolink + "\"");
         }
       }
  else       if (tag.isClose()) {

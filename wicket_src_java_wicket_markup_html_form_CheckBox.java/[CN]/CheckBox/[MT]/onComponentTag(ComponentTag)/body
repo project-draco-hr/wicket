@@ -1,24 +1,19 @@
 {
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","checkbox");
-  super.onComponentTag(tag);
-  Object value=getModelObject();
+  final String value=getValue();
   if (value != null) {
-    final boolean tagValue;
-    if (value instanceof String) {
-      tagValue=Boolean.valueOf((String)value).booleanValue();
-    }
- else     if (value instanceof Boolean) {
-      tagValue=((Boolean)value).booleanValue();
-    }
+    try {
+      if (Strings.isTrue(value)) {
+        tag.put("checked","checked");
+      }
  else {
-      throw new WicketRuntimeException("CheckBox model object must be of type Boolean");
+        tag.remove("checked");
+      }
     }
-    if (tagValue) {
-      tag.put("checked","checked");
-    }
- else {
-      tag.remove("checked");
+ catch (    StringValueConversionException e) {
+      throw new WicketRuntimeException("Invalid boolean value \"" + value + "\"");
     }
   }
+  super.onComponentTag(tag);
 }
