@@ -1,10 +1,9 @@
 {
-  if (!triedToCreateResouceWatcher) {
-    final Duration frequency=getResourcePollFrequency();
-    if (frequency != null) {
-      resourceWatcher=new ModificationWatcher(frequency);
+  if (resourceWatcher == null) {
+    final Duration pollFrequency=getResourcePollFrequency();
+    if (pollFrequency != null) {
+      resourceWatcher=new ModificationWatcher(pollFrequency);
     }
-    triedToCreateResouceWatcher=true;
   }
   return resourceWatcher;
 }

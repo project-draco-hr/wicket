@@ -1,14 +1,13 @@
 {
-  final ICrypt crypt;
   try {
-    crypt=(ICrypt)this.cryptClass.newInstance();
+    final ICrypt crypt=(ICrypt)this.cryptClass.newInstance();
     crypt.setKey(getEncryptionKey());
     return crypt;
   }
  catch (  InstantiationException e) {
-    throw new RuntimeException("De-/Encryption object can not be instantiated",e);
+    throw new RuntimeException("Encryption/decryption object can not be instantiated",e);
   }
 catch (  IllegalAccessException e) {
-    throw new RuntimeException("De-/Encryption object can not be instantiated",e);
+    throw new RuntimeException("Encryption/decryption object can not be instantiated",e);
   }
 }
