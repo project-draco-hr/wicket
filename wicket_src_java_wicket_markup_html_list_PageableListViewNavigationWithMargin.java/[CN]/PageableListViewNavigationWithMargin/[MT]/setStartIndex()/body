@@ -1,0 +1,18 @@
+{
+  int firstListItem=this.getStartIndex();
+  int viewSize=this.getViewSize();
+  int currentPage=pageableListView.getCurrentPage();
+  if (currentPage < (firstListItem + this.margin)) {
+    firstListItem=currentPage - viewSize + margin;
+  }
+ else   if (currentPage >= (firstListItem + viewSize - this.margin)) {
+    firstListItem=currentPage - margin;
+  }
+  if ((firstListItem + viewSize) >= pageableListView.getPageCount()) {
+    firstListItem=pageableListView.getPageCount() - viewSize;
+  }
+  if (firstListItem < 0) {
+    firstListItem=0;
+  }
+  this.setStartIndex(firstListItem);
+}

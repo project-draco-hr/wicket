@@ -15,14 +15,14 @@
   }
 ;
   add(table);
-  add(new SortableTableHeaders("header",table){
-    protected int compareTo(    SortableTableHeader header,    Object o1,    Object o2){
+  add(new SortableListViewHeaders("header",table){
+    protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
       if (header.getName().equals("id")) {
         return ((ListObject)o1).getId() - ((ListObject)o2).getId();
       }
       return super.compareTo(header,o1,o2);
     }
-    protected Comparable getObjectToCompare(    final SortableTableHeader header,    final Object object){
+    protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getName();
       if (name.equals("name")) {
         return ((ListObject)object).getName();
@@ -48,10 +48,10 @@
     }
   }
 );
-  final TableNavigation tableNavigation=new TableNavigation("navigation",table);
+  final PageableListViewNavigation tableNavigation=new PageableListViewNavigation("navigation",table);
   add(tableNavigation);
-  add(new TableNavigationLink("first",table,0));
-  add(new TableNavigationIncrementLink("prev",table,-1));
-  add(new TableNavigationIncrementLink("next",table,1));
-  add(new TableNavigationLink("last",table,table.getPageCount() - 1));
+  add(new PageableListViewNavigationLink("first",table,0));
+  add(new PageableListViewNavigationIncrementLink("prev",table,-1));
+  add(new PageableListViewNavigationIncrementLink("next",table,1));
+  add(new PageableListViewNavigationLink("last",table,table.getPageCount() - 1));
 }

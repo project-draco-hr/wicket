@@ -1,0 +1,24 @@
+{
+  super();
+  List list=new ArrayList();
+  list.add("one");
+  list.add("two");
+  list.add("three");
+  list.add("four");
+  list.add("five");
+  list.add("six");
+  list.add("seven");
+  list.add("eight");
+  PageableListView table=new PageableListView("table",list,2){
+    protected void populateItem(    ListItem listItem){
+      String txt=(String)listItem.getModelObject();
+      listItem.add(new Label("txt",txt));
+    }
+  }
+;
+  add(table);
+  PageableListViewNavigationIncrementLink prev=new PageableListViewNavigationIncrementLink("prev",table,-1);
+  add(prev);
+  PageableListViewNavigationIncrementLink nextNext=new PageableListViewNavigationIncrementLink("nextNext",table,+2);
+  add(nextNext);
+}

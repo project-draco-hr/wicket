@@ -1,0 +1,16 @@
+{
+  super(componentName);
+  this.pageableListViewNavigation=newNavigation(pageableListView);
+  add(pageableListViewNavigation);
+  add(new Label("headline",null){
+    protected void handleBody(    final MarkupStream markupStream,    final ComponentTag openTag){
+      String text=getHeadlineText(pageableListView);
+      replaceBody(markupStream,openTag,text);
+    }
+  }
+);
+  add(new PageableListViewNavigationLink("first",pageableListView,0));
+  add(new PageableListViewNavigationIncrementLink("prev",pageableListView,-1));
+  add(new PageableListViewNavigationIncrementLink("next",pageableListView,1));
+  add(new PageableListViewNavigationLink("last",pageableListView,pageableListView.getPageCount() - 1));
+}

@@ -1,0 +1,27 @@
+{
+  super(componentName,new IPageLink(){
+    /** 
+ * @see wicket.markup.html.link.IPageLink#getPage()
+ */
+    public Page getPage(){
+      int idx=pageableListView.getCurrentPage() + increment;
+      if (idx < 0) {
+        idx=0;
+      }
+ else       if (idx > (pageableListView.getList().size() - 1)) {
+        idx=pageableListView.getList().size() - 1;
+      }
+      pageableListView.setCurrentPage(idx);
+      return pageableListView.getPage();
+    }
+    /** 
+ * @see wicket.markup.html.link.IPageLink#getPageIdentity()
+ */
+    public Class getPageIdentity(){
+      return pageableListView.getPage().getClass();
+    }
+  }
+);
+  this.increment=increment;
+  this.pageableListView=pageableListView;
+}

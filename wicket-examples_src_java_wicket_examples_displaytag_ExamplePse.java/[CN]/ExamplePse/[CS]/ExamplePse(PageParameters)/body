@@ -25,8 +25,8 @@
   }
 ;
   add(table);
-  add(new SortableTableHeaders("header",table){
-    protected Comparable getObjectToCompare(    final SortableTableHeader header,    final Object object){
+  add(new SortableListViewHeaders("header",table){
+    protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getName();
       if (name.equals("city")) {
         return ((ReportableListObject)object).getCity();
@@ -38,7 +38,7 @@
     }
   }
 );
-  add(new PagedTableNavigator("pageTableNav",table));
+  add(new PageableListViewNavigator("pageTableNav",table));
   add(new ExportLink("exportCsv",data,new CsvView(data,true,false,false)));
   add(new ExportLink("exportExcel",data,new ExcelView(data,true,false,false)));
   add(new ExportLink("exportXml",data,new XmlView(data,true,false,false)));

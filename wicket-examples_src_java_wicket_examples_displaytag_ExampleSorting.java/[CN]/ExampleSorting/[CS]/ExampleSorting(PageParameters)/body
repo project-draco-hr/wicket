@@ -12,8 +12,8 @@
   }
 ;
   add(table);
-  add(new SortableTableHeaders("header",table){
-    protected int compareTo(    SortableTableHeader header,    Object o1,    Object o2){
+  add(new SortableListViewHeaders("header",table){
+    protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
       if (header.getName().equals("id")) {
         return ((ListObject)o1).getId() - ((ListObject)o2).getId();
       }
@@ -23,7 +23,7 @@
  * Define how to do sorting
  * @see wicket.markup.html.table.SortableTableHeaders#getObjectToCompare(wicket.markup.html.table.SortableTableHeader,java.lang.Object)
  */
-    protected Comparable getObjectToCompare(    final SortableTableHeader header,    final Object object){
+    protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getName();
       if (name.equals("name")) {
         return ((ListObject)object).getName();
