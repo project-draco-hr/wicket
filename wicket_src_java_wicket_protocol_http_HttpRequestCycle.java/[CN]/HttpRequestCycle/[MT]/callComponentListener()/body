@@ -35,6 +35,9 @@ catch (          InvocationTargetException e) {
             throw new WicketRuntimeException("Method " + method + " of interface "+ interfaceName+ " threw an exception",e);
           }
           setFormComponentValuesFromCookies(page);
+          if (getPage() != page || getRedirect()) {
+            deattachModels(page);
+          }
           return true;
         }
  else {
