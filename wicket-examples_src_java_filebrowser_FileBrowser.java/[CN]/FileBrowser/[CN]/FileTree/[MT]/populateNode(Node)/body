@@ -12,18 +12,8 @@
     }
   }
 ;
-  expandCollapsLink.add(new Image("junctionImg",new Model(node){
-    public Object getObject(){
-      return getJunctionImageName((Node)super.getObject());
-    }
-  }
-));
-  expandCollapsLink.add(new Image("nodeImg",new Model(node){
-    public Object getObject(){
-      return getNodeImageName((Node)super.getObject());
-    }
-  }
-));
+  expandCollapsLink.add(new SimpleImage("junctionImg",getJunctionImageName(node)));
+  expandCollapsLink.add(new SimpleImage("nodeImg",getNodeImageName(node)));
   node.add(expandCollapsLink);
   TreeNodeLink selectLink=new TreeNodeLink("selectLink",fileTree,node,this){
     public void linkClicked(    RequestCycle cycle,    Node node){
