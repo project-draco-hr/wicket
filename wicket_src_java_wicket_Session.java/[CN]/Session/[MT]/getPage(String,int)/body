@@ -1,12 +1,17 @@
 {
   Page page=getPage(Integer.parseInt(Strings.firstPathComponent(path,componentPathSeparator)));
-  final Page revision=page.getRevision(revisionNumber);
-  if (revision != page) {
-    page=revision;
-    getPageMap().put(new Integer(page.getId()),page);
-    pageChanged(page);
+  if (page != null) {
+    final Page version=page.getVersion(versionNumber);
+    if (version != null) {
+      if (version != page) {
+        page=version;
+        getPageMap().put(new Integer(page.getId()),page);
+        pageChanged(page);
+      }
+      page.onInternalBeginRequest();
+      page.onBeginRequest();
+      return page;
+    }
   }
-  page.onInternalBeginRequest();
-  page.onBeginRequest();
-  return page;
+  return null;
 }

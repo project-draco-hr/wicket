@@ -1,6 +1,10 @@
 {
-  trackChanges=true;
-  if (changeCount > 0) {
-    getRevisionManager().endRevision();
+  if (isVersioned) {
+    trackChanges=true;
+    if (changeCount > 0) {
+      if (versionManager != null) {
+        versionManager.endVersion();
+      }
+    }
   }
 }

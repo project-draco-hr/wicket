@@ -1,0 +1,17 @@
+{
+  if (versionManager == null) {
+    if (versionNumber == 0) {
+      return this;
+    }
+ else {
+      throw new IllegalStateException("No version manager available to retrieve requested versionNumber " + versionNumber);
+    }
+  }
+ else {
+    final Page page=versionManager.getVersion(versionNumber);
+    if (page != null && page.getCurrentVersionNumber() == 0) {
+      page.versionManager=null;
+    }
+    return page;
+  }
+}

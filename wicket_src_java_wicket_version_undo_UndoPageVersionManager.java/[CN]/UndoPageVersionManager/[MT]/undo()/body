@@ -1,0 +1,11 @@
+{
+  final Integer key=new Integer(getCurrentVersionNumber() - 1);
+  final ChangeList changeList=(ChangeList)appliedChangeListForVersionNumber.get(key);
+  if (changeList == null) {
+    return false;
+  }
+  changeList.undo();
+  appliedChangeListForVersionNumber.remove(key);
+  versionNumber--;
+  return true;
+}
