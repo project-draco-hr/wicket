@@ -1,13 +1,16 @@
 {
   if (!enabled)   return;
   ValueMap attributes=tag.getAttributes();
-  if (attributes.containsKey(attribute)) {
-    String value=attributes.get(attribute).toString();
-    if (pattern == null || value.matches(pattern)) {
-      attributes.put(attribute,getReplaceModel().getObject());
+  Object replacementValue=getReplaceModel().getObject();
+  if (replacementValue != null) {
+    if (attributes.containsKey(attribute)) {
+      String value=attributes.get(attribute).toString();
+      if (pattern == null || value.matches(pattern)) {
+        attributes.put(attribute,replacementValue);
+      }
     }
-  }
- else   if (addAttributeIfNotPresent) {
-    attributes.put(attribute,getReplaceModel().getObject());
+ else     if (addAttributeIfNotPresent) {
+      attributes.put(attribute,replacementValue);
+    }
   }
 }
