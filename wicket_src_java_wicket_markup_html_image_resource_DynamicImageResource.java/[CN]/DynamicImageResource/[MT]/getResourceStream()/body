@@ -25,7 +25,6 @@
     public InputStream getInputStream() throws ResourceStreamNotFoundException {
       if (inputStream == null) {
         inputStream=new ByteArrayInputStream(getImageData());
-        lastModifiedTime=Time.now();
       }
       return inputStream;
     }
@@ -34,6 +33,9 @@
  */
     public Time lastModifiedTime(){
       return DynamicImageResource.this.lastModifiedTime();
+    }
+    public long length(){
+      return DynamicImageResource.this.getImageData().length;
     }
   }
 ;
