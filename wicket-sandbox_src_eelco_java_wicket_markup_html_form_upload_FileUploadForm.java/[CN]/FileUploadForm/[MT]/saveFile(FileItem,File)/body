@@ -1,0 +1,15 @@
+{
+  File newFile=file;
+  try {
+synchronized (conflictResolverLock) {
+      if (newFile.exists()) {
+        newFile=fileConflictResolver.resolveConflict(file);
+      }
+      newFile.createNewFile();
+    }
+    item.write(newFile);
+  }
+ catch (  Exception e) {
+    throw new WicketRuntimeException("Could not save upload to " + newFile,e);
+  }
+}
