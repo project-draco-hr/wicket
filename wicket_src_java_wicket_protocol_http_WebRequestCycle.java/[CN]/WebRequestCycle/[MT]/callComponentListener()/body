@@ -25,17 +25,10 @@
  else {
     final String pathInfo=((WebRequest)request).getHttpServletRequest().getPathInfo();
     if (pathInfo != null) {
-      Component component=((WebApplication)application).resolve(pathInfo.substring(1));
-      if (component != null) {
-        invokeInterface(component,"IResourceListener");
+      final Resource resource=Resource.forPath(pathInfo.substring(1));
+      if (resource != null) {
+        resource.onResourceRequested();
         return true;
-      }
- else {
-        component=((WebSession)session).resolve(pathInfo);
-        if (component != null) {
-          invokeInterface(component,"IResourceListener");
-          return true;
-        }
       }
     }
   }

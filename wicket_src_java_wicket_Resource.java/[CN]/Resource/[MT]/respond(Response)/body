@@ -1,0 +1,15 @@
+{
+  try {
+    final OutputStream out=new BufferedOutputStream(response.getOutputStream());
+    try {
+      Streams.writeStream(new BufferedInputStream(resource.getInputStream()),out);
+    }
+  finally {
+      resource.close();
+      out.flush();
+    }
+  }
+ catch (  Exception e) {
+    throw new WicketRuntimeException("Unable to render resource " + resource,e);
+  }
+}

@@ -1,6 +1,6 @@
 {
   checkComponentTag(tag,"img");
   super.onComponentTag(tag);
-  final String url=getRequestCycle().urlFor(this,IResourceListener.class);
-  tag.put("src",url.replaceAll("&","&amp;"));
+  final String url=((WebRequestCycle)getRequestCycle()).urlFor(getResourcePath());
+  tag.put("src",getResponse().encodeURL(url).replaceAll("&","&amp;"));
 }

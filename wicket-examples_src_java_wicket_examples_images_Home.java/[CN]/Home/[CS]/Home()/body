@@ -1,12 +1,13 @@
 {
+  final ImagesApplication application=(ImagesApplication)getApplication();
   add(new Image("image2"));
-  add(new DynamicImage("image3",100,100){
+  add(new Image("image3",new RenderedDynamicImageResource(100,100){
     protected void render(    Graphics2D graphics){
-      ImagesApplication.drawCircle(graphics);
+      application.drawCircle(graphics);
     }
   }
-);
+));
   add(new Image("image4","Image2.gif"));
-  add(((ImagesApplication)getApplication()).getImage5());
-  add(((ImagesApplication)getApplication()).getCancelButtonImage());
+  add(new Image("image5",application.getImage5Resource()));
+  add(new Image("cancelButton",application.getCancelButtonImageResource()));
 }

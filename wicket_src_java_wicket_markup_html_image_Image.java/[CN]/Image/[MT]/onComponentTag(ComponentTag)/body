@@ -1,12 +1,15 @@
 {
-  final String imageResource=getModelObjectAsString();
-  if (Strings.isEmpty(imageResource)) {
-    resourcePath=tag.getString("src");
-  }
+  if (imageResource == null) {
+    final String modelString=getModelObjectAsString();
+    final String resourcePath;
+    if (Strings.isEmpty(modelString)) {
+      resourcePath=tag.getString("src");
+    }
  else {
-    resourcePath=imageResource;
+      resourcePath=modelString;
+    }
+    final Package basePackage=findParentWithAssociatedMarkup().getClass().getPackage();
+    this.imageResource=StaticImageResource.get(getClass().getClassLoader(),basePackage,resourcePath,getLocale(),getStyle());
   }
-  style=getStyle();
-  locale=getLocale();
   super.onComponentTag(tag);
 }

@@ -1,0 +1,7 @@
+{
+  if (resourcePath.indexOf("..") != -1 || resourcePath.indexOf("/") != -1) {
+    throw new WicketRuntimeException("Source for image resource cannot contain a path");
+  }
+  final String path=basePackage.getName() + "." + resourcePath;
+  this.resource=ResourceLocator.locate(RequestCycle.get().getApplication().getSettings().getSourcePath(),classLoader,path,style,locale,null);
+}

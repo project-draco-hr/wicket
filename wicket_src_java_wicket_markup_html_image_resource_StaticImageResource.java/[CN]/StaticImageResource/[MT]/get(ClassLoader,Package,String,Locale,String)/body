@@ -1,0 +1,11 @@
+{
+  final String key=classLoader.toString() + basePackage.getName() + resourcePath+ locale.toString()+ style;
+synchronized (imageResourceMap) {
+    StaticImageResource imageResource=(StaticImageResource)imageResourceMap.get(key);
+    if (imageResource == null) {
+      imageResource=new StaticImageResource(classLoader,basePackage,resourcePath,locale,style);
+      imageResourceMap.put(key,imageResource);
+    }
+    return imageResource;
+  }
+}
