@@ -7,7 +7,7 @@
     return new Double(format.parse(value.toString()).doubleValue());
   }
  catch (  ParseException e) {
-    ConversionException conversionException=new ConversionException("Cannot convert '" + value + "' to Double",e);
+    final ConversionException conversionException=new ConversionException("Cannot convert '" + value + "' to Double",e);
     if (format instanceof DecimalFormat) {
       String pattern=((DecimalFormat)format).toLocalizedPattern();
       conversionException.setPattern(pattern);
