@@ -4,13 +4,14 @@
   String type=(String)newSelection;
   final AbstractTree tree;
   if (TYPE_NESTED.equals(type)) {
-    tree=new Tree("fileTree",FileBrowser.this.model,true);
+    tree=new Tree("fileTree",currentTree.getTreeState());
   }
  else   if (TYPE_FLAT.equals(type)) {
-    tree=new FlatFileTree("fileTree",FileBrowser.this.model);
+    tree=new FlatFileTree("fileTree",currentTree.getTreeState());
   }
  else {
-    tree=new FileTree("fileTree",FileBrowser.this.model);
+    tree=new FileTree("fileTree",currentTree.getTreeState());
   }
   FileBrowser.this.add(tree);
+  FileBrowser.this.currentTree=tree;
 }
