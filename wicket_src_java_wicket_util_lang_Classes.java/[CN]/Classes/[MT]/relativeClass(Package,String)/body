@@ -1,17 +1,3 @@
 {
-  final StringList className=StringList.tokenize(p.getName(),".");
-  final StringList components=StringList.tokenize(path,"/\\");
-  if (components.get(0).equals("")) {
-    throw new IllegalArgumentException("Path not relative: " + path);
-  }
-  for (final IStringIterator iterator=components.iterator(); iterator.hasNext(); ) {
-    final String folder=iterator.next();
-    if (folder.equals("..")) {
-      className.removeLast();
-    }
- else {
-      className.add(folder);
-    }
-  }
-  return Class.forName(className.join("."));
+  return Class.forName(Packages.absolutePath(p,path).replace('/','.'));
 }
