@@ -1,12 +1,17 @@
 {
   final MarkupStream markupStream=findMarkupStream();
-  if (!markupStream.atOpenCloseTag()) {
-    markupStream.throwMarkupException("A panel must be referenced by an openclose tag.");
-  }
+  final boolean atOpenTag=markupStream.atOpenTag();
   final ComponentTag openTag=markupStream.getTag().mutable();
   openTag.setType(XmlTag.OPEN);
   renderComponentTag(openTag);
   renderAssociatedMarkup("panel","Markup for a panel component must begin with '<wicket:panel>'");
   getResponse().write(openTag.syntheticCloseTagString());
   markupStream.next();
+  if (atOpenTag) {
+    markupStream.skipRawMarkup();
+    if (!markupStream.atCloseTag()) {
+      markupStream.throwMarkupException("Expected close tag.  Possible attempt to embed component(s) " + "in the body of a component which discards its body");
+    }
+    markupStream.next();
+  }
 }
