@@ -1,20 +1,23 @@
 {
-  if (!tag.getComponentName().equals("[body]") && !(markupStream.atOpenCloseTag("body") && (tag instanceof ComponentWicketTag))) {
+  final boolean isBodyTag=tag.getComponentName().equals("[body]") || (tag instanceof ComponentWicketTag && markupStream.atOpenCloseTag("body"));
+  if (!isBodyTag) {
     return false;
   }
-  if (!markupStream.atOpenCloseTag()) {
-    markupStream.throwMarkupException("A <wicket:body> tag must be an open-close tag.");
+ else {
+    if (!markupStream.atOpenCloseTag()) {
+      markupStream.throwMarkupException("A <wicket:body> tag must be an open-close tag.");
+    }
+    renderTag(tag);
+    markupStream.next();
+    Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
+    if (border.getMarkupStream() == null) {
+      final Container borderParent=border.getParent();
+      border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
+    }
+    final MarkupStream borderMarkup=border.findMarkupStream();
+    border.setMarkupStream(null);
+    border.renderBody(border.findMarkupStream(),border.openTag);
+    border.setMarkupStream(borderMarkup);
+    return true;
   }
-  renderTag(tag);
-  markupStream.next();
-  Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
-  if (border.getMarkupStream() == null) {
-    Container borderParent=border.getParent();
-    border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
-  }
-  final MarkupStream borderMarkup=border.findMarkupStream();
-  border.setMarkupStream(null);
-  border.renderBody(border.findMarkupStream(),border.getOpenTag());
-  border.setMarkupStream(borderMarkup);
-  return true;
 }
