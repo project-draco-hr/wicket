@@ -1,6 +1,7 @@
 {
   try {
-    return Ognl.getValue(variableName,model).toString();
+    Object value=Ognl.getValue(variableName,model);
+    return (value != null) ? value.toString() : null;
   }
  catch (  OgnlException e) {
     throw new WicketRuntimeException("Unable to get value of variable '" + variableName + "' in "+ string);
