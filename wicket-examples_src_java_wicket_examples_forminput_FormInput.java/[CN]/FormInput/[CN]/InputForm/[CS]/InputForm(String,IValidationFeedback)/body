@@ -1,25 +1,15 @@
 {
-  super(name,validationErrorHandler);
-  IModel inputModel=new Model(){
-    public Object getObject(){
-      return testInputObject;
-    }
-  }
-;
-  add(new RequiredTextField("stringInput",inputModel,"stringProperty"));
-  add(new RequiredTextField("integerInput",inputModel,"integerProperty",Integer.class));
-  add(new RequiredTextField("doubleInput",inputModel,"doubleProperty",Double.class));
-  add(new RequiredTextField("dateInput",inputModel,"dateProperty",Date.class));
-  TextField integerInRangeInput=new TextField("integerInRangeInput",testInputObject,"integerInRangeProperty");
-  integerInRangeInput.add(IntegerValidator.range(0,100));
-  add(integerInRangeInput);
+  super(name,new FormInputModel(),validationFeedback);
+  add(new RequiredTextField("stringInput",getModel(),"stringProperty"));
+  add(new RequiredTextField("integerInput",getModel(),"integerProperty",Integer.class));
+  add(new RequiredTextField("doubleInput",getModel(),"doubleProperty",Double.class));
+  add(new RequiredTextField("dateInput",getModel(),"dateProperty",Date.class));
+  add(new RequiredTextField("integerInRangeInput",getModel(),"integerInRangeProperty").add(IntegerValidator.range(0,100)));
   add(new ImageButton("saveButton"));
-  OnClickLink link;
-  add(link=new OnClickLink("resetButtonLink"){
+  add(new OnClickLink("resetButtonLink"){
     public void onClick(){
-      testInputObject=new TestInputObject();
+      InputForm.this.getModel().setObject(new FormInputModel());
     }
   }
-);
-  link.add(new Image("resetButtonImage"));
+.add(new Image("resetButtonImage")));
 }

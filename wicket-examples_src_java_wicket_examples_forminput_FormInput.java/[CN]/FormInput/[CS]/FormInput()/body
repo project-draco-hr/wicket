@@ -1,0 +1,17 @@
+{
+  final FeedbackPanel feedback=new FeedbackPanel("feedback");
+  add(feedback);
+  add(new InputForm("inputForm",feedback));
+  add(new DropDownChoice("localeSelect",this,"locale",Arrays.asList(Locale.getAvailableLocales())){
+    public void onSelectionChanged(    Object newSelection){
+      setLocale((Locale)newSelection);
+    }
+  }
+);
+  add(new Link("defaultLocaleLink"){
+    public void onClick(){
+      setLocale(Locale.getDefault());
+    }
+  }
+);
+}
