@@ -1,25 +1,38 @@
 {
   final Serializable userObject=node.getUserObject();
+  if (userObject == null) {
+    throw new RuntimeException("userObject == null");
+  }
   File file=(File)userObject;
   Link expandCollapsLink=new Link("expandCollapsLink"){
     public void linkClicked(    RequestCycle cycle){
       TreeStateCache state=fileTree.getTreeState();
       TreePath selection=state.findTreePath(userObject);
-      state.setSelectedPath(selection);
+      fileTree.setExpandedState(selection,(!node.isExpanded()));
     }
   }
 ;
-  expandCollapsLink.add(new Image("junctionImg",getJunctionImageName(node)));
-  expandCollapsLink.add(new Image("nodeImg",getNodeImageName(node)));
+  expandCollapsLink.add(new Image("junctionImg",new Model(node){
+    public Object getObject(){
+      return getJunctionImageName((Node)super.getObject());
+    }
+  }
+));
+  expandCollapsLink.add(new Image("nodeImg",new Model(node){
+    public Object getObject(){
+      return getNodeImageName((Node)super.getObject());
+    }
+  }
+));
   node.add(expandCollapsLink);
-  Link selectLink=new Link("link"){
-    public void linkClicked(    RequestCycle cycle){
+  TreeNodeLink selectLink=new TreeNodeLink("selectLink",fileTree,node){
+    public void linkClicked(    RequestCycle cycle,    Node node){
       TreeStateCache state=fileTree.getTreeState();
       TreePath selection=state.findTreePath(userObject);
       state.setSelectedPath(selection);
     }
   }
 ;
-  selectLink.add(new Label("name",file.getName()));
+  selectLink.add(new Label("fileName",file.getName()));
   node.add(selectLink);
 }
