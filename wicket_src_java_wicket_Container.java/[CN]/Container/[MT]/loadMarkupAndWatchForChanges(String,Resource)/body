@@ -30,6 +30,9 @@ catch (            IOException e) {
  catch (  ParseException e) {
     throw new MarkupException(markupResource,exceptionMessage("Unable to parse markup from " + markupResource),e);
   }
+catch (  MarkupException e) {
+    throw new MarkupException(markupResource,exceptionMessage(e.getMessage()));
+  }
 catch (  ResourceNotFoundException e) {
     throw new MarkupException(markupResource,exceptionMessage("Unable to find markup from " + markupResource),e);
   }
