@@ -28,7 +28,6 @@
         list.add(new RawMarkup(rawMarkup));
       }
       if (!"_ignore_".equals(tag.getComponentName())) {
-        tag.makeImmutable();
         list.add(tag);
       }
       xmlParser.setPositionMarker();
@@ -37,6 +36,12 @@
   final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
   if (text.length() > 0) {
     list.add(new RawMarkup(text));
+  }
+  for (int i=0; i < list.size(); i++) {
+    MarkupElement elem=(MarkupElement)list.get(i);
+    if (elem instanceof ComponentTag) {
+      ((ComponentTag)elem).makeImmutable();
+    }
   }
   return Collections.unmodifiableList(list);
 }
