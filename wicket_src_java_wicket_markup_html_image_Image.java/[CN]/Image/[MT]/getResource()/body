@@ -2,6 +2,7 @@
   if (resourcePath.indexOf("..") != -1 || resourcePath.indexOf("/") != -1) {
     throw new WicketRuntimeException("Source for image resource cannot contain a path");
   }
-  final String path=Classes.packageName(getPage().getClass()) + "." + resourcePath;
+  final MarkupContainer markupContainer=findParentWithAssociatedMarkup();
+  final String path=Classes.packageName(markupContainer.getClass()) + "." + resourcePath;
   return Resource.locate(getApplicationSettings().getSourcePath(),getPage().getClass().getClassLoader(),path,style,locale,null);
 }

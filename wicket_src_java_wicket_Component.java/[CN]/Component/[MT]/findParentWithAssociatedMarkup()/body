@@ -1,0 +1,10 @@
+{
+  MarkupContainer container=parent;
+  while (container != null) {
+    if (container.hasAssociatedMarkup()) {
+      return container;
+    }
+    container=container.getParent();
+  }
+  throw new WicketRuntimeException("Unable to find parent with associated markup");
+}
