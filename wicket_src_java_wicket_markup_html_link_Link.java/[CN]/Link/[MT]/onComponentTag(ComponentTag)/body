@@ -3,6 +3,7 @@
   if (autoEnable) {
     setEnabled(!linksTo(getPage()));
   }
+  String url=getURL();
   if (!enabled) {
     if (tag.getName().equalsIgnoreCase("a")) {
       tag.setName("span");
@@ -16,7 +17,6 @@
     }
   }
  else {
-    String url=getURL();
     if (tag.getName().equalsIgnoreCase("a")) {
       tag.put("href",url.replaceAll("&","&amp;"));
       if (popupSettings != null) {
@@ -33,5 +33,9 @@
         tag.put("onclick","location.href='" + url + "';");
       }
     }
+  }
+  final String onClickJavaScript=getOnClickScript(url);
+  if (onClickJavaScript != null) {
+    tag.put("onclick",onClickJavaScript);
   }
 }

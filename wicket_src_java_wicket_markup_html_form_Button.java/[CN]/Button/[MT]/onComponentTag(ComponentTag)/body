@@ -10,4 +10,8 @@
     throw new WicketRuntimeException("Button tag must have non-empty value attribute");
   }
   super.onComponentTag(tag);
+  final String onClickJavaScript=getOnClickScript();
+  if (onClickJavaScript != null) {
+    tag.put("onclick",onClickJavaScript);
+  }
 }
