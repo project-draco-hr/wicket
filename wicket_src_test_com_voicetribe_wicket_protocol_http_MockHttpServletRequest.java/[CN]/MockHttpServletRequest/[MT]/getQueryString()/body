@@ -1,0 +1,17 @@
+{
+  if (parameters.size() == 0)   return null;
+  StringBuffer buf=new StringBuffer();
+  try {
+    for (Iterator it=parameters.keySet().iterator(); it.hasNext(); ) {
+      String name=(String)it.next();
+      String value=parameters.getString(name);
+      buf.append(URLEncoder.encode(name,"UTF-8"));
+      buf.append('=');
+      buf.append(URLEncoder.encode(value,"UTF-8"));
+      if (it.hasNext())       buf.append('&');
+    }
+  }
+ catch (  UnsupportedEncodingException e) {
+  }
+  return buf.toString();
+}

@@ -1,0 +1,46 @@
+{
+  boolean valid=true;
+  if (expectedElements.hasNext()) {
+    DocumentElement e=(DocumentElement)expectedElements.next();
+    if (e instanceof Tag) {
+      workingTag=(Tag)e;
+      if (!workingTag.getTag().equals(parser.getTag())) {
+        System.err.println("Found tag <" + parser.getTag() + "> does not match "+ "expected tag <"+ workingTag.getTag()+ ">");
+        valid=false;
+      }
+ else {
+        Map actualAttributes=parser.getAttributes();
+        Map expectedAttributes=workingTag.getExpectedAttributes();
+        for (Iterator it=expectedAttributes.keySet().iterator(); it.hasNext(); ) {
+          String name=(String)it.next();
+          String pattern=(String)expectedAttributes.get(name);
+          if (!actualAttributes.containsKey(name)) {
+            System.err.println("Tag <" + workingTag.getTag() + "> was expected to have a '"+ name+ "' attribute "+ "but this was not present");
+            valid=false;
+          }
+          String value=(String)actualAttributes.get(name);
+          if (!value.matches(pattern)) {
+            System.err.println("The value '" + value + "' of attribute '"+ name+ "' of tag <"+ workingTag.getTag()+ "> was expected to match the pattern '"+ pattern+ "' but it does not");
+            valid=false;
+          }
+        }
+        for (Iterator it=workingTag.getIllegalAttributes().iterator(); it.hasNext(); ) {
+          String name=(String)it.next();
+          if (actualAttributes.containsKey(name)) {
+            System.err.println("Tag <" + workingTag.getTag() + "> should not have an attributed named '"+ name+ "'");
+            valid=false;
+          }
+        }
+      }
+    }
+ else {
+      System.err.println("Found tag <" + parser.getTag() + "> was not expected. "+ "We were expecting: "+ e.toString());
+      valid=false;
+    }
+  }
+ else {
+    System.err.println("Found tag <" + parser.getTag() + "> was not expected. "+ "We were not expecting any more elements within the current tag");
+    valid=false;
+  }
+  return valid;
+}

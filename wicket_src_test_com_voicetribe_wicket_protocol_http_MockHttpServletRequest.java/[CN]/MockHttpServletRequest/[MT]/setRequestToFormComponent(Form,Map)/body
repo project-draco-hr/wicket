@@ -1,0 +1,15 @@
+{
+  setRequestToComponent(form);
+  form.visitChildren(new Component.IVisitor(){
+    public Object component(    final Component component){
+      if (component instanceof FormComponent) {
+        String value=(String)values.get(component);
+        if (value != null) {
+          parameters.put(component.getPath(),values.get(component));
+        }
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}
