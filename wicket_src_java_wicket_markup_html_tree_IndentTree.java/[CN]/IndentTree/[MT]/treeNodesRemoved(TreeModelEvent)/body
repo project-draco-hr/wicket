@@ -1,3 +1,11 @@
 {
-  System.err.println(e);
+  TreePath parentPath=e.getTreePath();
+  TreeStateCache treeState=getTreeState();
+  Object[] deletedNodes=e.getChildren();
+  int len=deletedNodes.length;
+  for (int i=0; i < len; i++) {
+    DefaultMutableTreeNode deletedNode=(DefaultMutableTreeNode)deletedNodes[i];
+    treePathList.remove(deletedNode);
+  }
+  invalidateModel();
 }
