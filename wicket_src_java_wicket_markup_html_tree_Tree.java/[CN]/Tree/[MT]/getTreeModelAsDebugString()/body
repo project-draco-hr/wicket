@@ -1,0 +1,26 @@
+{
+  StringBuffer b=new StringBuffer("-- TREE MODEL --\n");
+  TreeStateCache state=getTreeState();
+  TreeModel treeModel=null;
+  if (state != null) {
+    treeModel=state.getModel();
+  }
+  if (treeModel != null) {
+    StringBuffer tabs=new StringBuffer();
+    DefaultMutableTreeNode rootNode=(DefaultMutableTreeNode)treeModel.getRoot();
+    Enumeration e=rootNode.preorderEnumeration();
+    while (e.hasMoreElements()) {
+      DefaultMutableTreeNode node=(DefaultMutableTreeNode)e.nextElement();
+      tabs.delete(0,tabs.length());
+      tabs.append("|");
+      for (int i=0; i < node.getLevel(); i++) {
+        tabs.append("-");
+      }
+      b.append(tabs).append(node).append("\n");
+    }
+  }
+ else {
+    b.append("<EMPTY>");
+  }
+  return b.toString();
+}
