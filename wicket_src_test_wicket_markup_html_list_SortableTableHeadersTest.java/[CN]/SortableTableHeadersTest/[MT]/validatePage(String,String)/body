@@ -9,6 +9,17 @@
   String reference=Streams.readString(in);
   boolean equals=document.equals(reference);
   if (equals == false) {
+    if (false) {
+      in.close();
+      in=null;
+      final URL url=this.getClass().getClassLoader().getResource(filename);
+      filename=url.getFile();
+      filename=filename.replaceAll("/build/test-classes/","/src/test/");
+      PrintWriter out=new PrintWriter(new FileOutputStream(filename));
+      out.print(document);
+      out.close();
+      return true;
+    }
     System.err.println("File name: " + file);
     System.err.println("===================");
     System.err.println(document);
