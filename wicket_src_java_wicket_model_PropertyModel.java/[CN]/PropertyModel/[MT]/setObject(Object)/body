@@ -3,7 +3,7 @@
     String expression=getExpression();
     Object target=getModel().getObject();
     if (object != null && propertyType != null && (object instanceof String) && (!((String)object).trim().equals(""))) {
-      object=converterProvider.getConverter().convert(object,propertyType);
+      object=converterSource.getConverter().convert(object,propertyType);
     }
     Ognl.setValue(expression,getContext(),target,object);
   }

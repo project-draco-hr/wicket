@@ -1,0 +1,18 @@
+{
+  checkComponentTag(tag,"a");
+  super.onComponentTag(tag);
+  if (autoEnable) {
+    setEnabled(!linksTo(getPage()));
+  }
+  if (!enabled) {
+    tag.setName("span");
+    tag.remove("href");
+  }
+ else {
+    tag.put("href",getURL().replaceAll("&","&amp;"));
+  }
+  final PopupSettings popupSettings=getPopupSettings();
+  if (popupSettings != null) {
+    tag.put("onClick",popupSettings.getPopupJavaScript().replaceAll("&","&amp;"));
+  }
+}

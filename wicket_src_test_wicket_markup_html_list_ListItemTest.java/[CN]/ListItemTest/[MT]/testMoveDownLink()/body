@@ -4,7 +4,7 @@
   cycle.getPage().add(lv);
   ListItem li=new ListItem(1,lv);
   Link link=li.moveDownLink("1");
-  link.linkClicked();
+  link.onLinkClicked();
   assertEquals(new Integer(0),lv.getListObject(0));
   assertEquals(new Integer(2),lv.getListObject(1));
   assertEquals(new Integer(1),lv.getListObject(2));
@@ -12,7 +12,7 @@
   li=new ListItem(3,lv);
   link=li.moveDownLink("1");
   try {
-    link.linkClicked();
+    link.onLinkClicked();
   }
  catch (  IndexOutOfBoundsException ex) {
     link=null;
@@ -20,12 +20,12 @@
   assertNull(link);
   li=new ListItem(0,lv);
   link=li.moveDownLink("1");
-  link.linkClicked();
+  link.onLinkClicked();
   assertEquals(new Integer(2),lv.getListObject(0));
   assertEquals(new Integer(0),lv.getListObject(1));
   assertEquals(new Integer(1),lv.getListObject(2));
   assertEquals(new Integer(3),lv.getListObject(3));
-  link.linkClicked();
+  link.onLinkClicked();
   assertEquals(new Integer(0),lv.getListObject(0));
   assertEquals(new Integer(2),lv.getListObject(1));
   assertEquals(new Integer(1),lv.getListObject(2));

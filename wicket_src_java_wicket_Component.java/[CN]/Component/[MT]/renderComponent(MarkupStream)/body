@@ -1,6 +1,6 @@
 {
   final ComponentTag tag=markupStream.getTag().mutable();
-  handleComponentTag(tag);
+  onComponentTag(tag);
   final XmlTag.Type type=tag.getType();
   if (tag.isOpenClose()) {
     tag.setType(XmlTag.OPEN);
@@ -13,6 +13,6 @@
   renderComponentTag(tag);
   markupStream.next();
   tag.setType(type);
-  handleComponentTagBody(markupStream,tag);
+  onComponentTagBody(markupStream,tag);
   renderClosingComponentTag(markupStream,tag);
 }

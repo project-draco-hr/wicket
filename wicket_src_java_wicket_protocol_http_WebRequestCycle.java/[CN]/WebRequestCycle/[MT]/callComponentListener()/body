@@ -5,11 +5,11 @@
     final Page page=session.getPage(path);
     if (page != null) {
       if (page.isStale()) {
-        handleStalePage();
+        onStalePage();
         return true;
       }
  else       if (page.isRenderingStale(Integer.parseInt(request.getParameter("rendering")))) {
-        handleStaleRendering(page);
+        onStaleRendering(page);
         return true;
       }
  else {
@@ -18,7 +18,7 @@
       }
     }
  else {
-      handleExpiredPage();
+      onExpiredPage();
       return true;
     }
   }

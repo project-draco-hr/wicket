@@ -1,0 +1,11 @@
+{
+  final Session session=getSession();
+  Locale userLocale=session.getLocale();
+  session.setLocale(currentLocale);
+  try {
+    super.onRender();
+  }
+  finally {
+    session.setLocale(userLocale);
+  }
+}

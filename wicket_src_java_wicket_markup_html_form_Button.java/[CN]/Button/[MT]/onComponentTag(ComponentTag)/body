@@ -1,0 +1,13 @@
+{
+  checkComponentTag(tag,"input");
+  final ValueMap attributes=tag.getAttributes();
+  final String type=attributes.getString("type");
+  if (type == null || (!type.equalsIgnoreCase("button") && !type.equalsIgnoreCase("image") && !type.equalsIgnoreCase("submit"))) {
+    throw new WicketRuntimeException("Button tag must have a type of 'button', 'image' or 'submit'");
+  }
+  final String value=tag.getAttributes().getString("value");
+  if (Strings.isEmpty(value)) {
+    throw new WicketRuntimeException("Button tag must have non-empty value attribute");
+  }
+  super.onComponentTag(tag);
+}

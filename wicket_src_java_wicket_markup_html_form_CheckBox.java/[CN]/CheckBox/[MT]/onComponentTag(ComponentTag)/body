@@ -1,0 +1,20 @@
+{
+  checkComponentTag(tag,"input");
+  checkComponentTagAttribute(tag,"type","checkbox");
+  super.onComponentTag(tag);
+  Object value=getModelObject();
+  if (value != null) {
+    final boolean tagValue;
+    if (value instanceof String) {
+      tagValue=Boolean.valueOf((String)value).booleanValue();
+    }
+ else     if (value instanceof Boolean) {
+      tagValue=((Boolean)value).booleanValue();
+    }
+ else {
+      throw new WicketRuntimeException("Model objects for checkboxes have to be of type Boolean");
+    }
+    if (tagValue)     tag.put("checked","checked");
+ else     tag.remove("checked");
+  }
+}

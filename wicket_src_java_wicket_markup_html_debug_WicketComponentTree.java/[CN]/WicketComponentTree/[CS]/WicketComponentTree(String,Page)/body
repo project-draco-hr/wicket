@@ -2,7 +2,7 @@
   super(componentName);
   final List data=new ArrayList();
   add(new ListView("rows2",data){
-    protected void handleRender(){
+    protected void onRender(){
       data.clear();
       data.addAll(getComponentData(page));
       Collections.sort(data,new Comparator(){
@@ -11,7 +11,7 @@
         }
       }
 );
-      super.handleRender();
+      super.onRender();
     }
     protected void populateItem(    ListItem listItem){
       final ComponentData cdata=(ComponentData)listItem.getModelObject();
