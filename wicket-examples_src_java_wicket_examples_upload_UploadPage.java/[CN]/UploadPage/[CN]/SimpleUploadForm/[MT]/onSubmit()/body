@@ -1,4 +1,20 @@
 {
-  saveFiles();
-  refreshFiles();
+  FileItem item=(FileItem)fileModel.getObject();
+  if (item != null) {
+    String fileName=item.getName();
+    fileName=afterLast(fileName,':');
+    fileName=afterLast(fileName,'\\');
+    fileName=afterLast(fileName,'/');
+    log.info("uploaded item: " + fileName);
+    File newFile=new File(uploadFolder,fileName);
+    checkFileExists(newFile);
+    try {
+      newFile.createNewFile();
+      item.write(newFile);
+    }
+ catch (    Exception e) {
+      throw new IllegalStateException(e);
+    }
+    refreshFiles();
+  }
 }

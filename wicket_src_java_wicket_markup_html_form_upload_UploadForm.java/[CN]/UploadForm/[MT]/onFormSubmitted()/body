@@ -1,4 +1,6 @@
 {
-  RequestCycle.get().setRequest(new MultipartWebRequest(((WebRequest)getRequest()).getHttpServletRequest()));
+  HttpServletRequest request=((WebRequest)getRequest()).getHttpServletRequest();
+  MultipartWebRequest multipartWebRequest=new MultipartWebRequest(request);
+  RequestCycle.get().setRequest(multipartWebRequest);
   super.onFormSubmitted();
 }
