@@ -1,7 +1,6 @@
 {
   super(componentName);
-  this.data=data;
-  table=new MyTable("rows",data){
+  add(new TableWithAlternatingRowStyle("rows",data){
     public boolean populateCell(    final Cell cell,    final Container tagClass){
       final ListObject value=(ListObject)cell.getModelObject();
       tagClass.add(new Label("id",new Integer(value.getId())));
@@ -10,6 +9,5 @@
       return true;
     }
   }
-;
-  add(table);
+);
 }

@@ -3,38 +3,34 @@
   add(new Table("rows",data){
     public void populateCell(    final Cell cell){
       final ListObject value=(ListObject)cell.getModelObject();
-      HtmlContainer table=new HtmlContainer("class");
-      table.addAttributeModifier(new ComponentTagAttributeModifier("class",new Model(cell.isEvenIndex() ? "even" : "odd")));
-      cell.add(table);
+      cell.addAttributeModifier(new ComponentTagAttributeModifier("class",new Model(cell.isEvenIndex() ? "even" : "odd")));
       ExternalPageLink idLink=new ExternalPageLink("idLink",Page3.class);
       idLink.setParameter("id",value.getId());
       idLink.add(new Label("id",new Integer(value.getId())));
-      table.add(idLink);
+      cell.add(idLink);
       ExternalPageLink emailLink=new ExternalPageLink("mailLink",Page3.class);
       emailLink.setParameter("action","sendamail");
       emailLink.add(new Label("email",value.getEmail()));
-      table.add(emailLink);
+      cell.add(emailLink);
       ExternalPageLink statusLink=new ExternalPageLink("statusLink",Page3.class);
       statusLink.setParameter("id",value.getId());
       statusLink.add(new Label("status",value.getStatus()));
-      table.add(statusLink);
+      cell.add(statusLink);
     }
   }
 );
   add(new Table("rows2",data){
     public void populateCell(    final Cell cell){
       final ListObject value=(ListObject)cell.getModelObject();
-      HtmlContainer table=new HtmlContainer("class");
-      table.addAttributeModifier(new ComponentTagAttributeModifier("class",new Model(cell.isEvenIndex() ? "even" : "odd")));
-      cell.add(table);
+      cell.addAttributeModifier(new ComponentTagAttributeModifier("class",new Model(cell.isEvenIndex() ? "even" : "odd")));
       ExternalPageLink idLink=new ExternalPageLink("idLink",Page3.class);
       idLink.setParameter("id",value.getId());
       idLink.add(new Label("id",new Integer(value.getId())));
-      table.add(idLink);
-      table.add(new Label("email",value.getEmail()));
-      table.add(new ExternalPageLink("view",Page3.class).setParameter("id",value.getId()).setParameter("action","view"));
-      table.add(new ExternalPageLink("edit",Page3.class).setParameter("id",value.getId()).setParameter("action","edit"));
-      table.add(new ExternalPageLink("delete",Page3.class).setParameter("id",value.getId()).setParameter("action","delete"));
+      cell.add(idLink);
+      cell.add(new Label("email",value.getEmail()));
+      cell.add(new ExternalPageLink("view",Page3.class).setParameter("id",value.getId()).setParameter("action","view"));
+      cell.add(new ExternalPageLink("edit",Page3.class).setParameter("id",value.getId()).setParameter("action","edit"));
+      cell.add(new ExternalPageLink("delete",Page3.class).setParameter("id",value.getId()).setParameter("action","delete"));
     }
   }
 );

@@ -27,7 +27,7 @@
     }
   }
 );
-  final MyPagedTable table=new MyPagedTable("rows",data,10){
+  final PagedTableWithAlternatingRowStyle table=new PagedTableWithAlternatingRowStyle("rows",data,10){
     public boolean populateCell(    final Cell cell,    final Container tagClass){
       final ListObject value=(ListObject)cell.getModelObject();
       tagClass.add(new Label("id",new Integer(value.getId())));
@@ -40,8 +40,6 @@
   }
 ;
   add(table);
-  final TableNavigation tableNavigation=new TableNavigation("navigation",table);
-  add(tableNavigation);
   add(new Label("headline",null){
     protected void handleBody(    final RequestCycle cycle,    final MarkupStream markupStream,    final ComponentTag openTag){
       String text=String.valueOf(data.size()) + " items found, displaying " + String.valueOf(table.firstCell() + 1)+ " to "+ String.valueOf(table.firstCell() + table.getPageSizeInCells())+ ".";

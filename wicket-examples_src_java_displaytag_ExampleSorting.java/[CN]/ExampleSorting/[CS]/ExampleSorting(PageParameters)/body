@@ -7,6 +7,10 @@
       }
       return super.compareTo(header,o1,o2);
     }
+    /** 
+ * Define how to do sorting
+ * @see com.voicetribe.wicket.markup.html.table.SortableTableHeaders#getObjectToCompare(com.voicetribe.wicket.markup.html.table.SortableTableHeader,java.lang.Object)
+ */
     protected Comparable getObjectToCompare(    final SortableTableHeader header,    final Object object){
       final String name=header.getName();
       if (name.equals("name")) {
@@ -25,7 +29,7 @@
     }
   }
 );
-  add(new MyTable("rows",data){
+  add(new TableWithAlternatingRowStyle("rows",data){
     public boolean populateCell(    final Cell cell,    final Container tagClass){
       final ListObject value=(ListObject)cell.getModelObject();
       tagClass.add(new Label("id",new Integer(value.getId())));
