@@ -1,5 +1,10 @@
 {
-  Session session=RequestCycle.get().getSession();
-  localizer=session.getApplication().getLocalizer();
-  locale=session.getLocale();
+  final Session session=Session.get();
+  if (session != null) {
+    localizer=session.getApplication().getLocalizer();
+    locale=session.getLocale();
+  }
+ else {
+    throw new WicketRuntimeException("Cannot attach a string resource model without a Session context because that is required to get a Localizer");
+  }
 }

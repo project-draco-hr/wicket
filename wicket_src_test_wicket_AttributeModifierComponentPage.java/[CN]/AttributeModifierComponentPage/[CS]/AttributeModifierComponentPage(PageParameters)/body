@@ -6,15 +6,15 @@
   label2.add(new AttributeModifier("unknown",new Model("invalid")));
   add(label2);
   Label label3=new Label("label3",new Model("Label 3"));
-  label3.add(new AttributeModifier("class",true,new DetachableModel(){
-    private String text=null;
+  label3.add(new AttributeModifier("class",true,new AbstractDetachableModel(){
+    private transient String text=null;
     public void onDetach(){
       text=null;
     }
     public void onAttach(){
       text="insertLabel";
     }
-    public Object getObject(){
+    public Object onGetObject(){
       attach();
       return text;
     }

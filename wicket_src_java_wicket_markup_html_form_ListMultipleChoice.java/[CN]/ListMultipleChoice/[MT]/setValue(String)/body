@@ -7,16 +7,8 @@
  else {
     selectedValues.clear();
   }
-  final List list=getValues();
-  final StringTokenizer st=new StringTokenizer(value,";");
-  while (st.hasMoreTokens()) {
-    final String idOrIndex=st.nextToken();
-    if (list instanceof IDetachableChoiceList) {
-      selectedValues.add(((IDetachableChoiceList)list).objectForId(idOrIndex));
-    }
- else {
-      final int index=Integer.parseInt(idOrIndex);
-      selectedValues.add(list.get(index));
-    }
+  final IChoiceList choices=getChoices();
+  for (final StringTokenizer tokenizer=new StringTokenizer(value,";"); tokenizer.hasMoreTokens(); ) {
+    selectedValues.add(choices.choiceForId(tokenizer.nextToken()));
   }
 }

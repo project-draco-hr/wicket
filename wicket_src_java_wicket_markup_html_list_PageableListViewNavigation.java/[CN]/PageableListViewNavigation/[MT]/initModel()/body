@@ -1,7 +1,8 @@
 {
-  return new DetachableModel(){
+  return new AbstractDetachableModel(){
+    private transient List list;
     protected void onAttach(){
-      setObject(new AbstractList(){
+      this.list=new AbstractList(){
         public Object get(        final int index){
           return new Integer(index);
         }
@@ -9,10 +10,13 @@
           return pageableListView.getPageCount();
         }
       }
-);
+;
     }
     protected void onDetach(){
-      setObject(null);
+      this.list=null;
+    }
+    protected Object onGetObject(){
+      return list;
     }
   }
 ;

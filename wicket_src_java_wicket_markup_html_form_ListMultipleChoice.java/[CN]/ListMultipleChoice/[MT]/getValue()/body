@@ -2,16 +2,10 @@
   final Collection selectedValues=(Collection)getModelObject();
   final StringBuffer value=new StringBuffer();
   if (selectedValues != null) {
-    final List list=getValues();
-    final Iterator it=selectedValues.iterator();
-    while (it.hasNext()) {
-      final int index=list.indexOf(it.next());
-      if (list instanceof IDetachableChoiceList) {
-        value.append(((IDetachableChoiceList)list).getId(index));
-      }
- else {
-        value.append(index);
-      }
+    final IChoiceList choices=getChoices();
+    for (final Iterator iterator=selectedValues.iterator(); iterator.hasNext(); ) {
+      final IChoice choice=choices.choiceForObject(iterator.next());
+      value.append(choice.getId());
       value.append(";");
     }
   }

@@ -7,17 +7,12 @@
     selectedValues=new ArrayList();
     setModelObject(selectedValues);
   }
-  final String[] indicesOrIds=inputAsStringArray();
-  if (indicesOrIds != null && indicesOrIds.length > 0 && !Strings.isEmpty(indicesOrIds[0])) {
-    final List list=getValues();
-    for (int i=0; i < indicesOrIds.length; i++) {
-      if (list instanceof IDetachableChoiceList) {
-        selectedValues.add(((IDetachableChoiceList)list).objectForId(indicesOrIds[i]));
-      }
- else {
-        final int index=Integer.parseInt(indicesOrIds[i]);
-        selectedValues.add(list.get(index));
-      }
+  final String[] ids=inputAsStringArray();
+  if (ids != null && ids.length > 0 && !Strings.isEmpty(ids[0])) {
+    final IChoiceList choices=getChoices();
+    for (int i=0; i < ids.length; i++) {
+      final IChoice choice=choices.choiceForId(ids[i]);
+      selectedValues.add(choice.getObject());
     }
   }
 }

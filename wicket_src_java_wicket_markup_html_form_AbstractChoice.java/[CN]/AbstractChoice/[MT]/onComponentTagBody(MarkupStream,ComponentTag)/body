@@ -1,7 +1,7 @@
 {
   final StringBuffer options=new StringBuffer();
   final Object selected=getModelObject();
-  final List list=getValues();
+  final IChoiceList choices=getChoices();
   if (nullValid) {
     final String option=getLocalizer().getString(getName() + ".null",this,"");
     options.append("\n<option");
@@ -16,33 +16,22 @@
       options.append("\n<option selected=\"selected\" value=\"\">").append(option).append("</option>");
     }
   }
-  for (int i=0; i < list.size(); i++) {
-    final Object value=list.get(i);
-    if (value != null) {
-      final String id;
-      final String displayValue;
-      if (list instanceof IDetachableChoiceList) {
-        IDetachableChoiceList choiceList=(IDetachableChoiceList)list;
-        id=choiceList.getId(i);
-        displayValue=choiceList.getDisplayValue(i);
-      }
- else {
-        id=Integer.toString(i);
-        displayValue=value.toString();
-      }
-      final boolean currentOptionIsSelected=isSelected(value);
+  for (int i=0; i < choices.size(); i++) {
+    final IChoice choice=choices.get(i);
+    if (choice != null) {
+      final String displayValue=choice.getDisplayValue();
       options.append("\n<option ");
-      if (currentOptionIsSelected) {
+      if (isSelected(choice.getObject())) {
         options.append("selected=\"selected\"");
       }
       options.append("value=\"");
-      options.append(id);
+      options.append(choice.getId());
       options.append("\">");
       options.append(getLocalizer().getString(getName() + "." + displayValue,this,displayValue));
       options.append("</option>");
     }
  else {
-      throw new IllegalArgumentException("Dropdown choice contains null value in values collection at index " + i);
+      throw new IllegalArgumentException("Choice list has null value at index " + i);
     }
   }
   options.append("\n");
