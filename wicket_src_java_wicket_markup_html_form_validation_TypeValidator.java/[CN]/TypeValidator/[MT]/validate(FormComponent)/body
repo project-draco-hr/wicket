@@ -1,0 +1,12 @@
+{
+  final String value=component.getStringValue();
+  final ConversionUtils conversionUtils=getConversionUtils();
+  final Locale localeForValidation=getLocaleForValidation();
+  try {
+    conversionUtils.convert(component.getStringValue(),type,localeForValidation);
+    return ValidationErrorMessage.NO_MESSAGE;
+  }
+ catch (  ConversionException e) {
+    return getError(value,component,e);
+  }
+}
