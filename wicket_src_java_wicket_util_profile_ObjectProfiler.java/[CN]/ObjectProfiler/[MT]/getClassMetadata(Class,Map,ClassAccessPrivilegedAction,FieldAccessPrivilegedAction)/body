@@ -18,7 +18,7 @@ synchronized (metadataMap) {
     declaredFields=(Field[])AccessController.doPrivileged(caAction);
   }
  catch (  PrivilegedActionException pae) {
-    throw new WicketRuntimeException("could not access declared fields of class " + cls.getName() + ": "+ pae.getException());
+    throw new RuntimeException("could not access declared fields of class " + cls.getName() + ": "+ pae.getException());
   }
   for (int f=0; f < declaredFields.length; ++f) {
     final Field field=declaredFields[f];
@@ -37,7 +37,7 @@ synchronized (metadataMap) {
           AccessController.doPrivileged(faAction);
         }
  catch (        PrivilegedActionException pae) {
-          throw new WicketRuntimeException("could not make field " + field + " accessible: "+ pae.getException());
+          throw new RuntimeException("could not make field " + field + " accessible: "+ pae.getException());
         }
       }
       shellSize+=OBJREF_SIZE;
