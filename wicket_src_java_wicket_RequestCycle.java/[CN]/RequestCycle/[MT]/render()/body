@@ -5,7 +5,10 @@ synchronized (session) {
       handleRender();
     }
  catch (    RuntimeException e) {
-      getPage().reset();
+      Page currentPage=getPage();
+      if (currentPage != null) {
+        currentPage.reset();
+      }
       handleRenderingException(e);
     }
  finally {
