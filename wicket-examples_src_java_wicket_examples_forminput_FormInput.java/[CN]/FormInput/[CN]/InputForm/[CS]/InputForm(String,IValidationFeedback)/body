@@ -1,15 +1,21 @@
 {
   super(name,validationErrorHandler);
   RequiredValidator requiredValidator=new RequiredValidator();
-  TextField stringInput=new TextField("stringInput",input,"stringProperty");
+  IModel inputModel=new Model(){
+    public Object getObject(){
+      return input;
+    }
+  }
+;
+  TextField stringInput=new TextField("stringInput",inputModel,"stringProperty");
   stringInput.add(requiredValidator);
-  TextField integerInput=new TextField("integerInput",input,"integerProperty");
+  TextField integerInput=new TextField("integerInput",inputModel,"integerProperty");
   integerInput.add(requiredValidator);
   integerInput.add(new TypeValidator(Integer.class));
-  TextField doubleInput=new TextField("doubleInput",input,"doubleProperty");
+  TextField doubleInput=new TextField("doubleInput",inputModel,"doubleProperty");
   doubleInput.add(requiredValidator);
   doubleInput.add(new TypeValidator(Double.class));
-  TextField dateInput=new TextField("dateInput",input,"dateProperty");
+  TextField dateInput=new TextField("dateInput",inputModel,"dateProperty");
   dateInput.add(requiredValidator);
   dateInput.add(new TypeValidator(Date.class));
   add(stringInput);
@@ -33,4 +39,10 @@
   }
 );
   add(integerInRangeInput);
+  add(new OnClickLink("resetButton"){
+    public void linkClicked(){
+      input=new TestInputObject();
+    }
+  }
+);
 }
