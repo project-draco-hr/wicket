@@ -1,13 +1,12 @@
 {
-  add(new SignInPanel("signInPanel"){
-    protected String signIn(    RequestCycle cycle,    String username,    String password){
+  super(new SignIn2Panel("signInPanel"){
+    public String signIn(    RequestCycle cycle,    String username,    String password){
       if (username.equals("jonathan") && password.equals("password")) {
         cycle.getSession().setProperty("user","jonathan");
+        this.setPersistent(this.getRememberMe());
         return null;
       }
- else {
-        return "Couldn't sign you in";
-      }
+      return "Couldn't sign you in";
     }
   }
 );
