@@ -8,13 +8,13 @@
   final PreviewComponentTagRemover previewComponentTagRemover=new PreviewComponentTagRemover(wicketParamTagHandler);
   final AutolinkHandler autolinkHandler=new AutolinkHandler(previewComponentTagRemover);
   autolinkHandler.setAutomaticLinking(this.automaticLinking);
-  final IMarkupFilter parser=autolinkHandler;
-  for (ComponentTag tag; null != (tag=(ComponentTag)parser.nextTag()); ) {
+  final IMarkupFilter markupFilterChain=autolinkHandler;
+  for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
     boolean add=(tag.getComponentName() != null);
-    if ((add == false) && tag.getXmlTag().isClose()) {
+    if (!add && tag.getXmlTag().isClose()) {
       add=((tag.getOpenTag() != null) && (tag.getOpenTag().getComponentName() != null));
     }
-    if (add == true) {
+    if (add) {
       final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
       if (text.length() > 0) {
         String rawMarkup=text.toString();
@@ -27,7 +27,7 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
-      if (!"_ignore_".equals(tag.getComponentName())) {
+      if (!PreviewComponentTagRemover.IGNORE.equals(tag.getComponentName())) {
         list.add(tag);
       }
       xmlParser.setPositionMarker();

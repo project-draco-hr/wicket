@@ -1,5 +1,5 @@
 {
-  ComponentTag openTag=(ComponentTag)parent.nextTag();
+  final ComponentTag openTag=(ComponentTag)getParent().nextTag();
   if (openTag == null) {
     return openTag;
   }
@@ -10,12 +10,12 @@
     throw new MarkupException("Wicket remove tag must not be an open-close tag: " + openTag.toUserDebugString());
   }
   ComponentTag closeTag;
-  while (null != (closeTag=(ComponentTag)parent.nextTag())) {
+  while (null != (closeTag=(ComponentTag)getParent().nextTag())) {
     if (closeTag.getComponentName() == null) {
       continue;
     }
     if (closeTag.closes(openTag)) {
-      openTag.setComponentName("_ignore_");
+      openTag.setComponentName(IGNORE);
       return openTag;
     }
     throw new MarkupException("Markup remove regions must not contain Wicket component tags. " + "tag: " + closeTag.toUserDebugString());
