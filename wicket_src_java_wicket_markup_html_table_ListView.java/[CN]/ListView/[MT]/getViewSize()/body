@@ -13,8 +13,11 @@
       size=modelSize - firstIndex;
     }
   }
+ else {
+    throw new IllegalStateException("model object (" + modelObject.getClass() + ") is not a List and the view size is not explicitly set");
+  }
   if ((Integer.MAX_VALUE - size) <= firstIndex) {
-    throw new IllegalArgumentException("firstIndex + size must be smaller than Integer.MAX_VALUE");
+    throw new IllegalStateException("firstIndex + size must be smaller than Integer.MAX_VALUE");
   }
   return size;
 }
