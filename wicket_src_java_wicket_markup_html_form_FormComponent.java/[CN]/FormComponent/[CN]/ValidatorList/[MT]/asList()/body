@@ -1,0 +1,15 @@
+{
+  ValidatorList current=this;
+  List validators=new ArrayList();
+  while (true) {
+    validators.add(current.left);
+    if (current.right instanceof ValidatorList) {
+      current=(ValidatorList)current.right;
+    }
+ else {
+      validators.add(current.right);
+      break;
+    }
+  }
+  return validators;
+}
