@@ -1,0 +1,15 @@
+{
+  if (log.isDebugEnabled()) {
+    DefaultMutableTreeNode rootNode=(DefaultMutableTreeNode)treeModel.getRoot();
+    Enumeration e=rootNode.preorderEnumeration();
+    log.debug("-- DUMPING TREE --");
+    while (e.hasMoreElements()) {
+      DefaultMutableTreeNode node=(DefaultMutableTreeNode)e.nextElement();
+      String tabs="|";
+      for (int i=0; i < node.getLevel(); i++) {
+        tabs+="-";
+      }
+      log.debug(tabs + node);
+    }
+  }
+}
