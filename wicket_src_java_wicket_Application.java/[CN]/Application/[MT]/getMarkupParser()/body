@@ -1,13 +1,5 @@
 {
-  try {
-    final IMarkupParser parser=(IMarkupParser)settings.getMarkupParserClass().newInstance();
-    parser.configure(getSettings());
-    return parser;
-  }
- catch (  IllegalAccessException e) {
-    throw new WicketRuntimeException("Failed to get markup parser",e);
-  }
-catch (  InstantiationException e) {
-    throw new WicketRuntimeException("Failed to get markup parser",e);
-  }
+  final MarkupParser parser=new MarkupParser();
+  parser.configure(getSettings());
+  return parser;
 }

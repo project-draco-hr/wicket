@@ -1,0 +1,16 @@
+{
+  if (tag.isAutolinkEnabled()) {
+    if (!tag.getName().equalsIgnoreCase("a")) {
+      markupStream.throwMarkupException("Automatic link can only be attached to an anchor tag");
+    }
+    final String componentName=tag.getComponentName();
+    final Link link=resolveAutomaticLink(container.getPage(),markupStream,componentName,tag);
+    container.add(link);
+    if (log.isDebugEnabled()) {
+      log.debug("Added autolink " + link);
+    }
+    link.render();
+    return true;
+  }
+  return false;
+}

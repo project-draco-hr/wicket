@@ -53,19 +53,13 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
-      if (tag.isAutolinkEnabled()) {
+      if ((tag instanceof ComponentWicketTag) && ((ComponentWicketTag)tag).isLinkTag()) {
         final String tagString=tag.toXmlString();
         list.add(new RawMarkup(tagString));
       }
  else {
-        if ((tag instanceof ComponentWicketTag) && ((ComponentWicketTag)tag).isLinkTag()) {
-          final String tagString=tag.toXmlString();
-          list.add(new RawMarkup(tagString));
-        }
- else {
-          tag.makeImmutable();
-          list.add(tag);
-        }
+        tag.makeImmutable();
+        list.add(tag);
       }
       position=tag.getPos() + tag.getLength();
     }

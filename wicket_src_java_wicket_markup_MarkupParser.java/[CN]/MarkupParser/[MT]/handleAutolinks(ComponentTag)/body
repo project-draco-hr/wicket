@@ -3,7 +3,14 @@
     return false;
   }
   if ((automaticLinking == true) && (tag.getComponentName() == null) && tag.getAttributes().containsKey("href")) {
-    return resolveAutomaticLink(tag);
+    final String originalHref=tag.getAttributes().getString("href");
+    final int pos=originalHref.indexOf(".html");
+    if (pos <= 0) {
+      return false;
+    }
+    tag.componentName="_autolink_";
+    tag.enableAutolink(true);
+    return true;
   }
   if (tag instanceof ComponentWicketTag) {
     final ComponentWicketTag wtag=(ComponentWicketTag)tag;

@@ -2,7 +2,7 @@
   final String originalHref=tag.getAttributes().getString("href");
   final int pos=originalHref.indexOf(".html");
   if (pos <= 0) {
-    return false;
+    markupStream.throwMarkupException("Expected to find '*.html' in href: " + originalHref);
   }
   String classPath=originalHref.substring(0,pos);
   PageParameters pageParameters=null;
@@ -11,10 +11,8 @@
     pageParameters=new PageParameters(new ValueMap(queryString,"&"));
   }
   classPath=classPath.replaceAll("/",".");
-  classPath=autolinkBasePage.getClass().getPackage().getName() + "." + classPath;
-  Class clazz=autolinkBasePage.getApplicationSettings().getDefaultClassResolver().resolveClass(classPath);
-  String url=RequestCycle.get().urlFor(clazz,pageParameters);
-  tag.put("href",url);
-  tag.enableAutolink(true);
-  return true;
+  classPath=page.getClass().getPackage().getName() + "." + classPath;
+  Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(classPath);
+  final String id=componentName + "-" + page.getAutoIndex();
+  return new BookmarkablePageLink(id,clazz,pageParameters);
 }
