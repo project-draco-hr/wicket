@@ -2,7 +2,9 @@
   visitChildren(FormComponent.class,new IVisitor(){
     public Object component(    final Component component){
       final FormComponent formComponent=(FormComponent)component;
-      formComponent.updateModel();
+      if (formComponent.isVisible()) {
+        formComponent.updateModel();
+      }
       return CONTINUE_TRAVERSAL;
     }
   }
