@@ -1,14 +1,16 @@
 {
-  final int index=getList().indexOf(item.getModelObject());
   final Link link=new Link(id){
     public void onClick(){
-      Collections.swap(getList(),index,index + 1);
-      ListView.this.removeAll();
+      final int index=getList().indexOf(item.getModelObject());
+      if (index != -1) {
+        Collections.swap(getList(),index,index + 1);
+        ListView.this.removeAll();
+      }
     }
   }
 ;
-  if (index == (getList().size() - 1)) {
-    link.setVisible(false);
+  if (getList().indexOf(item.getModelObject()) == (getList().size() - 1)) {
+    link.setEnabled(false);
   }
   return link;
 }
