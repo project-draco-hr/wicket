@@ -1,0 +1,15 @@
+{
+  TreeModel model=(TreeModel)getTreeState().getModel();
+  TreeStateCache treeState=getTreeState();
+  List treePathList=new ArrayList();
+  DefaultMutableTreeNode rootNode=(DefaultMutableTreeNode)model.getRoot();
+  Enumeration e=rootNode.preorderEnumeration();
+  while (e.hasMoreElements()) {
+    DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)e.nextElement();
+    TreePath path=new TreePath(treeNode.getPath());
+    TreeNodeModel treeNodeModel=new TreeNodeModel(treeNode,treeState,path);
+    treePathList.add(treeNodeModel);
+  }
+  VisibleTreePathListView treePathsListView=new VisibleTreePathListView("tree",new Model((Serializable)treePathList));
+  return treePathsListView;
+}

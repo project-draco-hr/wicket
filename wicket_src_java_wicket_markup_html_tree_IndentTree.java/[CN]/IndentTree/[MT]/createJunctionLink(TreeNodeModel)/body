@@ -1,12 +1,17 @@
 {
-  TreeNodeLink junctionLink=new TreeNodeLink("junctionLink",this,node){
-    public void linkClicked(    TreeNodeModel node){
+  Link junctionLink=new Link("junctionLink"){
+    public void linkClicked(){
       junctionLinkClicked(node);
     }
   }
 ;
   HtmlContainer junctionImg=new HtmlContainer("junctionImg");
-  junctionImg.add(new ComponentTagAttributeModifier("src",true,new Model(getJunctionImageName(node))));
+  junctionImg.add(new ComponentTagAttributeModifier("src",true,new Model(){
+    public Object getObject(){
+      return getJunctionImageName(node);
+    }
+  }
+));
   junctionLink.add(junctionImg);
   return junctionLink;
 }

@@ -1,13 +1,18 @@
 {
   Object userObject=node.getTreeNode().getUserObject();
-  TreeNodeLink nodeLink=new TreeNodeLink("nodeLink",this,node){
-    public void linkClicked(    TreeNodeModel node){
+  Link nodeLink=new Link("nodeLink"){
+    public void linkClicked(){
       nodeLinkClicked(node);
     }
   }
 ;
   HtmlContainer nodeImg=new HtmlContainer("nodeImg");
-  nodeImg.add(new ComponentTagAttributeModifier("src",true,new Model(getNodeImageName(node))));
+  nodeImg.add(new ComponentTagAttributeModifier("src",true,new Model(){
+    public Object getObject(){
+      return getNodeImageName(node);
+    }
+  }
+));
   nodeLink.add(nodeImg);
   String userObjectAsString=getNodeLabel(node);
   nodeLink.add(new Label("label",userObjectAsString));
