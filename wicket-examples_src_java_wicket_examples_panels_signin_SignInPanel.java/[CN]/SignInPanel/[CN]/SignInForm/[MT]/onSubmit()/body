@@ -1,0 +1,14 @@
+{
+  if (signIn(getUsername(),getPassword())) {
+    if (getPage().continueToOriginalDestination()) {
+      setResponsePage(null);
+    }
+ else {
+      setResponsePage(getApplicationSettings().getDefaultPageFactory().newPage(getApplicationPages().getHomePage(),(PageParameters)null));
+    }
+  }
+ else {
+    final String errmsg=getLocalizer().getString("loginError",this,"Unable to sign you in");
+    error(errmsg);
+  }
+}

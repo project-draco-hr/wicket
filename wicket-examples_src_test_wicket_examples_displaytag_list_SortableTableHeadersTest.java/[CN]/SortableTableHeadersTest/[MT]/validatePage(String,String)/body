@@ -1,0 +1,38 @@
+{
+  String filename=this.getClass().getPackage().getName();
+  filename=filename.replace('.','/');
+  filename+="/" + file;
+  InputStream in=this.getClass().getClassLoader().getResourceAsStream(filename);
+  if (in == null) {
+    throw new IOException("File not found: " + filename);
+  }
+  String reference=Streams.readString(in);
+  boolean equals=document.equals(reference);
+  if (equals == false) {
+    if (false) {
+      in.close();
+      in=null;
+      final URL url=this.getClass().getClassLoader().getResource(filename);
+      filename=url.getFile();
+      filename=filename.replaceAll("/build/test-classes/","/src/test/");
+      PrintWriter out=new PrintWriter(new FileOutputStream(filename));
+      out.print(document);
+      out.close();
+      return true;
+    }
+    log.error("File name: " + file);
+    log.error("===================");
+    log.error(document);
+    log.error("===================");
+    log.error(reference);
+    log.error("===================");
+    String[] test1=StringList.tokenize(document,"\n").toArray();
+    String[] test2=StringList.tokenize(reference,"\n").toArray();
+    Diff diff=new Diff(test1,test2);
+    Diff.change script=diff.diff_2(false);
+    DiffPrint.Base p=new DiffPrint.UnifiedPrint(test1,test2);
+    p.setOutput(new PrintWriter(System.err));
+    p.print_script(script);
+  }
+  return equals;
+}

@@ -1,0 +1,15 @@
+{
+  change script=null;
+  int i0=len0, i1=len1;
+  while (i0 >= 0 || i1 >= 0) {
+    if (changed0[i0] || changed1[i1]) {
+      int line0=i0, line1=i1;
+      while (changed0[i0])       --i0;
+      while (changed1[i1])       --i1;
+      script=new change(i0,i1,line0 - i0,line1 - i1,script);
+    }
+    i0--;
+    i1--;
+  }
+  return script;
+}

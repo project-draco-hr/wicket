@@ -1,0 +1,40 @@
+{
+  analyze_hunk(hunk);
+  if (deletes == 0 && inserts == 0)   return;
+  first0=Math.max(first0 - context,0);
+  first1=Math.max(first1 - context,0);
+  last0=Math.min(last0 + context,file0.length - 1);
+  last1=Math.min(last1 + context,file1.length - 1);
+  outfile.print("@@ -");
+  print_number_range(first0,last0);
+  outfile.print(" +");
+  print_number_range(first1,last1);
+  outfile.print(" @@");
+  print_function(file0,first0);
+  outfile.println();
+  Diff.change next=hunk;
+  int i=first0;
+  int j=first1;
+  while (i <= last0 || j <= last1) {
+    if (next == null || i < next.line0) {
+      if (i < file0.length) {
+        outfile.print(' ');
+        print_1_line("",file0[i++]);
+      }
+      j++;
+    }
+ else {
+      int k=next.deleted;
+      while (k-- > 0) {
+        outfile.print('-');
+        print_1_line("",file0[i++]);
+      }
+      k=next.inserted;
+      while (k-- > 0) {
+        outfile.print('+');
+        print_1_line("",file1[j++]);
+      }
+      next=next.link;
+    }
+  }
+}

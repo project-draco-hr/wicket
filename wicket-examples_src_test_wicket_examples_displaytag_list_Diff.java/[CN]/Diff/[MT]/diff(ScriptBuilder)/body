@@ -1,0 +1,15 @@
+{
+  discard_confusing_lines();
+  xvec=filevec[0].undiscarded;
+  yvec=filevec[1].undiscarded;
+  int diags=filevec[0].nondiscarded_lines + filevec[1].nondiscarded_lines + 3;
+  fdiag=new int[diags];
+  fdiagoff=filevec[1].nondiscarded_lines + 1;
+  bdiag=new int[diags];
+  bdiagoff=filevec[1].nondiscarded_lines + 1;
+  compareseq(0,filevec[0].nondiscarded_lines,0,filevec[1].nondiscarded_lines);
+  fdiag=null;
+  bdiag=null;
+  shift_boundaries();
+  return bld.build_script(filevec[0].changed_flag,filevec[0].buffered_lines,filevec[1].changed_flag,filevec[1].buffered_lines);
+}
