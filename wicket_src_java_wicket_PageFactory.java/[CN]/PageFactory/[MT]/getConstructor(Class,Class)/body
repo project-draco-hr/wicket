@@ -1,0 +1,18 @@
+{
+  Constructor constructor=(Constructor)constructors.get(pageClass.getName());
+  if (constructor == null) {
+    try {
+      if (parameter == null) {
+        constructor=pageClass.getConstructor(null);
+      }
+ else {
+        constructor=pageClass.getConstructor(new Class[]{parameter});
+      }
+      constructors.put(pageClass.getName(),constructor);
+    }
+ catch (    NoSuchMethodException e) {
+      throw new RenderException("Could not find proper page constructor in " + pageClass + "; Constructor parameter="+ (parameter == null ? "null" : parameter.getName()),e);
+    }
+  }
+  return constructor;
+}

@@ -1,0 +1,13 @@
+{
+  Constructor constructor=null;
+  try {
+    constructor=getConstructor(pageClass,PageParameters.class);
+  }
+ catch (  RuntimeException e) {
+    constructor=getConstructor(pageClass,null);
+  }
+  if (constructor == null) {
+    throw new RenderException("Could not find constructor for page '" + pageClass + "' with PageParameter argument or default constructor");
+  }
+  return newPage(constructor,parameters);
+}

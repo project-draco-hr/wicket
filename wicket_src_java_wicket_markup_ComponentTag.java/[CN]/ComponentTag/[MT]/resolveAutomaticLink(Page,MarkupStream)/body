@@ -14,7 +14,7 @@
       }
       final String path=Strings.stripEnding(href,".html");
       try {
-        automaticLinkPageClass=Classes.relativeClass(page.getClass().getPackage(),path);
+        automaticLinkPageClass=RequestCycle.get().getApplication().getSettings().getPageFactory().getClassInstance(page.getClass().getPackage().getName() + "." + path);
         if (parameters != null) {
           automaticLinkPageParameters=new PageParameters(parameters);
         }
@@ -22,7 +22,7 @@
           automaticLinkPageParameters=PageParameters.NULL;
         }
       }
- catch (      ClassNotFoundException e) {
+ catch (      RenderException e) {
         markupStream.throwMarkupException("Could not find page at " + path);
       }
     }
