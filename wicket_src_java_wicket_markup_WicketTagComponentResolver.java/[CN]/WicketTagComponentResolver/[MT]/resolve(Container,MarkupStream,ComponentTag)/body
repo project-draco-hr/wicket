@@ -4,7 +4,19 @@
     if (wicketTag.isComponentTag()) {
       final Component component=createComponent(container,wicketTag);
       if (component != null) {
+        nestedComponents.put(component,null);
         container.add(component);
+        component.render();
+        nestedComponents.remove(component);
+        return true;
+      }
+    }
+  }
+  if ((tag.getComponentName() != null) && nestedComponents.containsKey(container)) {
+    final Container parent=container.getParent();
+    if (parent != null) {
+      final Component component=parent.get(tag.getComponentName());
+      if (component != null) {
         component.render();
         return true;
       }
