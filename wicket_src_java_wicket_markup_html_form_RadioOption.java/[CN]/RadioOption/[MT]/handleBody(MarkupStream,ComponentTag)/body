@@ -1,12 +1,11 @@
 {
-  Object value=getModelObject();
   final String displayLabel;
   if (label != null) {
     displayLabel=label;
   }
  else {
-    displayLabel=String.valueOf(value);
+    displayLabel=String.valueOf(getModelObject());
   }
-  String s=getLocalizer().getString(getName() + "." + displayLabel,this,displayLabel);
+  final String s=getLocalizer().getString(getName() + "." + displayLabel,this,displayLabel);
   replaceBody(markupStream,openTag,s);
 }
