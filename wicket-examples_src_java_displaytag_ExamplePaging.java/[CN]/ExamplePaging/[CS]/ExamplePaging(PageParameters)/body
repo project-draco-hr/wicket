@@ -1,6 +1,6 @@
 {
   final List data=new TestList(60,false);
-  final MyPagedTable table=new MyPagedTable("rows",data){
+  final MyPagedTable table=new MyPagedTable("rows",data,10){
     public boolean populateCell(    final Cell cell,    final Container tagClass){
       final ListObject value=(ListObject)cell.getModelObject();
       tagClass.add(new Label("id",new Integer(value.getId())));
@@ -12,7 +12,6 @@
     }
   }
 ;
-  table.setNumberOfCellsToDisplay(10);
   add(table);
   add(new PagedTableNavigator("pageTableNav",table));
 }

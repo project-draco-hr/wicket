@@ -1,6 +1,6 @@
 {
   final ReportList data=new ReportList();
-  final MyPagedTable table=new MyPagedTable("rows",data){
+  final MyPagedTable table=new MyPagedTable("rows",data,10){
     private ReportableListObject previousValue=null;
     public boolean populateCell(    final Cell cell,    final Container tagClass){
       final ReportableListObject value=(ReportableListObject)cell.getModelObject();
@@ -21,7 +21,6 @@
     }
   }
 ;
-  table.setNumberOfCellsToDisplay(10);
   add(table);
   add(new PagedTableNavigator("pageTableNav",table));
   add(new ExportLink("exportCsv",data));

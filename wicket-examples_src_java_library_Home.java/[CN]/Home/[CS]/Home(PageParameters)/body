@@ -1,6 +1,6 @@
 {
   add(new Table("books",getUser(),"books"){
-    public boolean populateCell(    final Cell cell){
+    public void populateCell(    final Cell cell){
       final Book book=(Book)cell.getModelObject();
       cell.add(BookDetails.link("details",book,getLocalizer().getString("noBookTitle",this)));
       cell.add(new Label("author",book));
@@ -8,7 +8,6 @@
       cell.add(cell.moveDownLink("moveDown"));
       cell.add(cell.removeLink("remove"));
       cell.add(EditBook.link("edit",book.getId()));
-      return true;
     }
   }
 );

@@ -3,18 +3,11 @@
   add(new Table("border",new Model(data)){
     private int firstCell=0;
     private SubtotalTable subtable=null;
-    public boolean populateCell(    final Cell cell){
+    public void populateCell(    final Cell cell){
       subtable=new SubtotalTable("rows",data);
-      subtable.setStartIndex(firstCell);
       cell.add(subtable);
       cell.add(new Label("name",subtable,"group1"));
       cell.add(new Label("value",subtable,"subtotal"));
-      return true;
-    }
-    protected boolean renderCell(    final Cell cell,    final RequestCycle cycle,    final boolean lastPage){
-      super.renderCell(cell,cycle,lastPage);
-      firstCell=subtable.getLastIndex();
-      return (firstCell >= (subtable.getNumberOfCellsToDisplay() - 1) ? false : true);
     }
   }
 );
