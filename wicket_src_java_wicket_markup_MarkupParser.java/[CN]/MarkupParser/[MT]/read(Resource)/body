@@ -1,13 +1,20 @@
 {
   this.encoding=null;
   try {
-    final String pushBack=determineEncoding(resource.getInputStream());
+    final BufferedInputStream bin=new BufferedInputStream(resource.getInputStream(),4000);
+    if (!bin.markSupported()) {
+      throw new IOException("BufferedInputStream does not support mark/reset");
+    }
+    final int readAheadSize=80;
+    bin.mark(readAheadSize);
+    this.encoding=determineEncoding(bin,readAheadSize);
     final String markup;
-    if (encoding == null) {
-      markup=pushBack + Streams.readString(resource.getInputStream());
+    if (this.encoding == null) {
+      bin.reset();
+      markup=Streams.readString(bin);
     }
  else {
-      markup=Streams.readString(resource.getInputStream(),encoding);
+      markup=Streams.readString(bin,encoding);
     }
     return new Markup(resource,parseMarkup(markup));
   }
