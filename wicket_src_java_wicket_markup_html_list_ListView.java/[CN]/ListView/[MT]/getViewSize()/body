@@ -1,20 +1,12 @@
 {
   int size=this.viewSize;
-  Object modelObject=getModelObject();
-  if ((modelObject == null) && (viewSize == Integer.MAX_VALUE)) {
-    size=0;
+  final Object modelObject=getModelObject();
+  final int modelSize=getList().size();
+  if (firstIndex > modelSize) {
+    return 0;
   }
- else   if (modelObject instanceof List) {
-    final int modelSize=((List)modelObject).size();
-    if (firstIndex > modelSize) {
-      return 0;
-    }
-    if ((size == Integer.MAX_VALUE) || ((firstIndex + size) > modelSize)) {
-      size=modelSize - firstIndex;
-    }
-  }
- else   if (viewSize == Integer.MAX_VALUE) {
-    log.warn("model object (" + modelObject + ") is not a List and the view size is not explicitly set");
+  if ((size == Integer.MAX_VALUE) || ((firstIndex + size) > modelSize)) {
+    size=modelSize - firstIndex;
   }
   if ((Integer.MAX_VALUE - size) < firstIndex) {
     throw new IllegalStateException("firstIndex + size must be smaller than Integer.MAX_VALUE");

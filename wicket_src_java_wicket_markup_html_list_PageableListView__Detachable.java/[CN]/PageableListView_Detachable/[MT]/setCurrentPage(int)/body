@@ -1,0 +1,12 @@
+{
+  if (currentPage < 0) {
+    throw new IllegalArgumentException("Cannot set current page to " + currentPage);
+  }
+  int pageCount=getPageCount();
+  if (currentPage > 0 && (currentPage >= pageCount)) {
+    throw new IllegalArgumentException("Cannot set current page to " + currentPage + " because this pageable list view only has "+ pageCount+ " pages");
+  }
+  this.currentPage=currentPage;
+  listView.setStartIndex(currentPage * this.rowsPerPage);
+  listView.setViewSize(this.getRowsPerPage());
+}
