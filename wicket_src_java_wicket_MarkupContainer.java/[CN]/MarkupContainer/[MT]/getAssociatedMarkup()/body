@@ -3,14 +3,14 @@ synchronized (markupCache) {
     final String key=markupKey();
     Markup markup=(Markup)markupCache.get(key);
     if (markup == null) {
-      IResourceStream markupResource=null;
+      IResourceStream markupResourceStream=null;
       Class containerClass=getClass();
-      while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
-        markupResource=getApplication().getResourceLocator().locate(containerClass,getStyle(),getLocale(),getMarkupType());
+      while ((markupResourceStream == null) && (containerClass != MarkupContainer.class)) {
+        markupResourceStream=getApplication().getResourceStreamLocator().locate(containerClass,getStyle(),getLocale(),getMarkupType());
         containerClass=containerClass.getSuperclass();
       }
-      if (markupResource != null) {
-        markup=loadMarkupAndWatchForChanges(key,markupResource);
+      if (markupResourceStream != null) {
+        markup=loadMarkupAndWatchForChanges(key,markupResourceStream);
       }
  else {
         markup=Markup.NO_MARKUP;
