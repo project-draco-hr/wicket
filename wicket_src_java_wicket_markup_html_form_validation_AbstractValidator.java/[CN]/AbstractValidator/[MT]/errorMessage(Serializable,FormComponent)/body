@@ -1,10 +1,3 @@
 {
-  final Component parentForm=component.findParent(Form.class);
-  if (parentForm != null) {
-    final String resourceKey=parentForm.getName() + "." + component.getName()+ "."+ Classes.name(getClass());
-    return errorMessage(resourceKey,input,component);
-  }
- else {
-    throw new RenderException("Unable to find Form parent for FormComponent " + component);
-  }
+  return errorMessage(getResourceKey(component),input,component);
 }
