@@ -8,23 +8,23 @@
     final String queryString=originalHref.substring(classPath.length() + 6);
     pageParameters=new PageParameters(new ValueMap(queryString,"&"));
   }
-  final String id=componentId + page.getAutoIndex();
-  tag.setId(id);
+  final String autoId=id + Integer.toString(page.getAutoIndex());
+  tag.setId(autoId);
   classPath=classPath.replaceAll("/",".");
   if (!classPath.startsWith(".")) {
     final String className=page.getClass().getPackage().getName() + "." + classPath;
     final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
-    return new BookmarkablePageLink(id,clazz,pageParameters);
+    return new BookmarkablePageLink(autoId,clazz,pageParameters);
   }
  else {
     final String className=classPath.substring(1);
     try {
       final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
-      return new BookmarkablePageLink(id,clazz,pageParameters);
+      return new BookmarkablePageLink(autoId,clazz,pageParameters);
     }
  catch (    WicketRuntimeException ex) {
       ;
     }
   }
-  return new ExternalLink(id,originalHref);
+  return new ExternalLink(autoId,originalHref);
 }

@@ -2,17 +2,26 @@
   final ApplicationSettings settings=getSession().getApplication().getSettings();
   if (settings.getComponentUseCheck() && !getResponse().isRedirect()) {
     final Count unrenderedComponents=new Count();
+    final List unrenderedAutoComponents=new ArrayList();
     final StringBuffer buffer=new StringBuffer();
     visitChildren(new IVisitor(){
       public Object component(      final Component component){
         if (renderedComponents == null || !renderedComponents.contains(component)) {
-          unrenderedComponents.increment();
-          buffer.append("" + unrenderedComponents.getCount() + ". "+ component+ "\n");
+          if (component.isAuto()) {
+            unrenderedAutoComponents.add(component);
+          }
+ else {
+            unrenderedComponents.increment();
+            buffer.append(Integer.toString(unrenderedComponents.getCount()) + ". " + component+ "\n");
+          }
         }
         return CONTINUE_TRAVERSAL;
       }
     }
 );
+    for (int i=0; i < unrenderedAutoComponents.size(); i++) {
+      ((Component)unrenderedAutoComponents.get(i)).remove();
+    }
     renderedComponents=null;
     if (unrenderedComponents.getCount() > 0) {
       throw new WicketRuntimeException("The component(s) below failed to render:\n\n" + buffer.toString());
