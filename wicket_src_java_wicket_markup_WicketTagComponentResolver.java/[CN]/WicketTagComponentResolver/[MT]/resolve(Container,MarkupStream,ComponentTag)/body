@@ -5,9 +5,13 @@
       final Component component=createComponent(container,wicketTag);
       if (component != null) {
         nestedComponents.put(component,null);
-        container.add(component);
-        component.render();
-        nestedComponents.remove(component);
+        try {
+          container.add(component);
+          component.render();
+        }
+  finally {
+          nestedComponents.remove(component);
+        }
         return true;
       }
     }
