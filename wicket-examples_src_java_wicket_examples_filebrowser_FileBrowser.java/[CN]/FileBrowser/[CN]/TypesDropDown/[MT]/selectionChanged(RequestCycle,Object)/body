@@ -7,10 +7,16 @@
     tree=new Tree("fileTree",currentTree.getTreeState());
   }
  else   if (TYPE_FLAT.equals(type)) {
-    tree=new FlatFileTree("fileTree",currentTree.getTreeState());
+    tree=new FileTreeFlat("fileTree",currentTree.getTreeState());
+  }
+ else   if (TYPE_NESTED_CUSTOM_ROW.equals(type)) {
+    tree=new FileTreeCustomRow("fileTree",currentTree.getTreeState());
+  }
+ else   if (TYPE_NESTED_CUSTOM_ROWS.equals(type)) {
+    tree=new FileTreeCustomRows("fileTree",currentTree.getTreeState());
   }
  else {
-    tree=new FileTree("fileTree",currentTree.getTreeState());
+    throw new RuntimeException("invalid type selection");
   }
   FileBrowser.this.add(tree);
   FileBrowser.this.currentTree=tree;
