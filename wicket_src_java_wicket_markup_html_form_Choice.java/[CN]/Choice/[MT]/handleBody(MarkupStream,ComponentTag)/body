@@ -9,15 +9,15 @@
   for (int i=0; i < list.size(); i++) {
     final Object value=list.get(i);
     if (value != null) {
-      final String idValue;
+      final String id;
       final String displayValue;
-      if (list instanceof IIdList) {
-        IIdList idList=(IIdList)list;
-        idValue=idList.getIdValue(i);
-        displayValue=idList.getDisplayValue(i);
+      if (list instanceof IDetachableChoiceList) {
+        IDetachableChoiceList choiceList=(IDetachableChoiceList)list;
+        id=choiceList.getId(i);
+        displayValue=choiceList.getDisplayValue(i);
       }
  else {
-        idValue=Integer.toString(i);
+        id=Integer.toString(i);
         displayValue=value.toString();
       }
       final boolean currentOptionIsSelected=isSelected(value);
@@ -26,7 +26,7 @@
         options.append("selected ");
       }
       options.append("value=\"");
-      options.append(idValue);
+      options.append(id);
       options.append("\">");
       options.append(getLocalizer().getString(getName() + "." + displayValue,this,displayValue));
       options.append("</option>");
@@ -37,7 +37,7 @@
   }
   options.append("\n");
   replaceBody(markupStream,openTag,options.toString());
-  if (list instanceof IIdList) {
-    ((IIdList)list).detach();
+  if (list instanceof IDetachableChoiceList) {
+    ((IDetachableChoiceList)list).detach();
   }
 }

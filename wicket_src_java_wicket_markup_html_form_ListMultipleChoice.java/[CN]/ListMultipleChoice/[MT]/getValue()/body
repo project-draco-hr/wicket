@@ -1,19 +1,19 @@
 {
   final Collection selectedValues=(Collection)getModelObject();
-  final StringBuffer cookieValue=new StringBuffer();
+  final StringBuffer value=new StringBuffer();
   if (selectedValues != null) {
     final List list=getValues();
     final Iterator it=selectedValues.iterator();
     while (it.hasNext()) {
       final int index=list.indexOf(it.next());
-      if (list instanceof IIdList) {
-        cookieValue.append(((IIdList)list).getIdValue(index));
+      if (list instanceof IDetachableChoiceList) {
+        value.append(((IDetachableChoiceList)list).getId(index));
       }
  else {
-        cookieValue.append(index);
+        value.append(index);
       }
-      cookieValue.append(";");
+      value.append(";");
     }
   }
-  return cookieValue.toString();
+  return value.toString();
 }
