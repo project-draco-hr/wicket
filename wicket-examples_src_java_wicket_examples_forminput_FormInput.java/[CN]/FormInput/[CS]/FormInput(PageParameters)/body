@@ -7,7 +7,9 @@
   add(new LocaleSelect("localeSelect",this,"currentLocale",ALL_LOCALES));
   add(new Link("defaultLocaleLink"){
     public void linkClicked(    RequestCycle cycle){
-      FormInput.this.currentLocale=RequestCycle.get().getSession().getLocale();
+      Locale requestLocale=((HttpRequest)cycle.getRequest()).getLocale();
+      FormInput.this.currentLocale=requestLocale;
+      cycle.getSession().setLocale(requestLocale);
     }
   }
 );
