@@ -11,9 +11,9 @@
   autolinkHandler.setAutomaticLinking(this.automaticLinking);
   final IMarkupFilter markupFilterChain=autolinkHandler;
   for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
-    boolean add=(tag.getComponentName() != null);
+    boolean add=(tag.getComponentId() != null);
     if (!add && tag.getXmlTag().isClose()) {
-      add=((tag.getOpenTag() != null) && (tag.getOpenTag().getComponentName() != null));
+      add=((tag.getOpenTag() != null) && (tag.getOpenTag().getComponentId() != null));
     }
     if (add) {
       final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
@@ -28,7 +28,7 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
-      if (!PreviewComponentTagRemover.IGNORE.equals(tag.getComponentName())) {
+      if (!PreviewComponentTagRemover.IGNORE.equals(tag.getComponentId())) {
         list.add(tag);
       }
       xmlParser.setPositionMarker();

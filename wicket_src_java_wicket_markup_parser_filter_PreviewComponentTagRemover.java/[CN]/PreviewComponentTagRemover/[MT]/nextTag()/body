@@ -11,11 +11,11 @@
   }
   ComponentTag closeTag;
   while (null != (closeTag=(ComponentTag)getParent().nextTag())) {
-    if (closeTag.getComponentName() == null) {
+    if (closeTag.getComponentId() == null) {
       continue;
     }
     if (closeTag.closes(openTag)) {
-      openTag.setComponentName(IGNORE);
+      openTag.setComponentId(IGNORE);
       return openTag;
     }
     throw new MarkupException("Markup remove regions must not contain Wicket component tags. " + "tag: " + closeTag.toUserDebugString());
