@@ -1,0 +1,14 @@
+{
+  edit();
+  final MarkupStream markupStream=findMarkupStream();
+  final ComponentTag tag=markupStream.getTag();
+  if (tag instanceof ComponentWicketTag && tag.isOpenClose("wicket:stylesheet")) {
+    markupStream.next();
+    getResponse().write("<style type='text/css'>");
+    getResponse().write(block);
+    getResponse().write("</style>");
+  }
+ else {
+    throw new WicketRuntimeException("Must be attached to a <wicket:stylesheet/> tag");
+  }
+}

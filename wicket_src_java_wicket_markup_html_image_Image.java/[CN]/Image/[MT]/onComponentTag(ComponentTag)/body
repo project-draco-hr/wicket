@@ -1,4 +1,7 @@
 {
+  if (locale != null && locale != getLocale()) {
+    imageResource=null;
+  }
   if (imageResource == null) {
     final String modelString=getModelObjectAsString();
     final String resourcePath;
@@ -10,6 +13,10 @@
     }
     final Package basePackage=findParentWithAssociatedMarkup().getClass().getPackage();
     this.imageResource=StaticImageResource.get(getClass().getClassLoader(),basePackage,resourcePath,getLocale(),getStyle());
+    if (this.imageResource == null) {
+      throw new WicketRuntimeException("Unable to find image resource [basePackage = " + basePackage + ", resourcePath = "+ resourcePath+ ", locale = "+ getLocale()+ ", style = "+ getStyle()+ "]");
+    }
+    this.locale=getLocale();
   }
   super.onComponentTag(tag);
 }
