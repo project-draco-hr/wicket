@@ -1,0 +1,20 @@
+{
+  if (id == null) {
+    throw new NullPointerException("id must be not null");
+  }
+  Transaction tx=null;
+  try {
+    tx=hibernateSession.beginTransaction();
+    hibernateSession.delete(load(id));
+    tx.commit();
+  }
+ catch (  HibernateException e) {
+    try {
+      tx.rollback();
+    }
+ catch (    HibernateException ex) {
+      ex.printStackTrace();
+    }
+    throw new WicketRuntimeException(e);
+  }
+}

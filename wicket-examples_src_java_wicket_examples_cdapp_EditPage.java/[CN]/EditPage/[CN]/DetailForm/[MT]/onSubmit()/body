@@ -1,10 +1,10 @@
 {
   CD cd=(CD)getModelObject();
   boolean isNew=(cd.getId() == null);
-  dao.save(cd);
+  getCdDao().save(cd);
   searchCDPage.setInfoMessageForNextRendering("cd " + cd.getTitle() + " saved");
   if (isNew) {
     searchCDPage.setCurrentResultPageToFirst();
   }
-  getRequestCycle().setResponsePage(searchCDPage);
+  setResponsePage(searchCDPage);
 }
