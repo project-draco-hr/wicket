@@ -1,0 +1,12 @@
+{
+  visitChildren(new IVisitor(){
+    public Object component(    final Component component){
+      if (!renderedComponents.contains(component)) {
+        throw new WicketRuntimeException(component.exceptionMessage("Component never rendered. You probably failed to " + "reference it in your markup."));
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+  renderedComponents=null;
+}

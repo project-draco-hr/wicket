@@ -1,0 +1,13 @@
+{
+  final Component component=get(name);
+  if (component != null) {
+    childForName.remove(name);
+    final Page page=findPage();
+    if (page != null) {
+      page.componentRemoved(component);
+    }
+  }
+ else {
+    throw new WicketRuntimeException("Unable to find a component named '" + name + "' to remove");
+  }
+}

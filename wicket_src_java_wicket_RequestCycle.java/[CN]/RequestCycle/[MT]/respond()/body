@@ -1,19 +1,28 @@
 {
+  beginResponse();
 synchronized (session) {
     threadAttach();
     try {
       if (onRespond()) {
         final Page page=getPage();
         if (page != null) {
-          if (getRedirect()) {
-            redirectToPage(page);
-          }
+          try {
+            if (getRedirect()) {
+              redirectToPage(page);
+            }
  else {
-            page.render();
-            session.updateCluster();
+              page.render();
+            }
+          }
+  finally {
+            endResponse();
+            page.onInternalEndRequest();
             page.onEndRequest();
           }
         }
+      }
+ else {
+        endResponse();
       }
     }
  catch (    RuntimeException e) {

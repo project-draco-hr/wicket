@@ -1,4 +1,5 @@
 {
+  onInternalBeginRender();
   onBeginRender();
   try {
     final RequestCycle cycle=getRequestCycle();
@@ -8,12 +9,13 @@
     }
 synchronized (getModelLock()) {
       onRender();
+      getPage().componentRendered(this);
     }
     cycle.setResponse(originalResponse);
   }
   finally {
-    rendering++;
     onEndRender();
+    onInternalEndRender();
     detachModels();
   }
 }

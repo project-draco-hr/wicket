@@ -19,5 +19,9 @@
   if (replaced != null) {
     throw new IllegalArgumentException(exceptionMessage("A child component with the name '" + childName + "' already exists"));
   }
+  final Page page=findPage();
+  if (page != null) {
+    page.componentAdded(child);
+  }
   return this;
 }
