@@ -3,7 +3,8 @@
   if (!uploadFolder.isDirectory()) {
     uploadFolder.mkdir();
   }
-  add(new UploadForm("upload",null,uploadFolder));
+  add(new MultipleFilesUploadForm("upload",null,uploadFolder));
+  add(new SimpleUploadForm("simpleUpload",null,uploadFolder));
   add(new Label("dir",uploadFolder.getAbsolutePath()));
   files.addAll(Arrays.asList(uploadFolder.list()));
   fileListView=new FileListView("fileList",files);
