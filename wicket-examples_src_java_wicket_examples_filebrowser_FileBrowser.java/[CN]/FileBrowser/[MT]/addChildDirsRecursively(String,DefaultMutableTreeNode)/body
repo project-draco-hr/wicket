@@ -3,7 +3,12 @@
     log.debug("scan path " + currentPath);
   }
   File d=new File(currentPath);
-  String[] c=d.list();
+  String[] c=d.list(new FilenameFilter(){
+    public boolean accept(    File dir,    String name){
+      return dir.isDirectory();
+    }
+  }
+);
   if (c != null) {
     for (int i=0; i < c.length; i++) {
       File dchild=new File(d,c[i]);
