@@ -1,3 +1,22 @@
 {
-  return resource;
+  return new IResource(){
+    public String getContentType(){
+      return "text/css";
+    }
+    public InputStream getInputStream() throws ResourceNotFoundException {
+      final StringReader reader=new StringReader(buffer.toString());
+      return new InputStream(){
+        public int read() throws IOException {
+          return reader.read();
+        }
+      }
+;
+    }
+    public void close() throws IOException {
+    }
+    public Time lastModifiedTime(){
+      return lastModified;
+    }
+  }
+;
 }
