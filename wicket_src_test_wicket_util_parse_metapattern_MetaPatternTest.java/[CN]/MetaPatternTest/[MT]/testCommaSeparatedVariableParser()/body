@@ -1,0 +1,33 @@
+{
+  CommaSeparatedVariableParser parser=new CommaSeparatedVariableParser("a,b,c");
+  assertTrue(parser.matches());
+  assertEquals(3,parser.getValues().size());
+  assertEquals("a",parser.getValues().get(0));
+  assertEquals("b",parser.getValues().get(1));
+  assertEquals("c",parser.getValues().get(2));
+  parser=new CommaSeparatedVariableParser(" a ,b, c , d ");
+  assertTrue(parser.matches());
+  assertEquals(4,parser.getValues().size());
+  assertEquals(" a ",parser.getValues().get(0));
+  assertEquals("b",parser.getValues().get(1));
+  assertEquals(" c ",parser.getValues().get(2));
+  assertEquals(" d ",parser.getValues().get(3));
+  parser=new CommaSeparatedVariableParser("'a ',\" b\",'c,d'");
+  assertTrue(parser.matches());
+  assertEquals(3,parser.getValues().size());
+  assertEquals("'a '",parser.getValues().get(0));
+  assertEquals("\" b\"",parser.getValues().get(1));
+  assertEquals("'c,d'",parser.getValues().get(2));
+  parser=new CommaSeparatedVariableParser("'a\'b, c");
+  assertTrue(parser.matches());
+  assertEquals(1,parser.getValues().size());
+  assertEquals("'a'",parser.getValues().get(0));
+  parser=new CommaSeparatedVariableParser("a");
+  assertTrue(parser.matches());
+  assertEquals(1,parser.getValues().size());
+  assertEquals("a",parser.getValues().get(0));
+  parser=new CommaSeparatedVariableParser("a,,");
+  assertTrue(parser.matches());
+  assertEquals(1,parser.getValues().size());
+  assertEquals("a",parser.getValues().get(0));
+}
