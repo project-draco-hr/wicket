@@ -6,8 +6,6 @@
     final Response originalResponse;
     if (isVisible) {
       originalResponse=null;
-      internalOnBeginRender();
-      onBeginRender();
       if (log.isDebugEnabled()) {
         log.debug("Begin render " + this);
       }
@@ -26,6 +24,7 @@ synchronized (getModelLock()) {
   }
  catch (  RuntimeException e) {
     renderException=e;
+    e.printStackTrace();
     throw e;
   }
  finally {
@@ -34,8 +33,6 @@ synchronized (getModelLock()) {
         log.debug("End render " + this);
       }
       try {
-        onEndRender();
-        internalOnEndRender();
         detachModels();
       }
  catch (      RuntimeException e) {

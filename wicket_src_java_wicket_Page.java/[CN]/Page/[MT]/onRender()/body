@@ -3,6 +3,12 @@
     configureResponse();
     final MarkupStream markupStream=getAssociatedMarkupStream();
     setMarkupStream(markupStream);
-    renderAll(markupStream);
+    setFlag(FLAG_IS_RENDERING,true);
+    try {
+      renderAll(markupStream);
+    }
+  finally {
+      setFlag(FLAG_IS_RENDERING,false);
+    }
   }
 }
