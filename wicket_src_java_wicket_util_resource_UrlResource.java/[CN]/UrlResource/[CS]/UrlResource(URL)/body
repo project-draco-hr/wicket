@@ -1,14 +1,17 @@
 {
-  try {
-    final File file=new File(new URI(url.toExternalForm()));
-    if (file != null && file.exists()) {
-      this.file=file;
+  this.url=url;
+  final String path=url.toExternalForm();
+  if (path.startsWith("file:")) {
+    try {
+      final File file=new File(new URI(path));
+      if (file != null && file.exists()) {
+        this.file=file;
+      }
     }
-    this.url=url;
-  }
- catch (  URISyntaxException e) {
-    final IllegalArgumentException illegalArgumentException=new IllegalArgumentException("Invalid URL parameter " + url);
-    illegalArgumentException.initCause(e);
-    throw illegalArgumentException;
+ catch (    URISyntaxException e) {
+      final IllegalArgumentException illegalArgumentException=new IllegalArgumentException("Invalid URL parameter " + url);
+      illegalArgumentException.initCause(e);
+      throw illegalArgumentException;
+    }
   }
 }
