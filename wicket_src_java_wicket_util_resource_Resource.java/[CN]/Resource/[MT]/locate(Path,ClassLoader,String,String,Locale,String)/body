@@ -17,6 +17,7 @@
  * @return null, if file not found
  */
       protected Resource locate(      final String filename){
+        log.debug("locate Resource from source path: " + filename);
         final File file=sourcePath.find(filename);
         if (file != null) {
           return new Resource(file);
@@ -36,6 +37,7 @@
  * @return null, if file not found
  */
     protected Resource locate(    final String filename){
+      log.debug("locate Resource from class path: " + filename);
       final URL url=classloader.getResource(filename);
       if (url != null) {
         return new Resource(url);
