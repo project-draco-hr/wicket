@@ -6,10 +6,10 @@
   currentLocale=RequestCycle.get().getSession().getLocale();
   add(new LocaleSelect("localeSelect",this,"currentLocale",ALL_LOCALES));
   add(new Link("defaultLocaleLink"){
-    public void linkClicked(    RequestCycle cycle){
-      Locale requestLocale=((HttpRequest)cycle.getRequest()).getLocale();
+    public void linkClicked(){
+      Locale requestLocale=((HttpRequest)getRequestCycle().getRequest()).getLocale();
       FormInput.this.currentLocale=requestLocale;
-      cycle.getSession().setLocale(requestLocale);
+      getSession().setLocale(requestLocale);
     }
   }
 );

@@ -1,4 +1,10 @@
 {
-  byte[] cipherText=encryptStringToByteArray(plainText);
-  return new BASE64Encoder().encode(cipherText);
+  try {
+    byte[] cipherText=encryptStringToByteArray(plainText);
+    return new BASE64Encoder().encode(cipherText);
+  }
+ catch (  GeneralSecurityException e) {
+    log.error("Unable to encrypt text '" + plainText + "'",e);
+    return null;
+  }
 }

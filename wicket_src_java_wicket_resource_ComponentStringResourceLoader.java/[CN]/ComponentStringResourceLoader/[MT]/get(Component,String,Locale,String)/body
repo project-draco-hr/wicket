@@ -1,28 +1,27 @@
 {
-  if (component == null)   return null;
-  if (component.getPage() == null) {
-    throw new InvalidResourceSpecificationException("Components used for locating resources must be attached to pages: " + component.getClass().getName());
-  }
-  Stack searchStack=new Stack();
-  searchStack.push(component);
-  if (!(component instanceof Page)) {
-    Container c=component.getParent();
-    while (true) {
-      searchStack.push(c);
-      if (c instanceof Page)       break;
-      c=c.getParent();
+  if (component != null && component.getPage() != null) {
+    Stack searchStack=new Stack();
+    searchStack.push(component);
+    if (!(component instanceof Page)) {
+      Container c=component.getParent();
+      while (true) {
+        searchStack.push(c);
+        if (c instanceof Page)         break;
+        c=c.getParent();
+      }
     }
-  }
-  String value=null;
-  while (!searchStack.isEmpty()) {
-    Component c=(Component)searchStack.pop();
-    final String id=createCacheId(c,style,locale);
-    ValueMap strings=(ValueMap)resourceCache.get(id);
-    if (strings == null) {
-      strings=loadResources(c,style,locale,id);
+    String value=null;
+    while (!searchStack.isEmpty()) {
+      Component c=(Component)searchStack.pop();
+      final String id=createCacheId(c,style,locale);
+      ValueMap strings=(ValueMap)resourceCache.get(id);
+      if (strings == null) {
+        strings=loadResources(c,style,locale,id);
+      }
+      value=strings.getString(key);
+      if (value != null)       break;
     }
-    value=strings.getString(key);
-    if (value != null)     break;
+    return value;
   }
-  return value;
+  return null;
 }

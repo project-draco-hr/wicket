@@ -1,0 +1,15 @@
+{
+  final String error=signIn(getUsername(),getPassword());
+  if (error == null) {
+    final RequestCycle cycle=getRequestCycle();
+    if (cycle.continueToOriginalDestination()) {
+      cycle.setPage((Page)null);
+    }
+ else {
+      cycle.setPage(getApplicationSettings().getPageFactory().newPage(getApplicationSettings().getHomePage()));
+    }
+  }
+ else {
+    handleError(new ValidationErrorMessage(this,error));
+  }
+}

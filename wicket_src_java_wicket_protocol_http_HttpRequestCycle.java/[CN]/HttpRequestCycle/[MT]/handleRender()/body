@@ -1,20 +1,26 @@
 {
 synchronized (session) {
-    if (callComponentListener() || bookmarkablePage() || homePage()) {
-      Page page=getPage();
-      if (page != null) {
-        if (getRedirect()) {
-          redirectToPage(page);
-        }
+    session.setRequestCycle(this);
+    try {
+      if (callComponentListener() || bookmarkablePage() || homePage()) {
+        final Page page=getPage();
+        if (page != null) {
+          if (getRedirect()) {
+            redirectToPage(page);
+          }
  else {
-          page.render(this);
+            page.render(this);
+          }
+        }
+      }
+ else {
+        if (!renderStaticContent()) {
+          response.write("<pre>Invalid request: " + request + "</pre>");
         }
       }
     }
- else {
-      if (!renderStaticContent()) {
-        response.write("<pre>Invalid request: " + request + "</pre>");
-      }
+  finally {
+      session.setRequestCycle(null);
     }
   }
 }

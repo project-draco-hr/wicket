@@ -1,17 +1,20 @@
 {
   super.setUp();
   application=new MockHttpApplication(null);
-  application.getSettings().setHomePage(MockPage.class);
+  final ApplicationSettings settings=application.getSettings();
+  settings.setHomePage(MockPage.class);
   application.setupRequestAndResponse();
   this.panel=new SignInPanel("panel"){
-    public String signIn(    final RequestCycle cycle,    final String username,    final String password){
+    public String signIn(    final String username,    final String password){
       return null;
     }
   }
 ;
   this.panel.setPersistent(true);
   this.form=(Form)panel.get("signInForm");
-  final String encryptedPassword=application.getSettings().getCryptInstance().encryptString("test");
+  final ICrypt crypt=settings.getCryptInstance();
+  final String encryptedPassword=crypt.encryptString("test");
+  assertNotNull(encryptedPassword);
   this.cookieUsername=new Cookie("panel.signInForm.username","juergen");
   this.cookiePassword=new Cookie("panel.signInForm.password",encryptedPassword);
   this.cookies=new Cookie[]{cookieUsername,cookiePassword};

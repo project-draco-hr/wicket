@@ -1,14 +1,17 @@
 {
-  if (!IRequestListener.class.isAssignableFrom(c)) {
-    throw new IllegalArgumentException("Class " + c + " must extend IRequestListener");
+  if (!IRequestListener.class.isAssignableFrom(i)) {
+    throw new IllegalArgumentException("Class " + i + " must extend IRequestListener");
   }
-  final Method[] methods=c.getMethods();
-  for (int i=0; i < methods.length; i++) {
-    final Class[] parameters=methods[i].getParameterTypes();
-    if (parameters.length == 1 && parameters[0] == RequestCycle.class) {
-      listenerInterfaceMethods.put(Classes.name(c),methods[i]);
-      return;
+  final Method[] methods=i.getMethods();
+  if (methods.length == 1) {
+    if (methods[0].getParameterTypes().length == 0) {
+      listenerInterfaceMethods.put(Classes.name(i),methods[0]);
+    }
+ else {
+      throw new IllegalArgumentException("Method in interface " + i + " cannot have parameters");
     }
   }
-  throw new IllegalArgumentException("Internal error: " + c + " does not have a method that takes RequestCycle as a parameter");
+ else {
+    throw new IllegalArgumentException("Interface " + i + " can have only one method");
+  }
 }

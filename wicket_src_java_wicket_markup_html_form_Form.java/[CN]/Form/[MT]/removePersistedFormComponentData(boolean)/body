@@ -1,0 +1,14 @@
+{
+  final IFormComponentPersistenceManager persister=getFormComponentPersistenceManager();
+  visitChildren(FormComponent.class,new IVisitor(){
+    public Object component(    final Component component){
+      FormComponent formComponent=(FormComponent)component;
+      persister.remove(formComponent.getPageRelativePath());
+      if (formComponent.isPersistenceEnabled() && disablePersistence) {
+        formComponent.setPersistenceEnabled(false);
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

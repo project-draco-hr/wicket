@@ -1,3 +1,7 @@
 {
-  return (Page)(this instanceof Page ? this : findParent(Page.class));
+  final Page page=(Page)(this instanceof Page ? this : findParent(Page.class));
+  if (page == null) {
+    throw new IllegalStateException("No Page found for component " + this);
+  }
+  return page;
 }
