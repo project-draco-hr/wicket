@@ -1,23 +1,13 @@
 {
 synchronized (session) {
-    session.setApplication(application);
-    session.setRequestCycle(this);
+    threadAttach();
     try {
       onRender();
     }
- catch (    StackOverflowError e) {
-      throw new ServletException("Wicket could not render page",e);
-    }
-catch (    RuntimeException e) {
-      Page currentPage=getPage();
-      if (currentPage != null) {
-        currentPage.reset();
-      }
-      onException(e);
+ catch (    RuntimeException e) {
+      onRuntimeException(e);
     }
  finally {
-      response.close();
-      session.setRequestCycle(null);
       threadDetach();
     }
   }

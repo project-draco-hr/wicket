@@ -5,7 +5,8 @@
   if (model instanceof IConvertible) {
     ((IConvertible)model).setConverterSource(this);
   }
-  this.model=(IModel)model;
-  modelChanged();
-  return this;
+  if (this.model != model) {
+    this.model=(IModel)model;
+    modelChanged();
+  }
 }

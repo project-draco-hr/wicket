@@ -6,12 +6,16 @@
         setPage(getPageFactory().newPage(application.getPages().getInternalErrorPage()));
       }
  else {
-        setPage(new ExceptionErrorPage(throwable,getPage()));
+        setPage(new ExceptionErrorPage(e,getPage()));
       }
       redirectToPage(getPage());
     }
   }
  catch (  RuntimeException ignored) {
   }
-  throw new ServletException("Wicket could not render page",throwable);
+  final Page currentPage=getPage();
+  if (currentPage != null) {
+    currentPage.resetMarkupStreams();
+  }
+  throw new ServletException("Wicket could not render page",e);
 }
