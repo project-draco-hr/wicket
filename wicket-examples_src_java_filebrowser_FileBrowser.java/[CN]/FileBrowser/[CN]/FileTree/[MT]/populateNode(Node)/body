@@ -4,8 +4,8 @@
     throw new RuntimeException("userObject == null");
   }
   File file=(File)userObject;
-  Link expandCollapsLink=new Link("expandCollapsLink"){
-    public void linkClicked(    RequestCycle cycle){
+  TreeNodeLink expandCollapsLink=new TreeNodeLink("expandCollapsLink",fileTree,node){
+    public void linkClicked(    RequestCycle cycle,    Node node){
       TreeStateCache state=fileTree.getTreeState();
       TreePath selection=state.findTreePath(userObject);
       fileTree.setExpandedState(selection,(!node.isExpanded()));
