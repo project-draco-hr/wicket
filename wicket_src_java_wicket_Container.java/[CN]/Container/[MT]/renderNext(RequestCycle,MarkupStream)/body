@@ -22,6 +22,9 @@
     }
  else {
       if (componentName.equals("[body]")) {
+        if (!markupStream.atOpenCloseTag()) {
+          markupStream.throwMarkupException("A [body] tag must be an openclose tag.");
+        }
         renderTag(cycle,tag);
         markupStream.next();
         Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
