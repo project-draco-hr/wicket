@@ -1,0 +1,18 @@
+{
+  if (isExpanded()) {
+    TreeStateNode parent=(TreeStateNode)getParent();
+    int pIndex;
+    if (parent != null && (pIndex=parent.getIndex(this)) + 1 < parent.getChildCount()) {
+      TreeStateNode nextSibling=(TreeStateNode)parent.getChildAt(pIndex + 1);
+      return nextSibling.row - row - (nextSibling.childIndex - childIndex);
+    }
+ else {
+      int retCount=childCount;
+      for (int counter=getChildCount() - 1; counter >= 0; counter--) {
+        retCount+=((TreeStateNode)getChildAt(counter)).getTotalChildCount();
+      }
+      return retCount;
+    }
+  }
+  return 0;
+}

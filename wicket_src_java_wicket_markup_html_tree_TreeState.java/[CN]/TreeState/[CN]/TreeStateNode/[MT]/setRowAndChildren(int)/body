@@ -1,0 +1,20 @@
+{
+  row=nextRow;
+  if (!isExpanded())   return row + 1;
+  int lastRow=row + 1;
+  int lastModelIndex=0;
+  TreeStateNode child;
+  int maxCounter=getChildCount();
+  for (int counter=0; counter < maxCounter; counter++) {
+    child=(TreeStateNode)getChildAt(counter);
+    lastRow+=(child.childIndex - lastModelIndex);
+    lastModelIndex=child.childIndex + 1;
+    if (child.isExpanded) {
+      lastRow=child.setRowAndChildren(lastRow);
+    }
+ else {
+      child.row=lastRow++;
+    }
+  }
+  return lastRow + childCount - lastModelIndex;
+}
