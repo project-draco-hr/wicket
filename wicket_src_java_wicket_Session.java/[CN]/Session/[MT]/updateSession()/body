@@ -1,10 +1,13 @@
 {
-  final State state=(State)getAttribute(stateSessionAttribute);
-  if (state != null) {
-    state.attach(this);
-    this.state=state;
+  log.debug("updateSession(): Updating session.");
+  for (final Iterator iterator=pageMapForName.values().iterator(); iterator.hasNext(); ) {
+    final PageMap pageMap=((PageMap)iterator.next());
+    pageMap.setSession(this);
+    log.debug("updateSession(): Attaching session to PageMap " + pageMap);
   }
+  log.debug("updateSession(): Getting PageState attributes.");
   final List pageStates=getPageStateAttributes();
   sortBySequenceNumber(pageStates);
   addPages(pageStates);
+  log.debug("updateSession(): Done updating session.");
 }

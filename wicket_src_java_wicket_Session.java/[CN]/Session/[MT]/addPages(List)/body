@@ -3,6 +3,7 @@
     final PageState pageState=(PageState)iterator.next();
     if (!pageState.addedToSession) {
       final Page page=pageState.getPage();
+      log.debug("addPages(): Adding replicated page state " + pageState + ", which produced page "+ page);
       getPageMap(pageState.pageMapName).put(page);
       pageState.addedToSession=true;
     }

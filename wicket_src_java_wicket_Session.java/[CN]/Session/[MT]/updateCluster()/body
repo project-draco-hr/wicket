@@ -1,6 +1,10 @@
 {
-  if (this.state.dirty) {
-    this.state.dirty=false;
-    setAttribute(stateSessionAttribute,state);
+  if (dirty) {
+    log.debug("updateCluster(): Session is dirty.  Replicating.");
+    this.dirty=false;
+    setAttribute(sessionAttributeName,this);
+  }
+ else {
+    log.debug("updateCluster(): Session not dirty.");
   }
 }
