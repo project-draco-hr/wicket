@@ -2,7 +2,10 @@
   final WebSession session=WebSession.getSession(webApplication,servletRequest);
   final WebRequest request=new WebRequest(servletRequest);
   final WebResponse response=webApplication.getSettings().getBufferResponse() ? new BufferedWebResponse(servletResponse) : new WebResponse(servletResponse);
-  final WebRequestCycle cycle=new WebRequestCycle(webApplication,session,request,response);
-  cycle.render();
-  WebSession.set(null);
+  try {
+    new WebRequestCycle(webApplication,session,request,response).respond();
+  }
+  finally {
+    response.close();
+  }
 }

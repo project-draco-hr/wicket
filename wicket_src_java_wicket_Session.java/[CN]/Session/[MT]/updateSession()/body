@@ -1,0 +1,16 @@
+{
+  final State state=(State)getAttribute("state");
+  if (state != null) {
+    this.state=state;
+synchronized (state.changedPages) {
+      for (final Iterator iterator=state.changedPages.iterator(); iterator.hasNext(); ) {
+        final IPage changedPage=(IPage)iterator.next();
+        if (!changedPage.isMaster()) {
+          final Page page=changedPage.getPage();
+          pages.put(new Integer(page.getId()),page);
+        }
+        iterator.remove();
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+synchronized (session) {
+    threadAttach();
+    try {
+      final boolean renderPage=onRespond();
+      session.updateCluster();
+      if (renderPage) {
+        final Page page=getPage();
+        if (page != null) {
+          if (getRedirect()) {
+            redirectToPage(page);
+          }
+ else {
+            page.render();
+          }
+        }
+      }
+    }
+ catch (    RuntimeException e) {
+      onRuntimeException(e);
+    }
+ finally {
+      threadDetach();
+    }
+  }
+}
