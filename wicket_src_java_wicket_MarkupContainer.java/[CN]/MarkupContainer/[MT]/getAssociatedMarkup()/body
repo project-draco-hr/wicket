@@ -3,10 +3,10 @@ synchronized (markupCache) {
     final String key=markupKey();
     Markup markup=(Markup)markupCache.get(key);
     if (markup == null) {
-      Resource markupResource=null;
+      IResource markupResource=null;
       Class containerClass=getClass();
       while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
-        markupResource=Resource.locate(getApplicationSettings().getSourcePath(),containerClass,getStyle(),getLocale(),getMarkupType());
+        markupResource=ResourceLocator.locate(getApplicationSettings().getSourcePath(),containerClass,getStyle(),getLocale(),getMarkupType());
         containerClass=containerClass.getSuperclass();
       }
       if (markupResource != null) {
