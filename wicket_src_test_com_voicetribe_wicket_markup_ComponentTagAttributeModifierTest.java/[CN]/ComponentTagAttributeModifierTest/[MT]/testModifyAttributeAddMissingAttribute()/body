@@ -1,0 +1,10 @@
+{
+  ComponentTagAttributeModifier modifier=new ComponentTagAttributeModifier("test",true,new Model("model"));
+  ComponentTag tag=new ComponentTag();
+  ValueMap attributes=tag.getAttributes();
+  attributes.put("other","value");
+  modifier.replaceAttibuteValue(tag);
+  attributes=tag.getAttributes();
+  Assert.assertEquals("Tag attributes should not have been modified","value",attributes.getString("other"));
+  Assert.assertEquals("Attribute should have been added","model",attributes.get("test"));
+}

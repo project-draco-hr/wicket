@@ -1,0 +1,25 @@
+{
+  HtmlDocumentValidator validator=new HtmlDocumentValidator();
+  Tag html=new Tag("html");
+  Tag head=new Tag("head");
+  html.addExpectedChild(head);
+  Tag title=new Tag("title");
+  head.addExpectedChild(title);
+  title.addExpectedChild(new TextContent("Attribute Modifier Test Page"));
+  Tag body=new Tag("body");
+  html.addExpectedChild(body);
+  Tag label1=new Tag("span");
+  label1.addExpectedAttribute("class","label");
+  label1.addExpectedChild(new TextContent("Label 1"));
+  body.addExpectedChild(label1);
+  Tag label2=new Tag("span");
+  label2.addExpectedAttribute("class","overrideLabel");
+  label2.addExpectedChild(new TextContent("Label 2"));
+  body.addExpectedChild(label2);
+  Tag label3=new Tag("span");
+  label3.addExpectedAttribute("class","insertLabel");
+  label3.addExpectedChild(new TextContent("Label 3"));
+  body.addExpectedChild(label3);
+  validator.addRootElement(html);
+  return validator.isDocumentValid(document);
+}

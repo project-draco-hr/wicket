@@ -1,0 +1,9 @@
+{
+  ComponentTagAttributeModifier modifier=new ComponentTagAttributeModifier("test","old[0-9].*",new Model("model"));
+  ComponentTag tag=new ComponentTag();
+  ValueMap attributes=tag.getAttributes();
+  attributes.put("test","oldValue");
+  modifier.replaceAttibuteValue(tag);
+  attributes=tag.getAttributes();
+  Assert.assertEquals("Tag attribute should not have been modified","oldValue",attributes.getString("test"));
+}
