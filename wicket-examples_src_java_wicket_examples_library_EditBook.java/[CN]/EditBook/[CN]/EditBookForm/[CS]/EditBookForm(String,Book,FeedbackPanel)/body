@@ -1,24 +1,22 @@
 {
-  super(componentName,feedback);
-  this.book=book;
-  Model bookModel=new Model(book);
-  final TextField title=new TextField("title",bookModel,"title");
+  super(componentName,book,feedback);
+  final TextField title=new TextField("title");
   title.add(RequiredValidator.getInstance());
   title.add(LengthValidator.max(30));
   final FormComponentFeedbackBorder titleFeedback=new FormComponentFeedbackBorder("titleFeedback",title);
   add(titleFeedback);
-  final TextField author=new TextField("author",bookModel,"author");
+  final TextField author=new TextField("author");
   author.add(RequiredValidator.getInstance());
   final FormComponentFeedbackBorder authorFeedback=new FormComponentFeedbackBorder("authorFeedback",author);
   add(authorFeedback);
-  add(new CheckBox("fiction",bookModel,"fiction"));
+  add(new CheckBox("fiction"));
   List books=new ArrayList();
   books.addAll(Book.getBooks());
   books.remove(otherBook);
-  add(new DropDownChoice("companionBook",bookModel,"companionBook",books));
-  final RadioChoice relatedBook=new RadioChoice("relatedBook",bookModel,"relatedBook");
+  add(new DropDownChoice("companionBook",books));
+  final RadioChoice relatedBook=new RadioChoice("relatedBook");
   relatedBook.add(new RadioOptionSet("relatedBooks",books));
   relatedBook.add(new RadioOption("otherBook",otherBook));
   add(relatedBook);
-  add(new ListMultipleChoice("writingStyles",new PropertyModel(bookModel,"writingStyles"),EnumeratedType.getValues(Book.WritingStyle.class)));
+  add(new ListMultipleChoice("writingStyles",new PropertyModel(getModel(),"writingStyles"),EnumeratedType.getValues(Book.WritingStyle.class)));
 }
