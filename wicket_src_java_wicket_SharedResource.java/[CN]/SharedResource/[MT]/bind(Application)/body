@@ -1,0 +1,12 @@
+{
+  if (resource == null) {
+    resource=application.getResource(scope,name,locale,style);
+    if (resource == null) {
+      resource=newResource();
+      if (resource == null) {
+        throw new WicketRuntimeException("Unable to resolve shared resource " + this);
+      }
+      application.addResource(scope,name,locale,style,resource);
+    }
+  }
+}
