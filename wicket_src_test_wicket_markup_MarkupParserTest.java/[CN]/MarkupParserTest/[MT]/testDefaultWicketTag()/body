@@ -1,0 +1,11 @@
+{
+  final MarkupParser parser=new MarkupParser(new XmlPullParser(),"wcn");
+  Markup markup=parser.parse("<span wcn=\"test\"/>");
+  assertEquals(1,markup.size());
+  markup=parser.parse("<span wicket=\"test\"/>");
+  assertEquals(1,markup.size());
+  markup=parser.parse("<wcn:xxx>  </wcn:xxx>");
+  assertEquals(3,markup.size());
+  markup=parser.parse("<wicket:xxx>  </wicket:xxx>");
+  assertEquals(3,markup.size());
+}

@@ -1,5 +1,5 @@
 {
-  final MarkupParser parser=new MarkupParser(new XmlPullParser(),"wicket","wicket");
+  final MarkupParser parser=new MarkupParser(new XmlPullParser(),"wicket");
   parser.parse("<span wicket=\"test\"/>");
   parser.parse("<span wicket=\"test\">Body</span>");
   parser.parse("This is a test <span wicket=\"test\"/>");
@@ -45,5 +45,7 @@
     ;
   }
   parser.parse("<wicket:component name = \"componentName\" class = \"classname\" param1 = \"value1\"/>");
+  parser.parse("<wicket:component name = \"componentName\" class = \"classname\" param1 = \"value1\">    </wicket:component>");
+  parser.parse("<wicket:component name = \"componentName\" class = \"classname\" param1 = \"value1\">  <span id=\"wicket-msg\">hello world!</span></wicket:component>");
   parser.parse("<wicket:panel><div id=\"definitionsContentBox\"><span id=\"wicket-contentPanel\"/></div></wicket:panel>");
 }
