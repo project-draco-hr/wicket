@@ -3,7 +3,7 @@
   final WebRequest request=new WebRequest(servletRequest);
   final WebResponse response=webApplication.getSettings().getBufferResponse() ? new BufferedWebResponse(servletResponse) : new WebResponse(servletResponse);
   try {
-    webApplication.newRequestCycle(session,request,response).request();
+    session.newRequestCycle(request,response).request();
   }
   finally {
     response.close();

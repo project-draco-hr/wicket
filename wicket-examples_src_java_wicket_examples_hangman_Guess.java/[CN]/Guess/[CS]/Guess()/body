@@ -11,7 +11,6 @@
         }
         public void onClick(){
           getGame().guess(letter);
-          setEnabled(false);
           if (getGame().isWon()) {
             setResponsePage(new Win());
           }
@@ -23,9 +22,8 @@
         }
       }
 ;
-      final HangmanApplication application=(HangmanApplication)getSession().getApplication();
-      link.add(new Image("enabled",application.imageForLetter(letter)));
-      link.add(new Image("disabled",application.imageForLetter(letter)));
+      link.add(new Image("enabled",letter.getImage(getApplication(),true)));
+      link.add(new Image("disabled",letter.getImage(getApplication(),false)));
       listItem.add(link);
     }
   }

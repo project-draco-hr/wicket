@@ -1,8 +1,20 @@
 {
-  if (locale != null && locale != component.getLocale()) {
-    imageResource=null;
+  if ((locale != null && locale != component.getLocale()) || (style != null && style.equals(component.getStyle()))) {
+    if (resource instanceof SharedResource) {
+      if (isFactoryResource) {
+        this.resource=null;
+      }
+ else {
+        final SharedResource namedResource=(SharedResource)resource;
+        namedResource.setLocale(locale);
+        namedResource.setStyle(style);
+      }
+    }
+ else {
+      this.resource=null;
+    }
   }
-  if (imageResource == null) {
+  if (resource == null) {
     final String modelString=component.getModelObjectAsString();
     final String resourcePath;
     if (Strings.isEmpty(modelString)) {
@@ -13,13 +25,13 @@
     }
     if (!Strings.isEmpty(resourcePath)) {
       final Package basePackage=component.findParentWithAssociatedMarkup().getClass().getPackage();
-      this.imageResource=StaticImageResource.get(basePackage,resourcePath,component.getLocale(),component.getStyle());
+      this.resource=StaticImageResource.get(basePackage,resourcePath,component.getLocale(),component.getStyle());
     }
-    if (imageResource == null) {
-      setImageResource(generateImageResource(tag));
+    if (resource == null) {
+      this.resource=newImageResource(tag);
+      this.isFactoryResource=true;
     }
     this.locale=component.getLocale();
+    this.style=component.getStyle();
   }
-  final String url=component.getPage().urlFor(imageResource.getPath());
-  tag.put("src",component.getResponse().encodeURL(url).replaceAll("&","&amp;"));
 }

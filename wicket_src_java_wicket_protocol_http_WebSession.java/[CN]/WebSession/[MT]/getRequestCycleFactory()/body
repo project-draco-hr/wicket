@@ -1,0 +1,11 @@
+{
+  if (requestCycleFactory == null) {
+    this.requestCycleFactory=new IRequestCycleFactory(){
+      public RequestCycle newRequestCycle(      Session session,      Request request,      Response response){
+        return new WebRequestCycle((WebSession)session,(WebRequest)request,(WebResponse)response);
+      }
+    }
+;
+  }
+  return requestCycleFactory;
+}

@@ -1,0 +1,19 @@
+{
+  Resource resource=null;
+  String key=name + (locale == null ? "" : "_" + locale.toString()) + (style == null ? "" : "_" + style);
+  resource=(Resource)resourceMap.get(new ResourceKey(scope,key));
+  if (resource != null) {
+    return resource;
+  }
+  key=name + (locale == null ? "" : "_" + locale.toString());
+  resource=(Resource)resourceMap.get(new ResourceKey(scope,key));
+  if (resource != null) {
+    return resource;
+  }
+  key=name + (style == null ? "" : "_" + style);
+  resource=(Resource)resourceMap.get(new ResourceKey(scope,key));
+  if (resource != null) {
+    return resource;
+  }
+  return (Resource)resourceMap.get(new ResourceKey(scope,name));
+}
