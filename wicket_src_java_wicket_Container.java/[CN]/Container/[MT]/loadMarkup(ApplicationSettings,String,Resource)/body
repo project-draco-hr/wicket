@@ -1,7 +1,20 @@
 {
-  final MarkupParser parser=new MarkupParser(settings.getComponentNameAttribute());
+  final Class markupParserClass=settings.getMarkupParserClass();
+  final IMarkupParser parser;
+  try {
+    parser=(IMarkupParser)markupParserClass.newInstance();
+  }
+ catch (  IllegalAccessException ex) {
+    throw new IOException("Failed to load MarkupParser: " + ex.getMessage());
+  }
+catch (  InstantiationException ex) {
+    throw new IOException("Failed to load MarkupParser: " + ex.getMessage());
+  }
+  parser.setComponentNameAttribute(settings.getComponentNameAttribute());
+  parser.setWicketTagName(settings.getWicketTagName());
   parser.setStripComments(settings.getStripComments());
   parser.setCompressWhitespace(settings.getCompressWhitespace());
+  parser.setRemoveWicketTagsFromOutput(settings.getRemoveWicketTagsFromOutput());
   final Markup markup=parser.read(markupResource);
   markupCache.put(key,markup);
   return markup;

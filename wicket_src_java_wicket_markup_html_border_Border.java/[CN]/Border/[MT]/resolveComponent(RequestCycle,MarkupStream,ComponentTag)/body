@@ -1,9 +1,9 @@
 {
-  if (false == tag.getComponentName().equals("[body]")) {
+  if (!tag.getComponentName().equals("[body]") && !(markupStream.atOpenTag("region") && "body".equalsIgnoreCase(((ComponentWicketTag)tag).getNameAttribute()))) {
     return false;
   }
   if (!markupStream.atOpenCloseTag()) {
-    markupStream.throwMarkupException("A [body] tag must be an openclose tag.");
+    markupStream.throwMarkupException("A <wicket:region name=body> tag must be an open-close tag.");
   }
   renderTag(cycle,tag);
   markupStream.next();

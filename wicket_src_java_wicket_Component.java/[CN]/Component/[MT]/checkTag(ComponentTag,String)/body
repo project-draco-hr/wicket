@@ -1,5 +1,10 @@
 {
-  if (!tag.getName().equalsIgnoreCase(name)) {
+  String tagName=tag.getName();
+  final int pos=tagName.indexOf(":");
+  if (pos != -1) {
+    tagName=tagName.substring(pos + 1);
+  }
+  if (!tagName.equalsIgnoreCase(name)) {
     findMarkupStream().throwMarkupException("Component " + getName() + " must be applied to a tag of type '"+ name+ "', not "+ tag.toUserDebugString());
   }
 }

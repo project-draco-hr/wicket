@@ -1,0 +1,42 @@
+{
+  final MarkupParser parser=new MarkupParser("wicket","wicket");
+  parser.parse("<span wicket=\"test\"/>");
+  parser.parse("<span wicket=\"test\">Body</span>");
+  parser.parse("This is a test <span wicket=\"test\"/>");
+  parser.parse("This is a test <span wicket=\"test\">Body</span>");
+  parser.parse("<span id=\"wicket-test\"/>");
+  parser.parse("<span id=\"wicket-test\">Body</span>");
+  parser.parse("<a wicket=\"[autolink]\" href=\"test.html\">Home</a>");
+  parser.parse("<span id=\"wicket-test\"/><wicket:param key=value/>");
+  parser.parse("<span id=\"wicket-test\"/><wicket:param key=\"value\" />");
+  try {
+    parser.parse("<span id=\"wicket-test\"/>whatever<wicket:param key=\"value\" />");
+    assertTrue("Should have thrown an exception",false);
+  }
+ catch (  ParseException ex) {
+    ;
+  }
+  parser.parse("<span id=\"wicket-test\"/><wicket:param key=\"value\" /><wicket:param key2=\"value2\" />");
+  parser.parse("<span id=\"wicket-test\"/>   <wicket:param key=\"value\" />   <wicket:param key2=\"value2\" />");
+  parser.parse("<span id=\"wicket-test\"/> \n\r   <wicket:param key=\"value\" />\n\r\t   <wicket:param key2=\"value2\" />");
+  parser.parse("<wicket:marker name=body/>");
+  parser.parse("<wicket:region name=border/>");
+  parser.parse("<wicket:region name=panel/>");
+  try {
+    parser.parse("<wicket:region name=remove/>");
+    assertTrue("Should have thrown an exception",false);
+  }
+ catch (  MarkupException ex) {
+    ;
+  }
+  parser.parse("<wicket:region name=remove>  </wicket:region>");
+  parser.parse("<wicket:region name=remove> <span id=\"test\"/> </wicket:region>");
+  try {
+    parser.parse("<wicket:region name=remove> <wicket:region name=remove> </wicket:region> </wicket:region>");
+    assertTrue("Should have thrown an exception: remove regions must not contain wicket-components",false);
+  }
+ catch (  MarkupException ex) {
+    ;
+  }
+  parser.parse("<wicket:component name = \"componentName\" class = \"classname\" param1 = \"value1\"/>");
+}

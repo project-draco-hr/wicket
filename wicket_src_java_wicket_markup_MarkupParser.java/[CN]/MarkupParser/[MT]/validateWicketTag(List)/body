@@ -1,0 +1,42 @@
+{
+  for (int i=0; i < markupElements.size(); i++) {
+    final Object elem=markupElements.get(i);
+    if (!(elem instanceof ComponentWicketTag)) {
+      continue;
+    }
+    MarkupElement parentTag=(MarkupElement)elem;
+    int pos=i;
+    while (parentTag instanceof ComponentWicketTag) {
+      pos-=1;
+      if (pos < 0) {
+        throw new ParseException("Found Wicket parameter tag without related component tag.",((ComponentTag)elem).getPos());
+      }
+      parentTag=(MarkupElement)markupElements.get(pos);
+      if (parentTag instanceof RawMarkup) {
+        String text=((RawMarkup)parentTag).toString();
+        text=text.replaceAll("\n","");
+        text=text.replaceAll("\r","");
+        text=text.trim();
+        if (text.length() == 0) {
+          pos-=1;
+          if (pos < 0) {
+            throw new ParseException("Found Wicket parameter tag without related component tag.",((ComponentTag)elem).getPos());
+          }
+          parentTag=(MarkupElement)markupElements.get(pos);
+        }
+      }
+    }
+    if (!(parentTag instanceof ComponentTag)) {
+      throw new ParseException("Wicket parameter tag must immediately follow a wicket parameter " + "or wicket component tag.",((ComponentTag)elem).getPos());
+    }
+    final ComponentTag tag=(ComponentTag)parentTag;
+    ValueMap params=new ValueMap(tag.attributes);
+    params.putAll(((ComponentTag)elem).getAttributes());
+    params.makeImmutable();
+    tag.attributes=params;
+    if (removeWicketParamTags == true) {
+      markupElements.remove(elem);
+      i-=1;
+    }
+  }
+}

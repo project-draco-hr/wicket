@@ -3,9 +3,13 @@
   setInput(markup);
   final Stack stack=new Stack();
   int position=0;
+  boolean hasWicketParamTag=false;
   for (ComponentTag tag; null != (tag=nextTag()); ) {
     if (log.isDebugEnabled()) {
       log.debug("tag: " + tag.toUserDebugString() + ", stack: "+ stack);
+    }
+    if ((tag instanceof ComponentWicketTag) && "param".equalsIgnoreCase(tag.getName())) {
+      hasWicketParamTag=true;
     }
     boolean addTag=false;
     if (tag.type == ComponentTag.OPEN) {
@@ -66,5 +70,8 @@
     list.add(new RawMarkup(markup.substring(position,markup.length())));
   }
   removePreviewComponents(list);
+  if (hasWicketParamTag == true) {
+    validateWicketTag(list);
+  }
   return Collections.unmodifiableList(list);
 }

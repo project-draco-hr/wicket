@@ -1,16 +1,41 @@
 {
   final int tagTextLength=tagText.length();
   final WordParser tagnameParser=new WordParser(tagText);
-  final ComponentTag tag=new ComponentTag();
   if (tagnameParser.matcher().lookingAt()) {
-    tag.name=tagnameParser.getWord().toLowerCase();
-    int pos=tagnameParser.matcher().end(0);
+    final String tagName=tagnameParser.getWord().toLowerCase();
+    int pos;
+    final ComponentTag tag;
+    if (!wicketTagName.equalsIgnoreCase(tagName)) {
+      tag=new ComponentTag();
+      tag.name=tagnameParser.getWord().toLowerCase();
+      pos=tagnameParser.matcher().end(0);
+    }
+ else {
+      tag=new ComponentWicketTag();
+      pos=tagnameParser.matcher().end(0);
+      if ((tagTextLength <= (pos + 2)) || (tagText.charAt(pos) != ':')) {
+        throw new ParseException("No valid wicket tag name found: '" + tagText + "'. Must be like <wicket:param ...",0);
+      }
+      int endPos=tagText.indexOf(' ',pos);
+      if (endPos == -1) {
+        tag.name=tagText.substring(pos + 1).toLowerCase();
+        pos=tagTextLength;
+      }
+ else {
+        tag.name=tagText.substring(pos + 1,endPos).toLowerCase();
+        pos=endPos;
+      }
+      tag.componentName=tag.name;
+    }
     if (pos == tagTextLength) {
       return tag;
     }
     final VariableAssignmentParser attributeParser=new VariableAssignmentParser(tagText);
     while (attributeParser.matcher().find(pos)) {
       String value=attributeParser.getValue();
+      if (value == null) {
+        value="";
+      }
       pos=attributeParser.matcher().end(0);
       if (value.startsWith("\"")) {
         value=value.substring(1,value.length() - 1);
@@ -23,6 +48,10 @@
       }
       if (wicketId || key.equalsIgnoreCase(componentNameAttribute) || key.equalsIgnoreCase(ComponentTag.WICKET_COMPONENT_NAME_ATTRIBUTE)) {
         tag.componentName=value;
+        Matcher matcher=MetaPattern.VARIABLE_NAME.matcher(value);
+        if (!matcher.matches()) {
+          log.warn("WILL BE ACTIVATED SOON: Invalid character in component name '" + componentNameAttribute + "-"+ value+ "'"+ " Regex: [a-z_]+ (case insensitive)");
+        }
       }
       tag.attributes.put(key,StringValue.valueOf(value));
       if (pos == tagTextLength) {

@@ -1,0 +1,14 @@
+{
+  if (tag instanceof ComponentWicketTag) {
+    final ComponentWicketTag wicketTag=(ComponentWicketTag)tag;
+    if (wicketTag.isComponentTag()) {
+      final Component component=createComponent(wicketTag);
+      if (component != null) {
+        container.add(component);
+        component.render(cycle);
+        return true;
+      }
+    }
+  }
+  return false;
+}
