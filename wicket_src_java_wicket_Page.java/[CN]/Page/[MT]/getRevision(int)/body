@@ -1,0 +1,10 @@
+{
+  if (revisionManager == IPageRevisionManager.NULL) {
+    return this;
+  }
+  final Page page=getRevisionManager().getRevision(revisionNumber);
+  if (page.getRevisionNumber() == -1) {
+    page.revisionManager=IPageRevisionManager.NULL;
+  }
+  return page;
+}

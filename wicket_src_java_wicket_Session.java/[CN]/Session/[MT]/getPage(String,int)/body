@@ -1,9 +1,9 @@
 {
   Page page=getPage(Integer.parseInt(Strings.firstPathComponent(path,componentPathSeparator)));
-  final Page pageVersion=page.getVersion(version);
-  if (pageVersion != page) {
-    page=pageVersion;
-    getPageMap().put(new Integer(pageVersion.getId()),page);
+  final Page revision=page.getRevision(revisionNumber);
+  if (revision != page) {
+    page=revision;
+    getPageMap().put(new Integer(page.getId()),page);
     pageChanged(page);
   }
   page.onInternalBeginRequest();

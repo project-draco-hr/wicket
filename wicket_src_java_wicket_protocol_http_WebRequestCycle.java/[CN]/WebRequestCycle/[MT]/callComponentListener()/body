@@ -1,10 +1,10 @@
 {
   final String path=request.getParameter("component");
   if (path != null) {
-    final String versionString=request.getParameter("version");
-    int version=Strings.isEmpty(versionString) ? 0 : Integer.parseInt(versionString);
-    log.debug("Getting page [path = " + path + ", version = "+ version+ "]");
-    final Page page=session.getPage(path,version);
+    final String revisionNumberString=request.getParameter("revision");
+    final int revisionNumber=Strings.isEmpty(revisionNumberString) ? 0 : Integer.parseInt(revisionNumberString);
+    log.debug("Getting page [path = " + path + ", revisionNumber = "+ revisionNumber+ "]");
+    final Page page=session.getPage(path,revisionNumber);
     if (page != null) {
       invokeInterface(page,path,request.getParameter("interface"));
       return true;

@@ -1,10 +1,10 @@
 {
-  final Version version=(Version)versions.get(new Integer(versionNumber));
+  final Revision version=(Revision)versions.get(new Integer(versionNumber));
   if (version != null) {
-    while (getVersion() > versionNumber) {
+    while (getNewestRevisionNumber() > versionNumber) {
       nextVersionNumber--;
       final Integer key=new Integer(nextVersionNumber);
-      final Version versionToUndo=(Version)versions.get(key);
+      final Revision versionToUndo=(Revision)versions.get(key);
       versionToUndo.undo();
       versions.remove(key);
     }
