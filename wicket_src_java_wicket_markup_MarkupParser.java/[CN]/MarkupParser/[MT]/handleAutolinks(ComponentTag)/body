@@ -1,0 +1,33 @@
+{
+  if (tag == null) {
+    return false;
+  }
+  if ((autolinking == true) && (tag.getComponentName() == null) && tag.getAttributes().containsKey("href")) {
+    return resolveAutomaticLink(tag);
+  }
+  if (tag instanceof ComponentWicketTag) {
+    final ComponentWicketTag wtag=(ComponentWicketTag)tag;
+    if (wtag.isLinkTag()) {
+      if (tag.isOpen()) {
+        if (autolinkStatus == null) {
+          autolinkStatus=new Stack();
+        }
+        autolinkStatus.push(new Boolean(autolinking));
+        final String autolink=tag.getAttributes().getString("autolink");
+        if ((autolink == null) || "".equals(autolink) || "true".equalsIgnoreCase(autolink)|| "1".equals(autolink)) {
+          autolinking=true;
+        }
+ else {
+          autolinking=false;
+        }
+      }
+ else       if (tag.isClose()) {
+        autolinking=((Boolean)autolinkStatus.pop()).booleanValue();
+      }
+ else {
+        throw new ParseException("<wicket:link> can not be a open-close tag",tag.getPos());
+      }
+    }
+  }
+  return false;
+}

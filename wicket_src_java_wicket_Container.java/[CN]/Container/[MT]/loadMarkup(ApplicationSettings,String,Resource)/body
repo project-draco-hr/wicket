@@ -11,10 +11,12 @@ catch (  InstantiationException ex) {
     throw new IOException("Failed to load MarkupParser: " + ex.getMessage());
   }
   parser.setComponentNameAttribute(settings.getComponentNameAttribute());
-  parser.setWicketTagName(settings.getWicketTagName());
+  parser.setWicketNamespace(settings.getWicketNamespace());
   parser.setStripComments(settings.getStripComments());
   parser.setCompressWhitespace(settings.getCompressWhitespace());
   parser.setStripWicketParamTag(settings.getStripWicketParamTag());
+  parser.setAutolinking(settings.isAutomaticLinking());
+  parser.setAutolinkBasePage(this.getPage());
   final Markup markup=parser.read(markupResource);
   markupCache.put(key,markup);
   return markup;

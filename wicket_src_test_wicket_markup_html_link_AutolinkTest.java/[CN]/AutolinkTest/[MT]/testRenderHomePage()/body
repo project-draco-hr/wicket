@@ -1,0 +1,10 @@
+{
+  application=new MockHttpApplication(null);
+  application.getPages().setHomePage(AutolinkPage.class);
+  application.getSettings().setAutomaticLinking(true);
+  application.setupRequestAndResponse();
+  application.processRequestCycle();
+  String document=application.getServletResponse().getDocument();
+  System.out.println(document);
+  Assert.assertTrue(validateDocument(document));
+}

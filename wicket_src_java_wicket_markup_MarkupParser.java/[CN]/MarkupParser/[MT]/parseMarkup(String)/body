@@ -12,9 +12,10 @@
       hasWicketParamTag=true;
     }
     boolean addTag=false;
+    addTag=handleAutolinks(tag);
     if (tag.type == ComponentTag.OPEN) {
       stack.push(tag);
-      addTag=tag.componentName != null;
+      addTag|=tag.componentName != null;
     }
  else     if (tag.type == ComponentTag.CLOSE) {
       if (stack.size() > 0) {
@@ -30,7 +31,7 @@
           }
         }
         tag.closes=top;
-        addTag=top.componentName != null;
+        addTag|=top.componentName != null;
       }
  else {
         throw new ParseException("Tag " + tag.toUserDebugString() + " does not have a matching open tag",tag.getPos());
@@ -38,7 +39,7 @@
     }
  else     if (tag.type == ComponentTag.OPEN_CLOSE) {
       tag.closes=tag;
-      addTag=tag.componentName != null;
+      addTag|=tag.componentName != null;
     }
     if (addTag) {
       if (tag.getPos() > position) {
@@ -52,8 +53,20 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
-      tag.makeImmutable();
-      list.add(tag);
+      if (tag.isAutolinkEnabled()) {
+        final String tagString=tag.toXmlString();
+        list.add(new RawMarkup(tagString));
+      }
+ else {
+        if ((tag instanceof ComponentWicketTag) && ((ComponentWicketTag)tag).isLinkTag()) {
+          final String tagString=tag.toXmlString();
+          list.add(new RawMarkup(tagString));
+        }
+ else {
+          tag.makeImmutable();
+          list.add(tag);
+        }
+      }
       position=tag.getPos() + tag.getLength();
     }
   }

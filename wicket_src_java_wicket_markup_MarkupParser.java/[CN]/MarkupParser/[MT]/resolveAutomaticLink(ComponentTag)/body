@@ -1,0 +1,20 @@
+{
+  final String originalHref=tag.getAttributes().getString("href");
+  final int pos=originalHref.indexOf(".html");
+  if (pos <= 0) {
+    return false;
+  }
+  String classPath=originalHref.substring(0,pos);
+  PageParameters pageParameters=null;
+  if ((classPath.length() + 6) < originalHref.length()) {
+    String queryString=originalHref.substring(classPath.length() + 6);
+    pageParameters=new PageParameters(new ValueMap(queryString,"&"));
+  }
+  classPath=classPath.replaceAll("/",".");
+  classPath=page.getClass().getPackage().getName() + "." + classPath;
+  Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(classPath);
+  String url=RequestCycle.get().urlFor(clazz,pageParameters);
+  tag.put("href",url);
+  tag.enableAutolink(true);
+  return true;
+}
