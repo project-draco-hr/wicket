@@ -13,10 +13,12 @@
       }
     }
 ;
-    DynamicLocalImage img=new DynamicLocalImage(JUNCTION_IMAGE_NAME,imgModel);
+    LocalImage img=new LocalImage(JUNCTION_IMAGE_NAME,imgModel);
     return img;
   }
  else {
-    return JUNCTION_IMG_BLANK;
+    String url=getRequestCycle().urlFor(JUNCTION_IMG_BLANK,IResourceListener.class);
+    LocalImage img=new LocalImage(JUNCTION_IMAGE_NAME,url);
+    return img;
   }
 }
