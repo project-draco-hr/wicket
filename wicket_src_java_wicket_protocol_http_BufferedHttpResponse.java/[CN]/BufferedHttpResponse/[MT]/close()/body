@@ -1,13 +1,10 @@
 {
-  try {
-    if (redirectUrl != null) {
-      super.redirect(redirectUrl);
-    }
- else {
-      getServletResponse().getWriter().write(buffer.toString());
-    }
+  if (redirectUrl != null) {
+    super.redirect(redirectUrl);
   }
- catch (  IOException e) {
-    throw new WicketRuntimeException("Failed to flush response output",e);
+ else {
+    if (buffer.length() != 0) {
+      super.write(buffer.toString());
+    }
   }
 }
