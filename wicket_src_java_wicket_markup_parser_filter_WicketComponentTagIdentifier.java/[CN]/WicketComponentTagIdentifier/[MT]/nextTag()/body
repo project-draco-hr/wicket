@@ -4,31 +4,16 @@
     return xmlTag;
   }
   ComponentTag tag;
-  if (componentIdAttribute.equalsIgnoreCase(xmlTag.getNamespace()) || (applyDefaultComponentId && ComponentTag.DEFAULT_COMPONENT_ID_ATTRIBUTE.equalsIgnoreCase(xmlTag.getNamespace()))) {
+  if (wicketNamespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new ComponentWicketTag(xmlTag);
     tag.setId(tag.getName());
   }
  else {
     tag=new ComponentTag(xmlTag);
   }
-  final String id=xmlTag.getAttributes().getString("id");
-  if ((id != null) && id.startsWith(componentIdAttribute + "-")) {
-    tag.setId(id.substring(componentIdAttribute.length() + 1).trim());
-    if (this.stripWicketFromComponentTag) {
-      tag.put("id",tag.getId());
-    }
-  }
- else   if ((id != null) && applyDefaultComponentId && id.startsWith(ComponentTag.DEFAULT_COMPONENT_ID_ATTRIBUTE)) {
-    tag.setId(id.substring(ComponentTag.DEFAULT_COMPONENT_ID_ATTRIBUTE.length() + 1).trim());
-    if (this.stripWicketFromComponentTag) {
-      tag.put("id",tag.getId());
-    }
-  }
- else   if (tag.getAttributes().containsKey(componentIdAttribute)) {
-    tag.setId(tag.getAttributes().getString(componentIdAttribute));
-  }
- else   if (applyDefaultComponentId && tag.getAttributes().containsKey(ComponentTag.DEFAULT_COMPONENT_ID_ATTRIBUTE)) {
-    tag.setId(tag.getAttributes().getString(ComponentTag.DEFAULT_COMPONENT_ID_ATTRIBUTE));
+  final String value=tag.getAttributes().getString(wicketNamespace + ":id");
+  if (value != null) {
+    tag.setId(value);
   }
   return tag;
 }

@@ -1,0 +1,9 @@
+{
+  if ((this.doc == null) || (this.responseText != this.getDialog().getResponseText())) {
+    this.responseText=this.getDialog().getResponseText();
+    org.w3c.dom.Document xdoc=HttpUnitUtils.newParser().parse(new InputSource(new StringReader(this.responseText)));
+    this.doc=new org.dom4j.io.DOMReader().read(xdoc);
+  }
+  final Node node=this.doc.selectSingleNode(xpath);
+  return node;
+}

@@ -7,10 +7,6 @@
         current.replaceAttibuteValue(this,tag);
       }
     }
-    if (settings.getStripComponentIds()) {
-      tag=tag.mutable();
-      tag.removeComponentId(settings.getComponentIdAttribute(),settings.getApplyDefaultComponentId());
-    }
-    getResponse().write(tag);
+    getResponse().write(tag.toString(settings.getStripWicketTags()));
   }
 }

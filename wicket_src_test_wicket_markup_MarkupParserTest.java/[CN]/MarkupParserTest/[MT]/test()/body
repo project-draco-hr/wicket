@@ -1,6 +1,6 @@
 {
   final MarkupParser parser=new MarkupParser(new XmlPullParser(),"componentName");
-  final Markup tokens=parser.parse("This is a test <a componentName=9> <b>bold</b> <b componentName=10/></a> of the emergency broadcasting system");
+  final Markup tokens=parser.parse("This is a test <a componentName:id=9> <b>bold</b> <b componentName:id=10/></a> of the emergency broadcasting system");
   log.info("tok(0)=" + tokens.get(0));
   log.info("tok(1)=" + tokens.get(1));
   log.info("tok(2)=" + tokens.get(2));
@@ -9,10 +9,10 @@
   log.info("tok(5)=" + tokens.get(5));
   Assert.assertTrue(tokens.get(0).equals("This is a test "));
   final ComponentTag a=(ComponentTag)tokens.get(1);
-  Assert.assertEquals(9,a.getAttributes().getInt("componentName"));
+  Assert.assertEquals(9,a.getAttributes().getInt("componentName:id"));
   Assert.assertTrue(tokens.get(2).equals(" <b>bold</b> "));
   final ComponentTag b=(ComponentTag)tokens.get(3);
-  Assert.assertEquals(10,b.getAttributes().getInt("componentName"));
+  Assert.assertEquals(10,b.getAttributes().getInt("componentName:id"));
   final ComponentTag closeA=(ComponentTag)tokens.get(4);
   Assert.assertEquals("a",closeA.getName());
   Assert.assertTrue(tokens.get(5).equals(" of the emergency broadcasting system"));

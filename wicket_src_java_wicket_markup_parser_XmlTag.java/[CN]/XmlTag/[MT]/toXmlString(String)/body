@@ -1,0 +1,32 @@
+{
+  final StringBuffer buffer=new StringBuffer();
+  buffer.append('<');
+  if (type == CLOSE) {
+    buffer.append('/');
+  }
+  if (namespace != null) {
+    buffer.append(namespace);
+    buffer.append(':');
+  }
+  buffer.append(name);
+  if (attributes.size() > 0) {
+    final Iterator iterator=attributes.keySet().iterator();
+    for (; iterator.hasNext(); ) {
+      final String key=(String)iterator.next();
+      if ((key != null) && ((attributeToBeIgnored == null) || !key.equalsIgnoreCase(attributeToBeIgnored))) {
+        buffer.append(" ");
+        buffer.append(key);
+        buffer.append("=\"");
+        String value=getString(key);
+        value=value.replaceAll("\"","\\\"");
+        buffer.append(value);
+        buffer.append("\"");
+      }
+    }
+  }
+  if (type == OPEN_CLOSE) {
+    buffer.append('/');
+  }
+  buffer.append('>');
+  return buffer.toString();
+}

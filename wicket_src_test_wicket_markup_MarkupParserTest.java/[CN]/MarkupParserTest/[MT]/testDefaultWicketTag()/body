@@ -1,17 +1,13 @@
 {
   final MarkupParser parser=new MarkupParser(new XmlPullParser(),"wcn");
-  Markup markup=parser.parse("<span wcn=\"test\"/>");
+  Markup markup=parser.parse("<span wcn:id=\"test\"/>");
   assertEquals(1,markup.size());
-  markup=parser.parse("<span wicket=\"test\"/>");
+  markup=parser.parse("<span wicket:id=\"test\"/>");
   assertEquals(1,markup.size());
   markup=parser.parse("<wcn:xxx>  </wcn:xxx>");
   assertEquals(3,markup.size());
   final ApplicationSettings settings=new ApplicationSettings(new MockWebApplication(null));
   settings.setComponentIdAttribute("wcn");
-  parser.configure(settings);
-  markup=parser.parse("<wicket:xxx>  </wicket:xxx>");
-  assertEquals(3,markup.size());
-  settings.setApplyDefaultComponentId(false);
   parser.configure(settings);
   markup=parser.parse("<wicket:xxx>  </wicket:xxx>");
   assertEquals(1,markup.size());
