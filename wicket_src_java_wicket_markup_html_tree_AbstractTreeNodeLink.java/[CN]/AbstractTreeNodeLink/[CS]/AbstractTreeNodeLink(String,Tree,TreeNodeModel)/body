@@ -3,7 +3,13 @@
   this.tree=tree;
   this.node=node;
   Object userObject=node.getTreeNode().getUserObject();
-  String linkId=componentName + String.valueOf(userObject.hashCode());
+  final String linkId;
+  if (userObject instanceof IdWrappedUserObject) {
+    linkId=componentName + ((IdWrappedUserObject)userObject).getUid();
+  }
+ else {
+    linkId=componentName + String.valueOf(userObject.hashCode());
+  }
   id=linkId;
   tree.addLink(this);
 }
