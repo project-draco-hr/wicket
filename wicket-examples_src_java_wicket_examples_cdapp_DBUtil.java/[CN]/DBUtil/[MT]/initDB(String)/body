@@ -1,0 +1,22 @@
+{
+  URL configUrl=DBUtil.class.getResource(configFile);
+  HibernateHelper.setConfigURL(configUrl);
+  HibernateHelper.init();
+  Session session=HibernateHelper.getSession();
+  Connection conn=session.connection();
+  Statement stmt=conn.createStatement();
+  try {
+    SessionFactoryImpl sf=(SessionFactoryImpl)HibernateHelper.getSessionFactory();
+    Dialect dialect=sf.getDialect();
+    Configuration config=HibernateHelper.getConfiguration();
+    String[] drops=config.generateDropSchemaScript(dialect);
+    String[] creates=config.generateSchemaCreationScript(dialect);
+    execStmt(conn,stmt,splitAltTables(drops,true));
+    execStmt(conn,stmt,splitAltTables(drops,false));
+    execStmt(conn,stmt,creates);
+    insertTestData(session);
+  }
+  finally {
+    HibernateHelper.closeSession();
+  }
+}

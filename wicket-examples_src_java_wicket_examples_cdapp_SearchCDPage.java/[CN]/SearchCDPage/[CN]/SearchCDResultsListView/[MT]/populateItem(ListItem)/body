@@ -1,0 +1,39 @@
+{
+  final CD cd=(CD)item.getModelObject();
+  final Long id=cd.getId();
+  PageParameters params=new PageParameters();
+  params.put("id",id);
+  item.add(new BookmarkablePageLink("title",EditCDPage.class,params).add(new Label("title",cd.getTitle())));
+  item.add(new BookmarkablePageLink("performers",EditCDPage.class,params).add(new Label("performers",cd.getPerformers())));
+  item.add(new BookmarkablePageLink("label",EditCDPage.class,params).add(new Label("label",cd.getLabel())));
+  item.add(new BookmarkablePageLink("year",EditCDPage.class,params).add(new Label("year",(cd.getYear() != null) ? cd.getYear().toString() : "")));
+  item.add(new Link("delete"){
+    /** 
+ * Delete the record that corresponds to the id.
+ * @see wicket.markup.html.link.Link#onClick()
+ */
+    public void onClick(){
+      RequestCycle cycle=RequestCycle.get();
+      Session session=null;
+      Transaction tx=null;
+      try {
+        session=HibernateHelper.getSession();
+        tx=session.beginTransaction();
+        CD toDelete=(CD)session.load(CD.class,id);
+        session.delete(toDelete);
+        tx.commit();
+        info(" cd " + toDelete.getTitle() + " deleted");
+        SearchCDPage.this.modelChangedStructure();
+      }
+ catch (      HibernateException e) {
+        try {
+          tx.rollback();
+        }
+ catch (        HibernateException ex) {
+        }
+        throw new WicketRuntimeException(e);
+      }
+    }
+  }
+);
+}

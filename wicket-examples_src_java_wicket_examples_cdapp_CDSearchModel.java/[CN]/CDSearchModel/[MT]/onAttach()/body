@@ -1,0 +1,18 @@
+{
+  final String searchStringParameter;
+  if (searchString != null) {
+    searchStringParameter='%' + searchString.toUpperCase() + '%';
+  }
+ else {
+    searchStringParameter=null;
+  }
+  ISelectCountAndListAction searchCDAction=new HibernateCountAndListAction("wicket.examples.cdapp.model.SearchCD","wicket.examples.cdapp.model.SearchCD.count",new HibernateHelperSessionDelegate()){
+    protected void setParameters(    Query query,    Object queryObject) throws HibernateException {
+      query.setString("performers",searchStringParameter);
+      query.setString("title",searchStringParameter);
+    }
+  }
+;
+  PageableList list=new PageableList(rowsPerPage,searchCDAction);
+  setObject(list);
+}
