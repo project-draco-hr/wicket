@@ -6,10 +6,10 @@
         while (true) {
           final Time startOfPeriod=Time.now();
           try {
-            code.run(log);
+            code.run(getLog());
           }
  catch (          Exception e) {
-            log.error("Unhandled exception thrown by user code in task " + name,e);
+            getLog().error("Unhandled exception thrown by user code in task " + name,e);
           }
           startOfPeriod.add(frequency).fromNow().sleep();
         }
