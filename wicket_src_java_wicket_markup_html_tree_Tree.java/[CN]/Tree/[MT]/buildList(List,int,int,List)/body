@@ -1,0 +1,22 @@
+{
+  int len=visiblePathsList.size();
+  while (index < len) {
+    TreePath path=(TreePath)visiblePathsList.get(index);
+    DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)path.getLastPathComponent();
+    int thisLevel=treeNode.getLevel();
+    if (thisLevel > level) {
+      List nestedRows=new ArrayList();
+      rows.add(nestedRows);
+      index=buildList(visiblePathsList,index,thisLevel,nestedRows);
+    }
+ else     if (thisLevel < level) {
+      return index;
+    }
+ else {
+      NodeModel nodeModel=new NodeModel(treeNode,treeState,path);
+      rows.add(nodeModel);
+      index++;
+    }
+  }
+  return index;
+}
