@@ -2,14 +2,17 @@
   final State state=(State)getAttribute("state");
   if (state != null) {
     this.state=state;
-    for (final Iterator iterator=getAttributeNames().iterator(); iterator.hasNext(); ) {
-      final PageState pageState=(PageState)getAttribute((String)iterator.next());
+  }
+  for (final Iterator iterator=getAttributeNames().iterator(); iterator.hasNext(); ) {
+    final String attributeName=(String)iterator.next();
+    final Object value=getAttribute(attributeName);
+    if (value instanceof PageState) {
+      final PageState pageState=(PageState)value;
       if (!pageState.addedToSession()) {
         final Page page=pageState.getPage();
         getPageMap().put(new Integer(page.getId()),page);
         pageState.addedToSession=true;
       }
-      iterator.remove();
     }
   }
 }
