@@ -1,8 +1,8 @@
 {
   super(componentName);
   this.data=new ArrayList();
-  this.data.addAll(data);
-  final PagedTableWithAlternatingRowStyle table=new PagedTableWithAlternatingRowStyle("rows",data,10){
+  this.data.addAll(list);
+  final PagedTableWithAlternatingRowStyle table=new PagedTableWithAlternatingRowStyle("rows",list,10){
     public void populateItem(    final ListItem listItem){
       super.populateItem(listItem);
       final ListObject value=(ListObject)listItem.getModelObject();
@@ -43,7 +43,7 @@
   add(new Label("headline",null){
     protected void handleBody(    final RequestCycle cycle,    final MarkupStream markupStream,    final ComponentTag openTag){
       int firstCell=table.getCurrentPage() * table.getRowsPerPage();
-      String text=String.valueOf(data.size()) + " items found, displaying " + String.valueOf(firstCell + 1)+ " to "+ String.valueOf(firstCell + table.getRowsPerPage())+ ".";
+      String text=String.valueOf(list.size()) + " items found, displaying " + String.valueOf(firstCell + 1)+ " to "+ String.valueOf(firstCell + table.getRowsPerPage())+ ".";
       replaceBody(cycle,markupStream,openTag,text);
     }
   }
