@@ -1,8 +1,15 @@
 {
   log.error("Created the guess page");
   add(new Label("guessesRemaining",new PropertyModel(getHangman(),"guessesRemaining")));
-  add(new Label("letters",new PropertyModel(getHangman(),"letters")));
+  add(new Label("correctLetters",new PropertyModel(getHangman(),"correctLetters")));
+  final List letters=new ArrayList();
   for (char c='a'; c <= 'z'; c++) {
-    add(new SelectableLetterLink(c));
+    letters.add(new Character(c));
   }
+  add(new ListView("letters",letters){
+    protected void populateItem(    ListItem listItem){
+      listItem.add(new SelectableLetterLink((Character)listItem.getModelObject()));
+    }
+  }
+);
 }
