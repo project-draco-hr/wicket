@@ -8,17 +8,15 @@
   final Class c=value.getClass();
   ITypeConverter converter=get(c);
   if (converter == null) {
-    defaultConverter.setLocale(getLocale());
     return defaultConverter.convert(value);
   }
-  converter.setLocale(getLocale());
   try {
     return converter.convert(value);
   }
  catch (  ConversionException e) {
-    throw e.setTypeConverter(this).setLocale(getLocale()).setTargetType(c).setSourceValue(value);
+    throw e.setTypeConverter(this).setTargetType(c).setSourceValue(value);
   }
 catch (  Exception e) {
-    throw new ConversionException(e).setTypeConverter(this).setLocale(getLocale()).setTargetType(c).setSourceValue(value);
+    throw new ConversionException(e).setTypeConverter(this).setTargetType(c).setSourceValue(value);
   }
 }

@@ -10,17 +10,15 @@
   }
   final ITypeConverter converter=get(c);
   if (converter == null) {
-    defaultConverter.setLocale(locale);
     return defaultConverter.convert(value,c);
   }
-  converter.setLocale(locale);
   try {
     return converter.convert(value);
   }
  catch (  ConversionException e) {
-    throw e.setConverter(this).setTypeConverter(converter).setLocale(locale).setTargetType(c).setSourceValue(value);
+    throw e.setConverter(this).setTypeConverter(converter).setTargetType(c).setSourceValue(value);
   }
 catch (  Exception e) {
-    throw new ConversionException(e).setConverter(this).setLocale(locale).setTargetType(c).setSourceValue(value);
+    throw new ConversionException(e).setConverter(this).setTargetType(c).setSourceValue(value);
   }
 }
