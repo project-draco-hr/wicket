@@ -11,18 +11,16 @@
     if (value != null) {
       final String idValue;
       final String displayValue;
-      final boolean currentOptionIsSelected;
       if (list instanceof IIdList) {
         IIdList idList=(IIdList)list;
         idValue=idList.getIdValue(i);
         displayValue=idList.getDisplayValue(i);
-        currentOptionIsSelected=isSelected(idValue);
       }
  else {
         idValue=Integer.toString(i);
         displayValue=value.toString();
-        currentOptionIsSelected=isSelected(value);
       }
+      final boolean currentOptionIsSelected=isSelected(value);
       options.append("\n<option ");
       if (currentOptionIsSelected)       options.append("selected ");
       options.append("value=\"");
