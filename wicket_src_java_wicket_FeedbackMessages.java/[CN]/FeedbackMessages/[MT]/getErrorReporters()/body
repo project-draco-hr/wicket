@@ -1,0 +1,15 @@
+{
+  if (messages != null) {
+    Set subset=new HashSet();
+    for (Iterator i=messages.iterator(); i.hasNext(); ) {
+      FeebackMessage message=(FeebackMessage)i.next();
+      if (message.isLevel(FeebackMessage.ERROR)) {
+        subset.add(message.getReporter());
+      }
+    }
+    return subset;
+  }
+ else {
+    return Collections.EMPTY_SET;
+  }
+}
