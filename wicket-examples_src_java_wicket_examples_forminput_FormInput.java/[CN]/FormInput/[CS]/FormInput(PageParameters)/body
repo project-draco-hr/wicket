@@ -5,4 +5,10 @@
   add(new InputForm("inputForm",feedback));
   currentLocale=RequestCycle.get().getSession().getLocale();
   add(new LocaleSelect("localeSelect",this,"currentLocale",ALL_LOCALES));
+  add(new Link("defaultLocaleLink"){
+    public void linkClicked(    RequestCycle cycle){
+      FormInput.this.currentLocale=RequestCycle.get().getSession().getLocale();
+    }
+  }
+);
 }
