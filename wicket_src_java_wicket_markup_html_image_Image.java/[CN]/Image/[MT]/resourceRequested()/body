@@ -1,4 +1,8 @@
 {
+  IResource image=getResource(resourceToLoad);
+  if (image == null) {
+    throw new WicketRuntimeException("Could not find image resource " + resourceToLoad);
+  }
   final RequestCycle cycle=getRequestCycle();
   cycle.setPage((Page)null);
   final HttpServletResponse response=((HttpResponse)cycle.getResponse()).getServletResponse();
