@@ -19,6 +19,10 @@
             valid=false;
           }
           String value=(String)actualAttributes.get(name);
+          if (value == null) {
+            System.err.println("Attribute " + name + " was expected but not found");
+            valid=false;
+          }
           if (!value.matches(pattern)) {
             System.err.println("The value '" + value + "' of attribute '"+ name+ "' of tag <"+ workingTag.getTag()+ "> was expected to match the pattern '"+ pattern+ "' but it does not");
             valid=false;
