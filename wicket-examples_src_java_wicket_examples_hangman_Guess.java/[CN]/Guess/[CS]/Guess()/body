@@ -2,9 +2,31 @@
   add(new Label("guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
   add(new Label("word",new PropertyModel(getGame(),"word.asString(true)")));
   add(new ListView("letters",getGame().getLetters()){
-    protected void populateItem(    ListItem listItem){
+    protected void populateItem(    final ListItem listItem){
       final Letter letter=(Letter)listItem.getModelObject();
-      listItem.add(letter.getGuessLink(getGame()));
+      final Link link=new Link("letter"){
+        protected void onBeginRender(){
+          setAutoEnable(false);
+          setEnabled(!letter.isGuessed());
+        }
+        public void onClick(){
+          getGame().guess(letter);
+          setEnabled(false);
+          if (getGame().isWon()) {
+            setResponsePage(new Win());
+          }
+ else           if (getGame().isLost()) {
+            setResponsePage(new Lose());
+          }
+ else {
+          }
+        }
+      }
+;
+      final HangmanApplication application=(HangmanApplication)getSession().getApplication();
+      link.add(new Image("enabled",application.imageForLetter(letter)));
+      link.add(new Image("disabled",application.imageForLetter(letter)));
+      listItem.add(link);
     }
   }
 );
