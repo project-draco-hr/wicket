@@ -1,0 +1,14 @@
+{
+  IApplication app=new IApplication(){
+    public String getName(){
+      return "MissingResourceApp";
+    }
+    public ApplicationSettings getSettings(){
+      return settings;
+    }
+    private ApplicationSettings settings=new ApplicationSettings(this);
+  }
+;
+  IStringResourceLoader loader=new ApplicationStringResourceLoader(app);
+  Assert.assertNull("Unknown resource should return null",loader.get(component,"test.string",Locale.getDefault(),null));
+}
