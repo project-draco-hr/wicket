@@ -2,7 +2,10 @@
   final FeedbackPanel feedback=new FeedbackPanel("feedback");
   add(feedback);
   add(new InputForm("inputForm",feedback));
-  add(new DropDownChoice("localeSelect",this,"locale",Arrays.asList(Locale.getAvailableLocales())){
+  add(new DropDownChoice("localeSelect",this,"locale",ALL_LOCALES){
+    protected boolean wantOnSelectionChangedNotifications(){
+      return true;
+    }
     public void onSelectionChanged(    Object newSelection){
       setLocale((Locale)newSelection);
     }
