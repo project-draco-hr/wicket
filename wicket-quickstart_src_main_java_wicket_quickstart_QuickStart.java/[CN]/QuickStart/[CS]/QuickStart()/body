@@ -1,0 +1,12 @@
+{
+  ApplicationSettings settings=getSettings();
+  settings.setHomePage(Index.class);
+  if (!Boolean.getBoolean("cache-templates")) {
+    Duration pollFreq=Duration.ONE_SECOND;
+    settings.setResourcePollFrequency(pollFreq);
+    log.info("template caching is INACTIVE");
+  }
+ else {
+    log.info("template caching is ACTIVE");
+  }
+}
