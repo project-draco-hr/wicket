@@ -1,4 +1,8 @@
 {
+  Page page=getPage();
+  if (page == null) {
+    throw new IllegalStateException(exceptionMessage("no Page for this component " + this));
+  }
   final Session session=getPage().getSession();
   if (session == null) {
     throw new IllegalStateException(exceptionMessage("Page not attached to session"));
