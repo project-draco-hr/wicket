@@ -6,7 +6,7 @@
  else {
     final ImageValueParser valueParser=new ImageValueParser(value);
     if (valueParser.matches()) {
-      final ImageResourceFactory factory=(ImageResourceFactory)nameToImageFactory.get(valueParser.getFactoryName());
+      final ImageResourceFactory factory=component.getApplication().getImageResourceFactory(valueParser.getFactoryName());
       if (factory == null) {
         throw new WicketRuntimeException("Could not find image resource factory named " + valueParser.getFactoryName());
       }
