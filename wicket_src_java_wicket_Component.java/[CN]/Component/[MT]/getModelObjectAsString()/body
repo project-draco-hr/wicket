@@ -1,9 +1,10 @@
 {
   IModel model=getModel();
   if (model != null) {
-    final Object property=model.getObject();
-    if (property != null) {
-      final String modelString=(property instanceof String) ? (String)property : String.valueOf(property);
+    final Object modelObject=model.getObject();
+    if (modelObject != null) {
+      IStringConverter stringConverter=getConverter();
+      final String modelString=stringConverter.toString(modelObject);
       if (shouldEscapeModelStrings) {
         return Strings.escapeMarkup(modelString);
       }

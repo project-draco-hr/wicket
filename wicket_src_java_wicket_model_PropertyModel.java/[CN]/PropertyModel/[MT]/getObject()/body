@@ -13,21 +13,8 @@
   }
   try {
     OgnlContext ctx=getContext();
-    Object raw=Ognl.getValue(expr,ctx,modelObject);
-    if (applyFormatting) {
-      final IStringConverter converter;
-      if (component != null) {
-        converter=component.getConverter();
-      }
- else {
-        Session session=Session.get();
-        converter=(IStringConverter)session.getConverter();
-      }
-      return converter.toString(raw);
-    }
- else {
-      return raw;
-    }
+    Object result=Ognl.getValue(expr,ctx,modelObject);
+    return result;
   }
  catch (  OgnlException e) {
     throw new WicketRuntimeException(e);
