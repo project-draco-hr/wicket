@@ -4,7 +4,7 @@
     return xmlTag;
   }
   ComponentTag tag;
-  if (componentNameAttribute.equalsIgnoreCase(xmlTag.getNamespace()) || ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE.equalsIgnoreCase(xmlTag.getNamespace())) {
+  if (componentNameAttribute.equalsIgnoreCase(xmlTag.getNamespace()) || (applyDefaultComponentName && ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE.equalsIgnoreCase(xmlTag.getNamespace()))) {
     tag=new ComponentWicketTag(xmlTag);
     tag.setComponentName(tag.getName());
   }
@@ -18,7 +18,7 @@
       tag.put("id",tag.getComponentName());
     }
   }
- else   if ((id != null) && id.startsWith(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE)) {
+ else   if ((id != null) && applyDefaultComponentName && id.startsWith(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE)) {
     tag.setComponentName(id.substring(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE.length() + 1).trim());
     if (this.stripWicketFromComponentTag) {
       tag.put("id",tag.getComponentName());
@@ -27,7 +27,7 @@
  else   if (tag.getAttributes().containsKey(componentNameAttribute)) {
     tag.setComponentName(tag.getAttributes().getString(componentNameAttribute));
   }
- else   if (tag.getAttributes().containsKey(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE)) {
+ else   if (applyDefaultComponentName && tag.getAttributes().containsKey(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE)) {
     tag.setComponentName(tag.getAttributes().getString(ComponentTag.DEFAULT_COMPONENT_NAME_ATTRIBUTE));
   }
   return tag;
