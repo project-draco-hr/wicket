@@ -2,22 +2,21 @@
   if (child == this) {
     throw new IllegalArgumentException("Component can't be added to itself");
   }
-  final String childName=child.getId();
   if (log.isDebugEnabled()) {
-    log.debug("Add " + childName + " to "+ this);
+    log.debug("Add " + child.getId() + " to "+ this);
   }
   child.setParent(this);
   if (optimizeChildMapsForSpace) {
-    if (childForName.size() == MicroMap.MAX_ENTRIES) {
-      childForName=new MiniMap(childForName,MINIMAP_MAX_ENTRIES);
+    if (childForId.size() == MicroMap.MAX_ENTRIES) {
+      childForId=new MiniMap(childForId,MINIMAP_MAX_ENTRIES);
     }
- else     if (childForName.size() == MINIMAP_MAX_ENTRIES) {
-      childForName=new HashMap(childForName);
+ else     if (childForId.size() == MINIMAP_MAX_ENTRIES) {
+      childForId=new HashMap(childForId);
     }
   }
-  final Object replaced=childForName.put(childName,child);
+  final Object replaced=childForId.put(child.getId(),child);
   if (replaced != null) {
-    throw new IllegalArgumentException(exceptionMessage("A child component with the name '" + childName + "' already exists"));
+    throw new IllegalArgumentException(exceptionMessage("A child component with the id '" + child.getId() + "' already exists"));
   }
   final Page page=findPage();
   if (page != null) {

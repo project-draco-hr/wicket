@@ -1,0 +1,37 @@
+{
+  final ComponentTag tag=(ComponentTag)getParent().nextTag();
+  if (tag == null) {
+    return tag;
+  }
+  final String href=tag.getAttributes().getString("href");
+  if ((autolinking == true) && (tag.getId() == null) && (href != null)&& (href.endsWith(".html") || (href.indexOf(".html?") != -1))&& (href.indexOf(":") == -1)) {
+    tag.enableAutolink(true);
+    tag.setId("_autolink_");
+    return tag;
+  }
+  if (tag instanceof WicketTag) {
+    final WicketTag wtag=(WicketTag)tag;
+    if (wtag.isLinkTag()) {
+      if (tag.isOpen() || tag.isOpenClose()) {
+        if (tag.isOpen()) {
+          if (autolinkStatus == null) {
+            autolinkStatus=new Stack();
+          }
+          autolinkStatus.push(new Boolean(autolinking));
+        }
+        final String autolink=tag.getAttributes().getString("autolink");
+        try {
+          autolinking=Strings.isEmpty(autolink) || Strings.isTrue(autolink);
+        }
+ catch (        StringValueConversionException e) {
+          throw new WicketRuntimeException("Invalid autolink attribute value \"" + autolink + "\"");
+        }
+      }
+ else       if (tag.isClose()) {
+        autolinking=((Boolean)autolinkStatus.pop()).booleanValue();
+      }
+      return nextTag();
+    }
+  }
+  return tag;
+}

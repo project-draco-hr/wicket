@@ -1,22 +1,21 @@
 {
-  final String childName=child.getId();
   if (log.isDebugEnabled()) {
-    log.debug("Add " + childName + " to "+ this);
+    log.debug("Replacing " + child.getId() + " in "+ this);
   }
   if (child.getParent() != this) {
     child.setParent(null);
     child.setParent(this);
     if (optimizeChildMapsForSpace) {
-      if (childForName.size() == MicroMap.MAX_ENTRIES) {
-        childForName=new MiniMap(childForName,MINIMAP_MAX_ENTRIES);
+      if (childForId.size() == MicroMap.MAX_ENTRIES) {
+        childForId=new MiniMap(childForId,MINIMAP_MAX_ENTRIES);
       }
- else       if (childForName.size() == MINIMAP_MAX_ENTRIES) {
-        childForName=new HashMap(childForName);
+ else       if (childForId.size() == MINIMAP_MAX_ENTRIES) {
+        childForId=new HashMap(childForId);
       }
     }
-    final Component replaced=(Component)childForName.put(childName,child);
+    final Component replaced=(Component)childForId.put(child.getId(),child);
     if (replaced == null) {
-      throw new IllegalArgumentException(exceptionMessage("A child component with the name '" + childName + "' didn't exist"));
+      throw new IllegalArgumentException(exceptionMessage("A child component with the id '" + child.getId() + "' didn't exist"));
     }
     replaced.setParent(null);
     final Page page=findPage();

@@ -2,27 +2,15 @@
   super(id);
   final List data=new ArrayList();
   add(new Label("page",page.toString()));
-  add(new ListView("components",data){
-    /** 
- * Assuming all other components of the page to be analyzed are
- * already populated (and rendered), determine the components and
- * fill the ListView's model object.
- * <p>
- * Why don't we load the model object earlier? Because the page's
- * components must already be added to the page. Else, we can not
- * find them.
- */
-    protected void onRender(){
-      data.clear();
-      data.addAll(getComponentData(page));
-      Collections.sort(data,new Comparator(){
-        public int compare(        Object o1,        Object o2){
-          return ((ComponentData)o1).path.compareTo(((ComponentData)o2).path);
-        }
-      }
-);
-      super.onRender();
+  data.clear();
+  data.addAll(getComponentData(page));
+  Collections.sort(data,new Comparator(){
+    public int compare(    Object o1,    Object o2){
+      return ((ComponentData)o1).path.compareTo(((ComponentData)o2).path);
     }
+  }
+);
+  add(new ListView("components",data){
     /** 
  * Populate the table with Wicket elements
  */

@@ -1,11 +1,11 @@
 {
   final List list=new ArrayList();
-  final WicketComponentTagIdentifier detectWicketComponents=new WicketComponentTagIdentifier(xmlParser);
+  final WicketTagIdentifier detectWicketComponents=new WicketTagIdentifier(xmlParser);
   detectWicketComponents.setWicketNamespace(this.wicketNamespace);
   final WicketParamTagHandler wicketParamTagHandler=new WicketParamTagHandler(new HtmlHandler(detectWicketComponents));
   wicketParamTagHandler.setStripWicketTag(this.stripWicketTag);
-  final PreviewComponentTagRemover previewComponentTagRemover=new PreviewComponentTagRemover(wicketParamTagHandler);
-  final AutolinkHandler autolinkHandler=new AutolinkHandler(previewComponentTagRemover);
+  final WicketRemoveTagHandler previewComponentTagRemover=new WicketRemoveTagHandler(wicketParamTagHandler);
+  final WicketLinkTagHandler autolinkHandler=new WicketLinkTagHandler(previewComponentTagRemover);
   autolinkHandler.setAutomaticLinking(this.automaticLinking);
   final IMarkupFilter markupFilterChain=autolinkHandler;
   for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
@@ -26,7 +26,7 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
-      if (!PreviewComponentTagRemover.IGNORE.equals(tag.getId())) {
+      if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
         list.add(tag);
       }
       xmlParser.setPositionMarker();

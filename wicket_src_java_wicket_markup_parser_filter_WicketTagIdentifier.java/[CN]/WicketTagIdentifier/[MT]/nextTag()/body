@@ -1,0 +1,19 @@
+{
+  XmlTag xmlTag=(XmlTag)getParent().nextTag();
+  if (xmlTag == null) {
+    return xmlTag;
+  }
+  ComponentTag tag;
+  if (wicketNamespace.equalsIgnoreCase(xmlTag.getNamespace())) {
+    tag=new WicketTag(xmlTag);
+    tag.setId(tag.getName());
+  }
+ else {
+    tag=new ComponentTag(xmlTag);
+  }
+  final String value=tag.getAttributes().getString(wicketNamespace + ":id");
+  if (value != null) {
+    tag.setId(value);
+  }
+  return tag;
+}

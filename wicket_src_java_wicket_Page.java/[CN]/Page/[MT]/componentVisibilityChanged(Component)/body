@@ -1,7 +1,9 @@
 {
-  checkModification();
-  if (getFlag(FLAG_TRACK_CHANGES) && component.isVersioned()) {
-    newVersion();
-    versionManager.componentVisibilityChanged(component);
+  if (!component.isAuto()) {
+    checkModification();
+    if (getFlag(FLAG_TRACK_CHANGES) && component.isVersioned()) {
+      newVersion();
+      versionManager.componentVisibilityChanged(component);
+    }
   }
 }
