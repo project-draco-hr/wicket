@@ -1,0 +1,24 @@
+{
+  final WebRequestCycle cycle=getWebRequestCycle();
+  final StringBuffer buffer=urlPrefix(cycle);
+  if (pageMapName == null) {
+    appendPageMapName(buffer);
+  }
+ else {
+    buffer.append("?pagemap=");
+    buffer.append(pageMapName);
+    buffer.append('&');
+  }
+  buffer.append("bookmarkablePage=");
+  buffer.append(pageClass.getName());
+  if (parameters != null) {
+    for (final Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
+      final String key=(String)iterator.next();
+      buffer.append('&');
+      buffer.append(key);
+      buffer.append('=');
+      buffer.append(parameters.getString(key));
+    }
+  }
+  return cycle.getResponse().encodeURL(buffer.toString());
+}

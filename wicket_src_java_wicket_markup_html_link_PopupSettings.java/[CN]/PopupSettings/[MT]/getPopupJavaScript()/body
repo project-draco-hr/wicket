@@ -1,31 +1,30 @@
 {
-  String windowTitle=getWindowName();
+  String windowTitle=windowName;
   if (windowTitle == null) {
     windowTitle="";
   }
  else {
     windowTitle=windowTitle.replace('.','_');
   }
-  String target=getTarget();
   StringBuffer script=new StringBuffer("if (!window.focus) return true; window.open(" + target + ", '").append(windowTitle).append("', '");
-  script.append("scrollbars=").append(getScrollBars() ? "yes" : "no");
-  script.append(", location=").append(getLocationBar() ? "yes" : "no");
-  script.append(", menuBar=").append(getMenuBar() ? "yes" : "no");
-  script.append(", resizable=").append(isResizable() ? "yes" : "no");
-  script.append(", scrollbars=").append(getScrollBars() ? "yes" : "no");
-  script.append(", status=").append(getStatusBar() ? "yes" : "no");
-  script.append(", toolbar=").append(getToolbar() ? "yes" : "no");
-  if (getWidth() != -1) {
-    script.append(", width=").append(getWidth());
+  script.append("scrollbars=").append(flagToString(SCROLLBARS));
+  script.append(", location=").append(flagToString(LOCATION_BAR));
+  script.append(", menuBar=").append(flagToString(MENU_BAR));
+  script.append(", resizable=").append(flagToString(RESIZABLE));
+  script.append(", scrollbars=").append(flagToString(SCROLLBARS));
+  script.append(", status=").append(flagToString(STATUS_BAR));
+  script.append(", toolbar=").append(flagToString(TOOL_BAR));
+  if (width != -1) {
+    script.append(", width=").append(width);
   }
-  if (getHeight() != -1) {
-    script.append(", height=").append(getHeight());
+  if (height != -1) {
+    script.append(", height=").append(height);
   }
-  if (getLeft() != -1) {
-    script.append(", left=").append(getLeft());
+  if (left != -1) {
+    script.append(", left=").append(left);
   }
-  if (getTop() != -1) {
-    script.append(", top=").append(getTop());
+  if (top != -1) {
+    script.append(", top=").append(top);
   }
   script.append("'); ").append(" return false;");
   return script.toString();
