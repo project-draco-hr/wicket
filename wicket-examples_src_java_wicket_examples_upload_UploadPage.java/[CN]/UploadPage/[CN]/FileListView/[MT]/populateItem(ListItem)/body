@@ -1,16 +1,11 @@
 {
-  final String fileName=(String)listItem.getModelObject();
-  listItem.add(new Label("file",fileName));
+  final String filename=(String)listItem.getModelObject();
+  listItem.add(new Label("file",filename));
   listItem.add(new Link("delete"){
     public void onClick(){
-      File toDelete=new File(tempDir,fileName);
-      log.info("delete " + toDelete);
-      toDelete.delete();
-      try {
-        Thread.sleep(100);
-      }
- catch (      InterruptedException e) {
-      }
+      final File file=new File(uploadFolder,filename);
+      log.info("Deleting " + file);
+      Files.delete(file);
       refreshFiles();
     }
   }

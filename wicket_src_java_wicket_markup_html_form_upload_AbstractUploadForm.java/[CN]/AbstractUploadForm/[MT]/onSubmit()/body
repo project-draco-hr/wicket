@@ -1,18 +1,6 @@
 {
-  try {
-    final WebRequest httpRequest=(WebRequest)getRequest();
-    final HttpServletRequest request=httpRequest.getHttpServletRequest();
-    final boolean isMultipart=FileUpload.isMultipartContent(request);
-    if (!isMultipart) {
-      throw new IllegalStateException("Request is not a multipart request");
-    }
-    prepareUpload();
-    final FileUploadBase upload=createUpload();
-    final List items=parseRequest(request,upload);
-    processFileItems(items);
-    finishUpload();
-  }
- catch (  FileUploadException e) {
-    throw new WicketRuntimeException(e);
+  final List files=((MultipartWebRequest)getRequest()).getFiles();
+  for (final Iterator iterator=files.iterator(); iterator.hasNext(); ) {
+    onUpload((FileItem)iterator.next());
   }
 }

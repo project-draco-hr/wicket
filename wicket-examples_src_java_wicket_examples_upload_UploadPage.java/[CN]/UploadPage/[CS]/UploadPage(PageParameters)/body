@@ -1,11 +1,11 @@
 {
-  tempDir=new File(System.getProperty("java.io.tmpdir"),"WicketUploadTest");
-  if (!tempDir.isDirectory()) {
-    tempDir.mkdir();
+  uploadFolder=new Folder(System.getProperty("java.io.tmpdir"),"WicketUploadTest");
+  if (!uploadFolder.isDirectory()) {
+    uploadFolder.mkdir();
   }
-  add(new UploadForm("upload",null,tempDir));
-  add(new Label("dir",tempDir.getAbsolutePath()));
-  files.addAll(Arrays.asList(tempDir.list()));
+  add(new UploadForm("upload",null,uploadFolder));
+  add(new Label("dir",uploadFolder.getAbsolutePath()));
+  files.addAll(Arrays.asList(uploadFolder.list()));
   fileListView=new FileListView("fileList",files);
   add(fileListView);
   add(new FeedbackPanel("feedback"));
