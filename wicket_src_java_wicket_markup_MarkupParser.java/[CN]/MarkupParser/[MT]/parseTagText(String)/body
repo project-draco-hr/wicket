@@ -1,32 +1,24 @@
 {
   final int tagTextLength=tagText.length();
-  final WordParser tagnameParser=new WordParser(tagText);
+  final TagNameParser tagnameParser=new TagNameParser(tagText);
   if (tagnameParser.matcher().lookingAt()) {
-    final String tagName=tagnameParser.getWord().toLowerCase();
+    final String tagName=tagnameParser.getName().toLowerCase();
+    String namespace=tagnameParser.getNamespace();
+    if (namespace != null) {
+      namespace=namespace.toLowerCase();
+    }
     int pos;
     final ComponentTag tag;
-    if (!wicketTagName.equalsIgnoreCase(tagName)) {
-      tag=new ComponentTag();
-      tag.name=tagnameParser.getWord().toLowerCase();
-      pos=tagnameParser.matcher().end(0);
-    }
- else {
+    if (wicketTagName.equals(namespace)) {
       tag=new ComponentWicketTag();
-      pos=tagnameParser.matcher().end(0);
-      if ((tagTextLength <= (pos + 2)) || (tagText.charAt(pos) != ':')) {
-        throw new ParseException("No valid wicket tag name found: '" + tagText + "'. Must be like <wicket:param ...",0);
-      }
-      int endPos=tagText.indexOf(' ',pos);
-      if (endPos == -1) {
-        tag.name=tagText.substring(pos + 1).toLowerCase();
-        pos=tagTextLength;
-      }
- else {
-        tag.name=tagText.substring(pos + 1,endPos).toLowerCase();
-        pos=endPos;
-      }
-      tag.componentName=tag.name;
+      tag.componentName=tagName;
     }
+ else {
+      tag=new ComponentTag();
+    }
+    tag.name=tagName;
+    tag.namespace=namespace;
+    pos=tagnameParser.matcher().end(0);
     if (pos == tagTextLength) {
       return tag;
     }
@@ -58,6 +50,7 @@
         return tag;
       }
     }
+    return tag;
   }
   return null;
 }
