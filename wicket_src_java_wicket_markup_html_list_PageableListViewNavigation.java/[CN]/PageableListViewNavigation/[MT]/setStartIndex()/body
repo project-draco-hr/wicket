@@ -1,5 +1,5 @@
 {
-  int firstListItem=this.getStartIndex();
+  int firstListItem=this.startIndex;
   int viewSize=this.getViewSize();
   int currentPage=pageableListView.getCurrentPage();
   if (currentPage < (firstListItem + this.margin)) {
@@ -14,5 +14,11 @@
   if (firstListItem < 0) {
     firstListItem=0;
   }
-  this.setStartIndex(firstListItem);
+  if ((viewSize != getSize()) || (this.startIndex != firstListItem)) {
+    this.modelChangeImpending();
+    this.startIndex=firstListItem;
+    this.setViewSize(viewSize);
+    this.modelChanged();
+    removeAll();
+  }
 }
