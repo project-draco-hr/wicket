@@ -16,6 +16,15 @@
           return;
         }
       }
+      MarkupContainer container=this;
+      while (container != null) {
+        if (container instanceof IComponentResolver) {
+          if (((IComponentResolver)container).resolve(this,markupStream,tag)) {
+            return;
+          }
+        }
+        container=container.findParent(MarkupContainer.class);
+      }
       markupStream.throwMarkupException("Unable to find component with id '" + id + "' in "+ this);
     }
   }
