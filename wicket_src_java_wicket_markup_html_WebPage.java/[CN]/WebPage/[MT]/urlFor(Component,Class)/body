@@ -1,0 +1,15 @@
+{
+  if (!listenerInterface.isAssignableFrom(component.getClass())) {
+    throw new WicketRuntimeException("The component " + component + " of class "+ component.getClass()+ " does not implement "+ listenerInterface);
+  }
+  final WebRequestCycle cycle=getWebRequestCycle();
+  final StringBuffer buffer=urlPrefix(cycle);
+  appendPageMapName(buffer);
+  buffer.append("component=");
+  buffer.append(component.getPath());
+  buffer.append("&version=");
+  buffer.append(component.getPage().getCurrentVersionNumber());
+  buffer.append("&interface=");
+  buffer.append(Classes.name(listenerInterface));
+  return cycle.getResponse().encodeURL(buffer.toString());
+}

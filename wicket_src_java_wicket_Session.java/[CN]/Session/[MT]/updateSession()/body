@@ -2,34 +2,9 @@
   final State state=(State)getAttribute("state");
   if (state != null) {
     this.state=state;
+    state.attach();
   }
-  final List pageStates=new ArrayList();
-  for (final Iterator iterator=getAttributeNames().iterator(); iterator.hasNext(); ) {
-    final Object value=getAttribute((String)iterator.next());
-    if (value instanceof PageState) {
-      pageStates.add(value);
-    }
-  }
-  Collections.sort(pageStates,new Comparator(){
-    public int compare(    Object object1,    Object object2){
-      int accessNumber1=((PageState)object1).accessNumber;
-      int accessNumber2=((PageState)object2).accessNumber;
-      if (accessNumber1 < accessNumber2) {
-        return -1;
-      }
-      if (accessNumber1 > accessNumber2) {
-        return 1;
-      }
-      return 0;
-    }
-  }
-);
-  for (final Iterator iterator=pageStates.iterator(); iterator.hasNext(); ) {
-    final PageState pageState=(PageState)iterator.next();
-    if (!pageState.addedToSession) {
-      final Page page=pageState.getPage();
-      getPageMap().put(page.getId(),page);
-      pageState.addedToSession=true;
-    }
-  }
+  final List pageStates=getPageStateAttributes();
+  sortBySequenceNumber(pageStates);
+  addPages(pageStates);
 }

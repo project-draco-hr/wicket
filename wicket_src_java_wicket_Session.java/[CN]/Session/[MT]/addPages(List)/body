@@ -1,0 +1,10 @@
+{
+  for (final Iterator iterator=pageStates.iterator(); iterator.hasNext(); ) {
+    final PageState pageState=(PageState)iterator.next();
+    if (!pageState.addedToSession) {
+      final Page page=pageState.getPage();
+      getPageMap(pageState.pageMapName).put(page);
+      pageState.addedToSession=true;
+    }
+  }
+}

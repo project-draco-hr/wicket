@@ -1,10 +1,10 @@
 {
-  if (path.startsWith("/")) {
-    return path;
+  if (relativePath.startsWith("/")) {
+    return relativePath;
   }
  else {
     final StringList absolutePath=StringList.tokenize(p.getName(),".");
-    final StringList folders=StringList.tokenize(path,"/\\");
+    final StringList folders=StringList.tokenize(relativePath,"/\\");
     for (final IStringIterator iterator=folders.iterator(); iterator.hasNext(); ) {
       final String folder=iterator.next();
       if (folder.equals("..")) {
@@ -12,7 +12,7 @@
           absolutePath.removeLast();
         }
  else {
-          throw new IllegalArgumentException("Invalid path " + path);
+          throw new IllegalArgumentException("Invalid path " + relativePath);
         }
       }
  else {

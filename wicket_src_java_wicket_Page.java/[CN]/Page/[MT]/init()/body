@@ -1,5 +1,9 @@
 {
   final Session session=getSession();
-  session.addPage(this);
+  session.add(this);
   setVersioned(session.getApplication().getSettings().getVersionPagesByDefault());
+  for (final Iterator iterator=getPageSets(); iterator.hasNext(); ) {
+    final PageSet pageSet=(PageSet)iterator.next();
+    pageSet.init(this);
+  }
 }

@@ -1,11 +1,12 @@
 {
+  Page page=null;
   internalOnBeginRequest();
   onBeginRequest();
 synchronized (session) {
     threadAttach();
     try {
       if (onRespond()) {
-        final Page page=getResponsePage();
+        page=getResponsePage();
         if (page != null) {
           try {
             if (getRedirect()) {
@@ -29,7 +30,7 @@ synchronized (session) {
       }
     }
  catch (    RuntimeException e) {
-      onRuntimeException(e);
+      onRuntimeException(page,e);
     }
  finally {
       threadDetach();

@@ -1,0 +1,9 @@
+{
+  final String pageMapName=cycle == null ? PageMap.defaultName : cycle.getRequest().getParameter("pageMap");
+  page.setPageMap(getPageMap(pageMapName));
+  final Page removedPage=page.getPageMap().add(page);
+  if (removedPage != null) {
+    removeAttribute(removedPage.getId());
+  }
+  pageChanged(page);
+}

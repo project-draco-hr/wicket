@@ -1,0 +1,11 @@
+{
+  final RequestCycle cycle=RequestCycle.get();
+  if (interceptContinuationURL != null) {
+    cycle.getResponse().redirect(interceptContinuationURL);
+    cycle.setRedirect(false);
+    interceptContinuationURL=null;
+    session.dirty();
+    return true;
+  }
+  return false;
+}

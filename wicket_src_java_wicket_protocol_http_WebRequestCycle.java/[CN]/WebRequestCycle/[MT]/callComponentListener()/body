@@ -1,9 +1,10 @@
 {
   final String path=request.getParameter("component");
+  final String pageMapName=request.getParameter("pageMap");
   if (path != null) {
     final String versionNumberString=request.getParameter("version");
     final int versionNumber=Strings.isEmpty(versionNumberString) ? 0 : Integer.parseInt(versionNumberString);
-    final Page page=session.getPage(path,versionNumber);
+    final Page page=session.getPage(pageMapName,path,versionNumber);
     if (page != null) {
       invokeInterface(page,path,request.getParameter("interface"));
       return true;
@@ -14,7 +15,7 @@
     }
   }
  else {
-    final String pathInfo=((WebRequest)request).getHttpServletRequest().getPathInfo();
+    final String pathInfo=getWebRequest().getHttpServletRequest().getPathInfo();
     if (pathInfo != null) {
       final Resource resource=Resource.forPath(pathInfo.substring(1));
       if (resource != null) {

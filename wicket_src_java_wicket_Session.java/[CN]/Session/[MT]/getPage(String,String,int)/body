@@ -1,0 +1,18 @@
+{
+  if (log.isDebugEnabled()) {
+    log.debug("Getting page [path = " + path + ", versionNumber = "+ versionNumber+ "]");
+  }
+  Page page=getPage(pageMapName,Strings.firstPathComponent(path,componentPathSeparator));
+  if (page != null) {
+    final Page version=page.getVersion(versionNumber);
+    if (version != null) {
+      if (version != page) {
+        page=version;
+        page.getPageMap().put(page);
+        pageChanged(page);
+      }
+      return page;
+    }
+  }
+  return null;
+}

@@ -1,0 +1,21 @@
+{
+  try {
+    ApplicationSettings settings=application.getSettings();
+    if (settings.getUnexpectedExceptionDisplay() != ApplicationSettings.SHOW_NO_EXCEPTION_PAGE) {
+      if (settings.getUnexpectedExceptionDisplay() == ApplicationSettings.SHOW_INTERNAL_ERROR_PAGE) {
+        setResponsePage(session.getPageFactory(page).newPage(application.getPages().getInternalErrorPage()));
+      }
+ else {
+        setResponsePage(new ExceptionErrorPage(e,getResponsePage()));
+      }
+      redirectToPage(getResponsePage());
+    }
+  }
+ catch (  RuntimeException ignored) {
+  }
+  final Page currentPage=getResponsePage();
+  if (currentPage != null) {
+    currentPage.resetMarkupStreams();
+  }
+  throw new ServletException("Wicket could not render page: " + Strings.toString(e),e);
+}

@@ -1,9 +1,8 @@
 {
   SignInSession session=(SignInSession)getSession();
   if (session.authenticate(properties.getString("username"),properties.getString("password"))) {
-    final RequestCycle cycle=getRequestCycle();
-    if (!cycle.continueToOriginalDestination()) {
-      cycle.setResponsePage(new Home(PageParameters.NULL));
+    if (!getPage().continueToOriginalDestination()) {
+      setResponsePage(new Home(PageParameters.NULL));
     }
   }
  else {
