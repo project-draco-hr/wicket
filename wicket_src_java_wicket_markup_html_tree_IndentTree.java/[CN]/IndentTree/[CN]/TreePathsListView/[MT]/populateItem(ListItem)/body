@@ -1,0 +1,12 @@
+{
+  DefaultMutableTreeNode node=(DefaultMutableTreeNode)listItem.getModelObject();
+  int level=node.getLevel();
+  listItem.add(new SpacerList("spacers",level));
+  HtmlContainer nodeContainer=new HtmlContainer("node");
+  Link expandCollapsLink=IndentTree.this.createJunctionLink(node);
+  nodeContainer.add(expandCollapsLink);
+  Link selectLink=IndentTree.this.createNodeLink(node);
+  nodeContainer.add(selectLink);
+  listItem.add(nodeContainer);
+  listItem.add(new ComponentTagAttributeModifier("class",true,new SelectedPathReplacementModel(node)));
+}

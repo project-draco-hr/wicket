@@ -1,0 +1,20 @@
+{
+  Object userObject=node.getUserObject();
+  Link nodeLink=new Link("nodeLink"){
+    public void linkClicked(){
+      nodeLinkClicked(node);
+    }
+  }
+;
+  HtmlContainer nodeImg=new HtmlContainer("nodeImg");
+  nodeImg.add(new ComponentTagAttributeModifier("src",true,new Model(){
+    public Object getObject(){
+      return getNodeImageName(node);
+    }
+  }
+));
+  nodeLink.add(nodeImg);
+  String userObjectAsString=getNodeLabel(node);
+  nodeLink.add(new Label("label",userObjectAsString));
+  return nodeLink;
+}

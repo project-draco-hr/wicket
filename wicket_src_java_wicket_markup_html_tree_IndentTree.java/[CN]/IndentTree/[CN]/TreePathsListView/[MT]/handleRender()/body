@@ -1,0 +1,31 @@
+{
+  TreeStateCache treeState=getTreeState();
+  final MarkupStream markupStream=findMarkupStream();
+  final int markupStart=markupStream.getCurrentIndex();
+  int size=getViewSize();
+  if (size > 0) {
+    for (int i=0; i < size; i++) {
+      final String componentName=Integer.toString(i);
+      ListItem listItem=(ListItem)get(componentName);
+      if (listItem == null) {
+        listItem=newItem(i);
+        populateItem(listItem);
+        add(listItem);
+      }
+      DefaultMutableTreeNode node=(DefaultMutableTreeNode)listItem.getModelObject();
+      TreePath path=new TreePath(node.getPath());
+      int row=treeState.getRowForPath(path);
+      if (row != -1) {
+        listItem.setVisible(true);
+      }
+ else {
+        listItem.setVisible(false);
+      }
+      markupStream.setCurrentIndex(markupStart);
+      renderItem(listItem,i >= (size - 1));
+    }
+  }
+ else {
+    markupStream.skipComponent();
+  }
+}
