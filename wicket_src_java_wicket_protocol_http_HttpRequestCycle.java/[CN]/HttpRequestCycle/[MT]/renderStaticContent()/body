@@ -1,7 +1,7 @@
 {
   try {
     final String url=((HttpRequest)getRequest()).getURL();
-    final ServletContext context=((HttpApplication)application).getServletContext();
+    final ServletContext context=((WebApplication)application).getWicketServlet().getServletContext();
     response.setContentType(context.getMimeType(url));
     final InputStream in=context.getResourceAsStream(url);
     if (in != null) {

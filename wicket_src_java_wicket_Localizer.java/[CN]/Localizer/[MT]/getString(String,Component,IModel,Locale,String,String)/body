@@ -1,7 +1,11 @@
 {
   String string=null;
-  for (Iterator it=settings.getStringResourceLoaders().iterator(); it.hasNext(); ) {
-    IStringResourceLoader loader=(IStringResourceLoader)it.next();
+  final ApplicationSettings settings=application.getSettings();
+  if (settings == null) {
+    throw new IllegalStateException("Application did not contain configured settings");
+  }
+  for (final Iterator iterator=settings.getStringResourceLoaders().iterator(); iterator.hasNext(); ) {
+    IStringResourceLoader loader=(IStringResourceLoader)iterator.next();
     string=loader.loadStringResource(component,key,locale,style);
     if (string != null) {
       return substituteOgnl(string,model);
@@ -10,7 +14,7 @@
   if (settings.getUseDefaultOnMissingResource() && defaultValue != null) {
     return defaultValue;
   }
-  if (settings.getExceptionOnMissingResource()) {
+  if (settings.getThrowExceptionOnMissingResource()) {
     throw new MissingResourceException("Unable to find resource: " + key,getClass().getName(),key);
   }
  else {

@@ -1,0 +1,13 @@
+{
+  try {
+    final ICrypt crypt=(ICrypt)getSettings().getCryptClass().newInstance();
+    crypt.setKey(getSettings().getEncryptionKey());
+    return crypt;
+  }
+ catch (  InstantiationException e) {
+    throw new WicketRuntimeException("Encryption/decryption object can not be instantiated",e);
+  }
+catch (  IllegalAccessException e) {
+    throw new WicketRuntimeException("Encryption/decryption object can not be instantiated",e);
+  }
+}

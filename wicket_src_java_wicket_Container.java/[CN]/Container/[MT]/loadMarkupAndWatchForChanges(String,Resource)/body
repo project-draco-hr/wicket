@@ -1,14 +1,14 @@
 {
-  final ApplicationSettings settings=getApplicationSettings();
+  final Application application=getApplication();
   try {
-    final ModificationWatcher watcher=settings.getResourceWatcher();
+    final ModificationWatcher watcher=application.getResourceWatcher();
     if (watcher != null) {
       watcher.add(markupResource,new IChangeListener(){
         public void changed(){
 synchronized (markupCache) {
             try {
               log.info("Reloading markup from " + markupResource);
-              loadMarkup(settings,key,markupResource);
+              loadMarkup(application,key,markupResource);
             }
  catch (            ParseException e) {
               log.error("Unable to parse markup from " + markupResource,e);
@@ -25,7 +25,7 @@ catch (            IOException e) {
 );
     }
     log.info("Loading markup from " + markupResource);
-    return loadMarkup(settings,key,markupResource);
+    return loadMarkup(application,key,markupResource);
   }
  catch (  ParseException e) {
     throw new MarkupException(markupResource,exceptionMessage("Unable to parse markup from " + markupResource),e);

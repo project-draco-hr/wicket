@@ -1,0 +1,18 @@
+{
+  final ApplicationSettings settings=getSettings();
+  try {
+    final IMarkupParser parser=(IMarkupParser)settings.getMarkupParserClass().newInstance();
+    parser.setComponentNameAttribute(settings.getComponentNameAttribute());
+    parser.setWicketNamespace(settings.getWicketNamespace());
+    parser.setStripComments(settings.getStripComments());
+    parser.setCompressWhitespace(settings.getCompressWhitespace());
+    parser.setStripWicketParamTag(settings.getStripWicketParamTag());
+    return parser;
+  }
+ catch (  IllegalAccessException e) {
+    throw new WicketRuntimeException("Failed to get markup parser",e);
+  }
+catch (  InstantiationException e) {
+    throw new WicketRuntimeException("Failed to get markup parser",e);
+  }
+}
