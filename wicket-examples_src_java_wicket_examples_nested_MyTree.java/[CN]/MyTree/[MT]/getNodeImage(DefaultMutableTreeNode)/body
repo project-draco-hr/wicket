@@ -1,16 +1,19 @@
 {
   if (node.isLeaf()) {
-    Image img=new Image(NODE_IMAGE_NAME,"node.gif");
+    Image img=new Image(NODE_IMAGE_NAME,getImage("node.gif"));
     return img;
   }
  else {
-    if (isExpanded(node)) {
-      Image img=new Image(NODE_IMAGE_NAME,"folderopen.gif");
-      return img;
-    }
+    return new Image(NODE_IMAGE_NAME,(SharedResource)null){
+      protected Resource getImageResource(){
+        if (isExpanded(node)) {
+          return getImage("folderopen.gif");
+        }
  else {
-      Image img=new Image(NODE_IMAGE_NAME,"folder.gif");
-      return img;
+          return getImage("folder.gif");
+        }
+      }
     }
+;
   }
 }

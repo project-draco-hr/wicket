@@ -1,19 +1,18 @@
 {
   if (!node.isLeaf()) {
-    final ImageResource imgResource=new ImageResource(){
-      public IResource getResource(){
+    return new Image(JUNCTION_IMAGE_NAME,(SharedResource)null){
+      protected Resource getImageResource(){
         if (isExpanded(node)) {
-          return IMG_MINUS.getResource();
+          return getImage("minus.gif");
         }
  else {
-          return IMG_PLUS.getResource();
+          return getImage("plus.gif");
         }
       }
     }
 ;
-    return new Image(JUNCTION_IMAGE_NAME,imgResource);
   }
  else {
-    return new Image(JUNCTION_IMAGE_NAME,IMG_BLANK);
+    return new Image(JUNCTION_IMAGE_NAME,getImage("blank.gif"));
   }
 }
