@@ -1,12 +1,19 @@
 {
-  final RequestCycle cycle=getRequestCycle();
-  final Response originalResponse=cycle.getResponse();
-  if (!isVisible()) {
-    cycle.setResponse(NullResponse.getInstance());
-  }
+  onBeginRender();
+  try {
+    final RequestCycle cycle=getRequestCycle();
+    final Response originalResponse=cycle.getResponse();
+    if (!isVisible()) {
+      cycle.setResponse(NullResponse.getInstance());
+    }
 synchronized (getModelLock()) {
-    onRender();
+      onRender();
+    }
+    cycle.setResponse(originalResponse);
   }
-  cycle.setResponse(originalResponse);
-  onRendered();
+  finally {
+    rendering++;
+    onEndRender();
+    detachModels();
+  }
 }

@@ -1,8 +1,15 @@
 {
+  if (feedback != null) {
+    feedback.addFeedbackMessages(this,false);
+  }
   configureResponse();
   if (checkAccess()) {
     final MarkupStream markupStream=getAssociatedMarkupStream();
     setMarkupStream(markupStream);
     renderAll(markupStream);
   }
+  if (getApplicationSettings().getComponentUseCheck() && !getResponse().isRedirect()) {
+    checkRendering(this);
+  }
+  getFeedbackMessages().clear();
 }
