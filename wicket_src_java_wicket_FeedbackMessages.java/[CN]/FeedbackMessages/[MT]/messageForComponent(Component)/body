@@ -1,16 +1,11 @@
 {
   if (messages != null) {
-    FeedbackMessage message=null;
-    for (Iterator i=messages.iterator(); i.hasNext(); ) {
-      FeedbackMessage toTest=(FeedbackMessage)i.next();
-      if ((toTest.getReporter() != null) && (toTest.getReporter().equals(component))) {
-        message=toTest;
-        break;
+    for (Iterator iterator=messages.iterator(); iterator.hasNext(); ) {
+      FeedbackMessage message=(FeedbackMessage)iterator.next();
+      if (message.getReporter() == component) {
+        return message;
       }
     }
-    return message;
   }
- else {
-    return null;
-  }
+  return null;
 }

@@ -1,0 +1,15 @@
+{
+  if (recurse) {
+    for (Component current=component; current != null; ) {
+      MarkupContainer parent=component.getParent();
+      if (parent == this) {
+        return true;
+      }
+      current=parent;
+    }
+    return false;
+  }
+ else {
+    return component.getParent() == this;
+  }
+}

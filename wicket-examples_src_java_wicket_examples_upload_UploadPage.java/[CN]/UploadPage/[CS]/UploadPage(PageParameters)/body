@@ -1,9 +1,15 @@
 {
-  add(new FeedbackPanel("feedback"));
-  add(uploadForm=new MultipleFilesUploadForm("upload"));
-  add(new SimpleUploadForm("simpleUpload"));
-  add(new Label("dir",uploadForm.getUploadFolder().getAbsolutePath()));
-  files.addAll(Arrays.asList(uploadForm.getUploadFolder().list()));
+  final FeedbackPanel simpleUploadFeedback=new FeedbackPanel("simpleUploadFeedback");
+  final FeedbackPanel uploadFeedback=new FeedbackPanel("uploadFeedback");
+  add(uploadFeedback);
+  final SimpleUploadForm simpleUploadForm=new SimpleUploadForm("simpleUpload");
+  simpleUploadForm.add(simpleUploadFeedback);
+  add(simpleUploadForm);
+  final MultipleFilesUploadForm uploadForm=new MultipleFilesUploadForm("upload",uploadFeedback);
+  this.uploadFolder=uploadForm.getUploadFolder();
+  add(uploadForm);
+  add(new Label("dir",uploadFolder.getAbsolutePath()));
+  files.addAll(Arrays.asList(uploadFolder.listFiles()));
   fileListView=new FileListView("fileList",files);
   add(fileListView);
 }

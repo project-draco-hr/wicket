@@ -1,8 +1,13 @@
 {
-  if (level == FeedbackMessage.UNDEFINED) {
-    return messages();
+  if (messages != null) {
+    final List list=new ArrayList();
+    for (Iterator iterator=messages.iterator(); iterator.hasNext(); ) {
+      final FeedbackMessage message=(FeedbackMessage)iterator.next();
+      if (form.contains(message.getReporter(),true)) {
+        list.add(message);
+      }
+    }
+    return Collections.unmodifiableList(list);
   }
- else {
-    return messages(level);
-  }
+  return Collections.EMPTY_LIST;
 }
