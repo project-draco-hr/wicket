@@ -2,7 +2,7 @@
   HttpResponse response=(HttpResponse)cycle.getResponse();
   HttpServletResponse servletResponse=response.getServletResponse();
   if (servletResponse.isCommitted()) {
-    throw new RenderException("HTTP wicket.response already committed. Can not change that any more");
+    throw new RenderException("HTTP response already committed. Can not change that any more");
   }
   if (servletResponse.containsHeader("Cache-Control")) {
     servletResponse.setHeader("Cache-Control","public");
@@ -17,7 +17,7 @@
     servletResponse.resetBuffer();
   }
  catch (  Exception e) {
-    throw new RenderException("Unable to reset HTTP wicket.response",e);
+    throw new RenderException("Unable to reset HTTP response",e);
   }
   response.setContentType(mimeType);
   if ((filename != null) && (filename.trim().length() > 0)) {
