@@ -3,7 +3,8 @@
     final List list=new ArrayList();
     for (Iterator iterator=messages.iterator(); iterator.hasNext(); ) {
       final FeedbackMessage message=(FeedbackMessage)iterator.next();
-      if (form == message.getReporter() || form.contains(message.getReporter(),true)) {
+      final Component reporter=message.getReporter();
+      if (component == reporter || (recurse && component.isAncestorOf(reporter))) {
         list.add(message);
       }
     }
