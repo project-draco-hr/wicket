@@ -2,6 +2,10 @@
   try {
     String expr=getExpression();
     Object target=getModel().getObject();
+    if (propertyType != null) {
+      IConverter converter=component.getConverter();
+      object=converter.convert(object,propertyType);
+    }
     OgnlContext ctx=getContext();
     Ognl.setValue(expr,ctx,target,object);
   }
