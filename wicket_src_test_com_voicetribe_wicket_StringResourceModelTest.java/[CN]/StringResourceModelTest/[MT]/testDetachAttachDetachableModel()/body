@@ -1,0 +1,20 @@
+{
+  IModel wsDetachModel=new DetachableModel(wsModel){
+    protected void doAttach(    RequestCycle cycle){
+      setObject(new WeatherStation());
+    }
+    protected void doDetach(    RequestCycle cycle){
+      setObject(null);
+    }
+  }
+;
+  StringResourceModel model=new StringResourceModel("simple.text",page,wsDetachModel);
+  application.setupRequestAndResponse();
+  RequestCycle cycle=new HttpRequestCycle(application,application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
+  model.attach(cycle);
+  Assert.assertNotNull(model.getModel().getObject());
+  Assert.assertNotNull(model.getLocalizer());
+  model.detach(cycle);
+  Assert.assertNull(model.getModel().getObject());
+  Assert.assertNull(model.getLocalizer());
+}
