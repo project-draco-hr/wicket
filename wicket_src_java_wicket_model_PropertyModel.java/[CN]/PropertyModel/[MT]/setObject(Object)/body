@@ -1,12 +1,11 @@
 {
   try {
-    String expr=getExpression();
+    String expression=getExpression();
     Object target=getModel().getObject();
     if (object != null && propertyType != null && (object instanceof String) && (!((String)object).trim().equals(""))) {
       object=converterProvider.getConverter().convert(object,propertyType);
     }
-    OgnlContext ctx=getContext();
-    Ognl.setValue(expr,ctx,target,object);
+    Ognl.setValue(expression,getContext(),target,object);
   }
  catch (  OgnlException e) {
     throw new WicketRuntimeException(e);
