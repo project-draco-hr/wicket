@@ -3,11 +3,32 @@
     throw new WicketRuntimeException("The component " + component + " of class "+ component.getClass()+ " does not implement "+ listenerInterface);
   }
   final StringBuffer buffer=urlPrefix();
-  buffer.append("?component=");
-  buffer.append(component.getPath());
-  buffer.append("&rendering=");
-  buffer.append(component.getPage().getRendering());
-  buffer.append("&interface=");
-  buffer.append(Classes.name(listenerInterface));
-  return response.encodeURL(buffer.toString());
+switch (component.getSharing()) {
+case Component.UNSHARED:
+{
+      buffer.append("?component=");
+      buffer.append(component.getPath());
+      buffer.append("&rendering=");
+      buffer.append(component.getPage().getRendering());
+      buffer.append("&interface=");
+      buffer.append(Classes.name(listenerInterface));
+      return response.encodeURL(buffer.toString());
+    }
+case Component.SESSION_SHARED:
+{
+    buffer.append('/');
+    buffer.append(((WebSession)session).reference(component));
+    return response.encodeURL(buffer.toString());
+  }
+case Component.APPLICATION_SHARED:
+{
+  buffer.append('/');
+  buffer.append(((WebApplication)application).reference(component));
+  return buffer.toString();
+}
+default :
+{
+throw new WicketRuntimeException("Illegal component sharing type");
+}
+}
 }

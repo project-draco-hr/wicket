@@ -1,55 +1,42 @@
 {
   final String path=request.getParameter("component");
   if (path != null) {
-    log.debug("Getting page " + path);
+    log.debug("Getting page for path " + path);
     final Page page=session.getPage(path);
-    final int rendering=Integer.parseInt(request.getParameter("rendering"));
     if (page != null) {
       if (page.isStale()) {
-        final Page freshestPage=session.getFreshestPage();
-        if (freshestPage != null) {
-          setPage(newPage(application.getPages().getStaleDataErrorPage(),freshestPage));
-        }
- else {
-          setPage(newPage(application.getPages().getHomePage()));
-        }
+        handleStalePage();
         return true;
       }
- else       if (page.isRenderingStale(rendering)) {
-        setPage(newPage(application.getPages().getStaleDataErrorPage(),page));
+ else       if (page.isRenderingStale(Integer.parseInt(request.getParameter("rendering")))) {
+        handleStaleRendering(page);
         return true;
       }
  else {
-        final Component component=page.get(Strings.afterFirstPathComponent(path,'.'));
-        if (component != null) {
-          setPage(page);
-          final String interfaceName=request.getParameter("interface");
-          final Method method=getInterfaceMethod(interfaceName);
-          try {
-            method.invoke(component,new Object[]{});
-          }
- catch (          IllegalAccessException e) {
-            throw new WicketRuntimeException("Cannot access method " + method + " of interface "+ interfaceName,e);
-          }
-catch (          InvocationTargetException e) {
-            throw new WicketRuntimeException("Method " + method + " of interface "+ interfaceName+ " threw an exception",e);
-          }
-          setFormComponentValuesFromCookies(page);
-          if (getPage() != page || getRedirect()) {
-            page.detachModels();
-          }
-          return true;
-        }
- else {
-          log.error("No component found for " + path);
-          setPage(newPage(application.getPages().getInternalErrorPage()));
-          return true;
-        }
+        invokeInterface(page,path,request.getParameter("interface"));
+        return true;
       }
     }
  else {
-      setPage(newPage(application.getPages().getPageExpiredErrorPage()));
+      handleExpiredPage();
       return true;
+    }
+  }
+ else {
+    final String pathInfo=((WebRequest)request).getHttpServletRequest().getPathInfo();
+    if (pathInfo != null) {
+      Component component=((WebApplication)application).resolve(pathInfo.substring(1));
+      if (component != null) {
+        invokeInterface(component,"IResourceListener");
+        return true;
+      }
+ else {
+        component=((WebSession)session).resolve(pathInfo);
+        if (component != null) {
+          invokeInterface(component,"IResourceListener");
+          return true;
+        }
+      }
     }
   }
   return false;

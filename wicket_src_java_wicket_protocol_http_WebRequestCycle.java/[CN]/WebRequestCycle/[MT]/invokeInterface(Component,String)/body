@@ -1,0 +1,12 @@
+{
+  final Method method=getInterfaceMethod(interfaceName);
+  try {
+    method.invoke(component,new Object[]{});
+  }
+ catch (  IllegalAccessException e) {
+    throw new WicketRuntimeException("Cannot access method " + method + " of interface "+ interfaceName,e);
+  }
+catch (  InvocationTargetException e) {
+    throw new WicketRuntimeException("Method " + method + " of interface "+ interfaceName+ " threw an exception",e);
+  }
+}

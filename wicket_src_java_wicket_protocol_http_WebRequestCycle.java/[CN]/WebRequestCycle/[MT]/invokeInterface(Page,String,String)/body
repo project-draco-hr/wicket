@@ -1,0 +1,15 @@
+{
+  setPage(page);
+  final Component component=page.get(Strings.afterFirstPathComponent(path,'.'));
+  if (component != null) {
+    invokeInterface(component,interfaceName);
+    setFormComponentValuesFromCookies(page);
+    if (getPage() != page || getRedirect()) {
+      page.detachModels();
+    }
+  }
+ else {
+    log.error("No component found for " + path);
+    setPage(newPage(application.getPages().getInternalErrorPage()));
+  }
+}
