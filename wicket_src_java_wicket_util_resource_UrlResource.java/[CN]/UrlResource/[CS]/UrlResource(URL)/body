@@ -7,6 +7,8 @@
     this.url=url;
   }
  catch (  URISyntaxException e) {
-    throw new IllegalArgumentException("Invalid URL parameter " + url);
+    final IllegalArgumentException illegalArgumentException=new IllegalArgumentException("Invalid URL parameter " + url);
+    illegalArgumentException.initCause(e);
+    throw illegalArgumentException;
   }
 }
