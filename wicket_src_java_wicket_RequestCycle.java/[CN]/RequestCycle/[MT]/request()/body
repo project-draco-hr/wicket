@@ -1,36 +1,16 @@
 {
 synchronized (session) {
-    threadAttach();
-    Page page=null;
-    internalOnBeginRequest();
-    onBeginRequest();
     try {
-      if (onRespond()) {
-        page=getResponsePage();
-        if (page != null) {
-          try {
-            if (getRedirect()) {
-              redirectTo(page);
-            }
- else {
-              page.request();
-            }
-          }
+      threadAttach();
+      internalOnBeginRequest();
+      onBeginRequest();
+      if (parseRequest()) {
+        respond();
+      }
+      internalOnEndRequest();
+      onEndRequest();
+    }
   finally {
-            internalOnEndRequest();
-            onEndRequest();
-          }
-        }
-      }
- else {
-        internalOnEndRequest();
-        onEndRequest();
-      }
-    }
- catch (    RuntimeException e) {
-      onRuntimeException(page,e);
-    }
- finally {
       threadDetach();
     }
   }

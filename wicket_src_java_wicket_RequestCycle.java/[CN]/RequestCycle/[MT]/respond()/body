@@ -1,0 +1,16 @@
+{
+  final Page page=getResponsePage();
+  if (page != null) {
+    try {
+      if (getRedirect()) {
+        redirectTo(page);
+      }
+ else {
+        page.request();
+      }
+    }
+ catch (    RuntimeException e) {
+      onRuntimeException(page,e);
+    }
+  }
+}
