@@ -4,6 +4,11 @@
   list.add("one");
   list.add("two");
   list.add("three");
+  list.add("four");
+  list.add("five");
+  list.add("six");
+  list.add("seven");
+  list.add("eight");
   Table table=new Table("table",list,2){
     protected void populateItem(    ListItem listItem){
       String txt=(String)listItem.getModelObject();
@@ -12,6 +17,8 @@
   }
 ;
   add(table);
-  TableNavigation navigation=new TableNavigation("navigation",table);
-  add(navigation);
+  TableNavigationIncrementLink prev=new TableNavigationIncrementLink("prev",table,-1);
+  add(prev);
+  TableNavigationIncrementLink nextNext=new TableNavigationIncrementLink("nextNext",table,+2);
+  add(nextNext);
 }

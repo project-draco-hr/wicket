@@ -1,0 +1,25 @@
+{
+  while (xoff < xlim && yoff < ylim && xvec[xoff] == yvec[yoff]) {
+    ++xoff;
+    ++yoff;
+  }
+  while (xlim > xoff && ylim > yoff && xvec[xlim - 1] == yvec[ylim - 1]) {
+    --xlim;
+    --ylim;
+  }
+  if (xoff == xlim)   while (yoff < ylim)   filevec[1].changed_flag[1 + filevec[1].realindexes[yoff++]]=true;
+ else   if (yoff == ylim)   while (xoff < xlim)   filevec[0].changed_flag[1 + filevec[0].realindexes[xoff++]]=true;
+ else {
+    int d=diag(xoff,xlim,yoff,ylim);
+    int c=cost;
+    int f=fdiag[fdiagoff + d];
+    int b=bdiag[bdiagoff + d];
+    if (c == 1) {
+      throw new IllegalArgumentException("Empty subsequence");
+    }
+ else {
+      compareseq(xoff,b,yoff,b - d);
+      compareseq(b,xlim,b - d,ylim);
+    }
+  }
+}

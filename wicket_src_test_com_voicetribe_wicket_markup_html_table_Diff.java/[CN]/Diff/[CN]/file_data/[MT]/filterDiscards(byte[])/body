@@ -1,0 +1,54 @@
+{
+  final int end=buffered_lines;
+  for (int i=0; i < end; i++) {
+    if (discards[i] == 2)     discards[i]=0;
+ else     if (discards[i] != 0) {
+      int j;
+      int length;
+      int provisional=0;
+      for (j=i; j < end; j++) {
+        if (discards[j] == 0)         break;
+        if (discards[j] == 2)         ++provisional;
+      }
+      while (j > i && discards[j - 1] == 2) {
+        discards[--j]=0;
+        --provisional;
+      }
+      length=j - i;
+      if (provisional * 4 > length) {
+        while (j > i)         if (discards[--j] == 2)         discards[j]=0;
+      }
+ else {
+        int consec;
+        int minimum=1;
+        int tem=length / 4;
+        while ((tem=tem >> 2) > 0)         minimum*=2;
+        minimum++;
+        for (j=0, consec=0; j < length; j++)         if (discards[i + j] != 2)         consec=0;
+ else         if (minimum == ++consec)         j-=consec;
+ else         if (minimum < consec)         discards[i + j]=0;
+        for (j=0, consec=0; j < length; j++) {
+          if (j >= 8 && discards[i + j] == 1)           break;
+          if (discards[i + j] == 2) {
+            consec=0;
+            discards[i + j]=0;
+          }
+ else           if (discards[i + j] == 0)           consec=0;
+ else           consec++;
+          if (consec == 3)           break;
+        }
+        i+=length - 1;
+        for (j=0, consec=0; j < length; j++) {
+          if (j >= 8 && discards[i - j] == 1)           break;
+          if (discards[i - j] == 2) {
+            consec=0;
+            discards[i - j]=0;
+          }
+ else           if (discards[i - j] == 0)           consec=0;
+ else           consec++;
+          if (consec == 3)           break;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  MockHttpApplication application=new MockHttpApplication(null);
+  application.getSettings().setHomePage(SortableTableHeadersPage.class);
+  application.setupRequestAndResponse();
+  application.processRequestCycle();
+  SortableTableHeadersPage page=(SortableTableHeadersPage)application.getLastRenderedPage();
+  String document=application.getServletResponse().getDocument();
+  assertTrue(validatePage(document,"SortableTableHeadersExpectedResult_1.html"));
+  Link link=(Link)page.get("header.id.actionLink");
+  assertTrue(link.isEnabled());
+  link=(Link)page.get("header.name.actionLink");
+  assertTrue(link.isEnabled());
+  link=(Link)page.get("header.email.actionLink");
+  assertNull(link);
+  link=(Link)page.get("header.name.actionLink");
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToComponent(link);
+  application.processRequestCycle();
+  Assert.assertTrue("Response should be a redirect",application.getServletResponse().isRedirect());
+  String redirect=application.getServletResponse().getRedirectLocation();
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToRedirectString(redirect);
+  application.processRequestCycle();
+  document=application.getServletResponse().getDocument();
+  assertTrue(validatePage(document,"SortableTableHeadersExpectedResult_2.html"));
+  link=(Link)page.get("header.name.actionLink");
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToComponent(link);
+  application.processRequestCycle();
+  Assert.assertTrue("Response should be a redirect",application.getServletResponse().isRedirect());
+  redirect=application.getServletResponse().getRedirectLocation();
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToRedirectString(redirect);
+  application.processRequestCycle();
+  document=application.getServletResponse().getDocument();
+  assertTrue(validatePage(document,"SortableTableHeadersExpectedResult_3.html"));
+}

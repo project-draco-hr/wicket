@@ -1,0 +1,21 @@
+{
+  MockHttpApplication application=new MockHttpApplication(null);
+  application.getSettings().setHomePage(IncrementalTableNavigationPage.class);
+  application.setupRequestAndResponse();
+  application.processRequestCycle();
+  IncrementalTableNavigationPage page=(IncrementalTableNavigationPage)application.getLastRenderedPage();
+  String document=application.getServletResponse().getDocument();
+  assertTrue(validatePage1(document));
+  Link link=(Link)page.get("nextNext");
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToComponent(link);
+  application.processRequestCycle();
+  document=application.getServletResponse().getDocument();
+  assertTrue(validatePage2(document));
+  link=(Link)page.get("prev");
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToComponent(link);
+  application.processRequestCycle();
+  document=application.getServletResponse().getDocument();
+  assertTrue(validatePage3(document));
+}

@@ -1,0 +1,24 @@
+{
+  int f0, l0=0, f1, l1=0, show_from=0, show_to=0;
+  int i;
+  Diff.change next;
+  boolean nontrivial=(ignore == null);
+  show_from=show_to=0;
+  f0=hunk.line0;
+  f1=hunk.line1;
+  for (next=hunk; next != null; next=next.link) {
+    l0=next.line0 + next.deleted - 1;
+    l1=next.line1 + next.inserted - 1;
+    show_from+=next.deleted;
+    show_to+=next.inserted;
+    for (i=next.line0; i <= l0 && !nontrivial; i++)     if (!ignore.execute(file0[i]))     nontrivial=true;
+    for (i=next.line1; i <= l1 && !nontrivial; i++)     if (!ignore.execute(file1[i]))     nontrivial=true;
+  }
+  first0=f0;
+  last0=l0;
+  first1=f1;
+  last1=l1;
+  if (!nontrivial)   show_from=show_to=0;
+  deletes=show_from;
+  inserts=show_to;
+}

@@ -1,0 +1,47 @@
+{
+  String filea=argv[argv.length - 2];
+  String fileb=argv[argv.length - 1];
+  String[] a=slurp(filea);
+  String[] b=slurp(fileb);
+  Diff d=new Diff(a,b);
+  char style='n';
+  for (int i=0; i < argv.length - 2; ++i) {
+    String f=argv[i];
+    if (f.startsWith("-")) {
+      for (int j=1; j < f.length(); ++j) {
+switch (f.charAt(j)) {
+case 'e':
+          style='e';
+        break;
+case 'c':
+      style='c';
+    break;
+case 'u':
+  style='u';
+break;
+}
+}
+}
+}
+boolean reverse=style == 'e';
+Diff.change script=d.diff_2(reverse);
+if (script == null) System.err.println("No differences");
+ else {
+Base p;
+switch (style) {
+case 'e':
+p=new EdPrint(a,b);
+break;
+case 'c':
+p=new ContextPrint(a,b);
+break;
+case 'u':
+p=new UnifiedPrint(a,b);
+break;
+default :
+p=new NormalPrint(a,b);
+}
+p.print_header(filea,fileb);
+p.print_script(script);
+}
+}

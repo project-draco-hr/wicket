@@ -1,0 +1,35 @@
+{
+  ListItem li;
+  try {
+    li=new ListItem(0,createListView(0));
+  }
+ catch (  IndexOutOfBoundsException ex) {
+    li=null;
+  }
+  ListView lv=createListView(1);
+  li=new ListItem(0,lv);
+  assertEquals("",li.getModelObject(),new Integer(0));
+  assertEquals("",li.isEvenIndex(),true);
+  assertEquals("",li.isFirst(),true);
+  assertEquals("",li.isLast(),true);
+  assertEquals("",li.getIndex(),0);
+  assertEquals(lv,li.getListView());
+  li=new ListItem(0,createListView(2));
+  assertEquals("",li.getModelObject(),new Integer(0));
+  assertEquals("",li.isEvenIndex(),true);
+  assertEquals("",li.isFirst(),true);
+  assertEquals("",li.isLast(),false);
+  assertEquals("",li.getIndex(),0);
+  li=new ListItem(1,createListView(2));
+  assertEquals("",li.getModelObject(),new Integer(1));
+  assertEquals("",li.isEvenIndex(),false);
+  assertEquals("",li.isFirst(),false);
+  assertEquals("",li.isLast(),true);
+  assertEquals("",li.getIndex(),1);
+  li=new ListItem(1,createListView(3));
+  assertEquals("",li.getModelObject(),new Integer(1));
+  assertEquals("",li.isEvenIndex(),false);
+  assertEquals("",li.isFirst(),false);
+  assertEquals("",li.isLast(),false);
+  assertEquals("",li.getIndex(),1);
+}

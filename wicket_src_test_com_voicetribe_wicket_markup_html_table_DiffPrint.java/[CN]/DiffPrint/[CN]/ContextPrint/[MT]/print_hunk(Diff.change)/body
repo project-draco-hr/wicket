@@ -1,0 +1,35 @@
+{
+  analyze_hunk(hunk);
+  if (deletes == 0 && inserts == 0)   return;
+  first0=Math.max(first0 - context,0);
+  first1=Math.max(first1 - context,0);
+  last0=Math.min(last0 + context,file0.length - 1);
+  last1=Math.min(last1 + context,file1.length - 1);
+  outfile.print("***************");
+  print_function(file0,first0);
+  outfile.println();
+  outfile.print("*** ");
+  print_number_range(',',first0,last0);
+  outfile.println(" ****");
+  if (deletes != 0) {
+    Diff.change next=hunk;
+    for (int i=first0; i <= last0; i++) {
+      while (next != null && next.line0 + next.deleted <= i)       next=next.link;
+      String prefix=" ";
+      if (next != null && next.line0 <= i)       prefix=(next.inserted > 0) ? "!" : "-";
+      print_1_line(prefix,file0[i]);
+    }
+  }
+  outfile.print("--- ");
+  print_number_range(',',first1,last1);
+  outfile.println(" ----");
+  if (inserts != 0) {
+    Diff.change next=hunk;
+    for (int i=first1; i <= last1; i++) {
+      while (next != null && next.line1 + next.inserted <= i)       next=next.link;
+      String prefix=" ";
+      if (next != null && next.line1 <= i)       prefix=(next.deleted > 0) ? "!" : "+";
+      print_1_line(prefix,file1[i]);
+    }
+  }
+}

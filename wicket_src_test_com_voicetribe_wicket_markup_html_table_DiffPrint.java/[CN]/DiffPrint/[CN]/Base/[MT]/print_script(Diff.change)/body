@@ -1,0 +1,14 @@
+{
+  setupOutput();
+  Diff.change next=script;
+  while (next != null) {
+    Diff.change t, end;
+    t=next;
+    end=hunkfun(next);
+    next=end.link;
+    end.link=null;
+    print_hunk(t);
+    end.link=next;
+  }
+  outfile.flush();
+}
