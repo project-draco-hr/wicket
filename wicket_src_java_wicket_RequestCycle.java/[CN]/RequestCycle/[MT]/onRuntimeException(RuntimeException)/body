@@ -3,17 +3,17 @@
     ApplicationSettings settings=application.getSettings();
     if (settings.getUnexpectedExceptionDisplay() != ApplicationSettings.SHOW_NO_EXCEPTION_PAGE) {
       if (settings.getUnexpectedExceptionDisplay() == ApplicationSettings.SHOW_INTERNAL_ERROR_PAGE) {
-        setPage(getPageFactory().newPage(application.getPages().getInternalErrorPage()));
+        setResponsePage(getPageFactory().newPage(application.getPages().getInternalErrorPage()));
       }
  else {
-        setPage(new ExceptionErrorPage(e,getPage()));
+        setResponsePage(new ExceptionErrorPage(e,getResponsePage()));
       }
-      redirectToPage(getPage());
+      redirectToPage(getResponsePage());
     }
   }
  catch (  RuntimeException ignored) {
   }
-  final Page currentPage=getPage();
+  final Page currentPage=getResponsePage();
   if (currentPage != null) {
     currentPage.resetMarkupStreams();
   }
