@@ -1,15 +1,15 @@
 {
+  List list=null;
   if (messages != null) {
-    final List sublist=new ArrayList();
     for (final Iterator i=messages.iterator(); i.hasNext(); ) {
       final FeedbackMessage message=(FeedbackMessage)i.next();
       if (message.isLevel(level)) {
-        sublist.add(message);
+        if (list == null) {
+          list=new ArrayList();
+        }
+        list.add(message);
       }
     }
-    return new FeedbackMessages().setMessages(sublist);
   }
- else {
-    return new FeedbackMessages();
-  }
+  return list != null ? Collections.unmodifiableList(list) : Collections.EMPTY_LIST;
 }
