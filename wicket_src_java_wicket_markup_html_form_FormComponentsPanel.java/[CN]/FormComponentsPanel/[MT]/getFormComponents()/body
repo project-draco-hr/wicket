@@ -1,0 +1,13 @@
+{
+  final List children=new ArrayList();
+  visitChildren(FormComponent.class,new IVisitor(){
+    public Object component(    final Component component){
+      if (component instanceof FormComponent) {
+        children.add(component);
+      }
+      return IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
+  return children;
+}
