@@ -1,0 +1,18 @@
+{
+  Object modelObject=listItem.getModelObject();
+  if (modelObject instanceof List) {
+    Panel row=getTreeRowPanel("row",null);
+    row.setVisible(false);
+    listItem.add(row);
+    CustomListTreeRows nested=new CustomListTreeRows("nested",(List)modelObject,tree);
+    listItem.add(nested);
+  }
+ else {
+    TreeNodeModel nodeModel=(TreeNodeModel)modelObject;
+    Panel row=getTreeRowPanel("row",nodeModel);
+    listItem.add(row);
+    CustomListTreeRows nested=new CustomListTreeRows("nested",null,tree);
+    nested.setVisible(false);
+    listItem.add(nested);
+  }
+}
