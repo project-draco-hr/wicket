@@ -10,7 +10,10 @@
       IModel currentModel=component.getModel();
       if (currentModel instanceof ValidationErrorModelDecorator) {
         ValidationErrorModelDecorator decorator=((ValidationErrorModelDecorator)currentModel);
-        IModel originalModel=decorator.getOriginalModel();
+        IModel originalModel=originalModel=decorator.getOriginalModel();
+        while (originalModel instanceof ValidationErrorModelDecorator) {
+          originalModel=((ValidationErrorModelDecorator)originalModel).getOriginalModel();
+        }
         component.setModel(originalModel);
       }
     }
