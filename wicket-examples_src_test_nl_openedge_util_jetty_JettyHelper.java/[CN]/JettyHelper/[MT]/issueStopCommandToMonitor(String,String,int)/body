@@ -1,0 +1,30 @@
+{
+  Socket socket=null;
+  try {
+    socket=new Socket(InetAddress.getByName(host),monitorPort);
+    OutputStream out=socket.getOutputStream();
+    out.write((commKey + "\r\nstop\r\n").getBytes());
+    out.flush();
+    InputStream is=socket.getInputStream();
+    String response=readFromInputStream(is).trim();
+    if ("ACK_STOP".equalsIgnoreCase(response)) {
+      log.info("Monitor acknowledged stop command");
+    }
+ else     if ("".equalsIgnoreCase(response)) {
+      throw new JettyMonitorException("monitor did not respond with a valid ack");
+    }
+ else {
+      throw new JettyMonitorException("unknown response from monitor: " + response);
+    }
+  }
+ catch (  JettyMonitorException e) {
+    log.error(e.getMessage(),e);
+    throw e;
+  }
+ finally {
+    if (socket != null) {
+      socket.shutdownOutput();
+      socket.close();
+    }
+  }
+}

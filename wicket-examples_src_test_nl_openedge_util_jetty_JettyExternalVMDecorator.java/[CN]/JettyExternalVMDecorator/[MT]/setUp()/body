@@ -1,0 +1,13 @@
+{
+  if (process == null) {
+    String[] startCommandWithArgs=Util.addCommandArguments(startCommand,getJettyConfig(),getPort(),getWebappContextRoot(),getContextPath(),isUseJettyPlus());
+    JettyExternalVMStartupWorker worker=new JettyExternalVMStartupWorker(startCommandWithArgs,monitorPort,commKey,maxTries,sleepBetweenTries);
+    worker.start();
+    worker.join();
+    if (!worker.isJettyStarted()) {
+      String msg="Starting Jetty in a seperate VM failed";
+      throw new Exception(msg);
+    }
+    process=worker.getProcess();
+  }
+}

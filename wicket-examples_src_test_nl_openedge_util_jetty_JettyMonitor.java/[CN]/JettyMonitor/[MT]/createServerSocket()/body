@@ -1,0 +1,22 @@
+{
+  try {
+    ServerSocket internalSocket=null;
+    InetSocketAddress socketAddress=new InetSocketAddress(InetAddress.getByName("127.0.0.1"),monitorPort);
+    serverSocketChanel=ServerSocketChannel.open();
+    internalSocket=serverSocketChanel.socket();
+    internalSocket.bind(socketAddress);
+    if (monitorPort == 0) {
+      monitorPort=internalSocket.getLocalPort();
+      log.info("using internal port " + monitorPort);
+    }
+    if (!"mortbay".equals(commKey)) {
+      commKey=Long.toString((long)(Long.MAX_VALUE * Math.random()),36);
+      log.debug("Using key " + commKey);
+    }
+  }
+ catch (  Exception e) {
+    log.fatal(e.getMessage(),e);
+    log.fatal("************ SHUTTING DOWN VM!");
+    System.exit(1);
+  }
+}

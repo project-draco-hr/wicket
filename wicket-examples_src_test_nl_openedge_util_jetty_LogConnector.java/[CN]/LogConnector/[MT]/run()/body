@@ -1,0 +1,28 @@
+{
+  while (true) {
+    int c;
+    char chr;
+    try {
+      while ((c=inputStream.read()) != -1) {
+        chr=(char)c;
+        if (chr == '\n') {
+          buffer.insert(0,linePrefix);
+          buffer.append(linePostfix);
+          log.info(buffer.toString());
+          buffer.delete(0,buffer.length());
+        }
+ else {
+          buffer.append(chr);
+        }
+      }
+      Thread.yield();
+    }
+ catch (    IOException e) {
+      log.error(e.getMessage());
+      if (buffer.length() > 0) {
+        log.info(buffer.toString());
+      }
+      break;
+    }
+  }
+}

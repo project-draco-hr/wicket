@@ -1,0 +1,14 @@
+{
+  log.info("Starting Jetty Monitor on port " + monitorPort);
+  createServerSocket();
+  log.info("Socket created");
+  listen();
+  try {
+    serverSocketChanel.close();
+  }
+ catch (  IOException e) {
+    log.error(e.getMessage(),e);
+  }
+  log.info("exiting monitor and VM");
+  System.exit(0);
+}

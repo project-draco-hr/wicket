@@ -1,0 +1,14 @@
+{
+  log.info("Starting Jetty with arguments {port == " + port + ", webappContextRoot == "+ webappContextRoot+ ", contextPath == "+ contextPath+ "}");
+  Server server=getJettyServerInstance(port,webappContextRoot,contextPath,useJettyPlus);
+  log.info(server + " created");
+  try {
+    server.start();
+  }
+ catch (  MultiException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+  log.info("Jetty started");
+  return server;
+}

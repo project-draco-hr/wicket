@@ -1,0 +1,47 @@
+{
+  Server server=null;
+  if (useJettyPlus) {
+    try {
+      Class clazz=Class.forName("org.mortbay.jetty.plus.Server");
+      server=(Server)clazz.newInstance();
+    }
+ catch (    ClassNotFoundException e) {
+      log.error(e.getMessage(),e);
+      throw new JettyHelperException(e);
+    }
+catch (    InstantiationException e) {
+      log.error(e.getMessage(),e);
+      throw new JettyHelperException(e);
+    }
+catch (    IllegalAccessException e) {
+      log.error(e.getMessage(),e);
+      throw new JettyHelperException(e);
+    }
+  }
+ else {
+    server=new Server();
+  }
+  try {
+    Log logInstance=Log.instance();
+    OutputStreamLogSink sink=new OutputStreamLogSink();
+    sink.start();
+    logInstance.add(sink);
+    SocketListener listener=new SocketListener();
+    listener.setPort(port);
+    listener.setMaxThreads(MAX_THREADS);
+    listener.setMaxIdleTimeMs(MAX_IDLE_TIME);
+    listener.setLowResourcePersistTimeMs(LOW_RESOURCE_PERSIST_TIME);
+    listener.setConfidentialPort(CONFIDENTIALPORT);
+    server.addListener(listener);
+    server.addWebApplication(contextPath,webappContextRoot);
+  }
+ catch (  IllegalArgumentException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  IOException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+  return server;
+}

@@ -1,0 +1,13 @@
+{
+  JettyHelper.issueStopCommandToMonitor(commKey,host,monitorPort);
+  int exitval;
+  try {
+    exitval=process.exitValue();
+  }
+ catch (  IllegalThreadStateException e) {
+    log.error(e.getMessage());
+    log.error("process is still busy; wait for process to end...");
+    exitval=process.waitFor();
+  }
+  log.info("process finished with exitcode " + exitval);
+}

@@ -1,0 +1,34 @@
+{
+  boolean jettyStarted=false;
+  Socket socket=null;
+  try {
+    socket=new Socket(InetAddress.getByName(host),monitorPort);
+    OutputStream out=socket.getOutputStream();
+    out.write((commKey + "\r\nstatus\r\n").getBytes());
+    out.flush();
+    InputStream is=socket.getInputStream();
+    String response=readFromInputStream(is).trim();
+    if ("OK".equalsIgnoreCase(response)) {
+      jettyStarted=true;
+      log.info("Jetty has been started");
+    }
+ else     if ("STARTING".equalsIgnoreCase(response)) {
+      log.info("Jetty is starting...");
+    }
+ else {
+      String msg="received an unknown socket result: " + response;
+      log.error(msg);
+      return false;
+    }
+  }
+ catch (  IOException e) {
+    throw e;
+  }
+ finally {
+    if (socket != null) {
+      socket.shutdownOutput();
+      socket.close();
+    }
+  }
+  return jettyStarted;
+}

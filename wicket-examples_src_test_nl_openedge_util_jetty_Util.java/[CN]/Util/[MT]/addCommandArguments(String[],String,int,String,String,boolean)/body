@@ -1,0 +1,33 @@
+{
+  String[] newCmd=null;
+  int currentArg=0;
+  int length=cmd.length;
+  String classPath=System.getProperty("java.class.path");
+  if (jettyConfig != null) {
+    newCmd=new String[length + NEW_CMD_LENGTH_NO_ARGS];
+    currentArg=length;
+    System.arraycopy(cmd,0,newCmd,0,cmd.length);
+    newCmd[currentArg++]="-classpath";
+    newCmd[currentArg++]=classPath;
+    newCmd[currentArg++]=JettyStarterPrg.class.getName();
+    newCmd[currentArg++]=JettyStarterPrg.CMDARG_XML_CONFIG;
+    newCmd[currentArg++]=jettyConfig;
+  }
+ else {
+    newCmd=new String[length + NEW_CMD_LENGTH_ARGS];
+    currentArg=length;
+    System.arraycopy(cmd,0,newCmd,0,cmd.length);
+    newCmd[currentArg++]="-classpath";
+    newCmd[currentArg++]=classPath;
+    newCmd[currentArg++]=JettyStarterPrg.class.getName();
+    newCmd[currentArg++]=JettyStarterPrg.CMDARG_PORT;
+    newCmd[currentArg++]=String.valueOf(port);
+    newCmd[currentArg++]=JettyStarterPrg.CMDARG_WEBAPP_CONTEXT_ROOT;
+    newCmd[currentArg++]=String.valueOf(webappContextRoot);
+    newCmd[currentArg++]=JettyStarterPrg.CMDARG_CONTEXT_PATH;
+    newCmd[currentArg++]=String.valueOf(contextPath);
+  }
+  newCmd[currentArg++]=JettyStarterPrg.CMDARG_USE_JETTY_PLUS;
+  newCmd[currentArg++]=String.valueOf(useJettyPlus);
+  return newCmd;
+}

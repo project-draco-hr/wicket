@@ -1,0 +1,25 @@
+{
+  boolean jettyStarted=false;
+  int tries=0;
+  log.info("ping server on " + host + ":"+ monitorPort);
+  while ((!jettyStarted) && ((tries++) < maxTries)) {
+    try {
+      jettyStarted=pingMonitorForServerStarted(commKey,host,monitorPort);
+    }
+ catch (    IOException e) {
+      if (log.isDebugEnabled()) {
+        log.debug(e.getMessage(),e);
+      }
+ else {
+        log.error(e.getMessage());
+      }
+    }
+    try {
+      Thread.sleep(sleepBetweenTries);
+    }
+ catch (    InterruptedException e) {
+      log.warn(e);
+    }
+  }
+  return jettyStarted;
+}

@@ -1,0 +1,35 @@
+{
+  boolean goOn=true;
+  while (goOn) {
+    Socket socket=null;
+    try {
+      SocketChannel socketChanel=serverSocketChanel.accept();
+      socket=socketChanel.socket();
+      InputStream socketInputStream=socket.getInputStream();
+      InputStreamReader inputStreamReader=new InputStreamReader(socketInputStream);
+      LineNumberReader lnReader=new LineNumberReader(inputStreamReader);
+      String key=lnReader.readLine();
+      if (!commKey.equals(key)) {
+        log.warn("Keys '" + commKey + "' and '"+ key+ "' do not match!");
+        continue;
+      }
+      String cmd=lnReader.readLine();
+      OutputStream socketOutputStream=socket.getOutputStream();
+      goOn=handleCommand(cmd,socketOutputStream,goOn);
+    }
+ catch (    Exception e) {
+      log.error(e.getMessage(),e);
+    }
+ finally {
+      if (socket != null) {
+        try {
+          socket.close();
+        }
+ catch (        Exception e) {
+          log.error(e.getMessage());
+        }
+      }
+      socket=null;
+    }
+  }
+}

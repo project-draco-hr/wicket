@@ -1,0 +1,13 @@
+{
+  beforeSetUp();
+  long begin=System.currentTimeMillis();
+  if (getJettyConfig() != null) {
+    jettyServer=JettyHelper.startJetty(getJettyConfig(),isUseJettyPlus());
+  }
+ else {
+    jettyServer=JettyHelper.startJetty(getPort(),getWebappContextRoot(),getContextPath(),isUseJettyPlus());
+  }
+  long end=System.currentTimeMillis();
+  log.info("Jetty Started (in " + (end - begin) + " milis)");
+  afterSetUp();
+}

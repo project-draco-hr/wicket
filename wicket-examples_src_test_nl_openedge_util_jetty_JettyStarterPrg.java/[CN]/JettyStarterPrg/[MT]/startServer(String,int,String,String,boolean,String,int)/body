@@ -1,0 +1,16 @@
+{
+  Server jettyServer=null;
+  if (jettyConfig != null) {
+    URL jettyConfigURL=null;
+    jettyConfigURL=URLHelper.convertToURL(jettyConfig,JettyStarterPrg.class);
+    log.info("Creating Jetty with configuration " + jettyConfigURL);
+    jettyServer=JettyHelper.getJettyServerInstance(jettyConfigURL,useJettyPlus);
+  }
+ else {
+    jettyServer=JettyHelper.getJettyServerInstance(port,webappContextRoot,contextPath,useJettyPlus);
+  }
+  JettyMonitor monitor=JettyMonitor.startMonitor(jettyServer,monitorCommKey,monitorPort);
+  log.info("Started " + monitor);
+  jettyServer.start();
+  log.info("Started " + jettyServer);
+}

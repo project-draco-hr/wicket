@@ -1,0 +1,38 @@
+{
+  Server server=null;
+  try {
+    if (useJettyPlus) {
+      Class clazz=Class.forName("org.mortbay.jetty.plus.Server");
+      Constructor constructor=clazz.getConstructor(new Class[]{URL.class});
+      server=(Server)constructor.newInstance(new Object[]{config});
+    }
+ else {
+      server=new Server(config);
+    }
+  }
+ catch (  ClassNotFoundException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  NoSuchMethodException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  InstantiationException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  IllegalAccessException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  InvocationTargetException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  IOException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+  return server;
+}

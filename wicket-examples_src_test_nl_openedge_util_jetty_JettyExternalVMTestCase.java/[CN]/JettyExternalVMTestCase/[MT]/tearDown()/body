@@ -1,0 +1,17 @@
+{
+  beforeTearDown();
+  JettyHelper.issueStopCommandToMonitor(commKey,host,monitorPort);
+  int exitval;
+  try {
+    long wait=500;
+    Thread.sleep(wait);
+    exitval=process.exitValue();
+  }
+ catch (  RuntimeException e) {
+    log.error(e.getMessage(),e);
+    log.error("process is still busy; wait for process to end...");
+    exitval=process.waitFor();
+  }
+  log.info("process finished with exitcode " + exitval);
+  afterTearDown();
+}

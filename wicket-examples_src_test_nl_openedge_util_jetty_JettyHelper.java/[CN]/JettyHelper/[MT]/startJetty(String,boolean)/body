@@ -1,0 +1,25 @@
+{
+  URL jettyConfigURL=null;
+  Server server;
+  try {
+    jettyConfigURL=URLHelper.convertToURL(jettyConfig,JettyStarterPrg.class);
+    log.info("Starting Jetty with configuration " + jettyConfigURL);
+    server=getJettyServerInstance(jettyConfigURL,useJettyPlus);
+    log.info(server + " created");
+    server.start();
+    log.info("Jetty started");
+  }
+ catch (  MalformedURLException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  JettyHelperException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+catch (  MultiException e) {
+    log.error(e.getMessage(),e);
+    throw new JettyHelperException(e);
+  }
+  return server;
+}

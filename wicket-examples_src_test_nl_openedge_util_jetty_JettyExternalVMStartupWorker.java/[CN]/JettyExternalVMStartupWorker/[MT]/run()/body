@@ -1,0 +1,10 @@
+{
+  try {
+    startExternalJettyInstance();
+  }
+ catch (  IOException e) {
+    log.error(e.getMessage(),e);
+  }
+  jettyStarted=JettyHelper.pingMonitorForServerStarted(commKey,"127.0.0.1",monitorPort,maxTries,sleepBetweenTries);
+  log.info("monitor acknowledged Jetty startup");
+}
