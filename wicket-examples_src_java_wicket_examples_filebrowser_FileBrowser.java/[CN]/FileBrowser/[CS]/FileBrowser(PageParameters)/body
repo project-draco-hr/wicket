@@ -1,6 +1,15 @@
 {
   add(new NavigationPanel("mainNavigation","Filebrowser example"));
   TreeModel model=new FileModelProvider().getFileModel();
-  Tree fileTree=new Tree("fileTree",model);
+  Tree fileTree=new Tree("fileTree",model){
+    /** 
+ * Override to provide a custom row panel.
+ * @see wicket.markup.html.tree.Tree#getTreeRowPanel(java.lang.String,wicket.markup.html.tree.TreeNodeModel)
+ */
+    protected Panel getTreeRowPanel(    String componentName,    TreeNodeModel nodeModel){
+      return new FileTreeRow(componentName,this,nodeModel);
+    }
+  }
+;
   add(fileTree);
 }
