@@ -1,12 +1,18 @@
 {
   super(componentName);
+  HtmlContainer li=null;
   if (nodeModel != null) {
     TreeNodeLink link=new TreeNodeLink("link",tree,nodeModel);
     File file=(File)nodeModel.getUserObject();
     link.add(new Label("label",file.getName()));
-    add(link);
+    li=new OnClickTreeNodeLink("li",tree,nodeModel);
+    li.add(link);
   }
  else {
-    add(new HtmlContainer("link").add(new HtmlContainer("label")));
+    li=new HtmlContainer("li");
+    li.add(new HtmlContainer("link").add(new HtmlContainer("label")));
   }
+  TreeRowReplacementModel replacementModel=new TreeRowReplacementModel(nodeModel);
+  li.add(new ComponentTagAttributeModifier("class",true,replacementModel));
+  add(li);
 }
