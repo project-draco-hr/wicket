@@ -1,0 +1,18 @@
+{
+  final StringBuffer options=new StringBuffer();
+  final RadioChoice parent=(RadioChoice)findParent(RadioChoice.class);
+  final Object selected=parent.getModelObject();
+  List values=(List)getModelObject();
+  for (final Iterator iterator=values.iterator(); iterator.hasNext(); ) {
+    final Object value=iterator.next();
+    final int index=parent.addRadioOption(value);
+    options.append("<input name=\"" + parent.getPath() + "\""+ " type=\"radio\""+ ((selected == value) ? " checked" : "")+ " value=\""+ index+ "\">");
+    final String label=String.valueOf(value.toString());
+    options.append(getLocalizer().getString(getName() + "." + label,this,label));
+    if (iterator.hasNext()) {
+      options.append(style.toString());
+    }
+    options.append('\n');
+  }
+  replaceBody(markupStream,openTag,options.toString());
+}

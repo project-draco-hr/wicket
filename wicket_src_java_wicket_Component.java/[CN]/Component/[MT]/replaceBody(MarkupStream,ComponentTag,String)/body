@@ -1,0 +1,11 @@
+{
+  if (tag.isOpen()) {
+    markupStream.skipRawMarkup();
+  }
+  getResponse().write(body);
+  if (tag.isOpen()) {
+    if (!markupStream.atCloseTag()) {
+      markupStream.throwMarkupException("Expected close tag.  Possible attempt to embed component(s) " + "in the body of a component which discards its body");
+    }
+  }
+}

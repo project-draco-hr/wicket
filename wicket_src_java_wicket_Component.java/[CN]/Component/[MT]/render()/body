@@ -1,0 +1,10 @@
+{
+  final RequestCycle cycle=getRequestCycle();
+  final Response originalResponse=cycle.getResponse();
+  if (!visible) {
+    cycle.setResponse(NullResponse.getInstance());
+  }
+  handleRender();
+  cycle.setResponse(originalResponse);
+  rendering++;
+}

@@ -1,0 +1,18 @@
+{
+  final ComponentTag tag=markupStream.getTag().mutable();
+  handleComponentTag(tag);
+  final ComponentTag.Type type=tag.getType();
+  if (tag.isOpenClose()) {
+    tag.setType(ComponentTag.OPEN);
+  }
+ else {
+    if (!tag.isOpen()) {
+      markupStream.throwMarkupException("Method renderComponent called on bad markup element " + tag);
+    }
+  }
+  renderTag(tag);
+  markupStream.next();
+  tag.setType(type);
+  handleBody(markupStream,tag);
+  renderCloseTag(markupStream,tag);
+}

@@ -1,0 +1,14 @@
+{
+  final MarkupStream originalMarkupStream=getMarkupStream();
+  final MarkupStream associatedMarkupStream=getAssociatedMarkupStream();
+  associatedMarkupStream.skipRawMarkup();
+  setMarkupStream(associatedMarkupStream);
+  final ComponentTag associatedMarkupOpenTag=associatedMarkupStream.getTag();
+  if (!associatedMarkupStream.atOpenTag("[" + openTagName + "]") && !(associatedMarkupStream.atOpenTag(openTagName) && (associatedMarkupOpenTag instanceof ComponentWicketTag))) {
+    associatedMarkupStream.throwMarkupException(exceptionMessage);
+  }
+  renderTag(associatedMarkupStream,associatedMarkupOpenTag);
+  renderBody(associatedMarkupStream,associatedMarkupOpenTag);
+  renderCloseTag(associatedMarkupStream,associatedMarkupOpenTag);
+  setMarkupStream(originalMarkupStream);
+}

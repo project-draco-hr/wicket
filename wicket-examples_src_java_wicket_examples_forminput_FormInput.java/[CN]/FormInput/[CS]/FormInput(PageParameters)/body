@@ -3,11 +3,11 @@
   FeedbackPanel feedback=new FeedbackPanel("feedback");
   add(feedback);
   add(new InputForm("inputForm",feedback));
-  currentLocale=RequestCycle.get().getSession().getLocale();
+  currentLocale=getSession().getLocale();
   add(new LocaleSelect("localeSelect",this,"currentLocale",ALL_LOCALES));
   add(new Link("defaultLocaleLink"){
     public void linkClicked(){
-      Locale requestLocale=((HttpRequest)getRequestCycle().getRequest()).getLocale();
+      final Locale requestLocale=getRequest().getLocale();
       FormInput.this.currentLocale=requestLocale;
       getSession().setLocale(requestLocale);
     }

@@ -1,0 +1,9 @@
+{
+  while (markupStream.hasMore()) {
+    final int index=markupStream.getCurrentIndex();
+    renderNext(markupStream);
+    if (index == markupStream.getCurrentIndex()) {
+      markupStream.throwMarkupException("Component at markup stream index " + index + " failed to advance the markup stream");
+    }
+  }
+}

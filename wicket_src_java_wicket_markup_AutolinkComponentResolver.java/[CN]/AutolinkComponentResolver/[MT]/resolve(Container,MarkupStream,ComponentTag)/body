@@ -1,0 +1,22 @@
+{
+  final String componentName=tag.getComponentName();
+  if (componentName.startsWith("[autolink") && ((componentName.charAt(9) == ']') || (componentName.charAt(9) == ':'))) {
+    if (!tag.getName().equalsIgnoreCase("a")) {
+      markupStream.throwMarkupException("Automatic link can only be attached to an anchor tag");
+    }
+    resolveAutomaticLink(container.getPage(),markupStream,componentName,tag);
+    final String id="[autolink]-" + autoIndex;
+    autoIndex++;
+    tag.attributes=new ValueMap(tag.attributes);
+    tag.attributes.put("id",id);
+    tag.attributes.makeImmutable();
+    final Link link=new BookmarkablePageLink(id,automaticLinkPageClass,automaticLinkPageParameters);
+    container.add(link);
+    if (log.isDebugEnabled()) {
+      log.debug("Added autolink " + link);
+    }
+    link.render();
+    return true;
+  }
+  return false;
+}

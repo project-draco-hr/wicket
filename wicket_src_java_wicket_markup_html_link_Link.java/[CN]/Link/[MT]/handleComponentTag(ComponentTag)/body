@@ -1,0 +1,22 @@
+{
+  checkTag(tag,"a");
+  super.handleComponentTag(tag);
+  if (autoEnable) {
+    setEnabled(!linksTo(getPage()));
+  }
+  if (!enabled) {
+    tag.setName("span");
+    tag.remove("href");
+  }
+ else {
+    String url=getURL();
+    url=url.replaceAll("&","&amp;");
+    tag.put("href",url);
+  }
+  PopupSpecification popupSpecification=getPopupSpecification();
+  if (popupSpecification != null) {
+    String popupScript=popupSpecification.getPopupJavaScript();
+    popupScript=popupScript.replaceAll("&","&amp;");
+    tag.put("onClick",popupScript);
+  }
+}
