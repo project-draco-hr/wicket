@@ -1,12 +1,13 @@
 {
   add(new SignInPanel("signInPanel"){
-    public String signIn(    final String username,    final String password){
-      final User user=Authenticator.forSession(getSession()).authenticate(username,password);
+    public boolean signIn(    final String username,    final String password){
+      final User user=((LibrarySession)getSession()).authenticate(username,password);
       if (user != null) {
-        return null;
+        return true;
       }
  else {
-        return getLocalizer().getString("couldNotAuthenticate",this);
+        error(getLocalizer().getString("couldNotAuthenticate",this));
+        return false;
       }
     }
   }
