@@ -1,23 +1,4 @@
 {
-  if (parameters.containsKey("setWord")) {
-    String[] words=new String[]{parameters.getString("setWord")};
-    hangman=new Hangman(DEFAULT_ALLOWED_GUESSES,words);
-  }
- else {
-    hangman=new Hangman(DEFAULT_ALLOWED_GUESSES);
-  }
-  hangman.newGame();
-  add(new PageLink("start",new IPageLink(){
-    /** 
- * Comment for <code>serialVersionUID</code>
- */
-    private static final long serialVersionUID=1L;
-    public Page getPage(){
-      return new Guess(hangman);
-    }
-    public Class getPageIdentity(){
-      return Guess.class;
-    }
-  }
-));
+  getHangman().newGame(5,parameters.getString("setWord"));
+  add(new PageLink("start",Guess.class));
 }

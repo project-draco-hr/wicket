@@ -2,13 +2,11 @@
   final RequestCycle requestCycle=getRequestCycle();
   System.err.println("Linked clicked for letter: " + letter);
   setEnabled(false);
-  Guess guessPage=(Guess)requestCycle.getPage();
-  Hangman hangman=(Hangman)guessPage.getModelObject();
-  hangman.guessLetter(letter);
-  if (hangman.isGuessed()) {
-    requestCycle.setPage(new Win(guessPage));
+  getHangman().guessLetter(letter);
+  if (getHangman().isGuessed()) {
+    requestCycle.setPage(new Win(Guess.this));
   }
- else   if (hangman.isAllGuessesUsed()) {
-    requestCycle.setPage(new Lose(guessPage));
+ else   if (getHangman().isAllGuessesUsed()) {
+    requestCycle.setPage(new Lose(Guess.this));
   }
 }
