@@ -4,12 +4,12 @@
   Model bookModel=new Model(book);
   setModel(new PropertyModel(bookModel,getName()));
   final TextField title=new TextField("title",bookModel,"title");
-  title.add(new RequiredValidator());
+  title.add(RequiredValidator.getInstance());
   title.add(LengthValidator.max(30));
   final FormComponentFeedbackBorder titleFeedback=new FormComponentFeedbackBorder("titleFeedback",title);
   add(titleFeedback);
   final TextField author=new TextField("author",bookModel,"author");
-  author.add(new RequiredValidator());
+  author.add(RequiredValidator.getInstance());
   final FormComponentFeedbackBorder authorFeedback=new FormComponentFeedbackBorder("authorFeedback",author);
   add(authorFeedback);
   add(new CheckBox("fiction",bookModel,"fiction"));
