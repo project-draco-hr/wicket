@@ -2,17 +2,21 @@
   if (cookie == null) {
     return null;
   }
-  if (getSettings().getComment() != null) {
-    cookie.setComment(getSettings().getComment());
+ else {
+    final String comment=getSettings().getComment();
+    if (comment != null) {
+      cookie.setComment(comment);
+    }
+    final String domain=getSettings().getDomain();
+    if (domain != null) {
+      cookie.setDomain(domain);
+    }
+    cookie.setVersion(getSettings().getVersion());
+    cookie.setSecure(getSettings().isSecure());
+    getHttpResponse().addCookie(cookie);
+    if (log.isDebugEnabled()) {
+      log.debug("saved: " + cookieToDebugString(cookie));
+    }
+    return cookie;
   }
-  if (getSettings().getDomain() != null) {
-    cookie.setDomain(getSettings().getDomain());
-  }
-  cookie.setVersion(getSettings().getVersion());
-  cookie.setSecure(getSettings().isSecure());
-  getResponse().addCookie(cookie);
-  if (log.isDebugEnabled()) {
-    log.debug("saved: " + getCookieDebugString(cookie));
-  }
-  return cookie;
 }
