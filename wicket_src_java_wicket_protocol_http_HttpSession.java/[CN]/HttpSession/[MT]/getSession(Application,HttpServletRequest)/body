@@ -1,15 +1,22 @@
 {
   final javax.servlet.http.HttpSession httpServletSession=request.getSession(true);
   final String sessionAttributeName="session" + request.getServletPath();
-  HttpSession session=(HttpSession)httpServletSession.getAttribute(sessionAttributeName);
-  if (session == null) {
-    session=new HttpSession(application,httpServletSession);
-    session.setLocale(request.getLocale());
-    httpServletSession.setAttribute(sessionAttributeName,session);
+  HttpSession httpSession=(HttpSession)httpServletSession.getAttribute(sessionAttributeName);
+  if (httpSession == null) {
+    final Session session=application.getSessionFactory().newSession();
+    if (session instanceof HttpSession) {
+      httpSession=(HttpSession)session;
+    }
+ else {
+      throw new WicketRuntimeException("Session created by a WebApplication session factory must be a subclass of HttpSession");
+    }
+    httpSession.httpServletSession=httpServletSession;
+    httpSession.setLocale(request.getLocale());
+    httpServletSession.setAttribute(sessionAttributeName,httpSession);
   }
  else {
-    session.httpServletSession=httpServletSession;
+    httpSession.httpServletSession=httpServletSession;
   }
-  Session.set(session);
-  return session;
+  Session.set(httpSession);
+  return httpSession;
 }
