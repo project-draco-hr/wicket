@@ -1,0 +1,24 @@
+{
+  super(componentName,feedback);
+  this.book=book;
+  setModel(book);
+  final TextField author=new TextField("author",book);
+  author.add(new RequiredValidator());
+  add(author);
+  final TextField title=new TextField("title",book);
+  title.add(new RequiredValidator());
+  title.add(LengthValidator.max(30));
+  final FormComponentFeedbackBorder titleFeedback=new FormComponentFeedbackBorder("titleFeedback");
+  titleFeedback.add(title);
+  add(titleFeedback);
+  add(new CheckBox("fiction",book));
+  List books=new ArrayList();
+  books.addAll(Book.getBooks());
+  books.remove(otherBook);
+  add(new DropDownChoice("companionBook",book,books));
+  final RadioChoice relatedBook=new RadioChoice("relatedBook",book);
+  relatedBook.add(new RadioOptionSet("relatedBooks",books));
+  relatedBook.add(new RadioOption("otherBook",otherBook));
+  add(relatedBook);
+  add(new ListMultipleChoice("writingStyles",book,EnumeratedType.getValues(Book.WritingStyle.class)));
+}

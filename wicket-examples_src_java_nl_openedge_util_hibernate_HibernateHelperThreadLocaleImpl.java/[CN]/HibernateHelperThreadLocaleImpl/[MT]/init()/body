@@ -1,0 +1,19 @@
+{
+  if (!initialised) {
+    initialised=true;
+    configuration=new Configuration();
+    try {
+      if (configURL != null) {
+        configuration.configure(configURL);
+      }
+ else {
+        configuration.configure();
+      }
+      factory=configuration.buildSessionFactory();
+    }
+ catch (    HibernateException e) {
+      log.error(e.getMessage(),e);
+      throw new ConfigException(e);
+    }
+  }
+}

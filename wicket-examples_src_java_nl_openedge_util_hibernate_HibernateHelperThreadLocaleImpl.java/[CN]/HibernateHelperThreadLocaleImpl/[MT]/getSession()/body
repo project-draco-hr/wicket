@@ -1,0 +1,26 @@
+{
+  Session sess=(Session)hibernateHolder.get();
+  if (sess == null && factory != null) {
+    if (interceptorClass != null) {
+      Interceptor interceptor=null;
+      try {
+        interceptor=getInterceptorInstance(interceptorClass);
+      }
+ catch (      InstantiationException e) {
+        log.error(e.getMessage(),e);
+        throw new HibernateException(e);
+      }
+catch (      IllegalAccessException e) {
+        log.error(e.getMessage(),e);
+        throw new HibernateException(e);
+      }
+      sess=factory.openSession(interceptor);
+    }
+ else {
+      sess=factory.openSession();
+    }
+    hibernateHolder.set(sess);
+    sess.setFlushMode(flushMode);
+  }
+  return sess;
+}

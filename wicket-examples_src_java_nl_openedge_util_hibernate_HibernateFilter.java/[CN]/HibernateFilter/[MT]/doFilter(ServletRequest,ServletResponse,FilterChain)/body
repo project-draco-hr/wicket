@@ -1,0 +1,33 @@
+{
+  if (active) {
+    Session session=(Session)getHibernateHolder().get();
+    if (session != null) {
+      log.warn("A session is already associated with this thread!  " + "Someone must have called getSession() outside of the context " + "of a servlet request; closing session");
+      try {
+        session.close();
+      }
+ catch (      HibernateException e) {
+        log.error(e);
+        throw new ServletException(e);
+      }
+      getHibernateHolder().set(null);
+    }
+  }
+  try {
+    chain.doFilter(request,response);
+  }
+  finally {
+    if (active) {
+      Session sess=(Session)getHibernateHolder().get();
+      if (sess != null) {
+        getHibernateHolder().set(null);
+        try {
+          sess.close();
+        }
+ catch (        HibernateException ex) {
+          log.error(ex);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  Session sess=(Session)hibernateHolder.get();
+  if (sess != null) {
+    if (actionForCurrentSession == HibernateHelper.ACTION_CLOSE) {
+      try {
+        sess.close();
+      }
+ catch (      HibernateException ex) {
+        log.error(ex);
+      }
+    }
+ else     if (actionForCurrentSession == HibernateHelper.ACTION_DISCONNECT) {
+      try {
+        sess.disconnect();
+      }
+ catch (      HibernateException ex) {
+        log.error(ex);
+      }
+    }
+ else {
+      throw new RuntimeException("invallid action " + actionForCurrentSession);
+    }
+  }
+  hibernateHolder.set(session);
+}

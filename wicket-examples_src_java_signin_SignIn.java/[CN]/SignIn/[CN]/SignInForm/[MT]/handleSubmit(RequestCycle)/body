@@ -1,0 +1,11 @@
+{
+  if (properties.getString("username").equals("jonathan") && properties.getString("password").equals("password")) {
+    cycle.getSession().setProperty("user","jonathan");
+    if (!cycle.continueToOriginalDestination()) {
+      cycle.setPage(new Home(PageParameters.NULL));
+    }
+  }
+ else {
+    errorMessage("Couldn't sign you in");
+  }
+}

@@ -1,0 +1,24 @@
+{
+  URL url;
+  ClassLoader clsLoader=Thread.currentThread().getContextClassLoader();
+  if (clsLoader == null) {
+    if (caller != null) {
+      url=caller.getResource(path);
+    }
+ else {
+      url=ClassLoader.getSystemResource(path);
+    }
+  }
+ else {
+    url=clsLoader.getResource(path);
+    if (url == null) {
+      if (caller != null) {
+        url=caller.getResource(path);
+      }
+ else {
+        url=ClassLoader.getSystemResource(path);
+      }
+    }
+  }
+  return url;
+}

@@ -1,0 +1,24 @@
+{
+  add(new Label("title",book));
+  add(new Label("author",book));
+  add(new Label("fiction",Boolean.toString(book.getFiction())));
+  add(BookDetails.link("companion",book.getCompanionBook(),getLocalizedString("noBookTitle")));
+  add(BookDetails.link("related",book.getRelatedBook(),getLocalizedString("noBookTitle")));
+  String writingStyles;
+  final boolean hasStyles=book.getWritingStyles() != null && book.getWritingStyles().size() > 0;
+  if (hasStyles) {
+    StringList styles=new StringList();
+    for (Iterator iterator=book.getWritingStyles().iterator(); iterator.hasNext(); ) {
+      Book.WritingStyle style=(Book.WritingStyle)iterator.next();
+      styles.add(getLocalizedString(style.toString()));
+    }
+    writingStyles=styles.toString();
+  }
+ else {
+    writingStyles=getLocalizedString("noWritingStyles");
+  }
+  final Italic italic=new Italic("italicWritingStyles");
+  italic.setEnable(!hasStyles);
+  add(italic.add(new Label("writingStyles",writingStyles)));
+  add(EditBook.link("edit",book.getId()));
+}
