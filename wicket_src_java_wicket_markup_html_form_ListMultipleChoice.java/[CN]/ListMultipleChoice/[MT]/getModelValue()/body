@@ -1,0 +1,13 @@
+{
+  final Collection selectedValues=(Collection)getModelObject();
+  final StringBuffer buffer=new StringBuffer();
+  if (selectedValues != null) {
+    final IChoiceList choices=getChoices();
+    for (final Iterator iterator=selectedValues.iterator(); iterator.hasNext(); ) {
+      final IChoice choice=choices.choiceForObject(iterator.next());
+      buffer.append(choice.getId());
+      buffer.append(";");
+    }
+  }
+  return buffer.toString();
+}

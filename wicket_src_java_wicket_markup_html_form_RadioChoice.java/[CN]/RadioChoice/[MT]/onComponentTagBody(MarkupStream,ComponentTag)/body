@@ -1,0 +1,15 @@
+{
+  final StringBuffer buffer=new StringBuffer();
+  final IChoiceList choices=getChoices();
+  for (int i=0; i < choices.size(); i++) {
+    final IChoice choice=choices.get(i);
+    final String label=choice.getDisplayValue();
+    if (label != null) {
+      buffer.append(getPrefix());
+      buffer.append("<input name=\"" + getPath() + "\""+ " type=\"radio\""+ (isSelected(choice) ? " checked" : "")+ " value=\""+ choice.getId()+ "\">");
+      buffer.append(getLocalizer().getString(getName() + "." + label,this,label));
+      buffer.append(getSuffix());
+    }
+  }
+  replaceComponentTagBody(markupStream,openTag,buffer.toString());
+}

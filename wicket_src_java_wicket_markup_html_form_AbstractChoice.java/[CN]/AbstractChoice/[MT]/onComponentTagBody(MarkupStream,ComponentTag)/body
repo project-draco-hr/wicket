@@ -1,39 +1,26 @@
 {
-  final StringBuffer options=new StringBuffer();
+  final StringBuffer buffer=new StringBuffer();
   final Object selected=getModelObject();
   final IChoiceList choices=getChoices();
-  if (nullValid) {
-    final String option=getLocalizer().getString(getName() + ".null",this,"");
-    options.append("\n<option");
-    if (selected == null) {
-      options.append(" selected=\"selected\"");
-    }
-    options.append(" value=\"\">").append(option).append("</option>");
-  }
- else {
-    if (selected == null) {
-      final String option=getLocalizer().getString(getName() + ".null",this,CHOOSE_ONE);
-      options.append("\n<option selected=\"selected\" value=\"\">").append(option).append("</option>");
-    }
-  }
+  buffer.append(getDefaultChoice(selected));
   for (int i=0; i < choices.size(); i++) {
     final IChoice choice=choices.get(i);
     if (choice != null) {
       final String displayValue=choice.getDisplayValue();
-      options.append("\n<option ");
-      if (isSelected(choice.getObject())) {
-        options.append("selected=\"selected\"");
+      buffer.append("\n<option ");
+      if (isSelected(choice)) {
+        buffer.append("selected=\"selected\"");
       }
-      options.append("value=\"");
-      options.append(choice.getId());
-      options.append("\">");
-      options.append(getLocalizer().getString(getName() + "." + displayValue,this,displayValue));
-      options.append("</option>");
+      buffer.append("value=\"");
+      buffer.append(choice.getId());
+      buffer.append("\">");
+      buffer.append(getLocalizer().getString(getName() + "." + displayValue,this,displayValue));
+      buffer.append("</option>");
     }
  else {
       throw new IllegalArgumentException("Choice list has null value at index " + i);
     }
   }
-  options.append("\n");
-  replaceComponentTagBody(markupStream,openTag,options.toString());
+  buffer.append("\n");
+  replaceComponentTagBody(markupStream,openTag,buffer.toString());
 }

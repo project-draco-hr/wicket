@@ -14,9 +14,7 @@
   books.addAll(Book.getBooks());
   books.remove(otherBook);
   add(new DropDownChoice("companionBook",books));
-  final RadioChoice relatedBook=new RadioChoice("relatedBook");
-  relatedBook.add(new RadioOptionSet("relatedBooks",books));
-  relatedBook.add(new RadioOption("otherBook",otherBook));
+  final RadioChoice relatedBook=new RadioChoice("relatedBook",books);
   add(relatedBook);
   add(new ListMultipleChoice("writingStyles",new PropertyModel(getModel(),"writingStyles"),EnumeratedType.getValues(Book.WritingStyle.class)));
 }
