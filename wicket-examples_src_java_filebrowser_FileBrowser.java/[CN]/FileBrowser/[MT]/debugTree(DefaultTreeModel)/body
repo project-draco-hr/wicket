@@ -1,0 +1,12 @@
+{
+  DefaultMutableTreeNode node=(DefaultMutableTreeNode)m.getRoot();
+  Enumeration enum=node.breadthFirstEnumeration();
+  enum=node.preorderEnumeration();
+  log.info("-- DUMPING DIRECTORY TREE --");
+  while (enum.hasMoreElements()) {
+    DefaultMutableTreeNode nd=(DefaultMutableTreeNode)enum.nextElement();
+    String tabs="|";
+    for (int i=0; i < nd.getLevel(); i++)     tabs+="-";
+    log.info(tabs + nd);
+  }
+}

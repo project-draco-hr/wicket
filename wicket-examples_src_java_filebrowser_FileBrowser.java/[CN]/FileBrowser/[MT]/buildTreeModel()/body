@@ -1,0 +1,16 @@
+{
+  long tsBegin=System.currentTimeMillis();
+  TreeModel model=null;
+  DefaultMutableTreeNode rootNode=new DefaultMutableTreeNode();
+  String userHomeDir=System.getProperty("user.dir");
+  File d=new File(userHomeDir);
+  rootNode.setUserObject(d);
+  String currentPath=userHomeDir;
+  addChildDirsRecursively(currentPath,rootNode);
+  model=new DefaultTreeModel(rootNode);
+  long tsEnd=System.currentTimeMillis();
+  if (log.isDebugEnabled()) {
+    log.debug("build resource directory tree in " + (tsEnd - tsBegin) + " miliseconds");
+  }
+  return model;
+}
