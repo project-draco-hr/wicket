@@ -1,4 +1,5 @@
 {
-  getSettings().setResourcePollFrequency(Duration.ONE_SECOND).setDefaultClassResolver(new GroovyClassResolver(getSettings()));
-  getPages().setHomePage("wicket.examples.groovy.Page1");
+  final IClassResolver resolver=new GroovyClassResolver(getSettings());
+  getSettings().setResourcePollFrequency(Duration.ONE_SECOND).setDefaultClassResolver(resolver);
+  getPages().setHomePage(resolver.resolveClass("wicket.examples.groovy.Page1"));
 }
