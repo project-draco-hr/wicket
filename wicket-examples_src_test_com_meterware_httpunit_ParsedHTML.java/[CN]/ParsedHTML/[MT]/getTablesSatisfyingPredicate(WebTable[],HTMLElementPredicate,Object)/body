@@ -1,0 +1,30 @@
+{
+  ArrayList matches=new ArrayList();
+  for (int i=0; i < tables.length; i++) {
+    if (predicate.matchesCriteria(tables[i],value)) {
+      matches.add(tables[i]);
+    }
+    for (int j=0; j < tables[i].getRowCount(); j++) {
+      for (int k=0; k < tables[i].getColumnCount(); k++) {
+        TableCell cell=tables[i].getTableCell(j,k);
+        if (cell != null) {
+          WebTable[] innerTables=cell.getTables();
+          if (innerTables.length != 0) {
+            WebTable[] result=getTablesSatisfyingPredicate(innerTables,predicate,value);
+            if (result != null && result.length > 0) {
+              for (int l=0; l < result.length; l++) {
+                matches.add(result[l]);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (matches.size() > 0) {
+    return (WebTable[])matches.toArray(new WebTable[matches.size()]);
+  }
+ else {
+    return null;
+  }
+}

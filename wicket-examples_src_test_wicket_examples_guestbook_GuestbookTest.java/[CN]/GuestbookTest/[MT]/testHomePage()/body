@@ -1,28 +1,22 @@
 {
-  try {
-    beginAt("/guestbook");
-  }
- catch (  Throwable ex) {
-    log.error(ex.getMessage());
-  }
-  this.dumpResponse(System.out);
+  beginAt("/guestbook");
   this.dumpResponse(System.out);
   assertTitleEquals("Wicket Examples - guestbook");
-  this.assertXpathNodeNotPresent("//*[@wicket:id='comments']");
-  assertFormPresent("wicket-commentForm");
+  this.assertElementNotPresent("comments");
+  assertFormPresent("commentForm");
   this.assertFormElementPresent("0.commentForm.text");
   this.setFormElement("0.commentForm.text","test-1");
   this.submit();
   this.dumpResponse(System.err);
   assertTitleEquals("Wicket Examples - guestbook");
-  assertFormPresent("wicket-commentForm");
+  assertFormPresent("commentForm");
   this.assertFormElementPresent("0.commentForm.text");
-  this.assertElementPresent("wicket-comments");
+  this.assertElementPresent("comments");
   this.assertTextPresent("test-1");
   this.setFormElement("0.commentForm.text","test-2");
   this.submit();
   assertTitleEquals("Wicket Examples - guestbook");
-  this.assertElementPresent("wicket-comments");
+  this.assertElementPresent("comments");
   this.assertTextPresent("test-1");
   this.assertTextPresent("test-2");
 }
