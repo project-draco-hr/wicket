@@ -1,0 +1,16 @@
+{
+  try {
+    detachModels();
+  }
+ catch (  RuntimeException e1) {
+    log.debug("Error detaching models when exception is thrown",e1);
+  }
+  visitChildren(Container.class,new IVisitor(){
+    public Object component(    final Component component){
+      final Container container=(Container)component;
+      container.setMarkupStream(null);
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

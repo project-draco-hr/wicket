@@ -5,12 +5,7 @@ synchronized (session) {
       handleRender();
     }
  catch (    RuntimeException e) {
-      try {
-        getPage().detachModels();
-      }
- catch (      RuntimeException e1) {
-        log.debug("Error detaching models when exception is thrown",e1);
-      }
+      getPage().reset();
       handleRenderingException(e);
     }
  finally {
