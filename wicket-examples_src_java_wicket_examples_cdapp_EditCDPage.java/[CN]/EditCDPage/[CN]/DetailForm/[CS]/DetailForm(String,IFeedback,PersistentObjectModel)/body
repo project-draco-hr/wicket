@@ -1,18 +1,15 @@
 {
   super(name,cdModel,validationErrorHandler);
-  TextField titleField=new TextField("title",new PropertyModel(cdModel,"title"));
-  titleField.add(RequiredValidator.getInstance());
+  RequiredTextField titleField=new RequiredTextField("title",new PropertyModel(cdModel,"title"));
   titleField.add(LengthValidator.max(50));
   add(titleField);
-  TextField performersField=new TextField("performers",new PropertyModel(cdModel,"performers"));
-  performersField.add(RequiredValidator.getInstance());
+  RequiredTextField performersField=new RequiredTextField("performers",new PropertyModel(cdModel,"performers"));
   performersField.add(LengthValidator.max(50));
   add(performersField);
   TextField labelField=new TextField("label",new PropertyModel(cdModel,"label"));
   labelField.add(LengthValidator.max(50));
   add(labelField);
-  TextField yearField=new TextField("year",new PropertyModel(cdModel,"year"));
-  yearField.add(RequiredValidator.getInstance());
+  RequiredTextField yearField=new RequiredTextField("year",new PropertyModel(cdModel,"year"));
   yearField.add(IntegerValidator.POSITIVE_INT);
   add(yearField);
   add(new Link("cancelButton"){

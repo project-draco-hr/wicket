@@ -1,8 +1,33 @@
 {
-  this.searchCDPage=searchCDPage;
+  super();
   cdModel=new HibernateObjectModel(id,CD.class,new HibernateHelperSessionDelegate());
+  this.searchCDPage=searchCDPage;
   add(new Label("cdTitle",new TitleModel(cdModel)));
   FeedbackPanel feedback=new FeedbackPanel("feedback");
   add(feedback);
   add(new DetailForm("detailForm",feedback,cdModel));
+  add(new ImageUploadForm("imageUpload",cdModel));
+  ImageResource imgResource=new ImageResource(){
+    protected IResource getResource(){
+      final CD cd=(CD)cdModel.getObject(null);
+      if (cd.getImage() == null) {
+        return IMG_UNKNOWN.getResource();
+      }
+ else {
+        DynamicImageResource img=new DynamicImageResource(){
+          protected byte[] getImageData(){
+            return cd.getImage();
+          }
+        }
+;
+        return img.getResource();
+      }
+    }
+    public String getPath(){
+      reset();
+      return super.getPath();
+    }
+  }
+;
+  add(new Image("cdimage",imgResource));
 }
