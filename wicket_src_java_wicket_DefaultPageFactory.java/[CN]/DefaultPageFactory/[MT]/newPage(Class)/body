@@ -1,3 +1,11 @@
 {
-  return newPage(pageClass,(PageParameters)null);
+  try {
+    return (Page)pageClass.newInstance();
+  }
+ catch (  InstantiationException e) {
+    throw new WicketRuntimeException("Unable to create page from class " + pageClass,e);
+  }
+catch (  IllegalAccessException e) {
+    throw new WicketRuntimeException("Unable to create page from class " + pageClass,e);
+  }
 }

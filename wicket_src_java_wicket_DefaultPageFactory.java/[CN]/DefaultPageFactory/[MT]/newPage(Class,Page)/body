@@ -1,7 +1,7 @@
 {
-  final Constructor constructor=getConstructor(pageClass,Page.class);
+  Constructor constructor=constructor(pageClass,Page.class);
   if (constructor != null) {
     return newPage(constructor,page);
   }
-  throw new WicketRuntimeException("Could not find constructor for page '" + pageClass + "' with Page argument constructor or default constructor");
+  throw new WicketRuntimeException("Could not find a constructor in " + pageClass + " that would accept Page argument "+ page);
 }

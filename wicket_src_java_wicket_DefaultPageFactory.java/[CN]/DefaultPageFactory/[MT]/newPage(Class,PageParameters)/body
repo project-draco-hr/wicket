@@ -1,13 +1,10 @@
 {
-  Constructor constructor=null;
-  try {
-    constructor=getConstructor(pageClass,PageParameters.class);
+  Constructor constructor=constructor(pageClass,PageParameters.class);
+  if (constructor != null) {
+    return newPage(constructor,parameters);
   }
- catch (  RuntimeException e) {
-    constructor=getConstructor(pageClass,null);
+  if (parameters == null || parameters.isEmpty()) {
+    return newPage(pageClass);
   }
-  if (constructor == null) {
-    throw new WicketRuntimeException("Could not find constructor for page '" + pageClass + "' with PageParameter argument or default constructor");
-  }
-  return newPage(constructor,parameters);
+  throw new WicketRuntimeException("Could not find a constructor in " + pageClass + " that would accept PageParameters argument "+ parameters);
 }
