@@ -1,0 +1,30 @@
+{
+  if (context == null) {
+    this.context=new OgnlContext();
+    context.setTypeConverter(new DefaultTypeConverter(){
+      /** 
+ * @see ognl.DefaultTypeConverter#convertValue(java.util.Map,java.lang.Object,java.lang.Class)
+ */
+      public Object convertValue(      Map context,      Object value,      Class toType){
+        if (value == null) {
+          return null;
+        }
+        if (!toType.isArray() && value instanceof String[] && ((String[])value).length == 1) {
+          value=((String[])value)[0];
+        }
+        if (value instanceof String && ((String)value).trim().equals("")) {
+          return null;
+        }
+        return component.getConverter().convert(value,toType);
+      }
+      /** 
+ * @see ognl.DefaultTypeConverter#convertValue(java.util.Map,java.lang.Object,java.lang.Class)
+ */
+      public Object convertValue(      Map context,      Object target,      Member member,      String propertyName,      Object value,      Class toType){
+        return convertValue(context,value,toType);
+      }
+    }
+);
+  }
+  return context;
+}

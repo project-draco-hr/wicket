@@ -6,11 +6,11 @@
       if (!Strings.isEmpty(string)) {
         final Class propertyType=propertyType(component);
         if (propertyType != null) {
-          object=converterSource.getConverter().convert(string,propertyType);
+          object=component.getConverter().convert(string,propertyType);
         }
       }
     }
-    Ognl.setValue(ognlExpression(component),getContext(),modelObject,object);
+    Ognl.setValue(ognlExpression(component),getContext(component),modelObject,object);
   }
  catch (  OgnlException e) {
     throw new WicketRuntimeException(e);
