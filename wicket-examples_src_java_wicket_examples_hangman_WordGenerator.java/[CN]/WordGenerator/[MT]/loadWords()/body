@@ -1,0 +1,19 @@
+{
+  InputStream iStream=getClass().getClassLoader().getResourceAsStream(WORD_LIST_RESOURCE);
+  if (iStream == null) {
+    throw new WordListException("Unable to find word list resource: " + WORD_LIST_RESOURCE);
+  }
+  LineNumberReader reader=new LineNumberReader(new InputStreamReader(iStream));
+  String line;
+  words=new ArrayList();
+  try {
+    while ((line=reader.readLine()) != null) {
+      line=line.trim().toLowerCase();
+      if (line.length() > 0)       words.add(line);
+    }
+    reader.close();
+  }
+ catch (  IOException e) {
+    throw new WordListException("Error reading word list resource: " + WORD_LIST_RESOURCE,e);
+  }
+}

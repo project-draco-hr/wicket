@@ -1,0 +1,22 @@
+{
+  getTestContext().setBaseUrl("http://localhost:8098/wicket-examples");
+  beginAt("/hangman?setWord=hangman");
+  assertTitleEquals("Wicket Hangman");
+  assertLinkPresent("start");
+  clickLink("start");
+  assertTitleEquals("Wicket Hangman");
+  assertTextPresent("guesses remaining");
+  assertElementPresent("guessesRemaining");
+  assertTextInElement("guessesRemaining","5");
+  clickLink("letter_f");
+  assertElementPresent("guessesRemaining");
+  assertTextInElement("guessesRemaining","4");
+  clickLink("letter_h");
+  assertElementPresent("guessesRemaining");
+  assertTextInElement("guessesRemaining","4");
+  clickLink("letter_a");
+  clickLink("letter_n");
+  clickLink("letter_g");
+  clickLink("letter_m");
+  assertTextPresent("Congratulations! You guessed that the word was ");
+}

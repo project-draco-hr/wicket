@@ -1,0 +1,19 @@
+{
+  Hangman hangman=(Hangman)guessPage.getModelObject();
+  add(new NavigationPanel("mainNavigation","Hangman example"));
+  add(new Label("guessesRemaining",hangman.getCurrentWord()));
+  add(new Label("currentWord",hangman.getCurrentWord()));
+  add(new Link("playAgain"){
+    /** 
+ * Comment for <code>serialVersionUID</code>
+ */
+    private static final long serialVersionUID=1L;
+    public void linkClicked(){
+      Hangman hangman=(Hangman)guessPage.getModelObject();
+      hangman.newGame();
+      guessPage.resetLetters();
+      getRequestCycle().setPage(guessPage);
+    }
+  }
+);
+}
