@@ -1,9 +1,8 @@
 {
   final Component parentForm=component.findParent(Form.class);
   if (parentForm != null) {
-    final String propertyName=parentForm.getName() + "." + component.getName()+ "."+ Classes.name(getClass());
-    String message=component.getLocalizer().getString(propertyName,component);
-    return new ValidationErrorMessage(input,component,message);
+    final String resourceKey=parentForm.getName() + "." + component.getName()+ "."+ Classes.name(getClass());
+    return errorMessage(resourceKey,input,component);
   }
  else {
     throw new RenderException("Unable to find Form parent for FormComponent " + component);
