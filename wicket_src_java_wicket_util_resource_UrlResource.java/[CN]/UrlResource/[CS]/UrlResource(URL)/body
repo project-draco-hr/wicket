@@ -1,10 +1,12 @@
 {
-  String filename=url.getFile();
-  if (filename != null) {
-    final File file=new File(filename);
-    if (file.exists()) {
+  try {
+    final File file=new File(new URI(url.toExternalForm()));
+    if (file != null && file.exists()) {
       this.file=file;
     }
+    this.url=url;
   }
-  this.url=url;
+ catch (  URISyntaxException e) {
+    throw new IllegalArgumentException("Invalid URL parameter " + url);
+  }
 }
