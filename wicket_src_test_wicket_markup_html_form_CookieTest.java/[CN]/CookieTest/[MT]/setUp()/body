@@ -1,9 +1,10 @@
 {
   super.setUp();
   application=new MockWebApplication(null);
-  final ApplicationSettings settings=application.getSettings();
   application.getPages().setHomePage(MockPage.class);
   application.setupRequestAndResponse();
+  final ApplicationSettings settings=application.getSettings();
+  settings.setCryptClass(NoCrypt.class);
   this.panel=new SignInPanel("panel"){
     public String signIn(    final String username,    final String password){
       return null;
