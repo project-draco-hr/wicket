@@ -9,6 +9,15 @@
 ;
   actionLink.add(new Label("linkClickCount",this,"linkClickCount"));
   add(actionLink);
+  final OnClickLink actionOnClickLink=new OnClickLink("actionOnClickLink"){
+    public void linkClicked(    final RequestCycle cycle){
+      onClickLinkClickCount++;
+      cycle.setRedirect(true);
+    }
+  }
+;
+  add(actionOnClickLink);
+  add(new Label("onClickLinkClickCount",this,"onClickLinkClickCount"));
   add(new ExternalPageLink("page1Link",Page1.class));
   add(new ExternalPageLink("page3Link",Page3.class).setParameter("id",3));
   add(new PageLink("bookDetailsLink",new IPageLink(){
