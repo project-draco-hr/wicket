@@ -8,10 +8,8 @@
   styleList.add(new ExternalPageLink("simple",this.getClass()).setParameter("class","simple").setAutoEnable(false));
   styleList.add(new ExternalPageLink("report",this.getClass()).setParameter("class","report").setAutoEnable(false));
   styleList.add(new ExternalPageLink("mark",this.getClass()).setParameter("class","mark").setAutoEnable(false));
-  CascadingStyleSheetStyle htmlTable=new CascadingStyleSheetStyle("htmlTable",parameters.getString("class"));
-  htmlTable.setEnable(true);
-  add(htmlTable);
-  htmlTable.add(new MyTable("rows",data){
+  addAttributeModifier(new ComponentTagAttributeModifier("class",new Model(parameters.getString("class"))));
+  add(new MyTable("rows",data){
     public boolean populateCell(    final Cell cell,    final Container tagClass){
       final ListObject value=(ListObject)cell.getModelObject();
       tagClass.add(new Label("id",new Integer(value.getId())));
