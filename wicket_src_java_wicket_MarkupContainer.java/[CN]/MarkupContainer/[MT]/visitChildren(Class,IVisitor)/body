@@ -1,0 +1,18 @@
+{
+  for (Iterator iterator=iterator(); iterator.hasNext(); ) {
+    final Component child=(Component)iterator.next();
+    if ((c == null) || c.isInstance(child)) {
+      final Object value=visitor.component(child);
+      if (value != IVisitor.CONTINUE_TRAVERSAL) {
+        return value;
+      }
+    }
+    if (child instanceof MarkupContainer) {
+      final Object value=((MarkupContainer)child).visitChildren(c,visitor);
+      if (value != IVisitor.CONTINUE_TRAVERSAL) {
+        return value;
+      }
+    }
+  }
+  return null;
+}

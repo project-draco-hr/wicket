@@ -1,0 +1,30 @@
+{
+  if (tag instanceof ComponentWicketTag) {
+    final ComponentWicketTag wicketTag=(ComponentWicketTag)tag;
+    if (wicketTag.isComponentTag()) {
+      final Component component=createComponent(container,wicketTag);
+      if (component != null) {
+        nestedComponents.put(component,null);
+        try {
+          container.add(component);
+          component.render();
+        }
+  finally {
+          nestedComponents.remove(component);
+        }
+        return true;
+      }
+    }
+  }
+  if ((tag.getComponentName() != null) && nestedComponents.containsKey(container)) {
+    final MarkupContainer parent=container.getParent();
+    if (parent != null) {
+      final Component component=parent.get(tag.getComponentName());
+      if (component != null) {
+        component.render();
+        return true;
+      }
+    }
+  }
+  return false;
+}
