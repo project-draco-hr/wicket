@@ -1,0 +1,11 @@
+{
+  Object nestedModelObject=model.getNestedModel();
+  while (nestedModelObject instanceof IModel) {
+    final Object next=((IModel)nestedModelObject).getNestedModel();
+    if (nestedModelObject == next) {
+      throw new WicketRuntimeException("Model for " + nestedModelObject + " is self-referential");
+    }
+    nestedModelObject=next;
+  }
+  return nestedModelObject;
+}

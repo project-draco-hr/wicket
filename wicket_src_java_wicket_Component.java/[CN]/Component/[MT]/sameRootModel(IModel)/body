@@ -2,13 +2,7 @@
   IModel thisModel=getModel();
   IModel thatModel=model;
   if (thisModel != null && thatModel != null) {
-    while (thisModel instanceof INestedModel) {
-      thisModel=((INestedModel)thisModel).getNestedModel();
-    }
-    while (thatModel instanceof INestedModel) {
-      thatModel=((INestedModel)thatModel).getNestedModel();
-    }
-    return thisModel == thatModel;
+    return getRootModel(thisModel) == getRootModel(thatModel);
   }
   return false;
 }
