@@ -1,9 +1,9 @@
 {
   final List list=new ArrayList();
   final WicketComponentTagIdentifier detectWicketComponents=new WicketComponentTagIdentifier(xmlParser);
-  detectWicketComponents.setComponentNameAttribute(this.componentNameAttribute);
+  detectWicketComponents.setComponentIdAttribute(this.componentIdAttribute);
   detectWicketComponents.setStripWicketFromComponentTag(this.stripWicketFromComponentTag);
-  detectWicketComponents.setApplyDefaultComponentName(this.applyDefaultComponentName);
+  detectWicketComponents.setApplyDefaultComponentId(this.applyDefaultComponentId);
   final WicketParamTagHandler wicketParamTagHandler=new WicketParamTagHandler(new HtmlHandler(detectWicketComponents));
   wicketParamTagHandler.setStripWicketTag(this.stripWicketTag);
   final PreviewComponentTagRemover previewComponentTagRemover=new PreviewComponentTagRemover(wicketParamTagHandler);
@@ -11,9 +11,9 @@
   autolinkHandler.setAutomaticLinking(this.automaticLinking);
   final IMarkupFilter markupFilterChain=autolinkHandler;
   for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
-    boolean add=(tag.getComponentId() != null);
+    boolean add=(tag.getId() != null);
     if (!add && tag.getXmlTag().isClose()) {
-      add=((tag.getOpenTag() != null) && (tag.getOpenTag().getComponentId() != null));
+      add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
     }
     if (add) {
       final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
@@ -28,7 +28,7 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
-      if (!PreviewComponentTagRemover.IGNORE.equals(tag.getComponentId())) {
+      if (!PreviewComponentTagRemover.IGNORE.equals(tag.getId())) {
         list.add(tag);
       }
       xmlParser.setPositionMarker();
