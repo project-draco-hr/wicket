@@ -17,11 +17,11 @@
       }
       value=value.trim();
       final String key=attributeParser.getKey();
-      boolean wcnId=key.equalsIgnoreCase("id") && value.startsWith(componentNameAttribute + "-");
-      if (wcnId) {
+      boolean wicketId=key.equalsIgnoreCase("id") && value.startsWith(componentNameAttribute + "-");
+      if (wicketId) {
         value=value.substring(componentNameAttribute.length() + 1).trim();
       }
-      if (wcnId || key.equalsIgnoreCase(componentNameAttribute) || key.equalsIgnoreCase(ComponentTag.wicketComponentNameAttribute)) {
+      if (wicketId || key.equalsIgnoreCase(componentNameAttribute) || key.equalsIgnoreCase(ComponentTag.WICKET_COMPONENT_NAME_ATTRIBUTE)) {
         tag.componentName=value;
       }
       tag.attributes.put(key,StringValue.valueOf(value));
