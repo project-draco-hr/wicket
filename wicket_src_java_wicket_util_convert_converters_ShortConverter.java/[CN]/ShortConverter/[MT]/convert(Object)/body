@@ -1,15 +1,4 @@
 {
-  if (value instanceof Number) {
-    return new Short(((Number)value).shortValue());
-  }
-  try {
-    final Number number=getNumberFormat().parse(value.toString());
-    if (number.doubleValue() > Short.MAX_VALUE || number.doubleValue() < Short.MIN_VALUE) {
-      throw new ConversionException("Short value out of range");
-    }
-    return new Short(number.shortValue());
-  }
- catch (  ParseException e) {
-    throw new ConversionException("Cannot convert '" + value + "' to Short",e);
-  }
+  final Number number=value instanceof Number ? (Number)value : parse(value,Short.MIN_VALUE,Short.MAX_VALUE);
+  return new Short(number.shortValue());
 }

@@ -1,15 +1,4 @@
 {
-  if (value instanceof Number) {
-    return new Integer(((Number)value).intValue());
-  }
-  try {
-    final Number number=getNumberFormat().parse(value.toString());
-    if (number.doubleValue() > Integer.MAX_VALUE || number.doubleValue() < Integer.MIN_VALUE) {
-      throw new ConversionException("Integer value out of range");
-    }
-    return new Integer(number.intValue());
-  }
- catch (  ParseException e) {
-    throw new ConversionException("Cannot convert '" + value + "' to Integer",e);
-  }
+  final Number number=value instanceof Number ? (Number)value : parse(value,Integer.MIN_VALUE,Integer.MAX_VALUE);
+  return new Integer(number.intValue());
 }

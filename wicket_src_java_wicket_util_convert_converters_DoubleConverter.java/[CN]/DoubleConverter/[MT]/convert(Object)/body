@@ -1,17 +1,4 @@
 {
-  if (value instanceof Number) {
-    return new Double(((Number)value).doubleValue());
-  }
-  NumberFormat format=getNumberFormat();
-  try {
-    return new Double(format.parse(value.toString()).doubleValue());
-  }
- catch (  ParseException e) {
-    final ConversionException conversionException=new ConversionException("Cannot convert '" + value + "' to Double",e);
-    if (format instanceof DecimalFormat) {
-      String pattern=((DecimalFormat)format).toLocalizedPattern();
-      conversionException.setPattern(pattern);
-    }
-    throw conversionException;
-  }
+  final Number number=value instanceof Number ? (Number)value : parse(value,Double.MIN_VALUE,Double.MAX_VALUE);
+  return new Double(number.doubleValue());
 }

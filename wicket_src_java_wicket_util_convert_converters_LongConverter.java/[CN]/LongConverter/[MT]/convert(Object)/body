@@ -1,15 +1,4 @@
 {
-  if (value instanceof Number) {
-    return new Long(((Number)value).longValue());
-  }
-  try {
-    final Number number=getNumberFormat().parse(value.toString());
-    if (number.doubleValue() > Long.MAX_VALUE || number.doubleValue() < Long.MIN_VALUE) {
-      throw new ConversionException("Long value out of range");
-    }
-    return new Long(number.longValue());
-  }
- catch (  ParseException e) {
-    throw new ConversionException("Cannot convert '" + value + "' to Long",e);
-  }
+  final Number number=value instanceof Number ? (Number)value : parse(value,Long.MIN_VALUE,Long.MAX_VALUE);
+  return new Long(number.longValue());
 }

@@ -10,13 +10,5 @@
   if (converter == null) {
     return defaultConverter.convert(value);
   }
-  try {
-    return converter.convert(value);
-  }
- catch (  ConversionException e) {
-    throw e.setTypeConverter(this).setTargetType(c).setSourceValue(value);
-  }
-catch (  Exception e) {
-    throw new ConversionException(e).setTypeConverter(this).setTargetType(c).setSourceValue(value);
-  }
+  return converter.convert(value);
 }
