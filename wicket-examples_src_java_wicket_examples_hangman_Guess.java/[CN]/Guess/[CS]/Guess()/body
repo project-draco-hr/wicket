@@ -1,17 +1,11 @@
 {
-  log.error("Created the guess page");
-  add(new Label("guessesRemaining",new PropertyModel(getHangman(),"guessesRemaining")));
-  add(new Label("correctLetters",new PropertyModel(getHangman(),"correctLetters")));
-  final List letters=new ArrayList();
-  for (char c='a'; c <= 'z'; c++) {
-    letters.add(new Character(c));
-  }
-  final ListView listView=new ListView("letters",letters){
+  add(new Label("guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
+  add(new Label("word",new PropertyModel(getGame(),"word.asString(true)")));
+  add(new ListView("letters",getGame().getLetters()){
     protected void populateItem(    ListItem listItem){
-      listItem.add(new SelectableLetterLink((Character)listItem.getModelObject()));
+      final Letter letter=(Letter)listItem.getModelObject();
+      listItem.add(letter.getGuessLink(getGame()));
     }
   }
-;
-  listView.setOptimizeRenderProcess(true);
-  add(listView);
+);
 }

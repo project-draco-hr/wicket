@@ -1,4 +1,14 @@
 {
-  loadWords();
-  randomiseWords();
+  try {
+    final IResource resource=new ClassLoaderResourceLocator().locate("wicket/examples/hangman/WordList","",Locale.getDefault(),".txt");
+    final String wordlist=Streams.readString(resource.getInputStream());
+    this.words=Arrays.asList(wordlist.split("\\s+"));
+    shuffle();
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Couldn't read word list");
+  }
+catch (  ResourceNotFoundException e) {
+    throw new RuntimeException("Couldn't read word list");
+  }
 }

@@ -1,6 +1,6 @@
 {
-  Hangman hangman=new Hangman();
-  hangman.newGame(5,"testing");
+  Game hangman=new Game();
+  hangman.newGame(5,new WordGenerator(new String[]{"testing"}));
   Assert.assertEquals(5,hangman.getGuessesRemaining());
   Assert.assertFalse(hangman.isWon());
   Assert.assertFalse(hangman.isLost());
@@ -8,7 +8,7 @@
   Assert.assertEquals(4,hangman.getGuessesRemaining());
   Assert.assertFalse(hangman.isWon());
   Assert.assertFalse(hangman.isLost());
-  hangman.guess('a');
+  guess(hangman,'a');
   Assert.assertEquals(4,hangman.getGuessesRemaining());
   Assert.assertFalse(hangman.isWon());
   Assert.assertFalse(hangman.isLost());
