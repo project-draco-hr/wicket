@@ -1,18 +1,18 @@
 {
-  int firstCell=this.getStartIndex();
+  int firstListItem=this.getStartIndex();
   int viewSize=this.getViewSize();
   int currentPage=table.getCurrentPage();
-  if (currentPage < (firstCell + this.margin)) {
-    firstCell=currentPage - viewSize + margin;
+  if (currentPage < (firstListItem + this.margin)) {
+    firstListItem=currentPage - viewSize + margin;
   }
- else   if (currentPage >= (firstCell + viewSize - this.margin)) {
-    firstCell=currentPage - margin;
+ else   if (currentPage >= (firstListItem + viewSize - this.margin)) {
+    firstListItem=currentPage - margin;
   }
-  if ((firstCell + viewSize) >= table.getPageCount()) {
-    firstCell=table.getPageCount() - viewSize;
+  if ((firstListItem + viewSize) >= table.getPageCount()) {
+    firstListItem=table.getPageCount() - viewSize;
   }
-  if (firstCell < 0) {
-    firstCell=0;
+  if (firstListItem < 0) {
+    firstListItem=0;
   }
-  this.setStartIndex(firstCell);
+  this.setStartIndex(firstListItem);
 }
