@@ -1,6 +1,5 @@
 {
-  final String error=signIn(getUsername(),getPassword());
-  if (error == null) {
+  if (signIn(getUsername(),getPassword())) {
     final RequestCycle cycle=getRequestCycle();
     if (cycle.continueToOriginalDestination()) {
       cycle.setPage((Page)null);
@@ -10,6 +9,6 @@
     }
   }
  else {
-    error(error);
+    error("Unable to sign you in");
   }
 }

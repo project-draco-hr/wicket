@@ -1,8 +1,7 @@
 {
-  final RequestCycle cycle=getRequestCycle();
-  boolean signedIn=cycle.getSession().getProperty("wicket.examples.signin2.user") != null;
+  boolean signedIn=getSignIn2Session().isSignedIn();
   if (!signedIn) {
-    cycle.redirectToInterceptPage(new SignIn2(null));
+    getRequestCycle().redirectToInterceptPage(SignIn2.class,(PageParameters)null);
   }
   return signedIn;
 }

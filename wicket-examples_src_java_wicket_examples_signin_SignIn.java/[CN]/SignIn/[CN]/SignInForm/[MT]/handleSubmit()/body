@@ -1,7 +1,7 @@
 {
-  if (properties.getString("username").equals("jonathan") && properties.getString("password").equals("password")) {
+  SignInSession session=(SignInSession)getSession();
+  if (session.authenticate(properties.getString("username"),properties.getString("password"))) {
     final RequestCycle cycle=getRequestCycle();
-    cycle.getSession().setProperty("wicket.examples.signin.user","jonathan");
     if (!cycle.continueToOriginalDestination()) {
       cycle.setPage(new Home(PageParameters.NULL));
     }

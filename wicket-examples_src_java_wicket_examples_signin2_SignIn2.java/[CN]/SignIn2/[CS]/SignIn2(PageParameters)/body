@@ -1,12 +1,7 @@
 {
-  super(new SignIn2Panel("signInPanel"){
-    public String signIn(    String username,    String password){
-      if (username.equals("jonathan") && password.equals("password")) {
-        getSession().setProperty("wicket.examples.signin2.user","jonathan");
-        this.setPersistent(this.getRememberMe());
-        return null;
-      }
-      return "Couldn't sign you in";
+  add(new SignInPanel("signInPanel"){
+    public boolean signIn(    String username,    String password){
+      return ((SignIn2Session)getSession()).authenticate(username,password);
     }
   }
 );
