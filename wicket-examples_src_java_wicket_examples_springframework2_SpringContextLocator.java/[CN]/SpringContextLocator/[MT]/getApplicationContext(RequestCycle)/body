@@ -1,0 +1,9 @@
+{
+  javax.servlet.http.HttpServletRequest httpRequest=((HttpRequest)cycle.getRequest()).getServletRequest();
+  javax.servlet.ServletContext servletContext=httpRequest.getSession().getServletContext();
+  ApplicationContext context=RequestContextUtils.getWebApplicationContext(httpRequest,servletContext);
+  if (context == null) {
+    throw new IllegalStateException("No WebApplicationContext found: no DispatcherServlet/ContextLoaderListener registered?");
+  }
+  return context;
+}

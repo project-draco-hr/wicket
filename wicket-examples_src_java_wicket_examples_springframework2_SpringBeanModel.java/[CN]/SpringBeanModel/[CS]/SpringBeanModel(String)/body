@@ -1,0 +1,19 @@
+{
+  super(null);
+  if (beanName == null) {
+    throw new IllegalArgumentException("beanName must not be null");
+  }
+  this.model=new IModel(){
+    private Object object=null;
+    public void setObject(    Object object){
+      this.object=object;
+    }
+    public Object getObject(){
+      if (object == null) {
+        object=getApplicationContext().getBean(beanName);
+      }
+      return object;
+    }
+  }
+;
+}

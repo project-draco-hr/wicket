@@ -1,0 +1,26 @@
+{
+  super(null);
+  if (beanClass == null) {
+    throw new IllegalArgumentException("beanClass must not be null");
+  }
+  if (!SpringAwareModel.class.isAssignableFrom(beanClass)) {
+    throw new IllegalArgumentException("beanClass must be of type SpringAwareModel");
+  }
+  Constructor constructor=null;
+  try {
+    constructor=beanClass.getConstructor(new Class[]{this.getClass()});
+    this.model=(IModel)constructor.newInstance(new Object[]{this});
+  }
+ catch (  NoSuchMethodException e) {
+    throw new RuntimeException(e);
+  }
+catch (  InstantiationException e) {
+    throw new RuntimeException("Cannot instantiate model object with " + constructor,e);
+  }
+catch (  IllegalAccessException e) {
+    throw new RuntimeException("Cannot access " + constructor,e);
+  }
+catch (  InvocationTargetException e) {
+    throw new RuntimeException("Exception thrown by " + constructor,e);
+  }
+}
