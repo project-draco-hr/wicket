@@ -1,5 +1,17 @@
 {
-  final Link link=new Link(id){
+  return new Link(id){
+    /** 
+ * @see wicket.Component#onBeginRequest()
+ */
+    protected void onBeginRequest(){
+      setAutoEnable(false);
+      if (getList().indexOf(item.getModelObject()) == (getList().size() - 1)) {
+        setEnabled(false);
+      }
+    }
+    /** 
+ * @see wicket.markup.html.link.Link#onClick()
+ */
     public void onClick(){
       final int index=getList().indexOf(item.getModelObject());
       if (index != -1) {
@@ -9,8 +21,4 @@
     }
   }
 ;
-  if (getList().indexOf(item.getModelObject()) == (getList().size() - 1)) {
-    link.setEnabled(false);
-  }
-  return link;
 }

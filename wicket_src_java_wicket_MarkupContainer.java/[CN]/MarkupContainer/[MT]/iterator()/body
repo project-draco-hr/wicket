@@ -2,5 +2,28 @@
   if (childForId == null) {
     childForId=Collections.EMPTY_MAP;
   }
-  return new ComponentIterator(childForId.values().iterator());
+  final Iterator iterator=childForId.values().iterator();
+  return new Iterator(){
+    private Component component;
+    /** 
+ * @see java.util.Iterator#hasNext()
+ */
+    public boolean hasNext(){
+      return iterator.hasNext();
+    }
+    /** 
+ * @see java.util.Iterator#next()
+ */
+    public Object next(){
+      return component=(Component)iterator.next();
+    }
+    /** 
+ * @see java.util.Iterator#remove()
+ */
+    public void remove(){
+      iterator.remove();
+      removedComponent(component);
+    }
+  }
+;
 }

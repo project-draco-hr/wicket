@@ -2,10 +2,7 @@
   final Component component=get(id);
   if (component != null) {
     childForId.remove(id);
-    final Page page=findPage();
-    if (page != null) {
-      page.componentRemoved(component);
-    }
+    removedComponent(component);
   }
  else {
     throw new WicketRuntimeException("Unable to find a component with id '" + id + "' to remove");

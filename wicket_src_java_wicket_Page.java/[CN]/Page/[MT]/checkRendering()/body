@@ -1,12 +1,18 @@
 {
+  final Count unrenderedComponents=new Count();
+  final StringBuffer buffer=new StringBuffer();
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
-      if ((renderedComponents == null) || !renderedComponents.contains(component)) {
-        throw new WicketRuntimeException(component.exceptionMessage("Component never rendered. You probably failed to " + "reference it in your markup"));
+      if (renderedComponents == null || !renderedComponents.contains(component)) {
+        unrenderedComponents.increment();
+        buffer.append("" + unrenderedComponents.getCount() + ". "+ component+ "\n");
       }
       return CONTINUE_TRAVERSAL;
     }
   }
 );
   renderedComponents=null;
+  if (unrenderedComponents.getCount() > 0) {
+    throw new WicketRuntimeException("The component(s) below failed to render:\n\n" + buffer.toString());
+  }
 }

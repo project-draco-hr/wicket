@@ -1,0 +1,10 @@
+{
+  if (component == this) {
+    throw new IllegalArgumentException("Component can't be added to itself");
+  }
+  component.setParent(this);
+  final Page page=findPage();
+  if (page != null) {
+    page.componentAdded(component);
+  }
+}

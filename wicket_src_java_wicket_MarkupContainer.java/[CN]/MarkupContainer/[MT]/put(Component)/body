@@ -1,0 +1,19 @@
+{
+  if (optimizeChildMapsForSpace) {
+    if (childForId == Collections.EMPTY_MAP) {
+      childForId=new MicroMap();
+    }
+ else     if (childForId.size() == MicroMap.MAX_ENTRIES) {
+      childForId=new MiniMap(childForId,MINIMAP_MAX_ENTRIES);
+    }
+ else     if (childForId.size() == MINIMAP_MAX_ENTRIES) {
+      childForId=new HashMap(childForId);
+    }
+  }
+ else {
+    if (childForId == Collections.EMPTY_MAP) {
+      childForId=new HashMap();
+    }
+  }
+  return (Component)childForId.put(child.getId(),child);
+}

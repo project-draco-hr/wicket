@@ -3,25 +3,11 @@
     log.debug("Replacing " + child.getId() + " in "+ this);
   }
   if (child.getParent() != this) {
-    child.setParent(null);
-    child.setParent(this);
-    if (optimizeChildMapsForSpace) {
-      if (childForId.size() == MicroMap.MAX_ENTRIES) {
-        childForId=new MiniMap(childForId,MINIMAP_MAX_ENTRIES);
-      }
- else       if (childForId.size() == MINIMAP_MAX_ENTRIES) {
-        childForId=new HashMap(childForId);
-      }
-    }
-    final Component replaced=(Component)childForId.put(child.getId(),child);
+    final Component replaced=put(child);
+    addedComponent(child);
+    removedComponent(replaced);
     if (replaced == null) {
       throw new IllegalArgumentException(exceptionMessage("A child component with the id '" + child.getId() + "' didn't exist"));
-    }
-    replaced.setParent(null);
-    final Page page=findPage();
-    if (page != null) {
-      page.componentRemoved(replaced);
-      page.componentAdded(child);
     }
   }
   return this;

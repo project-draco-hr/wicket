@@ -2,8 +2,11 @@
   final ComponentTag tag=markupStream.getTag().mutable();
   onComponentTag(tag);
   final XmlTag.Type type=tag.getType();
+  final boolean isImageTag=tag.getName().equalsIgnoreCase("img");
   if (tag.isOpenClose()) {
-    tag.setType(XmlTag.OPEN);
+    if (!isImageTag) {
+      tag.setType(XmlTag.OPEN);
+    }
   }
  else {
     if (!tag.isOpen()) {
@@ -14,5 +17,7 @@
   markupStream.next();
   tag.setType(type);
   onComponentTagBody(markupStream,tag);
-  renderClosingComponentTag(markupStream,tag);
+  if (!isImageTag) {
+    renderClosingComponentTag(markupStream,tag);
+  }
 }

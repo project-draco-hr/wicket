@@ -1,26 +1,10 @@
 {
-  if (child == this) {
-    throw new IllegalArgumentException("Component can't be added to itself");
-  }
   if (log.isDebugEnabled()) {
     log.debug("Add " + child.getId() + " to "+ this);
   }
-  child.setParent(this);
-  if (optimizeChildMapsForSpace) {
-    if (childForId.size() == MicroMap.MAX_ENTRIES) {
-      childForId=new MiniMap(childForId,MINIMAP_MAX_ENTRIES);
-    }
- else     if (childForId.size() == MINIMAP_MAX_ENTRIES) {
-      childForId=new HashMap(childForId);
-    }
-  }
-  final Object replaced=childForId.put(child.getId(),child);
-  if (replaced != null) {
-    throw new IllegalArgumentException(exceptionMessage("A child component with the id '" + child.getId() + "' already exists"));
-  }
-  final Page page=findPage();
-  if (page != null) {
-    page.componentAdded(child);
+  addedComponent(child);
+  if (put(child) != null) {
+    throw new IllegalArgumentException(exceptionMessage("A child with id '" + child.getId() + "' already exists"));
   }
   return this;
 }

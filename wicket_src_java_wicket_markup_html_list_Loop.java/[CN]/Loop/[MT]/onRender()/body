@@ -5,6 +5,9 @@
   if (iterations > 0) {
     for (int i=0; i < iterations; i++) {
       final Iteration iteration=(Iteration)get(Integer.toString(i));
+      if (iteration == null) {
+        throw new WicketRuntimeException("Loop iteration is null.  Probably the loop iterations were changed between onBeginRequest and render time.");
+      }
       markupStream.setCurrentIndex(markupStart);
       renderIteration(iteration);
     }
