@@ -1,22 +1,18 @@
 {
-  String expr=getExpression();
-  if (expr == null || expr.trim().length() == 0) {
+  final String expression=getExpression();
+  if (Strings.isEmpty(expression)) {
     return model.getObject();
   }
-  IModel theModel=getModel();
-  if (theModel == null) {
-    return null;
+  if (model != null) {
+    final Object modelObject=model.getObject();
+    if (modelObject != null) {
+      try {
+        return Ognl.getValue(expression,getContext(),modelObject,propertyType);
+      }
+ catch (      OgnlException e) {
+        throw new WicketRuntimeException(e);
+      }
+    }
   }
-  Object modelObject=theModel.getObject();
-  if (modelObject == null) {
-    return null;
-  }
-  try {
-    OgnlContext ctx=getContext();
-    Object result=Ognl.getValue(expr,ctx,modelObject,propertyType);
-    return result;
-  }
- catch (  OgnlException e) {
-    throw new WicketRuntimeException(e);
-  }
+  return null;
 }
