@@ -1,18 +1,5 @@
 {
   final ReportList data=new ReportList();
-  add(new SortableTableHeaders("header",data,"rows",true){
-    protected Comparable getObjectToCompare(    final SortableTableHeader header,    final Object object){
-      final String name=header.getName();
-      if (name.equals("city")) {
-        return ((ReportableListObject)object).getCity();
-      }
-      if (name.equals("project")) {
-        return ((ReportableListObject)object).getProject();
-      }
-      return "";
-    }
-  }
-);
   final PagedTableWithAlternatingRowStyle table=new PagedTableWithAlternatingRowStyle("rows",data,10){
     private ReportableListObject previousValue=null;
     /** 
@@ -38,6 +25,19 @@
   }
 ;
   add(table);
+  add(new SortableTableHeaders("header",table,true){
+    protected Comparable getObjectToCompare(    final SortableTableHeader header,    final Object object){
+      final String name=header.getName();
+      if (name.equals("city")) {
+        return ((ReportableListObject)object).getCity();
+      }
+      if (name.equals("project")) {
+        return ((ReportableListObject)object).getProject();
+      }
+      return "";
+    }
+  }
+);
   add(new PagedTableNavigator("pageTableNav",table));
   add(new ExportLink("exportCsv",data,new CsvView(data,true,false,false)));
   add(new ExportLink("exportExcel",data,new ExcelView(data,true,false,false)));
