@@ -2,8 +2,14 @@
   removeAll();
   List visiblePathsList=new ArrayList();
   Enumeration e=treeState.getVisiblePathsFromRoot();
+  boolean skip=(!treeState.isRootVisible());
   while (e.hasMoreElements()) {
-    visiblePathsList.add(e.nextElement());
+    TreePath path=(TreePath)e.nextElement();
+    if (skip) {
+      skip=false;
+      continue;
+    }
+    visiblePathsList.add(path);
   }
   List nestedList=new ArrayList();
   buildList(visiblePathsList,0,0,nestedList);

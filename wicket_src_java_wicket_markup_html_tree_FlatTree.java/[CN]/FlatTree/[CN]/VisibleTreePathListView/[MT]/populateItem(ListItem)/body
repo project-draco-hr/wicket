@@ -11,16 +11,9 @@
   if (userObject == null) {
     throw new RuntimeException("userObject == null");
   }
-  TreeNodeLink expandCollapsLink=new TreeNodeLink("expandCollapsLink",FlatTree.this,treeNodeModel);
-  HtmlContainer junctionImg=new HtmlContainer("junctionImg");
-  junctionImg.add(new ComponentTagAttributeModifier("src",true,new Model(getJunctionImageName(treeNodeModel))));
-  expandCollapsLink.add(junctionImg);
-  HtmlContainer nodeImg=new HtmlContainer("nodeImg");
-  nodeImg.add(new ComponentTagAttributeModifier("src",true,new Model(getNodeImageName(treeNodeModel))));
-  expandCollapsLink.add(nodeImg);
+  TreeNodeLink expandCollapsLink=createJunctionLink(treeNodeModel);
   nodeContainer.add(expandCollapsLink);
-  TreeNodeLink selectLink=new TreeNodeLink("selectLink",FlatTree.this,treeNodeModel);
-  selectLink.add(new Label("label",getUserObjectAsString(userObject)));
+  TreeNodeLink selectLink=createNodeLink(treeNodeModel);
   nodeContainer.add(selectLink);
   listItem.add(nodeContainer);
 }

@@ -1,8 +1,13 @@
 {
   Enumeration e=treeState.getVisiblePathsFromRoot();
   List visiblePathsList=new ArrayList();
+  boolean skip=(!treeState.isRootVisible());
   while (e.hasMoreElements()) {
     TreePath path=(TreePath)e.nextElement();
+    if (skip) {
+      skip=false;
+      continue;
+    }
     DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)path.getLastPathComponent();
     TreeNodeModel treeNodeModel=new TreeNodeModel(treeNode,treeState,path);
     visiblePathsList.add(treeNodeModel);
