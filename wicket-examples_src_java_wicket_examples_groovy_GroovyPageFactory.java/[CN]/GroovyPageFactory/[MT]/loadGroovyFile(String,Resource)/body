@@ -6,7 +6,7 @@
   final GroovyWarClassLoader groovyCl=new GroovyWarClassLoader(cl);
   Class clazz=null;
   try {
-    final InputStream in=url.getUrl().openStream();
+    final InputStream in=resource.getInputStream();
     if (in != null) {
       clazz=groovyCl.parseClass(in);
       if (clazz != null) {
@@ -17,17 +17,17 @@
       }
     }
  else {
-      log.warn("Groovy file not found: " + url.getAbsolutePath());
+      log.warn("Groovy file not found: " + resource);
     }
   }
  catch (  CompilationFailedException e) {
-    throw new RenderException("Error parsing groovy file: " + url.getAbsolutePath(),e);
+    throw new RenderException("Error parsing groovy file: " + resource,e);
   }
 catch (  IOException e) {
-    throw new RenderException("Error reading groovy file: " + url.getAbsolutePath(),e);
+    throw new RenderException("Error reading groovy file: " + resource,e);
   }
 catch (  Throwable e) {
-    throw new RenderException("Error while reading groovy file: " + url.getAbsolutePath(),e);
+    throw new RenderException("Error while reading groovy file: " + resource,e);
   }
  finally {
     this.removeConstructor(classname);
