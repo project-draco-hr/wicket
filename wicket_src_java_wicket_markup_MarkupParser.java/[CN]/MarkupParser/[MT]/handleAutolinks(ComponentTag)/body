@@ -2,7 +2,7 @@
   if (tag == null) {
     return false;
   }
-  if ((autolinking == true) && (tag.getComponentName() == null) && tag.getAttributes().containsKey("href")) {
+  if ((automaticLinking == true) && (tag.getComponentName() == null) && tag.getAttributes().containsKey("href")) {
     return resolveAutomaticLink(tag);
   }
   if (tag instanceof ComponentWicketTag) {
@@ -12,17 +12,17 @@
         if (autolinkStatus == null) {
           autolinkStatus=new Stack();
         }
-        autolinkStatus.push(new Boolean(autolinking));
+        autolinkStatus.push(new Boolean(automaticLinking));
         final String autolink=tag.getAttributes().getString("autolink");
         if ((autolink == null) || "".equals(autolink) || "true".equalsIgnoreCase(autolink)|| "1".equals(autolink)) {
-          autolinking=true;
+          automaticLinking=true;
         }
  else {
-          autolinking=false;
+          automaticLinking=false;
         }
       }
  else       if (tag.isClose()) {
-        autolinking=((Boolean)autolinkStatus.pop()).booleanValue();
+        automaticLinking=((Boolean)autolinkStatus.pop()).booleanValue();
       }
  else {
         throw new ParseException("<wicket:link> can not be a open-close tag",tag.getPos());
