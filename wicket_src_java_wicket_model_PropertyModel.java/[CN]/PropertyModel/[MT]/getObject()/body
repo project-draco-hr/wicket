@@ -13,7 +13,8 @@
   try {
     Object raw=Ognl.getValue(getExpression(),getContext(),modelObject);
     if (applyFormatting) {
-      return converterRegistry.getFormattingUtils().getObjectFormatted(raw,getLocale(),getFormatPattern(),getFormatPattern());
+      FormattingUtils formattingUtils=converterRegistry.getFormattingUtils();
+      return formattingUtils.getObjectFormatted(raw,getLocale(),getFormatPattern(),getFormatPattern());
     }
  else {
       return raw;
