@@ -22,11 +22,7 @@
         realParams[i]=parameters[i];
       }
     }
-    Locale workingLocale=locale;
-    if (component != null) {
-      workingLocale=component.getLocale();
-    }
-    final MessageFormat format=new MessageFormat(s,workingLocale);
+    final MessageFormat format=new MessageFormat(s,component != null ? component.getLocale() : locale);
     s=format.format(realParams);
   }
   return s;
