@@ -14,17 +14,17 @@
   if (!classPath.startsWith(".")) {
     final String className=page.getClass().getPackage().getName() + "." + classPath;
     final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
-    return new BookmarkablePageLink(autoId,clazz,pageParameters);
+    return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
   }
  else {
     final String className=classPath.substring(1);
     try {
       final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
-      return new BookmarkablePageLink(autoId,clazz,pageParameters);
+      return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
     }
  catch (    WicketRuntimeException ex) {
       ;
     }
   }
-  return new ExternalLink(autoId,originalHref);
+  return new AutolinkExternalLink(autoId,originalHref);
 }
