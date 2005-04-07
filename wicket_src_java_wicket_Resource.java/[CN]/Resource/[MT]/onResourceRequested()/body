@@ -5,6 +5,8 @@
   final Response response=cycle.getResponse();
   response.setContentType(resourceStream.getContentType());
   response.setContentLength((int)resourceStream.length());
-  response.setLastModifiedTime(resourceStream.lastModifiedTime());
+  if (cacheable) {
+    response.setLastModifiedTime(resourceStream.lastModifiedTime());
+  }
   respond(response);
 }
