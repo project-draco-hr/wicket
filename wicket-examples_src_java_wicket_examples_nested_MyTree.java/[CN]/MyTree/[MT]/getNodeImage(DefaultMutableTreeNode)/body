@@ -1,16 +1,16 @@
 {
   if (node.isLeaf()) {
-    Image img=new Image(NODE_IMAGE_NAME,getImage("node.gif"));
+    Image img=new Image(NODE_IMAGE_NAME,nodeImage);
     return img;
   }
  else {
-    return new Image(NODE_IMAGE_NAME,(SharedResource)null){
-      protected Resource getImageResource(){
+    return new Image(NODE_IMAGE_NAME){
+      protected ResourceReference getImageResourceReference(){
         if (isExpanded(node)) {
-          return getImage("folderopen.gif");
+          return folderOpen;
         }
  else {
-          return getImage("folder.gif");
+          return folder;
         }
       }
     }

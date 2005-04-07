@@ -2,39 +2,39 @@
   if ((locale != null && !locale.equals(component.getLocale())) || (style != null && !style.equals(component.getStyle()))) {
     this.locale=component.getLocale();
     this.style=component.getStyle();
-    if (resource instanceof SharedResource) {
+    if (resourceReference != null) {
       if (isFactoryResource) {
+        this.resourceReference=null;
         this.resource=null;
       }
  else {
-        final SharedResource sharedResource=(SharedResource)resource;
-        sharedResource.setLocale(locale);
-        sharedResource.setStyle(style);
+        resourceReference.setLocale(locale);
+        resourceReference.setStyle(style);
       }
     }
  else {
       this.resource=null;
     }
   }
-  if (resource == null) {
+  if (resource == null && resourceReference == null) {
     final String src=tag.getString("src");
     if (src != null) {
-      this.resource=loadStaticImage(src);
+      loadStaticImage(src);
     }
  else {
       final String value=tag.getString("value");
       if (value != null) {
-        this.resource=newImage(value);
+        newImage(value);
         this.isFactoryResource=true;
       }
  else {
-        this.resource=loadStaticImage(component.getModelObjectAsString());
+        loadStaticImage(component.getModelObjectAsString());
       }
     }
   }
   final String url;
-  if (this.resource instanceof SharedResource) {
-    url=component.getPage().urlFor(((SharedResource)resource).getPath());
+  if (this.resourceReference != null) {
+    url=component.getPage().urlFor(resourceReference.getPath());
   }
  else {
     url=component.urlFor(IResourceListener.class);

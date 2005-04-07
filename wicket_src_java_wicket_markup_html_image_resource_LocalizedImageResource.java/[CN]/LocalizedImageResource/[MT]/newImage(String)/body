@@ -9,14 +9,16 @@
     final String name=valueParser.getImageName();
     if (!Strings.isEmpty(name)) {
       component.getApplication().addResource(Application.class,name,locale,style,resource);
-      final SharedResource sharedResource=new SharedResource(Application.class,name);
-      sharedResource.setLocale(locale);
-      sharedResource.setStyle(style);
-      return sharedResource;
+      final ResourceReference resourceReference=new ResourceReference(Application.class,name);
+      resourceReference.setLocale(locale);
+      resourceReference.setStyle(style);
+      this.resourceReference=resourceReference;
     }
-    return resource;
+ else {
+      this.resource=resource;
+    }
   }
  else {
-    throw new WicketRuntimeException("Could not generate image for value attribute '" + value + "'.  Was expecting a value attribute of the form \"[resourceFactoryName]:[sharedResourceName]?:[factorySpecification]\".");
+    throw new WicketRuntimeException("Could not generate image for value attribute '" + value + "'.  Was expecting a value attribute of the form \"[resourceFactoryName]:[resourceReferenceName]?:[factorySpecification]\".");
   }
 }
