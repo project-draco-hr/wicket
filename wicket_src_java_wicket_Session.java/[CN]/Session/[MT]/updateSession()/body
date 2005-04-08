@@ -1,10 +1,12 @@
 {
   log.debug("updateSession(): Updating session.");
-  for (final Iterator iterator=pageMapForName.values().iterator(); iterator.hasNext(); ) {
-    final PageMap pageMap=((PageMap)iterator.next());
-    pageMap.setSession(this);
-    log.debug("updateSession(): Attaching session to PageMap " + pageMap);
+  visitPageMaps(new IVisitor(){
+    public void pageMap(    PageMap pageMap){
+      log.debug("updateSession(): Attaching session to PageMap " + pageMap);
+      pageMap.setSession(Session.this);
+    }
   }
+);
   log.debug("updateSession(): Getting PageState attributes.");
   final List pageStates=getPageStateAttributes();
   sortBySequenceNumber(pageStates);

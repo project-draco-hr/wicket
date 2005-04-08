@@ -7,4 +7,17 @@
  else {
     log.debug("updateCluster(): Session not dirty.");
   }
+  visitPageMaps(new IVisitor(){
+    public void pageMap(    PageMap pageMap){
+      pageMap.visitPages(new PageMap.IVisitor(){
+        public void page(        Page page){
+          if (page.isDirty()) {
+            replicate(page);
+          }
+        }
+      }
+);
+    }
+  }
+);
 }

@@ -1,5 +1,8 @@
 {
-  for (final Iterator iterator=pageMapForName.values().iterator(); iterator.hasNext(); ) {
-    ((PageMap)iterator.next()).removeAll();
+  visitPageMaps(new IVisitor(){
+    public void pageMap(    PageMap pageMap){
+      pageMap.removeAll();
+    }
   }
+);
 }
