@@ -1,21 +1,21 @@
 {
   final ImageValueParser valueParser=new ImageValueParser(value);
   if (valueParser.matches()) {
-    final IResourceFactory factory=component.getApplication().getResourceFactory(valueParser.getFactoryName());
-    if (factory == null) {
-      throw new WicketRuntimeException("Could not find image resource factory named " + valueParser.getFactoryName());
-    }
-    final ImageResource resource=(ImageResource)factory.newResource(valueParser.getSpecification(),locale,style);
-    final String name=valueParser.getImageName();
-    if (!Strings.isEmpty(name)) {
-      component.getApplication().addResource(Application.class,name,locale,style,resource);
-      final ResourceReference resourceReference=new ResourceReference(Application.class,name);
+    final String imageReferenceName=valueParser.getImageReferenceName();
+    final String specification=valueParser.getSpecification();
+    final String factoryName=valueParser.getFactoryName();
+    final Application application=component.getApplication();
+    if (!Strings.isEmpty(imageReferenceName)) {
+      if (application.getResource(Application.class,imageReferenceName,locale,style) == null) {
+        final Resource imageResource=getImageResourceFactory(application,factoryName).newResource(specification,locale,style);
+        application.addResource(Application.class,imageReferenceName,locale,style,imageResource);
+      }
+      this.resourceReference=new ResourceReference(Application.class,imageReferenceName);
       resourceReference.setLocale(locale);
       resourceReference.setStyle(style);
-      this.resourceReference=resourceReference;
     }
  else {
-      this.resource=resource;
+      this.resource=(ImageResource)getImageResourceFactory(application,factoryName).newResource(specification,locale,style);
     }
   }
  else {

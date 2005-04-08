@@ -1,20 +1,9 @@
 {
-  if ((locale != null && !locale.equals(component.getLocale())) || (style != null && !style.equals(component.getStyle()))) {
+  if (!Objects.equal(locale,component.getLocale()) || !Objects.equal(style,component.getStyle())) {
     this.locale=component.getLocale();
     this.style=component.getStyle();
-    if (resourceReference != null) {
-      if (isFactoryResource) {
-        this.resourceReference=null;
-        this.resource=null;
-      }
- else {
-        resourceReference.setLocale(locale);
-        resourceReference.setStyle(style);
-      }
-    }
- else {
-      this.resource=null;
-    }
+    this.resourceReference=null;
+    this.resource=null;
   }
   if (resource == null && resourceReference == null) {
     final String src=tag.getString("src");
@@ -25,7 +14,6 @@
       final String value=tag.getString("value");
       if (value != null) {
         newImage(value);
-        this.isFactoryResource=true;
       }
  else {
         loadStaticImage(component.getModelObjectAsString());

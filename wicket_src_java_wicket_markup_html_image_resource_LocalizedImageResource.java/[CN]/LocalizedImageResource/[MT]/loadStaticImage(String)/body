@@ -1,7 +1,17 @@
 {
-  final Package basePackage=component.findParentWithAssociatedMarkup().getClass().getPackage();
-  this.resource=StaticImageResource.get(basePackage,path,locale,style);
-  if (resource == null) {
-    throw new WicketRuntimeException("Could not load static image resource using path '" + path + "'");
+  final Class scope=component.findParentWithAssociatedMarkup().getClass();
+  final Package basePackage=scope.getPackage();
+  final String name=Strings.lastPathComponent(path,'/');
+  this.resourceReference=new ResourceReference(scope,name){
+    /** 
+ * @see wicket.ResourceReference#newResource()
+ */
+    protected Resource newResource(){
+      return StaticImageResource.get(basePackage,path,locale,style);
+    }
   }
+;
+  resourceReference.setLocale(locale);
+  resourceReference.setStyle(style);
+  bind();
 }

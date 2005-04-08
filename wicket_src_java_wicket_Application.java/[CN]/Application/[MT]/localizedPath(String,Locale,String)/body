@@ -1,0 +1,21 @@
+{
+  final StringBuffer buffer=new StringBuffer();
+  final String extension=Files.extension(path);
+  final String basePath=Files.basePath(path,extension);
+  buffer.append(basePath);
+  if (locale != null) {
+    if (!locale.equals(Locale.getDefault())) {
+      buffer.append('_');
+      buffer.append(locale.toString());
+    }
+  }
+  if (style != null) {
+    buffer.append('_');
+    buffer.append(style);
+  }
+  if (extension != null) {
+    buffer.append('.');
+    buffer.append(extension);
+  }
+  return buffer.toString();
+}

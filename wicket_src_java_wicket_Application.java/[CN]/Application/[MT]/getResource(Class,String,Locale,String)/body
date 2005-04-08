@@ -1,25 +1,28 @@
 {
-  final String baseName=scope.getName() + "_" + name;
   if (locale != null && style != null) {
-    final String key=baseName + "_" + locale+ "_"+ style;
+    final String key=scope.getName() + "_" + localizedPath(name,locale,style);
     final Resource resource=getResource(key);
     if (resource != null) {
       return resource;
     }
   }
   if (locale != null) {
-    final String key=baseName + "_" + locale;
+    final String key=scope.getName() + "_" + localizedPath(name,locale,null);
     final Resource resource=getResource(key);
     if (resource != null) {
       return resource;
     }
   }
   if (style != null) {
-    final String key=baseName + "_" + style;
+    final String key=scope.getName() + "_" + localizedPath(name,null,style);
     final Resource resource=getResource(key);
     if (resource != null) {
       return resource;
     }
   }
-  return getResource(baseName);
+  if (locale == null && style == null) {
+    final String key=scope.getName() + "_" + name;
+    return getResource(key);
+  }
+  return null;
 }
