@@ -1,5 +1,19 @@
 {
-  final Markup markup=application.getMarkupParser().readAndParse(markupResource);
-  markupCache.put(key,markup);
-  return markup;
+  try {
+synchronized (markupCache) {
+      final Markup markup=application.getMarkupParser().readAndParse(markupResource);
+      markupCache.put(key,markup);
+      return markup;
+    }
+  }
+ catch (  ParseException e) {
+    log.error("Unable to parse markup from " + markupResource,e);
+  }
+catch (  ResourceStreamNotFoundException e) {
+    log.error("Unable to find markup from " + markupResource,e);
+  }
+catch (  IOException e) {
+    log.error("Unable to read markup from " + markupResource,e);
+  }
+  return Markup.NO_MARKUP;
 }
