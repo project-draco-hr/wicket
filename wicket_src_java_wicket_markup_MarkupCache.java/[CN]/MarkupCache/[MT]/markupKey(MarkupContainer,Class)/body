@@ -1,3 +1,16 @@
 {
-  return clazz.getName() + container.getLocale() + container.getStyle()+ container.getMarkupType();
+  final String classname=clazz.getName();
+  final Locale locale=container.getLocale();
+  final String style=container.getStyle();
+  final String markupType=container.getMarkupType();
+  final StringBuffer buffer=new StringBuffer(classname.length() + 32);
+  buffer.append(classname);
+  if (locale != null) {
+    buffer.append(locale.toString());
+  }
+  if (style != null) {
+    buffer.append(style);
+  }
+  buffer.append(markupType);
+  return buffer.toString();
 }
