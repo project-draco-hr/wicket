@@ -1,19 +1,19 @@
 {
   try {
-    final Markup markup=application.newMarkupParser().readAndParse(markupResource);
+    final Markup markup=application.newMarkupParser().readAndParse(markupResourceStream);
 synchronized (markupCache) {
       markupCache.put(key,markup);
     }
     return markup;
   }
  catch (  ParseException e) {
-    log.error("Unable to parse markup from " + markupResource,e);
+    log.error("Unable to parse markup from " + markupResourceStream,e);
   }
 catch (  ResourceStreamNotFoundException e) {
-    log.error("Unable to find markup from " + markupResource,e);
+    log.error("Unable to find markup from " + markupResourceStream,e);
   }
 catch (  IOException e) {
-    log.error("Unable to read markup from " + markupResource,e);
+    log.error("Unable to read markup from " + markupResourceStream,e);
   }
   return Markup.NO_MARKUP;
 }
