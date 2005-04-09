@@ -18,10 +18,6 @@
  else {
     markupStream.throwMarkupException("A <wicket:body> tag must be an open or open-close tag.");
   }
-  if (haveSeenBodyTag == true) {
-    markupStream.throwMarkupException("There must be exactly one <wicket:body> tag for each border compoment.");
-  }
-  haveSeenBodyTag=true;
   renderComponentTag(bodyTag);
   Border border=(Border)((this instanceof Border) ? this : findParent(Border.class));
   if (border.getMarkupStream() == null) {
@@ -37,5 +33,9 @@
     bodyTag.setType(XmlTag.CLOSE);
     renderComponentTag(bodyTag);
   }
+  if (border.haveSeenBodyTag == true) {
+    markupStream.throwMarkupException("There must be exactly one <wicket:body> tag for each border compoment.");
+  }
+  border.haveSeenBodyTag=true;
   return true;
 }
