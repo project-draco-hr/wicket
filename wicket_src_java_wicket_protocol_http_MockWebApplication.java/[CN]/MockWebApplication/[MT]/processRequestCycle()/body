@@ -6,7 +6,8 @@
     lastRenderedPage=cycle.getResponsePage();
     final MockHttpServletRequest httpRequest=(MockHttpServletRequest)cycle.getWebRequest().getHttpServletRequest();
     httpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
-    cycle.request();
+    wicketSession=getSession(servletRequest);
+    new WebRequestCycle(wicketSession,wicketRequest,wicketResponse).request();
   }
   lastRenderedPage=cycle.getResponsePage();
 }
