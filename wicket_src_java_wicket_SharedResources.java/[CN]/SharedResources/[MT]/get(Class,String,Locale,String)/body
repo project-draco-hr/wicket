@@ -1,0 +1,28 @@
+{
+  if (locale != null && style != null) {
+    final String key=path(scope,name,locale,style);
+    final Resource resource=get(key);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (locale != null) {
+    final String key=path(scope,name,locale,null);
+    final Resource resource=get(key);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (style != null) {
+    final String key=path(scope,name,null,style);
+    final Resource resource=get(key);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (locale == null && style == null) {
+    final String key=scope.getName() + '/' + name;
+    return get(key);
+  }
+  return null;
+}
