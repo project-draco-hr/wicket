@@ -1,11 +1,13 @@
 {
-  if (callComponentListener() || bookmarkablePage() || homePage()|| resourceReference()) {
+  if (callComponentListener() || bookmarkablePage() || homePage()) {
     return true;
   }
  else {
-    if (!renderStaticContent()) {
+    if (!resourceReference() && !staticContent()) {
       throw new WicketRuntimeException("Unable to parse request " + request);
     }
+    setUpdateCluster(false);
+    setResponsePage(null);
     return false;
   }
 }

@@ -6,6 +6,7 @@
     final int versionNumber=Strings.isEmpty(versionNumberString) ? 0 : Integer.parseInt(versionNumberString);
     final Page page=session.getPage(pageMapName,path,versionNumber);
     if (page != null) {
+      setUpdateCluster(true);
       invokeInterface(page,path,request.getParameter("interface"));
       return true;
     }
