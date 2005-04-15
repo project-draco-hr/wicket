@@ -2,22 +2,15 @@
   final ComponentTag tag=markupStream.getTag().mutable();
   onComponentTag(tag);
   final XmlTag.Type type=tag.getType();
-  final boolean isImageTag=tag.getName().equalsIgnoreCase("img");
-  if (tag.isOpenClose()) {
-    if (!isImageTag) {
-      tag.setType(XmlTag.OPEN);
-    }
-  }
- else {
-    if (!tag.isOpen()) {
-      markupStream.throwMarkupException("Method renderComponent called on bad markup element " + tag);
-    }
+  if (!tag.isOpenClose() && !tag.isOpen()) {
+    markupStream.throwMarkupException("Method renderComponent called on bad markup element " + tag);
   }
   renderComponentTag(tag);
   markupStream.next();
-  tag.setType(type);
-  onComponentTagBody(markupStream,tag);
-  if (!isImageTag) {
+  if (tag.isOpen()) {
+    onComponentTagBody(markupStream,tag);
+  }
+  if (tag.isOpen()) {
     renderClosingComponentTag(markupStream,tag);
   }
 }
