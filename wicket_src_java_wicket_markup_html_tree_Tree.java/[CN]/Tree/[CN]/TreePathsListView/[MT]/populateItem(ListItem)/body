@@ -1,13 +1,9 @@
 {
+  TreeState treeState=getTreeState();
   DefaultMutableTreeNode node=(DefaultMutableTreeNode)listItem.getModelObject();
   int level=node.getLevel();
   listItem.add(new SpacerList("spacers",level));
-  WebMarkupContainer nodeContainer=new WebMarkupContainer("node");
-  Link expandCollapsLink=Tree.this.createJunctionLink(node);
-  nodeContainer.add(expandCollapsLink);
-  Link selectLink=Tree.this.createNodeLink(node);
-  nodeContainer.add(selectLink);
-  listItem.add(nodeContainer);
+  listItem.add(newNodePanel("node",node));
   listItem.add(new AttributeModifier("class",true,new SelectedPathReplacementModel(node)));
   final TreePath path=new TreePath(node.getPath());
   final int row=treeState.getRowForPath(path);
