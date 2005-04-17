@@ -1,0 +1,52 @@
+{
+  try {
+    File file=new File("src/juergen/java/test/url/Beer.gif");
+    if (file.exists() == false) {
+      System.err.println("File should exist");
+    }
+    URL url=file.toURL();
+    UrlResourceStream stream=new UrlResourceStream(url);
+    String contentType=stream.getContentType();
+    if (!"image/gif".equals(contentType)) {
+      System.err.println("Expected 'image/gif'");
+    }
+    file=new File("dummy.gif");
+    url=file.toURL();
+    stream=new UrlResourceStream(url);
+    contentType=stream.getContentType();
+    if (!"image/gif".equals(contentType)) {
+      System.err.println("Expected 'image/gif'");
+    }
+    url=new URL("jar:file:src/juergen/lib/wicket-examples.war!/WEB-INF/classes/wicket/examples/pub/Beer.gif");
+    stream=new UrlResourceStream(url);
+    try {
+      stream.getInputStream();
+      stream.close();
+    }
+ catch (    ResourceStreamNotFoundException e1) {
+      e1.printStackTrace();
+    }
+catch (    IOException e) {
+      e.printStackTrace();
+    }
+    contentType=stream.getContentType();
+    if (!"image/gif".equals(contentType)) {
+      System.err.println("Expected 'image/gif', but was " + contentType);
+    }
+    url=new URL("jar:file:src/juergen/lib/wicket-examples.war!/any-dir/Beer.gif");
+    stream=new UrlResourceStream(url);
+    contentType=stream.getContentType();
+    if (!"image/gif".equals(contentType)) {
+      System.err.println("Expected 'image/gif', but was " + contentType);
+    }
+    url=new URL("jar:file:any.war!/any-dir/Beer.gif");
+    stream=new UrlResourceStream(url);
+    contentType=stream.getContentType();
+    if (!"image/gif".equals(contentType)) {
+      System.err.println("Expected 'image/gif', but was " + contentType);
+    }
+  }
+ catch (  MalformedURLException e) {
+    e.printStackTrace();
+  }
+}
