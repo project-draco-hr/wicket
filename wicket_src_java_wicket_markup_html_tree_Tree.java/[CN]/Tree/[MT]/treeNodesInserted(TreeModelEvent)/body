@@ -12,7 +12,7 @@
       previousNode=(DefaultMutableTreeNode)newNode.getParent();
     }
     if (previousNode != null) {
-      insertRow=treePathList.indexOf(previousNode) + 1;
+      insertRow=treePathsModel.indexOf(previousNode) + 1;
       if (insertRow == -1) {
         throw new IllegalStateException("node " + previousNode + " not found in backing list");
       }
@@ -20,7 +20,7 @@
  else {
       insertRow=0;
     }
-    treePathList.add(insertRow,newNode);
+    treePathsModel.add(insertRow,newNode);
   }
-  modelChanging();
+  modelChanged();
 }

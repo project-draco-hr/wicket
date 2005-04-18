@@ -1,0 +1,13 @@
+{
+  IModel listItemModel=getListItemModel(getModel(),index);
+  return new ListItem(index,listItemModel){
+    public boolean isVisible(){
+      TreeState treeState=getTreeState();
+      DefaultMutableTreeNode node=(DefaultMutableTreeNode)getModelObject();
+      final TreePath path=new TreePath(node.getPath());
+      final int row=treeState.getRowForPath(path);
+      return (row != -1);
+    }
+  }
+;
+}

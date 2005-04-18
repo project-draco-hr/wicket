@@ -1,16 +1,7 @@
 {
-  TreeState treeState=getTreeState();
   DefaultMutableTreeNode node=(DefaultMutableTreeNode)listItem.getModelObject();
   int level=node.getLevel();
   listItem.add(new SpacerList("spacers",level));
   listItem.add(newNodePanel("node",node));
   listItem.add(new AttributeModifier("class",true,new SelectedPathReplacementModel(node)));
-  final TreePath path=new TreePath(node.getPath());
-  final int row=treeState.getRowForPath(path);
-  if (row != -1) {
-    listItem.setVisible(true);
-  }
- else {
-    listItem.setVisible(false);
-  }
 }
