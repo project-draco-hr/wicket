@@ -1,0 +1,10 @@
+{
+  final List validators=getValidators();
+  for (final Iterator iterator=validators.iterator(); iterator.hasNext(); ) {
+    final IValidator validator=(IValidator)iterator.next();
+    if (validator instanceof TypeValidator) {
+      return ((TypeValidator)validator).getType();
+    }
+  }
+  return null;
+}
