@@ -1,4 +1,5 @@
 {
+  Locale locale=getLocale();
   final FeedbackPanel feedback=new FeedbackPanel("feedback");
   add(feedback);
   add(new InputForm("inputForm",feedback));
@@ -13,7 +14,8 @@
 );
   add(new Link("defaultLocaleLink"){
     public void onClick(){
-      setLocale(Locale.getDefault());
+      WebRequest request=(WebRequest)getRequest();
+      setLocale(request.getLocale());
     }
   }
 );
