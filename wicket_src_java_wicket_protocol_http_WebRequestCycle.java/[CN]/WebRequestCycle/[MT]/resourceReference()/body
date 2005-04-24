@@ -1,7 +1,7 @@
 {
-  final String pathInfo=getWebRequest().getPathInfo();
-  if (pathInfo.startsWith(resourceReferencePrefix)) {
-    final String resourceReferenceKey=pathInfo.substring(resourceReferencePrefix.length());
+  final String path=request.getPath();
+  if (path.startsWith(resourceReferencePrefix)) {
+    final String resourceReferenceKey=path.substring(resourceReferencePrefix.length());
     final Resource resource=getApplication().getSharedResources().get(resourceReferenceKey);
     if (resource == null) {
       throw new WicketRuntimeException("Could not find resource referenced by key " + resourceReferenceKey);
