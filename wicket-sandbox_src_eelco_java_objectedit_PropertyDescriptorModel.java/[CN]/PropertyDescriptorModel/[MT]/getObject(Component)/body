@@ -1,0 +1,17 @@
+{
+  Method method=descriptor.getReadMethod();
+  if (method != null) {
+    Object bean=getBean(component);
+    try {
+      Object value=method.invoke(bean,null);
+      return value;
+    }
+ catch (    IllegalAccessException e) {
+      throw new WicketRuntimeException(e);
+    }
+catch (    InvocationTargetException e) {
+      throw new WicketRuntimeException(e);
+    }
+  }
+  return null;
+}

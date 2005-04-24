@@ -1,0 +1,16 @@
+{
+  super(id,beanModel);
+  Class type=descriptor.getPropertyType();
+  TextField valueTextField=new TextField("value",new PropertyDescriptorModel(beanModel,descriptor),type);
+  Model replacementModel=new Model(){
+    public Object getObject(    Component component){
+      if (mode == MODE_READ_ONLY || descriptor.getWriteMethod() == null) {
+        return "disabled";
+      }
+      return null;
+    }
+  }
+;
+  valueTextField.add(new AttributeModifier("disabled",false,replacementModel));
+  add(valueTextField);
+}
