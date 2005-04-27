@@ -3,19 +3,24 @@
   final IModel model=component.getModel();
   if (model != null) {
     boolean cloneModel=true;
-    if (component instanceof FormComponent) {
-      if (((FormComponent)component).getForm().getModel() == model) {
-        cloneModel=false;
+    if (model instanceof CompoundPropertyModel) {
+      if (component instanceof FormComponent) {
+        if (((FormComponent)component).getForm().getModel() == model) {
+          cloneModel=false;
+        }
       }
-    }
  else {
-      if (component.getPage().getModel() == model) {
-        cloneModel=false;
+        if (component.getPage().getModel() == model) {
+          cloneModel=false;
+        }
       }
     }
     if (cloneModel) {
       model.detach();
       originalModel=(IModel)Objects.clone(model);
+    }
+ else {
+      originalModel=model;
     }
   }
 }
