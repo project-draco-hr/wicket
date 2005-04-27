@@ -1,8 +1,18 @@
 {
-  if (descriptor instanceof IndexedPropertyDescriptor) {
-    throw new WicketRuntimeException("index properties not supported yet ");
+  Class type=descriptor.getPropertyType();
+  PropertyEditor editor=(PropertyEditor)cachedEditors.get(type);
+  if (editor != null) {
+    return editor;
   }
+  editor=findCustomEditor(panelId,descriptor);
+  if (editor == null) {
+    if (descriptor instanceof IndexedPropertyDescriptor) {
+      throw new WicketRuntimeException("index properties not supported yet ");
+    }
  else {
-    return new SimplePropertyPanel(panelId,getModel(),descriptor);
+      editor=new SimplePropertyPanel(panelId,getModel(),descriptor);
+    }
   }
+  cachedEditors.put(type,editor);
+  return editor;
 }
