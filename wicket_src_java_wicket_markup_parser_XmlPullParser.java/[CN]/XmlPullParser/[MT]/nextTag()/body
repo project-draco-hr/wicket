@@ -2,7 +2,7 @@
   int openBracketIndex=input.indexOf('<',this.inputPosition);
   if (openBracketIndex != -1) {
     countLinesTo(input,openBracketIndex);
-    final int closeBracketIndex=input.indexOf('>',openBracketIndex);
+    int closeBracketIndex=input.indexOf('>',openBracketIndex);
     if (closeBracketIndex == -1) {
       throw new ParseException("No matching close bracket at position " + openBracketIndex,this.inputPosition);
     }
@@ -14,7 +14,15 @@
       }
       return nextTag();
     }
- else {
+    final String startText=(tagText.length() <= 8 ? tagText : tagText.substring(0,8));
+    if (startText.toUpperCase().equals("![CDATA[")) {
+      closeBracketIndex=findCloseBracket(input,'>',openBracketIndex);
+      if (closeBracketIndex == -1) {
+        throw new ParseException("No matching close bracket at position " + openBracketIndex,this.inputPosition);
+      }
+      tagText=input.substring(openBracketIndex + 1,closeBracketIndex);
+    }
+{
       XmlTag.Type type=XmlTag.OPEN;
       if (tagText.endsWith("/")) {
         type=XmlTag.OPEN_CLOSE;
