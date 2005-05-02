@@ -2,8 +2,10 @@
   final String path=getWebRequest().getPath();
   if (Strings.isEmpty(path) || "/".equals(path)) {
     try {
-      setResponsePage(newPage(application.getPages().getHomePage()));
+      Page newPage=newPage(application.getPages().getHomePage());
+      setResponsePage(newPage);
       setUpdateCluster(true);
+      newPage.internalBeginRequest();
     }
  catch (    WicketRuntimeException e) {
       throw new WicketRuntimeException("Could not create home page",e);

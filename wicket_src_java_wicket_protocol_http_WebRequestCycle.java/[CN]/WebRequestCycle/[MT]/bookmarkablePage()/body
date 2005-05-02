@@ -3,8 +3,10 @@
   if (pageClassName != null) {
     try {
       final Class pageClass=session.getClassResolver().resolveClass(pageClassName);
-      setResponsePage(session.getPageFactory().newPage(pageClass,new PageParameters(getRequest().getParameterMap())));
+      Page newPage=session.getPageFactory().newPage(pageClass,new PageParameters(getRequest().getParameterMap()));
+      setResponsePage(newPage);
       setUpdateCluster(true);
+      newPage.internalBeginRequest();
       return true;
     }
  catch (    RuntimeException e) {
