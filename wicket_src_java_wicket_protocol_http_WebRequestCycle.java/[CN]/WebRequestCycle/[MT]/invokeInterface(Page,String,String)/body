@@ -1,6 +1,5 @@
 {
   setResponsePage(page);
-  page.internalBeginRequest();
   try {
     final Component component=page.get(Strings.afterFirstPathComponent(path,'.'));
     if (component != null) {
@@ -13,6 +12,7 @@
     }
   }
   finally {
+    page.internalBeginRequest();
     if (getRedirect()) {
       page.internalEndRequest();
     }
