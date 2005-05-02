@@ -1,4 +1,10 @@
 {
   final Binding binding=getBinding(component);
-  return binding != null ? binding.ognlExpression : component.getId();
+  if (binding != null) {
+    return binding.ognlExpression;
+  }
+ else   if (component != null) {
+    return component.getId();
+  }
+  return null;
 }
