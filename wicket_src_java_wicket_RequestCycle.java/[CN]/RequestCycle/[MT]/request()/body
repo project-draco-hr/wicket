@@ -8,13 +8,23 @@ synchronized (session) {
       if (parseRequest()) {
         respond();
       }
-      internalOnEndRequest();
-      onEndRequest();
     }
  catch (    RuntimeException e) {
       onRuntimeException(null,e);
     }
  finally {
+      try {
+        internalOnEndRequest();
+      }
+ catch (      RuntimeException e) {
+        log.error("Exception occurred during internalOnEndRequest",e);
+      }
+      try {
+        onEndRequest();
+      }
+ catch (      RuntimeException e) {
+        log.error("Exception occurred during onEndRequest",e);
+      }
       threadDetach();
     }
   }
