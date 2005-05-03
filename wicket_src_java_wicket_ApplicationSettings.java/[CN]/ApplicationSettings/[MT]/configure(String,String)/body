@@ -1,13 +1,16 @@
 {
   if ("development".equalsIgnoreCase(configurationType)) {
     if (sourceFolder != null) {
-      final Folder folder=new Folder(sourceFolder);
-      if (folder.exists()) {
-        setResourcePath(new Path(folder));
+      String[] paths=sourceFolder.split(File.pathSeparator);
+      Path path=new Path();
+      for (int i=0; i < paths.length; i++) {
+        Folder folder=new Folder(paths[i]);
+        if (!folder.exists()) {
+          log.warn("Source folder " + folder.getAbsolutePath() + " does not exist.");
+        }
+ else         path.add(folder);
       }
- else {
-        log.warn("Source folder " + folder.getAbsolutePath() + " does not exist.");
-      }
+      setResourcePath(path);
       setResourcePollFrequency(Duration.ONE_SECOND);
     }
     setComponentUseCheck(true);
