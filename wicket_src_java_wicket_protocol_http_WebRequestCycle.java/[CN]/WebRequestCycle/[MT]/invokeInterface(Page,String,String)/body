@@ -3,6 +3,9 @@
   setInvokePage(page);
   final Component component=page.get(Strings.afterFirstPathComponent(path,'.'));
   if (component != null) {
+    if (!interfaceName.equals("IRedirectListener")) {
+      page.getFeedbackMessages().clear();
+    }
     invokeInterface(component,interfaceName);
     setFormComponentValuesFromCookies(page);
   }
