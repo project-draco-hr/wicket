@@ -1,4 +1,16 @@
 {
+  Map redirectMap=(Map)servletRequest.getSession(true).getAttribute("wicket-redirect");
+  if (redirectMap != null) {
+    RedirectResponse rr=(RedirectResponse)redirectMap.remove(servletRequest.getRequestURI() + "?" + servletRequest.getQueryString());
+    if (rr != null) {
+      PrintWriter pw=servletResponse.getWriter();
+      servletResponse.setContentLength(rr.getContentLength());
+      servletResponse.setContentType(rr.getContentType());
+      pw.write(rr.toString());
+      pw.close();
+      return;
+    }
+  }
   final WebSession session=webApplication.getSession(servletRequest);
   final WebRequest request=new WebRequest(servletRequest);
   final WebResponse response=webApplication.getSettings().getBufferResponse() ? new BufferedWebResponse(servletResponse) : new WebResponse(servletResponse);
