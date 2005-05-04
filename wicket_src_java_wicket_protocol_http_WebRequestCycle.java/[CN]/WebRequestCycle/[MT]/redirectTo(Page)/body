@@ -1,3 +1,25 @@
 {
-  response.redirect(page.urlFor(page,IRedirectListener.class));
+  String redirectUrl=page.urlFor(page,IRedirectListener.class);
+  if (application.getSettings().getResponseType() == 3) {
+    try {
+      Response previous=getResponse();
+      RedirectResponse rr=new RedirectResponse(redirectUrl);
+      setResponse(rr);
+      if (getInvokePage() == getResponsePage()) {
+        setInvokePage(null);
+      }
+      page.doRender();
+      setResponse(previous);
+      Map map=(Map)getWebRequest().getHttpServletRequest().getSession(true).getAttribute("wicket-redirect");
+      if (map == null) {
+        map=new HashMap(3);
+        getWebRequest().getHttpServletRequest().getSession(true).setAttribute("wicket-redirect",map);
+      }
+      map.put(redirectUrl,rr);
+    }
+ catch (    RuntimeException ex) {
+      onRuntimeException(page,ex);
+    }
+  }
+  response.redirect(redirectUrl);
 }
