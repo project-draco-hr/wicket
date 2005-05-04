@@ -1,16 +1,27 @@
 {
   try {
-    Object modelObject=modelObject(component);
-    if (object instanceof String) {
-      final String string=(String)object;
-      if (!Strings.isEmpty(string)) {
-        final Class propertyType=propertyType(component);
-        if (propertyType != null) {
-          object=component.getConverter().convert(string,propertyType);
-        }
+    final String expression=ognlExpression(component);
+    if (Strings.isEmpty(expression)) {
+      if (nestedModel instanceof IModel) {
+        ((IModel)nestedModel).setObject(null,object);
+      }
+ else {
+        nestedModel=object;
       }
     }
-    Ognl.setValue(ognlExpression(component),getContext(component),modelObject,object);
+ else {
+      Object modelObject=modelObject(component);
+      if (object instanceof String) {
+        final String string=(String)object;
+        if (!Strings.isEmpty(string)) {
+          final Class propertyType=propertyType(component);
+          if (propertyType != null) {
+            object=component.getConverter().convert(string,propertyType);
+          }
+        }
+      }
+      Ognl.setValue(ognlExpression(component),getContext(component),modelObject,object);
+    }
   }
  catch (  OgnlException e) {
     throw new WicketRuntimeException(e);
