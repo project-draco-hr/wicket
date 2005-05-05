@@ -1,13 +1,32 @@
 {
-  try {
-    final ICrypt crypt=(ICrypt)getSettings().getCryptClass().newInstance();
-    crypt.setKey(getSettings().getEncryptionKey());
-    return crypt;
+  if (crypt == null) {
+    Class cryptClass=getSettings().getCryptClass();
+    try {
+      crypt=(ICrypt)cryptClass.newInstance();
+      log.info("using encryption/decryption object " + crypt);
+      crypt.setKey(getSettings().getEncryptionKey());
+      return crypt;
+    }
+ catch (    Exception e) {
+      log.warn("************************** WARNING **************************");
+      log.warn("As the instantion of encryption/decryption class:");
+      log.warn("\t" + cryptClass);
+      log.warn("failed, Wicket will fallback on a dummy implementation");
+      log.warn("\t(" + NoCrypt.class.getName() + ")");
+      log.warn("This is not recommended for production systems.");
+      log.warn("Please override method wicket.Application.newCrypt()");
+      log.warn("to provide a custom encryption/decryption implementation");
+      log.warn("The cause of the instantion failure: ");
+      log.warn("\t" + e.getMessage());
+      if (log.isDebugEnabled()) {
+        log.debug("exception: ",e);
+      }
+ else {
+        log.warn("set log level to DEBUG to display the stack trace.");
+      }
+      log.warn("*************************************************************");
+      crypt=new NoCrypt();
+    }
   }
- catch (  InstantiationException e) {
-    throw new WicketRuntimeException("Encryption/decryption object can not be instantiated",e);
-  }
-catch (  IllegalAccessException e) {
-    throw new WicketRuntimeException("Encryption/decryption object can not be instantiated",e);
-  }
+  return crypt;
 }
