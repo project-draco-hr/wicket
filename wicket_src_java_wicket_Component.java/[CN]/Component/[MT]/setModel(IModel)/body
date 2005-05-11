@@ -1,7 +1,4 @@
 {
-  if (model instanceof CompoundPropertyModel) {
-    setFlag(FLAG_HAS_ROOT_MODEL,true);
-  }
   if (this.model != null) {
     this.model.detach();
   }
@@ -9,4 +6,8 @@
     addStateChange(new ComponentModelChange(this.model));
     this.model=(IModel)model;
   }
+  if (model instanceof CompoundPropertyModel) {
+    setFlag(FLAG_HAS_ROOT_MODEL,true);
+  }
+  modelChanged();
 }
