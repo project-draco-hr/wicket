@@ -5,6 +5,9 @@
   if (component != null) {
     if (!interfaceName.equals("IRedirectListener")) {
       page.getFeedbackMessages().clear();
+      ApplicationSettings.RenderStrategy strategy=getSession().getApplication().getSettings().getRenderStrategy();
+      boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+      setRedirect(issueRedirect);
     }
     invokeInterface(component,interfaceName);
     setFormComponentValuesFromCookies(page);

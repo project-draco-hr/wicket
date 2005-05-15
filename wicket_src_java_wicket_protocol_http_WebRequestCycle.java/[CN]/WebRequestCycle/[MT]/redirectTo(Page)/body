@@ -1,21 +1,22 @@
 {
   String redirectUrl=page.urlFor(page,IRedirectListener.class);
-  if (application.getSettings().getResponseType() == 3) {
+  ApplicationSettings settings=application.getSettings();
+  if (settings.getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) {
     try {
-      Response previous=getResponse();
-      RedirectResponse rr=new RedirectResponse(redirectUrl);
-      setResponse(rr);
+      Response currentResponse=getResponse();
+      BufferedResponse redirectResponse=new BufferedResponse(redirectUrl);
+      setResponse(redirectResponse);
       if (getInvokePage() == getResponsePage()) {
         setInvokePage(null);
       }
       page.doRender();
-      setResponse(previous);
+      setResponse(currentResponse);
       Map map=(Map)getWebRequest().getHttpServletRequest().getSession(true).getAttribute("wicket-redirect");
       if (map == null) {
         map=new HashMap(3);
         getWebRequest().getHttpServletRequest().getSession(true).setAttribute("wicket-redirect",map);
       }
-      map.put(redirectUrl,rr);
+      map.put(redirectUrl,redirectResponse);
     }
  catch (    RuntimeException ex) {
       onRuntimeException(page,ex);
