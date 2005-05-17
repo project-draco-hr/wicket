@@ -1,12 +1,12 @@
 {
   final FileUpload upload=fileUploadField.getFileUpload();
   if (upload != null) {
-    log.info("Uploaded file: " + upload.getFile());
     File newFile=new File(uploadFolder,upload.getFile().getName());
     checkFileExists(newFile);
     try {
       newFile.createNewFile();
       upload.writeTo(newFile);
+      UploadPage.this.info("saved file: " + upload.getFile());
     }
  catch (    Exception e) {
       throw new IllegalStateException("Unable to write file");
