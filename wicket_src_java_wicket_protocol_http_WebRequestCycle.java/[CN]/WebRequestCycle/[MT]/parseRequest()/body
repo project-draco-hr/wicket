@@ -4,7 +4,14 @@
   }
  else {
     if (!resourceReference() && !staticContent()) {
-      throw new WicketRuntimeException("Unable to parse request " + request);
+      WebResponse webResponse=(WebResponse)getResponse();
+      HttpServletResponse httpServletResponse=webResponse.getHttpServletResponse();
+      try {
+        httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+      }
+ catch (      IOException e) {
+        log.error("unable to send 404 for " + getRequest() + ", cause: "+ e.getMessage(),e);
+      }
     }
     setUpdateCluster(false);
     setResponsePage(null);
