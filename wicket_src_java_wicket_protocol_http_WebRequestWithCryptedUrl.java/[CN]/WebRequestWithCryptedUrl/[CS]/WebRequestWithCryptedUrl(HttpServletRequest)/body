@@ -1,0 +1,23 @@
+{
+  super(request);
+  final String secureParam=request.getParameter("secure");
+  if ((secureParam != null) && (secureParam.length() > 0)) {
+    final String queryString=urlCrypt.decrypt(secureParam);
+    this.queryString=rebuildUrl(queryString);
+    this.parameters=analyzeQueryString(this.queryString);
+  }
+ else {
+    this.queryString=null;
+    this.parameters=new ValueMap();
+  }
+  final Map params=super.getParameterMap();
+  if ((params != null) && !params.isEmpty()) {
+    final Iterator iter=params.entrySet().iterator();
+    while (iter.hasNext()) {
+      final Map.Entry entry=(Map.Entry)iter.next();
+      if (!"secure".equalsIgnoreCase((String)entry.getKey())) {
+        this.parameters.put(entry.getKey(),entry.getValue());
+      }
+    }
+  }
+}

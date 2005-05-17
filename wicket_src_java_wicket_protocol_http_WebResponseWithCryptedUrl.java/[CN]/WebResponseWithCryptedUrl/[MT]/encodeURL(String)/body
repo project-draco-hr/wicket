@@ -1,0 +1,16 @@
+{
+  if (urlCrypt != null) {
+    final int pos=url.indexOf('?');
+    if (pos > 0) {
+      String urlPrefix=url.substring(0,pos);
+      String queryString=url.substring(pos + 1);
+      if (!queryString.startsWith("secure=")) {
+        queryString=shortenUrl(queryString);
+        final String encryptedQueryString=urlCrypt.encrypt(queryString);
+        final String encryptedUrl=urlPrefix + "?secure=" + escapeUrl(encryptedQueryString);
+        return encryptedUrl;
+      }
+    }
+  }
+  return url;
+}

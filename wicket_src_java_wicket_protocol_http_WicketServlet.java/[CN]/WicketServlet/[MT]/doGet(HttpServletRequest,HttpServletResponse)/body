@@ -13,8 +13,8 @@
     }
   }
   final WebSession session=webApplication.getSession(servletRequest);
-  final WebRequest request=new WebRequest(servletRequest);
-  final WebResponse response=webApplication.getSettings().getBufferResponse() ? new BufferedWebResponse(servletResponse) : new WebResponse(servletResponse);
+  final WebRequest request=webApplication.newWebRequest(servletRequest);
+  final WebResponse response=webApplication.newWebResponse(servletResponse);
   try {
     RequestCycle cycle=session.newRequestCycle(request,response);
     cycle.request();

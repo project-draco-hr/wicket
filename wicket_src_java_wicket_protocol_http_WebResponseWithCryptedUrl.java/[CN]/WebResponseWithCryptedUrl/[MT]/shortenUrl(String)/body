@@ -1,0 +1,16 @@
+{
+  queryString=Strings.replaceAll(queryString,"component=","1=");
+  queryString=Strings.replaceAll(queryString,"version=","2=");
+  queryString=Strings.replaceAll(queryString,"interface=IRedirectListener","4=");
+  queryString=Strings.replaceAll(queryString,"interface=","3=");
+  queryString=Strings.replaceAll(queryString,"bookmarkablePage=","5=");
+  if (log.isInfoEnabled()) {
+    Pattern words=Pattern.compile("\\w\\w\\w+");
+    Matcher matcher=words.matcher(queryString);
+    while (matcher.find()) {
+      String word=queryString.substring(matcher.start(),matcher.end());
+      log.info("URL pattern NOT shortened: '" + word + "' - '"+ queryString+ "'");
+    }
+  }
+  return queryString;
+}
