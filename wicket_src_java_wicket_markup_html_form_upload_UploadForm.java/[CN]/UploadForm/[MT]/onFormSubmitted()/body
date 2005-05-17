@@ -3,6 +3,7 @@
   try {
     final MultipartWebRequest multipartWebRequest=new MultipartWebRequest(this,request);
     getRequestCycle().setRequest(multipartWebRequest);
+    super.onFormSubmitted();
   }
  catch (  FileUploadException e) {
     final HashMap model=new HashMap();
@@ -17,5 +18,4 @@
       error(getString(getId() + ".uploadFailed",Model.valueOf(model),defaultValue));
     }
   }
-  super.onFormSubmitted();
 }
