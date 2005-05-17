@@ -1,6 +1,6 @@
 {
   final FeedbackMessage message=(FeedbackMessage)listItem.getModelObject();
-  IModel replacementModel=new AbstractModel(){
+  IModel replacementModel=new Model(){
     /** 
  * Returns feedbackPanel + the message level, eg
  * 'feedbackPanelERROR'. This is used as the class of the li /
@@ -8,15 +8,7 @@
  * @see wicket.model.IModel#getObject(Component)
  */
     public Object getObject(    final Component component){
-      return "feedbackPanel" + message.getLevelAsString();
-    }
-    /** 
- * @see wicket.model.IModel#setObject(Component,Object)
- */
-    public void setObject(    final Component component,    final Object object){
-    }
-    public IModel getNestedModel(){
-      return null;
+      return getCSSClass(message);
     }
   }
 ;
