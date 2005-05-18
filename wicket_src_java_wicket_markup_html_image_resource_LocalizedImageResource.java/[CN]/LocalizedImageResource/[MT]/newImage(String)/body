@@ -7,7 +7,7 @@
     final Application application=component.getApplication();
     if (!Strings.isEmpty(imageReferenceName)) {
       if (application.getSharedResources().get(Application.class,imageReferenceName,locale,style) == null) {
-        final Resource imageResource=getImageResourceFactory(application,factoryName).newResource(specification,locale,style);
+        final Resource imageResource=getResourceFactory(application,factoryName).newResource(specification,locale,style);
         application.getSharedResources().add(Application.class,imageReferenceName,locale,style,imageResource);
       }
       this.resourceReference=new ResourceReference(Application.class,imageReferenceName);
@@ -15,7 +15,7 @@
       resourceReference.setStyle(style);
     }
  else {
-      this.resource=(ImageResource)getImageResourceFactory(application,factoryName).newResource(specification,locale,style);
+      this.resource=(WebResource)getResourceFactory(application,factoryName).newResource(specification,locale,style);
     }
   }
  else {
