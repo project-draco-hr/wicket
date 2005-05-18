@@ -4,6 +4,9 @@
     final String resourceReferenceKey=pathInfo.substring(WebRequestCycle.resourceReferencePrefix.length());
     final Resource resource=webApplication.getSharedResources().get(resourceReferenceKey);
     if (resource != null) {
+      if (resource instanceof StaticResource) {
+        ((StaticResource)resource).setApplication(webApplication);
+      }
       IResourceStream stream=resource.getResourceStream();
       stream.length();
       return stream.lastModifiedTime().getMilliseconds();
