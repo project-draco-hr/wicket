@@ -1,0 +1,21 @@
+{
+  String sessionId=request.getSession(true).getId();
+  Map sessionMap=(Map)redirectMap.get(sessionId);
+  if (sessionMap == null) {
+    long currentTime=System.currentTimeMillis();
+    sessionMap=new HashMap(4);
+    sessionMap.put("last-time-used",new Long(currentTime));
+synchronized (redirectMap) {
+      Iterator it=redirectMap.entrySet().iterator();
+      while (it.hasNext()) {
+        Map.Entry entry=(Entry)it.next();
+        Long time=(Long)((Map)entry.getValue()).get("last-time-used");
+        if ((currentTime - time.longValue()) > 5 * 60 * 1000) {
+          it.remove();
+        }
+      }
+      redirectMap.put(sessionId,sessionMap);
+    }
+  }
+  sessionMap.put(requestUri,renderedResponse);
+}

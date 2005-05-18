@@ -1,0 +1,9 @@
+{
+  String sessionId=request.getSession(true).getId();
+  Map sessionMap=(Map)redirectMap.get(sessionId);
+  if (sessionMap != null) {
+    sessionMap.put("last-time-used",new Long(System.currentTimeMillis()));
+    return (BufferedResponse)sessionMap.remove(requestUri);
+  }
+  return null;
+}

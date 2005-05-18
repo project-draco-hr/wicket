@@ -1,8 +1,7 @@
 {
-  Map redirectMap=(Map)servletRequest.getSession(true).getAttribute("wicket-redirect");
-  if (redirectMap != null) {
+  if (webApplication.getSettings().getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) {
     String requestUri=servletRequest.getRequestURI() + "?" + servletRequest.getQueryString();
-    BufferedResponse bufferedResponse=(BufferedResponse)redirectMap.remove(requestUri);
+    BufferedResponse bufferedResponse=(BufferedResponse)webApplication.getBufferedResponse(servletRequest,requestUri);
     if (bufferedResponse != null) {
       PrintWriter writer=servletResponse.getWriter();
       servletResponse.setContentLength(bufferedResponse.getContentLength());
