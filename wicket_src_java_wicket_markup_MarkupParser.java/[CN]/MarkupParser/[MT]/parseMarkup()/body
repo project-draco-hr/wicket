@@ -1,13 +1,7 @@
 {
+  this.markupFilterChain=newFilterChain();
+  initFilterChain();
   final List list=new ArrayList();
-  final WicketTagIdentifier detectWicketComponents=new WicketTagIdentifier(xmlParser);
-  detectWicketComponents.setWicketNamespace(this.wicketNamespace);
-  final WicketParamTagHandler wicketParamTagHandler=new WicketParamTagHandler(new HtmlHandler(detectWicketComponents));
-  wicketParamTagHandler.setStripWicketTag(this.stripWicketTag);
-  final WicketRemoveTagHandler previewComponentTagRemover=new WicketRemoveTagHandler(wicketParamTagHandler);
-  final WicketLinkTagHandler autolinkHandler=new WicketLinkTagHandler(previewComponentTagRemover);
-  autolinkHandler.setAutomaticLinking(this.automaticLinking);
-  final IMarkupFilter markupFilterChain=autolinkHandler;
   for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
     boolean add=(tag.getId() != null);
     if (!add && tag.getXmlTag().isClose()) {

@@ -1,0 +1,15 @@
+{
+  final MarkupParser parser=new MarkupParser(new XmlPullParser()){
+    public void initFilterChain(){
+      appendMarkupFilter(new HtmlProblemFinder(HtmlProblemFinder.ERR_THROW_EXCEPTION));
+    }
+  }
+;
+  try {
+    parser.parse("<img src=\"\"/>");
+    assertTrue("Should have thrown an exception",false);
+  }
+ catch (  Exception ex) {
+    ;
+  }
+}
