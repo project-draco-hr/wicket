@@ -1,0 +1,11 @@
+{
+  final FeedbackMessages feedbackMessages=getPage().getFeedbackMessages();
+  if (collectingComponent != null) {
+    visible=feedbackMessages.hasErrorMessageFor(collectingComponent);
+  }
+ else {
+    ErrorMessageVisitor errorMessageVisitor=new ErrorMessageVisitor(feedbackMessages);
+    FormComponentFeedbackBorder.this.visitChildren(errorMessageVisitor);
+    visible=errorMessageVisitor.foundErrorMessage;
+  }
+}

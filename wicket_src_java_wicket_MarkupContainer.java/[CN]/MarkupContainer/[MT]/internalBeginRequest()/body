@@ -1,6 +1,9 @@
 {
   super.internalBeginRequest();
   for (final Iterator iterator=childForId.values().iterator(); iterator.hasNext(); ) {
-    ((Component)iterator.next()).internalBeginRequest();
+    Component child=(Component)iterator.next();
+    if (!(child instanceof IFeedback)) {
+      (child).internalBeginRequest();
+    }
   }
 }
