@@ -4,8 +4,13 @@
     try {
       converter.convert(value,type);
     }
- catch (    ConversionException e) {
-      error(messageModel(e));
+ catch (    Exception e) {
+      if (e instanceof ConversionException) {
+        error(messageModel((ConversionException)e));
+      }
+ else {
+        error(messageModel(new ConversionException(e)));
+      }
     }
   }
 }
