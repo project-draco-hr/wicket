@@ -14,7 +14,9 @@
       buffer.append("value=\"");
       buffer.append(choice.getId());
       buffer.append("\">");
-      buffer.append(getLocalizer().getString(getId() + "." + displayValue,this,displayValue));
+      String display=getLocalizer().getString(getId() + "." + displayValue,this,displayValue);
+      String escaped=Strings.escapeMarkup(display);
+      buffer.append(escaped);
       buffer.append("</option>");
     }
  else {
