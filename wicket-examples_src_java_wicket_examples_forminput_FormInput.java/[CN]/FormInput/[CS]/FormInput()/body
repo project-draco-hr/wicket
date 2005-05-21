@@ -3,15 +3,7 @@
   final FeedbackPanel feedback=new FeedbackPanel("feedback");
   add(feedback);
   add(new InputForm("inputForm",feedback));
-  add(new DropDownChoice("localeSelect",new PropertyModel(this,"locale"),LOCALES){
-    protected boolean wantOnSelectionChangedNotifications(){
-      return true;
-    }
-    public void onSelectionChanged(    Object newSelection){
-      setLocale((Locale)newSelection);
-    }
-  }
-);
+  add(new LocaleDropDownChoice("localeSelect"));
   add(new Link("defaultLocaleLink"){
     public void onClick(){
       WebRequest request=(WebRequest)getRequest();
