@@ -1,0 +1,19 @@
+{
+  super(id,new CompoundPropertyModel(ReviewStep.this.getModel()));
+  add(new CheckBox("wantsWakeUpCall"){
+    protected boolean wantOnSelectionChangedNotifications(){
+      return true;
+    }
+  }
+);
+  WebMarkupContainer wakeUpCallContainer=new WebMarkupContainer("wakeUpCallContainer"){
+    public boolean isVisible(){
+      return getPreferences().getWantsWakeUpCall();
+    }
+  }
+;
+  wakeUpCallContainer.add(new TextField("wakeUpCallHours",Integer.class));
+  wakeUpCallContainer.add(new TextField("wakeUpCallMinutes",Integer.class));
+  add(wakeUpCallContainer);
+  add(new CheckBox("wantsBreakFast"));
+}

@@ -1,0 +1,11 @@
+{
+  PropertyEditor editor;
+  Class type=descriptor.getPropertyType();
+  if (Boolean.class.isAssignableFrom(type) || Boolean.TYPE == type) {
+    editor=new PropertyCheckBox(panelId,getModel(),descriptor,getEditMode());
+  }
+ else {
+    editor=new PropertyInput(panelId,getModel(),descriptor,getEditMode());
+  }
+  return editor;
+}

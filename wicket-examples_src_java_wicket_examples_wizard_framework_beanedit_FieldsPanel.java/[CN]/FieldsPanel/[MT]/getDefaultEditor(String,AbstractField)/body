@@ -1,0 +1,17 @@
+{
+  PropertyEditor editor;
+  if (field instanceof Field) {
+    Field singleField=(Field)field;
+    Class type=singleField.getType();
+    if (Boolean.class.isAssignableFrom(type) || Boolean.TYPE == type) {
+      editor=new PropertyCheckBox(panelId,getModel(),singleField);
+    }
+ else {
+      editor=new PropertyInput(panelId,getModel(),singleField);
+    }
+  }
+ else {
+    throw new IllegalArgumentException(field + " is not of a known field type");
+  }
+  return editor;
+}
