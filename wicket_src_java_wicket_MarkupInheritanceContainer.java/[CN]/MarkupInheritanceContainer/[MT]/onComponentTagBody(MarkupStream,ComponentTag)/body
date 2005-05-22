@@ -1,0 +1,11 @@
+{
+  this.openTag=openTag;
+  MarkupStream parentMarkupStream=this.getParent().getInheritedMarkupStream();
+  if (parentMarkupStream == null) {
+    throw new MarkupException("Did not find parent markup (inheritance) for Class: " + super.getClass().getName());
+  }
+  this.dual=new DualMarkupStream(parentMarkupStream,markupStream);
+  this.setMarkupStream(this.dual);
+  this.getParent().setMarkupStream(this.dual);
+  super.onComponentTagBody(this.dual,openTag);
+}

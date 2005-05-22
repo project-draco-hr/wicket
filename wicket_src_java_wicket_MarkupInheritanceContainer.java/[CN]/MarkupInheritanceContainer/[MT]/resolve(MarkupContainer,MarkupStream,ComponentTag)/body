@@ -1,0 +1,40 @@
+{
+  if (openTag == null) {
+    return false;
+  }
+  if (!(tag instanceof WicketTag)) {
+    final String name=tag.getId();
+    final Component component=this.getParent().get(name);
+    if (component != null) {
+      component.render();
+      return true;
+    }
+    return false;
+  }
+  final WicketTag wtag=(WicketTag)tag;
+  if (!wtag.isChildTag()) {
+    return false;
+  }
+  ComponentTag bodyTag=tag;
+  if (tag.isOpen()) {
+    markupStream.next();
+    markupStream.skipRawMarkup();
+  }
+ else   if (tag.isOpenClose()) {
+    bodyTag=tag.mutable();
+    bodyTag.setType(XmlTag.OPEN);
+  }
+ else {
+    markupStream.throwMarkupException("A <wicket:child> tag must be an open or open-close tag.");
+  }
+  renderComponentTag(bodyTag);
+  markupStream.next();
+  dual.swapCurrentMarkupStream();
+  super.onComponentTagBody(this.dual,openTag);
+  dual.swapCurrentMarkupStream();
+  if (tag.isOpenClose()) {
+    bodyTag.setType(XmlTag.CLOSE);
+    renderComponentTag(bodyTag);
+  }
+  return true;
+}

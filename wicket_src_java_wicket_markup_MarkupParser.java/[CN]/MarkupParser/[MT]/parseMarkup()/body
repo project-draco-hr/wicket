@@ -2,6 +2,7 @@
   this.markupFilterChain=newFilterChain();
   initFilterChain();
   final List list=new ArrayList();
+  int stripRemainingElements=-1;
   for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
     boolean add=(tag.getId() != null);
     if (!add && tag.getXmlTag().isClose()) {
@@ -20,6 +21,23 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
+      if (tag instanceof WicketTag) {
+        final WicketTag wtag=(WicketTag)tag;
+        if (wtag.isExtendTag()) {
+          if (wtag.isOpen()) {
+            list.clear();
+          }
+ else           if (wtag.isClose()) {
+            if (stripRemainingElements != -1) {
+              throw new MarkupException("Have already seen a <wicket:extend> tag");
+            }
+            stripRemainingElements=list.size() + 1;
+          }
+ else {
+            throw new MarkupException("Unmatched open close tags for <wicket:extend>");
+          }
+        }
+      }
       if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
         list.add(tag);
       }
@@ -29,6 +47,11 @@
   final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
   if (text.length() > 0) {
     list.add(new RawMarkup(text));
+  }
+  if (stripRemainingElements != -1) {
+    for (int i=list.size() - 1; i >= stripRemainingElements; i--) {
+      list.remove(i);
+    }
   }
   for (int i=0; i < list.size(); i++) {
     MarkupElement elem=(MarkupElement)list.get(i);
