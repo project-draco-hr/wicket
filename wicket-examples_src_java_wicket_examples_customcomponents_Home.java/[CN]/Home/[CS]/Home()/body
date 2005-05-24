@@ -1,0 +1,13 @@
+{
+  final Book book=new Book();
+  BoundCompoundPropertyModel model=new BoundCompoundPropertyModel(book);
+  setModel(model);
+  add(new OnChangeTextField("title"));
+  add(new OnChangeTextField("author"));
+  add(new Label("booksumm",new Model(){
+    public Object getObject(    wicket.Component component){
+      return book.getTitle() + " by " + book.getAuthor();
+    }
+  }
+));
+}
