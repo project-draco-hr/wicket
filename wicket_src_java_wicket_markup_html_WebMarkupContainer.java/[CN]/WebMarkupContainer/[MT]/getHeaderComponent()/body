@@ -1,0 +1,19 @@
+{
+  MarkupContainer comp=getApplication().getHeadComponentCache().get(this,getClass());
+  if (comp == null) {
+    final MarkupStream ms=getApplication().getMarkupCache().getHeadMarkupStream(this,getClass());
+    if (ms != null) {
+      comp=new MarkupContainer("header:" + getClass()){
+        protected MarkupStream getMarkupStream(){
+          return ms;
+        }
+      }
+;
+    }
+ else {
+      comp=emptyHeader;
+    }
+    getApplication().getHeadComponentCache().put(this,getClass(),comp);
+  }
+  return comp;
+}
