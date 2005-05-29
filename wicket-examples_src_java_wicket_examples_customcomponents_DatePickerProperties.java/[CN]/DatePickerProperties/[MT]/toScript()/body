@@ -1,0 +1,33 @@
+{
+  StringBuffer b=new StringBuffer();
+  if (!isMode()) {
+    b.append("\n\tmode : false,");
+  }
+  if (getFirstDay() != 0) {
+    b.append("\n\tfistDay : ").append(getFirstDay()).append(",");
+  }
+  if (!isWeekNumbers()) {
+    b.append("\n\tweekNumbers : false,");
+  }
+  if (getAlign() != null) {
+    b.append("\n\talign : ").append(getAlign()).append(",");
+  }
+  if (isShowsTime()) {
+    b.append("\n\tshowsTime : true,");
+  }
+  if (getTimeFormat() != null) {
+    b.append("\n\timeFormat : ").append(getTimeFormat()).append(",");
+  }
+  if (!isElectric()) {
+    b.append("\n\telectric : false,");
+  }
+  if (isShowOthers()) {
+    b.append("\n\tshowOthers : true,");
+  }
+  String ifFormat=getIfFormat();
+  if (ifFormat == null) {
+    ifFormat=getDatePattern();
+  }
+  b.append("\n\t\tifFormat : \"").append(ifFormat).append("\"");
+  return b.toString();
+}
