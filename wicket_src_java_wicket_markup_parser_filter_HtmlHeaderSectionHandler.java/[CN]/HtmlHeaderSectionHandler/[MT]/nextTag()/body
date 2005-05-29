@@ -3,20 +3,31 @@
   if (tag == null) {
     return tag;
   }
-  if (ignore == true) {
-    return tag;
-  }
   if (tag instanceof WicketTag) {
     return tag;
   }
+  if (done == true) {
+    return tag;
+  }
   if ("head".equalsIgnoreCase(tag.getName())) {
-    tag.setId("_header");
     if (tag.isClose()) {
-      ignore=true;
+      done=true;
     }
+    tag.setId("_header");
   }
  else   if ("body".equalsIgnoreCase(tag.getName())) {
-    ignore=true;
+    done=true;
+    final XmlTag headOpenTag=new XmlTag();
+    headOpenTag.setName("head");
+    headOpenTag.setType(XmlTag.OPEN);
+    final ComponentTag openTag=new ComponentTag(headOpenTag);
+    openTag.setId("_header");
+    final XmlTag headCloseTag=new XmlTag();
+    headCloseTag.setName("head");
+    headCloseTag.setType(XmlTag.CLOSE);
+    final ComponentTag closeTag=new ComponentTag(headCloseTag);
+    closeTag.setOpenTag(openTag);
+    closeTag.setId("_header");
   }
   return tag;
 }
