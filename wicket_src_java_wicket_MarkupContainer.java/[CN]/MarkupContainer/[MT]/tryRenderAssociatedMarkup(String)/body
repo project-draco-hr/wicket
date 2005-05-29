@@ -3,9 +3,15 @@
   final MarkupStream associatedMarkupStream=getAssociatedMarkupStream();
   associatedMarkupStream.skipUntil(openTagName);
   setMarkupStream(associatedMarkupStream);
+  if (!associatedMarkupStream.atTag()) {
+    associatedMarkupStream.next();
+    setMarkupStream(originalMarkupStream);
+    return;
+  }
   final ComponentTag associatedMarkupOpenTag=associatedMarkupStream.getTag();
   if (!(associatedMarkupStream.atOpenTag(openTagName) && (associatedMarkupOpenTag instanceof WicketTag))) {
-    associatedMarkupStream.throwMarkupException(exceptionMessage);
+    setMarkupStream(originalMarkupStream);
+    return;
   }
   renderComponentTag(associatedMarkupOpenTag);
   associatedMarkupStream.next();
