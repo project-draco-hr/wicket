@@ -6,5 +6,6 @@
   final WicketRemoveTagHandler previewComponentTagRemover=new WicketRemoveTagHandler(wicketParamTagHandler);
   final WicketLinkTagHandler autolinkHandler=new WicketLinkTagHandler(previewComponentTagRemover);
   autolinkHandler.setAutomaticLinking(this.automaticLinking);
-  return autolinkHandler;
+  final HtmlHeaderSectionHandler headerHandler=new HtmlHeaderSectionHandler(autolinkHandler);
+  return headerHandler;
 }

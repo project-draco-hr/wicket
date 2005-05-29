@@ -1,0 +1,22 @@
+{
+  ComponentTag tag=(ComponentTag)getParent().nextTag();
+  if (tag == null) {
+    return tag;
+  }
+  if (ignore == true) {
+    return tag;
+  }
+  if (tag instanceof WicketTag) {
+    return tag;
+  }
+  if ("head".equalsIgnoreCase(tag.getName())) {
+    tag.setId("_header");
+    if (tag.isClose()) {
+      ignore=true;
+    }
+  }
+ else   if ("body".equalsIgnoreCase(tag.getName())) {
+    ignore=true;
+  }
+  return tag;
+}
