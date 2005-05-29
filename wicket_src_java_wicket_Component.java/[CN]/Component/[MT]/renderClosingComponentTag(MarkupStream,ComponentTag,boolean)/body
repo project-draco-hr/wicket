@@ -6,18 +6,15 @@
         closeTag=closeTag.mutable();
         closeTag.setName(openTag.getName());
       }
-      renderComponentTag(closeTag);
+      if (renderTagOnly == false) {
+        renderComponentTag(closeTag);
+      }
       markupStream.next();
     }
  else {
       if (openTag.requiresCloseTag()) {
         markupStream.throwMarkupException("Expected close tag for " + openTag);
       }
-    }
-  }
- else   if (openTag.isOpenClose()) {
-    if (this.renderComponentTag == false) {
-      getResponse().write(openTag.syntheticCloseTagString());
     }
   }
 }

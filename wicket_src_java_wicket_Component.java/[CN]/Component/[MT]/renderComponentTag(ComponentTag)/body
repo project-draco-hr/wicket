@@ -1,10 +1,7 @@
 {
-  if (this.renderComponentTag == false) {
-    return;
-  }
   final ApplicationSettings settings=getApplication().getSettings();
   if (!(tag instanceof WicketTag) || !settings.getStripWicketTags()) {
-    if ((attributeModifiers != null) && (tag.getType() != XmlTag.CLOSE)) {
+    if (attributeModifiers != null && tag.getType() != XmlTag.CLOSE) {
       tag=tag.mutable();
       for (AttributeModifier current=attributeModifiers; current != null; current=current.next) {
         current.replaceAttibuteValue(this,tag);
