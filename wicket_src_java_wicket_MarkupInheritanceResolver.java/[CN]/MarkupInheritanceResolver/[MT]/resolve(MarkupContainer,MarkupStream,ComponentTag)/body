@@ -5,8 +5,10 @@
       if (markupStream.getCurrentIndex() != 0) {
         log.warn("nothing should precede the <wicket:extend> tag");
       }
-      final MarkupInheritanceContainer inherit=new MarkupInheritanceContainer(wicketTag.getId());
-      container.autoAdd(inherit);
+      final MarkupInheritanceContainer inherit=new MarkupInheritanceContainer();
+      if (container.get(inherit.getId()) == null) {
+        container.autoAdd(inherit);
+      }
       return true;
     }
   }

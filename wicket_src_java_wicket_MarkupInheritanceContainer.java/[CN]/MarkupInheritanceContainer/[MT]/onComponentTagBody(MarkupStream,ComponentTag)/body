@@ -1,11 +1,22 @@
 {
   this.openTag=openTag;
-  MarkupStream parentMarkupStream=this.getParent().getInheritedMarkupStream();
+  this.resolved=false;
+  final MarkupContainer parent=this.getParent();
+  final MarkupStream parentMarkupStream=getInheritedMarkupStream(parent);
   if (parentMarkupStream == null) {
     throw new MarkupException("Did not find parent markup (inheritance) for Class: " + super.getClass().getName());
   }
-  this.dual=new DualMarkupStream(parentMarkupStream,markupStream);
+  if (!(parent instanceof MarkupInheritanceContainer)) {
+    this.dual=new DualMarkupStream(markupStream);
+    parent.setMarkupStream(this.dual);
+  }
+ else {
+    this.dual=(DualMarkupStream)parent.getMarkupStream();
+  }
+  this.dual.push(parentMarkupStream);
   this.setMarkupStream(this.dual);
-  this.getParent().setMarkupStream(this.dual);
+  log.debug("inherit: onComponentTagBody: " + dual.getCurrentMarkupStream().toString());
   super.onComponentTagBody(this.dual,openTag);
+  this.dual.pop();
+  log.debug("inherit: back from onComponentTagBody: " + dual.getCurrentMarkupStream().toString());
 }

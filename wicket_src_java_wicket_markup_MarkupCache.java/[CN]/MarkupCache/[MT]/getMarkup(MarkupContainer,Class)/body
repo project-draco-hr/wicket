@@ -14,11 +14,12 @@ synchronized (markupCache) {
       IResourceStream markupResource=null;
       Class containerClass=clazz;
       while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
+        clazz=containerClass;
         markupResource=application.getResourceStreamLocator().locate(containerClass,container.getStyle(),container.getLocale(),container.getMarkupType());
         containerClass=containerClass.getSuperclass();
       }
       if (markupResource != null) {
-        markup=loadMarkupAndWatchForChanges(key,markupResource);
+        markup=loadMarkupAndWatchForChanges(key,markupResource,clazz);
       }
  else {
         markup=Markup.NO_MARKUP;
