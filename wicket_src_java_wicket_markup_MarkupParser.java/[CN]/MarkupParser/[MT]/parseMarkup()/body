@@ -41,7 +41,9 @@
       if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
         list.add(tag);
       }
-      xmlParser.setPositionMarker();
+      if (!(tag instanceof DynamicWicketTag)) {
+        xmlParser.setPositionMarker();
+      }
     }
   }
   final CharSequence text=xmlParser.getInputFromPositionMarker(-1);

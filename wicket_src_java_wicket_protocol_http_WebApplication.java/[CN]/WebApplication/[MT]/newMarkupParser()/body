@@ -1,0 +1,10 @@
+{
+  final MarkupParser parser=new MarkupParser(new XmlPullParser()){
+    public void initFilterChain(){
+      appendMarkupFilter(new HtmlHeadTagHandler());
+    }
+  }
+;
+  parser.configure(getSettings());
+  return parser;
+}
