@@ -1,0 +1,30 @@
+{
+  String targetUrl=url;
+  HttpServletRequest httpServletRequest=((WebRequest)getRequest()).getHttpServletRequest();
+  HttpServletResponse httpServletResponse=((WebResponse)getResponse()).getHttpServletResponse();
+  if (!targetUrl.startsWith("/")) {
+    String sp=httpServletRequest.getServletPath();
+    targetUrl=sp.substring(0,sp.lastIndexOf('/')) + '/' + targetUrl;
+  }
+  targetUrl=stripSession(targetUrl);
+  RequestDispatcher dispatcher=httpServletRequest.getRequestDispatcher(targetUrl);
+  if (dispatcher == null) {
+    throw new WicketRuntimeException("no dispatcher found for url " + url + " (tried "+ targetUrl+ ")");
+  }
+  ImportResponseWrapper irw=new ImportResponseWrapper(httpServletResponse);
+  try {
+    dispatcher.include(httpServletRequest,irw);
+  }
+ catch (  Exception e) {
+    throw new WicketRuntimeException(e);
+  }
+  if (irw.getStatus() < 200 || irw.getStatus() > 299) {
+    throw new WicketRuntimeException(irw.getStatus() + " " + targetUrl);
+  }
+  try {
+    return irw.getString();
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new WicketRuntimeException(e);
+  }
+}
