@@ -4,13 +4,29 @@
   if (!isMultipart) {
     throw new IllegalStateException("Request does not contain multipart content");
   }
+  String encoding=httpServletRequest.getCharacterEncoding();
   final DiskFileUpload diskFileUpload=new DiskFileUpload();
+  if (encoding != null) {
+    diskFileUpload.setHeaderEncoding(encoding);
+  }
   diskFileUpload.setSizeMax(uploadForm.maxSize.bytes());
   final List items=diskFileUpload.parseRequest(httpServletRequest);
   for (Iterator i=items.iterator(); i.hasNext(); ) {
     final FileItem item=(FileItem)i.next();
     if (item.isFormField()) {
-      parameters.put(item.getFieldName(),item.getString());
+      final String value;
+      if (encoding != null) {
+        try {
+          value=item.getString(encoding);
+        }
+ catch (        UnsupportedEncodingException e) {
+          throw new WicketRuntimeException(e);
+        }
+      }
+ else {
+        value=item.getString();
+      }
+      parameters.put(item.getFieldName(),value);
     }
  else {
       files.put(item.getFieldName(),item);
