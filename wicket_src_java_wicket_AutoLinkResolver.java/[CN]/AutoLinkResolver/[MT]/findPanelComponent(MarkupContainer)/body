@@ -1,0 +1,15 @@
+{
+  final Component relatedContainer;
+  final Class panelClass=container.getMarkupStream().getContainerClass();
+  while (container instanceof HtmlHeaderContainer) {
+    container=container.getParent();
+  }
+  Iterator iter=container.iterator();
+  while (iter.hasNext()) {
+    final Component panelComponent=(Component)iter.next();
+    if (panelComponent.getClass().equals(panelClass)) {
+      return panelComponent;
+    }
+  }
+  throw new WicketRuntimeException("programming error: did not find panel or border component with class name: " + panelClass);
+}

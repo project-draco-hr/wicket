@@ -3,8 +3,7 @@
   if (tag == null) {
     return tag;
   }
-  final String href=tag.getAttributes().getString("href");
-  if ((autolinking == true) && (tag.getId() == null) && (href != null)&& (href.endsWith(".html") || (href.indexOf(".html?") != -1))&& (href.indexOf(":") == -1)) {
+  if ((autolinking == true) && (analyzeAutolinkCondition(tag) == true)) {
     tag.enableAutolink(true);
     tag.setId("_autolink_");
     return tag;
