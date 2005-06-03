@@ -1,12 +1,27 @@
 {
   return new Model(){
+    /** 
+ * Returns the model object of the parent.
+ * @see wicket.model.IModel#getObject(wicket.Component)
+ */
     public Object getObject(    Component component){
       MarkupContainer parent=getParent();
-      return parent.getModel().getObject(parent);
+      IModel parentModel=parent.getModel();
+      if (parentModel != null) {
+        return parentModel.getObject(parent);
+      }
+      return null;
     }
+    /** 
+ * Sets the object on the parents' model.
+ * @see wicket.model.IModel#setObject(wicket.Component,java.lang.Object)
+ */
     public void setObject(    Component component,    Object object){
       MarkupContainer parent=getParent();
-      parent.getModel().setObject(parent,object);
+      IModel parentModel=parent.getModel();
+      if (parentModel != null) {
+        parentModel.setObject(parent,object);
+      }
     }
   }
 ;
