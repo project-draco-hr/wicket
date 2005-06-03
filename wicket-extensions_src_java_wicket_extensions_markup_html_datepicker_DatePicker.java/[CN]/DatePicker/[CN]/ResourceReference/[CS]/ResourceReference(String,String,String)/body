@@ -1,0 +1,13 @@
+{
+  super(id);
+  final StaticResourceReference ref=new StaticResourceReference(DatePicker.class,file);
+  IModel srcReplacement=new Model(){
+    public Object getObject(    Component component){
+      ref.bind(getApplication());
+      String url=getPage().urlFor(ref.getPath());
+      return url;
+    }
+  }
+;
+  add(new AttributeModifier(attributeToReplace,true,srcReplacement));
+}

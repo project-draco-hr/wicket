@@ -1,0 +1,13 @@
+{
+  super(id);
+  add(new IdAttributeModifier(this));
+  IModel srcReplacement=new Model(){
+    public Object getObject(    Component component){
+      resourceReference.bind(getApplication());
+      String url=getPage().urlFor(resourceReference.getPath());
+      return url;
+    }
+  }
+;
+  add(new AttributeModifier("src",true,srcReplacement));
+}
