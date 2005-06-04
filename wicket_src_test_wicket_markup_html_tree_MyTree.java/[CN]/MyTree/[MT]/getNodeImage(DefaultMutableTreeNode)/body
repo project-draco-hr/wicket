@@ -1,0 +1,19 @@
+{
+  if (node.isLeaf()) {
+    Image img=new Image(NODE_IMAGE_NAME,nodeImage);
+    return img;
+  }
+ else {
+    return new Image(NODE_IMAGE_NAME){
+      protected ResourceReference getImageResourceReference(){
+        if (isExpanded(node)) {
+          return folderOpen;
+        }
+ else {
+          return folder;
+        }
+      }
+    }
+;
+  }
+}
