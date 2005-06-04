@@ -3,7 +3,11 @@
     final Folder folder=(Folder)iterator.next();
     final File file=new File(folder,pathname);
     if (file.exists()) {
-      return file;
+      try {
+        return file.toURL();
+      }
+ catch (      MalformedURLException ex) {
+      }
     }
   }
   return null;
