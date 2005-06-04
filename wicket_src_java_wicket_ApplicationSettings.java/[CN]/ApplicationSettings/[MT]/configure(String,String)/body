@@ -2,14 +2,16 @@
   if ("development".equalsIgnoreCase(configurationType)) {
     if (sourceFolder != null) {
       String[] paths=sourceFolder.split(File.pathSeparator);
-      WebApplicationPath path=new WebApplicationPath(servletContext);
+      IResourceFinder path=createResourceFinder();
       for (int i=0; i < paths.length; i++) {
         Folder folder=new Folder(paths[i]);
         if (!folder.exists()) {
           log.info("Source folder " + folder.getAbsolutePath() + " does not exist adding this as an web app resource");
           path.add(paths[i]);
         }
- else         path.add(folder);
+ else {
+          path.add(folder);
+        }
       }
       setResourcePath(path);
       setResourcePollFrequency(Duration.ONE_SECOND);
