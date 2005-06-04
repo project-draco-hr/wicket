@@ -6,9 +6,9 @@
   application.processRequestCycle();
   String document=application.getServletResponse().getDocument();
   assertTrue(DiffUtil.validatePage(document,this.getClass(),"TreePageWithBorderExpectedResult_1.html"));
-  TreePage page=(TreePage)application.getLastRenderedPage();
+  Page page=application.getLastRenderedPage();
   application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToRedirectString("?component=0.tree.tree.3.node.junctionLink&version=0&interface=ILinkListener");
+  application.getServletRequest().setRequestToRedirectString("?component=0.border.tree.tree.3.node.junctionLink&version=0&interface=ILinkListener");
   application.processRequestCycle();
   document=application.getServletResponse().getDocument();
   assertTrue(DiffUtil.validatePage(document,this.getClass(),"TreePageWithBorderExpectedResult_1-1.html"));

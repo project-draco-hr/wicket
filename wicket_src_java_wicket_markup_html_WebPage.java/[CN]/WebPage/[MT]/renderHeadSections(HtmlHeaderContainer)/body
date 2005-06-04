@@ -1,5 +1,5 @@
 {
-  getParent().visitChildren(WebMarkupContainer.class,new IVisitor(){
+  visitChildren(WebMarkupContainer.class,new IVisitor(){
     private int nbrOfContributions;
     /** 
  * @see wicket.Component.IVisitor#component(wicket.Component)
@@ -8,8 +8,8 @@
       if (component.isVisible()) {
         WebMarkupContainer webMarkupContainer=(WebMarkupContainer)component;
         WebMarkupContainer headerPart=webMarkupContainer.getHeaderPart(nbrOfContributions);
-        if ((headerPart != null) && (get(headerPart.getId()) == null)) {
-          autoAdd(headerPart);
+        if ((headerPart != null) && (container.get(headerPart.getId()) == null)) {
+          container.autoAdd(headerPart);
           nbrOfContributions++;
         }
       }

@@ -1,6 +1,7 @@
 {
   super.onComponentTagBody(markupStream,openTag);
-  if (getParent() instanceof WebPage) {
-    renderHeadSections();
+  MarkupContainer parent=getParent();
+  if (parent instanceof IHeaderRenderer) {
+    ((IHeaderRenderer)parent).renderHeadSections(this);
   }
 }
