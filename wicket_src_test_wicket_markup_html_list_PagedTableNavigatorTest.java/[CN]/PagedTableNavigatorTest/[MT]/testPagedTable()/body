@@ -98,4 +98,14 @@
   assertTrue(link.isEnabled());
   link=(Link)page.get("navigator.last");
   assertTrue(link.isEnabled());
+  List modelData=(List)page.get("table").getModelObject();
+  modelData.add("add-1");
+  modelData.add("add-2");
+  modelData.add("add-3");
+  link=(Link)page.get("navigator.first");
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToComponent(link);
+  application.processRequestCycle();
+  document=application.getServletResponse().getDocument();
+  assertTrue(validatePage(document,"PagedTableNavigatorExpectedResult_8.html"));
 }

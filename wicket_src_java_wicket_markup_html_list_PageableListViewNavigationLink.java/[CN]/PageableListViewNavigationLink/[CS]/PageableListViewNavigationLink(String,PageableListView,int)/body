@@ -3,10 +3,13 @@
     public Page getPage(){
       int idx=pageNumber;
       if (idx < 0) {
-        idx=0;
+        idx=pageableListView.getPageCount() + idx;
       }
- else       if (idx > (pageableListView.getList().size() - 1)) {
+      if (idx > (pageableListView.getList().size() - 1)) {
         idx=pageableListView.getList().size() - 1;
+      }
+      if (idx < 0) {
+        idx=0;
       }
       pageableListView.setCurrentPage(idx);
       return pageableListView.getPage();
@@ -16,6 +19,6 @@
     }
   }
 );
-  this.pageNumber=(pageNumber < 0 ? 0 : pageNumber);
+  this.pageNumber=pageNumber;
   this.pageableListView=pageableListView;
 }

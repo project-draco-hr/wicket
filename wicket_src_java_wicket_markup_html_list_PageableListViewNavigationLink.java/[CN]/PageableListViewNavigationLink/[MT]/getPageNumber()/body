@@ -1,3 +1,13 @@
 {
-  return pageNumber;
+  int idx=pageNumber;
+  if (idx < 0) {
+    idx=pageableListView.getPageCount() + idx;
+  }
+  if (idx > (pageableListView.getList().size() - 1)) {
+    idx=pageableListView.getList().size() - 1;
+  }
+  if (idx < 0) {
+    idx=0;
+  }
+  return idx;
 }
