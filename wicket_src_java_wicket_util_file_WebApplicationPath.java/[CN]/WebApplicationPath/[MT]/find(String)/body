@@ -1,0 +1,25 @@
+{
+  for (final Iterator iterator=folders.iterator(); iterator.hasNext(); ) {
+    Folder folder=(Folder)iterator.next();
+    File file=new File(folder,pathname);
+    if (file.exists()) {
+      try {
+        return file.toURL();
+      }
+ catch (      MalformedURLException ex) {
+      }
+    }
+  }
+  for (final Iterator iterator=webappPaths.iterator(); iterator.hasNext(); ) {
+    final String path=(String)iterator.next();
+    try {
+      final URL file=servletContext.getResource(path + pathname);
+      if (file != null) {
+        return file;
+      }
+    }
+ catch (    Exception ex) {
+    }
+  }
+  return null;
+}
