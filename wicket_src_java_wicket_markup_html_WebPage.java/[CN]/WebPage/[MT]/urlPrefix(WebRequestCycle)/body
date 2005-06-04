@@ -2,15 +2,9 @@
   final StringBuffer buffer=new StringBuffer();
   final WebRequest request=cycle.getWebRequest();
   if (request != null) {
-    buffer.append(request.getContextPath());
-    final String servletPath=((WebRequest)request).getServletPath();
-    if (servletPath.equals("")) {
-      buffer.append('/');
-      buffer.append(cycle.getApplication().getName());
-    }
- else {
-      buffer.append(servletPath);
-    }
+    final String contextPath=request.getContextPath();
+    buffer.append(contextPath);
+    buffer.append(((WebRequest)request).getServletPath());
   }
   return buffer;
 }
