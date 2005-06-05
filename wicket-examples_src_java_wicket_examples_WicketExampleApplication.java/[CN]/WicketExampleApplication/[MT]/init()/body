@@ -1,8 +1,9 @@
 {
-  if (this.getWicketServlet().getServletContext().getInitParameter("deployment") != null) {
+  ServletContext servletContext=this.getWicketServlet().getServletContext();
+  if (servletContext.getInitParameter("deployment") != null) {
     getSettings().configure("deployment");
   }
  else {
-    getSettings().configure("development","WEB-INF/classes");
+    getSettings().configure("development");
   }
 }
