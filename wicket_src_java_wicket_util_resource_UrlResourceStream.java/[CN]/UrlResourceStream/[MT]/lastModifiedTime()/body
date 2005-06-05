@@ -1,3 +1,16 @@
 {
+  URLConnection urlConnection=null;
+  try {
+    urlConnection=url.openConnection();
+    lastModified=urlConnection.getLastModified();
+  }
+ catch (  IOException e) {
+    log.error("getLastModified for " + url + " failed: "+ e.getMessage());
+  }
+ finally {
+    if (urlConnection != null && urlConnection instanceof HttpURLConnection) {
+      ((HttpURLConnection)urlConnection).disconnect();
+    }
+  }
   return Time.milliseconds(lastModified);
 }
