@@ -3,11 +3,33 @@
   if (associatedMarkupStream == null) {
     return null;
   }
-  do {
+  int index=-1;
+  if (associatedMarkupStream.getHeaderIndex() == Markup.HEADER_NOT_YET_EVALUATED) {
+    do {
+      final MarkupElement element=associatedMarkupStream.get();
+      if (element instanceof WicketTag) {
+        final WicketTag wTag=(WicketTag)element;
+        if (wTag.isHeadTag() == true) {
+          index=associatedMarkupStream.getCurrentIndex();
+          break;
+        }
+      }
+    }
+ while (associatedMarkupStream.next() != null);
+  }
+ else   if (associatedMarkupStream.getHeaderIndex() == Markup.HEADER_NO_HEADER_FOUND) {
+    ;
+  }
+ else {
+    index=associatedMarkupStream.getHeaderIndex();
+  }
+  if (index >= 0) {
+    associatedMarkupStream.setCurrentIndex(index);
     final MarkupElement element=associatedMarkupStream.get();
     if (element instanceof WicketTag) {
       final WicketTag wTag=(WicketTag)element;
       if (wTag.isHeadTag() == true) {
+        associatedMarkupStream.setHeaderIndex(index);
         final String headerId="_" + Classes.name(this.getClass()) + "Header";
         WebMarkupContainer headerContainer=new HtmlHeaderContainer(headerId,associatedMarkupStream);
         if (this.headerComponents != null) {
@@ -19,7 +41,6 @@
       }
     }
   }
- while (associatedMarkupStream.next() != null);
   if (this.headerComponents != null) {
     throw new MarkupException("You have added header components but did not specify a <wicket:head> region in your Page markup: " + this.toString());
   }
