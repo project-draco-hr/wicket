@@ -2,14 +2,7 @@
   IResourceFinder path=null;
   if (resourcePath != null) {
     path=createResourceFinder();
-    Folder folder=new Folder(resourcePath);
-    if (!folder.exists()) {
-      log.info("Source folder " + folder.getAbsolutePath() + " does not exist adding this as an web app resource");
-      path.add(resourcePath);
-    }
- else {
-      path.add(folder);
-    }
+    addToPath(resourcePath,path);
   }
   configure(configurationType,path);
 }
