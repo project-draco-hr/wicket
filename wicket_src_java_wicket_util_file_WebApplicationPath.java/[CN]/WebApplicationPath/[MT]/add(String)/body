@@ -1,9 +1,15 @@
 {
-  if (!path.startsWith("/")) {
-    path="/" + path;
+  final Folder f=new Folder(folder);
+  if (f.exists()) {
+    folders.add(f);
   }
-  if (!path.endsWith("/")) {
-    path+="/";
+ else {
+    if (!folder.startsWith("/")) {
+      folder="/" + folder;
+    }
+    if (!folder.endsWith("/")) {
+      folder+="/";
+    }
+    webappPaths.add(folder);
   }
-  webappPaths.add(path);
 }
