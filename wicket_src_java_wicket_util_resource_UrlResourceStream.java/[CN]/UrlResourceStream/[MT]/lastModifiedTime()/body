@@ -1,15 +1,29 @@
 {
-  URLConnection urlConnection=null;
-  try {
-    urlConnection=url.openConnection();
-    lastModified=urlConnection.getLastModified();
+  if (file != null) {
+    lastModified=file.lastModified();
   }
- catch (  IOException e) {
-    log.error("getLastModified for " + url + " failed: "+ e.getMessage());
-  }
+ else {
+    URLConnection urlConnection=null;
+    try {
+      urlConnection=url.openConnection();
+      lastModified=urlConnection.getLastModified();
+    }
+ catch (    IOException e) {
+      log.error("getLastModified for " + url + " failed: "+ e.getMessage());
+    }
  finally {
-    if (urlConnection != null && urlConnection instanceof HttpURLConnection) {
-      ((HttpURLConnection)urlConnection).disconnect();
+      if (urlConnection != null) {
+        if (urlConnection instanceof HttpURLConnection) {
+          ((HttpURLConnection)urlConnection).disconnect();
+        }
+ else {
+          try {
+            urlConnection.getInputStream().close();
+          }
+ catch (          Exception ex) {
+          }
+        }
+      }
     }
   }
   return Time.milliseconds(lastModified);
