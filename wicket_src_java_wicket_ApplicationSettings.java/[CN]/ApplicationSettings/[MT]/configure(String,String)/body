@@ -1,29 +1,15 @@
 {
-  if ("development".equalsIgnoreCase(configurationType)) {
-    if (sourceFolder != null) {
-      String[] paths=sourceFolder.split(File.pathSeparator);
-      IResourceFinder path=createResourceFinder();
-      for (int i=0; i < paths.length; i++) {
-        Folder folder=new Folder(paths[i]);
-        if (!folder.exists()) {
-          log.info("Source folder " + folder.getAbsolutePath() + " does not exist adding this as an web app resource");
-          path.add(paths[i]);
-        }
- else {
-          path.add(folder);
-        }
-      }
-      setResourcePath(path);
-      setResourcePollFrequency(Duration.ONE_SECOND);
+  IResourceFinder path=null;
+  if (resourcePath != null) {
+    path=createResourceFinder();
+    Folder folder=new Folder(resourcePath);
+    if (!folder.exists()) {
+      log.info("Source folder " + folder.getAbsolutePath() + " does not exist adding this as an web app resource");
+      path.add(resourcePath);
     }
-    setComponentUseCheck(true);
-    setStripWicketTags(false);
-  }
- else   if ("deployment".equalsIgnoreCase(configurationType)) {
-    setComponentUseCheck(false);
-    setStripWicketTags(true);
-  }
  else {
-    throw new IllegalArgumentException("Invalid configuration type.  Must be \"development\" or \"deployment\".");
+      path.add(folder);
+    }
   }
+  configure(configurationType,path);
 }

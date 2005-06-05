@@ -1,0 +1,19 @@
+{
+  if (resourcePath != null) {
+    setResourcePath(resourcePath);
+  }
+  if ("development".equalsIgnoreCase(configurationType)) {
+    if (resourcePath != null) {
+      setResourcePollFrequency(Duration.ONE_SECOND);
+    }
+    setComponentUseCheck(true);
+    setStripWicketTags(false);
+  }
+ else   if ("deployment".equalsIgnoreCase(configurationType)) {
+    setComponentUseCheck(false);
+    setStripWicketTags(true);
+  }
+ else {
+    throw new IllegalArgumentException("Invalid configuration type.  Must be \"development\" or \"deployment\".");
+  }
+}
