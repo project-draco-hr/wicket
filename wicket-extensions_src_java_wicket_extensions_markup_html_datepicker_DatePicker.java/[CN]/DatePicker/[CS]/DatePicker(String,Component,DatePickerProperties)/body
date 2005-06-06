@@ -1,16 +1,20 @@
 {
   super(id);
-  if (targetTextField == null) {
+  if (properties == null) {
+    throw new NullPointerException("properties must be non null when using this constructor");
+  }
+  this.properties=properties;
+  if (target == null) {
     throw new NullPointerException("targetTextField must be not null");
   }
-  targetTextField.add(new IdAttributeModifier(targetTextField));
-  this.targetTextField=targetTextField;
-  add(triggerButton=new TriggerButton("trigger",buttonIcon));
+  target.add(new IdAttributeModifier(target));
+  this.target=target;
+  add(triggerButton=new TriggerButton("trigger",properties.getIcon()));
   add(new InitScript("script"));
   addToHeader(new DatePickerResourceReference("calendarMain","calendar.js","src"));
   addToHeader(new DatePickerResourceReference("calendarSetup","calendar-setup.js","src"));
-  addToHeader(new DatePickerResourceReference("calendarLanguage","lang/calendar-en.js","src"));
-  addToHeader(new DatePickerResourceReference("calendarStyle",style,"href"));
+  addToHeader(new DatePickerResourceReference("calendarLanguage",properties.getLanguage(),"src"));
+  addToHeader(new DatePickerResourceReference("calendarStyle",properties.getStyle(),"href"));
   new StaticResourceReference(DatePicker.class,"style/aqua/active-bg.gif");
   new StaticResourceReference(DatePicker.class,"style/aqua/dark-bg.gif");
   new StaticResourceReference(DatePicker.class,"style/aqua/hover-bg.gif");
