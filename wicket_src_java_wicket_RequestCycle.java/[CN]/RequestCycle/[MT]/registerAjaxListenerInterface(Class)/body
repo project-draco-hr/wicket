@@ -1,0 +1,18 @@
+{
+  if (!IAjaxListener.class.isAssignableFrom(i)) {
+    throw new IllegalArgumentException("Class " + i + " must extend IAjaxListener");
+  }
+  final Method[] methods=i.getMethods();
+  if (methods.length == 1) {
+    if (methods[0].getParameterTypes().length != 0) {
+      throw new IllegalArgumentException("Method in interface " + i + " cannot have parameters");
+    }
+    if (!IResourceStream.class.isAssignableFrom(methods[0].getReturnType())) {
+      throw new IllegalArgumentException("Method in interface " + i + " must have a IResourceStream return type");
+    }
+    listenerAjaxInterfaceMethods.put(Classes.name(i),methods[0]);
+  }
+ else {
+    throw new IllegalArgumentException("Interface " + i + " can have only one method");
+  }
+}

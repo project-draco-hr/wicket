@@ -1,0 +1,21 @@
+{
+  validate();
+  List lst=getPage().getFeedbackMessages().messages(this,true,false,FeedbackMessage.ERROR);
+  StringBuffer sb=new StringBuffer();
+  sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+  sb.append("<response>");
+  sb.append("var feedbackul =  document.getElementById('feedbackul');");
+  sb.append("var children = feedbackul.childNodes;");
+  sb.append("if(children.length > 0) feedbackul.removeChild(children[0]);");
+  for (int i=0; i < lst.size(); i++) {
+    FeedbackMessage message=(FeedbackMessage)lst.get(i);
+    sb.append("var li = document.createElement('li');");
+    sb.append("var linkText = document.createTextNode('");
+    sb.append(message.getMessage().replace('\'','"'));
+    sb.append("');");
+    sb.append("li.appendChild(linkText);");
+    sb.append("document.getElementById('feedbackul').appendChild(li);");
+  }
+  sb.append("</response>");
+  return new StringResourceStream(sb.toString(),"text/xml");
+}

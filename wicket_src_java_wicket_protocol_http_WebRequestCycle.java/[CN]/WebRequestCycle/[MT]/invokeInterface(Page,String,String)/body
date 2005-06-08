@@ -1,16 +1,27 @@
 {
-  setResponsePage(page);
   setInvokePage(page);
   final Component component=page.get(Strings.afterFirstPathComponent(path,'.'));
   if (component != null) {
-    if (!interfaceName.equals("IRedirectListener")) {
-      page.getFeedbackMessages().clear();
-      ApplicationSettings.RenderStrategy strategy=getSession().getApplication().getSettings().getRenderStrategy();
-      boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
-      setRedirect(issueRedirect);
+    Method method=getRequestInterfaceMethod(interfaceName);
+    if (method != null) {
+      setResponsePage(page);
+      if (!interfaceName.equals("IRedirectListener")) {
+        page.getFeedbackMessages().clear();
+        ApplicationSettings.RenderStrategy strategy=getSession().getApplication().getSettings().getRenderStrategy();
+        boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+        setRedirect(issueRedirect);
+      }
+      invokeInterface(component,method);
+      setFormComponentValuesFromCookies(page);
     }
-    invokeInterface(component,interfaceName);
-    setFormComponentValuesFromCookies(page);
+ else     if ((method=getAjaxInterfaceMethod(interfaceName)) != null) {
+      page.getFeedbackMessages().clear();
+      IResourceStream stream=(IResourceStream)invokeInterface(component,method);
+      setResponseStream(stream);
+    }
+ else {
+      throw new WicketRuntimeException("Attempt to access unknown interface " + interfaceName);
+    }
   }
  else {
     log.error("No component found for " + path);
