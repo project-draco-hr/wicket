@@ -1,12 +1,6 @@
 {
-  final Object value=visitChildren(new IVisitor(){
-    public Object component(    final Component component){
-      if (component.hasErrorMessage()) {
-        return STOP_TRAVERSAL;
-      }
-      return CONTINUE_TRAVERSAL;
-    }
+  if (hasErrorMessage()) {
+    return true;
   }
-);
-  return value == IVisitor.STOP_TRAVERSAL ? true : false;
+  return anyFormComponentError();
 }
