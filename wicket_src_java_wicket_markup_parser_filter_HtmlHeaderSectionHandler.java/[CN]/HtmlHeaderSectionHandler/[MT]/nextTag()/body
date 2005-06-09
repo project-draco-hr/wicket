@@ -6,15 +6,28 @@
   if (done == true) {
     return tag;
   }
-  if (!(tag instanceof WicketTag) && "head".equalsIgnoreCase(tag.getName())) {
-    withinHead=!withinHead;
-    if (tag.isClose() == true) {
-      done=true;
+  if ("head".equalsIgnoreCase(tag.getName())) {
+    if (tag instanceof WicketTag) {
+      if (tag.isClose() == true) {
+        done=true;
+      }
+    }
+ else {
+      withinHead=!withinHead;
+      if (tag.isClose() == true) {
+        if (done == false) {
+          insertWicketHeadTag();
+        }
+        done=true;
+      }
     }
     return tag;
   }
   if ("body".equalsIgnoreCase(tag.getName())) {
     done=true;
+    tagList.add(new RawMarkup("<head>"));
+    insertWicketHeadTag();
+    tagList.add(new RawMarkup("</head>"));
     return tag;
   }
   if (!(tag instanceof WicketTag)) {

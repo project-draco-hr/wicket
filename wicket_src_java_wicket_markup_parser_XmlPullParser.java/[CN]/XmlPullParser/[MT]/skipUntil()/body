@@ -1,0 +1,21 @@
+{
+  final int startIndex=this.inputPosition;
+  int lastPos;
+  while (true) {
+    this.inputPosition=input.indexOf("</",this.inputPosition);
+    if ((this.inputPosition == -1) || ((this.inputPosition + 8) >= input.length())) {
+      throw new ParseException("Script tag not closed (line " + lineNumber + ", column "+ columnNumber+ ")",startIndex);
+    }
+    lastPos=this.inputPosition + 2;
+    final String endTagText=input.substring(lastPos,lastPos + 6);
+    if (endTagText.toLowerCase().equals("script")) {
+      break;
+    }
+    this.inputPosition=lastPos;
+  }
+  lastPos=input.indexOf('>',lastPos + 6);
+  if (lastPos == -1) {
+    throw new ParseException("Script tag not closed (line " + lineNumber + ", column "+ columnNumber+ ")",startIndex);
+  }
+  this.skipUntilText=null;
+}

@@ -43,6 +43,9 @@
       if (container instanceof HtmlHeaderContainer) {
         relevantContainer=findPanelComponent(container);
       }
+      if (container instanceof BodyOnLoadContainer) {
+        relevantContainer=container.getParent();
+      }
       String href=relevantContainer.getClass().getPackage().getName();
       href=Strings.replaceAll(href,".","/") + "/" + originalHref;
       return new AutolinkExternalLink(autoId,href);
