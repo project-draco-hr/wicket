@@ -1,0 +1,26 @@
+{
+  if (liText.size() == 0)   return;
+  if (liText.size() == 1) {
+    createLINode(output,parent,(String)liText.get(0));
+    return;
+  }
+  output.append("var liTextArray = new Array(");
+  for (int i=0; i < liText.size(); i++) {
+    String message=(String)liText.get(i);
+    output.append("'");
+    output.append(message.replace('\'','\"'));
+    output.append("',");
+  }
+  output.setLength(output.length() - 1);
+  output.append("); var ");
+  output.append(parent);
+  output.append(" = document.getElementById('");
+  output.append(parent);
+  output.append("');");
+  output.append("for(var i=0;i&lt;liTextArray.length;i++){");
+  output.append("var li = document.createElement('li');");
+  output.append("var linkText = document.createTextNode(liTextArray[i]);");
+  output.append("li.appendChild(linkText);");
+  output.append(parent);
+  output.append(".appendChild(li);}");
+}
