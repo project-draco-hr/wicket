@@ -37,7 +37,8 @@
         return nextTag();
       }
  else {
-        if (type == XmlTag.OPEN && startText.toLowerCase().startsWith("script")) {
+        String lowerCase=tagText.toLowerCase();
+        if (type == XmlTag.OPEN && tagText.startsWith("script") && tagText.indexOf("wicket:id") == -1) {
           this.inputPosition=closeBracketIndex;
           while (true) {
             this.inputPosition=input.indexOf("</",this.inputPosition);
