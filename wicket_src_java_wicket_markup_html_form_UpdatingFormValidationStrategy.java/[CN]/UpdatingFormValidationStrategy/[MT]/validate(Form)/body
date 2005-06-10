@@ -11,17 +11,19 @@
     }
   }
 );
-  ModelChange record=new ModelChange(form);
-  boolean wasVersioned=form.isVersioned();
-  form.setVersioned(false);
-  try {
-    form.updateFormComponentModels();
-    form.validator.validate(form);
-  }
-  finally {
-    if (form.hasError()) {
-      record.undo();
+  if ((form.validator != IFormValidator.NULL) && (!form.hasError())) {
+    ModelChange record=new ModelChange(form);
+    boolean wasVersioned=form.isVersioned();
+    form.setVersioned(false);
+    try {
+      form.updateFormComponentModels();
+      form.validator.validate(form);
     }
-    form.setVersioned(wasVersioned);
+  finally {
+      if (form.hasError()) {
+        record.undo();
+      }
+      form.setVersioned(wasVersioned);
+    }
   }
 }
