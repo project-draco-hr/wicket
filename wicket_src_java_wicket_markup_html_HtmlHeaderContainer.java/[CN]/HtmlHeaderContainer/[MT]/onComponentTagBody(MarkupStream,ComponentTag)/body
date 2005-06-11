@@ -1,7 +1,26 @@
 {
-  super.onComponentTagBody(markupStream,openTag);
-  MarkupContainer parent=getParent();
-  if (parent instanceof IHeaderRenderer) {
-    ((IHeaderRenderer)parent).renderHeadSections(this);
+  final Response webResponse=this.getResponse();
+  final StringResponse response=new StringResponse();
+  this.getRequestCycle().setResponse(response);
+  try {
+    super.onComponentTagBody(markupStream,openTag);
+    MarkupContainer parent=getParent();
+    if (parent instanceof IHeaderRenderer) {
+      ((IHeaderRenderer)parent).renderHeadSections(this);
+    }
+    final String output=response.toString();
+    if (output.length() > 0) {
+      final boolean requiresHeadTag=(openTag instanceof WicketHeaderTag) && ((WicketHeaderTag)openTag).isRequiresHtmlHeadTag();
+      if (requiresHeadTag) {
+        webResponse.write("<head>");
+      }
+      webResponse.write(output);
+      if (requiresHeadTag) {
+        webResponse.write("</head>");
+      }
+    }
+  }
+  finally {
+    this.getRequestCycle().setResponse(webResponse);
   }
 }

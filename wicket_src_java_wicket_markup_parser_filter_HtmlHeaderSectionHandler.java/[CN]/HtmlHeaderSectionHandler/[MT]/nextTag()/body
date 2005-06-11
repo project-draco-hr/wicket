@@ -3,39 +3,35 @@
   if (tag == null) {
     return tag;
   }
-  if (done == true) {
+  if ((status == STATE_BODY_FOUND) || (status == STATE_HEAD_CLOSED)) {
     return tag;
   }
-  if ("head".equalsIgnoreCase(tag.getName())) {
+  if (HEAD.equalsIgnoreCase(tag.getName())) {
     if (tag instanceof WicketTag) {
-      if (tag.isClose() == true) {
-        done=true;
+      if (tag.isOpen() == true) {
+        status=STATE_WICKET_HEAD_OPENED;
+      }
+ else {
+        status=STATE_WICKET_HEAD_CLOSED;
       }
     }
  else {
-      withinHead=!withinHead;
-      if (tag.isClose() == true) {
-        if (done == false) {
-          insertWicketHeadTag();
+      if (tag.isOpen() == true) {
+        status=STATE_HEAD_OPENED;
+      }
+ else {
+        if (status != STATE_WICKET_HEAD_CLOSED) {
+          insertWicketHeadTag(false);
         }
-        done=true;
+        status=STATE_HEAD_CLOSED;
       }
     }
     return tag;
   }
   if ("body".equalsIgnoreCase(tag.getName())) {
-    done=true;
-    tagList.add(new RawMarkup("<head>"));
-    insertWicketHeadTag();
-    tagList.add(new RawMarkup("</head>"));
+    status=STATE_BODY_FOUND;
+    insertWicketHeadTag(true);
     return tag;
-  }
-  if (!(tag instanceof WicketTag)) {
-    return tag;
-  }
-  final WicketTag wtag=(WicketTag)tag;
-  if ((withinHead == false) && (wtag.isHeadTag() == true)) {
-    throw new MarkupException("<wicket:head> is only allow within <head> section.");
   }
   return tag;
 }

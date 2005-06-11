@@ -1,16 +1,17 @@
 {
   final XmlTag headOpenTag=new XmlTag();
-  headOpenTag.setName("head");
+  headOpenTag.setName(HEAD);
   headOpenTag.setType(XmlTag.OPEN);
-  final WicketTag openTag=new WicketTag(headOpenTag);
-  openTag.setId("_header");
+  final WicketHeaderTag openTag=new WicketHeaderTag(headOpenTag);
+  openTag.setId(HEADER_ID);
+  openTag.setRequiresHtmlHeadTag(requiresHeadTag);
   final XmlTag headCloseTag=new XmlTag();
-  headCloseTag.setName("head");
+  headCloseTag.setName(HEAD);
   headCloseTag.setType(XmlTag.CLOSE);
   final WicketTag closeTag=new WicketTag(headCloseTag);
   closeTag.setOpenTag(openTag);
-  closeTag.setId("_header");
+  closeTag.setId(HEADER_ID);
   tagList.add(openTag);
   tagList.add(closeTag);
-  done=true;
+  status=STATE_WICKET_HEAD_CLOSED;
 }
