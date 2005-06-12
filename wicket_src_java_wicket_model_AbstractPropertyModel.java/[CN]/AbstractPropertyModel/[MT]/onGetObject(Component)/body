@@ -6,7 +6,8 @@
   final Object modelObject=modelObject(component);
   if (modelObject != null) {
     try {
-      return Ognl.getValue(expression,getContext(component),modelObject,propertyType(component));
+      prepareContext(component);
+      return Ognl.getValue(expression,conversionContext,modelObject,propertyType(component));
     }
  catch (    OgnlException e) {
       throw new WicketRuntimeException("OGNL Exception: expression='" + expression + "'; component='"+ component.getPath()+ "'",e);
