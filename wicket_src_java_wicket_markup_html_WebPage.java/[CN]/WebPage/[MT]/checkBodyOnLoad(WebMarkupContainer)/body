@@ -13,7 +13,12 @@
         if ("body".equalsIgnoreCase(tag.getName())) {
           final String onLoad=tag.getAttributes().getString("onload");
           if (onLoad != null) {
-            ((WebPage)this.getPage()).addBodyOnLoad(onLoad);
+            if (WebPage.this.bodyOnLoad == null) {
+              WebPage.this.bodyOnLoad=onLoad;
+            }
+ else {
+              WebPage.this.bodyOnLoad=WebPage.this.bodyOnLoad + onLoad;
+            }
           }
           break;
         }

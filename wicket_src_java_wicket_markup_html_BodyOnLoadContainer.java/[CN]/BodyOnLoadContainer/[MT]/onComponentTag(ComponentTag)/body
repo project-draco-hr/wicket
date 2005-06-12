@@ -1,15 +1,17 @@
 {
   if (getParent() instanceof WebPage) {
-    final String onLoad2=((WebPage)this.getPage()).getBodyOnLoad();
-    if (onLoad2 != null) {
-      String onLoad=tag.getAttributes().getString("onload");
-      if (onLoad == null) {
-        onLoad=onLoad2;
+    String onLoad=((WebPage)this.getPage()).getBodyOnLoad();
+    String pageOnLoad=tag.getAttributes().getString("onload");
+    if (pageOnLoad != null) {
+      if (onLoad != null) {
+        pageOnLoad=pageOnLoad + onLoad;
+        add(new AttributeModifier("onLoad",true,new Model(pageOnLoad)));
       }
+    }
  else {
-        onLoad=onLoad + onLoad2;
+      if (onLoad != null) {
+        add(new AttributeModifier("onLoad",true,new Model(onLoad)));
       }
-      add(new AttributeModifier("onLoad",true,new Model(onLoad)));
     }
   }
   super.onComponentTag(tag);
