@@ -1,0 +1,27 @@
+{
+  final MarkupStream associatedMarkupStream=getApplication().getMarkupCache().getMarkupStream(container,null,false);
+  if (associatedMarkupStream == null) {
+    return;
+  }
+  int index=associatedMarkupStream.getCurrentIndex();
+  try {
+    associatedMarkupStream.setCurrentIndex(0);
+    do {
+      final MarkupElement element=associatedMarkupStream.get();
+      if (element instanceof ComponentTag) {
+        final ComponentTag tag=(ComponentTag)element;
+        if ("body".equalsIgnoreCase(tag.getName())) {
+          final String onLoad=tag.getAttributes().getString("onload");
+          if (onLoad != null) {
+            ((WebPage)this.getPage()).addBodyOnLoad(onLoad);
+          }
+          break;
+        }
+      }
+    }
+ while (associatedMarkupStream.next() != null);
+  }
+  finally {
+    associatedMarkupStream.setCurrentIndex(index);
+  }
+}
