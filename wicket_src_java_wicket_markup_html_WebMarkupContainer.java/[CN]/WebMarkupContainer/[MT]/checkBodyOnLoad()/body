@@ -1,5 +1,5 @@
 {
-  final MarkupStream associatedMarkupStream=getApplication().getMarkupCache().getMarkupStream(container,null,false);
+  final MarkupStream associatedMarkupStream=getApplication().getMarkupCache().getMarkupStream(this,null,false);
   if (associatedMarkupStream == null) {
     return;
   }
@@ -13,12 +13,7 @@
         if ("body".equalsIgnoreCase(tag.getName())) {
           final String onLoad=tag.getAttributes().getString("onload");
           if (onLoad != null) {
-            if (WebPage.this.bodyOnLoad == null) {
-              WebPage.this.bodyOnLoad=onLoad;
-            }
- else {
-              WebPage.this.bodyOnLoad=WebPage.this.bodyOnLoad + onLoad;
-            }
+            ((WebPage)getPage()).appendToBodyOnLoad(onLoad);
           }
           break;
         }

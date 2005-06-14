@@ -1,15 +1,12 @@
 {
-  visitChildren(WebMarkupContainer.class,new IVisitor(){
+  visitChildren(IHeaderContributor.class,new IVisitor(){
     /** 
  * @see wicket.Component.IVisitor#component(wicket.Component)
  */
     public Object component(    Component component){
       if (component.isVisible()) {
-        WebMarkupContainer webMarkupContainer=(WebMarkupContainer)component;
-        WebMarkupContainer headerPart=webMarkupContainer.getHeaderPart();
-        if ((headerPart != null) && (container.get(headerPart.getId()) == null)) {
-          container.autoAdd(headerPart);
-          checkBodyOnLoad(webMarkupContainer);
+        if (component instanceof IHeaderContributor) {
+          ((IHeaderContributor)component).printHead(container);
         }
       }
       return IVisitor.CONTINUE_TRAVERSAL;
