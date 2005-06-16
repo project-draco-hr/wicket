@@ -11,7 +11,13 @@
       }
       page.doRender();
       setResponse(currentResponse);
-      ((WebApplication)application).addRedirect(getWebRequest().getHttpServletRequest(),redirectUrl,redirectResponse);
+      String responseRedirect=redirectResponse.getRedirectUrl();
+      if (redirectUrl != responseRedirect) {
+        redirectUrl=redirectResponse.getRedirectUrl();
+      }
+ else       if (redirectResponse.getContentLength() > 0) {
+        ((WebApplication)application).addRedirect(getWebRequest().getHttpServletRequest(),redirectUrl,redirectResponse);
+      }
     }
  catch (    RuntimeException ex) {
       onRuntimeException(page,ex);
