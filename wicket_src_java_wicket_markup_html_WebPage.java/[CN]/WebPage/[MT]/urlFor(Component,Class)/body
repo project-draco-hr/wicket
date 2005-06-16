@@ -11,5 +11,8 @@
   buffer.append(component.getPage().getCurrentVersionNumber());
   buffer.append("&interface=");
   buffer.append(Classes.name(listenerInterface));
+  if (IEventRequestListener.class.isAssignableFrom(listenerInterface)) {
+    buffer.append("&dispatched=true");
+  }
   return cycle.getResponse().encodeURL(buffer.toString());
 }

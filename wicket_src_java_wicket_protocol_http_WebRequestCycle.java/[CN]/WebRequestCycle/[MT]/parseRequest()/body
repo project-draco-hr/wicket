@@ -1,5 +1,7 @@
 {
-  if (callComponentListener() || bookmarkablePage() || homePage()) {
+  if (callDispatchedComponentListener()) {
+  }
+ else   if (callComponentListener() || bookmarkablePage() || homePage()) {
     return true;
   }
  else {
@@ -13,8 +15,8 @@
         log.error("unable to send 404 for " + getRequest() + ", cause: "+ e.getMessage(),e);
       }
     }
-    setUpdateCluster(false);
-    setResponsePage(null);
-    return false;
   }
+  setUpdateCluster(false);
+  setResponsePage(null);
+  return false;
 }

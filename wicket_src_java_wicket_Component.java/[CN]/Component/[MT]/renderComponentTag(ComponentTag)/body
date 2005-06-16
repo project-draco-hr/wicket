@@ -7,6 +7,12 @@
         current.replaceAttibuteValue(this,tag);
       }
     }
+    if (eventRequestHandlers != null) {
+      for (Iterator i=eventRequestHandlers.values().iterator(); i.hasNext(); ) {
+        EventRequestHandler handler=(EventRequestHandler)i.next();
+        handler.attach(this,tag);
+      }
+    }
     getResponse().write(tag.toString(settings.getStripWicketTags(),settings.getWicketNamespace()));
   }
 }

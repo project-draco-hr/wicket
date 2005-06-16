@@ -1,6 +1,8 @@
 {
   super(name,new CompoundPropertyModel(new FormInputModel()),feedback);
-  add(new RequiredTextField("stringProperty"));
+  RequiredTextField stringTextField=new RequiredTextField("stringProperty");
+  stringTextField.add(new ValidationEventRequestHandler("onchange"));
+  add(stringTextField);
   add(new RequiredTextField("integerProperty",Integer.class));
   add(new RequiredTextField("doubleProperty",Double.class));
   add(new RequiredTextField("dateProperty",Date.class));

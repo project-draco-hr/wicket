@@ -16,20 +16,4 @@
       onRuntimeException(page,e);
     }
   }
- else   if (getResponseStream() != null) {
-    IResourceStream stream=getResponseStream();
-    getResponse().setContentType(stream.getContentType());
-    getResponse().setContentLength(stream.length());
-    if (stream instanceof IStringResourceStream) {
-      getResponse().write(((IStringResourceStream)stream).asString());
-    }
- else {
-      try {
-        Streams.copy(stream.getInputStream(),getResponse().getOutputStream());
-      }
- catch (      Exception ex) {
-        log.debug("error sending ajax response",ex);
-      }
-    }
-  }
 }
