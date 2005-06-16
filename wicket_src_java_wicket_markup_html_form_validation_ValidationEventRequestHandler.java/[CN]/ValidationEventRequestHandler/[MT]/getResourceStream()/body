@@ -1,6 +1,8 @@
 {
   StringBufferResourceStream s=new StringBufferResourceStream();
-  String value=RequestCycle.get().getRequest().getParameter("value");
-  s.append("hello! value: " + value);
+  formComponent.validate();
+  if (!formComponent.isValid()) {
+    s.append(formComponent.getFeedbackMessage().getMessage());
+  }
   return s;
 }
