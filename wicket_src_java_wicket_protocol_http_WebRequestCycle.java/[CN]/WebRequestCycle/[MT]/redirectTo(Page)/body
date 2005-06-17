@@ -3,8 +3,13 @@
   ApplicationSettings settings=application.getSettings();
   if (settings.getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER && application instanceof WebApplication) {
     try {
-      Response currentResponse=getResponse();
-      BufferedResponse redirectResponse=new BufferedResponse(redirectUrl);
+      final Response currentResponse=getResponse();
+      BufferedResponse redirectResponse=new BufferedResponse(redirectUrl){
+        public String encodeURL(        String url){
+          return currentResponse.encodeURL(url);
+        }
+      }
+;
       setResponse(redirectResponse);
       if (getInvokePage() == getResponsePage()) {
         setInvokePage(null);
