@@ -4,14 +4,15 @@
   application.getPages().setHomePage(MarkupInheritanceExtension_4.class);
   application.setupRequestAndResponse();
   application.processRequestCycle();
+  assertEquals(MarkupInheritanceExtension_4.class,application.getLastRenderedPage().getClass());
   String document=application.getServletResponse().getDocument();
-  System.out.println(document);
   assertTrue(DiffUtil.validatePage(document,this.getClass(),"MarkupInheritanceExpectedResult_4.html"));
   MarkupInheritanceExtension_4 page=(MarkupInheritanceExtension_4)application.getLastRenderedPage();
   Link link=(Link)page.get("link");
   application.setupRequestAndResponse();
   application.getServletRequest().setRequestToComponent(link);
   application.processRequestCycle();
+  assertEquals(MarkupInheritanceExtension_4.class,application.getLastRenderedPage().getClass());
   document=application.getServletResponse().getDocument();
   assertTrue(DiffUtil.validatePage(document,this.getClass(),"MarkupInheritanceExpectedResult_4-1.html"));
 }

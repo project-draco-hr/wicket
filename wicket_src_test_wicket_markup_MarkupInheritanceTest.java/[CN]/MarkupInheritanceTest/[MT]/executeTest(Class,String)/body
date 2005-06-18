@@ -4,7 +4,7 @@
   application.getPages().setHomePage(pageClass);
   application.setupRequestAndResponse();
   application.processRequestCycle();
+  assertEquals(pageClass,application.getLastRenderedPage().getClass());
   String document=application.getServletResponse().getDocument();
-  System.out.println(document);
   assertTrue(DiffUtil.validatePage(document,this.getClass(),filename));
 }

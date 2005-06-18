@@ -5,20 +5,12 @@
   final List list=new ArrayList();
   int stripRemainingElements=-1;
   for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
-    if ("html".equals(tag.getName().toLowerCase())) {
-      Map map=tag.getAttributes();
-      Iterator it=map.keySet().iterator();
-      while (it.hasNext()) {
-        String attributeName=(String)it.next();
-        if (attributeName.startsWith("xmlns:")) {
-          String wicketPrefix=attributeName.substring(6);
-          this.detectWicketComponents.setWicketNamespace(wicketPrefix);
-        }
-      }
-    }
     boolean add=(tag.getId() != null);
     if (!add && tag.getXmlTag().isClose()) {
       add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
+    }
+    if (tag.isOpen() && "html".equals(tag.getName().toLowerCase())) {
+      determineWicketNamespace(tag);
     }
     if (add || (autoAddList.size() > 0)) {
       final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());

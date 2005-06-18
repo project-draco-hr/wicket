@@ -1,0 +1,14 @@
+{
+  final ValueMap attributes=tag.getAttributes();
+  final Iterator it=attributes.keySet().iterator();
+  while (it.hasNext()) {
+    final String attributeName=(String)it.next();
+    if (attributeName.startsWith("xmlns:")) {
+      final String xmlnsUrl=attributes.getString(attributeName);
+      if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.toLowerCase().startsWith("http://wicket.sourceforge.net")) {
+        this.wicketNamespace=attributeName.substring(6);
+        this.detectWicketComponents.setWicketNamespace(this.wicketNamespace);
+      }
+    }
+  }
+}
