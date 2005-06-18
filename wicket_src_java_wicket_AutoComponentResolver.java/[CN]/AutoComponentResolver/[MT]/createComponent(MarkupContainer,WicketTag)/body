@@ -31,7 +31,7 @@ catch (  ClassCastException e) {
 catch (  SecurityException e) {
     throw new MarkupException("Unable to create Component from wicket tag: Cause: " + e.getMessage());
   }
-  final Iterator iter=tag.getAttributes().entrySet().iterator();
+  Iterator iter=tag.getAttributes().entrySet().iterator();
   while (iter.hasNext()) {
     final Map.Entry entry=(Map.Entry)iter.next();
     final String key=(String)entry.getKey();
@@ -39,6 +39,13 @@ catch (  SecurityException e) {
     if ("name".equalsIgnoreCase(key) || ("class".equalsIgnoreCase(key))) {
       continue;
     }
+    Classes.invokeSetter(component,key,value);
+  }
+  iter=tag.getAdditionalAttributes().entrySet().iterator();
+  while (iter.hasNext()) {
+    final Map.Entry entry=(Map.Entry)iter.next();
+    final String key=(String)entry.getKey();
+    final String value=(String)entry.getValue();
     Classes.invokeSetter(component,key,value);
   }
   return component;

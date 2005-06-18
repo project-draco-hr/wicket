@@ -18,12 +18,12 @@
       throw new MarkupException("There must not be any text between a component tag and " + "it's related param tag. Only spaces and line breaks are allowed.");
     }
   }
-  lastTag.putAll(tag.getAttributes());
+  lastTag.getAdditionalAttributes().putAll(tag.getAttributes());
   if (stripWicketTag == true) {
     tag=(ComponentTag)getParent().nextTag();
   }
  else {
-    log.debug("Be careful. Not stripping <wicket:param> may cause subtle errors.");
+    log.warn("Be careful. Not stripping <wicket:param> from output may cause subtle errors.");
   }
   return tag;
 }
