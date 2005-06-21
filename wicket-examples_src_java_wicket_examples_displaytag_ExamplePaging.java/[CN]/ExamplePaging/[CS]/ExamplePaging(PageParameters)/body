@@ -1,5 +1,5 @@
 {
-  final List data=new TestList(60,false);
+  final List data=new TestList(55,false);
   final PagedTableWithAlternatingRowStyle table=new PagedTableWithAlternatingRowStyle("rows",data,10){
     public void populateItem(    final ListItem listItem){
       super.populateItem(listItem);
@@ -81,4 +81,56 @@
   }
 ;
   add(nav4);
+  add(new Label("info5",""));
+  final List addRemoveOptions=new ArrayList();
+  addRemoveOptions.add("10");
+  addRemoveOptions.add("5");
+  addRemoveOptions.add("3");
+  addRemoveOptions.add("2");
+  addRemoveOptions.add("1");
+  addRemoveOptions.add("-1");
+  addRemoveOptions.add("-2");
+  addRemoveOptions.add("-3");
+  addRemoveOptions.add("-5");
+  addRemoveOptions.add("-10");
+  add(new DropDownChoice("addRemove",new Model(null),addRemoveOptions){
+    protected boolean wantOnSelectionChangedNotifications(){
+      return true;
+    }
+    protected void onSelectionChanged(    Object newSelection){
+      int anz=Integer.parseInt((String)newSelection);
+      Label info5=(Label)ExamplePaging.this.get("info5");
+      List data5=(List)ExamplePaging.this.get("rows5").getModelObject();
+      if (anz > 0) {
+        data5.addAll(data.subList(0,anz));
+        info5.setModelObject("" + anz + " elements add to the list");
+      }
+ else       if (anz < 0) {
+        anz=data5.size() + anz;
+        if (anz < 0) {
+          anz=0;
+        }
+        info5.setModelObject("" + (data5.size() - anz) + " elements removed from the list");
+        while (data5.size() > anz) {
+          data5.remove(0);
+        }
+      }
+    }
+  }
+);
+  List data5=new ArrayList();
+  final PagedTableWithAlternatingRowStyle table5=new PagedTableWithAlternatingRowStyle("rows5",data5,4){
+    public void populateItem(    final ListItem listItem){
+      super.populateItem(listItem);
+      final ListObject value=(ListObject)listItem.getModelObject();
+      listItem.add(new Label("id",Integer.toString(value.getId())));
+      listItem.add(new Label("name",value.getName()));
+      listItem.add(new Label("email",value.getEmail()));
+      listItem.add(new Label("status",value.getStatus()));
+      listItem.add(new Label("comments",value.getDescription()));
+    }
+  }
+;
+  add(table5);
+  add(new MyPageableListViewNavigator("pageTableNav5",table5));
 }
