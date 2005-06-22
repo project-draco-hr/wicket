@@ -1,5 +1,9 @@
 {
   InputStream is=getInputStream();
-  Files.writeTo(file,is);
-  is.close();
+  try {
+    Files.writeTo(file,is);
+  }
+  finally {
+    is.close();
+  }
 }
