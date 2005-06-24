@@ -1,0 +1,12 @@
+{
+  DefaultMutableTreeNode root=(DefaultMutableTreeNode)getTreeModel().getRoot();
+  Enumeration all=root.breadthFirstEnumeration();
+  while (all.hasMoreElements()) {
+    DefaultMutableTreeNode node=(DefaultMutableTreeNode)all.nextElement();
+    Object userObject=node.getUserObject();
+    if (menuItem.equals(userObject)) {
+      return node;
+    }
+  }
+  throw new IllegalStateException("node for " + menuItem + " not found");
+}

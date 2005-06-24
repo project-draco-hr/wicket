@@ -1,0 +1,21 @@
+{
+  Class currentPageClass=currentPage.getClass();
+  DefaultMutableTreeNode root=(DefaultMutableTreeNode)getTreeModel().getRoot();
+  MenuTreePath currentPath=null;
+  Enumeration all=root.breadthFirstEnumeration();
+  while (all.hasMoreElements()) {
+    DefaultMutableTreeNode node=(DefaultMutableTreeNode)all.nextElement();
+    Object userObject=node.getUserObject();
+    if (userObject instanceof MenuItem) {
+      MenuItem menuItem=(MenuItem)userObject;
+      if (currentPageClass.equals(menuItem.getPageClass())) {
+        currentPath=new MenuTreePath(node.getPath());
+        break;
+      }
+    }
+  }
+  if (currentPath == null) {
+    throw new IllegalStateException(currentPageClass + " is not a member of the menu");
+  }
+  return currentPath;
+}

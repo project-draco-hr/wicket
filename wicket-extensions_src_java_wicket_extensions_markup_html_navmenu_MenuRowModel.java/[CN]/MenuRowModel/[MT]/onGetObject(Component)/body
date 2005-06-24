@@ -1,0 +1,20 @@
+{
+  if (row == null) {
+    row=new ArrayList();
+    Page currentPage=component.getPage();
+    MenuTreePath currentSelection=getCurrentSelection(currentPage);
+    if (currentSelection.getPathCount() > level) {
+      DefaultMutableTreeNode node=(DefaultMutableTreeNode)currentSelection.getPathComponent(level);
+      int len=node.getChildCount();
+      RequestCycle requestCycle=component.getRequestCycle();
+      for (int i=0; i < len; i++) {
+        DefaultMutableTreeNode child=(DefaultMutableTreeNode)node.getChildAt(i);
+        MenuItem item=(MenuItem)child.getUserObject();
+        if (item.checkAccess(requestCycle)) {
+          row.add(child.getUserObject());
+        }
+      }
+    }
+  }
+  return row;
+}
