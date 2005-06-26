@@ -1,14 +1,22 @@
 {
   super(id,model);
   this.style=style;
-  WebMarkupContainer rowContainer=new WebMarkupContainer("rowContainer");
-  rowContainer.add(new AttributeModifier("class",true,new Model(){
+  WebMarkupContainer div=new WebMarkupContainer("div");
+  div.add(new AttributeModifier("class",true,new Model()){
     public Object getObject(    Component component){
-      return style.getCssClass();
+      return style.getContainerCSSClass();
+    }
+  }
+);
+  WebMarkupContainer ul=new WebMarkupContainer("ul");
+  ul.add(new AttributeModifier("class",true,new Model(){
+    public Object getObject(    Component component){
+      return style.getRowCSSClass();
     }
   }
 ));
-  rowContainer.add(new RowListView("columns",model));
-  add(rowContainer);
+  ul.add(new RowListView("columns",model));
+  div.add(ul);
+  add(div);
   addToHeader(new StyleSheetReference("cssStyleResource",style.getStyleSheetResource()));
 }

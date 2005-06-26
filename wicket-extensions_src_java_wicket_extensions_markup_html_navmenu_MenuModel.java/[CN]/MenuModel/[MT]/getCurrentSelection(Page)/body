@@ -1,17 +1,13 @@
 {
   Class currentPageClass=currentPage.getClass();
-  DefaultMutableTreeNode root=(DefaultMutableTreeNode)getTreeModel().getRoot();
+  DefaultMutableTreeNode root=(DefaultMutableTreeNode)getRoot();
   MenuTreePath currentPath=null;
   Enumeration all=root.breadthFirstEnumeration();
   while (all.hasMoreElements()) {
-    DefaultMutableTreeNode node=(DefaultMutableTreeNode)all.nextElement();
-    Object userObject=node.getUserObject();
-    if (userObject instanceof MenuItem) {
-      MenuItem menuItem=(MenuItem)userObject;
-      if (currentPageClass.equals(menuItem.getPageClass())) {
-        currentPath=new MenuTreePath(node.getPath());
-        break;
-      }
+    MenuItem menuItem=(MenuItem)all.nextElement();
+    if (currentPageClass.equals(menuItem.getPageClass())) {
+      currentPath=new MenuTreePath(menuItem.getPath());
+      break;
     }
   }
   if (currentPath == null) {
