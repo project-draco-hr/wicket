@@ -1,6 +1,7 @@
 {
   final String path=getWebRequest().getPath();
-  if (Strings.isEmpty(path) || "/".equals(path)) {
+  final String servletPath=getWebRequest().getServletPath();
+  if (Strings.isEmpty(path) || ("/".equals(path) && "".equals(servletPath))) {
     try {
       Page newPage=newPage(application.getPages().getHomePage());
       setResponsePage(newPage);
