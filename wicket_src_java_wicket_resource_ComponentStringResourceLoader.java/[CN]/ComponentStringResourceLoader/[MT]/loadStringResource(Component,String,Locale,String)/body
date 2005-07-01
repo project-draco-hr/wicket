@@ -13,12 +13,18 @@
     String value=null;
     while (!searchStack.isEmpty()) {
       Component c=(Component)searchStack.pop();
-      final String id=createCacheId(c,style,locale);
-      ValueMap strings=(ValueMap)resourceCache.get(id);
-      if (strings == null) {
-        strings=loadResources(c,style,locale,id);
+      Class cc=c.getClass();
+      while (value == null) {
+        final String id=createCacheId(cc,style,locale);
+        ValueMap strings=(ValueMap)resourceCache.get(id);
+        if (strings == null) {
+          strings=loadResources(c,cc,style,locale,id);
+        }
+        value=strings.getString(key);
+        if (value != null)         break;
+        cc=cc.getSuperclass();
+        if (isStopResourceSearch(cc))         break;
       }
-      value=strings.getString(key);
       if (value != null)       break;
     }
     return value;
