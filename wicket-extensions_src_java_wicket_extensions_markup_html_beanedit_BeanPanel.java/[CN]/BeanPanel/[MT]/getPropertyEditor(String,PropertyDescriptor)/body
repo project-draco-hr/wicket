@@ -1,0 +1,13 @@
+{
+  Class type=descriptor.getPropertyType();
+  BeanPropertyEditor editor=findCustomEditor(panelId,descriptor);
+  if (editor == null) {
+    if (descriptor instanceof IndexedPropertyDescriptor) {
+      throw new WicketRuntimeException("index properties not supported yet ");
+    }
+ else {
+      editor=getDefaultEditor(panelId,descriptor);
+    }
+  }
+  return editor;
+}

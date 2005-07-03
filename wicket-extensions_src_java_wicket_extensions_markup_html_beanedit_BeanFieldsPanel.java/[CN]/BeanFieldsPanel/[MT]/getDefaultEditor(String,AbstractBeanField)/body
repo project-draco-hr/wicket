@@ -1,0 +1,17 @@
+{
+  BeanPropertyEditor editor;
+  if (field instanceof BeanField) {
+    BeanField singleField=(BeanField)field;
+    Class type=singleField.getType();
+    if (Boolean.class.isAssignableFrom(type) || Boolean.TYPE == type) {
+      editor=new PropertyCheckBox(panelId,(BeanModel)getModel(),singleField);
+    }
+ else {
+      editor=new PropertyInput(panelId,(BeanModel)getModel(),singleField);
+    }
+  }
+ else {
+    throw new IllegalArgumentException(field + " is not of a known field type");
+  }
+  return editor;
+}

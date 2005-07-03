@@ -1,0 +1,17 @@
+{
+  BeanInfo beanInfo=beanModel.getBeanInfo(component);
+  if (beanInfo != null) {
+    PropertyDescriptor[] descriptors=beanInfo.getPropertyDescriptors();
+    if (descriptors != null) {
+      List all=new ArrayList();
+      int len=descriptors.length;
+      for (int i=0; i < len; i++) {
+        if (shouldAdd(descriptors[i])) {
+          all.add(descriptors[i]);
+        }
+      }
+      return all;
+    }
+  }
+  return Collections.EMPTY_LIST;
+}
