@@ -1,18 +1,2 @@
 {
-  log.error("Unexpected runtime exception [page = " + page + "]",e);
-  e.printStackTrace();
-  if (page != null) {
-    page.resetMarkupStreams();
-  }
-  if (page != null && page.isErrorPage()) {
-    throw new ServletException("Internal Error: Could not render error page " + page,e);
-  }
- else {
-    try {
-      redirectToExceptionErrorPage(page,e);
-    }
- catch (    RuntimeException e2) {
-      throw new ServletException("Internal Error: Could not redirect to exception error page.  Was trying to display exception for page " + page + ":\n"+ Strings.toString(e),e2);
-    }
-  }
 }
