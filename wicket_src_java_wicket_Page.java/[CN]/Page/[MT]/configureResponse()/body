@@ -3,7 +3,9 @@
   final MarkupStream markupStream=findMarkupStream();
   if ((markupStream != null) && (markupStream.getXmlDeclaration() != null)) {
     response.setContentType("text/" + getMarkupType() + "; charset="+ markupStream.getEncoding());
-    response.write(markupStream.getXmlDeclaration());
+    if (getApplicationSettings().getStripXmlDeclarationFromOutput() == false) {
+      response.write(markupStream.getXmlDeclaration());
+    }
   }
  else {
     response.setContentType("text/" + getMarkupType());
