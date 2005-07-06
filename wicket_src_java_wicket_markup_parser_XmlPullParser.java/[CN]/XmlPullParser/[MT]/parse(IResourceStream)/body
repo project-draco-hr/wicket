@@ -7,7 +7,10 @@
     }
     final int readAheadSize=80;
     bin.mark(readAheadSize);
-    this.encoding=determineEncoding(bin,readAheadSize);
+    final String encoding=determineEncoding(bin,readAheadSize);
+    if (encoding != null) {
+      this.encoding=encoding;
+    }
     final String markup;
     if (this.encoding == null) {
       bin.reset();
