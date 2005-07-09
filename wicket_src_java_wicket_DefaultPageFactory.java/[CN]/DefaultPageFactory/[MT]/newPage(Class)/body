@@ -1,8 +1,12 @@
 {
   try {
+    pageClass.getConstructor(null);
     return (Page)pageClass.newInstance();
   }
- catch (  InstantiationException e) {
+ catch (  NoSuchMethodException e) {
+    throw new WicketRuntimeException("Unable to create page from " + pageClass + ". Class does not have a default contructor",e);
+  }
+catch (  InstantiationException e) {
     throw new WicketRuntimeException("Unable to create page from " + pageClass,e);
   }
 catch (  IllegalAccessException e) {
