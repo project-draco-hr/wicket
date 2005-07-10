@@ -1,12 +1,14 @@
 {
   visitFormComponents(new FormComponent.IVisitor(){
     public void formComponent(    final FormComponent formComponent){
-      formComponent.validate();
-      if (!formComponent.isValid()) {
-        formComponent.invalid();
-      }
+      if (formComponent.isVisible()) {
+        formComponent.validate();
+        if (!formComponent.isValid()) {
+          formComponent.invalid();
+        }
  else {
-        formComponent.valid();
+          formComponent.valid();
+        }
       }
     }
   }
