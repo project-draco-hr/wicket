@@ -1,0 +1,19 @@
+{
+  final Button submittingButton=findSubmittingButton();
+  if (submittingButton != null && (submittingButton.isImmediate())) {
+    submittingButton.onSubmit();
+  }
+ else {
+    validate();
+    if (hasError()) {
+      markFormComponentsInvalid();
+      onError();
+    }
+ else {
+      beforeUpdateFormComponentModels();
+      updateFormComponentModels();
+      persistFormComponentData();
+      delegateSubmit(submittingButton);
+    }
+  }
+}

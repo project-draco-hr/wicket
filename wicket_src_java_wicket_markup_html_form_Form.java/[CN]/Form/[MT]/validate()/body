@@ -1,14 +1,14 @@
 {
-  getValidationStrategy().validate(this);
-  if (hasError()) {
-    invalid();
-    onError();
-    return false;
-  }
+  visitFormComponents(new FormComponent.IVisitor(){
+    public void formComponent(    final FormComponent formComponent){
+      formComponent.validate();
+      if (!formComponent.isValid()) {
+        formComponent.invalid();
+      }
  else {
-    updateFormComponentModels();
-    persistFormComponentData();
-    onSubmit();
-    return true;
+        formComponent.valid();
+      }
+    }
   }
+);
 }
