@@ -8,7 +8,7 @@
   try {
     Class editorClass=classLoader.loadClass(editorTypeName);
     try {
-      Constructor constructor=editorClass.getConstructor(new Class[]{String.class,IModel.class,PropertyDescriptor.class,EditMode.class});
+      Constructor constructor=editorClass.getConstructor(new Class[]{String.class,BeanModel.class,PropertyDescriptor.class,EditMode.class});
       Object[] args=new Object[]{panelId,BeanPanel.this.getModel(),descriptor,getEditMode()};
       BeanPropertyEditor editor=(BeanPropertyEditor)constructor.newInstance(args);
       return editor;
