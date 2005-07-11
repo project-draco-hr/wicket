@@ -1,0 +1,15 @@
+{
+  super.close();
+  String mimeCharset=null;
+  if (mimeType != null) {
+    int index=mimeType.indexOf("charset");
+    if (index != -1) {
+      index=mimeType.indexOf('=',index + 7);
+      if (index != -1) {
+        mimeCharset=mimeType.substring(index + 1);
+      }
+    }
+  }
+  byteBuffer=convertToCharset(mimeCharset,charset);
+  stringBuffer=null;
+}

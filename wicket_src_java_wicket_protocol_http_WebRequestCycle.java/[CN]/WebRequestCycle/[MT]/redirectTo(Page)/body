@@ -21,6 +21,8 @@
         redirectUrl=redirectResponse.getRedirectUrl();
       }
  else       if (redirectResponse.getContentLength() > 0) {
+        redirectResponse.setCharset(getWebResponse().getHttpServletResponse().getCharacterEncoding());
+        redirectResponse.close();
         ((WebApplication)application).addRedirect(getWebRequest().getHttpServletRequest(),redirectUrl,redirectResponse);
       }
     }

@@ -3,11 +3,11 @@
     String requestUri=servletRequest.getRequestURI() + "?" + servletRequest.getQueryString();
     BufferedResponse bufferedResponse=(BufferedResponse)webApplication.getBufferedResponse(servletRequest,requestUri);
     if (bufferedResponse != null) {
-      PrintWriter writer=servletResponse.getWriter();
       servletResponse.setContentLength(bufferedResponse.getContentLength());
       servletResponse.setContentType(bufferedResponse.getContentType());
-      writer.write(bufferedResponse.toString());
-      writer.close();
+      OutputStream os=servletResponse.getOutputStream();
+      os.write(bufferedResponse.getBytes());
+      os.close();
       return;
     }
   }
