@@ -1,0 +1,13 @@
+{
+  Object returnValue=object;
+  if (displayExpression != null && object != null) {
+    try {
+      returnValue=Ognl.getValue(displayExpression,object);
+    }
+ catch (    OgnlException ex) {
+      throw new WicketRuntimeException("Error getting display value of: " + object + " for property: "+ displayExpression,ex);
+    }
+  }
+  if (returnValue == null)   return "";
+ else   return returnValue.toString();
+}

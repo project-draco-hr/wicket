@@ -1,15 +1,19 @@
 {
   final StringBuffer buffer=new StringBuffer();
-  final IChoiceList choices=getChoices();
-  for (int i=0; i < choices.size(); i++) {
-    final IChoice choice=choices.get(i);
-    final String label=choice.getDisplayValue();
+  final Collection choices=getChoices();
+  int index=-1;
+  Iterator it=choices.iterator();
+  while (it.hasNext()) {
+    index++;
+    final Object choice=it.next();
+    final String label=getChoiceRenderer().getDisplayValue(choice);
     if (label != null) {
       buffer.append(getPrefix());
-      buffer.append("<input name=\"" + getPath() + "\""+ " type=\"radio\""+ (isSelected(choice) ? " checked" : "")+ " value=\""+ choice.getId()+ "\"");
+      String id=getChoiceRenderer().getIdValue(choice,index);
+      buffer.append("<input name=\"" + getPath() + "\""+ " type=\"radio\""+ (isSelected(choice,index) ? " checked" : "")+ " value=\""+ id+ "\"");
       if (wantOnSelectionChangedNotifications()) {
         final String url=urlFor(IOnChangeListener.class);
-        buffer.append(" onclick=\"location.href='" + url + "&"+ getPath()+ "="+ choice.getId()+ "';\"");
+        buffer.append(" onclick=\"location.href='" + url + "&"+ getPath()+ "="+ id+ "';\"");
       }
       buffer.append(">");
       String display=getLocalizer().getString(getId() + "." + label,this,label);

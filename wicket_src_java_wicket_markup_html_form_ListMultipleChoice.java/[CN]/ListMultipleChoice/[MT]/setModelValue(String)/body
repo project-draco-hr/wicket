@@ -7,8 +7,18 @@
  else {
     selectedValues.clear();
   }
-  final IChoiceList choices=getChoices();
+  final Collection choices=getChoices();
   for (final StringTokenizer tokenizer=new StringTokenizer(value,";"); tokenizer.hasMoreTokens(); ) {
-    selectedValues.add(choices.choiceForId(tokenizer.nextToken()).getObject());
+    String selected=tokenizer.nextToken();
+    Iterator it=getChoices().iterator();
+    int index=-1;
+    while (it.hasNext()) {
+      index++;
+      Object object=it.next();
+      if (getChoiceRenderer().getIdValue(object,index).equals(selected)) {
+        selectedValues.add(object);
+        break;
+      }
+    }
   }
 }

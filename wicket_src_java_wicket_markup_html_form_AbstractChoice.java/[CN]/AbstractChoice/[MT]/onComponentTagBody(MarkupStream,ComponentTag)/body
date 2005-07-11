@@ -1,26 +1,28 @@
 {
   final StringBuffer buffer=new StringBuffer();
   final Object selected=getModelObject();
-  final IChoiceList choices=getChoices();
   buffer.append(getDefaultChoice(selected));
-  for (int i=0; i < choices.size(); i++) {
-    final IChoice choice=choices.get(i);
-    if (choice != null) {
-      final String displayValue=choice.getDisplayValue();
+  Iterator it=getChoices().iterator();
+  int index=0;
+  while (it.hasNext()) {
+    final Object object=it.next();
+    if (object != null) {
+      final String displayValue=renderer.getDisplayValue(object);
       buffer.append("\n<option ");
-      if (isSelected(choice)) {
+      if (isSelected(object,index)) {
         buffer.append("selected=\"selected\"");
       }
       buffer.append("value=\"");
-      buffer.append(choice.getId());
+      buffer.append(renderer.getIdValue(object,index));
       buffer.append("\">");
       String display=getLocalizer().getString(getId() + "." + displayValue,this,displayValue);
       String escaped=Strings.escapeMarkup(display,false,true);
       buffer.append(escaped);
       buffer.append("</option>");
+      index++;
     }
  else {
-      throw new IllegalArgumentException("Choice list has null value at index " + i);
+      throw new IllegalArgumentException("Choice list has null value at index " + index);
     }
   }
   buffer.append("\n");
