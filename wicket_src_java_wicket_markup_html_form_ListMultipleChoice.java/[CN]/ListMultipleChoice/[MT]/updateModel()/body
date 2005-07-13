@@ -9,15 +9,12 @@
   }
   final String[] ids=inputAsStringArray();
   if (ids != null && ids.length > 0 && !Strings.isEmpty(ids[0])) {
-    final Collection choices=getChoices();
+    final List choices=getChoices();
     for (int i=0; i < ids.length; i++) {
-      Iterator it=getChoices().iterator();
-      int index=-1;
-      while (it.hasNext()) {
-        index++;
-        Object object=it.next();
-        if (getChoiceRenderer().getIdValue(object,index).equals(ids[i])) {
-          selectedValues.add(object);
+      for (int index=0; index < choices.size(); index++) {
+        final Object choice=choices.get(index);
+        if (getChoiceRenderer().getIdValue(choice,index).equals(ids[i])) {
+          selectedValues.add(choice);
           break;
         }
       }

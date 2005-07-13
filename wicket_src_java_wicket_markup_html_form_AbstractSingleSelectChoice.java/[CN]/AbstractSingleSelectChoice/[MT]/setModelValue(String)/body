@@ -1,11 +1,9 @@
 {
-  Iterator it=getChoices().iterator();
-  int index=-1;
-  while (it.hasNext()) {
-    index++;
-    Object object=it.next();
-    if (getChoiceRenderer().getIdValue(object,index).equals(value)) {
-      setModelObject(object);
+  List choices=getChoices();
+  for (int index=0; index < choices.size(); index++) {
+    final Object choice=choices.get(index);
+    if (getChoiceRenderer().getIdValue(choice,index).equals(value)) {
+      setModelObject(choice);
       break;
     }
   }

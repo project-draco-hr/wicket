@@ -2,20 +2,10 @@
   final Collection selectedValues=(Collection)getModelObject();
   final StringBuffer buffer=new StringBuffer();
   if (selectedValues != null) {
-    final Collection choices=getChoices();
+    final List choices=getChoices();
     for (final Iterator iterator=selectedValues.iterator(); iterator.hasNext(); ) {
       final Object object=iterator.next();
-      int index=-1;
-      if (choices instanceof List) {
-        index=((List)choices).indexOf(object);
-      }
- else {
-        Iterator it=choices.iterator();
-        while (it.hasNext()) {
-          index++;
-          if (it.next().equals(object))           break;
-        }
-      }
+      int index=choices.indexOf(object);
       buffer.append(getChoiceRenderer().getIdValue(object,index));
       buffer.append(";");
     }
