@@ -1,0 +1,18 @@
+{
+  final ValueMap param=new ValueMap(queryString,"&");
+  final String bookmarkablePage=param.getString("bookmarkablePage");
+  if (bookmarkablePage != null) {
+    String url="/" + Strings.replaceAll(bookmarkablePage,".","/") + ".wic";
+    param.remove("bookmarkablePage");
+    if (param.size() > 0) {
+      char separator='?';
+      for (final Iterator iterator=param.keySet().iterator(); iterator.hasNext(); ) {
+        final String key=(String)iterator.next();
+        url+=separator + key + "="+ param.getString(key);
+        separator='&';
+      }
+    }
+    return url;
+  }
+  return "?" + queryString;
+}

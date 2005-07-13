@@ -1,0 +1,31 @@
+{
+  super(request);
+  String servletPath=request.getServletPath();
+  queryString=request.getQueryString();
+  String contextPath=request.getContextPath();
+  this.path=request.getPathInfo();
+  if (this.path == null) {
+    return;
+  }
+  if (this.path.startsWith("/") && this.path.endsWith(".wic")) {
+    String path=this.path.substring(1,this.path.length() - 4);
+    path=Strings.replaceAll(path,"/",".");
+    this.parameters=new ValueMap();
+    this.parameters.put("bookmarkablePage",path);
+    this.path=null;
+  }
+  if (queryString != null) {
+    if (parameters == null) {
+      parameters=new ValueMap();
+    }
+    this.parameters.putAll(analyzeQueryString(this.queryString));
+  }
+  final Map params=super.getParameterMap();
+  if ((params != null) && !params.isEmpty()) {
+    final Iterator iter=params.entrySet().iterator();
+    while (iter.hasNext()) {
+      final Map.Entry entry=(Map.Entry)iter.next();
+      this.parameters.put(entry.getKey(),entry.getValue());
+    }
+  }
+}
