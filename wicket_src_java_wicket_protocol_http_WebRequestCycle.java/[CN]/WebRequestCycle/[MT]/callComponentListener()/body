@@ -1,5 +1,5 @@
 {
-  final String path=request.getParameter("component");
+  final String path=request.getParameter("path");
   final String pageMapName=request.getParameter("pagemap");
   if (path != null) {
     final String versionNumberString=request.getParameter("version");
@@ -8,6 +8,9 @@
     if (page != null) {
       setUpdateCluster(true);
       String interfaceName=request.getParameter("interface");
+      if (interfaceName == null) {
+        interfaceName="IRedirectListener";
+      }
       invokeInterface(page,path,interfaceName);
       return true;
     }
