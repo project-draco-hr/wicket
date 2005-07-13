@@ -5,15 +5,24 @@
     if (bufferedResponse != null) {
       servletResponse.setContentLength(bufferedResponse.getContentLength());
       servletResponse.setContentType(bufferedResponse.getContentType());
-      OutputStream os=servletResponse.getOutputStream();
+      final OutputStream os=servletResponse.getOutputStream();
       os.write(bufferedResponse.getBytes());
       os.close();
       return;
     }
   }
+  if (servletRequest.getCharacterEncoding() == null) {
+    try {
+      servletRequest.setCharacterEncoding(webApplication.getSettings().getResponseRequestEncoding());
+    }
+ catch (    UnsupportedEncodingException ex) {
+      throw new WicketRuntimeException(ex.getMessage());
+    }
+  }
   final WebSession session=webApplication.getSession(servletRequest);
   final WebRequest request=webApplication.newWebRequest(servletRequest);
   final WebResponse response=webApplication.newWebResponse(servletResponse);
+  response.setCharacterEncoding(webApplication.getSettings().getResponseRequestEncoding());
   try {
     RequestCycle cycle=session.newRequestCycle(request,response);
     cycle.request();

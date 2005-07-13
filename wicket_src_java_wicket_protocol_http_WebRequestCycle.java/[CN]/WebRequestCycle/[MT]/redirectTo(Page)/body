@@ -1,10 +1,10 @@
 {
   String redirectUrl=page.urlFor(page,IRedirectListener.class);
   ApplicationSettings settings=application.getSettings();
-  if (settings.getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER && application instanceof WebApplication) {
+  if ((settings.getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) && (application instanceof WebApplication)) {
     try {
       final Response currentResponse=getResponse();
-      BufferedResponse redirectResponse=new BufferedResponse(redirectUrl){
+      final BufferedResponse redirectResponse=new BufferedResponse(redirectUrl){
         public String encodeURL(        String url){
           return currentResponse.encodeURL(url);
         }
@@ -16,12 +16,12 @@
       }
       page.doRender();
       setResponse(currentResponse);
-      String responseRedirect=redirectResponse.getRedirectUrl();
+      final String responseRedirect=redirectResponse.getRedirectUrl();
       if (redirectUrl != responseRedirect) {
         redirectUrl=redirectResponse.getRedirectUrl();
       }
  else       if (redirectResponse.getContentLength() > 0) {
-        redirectResponse.setCharset(getWebResponse().getHttpServletResponse().getCharacterEncoding());
+        redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         redirectResponse.close();
         ((WebApplication)application).addRedirect(getWebRequest().getHttpServletRequest(),redirectUrl,redirectResponse);
       }

@@ -1,15 +1,8 @@
 {
-  super.close();
-  String mimeCharset=null;
-  if (mimeType != null) {
-    int index=mimeType.indexOf("charset");
-    if (index != -1) {
-      index=mimeType.indexOf('=',index + 7);
-      if (index != -1) {
-        mimeCharset=mimeType.substring(index + 1);
-      }
-    }
+  if (stringBuffer == null) {
+    throw new WicketRuntimeException("The response has already been closed.");
   }
-  byteBuffer=convertToCharset(mimeCharset,charset);
-  stringBuffer=null;
+  super.close();
+  this.byteBuffer=convertToCharset(getCharacterEncoding());
+  this.stringBuffer=null;
 }
