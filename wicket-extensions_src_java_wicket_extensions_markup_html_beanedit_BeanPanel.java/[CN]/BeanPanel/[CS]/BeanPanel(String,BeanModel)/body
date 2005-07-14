@@ -1,5 +1,9 @@
 {
   super(id,beanModel);
-  add(new Label("displayName",new BeanDisplayNameModel(beanModel)));
+  Panel header=newHeader("header",beanModel);
+  if (header == null) {
+    throw new NullPointerException("header must be not null");
+  }
+  add(header);
   add(new PropertyList("propertiesList",new BeanPropertiesListModel(beanModel)));
 }

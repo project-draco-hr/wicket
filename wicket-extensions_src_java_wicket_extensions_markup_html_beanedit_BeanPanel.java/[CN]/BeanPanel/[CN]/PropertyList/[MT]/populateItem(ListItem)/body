@@ -1,6 +1,9 @@
 {
   PropertyDescriptor descriptor=(PropertyDescriptor)item.getModelObject();
   item.add(new Label("displayName",descriptor.getDisplayName()));
-  Panel propertyEditor=getPropertyEditor("editor",descriptor);
+  Panel propertyEditor=newPropertyEditor("editor",descriptor);
+  if (propertyEditor == null) {
+    throw new NullPointerException("propertyEditor must be not null");
+  }
   item.add(propertyEditor);
 }

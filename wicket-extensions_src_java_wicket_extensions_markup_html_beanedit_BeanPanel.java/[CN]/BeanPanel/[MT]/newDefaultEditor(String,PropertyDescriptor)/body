@@ -1,0 +1,14 @@
+{
+  BeanPropertyEditor editor;
+  final Class type=descriptor.getPropertyType();
+  if (checkAssignableFrom(BOOL_TYPES,type)) {
+    editor=new PropertyCheckBox(panelId,(BeanModel)getModel(),descriptor,getEditMode());
+  }
+  if (checkAssignableFrom(BASE_TYPES,type)) {
+    editor=new PropertyInput(panelId,(BeanModel)getModel(),descriptor,getEditMode());
+  }
+ else {
+    return new ButtonToMoreDetails(panelId,(BeanModel)getModel(),descriptor,getEditMode());
+  }
+  return editor;
+}
