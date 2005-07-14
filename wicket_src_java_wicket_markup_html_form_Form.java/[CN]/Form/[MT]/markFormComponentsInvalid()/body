@@ -1,7 +1,9 @@
 {
   visitFormComponents(new FormComponent.IVisitor(){
     public void formComponent(    final FormComponent formComponent){
-      formComponent.invalid();
+      if (formComponent.isVisibleInHierarchy()) {
+        formComponent.invalid();
+      }
     }
   }
 );

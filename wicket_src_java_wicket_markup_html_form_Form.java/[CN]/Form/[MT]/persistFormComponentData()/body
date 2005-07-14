@@ -3,11 +3,13 @@
     final IValuePersister persister=getValuePersister();
     visitFormComponents(new FormComponent.IVisitor(){
       public void formComponent(      final FormComponent formComponent){
-        if (formComponent.isPersistent()) {
-          persister.save(formComponent);
-        }
+        if (formComponent.isVisibleInHierarchy()) {
+          if (formComponent.isPersistent()) {
+            persister.save(formComponent);
+          }
  else {
-          persister.clear(formComponent);
+            persister.clear(formComponent);
+          }
         }
       }
     }
