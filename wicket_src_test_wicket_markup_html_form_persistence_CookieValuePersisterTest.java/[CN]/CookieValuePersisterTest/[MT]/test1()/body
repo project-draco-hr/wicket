@@ -13,13 +13,13 @@
   assertEquals(0,getRequestCookies(cycle).length);
   assertEquals(1,getResponseCookies(cycle).size());
   assertEquals("test",((Cookie)getResponseCookies(cycle).get(0)).getValue());
-  assertEquals("form.input",((Cookie)getResponseCookies(cycle).get(0)).getName());
+  assertEquals("form:input",((Cookie)getResponseCookies(cycle).get(0)).getName());
   assertNull(((Cookie)getResponseCookies(cycle).get(0)).getPath());
   persister.clear(textField);
   assertEquals(0,getRequestCookies(cycle).length);
   assertEquals(1,getResponseCookies(cycle).size());
   assertEquals("test",((Cookie)getResponseCookies(cycle).get(0)).getValue());
-  assertEquals("form.input",((Cookie)getResponseCookies(cycle).get(0)).getName());
+  assertEquals("form:input",((Cookie)getResponseCookies(cycle).get(0)).getName());
   assertNull(((Cookie)getResponseCookies(cycle).get(0)).getPath());
   persister.load(textField);
   assertEquals("test",textField.getModelObjectAsString());
@@ -36,6 +36,6 @@
   persister.clear(textField);
   assertEquals(1,getRequestCookies(cycle).length);
   assertEquals(2,getResponseCookies(cycle).size());
-  assertEquals("form.input",((Cookie)getResponseCookies(cycle).get(1)).getName());
+  assertEquals("form:input",((Cookie)getResponseCookies(cycle).get(1)).getName());
   assertEquals(0,((Cookie)getResponseCookies(cycle).get(1)).getMaxAge());
 }
