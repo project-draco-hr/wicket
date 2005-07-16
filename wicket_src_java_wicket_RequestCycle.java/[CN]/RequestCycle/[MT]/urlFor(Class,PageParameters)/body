@@ -1,0 +1,15 @@
+{
+  final StringBuffer buffer=urlPrefix();
+  buffer.append("?bookmarkablePage=");
+  buffer.append(application.getPages().getBookmarkablePageName(pageClass));
+  if (parameters != null) {
+    for (final Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
+      final String key=(String)iterator.next();
+      buffer.append('&');
+      buffer.append(key);
+      buffer.append('=');
+      buffer.append(parameters.getString(key));
+    }
+  }
+  return getResponse().encodeURL(buffer.toString());
+}
