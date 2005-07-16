@@ -3,9 +3,20 @@
   final String servletPath=getWebRequest().getServletPath();
   if (Strings.isEmpty(path) || ("/".equals(path) && "".equals(servletPath))) {
     try {
-      Page newPage=newPage(application.getPages().getHomePage());
-      setRedirect(true);
-      setResponsePage(newPage);
+      Class homePage=application.getPages().getHomePage();
+      ApplicationPages.HomePageStrategy homePageStrategy=application.getPages().getHomePageStrategy();
+      if (homePageStrategy == ApplicationPages.BOOKMARK_REDIRECT) {
+        setResponsePage(homePage);
+      }
+ else {
+        Page newPage=newPage(homePage);
+        if (homePageStrategy == ApplicationPages.PAGE_REDIRECT) {
+          ApplicationSettings.RenderStrategy strategy=getSession().getApplication().getSettings().getRenderStrategy();
+          boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+          setRedirect(issueRedirect);
+        }
+        setResponsePage(newPage);
+      }
       setUpdateCluster(true);
     }
  catch (    WicketRuntimeException e) {

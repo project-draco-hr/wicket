@@ -1,13 +1,14 @@
 {
-  final String pageClassName=request.getParameter("bookmarkablePage");
-  if (pageClassName != null) {
+  final String bookmarkableName=request.getParameter("bookmarkablePage");
+  if (bookmarkableName != null) {
+    String pageClassName=application.getPages().getBookmarkablePageClassname(bookmarkableName);
     Class pageClass=null;
     try {
       pageClass=session.getClassResolver().resolveClass(pageClassName);
     }
  catch (    RuntimeException e) {
       try {
-        getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND,"Unable to load Page class: " + pageClassName);
+        getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND,"Unable to load Page class: " + bookmarkableName);
         return false;
       }
  catch (      IOException ex) {
@@ -22,7 +23,7 @@
       return true;
     }
  catch (    RuntimeException e) {
-      throw new WicketRuntimeException("Unable to instantiate Page class: " + pageClassName + ". See below for details.",e);
+      throw new WicketRuntimeException("Unable to instantiate Page class: " + bookmarkableName + ". See below for details.",e);
     }
   }
   return false;
