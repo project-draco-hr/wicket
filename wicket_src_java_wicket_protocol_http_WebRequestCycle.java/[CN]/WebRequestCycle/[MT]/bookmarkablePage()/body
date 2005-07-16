@@ -1,19 +1,20 @@
 {
   final String bookmarkableName=request.getParameter("bookmarkablePage");
   if (bookmarkableName != null) {
-    String pageClassName=application.getPages().getBookmarkablePageClassname(bookmarkableName);
-    Class pageClass=null;
-    try {
-      pageClass=session.getClassResolver().resolveClass(pageClassName);
-    }
- catch (    RuntimeException e) {
+    Class pageClass=application.getPages().pageClassForAlias(bookmarkableName);
+    if (pageClass == null) {
       try {
-        getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND,"Unable to load Page class: " + bookmarkableName);
-        return false;
+        pageClass=session.getClassResolver().resolveClass(bookmarkableName);
       }
- catch (      IOException ex) {
-        log.error("unable to send 404 for " + getRequest() + ", cause: "+ ex.getMessage(),ex);
-        return false;
+ catch (      RuntimeException e) {
+        try {
+          getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND,"Unable to load Page class: " + bookmarkableName);
+          return false;
+        }
+ catch (        IOException ex) {
+          log.error("unable to send 404 for " + getRequest() + ", cause: "+ ex.getMessage(),ex);
+          return false;
+        }
       }
     }
     try {
