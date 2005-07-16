@@ -2,9 +2,13 @@
   if (pageClass == null) {
     throw new NullPointerException("argument pageClass may not be null");
   }
-  checkPageClass(pageClass);
   if (alias == null) {
     throw new NullPointerException("argument alias may not be null");
   }
-  pageAliases.put(pageClass,alias);
+  if (classAliases.containsValue(alias)) {
+    throw new WicketRuntimeException("can't set the same alias name twice");
+  }
+ else {
+    classAliases.put(pageClass,alias);
+  }
 }
