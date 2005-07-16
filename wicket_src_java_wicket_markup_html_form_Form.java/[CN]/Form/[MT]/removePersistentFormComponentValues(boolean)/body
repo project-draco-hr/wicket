@@ -2,9 +2,11 @@
   final IValuePersister persister=getValuePersister();
   visitFormComponents(new FormComponent.IVisitor(){
     public void formComponent(    final FormComponent formComponent){
-      persister.clear(formComponent);
-      if (formComponent.isPersistent() && disablePersistence) {
-        formComponent.setPersistent(false);
+      if (formComponent.isVisibleInHierarchy()) {
+        persister.clear(formComponent);
+        if (formComponent.isPersistent() && disablePersistence) {
+          formComponent.setPersistent(false);
+        }
       }
     }
   }
