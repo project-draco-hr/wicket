@@ -2,8 +2,8 @@
   String redirectUrl=page.urlFor(page,IRedirectListener.class);
   ApplicationSettings settings=application.getSettings();
   if ((settings.getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) && (application instanceof WebApplication)) {
+    final Response currentResponse=getResponse();
     try {
-      final Response currentResponse=getResponse();
       final BufferedResponse redirectResponse=new BufferedResponse(redirectUrl){
         public String encodeURL(        String url){
           return currentResponse.encodeURL(url);
@@ -28,7 +28,9 @@
       }
     }
  catch (    RuntimeException ex) {
+      setResponse(currentResponse);
       internalOnRuntimeException(page,ex);
+      return;
     }
   }
  else {
