@@ -1,0 +1,16 @@
+{
+  super();
+  HotelPreferences preferences=new HotelPreferences();
+  HotelPreferencesModel model=new HotelPreferencesModel(preferences);
+  Step personalData=new PersonalDataStep(model);
+  Step roomSelection=new RoomSelectionStep(model);
+  Step stayPreferences=new StayPreferencesStep(model);
+  Step review=new ReviewStep(model);
+  Transitions transitions=new Transitions(personalData);
+  transitions.put(personalData,new NextCommand(TransitionLabel.NEXT,roomSelection));
+  transitions.put(roomSelection,new NextCommand(TransitionLabel.PREVIOUS,personalData));
+  transitions.put(roomSelection,new NextCommand(TransitionLabel.NEXT,stayPreferences));
+  transitions.put(stayPreferences,new NextCommand(TransitionLabel.PREVIOUS,roomSelection));
+  transitions.put(stayPreferences,new NextCommand(TransitionLabel.NEXT,roomSelection));
+  setTransitions(transitions);
+}
