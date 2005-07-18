@@ -16,15 +16,12 @@
   }
   final Class paramClass=parameterClasses[0];
   try {
-    if (paramClass.equals(String.class)) {
-      method.invoke(object,new Object[]{value});
+    final IConverter converter=new ConverterFactory().newConverter(Locale.US);
+    final Object param=converter.convert(value,paramClass);
+    if (param == null) {
+      throw new MarkupException("Unable to convert value '" + value + "' into "+ paramClass+ ". May be there is no converter for that type registered?");
     }
- else     if (paramClass.equals(int.class)) {
-      method.invoke(object,new Object[]{new Integer(value)});
-    }
- else     if (paramClass.equals(long.class)) {
-      method.invoke(object,new Object[]{new Long(value)});
-    }
+    method.invoke(object,new Object[]{param});
   }
  catch (  IllegalAccessException ex) {
     throw new MarkupException("Unable to initialize Component. Failure while invoking method " + methodName + ". Cause: "+ ex);
