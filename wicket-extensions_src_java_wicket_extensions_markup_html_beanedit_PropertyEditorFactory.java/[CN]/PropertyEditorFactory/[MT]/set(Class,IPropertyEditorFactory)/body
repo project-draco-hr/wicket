@@ -1,0 +1,15 @@
+{
+  if (factory == null) {
+    throw new NullPointerException("argument factory may not be null");
+  }
+  if (c == null) {
+    throw new NullPointerException("argument c (class) may not be null");
+  }
+  IPropertyEditorFactory replaced=(IPropertyEditorFactory)classToFactory.put(c,factory);
+  if (replaced != null) {
+    log.info("replaced property editor factory " + replaced + " with "+ factory+ " for type "+ c);
+  }
+ else {
+    log.info("set property editor factory " + factory + " for type "+ c);
+  }
+}

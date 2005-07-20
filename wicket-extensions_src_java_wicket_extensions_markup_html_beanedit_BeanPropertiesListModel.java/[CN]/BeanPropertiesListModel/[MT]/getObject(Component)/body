@@ -7,8 +7,12 @@
       int len=descriptors.length;
       for (int i=0; i < len; i++) {
         if (shouldAdd(descriptors[i])) {
-          all.add(descriptors[i]);
+          PropertyMeta meta=new PropertyMeta(beanModel,descriptors[i]);
+          all.add(meta);
         }
+      }
+      int defaultPropertyIndex=beanInfo.getDefaultPropertyIndex();
+      if (defaultPropertyIndex != -1) {
       }
       return all;
     }
