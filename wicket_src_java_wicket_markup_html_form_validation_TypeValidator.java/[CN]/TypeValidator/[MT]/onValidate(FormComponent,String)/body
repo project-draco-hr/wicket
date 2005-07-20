@@ -1,0 +1,16 @@
+{
+  if (!Strings.isEmpty(value)) {
+    final IConverter converter=formComponent.getConverter();
+    try {
+      converter.convert(value,type);
+    }
+ catch (    Exception e) {
+      if (e instanceof ConversionException) {
+        error(formComponent,messageModel(formComponent,(ConversionException)e));
+      }
+ else {
+        error(formComponent,messageModel(formComponent,new ConversionException(e)));
+      }
+    }
+  }
+}
