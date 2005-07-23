@@ -1,12 +1,9 @@
 {
   String url=getModelObjectAsString();
-  if (isAbsolute(url)) {
-    try {
-      return importUrl(new URL(url));
-    }
- catch (    MalformedURLException e) {
-      throw new WicketRuntimeException(e);
-    }
+  if (!isAbsolute(url)) {
+    return importRelativeUrl(url);
   }
-  return importRelative(url);
+ else {
+    return importAbsoluteUrl(url);
+  }
 }
