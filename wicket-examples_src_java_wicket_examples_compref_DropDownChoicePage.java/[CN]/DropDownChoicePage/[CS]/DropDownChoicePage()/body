@@ -1,0 +1,47 @@
+{
+  final Input input=new Input();
+  setModel(new CompoundPropertyModel(input));
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form form=new Form("form",feedbackPanel){
+    protected void onSubmit(){
+      info("input: " + input);
+    }
+  }
+;
+  add(form);
+  form.add(new DropDownChoice("site",SITES));
+  form.add(new DropDownChoice("integer",INTEGERS,new IChoiceRenderer(){
+    /** 
+ * Gets the display value that is visible to the end user.
+ * @see wicket.markup.html.form.IChoiceRenderer#getDisplayValue(java.lang.Object)
+ */
+    public String getDisplayValue(    Object object){
+      String stringrep;
+      int value=((Integer)object).intValue();
+switch (value) {
+case 1:
+        stringrep="One";
+      break;
+case 2:
+    stringrep="Two";
+  break;
+case 3:
+stringrep="Three";
+break;
+default :
+throw new IllegalStateException(value + " is not mapped!");
+}
+return stringrep;
+}
+/** 
+ * Gets the value that is invisble to the end user, and that is used
+ * as the selection id.
+ * @see wicket.markup.html.form.IChoiceRenderer#getIdValue(java.lang.Object,int)
+ */
+public String getIdValue(Object object,int index){
+return String.valueOf(INTEGERS.get(index));
+}
+}
+));
+}
