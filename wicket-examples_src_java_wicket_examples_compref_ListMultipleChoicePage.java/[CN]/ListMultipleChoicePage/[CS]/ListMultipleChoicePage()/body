@@ -1,0 +1,15 @@
+{
+  final Input input=new Input();
+  setModel(new CompoundPropertyModel(input));
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form form=new Form("form",feedbackPanel){
+    protected void onSubmit(){
+      info("input: " + input);
+    }
+  }
+;
+  add(form);
+  ListMultipleChoice listChoice=new ListMultipleChoice("sites",SITES);
+  form.add(listChoice);
+}
