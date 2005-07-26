@@ -9,8 +9,8 @@
     }
     if (eventRequestHandlers != null) {
       for (Iterator i=eventRequestHandlers.values().iterator(); i.hasNext(); ) {
-        EventRequestHandler handler=(EventRequestHandler)i.next();
-        handler.onRenderComponentTag(this,tag);
+        IEventRequestHandler handler=(IEventRequestHandler)i.next();
+        handler.onComponentTag(this,tag);
       }
     }
     getResponse().write(tag.toString(settings.getStripWicketTags(),this.findMarkupStream().getWicketNamespace()));
