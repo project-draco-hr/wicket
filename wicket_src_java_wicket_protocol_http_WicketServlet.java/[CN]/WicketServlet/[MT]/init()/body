@@ -1,7 +1,7 @@
 {
   final String applicationClassName=getInitParameter("applicationClassName");
   try {
-    final Class applicationClass=Class.forName(applicationClassName);
+    final Class applicationClass=getClass().getClassLoader().loadClass(applicationClassName);
     if (WebApplication.class.isAssignableFrom(applicationClass)) {
       this.webApplication=(WebApplication)applicationClass.newInstance();
       this.webApplication.setWicketServlet(this);
