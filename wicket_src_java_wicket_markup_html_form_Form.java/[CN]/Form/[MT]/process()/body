@@ -1,4 +1,34 @@
 {
+  if (multiPart) {
+    final HttpServletRequest request=((WebRequest)getRequest()).getHttpServletRequest();
+    try {
+      final MultipartWebRequest multipartWebRequest=new MultipartWebRequest(this.maxSize,request);
+      getRequestCycle().setRequest(multipartWebRequest);
+    }
+ catch (    FileUploadException e) {
+      final HashMap model=new HashMap();
+      model.put("exception",e);
+      model.put("maxSize",maxSize);
+      if (e instanceof SizeLimitExceededException) {
+        final String defaultValue="Upload must be less than " + maxSize;
+        String msg=getString(getId() + ".uploadTooLarge",Model.valueOf(model),defaultValue);
+        error(msg);
+        if (log.isDebugEnabled()) {
+          log.error(msg,e);
+        }
+ else {
+          log.error(msg);
+        }
+      }
+ else {
+        final String defaultValue="Upload failed: " + e.getLocalizedMessage();
+        String msg=getString(getId() + ".uploadFailed",Model.valueOf(model),defaultValue);
+        error(msg);
+        log.error(msg,e);
+      }
+      return;
+    }
+  }
   final Button submittingButton=findSubmittingButton();
   if (submittingButton != null && (submittingButton.isImmediate())) {
     submittingButton.onSubmit();

@@ -1,9 +1,5 @@
 {
-  final Request request=getRequest();
-  if (request instanceof MultipartWebRequest) {
-    final FileItem item=((MultipartWebRequest)request).getFile(getPath());
-    if (item != null && item.getSize() > 0) {
-      this.fileUpload=new FileUpload(item);
-    }
+  if (getModel() != null) {
+    setModelObject(getFileUpload());
   }
 }
