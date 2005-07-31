@@ -1,16 +1,16 @@
 {
   int firstListItem=this.startIndex;
-  int viewSize=Math.min(getViewSize(),pageableListView.getPageCount());
+  int viewSize=Math.min(getViewSize(),pageable.getPageCount());
   int margin=getMargin();
-  int currentPage=pageableListView.getCurrentPage();
+  int currentPage=pageable.getCurrentPage();
   if (currentPage < (firstListItem + margin)) {
     firstListItem=currentPage - margin;
   }
  else   if ((currentPage >= (firstListItem + viewSize - margin))) {
     firstListItem=(currentPage + margin + 1) - viewSize;
   }
-  if ((firstListItem + viewSize) >= pageableListView.getPageCount()) {
-    firstListItem=pageableListView.getPageCount() - viewSize;
+  if ((firstListItem + viewSize) >= pageable.getPageCount()) {
+    firstListItem=pageable.getPageCount() - viewSize;
   }
   if (firstListItem < 0) {
     firstListItem=0;
@@ -19,7 +19,7 @@
     this.modelChanging();
     addStateChange(new StartIndexChange(this.startIndex));
     this.startIndex=firstListItem;
-    this.setIterations(Math.min(viewSize,pageableListView.getPageCount()));
+    this.setIterations(Math.min(viewSize,pageable.getPageCount()));
     this.modelChanged();
     removeAll();
   }
