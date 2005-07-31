@@ -10,12 +10,14 @@
       }
  else {
         Page newPage=newPage(homePage);
-        if (homePageStrategy == ApplicationPages.PAGE_REDIRECT) {
-          ApplicationSettings.RenderStrategy strategy=getSession().getApplication().getSettings().getRenderStrategy();
-          boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
-          setRedirect(issueRedirect);
+        if (getResponsePage() == null) {
+          if (homePageStrategy == ApplicationPages.PAGE_REDIRECT) {
+            ApplicationSettings.RenderStrategy strategy=getSession().getApplication().getSettings().getRenderStrategy();
+            boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+            setRedirect(issueRedirect);
+          }
+          setResponsePage(newPage);
         }
-        setResponsePage(newPage);
       }
       setUpdateCluster(true);
     }

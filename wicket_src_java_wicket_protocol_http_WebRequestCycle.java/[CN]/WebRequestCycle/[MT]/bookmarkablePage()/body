@@ -8,8 +8,8 @@
       }
  catch (      RuntimeException e) {
         try {
-          getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND,"Unable to load Page class: " + bookmarkableName);
-          return false;
+          getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND,"Unable to load Bookmarkable Page");
+          return true;
         }
  catch (        IOException ex) {
           log.error("unable to send 404 for " + getRequest() + ", cause: "+ ex.getMessage(),ex);
@@ -19,7 +19,9 @@
     }
     try {
       Page newPage=session.getPageFactory().newPage(pageClass,new PageParameters(getRequest().getParameterMap()));
-      setResponsePage(newPage);
+      if (getResponsePage() == null) {
+        setResponsePage(newPage);
+      }
       setUpdateCluster(true);
       return true;
     }
