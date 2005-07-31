@@ -2,6 +2,15 @@
   setInvokePage(page);
   final Component component=page.get(Strings.afterFirstPathComponent(path,':'));
   if (component != null) {
+    if (!component.isVisible()) {
+      try {
+        getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_FORBIDDEN,"Unable to execute this request");
+      }
+ catch (      IOException ex) {
+        log.error("unable to send 403 for " + getRequest() + ", cause: "+ ex.getMessage(),ex);
+      }
+      return;
+    }
     Method method=getRequestInterfaceMethod(interfaceName);
     if (method != null) {
       setResponsePage(page);
