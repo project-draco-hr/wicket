@@ -1,0 +1,29 @@
+{
+  final String appFactoryClassName=getInitParameter(APP_FACT_PARAM);
+  if (appFactoryClassName == null) {
+    return new ContextParamWebApplicationFactory();
+  }
+ else {
+    try {
+      final Class factoryClass=getClass().getClassLoader().loadClass(appFactoryClassName);
+      if (IWebApplicationFactory.class.isAssignableFrom(factoryClass)) {
+        return (IWebApplicationFactory)factoryClass.newInstance();
+      }
+ else {
+        throw new WicketRuntimeException("Application factory class " + appFactoryClassName + " must implement IWebApplicationFactory");
+      }
+    }
+ catch (    ClassNotFoundException e) {
+      throw new WicketRuntimeException("Unable to create application factory of class " + appFactoryClassName,e);
+    }
+catch (    InstantiationException e) {
+      throw new WicketRuntimeException("Unable to create application factory of class " + appFactoryClassName,e);
+    }
+catch (    IllegalAccessException e) {
+      throw new WicketRuntimeException("Unable to create application factory of class " + appFactoryClassName,e);
+    }
+catch (    SecurityException e) {
+      throw new WicketRuntimeException("Unable to create application factory of class " + appFactoryClassName,e);
+    }
+  }
+}

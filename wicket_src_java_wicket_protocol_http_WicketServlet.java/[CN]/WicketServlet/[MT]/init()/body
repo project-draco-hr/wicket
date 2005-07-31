@@ -1,28 +1,8 @@
 {
-  final String applicationClassName=getInitParameter("applicationClassName");
-  try {
-    final Class applicationClass=getClass().getClassLoader().loadClass(applicationClassName);
-    if (WebApplication.class.isAssignableFrom(applicationClass)) {
-      this.webApplication=(WebApplication)applicationClass.newInstance();
-      this.webApplication.setWicketServlet(this);
-      log.info("WicketServlet loaded application " + applicationClass.getName());
-      this.webApplication.internalInit();
-      this.webApplication.init();
-    }
- else {
-      throw new WicketRuntimeException("Application class " + applicationClassName + " must be a subclass of WebApplication");
-    }
-  }
- catch (  ClassNotFoundException e) {
-    throw new WicketRuntimeException("Unable to create application of class " + applicationClassName,e);
-  }
-catch (  InstantiationException e) {
-    throw new WicketRuntimeException("Unable to create application of class " + applicationClassName,e);
-  }
-catch (  IllegalAccessException e) {
-    throw new WicketRuntimeException("Unable to create application of class " + applicationClassName,e);
-  }
-catch (  SecurityException e) {
-    throw new WicketRuntimeException("Unable to create application of class " + applicationClassName,e);
-  }
+  IWebApplicationFactory factory=getApplicationFactory();
+  this.webApplication=factory.createApplication(this);
+  this.webApplication.setWicketServlet(this);
+  log.info("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
+  this.webApplication.internalInit();
+  this.webApplication.init();
 }
