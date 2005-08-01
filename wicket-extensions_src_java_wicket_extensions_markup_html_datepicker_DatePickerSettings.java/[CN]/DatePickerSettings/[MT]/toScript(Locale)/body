@@ -24,10 +24,9 @@
   if (isShowOthers()) {
     b.append("\n\tshowOthers : true,");
   }
-  String ifFormat=getIfFormat();
-  if (ifFormat == null) {
-    ifFormat=getDatePattern();
+  String ifFormat=getIfFormat(locale);
+  if (ifFormat != null) {
+    b.append("\n\t\tifFormat : \"").append(ifFormat).append("\"");
   }
-  b.append("\n\t\tifFormat : \"").append(ifFormat).append("\"");
   return b.toString();
 }

@@ -13,6 +13,11 @@
   add(new InitScript("script"));
   addToHeader(new JavaScriptReference("calendarMain",DatePicker.class,"calendar.js"));
   addToHeader(new JavaScriptReference("calendarSetup",DatePicker.class,"calendar-setup.js"));
-  addToHeader(new JavaScriptReference("calendarLanguage",settings.getLanguage()));
+  addToHeader(new JavaScriptReference("calendarLanguage",new Model(){
+    public Object getObject(    Component component){
+      return settings.getLanguage(DatePicker.this.getLocale());
+    }
+  }
+));
   addToHeader(new StyleSheetReference("calendarStyle",settings.getStyle()));
 }
