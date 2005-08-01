@@ -2,9 +2,9 @@
   if (language != null) {
     return language;
   }
-  StaticResourceReference ref=(StaticResourceReference)localeToLanguageReference.get(currentLocale.getLanguage());
+  String ref=(String)localeToLanguageReference.get(currentLocale.getLanguage());
   if (ref != null) {
-    return ref;
+    return new StaticResourceReference(DatePickerSettings.class,ref);
   }
-  return LANGUAGE_EN;
+  return new StaticResourceReference(DatePickerSettings.class,LANGUAGE_EN);
 }
