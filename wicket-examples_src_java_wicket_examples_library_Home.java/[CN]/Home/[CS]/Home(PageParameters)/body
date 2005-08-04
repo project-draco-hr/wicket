@@ -1,19 +1,16 @@
 {
-  final User user=getLibrarySession().getUser();
-  if (user != null) {
-    final PageableListView listView;
-    add(listView=new PageableListView("books",new PropertyModel(user,"books"),4){
-      public void populateItem(      final ListItem listItem){
-        final Book book=(Book)listItem.getModelObject();
-        listItem.add(BookDetails.link("details",book,getLocalizer().getString("noBookTitle",this)));
-        listItem.add(new Label("author",new Model(book)));
-        listItem.add(moveUpLink("moveUp",listItem));
-        listItem.add(moveDownLink("moveDown",listItem));
-        listItem.add(removeLink("remove",listItem));
-        listItem.add(EditBook.link("edit",book.getId()));
-      }
+  final PageableListView listView;
+  add(listView=new PageableListView("books",new PropertyModel(this,"books"),4){
+    public void populateItem(    final ListItem listItem){
+      final Book book=(Book)listItem.getModelObject();
+      listItem.add(BookDetails.link("details",book,getLocalizer().getString("noBookTitle",this)));
+      listItem.add(new Label("author",new Model(book)));
+      listItem.add(moveUpLink("moveUp",listItem));
+      listItem.add(moveDownLink("moveDown",listItem));
+      listItem.add(removeLink("remove",listItem));
+      listItem.add(EditBook.link("edit",book.getId()));
     }
-);
-    add(new PageableListViewNavigator("navigator",listView));
   }
+);
+  add(new PageableListViewNavigator("navigator",listView));
 }
