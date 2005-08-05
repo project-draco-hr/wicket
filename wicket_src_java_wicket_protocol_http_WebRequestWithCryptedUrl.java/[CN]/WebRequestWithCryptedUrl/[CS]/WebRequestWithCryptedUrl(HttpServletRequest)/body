@@ -1,6 +1,6 @@
 {
   super(request);
-  final String secureParam=request.getParameter("secure");
+  final String secureParam=request.getParameter("x");
   if ((secureParam != null) && (secureParam.length() > 0)) {
     ICrypt urlCrypt=Session.get().getApplication().newCrypt();
     final String queryString=urlCrypt.decrypt(secureParam);
@@ -16,7 +16,7 @@
     final Iterator iter=params.entrySet().iterator();
     while (iter.hasNext()) {
       final Map.Entry entry=(Map.Entry)iter.next();
-      if (!"secure".equalsIgnoreCase((String)entry.getKey())) {
+      if (!"x".equalsIgnoreCase((String)entry.getKey())) {
         this.parameters.put(entry.getKey(),entry.getValue());
       }
     }

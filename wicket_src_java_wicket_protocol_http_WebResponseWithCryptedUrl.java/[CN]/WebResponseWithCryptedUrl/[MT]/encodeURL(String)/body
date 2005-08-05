@@ -5,10 +5,10 @@
     if (pos > 0) {
       String urlPrefix=url.substring(0,pos);
       String queryString=url.substring(pos + 1);
-      if (!queryString.startsWith("secure=")) {
+      if (!queryString.startsWith("x=")) {
         queryString=shortenUrl(queryString);
         final String encryptedQueryString=urlCrypt.encrypt(queryString);
-        final String encryptedUrl=urlPrefix + "?secure=" + escapeUrl(encryptedQueryString);
+        final String encryptedUrl=urlPrefix + "?x=" + escapeUrl(encryptedQueryString);
         return encryptedUrl;
       }
     }
