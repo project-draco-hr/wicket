@@ -9,7 +9,8 @@
       }
       IResourceStream stream=resource.getResourceStream();
       stream.length();
-      return stream.lastModifiedTime().getMilliseconds();
+      Time time=stream.lastModifiedTime();
+      return time != null ? time.getMilliseconds() : -1;
     }
   }
   return -1;
