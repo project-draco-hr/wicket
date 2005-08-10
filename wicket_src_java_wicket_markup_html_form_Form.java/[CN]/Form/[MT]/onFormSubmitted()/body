@@ -1,3 +1,11 @@
 {
-  process();
+  if (handleMultiPart()) {
+    final Button submittingButton=findSubmittingButton();
+    if (submittingButton != null && !submittingButton.getDefaultFormProcessing()) {
+      submittingButton.onSubmit();
+    }
+ else {
+      process(submittingButton);
+    }
+  }
 }
