@@ -3,11 +3,12 @@
   if (hasError()) {
     markFormComponentsInvalid();
     onError();
+    return false;
   }
  else {
     beforeUpdateFormComponentModels();
     updateFormComponentModels();
     persistFormComponentData();
-    delegateSubmit(submittingButton);
+    return true;
   }
 }
