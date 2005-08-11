@@ -1,0 +1,20 @@
+{
+  if (!Strings.isEmpty(className)) {
+    try {
+      Class c=Class.forName(className);
+      ((IInitializer)c.newInstance()).init(this);
+    }
+ catch (    ClassCastException e) {
+      throw new WicketRuntimeException("Unable to initialize " + className,e);
+    }
+catch (    ClassNotFoundException e) {
+      throw new WicketRuntimeException("Unable to initialize " + className,e);
+    }
+catch (    InstantiationException e) {
+      throw new WicketRuntimeException("Unable to initialize " + className,e);
+    }
+catch (    IllegalAccessException e) {
+      throw new WicketRuntimeException("Unable to initialize " + className,e);
+    }
+  }
+}

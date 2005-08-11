@@ -1,10 +1,10 @@
 {
   try {
-    for (Enumeration e=getClass().getClassLoader().getResources("META-INF/wicket-component-initializers.txt"); e.hasMoreElements(); ) {
-      initializeComponents((URL)e.nextElement());
-    }
-    for (Enumeration e=getClass().getClassLoader().getResources("META-INF/" + getName() + "-wicket-component-initializers.txt"); e.hasMoreElements(); ) {
-      initializeComponents((URL)e.nextElement());
+    for (Enumeration e=getClass().getClassLoader().getResources("wicket.properties"); e.hasMoreElements(); ) {
+      final URL url=(URL)e.nextElement();
+      final Properties properties=new Properties();
+      properties.load(url.openStream());
+      initializeComponents(properties);
     }
   }
  catch (  IOException e) {
