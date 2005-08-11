@@ -19,7 +19,7 @@
         throw new WicketRuntimeException("the model must provide an instance of String");
       }
       String f=(String)component.getConverter().convert(file.getObject(component),String.class);
-      StaticResourceReference ref=new StaticResourceReference(referer,f);
+      PackageResourceReference ref=new PackageResourceReference(Application.get(),referer,f);
       String url=getPage().urlFor(ref.getPath());
       return url;
     }

@@ -1,0 +1,21 @@
+{
+  final String[] components=new UrlResourceStream(url).asString().split("[\n\r]+");
+  for (int i=0; i < components.length; i++) {
+    final String className=components[i].trim();
+    if (!Strings.isEmpty(className)) {
+      try {
+        Class c=Class.forName(className);
+        ((IComponentInitializer)c.newInstance()).init(this);
+      }
+ catch (      ClassNotFoundException e) {
+        throw new WicketRuntimeException("Unable to initialize " + className,e);
+      }
+catch (      InstantiationException e) {
+        throw new WicketRuntimeException("Unable to initialize " + className,e);
+      }
+catch (      IllegalAccessException e) {
+        throw new WicketRuntimeException("Unable to initialize " + className,e);
+      }
+    }
+  }
+}

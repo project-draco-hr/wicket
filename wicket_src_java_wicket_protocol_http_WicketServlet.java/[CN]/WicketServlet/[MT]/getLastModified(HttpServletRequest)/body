@@ -5,8 +5,8 @@
     final Resource resource=webApplication.getSharedResources().get(resourceReferenceKey);
     if (resource != null) {
       resource.setParameters(new WebRequest(servletRequest).getParameterMap());
-      if (resource instanceof StaticResource) {
-        ((StaticResource)resource).setApplication(webApplication);
+      if (resource instanceof PackageResource) {
+        ((PackageResource)resource).setApplication(webApplication);
       }
       if (!resource.isCacheable()) {
         return -1;
