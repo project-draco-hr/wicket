@@ -3,6 +3,12 @@
   this.webApplication=factory.createApplication(this);
   this.webApplication.setWicketServlet(this);
   log.info("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
-  this.webApplication.internalInit();
-  this.webApplication.init();
+  try {
+    Application.set(webApplication);
+    this.webApplication.internalInit();
+    this.webApplication.init();
+  }
+  finally {
+    Application.set(null);
+  }
 }

@@ -24,10 +24,12 @@
   final WebResponse response=webApplication.newWebResponse(servletResponse);
   response.setCharacterEncoding(webApplication.getSettings().getResponseRequestEncoding());
   try {
+    Application.set(webApplication);
     RequestCycle cycle=session.newRequestCycle(request,response);
     cycle.request();
   }
   finally {
     response.close();
+    Application.set(null);
   }
 }

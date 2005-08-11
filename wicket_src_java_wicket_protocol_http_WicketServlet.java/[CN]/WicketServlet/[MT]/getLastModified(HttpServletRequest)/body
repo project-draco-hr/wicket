@@ -3,19 +3,17 @@
   if ((pathInfo != null) && pathInfo.startsWith(WebRequestCycle.resourceReferencePrefix)) {
     final String resourceReferenceKey=pathInfo.substring(WebRequestCycle.resourceReferencePrefix.length());
     final Resource resource=webApplication.getSharedResources().get(resourceReferenceKey);
-    if (resource != null) {
-      resource.setParameters(new WebRequest(servletRequest).getParameterMap());
-      if (resource instanceof PackageResource) {
-        ((PackageResource)resource).setApplication(webApplication);
-      }
-      if (!resource.isCacheable()) {
-        return -1;
-      }
- else {
+    if (resource != null && resource.isCacheable()) {
+      try {
+        Application.set(webApplication);
+        resource.setParameters(new WebRequest(servletRequest).getParameterMap());
         IResourceStream stream=resource.getResourceStream();
         stream.length();
         Time time=stream.lastModifiedTime();
         return time != null ? time.getMilliseconds() : -1;
+      }
+  finally {
+        Application.set(null);
       }
     }
   }

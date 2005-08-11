@@ -1,8 +1,8 @@
 {
   if (contentType == null || contentType.indexOf("unknown") != -1) {
-    RequestCycle rc=RequestCycle.get();
-    if (rc != null && (rc.getApplication() instanceof WebApplication)) {
-      contentType=((WebApplication)rc.getApplication()).getWicketServlet().getServletContext().getMimeType(url.getFile());
+    Application application=Application.get();
+    if (application instanceof WebApplication) {
+      contentType=((WebApplication)application).getWicketServlet().getServletContext().getMimeType(url.getFile());
       if (contentType == null) {
         contentType=URLConnection.getFileNameMap().getContentTypeFor(url.getFile());
       }
