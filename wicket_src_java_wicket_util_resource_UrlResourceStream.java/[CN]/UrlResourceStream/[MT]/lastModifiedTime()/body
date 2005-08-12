@@ -1,12 +1,20 @@
 {
   if (file != null) {
-    lastModified=file.lastModified();
+    long lastModified=file.lastModified();
+    if (lastModified != this.lastModified) {
+      this.lastModified=lastModified;
+      this.contentLength=(int)file.length();
+    }
   }
  else {
     URLConnection urlConnection=null;
     try {
       urlConnection=url.openConnection();
-      lastModified=urlConnection.getLastModified();
+      long lastModified=urlConnection.getLastModified();
+      if (lastModified != this.lastModified) {
+        this.lastModified=lastModified;
+        this.contentLength=urlConnection.getContentLength();
+      }
     }
  catch (    IOException e) {
       log.error("getLastModified for " + url + " failed: "+ e.getMessage());
