@@ -1,5 +1,5 @@
 {
-  onRuntimeException(page,e);
+  final Page redirectTo=onRuntimeException(page,e);
   log.error("Unexpected runtime exception [page = " + page + "]",e);
   e.printStackTrace();
   if (page != null) {
@@ -9,11 +9,17 @@
     throw new ServletException("Internal Error: Could not render error page " + page,e);
   }
  else {
-    try {
-      redirectToExceptionErrorPage(page,e);
+    if (redirectTo != null) {
+      setResponsePage(redirectTo);
+      redirectTo(redirectTo);
     }
- catch (    RuntimeException e2) {
-      throw new ServletException("Internal Error: Could not redirect to exception error page.  Was trying to display exception for page " + page + ":\n"+ Strings.toString(e),e2);
+ else {
+      try {
+        redirectToExceptionErrorPage(page,e);
+      }
+ catch (      RuntimeException e2) {
+        throw new ServletException("Internal Error: Could not redirect to exception error page.  Was trying to display exception for page " + page + ":\n"+ Strings.toString(e),e2);
+      }
     }
   }
 }
