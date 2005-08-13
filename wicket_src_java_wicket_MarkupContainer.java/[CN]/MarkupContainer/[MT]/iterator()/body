@@ -1,28 +1,14 @@
 {
-  if (childForId == null) {
-    childForId=Collections.EMPTY_MAP;
-  }
-  final Iterator iterator=childForId.values().iterator();
   return new Iterator(){
-    private Component component;
-    /** 
- * @see java.util.Iterator#hasNext()
- */
+    int index=0;
     public boolean hasNext(){
-      return iterator.hasNext();
+      return index < children_size();
     }
-    /** 
- * @see java.util.Iterator#next()
- */
     public Object next(){
-      return component=(Component)iterator.next();
+      return children_get(index++);
     }
-    /** 
- * @see java.util.Iterator#remove()
- */
     public void remove(){
-      iterator.remove();
-      removedComponent(component);
+      removedComponent(children_remove(--index));
     }
   }
 ;
