@@ -1,0 +1,34 @@
+{
+  super(name,new CompoundPropertyModel(new FormInputModel()));
+  RequiredTextField stringTextField=new RequiredTextField("stringProperty");
+  add(stringTextField);
+  RequiredTextField integerTextField=new RequiredTextField("integerProperty",Integer.class);
+  integerTextField.add(new ValidationEventRequestHandler("onchange"));
+  add(integerTextField);
+  add(new RequiredTextField("doubleProperty",Double.class));
+  TextField datePropertyTextField=new TextField("dateProperty",Date.class);
+  add(datePropertyTextField);
+  add(new DatePicker("datePicker",datePropertyTextField));
+  add(new RequiredTextField("integerInRangeProperty",Integer.class).add(IntegerValidator.range(0,100)));
+  add(new CheckBox("booleanProperty"));
+  add(new RadioChoice("numberRadioChoice",NUMBERS){
+    protected String getSuffix(){
+      return "";
+    }
+  }
+);
+  add(new ListMultipleChoice("siteSelection",SITES));
+  add(new TextField("urlProperty",URL.class){
+    public IConverter getConverter(){
+      return new URLConverter();
+    }
+  }
+);
+  add(new ImageButton("saveButton"));
+  add(new Link("resetButtonLink"){
+    public void onClick(){
+      InputForm.this.modelChanged();
+    }
+  }
+.add(new Image("resetButtonImage")));
+}

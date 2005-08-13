@@ -1,0 +1,15 @@
+{
+  if (messages == null) {
+    return Collections.EMPTY_LIST;
+  }
+ else {
+    final List list=new ArrayList();
+    for (final Iterator iterator=messages.iterator(); iterator.hasNext(); ) {
+      final FeedbackMessage message=(FeedbackMessage)iterator.next();
+      if (filter == null || filter.accept(message)) {
+        list.add(message);
+      }
+    }
+    return list;
+  }
+}
