@@ -1,0 +1,17 @@
+{
+  final Entry entry=(Entry)keyToEntry.get(key);
+  if (entry == null) {
+    final Entry newEntry=new Entry();
+    if (listener != null) {
+      newEntry.listeners.add(listener);
+    }
+    keyToEntry.put(key,newEntry);
+    return true;
+  }
+ else {
+    if (listener != null) {
+      return entry.listeners.add(listener);
+    }
+  }
+  return false;
+}

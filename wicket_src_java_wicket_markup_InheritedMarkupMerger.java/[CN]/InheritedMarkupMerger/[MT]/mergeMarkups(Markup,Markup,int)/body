@@ -1,0 +1,96 @@
+{
+  List markupElements=new ArrayList();
+  boolean wicketHeadProcessed=false;
+  boolean headProcessed=false;
+  WicketTag childTag=null;
+  int baseIndex=0;
+  for (; baseIndex < baseMarkup.size(); baseIndex++) {
+    MarkupElement element=baseMarkup.get(baseIndex);
+    if (element instanceof WicketTag) {
+      WicketTag wtag=(WicketTag)element;
+      if (wtag.isChildTag() && wtag.isOpenClose()) {
+        childTag=wtag;
+        WicketTag childOpenTag=(WicketTag)wtag.mutable();
+        childOpenTag.getXmlTag().setType(XmlTag.OPEN);
+        markupElements.add(childOpenTag);
+        break;
+      }
+    }
+    if ((wicketHeadProcessed == false) && (element instanceof WicketTag)) {
+      final WicketTag tag=(WicketTag)element;
+      if (tag.isClose() && "head".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() != null)) {
+        boolean copy=false;
+        for (int i=0; i < extendIndex; i++) {
+          MarkupElement elem=(MarkupElement)markup.get(i);
+          if (elem instanceof WicketTag) {
+            WicketTag etag=(WicketTag)elem;
+            if ("head".equalsIgnoreCase(etag.getName()) && (etag.getNamespace() != null)) {
+              if (etag.isOpen()) {
+                wicketHeadProcessed=true;
+                copy=true;
+              }
+ else {
+                copy=false;
+                break;
+              }
+            }
+          }
+ else           if (copy == true) {
+            markupElements.add(elem);
+          }
+        }
+      }
+    }
+    if ((headProcessed == false) && (element instanceof ComponentTag)) {
+      final ComponentTag tag=(ComponentTag)element;
+      if (tag.isClose() && "head".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
+        boolean copy=false;
+        for (int i=0; i < extendIndex; i++) {
+          MarkupElement elem=(MarkupElement)markup.get(i);
+          if (elem instanceof ComponentTag) {
+            ComponentTag etag=(ComponentTag)elem;
+            if ("head".equalsIgnoreCase(etag.getName()) && (etag.getNamespace() == null)) {
+              if (etag.isOpen()) {
+                headProcessed=true;
+                copy=true;
+              }
+ else {
+                copy=false;
+                break;
+              }
+            }
+          }
+ else           if (copy == true) {
+            markupElements.add(elem);
+          }
+        }
+      }
+    }
+    markupElements.add(element);
+  }
+  if (baseIndex == baseMarkup.size()) {
+    throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup");
+  }
+  for (; extendIndex < markup.size(); extendIndex++) {
+    MarkupElement element=markup.get(extendIndex);
+    markupElements.add(element);
+    if (element instanceof WicketTag) {
+      WicketTag wtag=(WicketTag)element;
+      if (wtag.isExtendTag() && wtag.isClose()) {
+        break;
+      }
+    }
+  }
+  if (extendIndex == markup.size()) {
+    throw new WicketRuntimeException("Missing close tag </wicket:extend> in derived markup");
+  }
+  WicketTag childCloseTag=(WicketTag)childTag.mutable();
+  childCloseTag.getXmlTag().setType(XmlTag.CLOSE);
+  markupElements.add(childCloseTag);
+  for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
+    MarkupElement element=baseMarkup.get(baseIndex);
+    markupElements.add(element);
+  }
+  markup.setMarkup(markupElements);
+  return markup;
+}

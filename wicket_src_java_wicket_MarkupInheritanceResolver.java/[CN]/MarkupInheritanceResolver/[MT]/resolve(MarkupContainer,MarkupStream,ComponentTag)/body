@@ -2,11 +2,13 @@
   if (tag instanceof WicketTag) {
     final WicketTag wicketTag=(WicketTag)tag;
     if (wicketTag.isExtendTag()) {
-      if (markupStream.getCurrentIndex() != 0) {
-        log.warn("nothing should precede the <wicket:extend> tag");
-      }
-      final MarkupInheritanceContainer inherit=new MarkupInheritanceContainer();
-      container.autoAdd(inherit);
+      container.getResponse().write(wicketTag);
+      markupStream.next();
+      return true;
+    }
+    if (wicketTag.isChildTag()) {
+      container.getResponse().write(wicketTag);
+      markupStream.next();
       return true;
     }
   }

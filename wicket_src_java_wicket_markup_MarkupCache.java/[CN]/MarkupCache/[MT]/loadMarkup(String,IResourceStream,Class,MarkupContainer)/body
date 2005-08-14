@@ -1,16 +1,15 @@
 {
   try {
-    final Markup markup=application.newMarkupParser(container).readAndParse(markupResourceStream);
+    Markup markup=application.newMarkupParser(container).readAndParse(markupResourceStream);
     markup.setContainerClass(containerClass);
+    markup=checkForMarkupInheritance(key,markup,containerClass,container);
 synchronized (markupCache) {
       markupCache.put(key,markup);
     }
+    afterLoadListeners.notifyListeners(markupResourceStream);
     return markup;
   }
  catch (  ParseException e) {
-synchronized (markupCache) {
-      markupCache.remove(key);
-    }
     log.error("Unable to parse markup from " + markupResourceStream,e);
   }
 catch (  ResourceStreamNotFoundException e) {
@@ -18,6 +17,10 @@ catch (  ResourceStreamNotFoundException e) {
   }
 catch (  IOException e) {
     log.error("Unable to read markup from " + markupResourceStream,e);
+  }
+synchronized (markupCache) {
+    markupCache.remove(key);
+    afterLoadListeners.remove(markupResourceStream);
   }
   return Markup.NO_MARKUP;
 }
