@@ -3,34 +3,21 @@
   if (tag == null) {
     return tag;
   }
-  if ((status == STATE_BODY_FOUND) || (status == STATE_HEAD_CLOSED)) {
+  if (ignoreTheRest == true) {
     return tag;
   }
-  if (HEAD.equalsIgnoreCase(tag.getName())) {
-    if (tag instanceof WicketTag) {
-      if (tag.isOpen() == true) {
-        status=STATE_WICKET_HEAD_OPENED;
-      }
- else {
-        status=STATE_WICKET_HEAD_CLOSED;
-      }
+  if (("head".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() == null)) {
+    if (tag.isClose()) {
+      foundHead=true;
     }
- else {
-      if (tag.isOpen() == true) {
-        status=STATE_HEAD_OPENED;
-      }
- else {
-        if (status != STATE_WICKET_HEAD_CLOSED) {
-          insertWicketHeadTag(false);
-        }
-        status=STATE_HEAD_CLOSED;
-      }
-    }
+    tag.setId(HEADER_ID);
     return tag;
   }
-  if ("body".equalsIgnoreCase(tag.getName())) {
-    insertWicketHeadTag(true);
-    status=STATE_BODY_FOUND;
+  if (("body".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() == null)) {
+    if (foundHead == false) {
+      insertHeadTag();
+    }
+    ignoreTheRest=true;
     return tag;
   }
   return tag;

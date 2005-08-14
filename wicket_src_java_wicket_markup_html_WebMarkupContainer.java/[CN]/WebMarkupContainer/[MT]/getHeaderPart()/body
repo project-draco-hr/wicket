@@ -3,35 +3,20 @@
   if (associatedMarkupStream == null) {
     return null;
   }
-  int index=-1;
-  if (associatedMarkupStream.getHeaderIndex() == Markup.HEADER_NOT_YET_EVALUATED) {
-    do {
-      final MarkupElement element=associatedMarkupStream.get();
-      if (element instanceof WicketTag) {
-        final WicketTag wTag=(WicketTag)element;
-        if (wTag.isHeadTag() == true) {
-          index=associatedMarkupStream.getCurrentIndex();
-          break;
-        }
-      }
-    }
- while (associatedMarkupStream.next() != null);
-  }
- else   if (associatedMarkupStream.getHeaderIndex() == Markup.HEADER_NO_HEADER_FOUND) {
-    ;
-  }
- else {
+  int index=Markup.NO_HEADER_FOUND;
+  if (associatedMarkupStream.getHeaderIndex() != Markup.NO_HEADER_FOUND) {
     index=associatedMarkupStream.getHeaderIndex();
   }
-  if (index >= 0) {
+  if (index != Markup.NO_HEADER_FOUND) {
     associatedMarkupStream.setCurrentIndex(index);
     final MarkupElement element=associatedMarkupStream.get();
     if (element instanceof WicketTag) {
       final WicketTag wTag=(WicketTag)element;
-      if (wTag.isHeadTag() == true) {
-        associatedMarkupStream.setHeaderIndex(index);
+      if ((wTag.isHeadTag() == true) && (wTag.getNamespace() != null)) {
         final String headerId="_" + Classes.name(this.getClass()) + "Header";
-        WebMarkupContainer headerContainer=new HtmlHeaderContainer(headerId,associatedMarkupStream);
+        WebMarkupContainer headerContainer=new WebMarkupContainer(headerId);
+        headerContainer.setMarkupStream(associatedMarkupStream);
+        headerContainer.setRenderBodyOnly(true);
         if (this.headerComponents != null) {
           for (Iterator iter=headerComponents.iterator(); iter.hasNext(); ) {
             headerContainer.add((Component)iter.next());

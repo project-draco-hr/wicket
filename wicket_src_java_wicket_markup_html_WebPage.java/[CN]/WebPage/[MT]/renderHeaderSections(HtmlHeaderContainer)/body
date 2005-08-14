@@ -1,0 +1,16 @@
+{
+  visitChildren(IHeaderContributor.class,new IVisitor(){
+    /** 
+ * @see wicket.Component.IVisitor#component(wicket.Component)
+ */
+    public Object component(    Component component){
+      if (component.isVisible()) {
+        if (component instanceof IHeaderContributor) {
+          ((IHeaderContributor)component).renderHead(container);
+        }
+      }
+      return IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

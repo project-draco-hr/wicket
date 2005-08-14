@@ -3,7 +3,7 @@
   this.markupFilterChain=newFilterChain(autoAddList);
   initFilterChain();
   final List list=new ArrayList();
-  int stripRemainingElements=-1;
+  boolean stripRemainingElements=false;
   for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
     boolean add=(tag.getId() != null);
     if (!add && tag.getXmlTag().isClose()) {
@@ -25,27 +25,16 @@
         }
         list.add(new RawMarkup(rawMarkup));
       }
-      if (tag instanceof WicketTag) {
-        final WicketTag wtag=(WicketTag)tag;
-        if (wtag.isExtendTag()) {
-          if (wtag.isOpen()) {
-            list.clear();
-          }
- else           if (wtag.isClose()) {
-            if (stripRemainingElements != -1) {
-              throw new MarkupException("Have already seen a <wicket:extend> tag");
-            }
-            stripRemainingElements=list.size() + 1;
-          }
- else {
-            throw new MarkupException("Unmatched open close tags for <wicket:extend>");
-          }
-        }
-      }
       if ((add == false) && (autoAddList.size() > 0)) {
         xmlParser.setPositionMarker(tag.getPos());
       }
-      list.addAll(autoAddList);
+      if ((autoAddList.size() > 0) && (autoAddList.get(0) == null)) {
+        list.clear();
+        stripRemainingElements=true;
+      }
+ else {
+        list.addAll(autoAddList);
+      }
       autoAddList.clear();
     }
     if (add) {
@@ -55,13 +44,10 @@
       xmlParser.setPositionMarker();
     }
   }
-  final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
-  if (text.length() > 0) {
-    list.add(new RawMarkup(text));
-  }
-  if (stripRemainingElements != -1) {
-    for (int i=list.size() - 1; i >= stripRemainingElements; i--) {
-      list.remove(i);
+  if (stripRemainingElements == false) {
+    final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
+    if (text.length() > 0) {
+      list.add(new RawMarkup(text));
     }
   }
   for (int i=0; i < list.size(); i++) {

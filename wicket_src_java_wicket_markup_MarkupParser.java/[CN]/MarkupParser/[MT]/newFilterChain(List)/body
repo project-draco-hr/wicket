@@ -6,8 +6,10 @@
   final WicketRemoveTagHandler previewComponentTagRemover=new WicketRemoveTagHandler(wicketParamTagHandler);
   final WicketLinkTagHandler autolinkHandler=new WicketLinkTagHandler(previewComponentTagRemover);
   autolinkHandler.setAutomaticLinking(this.automaticLinking);
+  final WicketExtendHandler extendHandler=new WicketExtendHandler(autolinkHandler);
+  extendHandler.setTagList(tagList);
   if (this.container != null) {
-    final BodyOnLoadHandler bodyHandler=new BodyOnLoadHandler(autolinkHandler);
+    final BodyOnLoadHandler bodyHandler=new BodyOnLoadHandler(extendHandler);
     if ((this.container != null) && (container instanceof Page)) {
       final HtmlHeaderSectionHandler headerHandler=new HtmlHeaderSectionHandler(bodyHandler);
       headerHandler.setTagList(tagList);
@@ -15,5 +17,5 @@
     }
     return bodyHandler;
   }
-  return autolinkHandler;
+  return extendHandler;
 }

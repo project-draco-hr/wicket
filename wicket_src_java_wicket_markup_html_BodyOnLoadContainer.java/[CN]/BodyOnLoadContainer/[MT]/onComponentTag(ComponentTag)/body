@@ -2,16 +2,11 @@
   if (getParent() instanceof WebPage) {
     String onLoad=((WebPage)this.getPage()).getBodyOnLoad();
     String pageOnLoad=tag.getAttributes().getString("onload");
-    if (pageOnLoad != null) {
-      if (onLoad != null) {
-        pageOnLoad=pageOnLoad + onLoad;
-        add(new AttributeModifier("onLoad",true,new Model(pageOnLoad)));
-      }
+    if ((pageOnLoad != null) && (onLoad != null)) {
+      onLoad=pageOnLoad + onLoad;
     }
- else {
-      if (onLoad != null) {
-        add(new AttributeModifier("onLoad",true,new Model(onLoad)));
-      }
+    if (onLoad != null) {
+      add(new AttributeModifier("onLoad",true,new Model(onLoad)));
     }
   }
   super.onComponentTag(tag);
