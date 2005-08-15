@@ -1,4 +1,10 @@
 {
+  if (classLoader == null) {
+    classLoader=Thread.currentThread().getContextClassLoader();
+  }
+  if (classLoader == null) {
+    classLoader=getClass().getClassLoader();
+  }
   if (log.isDebugEnabled()) {
     log.debug("Attempting to locate resource '" + path + "' using classloader "+ classLoader);
   }
