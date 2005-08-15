@@ -1,0 +1,21 @@
+{
+  if (style != null && locale != null) {
+    final IResourceStream resource=locate(classLoader,path + '_' + style,locale,extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (locale != null) {
+    final IResourceStream resource=locate(classLoader,path,locale,extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (style != null) {
+    final IResourceStream resource=locate(classLoader,path + '_' + style+ extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  return locate(classLoader,path + extension);
+}
