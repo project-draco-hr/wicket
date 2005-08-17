@@ -1,0 +1,36 @@
+{
+  StringBuffer strReturn=new StringBuffer();
+  StringBuffer strSOAPENV=new StringBuffer("<?xml version = '1.0' encoding = 'UTF-8'?>");
+  strSOAPENV.append("<SOAP-ENV:Envelope xmlns:SOAP-ENV=");
+  strSOAPENV.append("'http://schemas.xmlsoap.org/soap/envelope/' ");
+  strSOAPENV.append("xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' ");
+  strSOAPENV.append("xmlns:xsd='http://www.w3.org/2001/XMLSchema'> ");
+  strSOAPENV.append("<SOAP-ENV:Body>");
+  strSOAPENV.append("<ns1:getQuote xmlns:ns1='urn:xmethods-delayed-quotes' ");
+  strSOAPENV.append("SOAP-ENV:encodingStyle=" + "'http://schemas.xmlsoap.org/soap/encoding/'>");
+  strSOAPENV.append("<symbol xsi:type='xsd:string'>" + symbol + "</symbol>"+ "</ns1:getQuote>");
+  strSOAPENV.append("</SOAP-ENV:Body></SOAP-ENV:Envelope>");
+  try {
+    URL url=new URL(serviceUrl);
+    URLConnection connection=url.openConnection();
+    HttpURLConnection httpConn=(HttpURLConnection)connection;
+    httpConn.setRequestProperty("Content-Length",String.valueOf(strSOAPENV.length()));
+    httpConn.setRequestProperty("Content-Type","text/xml; charset=utf-8");
+    httpConn.setRequestProperty("SOAPAction","urn:xmethods-delayed-quotes#getQuote");
+    httpConn.setRequestMethod("POST");
+    httpConn.setDoOutput(true);
+    httpConn.setDoInput(true);
+    OutputStream out=httpConn.getOutputStream();
+    out.write(strSOAPENV.toString().getBytes());
+    out.close();
+    InputStreamReader isr=new InputStreamReader(httpConn.getInputStream());
+    BufferedReader in=new BufferedReader(isr);
+    String inputLine;
+    while ((inputLine=in.readLine()) != null)     strReturn.append(inputLine);
+    in.close();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  return strReturn.toString();
+}
