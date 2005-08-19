@@ -1,6 +1,9 @@
 {
   if (webApplication.getSettings().getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) {
-    String requestUri=servletRequest.getRequestURI() + "?" + servletRequest.getQueryString();
+    String requestUri=servletRequest.getRequestURI();
+    if (servletRequest.getQueryString() != null) {
+      requestUri+="?" + servletRequest.getQueryString();
+    }
     BufferedResponse bufferedResponse=(BufferedResponse)webApplication.getBufferedResponse(servletRequest,requestUri);
     if (bufferedResponse != null) {
       servletResponse.setContentLength(bufferedResponse.getContentLength());
