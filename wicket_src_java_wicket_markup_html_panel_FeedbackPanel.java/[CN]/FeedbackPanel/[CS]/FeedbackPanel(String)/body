@@ -1,6 +1,13 @@
 {
   super(id);
+  WebMarkupContainer messagesContainer=new WebMarkupContainer("feedbackul"){
+    public boolean isVisible(){
+      return anyMessage();
+    }
+  }
+;
+  add(messagesContainer);
   this.messageListView=new MessageListView("messages");
   messageListView.setVersioned(false);
-  add(messageListView);
+  messagesContainer.add(messageListView);
 }
