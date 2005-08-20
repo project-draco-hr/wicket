@@ -1,0 +1,17 @@
+{
+  CompoundPropertyModel emptyModel=new CompoundPropertyModel("");
+  String expected="Model:classname=[wicket.model.CompoundPropertyModel]:attached=false:nestedModel=[]";
+  assertEquals(expected,emptyModel.toString());
+  Properties properties=new Properties();
+  properties.put("name","foo");
+  CompoundPropertyModel stringProperty=new CompoundPropertyModel(properties);
+  expected="Model:classname=[wicket.model.CompoundPropertyModel]:attached=false:nestedModel=[{name=foo}]";
+  assertEquals(expected,stringProperty.toString());
+  stringProperty.attach();
+  expected="Model:classname=[wicket.model.CompoundPropertyModel]:attached=true:nestedModel=[{name=foo}]";
+  assertEquals(expected,stringProperty.toString());
+  InnerPOJO innerPOJO=new InnerPOJO();
+  CompoundPropertyModel pojoProperty=new CompoundPropertyModel(innerPOJO);
+  expected="Model:classname=[wicket.model.CompoundPropertyModel]:attached=false:nestedModel=[" + innerPOJO + "]";
+  assertEquals(expected,pojoProperty.toString());
+}
