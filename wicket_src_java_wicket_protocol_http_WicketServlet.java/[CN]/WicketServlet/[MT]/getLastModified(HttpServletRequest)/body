@@ -2,7 +2,23 @@
   final String pathInfo=servletRequest.getPathInfo();
   if ((pathInfo != null) && pathInfo.startsWith(WebRequestCycle.resourceReferencePrefix)) {
     final String resourceReferenceKey=pathInfo.substring(WebRequestCycle.resourceReferencePrefix.length());
-    final Resource resource=webApplication.getSharedResources().get(resourceReferenceKey);
+    Locale locale=servletRequest.getLocale();
+    WebSession session=webApplication.getSession(servletRequest,false);
+    if (session != null) {
+      locale=session.getLocale();
+    }
+    String localizedResourceReferenceKey=SharedResources.path(resourceReferenceKey,locale,null);
+    Resource resource=webApplication.getSharedResources().get(localizedResourceReferenceKey);
+    if (resource == null) {
+      if (locale != null && locale.getCountry() != null) {
+        locale=new Locale(locale.getLanguage());
+        localizedResourceReferenceKey=SharedResources.path(resourceReferenceKey,locale,null);
+        resource=webApplication.getSharedResources().get(localizedResourceReferenceKey);
+      }
+      if (resource == null) {
+        resource=webApplication.getSharedResources().get(resourceReferenceKey);
+      }
+    }
     if (resource != null && resource.isCacheable()) {
       try {
         Application.set(webApplication);
