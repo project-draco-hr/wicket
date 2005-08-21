@@ -1,9 +1,9 @@
 {
-  final String key=basePackage.getName() + '/' + SharedResources.path(path,locale,style);
+  final String key=scope.getPackage().getName() + '/' + SharedResources.path(path,locale,style);
 synchronized (resourceMap) {
     PackageResource resource=(PackageResource)resourceMap.get(key);
     if (resource == null) {
-      resource=new PackageResource(basePackage,path,locale,style);
+      resource=new PackageResource(scope,path,locale,style);
       resourceMap.put(key,resource);
     }
     return resource;
