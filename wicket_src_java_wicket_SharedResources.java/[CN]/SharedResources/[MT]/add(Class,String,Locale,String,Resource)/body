@@ -1,4 +1,11 @@
 {
   final String key=path(application,scope,name,locale,style);
-  resourceMap.put(key,resource);
+  ResourceState resourceState;
+synchronized (resourceMap) {
+    resourceState=(ResourceState)resourceMap.get(key);
+  }
+  if (resourceState == null)   resourceState=new ResourceState(key,resource);
+synchronized (resourceMap) {
+    resourceMap.put(key,resourceState);
+  }
 }

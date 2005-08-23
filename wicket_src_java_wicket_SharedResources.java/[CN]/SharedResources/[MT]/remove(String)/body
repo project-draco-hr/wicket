@@ -1,0 +1,9 @@
+{
+  ResourceState state;
+synchronized (resourceMap) {
+    state=(ResourceState)resourceMap.get(key);
+    if (state == null)     return;
+    resourceMap.remove(key);
+  }
+  state.cancel();
+}

@@ -1,7 +1,15 @@
 {
-  if (imageData == null) {
-    imageData=render();
+  byte[] data;
+synchronized (this) {
+    if (imageData != null)     data=(byte[])imageData.get();
+ else     data=null;
+  }
+  if (data == null) {
+    data=render();
+synchronized (this) {
+      imageData=new SoftReference(data);
+    }
     lastModifiedTime=Time.now();
   }
-  return imageData;
+  return data;
 }

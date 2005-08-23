@@ -1,32 +1,38 @@
 {
   final String path=request.getPath();
   if (path.startsWith(resourceReferencePrefix)) {
-    final String resourceReferenceKey=path.substring(resourceReferencePrefix.length());
+    final String rawResourceKey=path.substring(resourceReferencePrefix.length());
     Session session=Session.get();
     Locale locale=session.getLocale();
-    String localizedResourceReferenceKey=SharedResources.path(resourceReferenceKey,locale,null);
-    Resource resource=getApplication().getSharedResources().get(localizedResourceReferenceKey);
+    String localizedResourceKey=SharedResources.path(rawResourceKey,locale,null);
+    String resourceKeyCandidate;
+    SharedResources sharedResources=getApplication().getSharedResources();
+    resourceKeyCandidate=localizedResourceKey;
+    Resource resource=sharedResources.get(resourceKeyCandidate);
     if (resource == null) {
       if (locale != null && locale.getCountry() != null) {
         locale=new Locale(locale.getLanguage());
-        localizedResourceReferenceKey=SharedResources.path(resourceReferenceKey,locale,null);
-        resource=getApplication().getSharedResources().get(localizedResourceReferenceKey);
+        localizedResourceKey=SharedResources.path(rawResourceKey,locale,null);
+        resourceKeyCandidate=localizedResourceKey;
+        resource=sharedResources.get(resourceKeyCandidate);
       }
       if (resource == null) {
-        resource=getApplication().getSharedResources().get(resourceReferenceKey);
+        resourceKeyCandidate=rawResourceKey;
+        resource=sharedResources.get(resourceKeyCandidate);
       }
       if (resource == null) {
-        log.debug("Could not find resource referenced by key " + resourceReferenceKey);
+        log.debug("Could not find resource referenced by key " + resourceKeyCandidate);
         try {
           getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
         }
  catch (        IOException ex) {
           log.error("error sending 404",ex);
-          throw new WicketRuntimeException("Could not find resource referenced by key " + resourceReferenceKey + " and send a 404",ex);
+          throw new WicketRuntimeException("Could not find resource referenced by key " + resourceKeyCandidate + " and send a 404",ex);
         }
         return true;
       }
     }
+    sharedResources.onResourceRequested(resourceKeyCandidate);
     resource.onResourceRequested();
     return true;
   }

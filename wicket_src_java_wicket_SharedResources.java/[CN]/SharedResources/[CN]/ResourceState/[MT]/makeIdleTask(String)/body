@@ -1,0 +1,8 @@
+{
+  Duration idleTimeout=resource.getIdleTimeout();
+  long milliseconds=idleTimeout.getMilliseconds();
+  if (milliseconds != 0) {
+    this.idleTask=getResourceTimeoutTask(key);
+    idleTimer.schedule(idleTask,milliseconds);
+  }
+}
