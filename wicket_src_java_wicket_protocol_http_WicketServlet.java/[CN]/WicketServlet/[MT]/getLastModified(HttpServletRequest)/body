@@ -16,20 +16,23 @@
         resource=webApplication.getSharedResources().get(localizedResourceReferenceKey);
       }
       if (resource == null) {
-        resource=webApplication.getSharedResources().get(resourceReferenceKey);
+        localizedResourceReferenceKey=resourceReferenceKey;
+        resource=webApplication.getSharedResources().get(localizedResourceReferenceKey);
       }
     }
     if (resource != null && resource.isCacheable()) {
-      try {
-        Application.set(webApplication);
-        resource.setParameters(new WebRequest(servletRequest).getParameterMap());
-        IResourceStream stream=resource.getResourceStream();
-        stream.length();
-        Time time=stream.lastModifiedTime();
-        return time != null ? time.getMilliseconds() : -1;
-      }
+      if (session == null || session.isResourceCacheable(localizedResourceReferenceKey)) {
+        try {
+          Application.set(webApplication);
+          resource.setParameters(new WebRequest(servletRequest).getParameterMap());
+          IResourceStream stream=resource.getResourceStream();
+          stream.length();
+          Time time=stream.lastModifiedTime();
+          return time != null ? time.getMilliseconds() : -1;
+        }
   finally {
-        Application.set(null);
+          Application.set(null);
+        }
       }
     }
   }
