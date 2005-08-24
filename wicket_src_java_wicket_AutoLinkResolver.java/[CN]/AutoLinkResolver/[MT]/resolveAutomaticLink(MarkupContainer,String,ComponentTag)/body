@@ -1,31 +1,35 @@
 {
   final Page page=container.getPage();
-  final String originalHref=tag.getAttributes().getString("href");
-  PageParameters pageParameters=null;
-  String classPath=originalHref;
-  int pos=originalHref.indexOf("?");
+  final String href=tag.getAttributes().getString("href");
+  final PageParameters pageParameters;
+  String infoPath;
+  int pos=href.indexOf("?");
   if (pos != -1) {
-    final String queryString=originalHref.substring(pos + 1);
+    final String queryString=href.substring(pos + 1);
     pageParameters=new PageParameters(new ValueMap(queryString,"&"));
-    classPath=originalHref.substring(0,pos);
+    infoPath=href.substring(0,pos);
+  }
+ else {
+    pageParameters=null;
+    infoPath=href;
   }
   final String autoId=id + Integer.toString(page.getAutoIndex());
   tag.setId(autoId);
   String extension=null;
-  pos=classPath.lastIndexOf(".");
+  pos=infoPath.lastIndexOf(".");
   if (pos != -1) {
-    extension=classPath.substring(pos + 1);
-    classPath=classPath.substring(0,pos);
+    extension=infoPath.substring(pos + 1);
+    infoPath=infoPath.substring(0,pos);
   }
   if ("html".equalsIgnoreCase(extension)) {
-    classPath=Strings.replaceAll(classPath,"/",".");
-    if (!classPath.startsWith(".")) {
-      final String className=page.getClass().getPackage().getName() + "." + classPath;
+    infoPath=Strings.replaceAll(infoPath,"/",".");
+    if (!infoPath.startsWith(".")) {
+      final String className=page.getClass().getPackage().getName() + "." + infoPath;
       final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
       return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
     }
  else {
-      final String className=classPath.substring(1);
+      final String className=infoPath.substring(1);
       try {
         final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
         return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
@@ -36,20 +40,18 @@
     }
   }
  else {
-    if (classPath.startsWith("/") || classPath.startsWith("\\")) {
+    if (infoPath.startsWith("/") || infoPath.startsWith("\\")) {
     }
  else {
       Component relevantContainer=container;
-      if (container instanceof HtmlHeaderContainer) {
-        relevantContainer=findPanelComponent(container);
+      while (relevantContainer instanceof HtmlHeaderContainer) {
+        relevantContainer=relevantContainer.getParent();
       }
-      if (container instanceof BodyOnLoadContainer) {
-        relevantContainer=container.getParent();
+      while (relevantContainer instanceof BodyOnLoadContainer) {
+        relevantContainer=relevantContainer.getParent();
       }
-      String href=relevantContainer.getClass().getPackage().getName();
-      href=Strings.replaceAll(href,".","/") + "/" + originalHref;
-      return new AutolinkExternalLink(autoId,href);
+      return new CssLink(autoId,relevantContainer.getClass(),href);
     }
   }
-  return new AutolinkExternalLink(autoId,originalHref);
+  return new AutolinkExternalLink(autoId,href);
 }
