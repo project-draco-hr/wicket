@@ -1,25 +1,18 @@
 {
-  final boolean isVisible=isVisible();
-  final RequestCycle cycle=getRequestCycle();
-  final Response originalResponse;
-  if (isVisible) {
+  if (!isVisible()) {
+    findMarkupStream().skipComponent();
+  }
+ else {
+    final RequestCycle cycle=getRequestCycle();
+    final Response originalResponse;
     originalResponse=null;
     if (log.isDebugEnabled()) {
       log.debug("Begin render " + this);
     }
-  }
- else {
-    originalResponse=cycle.getResponse();
-    cycle.setResponse(NullResponse.getInstance());
-  }
-  onRender();
-  rendered();
-  if (isVisible) {
+    onRender();
+    rendered();
     if (log.isDebugEnabled()) {
       log.debug("End render " + this);
     }
-  }
- else {
-    cycle.setResponse(originalResponse);
   }
 }
