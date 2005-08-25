@@ -1,6 +1,9 @@
 {
-  resourceReference.setLocale(getLocale());
-  resourceReference.setStyle(getStyle());
-  resourceReference.bind(getApplication());
-  return getPage().urlFor(resourceReference.getPath());
+  if (resourceReference != null) {
+    resourceReference.setLocale(getLocale());
+    resourceReference.setStyle(getStyle());
+    resourceReference.bind(getApplication());
+    return getPage().urlFor(resourceReference.getPath());
+  }
+  return urlFor(IResourceListener.class);
 }
