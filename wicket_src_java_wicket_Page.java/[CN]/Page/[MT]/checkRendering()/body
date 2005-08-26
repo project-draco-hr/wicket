@@ -7,10 +7,10 @@
     visitChildren(new IVisitor(){
       public Object component(      final Component component){
         if (renderedComponents == null || !renderedComponents.contains(component)) {
-          if (component.isAuto() || !component.isVisibleInHierarchy()) {
+          if (component.isAuto()) {
             unrenderedAutoComponents.add(component);
           }
- else {
+ else           if (component.isVisibleInHierarchy()) {
             unrenderedComponents.increment();
             buffer.append(Integer.toString(unrenderedComponents.getCount()) + ". " + component+ "\n");
           }
