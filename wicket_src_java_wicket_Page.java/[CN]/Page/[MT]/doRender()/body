@@ -18,7 +18,19 @@
       internalEndRequest();
     }
   }
- else   if (getRequestCycle().getResponsePage() != this) {
-    getRequestCycle().getResponsePage().doRender();
+ else {
+    final RequestCycle requestCycle=getRequestCycle();
+    final Page responsePage=requestCycle.getResponsePage();
+    if (responsePage != null && responsePage != this) {
+      responsePage.doRender();
+    }
+ else {
+      final Class pageClass=requestCycle.getResponsePageClass();
+      if (pageClass != null) {
+        final PageParameters pageParameters=requestCycle.getResponsePagePageParameters();
+        String redirectUrl=requestCycle.urlFor(pageClass,pageParameters);
+        getResponse().redirect(redirectUrl);
+      }
+    }
   }
 }
