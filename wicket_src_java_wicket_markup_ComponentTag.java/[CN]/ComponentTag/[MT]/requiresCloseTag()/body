@@ -1,3 +1,8 @@
 {
-  return HtmlHandler.requiresCloseTag(this.getName());
+  if (getNamespace() == null) {
+    return HtmlHandler.requiresCloseTag(getName());
+  }
+ else {
+    return HtmlHandler.requiresCloseTag(getNamespace() + ":" + getName());
+  }
 }

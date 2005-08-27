@@ -1,0 +1,11 @@
+{
+  if (tag instanceof WicketTag) {
+    WicketTag wtag=(WicketTag)tag;
+    if (wtag.isLinkTag() && (wtag.getNamespace() != null)) {
+      Component component=new TransparentWebMarkupContainer("_link_" + container.getPage().getAutoIndex());
+      container.autoAdd(component);
+      return true;
+    }
+  }
+  return false;
+}
