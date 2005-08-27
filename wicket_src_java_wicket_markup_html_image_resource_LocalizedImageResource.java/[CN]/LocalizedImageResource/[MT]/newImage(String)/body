@@ -6,7 +6,7 @@
     final String factoryName=valueParser.getFactoryName();
     final Application application=component.getApplication();
     if (!Strings.isEmpty(imageReferenceName)) {
-      if (application.getSharedResources().get(Application.class,imageReferenceName,locale,style) == null) {
+      if (application.getSharedResources().get(Application.class,imageReferenceName,locale,style,true) == null) {
         final Resource imageResource=getResourceFactory(application,factoryName).newResource(specification,locale,style);
         application.getSharedResources().add(Application.class,imageReferenceName,locale,style,imageResource);
       }
