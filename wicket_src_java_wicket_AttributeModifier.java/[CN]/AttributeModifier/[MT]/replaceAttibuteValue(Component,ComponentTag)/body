@@ -1,16 +1,20 @@
 {
   if (isEnabled()) {
     final ValueMap attributes=tag.getAttributes();
-    final Object replacementValue=replaceModel.getObject(component);
-    if (replacementValue != null) {
-      if (attributes.containsKey(attribute)) {
-        final String value=attributes.get(attribute).toString();
-        if (pattern == null || value.matches(pattern)) {
-          attributes.put(attribute,newValue(value,replacementValue.toString()));
+    final Object replacementValue=getReplacementOrNull(component);
+    if (attributes.containsKey(attribute)) {
+      final String value=attributes.get(attribute).toString();
+      if (pattern == null || value.matches(pattern)) {
+        final String newValue=newValue(value,toStringOrNull(replacementValue));
+        if (newValue != null) {
+          attributes.put(attribute,newValue);
         }
       }
- else       if (addAttributeIfNotPresent) {
-        attributes.put(attribute,newValue(null,replacementValue.toString()));
+    }
+ else     if (addAttributeIfNotPresent) {
+      final String newValue=newValue(null,toStringOrNull(replacementValue));
+      if (newValue != null) {
+        attributes.put(attribute,newValue);
       }
     }
   }
