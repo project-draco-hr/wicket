@@ -2,13 +2,11 @@
   if (tag instanceof WicketTag) {
     final WicketTag wicketTag=(WicketTag)tag;
     if (wicketTag.isExtendTag()) {
-      container.getResponse().write(wicketTag);
-      markupStream.next();
+      container.autoAdd(new TransparentWebMarkupContainer("_extend"));
       return true;
     }
     if (wicketTag.isChildTag()) {
-      container.getResponse().write(wicketTag);
-      markupStream.next();
+      container.autoAdd(new TransparentWebMarkupContainer("_child"));
       return true;
     }
   }
