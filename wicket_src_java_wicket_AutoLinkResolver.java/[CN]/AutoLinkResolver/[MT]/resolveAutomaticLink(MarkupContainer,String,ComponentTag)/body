@@ -44,10 +44,7 @@
     }
  else {
       Component relevantContainer=container;
-      while (relevantContainer instanceof HtmlHeaderContainer) {
-        relevantContainer=relevantContainer.getParent();
-      }
-      while (relevantContainer instanceof BodyOnLoadContainer) {
+      while (relevantContainer instanceof IComponentResolver) {
         relevantContainer=relevantContainer.getParent();
       }
       return new CssLink(autoId,relevantContainer.getClass(),href);
