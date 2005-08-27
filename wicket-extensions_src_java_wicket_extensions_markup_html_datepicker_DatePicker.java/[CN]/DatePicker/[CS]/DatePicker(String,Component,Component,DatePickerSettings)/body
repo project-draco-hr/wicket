@@ -1,0 +1,27 @@
+{
+  super(id);
+  if (settings == null) {
+    throw new NullPointerException("settings must be non null when using this constructor");
+  }
+  this.settings=settings;
+  if (target == null) {
+    throw new NullPointerException("targetTextField must be not null");
+  }
+  target.add(new PathAttributeModifier("id",target));
+  this.target=target;
+  if (label != null) {
+    label.add(new PathAttributeModifier("for",target));
+  }
+  this.label=label;
+  add(triggerButton=new TriggerButton("trigger",settings.getIcon()));
+  add(new InitScript("script"));
+  addToHeader(new JavaScriptReference("calendarMain",DatePicker.class,"calendar.js"));
+  addToHeader(new JavaScriptReference("calendarSetup",DatePicker.class,"calendar-setup.js"));
+  addToHeader(new JavaScriptReference("calendarLanguage",new Model(){
+    public Object getObject(    Component component){
+      return settings.getLanguage(DatePicker.this.getLocale());
+    }
+  }
+));
+  addToHeader(new StyleSheetReference("calendarStyle",settings.getStyle()));
+}
