@@ -1,0 +1,53 @@
+{
+  return new IResourceStream(){
+    /** 
+ * Transient input stream to resource 
+ */
+    private transient InputStream inputStream=null;
+    /** 
+ * Transient byte array of the resources, will always be deleted in the close
+ */
+    private transient byte[] data=null;
+    /** 
+ * @see wicket.util.resource.IResourceStream#close()
+ */
+    public void close() throws IOException {
+      if (inputStream != null) {
+        inputStream.close();
+        inputStream=null;
+      }
+      data=null;
+    }
+    /** 
+ * @see wicket.util.resource.IResourceStream#getContentType()
+ */
+    public String getContentType(){
+      return contentType;
+    }
+    /** 
+ * @see wicket.util.resource.IResourceStream#getInputStream()
+ */
+    public InputStream getInputStream() throws ResourceStreamNotFoundException {
+      if (data == null) {
+        data=getData();
+      }
+      if (inputStream == null) {
+        inputStream=new ByteArrayInputStream(data);
+      }
+      return inputStream;
+    }
+    /** 
+ * @see wicket.util.watch.IModifiable#lastModifiedTime()
+ */
+    public Time lastModifiedTime(){
+      return DynamicByteArrayResource.this.lastModifiedTime();
+    }
+    public long length(){
+      if (data == null) {
+        data=getData();
+      }
+      return (data != null) ? data.length : 0;
+    }
+  }
+;
+}
