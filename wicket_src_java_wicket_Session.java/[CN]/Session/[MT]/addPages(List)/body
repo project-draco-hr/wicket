@@ -5,7 +5,10 @@
       final Page page=pageState.getPage();
       log.debug("addPages(): Adding replicated page state " + pageState + ", which produced page "+ page);
       attach(page);
-      getPageMap(pageState.pageMapName).put(page);
+      Page removed=getPageMap(pageState.pageMapName).put(page);
+      if (removed != null) {
+        removeAttribute(removed.getId());
+      }
       pageState.addedToSession=true;
     }
   }
