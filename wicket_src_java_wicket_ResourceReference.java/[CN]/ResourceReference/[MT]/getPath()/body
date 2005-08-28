@@ -3,12 +3,6 @@
   bind(application);
   final StringBuffer buffer=new StringBuffer();
   buffer.append("resources/");
-  Locale currentLocale=Session.get().getLocale();
-  if (locale != null && !locale.equals(currentLocale)) {
-    buffer.append(SharedResources.path(application,scope,name,locale,style));
-  }
- else {
-    buffer.append(SharedResources.path(application,scope,name,null,style));
-  }
+  buffer.append(SharedResources.path(application,scope,name,locale,style));
   return buffer.toString();
 }
