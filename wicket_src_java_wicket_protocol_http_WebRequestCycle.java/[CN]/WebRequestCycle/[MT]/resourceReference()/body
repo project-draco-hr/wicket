@@ -2,37 +2,20 @@
   final String path=request.getPath();
   if (path.startsWith(resourceReferencePrefix)) {
     final String rawResourceKey=path.substring(resourceReferencePrefix.length());
-    Session session=Session.get();
-    Locale locale=session.getLocale();
-    String localizedResourceKey=SharedResources.path(rawResourceKey,locale,null);
-    String resourceKeyCandidate;
     SharedResources sharedResources=getApplication().getSharedResources();
-    resourceKeyCandidate=localizedResourceKey;
-    Resource resource=sharedResources.get(resourceKeyCandidate);
+    Resource resource=sharedResources.get(rawResourceKey);
     if (resource == null) {
-      if (locale != null && locale.getCountry() != null) {
-        locale=new Locale(locale.getLanguage());
-        localizedResourceKey=SharedResources.path(rawResourceKey,locale,null);
-        resourceKeyCandidate=localizedResourceKey;
-        resource=sharedResources.get(resourceKeyCandidate);
+      log.debug("Could not find resource referenced by key " + rawResourceKey);
+      try {
+        getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
       }
-      if (resource == null) {
-        resourceKeyCandidate=rawResourceKey;
-        resource=sharedResources.get(resourceKeyCandidate);
+ catch (      IOException ex) {
+        log.error("error sending 404",ex);
+        throw new WicketRuntimeException("Could not find resource referenced by key " + rawResourceKey + " and send a 404",ex);
       }
-      if (resource == null) {
-        log.debug("Could not find resource referenced by key " + resourceKeyCandidate);
-        try {
-          getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
-        }
- catch (        IOException ex) {
-          log.error("error sending 404",ex);
-          throw new WicketRuntimeException("Could not find resource referenced by key " + resourceKeyCandidate + " and send a 404",ex);
-        }
-        return true;
-      }
+      return true;
     }
-    sharedResources.onResourceRequested(resourceKeyCandidate);
+    sharedResources.onResourceRequested(rawResourceKey);
     resource.onResourceRequested();
     return true;
   }
