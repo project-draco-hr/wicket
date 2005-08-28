@@ -1,4 +1,5 @@
 {
+  Application.set(webApplication);
   if (webApplication.getSettings().getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) {
     String requestUri=servletRequest.getRequestURI();
     if (servletRequest.getQueryString() != null) {
@@ -27,7 +28,6 @@
   final WebResponse response=webApplication.newWebResponse(servletResponse);
   response.setCharacterEncoding(webApplication.getSettings().getResponseRequestEncoding());
   try {
-    Application.set(webApplication);
     RequestCycle cycle=session.newRequestCycle(request,response);
     cycle.request();
   }
