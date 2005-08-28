@@ -2,6 +2,7 @@
 {
     final IResourceStream resource=locate(classLoader,path + '_' + locale.toString()+ extension);
     if (resource != null) {
+      resource.setLocale(locale);
       return resource;
     }
   }
@@ -10,12 +11,14 @@
   if (!Strings.isEmpty(language) && !Strings.isEmpty(country)) {
     final IResourceStream resource=locate(classLoader,path + '_' + language+ '_'+ country+ extension);
     if (resource != null) {
+      resource.setLocale(new Locale(language,country));
       return resource;
     }
   }
   if (!Strings.isEmpty(language)) {
     final IResourceStream resource=locate(classLoader,path + '_' + language+ extension);
     if (resource != null) {
+      resource.setLocale(new Locale(language));
       return resource;
     }
   }
