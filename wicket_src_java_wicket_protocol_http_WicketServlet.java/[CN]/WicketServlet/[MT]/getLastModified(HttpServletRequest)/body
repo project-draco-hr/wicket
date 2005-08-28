@@ -10,7 +10,7 @@
     String localizedResourceReferenceKey=SharedResources.path(resourceReferenceKey,locale,null);
     Resource resource=webApplication.getSharedResources().get(localizedResourceReferenceKey);
     if (resource == null) {
-      if (locale != null && locale.getCountry() != null) {
+      if ((locale != null) && (locale.getCountry() != null)) {
         locale=new Locale(locale.getLanguage());
         localizedResourceReferenceKey=SharedResources.path(resourceReferenceKey,locale,null);
         resource=webApplication.getSharedResources().get(localizedResourceReferenceKey);
@@ -20,8 +20,8 @@
         resource=webApplication.getSharedResources().get(localizedResourceReferenceKey);
       }
     }
-    if (resource != null && resource.isCacheable()) {
-      if (session == null || session.isResourceCacheable(localizedResourceReferenceKey)) {
+    if ((resource != null) && resource.isCacheable()) {
+      if ((session == null) || session.isResourceCacheable(localizedResourceReferenceKey)) {
         try {
           Application.set(webApplication);
           resource.setParameters(new WebRequest(servletRequest).getParameterMap());
