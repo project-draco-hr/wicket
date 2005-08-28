@@ -2,7 +2,7 @@
   super(request);
   final String secureParam=request.getParameter("x");
   if ((secureParam != null) && (secureParam.length() > 0)) {
-    ICrypt urlCrypt=Session.get().getApplication().newCrypt();
+    ICrypt urlCrypt=Application.get().newCrypt();
     final String queryString=urlCrypt.decrypt(secureParam);
     this.queryString=rebuildUrl(queryString);
     this.parameters=analyzeQueryString(this.queryString);
