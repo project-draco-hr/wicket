@@ -1,11 +1,14 @@
 {
   if (multiPart) {
-    final HttpServletRequest request=((WebRequest)getRequest()).getHttpServletRequest();
     try {
-      final MultipartWebRequest multipartWebRequest=new MultipartWebRequest(this.maxSize,request);
+      final WebRequest multipartWebRequest=((WebRequest)getRequest()).newMultipartWebRequest(this.maxSize);
       getRequestCycle().setRequest(multipartWebRequest);
     }
- catch (    FileUploadException e) {
+ catch (    WicketRuntimeException wre) {
+      if (wre.getCause() == null || !(wre.getCause() instanceof FileUploadException)) {
+        throw wre;
+      }
+      FileUploadException e=(FileUploadException)wre.getCause();
       final HashMap model=new HashMap();
       model.put("exception",e);
       model.put("maxSize",maxSize);

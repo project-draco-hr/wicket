@@ -1,0 +1,77 @@
+{
+  if (ctx == null) {
+    throw new NullPointerException("ctx parameter");
+  }
+  ArrayList items=new ArrayList();
+  String contentType=ctx.getContentType();
+  if ((null == contentType) || (!contentType.toLowerCase().startsWith(MULTIPART))) {
+    throw new InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or "+ MULTIPART_MIXED+ " stream, content type header is "+ contentType);
+  }
+  int requestSize=ctx.getContentLength();
+  if (requestSize == -1) {
+    throw new UnknownSizeException("the request was rejected because its size is unknown");
+  }
+  if (sizeMax >= 0 && requestSize > sizeMax) {
+    throw new SizeLimitExceededException("the request was rejected because " + "its size exceeds allowed range");
+  }
+  try {
+    byte[] boundary=getBoundary(contentType);
+    if (boundary == null) {
+      throw new FileUploadException("the request was rejected because " + "no multipart boundary was found");
+    }
+    InputStream input=ctx.getInputStream();
+    MultipartStream multi=new MultipartStream(input,boundary);
+    multi.setHeaderEncoding(headerEncoding);
+    boolean nextPart=multi.skipPreamble();
+    while (nextPart) {
+      Map headers=parseHeaders(multi.readHeaders());
+      String fieldName=getFieldName(headers);
+      if (fieldName != null) {
+        String subContentType=getHeader(headers,CONTENT_TYPE);
+        if (subContentType != null && subContentType.toLowerCase().startsWith(MULTIPART_MIXED)) {
+          byte[] subBoundary=getBoundary(subContentType);
+          multi.setBoundary(subBoundary);
+          boolean nextSubPart=multi.skipPreamble();
+          while (nextSubPart) {
+            headers=parseHeaders(multi.readHeaders());
+            if (getFileName(headers) != null) {
+              FileItem item=createItem(headers,false);
+              OutputStream os=item.getOutputStream();
+              try {
+                multi.readBodyData(os);
+              }
+  finally {
+                os.close();
+              }
+              items.add(item);
+            }
+ else {
+              multi.discardBodyData();
+            }
+            nextSubPart=multi.readBoundary();
+          }
+          multi.setBoundary(boundary);
+        }
+ else {
+          FileItem item=createItem(headers,getFileName(headers) == null);
+          OutputStream os=item.getOutputStream();
+          try {
+            multi.readBodyData(os);
+          }
+  finally {
+            os.close();
+          }
+          items.add(item);
+        }
+      }
+ else {
+        multi.discardBodyData();
+      }
+      nextPart=multi.readBoundary();
+    }
+  }
+ catch (  IOException e) {
+    throw new FileUploadException("Processing of " + MULTIPART_FORM_DATA + " request failed. "+ e.getMessage());
+  }
+  return items;
+}

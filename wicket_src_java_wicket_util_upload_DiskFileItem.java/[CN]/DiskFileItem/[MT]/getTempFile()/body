@@ -1,0 +1,10 @@
+{
+  File tempDir=repository;
+  if (tempDir == null) {
+    tempDir=new File(System.getProperty("java.io.tmpdir"));
+  }
+  String fileName="upload_" + getUniqueId() + ".tmp";
+  File f=new File(tempDir,fileName);
+  FileCleaner.track(f,this);
+  return f;
+}

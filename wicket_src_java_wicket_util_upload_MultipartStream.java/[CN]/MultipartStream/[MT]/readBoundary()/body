@@ -1,0 +1,25 @@
+{
+  byte[] marker=new byte[2];
+  boolean nextChunk=false;
+  head+=boundaryLength;
+  try {
+    marker[0]=readByte();
+    if (marker[0] == LF) {
+      return true;
+    }
+    marker[1]=readByte();
+    if (arrayequals(marker,STREAM_TERMINATOR,2)) {
+      nextChunk=false;
+    }
+ else     if (arrayequals(marker,FIELD_SEPARATOR,2)) {
+      nextChunk=true;
+    }
+ else {
+      throw new MalformedStreamException("Unexpected characters follow a boundary");
+    }
+  }
+ catch (  IOException e) {
+    throw new MalformedStreamException("Stream ended unexpectedly");
+  }
+  return nextChunk;
+}

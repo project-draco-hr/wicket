@@ -24,7 +24,7 @@
  else       if (redirectResponse.getContentLength() > 0) {
         redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         redirectResponse.close();
-        ((WebApplication)application).addRedirect(getWebRequest().getHttpServletRequest(),redirectUrl,redirectResponse);
+        ((WebApplication)application).addRedirect(((ServletWebRequest)getWebRequest()).getHttpServletRequest(),redirectUrl,redirectResponse);
       }
     }
  catch (    RuntimeException ex) {

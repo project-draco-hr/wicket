@@ -3,7 +3,8 @@
   if ((pathInfo != null) && pathInfo.startsWith(WebRequestCycle.resourceReferencePrefix)) {
     final String resourceReferenceKey=pathInfo.substring(WebRequestCycle.resourceReferencePrefix.length());
     Locale locale=servletRequest.getLocale();
-    WebSession session=webApplication.getSession(servletRequest,false);
+    final WebRequest webRequest=webApplication.newWebRequest(servletRequest);
+    final WebSession session=webApplication.getSession(webRequest,false);
     if (session != null) {
       locale=session.getLocale();
     }
@@ -24,7 +25,7 @@
       if ((session == null) || session.isResourceCacheable(localizedResourceReferenceKey)) {
         try {
           Application.set(webApplication);
-          resource.setParameters(new WebRequest(servletRequest).getParameterMap());
+          resource.setParameters(webRequest.getParameterMap());
           IResourceStream stream=resource.getResourceStream();
           stream.length();
           Time time=stream.lastModifiedTime();

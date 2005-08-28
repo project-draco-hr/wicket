@@ -1,0 +1,19 @@
+{
+  String fileName=null;
+  String cd=getHeader(headers,CONTENT_DISPOSITION);
+  if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT)) {
+    ParameterParser parser=new ParameterParser();
+    parser.setLowerCaseNames(true);
+    Map params=parser.parse(cd,';');
+    if (params.containsKey("filename")) {
+      fileName=(String)params.get("filename");
+      if (fileName != null) {
+        fileName=fileName.trim();
+      }
+ else {
+        fileName="";
+      }
+    }
+  }
+  return fileName;
+}

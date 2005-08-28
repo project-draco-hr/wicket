@@ -1,0 +1,9 @@
+{
+  if (!dfos.isInMemory()) {
+    return new FileInputStream(dfos.getFile());
+  }
+  if (cachedContent == null) {
+    cachedContent=dfos.getData();
+  }
+  return new ByteArrayInputStream(cachedContent);
+}
