@@ -1,0 +1,11 @@
+{
+  assertNull(Strings.toString((Object)null));
+  assertEquals("",Strings.toString(""));
+  try {
+    throw new IllegalArgumentException("Foo");
+  }
+ catch (  IllegalArgumentException e) {
+    final String toString=Strings.toString((Object)e);
+    assertEquals("java.lang.IllegalArgumentException: Foo",Strings.beforeFirst(toString,'\n').trim());
+  }
+}
