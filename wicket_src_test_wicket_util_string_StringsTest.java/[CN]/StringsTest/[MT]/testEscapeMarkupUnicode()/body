@@ -1,7 +1,7 @@
 {
   assertNull(Strings.escapeMarkup(null,true,true));
   assertEquals("",Strings.escapeMarkup("",true,true));
-  assertEquals("&#199;&#252;&#233;&#226;&#228;&#224;&#229;&#231;&#234;&#235;",Strings.escapeMarkup("??????????",false,true));
-  assertEquals("\n \t&#233;",Strings.escapeMarkup("\n \t?",false,true));
-  assertEquals("\n \t?",Strings.escapeMarkup("\n \t?",false,false));
+  assertEquals("&#199;&#252;&#233;&#226;&#228;&#224;&#229;&#231;&#234;&#235;",Strings.escapeMarkup(convertNonASCIIString("??????????"),false,true));
+  assertEquals("\n \t&#233;",Strings.escapeMarkup(convertNonASCIIString("\n \t?"),false,true));
+  assertEquals(convertNonASCIIString("\n \t?"),Strings.escapeMarkup(convertNonASCIIString("\n \t?"),false,false));
 }
