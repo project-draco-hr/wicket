@@ -1,0 +1,11 @@
+{
+  String id=getRequest().getParameter("id");
+  if (id == null) {
+    throw new WicketRuntimeException("parameter id was not provided: unable to locate listener");
+  }
+  IAjaxHandler eventRequestHandler=(IAjaxHandler)eventRequestHandlers.get(id);
+  if (eventRequestHandler == null) {
+    throw new WicketRuntimeException("no handler found with id " + id);
+  }
+  eventRequestHandler.onRequest();
+}
