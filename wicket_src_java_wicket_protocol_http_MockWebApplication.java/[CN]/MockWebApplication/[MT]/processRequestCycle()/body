@@ -3,11 +3,11 @@
   cycle.request();
   final MockHttpServletResponse httpResponse=(MockHttpServletResponse)cycle.getWebResponse().getHttpServletResponse();
   if (httpResponse.isRedirect()) {
-    lastRenderedPage=cycle.getResponsePage();
+    generateLastRenderedPage(cycle);
     final MockHttpServletRequest httpRequest=(MockHttpServletRequest)((ServletWebRequest)cycle.getWebRequest()).getHttpServletRequest();
     httpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
     wicketSession=getSession(wicketRequest,true);
     new WebRequestCycle(wicketSession,wicketRequest,wicketResponse).request();
   }
-  lastRenderedPage=cycle.getResponsePage();
+  generateLastRenderedPage(cycle);
 }
