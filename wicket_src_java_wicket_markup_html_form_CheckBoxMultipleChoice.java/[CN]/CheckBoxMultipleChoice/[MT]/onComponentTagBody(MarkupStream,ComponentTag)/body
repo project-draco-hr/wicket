@@ -1,0 +1,18 @@
+{
+  final StringBuffer buffer=new StringBuffer();
+  final List choices=getChoices();
+  for (int index=0; index < choices.size(); index++) {
+    final Object choice=choices.get(index);
+    final String label=getChoiceRenderer().getDisplayValue(choice);
+    if (label != null) {
+      buffer.append(getPrefix());
+      String id=getChoiceRenderer().getIdValue(choice,index);
+      buffer.append("<input name=\"" + getPath() + "\""+ " type=\"checkbox\""+ (isSelected(choice,index) ? " checked" : "")+ " value=\""+ id+ "\">");
+      String display=getLocalizer().getString(getId() + "." + label,this,label);
+      String escaped=Strings.escapeMarkup(display,false,true);
+      buffer.append(escaped);
+      buffer.append(getSuffix());
+    }
+  }
+  replaceComponentTagBody(markupStream,openTag,buffer.toString());
+}
