@@ -22,6 +22,9 @@
  * @see wicket.util.resource.IResourceStream#getContentType()
  */
     public String getContentType(){
+      if (data == null) {
+        data=getData();
+      }
       return DynamicByteArrayResource.this.getContentType();
     }
     /** 
@@ -40,6 +43,9 @@
  * @see wicket.util.watch.IModifiable#lastModifiedTime()
  */
     public Time lastModifiedTime(){
+      if (data == null) {
+        data=getData();
+      }
       return DynamicByteArrayResource.this.lastModifiedTime();
     }
     public long length(){
