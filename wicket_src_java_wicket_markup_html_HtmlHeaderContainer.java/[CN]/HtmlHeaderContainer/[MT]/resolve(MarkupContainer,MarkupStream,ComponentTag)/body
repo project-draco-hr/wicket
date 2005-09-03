@@ -10,6 +10,9 @@
       component.render();
       return true;
     }
+    if (parent instanceof IComponentResolver) {
+      return ((IComponentResolver)parent).resolve(container,markupStream,tag);
+    }
   }
   return false;
 }

@@ -48,9 +48,9 @@
         boolean copy=false;
         for (int i=0; i < extendIndex; i++) {
           MarkupElement elem=(MarkupElement)markup.get(i);
-          if (elem instanceof ComponentTag) {
-            ComponentTag etag=(ComponentTag)elem;
-            if ("head".equalsIgnoreCase(etag.getName()) && (etag.getNamespace() == null)) {
+          if (elem instanceof WicketTag) {
+            WicketTag etag=(WicketTag)elem;
+            if ("head".equalsIgnoreCase(etag.getName()) && (etag.getNamespace() != null)) {
               if (etag.isOpen()) {
                 headProcessed=true;
                 copy=true;

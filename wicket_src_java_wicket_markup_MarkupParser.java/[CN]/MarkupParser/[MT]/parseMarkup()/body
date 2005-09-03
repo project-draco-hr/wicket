@@ -8,8 +8,12 @@
     if (!add && tag.getXmlTag().isClose()) {
       add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
     }
+    RawMarkup replaceTag=null;
     if (tag.isOpen() && "html".equals(tag.getName().toLowerCase())) {
-      determineWicketNamespace(tag);
+      add|=determineWicketNamespace(tag);
+      if ((add == true) && (tag.getId() == null)) {
+        replaceTag=new RawMarkup(tag.toString());
+      }
     }
     if (add || (autoAddList.size() > 0)) {
       final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
@@ -32,7 +36,12 @@
     }
     if (add) {
       if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
-        list.add(tag);
+        if (replaceTag != null) {
+          list.add(replaceTag);
+        }
+ else {
+          list.add(tag);
+        }
       }
       xmlParser.setPositionMarker();
     }

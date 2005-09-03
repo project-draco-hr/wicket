@@ -14,20 +14,12 @@
       final WicketTag wTag=(WicketTag)element;
       if ((wTag.isHeadTag() == true) && (wTag.getNamespace() != null)) {
         final String headerId="_" + Classes.name(this.getClass()) + this.getVariation()+ "Header";
-        WebMarkupContainer headerContainer=new WebMarkupContainer(headerId);
+        WebMarkupContainer headerContainer=new TransparentWebMarkupContainer(headerId,this);
         headerContainer.setMarkupStream(associatedMarkupStream);
         headerContainer.setRenderBodyOnly(true);
-        if (this.headerComponents != null) {
-          for (Iterator iter=headerComponents.iterator(); iter.hasNext(); ) {
-            headerContainer.add((Component)iter.next());
-          }
-        }
         return headerContainer;
       }
     }
-  }
-  if (this.headerComponents != null) {
-    throw new MarkupException("You have added header components but did not specify a <wicket:head> region in your Page markup: " + this.toString());
   }
   return null;
 }

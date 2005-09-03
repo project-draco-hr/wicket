@@ -1,0 +1,18 @@
+{
+  Component component=this.container.get(tag.getId());
+  if (component != null) {
+    component.renderComponent(markupStream);
+    component.rendered();
+    return true;
+  }
+  final MarkupContainer parent=getParent();
+  component=parent.get(tag.getId());
+  if (component != null) {
+    component.render();
+    return true;
+  }
+  if (parent instanceof IComponentResolver) {
+    return ((IComponentResolver)parent).resolve(container,markupStream,tag);
+  }
+  return false;
+}
