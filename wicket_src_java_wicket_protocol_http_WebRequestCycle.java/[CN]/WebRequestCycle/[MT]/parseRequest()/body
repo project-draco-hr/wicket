@@ -4,16 +4,8 @@
  else   if (callComponentListener() || bookmarkablePage() || homePage()) {
     return true;
   }
- else   if (resourceReference() || staticContent()) {
-  }
  else {
-    int rtn=doParseRequest();
-    if (rtn == 1) {
-      return true;
-    }
- else     if (rtn == 2) {
-    }
- else {
+    if (!resourceReference() && !staticContent()) {
       WebResponse webResponse=(WebResponse)getResponse();
       HttpServletResponse httpServletResponse=webResponse.getHttpServletResponse();
       try {
