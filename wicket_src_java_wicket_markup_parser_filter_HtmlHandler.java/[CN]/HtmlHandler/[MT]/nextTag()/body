@@ -21,11 +21,11 @@
  else   if (tag.isClose()) {
     if (stack.size() > 0) {
       ComponentTag top=(ComponentTag)stack.pop();
-      boolean mismatch=!top.getName().equalsIgnoreCase(tag.getName());
+      boolean mismatch=!top.hasEqualTagName(tag);
       if (mismatch) {
         while (mismatch && !requiresCloseTag(top.getName())) {
           top=(ComponentTag)stack.pop();
-          mismatch=!top.getName().equalsIgnoreCase(tag.getName());
+          mismatch=!top.hasEqualTagName(tag);
         }
         if (mismatch) {
           throw new MarkupException("Tag " + top.toUserDebugString() + " has a mismatched close tag at "+ tag.toUserDebugString());
