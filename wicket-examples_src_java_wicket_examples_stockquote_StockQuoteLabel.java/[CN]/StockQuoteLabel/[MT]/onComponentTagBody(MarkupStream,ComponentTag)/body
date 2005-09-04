@@ -1,7 +1,5 @@
 {
   String symbol=getModelObjectAsString();
-  if ("".equals(symbol)) {
-    symbol=getId();
-  }
-  replaceComponentTagBody(markupStream,openTag,getQuote(symbol));
+  StockQuote quote=new StockQuote(symbol);
+  replaceComponentTagBody(markupStream,openTag,quote.getQuote());
 }

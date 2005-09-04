@@ -1,0 +1,9 @@
+{
+  final String response=getSOAPQuote(symbol);
+  int start=response.indexOf("<Result xsi:type='xsd:float'>") + 29;
+  int end=response.indexOf("</Result>");
+  if (start < 29) {
+    return "(unknown)";
+  }
+  return response.substring(start,end);
+}
