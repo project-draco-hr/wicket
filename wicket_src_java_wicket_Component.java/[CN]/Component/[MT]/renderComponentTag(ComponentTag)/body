@@ -7,10 +7,10 @@
         current.replaceAttibuteValue(this,tag);
       }
     }
-    if (eventRequestHandlers != null) {
-      for (Iterator i=eventRequestHandlers.values().iterator(); i.hasNext(); ) {
-        IAjaxHandler handler=(IAjaxHandler)i.next();
-        handler.onComponentTag(this,tag);
+    if (ajaxHandlers != null) {
+      for (Iterator i=ajaxHandlers.iterator(); i.hasNext(); ) {
+        AjaxHandler handler=(AjaxHandler)i.next();
+        handler.onComponentTag(tag);
       }
     }
     getResponse().write(tag.toString(settings.getStripWicketTags(),this.findMarkupStream().getWicketNamespace()));

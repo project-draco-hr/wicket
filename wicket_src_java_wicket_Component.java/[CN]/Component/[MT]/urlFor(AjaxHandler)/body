@@ -1,0 +1,13 @@
+{
+  if (ajaxHandler == null) {
+    throw new NullPointerException("argument ajaxHandler must be not null");
+  }
+  if (ajaxHandlers == null) {
+    throw new IllegalStateException("no ajax handlers are registered with " + this);
+  }
+  int index=ajaxHandlers.indexOf(ajaxHandler);
+  if (index == -1) {
+    throw new IllegalArgumentException("ajaxHandler " + ajaxHandler + " was not registered with this component");
+  }
+  return urlFor(IAjaxListener.class) + "&id=" + index;
+}

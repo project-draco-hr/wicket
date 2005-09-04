@@ -1,0 +1,12 @@
+{
+  String staticContrib=null;
+  if (bodyOnloadContribHolder.get() == null) {
+    bodyOnloadContribHolder.set(dummy);
+    staticContrib=getBodyOnloadInitContribution();
+  }
+  String contrib=getBodyOnloadContribution();
+  if (staticContrib != null) {
+    return (contrib != null) ? staticContrib + contrib : staticContrib;
+  }
+  return contrib;
+}
