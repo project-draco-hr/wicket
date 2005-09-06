@@ -1,10 +1,10 @@
 {
-  String redirectUrl=page.urlFor(page,IRedirectListener.class);
+  String redirectUrl=null;
   ApplicationSettings settings=application.getSettings();
   if ((settings.getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) && (application instanceof WebApplication)) {
     final Response currentResponse=getResponse();
     try {
-      final BufferedResponse redirectResponse=new BufferedResponse(redirectUrl){
+      final BufferedResponse redirectResponse=new BufferedResponse(){
         public String encodeURL(        String url){
           return currentResponse.encodeURL(url);
         }
@@ -18,12 +18,13 @@
       page.doRender();
       setResponse(currentResponse);
       final String responseRedirect=redirectResponse.getRedirectUrl();
-      if (redirectUrl != responseRedirect) {
-        redirectUrl=redirectResponse.getRedirectUrl();
+      if (responseRedirect != null) {
+        redirectUrl=responseRedirect;
       }
  else       if (redirectResponse.getContentLength() > 0) {
         redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         redirectResponse.close();
+        redirectUrl=page.urlFor(page,IRedirectListener.class);
         ((WebApplication)application).addRedirect(((ServletWebRequest)getWebRequest()).getHttpServletRequest(),redirectUrl,redirectResponse);
       }
     }
@@ -36,6 +37,9 @@
  else {
     session.touch(page);
     page.internalEndRequest();
+  }
+  if (redirectUrl == null) {
+    redirectUrl=page.urlFor(page,IRedirectListener.class);
   }
   response.redirect(redirectUrl);
 }
