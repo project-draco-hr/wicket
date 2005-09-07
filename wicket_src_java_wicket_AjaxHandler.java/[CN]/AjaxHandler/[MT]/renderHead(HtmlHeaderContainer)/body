@@ -1,7 +1,13 @@
 {
-  if (headContribHolder.get() == null) {
-    headContribHolder.set(dummy);
+  Set contributors=(Set)headContribHolder.get();
+  if (contributors == null) {
+    contributors=new HashSet(1);
+    headContribHolder.set(contributors);
+  }
+  String implementationId=getImplementationId();
+  if (!contributors.contains(implementationId)) {
     renderHeadInitContribution(container);
+    contributors.add(implementationId);
   }
   renderHeadContribution(container);
 }

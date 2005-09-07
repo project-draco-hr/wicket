@@ -1,8 +1,14 @@
 {
   String staticContrib=null;
-  if (bodyOnloadContribHolder.get() == null) {
-    bodyOnloadContribHolder.set(dummy);
+  Set contributors=(Set)bodyOnloadContribHolder.get();
+  if (contributors == null) {
+    contributors=new HashSet(1);
+    bodyOnloadContribHolder.set(contributors);
+  }
+  String implementationId=getImplementationId();
+  if (!contributors.contains(implementationId)) {
     staticContrib=getBodyOnloadInitContribution();
+    contributors.add(implementationId);
   }
   String contrib=getBodyOnloadContribution();
   if (staticContrib != null) {
