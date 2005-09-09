@@ -1,14 +1,15 @@
 {
-  final ArrayList al=new ArrayList(4);
-  for (Component c=this; c != null && !(c instanceof Form); c=c.getParent()) {
-    al.add(c);
+  String id=getId();
+  final StringBuffer inputName=new StringBuffer(id.length());
+  Component c=this;
+  while (true) {
+    inputName.insert(0,id);
+    c=c.getParent();
+    if (c == null || c instanceof Form || c instanceof Page) {
+      break;
+    }
+    inputName.insert(0,':');
+    id=c.getId();
   }
-  final StringBuffer buffer=new StringBuffer();
-  for (int i=al.size(); --i >= 0; ) {
-    Component c=(Component)al.get(i);
-    buffer.append(c.getId());
-    buffer.append(':');
-  }
-  buffer.setLength(buffer.length() - 1);
-  return buffer.toString();
+  return inputName.toString();
 }
