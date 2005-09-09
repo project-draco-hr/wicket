@@ -7,7 +7,12 @@
   }
 ;
   add(link1);
-  link1.add(new ClickCountLabel("label1",count1));
+  link1.add(new Label("label1",new Model(){
+    public Object getObject(    Component component){
+      return Integer.toString(count1.clicks);
+    }
+  }
+));
 class CustomLink extends Link {
     final ClickCount count2;
     /** 
