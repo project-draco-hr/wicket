@@ -2,7 +2,7 @@
   final RequestCycle cycle=RequestCycle.get();
   cycle.setResponsePage((Page)null);
   parameters=null;
-  init();
+  IResourceStream resourceStream=init();
   final Response response=cycle.getResponse();
   response.setContentType(resourceStream.getContentType());
   response.setContentLength((int)resourceStream.length());
@@ -12,5 +12,5 @@
  else {
     response.setLastModifiedTime(Time.valueOf(-1));
   }
-  respond(response);
+  respond(resourceStream,response);
 }
