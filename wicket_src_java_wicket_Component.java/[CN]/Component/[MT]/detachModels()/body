@@ -1,8 +1,12 @@
 {
   detachModel();
-  if (attributeModifiers != null) {
-    for (AttributeModifier current=attributeModifiers; current != null; current=current.next) {
-      current.detachModel();
+  if (attributeModifiers instanceof AttributeModifier) {
+    ((AttributeModifier)attributeModifiers).detachModel();
+  }
+ else   if (attributeModifiers instanceof Object[]) {
+    Object[] array=(Object[])attributeModifiers;
+    for (int i=0; i < array.length; i++) {
+      ((AttributeModifier)array[i]).detachModel();
     }
   }
 }
