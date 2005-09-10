@@ -1,6 +1,14 @@
 {
   final ValueMap attributes=tag.getAttributes();
   super.onComponentTag(tag);
+  try {
+    String value=getValue();
+    if (value != null) {
+      tag.put("value",getValue());
+    }
+  }
+ catch (  Exception e) {
+  }
   final String onClickJavaScript=getOnClickScript();
   if (onClickJavaScript != null) {
     tag.put("onclick",onClickJavaScript);
