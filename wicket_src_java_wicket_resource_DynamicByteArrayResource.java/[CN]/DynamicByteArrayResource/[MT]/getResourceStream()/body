@@ -22,18 +22,14 @@
  * @see wicket.util.resource.IResourceStream#getContentType()
  */
     public String getContentType(){
-      if (data == null) {
-        data=getData();
-      }
+      checkLoadData();
       return DynamicByteArrayResource.this.getContentType();
     }
     /** 
  * @see wicket.util.resource.IResourceStream#getInputStream()
  */
     public InputStream getInputStream() throws ResourceStreamNotFoundException {
-      if (data == null) {
-        data=getData();
-      }
+      checkLoadData();
       if (inputStream == null) {
         inputStream=new ByteArrayInputStream(data);
       }
@@ -43,22 +39,35 @@
  * @see wicket.util.watch.IModifiable#lastModifiedTime()
  */
     public Time lastModifiedTime(){
-      if (data == null) {
-        data=getData();
-      }
+      checkLoadData();
       return DynamicByteArrayResource.this.lastModifiedTime();
     }
+    /** 
+ * @see wicket.util.resource.IResourceStream#length()
+ */
     public long length(){
-      if (data == null) {
-        data=getData();
-      }
+      checkLoadData();
       return (data != null) ? data.length : 0;
     }
+    /** 
+ * @see wicket.util.resource.IResourceStream#getLocale()
+ */
     public Locale getLocale(){
       return locale;
     }
+    /** 
+ * @see wicket.util.resource.IResourceStream#setLocale(java.util.Locale)
+ */
     public void setLocale(    Locale loc){
       DynamicByteArrayResource.this.locale=loc;
+    }
+    /** 
+ * Check whether the data was loaded yet. If not, load it now.
+ */
+    private void checkLoadData(){
+      if (data == null) {
+        data=getData();
+      }
     }
   }
 ;
