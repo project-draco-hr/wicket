@@ -4,6 +4,16 @@
     container.autoAdd(headerPart);
     checkBodyOnLoad();
   }
+ else   if (headerPart != null) {
+    Response response=getRequestCycle().getResponse();
+    try {
+      getRequestCycle().setResponse(NullResponse.getInstance());
+      container.autoAdd(headerPart);
+    }
+  finally {
+      getRequestCycle().setResponse(response);
+    }
+  }
   AjaxHandler[] handlers=getAjaxHandlers();
   if (handlers != null) {
     for (int i=0; i < handlers.length; i++) {
