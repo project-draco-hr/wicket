@@ -6,4 +6,10 @@
   if (multiPart) {
     tag.put("enctype","multipart/form-data");
   }
+ else {
+    String enctype=(String)tag.getAttributes().get("enctype");
+    if ("multipart/form-data".equalsIgnoreCase(enctype)) {
+      setMultiPart(true);
+    }
+  }
 }
