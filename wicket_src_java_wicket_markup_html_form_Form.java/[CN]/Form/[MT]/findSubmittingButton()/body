@@ -2,7 +2,7 @@
   return (Button)visitChildren(Button.class,new IVisitor(){
     public Object component(    final Component component){
       final Button button=(Button)component;
-      if (!Strings.isEmpty(button.getInput()) || !Strings.isEmpty(getRequest().getParameter(button.getInputName() + ".x"))) {
+      if (getRequest().getParameter(button.getInputName()) != null || getRequest().getParameter(button.getInputName() + ".x") != null) {
         return button;
       }
       return CONTINUE_TRAVERSAL;
