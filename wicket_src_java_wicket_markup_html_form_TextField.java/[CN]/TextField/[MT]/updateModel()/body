@@ -1,9 +1,12 @@
 {
-  final Class type=getValidationType();
-  if (type != null) {
-    setModelObject(getConverter().convert(getInput(),type));
-  }
+  String input=getInput();
+  if (input != null) {
+    final Class type=getValidationType();
+    if (type != null) {
+      setModelObject(getConverter().convert(getInput(),type));
+    }
  else {
-    super.updateModel();
+      super.updateModel();
+    }
   }
 }
