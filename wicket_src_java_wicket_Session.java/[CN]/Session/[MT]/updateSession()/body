@@ -1,15 +1,23 @@
 {
-  log.debug("updateSession(): Updating session.");
+  if (log.isDebugEnabled()) {
+    log.debug("updateSession(): Updating session.");
+  }
   visitPageMaps(new IVisitor(){
     public void pageMap(    PageMap pageMap){
-      log.debug("updateSession(): Attaching session to PageMap " + pageMap);
+      if (log.isDebugEnabled()) {
+        log.debug("updateSession(): Attaching session to PageMap " + pageMap);
+      }
       pageMap.setSession(Session.this);
     }
   }
 );
-  log.debug("updateSession(): Getting PageState attributes.");
+  if (log.isDebugEnabled()) {
+    log.debug("updateSession(): Getting PageState attributes.");
+  }
   final List pageStates=getPageStateAttributes();
   sortBySequenceNumber(pageStates);
   addPages(pageStates);
-  log.debug("updateSession(): Done updating session.");
+  if (log.isDebugEnabled()) {
+    log.debug("updateSession(): Done updating session.");
+  }
 }

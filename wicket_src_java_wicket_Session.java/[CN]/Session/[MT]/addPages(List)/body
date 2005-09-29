@@ -3,7 +3,9 @@
     final PageState pageState=(PageState)iterator.next();
     if (!pageState.addedToSession) {
       final Page page=pageState.getPage();
-      log.debug("addPages(): Adding replicated page state " + pageState + ", which produced page "+ page);
+      if (log.isDebugEnabled()) {
+        log.debug("addPages(): Adding replicated page state " + pageState + ", which produced page "+ page);
+      }
       attach(page);
       Page removed=getPageMap(pageState.pageMapName).put(page);
       if (removed != null) {

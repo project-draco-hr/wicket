@@ -1,5 +1,7 @@
 {
-  log.debug("Attempting to locate resource '" + path + "' on path "+ searchPath);
+  if (log.isDebugEnabled()) {
+    log.debug("Attempting to locate resource '" + path + "' on path "+ searchPath);
+  }
   final URL url=searchPath.find(path);
   if (url != null) {
     return new UrlResourceStream(url);

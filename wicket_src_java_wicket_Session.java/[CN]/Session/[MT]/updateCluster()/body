@@ -1,11 +1,13 @@
 {
   if (dirty) {
-    log.debug("updateCluster(): Session is dirty.  Replicating.");
+    if (log.isDebugEnabled())     log.debug("updateCluster(): Session is dirty.  Replicating.");
     this.dirty=false;
     setAttribute(sessionAttributeName,this);
   }
  else {
-    log.debug("updateCluster(): Session not dirty.");
+    if (log.isDebugEnabled()) {
+      log.debug("updateCluster(): Session not dirty.");
+    }
   }
   visitPageMaps(new IVisitor(){
     public void pageMap(    PageMap pageMap){

@@ -4,7 +4,9 @@
     final InputStream inputStream=context.getResourceAsStream("/WEB-INF/" + CharSetMap.CHARSET_RESOURCE);
     if (inputStream == null) {
       charSetMap=new CharSetMap();
-      log.debug("File '" + CharSetMap.CHARSET_RESOURCE + "' not found");
+      if (log.isDebugEnabled()) {
+        log.debug("File '" + CharSetMap.CHARSET_RESOURCE + "' not found");
+      }
     }
  else {
       try {
