@@ -5,12 +5,30 @@
     final String pair=iterator.next();
     final int pos=pair.indexOf("=");
     if (pos < 0) {
-      params.put(pair,null);
+      String[] prevValue=(String[])params.get(pair);
+      if (prevValue != null) {
+        String[] newValue=new String[prevValue.length];
+        System.arraycopy(prevValue,0,newValue,0,prevValue.length);
+        newValue[prevValue.length]="";
+        params.put(pair,newValue);
+      }
+ else {
+        params.put(pair,new String[]{""});
+      }
     }
  else {
       final String key=pair.substring(0,pos);
       final String value=pair.substring(pos + 1);
-      params.put(key,value);
+      String[] prevValue=(String[])params.get(key);
+      if (prevValue != null) {
+        String[] newValue=new String[prevValue.length];
+        System.arraycopy(prevValue,0,newValue,0,prevValue.length);
+        newValue[prevValue.length]=value;
+        params.put(key,newValue);
+      }
+ else {
+        params.put(key,new String[]{value});
+      }
     }
   }
   return params;

@@ -11,14 +11,12 @@
     this.queryString=null;
     this.parameters=new ValueMap();
   }
-  final Map params=super.getParameterMap();
-  if ((params != null) && !params.isEmpty()) {
-    final Iterator iter=params.entrySet().iterator();
-    while (iter.hasNext()) {
-      final Map.Entry entry=(Map.Entry)iter.next();
-      if (!"x".equalsIgnoreCase((String)entry.getKey())) {
-        this.parameters.put(entry.getKey(),entry.getValue());
-      }
+  final Enumeration paramNames=request.getParameterNames();
+  while (paramNames.hasMoreElements()) {
+    String paramName=(String)paramNames.nextElement();
+    if (!"x".equalsIgnoreCase(paramName)) {
+      String[] values=request.getParameterValues(paramName);
+      this.parameters.put(paramName,values);
     }
   }
 }
