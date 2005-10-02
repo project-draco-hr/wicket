@@ -23,15 +23,17 @@
   }
   if ("html".equalsIgnoreCase(extension)) {
     infoPath=Strings.replaceAll(infoPath,"/",".");
+    final ApplicationSettings appSettings=page.getApplicationSettings();
+    final IClassResolver defaultClassResolver=appSettings.getDefaultClassResolver();
     if (!infoPath.startsWith(".")) {
-      final String className=page.getClass().getPackage().getName() + "." + infoPath;
-      final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
+      final String className=Packages.extractPackageName(page.getClass()) + "." + infoPath;
+      final Class clazz=defaultClassResolver.resolveClass(className);
       return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
     }
  else {
       final String className=infoPath.substring(1);
       try {
-        final Class clazz=page.getApplicationSettings().getDefaultClassResolver().resolveClass(className);
+        final Class clazz=defaultClassResolver.resolveClass(className);
         return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
       }
  catch (      WicketRuntimeException ex) {
