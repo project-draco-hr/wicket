@@ -9,6 +9,11 @@
       fileName=(String)params.get("filename");
       if (fileName != null) {
         fileName=fileName.trim();
+        int index=fileName.lastIndexOf('\\');
+        if (index == -1)         index=fileName.lastIndexOf('/');
+        if (index != -1) {
+          fileName=fileName.substring(index + 1);
+        }
       }
  else {
         fileName="";
