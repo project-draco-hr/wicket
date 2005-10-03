@@ -46,7 +46,7 @@
     }
  else {
       Component relevantContainer=container;
-      while (relevantContainer instanceof IComponentResolver) {
+      while ((relevantContainer instanceof IComponentResolver) && !(relevantContainer instanceof IComponentResolverMarker)) {
         relevantContainer=relevantContainer.getParent();
       }
       return new CssLink(autoId,relevantContainer.getClass(),href);
