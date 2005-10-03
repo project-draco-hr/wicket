@@ -16,7 +16,9 @@
   if ((parameters != null && !parameters.isEmpty()) || pages.getHomePageRenderStrategy() != ApplicationPages.NO_REDIRECT || !pages.getHomePage().equals(pageClass)) {
     buffer.append("bookmarkablePage=");
     String pageReference=cycle.getApplication().getPages().aliasForClass(pageClass);
-    if (pageReference == null)     pageReference=pageClass.getName();
+    if (pageReference == null) {
+      pageReference=pageClass.getName();
+    }
     buffer.append(pageReference);
   }
   if (parameters != null) {
@@ -32,6 +34,8 @@
       }
     }
   }
-  if (buffer.charAt(buffer.length() - 1) == '?')   buffer.deleteCharAt(buffer.length() - 1);
+  if (buffer.charAt(buffer.length() - 1) == '?') {
+    buffer.deleteCharAt(buffer.length() - 1);
+  }
   return cycle.getResponse().encodeURL(buffer.toString());
 }
