@@ -1,19 +1,20 @@
 {
   final int startIndex=this.inputPosition;
+  int tagNameLen=skipUntilText.length();
   int lastPos;
   while (true) {
     this.inputPosition=input.indexOf("</",this.inputPosition);
-    if ((this.inputPosition == -1) || ((this.inputPosition + 8) >= input.length())) {
-      throw new ParseException("Script tag not closed (line " + lineNumber + ", column "+ columnNumber+ ")",startIndex);
+    if ((this.inputPosition == -1) || ((this.inputPosition + (tagNameLen + 2)) >= input.length())) {
+      throw new ParseException(skipUntilText + " tag not closed (line " + lineNumber+ ", column "+ columnNumber+ ")",startIndex);
     }
     lastPos=this.inputPosition + 2;
-    final String endTagText=input.substring(lastPos,lastPos + 6);
-    if (endTagText.toLowerCase().equals("script")) {
+    final String endTagText=input.substring(lastPos,lastPos + tagNameLen);
+    if (endTagText.toLowerCase().equals(skipUntilText)) {
       break;
     }
     this.inputPosition=lastPos;
   }
-  lastPos=input.indexOf('>',lastPos + 6);
+  lastPos=input.indexOf('>',lastPos + tagNameLen);
   if (lastPos == -1) {
     throw new ParseException("Script tag not closed (line " + lineNumber + ", column "+ columnNumber+ ")",startIndex);
   }

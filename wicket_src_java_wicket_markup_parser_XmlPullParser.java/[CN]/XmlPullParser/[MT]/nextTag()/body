@@ -41,8 +41,13 @@
       }
  else {
         String lowerCase=tagText.toLowerCase();
-        if ((type == XmlTag.OPEN) && lowerCase.startsWith("script")) {
-          this.skipUntilText="script";
+        if ((type == XmlTag.OPEN) && lowerCase.startsWith("s")) {
+          if (lowerCase.startsWith("script")) {
+            this.skipUntilText="script";
+          }
+ else           if (lowerCase.startsWith("style")) {
+            this.skipUntilText="style";
+          }
         }
         final XmlTag tag=parseTagText(tagText);
         if (tag != null) {
