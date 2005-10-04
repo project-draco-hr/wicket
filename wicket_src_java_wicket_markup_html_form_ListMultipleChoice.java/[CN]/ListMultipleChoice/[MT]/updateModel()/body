@@ -5,11 +5,10 @@
     if (selectedValues != null) {
       selectedValues.clear();
     }
- else {
-      selectedValues=new ArrayList();
-      setModelObject(selectedValues);
-    }
-    if (ids != null && ids.length > 0 && !Strings.isEmpty(ids[0])) {
+    if (ids.length > 0 && !Strings.isEmpty(ids[0])) {
+      if (selectedValues == null) {
+        selectedValues=new ArrayList();
+      }
       final List choices=getChoices();
       for (int i=0; i < ids.length; i++) {
         for (int index=0; index < choices.size(); index++) {
@@ -21,5 +20,6 @@
         }
       }
     }
+    setModelObject(selectedValues);
   }
 }
