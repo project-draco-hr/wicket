@@ -1,11 +1,15 @@
 {
   final HttpSession httpSession=((ServletWebRequest)request).getHttpServletRequest().getSession(true);
-  if (!create && httpSession == null)   return null;
+  if (!create && (httpSession == null)) {
+    return null;
+  }
   final String sessionAttributePrefix="wicket-" + request.getServletPath();
   final String sessionAttribute=sessionAttributePrefix + "-" + Session.sessionAttributeName;
   WebSession webSession=(WebSession)httpSession.getAttribute(sessionAttribute);
   if (webSession == null) {
-    if (!create)     return null;
+    if (!create) {
+      return null;
+    }
     final Session session=getSessionFactory().newSession();
     if (session instanceof WebSession) {
       webSession=(WebSession)session;

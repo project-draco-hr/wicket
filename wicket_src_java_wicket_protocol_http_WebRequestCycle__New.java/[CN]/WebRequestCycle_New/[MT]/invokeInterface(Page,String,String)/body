@@ -1,0 +1,34 @@
+{
+  setInvokePage(page);
+  final Component component=page.get(Strings.afterFirstPathComponent(path,':'));
+  if (component != null) {
+    if (!component.isVisible()) {
+      try {
+        getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_FORBIDDEN,"Unable to execute this request");
+      }
+ catch (      IOException ex) {
+        log.error("unable to send 403 for " + getRequest() + ", cause: "+ ex.getMessage(),ex);
+      }
+      return;
+    }
+    Method method=getRequestInterfaceMethod(interfaceName);
+    if (method != null) {
+      setResponsePage(page);
+      if (!interfaceName.equals("IRedirectListener")) {
+        page.getFeedbackMessages().clear();
+        ApplicationSettings.RenderStrategy strategy=getSession().getApplication().getSettings().getRenderStrategy();
+        boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+        setRedirect(issueRedirect);
+      }
+      invokeInterface(component,method);
+      setFormComponentValuesFromCookies(page);
+    }
+ else {
+      throw new WicketRuntimeException("Attempt to access unknown interface " + interfaceName);
+    }
+  }
+ else {
+    log.error("No component found for " + path);
+    setResponsePage(newPage(application.getPages().getInternalErrorPage()));
+  }
+}

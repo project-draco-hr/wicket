@@ -1,12 +1,11 @@
 {
   if (dirty) {
     paths.clear();
-    TreeModel model=(TreeModel)getTreeState().getModel();
+    TreeModel model=getTreeState().getModel();
     DefaultMutableTreeNode rootNode=(DefaultMutableTreeNode)model.getRoot();
     Enumeration e=rootNode.preorderEnumeration();
     while (e.hasMoreElements()) {
       DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)e.nextElement();
-      TreePath path=new TreePath(treeNode.getPath());
       paths.add(treeNode);
     }
     dirty=false;

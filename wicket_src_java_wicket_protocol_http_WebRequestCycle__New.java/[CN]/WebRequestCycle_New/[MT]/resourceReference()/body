@@ -1,0 +1,23 @@
+{
+  final String path=request.getPath();
+  if (path.startsWith(resourceReferencePrefix)) {
+    final String rawResourceKey=path.substring(resourceReferencePrefix.length());
+    SharedResources sharedResources=getApplication().getSharedResources();
+    Resource resource=sharedResources.get(rawResourceKey);
+    if (resource == null) {
+      log.debug("Could not find resource referenced by key " + rawResourceKey);
+      try {
+        getWebResponse().getHttpServletResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
+      }
+ catch (      IOException ex) {
+        log.error("error sending 404",ex);
+        throw new WicketRuntimeException("Could not find resource referenced by key " + rawResourceKey + " and send a 404",ex);
+      }
+      return true;
+    }
+    sharedResources.onResourceRequested(rawResourceKey);
+    resource.onResourceRequested();
+    return true;
+  }
+  return false;
+}
