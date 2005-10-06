@@ -1,0 +1,9 @@
+{
+  getPages().setHomePage(DummyHomePage.class);
+  setupRequestAndResponse();
+  processRequestCycle();
+  DummyHomePage page=(DummyHomePage)getLastRenderedPage();
+  page.setTestPageSource(testPageSource);
+  newRequestToComponent(page.getTestPageLink());
+  return getLastRenderedPage();
+}

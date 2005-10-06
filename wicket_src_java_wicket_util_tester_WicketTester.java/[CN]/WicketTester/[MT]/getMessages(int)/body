@@ -1,0 +1,14 @@
+{
+  FeedbackMessages feedbackMessages=getLastRenderedPage().getFeedbackMessages();
+  List allMessages=feedbackMessages.messages(new IFeedbackMessageFilter(){
+    public boolean accept(    FeedbackMessage message){
+      return message.getLevel() == level;
+    }
+  }
+);
+  List actualMessages=new ArrayList();
+  for (Iterator iter=allMessages.iterator(); iter.hasNext(); ) {
+    actualMessages.add(((FeedbackMessage)iter.next()).getMessage());
+  }
+  return actualMessages;
+}
