@@ -2,6 +2,7 @@
   System.out.println("=== " + pageClass.getName() + " ===");
   application.getPages().setHomePage(pageClass);
   application.setupRequestAndResponse();
+  application.getWicketSession().setLocale(null);
   application.processRequestCycle();
   String document=application.getServletResponse().getDocument();
   assertTrue(DiffUtil.validatePage(document,this.getClass(),filename));
