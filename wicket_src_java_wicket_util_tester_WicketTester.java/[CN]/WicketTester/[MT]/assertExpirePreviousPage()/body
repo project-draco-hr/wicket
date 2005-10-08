@@ -5,7 +5,7 @@
     internalMapCacheField=pageMap.getClass().getDeclaredField("pages");
     internalMapCacheField.setAccessible(true);
     MostRecentlyUsedMap mru=(MostRecentlyUsedMap)internalMapCacheField.get(pageMap);
-    Assert.assertFalse("Previous Page '" + getPreviousRenderedPage().getClass().getSimpleName() + "' not expire",mru.containsValue(getPreviousRenderedPage()));
+    Assert.assertFalse("Previous Page '" + Classes.name(getPreviousRenderedPage().getClass()) + "' not expire",mru.containsValue(getPreviousRenderedPage()));
   }
  catch (  SecurityException e) {
     throw convertoUnexpect(e);
