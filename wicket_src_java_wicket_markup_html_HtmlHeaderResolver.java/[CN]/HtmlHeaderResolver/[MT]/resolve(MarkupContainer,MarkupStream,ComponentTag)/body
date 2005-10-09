@@ -12,7 +12,7 @@
       header.add(header2);
       container.autoAdd(header);
     }
- else {
+ else     if (container instanceof HtmlHeaderContainer) {
       final WebMarkupContainer header=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID);
       header.setRenderBodyOnly(true);
       try {
@@ -21,6 +21,9 @@
  catch (      IllegalArgumentException ex) {
         throw new WicketRuntimeException("If the root exception says something like " + "\"A child with id '_header' already exists\" " + "then you most likely forgot to override autoAdd() "+ "in your bordered page component.",ex);
       }
+    }
+ else {
+      throw new MarkupException("Mis-placed <wicket:head>. <wicket:head> must be outside of <wicket:panel> and <wicket:border>");
     }
     return true;
   }
