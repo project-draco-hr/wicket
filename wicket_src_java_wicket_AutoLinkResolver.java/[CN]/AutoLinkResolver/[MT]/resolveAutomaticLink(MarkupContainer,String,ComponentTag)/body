@@ -47,7 +47,12 @@
       while ((relevantContainer instanceof IComponentResolver) && !(relevantContainer instanceof IComponentResolverMarker)) {
         relevantContainer=relevantContainer.getParent();
       }
-      return new CssLink(autoId,relevantContainer.getClass(),href);
+      try {
+        return new CssLink(autoId,relevantContainer.getClass(),href);
+      }
+ catch (      WicketRuntimeException ex) {
+        log.info("Did not find autolink resource: " + href + "; Assume it is a valid external URL");
+      }
     }
   }
   return new AutolinkExternalLink(autoId,href);
