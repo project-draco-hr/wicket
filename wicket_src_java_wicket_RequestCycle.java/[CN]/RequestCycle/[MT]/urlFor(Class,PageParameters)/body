@@ -12,7 +12,12 @@
       final String key=(String)iterator.next();
       final String value=parameters.getString(key);
       if (value != null) {
-        final String escapedValue=URLEncoder.encode(value);
+        String escapedValue=value;
+        try {
+          escapedValue=URLEncoder.encode(escapedValue,Application.get().getSettings().getResponseRequestEncoding());
+        }
+ catch (        UnsupportedEncodingException ex) {
+        }
         buffer.append('&');
         buffer.append(key);
         buffer.append('=');
