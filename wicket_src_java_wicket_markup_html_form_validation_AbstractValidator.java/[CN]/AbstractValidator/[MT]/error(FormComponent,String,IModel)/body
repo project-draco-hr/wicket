@@ -1,5 +1,8 @@
 {
   Localizer localizer=formComponent.getLocalizer();
-  String message=localizer.getString(resourceKey,formComponent,resourceModel);
+  String message=localizer.getString(resourceKey,formComponent,resourceModel,"");
+  if ((message == null) || (message.length() == 0)) {
+    throw new MissingResourceException("Unable to find resource: " + resourceKey,formComponent.getClass().getName(),resourceKey);
+  }
   formComponent.error(message);
 }
