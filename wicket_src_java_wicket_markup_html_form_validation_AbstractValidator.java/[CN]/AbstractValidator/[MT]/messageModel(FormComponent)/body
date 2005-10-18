@@ -2,11 +2,16 @@
   final Map resourceModel=new HashMap(4);
   resourceModel.put("input",formComponent.getInput());
   resourceModel.put("name",formComponent.getId());
+  Object label=null;
   if (formComponent.getLabel() != null) {
-    resourceModel.put("label",formComponent.getLabel().getObject(null));
+    label=formComponent.getLabel().getObject(formComponent);
+  }
+  if (label != null) {
+    resourceModel.put("label",label);
   }
  else {
-    resourceModel.put("label",formComponent.getId());
+    String labelKey=formComponent.getForm().getId() + "." + formComponent.getId();
+    resourceModel.put("label",formComponent.getLocalizer().getString(labelKey,formComponent));
   }
   return resourceModel;
 }
