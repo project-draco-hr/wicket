@@ -1,0 +1,22 @@
+{
+  final CheckGroup group=new CheckGroup("group");
+  Form form=new Form("form"){
+    protected void onSubmit(){
+      info("selected person(s): " + group.getModelObjectAsString());
+    }
+  }
+;
+  add(form);
+  form.add(group);
+  group.add(new CheckGroupSelector("groupselector"));
+  ListView persons=new ListView("persons",ComponentReferenceApplication.getPersons()){
+    protected void populateItem(    ListItem item){
+      item.add(new Check("checkbox",item.getModel()));
+      item.add(new Label("name",new PropertyModel(item.getModel(),"name")));
+      item.add(new Label("lastName",new PropertyModel(item.getModel(),"lastName")));
+    }
+  }
+;
+  group.add(persons);
+  add(new FeedbackPanel("feedback"));
+}
