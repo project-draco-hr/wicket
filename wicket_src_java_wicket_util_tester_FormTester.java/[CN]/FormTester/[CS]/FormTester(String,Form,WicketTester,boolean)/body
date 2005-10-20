@@ -1,0 +1,14 @@
+{
+  this.path=path;
+  this.workingForm=workingForm;
+  this.wicketTester=wicketTester;
+  this.wicketTester.setupRequestAndResponse();
+  if (fillBlankString) {
+    workingForm.visitFormComponents(new FormComponent.IVisitor(){
+      public void formComponent(      FormComponent formComponent){
+        setValue(formComponent.getInputName(),"");
+      }
+    }
+);
+  }
+}
