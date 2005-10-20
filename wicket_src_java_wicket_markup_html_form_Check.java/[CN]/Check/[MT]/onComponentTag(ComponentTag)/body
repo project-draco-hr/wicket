@@ -1,0 +1,15 @@
+{
+  checkComponentTag(tag,"input");
+  checkComponentTagAttribute(tag,"type","checkbox");
+  CheckGroup group=(CheckGroup)findParent(CheckGroup.class);
+  if (group == null) {
+    throw new WicketRuntimeException("Check component [" + getPath() + "] cannot find its parent CheckGroup. All Check components must be a child of or below in the hierarchy of a CheckGroup component.");
+  }
+  tag.put("name",group.getInputName());
+  tag.put("value",getPath());
+  Collection collection=(Collection)group.getModelObject();
+  if (collection.contains(getModelObject())) {
+    tag.put("checked","checked");
+  }
+  super.onComponentTag(tag);
+}
