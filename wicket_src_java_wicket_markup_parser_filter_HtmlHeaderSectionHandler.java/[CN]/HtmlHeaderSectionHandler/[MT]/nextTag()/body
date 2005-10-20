@@ -13,7 +13,10 @@
     tag.setId(HEADER_ID);
     return tag;
   }
-  if (("body".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() == null)) {
+ else   if (("head".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() != null)) {
+    foundHead=true;
+  }
+ else   if (("body".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() == null)) {
     if (foundHead == false) {
       insertHeadTag();
     }
