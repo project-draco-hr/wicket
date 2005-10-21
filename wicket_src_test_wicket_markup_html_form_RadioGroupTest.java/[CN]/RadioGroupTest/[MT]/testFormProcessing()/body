@@ -1,0 +1,27 @@
+{
+  final String radio1="radio1-selection";
+  final String radio2="radio2-selection";
+  MockModelObject modelObject=new MockModelObject();
+  RequestCycle cycle=application.createRequestCycle();
+  MockPage page=new MockPage(new PageParameters());
+  page.getSession().setRequestCycle(cycle);
+  final Form form=new Form("form",new CompoundPropertyModel(modelObject));
+  page.add(form);
+  final RadioGroup group=new RadioGroup("prop1");
+  form.add(group);
+  final WebMarkupContainer container=new WebMarkupContainer("container");
+  group.add(container);
+  final Radio choice1=new Radio("radio1",new Model(radio1));
+  final Radio choice2=new Radio("radio2",new Model(radio2));
+  container.add(choice1);
+  group.add(choice2);
+  modelObject.setProp1(radio1);
+  form.onFormSubmitted();
+  assertTrue("running with nothing selected - model must be set to null",modelObject.getProp1() == null);
+  application.getServletRequest().setParameter(group.getInputName(),choice1.getPath());
+  form.onFormSubmitted();
+  assertEquals("running with choice1 selected - model must be set to value of radio1",modelObject.getProp1(),choice1.getModelObject());
+  application.getServletRequest().setParameter(group.getInputName(),choice2.getPath());
+  form.onFormSubmitted();
+  assertEquals("running with choice2 selected - model must be set to value of radio2",modelObject.getProp1(),choice2.getModelObject());
+}

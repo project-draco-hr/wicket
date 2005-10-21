@@ -1,0 +1,30 @@
+{
+  final String check1="check1-selection";
+  final String check2="check2-selection";
+  MockModelObject modelObject=new MockModelObject();
+  RequestCycle cycle=application.createRequestCycle();
+  MockPage page=new MockPage(new PageParameters());
+  page.getSession().setRequestCycle(cycle);
+  final Form form=new Form("form",new CompoundPropertyModel(modelObject));
+  page.add(form);
+  final CheckGroup group=new CheckGroup("prop1");
+  form.add(group);
+  final WebMarkupContainer container=new WebMarkupContainer("container");
+  group.add(container);
+  final Check choice1=new Check("check1",new Model(check1));
+  final Check choice2=new Check("check2",new Model(check2));
+  container.add(choice1);
+  group.add(choice2);
+  modelObject.getProp1().add(check1);
+  form.onFormSubmitted();
+  assertTrue("running with nothing selected - model must be empty",modelObject.getProp1().size() == 0);
+  application.getServletRequest().setParameter(group.getInputName(),choice1.getPath());
+  form.onFormSubmitted();
+  assertTrue("running with choice1 selected - model must only contain value of check1",modelObject.getProp1().size() == 1 && modelObject.getProp1().contains(check1));
+  application.getServletRequest().setParameter(group.getInputName(),choice2.getPath());
+  form.onFormSubmitted();
+  assertTrue("running with choice2 selected - model must only contain value of check2",modelObject.getProp1().size() == 1 && modelObject.getProp1().contains(check2));
+  application.getServletRequest().getParameterMap().put(group.getInputName(),new String[]{choice1.getPath(),choice2.getPath()});
+  form.onFormSubmitted();
+  assertTrue("running with choice1 and choice2 selected - model must only contain values of check1 and check2",modelObject.getProp1().size() == 2 && modelObject.getProp1().contains(check2) && modelObject.getProp1().contains(check1));
+}
