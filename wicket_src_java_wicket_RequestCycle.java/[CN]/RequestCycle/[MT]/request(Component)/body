@@ -1,0 +1,36 @@
+{
+synchronized (session) {
+    try {
+      threadAttach();
+      internalOnBeginRequest();
+      onBeginRequest();
+      component.render();
+    }
+ catch (    RuntimeException e) {
+      internalOnRuntimeException(null,e);
+    }
+ finally {
+      try {
+        if (invokePage != null) {
+          invokePage.internalEndRequest();
+        }
+      }
+ catch (      RuntimeException e) {
+        log.error("Exception occurred during invokerPage.internalEndRequest",e);
+      }
+      try {
+        internalOnEndRequest();
+      }
+ catch (      RuntimeException e) {
+        log.error("Exception occurred during internalOnEndRequest",e);
+      }
+      try {
+        onEndRequest();
+      }
+ catch (      RuntimeException e) {
+        log.error("Exception occurred during onEndRequest",e);
+      }
+      threadDetach();
+    }
+  }
+}

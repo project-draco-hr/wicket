@@ -1,4 +1,10 @@
 {
+  if (this.markupStreamPosition < 0) {
+    this.markupStreamPosition=markupStream.getCurrentIndex();
+  }
+ else {
+    markupStream.setCurrentIndex(this.markupStreamPosition);
+  }
   final ComponentTag tag=markupStream.getTag().mutable();
   onComponentTag(tag);
   if (!tag.isOpenClose() && !tag.isOpen()) {

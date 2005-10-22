@@ -1,5 +1,11 @@
 {
   final MarkupStream markupStream=findMarkupStream();
+  if (this.markupStreamPosition < 0) {
+    this.markupStreamPosition=markupStream.getCurrentIndex();
+  }
+ else {
+    markupStream.setCurrentIndex(this.markupStreamPosition);
+  }
   final boolean atOpenTag=markupStream.atOpenTag();
   final ComponentTag openTag=markupStream.getTag().mutable();
   openTag.setType(XmlTag.OPEN);
