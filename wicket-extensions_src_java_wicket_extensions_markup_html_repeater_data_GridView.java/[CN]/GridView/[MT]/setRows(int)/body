@@ -1,0 +1,18 @@
+{
+  if (rows < 1) {
+    throw new IllegalArgumentException();
+  }
+  if (this.rows != rows) {
+    addStateChange(new Change(){
+      private static final long serialVersionUID=1L;
+      final int old=GridView.this.rows;
+      public void undo(){
+        GridView.this.rows=old;
+      }
+    }
+);
+    this.rows=rows;
+  }
+  updateItemsPerPage();
+  return this;
+}

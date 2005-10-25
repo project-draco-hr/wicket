@@ -1,0 +1,27 @@
+{
+  if (items.hasNext()) {
+    final int cols=getColumns();
+    int row=0;
+    int index=0;
+    do {
+      Item rowItem=newRowItem(newChildId(),row);
+      OrderedRepeatingView rowView=new OrderedRepeatingView("cols");
+      rowItem.add(rowView);
+      add(rowItem);
+      for (int i=0; i < cols; i++) {
+        final Item cellItem;
+        if (items.hasNext()) {
+          cellItem=(Item)items.next();
+        }
+ else {
+          cellItem=newEmptyItem(newChildId(),index);
+          populateEmptyItem(cellItem);
+        }
+        rowView.add(cellItem);
+        index++;
+      }
+      row++;
+    }
+ while (items.hasNext());
+  }
+}

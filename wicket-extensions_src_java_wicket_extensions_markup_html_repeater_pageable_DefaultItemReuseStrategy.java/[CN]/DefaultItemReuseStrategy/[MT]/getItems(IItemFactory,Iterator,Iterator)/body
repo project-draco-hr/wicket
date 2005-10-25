@@ -1,0 +1,18 @@
+{
+  return new Iterator(){
+    private int index=0;
+    public void remove(){
+      throw new UnsupportedOperationException();
+    }
+    public boolean hasNext(){
+      return newModels.hasNext();
+    }
+    public Object next(){
+      final IModel model=(IModel)newModels.next();
+      Item item=factory.newItem(index,model);
+      index++;
+      return item;
+    }
+  }
+;
+}

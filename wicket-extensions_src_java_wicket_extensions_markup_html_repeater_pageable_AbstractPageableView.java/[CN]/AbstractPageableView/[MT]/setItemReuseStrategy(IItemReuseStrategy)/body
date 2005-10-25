@@ -1,0 +1,16 @@
+{
+  if (strategy == null) {
+    throw new IllegalArgumentException();
+  }
+  if (!strategy.equals(itemReuseStrategy)) {
+    addStateChange(new Change(){
+      private static final long serialVersionUID=1L;
+      private final IItemReuseStrategy old=itemReuseStrategy;
+      public void undo(){
+        itemReuseStrategy=old;
+      }
+    }
+);
+  }
+  itemReuseStrategy=strategy;
+}

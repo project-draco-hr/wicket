@@ -1,0 +1,18 @@
+{
+  if (cols < 1) {
+    throw new IllegalArgumentException();
+  }
+  if (columns != cols) {
+    addStateChange(new Change(){
+      private static final long serialVersionUID=1L;
+      final int old=columns;
+      public void undo(){
+        columns=old;
+      }
+    }
+);
+    columns=cols;
+  }
+  updateItemsPerPage();
+  return this;
+}

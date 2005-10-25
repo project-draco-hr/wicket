@@ -1,0 +1,52 @@
+{
+  super(id);
+  final DataView dataView=new DataView("rows",dataProvider){
+    private static final long serialVersionUID=1L;
+    protected void populateItem(    final Item item){
+      final IModel rowModel=item.getModel();
+      item.add(new AttributeModifier("class",true,new Model(){
+        private static final long serialVersionUID=1L;
+        public Object getObject(        Component component){
+          return (item.getIndex() % 2 == 0) ? "odd" : "even";
+        }
+      }
+));
+      item.add(new ListView("cells",columns){
+        private static final long serialVersionUID=1L;
+        protected void populateItem(        ListItem item){
+          final IColumn column=(IColumn)item.getModelObject();
+          column.populateItem(item,"cell",rowModel);
+          item.get("cell").setRenderBodyOnly(true);
+        }
+      }
+);
+    }
+  }
+;
+  dataView.setItemsPerPage(rowsPerPage);
+  add(dataView);
+  add(new ListView("headers",columns){
+    private static final long serialVersionUID=1L;
+    protected void populateItem(    ListItem item){
+      final IColumn column=(IColumn)item.getModelObject();
+      WebMarkupContainer header=null;
+      if (column.isSortable()) {
+        header=new OrderByBorder("header",column.getSortProperty(),dataView);
+      }
+ else {
+        header=new WebMarkupContainer("header");
+      }
+      item.add(header);
+      header.add(new Label("label",column.getDisplayModel()));
+    }
+  }
+);
+  add(new PagingNavigator("navigator",dataView){
+    private static final long serialVersionUID=1L;
+    public boolean isVisible(){
+      return dataView.getItemCount() > 0;
+    }
+  }
+);
+  add(new NavigatorLabel("navigatorLabel",dataView));
+}

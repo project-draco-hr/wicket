@@ -1,0 +1,18 @@
+{
+  super("class",true,new AbstractModel(){
+    private static final long serialVersionUID=1L;
+    public IModel getNestedModel(){
+      return null;
+    }
+    public Object getObject(    Component component){
+      final DataView list=link.list;
+      final ISortableDataProvider dataProvider=(ISortableDataProvider)list.getModelObject();
+      final SortState state=dataProvider.getSortState(link.sortProperty);
+      return provider.getClassAttributeValue(state);
+    }
+    public void setObject(    Component component,    Object object){
+      throw new UnsupportedOperationException();
+    }
+  }
+);
+}

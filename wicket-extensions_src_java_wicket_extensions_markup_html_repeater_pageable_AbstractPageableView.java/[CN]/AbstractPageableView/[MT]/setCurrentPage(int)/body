@@ -1,0 +1,16 @@
+{
+  if (page < 0 || page > getPageCount()) {
+    throw new IndexOutOfBoundsException();
+  }
+  if (currentPage != page) {
+    addStateChange(new Change(){
+      private static final long serialVersionUID=1L;
+      private final int old=currentPage;
+      public void undo(){
+        currentPage=old;
+      }
+    }
+);
+  }
+  currentPage=page;
+}

@@ -1,0 +1,31 @@
+{
+  final Map modelToItem=new HashMap();
+  while (existingItems.hasNext()) {
+    final Item item=(Item)existingItems.next();
+    modelToItem.put(item.getModel(),item);
+  }
+  return new Iterator(){
+    private int index=0;
+    public boolean hasNext(){
+      return newModels.hasNext();
+    }
+    public Object next(){
+      final IModel model=(IModel)newModels.next();
+      final Item oldItem=(Item)modelToItem.get(model);
+      final Item item;
+      if (oldItem == null) {
+        item=factory.newItem(index,model);
+      }
+ else {
+        oldItem.setIndex(index);
+        item=oldItem;
+      }
+      index++;
+      return item;
+    }
+    public void remove(){
+      throw new UnsupportedOperationException();
+    }
+  }
+;
+}

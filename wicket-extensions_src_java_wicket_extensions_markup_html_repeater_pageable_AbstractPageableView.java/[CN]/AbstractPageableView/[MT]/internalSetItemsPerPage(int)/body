@@ -1,0 +1,17 @@
+{
+  if (items < 1) {
+    throw new IllegalArgumentException("Argument [itemsPerPage] cannot be less then 1");
+  }
+  if (itemsPerPage != items) {
+    addStateChange(new Change(){
+      private static final long serialVersionUID=1L;
+      final int old=itemsPerPage;
+      public void undo(){
+        itemsPerPage=old;
+      }
+    }
+);
+  }
+  itemsPerPage=items;
+  setCurrentPage(0);
+}
