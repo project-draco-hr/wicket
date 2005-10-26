@@ -1,0 +1,17 @@
+{
+  IDataProvider dataProvider=new ContactDataProvider();
+  GridView dv=new GridView("rows",dataProvider){
+    protected void populateItem(    Item item){
+      final Contact contact=(Contact)item.getModelObject();
+      item.add(new Label("firstName",contact.getFirstName() + " " + contact.getLastName()));
+    }
+    protected void populateEmptyItem(    Item item){
+      item.add(new Label("firstName","*empty*"));
+    }
+  }
+;
+  dv.setRows(4);
+  dv.setColumns(3);
+  add(dv);
+  add(new PagingNavigator("navigator",dv));
+}
