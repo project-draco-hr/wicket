@@ -2,7 +2,10 @@
   try {
     return getApplication().getMarkupCache().getMarkupStream(this);
   }
- catch (  WicketRuntimeException ex) {
+ catch (  MarkupException ex) {
+    throw ex;
+  }
+catch (  WicketRuntimeException ex) {
     throw new WicketRuntimeException(exceptionMessage("Markup of type '" + getMarkupType() + "' for component '"+ getClass().getName()+ "' not found or invalid"+ " Enable debug messages for wicket.util.resource.Resource to get a list of all filenames tried"),ex);
   }
 }
