@@ -1,0 +1,16 @@
+{
+  boolean hit=false;
+  try {
+    executeTest(PanelPage_2.class,"Dummy.html");
+  }
+ catch (  WicketRuntimeException ex) {
+    if ((ex.getCause() != null) && (ex.getCause() instanceof MarkupException)) {
+      hit=true;
+      MarkupException mex=(MarkupException)ex.getCause();
+      assertNotNull(mex.getMarkupStream());
+      assertTrue(mex.getMessage().indexOf("has to contain part '<wicket:panel>'") != -1);
+      assertTrue(mex.getMessage().indexOf("SimplePanel_2.html") != -1);
+    }
+  }
+  assertTrue("Did expect a MarkupException",hit);
+}
