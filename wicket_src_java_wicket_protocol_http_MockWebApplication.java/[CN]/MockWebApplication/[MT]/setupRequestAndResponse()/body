@@ -1,7 +1,9 @@
 {
   servletRequest.initialize();
   servletResponse.initialize();
-  wicketRequest=newWicketRequest();
+  servletRequest.setParameters(parametersForNextRequest);
+  parametersForNextRequest.clear();
+  wicketRequest=new ServletWebRequest(servletRequest);
   wicketSession=getSession(wicketRequest,true);
   wicketResponse=new WebResponse(servletResponse);
 }
