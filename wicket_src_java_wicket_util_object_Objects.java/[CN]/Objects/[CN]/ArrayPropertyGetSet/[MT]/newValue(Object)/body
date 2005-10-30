@@ -1,0 +1,15 @@
+{
+  if (setMethod == null) {
+    setMethod=findSetter(getMethod,object.getClass());
+  }
+  if (setMethod == null)   return null;
+  Class clz=getMethod.getReturnType();
+  Object value=null;
+  try {
+    value=clz.newInstance();
+    setMethod.invoke(object,new Object[]{index,value});
+  }
+ catch (  Exception ex) {
+  }
+  return value;
+}

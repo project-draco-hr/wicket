@@ -1,0 +1,51 @@
+{
+  String exp=expression.replace('[','.');
+  if (exp != expression) {
+    exp=exp.replaceAll("].",".");
+  }
+  final String expressionWithoutBrackets=exp;
+  int index=exp.indexOf('.');
+  int lastIndex=0;
+  Object value=object;
+  Class clz=value.getClass();
+  while (index != -1) {
+    exp=expressionWithoutBrackets.substring(lastIndex,index);
+    IGetAndSet getAndSetter=null;
+    try {
+      getAndSetter=getGetAndSetter(exp,clz);
+    }
+ catch (    WicketRuntimeException ex) {
+      index=expressionWithoutBrackets.indexOf('.',index + 1);
+      if (index != -1) {
+        String indexExpression=expressionWithoutBrackets.substring(lastIndex,index);
+        getAndSetter=getGetAndSetter(indexExpression,clz);
+      }
+ else {
+        exp=expressionWithoutBrackets.substring(lastIndex);
+        break;
+      }
+    }
+    Object newValue=getAndSetter.getValue(value);
+    if (newValue == null) {
+      if (tryToCreateNull) {
+        newValue=getAndSetter.newValue(value);
+        if (newValue == null) {
+          return null;
+        }
+      }
+ else {
+        return null;
+      }
+    }
+    value=newValue;
+    lastIndex=index + 1;
+    index=expressionWithoutBrackets.indexOf('.',lastIndex);
+    clz=value.getClass();
+    if (index == -1) {
+      exp=expressionWithoutBrackets.substring(lastIndex);
+      break;
+    }
+  }
+  IGetAndSet getAndSetter=getGetAndSetter(exp,clz);
+  return new ObjectAndGetSetter(getAndSetter,value);
+}

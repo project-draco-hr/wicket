@@ -1,0 +1,48 @@
+{
+  Map getAndSetters=(Map)classesToGetAndSetters.get(clz);
+  if (getAndSetters == null) {
+    getAndSetters=new ConcurrentHashMap(8);
+    classesToGetAndSetters.put(clz,getAndSetters);
+  }
+  IGetAndSet getAndSetter=(IGetAndSet)getAndSetters.get(exp);
+  if (getAndSetter == null) {
+    Method method=findGetter(clz,exp);
+    if (method == null) {
+      if (List.class.isAssignableFrom(clz)) {
+        int index=Integer.parseInt(exp);
+        getAndSetter=new ListGetSet(index);
+      }
+ else       if (Map.class.isAssignableFrom(clz)) {
+        getAndSetter=new MapGetSet(exp);
+      }
+ else       if (clz.isArray()) {
+        int index=Integer.parseInt(exp);
+        getAndSetter=new ArrayGetSet(index);
+      }
+ else {
+        int index=exp.indexOf('.');
+        if (index != -1) {
+          String propertyName=exp.substring(0,index);
+          String propertyIndex=exp.substring(index + 1);
+          try {
+            int parsedIndex=Integer.parseInt(propertyIndex);
+            String name=Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
+            method=clz.getMethod("get" + name,new Class[]{int.class});
+            getAndSetter=new ArrayPropertyGetSet(method,parsedIndex);
+          }
+ catch (          Exception e) {
+            throw new WicketRuntimeException("no get method defined for class: " + clz + " expression: "+ propertyName);
+          }
+        }
+ else {
+          throw new WicketRuntimeException("no get method defined for class: " + clz + " expression: "+ exp);
+        }
+      }
+    }
+ else {
+      getAndSetter=new MethodGetAndSet(method);
+    }
+    getAndSetters.put(exp,getAndSetter);
+  }
+  return getAndSetter;
+}

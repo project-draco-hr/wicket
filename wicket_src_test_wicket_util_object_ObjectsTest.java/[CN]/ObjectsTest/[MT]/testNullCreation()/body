@@ -1,0 +1,12 @@
+{
+  Person person=new Person();
+  Objects.setValue("address.street",person,"wicket-street",new Converter(Locale.US));
+  String street=(String)Objects.getValue("address.street",person);
+  assertEquals(street,"wicket-street");
+  try {
+    Objects.setValue("country.name",person,"US",new Converter(Locale.US));
+    throw new Exception("name can't be set on a country that doesn't have default constructor");
+  }
+ catch (  WicketRuntimeException ex) {
+  }
+}

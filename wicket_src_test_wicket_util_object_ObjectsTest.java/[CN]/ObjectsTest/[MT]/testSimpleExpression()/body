@@ -1,0 +1,8 @@
+{
+  Person person=new Person();
+  String name=(String)Objects.getValue("name",person);
+  assertNull(name);
+  Objects.setValue("name",person,"wicket",new Converter(Locale.US));
+  name=(String)Objects.getValue("name",person);
+  assertEquals(name,"wicket");
+}

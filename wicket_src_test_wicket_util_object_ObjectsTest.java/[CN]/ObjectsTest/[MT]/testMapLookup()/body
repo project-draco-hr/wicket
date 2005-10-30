@@ -1,0 +1,9 @@
+{
+  Person person=new Person();
+  Address address=new Address();
+  Objects.setValue("addressMap",person,new HashMap(),new Converter(Locale.US));
+  Objects.setValue("addressMap.address",person,address,new Converter(Locale.US));
+  Objects.setValue("addressMap.address.street",person,"wicket-street",new Converter(Locale.US));
+  String street=(String)Objects.getValue("addressMap.address.street",person);
+  assertEquals(street,"wicket-street");
+}

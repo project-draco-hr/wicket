@@ -1,0 +1,13 @@
+{
+  Person person=new Person();
+  person.setAddress(new Address());
+  Objects.setValue("address.number",person,"10",new Converter(Locale.US));
+  Integer number=(Integer)Objects.getValue("address.number",person);
+  assertEquals(number,new Integer(10));
+  try {
+    Objects.setValue("address.number",person,"10a",new Converter(Locale.US));
+    throw new Exception("Conversion error should be thrown");
+  }
+ catch (  ConversionException ex) {
+  }
+}

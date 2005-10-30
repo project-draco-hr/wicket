@@ -5,14 +5,9 @@
   if (object == null) {
     return "";
   }
-  try {
-    Object returnValue=Ognl.getValue(idExpression,object);
-    if (returnValue == null) {
-      return "";
-    }
-    return returnValue.toString();
+  Object returnValue=Objects.getValue(idExpression,object);
+  if (returnValue == null) {
+    return "";
   }
- catch (  OgnlException ex) {
-    throw new WicketRuntimeException("Error getting id value of: " + object + " for property: "+ idExpression,ex);
-  }
+  return returnValue.toString();
 }

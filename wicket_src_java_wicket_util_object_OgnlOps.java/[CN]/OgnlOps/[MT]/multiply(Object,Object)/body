@@ -1,0 +1,14 @@
+{
+  int type=getNumericType(v1,v2);
+switch (type) {
+case BIGINT:
+    return bigIntValue(v1).multiply(bigIntValue(v2));
+case BIGDEC:
+  return bigDecValue(v1).multiply(bigDecValue(v2));
+case FLOAT:
+case DOUBLE:
+return newReal(type,doubleValue(v1) * doubleValue(v2));
+default :
+return newInteger(type,longValue(v1) * longValue(v2));
+}
+}

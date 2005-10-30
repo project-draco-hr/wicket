@@ -5,13 +5,7 @@
   }
   final Object modelObject=modelObject(component);
   if (modelObject != null) {
-    try {
-      prepareContext(component);
-      return Ognl.getValue(expression,conversionContext,modelObject,propertyType(component));
-    }
- catch (    OgnlException e) {
-      throw new WicketRuntimeException("OGNL Exception: expression='" + expression + "'; path='"+ component.getPath()+ "'",e);
-    }
+    return Objects.getValue(expression,modelObject);
   }
   return null;
 }
