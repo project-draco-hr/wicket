@@ -16,8 +16,8 @@
   final ICrypt crypt=application.newCrypt();
   final String encryptedPassword=crypt.encrypt("test");
   assertNotNull(encryptedPassword);
-  this.cookieUsername=new Cookie("panel.signInForm.username","juergen");
-  this.cookiePassword=new Cookie("panel.signInForm.password",encryptedPassword);
+  this.cookieUsername=new Cookie("panel:signInForm:username","juergen");
+  this.cookiePassword=new Cookie("panel:signInForm:password",encryptedPassword);
   this.cookies=new Cookie[]{cookieUsername,cookiePassword};
   application.getServletRequest().setCookies(cookies);
   cycle=new WebRequestCycle(application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
