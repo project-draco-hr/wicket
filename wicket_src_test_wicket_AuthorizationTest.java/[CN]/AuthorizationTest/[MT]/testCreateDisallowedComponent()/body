@@ -1,0 +1,19 @@
+{
+  WicketTester app=new WicketTester(){
+    public IAuthorizationStrategy getAuthorizationStrategy(){
+      return new DummyAuthorizationStrategy(){
+        public boolean allowCreateComponent(        Class c){
+          return false;
+        }
+      }
+;
+    }
+  }
+;
+  try {
+    WebComponent c=new WebComponent("test");
+    fail("authorization check failed to throw an exception");
+  }
+ catch (  AuthorizationException e) {
+  }
+}

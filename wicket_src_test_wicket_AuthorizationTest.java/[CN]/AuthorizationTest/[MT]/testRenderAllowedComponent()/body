@@ -1,0 +1,11 @@
+{
+  WicketTester app=new WicketTester(){
+    public IAuthorizationStrategy getAuthorizationStrategy(){
+      return new DummyAuthorizationStrategy();
+    }
+  }
+;
+  app.startPage(AuthTestPage1.class);
+  app.assertRenderedPage(AuthTestPage1.class);
+  app.assertLabel("label","wicked!");
+}

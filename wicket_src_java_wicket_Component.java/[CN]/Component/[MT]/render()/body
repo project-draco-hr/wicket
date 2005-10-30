@@ -1,8 +1,5 @@
 {
-  if (!isVisible()) {
-    findMarkupStream().skipComponent();
-  }
- else {
+  if (renderAllowed && isVisible()) {
     if (log.isDebugEnabled()) {
       log.debug("Begin render " + this);
     }
@@ -11,5 +8,8 @@
     if (log.isDebugEnabled()) {
       log.debug("End render " + this);
     }
+  }
+ else {
+    findMarkupStream().skipComponent();
   }
 }

@@ -1,0 +1,15 @@
+{
+  if (getLastRenderedPage() == null) {
+    Assert.fail("before using this method, at least one page has to be rendered");
+  }
+  Component c=(Component)getComponentFromLastRenderedPage(componentPath);
+  if (c == null) {
+    Assert.fail("component " + componentPath + " was not found");
+  }
+  if (c instanceof FormComponent) {
+    getParametersForNextRequest().put(((FormComponent)c).getInputName(),value);
+  }
+ else {
+    getParametersForNextRequest().put(c.getPath(),value);
+  }
+}

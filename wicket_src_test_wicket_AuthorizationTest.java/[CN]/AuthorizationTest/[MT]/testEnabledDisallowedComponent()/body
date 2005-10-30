@@ -1,0 +1,25 @@
+{
+  WicketTester app=new WicketTester(){
+    public IAuthorizationStrategy getAuthorizationStrategy(){
+      return new DummyAuthorizationStrategy(){
+        public boolean allowEnabled(        Component c){
+          if (c instanceof TextField && c.getId().equals("stringInput")) {
+            return false;
+          }
+          return true;
+        }
+      }
+;
+    }
+  }
+;
+  app.startPage(AuthTestPage1.class);
+  app.assertRenderedPage(AuthTestPage1.class);
+  app.setParameterForNextRequest("form:stringInput","test");
+  try {
+    app.submitForm("form");
+    fail("model update should not have been allowed");
+  }
+ catch (  WicketRuntimeException e) {
+  }
+}

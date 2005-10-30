@@ -1,4 +1,12 @@
 {
+  final IAuthorizationStrategy authorizationStrategy=getApplication().getAuthorizationStrategy();
+  visitChildren(new IVisitor(){
+    public Object component(    Component component){
+      component.setRenderAllowed(authorizationStrategy.allowRender(component));
+      return IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
   final MarkupStream markupStream=getAssociatedMarkupStream();
   setMarkupStream(markupStream);
   configureResponse();

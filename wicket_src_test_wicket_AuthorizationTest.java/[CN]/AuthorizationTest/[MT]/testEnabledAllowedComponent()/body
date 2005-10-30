@@ -1,0 +1,18 @@
+{
+  WicketTester app=new WicketTester(){
+    public IAuthorizationStrategy getAuthorizationStrategy(){
+      return new DummyAuthorizationStrategy();
+    }
+  }
+;
+  app.startPage(AuthTestPage1.class);
+  app.assertRenderedPage(AuthTestPage1.class);
+  app.setParameterForNextRequest("form:stringInput","test");
+  app.submitForm("form");
+  app.assertRenderedPage(AuthTestPage1.class);
+  AuthTestPage1 page=(AuthTestPage1)app.getLastRenderedPage();
+  assertTrue(page.isSubmitted());
+  Input input=page.getTestModel();
+  assertNotNull(input.getStringInput());
+  assertEquals("test",input.getStringInput());
+}

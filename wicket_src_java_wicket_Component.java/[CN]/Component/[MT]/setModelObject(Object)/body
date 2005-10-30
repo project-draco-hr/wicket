@@ -1,14 +1,15 @@
 {
   final IModel model=getModel();
-  if (model != null) {
-    if (!getComparator().compareValue(this,object)) {
-      modelChanging();
-      model.setObject(this,object);
-      modelChanged();
-    }
-  }
- else {
+  if (model == null) {
     throw new IllegalStateException("Attempt to set model object on null model of component: " + getPageRelativePath());
+  }
+  if (!getApplication().getAuthorizationStrategy().allowEnabled(this)) {
+    throw new EnabledNotAllowedException("operation not allowed in the current authorization context");
+  }
+  if (!getComparator().compareValue(this,object)) {
+    modelChanging();
+    model.setObject(this,object);
+    modelChanged();
   }
   return this;
 }

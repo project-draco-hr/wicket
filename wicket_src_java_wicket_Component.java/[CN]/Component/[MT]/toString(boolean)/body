@@ -2,10 +2,10 @@
   if (detailed) {
     final Page page=findPage();
     if (page == null) {
-      return "[Component id = " + getId() + ", page = <No Page>, path = "+ getPath()+ "."+ Classes.name(getClass())+ "]";
+      return new StringBuffer("[Component id = ").append(getId()).append(", page = <No Page>, path = ").append(getPath()).append(".").append(Classes.name(getClass())).append("]").toString();
     }
  else {
-      return "[Component id = " + getId() + ", page = "+ getPage().getClass().getName()+ ", path = "+ getPath()+ "."+ Classes.name(getClass())+ ", isVisible = "+ isVisible()+ ", isVersioned = "+ isVersioned()+ "]";
+      return new StringBuffer("[Component id = ").append(getId()).append(", page = ").append(getPage().getClass().getName()).append(", path = ").append(getPath()).append(".").append(Classes.name(getClass())).append(", isVisible = ").append((renderAllowed && isVisible())).append(", isVersioned = ").append(isVersioned()).append("]").toString();
     }
   }
  else {
