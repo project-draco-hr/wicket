@@ -1,13 +1,11 @@
 {
   MockWebApplication application=new MockWebApplication(null);
+  application.getSettings().setRenderStrategy(ApplicationSettings.REDIRECT_TO_BUFFER);
   application.getPages().setHomePage(SortableTableHeadersPage.class);
   application.setupRequestAndResponse();
   application.processRequestCycle();
   SortableTableHeadersPage page=(SortableTableHeadersPage)application.getLastRenderedPage();
   String document=application.getServletResponse().getDocument();
-  FileWriter writer=new FileWriter("SortableTableHeadersExcpetedResult_1.html");
-  writer.write(document);
-  writer.close();
   assertTrue(validatePage(document,"SortableTableHeadersExpectedResult_1.html"));
   Link link=(Link)page.get("header:id:actionLink");
   assertTrue(link.isEnabled());
@@ -27,7 +25,7 @@
   application.processRequestCycle();
   document=application.getServletResponse().getDocument();
   assertTrue(validatePage(document,"SortableTableHeadersExpectedResult_2.html"));
-  link=(Link)page.get("header.name.actionLink");
+  link=(Link)page.get("header:name:actionLink");
   application.setupRequestAndResponse();
   application.getServletRequest().setRequestToComponent(link);
   application.processRequestCycle();
@@ -38,5 +36,8 @@
   application.getServletRequest().setRequestToRedirectString(redirect);
   application.processRequestCycle();
   document=application.getServletResponse().getDocument();
+  FileWriter writer=new FileWriter("SortableTableHeadersExcpetedResult_1.html");
+  writer.write(document);
+  writer.close();
   assertTrue(validatePage(document,"SortableTableHeadersExpectedResult_3.html"));
 }
