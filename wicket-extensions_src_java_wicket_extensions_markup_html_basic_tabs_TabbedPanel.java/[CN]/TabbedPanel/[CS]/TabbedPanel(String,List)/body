@@ -1,0 +1,36 @@
+{
+  super(id,new Model(new Integer(-1)));
+  if (tabs == null) {
+    throw new IllegalArgumentException("argument [tabs] cannot be null");
+  }
+  if (tabs.size() < 1) {
+    throw new IllegalArgumentException("argument [tabs] must contain a list of at least one tab");
+  }
+  this.tabs=tabs;
+  add(new Loop("tabs",tabs.size()){
+    private static final long serialVersionUID=1L;
+    protected void populateItem(    LoopItem item){
+      final int index=item.getIteration();
+      final ITab tab=((ITab)TabbedPanel.this.tabs.get(index));
+      final int selected=getSelectedTab();
+      final Link titleLink=new Link("link"){
+        private static final long serialVersionUID=1L;
+        public void onClick(){
+          setSelectedTab(index);
+        }
+      }
+;
+      titleLink.add(new Label("title",tab.getTitle()));
+      item.add(titleLink);
+      item.add(new AttributeModifier("class",true,new Model("selected")){
+        private static final long serialVersionUID=1L;
+        public boolean isEnabled(){
+          return index == selected;
+        }
+      }
+);
+    }
+  }
+);
+  setSelectedTab(0);
+}
