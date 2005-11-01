@@ -20,38 +20,39 @@
   if (pos != -1) {
     extension=infoPath.substring(pos + 1);
     infoPath=infoPath.substring(0,pos);
-  }
-  if (supportedPageExtensions.containsKey(extension.toLowerCase())) {
-    infoPath=Strings.replaceAll(infoPath,"/",".");
-    final ApplicationSettings appSettings=page.getApplicationSettings();
-    final IClassResolver defaultClassResolver=appSettings.getDefaultClassResolver();
-    final String className;
-    if (!infoPath.startsWith(".")) {
-      className=Packages.extractPackageName(page.getClass()) + "." + infoPath;
-    }
+    if (supportedPageExtensions.containsKey(extension.toLowerCase())) {
+      infoPath=Strings.replaceAll(infoPath,"/",".");
+      final ApplicationSettings appSettings=page.getApplicationSettings();
+      final IClassResolver defaultClassResolver=appSettings.getDefaultClassResolver();
+      final String className;
+      if (!infoPath.startsWith(".")) {
+        className=Packages.extractPackageName(page.getClass()) + "." + infoPath;
+      }
  else {
-      className=infoPath.substring(1);
-    }
-    try {
-      final Class clazz=defaultClassResolver.resolveClass(className);
-      return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
-    }
- catch (    WicketRuntimeException ex) {
-    }
-  }
- else {
-    if (infoPath.startsWith("/") || infoPath.startsWith("\\")) {
-    }
- else {
-      Component relevantContainer=container;
-      while ((relevantContainer instanceof IComponentResolver) && !(relevantContainer instanceof IComponentResolverMarker)) {
-        relevantContainer=relevantContainer.getParent();
+        className=infoPath.substring(1);
       }
       try {
-        return new CssLink(autoId,relevantContainer.getClass(),href);
+        final Class clazz=defaultClassResolver.resolveClass(className);
+        return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
       }
  catch (      WicketRuntimeException ex) {
-        log.info("Did not find autolink resource: " + href + "; Assume it is a valid external URL");
+        log.info("Did not find corresponding java class: " + className);
+      }
+    }
+ else {
+      if (infoPath.startsWith("/") || infoPath.startsWith("\\")) {
+      }
+ else {
+        Component relevantContainer=container;
+        while ((relevantContainer instanceof IComponentResolver) && !(relevantContainer instanceof IComponentResolverMarker)) {
+          relevantContainer=relevantContainer.getParent();
+        }
+        try {
+          return new CssLink(autoId,relevantContainer.getClass(),href);
+        }
+ catch (        WicketRuntimeException ex) {
+          log.info("Did not find autolink resource: " + href + "; Assume it is a valid external URL");
+        }
       }
     }
   }
