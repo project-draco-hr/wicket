@@ -7,15 +7,16 @@
     if (label != null) {
       buffer.append(getPrefix());
       String id=getChoiceRenderer().getIdValue(choice,index);
-      buffer.append("<input name=\"" + getInputName() + "\""+ " type=\"radio\""+ (isSelected(choice,index) ? " checked=\"checked\"" : "")+ " value=\""+ id+ "\"");
+      final String idAttr=getInputName() + "_" + id;
+      buffer.append("<input name=\"" + getInputName() + "\""+ " type=\"radio\""+ (isSelected(choice,index) ? " checked=\"checked\"" : "")+ " value=\""+ id+ "\" id=\""+ idAttr+ "\"");
       if (wantOnSelectionChangedNotifications()) {
         final String url=urlFor(IOnChangeListener.class);
         buffer.append(" onclick=\"location.href='" + url + "&"+ getInputName()+ "="+ id+ "';\"");
       }
-      buffer.append(">");
+      buffer.append("/>");
       String display=getLocalizer().getString(getId() + "." + label,this,label);
       String escaped=Strings.escapeMarkup(display,false,true);
-      buffer.append(escaped);
+      buffer.append("<label for=\"" + idAttr + "\">"+ escaped+ "</label>");
       buffer.append(getSuffix());
     }
   }
