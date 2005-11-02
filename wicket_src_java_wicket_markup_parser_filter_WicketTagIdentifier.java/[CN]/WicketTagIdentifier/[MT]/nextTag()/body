@@ -13,6 +13,9 @@
   }
   final String value=tag.getAttributes().getString(wicketNamespace + ":id");
   if (value != null) {
+    if (value.trim().length() == 0) {
+      throw new ParseException("The wicket:id attribute value must not be empty. May be unmatched quotes?!?",tag.getPos());
+    }
     tag.setId(value);
   }
   return tag;
