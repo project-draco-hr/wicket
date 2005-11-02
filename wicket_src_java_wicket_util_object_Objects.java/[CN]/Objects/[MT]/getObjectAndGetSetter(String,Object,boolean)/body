@@ -1,27 +1,24 @@
 {
-  String exp=expression.replace('[','.');
-  if (exp != expression) {
-    exp=exp.replaceAll("].",".");
-  }
-  final String expressionWithoutBrackets=exp;
-  int index=exp.indexOf('.');
+  final String expressionBracketsSeperated=Strings.replaceAll(expression,"[",".[");
+  int index=expressionBracketsSeperated.indexOf('.');
   int lastIndex=0;
   Object value=object;
   Class clz=value.getClass();
+  String exp=expressionBracketsSeperated;
   while (index != -1) {
-    exp=expressionWithoutBrackets.substring(lastIndex,index);
+    exp=expressionBracketsSeperated.substring(lastIndex,index);
     IGetAndSet getAndSetter=null;
     try {
       getAndSetter=getGetAndSetter(exp,clz);
     }
  catch (    WicketRuntimeException ex) {
-      index=expressionWithoutBrackets.indexOf('.',index + 1);
+      index=expressionBracketsSeperated.indexOf('.',index + 1);
       if (index != -1) {
-        String indexExpression=expressionWithoutBrackets.substring(lastIndex,index);
+        String indexExpression=expressionBracketsSeperated.substring(lastIndex,index);
         getAndSetter=getGetAndSetter(indexExpression,clz);
       }
  else {
-        exp=expressionWithoutBrackets.substring(lastIndex);
+        exp=expressionBracketsSeperated.substring(lastIndex);
         break;
       }
     }
@@ -39,10 +36,10 @@
     }
     value=newValue;
     lastIndex=index + 1;
-    index=expressionWithoutBrackets.indexOf('.',lastIndex);
+    index=expressionBracketsSeperated.indexOf('.',lastIndex);
     clz=value.getClass();
     if (index == -1) {
-      exp=expressionWithoutBrackets.substring(lastIndex);
+      exp=expressionBracketsSeperated.substring(lastIndex);
       break;
     }
   }

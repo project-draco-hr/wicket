@@ -6,7 +6,16 @@
   }
   IGetAndSet getAndSetter=(IGetAndSet)getAndSetters.get(exp);
   if (getAndSetter == null) {
-    Method method=findGetter(clz,exp);
+    Method method=null;
+    if (exp.startsWith("[")) {
+      exp=exp.substring(1,exp.length() - 1);
+    }
+ else     if (exp.endsWith("()")) {
+      method=findMethod(clz,exp);
+    }
+ else {
+      method=findGetter(clz,exp);
+    }
     if (method == null) {
       if (List.class.isAssignableFrom(clz)) {
         try {
