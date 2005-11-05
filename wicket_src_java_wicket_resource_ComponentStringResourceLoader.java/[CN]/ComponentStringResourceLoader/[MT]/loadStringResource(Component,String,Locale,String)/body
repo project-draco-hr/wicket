@@ -2,11 +2,15 @@
   if (component != null && component.getPage() != null) {
     Stack searchStack=new Stack();
     searchStack.push(component);
+    String prefixKey=component.getId() + "." + key;
     if (!(component instanceof Page)) {
       MarkupContainer c=component.getParent();
       while (true) {
         searchStack.push(c);
-        if (c instanceof Page)         break;
+        if (c instanceof Page) {
+          break;
+        }
+        prefixKey=c.getId() + "." + prefixKey;
         c=c.getParent();
       }
     }
@@ -16,16 +20,39 @@
       Class cc=c.getClass();
       while (value == null) {
         final String id=createCacheId(cc,style,locale);
-        ValueMap strings=(ValueMap)resourceCache.get(id);
+        ValueMap strings=getResourceCache(id);
         if (strings == null) {
-          strings=loadResources(c,cc,style,locale,id);
+          strings=loadResources(cc,style,locale,id);
+        }
+        if (log.isDebugEnabled()) {
+          log.debug("Try to load resource from: " + id + "; key: "+ prefixKey);
+        }
+        value=strings.getString(prefixKey);
+        if (value != null) {
+          if (log.isDebugEnabled()) {
+            log.debug("Found resource from: " + id + "; key: "+ prefixKey);
+          }
+          break;
+        }
+        if (log.isDebugEnabled()) {
+          log.debug("Try to load resource from: " + id + "; key: "+ key);
         }
         value=strings.getString(key);
-        if (value != null)         break;
+        if (value != null) {
+          if (log.isDebugEnabled()) {
+            log.debug("Found resource from: " + id + "; key: "+ key);
+          }
+          break;
+        }
         cc=cc.getSuperclass();
-        if (isStopResourceSearch(cc))         break;
+        if (isStopResourceSearch(cc)) {
+          break;
+        }
       }
-      if (value != null)       break;
+      if (value != null) {
+        break;
+      }
+      prefixKey=Strings.afterFirst(prefixKey,'.');
     }
     return value;
   }
