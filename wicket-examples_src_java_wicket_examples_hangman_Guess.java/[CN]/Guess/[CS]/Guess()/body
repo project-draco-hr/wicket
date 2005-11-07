@@ -1,6 +1,11 @@
 {
   add(new Label("guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
-  add(new Label("word",new PropertyModel(getGame(),"word.asString(true)")));
+  add(new Label("word",new Model(){
+    public Object getObject(    wicket.Component component){
+      return getGame().getWord().asString(true);
+    }
+  }
+));
   add(new ListView("letters",getGame().getLetters()){
     protected void populateItem(    final ListItem listItem){
       final Letter letter=(Letter)listItem.getModelObject();
