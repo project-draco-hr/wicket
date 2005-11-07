@@ -7,6 +7,7 @@
   IGetAndSet getAndSetter=(IGetAndSet)getAndSetters.get(exp);
   if (getAndSetter == null) {
     Method method=null;
+    Field field=null;
     if (exp.startsWith("[")) {
       exp=exp.substring(1,exp.length() - 1);
     }
@@ -15,8 +16,11 @@
     }
  else {
       method=findGetter(clz,exp);
+      if (method == null) {
+        field=findField(clz,exp);
+      }
     }
-    if (method == null) {
+    if (method == null && field == null) {
       if (List.class.isAssignableFrom(clz)) {
         try {
           int index=Integer.parseInt(exp);
@@ -33,18 +37,7 @@
         }
       }
  else       if (Map.class.isAssignableFrom(clz)) {
-        if (exp.endsWith("()")) {
-          method=findMethod(clz,exp);
-          if (method != null) {
-            getAndSetter=new MethodGetAndSet(method);
-          }
- else {
-            throw new WicketRuntimeException("Method " + exp + " not found on class "+ clz);
-          }
-        }
- else {
-          getAndSetter=new MapGetSet(exp);
-        }
+        getAndSetter=new MapGetSet(exp);
       }
  else       if (clz.isArray()) {
         try {
@@ -85,6 +78,9 @@
           getAndSetter=new MethodGetAndSet(method);
         }
       }
+    }
+ else     if (field != null) {
+      getAndSetter=new FieldGetAndSetter(field);
     }
  else {
       getAndSetter=new MethodGetAndSet(method);

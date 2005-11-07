@@ -1,10 +1,9 @@
 {
-  Person person=new Person();
-  Objects.setValue("addressArray",person,new Address[]{new Address(),null},new Converter(Locale.US));
-  Objects.setValue("addressArray[0].street",person,"wicket-street",new Converter(Locale.US));
+  Objects.setValue("addressArray",person,new Address[]{new Address(),null},CONVERTER);
+  Objects.setValue("addressArray[0].street",person,"wicket-street",CONVERTER);
   String street=(String)Objects.getValue("addressArray[0].street",person);
   assertEquals(street,"wicket-street");
-  Objects.setValue("addressArray[1].street",person,"wicket-street",new Converter(Locale.US));
+  Objects.setValue("addressArray[1].street",person,"wicket-street",CONVERTER);
   street=(String)Objects.getValue("addressArray[1].street",person);
   assertEquals(street,"wicket-street");
 }
