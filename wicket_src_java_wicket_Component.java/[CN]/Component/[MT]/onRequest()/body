@@ -4,9 +4,9 @@
     throw new WicketRuntimeException("parameter id was not provided: unable to locate listener");
   }
   int IdAsInt=Integer.parseInt(id);
-  AjaxHandler ajaxHandler=(AjaxHandler)ajaxHandlers.get(IdAsInt);
-  if (ajaxHandler == null) {
-    throw new WicketRuntimeException("no handler found with id " + id);
+  IBehaviourListener behaviourListener=(IBehaviourListener)behaviours.get(IdAsInt);
+  if (behaviourListener == null) {
+    throw new WicketRuntimeException("no behaviour listener found with id " + id);
   }
-  ajaxHandler.onRequest();
+  behaviourListener.onRequest();
 }

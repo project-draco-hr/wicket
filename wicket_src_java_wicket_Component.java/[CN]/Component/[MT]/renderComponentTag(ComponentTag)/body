@@ -1,22 +1,13 @@
 {
   final ApplicationSettings settings=getApplication().getSettings();
   if (!(tag instanceof WicketTag) || !settings.getStripWicketTags()) {
-    if ((attributeModifiers != null) && (tag.getType() != XmlTag.CLOSE) && (getFlag(FLAG_IGNORE_ATTRIBUTE_MODIFIER) == false)) {
+    if (behaviours != null && !behaviours.isEmpty()) {
       tag=tag.mutable();
-      if (attributeModifiers instanceof AttributeModifier) {
-        ((AttributeModifier)attributeModifiers).replaceAttibuteValue(this,tag);
-      }
- else       if (attributeModifiers instanceof Object[]) {
-        Object[] array=(Object[])attributeModifiers;
-        for (int i=0; i < array.length; i++) {
-          ((AttributeModifier)array[i]).replaceAttibuteValue(this,tag);
+      for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
+        AbstractBehaviour behaviour=(AbstractBehaviour)i.next();
+        if (isBehaviourAccepted(behaviour)) {
+          behaviour.onComponentTag(this,tag);
         }
-      }
-    }
-    if (ajaxHandlers != null) {
-      for (Iterator i=ajaxHandlers.iterator(); i.hasNext(); ) {
-        AjaxHandler handler=(AjaxHandler)i.next();
-        handler.onComponentTag(tag);
       }
     }
     tag.writeOutput(getResponse(),settings.getStripWicketTags(),this.findMarkupStream().getWicketNamespace());

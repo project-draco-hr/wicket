@@ -14,14 +14,13 @@
       getRequestCycle().setResponse(response);
     }
   }
-  AjaxHandler[] handlers=getAjaxHandlers();
-  if (handlers != null) {
-    for (int i=0; i < handlers.length; i++) {
-      ((IHeaderContributor)handlers[i]).renderHead(container);
-      String stmt=((IBodyOnloadContributor)handlers[i]).getBodyOnload();
-      if (stmt != null) {
-        ((WebPage)getPage()).appendToBodyOnLoad(stmt);
-      }
+  List behaviours=getBehaviours();
+  for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
+    IBehaviour behaviour=(IBehaviour)i.next();
+    behaviour.renderHead(container);
+    String stmt=((IBodyOnloadContributor)behaviour).getBodyOnload();
+    if (stmt != null) {
+      ((WebPage)getPage()).appendToBodyOnLoad(stmt);
     }
   }
 }
