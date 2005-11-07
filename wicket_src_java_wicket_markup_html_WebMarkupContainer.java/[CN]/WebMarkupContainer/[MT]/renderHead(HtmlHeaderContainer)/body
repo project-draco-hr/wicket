@@ -17,10 +17,14 @@
   List behaviours=getBehaviours();
   for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
     IBehaviour behaviour=(IBehaviour)i.next();
-    behaviour.renderHead(container);
-    String stmt=((IBodyOnloadContributor)behaviour).getBodyOnload();
-    if (stmt != null) {
-      ((WebPage)getPage()).appendToBodyOnLoad(stmt);
+    if (behaviour instanceof IHeaderContributor) {
+      ((IHeaderContributor)behaviour).renderHead(container);
+    }
+    if (behaviour instanceof IBodyOnloadContributor) {
+      String stmt=((IBodyOnloadContributor)behaviour).getBodyOnload();
+      if (stmt != null) {
+        ((WebPage)getPage()).appendToBodyOnLoad(stmt);
+      }
     }
   }
 }

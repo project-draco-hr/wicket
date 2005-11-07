@@ -2,6 +2,8 @@
   List behaviours=getBehaviours();
   for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
     IBehaviour behaviour=(IBehaviour)i.next();
-    behaviour.renderHead(container);
+    if (behaviour instanceof IHeaderContributor) {
+      ((IHeaderContributor)behaviour).renderHead(container);
+    }
   }
 }
