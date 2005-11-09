@@ -1,4 +1,7 @@
 {
+  if (component == null) {
+    throw new IllegalArgumentException("argument component must be not null");
+  }
   this.component=component;
   final IModel model=component.getModel();
   if (model != null) {
@@ -22,5 +25,8 @@
  else {
       originalModel=model;
     }
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("RECORD MODEL CHANGE: changed model of " + component.getPath() + "@"+ component.hashCode());
   }
 }
