@@ -16,7 +16,7 @@
           replaceTag=new RawMarkup(tag.toString());
         }
       }
-      if (add || (autoAddList.size() > 0)) {
+      if (add || (autoAddList.size() > 0) || tag.isModified()) {
         final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
         if (text.length() > 0) {
           String rawMarkup=text.toString();
@@ -44,6 +44,10 @@
             list.add(tag);
           }
         }
+        xmlParser.setPositionMarker();
+      }
+ else       if (tag.isModified()) {
+        list.add(new RawMarkup(tag.toString()));
         xmlParser.setPositionMarker();
       }
     }

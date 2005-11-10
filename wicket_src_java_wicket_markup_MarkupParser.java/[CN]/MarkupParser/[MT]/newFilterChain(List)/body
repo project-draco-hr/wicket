@@ -1,19 +1,19 @@
 {
-  this.detectWicketComponents=new WicketTagIdentifier(xmlParser);
-  this.detectWicketComponents.setWicketNamespace(this.wicketNamespace);
-  final WicketParamTagHandler wicketParamTagHandler=new WicketParamTagHandler(new HtmlHandler(new TagTypeHandler(detectWicketComponents)));
-  wicketParamTagHandler.setStripWicketTag(this.stripWicketTag);
-  final WicketRemoveTagHandler previewComponentTagRemover=new WicketRemoveTagHandler(wicketParamTagHandler);
-  final WicketLinkTagHandler autolinkHandler=new WicketLinkTagHandler(previewComponentTagRemover);
-  autolinkHandler.setAutomaticLinking(this.automaticLinking);
+  this.detectWicketComponents=new WicketTagIdentifier(this.wicketNamespace,xmlParser);
+  IMarkupFilter filter=this.detectWicketComponents;
+  filter=new TagTypeHandler(filter);
+  filter=new HtmlHandler(filter);
+  filter=new WicketParamTagHandler(this.stripWicketTag,filter);
+  filter=new WicketRemoveTagHandler(filter);
+  filter=new WicketLinkTagHandler(this.automaticLinking,filter);
   if (this.container != null) {
-    final BodyOnLoadHandler bodyHandler=new BodyOnLoadHandler(autolinkHandler);
-    if ((this.container != null) && (container instanceof Page)) {
-      final HtmlHeaderSectionHandler headerHandler=new HtmlHeaderSectionHandler(bodyHandler);
-      headerHandler.setTagList(tagList);
-      return headerHandler;
+    if (WicketMessageTagHandler.enable) {
+      filter=new WicketMessageTagHandler(this.container,filter);
     }
-    return bodyHandler;
+    filter=new BodyOnLoadHandler(filter);
+    if (container instanceof Page) {
+      filter=new HtmlHeaderSectionHandler(tagList,filter);
+    }
   }
-  return autolinkHandler;
+  return filter;
 }

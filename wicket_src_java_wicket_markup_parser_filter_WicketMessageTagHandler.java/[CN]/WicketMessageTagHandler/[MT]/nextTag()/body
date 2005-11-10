@@ -1,0 +1,40 @@
+{
+  final ComponentTag tag=(ComponentTag)getParent().nextTag();
+  if (tag == null) {
+    return tag;
+  }
+  final String wicketMessageAttribute=tag.getAttributes().getString(WICKET_MESSAGE_ATTR_NAME);
+  if ((wicketMessageAttribute != null) && (wicketMessageAttribute.trim().length() > 0)) {
+    if (this.container == null) {
+      throw new ParseException("Found " + WICKET_MESSAGE_ATTR_NAME + " but the message can not be resolved, because the associated Page is not known."+ " This might be caused by using the wrong MarkupParser constructor",tag.getPos());
+    }
+    StringTokenizer attrTokenizer=new StringTokenizer(wicketMessageAttribute,",");
+    while (attrTokenizer.hasMoreTokens()) {
+      String text=attrTokenizer.nextToken().trim();
+      if (text == null) {
+        text=wicketMessageAttribute;
+      }
+      StringTokenizer valueTokenizer=new StringTokenizer(text,"=");
+      if (valueTokenizer.countTokens() != 2) {
+        throw new ParseException("Wrong format of wicket:message attribute value. " + text + "; Must be: key=value[, key=value]",tag.getPos());
+      }
+      String attrName=valueTokenizer.nextToken();
+      String messageKey=valueTokenizer.nextToken();
+      if ((attrName == null) || (attrName.trim().length() == 0) || (messageKey == null)|| (messageKey.trim().length() == 0)) {
+        throw new ParseException("Wrong format of wicket:message attribute value. " + text + "; Must be: key=value[, key=value]",tag.getPos());
+      }
+      String value=container.getApplication().getLocalizer().getString(messageKey,container,"");
+      if (value.length() > 0) {
+        tag.getAttributes().put(attrName,value);
+        tag.setModified(true);
+      }
+ else       if (tag.getAttributes().get(attrName) == null) {
+        tag.getAttributes().put(attrName,value);
+        tag.setModified(true);
+      }
+ else {
+      }
+    }
+  }
+  return tag;
+}

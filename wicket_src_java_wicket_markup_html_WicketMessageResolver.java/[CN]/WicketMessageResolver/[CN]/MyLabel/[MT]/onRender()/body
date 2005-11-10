@@ -1,0 +1,20 @@
+{
+  final MarkupStream markupStream=findMarkupStream();
+  final boolean atOpenTag=markupStream.atOpenTag();
+  if (atOpenTag) {
+    super.onRender();
+  }
+ else {
+    final ComponentTag openTag=markupStream.getTag().mutable();
+    openTag.setType(XmlTag.OPEN);
+    if (getRenderBodyOnly() == false) {
+      renderComponentTag(openTag);
+    }
+    String value=getModelObjectAsString();
+    getResponse().write(value);
+    if (getRenderBodyOnly() == false) {
+      getResponse().write(openTag.syntheticCloseTagString());
+    }
+    markupStream.skipComponent();
+  }
+}
