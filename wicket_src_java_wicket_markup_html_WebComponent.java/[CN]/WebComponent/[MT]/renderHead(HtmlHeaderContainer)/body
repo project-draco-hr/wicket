@@ -5,5 +5,11 @@
     if (behaviour instanceof IHeaderContributor) {
       ((IHeaderContributor)behaviour).renderHead(container);
     }
+    if (behaviour instanceof IBodyOnloadContributor) {
+      String stmt=((IBodyOnloadContributor)behaviour).getBodyOnload();
+      if (stmt != null) {
+        ((WebPage)getPage()).appendToBodyOnLoad(stmt);
+      }
+    }
   }
 }
