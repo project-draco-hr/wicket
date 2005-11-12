@@ -5,18 +5,7 @@
   buffer.append(getDefaultChoice(selected));
   for (int index=0; index < choices.size(); index++) {
     final Object choice=choices.get(index);
-    final String displayValue=renderer.getDisplayValue(choice);
-    buffer.append("\n<option ");
-    if (isSelected(choice,index)) {
-      buffer.append("selected=\"selected\" ");
-    }
-    buffer.append("value=\"");
-    buffer.append(renderer.getIdValue(choice,index));
-    buffer.append("\">");
-    String display=getLocalizer().getString(displayValue,this,displayValue);
-    String escaped=Strings.escapeMarkup(display,false,true);
-    buffer.append(escaped);
-    buffer.append("</option>");
+    appendOptionHtml(buffer,choice,index);
   }
   buffer.append("\n");
   replaceComponentTagBody(markupStream,openTag,buffer.toString());
