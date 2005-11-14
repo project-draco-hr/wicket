@@ -3,7 +3,9 @@
     if (renderedComponents == null) {
       renderedComponents=new HashSet();
     }
-    renderedComponents.add(component);
+    if (renderedComponents.add(component) == false) {
+      throw new MarkupException("The markup file must not contain the same wicket:id at the same level: " + component.getId());
+    }
     if (log.isDebugEnabled()) {
       log.debug("Rendered " + component);
     }
