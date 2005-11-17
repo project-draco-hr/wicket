@@ -1,22 +1,20 @@
 {
-  if (getSelectedTab() != index) {
-    if (index < 0 || index >= tabs.size()) {
-      throw new IndexOutOfBoundsException();
-    }
-    setModelObject(new Integer(index));
-    ITab tab=(ITab)tabs.get(index);
-    Panel panel=tab.getPanel(TAB_PANEL_ID);
-    if (panel == null) {
-      throw new WicketRuntimeException("ITab.getPanel() returned null. TabbedPanel [" + getPath() + "] ITab index ["+ index+ "]");
-    }
-    if (!panel.getId().equals(TAB_PANEL_ID)) {
-      throw new WicketRuntimeException("ITab.getPanel() returned a panel with invalid id [" + panel.getId() + "]. You must always return a panel with id equal to the provided panelId parameter. TabbedPanel ["+ getPath()+ "] ITab index ["+ index+ "]");
-    }
-    if (get(TAB_PANEL_ID) == null) {
-      add(panel);
-    }
+  if (index < 0 || index >= tabs.size()) {
+    throw new IndexOutOfBoundsException();
+  }
+  setModelObject(new Integer(index));
+  ITab tab=(ITab)tabs.get(index);
+  Panel panel=tab.getPanel(TAB_PANEL_ID);
+  if (panel == null) {
+    throw new WicketRuntimeException("ITab.getPanel() returned null. TabbedPanel [" + getPath() + "] ITab index ["+ index+ "]");
+  }
+  if (!panel.getId().equals(TAB_PANEL_ID)) {
+    throw new WicketRuntimeException("ITab.getPanel() returned a panel with invalid id [" + panel.getId() + "]. You must always return a panel with id equal to the provided panelId parameter. TabbedPanel ["+ getPath()+ "] ITab index ["+ index+ "]");
+  }
+  if (get(TAB_PANEL_ID) == null) {
+    add(panel);
+  }
  else {
-      replace(panel);
-    }
+    replace(panel);
   }
 }
