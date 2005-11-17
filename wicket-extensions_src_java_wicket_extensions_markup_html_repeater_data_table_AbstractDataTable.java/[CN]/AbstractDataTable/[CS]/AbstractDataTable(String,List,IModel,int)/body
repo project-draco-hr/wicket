@@ -1,0 +1,47 @@
+{
+  super(id);
+  dataView=new DataView("rows",dataProvider){
+    private static final long serialVersionUID=1L;
+    protected void populateItem(    final Item item){
+      final IModel rowModel=item.getModel();
+      item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel(){
+        private static final long serialVersionUID=1L;
+        public Object getObject(        Component component){
+          return (item.getIndex() % 2 == 0) ? "odd" : "even";
+        }
+      }
+));
+      item.add(new ListView("cells",columns){
+        private static final long serialVersionUID=1L;
+        protected void populateItem(        ListItem item){
+          final IColumn column=(IColumn)item.getModelObject();
+          column.populateItem(item,CELL_ITEM_ID,rowModel);
+          if (item.get("cell") == null) {
+            throw new WicketRuntimeException(column.getClass().getName() + ".populateItem() failed to add a component with id [" + CELL_ITEM_ID+ "] to the provided [cellItem] argument");
+          }
+          item.get(CELL_ITEM_ID).setRenderBodyOnly(true);
+        }
+      }
+);
+    }
+  }
+;
+  dataView.setItemsPerPage(rowsPerPage);
+  add(dataView);
+  add(new ListView("headers",columns){
+    private static final long serialVersionUID=1L;
+    protected void populateItem(    ListItem item){
+      final IColumn column=(IColumn)item.getModelObject();
+      WebMarkupContainer header=null;
+      if (column.isSortable()) {
+        header=new OrderByBorder("header",column.getSortProperty(),dataView);
+      }
+ else {
+        header=new WebMarkupContainer("header");
+      }
+      item.add(header);
+      header.add(new Label("label",column.getDisplayModel()));
+    }
+  }
+);
+}
