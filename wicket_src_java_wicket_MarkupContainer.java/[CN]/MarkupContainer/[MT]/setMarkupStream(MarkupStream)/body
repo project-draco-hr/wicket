@@ -2,7 +2,7 @@
   if ((markupStream != null) && (markupStream.equalMarkup(this.markupStream) == false)) {
     visitChildren(new IVisitor(){
       public Object component(      Component component){
-        component.invalidateMarkupStreamPosition();
+        component.setRequiresFullRender(true);
         return IVisitor.CONTINUE_TRAVERSAL;
       }
     }

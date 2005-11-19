@@ -1,0 +1,12 @@
+{
+  if (getFlag(FLAG_NEEDS_FULL_RENDER) == true) {
+    this.markupStreamPosition=markupStream.getCurrentIndex();
+    setFlag(FLAG_NEEDS_FULL_RENDER,false);
+  }
+ else   if (this.markupStreamPosition < 0) {
+    throw new WicketRuntimeException("The markup stream of the component should be known by now, but isn't: " + this.toString());
+  }
+ else {
+    markupStream.setCurrentIndex(this.markupStreamPosition);
+  }
+}
