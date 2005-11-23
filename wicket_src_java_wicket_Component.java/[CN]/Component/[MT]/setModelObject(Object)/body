@@ -8,7 +8,12 @@
   }
   if (!getComparator().compareValue(this,object)) {
     modelChanging();
-    model.setObject(this,object);
+    if (getFlag(FLAG_HAS_ROOT_MODEL)) {
+      getRootModel(model).setObject(null,object);
+    }
+ else {
+      model.setObject(this,object);
+    }
     modelChanged();
   }
   return this;
