@@ -1,0 +1,21 @@
+{
+  if (size() == 0 || recreateChoices) {
+    removeAll();
+    Object modelObject=getModelObject();
+    if (modelObject != null) {
+      if (!(modelObject instanceof Collection)) {
+        throw new WicketRuntimeException("model not a collection");
+      }
+      Iterator it=((Collection)modelObject).iterator();
+      while (it.hasNext()) {
+        WebMarkupContainer row=new WebMarkupContainer(newChildId());
+        row.setRenderBodyOnly(true);
+        add(row);
+        Object value=it.next();
+        String text=renderer.getDisplayValue(value);
+        IModel model=renderer.getModel(value);
+        row.add(new SimpleSelectOption("option",model,text));
+      }
+    }
+  }
+}
