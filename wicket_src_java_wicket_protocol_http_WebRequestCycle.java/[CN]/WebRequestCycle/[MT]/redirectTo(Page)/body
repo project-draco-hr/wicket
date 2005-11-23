@@ -23,6 +23,7 @@
       }
  else       if (redirectResponse.getContentLength() > 0) {
         redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
+        redirectResponse.filter();
         redirectResponse.close();
         redirectUrl=page.urlFor(page,IRedirectListener.class);
         ((WebApplication)application).addRedirect(((ServletWebRequest)getWebRequest()).getHttpServletRequest(),redirectUrl,redirectResponse);

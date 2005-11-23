@@ -1,0 +1,15 @@
+{
+  int headIndex=responseBuffer.indexOf("<head>");
+  int bodyIndex=responseBuffer.indexOf("</body>");
+  long timeTaken=System.currentTimeMillis() - RequestCycle.get().getStartTime();
+  if (headIndex != -1 && bodyIndex != -1) {
+    StringBuffer endScript=new StringBuffer("\n<script>\nwindow.defaultStatus='Client time: ' + (new Date().getTime() - clientTimeVariable)/1000 +  's, Server time: ");
+    endScript.append(((double)timeTaken) / 1000);
+    endScript.append("s';\n</script>\n");
+    responseBuffer.insert(bodyIndex - 1,endScript);
+    StringBuffer beginScript=new StringBuffer("\n<script>\nvar clientTimeVariable = new Date().getTime();\n</script>\n");
+    responseBuffer.insert(headIndex + 6,beginScript);
+  }
+  log.info(timeTaken + "ms server time taken for request " + RequestCycle.get().getRequest().getURL()+ " response size: "+ responseBuffer.length());
+  return responseBuffer;
+}
