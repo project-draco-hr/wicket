@@ -1,32 +1,16 @@
 {
   IRequestTarget target=requestCycle.getRequestTarget();
-  if (target instanceof PageRequestTarget) {
-    final Page page=requestCycle.getResponsePage();
-    requestCycle.setUpdateCluster(true);
-    final WebRequestCycle webRequestCycle=(WebRequestCycle)requestCycle;
-    final WebRequest webRequest=webRequestCycle.getWebRequest();
-    final String componentPath=webRequest.getParameter("path");
-    if (componentPath != null) {
-      final Component component=page.get(Strings.afterFirstPathComponent(componentPath,':'));
-      if (!component.isVisible()) {
-        throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
-      }
-      String interfaceName=getInterfaceName(webRequest);
-      Method method=requestCycle.getRequestInterfaceMethod(interfaceName);
-      if (method != null) {
-        requestCycle.setResponsePage(page);
-        if (!interfaceName.equals("IRedirectListener")) {
-          page.getFeedbackMessages().clear();
-          final Application application=requestCycle.getApplication();
-          ApplicationSettings.RenderStrategy strategy=application.getSettings().getRenderStrategy();
-          boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
-          requestCycle.setRedirect(issueRedirect);
-        }
-        invokeInterface(component,method,page);
-      }
- else {
-        throw new WicketRuntimeException("Attempt to access unknown interface " + interfaceName);
-      }
+  if (target instanceof InterfaceCallRequestTarget) {
+    InterfaceCallRequestTarget callTarget=(InterfaceCallRequestTarget)target;
+    final Page page=callTarget.getPage();
+    if (!(target instanceof RedirectPageRequestTarget)) {
+      requestCycle.setUpdateCluster(true);
+      page.getFeedbackMessages().clear();
+      final Application application=requestCycle.getApplication();
+      ApplicationSettings.RenderStrategy strategy=application.getSettings().getRenderStrategy();
+      boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+      requestCycle.setRedirect(issueRedirect);
     }
+    invokeInterface(callTarget.getComponent(),callTarget.getListenerMethod(),page);
   }
 }

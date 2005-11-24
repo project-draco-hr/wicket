@@ -7,14 +7,30 @@
   final Page page=session.getPage(pageMapName,componentPath,versionNumber);
   if (page != null) {
     webRequestCycle.setUpdateCluster(true);
-    String componentPart=Strings.afterFirstPathComponent(componentPath,':');
-    if (!Strings.isEmpty(componentPart)) {
+    final String interfaceName=getInterfaceName(webRequest);
+    if (interfaceName != null) {
+      if (interfaceName.equals("IRedirectListener")) {
+        return new RedirectPageRequestTarget(page);
+      }
+ else {
+        final Method listenerMethod=webRequestCycle.getRequestInterfaceMethod(interfaceName);
+        if (listenerMethod == null) {
+          throw new WicketRuntimeException("Attempt to access unknown interface " + interfaceName);
+        }
+        String componentPart=Strings.afterFirstPathComponent(componentPath,':');
+        if (Strings.isEmpty(componentPart)) {
+          throw new WicketRuntimeException("when trying to call " + listenerMethod + ", a component must be provided");
+        }
+        final Component component=page.get(componentPart);
+        if (!component.isVisible()) {
+          throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
+        }
+        return new InterfaceCallRequestTarget(page,component,listenerMethod);
+      }
     }
-    final Component component=page.get(componentPart);
-    if (!component.isVisible()) {
-      throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
+ else {
+      return new PageRequestTarget(page);
     }
-    return new PageRequestTarget(page);
   }
  else {
     return new ExpiredPageClassRequestTarget();
