@@ -7,6 +7,13 @@
   final Page page=session.getPage(pageMapName,componentPath,versionNumber);
   if (page != null) {
     webRequestCycle.setUpdateCluster(true);
+    String componentPart=Strings.afterFirstPathComponent(componentPath,':');
+    if (!Strings.isEmpty(componentPart)) {
+    }
+    final Component component=page.get(componentPart);
+    if (!component.isVisible()) {
+      throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
+    }
     return new PageRequestTarget(page);
   }
  else {
