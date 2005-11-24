@@ -7,16 +7,9 @@
   if (log.isDebugEnabled()) {
     log.debug("Try to load resource from: " + id + "; key: "+ key);
   }
-  String value=null;
-  while ((value == null) && (key != null) && (key.length() != 0)) {
-    value=strings.getString(key);
-    if (value != null) {
-      if (log.isDebugEnabled()) {
-        log.debug("Found resource from: " + id + "; key: "+ key);
-      }
-      break;
-    }
-    key=Strings.afterFirst(key,'.');
+  String value=strings.getString(key);
+  if (value != null && log.isDebugEnabled()) {
+    log.debug("Found resource from: " + id + "; key: "+ key);
   }
   return value;
 }
