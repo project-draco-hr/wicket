@@ -7,17 +7,11 @@ synchronized (session) {
       component.render();
     }
  catch (    RuntimeException e) {
-      internalOnRuntimeException(null,e);
+      log.error(e.getMessage(),e);
+      IRequestCycleProcessor processor=getRequestCycleProcessor();
+      processor.respond(e,this);
     }
  finally {
-      try {
-        if (invokePage != null) {
-          invokePage.internalEndRequest();
-        }
-      }
- catch (      RuntimeException e) {
-        log.error("Exception occurred during invokerPage.internalEndRequest",e);
-      }
       try {
         internalOnEndRequest();
       }

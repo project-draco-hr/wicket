@@ -1,3 +1,7 @@
 {
-  return responsePageClass;
+  IRequestTarget target=(IRequestTarget)getRequestTarget();
+  if (target != null && (target instanceof PageClassRequestTarget)) {
+    return ((PageClassRequestTarget)target).getPageClass();
+  }
+  return null;
 }

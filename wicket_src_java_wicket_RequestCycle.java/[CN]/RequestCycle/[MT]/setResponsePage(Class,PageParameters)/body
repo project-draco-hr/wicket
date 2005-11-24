@@ -1,18 +1,4 @@
 {
-  if (responsePageClass != null) {
-    if (log.isDebugEnabled()) {
-      log.warn("overwriting response page " + responsePageClass + " with "+ pageClass);
-    }
-  }
- else   if (responsePage != null) {
-    if (log.isDebugEnabled()) {
-      log.warn("overwriting response page " + responsePage + " with "+ pageClass);
-    }
-  }
-  if (!Page.class.isAssignableFrom(pageClass)) {
-    throw new IllegalArgumentException("Class must be a subclass of Page");
-  }
-  this.responsePageClass=pageClass;
-  this.responsePageParams=pageParameters;
-  this.responsePage=null;
+  IRequestTarget target=new PageClassRequestTarget(pageClass,pageParameters);
+  setRequestTarget(target);
 }

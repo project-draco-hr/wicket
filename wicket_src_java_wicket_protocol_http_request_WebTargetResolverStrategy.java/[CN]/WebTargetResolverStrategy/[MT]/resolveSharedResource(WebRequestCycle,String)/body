@@ -1,0 +1,13 @@
+{
+  final Session session=webRequestCycle.getSession();
+  final Application application=session.getApplication();
+  SharedResources sharedResources=application.getSharedResources();
+  Resource resource=sharedResources.get(resourceKey);
+  if (resource == null) {
+    if (log.isDebugEnabled()) {
+      log.debug("Could not find resource referenced by key " + resourceKey);
+    }
+    return new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND,"Unable to load resource " + resourceKey);
+  }
+  return new SharedResourceRequestTarget(resourceKey,resource);
+}

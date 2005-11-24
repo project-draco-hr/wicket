@@ -1,0 +1,33 @@
+{
+  final Session session=requestCycle.getSession();
+  final Application application=session.getApplication();
+  final ApplicationSettings settings=application.getSettings();
+  if (settings.getUnexpectedExceptionDisplay() != ApplicationSettings.SHOW_NO_EXCEPTION_PAGE) {
+    Class internalErrorPageClass=application.getPages().getInternalErrorPage();
+    Page responsePage=requestCycle.getResponsePage();
+    Class responseClass=responsePage != null ? responsePage.getClass() : null;
+    if (responseClass != internalErrorPageClass && settings.getUnexpectedExceptionDisplay() == ApplicationSettings.SHOW_INTERNAL_ERROR_PAGE) {
+      final IPageFactory pageFactory;
+      IRequestTarget requestTarget=requestCycle.getRequestTarget();
+      if (requestTarget instanceof PageRequestTarget) {
+        pageFactory=session.getPageFactory(((PageRequestTarget)requestTarget).getPage());
+      }
+ else {
+        pageFactory=session.getPageFactory();
+      }
+      requestCycle.setResponsePage(pageFactory.newPage(internalErrorPageClass));
+    }
+ else     if (responseClass != ExceptionErrorPage.class) {
+      requestCycle.setResponsePage(new ExceptionErrorPage(e,requestCycle.getResponsePage()));
+    }
+ else {
+      throw new WicketRuntimeException("Internal Error: Could not render error page " + internalErrorPageClass,e);
+    }
+    try {
+      requestCycle.redirectTo(requestCycle.getResponsePage());
+    }
+ catch (    ServletException ex) {
+      throw new WicketRuntimeException(ex);
+    }
+  }
+}

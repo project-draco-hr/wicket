@@ -1,7 +1,7 @@
 {
   final String pathInfo=servletRequest.getPathInfo();
-  if ((pathInfo != null) && pathInfo.startsWith(WebRequestCycle.resourceReferencePrefix)) {
-    final String resourceReferenceKey=pathInfo.substring(WebRequestCycle.resourceReferencePrefix.length());
+  if ((pathInfo != null) && pathInfo.startsWith("/resources/")) {
+    final String resourceReferenceKey=pathInfo.substring("/resources/".length());
     final WebRequest webRequest=webApplication.newWebRequest(servletRequest);
     Resource resource=webApplication.getSharedResources().get(resourceReferenceKey);
     if ((resource != null) && resource.isCacheable()) {

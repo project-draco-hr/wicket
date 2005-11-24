@@ -1,0 +1,24 @@
+{
+  try {
+    WebResponse webResponse=((WebRequestCycle)requestCycle).getWebResponse();
+    final ServletContext context=((WebApplication)requestCycle.getApplication()).getWicketServlet().getServletContext();
+    webResponse.setContentType(context.getMimeType(url));
+    final InputStream in=context.getResourceAsStream(url);
+    if (in != null) {
+      try {
+        Streams.copy(in,webResponse.getHttpServletResponse().getOutputStream());
+      }
+  finally {
+        in.close();
+      }
+    }
+ else {
+      log.warn("the resource requested by request " + requestCycle.getRequest() + " was not found");
+      HttpServletResponse httpServletResponse=webResponse.getHttpServletResponse();
+      httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+    }
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("Cannot load static content for request " + requestCycle.getRequest(),e);
+  }
+}

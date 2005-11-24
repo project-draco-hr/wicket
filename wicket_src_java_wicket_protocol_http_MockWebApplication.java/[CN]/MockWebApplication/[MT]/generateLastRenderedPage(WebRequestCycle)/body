@@ -4,7 +4,16 @@
     Class responseClass=cycle.getResponsePageClass();
     if (responseClass != null) {
       Session.set(cycle.getSession());
-      lastRenderedPage=new DefaultPageFactory().newPage(responseClass,cycle.getResponsePagePageParameters());
+      IRequestTarget target=cycle.getRequestTarget();
+      if (target instanceof PageRequestTarget) {
+        lastRenderedPage=((PageRequestTarget)target).getPage();
+      }
+ else       if (target instanceof PageClassRequestTarget) {
+        PageClassRequestTarget pageClassRequestTarget=(PageClassRequestTarget)target;
+        Class pageClass=pageClassRequestTarget.getPageClass();
+        PageParameters parameters=pageClassRequestTarget.getPageParameters();
+        lastRenderedPage=new DefaultPageFactory().newPage(pageClass,parameters);
+      }
     }
   }
 }

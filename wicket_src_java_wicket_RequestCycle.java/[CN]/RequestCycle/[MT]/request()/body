@@ -1,38 +1,49 @@
 {
-synchronized (session) {
-    try {
-      threadAttach();
-      internalOnBeginRequest();
-      onBeginRequest();
-      if (parseRequest()) {
-        respond();
+  IRequestCycleProcessor processor=getRequestCycleProcessor();
+  if (processor == null) {
+    throw new WicketRuntimeException("request cycle processor must be not-null");
+  }
+  threadAttach();
+  internalOnBeginRequest();
+  onBeginRequest();
+  try {
+    IRequestTarget target=processor.resolve(this);
+    if (target == null) {
+      throw new WicketRuntimeException("the processor did not resolve to any request target");
+    }
+    setRequestTarget(target);
+    Object synchronizeLock=target.getSynchronizationLock();
+    if (synchronizeLock != null) {
+synchronized (synchronizeLock) {
+        processEventsAndRespond(processor);
       }
+    }
+ else {
+      processEventsAndRespond(processor);
+    }
+  }
+  finally {
+    for (Iterator i=requestTargets.iterator(); i.hasNext(); ) {
+      IRequestTarget t=(IRequestTarget)i.next();
+      try {
+        t.cleanUp(this);
+      }
+ catch (      RuntimeException e) {
+        log.error("there was an error cleaning up target " + t + ".",e);
+      }
+    }
+    try {
+      internalOnEndRequest();
     }
  catch (    RuntimeException e) {
-      internalOnRuntimeException(null,e);
+      log.error("Exception occurred during internalOnEndRequest",e);
     }
- finally {
-      try {
-        if (invokePage != null) {
-          invokePage.internalEndRequest();
-        }
-      }
- catch (      RuntimeException e) {
-        log.error("Exception occurred during invokerPage.internalEndRequest",e);
-      }
-      try {
-        internalOnEndRequest();
-      }
- catch (      RuntimeException e) {
-        log.error("Exception occurred during internalOnEndRequest",e);
-      }
-      try {
-        onEndRequest();
-      }
- catch (      RuntimeException e) {
-        log.error("Exception occurred during onEndRequest",e);
-      }
-      threadDetach();
+    try {
+      onEndRequest();
     }
+ catch (    RuntimeException e) {
+      log.error("Exception occurred during onEndRequest",e);
+    }
+    threadDetach();
   }
 }

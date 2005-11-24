@@ -1,0 +1,15 @@
+{
+  final WebRequest webRequest=webRequestCycle.getWebRequest();
+  final String pageMapName=webRequest.getParameter("pagemap");
+  final String versionNumberString=webRequest.getParameter("version");
+  final int versionNumber=Strings.isEmpty(versionNumberString) ? 0 : Integer.parseInt(versionNumberString);
+  final Session session=webRequestCycle.getSession();
+  final Page page=session.getPage(pageMapName,componentPath,versionNumber);
+  if (page != null) {
+    webRequestCycle.setUpdateCluster(true);
+    return new PageRequestTarget(page);
+  }
+ else {
+    return new ExpiredPageClassRequestTarget();
+  }
+}

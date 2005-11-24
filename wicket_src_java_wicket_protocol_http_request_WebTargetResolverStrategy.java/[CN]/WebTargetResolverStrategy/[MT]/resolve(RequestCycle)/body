@@ -1,0 +1,34 @@
+{
+  final WebRequestCycle webRequestCycle=(WebRequestCycle)requestCycle;
+  final WebRequest webRequest=webRequestCycle.getWebRequest();
+  String componentPath=webRequest.getParameter("path");
+  if (componentPath != null) {
+    if (log.isDebugEnabled()) {
+      log.debug("resolving to previously rendered page");
+    }
+    return resolveRenderedPage(webRequestCycle,componentPath);
+  }
+  final String bookmarkablePageParameter=webRequest.getParameter("bookmarkablePage");
+  if (bookmarkablePageParameter != null) {
+    if (log.isDebugEnabled()) {
+      log.debug("resolving to bookmarkable page");
+    }
+    return resolveBookmarkablePage(webRequestCycle,bookmarkablePageParameter);
+  }
+  String pathInfo=webRequest.getPath();
+  if (Strings.isEmpty(pathInfo) || ("/".equals(pathInfo))) {
+    if (log.isDebugEnabled()) {
+      log.debug("resolving to home page");
+    }
+    return resolveHomePageTarget(webRequestCycle);
+  }
+ else   if (pathInfo.startsWith("/resources/")) {
+    if (log.isDebugEnabled()) {
+      log.debug("resolving to shared resource");
+    }
+    final String resourceKey=pathInfo.substring("/resources/".length());
+    return resolveSharedResource(webRequestCycle,resourceKey);
+  }
+  final String url='/' + webRequest.getRelativeURL();
+  return new WebExternalResourceRequestTarget(url);
+}

@@ -12,9 +12,6 @@
 ;
       redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
       setResponse(redirectResponse);
-      if (getInvokePage() == getResponsePage()) {
-        setInvokePage(null);
-      }
       page.doRender();
       setResponse(currentResponse);
       final String responseRedirect=redirectResponse.getRedirectUrl();
@@ -31,7 +28,9 @@
     }
  catch (    RuntimeException ex) {
       setResponse(currentResponse);
-      internalOnRuntimeException(page,ex);
+      log.error(ex.getMessage(),ex);
+      IRequestCycleProcessor processor=getRequestCycleProcessor();
+      processor.respond(ex,this);
       return;
     }
   }
