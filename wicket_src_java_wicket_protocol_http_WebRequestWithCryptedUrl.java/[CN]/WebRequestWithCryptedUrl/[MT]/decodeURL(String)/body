@@ -1,0 +1,23 @@
+{
+  int startIndex=url.indexOf("x=");
+  if (startIndex != -1) {
+    startIndex=startIndex + 2;
+    final String secureParam;
+    final int endIndex=url.indexOf("&",startIndex);
+    try {
+      if (endIndex == -1) {
+        secureParam=URLDecoder.decode(url.substring(startIndex),Application.get().getSettings().getResponseRequestEncoding());
+      }
+ else {
+        secureParam=URLDecoder.decode(url.substring(startIndex,endIndex),Application.get().getSettings().getResponseRequestEncoding());
+      }
+    }
+ catch (    UnsupportedEncodingException ex) {
+      throw new WicketRuntimeException(ex);
+    }
+    final ICrypt urlCrypt=Application.get().newCrypt();
+    final String queryString=urlCrypt.decrypt(secureParam);
+    return rebuildUrl(queryString);
+  }
+  return url;
+}
