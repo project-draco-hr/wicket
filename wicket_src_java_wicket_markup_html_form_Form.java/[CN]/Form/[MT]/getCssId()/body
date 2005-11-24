@@ -1,0 +1,16 @@
+{
+  if (Strings.isEmpty(cssId)) {
+    final StringBuffer inputName=new StringBuffer(getId());
+    Component c=this;
+    while (true) {
+      c=c.getParent();
+      if (c == null || c instanceof Page || inputName.length() > 100) {
+        break;
+      }
+      inputName.append(':');
+      inputName.append(c.getId());
+    }
+    cssId=inputName.toString();
+  }
+  return cssId;
+}

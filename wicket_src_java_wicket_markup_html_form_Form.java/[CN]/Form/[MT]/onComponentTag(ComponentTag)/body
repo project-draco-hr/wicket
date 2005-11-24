@@ -1,6 +1,11 @@
 {
   checkComponentTag(tag,"form");
   super.onComponentTag(tag);
+  cssId=(String)tag.getAttributes().get("id");
+  if (Strings.isEmpty(cssId)) {
+    cssId=getCssId();
+    tag.put("id",cssId);
+  }
   tag.put("method","post");
   tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.class),"&","&amp;"));
   if (multiPart) {
