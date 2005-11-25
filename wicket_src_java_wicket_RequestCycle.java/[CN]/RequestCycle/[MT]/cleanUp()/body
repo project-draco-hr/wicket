@@ -1,0 +1,24 @@
+{
+  for (Iterator i=requestTargets.iterator(); i.hasNext(); ) {
+    IRequestTarget t=(IRequestTarget)i.next();
+    try {
+      t.cleanUp(this);
+    }
+ catch (    RuntimeException e) {
+      log.error("there was an error cleaning up target " + t + ".",e);
+    }
+  }
+  try {
+    internalOnEndRequest();
+  }
+ catch (  RuntimeException e) {
+    log.error("Exception occurred during internalOnEndRequest",e);
+  }
+  try {
+    onEndRequest();
+  }
+ catch (  RuntimeException e) {
+    log.error("Exception occurred during onEndRequest",e);
+  }
+  threadDetach();
+}

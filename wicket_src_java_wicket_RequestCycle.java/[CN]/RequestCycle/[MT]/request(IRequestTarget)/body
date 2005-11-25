@@ -5,10 +5,6 @@
     throw new WicketRuntimeException("request cycle processor must be not-null");
   }
   try {
-    IRequestTarget target=processor.resolve(this);
-    if (target == null) {
-      throw new WicketRuntimeException("the processor did not resolve to any request target");
-    }
     setRequestTarget(target);
     Object synchronizeLock=target.getSynchronizationLock();
     if (synchronizeLock != null) {
