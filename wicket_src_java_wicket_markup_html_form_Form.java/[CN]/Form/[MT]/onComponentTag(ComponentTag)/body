@@ -1,10 +1,15 @@
 {
   checkComponentTag(tag,"form");
   super.onComponentTag(tag);
-  cssId=(String)tag.getAttributes().get("id");
-  if (Strings.isEmpty(cssId)) {
-    cssId=getCssId();
-    tag.put("id",cssId);
+  if (!Strings.isEmpty(javascriptId)) {
+    tag.put("id",javascriptId);
+  }
+ else {
+    javascriptId=(String)tag.getAttributes().get("id");
+    if (Strings.isEmpty(javascriptId)) {
+      javascriptId=getJavascriptId();
+      tag.put("id",javascriptId);
+    }
   }
   tag.put("method","post");
   tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.class),"&","&amp;"));
