@@ -10,15 +10,7 @@
       throw new WicketRuntimeException("the processor did not resolve to any request target");
     }
     setRequestTarget(target);
-    Object synchronizeLock=target.getSynchronizationLock();
-    if (synchronizeLock != null) {
-synchronized (synchronizeLock) {
-        processEventsAndRespond(processor);
-      }
-    }
- else {
-      processEventsAndRespond(processor);
-    }
+    processEventsAndRespondWithSync(processor);
   }
   finally {
     cleanUp();

@@ -5,11 +5,11 @@
     if (responseClass != null) {
       Session.set(cycle.getSession());
       IRequestTarget target=cycle.getRequestTarget();
-      if (target instanceof PageRequestTarget) {
-        lastRenderedPage=((PageRequestTarget)target).getPage();
+      if (target instanceof IPageRequestTarget) {
+        lastRenderedPage=((IPageRequestTarget)target).getPage();
       }
- else       if (target instanceof PageClassRequestTarget) {
-        PageClassRequestTarget pageClassRequestTarget=(PageClassRequestTarget)target;
+ else       if (target instanceof IPageClassRequestTarget) {
+        IPageClassRequestTarget pageClassRequestTarget=(IPageClassRequestTarget)target;
         Class pageClass=pageClassRequestTarget.getPageClass();
         PageParameters parameters=pageClassRequestTarget.getPageParameters();
         lastRenderedPage=new DefaultPageFactory().newPage(pageClass,parameters);

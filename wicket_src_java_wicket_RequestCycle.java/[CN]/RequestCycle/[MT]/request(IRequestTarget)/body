@@ -6,15 +6,7 @@
   }
   try {
     setRequestTarget(target);
-    Object synchronizeLock=target.getSynchronizationLock();
-    if (synchronizeLock != null) {
-synchronized (synchronizeLock) {
-        processEventsAndRespond(processor);
-      }
-    }
- else {
-      processEventsAndRespond(processor);
-    }
+    processEventsAndRespondWithSync(processor);
   }
   finally {
     cleanUp();
