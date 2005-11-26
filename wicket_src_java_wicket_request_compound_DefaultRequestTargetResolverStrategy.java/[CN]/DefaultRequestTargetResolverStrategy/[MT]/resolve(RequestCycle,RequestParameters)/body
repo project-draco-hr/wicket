@@ -1,0 +1,17 @@
+{
+  String pathInfo=requestCycle.getRequest().getPath();
+  if (requestParameters.getComponentPath() != null) {
+    return resolveRenderedPage(requestCycle,requestParameters);
+  }
+ else   if (requestParameters.getBookmarkablePageAlias() != null) {
+    return resolveBookmarkablePage(requestCycle,requestParameters);
+  }
+ else   if (requestParameters.getResourceKey() != null) {
+    return resolveSharedResource(requestCycle,requestParameters);
+  }
+ else   if (Strings.isEmpty(pathInfo) || ("/".equals(pathInfo))) {
+    return resolveHomePageTarget(requestCycle,requestParameters);
+  }
+  final String url='/' + requestCycle.getRequest().getRelativeURL();
+  return new WebExternalResourceRequestTarget(url);
+}

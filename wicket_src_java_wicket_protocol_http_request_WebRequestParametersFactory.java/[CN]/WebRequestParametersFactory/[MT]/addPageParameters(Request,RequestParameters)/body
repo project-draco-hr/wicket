@@ -1,0 +1,15 @@
+{
+  String componentPath=request.getParameter("path");
+  if (componentPath != null) {
+    parameters.setComponentPath(componentPath);
+    parameters.setPageMapName(request.getParameter("pagemap"));
+    final String versionNumberString=request.getParameter("version");
+    final int versionNumber=Strings.isEmpty(versionNumberString) ? 0 : Integer.parseInt(versionNumberString);
+    parameters.setVersionNumber(versionNumber);
+    String interfaceName=request.getParameter("interface");
+    if (interfaceName == null) {
+      interfaceName="IRedirectListener";
+    }
+    parameters.setInterfaceName(interfaceName);
+  }
+}

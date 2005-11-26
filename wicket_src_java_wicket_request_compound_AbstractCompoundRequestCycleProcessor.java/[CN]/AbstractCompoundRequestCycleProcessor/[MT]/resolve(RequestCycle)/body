@@ -1,4 +1,6 @@
 {
+  IRequestParametersFactory parametersFactory=getRequestParameterFactory();
+  RequestParameters requestParameters=parametersFactory.newParameters(requestCycle.getRequest());
   IRequestTargetResolverStrategy strategy=getRequestTargetResolverStrategy();
-  return strategy.resolve(requestCycle);
+  return strategy.resolve(requestCycle,requestParameters);
 }

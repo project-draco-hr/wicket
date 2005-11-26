@@ -1,0 +1,10 @@
+{
+  final Application application=Application.get();
+  final String resourceKey=requestParameters.getResourceKey();
+  final SharedResources sharedResources=application.getSharedResources();
+  final Resource resource=sharedResources.get(resourceKey);
+  if (resource == null) {
+    return new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND,"Unable to load resource " + resourceKey);
+  }
+  return new SharedResourceRequestTarget(resourceKey,resource);
+}

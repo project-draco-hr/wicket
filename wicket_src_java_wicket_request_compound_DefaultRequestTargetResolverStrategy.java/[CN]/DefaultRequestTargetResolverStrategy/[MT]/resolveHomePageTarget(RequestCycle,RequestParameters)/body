@@ -1,0 +1,32 @@
+{
+  final IRequestTarget requestTarget;
+  final Session session=requestCycle.getSession();
+  final Application application=session.getApplication();
+  try {
+    Class homePage=application.getPages().getHomePage();
+    ApplicationPages.HomePageRenderStrategy homePageStrategy=application.getPages().getHomePageRenderStrategy();
+    if (homePageStrategy == ApplicationPages.BOOKMARK_REDIRECT) {
+      requestTarget=new PageClassRequestTarget(homePage);
+    }
+ else {
+      final PageParameters parameters=new PageParameters(requestParameters.getParameters());
+      Page newPage=session.getPageFactory().newPage(homePage,parameters);
+      if (requestCycle.getResponsePage() == null) {
+        if (homePageStrategy == ApplicationPages.PAGE_REDIRECT) {
+          ApplicationSettings.RenderStrategy strategy=session.getApplication().getSettings().getRenderStrategy();
+          boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+          requestCycle.setRedirect(issueRedirect);
+        }
+        requestTarget=new PageRequestTarget(newPage);
+      }
+ else {
+        requestTarget=new PageRequestTarget(requestCycle.getResponsePage());
+      }
+    }
+    requestCycle.setUpdateCluster(true);
+    return requestTarget;
+  }
+ catch (  WicketRuntimeException e) {
+    throw new WicketRuntimeException("Could not create home page",e);
+  }
+}
