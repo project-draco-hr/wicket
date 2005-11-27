@@ -1,18 +1,22 @@
 {
   prepare();
-  IRequestCycleProcessor processor=getRequestCycleProcessor();
-  if (processor == null) {
-    throw new WicketRuntimeException("request cycle processor must be not-null");
-  }
+  IRequestCycleProcessor processor=null;
   try {
-    IRequestTarget target=processor.resolve(this);
+    processor=safeGetRequestProcessor();
+    final RequestParameters requestParameters=getRequestParameters(processor);
+    final IRequestTarget target=processor.resolve(this,requestParameters);
     if (target == null) {
       throw new WicketRuntimeException("the processor did not resolve to any request target");
     }
     setRequestTarget(target);
-    processEventsAndRespondWithSync(processor);
+    processEventsAndRespond(processor);
   }
-  finally {
+ catch (  Exception e) {
+    if (processor != null) {
+      processor.respond(e,this);
+    }
+  }
+ finally {
     cleanUp();
   }
 }

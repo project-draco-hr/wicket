@@ -1,0 +1,21 @@
+{
+  RequestParameters parameters=new RequestParameters();
+  String pathInfo=getRequestPath(request);
+  parameters.setPathInfo(pathInfo);
+  addPageParameters(request,parameters);
+  String alias=getBookmarkablePageAlias(pathInfo);
+  if (alias != null) {
+    parameters.setBookmarkablePageAlias(alias);
+  }
+ else {
+    addBookmarkablePageParameters(request,parameters);
+  }
+  String key=getSharedResourceKey(pathInfo);
+  if (key != null) {
+    parameters.setResourceKey(key);
+  }
+ else {
+    addResourceParameters(request,parameters);
+  }
+  return parameters;
+}

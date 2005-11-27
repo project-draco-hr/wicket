@@ -1,29 +1,4 @@
 {
-  if (pageClass == null) {
-    throw new NullPointerException("argument pageClass may not be null");
-  }
-  final StringBuffer buffer=urlPrefix();
-  buffer.append("?bookmarkablePage=");
-  String pageReference=application.getPages().aliasForClass(pageClass);
-  if (pageReference == null)   pageReference=pageClass.getName();
-  buffer.append(pageReference);
-  if (parameters != null) {
-    for (final Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
-      final String key=(String)iterator.next();
-      final String value=parameters.getString(key);
-      if (value != null) {
-        String escapedValue=value;
-        try {
-          escapedValue=URLEncoder.encode(escapedValue,Application.get().getSettings().getResponseRequestEncoding());
-        }
- catch (        UnsupportedEncodingException ex) {
-        }
-        buffer.append('&');
-        buffer.append(key);
-        buffer.append('=');
-        buffer.append(escapedValue);
-      }
-    }
-  }
-  return getResponse().encodeURL(buffer.toString());
+  IRequestCycleProcessor processor=safeGetRequestProcessor();
+  return processor.getRequestEncoder().encode(this,new PageClassRequestTarget(pageClass,parameters));
 }

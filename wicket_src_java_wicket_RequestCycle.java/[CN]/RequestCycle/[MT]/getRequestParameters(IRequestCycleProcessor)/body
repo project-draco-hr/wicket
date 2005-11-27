@@ -1,0 +1,11 @@
+{
+  final IRequestEncoder encoder=processor.getRequestEncoder();
+  if (encoder == null) {
+    throw new WicketRuntimeException("request encoder must be not-null (provided by " + processor + ")");
+  }
+  final RequestParameters requestParameters=encoder.decode(getRequest());
+  if (requestParameters == null) {
+    throw new WicketRuntimeException("request parameters must be not-null (provided by " + encoder + ")");
+  }
+  return requestParameters;
+}

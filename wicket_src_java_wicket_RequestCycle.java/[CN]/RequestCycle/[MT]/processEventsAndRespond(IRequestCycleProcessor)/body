@@ -1,10 +1,13 @@
 {
-  try {
+  Object synchronizeLock=getSynchronizationLock();
+  if (synchronizeLock != null) {
+synchronized (synchronizeLock) {
+      processor.processEvents(this);
+      processor.respond(this);
+    }
+  }
+ else {
     processor.processEvents(this);
     processor.respond(this);
-  }
- catch (  RuntimeException e) {
-    log.error(e.getMessage(),e);
-    processor.respond(e,this);
   }
 }

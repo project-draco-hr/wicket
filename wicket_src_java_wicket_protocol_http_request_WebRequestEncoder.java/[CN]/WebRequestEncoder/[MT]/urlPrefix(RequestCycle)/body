@@ -1,0 +1,14 @@
+{
+  final StringBuffer buffer=new StringBuffer();
+  final WebRequest request=((WebRequestCycle)requestCycle).getWebRequest();
+  if (request != null) {
+    final String contextPath=request.getContextPath();
+    buffer.append(contextPath);
+    String path=request.getServletPath();
+    if (path == null || "".equals(path)) {
+      path="/";
+    }
+    buffer.append(path);
+  }
+  return buffer;
+}

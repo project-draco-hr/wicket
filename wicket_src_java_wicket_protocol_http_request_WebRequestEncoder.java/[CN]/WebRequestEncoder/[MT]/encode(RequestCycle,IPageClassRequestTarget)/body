@@ -1,0 +1,31 @@
+{
+  final Class pageClass=requestTarget.getPageClass();
+  final PageParameters parameters=requestTarget.getPageParameters();
+  final StringBuffer buffer=urlPrefix(requestCycle);
+  buffer.append("?bookmarkablePage=");
+  String pageReference=requestCycle.getApplication().getPages().aliasForClass(pageClass);
+  if (pageReference == null) {
+    pageReference=pageClass.getName();
+  }
+  buffer.append(pageReference);
+  if (parameters != null) {
+    for (final Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
+      final String key=(String)iterator.next();
+      final String value=parameters.getString(key);
+      if (value != null) {
+        String escapedValue=value;
+        try {
+          escapedValue=URLEncoder.encode(escapedValue,Application.get().getSettings().getResponseRequestEncoding());
+        }
+ catch (        UnsupportedEncodingException ex) {
+          log.error(ex.getMessage(),ex);
+        }
+        buffer.append('&');
+        buffer.append(key);
+        buffer.append('=');
+        buffer.append(escapedValue);
+      }
+    }
+  }
+  return requestCycle.getResponse().encodeURL(buffer.toString());
+}

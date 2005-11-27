@@ -1,14 +1,19 @@
 {
   prepare();
-  IRequestCycleProcessor processor=getRequestCycleProcessor();
-  if (processor == null) {
-    throw new WicketRuntimeException("request cycle processor must be not-null");
-  }
+  IRequestCycleProcessor processor=null;
   try {
+    processor=safeGetRequestProcessor();
+    final RequestParameters requestParameters=getRequestParameters(processor);
     setRequestTarget(target);
-    processEventsAndRespondWithSync(processor);
+    processEventsAndRespond(processor);
   }
-  finally {
+ catch (  Exception e) {
+    if (processor != null) {
+      log.error(e.getMessage(),e);
+      processor.respond(e,this);
+    }
+  }
+ finally {
     cleanUp();
   }
 }
