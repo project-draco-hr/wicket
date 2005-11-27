@@ -1,10 +1,10 @@
 {
   person.setAddress(new Address());
-  Objects.setValue("address.number",person,"10",CONVERTER);
-  Integer number=(Integer)Objects.getValue("address.number",person);
+  PropertyResolver.setValue("address.number",person,"10",CONVERTER);
+  Integer number=(Integer)PropertyResolver.getValue("address.number",person);
   assertEquals(number,new Integer(10));
   try {
-    Objects.setValue("address.number",person,"10a",CONVERTER);
+    PropertyResolver.setValue("address.number",person,"10a",CONVERTER);
     throw new Exception("Conversion error should be thrown");
   }
  catch (  ConversionException ex) {
