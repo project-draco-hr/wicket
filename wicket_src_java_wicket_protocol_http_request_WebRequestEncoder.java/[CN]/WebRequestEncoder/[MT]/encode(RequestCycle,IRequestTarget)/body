@@ -1,3 +1,10 @@
 {
-  return encode(requestCycle,(IPageClassRequestTarget)requestTarget);
+  String mountPath=(String)mountsOnTarget.get(requestTarget);
+  if (mountPath != null) {
+    return mountPath;
+  }
+  if (requestTarget instanceof IPageClassRequestTarget) {
+    return encode(requestCycle,(IPageClassRequestTarget)requestTarget);
+  }
+  throw new WicketRuntimeException("unable to encode " + requestTarget);
 }

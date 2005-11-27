@@ -1,5 +1,9 @@
 {
-  String pathInfo=requestCycle.getRequest().getPath();
+  String path=requestCycle.getRequest().getPath();
+  IRequestTarget mounted=requestCycle.getRequestCycleProcessor().getRequestEncoder().getPathMount(path);
+  if (mounted != null) {
+    return mounted;
+  }
   if (requestParameters.getComponentPath() != null) {
     return resolveRenderedPage(requestCycle,requestParameters);
   }
@@ -9,7 +13,7 @@
  else   if (requestParameters.getResourceKey() != null) {
     return resolveSharedResource(requestCycle,requestParameters);
   }
- else   if (Strings.isEmpty(pathInfo) || ("/".equals(pathInfo))) {
+ else   if (Strings.isEmpty(path) || ("/".equals(path))) {
     return resolveHomePageTarget(requestCycle,requestParameters);
   }
   final String url='/' + requestCycle.getRequest().getRelativeURL();
