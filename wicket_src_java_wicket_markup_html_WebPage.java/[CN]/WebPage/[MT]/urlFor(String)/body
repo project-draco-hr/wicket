@@ -1,12 +1,5 @@
 {
-  String prefix=urlPrefix(getWebRequestCycle()).toString();
-  if ((path == null) || (path.trim().length() == 0)) {
-    return prefix;
-  }
- else {
-    if (prefix.endsWith("/") || path.startsWith("/")) {
-      return prefix + path;
-    }
-    return prefix + "/" + path;
-  }
+  RequestCycle requestCycle=getRequestCycle();
+  String url=requestCycle.getRequestCycleProcessor().getRequestEncoder().encode(requestCycle,new SharedResourceRequestTarget(resourceKey));
+  return url;
 }

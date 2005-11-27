@@ -1,47 +1,5 @@
 {
-  if (pageClass == null) {
-    throw new NullPointerException("argument pageClass may not be null");
-  }
-  final WebRequestCycle cycle=getWebRequestCycle();
-  final StringBuffer buffer=urlPrefix(cycle);
-  if (pageMapName == null) {
-    appendPageMapName(buffer);
-  }
- else {
-    buffer.append("?pagemap=");
-    buffer.append(pageMapName);
-    buffer.append('&');
-  }
-  ApplicationPages pages=getApplicationPages();
-  if ((parameters != null && !parameters.isEmpty()) || pages.getHomePageRenderStrategy() != ApplicationPages.NO_REDIRECT || !pages.getHomePage().equals(pageClass)) {
-    buffer.append("bookmarkablePage=");
-    String pageReference=cycle.getApplication().getPages().aliasForClass(pageClass);
-    if (pageReference == null) {
-      pageReference=pageClass.getName();
-    }
-    buffer.append(pageReference);
-  }
-  if (parameters != null) {
-    for (final Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
-      final String key=(String)iterator.next();
-      final String value=parameters.getString(key);
-      if (value != null) {
-        String escapedValue=value;
-        try {
-          escapedValue=URLEncoder.encode(escapedValue,Application.get().getSettings().getResponseRequestEncoding());
-        }
- catch (        UnsupportedEncodingException ex) {
-          log.error("WebPage.urlFor: unable to escape value: " + ex.getMessage());
-        }
-        buffer.append('&');
-        buffer.append(key);
-        buffer.append('=');
-        buffer.append(escapedValue);
-      }
-    }
-  }
-  if (buffer.charAt(buffer.length() - 1) == '?') {
-    buffer.deleteCharAt(buffer.length() - 1);
-  }
-  return cycle.getResponse().encodeURL(buffer.toString());
+  RequestCycle requestCycle=getRequestCycle();
+  String url=requestCycle.getRequestCycleProcessor().getRequestEncoder().encode(requestCycle,new PageClassRequestTarget(pageMapName,pageClass,parameters));
+  return url;
 }

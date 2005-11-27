@@ -1,13 +1,29 @@
 {
   final Class pageClass=requestTarget.getPageClass();
   final PageParameters parameters=requestTarget.getPageParameters();
-  final StringBuffer buffer=urlPrefix(requestCycle);
-  buffer.append("?bookmarkablePage=");
+  final StringBuffer url=urlPrefix(requestCycle);
+  url.append("?bookmarkablePage=");
   String pageReference=requestCycle.getApplication().getPages().aliasForClass(pageClass);
   if (pageReference == null) {
     pageReference=pageClass.getName();
   }
-  buffer.append(pageReference);
+  url.append(pageReference);
+  String pageMapName=requestTarget.getPageMapName();
+  if (pageMapName == null) {
+    IRequestTarget currentTarget=requestCycle.getRequestTarget();
+    if (currentTarget instanceof IPageRequestTarget) {
+      Page currentPage=((IPageRequestTarget)currentTarget).getPage();
+      final PageMap pageMap=currentPage.getPageMap();
+      if (!pageMap.isDefault()) {
+        url.append("&pagemap=");
+        url.append(pageMap.getName());
+      }
+    }
+  }
+ else {
+    url.append("&pagemap=");
+    url.append(pageMapName);
+  }
   if (parameters != null) {
     for (final Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
       final String key=(String)iterator.next();
@@ -20,12 +36,12 @@
  catch (        UnsupportedEncodingException ex) {
           log.error(ex.getMessage(),ex);
         }
-        buffer.append('&');
-        buffer.append(key);
-        buffer.append('=');
-        buffer.append(escapedValue);
+        url.append('&');
+        url.append(key);
+        url.append('=');
+        url.append(escapedValue);
       }
     }
   }
-  return requestCycle.getResponse().encodeURL(buffer.toString());
+  return requestCycle.getResponse().encodeURL(url.toString());
 }

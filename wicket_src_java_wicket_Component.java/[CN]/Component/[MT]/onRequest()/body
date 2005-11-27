@@ -1,12 +1,12 @@
 {
-  String id=getRequest().getParameter("id");
+  String id=getRequest().getParameter("behaviourId");
   if (id == null) {
-    throw new WicketRuntimeException("parameter id was not provided: unable to locate listener");
+    throw new WicketRuntimeException("parameter behaviourId was not provided: unable to locate listener");
   }
   int IdAsInt=Integer.parseInt(id);
   IBehaviourListener behaviourListener=(IBehaviourListener)behaviours.get(IdAsInt);
   if (behaviourListener == null) {
-    throw new WicketRuntimeException("no behaviour listener found with id " + id);
+    throw new WicketRuntimeException("no behaviour listener found with behaviourId " + id);
   }
   behaviourListener.onRequest();
 }

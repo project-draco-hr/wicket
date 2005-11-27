@@ -1,6 +1,7 @@
 {
   if (pageClass != null) {
-    String redirectUrl=requestCycle.urlFor(pageClass,pageParameters);
+    IRequestCycleProcessor processor=requestCycle.getRequestCycleProcessor();
+    String redirectUrl=processor.getRequestEncoder().encode(requestCycle,new PageClassRequestTarget(pageClass,pageParameters));
     requestCycle.getResponse().redirect(redirectUrl);
   }
 }

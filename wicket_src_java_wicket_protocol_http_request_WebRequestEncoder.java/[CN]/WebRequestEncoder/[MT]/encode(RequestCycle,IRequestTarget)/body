@@ -6,5 +6,17 @@
   if (requestTarget instanceof IPageClassRequestTarget) {
     return encode(requestCycle,(IPageClassRequestTarget)requestTarget);
   }
+ else   if (requestTarget instanceof IListenerInterfaceRequestTarget) {
+    return encode(requestCycle,(IListenerInterfaceRequestTarget)requestTarget);
+  }
+ else   if (requestTarget instanceof ISharedResourceRequestTarget) {
+    return encode(requestCycle,(ISharedResourceRequestTarget)requestTarget);
+  }
+ else   if (requestTarget instanceof IPageRequestTarget) {
+  }
+  String url=doEncode(requestCycle,requestTarget);
+  if (url != null) {
+    return url;
+  }
   throw new WicketRuntimeException("unable to encode " + requestTarget);
 }
