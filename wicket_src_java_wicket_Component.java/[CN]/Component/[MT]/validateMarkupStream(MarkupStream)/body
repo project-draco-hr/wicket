@@ -1,10 +1,10 @@
 {
-  final Page page=getPage();
-  if (this.isAuto() || (page != null) && (page.isAllowReRender() == false)) {
+  final Component parent=getParent();
+  if (this.isAuto() || (parent != null && parent.isRendering())) {
     this.markupStreamPosition=markupStream.getCurrentIndex();
   }
  else   if (this.markupStreamPosition < 0) {
-    this.markupStreamPosition=markupStream.getCurrentIndex();
+    throw new WicketRuntimeException("The markup stream of the component should be known by now, but isn't: " + this.toString());
   }
  else {
     markupStream.setCurrentIndex(this.markupStreamPosition);

@@ -1,16 +1,22 @@
 {
   setFlag(FLAG_IS_RENDERED_ONCE,true);
-  if (renderAllowed && isVisible()) {
-    if (log.isDebugEnabled()) {
-      log.debug("Begin render " + this);
+  rendering=true;
+  try {
+    if (renderAllowed && isVisible()) {
+      if (log.isDebugEnabled()) {
+        log.debug("Begin render " + this);
+      }
+      onRender();
+      rendered();
+      if (log.isDebugEnabled()) {
+        log.debug("End render " + this);
+      }
     }
-    onRender();
-    rendered();
-    if (log.isDebugEnabled()) {
-      log.debug("End render " + this);
+ else {
+      findMarkupStream().skipComponent();
     }
   }
- else {
-    findMarkupStream().skipComponent();
+  finally {
+    rendering=false;
   }
 }
