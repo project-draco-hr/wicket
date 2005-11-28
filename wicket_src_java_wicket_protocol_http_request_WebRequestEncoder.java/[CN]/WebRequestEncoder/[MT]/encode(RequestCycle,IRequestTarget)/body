@@ -1,7 +1,8 @@
 {
   String mountPath=(String)mountsOnTarget.get(requestTarget);
   if (mountPath != null) {
-    return mountPath;
+    final StringBuffer url=urlPrefix(requestCycle);
+    return url.append(mountPath).toString();
   }
   if (requestTarget instanceof IPageClassRequestTarget) {
     return encode(requestCycle,(IPageClassRequestTarget)requestTarget);

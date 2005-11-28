@@ -1,13 +1,13 @@
 {
   String path=requestCycle.getRequest().getPath();
-  IRequestTarget mounted=requestCycle.getRequestCycleProcessor().getRequestEncoder().getPathMount(path);
+  IRequestTarget mounted=requestCycle.getRequestCycleProcessor().getRequestEncoder().getMountedTarget(path);
   if (mounted != null) {
     return mounted;
   }
   if (requestParameters.getComponentPath() != null) {
     return resolveRenderedPage(requestCycle,requestParameters);
   }
- else   if (requestParameters.getBookmarkablePageAlias() != null) {
+ else   if (requestParameters.getBookmarkablePageClass() != null) {
     return resolveBookmarkablePage(requestCycle,requestParameters);
   }
  else   if (requestParameters.getResourceKey() != null) {

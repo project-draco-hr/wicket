@@ -6,6 +6,11 @@
     throw new IllegalArgumentException("pageClass must be an instance of " + Page.class.getName());
   }
   this.pageClass=pageClass;
-  this.pageParameters=pageParameters;
+  if (pageParameters != null && (!pageParameters.isEmpty())) {
+    this.pageParameters=pageParameters;
+  }
+ else {
+    this.pageParameters=null;
+  }
   this.pageMapName=pageMapName;
 }

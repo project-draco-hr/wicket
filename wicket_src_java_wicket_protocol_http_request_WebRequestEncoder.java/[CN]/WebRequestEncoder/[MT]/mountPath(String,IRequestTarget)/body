@@ -1,4 +1,13 @@
 {
+  if (path == null) {
+    throw new NullPointerException("argument path must be not-null");
+  }
+  if (requestTarget == null) {
+    throw new NullPointerException("argument requestTarget must be not-null");
+  }
+  if (!path.startsWith("/")) {
+    path="/" + path;
+  }
   if (mountsOnPath.containsKey(path)) {
     throw new WicketRuntimeException(path + " is already mounted for " + mountsOnPath.get(path));
   }

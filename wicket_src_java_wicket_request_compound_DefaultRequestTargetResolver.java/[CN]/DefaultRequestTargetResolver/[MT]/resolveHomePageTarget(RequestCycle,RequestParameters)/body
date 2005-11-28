@@ -3,28 +3,17 @@
   final Session session=requestCycle.getSession();
   final Application application=session.getApplication();
   try {
-    Class homePage=application.getPages().getHomePage();
-    ApplicationPages.HomePageRenderStrategy homePageStrategy=application.getPages().getHomePageRenderStrategy();
-    if (homePageStrategy == ApplicationPages.BOOKMARK_REDIRECT) {
-      requestTarget=new PageClassRequestTarget(homePage);
+    Class homePageClass=application.getPages().getHomePage();
+    PageClassRequestTarget pokeTarget=new PageClassRequestTarget(homePageClass);
+    IRequestEncoder requestEncoder=requestCycle.getRequestCycleProcessor().getRequestEncoder();
+    String path=requestEncoder.getMountedPath(pokeTarget);
+    if (path != null) {
+      requestCycle.setRedirect(true);
+      return pokeTarget;
     }
- else {
-      final PageParameters parameters=new PageParameters(requestParameters.getParameters());
-      Page newPage=session.getPageFactory().newPage(homePage,parameters);
-      if (requestCycle.getResponsePage() == null) {
-        if (homePageStrategy == ApplicationPages.PAGE_REDIRECT) {
-          ApplicationSettings.RenderStrategy strategy=session.getApplication().getSettings().getRenderStrategy();
-          boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
-          requestCycle.setRedirect(issueRedirect);
-        }
-        requestTarget=new PageRequestTarget(newPage);
-      }
- else {
-        requestTarget=new PageRequestTarget(requestCycle.getResponsePage());
-      }
-    }
-    requestCycle.setUpdateCluster(true);
-    return requestTarget;
+    final PageParameters parameters=new PageParameters(requestParameters.getParameters());
+    Page newPage=session.getPageFactory().newPage(homePageClass,parameters);
+    return new PageRequestTarget(newPage);
   }
  catch (  WicketRuntimeException e) {
     throw new WicketRuntimeException("Could not create home page",e);

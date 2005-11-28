@@ -1,7 +1,15 @@
 {
   if (pageClass != null) {
-    IRequestCycleProcessor processor=requestCycle.getRequestCycleProcessor();
-    String redirectUrl=processor.getRequestEncoder().encode(requestCycle,new PageClassRequestTarget(pageClass,pageParameters));
-    requestCycle.getResponse().redirect(redirectUrl);
+    if (requestCycle.getRedirect()) {
+      IRequestCycleProcessor processor=requestCycle.getRequestCycleProcessor();
+      String redirectUrl=processor.getRequestEncoder().encode(requestCycle,new PageClassRequestTarget(pageClass,pageParameters));
+      requestCycle.getResponse().redirect(redirectUrl);
+    }
+ else {
+      requestCycle.setUpdateCluster(true);
+      IPageFactory pageFactory=requestCycle.getApplication().getSettings().getDefaultPageFactory();
+      final Page page=pageFactory.newPage(pageClass,pageParameters);
+      page.render();
+    }
   }
 }
