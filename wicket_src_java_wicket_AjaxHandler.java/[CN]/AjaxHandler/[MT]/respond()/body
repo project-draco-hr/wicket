@@ -1,16 +1,10 @@
 {
-  try {
-    final RequestCycle cycle=RequestCycle.get();
-    cycle.setRequestTarget(new EmptyRequestTarget());
-    resourceStream=getResponse();
-    if (resourceStream == null) {
-      throw new WicketRuntimeException("Could not get resource stream");
-    }
-    final Response response=cycle.getResponse();
-    configure(response,resourceStream);
-    respond(response);
+  RequestCycle requestCycle=RequestCycle.get();
+  IResourceStream resourceStream=getResponse();
+  if (resourceStream != null) {
+    requestCycle.setRequestTarget(new ResourceStreamRequestTarget(resourceStream,getResponseType()));
   }
-  finally {
-    resourceStream=null;
+ else {
+    requestCycle.setRequestTarget(new EmptyRequestTarget());
   }
 }
