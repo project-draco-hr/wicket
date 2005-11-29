@@ -21,5 +21,16 @@
     }
   }
  else {
+    IRequestTarget requestTarget=getRequestCycle().getRequestTarget();
+    if (requestTarget instanceof IPageRequestTarget) {
+      if (((IPageRequestTarget)requestTarget).getPage() != this) {
+        requestTarget.respond(getRequestCycle());
+      }
+    }
+ else     if (requestTarget instanceof IPageClassRequestTarget) {
+      if (((IPageClassRequestTarget)requestTarget).getPageClass() != getClass()) {
+        requestTarget.respond(getRequestCycle());
+      }
+    }
   }
 }
