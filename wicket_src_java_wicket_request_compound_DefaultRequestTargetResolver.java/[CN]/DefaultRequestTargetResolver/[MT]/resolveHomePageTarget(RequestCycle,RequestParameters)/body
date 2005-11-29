@@ -1,5 +1,4 @@
 {
-  final IRequestTarget requestTarget;
   final Session session=requestCycle.getSession();
   final Application application=session.getApplication();
   try {
@@ -13,7 +12,11 @@
     }
     final PageParameters parameters=new PageParameters(requestParameters.getParameters());
     Page newPage=session.getPageFactory().newPage(homePageClass,parameters);
-    return new PageRequestTarget(newPage);
+    IRequestTarget requestTarget=requestCycle.getRequestTarget();
+    if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IPageClassRequestTarget)) {
+      requestTarget=new PageRequestTarget(newPage);
+    }
+    return requestTarget;
   }
  catch (  WicketRuntimeException e) {
     throw new WicketRuntimeException("Could not create home page",e);

@@ -1,6 +1,5 @@
 {
   final String bookmarkablePageClass=requestParameters.getBookmarkablePageClass();
-  final IRequestTarget requestTarget;
   final Session session=requestCycle.getSession();
   final Application application=session.getApplication();
   final Class pageClass;
@@ -12,11 +11,9 @@
   }
   try {
     Page newPage=session.getPageFactory().newPage(pageClass,new PageParameters(requestParameters.getParameters()));
-    if (requestCycle.getResponsePage() == null) {
+    IRequestTarget requestTarget=requestCycle.getRequestTarget();
+    if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IPageClassRequestTarget)) {
       requestTarget=new PageRequestTarget(newPage);
-    }
- else {
-      requestTarget=new PageRequestTarget(requestCycle.getResponsePage());
     }
     return requestTarget;
   }
