@@ -1,6 +1,5 @@
 {
   try {
-    IRequestCycleProcessor processor=safeGetRequestProcessor();
 switch (currentStep) {
 case PREPARE_REQUEST:
 {
@@ -18,25 +17,28 @@ case RESOLVE_TARGET:
     if (target == null) {
       throw new WicketRuntimeException("the processor did not resolve to any request target");
     }
-    currentStep=CHECK_ACCESS;
-    if (target instanceof IAccessCheckingTarget) {
-      ((IAccessCheckingTarget)target).checkAccess();
-    }
-    IRequestTarget otherTarget=getRequestTarget();
-    if (otherTarget != null) {
-      requestTargets.pop();
-      requestTargets.push(target);
-      requestTargets.push(otherTarget);
-    }
- else {
-      requestTargets.push(target);
-    }
+    requestTargets.push(target);
     break;
   }
+case CHECK_ACCESS:
+{
+  IRequestTarget target=getRequestTarget();
+  if (target instanceof IAccessCheckingTarget) {
+    ((IAccessCheckingTarget)target).checkAccess(this);
+  }
+  IRequestTarget otherTarget=getRequestTarget();
+  if (otherTarget != target) {
+    currentStep=CHECK_ACCESS - 1;
+    requestTargets.pop();
+    requestTargets.push(target);
+    requestTargets.push(otherTarget);
+  }
+  break;
+}
 case PROCESS_EVENTS:
 {
-  processEventsAndRespond(processor);
-  break;
+processEventsAndRespond(processor);
+break;
 }
 case RESPOND:
 {
@@ -51,7 +53,6 @@ default :
  catch (Exception e) {
 currentStep=HANDLE_EXCEPTION;
 log.error(e.getMessage(),e);
-IRequestCycleProcessor processor=safeGetRequestProcessor();
 if (processor != null) {
 processor.respond(e,this);
 }
