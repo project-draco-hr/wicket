@@ -1,16 +1,6 @@
 {
   IRequestTarget target=requestCycle.getRequestTarget();
-  if (target instanceof ListenerInterfaceRequestTarget) {
-    ListenerInterfaceRequestTarget callTarget=(ListenerInterfaceRequestTarget)target;
-    final Page page=callTarget.getPage();
-    if (!(target instanceof RedirectPageRequestTarget)) {
-      requestCycle.setUpdateCluster(true);
-      page.getFeedbackMessages().clear();
-      final Application application=requestCycle.getApplication();
-      ApplicationSettings.RenderStrategy strategy=application.getSettings().getRenderStrategy();
-      boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
-      requestCycle.setRedirect(issueRedirect);
-    }
-    invokeInterface(callTarget.getComponent(),callTarget.getListenerMethod(),page);
+  if (target instanceof IListenerInterfaceRequestTarget) {
+    ((IListenerInterfaceRequestTarget)target).processEvents(requestCycle);
   }
 }

@@ -1,0 +1,9 @@
+{
+  requestCycle.setUpdateCluster(true);
+  getPage().getFeedbackMessages().clear();
+  final Application application=requestCycle.getApplication();
+  ApplicationSettings.RenderStrategy strategy=application.getSettings().getRenderStrategy();
+  boolean issueRedirect=(strategy == ApplicationSettings.REDIRECT_TO_RENDER || strategy == ApplicationSettings.REDIRECT_TO_BUFFER);
+  requestCycle.setRedirect(issueRedirect);
+  invokeInterface(getComponent(),getListenerMethod(),getPage());
+}
