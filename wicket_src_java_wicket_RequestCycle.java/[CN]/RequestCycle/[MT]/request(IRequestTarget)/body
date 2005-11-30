@@ -1,20 +1,5 @@
 {
-  prepare();
-  IRequestCycleProcessor processor=null;
-  try {
-    processor=safeGetRequestProcessor();
-    final RequestParameters requestParameters=getRequestParameters(processor);
-    setRequestTarget(target);
-    processEventsAndRespond(processor);
-  }
- catch (  Exception e) {
-    log.error(e.getMessage(),e);
-    if (processor != null) {
-      log.error(e.getMessage(),e);
-      processor.respond(e,this);
-    }
-  }
- finally {
-    cleanUp();
-  }
+  requestTargets.push(target);
+  currentStep=PROCESS_EVENTS;
+  steps();
 }

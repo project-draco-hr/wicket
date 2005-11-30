@@ -1,7 +1,5 @@
 {
-  if (page instanceof WebPage) {
-    ((WebPage)page).beforeCallComponent(component,method);
-  }
+  page.beforeCallComponent(component,method);
   try {
     method.invoke(component,new Object[]{});
   }
@@ -9,8 +7,6 @@
     throw new WicketRuntimeException("method " + method.getName() + " of "+ method.getDeclaringClass()+ " targetted at component "+ component+ " threw an exception",e);
   }
  finally {
-    if (page instanceof WebPage) {
-      ((WebPage)page).afterCallComponent(component,method);
-    }
+    page.afterCallComponent(component,method);
   }
 }

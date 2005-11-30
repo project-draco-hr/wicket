@@ -1,5 +1,7 @@
 {
-  interceptContinuationURL=page.getResponse().encodeURL(page.getRequest().getURL());
-  page.redirectTo(page);
+  final RequestCycle cycle=session.getRequestCycle();
+  IRequestCycleProcessor processor=cycle.getRequestCycleProcessor();
+  interceptContinuationURL=page.getResponse().encodeURL(cycle.getRequest().getURL());
+  cycle.redirectTo(page);
   session.dirty();
 }

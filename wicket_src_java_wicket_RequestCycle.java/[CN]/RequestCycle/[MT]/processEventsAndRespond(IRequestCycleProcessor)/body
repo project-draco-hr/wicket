@@ -3,11 +3,13 @@
   if (synchronizeLock != null) {
 synchronized (synchronizeLock) {
       processor.processEvents(this);
+      currentStep=RESPOND;
       processor.respond(this);
     }
   }
  else {
     processor.processEvents(this);
+    currentStep=RESPOND;
     processor.respond(this);
   }
 }

@@ -1,36 +1,21 @@
 {
   renderedComponents=null;
-  if (checkAccess()) {
-    session.touch(this);
-    setFormComponentValuesFromCookies();
-    try {
-      visitChildren(IFeedback.class,new IVisitor(){
-        public Object component(        Component component){
-          ((IFeedback)component).updateFeedback();
-          component.internalBeginRequest();
-          return IVisitor.CONTINUE_TRAVERSAL;
-        }
+  session.touch(this);
+  setFormComponentValuesFromCookies();
+  try {
+    visitChildren(IFeedback.class,new IVisitor(){
+      public Object component(      Component component){
+        ((IFeedback)component).updateFeedback();
+        component.internalBeginRequest();
+        return IVisitor.CONTINUE_TRAVERSAL;
       }
+    }
 );
-      internalBeginRequest();
-      render();
-      checkRendering();
-    }
-  finally {
-      internalEndRequest();
-    }
+    internalBeginRequest();
+    render();
+    checkRendering();
   }
- else {
-    IRequestTarget requestTarget=getRequestCycle().getRequestTarget();
-    if (requestTarget instanceof IPageRequestTarget) {
-      if (((IPageRequestTarget)requestTarget).getPage() != this) {
-        requestTarget.respond(getRequestCycle());
-      }
-    }
- else     if (requestTarget instanceof IPageClassRequestTarget) {
-      if (((IPageClassRequestTarget)requestTarget).getPageClass() != getClass()) {
-        requestTarget.respond(getRequestCycle());
-      }
-    }
+  finally {
+    internalEndRequest();
   }
 }

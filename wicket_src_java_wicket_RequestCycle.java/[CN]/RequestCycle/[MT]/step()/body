@@ -1,0 +1,59 @@
+{
+  try {
+    IRequestCycleProcessor processor=safeGetRequestProcessor();
+switch (currentStep) {
+case PREPARE_REQUEST:
+{
+        prepare();
+        break;
+      }
+case DECODE_PARAMETERS:
+{
+      requestParameters=getRequestParameters(processor);
+      break;
+    }
+case RESOLVE_TARGET:
+{
+    final IRequestTarget target=processor.resolve(this,requestParameters);
+    if (target == null) {
+      throw new WicketRuntimeException("the processor did not resolve to any request target");
+    }
+    currentStep=CHECK_ACCESS;
+    if (target instanceof IAccessCheckingTarget) {
+      ((IAccessCheckingTarget)target).checkAccess();
+    }
+    IRequestTarget otherTarget=getRequestTarget();
+    if (otherTarget != null) {
+      requestTargets.pop();
+      requestTargets.push(target);
+      requestTargets.push(otherTarget);
+    }
+ else {
+      requestTargets.push(target);
+    }
+    break;
+  }
+case PROCESS_EVENTS:
+{
+  processEventsAndRespond(processor);
+  break;
+}
+case RESPOND:
+{
+processor.respond(this);
+break;
+}
+default :
+{
+}
+}
+}
+ catch (Exception e) {
+currentStep=HANDLE_EXCEPTION;
+log.error(e.getMessage(),e);
+IRequestCycleProcessor processor=safeGetRequestProcessor();
+if (processor != null) {
+processor.respond(e,this);
+}
+}
+}
