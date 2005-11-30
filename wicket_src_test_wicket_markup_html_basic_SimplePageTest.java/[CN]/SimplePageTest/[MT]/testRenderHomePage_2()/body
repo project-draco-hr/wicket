@@ -27,6 +27,13 @@
   assertNotNull(document);
   assertFalse("".equals(document));
   assertEquals("<span wicket:id=\"myBorder2\" testAttr=\"myValue\"><wicket:border>before body - <wicket:body>border</wicket:body> - after body</wicket:border></span>",document);
+  border=(Border)application.getLastRenderedPage().get("myBorder2");
+  assertNotNull(border);
+  application.rerender(border);
+  document=application.getServletResponse().getDocument();
+  assertNotNull(document);
+  assertFalse("".equals(document));
+  assertEquals("<span wicket:id=\"myBorder2\" testAttr=\"myValue\"><wicket:border>before body - <wicket:body>border</wicket:body> - after body</wicket:border></span>",document);
   WebMarkupContainer container=(WebMarkupContainer)application.getLastRenderedPage().get("test");
   assertNotNull(container);
   application.rerender(container);

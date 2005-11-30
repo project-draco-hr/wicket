@@ -8,6 +8,13 @@
     if (onLoad != null) {
       add(new AttributeModifier("onload",true,new Model(onLoad)));
     }
+    if (this.getPage() instanceof IBodyTagContributor) {
+      IBodyTagContributor bodyContributor=(IBodyTagContributor)this.getPage();
+      AttributeModifier[] modifiers=bodyContributor.getBodyAttributeModifiers();
+      for (int i=0; i < modifiers.length; i++) {
+        add(modifiers[i]);
+      }
+    }
   }
   super.onComponentTag(tag);
 }
