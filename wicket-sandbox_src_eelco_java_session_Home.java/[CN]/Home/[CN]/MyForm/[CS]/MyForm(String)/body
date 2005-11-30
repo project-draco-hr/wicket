@@ -1,0 +1,13 @@
+{
+  super(id);
+  IModel model=new Model(){
+    public Object getObject(    Component component){
+      return ((TestSession)getSession()).getName();
+    }
+    public void setObject(    Component component,    Object object){
+      ((TestSession)getSession()).setName(String.valueOf(object));
+    }
+  }
+;
+  add(new TextField("name",model));
+}
