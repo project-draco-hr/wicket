@@ -5,7 +5,7 @@
     Class homePageClass=application.getPages().getHomePage();
     PageClassRequestTarget pokeTarget=new PageClassRequestTarget(homePageClass);
     IRequestEncoder requestEncoder=requestCycle.getRequestCycleProcessor().getRequestEncoder();
-    String path=requestEncoder.getMountedPath(pokeTarget);
+    String path=requestEncoder.pathForTarget(pokeTarget);
     if (path != null) {
       requestCycle.setRedirect(true);
       return pokeTarget;
