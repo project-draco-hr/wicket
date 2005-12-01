@@ -2,7 +2,13 @@
   String mountPath=(String)mountsOnTarget.get(requestTarget);
   if (mountPath != null) {
     final StringBuffer url=urlPrefix(requestCycle);
-    return url.append(mountPath).toString();
+    url.append(mountPath);
+    if (requestTarget instanceof PageClassRequestTarget) {
+      PageClassRequestTarget pageTarget=(PageClassRequestTarget)requestTarget;
+      PageClassRequestTarget mountedTarget=(PageClassRequestTarget)getMountedTarget(mountPath);
+      url.append(mountedTarget.getParamsEncoder().encode(pageTarget.getPageParameters()));
+    }
+    return url.toString();
   }
   if (requestTarget instanceof IPageClassRequestTarget) {
     return encode(requestCycle,(IPageClassRequestTarget)requestTarget);

@@ -1,0 +1,11 @@
+{
+  PageParameters params=new PageParameters();
+  if (urlFragment.startsWith("/")) {
+    urlFragment=urlFragment.substring(1);
+  }
+  String[] pairs=urlFragment.split("/");
+  for (int i=0; i < pairs.length - 1; i+=2) {
+    params.put(pairs[i],pairs[i + 1]);
+  }
+  return params;
+}

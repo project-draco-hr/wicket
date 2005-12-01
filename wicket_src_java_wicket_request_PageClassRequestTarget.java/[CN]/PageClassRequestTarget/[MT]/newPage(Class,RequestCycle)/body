@@ -1,0 +1,10 @@
+{
+  PageParameters params=pageParameters;
+  if (isMounted()) {
+    Request request=requestCycle.getRequest();
+    String urlFragment=request.getPath().substring(mountPath.length());
+    params=paramsEncoder.decode(urlFragment);
+  }
+  IPageFactory pageFactory=requestCycle.getApplication().getSettings().getDefaultPageFactory();
+  return pageFactory.newPage(pageClass,params);
+}

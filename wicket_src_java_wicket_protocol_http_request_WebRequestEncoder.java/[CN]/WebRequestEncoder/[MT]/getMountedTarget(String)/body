@@ -1,3 +1,14 @@
 {
-  return (IRequestTarget)mountsOnPath.get(path);
+  if (path == null) {
+    return (IRequestTarget)mountsOnPath.get(null);
+  }
+  Iterator it=mountsOnPath.entrySet().iterator();
+  while (it.hasNext()) {
+    Map.Entry entry=(Entry)it.next();
+    String key=(String)entry.getKey();
+    if (path.startsWith(key)) {
+      return (IRequestTarget)entry.getValue();
+    }
+  }
+  return null;
 }
