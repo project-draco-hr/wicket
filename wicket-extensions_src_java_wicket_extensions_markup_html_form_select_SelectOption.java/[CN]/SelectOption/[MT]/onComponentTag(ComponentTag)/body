@@ -6,12 +6,9 @@
   }
   tag.put("value",getPath());
   Object selected=select.getModelObject();
-  if (selected == null) {
-    throw new WicketRuntimeException("Select [" + select.getPath() + "] contains a null model object, must be an object of type java.lang.Object or java.util.Collection (in case of multi-valued select element");
-  }
   boolean isSelected=false;
   Object value=getModelObject();
-  if (selected instanceof Collection) {
+  if (selected != null && selected instanceof Collection) {
     if (value instanceof Collection) {
       isSelected=selected.equals(value);
     }
@@ -20,7 +17,7 @@
     }
   }
  else {
-    isSelected=selected.equals(value);
+    isSelected=Objects.equal(selected,value);
   }
   if (isSelected) {
     tag.put("selected","true");
