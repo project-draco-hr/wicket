@@ -1,9 +1,12 @@
 {
-  String sessionId=request.getSession(true).getId();
-  Map sessionMap=(Map)bufferedResponses.get(sessionId);
-  if (sessionMap != null) {
-    sessionMap.put("last-time-used",Time.now());
-    return (BufferedResponse)sessionMap.remove(requestUri);
+  HttpSession httpSession=request.getSession(false);
+  if (httpSession != null) {
+    String sessionId=httpSession.getId();
+    Map sessionMap=(Map)bufferedResponses.get(sessionId);
+    if (sessionMap != null) {
+      sessionMap.put("last-time-used",Time.now());
+      return (BufferedResponse)sessionMap.remove(requestUri);
+    }
   }
   return null;
 }
