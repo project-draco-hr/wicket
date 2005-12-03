@@ -1,0 +1,37 @@
+{
+  if (component == null) {
+    return null;
+  }
+  if (component.getPage() == null) {
+    throw new IllegalArgumentException("Component without associated Page: " + component.toString(true));
+  }
+  Stack searchStack=new Stack();
+  searchStack.push(component);
+  String prefixKey=key;
+  if (!(component instanceof Page)) {
+    prefixKey=component.getId() + "." + key;
+    MarkupContainer c=component.getParent();
+    while (true) {
+      searchStack.push(c);
+      if (c instanceof Page) {
+        break;
+      }
+      prefixKey=c.getId() + "." + prefixKey;
+      c=c.getParent();
+    }
+  }
+  String value=null;
+  while (!searchStack.isEmpty()) {
+    Component comp=(Component)searchStack.pop();
+    Class cc=comp.getClass();
+    value=loadStringResourceByClass(cc,prefixKey,locale,style);
+    if (value == null) {
+      value=loadStringResourceByClass(cc,key,locale,style);
+    }
+    if (value != null) {
+      break;
+    }
+    prefixKey=Strings.afterFirst(prefixKey,'.');
+  }
+  return value;
+}

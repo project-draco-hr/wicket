@@ -1,0 +1,24 @@
+{
+  String value=null;
+  while (value == null) {
+    final Properties props=getProperties(clazz,locale,style);
+    if (props != null) {
+      ValueMap strings=props.getAll();
+      if (log.isDebugEnabled()) {
+        log.debug("Try to load resource from: " + props + "; key: "+ key);
+      }
+      value=strings.getString(key);
+      if (value != null) {
+        if (log.isDebugEnabled()) {
+          log.debug("Found resource from: " + props + "; key: "+ key);
+        }
+        break;
+      }
+    }
+    clazz=clazz.getSuperclass();
+    if (isStopResourceSearch(clazz)) {
+      break;
+    }
+  }
+  return value;
+}

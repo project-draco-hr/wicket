@@ -1,0 +1,35 @@
+{
+  Properties props=(Properties)propertiesCache.get(key);
+  if (props != null) {
+    return props;
+  }
+  final java.util.Properties properties=new java.util.Properties();
+  if (resourceStream == null) {
+    props=new Properties(key,ValueMap.EMPTY_MAP);
+  }
+ else {
+    ValueMap strings=ValueMap.EMPTY_MAP;
+    try {
+      try {
+        properties.load(new BufferedInputStream(resourceStream.getInputStream()));
+        strings=new ValueMap(properties);
+      }
+  finally {
+        resourceStream.close();
+      }
+    }
+ catch (    ResourceStreamNotFoundException e) {
+      log.warn("Unable to find resource " + resourceStream,e);
+      strings=ValueMap.EMPTY_MAP;
+    }
+catch (    IOException e) {
+      log.warn("Unable to access resource " + resourceStream,e);
+      strings=ValueMap.EMPTY_MAP;
+    }
+    props=new Properties(key,strings);
+synchronized (propertiesCache) {
+      propertiesCache.put(key,props);
+    }
+  }
+  return props;
+}

@@ -1,15 +1,6 @@
 {
-  final String id=createCacheId(clazz,style,locale);
-  ValueMap strings=getResourceCache(id);
-  if (strings == null) {
-    strings=loadResources(clazz,style,locale,id);
+  if (component == null) {
+    return loadStringResourceByClass(this.clazz,key,locale,style);
   }
-  if (log.isDebugEnabled()) {
-    log.debug("Try to load resource from: " + id + "; key: "+ key);
-  }
-  String value=strings.getString(key);
-  if (value != null && log.isDebugEnabled()) {
-    log.debug("Found resource from: " + id + "; key: "+ key);
-  }
-  return value;
+  return super.loadStringResource(component,key,locale,style);
 }

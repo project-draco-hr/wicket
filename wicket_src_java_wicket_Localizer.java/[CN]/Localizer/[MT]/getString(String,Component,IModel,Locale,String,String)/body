@@ -1,14 +1,29 @@
 {
   String string=null;
   final ApplicationSettings settings=application.getSettings();
-  for (final Iterator iterator=settings.getStringResourceLoaders().iterator(); iterator.hasNext(); ) {
-    IStringResourceLoader loader=(IStringResourceLoader)iterator.next();
-    string=loader.loadStringResource(component,key,locale,style);
-    if (string != null) {
-      return substituteOgnl(component,string,model);
+  String id=createCacheId(component,locale,style,key);
+  if (cachedValues.containsKey(id)) {
+    if (log.isDebugEnabled()) {
+      log.debug("Found message key in cache: " + id);
+    }
+    string=(String)cachedValues.get(id);
+  }
+ else {
+    final Iterator iterator=settings.getStringResourceLoaders().iterator();
+    ;
+    while (iterator.hasNext()) {
+      IStringResourceLoader loader=(IStringResourceLoader)iterator.next();
+      string=loader.loadStringResource(component,key,locale,style);
+      if (string != null) {
+        this.cachedValues.put(id,string);
+        break;
+      }
     }
   }
-  if (settings.getUseDefaultOnMissingResource() && defaultValue != null) {
+  if (string != null) {
+    return substituteOgnl(component,string,model);
+  }
+  if (settings.getUseDefaultOnMissingResource() && (defaultValue != null)) {
     return defaultValue;
   }
   if (settings.getThrowExceptionOnMissingResource()) {
