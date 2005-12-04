@@ -1,11 +1,8 @@
 {
   Application.set(webApplication);
   if (webApplication.getSettings().getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) {
-    String requestUri=servletRequest.getRequestURI();
-    if (servletRequest.getQueryString() != null) {
-      requestUri+="?" + servletRequest.getQueryString();
-    }
-    BufferedResponse bufferedResponse=webApplication.getBufferedResponse(servletRequest,requestUri);
+    String bufferId=servletRequest.getParameter("bid");
+    BufferedResponse bufferedResponse=webApplication.popBufferedResponse(bufferId);
     if (bufferedResponse != null) {
       servletResponse.setContentLength(bufferedResponse.getContentLength());
       servletResponse.setContentType(bufferedResponse.getContentType());
@@ -24,7 +21,7 @@
     }
   }
   final WebRequest request=webApplication.newWebRequest(servletRequest);
-  final WebSession session=webApplication.getSession(request,true);
+  final WebSession session=webApplication.getSession(request);
   final WebResponse response=webApplication.newWebResponse(servletResponse);
   response.setCharacterEncoding(webApplication.getSettings().getResponseRequestEncoding());
   try {

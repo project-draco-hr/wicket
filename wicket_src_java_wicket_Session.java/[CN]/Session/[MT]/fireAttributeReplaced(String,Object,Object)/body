@@ -1,0 +1,9 @@
+{
+  SessionAttributeEvent evt=new SessionAttributeEvent(this,name,oldValue);
+synchronized (listeners) {
+    for (Iterator i=listeners.iterator(); i.hasNext(); ) {
+      ISessionAttributeListener l=(ISessionAttributeListener)i.next();
+      l.attributeReplaced(evt);
+    }
+  }
+}

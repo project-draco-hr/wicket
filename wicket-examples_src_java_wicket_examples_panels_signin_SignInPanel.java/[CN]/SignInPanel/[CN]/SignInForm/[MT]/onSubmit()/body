@@ -1,9 +1,6 @@
 {
   if (signIn(getUsername(),getPassword())) {
-    if (getPage().continueToOriginalDestination()) {
-      setResponsePage((Page)null);
-    }
- else {
+    if (!getPage().continueToOriginalDestination()) {
       setResponsePage(getApplicationSettings().getDefaultPageFactory().newPage(getApplicationPages().getHomePage(),(PageParameters)null));
     }
   }

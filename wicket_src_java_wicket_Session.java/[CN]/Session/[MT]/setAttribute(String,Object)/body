@@ -1,0 +1,25 @@
+{
+  Object oldValue=getAttribute(name);
+  if (oldValue == null) {
+    fireAttributeAdded(name,value);
+  }
+ else {
+    fireAttributeReplaced(name,value,oldValue);
+  }
+  doSetAttribute(name,value);
+  if (log.isDebugEnabled()) {
+    long t1=System.currentTimeMillis();
+    Object test=null;
+    byte[] serialized;
+    try {
+      final ByteArrayOutputStream out=new ByteArrayOutputStream();
+      new ObjectOutputStream(out).writeObject(value);
+      serialized=out.toByteArray();
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("Internal error cloning object",e);
+    }
+    long t2=System.currentTimeMillis();
+    log.debug("attribute " + name + " serialized in "+ (t2 - t1)+ " miliseconds, size: "+ Bytes.bytes(serialized.length));
+  }
+}
