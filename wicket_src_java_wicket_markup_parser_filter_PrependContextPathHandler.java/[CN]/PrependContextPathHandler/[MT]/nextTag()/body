@@ -8,12 +8,15 @@
     if (contextPath == null) {
       contextPath="";
     }
+ else     if (contextPath.endsWith("/") == false) {
+      contextPath+="/";
+    }
   }
   if (contextPath.length() > 0) {
     for (int i=0; i < attributeNames.length; i++) {
       String attrName=attributeNames[i];
       String attrValue=tag.getAttributes().getString(attrName);
-      if ((attrValue != null) && attrValue.startsWith("/")) {
+      if ((attrValue != null) && (attrValue.startsWith("/") == false) && (attrValue.contains(":") == false)) {
         String url=contextPath + attrValue;
         tag.getAttributes().put(attrName,url);
         tag.setModified(true);
