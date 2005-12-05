@@ -7,17 +7,24 @@
       log.debug("Found message key in cache: " + id);
     }
     string=(String)cachedValues.get(id);
+    if (string == NULL) {
+      string=null;
+    }
   }
  else {
     final Iterator iterator=settings.getStringResourceLoaders().iterator();
-    ;
     while (iterator.hasNext()) {
       IStringResourceLoader loader=(IStringResourceLoader)iterator.next();
       string=loader.loadStringResource(component,key,locale,style);
       if (string != null) {
-        this.cachedValues.put(id,string);
         break;
       }
+    }
+    if (string != null) {
+      this.cachedValues.put(id,string);
+    }
+ else {
+      this.cachedValues.put(id,NULL);
     }
   }
   if (string != null) {
