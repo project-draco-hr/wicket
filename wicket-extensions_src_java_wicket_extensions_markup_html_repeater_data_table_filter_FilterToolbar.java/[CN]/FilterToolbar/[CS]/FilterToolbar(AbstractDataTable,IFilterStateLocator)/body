@@ -1,0 +1,21 @@
+{
+  super(AbstractDataTable.TOOLBAR_COMPONENT_ID);
+  Form form=new Form("filterForm",new Model((Serializable)stateLocator.getFilterState()));
+  add(form);
+  OrderedRepeatingView filters=new OrderedRepeatingView("filters");
+  form.add(filters);
+  List cols=table.getColumns();
+  for (int i=0; i < cols.size(); i++) {
+    WebMarkupContainer item=new WebMarkupContainer(filters.newChildId());
+    item.setRenderBodyOnly(true);
+    IColumn col=(IColumn)cols.get(i);
+    if (col instanceof IFilteredColumn) {
+      IFilteredColumn filteredCol=(IFilteredColumn)col;
+      item.add(filteredCol.getFilter("filter",form));
+    }
+ else {
+      item.add(new NoFilter("filter"));
+    }
+    filters.add(item);
+  }
+}

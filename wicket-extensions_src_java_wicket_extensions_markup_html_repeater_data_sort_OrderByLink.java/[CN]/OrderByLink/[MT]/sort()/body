@@ -1,8 +1,12 @@
 {
-  ISortableDataProvider dataProvider=(ISortableDataProvider)list.getModelObject();
-  list.modelChanging();
-  dataProvider.addSort(sortProperty);
-  list.setCurrentPage(0);
-  list.modelChanged();
+  Change change=new SortStateChange();
+  addStateChange(change);
+  ISortState state=stateLocator.getSortState();
+  int oldDir=state.getPropertyState(property);
+  int newDir=ISortState.ASCENDING;
+  if (oldDir == ISortState.ASCENDING) {
+    newDir=ISortState.DESCENDING;
+  }
+  state.setPropertyState(property,newDir);
   return this;
 }

@@ -1,5 +1,6 @@
 {
   super(id);
+  this.columns=Collections.unmodifiableList(columns);
   dataView=new DataView("rows",dataProvider){
     private static final long serialVersionUID=1L;
     protected void populateItem(    final Item item){
@@ -11,7 +12,7 @@
         }
       }
 ));
-      item.add(new ListView("cells",columns){
+      item.add(new ListView("cells",getColumns()){
         private static final long serialVersionUID=1L;
         protected void populateItem(        ListItem item){
           final IColumn column=(IColumn)item.getModelObject();
@@ -28,20 +29,20 @@
 ;
   dataView.setItemsPerPage(rowsPerPage);
   add(dataView);
-  add(new ListView("headers",columns){
+  topToolbars=new OrderedRepeatingView("topToolbars"){
     private static final long serialVersionUID=1L;
-    protected void populateItem(    ListItem item){
-      final IColumn column=(IColumn)item.getModelObject();
-      WebMarkupContainer header=null;
-      if (column.isSortable()) {
-        header=new OrderByBorder("header",column.getSortProperty(),dataView);
-      }
- else {
-        header=new WebMarkupContainer("header");
-      }
-      item.add(header);
-      header.add(column.getHeader("label"));
+    public boolean isVisible(){
+      return size() > 0;
     }
   }
-);
+;
+  bottomToolbars=new OrderedRepeatingView("bottomToolbars"){
+    private static final long serialVersionUID=1L;
+    public boolean isVisible(){
+      return size() > 0;
+    }
+  }
+;
+  add(topToolbars);
+  add(bottomToolbars);
 }
