@@ -25,16 +25,13 @@
     Component comp=(Component)searchStack.pop();
     Class cc=comp.getClass();
     value=loadStringResourceByClass(cc,prefixKey,locale,style);
-    if (value == null) {
+    if ((value == null) && (prefixKey.equals(key) == false)) {
       value=loadStringResourceByClass(cc,key,locale,style);
     }
     if (value != null) {
       break;
     }
     prefixKey=Strings.afterFirst(prefixKey,'.');
-    if (prefixKey.equals(key)) {
-      break;
-    }
   }
   return value;
 }
