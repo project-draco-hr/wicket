@@ -1,0 +1,13 @@
+{
+  MyMockApplication tester=new MyMockApplication();
+  tester.startPage(new TestPageSource(){
+    public Page getTestPage(){
+      Book mockBook=new Book("xxId","xxName");
+      return new ViewBook(mockBook);
+    }
+  }
+);
+  tester.assertRenderedPage(ViewBook.class);
+  tester.clickLink("link");
+  tester.assertRenderedPage(CreateBook.class);
+}

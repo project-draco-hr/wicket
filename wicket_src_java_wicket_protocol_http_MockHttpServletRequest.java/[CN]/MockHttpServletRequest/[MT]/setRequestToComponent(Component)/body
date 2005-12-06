@@ -1,23 +1,29 @@
 {
-  parameters.put("path",component.getPath());
-  parameters.put("version","" + component.getPage().getCurrentVersionNumber());
-  Class c=null;
-  if (component instanceof IRedirectListener) {
-    c=IRedirectListener.class;
+  if (component instanceof BookmarkablePageLink) {
+    Class clazz=((BookmarkablePageLink)component).getPageClass();
+    parameters.put("bookmarkablePage",clazz.getName());
   }
- else   if (component instanceof IResourceListener) {
-    c=IResourceListener.class;
-  }
- else   if (component instanceof IFormSubmitListener) {
-    c=IFormSubmitListener.class;
-  }
- else   if (component instanceof ILinkListener) {
-    c=ILinkListener.class;
-  }
- else   if (component instanceof IOnChangeListener) {
-    c=IOnChangeListener.class;
-  }
-  if (c != null) {
-    parameters.put("interface",Classes.name(c));
+ else {
+    parameters.put("path",component.getPath());
+    parameters.put("version","" + component.getPage().getCurrentVersionNumber());
+    Class c=null;
+    if (component instanceof IRedirectListener) {
+      c=IRedirectListener.class;
+    }
+ else     if (component instanceof IResourceListener) {
+      c=IResourceListener.class;
+    }
+ else     if (component instanceof IFormSubmitListener) {
+      c=IFormSubmitListener.class;
+    }
+ else     if (component instanceof ILinkListener) {
+      c=ILinkListener.class;
+    }
+ else     if (component instanceof IOnChangeListener) {
+      c=IOnChangeListener.class;
+    }
+    if (c != null) {
+      parameters.put("interface",Classes.name(c));
+    }
   }
 }
