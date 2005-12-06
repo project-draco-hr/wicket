@@ -1,6 +1,9 @@
 {
   IRequestTarget target=requestCycle.getRequestTarget();
-  if (target instanceof IListenerInterfaceRequestTarget) {
-    ((IListenerInterfaceRequestTarget)target).processEvents(requestCycle);
+  if (target instanceof IEventProcessingRequestTarget) {
+    if (log.isDebugEnabled()) {
+      log.debug("commencing event handling for " + target);
+    }
+    ((IEventProcessingRequestTarget)target).processEvents(requestCycle);
   }
 }
