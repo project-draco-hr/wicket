@@ -1,11 +1,13 @@
 {
   for (Iterator i=requestTargets.iterator(); i.hasNext(); ) {
     IRequestTarget t=(IRequestTarget)i.next();
-    try {
-      t.cleanUp(this);
-    }
- catch (    RuntimeException e) {
-      log.error("there was an error cleaning up target " + t + ".",e);
+    if (t != null) {
+      try {
+        t.cleanUp(this);
+      }
+ catch (      RuntimeException e) {
+        log.error("there was an error cleaning up target " + t + ".",e);
+      }
     }
   }
   try {
