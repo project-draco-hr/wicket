@@ -5,24 +5,7 @@
   if (page != null) {
     final String interfaceName=requestParameters.getInterfaceName();
     if (interfaceName != null) {
-      if (interfaceName.equals("IRedirectListener")) {
-        return new RedirectPageRequestTarget(page);
-      }
- else {
-        final Method listenerMethod=requestCycle.getRequestInterfaceMethod(interfaceName);
-        if (listenerMethod == null) {
-          throw new WicketRuntimeException("Attempt to access unknown interface " + interfaceName);
-        }
-        String componentPart=Strings.afterFirstPathComponent(componentPath,':');
-        if (Strings.isEmpty(componentPart)) {
-          throw new WicketRuntimeException("when trying to call " + listenerMethod + ", a component must be provided");
-        }
-        final Component component=page.get(componentPart);
-        if (!component.isVisible()) {
-          throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
-        }
-        return new ListenerInterfaceRequestTarget(page,component,listenerMethod);
-      }
+      return resolveListenerInterfaceTarget(requestCycle,page,componentPath,interfaceName);
     }
  else {
       return new PageRequestTarget(page);
