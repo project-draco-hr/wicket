@@ -3,7 +3,7 @@
   final Application application=session.getApplication();
   try {
     Class homePageClass=application.getPages().getHomePage();
-    PageClassRequestTarget pokeTarget=new PageClassRequestTarget(homePageClass);
+    BookmarkablePageRequestTarget pokeTarget=new BookmarkablePageRequestTarget(homePageClass);
     IRequestEncoder requestEncoder=requestCycle.getRequestCycleProcessor().getRequestEncoder();
     String path=requestEncoder.pathForTarget(pokeTarget);
     if (path != null) {
@@ -13,7 +13,7 @@
     final PageParameters parameters=new PageParameters(requestParameters.getParameters());
     Page newPage=session.getPageFactory().newPage(homePageClass,parameters);
     IRequestTarget requestTarget=requestCycle.getRequestTarget();
-    if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IPageClassRequestTarget)) {
+    if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IBookmarkablePageRequestTarget)) {
       requestTarget=new PageRequestTarget(newPage);
     }
     return requestTarget;

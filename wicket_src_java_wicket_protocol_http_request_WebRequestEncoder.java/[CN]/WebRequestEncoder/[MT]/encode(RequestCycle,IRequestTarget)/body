@@ -3,15 +3,15 @@
   if (mountPath != null) {
     final StringBuffer url=urlPrefix(requestCycle);
     url.append(mountPath);
-    if (requestTarget instanceof PageClassRequestTarget) {
-      PageClassRequestTarget pageTarget=(PageClassRequestTarget)requestTarget;
-      PageClassRequestTarget mountedTarget=(PageClassRequestTarget)targetForPath(mountPath);
+    if (requestTarget instanceof BookmarkablePageRequestTarget) {
+      BookmarkablePageRequestTarget pageTarget=(BookmarkablePageRequestTarget)requestTarget;
+      BookmarkablePageRequestTarget mountedTarget=(BookmarkablePageRequestTarget)targetForPath(mountPath);
       url.append(mountedTarget.getParamsEncoder().encode(pageTarget.getPageParameters()));
     }
     return url.toString();
   }
-  if (requestTarget instanceof IPageClassRequestTarget) {
-    return encode(requestCycle,(IPageClassRequestTarget)requestTarget);
+  if (requestTarget instanceof IBookmarkablePageRequestTarget) {
+    return encode(requestCycle,(IBookmarkablePageRequestTarget)requestTarget);
   }
  else   if (requestTarget instanceof IListenerInterfaceRequestTarget) {
     return encode(requestCycle,(IListenerInterfaceRequestTarget)requestTarget);
