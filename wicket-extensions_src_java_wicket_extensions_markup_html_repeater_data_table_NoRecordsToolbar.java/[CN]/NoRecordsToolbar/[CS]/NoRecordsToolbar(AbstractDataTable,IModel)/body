@@ -1,0 +1,15 @@
+{
+  super(AbstractDataTable.TOOLBAR_COMPONENT_ID);
+  WebMarkupContainer tr=new WebMarkupContainer("tr"){
+    private static final long serialVersionUID=1L;
+    public boolean isVisible(){
+      return table.getItemCount() == 0;
+    }
+  }
+;
+  add(tr);
+  WebMarkupContainer td=new WebMarkupContainer("td");
+  tr.add(td);
+  td.add(new AttributeModifier("colspan",true,new Model(String.valueOf(table.getColumns().length))));
+  td.add(new Label("msg",messageModel));
+}

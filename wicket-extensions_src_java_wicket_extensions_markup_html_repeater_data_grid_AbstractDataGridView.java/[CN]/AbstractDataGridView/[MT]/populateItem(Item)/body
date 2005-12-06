@@ -1,0 +1,24 @@
+{
+  final IModel rowModel=item.getModel();
+  item.add(new RefreshingView(CELL_REPEATER_ID){
+    private static final long serialVersionUID=1L;
+    protected Iterator getItemModels(){
+      return new ArrayIteratorAdapter(internalGetPopulators()){
+        protected IModel model(        Object object){
+          return new Model((Serializable)object);
+        }
+      }
+;
+    }
+    protected void populateItem(    Item item){
+      final ICellPopulator populator=(ICellPopulator)item.getModelObject();
+      populator.populateItem(item,CELL_ITEM_ID,rowModel);
+      if (item.get("cell") == null) {
+        throw new WicketRuntimeException(populator.getClass().getName() + ".populateItem() failed to add a component with id [" + CELL_ITEM_ID+ "] to the provided [cellItem] argument");
+      }
+      internalPostProcessCellItem(item);
+    }
+  }
+);
+  internalPostProcessRowItem(item);
+}
