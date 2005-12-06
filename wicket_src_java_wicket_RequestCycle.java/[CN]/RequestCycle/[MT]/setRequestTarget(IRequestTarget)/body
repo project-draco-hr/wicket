@@ -1,7 +1,4 @@
 {
-  if (currentStep >= RESPOND) {
-    throw new WicketRuntimeException("you cannot change the request cycle after rendering has commenced");
-  }
   if (log.isDebugEnabled()) {
     if (!requestTargets.isEmpty()) {
       IRequestTarget former=(IRequestTarget)requestTargets.peek();
@@ -10,6 +7,12 @@
  else {
       log.debug("setting request target to " + requestTarget);
     }
+  }
+  if (currentStep >= RESPOND) {
+    if (log.isDebugEnabled()) {
+      log.debug("rewinding request processing to PROCESS_EVENTS");
+    }
+    currentStep=PROCESS_EVENTS;
   }
   requestTargets.push(requestTarget);
 }
