@@ -1,7 +1,29 @@
 {
   super(AbstractDataTable.TOOLBAR_COMPONENT_ID);
-  Form form=new Form("filterForm",new Model((Serializable)stateLocator.getFilterState()));
+  if (table == null) {
+    throw new IllegalArgumentException("argument [table] cannot be null");
+  }
+  if (stateLocator == null) {
+    throw new IllegalArgumentException("argument [stateLocator] cannot be null");
+  }
+  final FilterForm form=new FilterForm("filterForm",stateLocator){
+    private static final long serialVersionUID=1L;
+    protected void onSubmit(){
+      table.setCurrentPage(0);
+    }
+  }
+;
   add(form);
+  add(new WebMarkupContainer("focus-restore"){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+      String script="<script>_filter_focus_restore('" + form.getHiddenInputCssId() + "');</script>";
+      replaceComponentTagBody(markupStream,openTag,script);
+    }
+  }
+);
   OrderedRepeatingView filters=new OrderedRepeatingView("filters");
   form.add(filters);
   IColumn[] cols=table.getColumns();
