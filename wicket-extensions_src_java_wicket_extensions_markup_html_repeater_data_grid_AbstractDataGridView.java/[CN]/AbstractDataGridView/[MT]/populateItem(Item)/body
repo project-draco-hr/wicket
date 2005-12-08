@@ -3,12 +3,7 @@
   item.add(new RefreshingView(CELL_REPEATER_ID){
     private static final long serialVersionUID=1L;
     protected Iterator getItemModels(){
-      return new ArrayIteratorAdapter(internalGetPopulators()){
-        protected IModel model(        Object object){
-          return new Model((Serializable)object);
-        }
-      }
-;
+      return getPopulatorsIterator();
     }
     protected void populateItem(    Item item){
       final ICellPopulator populator=(ICellPopulator)item.getModelObject();

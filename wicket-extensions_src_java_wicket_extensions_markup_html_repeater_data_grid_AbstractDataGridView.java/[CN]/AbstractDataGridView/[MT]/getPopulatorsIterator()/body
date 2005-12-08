@@ -1,0 +1,14 @@
+{
+  if (populatorsIteratorCache == null) {
+    populatorsIteratorCache=new ArrayIteratorAdapter(internalGetPopulators()){
+      protected IModel model(      Object object){
+        return new Model((Serializable)object);
+      }
+    }
+;
+  }
+ else {
+    populatorsIteratorCache.reset();
+  }
+  return populatorsIteratorCache;
+}
