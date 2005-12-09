@@ -1,0 +1,37 @@
+{
+  super(id);
+  this.columns=columns;
+  datagrid=new DataGridView("rows",columns,dataProvider){
+    private static final long serialVersionUID=1L;
+    protected void postProcessRowItem(    Item item){
+      final int idx=item.getIndex();
+      final IModel model=new AbstractReadOnlyModel(){
+        private static final long serialVersionUID=1L;
+        public Object getObject(        Component component){
+          return (idx % 2 == 0) ? "odd" : "even";
+        }
+      }
+;
+      item.add(new AttributeModifier("class",true,model));
+    }
+  }
+;
+  datagrid.setRowsPerPage(rowsPerPage);
+  add(datagrid);
+  topToolbars=new OrderedRepeatingView("topToolbars"){
+    private static final long serialVersionUID=1L;
+    public boolean isVisible(){
+      return size() > 0;
+    }
+  }
+;
+  bottomToolbars=new OrderedRepeatingView("bottomToolbars"){
+    private static final long serialVersionUID=1L;
+    public boolean isVisible(){
+      return size() > 0;
+    }
+  }
+;
+  add(topToolbars);
+  add(bottomToolbars);
+}

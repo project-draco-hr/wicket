@@ -1,0 +1,17 @@
+{
+  super(id,new AbstractReadOnlyModel(){
+    private static final long serialVersionUID=1L;
+    public Object getObject(    Component component){
+      int of=table.getRowCount();
+      int from=table.getCurrentPage() * table.getRowsPerPage();
+      int to=Math.min(of,from + table.getRowsPerPage());
+      from++;
+      if (of == 0) {
+        from=0;
+        to=0;
+      }
+      return new String("Showing " + from + " to "+ to+ " of "+ of);
+    }
+  }
+);
+}
