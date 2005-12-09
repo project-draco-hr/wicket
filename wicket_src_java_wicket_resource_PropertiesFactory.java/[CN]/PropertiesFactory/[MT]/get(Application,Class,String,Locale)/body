@@ -1,10 +1,13 @@
 {
   final String key=createResourceKey(clazz,locale,style);
   Properties props=(Properties)propertiesCache.get(key);
-  if (props == null) {
+  if ((props == null) && (propertiesCache.containsKey(key) == false)) {
     final IResourceStream resource=application.getResourceStreamLocator().locate(clazz,style,locale,"properties");
     if (resource != null) {
       props=loadPropertiesFileAndWatchForChanges(key,resource,clazz,style,locale);
+    }
+synchronized (propertiesCache) {
+      propertiesCache.put(key,props);
     }
   }
   return props;
