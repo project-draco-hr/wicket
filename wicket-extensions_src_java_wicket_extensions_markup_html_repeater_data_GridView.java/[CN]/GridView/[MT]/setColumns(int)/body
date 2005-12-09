@@ -2,18 +2,20 @@
   if (cols < 1) {
     throw new IllegalArgumentException();
   }
-  if (columns != cols && isVersioned()) {
-    addStateChange(new Change(){
-      private static final long serialVersionUID=1L;
-      final int old=columns;
-      public void undo(){
-        columns=old;
+  if (columns != cols) {
+    if (isVersioned()) {
+      addStateChange(new Change(){
+        private static final long serialVersionUID=1L;
+        final int old=columns;
+        public void undo(){
+          columns=old;
+        }
+        public String toString(){
+          return "GridViewColumnsChange[component: " + getPath() + ", removed columns: "+ old+ "]";
+        }
       }
-      public String toString(){
-        return "GridViewColumnsChange[component: " + getPath() + ", removed columns: "+ old+ "]";
-      }
-    }
 );
+    }
     columns=cols;
   }
   updateItemsPerPage();
