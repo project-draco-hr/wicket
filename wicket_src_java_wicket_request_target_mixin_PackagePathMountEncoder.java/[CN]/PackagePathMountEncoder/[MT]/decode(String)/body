@@ -1,0 +1,18 @@
+{
+  String remainder=urlFragment.substring(getMountPath().length());
+  final String parametersFragment;
+  int ix=remainder.indexOf('/',1);
+  if (ix == -1) {
+    ix=remainder.length();
+    parametersFragment="";
+  }
+ else {
+    parametersFragment=remainder.substring(ix);
+  }
+  String packageName=((mountedPackage == null) ? "" : mountedPackage.getName() + ".");
+  final String bookmarkablePageClassName=packageName + remainder.substring(1,ix);
+  Class bookmarkablePageClass=Session.get().getClassResolver().resolveClass(bookmarkablePageClassName);
+  PageParameters parameters=decodePageParameters(parametersFragment);
+  BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(bookmarkablePageClass,parameters);
+  return target;
+}
