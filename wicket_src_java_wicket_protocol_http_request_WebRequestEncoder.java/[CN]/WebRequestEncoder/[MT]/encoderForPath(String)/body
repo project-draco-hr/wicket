@@ -1,0 +1,14 @@
+{
+  if (path == null) {
+    return (IMountEncoder)mountsOnPath.get(null);
+  }
+  Iterator it=mountsOnPath.entrySet().iterator();
+  while (it.hasNext()) {
+    Map.Entry entry=(Entry)it.next();
+    String key=(String)entry.getKey();
+    if (path.startsWith(key)) {
+      return (IMountEncoder)entry.getValue();
+    }
+  }
+  return null;
+}

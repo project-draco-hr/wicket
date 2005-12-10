@@ -1,3 +1,7 @@
 {
-  return (String)mountsOnTarget.get(requestTarget);
+  IMountEncoder encoder=getMountEncoder(requestTarget);
+  if (encoder != null) {
+    return encoder.encode(requestTarget);
+  }
+  return null;
 }

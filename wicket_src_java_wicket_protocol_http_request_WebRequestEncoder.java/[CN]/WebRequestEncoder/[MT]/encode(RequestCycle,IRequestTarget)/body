@@ -1,14 +1,8 @@
 {
-  String mountPath=(String)mountsOnTarget.get(requestTarget);
-  if (mountPath != null) {
-    final StringBuffer url=urlPrefix(requestCycle);
-    url.append(mountPath);
-    if (requestTarget instanceof BookmarkablePageRequestTarget) {
-      BookmarkablePageRequestTarget pageTarget=(BookmarkablePageRequestTarget)requestTarget;
-      BookmarkablePageRequestTarget mountedTarget=(BookmarkablePageRequestTarget)targetForPath(mountPath);
-      url.append(mountedTarget.getParamsEncoder().encode(pageTarget.getPageParameters()));
-    }
-    return url.toString();
+  IMountEncoder encoder=getMountEncoder(requestTarget);
+  if (encoder != null) {
+    final StringBuffer prefix=new StringBuffer(urlPrefix(requestCycle));
+    return urlPrefix(requestCycle) + pathForTarget(requestTarget);
   }
   if (requestTarget instanceof IBookmarkablePageRequestTarget) {
     return encode(requestCycle,(IBookmarkablePageRequestTarget)requestTarget);
@@ -18,8 +12,6 @@
   }
  else   if (requestTarget instanceof ISharedResourceRequestTarget) {
     return encode(requestCycle,(ISharedResourceRequestTarget)requestTarget);
-  }
- else   if (requestTarget instanceof IPageRequestTarget) {
   }
   String url=doEncode(requestCycle,requestTarget);
   if (url != null) {

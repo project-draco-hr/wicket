@@ -1,0 +1,15 @@
+{
+  if (path == null) {
+    throw new NullPointerException("argument path must be not-null");
+  }
+  if (encoder == null) {
+    throw new NullPointerException("argument encoder must be not-null");
+  }
+  if (!path.startsWith("/")) {
+    path="/" + path;
+  }
+  if (mountsOnPath.containsKey(path)) {
+    throw new WicketRuntimeException(path + " is already mounted for " + mountsOnPath.get(path));
+  }
+  mountsOnPath.put(path,encoder);
+}

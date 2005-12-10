@@ -1,13 +1,10 @@
 {
   final Class pageClass=requestTarget.getPageClass();
+  final Class homePageClass=requestCycle.getApplication().getPages().getHomePage();
   final PageParameters parameters=requestTarget.getPageParameters();
-  final StringBuffer url=urlPrefix(requestCycle);
+  final StringBuffer url=new StringBuffer(urlPrefix(requestCycle));
   url.append("?bookmarkablePage=");
-  String pageReference=pageClass.getName();
-  if (pageReference == null) {
-    pageReference=pageClass.getName();
-  }
-  url.append(pageReference);
+  url.append(pageClass.getName());
   String pageMapName=requestTarget.getPageMapName();
   if (pageMapName == null) {
     IRequestTarget currentTarget=requestCycle.getRequestTarget();
