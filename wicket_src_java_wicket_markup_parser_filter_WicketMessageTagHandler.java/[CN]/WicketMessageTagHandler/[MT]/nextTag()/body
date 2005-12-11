@@ -5,7 +5,7 @@
   }
   final String wicketMessageAttribute=tag.getAttributes().getString(WICKET_MESSAGE_ATTR_NAME);
   if ((wicketMessageAttribute != null) && (wicketMessageAttribute.trim().length() > 0)) {
-    if (this.container == null) {
+    if (this.containerInfo == null) {
       throw new ParseException("Found " + WICKET_MESSAGE_ATTR_NAME + " but the message can not be resolved, because the associated Page is not known."+ " This might be caused by using the wrong MarkupParser constructor",tag.getPos());
     }
     StringTokenizer attrTokenizer=new StringTokenizer(wicketMessageAttribute,",");
@@ -23,7 +23,7 @@
       if ((attrName == null) || (attrName.trim().length() == 0) || (messageKey == null)|| (messageKey.trim().length() == 0)) {
         throw new ParseException("Wrong format of wicket:message attribute value. " + text + "; Must be: key=value[, key=value]",tag.getPos());
       }
-      String value=container.getApplication().getLocalizer().getString(messageKey,container,"");
+      String value=Application.get().getLocalizer().getString(messageKey,null,searchStack,containerInfo.getLocale(),containerInfo.getStyle());
       if (value.length() > 0) {
         tag.getAttributes().put(attrName,value);
         tag.setModified(true);

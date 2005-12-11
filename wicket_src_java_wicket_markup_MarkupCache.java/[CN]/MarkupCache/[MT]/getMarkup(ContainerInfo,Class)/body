@@ -1,0 +1,31 @@
+{
+  if (clazz == null) {
+    clazz=containerInfo.getContainerClass();
+  }
+ else {
+    if (!clazz.isAssignableFrom(containerInfo.getContainerClass())) {
+      throw new WicketRuntimeException("Parameter clazz must be instance of container");
+    }
+  }
+synchronized (markupCache) {
+    final String key=markupKey(containerInfo,clazz);
+    Markup markup=(Markup)markupCache.get(key);
+    if (markup == null) {
+      IResourceStream markupResource=null;
+      Class containerClass=clazz;
+      while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
+        clazz=containerClass;
+        markupResource=application.getResourceStreamLocator().locate(containerClass,containerInfo.getStyle(),containerInfo.getLocale(),containerInfo.getFileExtension());
+        containerClass=containerClass.getSuperclass();
+      }
+      if (markupResource != null) {
+        markup=loadMarkupAndWatchForChanges(key,markupResource,clazz,containerInfo);
+      }
+ else {
+        markup=Markup.NO_MARKUP;
+        markupCache.put(key,markup);
+      }
+    }
+    return markup;
+  }
+}

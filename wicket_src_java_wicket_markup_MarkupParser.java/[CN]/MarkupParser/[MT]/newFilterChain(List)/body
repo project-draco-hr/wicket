@@ -6,12 +6,12 @@
   filter=new WicketParamTagHandler(this.stripWicketTag,filter);
   filter=new WicketRemoveTagHandler(filter);
   filter=new WicketLinkTagHandler(this.automaticLinking,filter);
-  if (this.container != null) {
+  if (this.containerInfo != null) {
     if (WicketMessageTagHandler.enable) {
-      filter=new WicketMessageTagHandler(this.container,filter);
+      filter=new WicketMessageTagHandler(this.containerInfo,filter);
     }
     filter=new BodyOnLoadHandler(filter);
-    if (container instanceof Page) {
+    if (Page.class.isAssignableFrom(containerInfo.getContainerClass())) {
       filter=new HtmlHeaderSectionHandler(tagList,filter);
     }
   }

@@ -1,31 +1,21 @@
 {
-  String string=null;
   final ApplicationSettings settings=application.getSettings();
-  String id=createCacheId(component,locale,style,key);
-  if (cachedValues.containsKey(id)) {
-    if (log.isDebugEnabled()) {
-      log.debug("Found message key in cache: " + id);
-    }
-    string=(String)cachedValues.get(id);
-    if (string == NULL) {
-      string=null;
-    }
-  }
- else {
-    final Iterator iterator=settings.getStringResourceLoaders().iterator();
-    while (iterator.hasNext()) {
-      IStringResourceLoader loader=(IStringResourceLoader)iterator.next();
-      string=loader.loadStringResource(component,key,locale,style);
-      if (string != null) {
-        break;
-      }
-    }
-    if (string != null) {
-      this.cachedValues.put(id,string);
+  Class clazz=(component != null ? component.getClass() : null);
+  String id=createCacheId(clazz,locale,style,key);
+  String string=getCachedValue(id);
+  if (string == null) {
+    final List searchStack;
+    final String path;
+    if (component != null) {
+      searchStack=getComponentStack(component);
+      path=Strings.replaceAll(component.getPageRelativePath(),":",".");
     }
  else {
-      this.cachedValues.put(id,NULL);
+      searchStack=new ArrayList(0);
+      searchStack.add(Application.get().getClass());
+      path=null;
     }
+    string=getString(key,path,searchStack,locale,style);
   }
   if (string != null) {
     return substituteOgnl(component,string,model);
@@ -34,7 +24,7 @@
     return defaultValue;
   }
   if (settings.getThrowExceptionOnMissingResource()) {
-    throw new MissingResourceException("Unable to find resource: " + key,getClass().getName(),key);
+    throw new MissingResourceException("Unable to find resource: " + key,(clazz != null ? getClass().getName() : ""),key);
   }
  else {
     return "[Warning: String resource for '" + key + "' not found]";
