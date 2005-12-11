@@ -1,6 +1,7 @@
 {
+  Class containerClass=clazz;
   if (clazz == null) {
-    clazz=containerInfo.getContainerClass();
+    containerClass=containerInfo.getContainerClass();
   }
  else {
     if (!clazz.isAssignableFrom(containerInfo.getContainerClass())) {
@@ -11,15 +12,13 @@ synchronized (markupCache) {
     final String key=markupKey(containerInfo,clazz);
     Markup markup=(Markup)markupCache.get(key);
     if (markup == null) {
-      IResourceStream markupResource=null;
-      Class containerClass=clazz;
+      MarkupResourceStream markupResource=null;
       while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
-        clazz=containerClass;
-        markupResource=application.getResourceStreamLocator().locate(containerClass,containerInfo.getStyle(),containerInfo.getLocale(),containerInfo.getFileExtension());
+        markupResource=newMarkupResourceStream(containerClass,containerInfo);
         containerClass=containerClass.getSuperclass();
       }
       if (markupResource != null) {
-        markup=loadMarkupAndWatchForChanges(key,markupResource,clazz,containerInfo);
+        markup=loadMarkupAndWatchForChanges(key,markupResource);
       }
  else {
         markup=Markup.NO_MARKUP;
