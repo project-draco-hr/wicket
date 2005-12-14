@@ -1,14 +1,7 @@
 {
   application=new MockWebApplication(null){
-    public MarkupParser newMarkupParser(){
-      final MarkupParser parser=new MarkupParser(new XmlPullParser(getSettings().getDefaultMarkupEncoding())){
-        public void initFilterChain(){
-          appendMarkupFilter(new PrependContextPathHandler());
-        }
-      }
-;
-      parser.configure(getSettings());
-      return parser;
+    public IMarkupFilter[] getAdditionalMarkupHandler(){
+      return new IMarkupFilter[]{new PrependContextPathHandler()};
     }
   }
 ;
