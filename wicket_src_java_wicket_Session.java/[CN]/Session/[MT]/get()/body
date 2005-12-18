@@ -1,3 +1,7 @@
 {
-  return (Session)current.get();
+  Session session=(Session)CURRENT.get();
+  if (session == null) {
+    throw new WicketRuntimeException("there is not session attached to current thread " + Thread.currentThread().getName());
+  }
+  return session;
 }

@@ -1,0 +1,18 @@
+{
+  if (component.isAuto() && (!component.isVersioned())) {
+    return false;
+  }
+ else {
+    if (getFlag(FLAG_TRACK_CHANGES)) {
+      if (!getFlag(FLAG_NEW_VERSION)) {
+        if (versionManager == null) {
+          versionManager=newVersionManager();
+        }
+        versionManager.beginVersion();
+        setFlag(FLAG_NEW_VERSION,true);
+      }
+      return true;
+    }
+    return false;
+  }
+}
