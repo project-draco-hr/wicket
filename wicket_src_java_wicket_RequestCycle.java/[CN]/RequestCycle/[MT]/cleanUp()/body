@@ -10,11 +10,11 @@
       }
     }
   }
-  try {
-    internalOnEndRequest();
+  if (updateSession) {
+    session.update();
   }
- catch (  RuntimeException e) {
-    log.error("Exception occurred during internalOnEndRequest",e);
+  if (getResponse() instanceof BufferedWebResponse) {
+    ((BufferedWebResponse)getResponse()).filter();
   }
   try {
     onEndRequest();
