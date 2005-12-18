@@ -1,15 +1,12 @@
 {
-  final IModel model=getModel();
-  if (model != null) {
-    final Object modelObject=model.getObject(this);
-    if (modelObject != null) {
-      final IConverter converter=getConverter();
-      final String modelString=(String)converter.convert(modelObject,String.class);
-      if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {
-        return Strings.escapeMarkup(modelString);
-      }
-      return modelString;
+  final Object modelObject=getModelObject();
+  if (modelObject != null) {
+    final IConverter converter=getConverter();
+    final String modelString=(String)converter.convert(modelObject,String.class);
+    if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {
+      return Strings.escapeMarkup(modelString);
     }
+    return modelString;
   }
   return "";
 }
