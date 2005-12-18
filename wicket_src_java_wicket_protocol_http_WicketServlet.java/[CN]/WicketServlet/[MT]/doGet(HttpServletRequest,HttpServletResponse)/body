@@ -1,8 +1,11 @@
 {
   Application.set(webApplication);
   if (webApplication.getSettings().getRenderStrategy() == ApplicationSettings.REDIRECT_TO_BUFFER) {
-    String bufferId=servletRequest.getParameter("bid");
-    BufferedResponse bufferedResponse=webApplication.popBufferedResponse(bufferId);
+    String sessionId=servletRequest.getSession(true).getId();
+    String queryString=servletRequest.getQueryString();
+    String requestUri=servletRequest.getRequestURI();
+    String bufferId=(queryString == null) ? requestUri : requestUri + "?" + queryString;
+    BufferedResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,bufferId);
     if (bufferedResponse != null) {
       servletResponse.setContentLength(bufferedResponse.getContentLength());
       servletResponse.setContentType(bufferedResponse.getContentType());
