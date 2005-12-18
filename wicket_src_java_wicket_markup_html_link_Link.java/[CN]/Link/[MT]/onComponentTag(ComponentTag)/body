@@ -1,7 +1,10 @@
 {
   super.onComponentTag(tag);
   if (getAutoEnable()) {
+    boolean versionEnabled=isVersioned();
+    setVersioned(false);
     setEnabled(!linksTo(getPage()));
+    setVersioned(versionEnabled);
   }
   String url=getURL();
   if (!isEnabled()) {
