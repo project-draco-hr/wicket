@@ -9,8 +9,7 @@
  else {
     parametersFragment=remainder.substring(ix);
   }
-  String packageName=((mountedPackage == null) ? "" : mountedPackage.getName() + ".");
-  final String bookmarkablePageClassName=packageName + remainder.substring(1,ix);
+  final String bookmarkablePageClassName=mountedPackageName + remainder.substring(1,ix);
   Class bookmarkablePageClass=Session.get().getClassResolver().resolveClass(bookmarkablePageClassName);
   PageParameters parameters=decodePageParameters(parametersFragment);
   BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(bookmarkablePageClass,parameters);

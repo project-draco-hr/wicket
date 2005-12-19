@@ -1,10 +1,7 @@
 {
   if (requestTarget instanceof IBookmarkablePageRequestTarget) {
     IBookmarkablePageRequestTarget target=(IBookmarkablePageRequestTarget)requestTarget;
-    if (mountedPackage == null) {
-      return target.getPageClass().getPackage() == null;
-    }
- else     if (mountedPackage.equals(target.getPageClass().getPackage())) {
+    if (mountedPackageName.equals(getPackageName(target.getPageClass()))) {
       return true;
     }
   }
