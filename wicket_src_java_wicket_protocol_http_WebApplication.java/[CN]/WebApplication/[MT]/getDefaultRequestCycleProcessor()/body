@@ -1,6 +1,11 @@
 {
   if (requestCycleProcessor == null) {
-    requestCycleProcessor=new CompoundRequestCycleProcessor(new WebRequestEncoder(),new DefaultEventProcessorStrategy());
+    requestCycleProcessor=new CompoundRequestCycleProcessor(new WebRequestEncoder(),new DefaultEventProcessorStrategy(),new DefaultExceptionResponseProcessor(){
+      protected Page onRuntimeException(      Page page,      RuntimeException e){
+        return WebApplication.this.onRuntimeException(page,e);
+      }
+    }
+);
   }
   return requestCycleProcessor;
 }

@@ -2,9 +2,14 @@
   final Session session=requestCycle.getSession();
   final Application application=session.getApplication();
   final ApplicationSettings settings=application.getSettings();
-  if (settings.getUnexpectedExceptionDisplay() != ApplicationSettings.SHOW_NO_EXCEPTION_PAGE) {
+  final Page responsePage=requestCycle.getResponsePage();
+  Page override=onRuntimeException(responsePage,e);
+  if (override != null) {
+    requestCycle.setResponsePage(override);
+    requestCycle.setRedirect(true);
+  }
+ else   if (settings.getUnexpectedExceptionDisplay() != ApplicationSettings.SHOW_NO_EXCEPTION_PAGE) {
     Class internalErrorPageClass=application.getPages().getInternalErrorPage();
-    Page responsePage=requestCycle.getResponsePage();
     Class responseClass=responsePage != null ? responsePage.getClass() : null;
     if (responseClass != internalErrorPageClass && settings.getUnexpectedExceptionDisplay() == ApplicationSettings.SHOW_INTERNAL_ERROR_PAGE) {
       final IPageFactory pageFactory;
