@@ -1,6 +1,6 @@
 {
-  final Session session=requestCycle.getSession();
-  final Application application=session.getApplication();
+  Session session=requestCycle.getSession();
+  Application application=session.getApplication();
   try {
     Class homePageClass=application.getPages().getHomePage();
     BookmarkablePageRequestTarget pokeTarget=new BookmarkablePageRequestTarget(homePageClass);
@@ -10,7 +10,7 @@
       requestCycle.setRedirect(true);
       return pokeTarget;
     }
-    final PageParameters parameters=new PageParameters(requestParameters.getParameters());
+    PageParameters parameters=new PageParameters(requestParameters.getParameters());
     Page newPage=session.getPageFactory().newPage(homePageClass,parameters);
     IRequestTarget requestTarget=requestCycle.getRequestTarget();
     if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IBookmarkablePageRequestTarget)) {

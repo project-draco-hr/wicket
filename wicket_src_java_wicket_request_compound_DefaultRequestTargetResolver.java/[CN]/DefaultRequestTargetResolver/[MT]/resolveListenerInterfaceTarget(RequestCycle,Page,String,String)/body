@@ -3,7 +3,7 @@
     return new RedirectPageRequestTarget(page);
   }
  else {
-    final Method listenerMethod=requestCycle.getRequestInterfaceMethod(interfaceName);
+    Method listenerMethod=requestCycle.getRequestInterfaceMethod(interfaceName);
     if (listenerMethod == null) {
       throw new WicketRuntimeException("Attempt to access unknown interface " + interfaceName);
     }
@@ -11,7 +11,7 @@
     if (Strings.isEmpty(componentPart)) {
       throw new WicketRuntimeException("when trying to call " + listenerMethod + ", a component must be provided");
     }
-    final Component component=page.get(componentPart);
+    Component component=page.get(componentPart);
     if (!component.isVisible()) {
       throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
     }
