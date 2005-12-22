@@ -2,6 +2,10 @@
   if (component == this) {
     throw new IllegalArgumentException("Component can't be added to itself");
   }
+  MarkupContainer mc=component.getParent();
+  if (mc != null) {
+    mc.remove(component);
+  }
   component.setParent(this);
   final Page page=findPage();
   if (page != null) {
