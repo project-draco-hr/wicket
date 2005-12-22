@@ -4,7 +4,7 @@
     throw new IllegalStateException("Attempt to set model object on null model of component: " + getPageRelativePath());
   }
   if (!getApplication().getAuthorizationStrategy().allowEnabled(this)) {
-    throw new EnabledNotAllowedException("operation not allowed in the current authorization context");
+    throw new UnauthorizedEnableStateException("operation not allowed in the current authorization context");
   }
   if (!getComparator().compareValue(this,object)) {
     modelChanging();
