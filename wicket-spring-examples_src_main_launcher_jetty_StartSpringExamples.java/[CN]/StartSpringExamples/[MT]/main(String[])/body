@@ -1,0 +1,23 @@
+{
+  BasicConfigurator.configure();
+  Server jettyServer=null;
+  try {
+    URL jettyConfig=new URL("file:src/main/launcher/jetty-config.xml");
+    if (jettyConfig == null) {
+      log.fatal("Unable to locate jetty-config.xml on the classpath");
+    }
+    jettyServer=new Server(jettyConfig);
+    jettyServer.start();
+  }
+ catch (  Exception e) {
+    log.fatal("Could not start the Jetty server: " + e);
+    if (jettyServer != null) {
+      try {
+        jettyServer.stop();
+      }
+ catch (      InterruptedException e1) {
+        log.fatal("Unable to stop the jetty server: " + e1);
+      }
+    }
+  }
+}
