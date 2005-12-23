@@ -1,0 +1,14 @@
+{
+  if (type.isInterface()) {
+    JdkHandler handler=new JdkHandler(type,locator);
+    return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+  }
+ else {
+    CGLibInterceptor handler=new CGLibInterceptor(type,locator);
+    Enhancer e=new Enhancer();
+    e.setInterfaces(new Class[]{Serializable.class,ILazyInitProxy.class,IWriteReplace.class});
+    e.setSuperclass(type);
+    e.setCallback(handler);
+    return e.create();
+  }
+}

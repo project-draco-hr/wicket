@@ -1,0 +1,12 @@
+{
+  final ApplicationContext context=springContextLocator.getSpringContext();
+  if (context == null) {
+    throw new IllegalStateException("spring application context locator returned null");
+  }
+  if (beanName != null && beanName.length() > 0) {
+    return lookupSpringBean(context,beanName,getBeanType());
+  }
+ else {
+    return lookupSpringBean(context,getBeanType());
+  }
+}
