@@ -1,0 +1,12 @@
+{
+  MarkupStream markupStream=null;
+  MarkupContainer parent=getParent();
+  if (parent != null) {
+    markupStream=parent.getAssociatedMarkupStream();
+    if (markupStream == null) {
+      throw new MarkupNotFoundException(exceptionMessage("No markup found"));
+    }
+  }
+  markupStream.setCurrentIndex(this.markupStreamPosition);
+  return markupStream;
+}

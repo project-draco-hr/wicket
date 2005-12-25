@@ -2,9 +2,9 @@
   if (component == this) {
     throw new IllegalArgumentException("Component can't be added to itself");
   }
-  MarkupContainer mc=component.getParent();
-  if (mc != null) {
-    mc.remove(component);
+  MarkupContainer parent=component.getParent();
+  if (parent != null) {
+    throw new WicketRuntimeException("You can not add the same Component instance twice");
   }
   component.setParent(this);
   final Page page=findPage();
