@@ -8,14 +8,6 @@
       component.render();
     }
  else {
-      final List componentResolvers=this.getApplication().getComponentResolvers();
-      final Iterator iterator=componentResolvers.iterator();
-      while (iterator.hasNext()) {
-        final IComponentResolver resolver=(IComponentResolver)iterator.next();
-        if (resolver.resolve(this,markupStream,tag)) {
-          return;
-        }
-      }
       MarkupContainer container=this;
       while (container != null) {
         if (container instanceof IComponentResolver) {
@@ -24,6 +16,14 @@
           }
         }
         container=container.findParent(MarkupContainer.class);
+      }
+      final List componentResolvers=this.getApplication().getComponentResolvers();
+      final Iterator iterator=componentResolvers.iterator();
+      while (iterator.hasNext()) {
+        final IComponentResolver resolver=(IComponentResolver)iterator.next();
+        if (resolver.resolve(this,markupStream,tag)) {
+          return;
+        }
       }
       if ("child".equals(tag.getName()) && (tag.getNamespace() != null)) {
         markupStream.throwMarkupException("Classes of base pages which " + "require inherited markup may not be used directly. " + "You must instantiate the child pages instead: "+ this);

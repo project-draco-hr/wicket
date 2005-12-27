@@ -43,8 +43,8 @@
       if (infoPath.startsWith("/") || infoPath.startsWith("\\")) {
       }
  else {
-        Component relevantContainer=container;
-        while ((relevantContainer instanceof IComponentResolver) && !(relevantContainer instanceof IComponentResolverMarker)) {
+        MarkupContainer relevantContainer=container;
+        while (((relevantContainer instanceof IComponentResolver) || relevantContainer.isTransparent()) && !(relevantContainer instanceof IComponentResolverMarker)) {
           relevantContainer=relevantContainer.getParent();
         }
         try {
