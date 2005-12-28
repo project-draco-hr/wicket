@@ -1,0 +1,15 @@
+{
+  if (Attributes.hasAttributeType(field,SpringBean.class)) {
+    SpringBean attribute=(SpringBean)Attributes.getAttribute(field,SpringBean.class);
+    SpringBeanLocator locator=new SpringBeanLocator(attribute.getName(),field.getType(),contextLocator);
+    if (cache.containsKey(locator)) {
+      return cache.get(locator);
+    }
+    Object proxy=LazyInitProxyFactory.createProxy(field.getType(),locator);
+    cache.put(locator,proxy);
+    return proxy;
+  }
+ else {
+    return null;
+  }
+}
