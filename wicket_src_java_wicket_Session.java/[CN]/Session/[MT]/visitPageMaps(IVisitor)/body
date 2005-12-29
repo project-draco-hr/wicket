@@ -1,5 +1,8 @@
 {
-  for (final Iterator iterator=pageMapForName.values().iterator(); iterator.hasNext(); ) {
-    visitor.pageMap((PageMap)iterator.next());
+  for (final Iterator iterator=getAttributeNames().iterator(); iterator.hasNext(); ) {
+    final String attribute=(String)iterator.next();
+    if (attribute.startsWith(pageMapAttributePrefix)) {
+      visitor.pageMap((PageMap)getAttribute(attribute));
+    }
   }
 }

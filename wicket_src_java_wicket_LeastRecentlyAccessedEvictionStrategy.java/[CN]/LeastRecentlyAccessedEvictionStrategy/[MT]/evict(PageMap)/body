@@ -1,0 +1,21 @@
+{
+  final int maxPages=pageMap.getSession().getApplication().getSettings().getMaxPages();
+  if (pageMap.size() > maxPages) {
+    final List list=pageMap.getPageSources();
+    IPageSource leastRecentlyUsed=null;
+    int min=Integer.MAX_VALUE;
+    for (Iterator iterator=list.iterator(); iterator.hasNext(); ) {
+      IPageSource pageSource=(IPageSource)iterator.next();
+      int accessSequenceNumber=pageSource.getAccessSequenceNumber();
+      if (accessSequenceNumber < min) {
+        min=accessSequenceNumber;
+        leastRecentlyUsed=pageSource;
+      }
+    }
+    if (leastRecentlyUsed != null) {
+      pageMap.remove(leastRecentlyUsed);
+    }
+    return leastRecentlyUsed;
+  }
+  return null;
+}

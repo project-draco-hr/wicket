@@ -1,15 +1,11 @@
 {
-  Object synchronizeLock=getSynchronizationLock();
-  if (synchronizeLock != null) {
-synchronized (synchronizeLock) {
-      processor.processEvents(this);
-      currentStep=RESPOND;
-      processor.respond(this);
+  Object lock=getRequestTarget().getLock(this);
+  if (lock != null) {
+synchronized (lock) {
+      doProcessEventsAndRespond(processor);
     }
   }
  else {
-    processor.processEvents(this);
-    currentStep=RESPOND;
-    processor.respond(this);
+    doProcessEventsAndRespond(processor);
   }
 }

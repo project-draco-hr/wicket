@@ -1,0 +1,9 @@
+{
+  final List attributes=session.getAttributeNames();
+  for (final Iterator iterator=attributes.iterator(); iterator.hasNext(); ) {
+    final String attribute=(String)iterator.next();
+    if (attribute.startsWith(attributePrefix())) {
+      visitor.pageSource((IPageSource)session.getAttribute(attribute));
+    }
+  }
+}

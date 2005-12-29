@@ -1,0 +1,10 @@
+{
+  final IPageSource pageSource=(IPageSource)session.getAttribute(attributeForId(id));
+  if (pageSource != null) {
+    session.access(pageSource);
+    final Page page=pageSource.getPage();
+    page.setDirty(true);
+    return page;
+  }
+  return null;
+}
