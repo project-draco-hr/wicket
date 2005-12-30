@@ -4,8 +4,8 @@
   try {
     Class homePageClass=application.getPages().getHomePage();
     BookmarkablePageRequestTarget pokeTarget=new BookmarkablePageRequestTarget(homePageClass);
-    IRequestEncoder requestEncoder=requestCycle.getRequestCycleProcessor().getRequestEncoder();
-    String path=requestEncoder.pathForTarget(pokeTarget);
+    IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
+    String path=requestCodingStrategy.pathForTarget(pokeTarget);
     if (path != null) {
       requestCycle.setRedirect(true);
       return pokeTarget;

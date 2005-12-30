@@ -1,6 +1,6 @@
 {
   IRequestTarget target=new BookmarkablePageRequestTarget(pageMapName,pageClass,parameters);
   RequestCycle requestCycle=getRequestCycle();
-  IRequestEncoder requestEncoder=requestCycle.getRequestCycleProcessor().getRequestEncoder();
-  return requestEncoder.encode(requestCycle,target);
+  IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
+  return requestCodingStrategy.encode(requestCycle,target);
 }

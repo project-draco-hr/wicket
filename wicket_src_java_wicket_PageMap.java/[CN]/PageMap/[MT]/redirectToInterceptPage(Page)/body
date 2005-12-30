@@ -1,7 +1,7 @@
 {
   final RequestCycle cycle=session.getRequestCycle();
-  IRequestCycleProcessor processor=cycle.getRequestCycleProcessor();
-  IRequestEncoder encoder=processor.getRequestEncoder();
+  IRequestCycleProcessor processor=cycle.getProcessor();
+  IRequestCodingStrategy encoder=processor.getRequestCodingStrategy();
   interceptContinuationURL=page.getResponse().encodeURL(cycle.getRequest().getURL());
   cycle.redirectTo(page);
   session.dirty();
