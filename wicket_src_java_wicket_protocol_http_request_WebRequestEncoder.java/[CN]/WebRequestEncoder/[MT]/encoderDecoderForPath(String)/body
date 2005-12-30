@@ -1,13 +1,13 @@
 {
   if (path == null) {
-    return (IRequestTargetEncoderDecoder)mountsOnPath.get(null);
+    return (IRequestTargetUrlCodingStrategy)mountsOnPath.get(null);
   }
   Iterator it=mountsOnPath.entrySet().iterator();
   while (it.hasNext()) {
     Map.Entry entry=(Entry)it.next();
     String key=(String)entry.getKey();
     if (path.startsWith(key)) {
-      return (IRequestTargetEncoderDecoder)entry.getValue();
+      return (IRequestTargetUrlCodingStrategy)entry.getValue();
     }
   }
   return null;
