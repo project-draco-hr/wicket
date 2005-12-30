@@ -1,20 +1,20 @@
 {
   super(id);
   if (resourceReference == null) {
-    throw new NullPointerException("resourceReference may not be null");
+    throw new IllegalArgumentException("ResourceReference may not be null");
   }
   if (attributeToReplace == null) {
-    throw new NullPointerException("attributeToReplace may not be null");
+    throw new IllegalArgumentException("AttributeToReplace may not be null");
   }
   IModel srcReplacement=new Model(){
     private static final long serialVersionUID=1L;
     public Object getObject(    Component component){
       Object o=resourceReference.getObject(component);
       if (o == null) {
-        throw new NullPointerException("the model must provide a non-null object (component == " + component + ")");
+        throw new IllegalArgumentException("The model must provide a non-null object (component == " + component + ")");
       }
       if (!(o instanceof ResourceReference)) {
-        throw new WicketRuntimeException("the model must provide an instance of ResourceReference");
+        throw new IllegalArgumentException("The model must provide an instance of ResourceReference");
       }
       ResourceReference ref=(ResourceReference)o;
       String url=getPage().urlFor(ref.getPath());
