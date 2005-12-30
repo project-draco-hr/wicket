@@ -4,7 +4,12 @@
   }
   MarkupContainer parent=component.getParent();
   if (parent != null) {
-    parent.remove(component);
+    if (parent == getParent()) {
+      parent.remove(component);
+    }
+ else {
+      throw new WicketRuntimeException("You can not add the same Component instance to two different parents: " + component.toString());
+    }
   }
   component.setParent(this);
   final Page page=findPage();
