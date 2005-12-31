@@ -1,0 +1,37 @@
+{
+  add(new Label("myLabel","Test Label"));
+  MarkupContainer container=new OutputTransformerContainer("test"){
+    private static final long serialVersionUID=1L;
+    protected String transform(    String output){
+      return output;
+    }
+  }
+;
+  add(container);
+  container.add(new Label("myLabel2","Test Label2"));
+  MarkupContainer panelContainer=new OutputTransformerContainer("test2"){
+    private static final long serialVersionUID=1L;
+    protected String transform(    String output){
+      return "Whatever";
+    }
+  }
+;
+  add(panelContainer);
+  Panel panel=new Panel_1("myPanel");
+  panel.setRenderBodyOnly(true);
+  panelContainer.add(panel);
+  MarkupContainer borderContainer=new OutputTransformerContainer("test3"){
+    private static final long serialVersionUID=1L;
+    protected String transform(    String output){
+      return output.toUpperCase();
+    }
+  }
+;
+  add(borderContainer);
+  Border border=new SimpleBorder("myBorder");
+  borderContainer.add(border);
+  Border border2=new SimpleBorder("myBorder2");
+  border2.setRenderBodyOnly(false);
+  border2.add(new AttributeModifier("testAttr",true,new Model("myValue")));
+  add(border2);
+}

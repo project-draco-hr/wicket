@@ -1,0 +1,16 @@
+{
+  final Response webResponse=this.getResponse();
+  try {
+    final Response response=newResponse();
+    if (response == null) {
+      throw new IllegalStateException("newResponse() must not return null");
+    }
+    this.getRequestCycle().setResponse(response);
+    super.onComponentTagBody(markupStream,openTag);
+    String output=transform(response.toString());
+    webResponse.write(output);
+  }
+  finally {
+    this.getRequestCycle().setResponse(webResponse);
+  }
+}
