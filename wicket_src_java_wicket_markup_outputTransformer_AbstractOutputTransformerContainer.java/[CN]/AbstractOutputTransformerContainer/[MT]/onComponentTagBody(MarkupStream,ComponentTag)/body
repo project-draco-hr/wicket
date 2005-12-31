@@ -7,8 +7,13 @@
     }
     this.getRequestCycle().setResponse(response);
     super.onComponentTagBody(markupStream,openTag);
-    String output=transform(response.toString());
-    webResponse.write(output);
+    try {
+      String output=transform(response.toString());
+      webResponse.write(output);
+    }
+ catch (    Exception ex) {
+      throw new WicketRuntimeException("Error while transforming the output: " + this,ex);
+    }
   }
   finally {
     this.getRequestCycle().setResponse(webResponse);
