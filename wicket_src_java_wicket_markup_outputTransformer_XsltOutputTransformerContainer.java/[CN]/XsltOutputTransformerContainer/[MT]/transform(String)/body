@@ -1,0 +1,17 @@
+{
+  String filepath=getParent().getClass().getPackage().getName().replace('.','/') + "/" + getId();
+  IResourceStream resourceStream=getApplication().getResourceStreamLocator().locate(getClass().getClassLoader(),filepath,getStyle(),getLocale(),getMarkupType());
+  if (resourceStream == null) {
+    throw new FileNotFoundException("Unable to find XSLT resource for " + this.toString());
+  }
+  try {
+    TransformerFactory tFactory=TransformerFactory.newInstance();
+    Transformer transformer=tFactory.newTransformer(new StreamSource(resourceStream.getInputStream()));
+    StringWriter writer=new StringWriter();
+    transformer.transform(new StreamSource(new StringReader(output)),new StreamResult(writer));
+    return writer.toString();
+  }
+  finally {
+    resourceStream.close();
+  }
+}
