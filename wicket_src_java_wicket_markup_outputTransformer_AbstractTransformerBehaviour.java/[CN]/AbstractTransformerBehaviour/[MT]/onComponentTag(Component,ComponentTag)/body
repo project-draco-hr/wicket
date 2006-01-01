@@ -1,0 +1,9 @@
+{
+  final RequestCycle requestCycle=RequestCycle.get();
+  this.webResponse=requestCycle.getResponse();
+  final Response response=newResponse();
+  if (response == null) {
+    throw new IllegalStateException("newResponse() must not return null");
+  }
+  requestCycle.setResponse(response);
+}

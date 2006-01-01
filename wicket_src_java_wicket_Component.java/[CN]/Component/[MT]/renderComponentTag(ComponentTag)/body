@@ -1,7 +1,7 @@
 {
   final ApplicationSettings settings=getApplication().getSettings();
   if (!(tag instanceof WicketTag) || !settings.getStripWicketTags()) {
-    if (behaviours != null && !behaviours.isEmpty()) {
+    if ((behaviours != null) && !behaviours.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       tag=tag.mutable();
       for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
         IBehaviour behaviour=(IBehaviour)i.next();
