@@ -1,6 +1,8 @@
 {
-  session.access(entry);
-  session.setAttribute(attributeForId(entry.getNumericId()),entry);
-  size++;
-  session.getApplication().getSettings().getPageMapEvictionStrategy().evict(this);
+  if (!(entry instanceof WicketInspector)) {
+    session.access(entry);
+    session.setAttribute(attributeForId(entry.getNumericId()),entry);
+    size++;
+    session.getApplication().getSettings().getPageMapEvictionStrategy().evict(this);
+  }
 }
