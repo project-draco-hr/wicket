@@ -2,6 +2,14 @@
   super(id);
   add(new Label("name",pageMap.getName() == null ? "null" : pageMap.getName()));
   final List entries=pageMap.getEntries();
+  Collections.sort(entries,new Comparator(){
+    public int compare(    Object a,    Object b){
+      IPageMapEntry ea=(IPageMapEntry)a;
+      IPageMapEntry eb=(IPageMapEntry)b;
+      return eb.getAccessSequenceNumber() - ea.getAccessSequenceNumber();
+    }
+  }
+);
   add(new ListView("entries",entries){
     private static final long serialVersionUID=1L;
     /** 
