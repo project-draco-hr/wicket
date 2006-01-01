@@ -1,0 +1,24 @@
+{
+  super(id);
+  add(new Label("name",pageMap.getName() == null ? "null" : pageMap.getName()));
+  final List entries=pageMap.getEntries();
+  add(new ListView("entries",entries){
+    private static final long serialVersionUID=1L;
+    /** 
+ * Populate the table with Wicket elements
+ */
+    protected void populateItem(    final ListItem listItem){
+      IPageMapEntry entry=(IPageMapEntry)listItem.getModelObject();
+      listItem.add(new Label("id","" + entry.getNumericId()));
+      int size;
+      if (entry instanceof Page) {
+        size=((Page)entry).getSize();
+      }
+ else {
+        size=ObjectProfiler.sizeof(entry);
+      }
+      listItem.add(new Label("size",(entry instanceof WicketInspector) ? "(inspector)" : "" + Bytes.bytes(size)));
+    }
+  }
+);
+}
