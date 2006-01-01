@@ -5,7 +5,7 @@
   container.add(new Label("myLabel2","Test Label2"));
   MarkupContainer panelContainer=new AbstractOutputTransformerContainer("test2"){
     private static final long serialVersionUID=1L;
-    protected String transform(    String output){
+    protected CharSequence transform(    String output){
       return "Whatever";
     }
   }
@@ -16,7 +16,7 @@
   panelContainer.add(panel);
   MarkupContainer borderContainer=new AbstractOutputTransformerContainer("test3"){
     private static final long serialVersionUID=1L;
-    protected String transform(    String output){
+    protected CharSequence transform(    String output){
       return output.toUpperCase();
     }
   }
@@ -24,7 +24,7 @@
   add(borderContainer);
   Border border=new SimpleBorder("myBorder");
   borderContainer.add(border);
-  MarkupContainer xsltContainer=new NoopOutputTransformerContainer("test4");
+  MarkupContainer xsltContainer=new XsltOutputTransformerContainer("test4");
   add(xsltContainer);
   Border border2=new SimpleBorder("myBorder2");
   border2.setRenderBodyOnly(false);

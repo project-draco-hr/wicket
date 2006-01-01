@@ -8,8 +8,8 @@
     this.getRequestCycle().setResponse(response);
     super.onComponentTagBody(markupStream,openTag);
     try {
-      String output=transform(response.toString());
-      webResponse.write(output);
+      CharSequence output=transform(response.toString());
+      webResponse.write(output.toString());
     }
  catch (    Exception ex) {
       throw new WicketRuntimeException("Error while transforming the output: " + this,ex);
