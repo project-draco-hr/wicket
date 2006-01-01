@@ -1,9 +1,11 @@
 {
   super(id);
   final List data=new ArrayList();
-  add(new Label("info",page.toString()));
+  add(new Label("info",page == null ? "[Stateless Page]" : page.toString()));
   data.clear();
-  data.addAll(getComponentData(page));
+  if (page != null) {
+    data.addAll(getComponentData(page));
+  }
   Collections.sort(data,new Comparator(){
     public int compare(    Object o1,    Object o2){
       return ((ComponentData)o1).path.compareTo(((ComponentData)o2).path);
