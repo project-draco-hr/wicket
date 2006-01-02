@@ -1,13 +1,22 @@
 {
   add(new Link("link"){
+    /** 
+ * Handles a click on the link. This method is accessed normally using a standard
+ * http request, but in this example, we use Ajax to perform the call.
+ */
     public void onClick(){
       counter=Integer.valueOf(counter.intValue() + 1);
-      ComponentRequestTarget target=new ComponentRequestTarget(getPage().get("counter"));
+      Component component=getPage().get("counter");
+      ComponentRequestTarget target=new ComponentRequestTarget(component);
       RequestCycle cycle=RequestCycle.get();
       cycle.setRequestTarget(target);
     }
+    /** 
+ * Alter the javascript 'onclick' event to emit the Ajax call and update the
+ * counter label.
+ */
     protected String getOnClickScript(    String url){
-      StringBuilder sb=new StringBuilder();
+      StringBuffer sb=new StringBuffer();
       sb.append("new Ajax.Updater('counter',");
       sb.append("'" + urlFor(ILinkListener.class) + "',{method:'get'}");
       sb.append(");");
