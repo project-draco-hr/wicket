@@ -1,8 +1,11 @@
 {
   if (!(entry instanceof Page && ((Page)entry).isStateless())) {
     session.access(entry);
-    session.setAttribute(attributeForId(entry.getNumericId()),entry);
-    size++;
+    final String attribute=attributeForId(entry.getNumericId());
+    if (session.getAttribute(attribute) == null) {
+      size++;
+    }
+    session.setAttribute(attribute,entry);
     session.getApplication().getSettings().getPageMapEvictionStrategy().evict(this);
   }
 }
