@@ -1,6 +1,20 @@
 {
-  final AjaxLink ajaxLink=new AjaxLink("link");
-  add(ajaxLink);
-  ajaxLink.add(new AttributeModifier("onclink",true,new AjaxLinkJavaScriptEvent()));
+  add(new Link("link"){
+    public void onClick(){
+      counter=Integer.valueOf(counter.intValue() + 1);
+      ComponentRequestTarget target=new ComponentRequestTarget(getPage().get("counter"));
+      RequestCycle cycle=RequestCycle.get();
+      cycle.setRequestTarget(target);
+    }
+    protected String getOnClickScript(    String url){
+      StringBuilder sb=new StringBuilder();
+      sb.append("new Ajax.Updater('counter',");
+      sb.append("'" + urlFor(ILinkListener.class) + "',{method:'get'}");
+      sb.append(");");
+      sb.append("return false;");
+      return sb.toString();
+    }
+  }
+);
   add(new Label("counter",new PropertyModel(this,"counter")));
 }
