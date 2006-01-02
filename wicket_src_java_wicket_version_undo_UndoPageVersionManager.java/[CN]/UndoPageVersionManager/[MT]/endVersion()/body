@@ -1,6 +1,10 @@
 {
-  appliedChangeListForVersionNumber.put(new Integer(getCurrentVersionNumber() - 1),changeList);
+  changeListStack.push(changeList);
+  if (changeListStack.size() > maxVersions) {
+    changeListStack.remove(0);
+  }
+  changeListStack.trimToSize();
   if (log.isDebugEnabled()) {
-    log.debug("version " + versionNumber + " for page "+ page+ " stored");
+    log.debug("Version " + currentVersionNumber + " for page "+ page+ " stored");
   }
 }
