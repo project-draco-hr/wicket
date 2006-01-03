@@ -1,21 +1,13 @@
 {
-  final Response webResponse=this.getResponse();
-  try {
-    final Response response=newResponse();
-    if (response == null) {
-      throw new IllegalStateException("newResponse() must not return null");
+  if (this.transformBodyOnly == true) {
+    execute(new Runnable(){
+      public void run(){
+        AbstractOutputTransformerContainer.super.onComponentTagBody(markupStream,openTag);
+      }
     }
-    this.getRequestCycle().setResponse(response);
-    super.onComponentTagBody(markupStream,openTag);
-    try {
-      CharSequence output=transform(this,response.toString());
-      webResponse.write(output.toString());
-    }
- catch (    Exception ex) {
-      throw new WicketRuntimeException("Error while transforming the output: " + this,ex);
-    }
+);
   }
-  finally {
-    this.getRequestCycle().setResponse(webResponse);
+ else {
+    super.onComponentTagBody(markupStream,openTag);
   }
 }

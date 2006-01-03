@@ -4,19 +4,12 @@
   if (resourceStream == null) {
     throw new FileNotFoundException("Unable to find XSLT resource for " + component.toString());
   }
-  StringBuffer input=new StringBuffer(4000);
-  input.append("<wicket xmlns:wicket=\"http://wicket.sourceforge.net\">");
-  int startPos=input.length();
-  input.append(output);
-  input.append("</wicket>");
   try {
     TransformerFactory tFactory=TransformerFactory.newInstance();
     Transformer transformer=tFactory.newTransformer(new StreamSource(resourceStream.getInputStream()));
     StringWriter writer=new StringWriter();
-    transformer.transform(new StreamSource(new StringReader(input.toString())),new StreamResult(writer));
-    input=writer.getBuffer();
-    CharSequence xslOutput=input.subSequence(startPos,input.length() - 9);
-    return xslOutput;
+    transformer.transform(new StreamSource(new StringReader(output)),new StreamResult(writer));
+    return writer.getBuffer();
   }
   finally {
     resourceStream.close();
