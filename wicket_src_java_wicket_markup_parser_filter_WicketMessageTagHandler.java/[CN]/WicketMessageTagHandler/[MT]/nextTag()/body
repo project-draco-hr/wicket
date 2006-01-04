@@ -23,7 +23,7 @@
       if ((attrName == null) || (attrName.trim().length() == 0) || (messageKey == null)|| (messageKey.trim().length() == 0)) {
         throw new ParseException("Wrong format of wicket:message attribute value. " + text + "; Must be: key=value[, key=value]",tag.getPos());
       }
-      String value=Application.get().getLocalizer().getString(messageKey,null,searchStack,containerInfo.getLocale(),containerInfo.getStyle());
+      String value=Application.get().getMarkupSettings().getLocalizer().getString(messageKey,null,searchStack,containerInfo.getLocale(),containerInfo.getStyle());
       if (value.length() > 0) {
         tag.getAttributes().put(attrName,value);
         tag.setModified(true);

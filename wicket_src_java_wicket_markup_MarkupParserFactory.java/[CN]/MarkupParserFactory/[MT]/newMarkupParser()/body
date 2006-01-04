@@ -1,0 +1,14 @@
+{
+  final MarkupParser parser=new MarkupParser(new XmlPullParser(settings.getDefaultMarkupEncoding())){
+    public void initFilterChain(){
+      if (filters != null) {
+        for (int i=0; i < filters.length; i++) {
+          appendMarkupFilter(filters[i]);
+        }
+      }
+    }
+  }
+;
+  parser.configure(settings);
+  return parser;
+}

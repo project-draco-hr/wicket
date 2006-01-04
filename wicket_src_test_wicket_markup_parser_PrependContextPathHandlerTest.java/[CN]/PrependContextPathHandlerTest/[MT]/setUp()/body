@@ -1,8 +1,4 @@
 {
-  application=new MockWebApplication(null){
-    public IMarkupFilter[] getAdditionalMarkupHandler(){
-      return new IMarkupFilter[]{new PrependContextPathHandler()};
-    }
-  }
-;
+  application=new MockWebApplication(null);
+  application.getMarkupSettings().setMarkupParserFactory(new MarkupParserFactory(application.getMarkupSettings(),new PrependContextPathHandler()));
 }

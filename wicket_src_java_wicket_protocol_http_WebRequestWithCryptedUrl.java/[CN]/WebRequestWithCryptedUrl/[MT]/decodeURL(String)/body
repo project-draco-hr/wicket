@@ -15,7 +15,7 @@
  catch (    UnsupportedEncodingException ex) {
       throw new WicketRuntimeException(ex);
     }
-    final ICrypt urlCrypt=Application.get().newCrypt();
+    final ICrypt urlCrypt=Application.get().getSecuritySettings().getCryptFactory().newCrypt();
     final String queryString=urlCrypt.decrypt(secureParam);
     return rebuildUrl(queryString);
   }

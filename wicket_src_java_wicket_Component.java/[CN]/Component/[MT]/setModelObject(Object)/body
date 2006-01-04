@@ -3,7 +3,7 @@
   if (model == null) {
     throw new IllegalStateException("Attempt to set model object on null model of component: " + getPageRelativePath());
   }
-  if (!getApplication().getAuthorizationStrategy().allowEnabledState(this)) {
+  if (!getApplication().getSecuritySettings().getAuthorizationStrategy().allowEnabledState(this)) {
     throw new UnauthorizedEnabledStateException("operation not allowed in the current authorization context");
   }
   final Object current=model.getObject(this);

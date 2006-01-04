@@ -2,7 +2,7 @@
   Session session=requestCycle.getSession();
   Application application=session.getApplication();
   try {
-    Class homePageClass=application.getPages().getHomePage();
+    Class homePageClass=application.getRequiredPageSettings().getHomePage();
     BookmarkablePageRequestTarget pokeTarget=new BookmarkablePageRequestTarget(homePageClass);
     IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
     String path=requestCodingStrategy.pathForTarget(pokeTarget);
