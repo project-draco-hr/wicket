@@ -1,10 +1,10 @@
 {
   super.setUp();
   application=new MockWebApplication(null);
-  application.getPages().setHomePage(MockPage.class);
+  application.getRequiredPageSettings().setHomePage(MockPage.class);
   application.setupRequestAndResponse();
-  final ApplicationSettings settings=application.getSettings();
-  settings.setCryptClass(NoCrypt.class);
+  final ISecuritySettings settings=application.getSettings();
+  settings.setCryptFactory(new NoCryptFactory());
   this.panel=new SignInPanel("panel"){
     public boolean signIn(    final String username,    final String password){
       return true;
@@ -13,7 +13,7 @@
 ;
   this.panel.setPersistent(true);
   this.form=(Form)panel.get("signInForm");
-  final ICrypt crypt=application.newCrypt();
+  final ICrypt crypt=application.getSecuritySettings().getCryptFactory().newCrypt();
   final String encryptedPassword=crypt.encrypt("test");
   assertNotNull(encryptedPassword);
   this.cookieUsername=new Cookie("panel:signInForm:username","juergen");
