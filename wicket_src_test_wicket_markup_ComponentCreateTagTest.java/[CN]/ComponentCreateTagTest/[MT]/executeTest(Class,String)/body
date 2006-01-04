@@ -1,6 +1,10 @@
 {
-  application=new MockWebApplication(null);
-  application.getRequiredPageSettings().setHomePage(pageClass);
+  application=new MockWebApplication(null){
+    public Class getHomePage(){
+      return pageClass;
+    }
+  }
+;
   application.getMarkupSettings().setStripWicketTags(true);
   application.setupRequestAndResponse();
   application.processRequestCycle();
