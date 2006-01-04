@@ -2,13 +2,12 @@
   this.name=Classes.name(getClass());
   this.markupCache=new MarkupCache(this);
   this.sharedResources=new SharedResources(this);
-  List componentResolvers=getRequestCycleSettings().getComponentResolvers();
-  componentResolvers.add(new ParentResolver());
-  componentResolvers.add(new AutoComponentResolver());
-  componentResolvers.add(new MarkupInheritanceResolver());
-  componentResolvers.add(new HtmlHeaderResolver());
-  componentResolvers.add(new BodyOnLoadResolver());
-  componentResolvers.add(new WicketLinkResolver());
-  componentResolvers.add(new WicketMessageResolver());
+  getPageSettings().addComponentResolver(new ParentResolver());
+  getPageSettings().addComponentResolver(new AutoComponentResolver());
+  getPageSettings().addComponentResolver(new MarkupInheritanceResolver());
+  getPageSettings().addComponentResolver(new HtmlHeaderResolver());
+  getPageSettings().addComponentResolver(new BodyOnLoadResolver());
+  getPageSettings().addComponentResolver(new WicketLinkResolver());
+  getPageSettings().addComponentResolver(new WicketMessageResolver());
   getResourceSettings().addResourceFactory("buttonFactory",new DefaultButtonImageResourceFactory());
 }
