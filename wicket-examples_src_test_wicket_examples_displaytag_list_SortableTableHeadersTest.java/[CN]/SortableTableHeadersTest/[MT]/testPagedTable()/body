@@ -1,6 +1,6 @@
 {
   MockWebApplication application=new MockWebApplication(null);
-  application.getSettings().setRenderStrategy(Settings.REDIRECT_TO_BUFFER);
+  application.getRequestCycleSettings().setRenderStrategy(Settings.REDIRECT_TO_BUFFER);
   application.getRequiredPageSettings().setHomePage(SortableTableHeadersPage.class);
   application.setupRequestAndResponse();
   application.processRequestCycle();
@@ -30,7 +30,7 @@
   application.getServletRequest().setRequestToComponent(link);
   application.processRequestCycle();
   Assert.assertTrue("Response should be a redirect",application.getServletResponse().isRedirect());
-  application.getSettings().setStripWicketTags(true);
+  application.getMarkupSettings().setStripWicketTags(true);
   redirect=application.getServletResponse().getRedirectLocation();
   application.setupRequestAndResponse();
   application.getServletRequest().setRequestToRedirectString(redirect);
