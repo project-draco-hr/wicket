@@ -1,6 +1,6 @@
 {
-  final Settings settings=getApplication().getSettings();
-  if (!(tag instanceof WicketTag) || !settings.getStripWicketTags()) {
+  final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
+  if (!(tag instanceof WicketTag) || !stripWicketTags) {
     if ((behaviours != null) && !behaviours.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       tag=tag.mutable();
       for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
@@ -10,6 +10,6 @@
         }
       }
     }
-    tag.writeOutput(getResponse(),settings.getStripWicketTags(),this.findMarkupStream().getWicketNamespace());
+    tag.writeOutput(getResponse(),stripWicketTags,this.findMarkupStream().getWicketNamespace());
   }
 }
