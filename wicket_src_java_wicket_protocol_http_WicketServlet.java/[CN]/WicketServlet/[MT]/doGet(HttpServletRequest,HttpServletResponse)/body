@@ -1,6 +1,6 @@
 {
   Application.set(webApplication);
-  if (webApplication.getSettings().getRenderStrategy() == Settings.REDIRECT_TO_BUFFER) {
+  if (webApplication.getRequestCycleSettings().getRenderStrategy() == Settings.REDIRECT_TO_BUFFER) {
     String sessionId=servletRequest.getSession(true).getId();
     String queryString=servletRequest.getQueryString();
     String requestUri=servletRequest.getRequestURI();
@@ -17,7 +17,7 @@
   }
   if (servletRequest.getCharacterEncoding() == null) {
     try {
-      servletRequest.setCharacterEncoding(webApplication.getSettings().getResponseRequestEncoding());
+      servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
     }
  catch (    UnsupportedEncodingException ex) {
       throw new WicketRuntimeException(ex.getMessage());
@@ -26,7 +26,7 @@
   final WebRequest request=webApplication.newWebRequest(servletRequest);
   final WebSession session=webApplication.getSession(request);
   final WebResponse response=webApplication.newWebResponse(servletResponse);
-  response.setCharacterEncoding(webApplication.getSettings().getResponseRequestEncoding());
+  response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
   try {
     RequestCycle cycle=session.newRequestCycle(request,response);
     cycle.request();
