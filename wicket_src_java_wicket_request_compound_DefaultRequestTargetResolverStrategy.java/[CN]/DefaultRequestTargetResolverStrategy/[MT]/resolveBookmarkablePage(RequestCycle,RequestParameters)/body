@@ -10,7 +10,11 @@
     return new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND,"Unable to load Bookmarkable Page");
   }
   try {
-    Page newPage=session.getPageFactory().newPage(pageClass,new PageParameters(requestParameters.getParameters()));
+    Page newPage=null;
+    IPageFactory pageFactory=session.getPageFactory();
+synchronized (session) {
+      newPage=pageFactory.newPage(pageClass,new PageParameters(requestParameters.getParameters()));
+    }
     IRequestTarget requestTarget=requestCycle.getRequestTarget();
     if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IBookmarkablePageRequestTarget)) {
       requestTarget=new PageRequestTarget(newPage);
