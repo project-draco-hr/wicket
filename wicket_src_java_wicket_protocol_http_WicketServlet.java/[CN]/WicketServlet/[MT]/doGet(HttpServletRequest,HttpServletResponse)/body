@@ -5,13 +5,9 @@
     String queryString=servletRequest.getQueryString();
     String requestUri=servletRequest.getRequestURI();
     String bufferId=(queryString == null) ? requestUri : requestUri + "?" + queryString;
-    BufferedResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,bufferId);
+    BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,bufferId);
     if (bufferedResponse != null) {
-      servletResponse.setContentLength(bufferedResponse.getContentLength());
-      servletResponse.setContentType(bufferedResponse.getContentType());
-      final OutputStream out=servletResponse.getOutputStream();
-      out.write(bufferedResponse.getBytes());
-      out.close();
+      bufferedResponse.writeTo(servletResponse);
       return;
     }
   }

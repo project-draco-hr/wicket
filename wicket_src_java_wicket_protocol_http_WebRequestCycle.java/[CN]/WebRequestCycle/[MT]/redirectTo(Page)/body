@@ -2,29 +2,23 @@
   String redirectUrl=null;
   IRequestCycleSettings settings=application.getRequestCycleSettings();
   if ((settings.getRenderStrategy() == Settings.REDIRECT_TO_BUFFER) && (application instanceof WebApplication)) {
-    final Response currentResponse=getResponse();
+    final WebResponse currentResponse=getWebResponse();
     try {
-      final BufferedResponse redirectResponse=new BufferedResponse(){
-        public String encodeURL(        String url){
-          return currentResponse.encodeURL(url);
-        }
-      }
-;
-      redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
+      final BufferedHttpServletResponse servletResponse=new BufferedHttpServletResponse(currentResponse.getHttpServletResponse());
+      final WebResponse redirectResponse=new WebResponse(servletResponse);
       setResponse(redirectResponse);
       page.doRender();
       setResponse(currentResponse);
-      final String responseRedirect=redirectResponse.getRedirectUrl();
+      final String responseRedirect=servletResponse.getRedirectUrl();
       if (responseRedirect != null) {
         redirectUrl=responseRedirect;
       }
- else       if (redirectResponse.getContentLength() > 0) {
-        redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
-        redirectResponse.filter();
-        redirectResponse.close();
+ else       if (servletResponse.getContentLength() > 0) {
+        servletResponse.filter(currentResponse);
+        servletResponse.close();
         redirectUrl=page.urlFor(page,IRedirectListener.class);
         String sessionId=getWebRequest().getHttpServletRequest().getSession(true).getId();
-        ((WebApplication)application).addBufferedResponse(sessionId,redirectUrl,redirectResponse);
+        ((WebApplication)application).addBufferedResponse(sessionId,redirectUrl,servletResponse);
       }
     }
  catch (    RuntimeException ex) {
