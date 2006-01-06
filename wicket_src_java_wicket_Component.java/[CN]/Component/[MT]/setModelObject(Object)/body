@@ -6,8 +6,7 @@
   if (!getApplication().getSecuritySettings().getAuthorizationStrategy().allowEnabledState(this)) {
     throw new UnauthorizedEnabledStateException("operation not allowed in the current authorization context");
   }
-  final Object current=model.getObject(this);
-  if (!getModelComparator().compare(current,object)) {
+  if (!getModelComparator().compare(this,object)) {
     modelChanging();
     if (getFlag(FLAG_HAS_ROOT_MODEL)) {
       getRootModel(model).setObject(null,object);
