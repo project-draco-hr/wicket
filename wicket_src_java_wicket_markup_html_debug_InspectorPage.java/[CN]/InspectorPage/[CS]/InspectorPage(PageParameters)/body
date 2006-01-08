@@ -1,0 +1,12 @@
+{
+  add(new ApplicationView("application",Application.get()));
+  add(new SessionView("session",Session.get()));
+  Page page=null;
+  try {
+    page=getPageMap().get(parameters.getInt("pageId"));
+  }
+ catch (  StringValueConversionException e) {
+  }
+  add(new PageView("page",page));
+  add(new Image("bug"));
+}

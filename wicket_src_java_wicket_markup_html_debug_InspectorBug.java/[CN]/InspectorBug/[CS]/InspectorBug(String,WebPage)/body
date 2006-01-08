@@ -1,18 +1,8 @@
 {
   super(id);
-  Link link;
-  if (page.isStateless()) {
-    link=new BookmarkablePageLink("link",InspectorPage.class);
-  }
- else {
-    link=new Link("link"){
-      private static final long serialVersionUID=1L;
-      public void onClick(){
-        setResponsePage(new InspectorPage(page));
-      }
-    }
-;
-  }
+  PageParameters parameters=new PageParameters();
+  parameters.put("pageId",page.getId());
+  Link link=new BookmarkablePageLink("link",InspectorPage.class,parameters);
   link.add(new Image("bug"));
   add(link);
 }
