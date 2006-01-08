@@ -6,6 +6,7 @@
     try {
       final BufferedHttpServletResponse servletResponse=new BufferedHttpServletResponse(currentResponse.getHttpServletResponse());
       final WebResponse redirectResponse=new WebResponse(servletResponse);
+      redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
       setResponse(redirectResponse);
       page.doRender();
       setResponse(currentResponse);
@@ -15,6 +16,7 @@
       }
  else       if (servletResponse.getContentLength() > 0) {
         servletResponse.filter(currentResponse);
+        servletResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         servletResponse.close();
         redirectUrl=page.urlFor(page,IRedirectListener.class);
         String sessionId=getWebRequest().getHttpServletRequest().getSession(true).getId();
