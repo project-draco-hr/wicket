@@ -1,0 +1,21 @@
+{
+  final IAuthorizationStrategy authorizationStrategy=getApplication().getSecuritySettings().getAuthorizationStrategy();
+  visitChildren(new IVisitor(){
+    public Object component(    Component component){
+      component.setRenderAllowed(authorizationStrategy.allowRender(component));
+      return IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
+  resetMarkupStreams();
+  final MarkupStream associatedMarkupStream=getAssociatedMarkupStream();
+  setMarkupStream(associatedMarkupStream);
+  configureResponse();
+  setFlag(FLAG_IS_RENDERING,true);
+  try {
+    renderAll(associatedMarkupStream);
+  }
+  finally {
+    setFlag(FLAG_IS_RENDERING,false);
+  }
+}

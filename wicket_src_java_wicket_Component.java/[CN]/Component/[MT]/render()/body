@@ -2,15 +2,16 @@
   setFlag(FLAG_IS_RENDERED_ONCE,true);
   rendering=true;
   try {
+    MarkupStream markupStream=null;
     if (getParent() != null) {
-      final MarkupStream markupStream=findMarkupStream();
+      markupStream=findMarkupStream();
       validateMarkupStream(markupStream);
     }
     if (renderAllowed && isVisible()) {
       if (log.isDebugEnabled()) {
         log.debug("Begin render " + this);
       }
-      onRender();
+      onRender(markupStream);
       rendered();
       if (log.isDebugEnabled()) {
         log.debug("End render " + this);

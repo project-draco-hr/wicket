@@ -1,0 +1,14 @@
+{
+  final int markupStart=markupStream.getCurrentIndex();
+  Iterator it=renderIterator();
+  if (it.hasNext()) {
+    do {
+      markupStream.setCurrentIndex(markupStart);
+      renderChild((Component)it.next());
+    }
+ while (it.hasNext());
+  }
+ else {
+    markupStream.skipComponent();
+  }
+}
