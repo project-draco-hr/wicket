@@ -1,0 +1,9 @@
+{
+  Markup pmarkup=getParent().getMarkup();
+  String path=getParent().getMarkupRelativePath(getPath());
+  ComponentFragment outside=pmarkup.getComponentFragment(path);
+  ComponentFragment panel=new ComponentFragment(outside.getTag());
+  Markup markup=Application.get().getMarkup(this);
+  panel.setFragments(markup.getFragments());
+  return panel;
+}

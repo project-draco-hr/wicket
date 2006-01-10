@@ -1,0 +1,15 @@
+{
+  Class clazz=component.getClass();
+  if (!markupCache.containsKey(clazz)) {
+    String resource=clazz.getName().replaceAll("[.]","/");
+    resource=resource + ".html";
+    InputStream markupStream=Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
+    if (markupStream == null) {
+      throw new RuntimeException("cannot load markup for [" + resource + "]");
+    }
+    IMarkupParser parser=new BasicParser();
+    Markup markup=parser.parse(markupStream);
+    markupCache.put(clazz,markup);
+  }
+  return markupCache.get(clazz);
+}

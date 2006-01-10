@@ -1,0 +1,11 @@
+{
+  String path=(parentPath == null) ? frag.getId() : parentPath + ":" + frag.getId();
+  pathToFrag.put(path,frag);
+  if (frag.getFragments() != null) {
+    for (    Fragment child : frag.getFragments()) {
+      if (child.getType() == MarkupType.COMPONENT) {
+        initHelper((ComponentFragment)child,path);
+      }
+    }
+  }
+}

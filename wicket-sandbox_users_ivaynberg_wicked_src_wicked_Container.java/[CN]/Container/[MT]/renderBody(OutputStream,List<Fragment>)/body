@@ -1,0 +1,21 @@
+{
+  if (fragments != null) {
+    for (    Fragment f : fragments) {
+switch (f.getType()) {
+case STATIC:
+        try {
+          stream.write(f.toString().getBytes());
+        }
+ catch (        IOException e) {
+          throw new RuntimeException(e);
+        }
+      break;
+case COMPONENT:
+    ComponentFragment cf=(ComponentFragment)f;
+  Component comp=get(cf.getId());
+comp.render(stream);
+break;
+}
+}
+}
+}

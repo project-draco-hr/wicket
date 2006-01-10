@@ -1,0 +1,13 @@
+{
+  if (path == null || path.length() == 0) {
+    return this;
+  }
+  int col=path.indexOf(":");
+  if (col < 0) {
+    return idToComponent.get(path);
+  }
+  String first=path.substring(0,col);
+  String rest=path.substring(col + 1);
+  Component next=idToComponent.get(first);
+  return next.get(rest);
+}

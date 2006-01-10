@@ -1,0 +1,10 @@
+{
+  Fragment frag=pathToFrag.get(path);
+  if (frag == null) {
+    throw new RuntimeException("component fragment for path [" + path + "] not found in markup");
+  }
+  if (frag.getType() != MarkupType.COMPONENT) {
+    throw new RuntimeException("component fragment has invalid markup type [" + frag.getType().toString() + "]");
+  }
+  return (ComponentFragment)frag;
+}
