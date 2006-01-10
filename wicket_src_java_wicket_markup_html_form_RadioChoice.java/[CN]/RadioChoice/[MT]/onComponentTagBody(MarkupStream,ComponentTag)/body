@@ -11,7 +11,13 @@
       buffer.append("<input name=\"" + getInputName() + "\""+ " type=\"radio\""+ (isSelected(choice,index) ? " checked=\"checked\"" : "")+ " value=\""+ id+ "\" id=\""+ idAttr+ "\"");
       if (wantOnSelectionChangedNotifications()) {
         final String url=urlFor(IOnChangeListener.class);
-        buffer.append(" onclick=\"location.href='" + url + "&"+ getInputName()+ "="+ id+ "';\"");
+        try {
+          Form form=getForm();
+          buffer.append(" onclick=\"" + form.getJsForInterfaceUrl(url) + ";\"");
+        }
+ catch (        WicketRuntimeException ex) {
+          buffer.append(" onclick=\"" + url + "&"+ getInputName()+ "="+ id+ "';\"");
+        }
       }
       buffer.append("/>");
       String display=getLocalizer().getString(label,this,label);

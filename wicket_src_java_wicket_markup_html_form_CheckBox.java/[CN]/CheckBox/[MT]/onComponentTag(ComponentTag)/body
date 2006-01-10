@@ -17,7 +17,13 @@
   }
   if (wantOnSelectionChangedNotifications()) {
     final String url=urlFor(IOnChangeListener.class);
-    tag.put("onclick","location.href='" + url + "&"+ getInputName()+ "=' + this.checked;");
+    try {
+      Form form=getForm();
+      tag.put("onclick",form.getJsForInterfaceUrl(url));
+    }
+ catch (    WicketRuntimeException ex) {
+      tag.put("onclick","location.href='" + url + "&"+ getInputName()+ "=' + this.checked;");
+    }
   }
   super.onComponentTag(tag);
 }
