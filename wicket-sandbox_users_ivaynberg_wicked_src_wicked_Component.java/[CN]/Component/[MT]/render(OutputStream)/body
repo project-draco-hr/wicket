@@ -1,19 +1,4 @@
 {
-  ComponentFragment frag=getFragment();
-  Tag tag=frag.getTag();
-  try {
-    stream.write("<".getBytes());
-    stream.write(tag.getName().getBytes());
-    for (    Map.Entry<String,String> attr : tag.getAttributes().entrySet()) {
-      stream.write(" ".getBytes());
-      stream.write(attr.getKey().getBytes());
-      stream.write("=\"".getBytes());
-      stream.write(attr.getValue().getBytes());
-      stream.write("\"".getBytes());
-    }
-    stream.write("/>".getBytes());
-  }
- catch (  IOException e) {
-    throw new RuntimeException(e);
-  }
+  renderOpenTag(stream);
+  renderCloseTag(stream);
 }

@@ -1,0 +1,10 @@
+{
+  String truePath=getParent().getMarkupRelativePath(path);
+  String myPath=super.getMarkupRelativePath(getPath());
+  String newPath=myPath;
+  int divider=truePath.indexOf(":",newPath.length() + 1);
+  if (divider >= 0) {
+    newPath=newPath + truePath.substring(divider,truePath.length() - 1);
+  }
+  return newPath;
+}
