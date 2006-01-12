@@ -1,0 +1,25 @@
+{
+  setFlag(FLAG_IS_RENDERED_ONCE,true);
+  rendering=true;
+  try {
+    if (getParent() != null) {
+      validateMarkupStream(markupStream);
+    }
+    if (renderAllowed && isVisible()) {
+      if (log.isDebugEnabled()) {
+        log.debug("Begin render " + this);
+      }
+      onRender(markupStream);
+      rendered();
+      if (log.isDebugEnabled()) {
+        log.debug("End render " + this);
+      }
+    }
+ else {
+      findMarkupStream().skipComponent();
+    }
+  }
+  finally {
+    rendering=false;
+  }
+}
