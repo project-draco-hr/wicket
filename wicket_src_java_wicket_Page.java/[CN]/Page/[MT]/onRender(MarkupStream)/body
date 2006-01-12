@@ -1,8 +1,7 @@
 {
-  final IAuthorizationStrategy authorizationStrategy=getApplication().getSecuritySettings().getAuthorizationStrategy();
   visitChildren(new IVisitor(){
     public Object component(    Component component){
-      component.setRenderAllowed(authorizationStrategy.allow(IAuthorizationStrategy.ACTION_RENDER,component));
+      component.setRenderAllowed(component.getAuthorizationStrategy().allowAction(component,RENDER));
       return IVisitor.CONTINUE_TRAVERSAL;
     }
   }

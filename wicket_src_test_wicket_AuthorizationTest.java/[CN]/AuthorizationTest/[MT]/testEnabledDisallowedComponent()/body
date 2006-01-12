@@ -1,8 +1,8 @@
 {
   WicketTester app=new WicketTester();
   app.getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
-    public boolean allow(    AuthorizationAction action,    Component c){
-      if ((action.equals(IAuthorizationStrategy.ACTION_ENABLED_STATE)) && c instanceof TextField && c.getId().equals("stringInput")) {
+    public boolean allow(    Component c,    Action action){
+      if (action == Component.ENABLE && c instanceof TextField && c.getId().equals("stringInput")) {
         return false;
       }
       return true;
