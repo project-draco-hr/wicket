@@ -2,9 +2,9 @@
   WicketTester app=new WicketTester();
   app.getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
     /** 
- * @see wicket.authorization.IAuthorizationStrategy#allowAction(wicket.Component,wicket.authorization.Action)
+ * @see wicket.authorization.IAuthorizationStrategy#authorizeAction(wicket.Component,wicket.authorization.Action)
  */
-    public boolean allowAction(    Component component,    Action action){
+    public boolean authorizeAction(    Component component,    Action action){
       if (action == Component.RENDER && component instanceof Label) {
         return false;
       }
