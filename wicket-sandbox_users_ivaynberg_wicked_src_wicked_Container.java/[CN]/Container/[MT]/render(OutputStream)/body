@@ -1,6 +1,11 @@
 {
   ComponentFragment frag=getFragment();
-  renderOpenTag(stream);
-  renderBody(stream,frag.getFragments());
-  renderCloseTag(stream);
+  if (frag.getTag().isEmpty() && frag.getFragments() == null) {
+    renderEmptyTag(stream);
+  }
+ else {
+    renderOpenTag(stream);
+    renderBody(stream,frag.getFragments());
+    renderCloseTag(stream);
+  }
 }
