@@ -1,0 +1,13 @@
+{
+  RequestCycle requestCycle=RequestCycle.get();
+  if (requestCycle != null) {
+    Request request=requestCycle.getRequest();
+    if (request instanceof WebRequest) {
+      WebRequest webRequest=(WebRequest)request;
+      if (webRequest != null) {
+        return webRequest.getHttpServletRequest().getSession(true);
+      }
+    }
+  }
+  return null;
+}
