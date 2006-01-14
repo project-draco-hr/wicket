@@ -3,21 +3,22 @@
   page.visitChildren(new IVisitor(){
     public Object component(    final Component component){
       if (!component.getPath().startsWith(PageView.this.getPath())) {
-        final ComponentData object=new ComponentData();
+        final ComponentData componentData=new ComponentData();
         String name=component.getClass().getName();
         if (name.indexOf("$") > 0) {
           name=component.getClass().getSuperclass().getName();
         }
         name=Strings.lastPathComponent(name,Component.PATH_SEPARATOR);
-        object.path=component.getPageRelativePath();
-        object.type=name;
+        componentData.path=component.getPageRelativePath();
+        componentData.size=component.getSize();
+        componentData.type=name;
         try {
-          object.value=component.getModelObjectAsString();
+          componentData.value=component.getModelObjectAsString();
         }
  catch (        Exception e) {
-          object.value=e.getMessage();
+          componentData.value=e.getMessage();
         }
-        data.add(object);
+        data.add(componentData);
       }
       return IVisitor.CONTINUE_TRAVERSAL;
     }
