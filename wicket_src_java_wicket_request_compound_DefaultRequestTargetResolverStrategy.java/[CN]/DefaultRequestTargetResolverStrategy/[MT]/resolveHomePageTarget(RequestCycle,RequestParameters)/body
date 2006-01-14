@@ -11,7 +11,13 @@
       return pokeTarget;
     }
     PageParameters parameters=new PageParameters(requestParameters.getParameters());
-    Page newPage=session.getPageFactory().newPage(homePageClass,parameters);
+    Page newPage=null;
+    if (parameters.size() == 0) {
+      newPage=session.getPageFactory().newPage(homePageClass);
+    }
+ else {
+      newPage=session.getPageFactory().newPage(homePageClass,parameters);
+    }
     IRequestTarget requestTarget=requestCycle.getRequestTarget();
     if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IBookmarkablePageRequestTarget)) {
       requestTarget=new PageRequestTarget(newPage);

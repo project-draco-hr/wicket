@@ -12,8 +12,14 @@
   try {
     Page newPage=null;
     IPageFactory pageFactory=session.getPageFactory();
+    PageParameters params=new PageParameters(requestParameters.getParameters());
 synchronized (session) {
-      newPage=pageFactory.newPage(pageClass,new PageParameters(requestParameters.getParameters()));
+      if (params.size() == 0) {
+        newPage=pageFactory.newPage(pageClass);
+      }
+ else {
+        newPage=pageFactory.newPage(pageClass,params);
+      }
     }
     IRequestTarget requestTarget=requestCycle.getRequestTarget();
     if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IBookmarkablePageRequestTarget)) {

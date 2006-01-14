@@ -12,7 +12,12 @@
         IBookmarkablePageRequestTarget pageClassRequestTarget=(IBookmarkablePageRequestTarget)target;
         Class pageClass=pageClassRequestTarget.getPageClass();
         PageParameters parameters=pageClassRequestTarget.getPageParameters();
-        lastRenderedPage=new DefaultPageFactory().newPage(pageClass,parameters);
+        if (parameters == null || parameters.size() == 0) {
+          lastRenderedPage=new DefaultPageFactory().newPage(pageClass);
+        }
+ else {
+          lastRenderedPage=new DefaultPageFactory().newPage(pageClass,parameters);
+        }
       }
     }
   }

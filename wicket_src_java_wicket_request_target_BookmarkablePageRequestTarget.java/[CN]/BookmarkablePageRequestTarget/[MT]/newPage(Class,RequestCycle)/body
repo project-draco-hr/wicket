@@ -1,5 +1,10 @@
 {
   PageParameters params=pageParameters;
   IPageFactory pageFactory=requestCycle.getApplication().getSessionSettings().getPageFactory();
-  return pageFactory.newPage(pageClass,params);
+  if (params == null || params.size() == 0) {
+    return pageFactory.newPage(pageClass);
+  }
+ else {
+    return pageFactory.newPage(pageClass,params);
+  }
 }
