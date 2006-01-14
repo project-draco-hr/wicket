@@ -1,12 +1,12 @@
 {
   final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
   if (!(tag instanceof WicketTag) || !stripWicketTags) {
-    if ((behaviours != null) && !behaviours.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
+    if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       tag=tag.mutable();
-      for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
-        IBehavior behaviour=(IBehavior)i.next();
-        if (isBehaviourAccepted(behaviour)) {
-          behaviour.onComponentTag(this,tag);
+      for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
+        IBehavior behavior=(IBehavior)i.next();
+        if (isBehaviorAccepted(behavior)) {
+          behavior.onComponentTag(this,tag);
         }
       }
     }

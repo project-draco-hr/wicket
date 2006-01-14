@@ -1,0 +1,13 @@
+{
+  if (behaviors == null) {
+    return Collections.EMPTY_LIST;
+  }
+  List subset=new ArrayList(behaviors.size());
+  for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
+    Object behavior=i.next();
+    if (type.isAssignableFrom(behavior.getClass())) {
+      subset.add(behavior);
+    }
+  }
+  return Collections.unmodifiableList(subset);
+}

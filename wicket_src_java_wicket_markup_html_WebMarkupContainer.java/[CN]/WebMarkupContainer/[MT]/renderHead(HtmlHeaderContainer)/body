@@ -14,14 +14,14 @@
       getRequestCycle().setResponse(response);
     }
   }
-  List behaviours=getBehaviours();
-  for (Iterator i=behaviours.iterator(); i.hasNext(); ) {
-    IBehavior behaviour=(IBehavior)i.next();
-    if (behaviour instanceof IHeaderContributor) {
-      ((IHeaderContributor)behaviour).renderHead(container);
+  List behaviors=getBehaviors();
+  for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
+    IBehavior behavior=(IBehavior)i.next();
+    if (behavior instanceof IHeaderContributor) {
+      ((IHeaderContributor)behavior).renderHead(container);
     }
-    if (behaviour instanceof IBodyOnLoadContributor) {
-      String stmt=((IBodyOnLoadContributor)behaviour).getBodyOnLoad();
+    if (behavior instanceof IBodyOnLoadContributor) {
+      String stmt=((IBodyOnLoadContributor)behavior).getBodyOnLoad();
       if (stmt != null) {
         ((WebPage)getPage()).appendToBodyOnLoad(stmt);
       }
