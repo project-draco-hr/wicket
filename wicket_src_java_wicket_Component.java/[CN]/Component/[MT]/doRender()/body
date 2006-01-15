@@ -1,8 +1,20 @@
 {
   MarkupContainer parent=getParent();
   MarkupStream originalMarkupStream=parent.getMarkupStream();
-  MarkupStream markupStream=findParentWithAssociatedMarkup().getAssociatedMarkupStream();
-  markupStream.setCurrentIndex(this.markupStreamPosition);
+  MarkupContainer parentWithAssociatedMarkup=findParentWithAssociatedMarkup();
+  MarkupStream markupStream=parentWithAssociatedMarkup.getAssociatedMarkupStream();
+  if (this.markupStreamPosition != -1) {
+    markupStream.setCurrentIndex(this.markupStreamPosition);
+  }
+ else {
+    String componentPath=getParent().getPageRelativePath();
+    String parentWithAssociatedMarkupPath=parentWithAssociatedMarkup.getPageRelativePath();
+    String relativePath=componentPath.substring(parentWithAssociatedMarkupPath.length());
+    this.markupStreamPosition=markupStream.findComponent(relativePath,getId());
+  }
+  if (this.markupStreamPosition == -1) {
+    throw new WicketRuntimeException("Unable to determine markup for component: " + this.toString());
+  }
   try {
     parent.setMarkupStream(markupStream);
     internalBeginRequest();
