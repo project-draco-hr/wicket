@@ -1,12 +1,12 @@
 {
-  final Response response=getResponse();
-  final Application application=Application.get();
-  final IRequestCycleSettings requestCycleSettings=application.getRequestCycleSettings();
-  final String responseRequestEncoding=requestCycleSettings.getResponseRequestEncoding();
-  response.setContentType("text/" + getMarkupType() + "; charset="+ responseRequestEncoding);
+  final RequestCycle cycle=getRequestCycle();
+  final Application application=cycle.getApplication();
+  final Response response=cycle.getResponse();
+  final String encoding=application.getRequestCycleSettings().getResponseRequestEncoding();
+  response.setContentType("text/" + getMarkupType() + "; charset="+ encoding);
   final MarkupStream markupStream=findMarkupStream();
   if ((markupStream != null) && (markupStream.getXmlDeclaration() != null) && (application.getMarkupSettings().getStripXmlDeclarationFromOutput() == false)) {
-    response.write("<?xml version='1.0' encoding='" + responseRequestEncoding + "'?>");
+    response.write("<?xml version='1.0' encoding='" + encoding + "'?>");
   }
   response.setLocale(getSession().getLocale());
 }
