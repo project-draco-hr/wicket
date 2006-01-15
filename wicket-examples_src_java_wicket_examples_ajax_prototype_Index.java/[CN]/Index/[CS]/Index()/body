@@ -1,29 +1,22 @@
 {
   add(new Link("link"){
     /** 
- * Handles a click on the link. This method is accessed normally using a standard
- * http request, but in this example, we use Ajax to perform the call.
+ * Handles a click on the link. This method is accessed normally
+ * using a standard http request, but in this example, we use Ajax
+ * to perform the call.
  */
     public void onClick(){
-      counter=new Integer(counter.intValue() + 1);
-      Component component=getPage().get("counter");
-      ComponentRequestTarget target=new ComponentRequestTarget(component);
-      RequestCycle cycle=RequestCycle.get();
-      cycle.setRequestTarget(target);
+      count++;
+      getRequestCycle().setRequestTarget(new ComponentRequestTarget(counter));
     }
     /** 
- * Alter the javascript 'onclick' event to emit the Ajax call and update the
- * counter label.
+ * Alter the javascript 'onclick' event to emit the Ajax call and
+ * update the counter label.
  */
     protected String getOnClickScript(    String url){
-      StringBuffer sb=new StringBuffer();
-      sb.append("new Ajax.Updater('counter',");
-      sb.append("'" + urlFor(ILinkListener.class) + "',{method:'get'}");
-      sb.append(");");
-      sb.append("return false;");
-      return sb.toString();
+      return "new Ajax.Updater('counter', '" + urlFor(ILinkListener.class) + "', {method:'get'}); return false;";
     }
   }
 );
-  add(new Label("counter",new PropertyModel(this,"counter")));
+  add(counter=new Label("counter",new PropertyModel(this,"count")));
 }
