@@ -1,16 +1,15 @@
 {
-  final boolean allowAll=getSession().getAuthorizationStrategy() == IAuthorizationStrategy.ALLOW_ALL;
-  if (authorizationStrategyInUse || !allowAll) {
-    visitChildren(new IVisitor(){
-      public Object component(      Component component){
-        component.setRenderAllowed(component.authorize(RENDER));
-        return IVisitor.CONTINUE_TRAVERSAL;
+  visitChildren(new IVisitor(){
+    public Object component(    Component component){
+      boolean renderAllowed=component.authorize(RENDER);
+      if (renderAllowed) {
+        component.resetMarkupStream();
       }
+      component.setRenderAllowed(renderAllowed);
+      return IVisitor.CONTINUE_TRAVERSAL;
     }
-);
-    authorizationStrategyInUse=!allowAll;
   }
-  resetMarkupStreams();
+);
   final MarkupStream associatedMarkupStream=getAssociatedMarkupStream();
   setMarkupStream(associatedMarkupStream);
   configureResponse();

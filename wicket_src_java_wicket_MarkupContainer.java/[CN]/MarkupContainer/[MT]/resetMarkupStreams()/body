@@ -1,10 +1,7 @@
 {
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
-      if (component instanceof MarkupContainer) {
-        ((MarkupContainer)component).setMarkupStream(null);
-      }
-      component.markStreamPositionInvalid();
+      component.resetMarkupStream();
       return CONTINUE_TRAVERSAL;
     }
   }
