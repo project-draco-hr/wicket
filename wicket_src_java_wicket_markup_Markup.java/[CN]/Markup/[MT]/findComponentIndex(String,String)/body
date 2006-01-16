@@ -20,7 +20,10 @@
         if (tag.isOpen()) {
           markupElements.push(elementsPath);
           if (hasWicketId) {
-            elementsPath+=":" + tag.getId();
+            if (elementsPath.length() > 0) {
+              elementsPath+=":";
+            }
+            elementsPath+=tag.getId();
           }
         }
       }
