@@ -1,5 +1,9 @@
 {
-  this.resource=resource;
-  xmlParser.parse(resource);
-  return new Markup(resource,parseMarkup(),getXmlDeclaration(),getEncoding(),this.wicketNamespace);
+  this.markup.clear();
+  this.markup.setResource(resource);
+  this.xmlParser.parse(resource);
+  parseMarkup();
+  this.markup.setEncoding(xmlParser.getEncoding());
+  this.markup.setXmlDeclaration(xmlParser.getXmlDeclaration());
+  return this.markup;
 }

@@ -7,13 +7,13 @@
     if (attributeName.startsWith("xmlns:")) {
       final String xmlnsUrl=attributes.getString(attributeName);
       if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.toLowerCase().startsWith("http://wicket.sourceforge.net")) {
-        this.wicketNamespace=attributeName.substring(6);
-        this.detectWicketComponents.setWicketNamespace(this.wicketNamespace);
+        String namespace=attributeName.substring(6);
+        markup.setWicketNamespace(namespace);
         attrValue=attributeName;
       }
     }
   }
-  if ((attrValue != null) && stripWicketTag) {
+  if ((attrValue != null) && Application.get().getMarkupSettings().getStripWicketTags()) {
     attributes.remove(attrValue);
     return true;
   }

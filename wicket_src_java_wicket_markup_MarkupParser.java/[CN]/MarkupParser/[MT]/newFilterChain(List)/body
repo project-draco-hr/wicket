@@ -1,17 +1,18 @@
 {
-  this.detectWicketComponents=new WicketTagIdentifier(this.wicketNamespace,xmlParser);
+  this.detectWicketComponents=new WicketTagIdentifier(markup,xmlParser);
   IMarkupFilter filter=this.detectWicketComponents;
   filter=new TagTypeHandler(filter);
   filter=new HtmlHandler(filter);
-  filter=new WicketParamTagHandler(this.stripWicketTag,filter);
+  filter=new WicketParamTagHandler(filter);
   filter=new WicketRemoveTagHandler(filter);
-  filter=new WicketLinkTagHandler(this.automaticLinking,filter);
-  if ((this.resource != null) && (this.resource.getContainerInfo() != null)) {
+  filter=new WicketLinkTagHandler(filter);
+  MarkupResourceStream resource=markup.getResource();
+  if ((resource != null) && (resource.getContainerInfo() != null)) {
     if (WicketMessageTagHandler.enable) {
-      filter=new WicketMessageTagHandler(this.resource.getContainerInfo(),filter);
+      filter=new WicketMessageTagHandler(resource.getContainerInfo(),filter);
     }
     filter=new BodyOnLoadHandler(filter);
-    if (Page.class.isAssignableFrom(this.resource.getContainerInfo().getContainerClass())) {
+    if (Page.class.isAssignableFrom(resource.getContainerInfo().getContainerClass())) {
       filter=new HtmlHeaderSectionHandler(tagList,filter);
     }
   }
