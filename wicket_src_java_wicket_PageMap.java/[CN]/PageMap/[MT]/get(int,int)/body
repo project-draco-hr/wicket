@@ -3,12 +3,12 @@
   if (entry != null) {
     access(entry,versionNumber);
     Page page=entry.getPage();
-    page.setDirty(true);
+    page.dirty();
     final Page version=page.getVersion(versionNumber);
     if (version != null) {
       if (version != page) {
         page=version;
-        page.getPageMap().put(page);
+        page.getPageMap().put(page.getPageMapEntry());
       }
     }
  else {
