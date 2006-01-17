@@ -3,15 +3,16 @@
   if (xmlTag == null) {
     return xmlTag;
   }
+  final String namespace=this.markup.getWicketNamespace();
   ComponentTag tag;
-  if (wicketNamespace.equalsIgnoreCase(xmlTag.getNamespace())) {
+  if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new WicketTag(xmlTag);
     tag.setId(tag.getName());
   }
  else {
     tag=new ComponentTag(xmlTag);
   }
-  final String value=tag.getAttributes().getString(wicketNamespace + ":id");
+  final String value=tag.getAttributes().getString(namespace + ":id");
   if (value != null) {
     if (value.trim().length() == 0) {
       throw new ParseException("The wicket:id attribute value must not be empty. May be unmatched quotes?!?",tag.getPos());
