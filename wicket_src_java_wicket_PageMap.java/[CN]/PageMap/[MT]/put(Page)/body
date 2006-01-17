@@ -1,5 +1,6 @@
 {
-  if (!(entry instanceof Page && ((Page)entry).isStateless())) {
+  if (!page.isStateless()) {
+    IPageMapEntry entry=page.getPageMapEntry();
     pushAccess(entry);
     final String attribute=attributeForId(entry.getNumericId());
     session.setAttribute(attribute,entry);
