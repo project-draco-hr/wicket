@@ -1,0 +1,13 @@
+{
+  int size=Objects.sizeof(this);
+  for (Iterator iterator=getEntries().iterator(); iterator.hasNext(); ) {
+    IPageMapEntry entry=(IPageMapEntry)iterator.next();
+    if (entry instanceof Page) {
+      size+=((Page)entry).getSizeInBytes();
+    }
+ else {
+      size+=Objects.sizeof(entry);
+    }
+  }
+  return size;
+}

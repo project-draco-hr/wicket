@@ -2,16 +2,10 @@
   if (log.isDebugEnabled()) {
     log.debug("Getting page [path = " + path + ", versionNumber = "+ versionNumber+ "]");
   }
-  Page page=getPage(pageMapName,Integer.parseInt(Strings.firstPathComponent(path,Component.PATH_SEPARATOR)));
-  if (page != null) {
-    final Page version=page.getVersion(versionNumber);
-    if (version != null) {
-      if (version != page) {
-        page=version;
-        page.getPageMap().put(page);
-      }
-      return page;
-    }
+  final PageMap pageMap=getPageMap(pageMapName);
+  if (pageMap != null) {
+    final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
+    return pageMap.get(Integer.parseInt(id),versionNumber);
   }
   return null;
 }
