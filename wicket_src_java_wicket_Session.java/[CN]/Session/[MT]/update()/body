@@ -11,14 +11,21 @@
       log.debug("update: Session not dirty.");
     }
   }
-  for (final Iterator iterator=getAttributeNames().iterator(); iterator.hasNext(); ) {
-    final String attribute=(String)iterator.next();
-    if (attribute.startsWith(pageMapEntryAttributePrefix)) {
-      IPageMapEntry entry=(IPageMapEntry)getAttribute(attribute);
-      if (entry.isDirty()) {
-        entry.setDirty(false);
-        setAttribute(attribute,entry);
-      }
+  for (final Iterator iterator=dirtyObjects.iterator(); iterator.hasNext(); ) {
+    String attribute=null;
+    Object object=iterator.next();
+    if (object instanceof Page) {
+      final Page page=(Page)object;
+      attribute=page.getPageMap().attributeForId(page.getNumericId());
+      object=page.getPageMapEntry();
+    }
+ else     if (object instanceof PageMap) {
+      attribute=attributeForPageMapName(((PageMap)object).getName());
+    }
+    Object previous=getAttribute(attribute);
+    if (previous != null) {
+      setAttribute(attribute,object);
     }
   }
+  dirtyObjects=null;
 }
