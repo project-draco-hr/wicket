@@ -2,9 +2,7 @@
   try {
     Markup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser().readAndParse(markupResourceStream);
     markup=checkForMarkupInheritance(key,markup);
-synchronized (markupCache) {
-      markupCache.put(key,markup);
-    }
+    markupCache.put(key,markup);
     afterLoadListeners.notifyListeners(markupResourceStream);
     return markup;
   }
