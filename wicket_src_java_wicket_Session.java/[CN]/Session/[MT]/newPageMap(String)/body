@@ -1,4 +1,8 @@
 {
+  final int maxPageMaps=getApplication().getSessionSettings().getMaxPageMaps();
+  if (++pageMaps > maxPageMaps) {
+    throw new IllegalStateException("Session cannot contain more than " + maxPageMaps + " page maps");
+  }
   final PageMap pageMap=new PageMap(name,this);
   setAttribute(attributeForPageMapName(name),pageMap);
   return pageMap;
