@@ -1,3 +1,9 @@
 {
+  if (e instanceof UnauthorizedInstantiationException) {
+    final Class componentClass=((UnauthorizedInstantiationException)e).getComponentClass();
+    if (componentClass.isAssignableFrom(Page.class)) {
+      getSession().onUnauthorizedPageAccess();
+    }
+  }
   return null;
 }
