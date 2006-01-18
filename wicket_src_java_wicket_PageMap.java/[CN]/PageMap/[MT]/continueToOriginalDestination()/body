@@ -1,8 +1,18 @@
 {
   final RequestCycle cycle=session.getRequestCycle();
   if (interceptContinuationURL != null) {
-    cycle.getResponse().redirect(interceptContinuationURL);
-    cycle.setRedirect(false);
+    cycle.setRequestTarget(new IRequestTarget(){
+      final String responseUrl=interceptContinuationURL;
+      public Object getLock(      RequestCycle requestCycle){
+        return null;
+      }
+      public void cleanUp(      RequestCycle requestCycle){
+      }
+      public void respond(      RequestCycle requestCycle){
+        cycle.getResponse().redirect(responseUrl);
+      }
+    }
+);
     interceptContinuationURL=null;
     session.dirtyPageMap(this);
     return true;
