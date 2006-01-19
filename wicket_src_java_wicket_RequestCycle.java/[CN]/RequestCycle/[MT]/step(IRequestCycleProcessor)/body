@@ -55,6 +55,9 @@ default :
 }
 }
  catch (RuntimeException e) {
+if (e instanceof RedirectException) {
+throw e;
+}
 currentStep=HANDLE_EXCEPTION;
 log.error(e.getMessage(),e);
 if (processor != null) {

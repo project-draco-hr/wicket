@@ -2,8 +2,13 @@
   try {
     IRequestCycleProcessor processor=safeGetRequestProcessor();
     while (currentStep < DONE) {
-      step(processor);
-      currentStep++;
+      try {
+        step(processor);
+        currentStep++;
+      }
+ catch (      RedirectException e) {
+        currentStep=RESPOND;
+      }
     }
   }
   finally {
