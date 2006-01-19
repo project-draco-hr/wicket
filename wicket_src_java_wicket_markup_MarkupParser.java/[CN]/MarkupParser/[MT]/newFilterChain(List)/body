@@ -2,13 +2,13 @@
   IMarkupFilter filter=new WicketTagIdentifier(markup,xmlParser);
   filter=new TagTypeHandler(filter);
   filter=new HtmlHandler(filter);
-  filter=new WicketParamTagHandler(filter);
+  filter=new WicketParamTagHandler(filter,application.getMarkupSettings());
   filter=new WicketRemoveTagHandler(filter);
-  filter=new WicketLinkTagHandler(filter);
+  filter=new WicketLinkTagHandler(filter,application.getMarkupSettings());
   MarkupResourceStream resource=markup.getResource();
   if ((resource != null) && (resource.getContainerInfo() != null)) {
     if (WicketMessageTagHandler.enable) {
-      filter=new WicketMessageTagHandler(resource.getContainerInfo(),filter);
+      filter=new WicketMessageTagHandler(filter,resource.getContainerInfo(),application.getResourceSettings());
     }
     filter=new BodyOnLoadHandler(filter);
     if (Page.class.isAssignableFrom(resource.getContainerInfo().getContainerClass())) {
