@@ -1,0 +1,21 @@
+{
+  if (style != null && locale != null) {
+    final IResourceStream resource=locate(clazz,path + '_' + style,locale,extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (locale != null) {
+    final IResourceStream resource=locate(clazz,path,locale,extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  if (style != null) {
+    final IResourceStream resource=locate(clazz.getClassLoader(),path + '_' + style+ extension);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  return locate(clazz.getClassLoader(),path + extension);
+}

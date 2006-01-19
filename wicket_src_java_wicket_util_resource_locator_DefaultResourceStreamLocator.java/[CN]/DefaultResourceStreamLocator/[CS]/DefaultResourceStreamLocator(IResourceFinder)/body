@@ -1,10 +1,10 @@
 {
   super(null);
   setResourceStreamLocator(new IResourceStreamLocator(){
-    public IResourceStream locate(    ClassLoader loader,    String path,    String style,    Locale locale,    String extension){
+    public IResourceStream locate(    Class clazz,    String path,    String style,    Locale locale,    String extension){
       Iterator iter=locators.iterator();
       while (iter.hasNext()) {
-        IResourceStream resource=((IResourceStreamLocator)iter.next()).locate(loader,path,style,locale,extension);
+        IResourceStream resource=((IResourceStreamLocator)iter.next()).locate(clazz,path,style,locale,extension);
         if (resource != null) {
           return resource;
         }

@@ -2,7 +2,7 @@
   final String key=createResourceKey(clazz,locale,style);
   Properties props=(Properties)propertiesCache.get(key);
   if ((props == null) && (propertiesCache.containsKey(key) == false)) {
-    final IResourceStream resource=application.getResourceSettings().getResourceStreamLocator().locate(clazz,style,locale,"properties");
+    final IResourceStream resource=application.getResourceSettings().getResourceStreamLocator().locate(clazz,clazz.getName().replace('.','/'),style,locale,"properties");
     if (resource != null) {
       props=loadPropertiesFileAndWatchForChanges(key,resource,clazz,style,locale);
     }
