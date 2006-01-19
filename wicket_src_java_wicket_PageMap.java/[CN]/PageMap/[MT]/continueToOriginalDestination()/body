@@ -3,10 +3,10 @@
   if (interceptContinuationURL != null) {
     cycle.setRequestTarget(new IRequestTarget(){
       final String responseUrl=interceptContinuationURL;
+      public void cleanUp(      RequestCycle requestCycle){
+      }
       public Object getLock(      RequestCycle requestCycle){
         return null;
-      }
-      public void cleanUp(      RequestCycle requestCycle){
       }
       public void respond(      RequestCycle requestCycle){
         cycle.getResponse().redirect(responseUrl);
