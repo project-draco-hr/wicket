@@ -1,8 +1,6 @@
 {
-  final org.w3c.dom.Document w3cDoc=this.getDialog().getResponse().getDOM();
-  final Document doc=new org.dom4j.io.DOMReader().read(w3cDoc);
-  final String xml=doc.asXML();
-  final List list=doc.selectNodes(xpath);
+  final String resp=this.getDialog().getResponse().getText();
+  final Document doc=DocumentHelper.parseText(resp);
   final Node node=doc.selectSingleNode(xpath);
   return node;
 }
