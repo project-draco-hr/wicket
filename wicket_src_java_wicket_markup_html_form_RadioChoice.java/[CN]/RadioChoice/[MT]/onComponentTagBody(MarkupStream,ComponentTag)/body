@@ -1,6 +1,7 @@
 {
   final StringBuffer buffer=new StringBuffer();
   final List choices=getChoices();
+  final String selected=getValue();
   for (int index=0; index < choices.size(); index++) {
     final Object choice=choices.get(index);
     final String label=(String)getConverter().convert(getChoiceRenderer().getDisplayValue(choice),String.class);
@@ -9,7 +10,7 @@
       buffer.append(getPrefix());
       String id=getChoiceRenderer().getIdValue(choice,index);
       final String idAttr=getInputName() + "_" + id;
-      buffer.append("<input name=\"" + getInputName() + "\""+ " type=\"radio\""+ (isSelected(choice,index) ? " checked=\"checked\"" : "")+ " value=\""+ id+ "\" id=\""+ idAttr+ "\"");
+      buffer.append("<input name=\"" + getInputName() + "\""+ " type=\"radio\""+ (isSelected(choice,index,selected) ? " checked=\"checked\"" : "")+ " value=\""+ id+ "\" id=\""+ idAttr+ "\"");
       if (wantOnSelectionChangedNotifications()) {
         final String url=urlFor(IOnChangeListener.class);
         try {
