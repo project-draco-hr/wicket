@@ -1,4 +1,13 @@
 {
+  if (extension == null) {
+    extension="." + Strings.lastPathComponent(path,'.');
+    path=Strings.beforeLastPathComponent(path,'.');
+  }
+ else {
+    if (!extension.startsWith(".")) {
+      extension="." + extension;
+    }
+  }
   if (style != null && locale != null) {
     final IResourceStream resource=locate(clazz,path + '_' + style,locale,extension);
     if (resource != null) {
