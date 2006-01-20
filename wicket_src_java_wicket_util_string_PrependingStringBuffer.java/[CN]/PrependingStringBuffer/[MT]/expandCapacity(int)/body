@@ -1,0 +1,13 @@
+{
+  int newCapacity=(buffer.length + 1) * 2;
+  if (newCapacity < 0) {
+    newCapacity=Integer.MAX_VALUE;
+  }
+ else   if (minimumCapacity > newCapacity) {
+    newCapacity=minimumCapacity;
+  }
+  char newValue[]=new char[newCapacity];
+  System.arraycopy(buffer,position,newValue,newCapacity - size,size);
+  buffer=newValue;
+  position=newCapacity - size;
+}
