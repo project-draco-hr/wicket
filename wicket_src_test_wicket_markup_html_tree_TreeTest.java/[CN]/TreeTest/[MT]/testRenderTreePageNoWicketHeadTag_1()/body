@@ -1,15 +1,9 @@
 {
-  System.out.println("=== " + TreePageNoWicketHeadTag.class.getName() + " ===");
-  application=new MockWebApplication(null);
-  application.setHomePage(TreePageNoWicketHeadTag.class);
-  application.setupRequestAndResponse();
-  application.processRequestCycle();
-  String document=application.getServletResponse().getDocument();
-  assertTrue(DiffUtil.validatePage(document,this.getClass(),"TreePageNoWicketHeadTagExpectedResult_1.html"));
+  executeTest(TreePageNoWicketHeadTag.class,"TreePageNoWicketHeadTagExpectedResult_1.html");
   Page page=application.getLastRenderedPage();
   application.setupRequestAndResponse();
   application.getServletRequest().setRequestToRedirectString("?path=0:tree:tree:3:node:junctionLink&interface=ILinkListener");
   application.processRequestCycle();
-  document=application.getServletResponse().getDocument();
+  String document=application.getServletResponse().getDocument();
   assertTrue(DiffUtil.validatePage(document,this.getClass(),"TreePageNoWicketHeadTagExpectedResult_1-1.html"));
 }
