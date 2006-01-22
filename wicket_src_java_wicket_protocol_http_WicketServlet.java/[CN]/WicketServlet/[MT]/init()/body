@@ -2,6 +2,8 @@
   IWebApplicationFactory factory=getApplicationFactory();
   this.webApplication=factory.createApplication(this);
   this.webApplication.setWicketServlet(this);
+  String contextKey=WebApplication.getServletContextKey(getServletConfig().getServletName());
+  getServletContext().setAttribute(contextKey,this.webApplication);
   log.info("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
   try {
     Application.set(webApplication);
