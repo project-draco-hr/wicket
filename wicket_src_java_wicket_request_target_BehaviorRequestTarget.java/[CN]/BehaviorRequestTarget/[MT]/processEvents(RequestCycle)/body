@@ -1,0 +1,14 @@
+{
+  onProcessEvents(requestCycle);
+  final Component component=getTarget();
+  final String id=getRequestParameters().getBehaviorId();
+  if (id == null) {
+    throw new IllegalStateException("Parameter behaviorId was not provided: unable to locate listener. Component: " + component.toString());
+  }
+  final int idAsInt=Integer.parseInt(id);
+  final IBehaviorListener behaviorListener=(IBehaviorListener)component.getBehaviors().get(idAsInt);
+  if (behaviorListener == null) {
+    throw new IllegalStateException("No behavior listener found with behaviorId " + id + "; Component: "+ component.toString());
+  }
+  behaviorListener.onRequest();
+}

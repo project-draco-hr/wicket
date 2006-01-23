@@ -1,10 +1,4 @@
 {
-  requestCycle.setUpdateSession(true);
-  getPage().getFeedbackMessages().clear();
-  getPage().startComponentRender(getTarget());
-  final Application application=requestCycle.getApplication();
-  Settings.RenderStrategy strategy=application.getRequestCycleSettings().getRenderStrategy();
-  boolean issueRedirect=(strategy == Settings.REDIRECT_TO_RENDER || strategy == Settings.REDIRECT_TO_BUFFER);
-  requestCycle.setRedirect(issueRedirect);
+  onProcessEvents(requestCycle);
   invokeInterface(getTarget(),getListenerMethod(),getPage());
 }
