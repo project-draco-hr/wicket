@@ -1,0 +1,21 @@
+{
+  Page page=component.getPage();
+  if (page != null) {
+    page.startComponentRender(component);
+  }
+  try {
+    this.method.invoke(this.component,new Object[]{});
+  }
+ catch (  IllegalArgumentException e) {
+    throw new WicketRuntimeException("Error while rendering the response",e);
+  }
+catch (  IllegalAccessException e) {
+    throw new WicketRuntimeException("Error while rendering the response",e);
+  }
+catch (  InvocationTargetException e) {
+    throw new WicketRuntimeException("Error while rendering the response",e);
+  }
+  if (page != null) {
+    page.endComponentRender(component);
+  }
+}

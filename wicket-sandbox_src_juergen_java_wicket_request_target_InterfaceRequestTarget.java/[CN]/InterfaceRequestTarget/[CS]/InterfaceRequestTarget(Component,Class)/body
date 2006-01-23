@@ -1,0 +1,19 @@
+{
+  if (component == null) {
+    throw new IllegalArgumentException("Argument 'component' must be not null");
+  }
+  if (myInterface == null) {
+    throw new IllegalArgumentException("Argument 'myInterface' must be not null");
+  }
+  if (!myInterface.isInstance(component)) {
+    throw new IllegalArgumentException("Component must implement the interface: " + myInterface.getClass().getName() + "; Component: "+ component);
+  }
+  this.component=component;
+  if (myInterface.getMethods().length != 1) {
+    throw new IllegalArgumentException("Interface must implement exactly one method: " + myInterface.getClass().getName());
+  }
+  this.method=myInterface.getMethods()[0];
+  if (method.getParameterTypes().length != 0) {
+    throw new IllegalArgumentException("Interface must implement exactly one method without any parameter: " + myInterface.getClass().getName());
+  }
+}

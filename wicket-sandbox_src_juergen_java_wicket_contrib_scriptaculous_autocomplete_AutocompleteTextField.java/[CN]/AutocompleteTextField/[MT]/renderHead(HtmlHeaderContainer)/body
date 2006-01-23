@@ -1,0 +1,19 @@
+{
+  super.renderHead(container);
+  write(container,"<script type='text/javascript'>\n");
+  write(container,"var myrules = { \n");
+  write(container,"\t'#");
+  write(container,getId());
+  write(container,"' : function(el){ \n");
+  write(container,"\t\tnew Autocompleter.Local('");
+  write(container,getId());
+  write(container,"', '");
+  write(container,getAutocompleteId());
+  write(container,"', ");
+  write(container,buildResults());
+  write(container,", {});\n");
+  write(container,"\t} \n");
+  write(container,"} \n");
+  write(container,"Behaviour.register(myrules);\n");
+  write(container,"</script>\n");
+}

@@ -1,0 +1,21 @@
+{
+  super.renderHead(container);
+  PageParameters parameters=new PageParameters();
+  parameters.put("fieldName",this.getId());
+  String url=this.getPage().urlFor(null,page,parameters);
+  write(container,"<script type='text/javascript'>\n");
+  write(container,"var myrules = { \n");
+  write(container,"\t'#");
+  write(container,getId());
+  write(container,"' : function(el){ \n");
+  write(container,"\t\tnew Ajax.Autocompleter('");
+  write(container,getId());
+  write(container,"', '");
+  write(container,getAutocompleteId());
+  write(container,"', '");
+  write(container,url);
+  write(container,"', {});\n");
+  write(container,"\t} \n");
+  write(container,"} \nBehaviour.register(myrules);\n");
+  write(container,"</script>\n");
+}
