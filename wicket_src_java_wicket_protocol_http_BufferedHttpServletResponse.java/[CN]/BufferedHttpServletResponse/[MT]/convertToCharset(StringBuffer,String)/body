@@ -2,12 +2,12 @@
   if (encoding == null) {
     throw new WicketRuntimeException("Internal error: encoding must not be null");
   }
-  final ByteArrayOutputStream baos=new ByteArrayOutputStream(output.length());
+  final ByteArrayOutputStream baos=new ByteArrayOutputStream((int)(output.length() * 1.2));
   final OutputStreamWriter osw;
   final byte[] bytes;
   try {
     osw=new OutputStreamWriter(baos,encoding);
-    osw.write(output);
+    osw.write(output.getValue());
     osw.close();
     bytes=baos.toByteArray();
   }
