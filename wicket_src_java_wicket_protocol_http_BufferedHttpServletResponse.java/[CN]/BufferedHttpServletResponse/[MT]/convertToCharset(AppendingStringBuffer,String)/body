@@ -1,0 +1,18 @@
+{
+  if (encoding == null) {
+    throw new WicketRuntimeException("Internal error: encoding must not be null");
+  }
+  final ByteArrayOutputStream baos=new ByteArrayOutputStream((int)(output.length() * 1.2));
+  final OutputStreamWriter osw;
+  final byte[] bytes;
+  try {
+    osw=new OutputStreamWriter(baos,encoding);
+    osw.write(output.getValue(),0,output.length());
+    osw.close();
+    bytes=baos.toByteArray();
+  }
+ catch (  Exception ex) {
+    throw new WicketRuntimeException("Can't convert response to charset: " + encoding,ex);
+  }
+  return bytes;
+}

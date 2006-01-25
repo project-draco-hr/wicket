@@ -3,14 +3,23 @@
   final Locale locale=containerInfo.getLocale();
   final String style=containerInfo.getStyle();
   final String markupType=containerInfo.getFileExtension();
-  final StringBuffer buffer=new StringBuffer(classname.length() + 32);
+  final wicket.util.string.AppendingStringBuffer buffer=new wicket.util.string.AppendingStringBuffer(classname.length() + 32);
   buffer.append(classname);
   if (locale != null) {
-    buffer.append(locale.toString());
+    boolean l=locale.getLanguage().length() != 0;
+    boolean c=locale.getCountry().length() != 0;
+    boolean v=locale.getVariant().length() != 0;
+    buffer.append(locale.getLanguage());
+    if (c || (l && v)) {
+      buffer.append('_').append(locale.getCountry());
+    }
+    if (v && (l || c)) {
+      buffer.append('_').append(locale.getVariant());
+    }
   }
   if (style != null) {
     buffer.append(style);
   }
   buffer.append(markupType);
-  return buffer.toString();
+  return buffer;
 }

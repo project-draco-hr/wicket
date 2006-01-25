@@ -1,8 +1,9 @@
 {
   Application application=Application.get();
   bind(application);
-  final StringBuffer buffer=new StringBuffer();
+  String path=SharedResources.path(application,scope,name,locale,style);
+  final AppendingStringBuffer buffer=new AppendingStringBuffer(path.length() + 11);
   buffer.append("resources/");
-  buffer.append(SharedResources.path(application,scope,name,locale,style));
+  buffer.append(path);
   return buffer.toString();
 }
