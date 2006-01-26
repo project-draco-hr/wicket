@@ -11,6 +11,11 @@
         IResourceStream stream=resource.getResourceStream();
         stream.length();
         Time time=stream.lastModifiedTime();
+        try {
+          stream.close();
+        }
+ catch (        IOException e) {
+        }
         return time != null ? time.getMilliseconds() : -1;
       }
   finally {
