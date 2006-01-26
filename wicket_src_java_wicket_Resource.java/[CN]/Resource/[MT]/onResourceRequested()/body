@@ -1,16 +1,21 @@
 {
-  final RequestCycle cycle=RequestCycle.get();
-  IResourceStream resourceStream=init();
-  final Response response=cycle.getResponse();
-  response.setContentType(resourceStream.getContentType());
-  response.setContentLength((int)resourceStream.length());
-  if (isCacheable()) {
-    response.setLastModifiedTime(resourceStream.lastModifiedTime());
-  }
+  try {
+    parameters.set(null);
+    final RequestCycle cycle=RequestCycle.get();
+    IResourceStream resourceStream=init();
+    final Response response=cycle.getResponse();
+    response.setContentType(resourceStream.getContentType());
+    response.setContentLength((int)resourceStream.length());
+    if (isCacheable()) {
+      response.setLastModifiedTime(resourceStream.lastModifiedTime());
+    }
  else {
-    response.setLastModifiedTime(Time.valueOf(-1));
+      response.setLastModifiedTime(Time.valueOf(-1));
+    }
+    configureResponse(response);
+    respond(resourceStream,response);
   }
-  configureResponse(response);
-  respond(resourceStream,response);
-  parameters.set(null);
+  finally {
+    parameters.set(null);
+  }
 }
