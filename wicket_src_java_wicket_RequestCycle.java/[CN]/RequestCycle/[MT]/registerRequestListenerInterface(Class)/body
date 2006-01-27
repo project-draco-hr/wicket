@@ -1,17 +1,17 @@
 {
-  if (!IRequestListener.class.isAssignableFrom(i)) {
-    throw new IllegalArgumentException("Class " + i + " must extend IRequestListener");
+  if (!IRequestListener.class.isAssignableFrom(clazz)) {
+    throw new IllegalArgumentException("Class " + clazz + " must extend IRequestListener");
   }
-  final Method[] methods=i.getMethods();
+  final Method[] methods=clazz.getMethods();
   if (methods.length == 1) {
     if (methods[0].getParameterTypes().length == 0) {
-      listenerRequestInterfaceMethods.put(Classes.name(i),methods[0]);
+      listenerRequestInterfaceMethods.put(Classes.name(clazz),methods[0]);
     }
  else {
-      throw new IllegalArgumentException("Method in interface " + i + " cannot have parameters");
+      throw new IllegalArgumentException("Method in interface " + clazz + " cannot have parameters");
     }
   }
  else {
-    throw new IllegalArgumentException("Interface " + i + " can have only one method");
+    throw new IllegalArgumentException("Interface " + clazz + " can have only one method");
   }
 }

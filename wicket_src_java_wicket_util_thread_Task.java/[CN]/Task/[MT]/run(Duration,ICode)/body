@@ -3,13 +3,20 @@
     final Runnable runnable=new Runnable(){
       public void run(){
         startTime.fromNow().sleep();
+        final Log log=getLog();
         while (true) {
           final Time startOfPeriod=Time.now();
+          if (log.isDebugEnabled()) {
+            log.debug("Run the job: " + code.toString());
+          }
           try {
             code.run(getLog());
           }
  catch (          Exception e) {
-            getLog().error("Unhandled exception thrown by user code in task " + name,e);
+            log.error("Unhandled exception thrown by user code in task " + name,e);
+          }
+          if (log.isDebugEnabled()) {
+            log.debug("Finished with job: " + code.toString());
           }
           startOfPeriod.add(frequency).fromNow().sleep();
         }
