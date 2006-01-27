@@ -1,0 +1,8 @@
+{
+  MyMockPage page=new MyMockPage();
+  Application.get().getResourceSettings().addStringResourceLoader(new ComponentStringResourceLoader(Application.get()));
+  Localizer localizer=Application.get().getResourceSettings().getLocalizer();
+  String drop1=localizer.getString("null",page.drop1,"");
+  String drop2=localizer.getString("null",page.drop2,"");
+  assertFalse("drop1 : [" + drop1 + "] drop2 : ["+ drop2+ "]",drop1.equals(drop2));
+}
