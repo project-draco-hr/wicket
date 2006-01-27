@@ -1,15 +1,16 @@
 {
   for (int i=0; i < children_size(); i++) {
     final Component child=(Component)children_get(i);
-    if (c == null || c.isInstance(child)) {
-      final Object value=visitor.component(child);
-      if (value != IVisitor.CONTINUE_TRAVERSAL) {
+    Object value=null;
+    if (clazz == null || clazz.isInstance(child)) {
+      value=visitor.component(child);
+      if ((value != IVisitor.CONTINUE_TRAVERSAL) && (value != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
         return value;
       }
     }
-    if (child instanceof MarkupContainer) {
-      final Object value=((MarkupContainer)child).visitChildren(c,visitor);
-      if (value != IVisitor.CONTINUE_TRAVERSAL) {
+    if ((child instanceof MarkupContainer) && (value != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
+      value=((MarkupContainer)child).visitChildren(clazz,visitor);
+      if ((value != IVisitor.CONTINUE_TRAVERSAL) && (value != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
         return value;
       }
     }
