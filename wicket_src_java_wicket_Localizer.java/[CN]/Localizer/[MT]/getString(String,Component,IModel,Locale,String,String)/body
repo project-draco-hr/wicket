@@ -1,7 +1,9 @@
 {
-  final IResourceSettings resourceSettings=application.getResourceSettings();
   Class clazz=(component != null ? component.getClass() : null);
   String id=createCacheId(clazz,locale,style,key);
+  if (component != null) {
+    id+=":" + component.getId();
+  }
   String string=getCachedValue(id);
   if (string == null) {
     final List searchStack;
@@ -15,11 +17,18 @@
       searchStack.add(Application.get().getClass());
       path=null;
     }
-    string=getString(key,path,searchStack,locale,style);
+    string=traverseResourceLoaders(key,path,searchStack,locale,style);
+    if (string != null) {
+      this.cachedValues.put(id,string);
+    }
+ else {
+      this.cachedValues.put(id,NULL);
+    }
   }
   if (string != null) {
     return substitutePropertyExpressions(component,string,model);
   }
+  final IResourceSettings resourceSettings=application.getResourceSettings();
   if (resourceSettings.getUseDefaultOnMissingResource() && (defaultValue != null)) {
     return defaultValue;
   }
