@@ -1,0 +1,19 @@
+{
+  WebMarkupContainer headerPart=getHeaderPart();
+  if (headerPart != null) {
+    if (container.get(headerPart.getId()) == null) {
+      container.autoAdd(headerPart);
+      checkBodyOnLoad();
+    }
+ else {
+      Response response=getRequestCycle().getResponse();
+      try {
+        getRequestCycle().setResponse(NullResponse.getInstance());
+        container.autoAdd(headerPart);
+      }
+  finally {
+        getRequestCycle().setResponse(response);
+      }
+    }
+  }
+}

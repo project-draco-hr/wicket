@@ -1,14 +1,17 @@
 {
   this.bodyOnLoad=null;
-  visitChildren(IHeaderContributor.class,new IVisitor(){
+  visitChildren(new IVisitor(){
     /** 
  * @see wicket.Component.IVisitor#component(wicket.Component)
  */
     public Object component(    Component component){
       if (component.isVisible()) {
-        ((IHeaderContributor)component).renderHead(container);
+        component.renderHead(container);
+        return IVisitor.CONTINUE_TRAVERSAL;
       }
-      return IVisitor.CONTINUE_TRAVERSAL;
+ else {
+        return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+      }
     }
   }
 );

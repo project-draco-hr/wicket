@@ -4,9 +4,7 @@
     IBehavior behavior=(IBehavior)i.next();
     if (behavior instanceof IHeaderContributor) {
       ((IHeaderContributor)behavior).renderHead(container);
-    }
-    if (behavior instanceof IBodyOnLoadContributor) {
-      String stmt=((IBodyOnLoadContributor)behavior).getBodyOnLoad();
+      String stmt=((IHeaderContributor)behavior).getBodyOnLoad();
       if (stmt != null) {
         ((WebPage)getPage()).appendToBodyOnLoad(stmt);
       }
