@@ -5,8 +5,11 @@
     this.getRequestCycle().setResponse(response);
     super.onComponentTagBody(markupStream,openTag);
     MarkupContainer parent=getParent();
-    if (parent instanceof IHeaderRenderer) {
-      ((IHeaderRenderer)parent).renderHeaderSections(this);
+    while ((parent instanceof Border)) {
+      parent=parent.getParent();
+    }
+    if (parent instanceof WebPage) {
+      ((WebPage)parent).renderHeaderSections(this);
     }
  else {
       throw new WicketRuntimeException("Programming error: 'parent' should be a Page or a Border implementing IHeaderRenderer");
