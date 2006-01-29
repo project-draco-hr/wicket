@@ -1,12 +1,15 @@
 {
-  List behaviors=getBehaviors();
-  for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
-    IBehavior behavior=(IBehavior)i.next();
-    if (behavior instanceof IHeaderContributor) {
-      ((IHeaderContributor)behavior).renderHead(container);
-      String stmt=((IHeaderContributor)behavior).getBodyOnLoad();
-      if (stmt != null) {
-        ((WebPage)getPage()).appendToBodyOnLoad(stmt);
+  if (this.behaviors != null) {
+    final WebPage webPage=(WebPage)getPage();
+    final Iterator iter=this.behaviors.iterator();
+    while (iter.hasNext()) {
+      IBehavior behavior=(IBehavior)iter.next();
+      if (behavior instanceof IHeaderContributor) {
+        ((IHeaderContributor)behavior).renderHead(container);
+        String stmt=((IHeaderContributor)behavior).getBodyOnLoad();
+        if (stmt != null) {
+          webPage.appendToBodyOnLoad(stmt);
+        }
       }
     }
   }
