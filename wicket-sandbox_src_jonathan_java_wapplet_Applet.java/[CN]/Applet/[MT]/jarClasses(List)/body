@@ -4,6 +4,7 @@
     final JarOutputStream jar=new JarOutputStream(out);
     new ClassClosure(classes,false){
       protected void addClass(      final String name,      final InputStream is){
+        System.out.println("JAR: Added " + name);
         ZipEntry entry=new ZipEntry(name);
         try {
           jar.putNextEntry(entry);
@@ -16,6 +17,7 @@
       }
     }
 ;
+    System.out.println("JAR: Size is " + Bytes.bytes(out.size()));
     jar.close();
     out.close();
   }
