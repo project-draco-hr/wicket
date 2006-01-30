@@ -1,0 +1,23 @@
+{
+  final Label counterLabel;
+  final Label counterLabel2;
+  counterLabel=new Label("counter-label",new PropertyModel(this,"counter"));
+  counterLabel.add(AjaxIdSetter.INSTANCE);
+  counterLabel2=new Label("counter-label2",new PropertyModel(this,"counter2"));
+  counterLabel2.add(AjaxIdSetter.INSTANCE);
+  add(counterLabel);
+  add(counterLabel2);
+  add(new AjaxLink("ajax-link"){
+    public void onAjax(){
+      System.out.println("AJAX");
+      counter++;
+      counter2++;
+      AjaxRequestTarget target=new AjaxRequestTarget();
+      target.addComponent(counterLabel);
+      target.addComponent(counterLabel2);
+      target.addJavascript("alert('counters " + counter + " "+ counter2+ "')");
+      getRequestCycle().setRequestTarget(target);
+    }
+  }
+);
+}

@@ -1,0 +1,17 @@
+{
+  Response response=requestCycle.getResponse();
+  response.setContentType("text/xml");
+  response.write("<?xml version=\"1.0\"?>");
+  response.write("<ajax-response>");
+  Iterator it=components.iterator();
+  while (it.hasNext()) {
+    Component c=(Component)it.next();
+    respondComponent(response,c);
+  }
+  it=javascripts.iterator();
+  while (it.hasNext()) {
+    String js=(String)it.next();
+    respondInvocation(response,js);
+  }
+  response.write("</ajax-response>");
+}

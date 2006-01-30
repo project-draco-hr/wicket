@@ -1,0 +1,17 @@
+{
+  response.write("<component id=\"" + component.getPageRelativePath() + "\">");
+  response.write("<![CDATA[");
+  Page page=component.getPage();
+  if (page != null) {
+    page.startComponentRender(component);
+  }
+  boolean old=component.getRenderBodyOnly();
+  component.setRenderBodyOnly(true);
+  component.doRender();
+  component.setRenderBodyOnly(old);
+  if (page != null) {
+    page.endComponentRender(component);
+  }
+  response.write("]]>");
+  response.write("</component>");
+}
