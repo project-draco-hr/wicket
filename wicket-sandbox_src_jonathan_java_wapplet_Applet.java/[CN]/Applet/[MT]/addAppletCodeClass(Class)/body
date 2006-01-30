@@ -1,6 +1,7 @@
 {
-  if (!appletCodeClass.isAssignableFrom(IInitializer.class)) {
-    throw new IllegalArgumentException("Applet code class for Applet must implement IAppletCode");
+  if (!IInitializer.class.isAssignableFrom(appletCodeClass)) {
+    throw new IllegalArgumentException("Applet initializer class " + appletCodeClass.getName() + " must implement "+ IInitializer.class.getName());
   }
   this.appletCodeClass=appletCodeClass;
+  addClass(appletCodeClass);
 }
