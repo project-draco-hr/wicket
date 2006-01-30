@@ -3,15 +3,11 @@
   this.columns=columns;
   datagrid=new DataGridView("rows",columns,dataProvider){
     private static final long serialVersionUID=1L;
-    protected void postProcessRowItem(    final Item item){
-      final IModel model=new AbstractReadOnlyModel(){
-        private static final long serialVersionUID=1L;
-        public Object getObject(        Component component){
-          return (item.getIndex() % 2 == 0) ? "odd" : "even";
-        }
-      }
-;
-      item.add(new AttributeModifier("class",true,model));
+    protected Item newRowItem(    String id,    int index,    IModel model){
+      return DataTable.this.newRowItem(id,index,model);
+    }
+    protected Item newCellItem(    String id,    int index,    IModel model){
+      return DataTable.this.newCellItem(id,index,model);
     }
   }
 ;
