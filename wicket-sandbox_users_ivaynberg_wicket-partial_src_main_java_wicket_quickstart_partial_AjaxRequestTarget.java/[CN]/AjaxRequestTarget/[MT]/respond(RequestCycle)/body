@@ -1,6 +1,9 @@
 {
-  Response response=requestCycle.getResponse();
+  WebResponse response=(WebResponse)requestCycle.getResponse();
   response.setContentType("text/xml");
+  response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
+  response.setHeader("Cache-Control","no-cache, must-revalidate");
+  response.setHeader("Pragma","no-cache");
   response.write("<?xml version=\"1.0\"?>");
   response.write("<ajax-response>");
   Iterator it=components.iterator();
