@@ -1,0 +1,15 @@
+{
+  if (code == null) {
+    DataInputStream in=attributes.getStream("Code");
+    if (in != null) {
+      try {
+        code=new Code(in,classFile.constantPool);
+        in.close();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid Code attribute");
+      }
+    }
+  }
+  return code;
+}

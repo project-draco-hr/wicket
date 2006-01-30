@@ -1,0 +1,12 @@
+{
+  int index=in.readUnsignedShort();
+  name=(index > 0) ? pool.getClass(index).getClassName() : null;
+  index=in.readUnsignedShort();
+  outerClassName=(index > 0) ? pool.getClass(index).getClassName() : null;
+  index=in.readUnsignedShort();
+  if (index > 0) {
+    CPUTF8Info entry=(CPUTF8Info)pool.get(index);
+    simpleName=entry.getName();
+  }
+  access=in.readUnsignedShort();
+}

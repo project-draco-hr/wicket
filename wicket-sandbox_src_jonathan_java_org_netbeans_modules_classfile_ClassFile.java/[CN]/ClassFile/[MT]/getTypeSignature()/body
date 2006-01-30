@@ -1,0 +1,16 @@
+{
+  if (typeSignature == null) {
+    DataInputStream in=attributes.getStream("Signature");
+    if (in != null) {
+      try {
+        CPUTF8Info entry=(CPUTF8Info)constantPool.get(in.readUnsignedShort());
+        typeSignature=entry.getName();
+        in.close();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid Signature attribute");
+      }
+    }
+  }
+  return typeSignature;
+}

@@ -1,0 +1,16 @@
+{
+  super.loadAnnotations();
+  if (annotations == null && (visible != null || invisible != null))   annotations=new HashMap(2);
+  try {
+    if (visible != null)     Annotation.load(visible,classFile.getConstantPool(),true,annotations);
+  }
+ catch (  IOException e) {
+    System.err.println("invalid RuntimeVisibleParameterAnnotations attribute");
+  }
+  try {
+    if (invisible != null)     Annotation.load(invisible,classFile.getConstantPool(),false,annotations);
+  }
+ catch (  IOException e) {
+    System.err.println("invalid RuntimeInvisibleParameterAnnotations attribute");
+  }
+}

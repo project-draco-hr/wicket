@@ -1,0 +1,19 @@
+{
+  if (enclosingMethod == null) {
+    DataInputStream in=attributes.getStream("EnclosingMethod");
+    if (in != null) {
+      try {
+        int classIndex=in.readUnsignedShort();
+        int natIndex=in.readUnsignedShort();
+        CPEntry classInfo=constantPool.get(classIndex);
+        if (classInfo.getTag() == ConstantPool.CONSTANT_Class)         enclosingMethod=new EnclosingMethod(constantPool,(CPClassInfo)classInfo,natIndex);
+ else         ;
+        in.close();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid EnclosingMethod attribute");
+      }
+    }
+  }
+  return enclosingMethod;
+}

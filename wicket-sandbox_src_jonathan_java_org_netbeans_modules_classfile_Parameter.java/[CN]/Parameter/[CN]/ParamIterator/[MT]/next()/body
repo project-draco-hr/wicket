@@ -1,0 +1,48 @@
+{
+  if (hasNext()) {
+    String name="";
+    for (int i=0; i < localVars.length; i++) {
+      LocalVariableTableEntry lvte=localVars[i];
+      if (lvte.index == ivar && lvte.startPC == 0) {
+        name=localVars[i].getName();
+        break;
+      }
+    }
+    ivar++;
+    int sigStart=isig;
+    while (isig < signature.length()) {
+      char ch=signature.charAt(isig);
+switch (ch) {
+case '[':
+        isig++;
+      break;
+case 'B':
+case 'C':
+case 'F':
+case 'I':
+case 'S':
+case 'Z':
+case 'V':
+{
+      String type=signature.substring(sigStart,++isig);
+      return Parameter.createParameter(name,type,classFile,visibleAnnotations,invisibleAnnotations);
+    }
+case 'D':
+case 'J':
+{
+    ivar++;
+    String type=signature.substring(sigStart,++isig);
+    return Parameter.createParameter(name,type,classFile,visibleAnnotations,invisibleAnnotations);
+  }
+case 'L':
+{
+  int end=signature.indexOf(';',isig) + 1;
+  String type=signature.substring(isig,end);
+  isig=end;
+  return Parameter.createParameter(name,type,classFile,visibleAnnotations,invisibleAnnotations);
+}
+}
+}
+}
+throw new NoSuchElementException();
+}

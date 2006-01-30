@@ -1,0 +1,12 @@
+{
+  startPC=in.readUnsignedShort();
+  endPC=in.readUnsignedShort();
+  handlerPC=in.readUnsignedShort();
+  int typeIndex=in.readUnsignedShort();
+  if (typeIndex != 0)   try {
+    catchType=pool.getClass(typeIndex);
+  }
+ catch (  IndexOutOfBoundsException e) {
+    System.err.println("invalid catchType (" + typeIndex + ") in exception table entry");
+  }
+}

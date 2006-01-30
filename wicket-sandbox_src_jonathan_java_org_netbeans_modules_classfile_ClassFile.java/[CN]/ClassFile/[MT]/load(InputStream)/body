@@ -1,0 +1,14 @@
+{
+  try {
+    DataInputStream in=new DataInputStream(classData);
+    if (in == null)     throw new IOException();
+    constantPool=loadClassHeader(in);
+    interfaces=getCPClassList(in,constantPool);
+    variables=Variable.loadFields(in,constantPool,this);
+    methods=Method.loadMethods(in,constantPool,this,includeCode);
+    attributes=AttributeMap.load(in,constantPool);
+  }
+ catch (  IOException ioe) {
+    throw new InvalidClassFormatException(makeErrorMsg(ioe));
+  }
+}

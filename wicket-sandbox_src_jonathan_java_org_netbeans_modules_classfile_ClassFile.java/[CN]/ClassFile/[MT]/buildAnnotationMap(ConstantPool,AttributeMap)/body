@@ -1,0 +1,24 @@
+{
+  Map annotations=new HashMap(2);
+  DataInputStream in=attrs.getStream("RuntimeVisibleAnnotations");
+  if (in != null) {
+    try {
+      Annotation.load(in,pool,true,annotations);
+      in.close();
+    }
+ catch (    IOException e) {
+      System.err.println("invalid RuntimeVisibleAnnotations attribute");
+    }
+  }
+  in=attrs.getStream("RuntimeInvisibleAnnotations");
+  if (in != null) {
+    try {
+      Annotation.load(in,pool,false,annotations);
+      in.close();
+    }
+ catch (    IOException e) {
+      System.err.println("invalid RuntimeInvisibleAnnotations attribute");
+    }
+  }
+  return annotations;
+}

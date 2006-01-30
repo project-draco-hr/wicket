@@ -1,0 +1,26 @@
+{
+  final ByteArrayOutputStream out=new ByteArrayOutputStream();
+  try {
+    final JarOutputStream jar=new JarOutputStream(out);
+    new ClassClosure(classes,false){
+      protected void addClass(      final String name,      final InputStream is){
+        ZipEntry entry=new ZipEntry(name);
+        try {
+          jar.putNextEntry(entry);
+          Streams.copy(is,jar);
+          jar.closeEntry();
+        }
+ catch (        IOException e) {
+          throw new WicketRuntimeException(e);
+        }
+      }
+    }
+;
+    jar.close();
+    out.close();
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
+  return out.toByteArray();
+}

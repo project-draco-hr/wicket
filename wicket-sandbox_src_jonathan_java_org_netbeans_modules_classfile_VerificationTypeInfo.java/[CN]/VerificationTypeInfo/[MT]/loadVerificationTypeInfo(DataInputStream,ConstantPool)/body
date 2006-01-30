@@ -1,0 +1,31 @@
+{
+  int tag=in.readUnsignedByte();
+switch (tag) {
+case ITEM_Top:
+    return new TopVariableInfo();
+case ITEM_Integer:
+  return new IntegerVariableInfo();
+case ITEM_Float:
+return new FloatVariableInfo();
+case ITEM_Long:
+return new LongVariableInfo();
+case ITEM_Double:
+return new DoubleVariableInfo();
+case ITEM_Null:
+return new NullVariableInfo();
+case ITEM_UninitializedThis:
+return new UninitializedThisVariableInfo();
+case ITEM_Object:
+{
+int cpool_index=in.readUnsignedShort();
+return new ObjectVariableInfo(pool.get(cpool_index));
+}
+case ITEM_Uninitialized:
+{
+int offset=in.readUnsignedShort();
+return new UninitializedVariableInfo(offset);
+}
+default :
+throw new InvalidClassFormatException("invalid verification_type_info tag: " + tag);
+}
+}

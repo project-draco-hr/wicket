@@ -1,0 +1,15 @@
+{
+  final ClassName type;
+  CPEntry entry=pool.get(in.readUnsignedShort());
+  if (entry.getTag() == ConstantPool.CONSTANT_Class)   type=((CPClassInfo)entry).getClassName();
+ else {
+    String s=((CPName)entry).getName();
+    type=ClassName.getClassName(s);
+  }
+  int npairs=in.readUnsignedShort();
+  List pairList=new ArrayList();
+  for (int j=0; j < npairs; j++)   pairList.add(AnnotationComponent.load(in,pool,visible));
+  AnnotationComponent[] acs=new AnnotationComponent[pairList.size()];
+  pairList.toArray(acs);
+  return new Annotation(pool,type,acs,visible);
+}

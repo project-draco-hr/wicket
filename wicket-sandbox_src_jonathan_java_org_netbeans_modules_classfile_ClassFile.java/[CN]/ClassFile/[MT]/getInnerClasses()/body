@@ -1,0 +1,16 @@
+{
+  if (innerClasses == null) {
+    DataInputStream in=attributes.getStream("InnerClasses");
+    if (in != null) {
+      try {
+        innerClasses=InnerClass.loadInnerClasses(in,constantPool);
+        in.close();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid InnerClasses attribute");
+      }
+    }
+ else     innerClasses=new InnerClass[0];
+  }
+  return Arrays.asList(innerClasses);
+}

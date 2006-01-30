@@ -1,0 +1,16 @@
+{
+  if (exceptions == null) {
+    DataInputStream in=attributes.getStream("Exceptions");
+    if (in != null) {
+      try {
+        exceptions=ClassFile.getCPClassList(in,classFile.constantPool);
+        in.close();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid Exceptions attribute");
+      }
+    }
+    if (exceptions == null)     exceptions=new CPClassInfo[0];
+  }
+  return (CPClassInfo[])exceptions.clone();
+}

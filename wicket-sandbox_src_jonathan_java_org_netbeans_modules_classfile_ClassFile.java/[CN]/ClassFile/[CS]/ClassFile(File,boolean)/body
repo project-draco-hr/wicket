@@ -1,0 +1,15 @@
+{
+  InputStream is=null;
+  this.includeCode=includeCode;
+  if (file == null || !file.exists())   throw new FileNotFoundException(file != null ? file.getPath() : "null");
+  try {
+    is=new BufferedInputStream(new FileInputStream(file),BUFFER_SIZE);
+    load(is);
+  }
+ catch (  InvalidClassFormatException e) {
+    throw new InvalidClassFormatException(file.getPath() + '(' + e.getMessage()+ ')');
+  }
+ finally {
+    if (is != null)     is.close();
+  }
+}

@@ -1,0 +1,21 @@
+{
+  StringBuffer sb=new StringBuffer("name=");
+  sb.append(getName());
+  sb.append(" type=");
+  sb.append(getDescriptor());
+  if (getTypeSignature() != null) {
+    sb.append(", signature=");
+    sb.append(typeSignature);
+  }
+  loadAnnotations();
+  if (annotations.size() > 0) {
+    Iterator iter=annotations.values().iterator();
+    sb.append(", annotations={ ");
+    while (iter.hasNext()) {
+      sb.append(iter.next().toString());
+      if (iter.hasNext())       sb.append(", ");
+    }
+    sb.append(" }");
+  }
+  return sb.toString();
+}

@@ -1,0 +1,52 @@
+{
+  final Set visited=new HashSet();
+  final Stack stack=new Stack();
+  for (final Iterator iterator=classes.iterator(); iterator.hasNext(); ) {
+    final Class c=(Class)iterator.next();
+    final ClassName classname=ClassName.getClassName(c.getName().replace('.','/'));
+    stack.push(classname);
+    visited.add(classname.getExternalName());
+  }
+  while (!stack.empty()) {
+    ClassName classname=(ClassName)stack.pop();
+    InputStream in=inputStreamForClassName(classname.getType());
+    try {
+      if (in == null) {
+        throw new IllegalStateException("Unable to find class " + classname.getExternalName());
+      }
+      ClassFile classfile;
+      try {
+        classfile=new ClassFile(in);
+      }
+ catch (      IOException e) {
+        throw new RuntimeException(e);
+      }
+      closure.add(classfile.getName().getExternalName());
+      final ConstantPool pool=classfile.getConstantPool();
+      final Iterator references=pool.getAllClassNames().iterator();
+      while (references.hasNext()) {
+        final ClassName classnameReference=(ClassName)references.next();
+        final String name=classnameReference.getExternalName();
+        if (name.indexOf('[') != -1) {
+        }
+ else         if (!includeJDK && (name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("sun.")|| name.startsWith("com.sun.corba")|| name.startsWith("com.sun.image")|| name.startsWith("com.sun.java.swing")|| name.startsWith("com.sun.naming")|| name.startsWith("com.sun.security"))) {
+        }
+ else {
+          final boolean isNew=visited.add(name);
+          if (isNew) {
+            stack.push(classnameReference);
+          }
+        }
+      }
+      addClass(classfile.getName().getExternalName(),in);
+    }
+  finally {
+      try {
+        in.close();
+      }
+ catch (      IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+}

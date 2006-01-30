@@ -1,0 +1,15 @@
+{
+  InputStream in=null;
+  this.includeCode=includeCode;
+  try {
+    if (classFileName == null)     throw new IOException("input stream not specified");
+    in=new BufferedInputStream(new FileInputStream(classFileName),BUFFER_SIZE);
+    load(in);
+  }
+ catch (  InvalidClassFormatException e) {
+    throw new InvalidClassFormatException(classFileName + '(' + e.getMessage()+ ')');
+  }
+ finally {
+    if (in != null)     in.close();
+  }
+}

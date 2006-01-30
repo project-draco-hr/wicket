@@ -1,0 +1,10 @@
+{
+  int offset=in.readUnsignedShort();
+  int n=in.readUnsignedShort();
+  VerificationTypeInfo[] locals=new VerificationTypeInfo[n];
+  for (int i=0; i < locals.length; i++)   locals[i]=VerificationTypeInfo.loadVerificationTypeInfo(in,pool);
+  n=in.readUnsignedShort();
+  VerificationTypeInfo[] stackItems=new VerificationTypeInfo[n];
+  for (int i=0; i < stackItems.length; i++)   stackItems[i]=VerificationTypeInfo.loadVerificationTypeInfo(in,pool);
+  return new FullFrame(255,offset,locals,stackItems);
+}

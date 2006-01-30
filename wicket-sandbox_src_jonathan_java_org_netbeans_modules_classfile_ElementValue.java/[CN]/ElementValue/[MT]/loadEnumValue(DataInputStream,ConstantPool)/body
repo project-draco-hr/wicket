@@ -1,0 +1,14 @@
+{
+  int type=in.readUnsignedShort();
+  CPEntry cpe=pool.get(type);
+  if (cpe.getTag() == ConstantPool.CONSTANT_FieldRef) {
+    CPFieldInfo fe=(CPFieldInfo)cpe;
+    String enumType=fe.getClassName().getInternalName();
+    String enumName=fe.getFieldName();
+    return new EnumElementValue(enumType,enumName);
+  }
+ else {
+    int name=in.readUnsignedShort();
+    return new EnumElementValue(pool,type,name);
+  }
+}

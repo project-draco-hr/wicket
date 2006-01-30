@@ -1,0 +1,29 @@
+{
+  StringBuffer sb=new StringBuffer();
+  String name=getName();
+  if (name != null) {
+    sb.append(getName());
+    sb.append(' ');
+  }
+  if (isSynthetic())   sb.append("(synthetic)");
+  if (isDeprecated())   sb.append("(deprecated)");
+  sb.append("type=");
+  sb.append(getDescriptor());
+  if (getTypeSignature() != null) {
+    sb.append(", signature=");
+    sb.append(typeSignature);
+  }
+  sb.append(", access=");
+  sb.append(Access.toString(access));
+  loadAnnotations();
+  if (annotations.size() > 0) {
+    Iterator iter=annotations.values().iterator();
+    sb.append(", annotations={ ");
+    while (iter.hasNext()) {
+      sb.append(iter.next().toString());
+      if (iter.hasNext())       sb.append(", ");
+    }
+    sb.append(" }");
+  }
+  return sb.toString();
+}

@@ -1,0 +1,23 @@
+{
+  try {
+    ConstantPoolReader cpr=new ConstantPoolReader(cpBytes);
+    for (int i=CONSTANT_POOL_START; i < constantPoolCount; i++) {
+      CPEntry newEntry=getConstantPoolEntry(cpr);
+      cpEntries[i]=newEntry;
+      if (newEntry.usesTwoSlots())       i++;
+    }
+    for (int i=CONSTANT_POOL_START; i < constantPoolCount; i++) {
+      CPEntry entry=cpEntries[i];
+      if (entry == null) {
+        continue;
+      }
+      entry.resolve(cpEntries);
+    }
+  }
+ catch (  IllegalArgumentException ioe) {
+    throw new InvalidClassFormatException();
+  }
+catch (  IndexOutOfBoundsException iobe) {
+    throw new InvalidClassFormatException();
+  }
+}

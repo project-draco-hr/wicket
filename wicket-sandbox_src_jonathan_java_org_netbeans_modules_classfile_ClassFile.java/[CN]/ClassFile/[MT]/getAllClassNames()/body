@@ -1,0 +1,11 @@
+{
+  Set set=new HashSet();
+  Collection c=constantPool.getAllConstants(CPClassInfo.class);
+  for (Iterator i=c.iterator(); i.hasNext(); ) {
+    CPClassInfo ci=(CPClassInfo)i.next();
+    set.add(ci.getClassName());
+  }
+  for (int i=0; i < variables.length; i++)   addClassNames(set,variables[i].getDescriptor());
+  for (int i=0; i < methods.length; i++)   addClassNames(set,methods[i].getDescriptor());
+  return Collections.unmodifiableSet(set);
+}

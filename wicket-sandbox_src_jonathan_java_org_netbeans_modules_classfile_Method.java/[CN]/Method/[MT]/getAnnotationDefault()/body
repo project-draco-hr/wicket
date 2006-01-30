@@ -1,0 +1,15 @@
+{
+  if (annotationDefault == null) {
+    DataInputStream in=attributes.getStream("AnnotationDefault");
+    if (in != null) {
+      try {
+        annotationDefault=ElementValue.load(in,classFile.constantPool,false);
+        in.close();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid AnnotationDefault attribute");
+      }
+    }
+  }
+  return annotationDefault;
+}

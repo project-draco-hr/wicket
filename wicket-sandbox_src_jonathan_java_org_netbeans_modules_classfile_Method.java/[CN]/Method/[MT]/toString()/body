@@ -1,0 +1,30 @@
+{
+  StringBuffer sb=new StringBuffer(super.toString());
+  sb.append(", params (");
+  getParameters();
+  for (int i=0; i < parameters.length; i++) {
+    sb.append(parameters[i].toString());
+    if (i + 1 < parameters.length)     sb.append(", ");
+  }
+  sb.append("), returns ");
+  sb.append(getReturnSignature());
+  CPClassInfo[] ec=getExceptionClasses();
+  if (ec.length > 0) {
+    sb.append(", throws");
+    for (int i=0; i < ec.length; i++) {
+      sb.append(' ');
+      sb.append(ec[i].getName());
+    }
+  }
+  if (getAnnotationDefault() != null) {
+    sb.append(", default \"");
+    sb.append(annotationDefault.toString());
+    sb.append("\" ");
+  }
+  Code code=getCode();
+  if (code != null) {
+    sb.append(' ');
+    sb.append(code.toString());
+  }
+  return sb.toString();
+}

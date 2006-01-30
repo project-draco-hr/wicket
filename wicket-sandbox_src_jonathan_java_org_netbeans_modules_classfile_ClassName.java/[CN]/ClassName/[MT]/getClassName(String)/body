@@ -1,0 +1,24 @@
+{
+  if (classType == null || classType.length() == 0)   return null;
+  ClassName cn=getCacheEntry(classType);
+  if (cn == null) synchronized (cache) {
+    cn=getCacheEntry(classType);
+    if (cn == null) {
+      int i=classType.indexOf('L');
+      String _type;
+      char lastChar=classType.charAt(classType.length() - 1);
+      if (i != -1 && lastChar == ';') {
+        _type=classType.substring(i + 1,classType.length() - 1);
+        if (i > 0)         _type=classType.substring(0,i) + _type;
+        cn=getCacheEntry(_type);
+        if (cn != null)         return cn;
+      }
+ else {
+        _type=classType;
+      }
+      cn=new ClassName(_type);
+      cache.put(_type,new WeakReference(cn));
+    }
+  }
+  return cn;
+}

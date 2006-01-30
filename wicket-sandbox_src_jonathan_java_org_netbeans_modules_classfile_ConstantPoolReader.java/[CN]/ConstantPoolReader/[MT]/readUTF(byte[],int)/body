@@ -1,0 +1,19 @@
+{
+  int i=0;
+  int strlen=0;
+  if (utflen > str.length)   str=new char[utflen];
+  while (i < utflen) {
+    int b=src[i++] & 0xFF;
+    if (b >= 0xE0) {
+      b=(b & 0x0F) << 12;
+      b|=(src[i++] & 0x3F) << 6;
+      b|=(src[i++] & 0x3F);
+    }
+ else     if (b >= 0xC0) {
+      b=(b & 0x1F) << 6;
+      b|=(src[i++] & 0x3F);
+    }
+    str[strlen++]=(char)b;
+  }
+  return new String(str,0,strlen);
+}

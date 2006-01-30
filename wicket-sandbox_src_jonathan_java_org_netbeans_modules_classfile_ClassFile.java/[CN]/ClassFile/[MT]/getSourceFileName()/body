@@ -1,0 +1,17 @@
+{
+  if (sourceFileName == null) {
+    DataInputStream in=attributes.getStream("SourceFile");
+    if (in != null) {
+      try {
+        int ipool=in.readUnsignedShort();
+        CPUTF8Info entry=(CPUTF8Info)constantPool.get(ipool);
+        sourceFileName=entry.getName();
+        in.close();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid SourceFile attribute");
+      }
+    }
+  }
+  return sourceFileName;
+}

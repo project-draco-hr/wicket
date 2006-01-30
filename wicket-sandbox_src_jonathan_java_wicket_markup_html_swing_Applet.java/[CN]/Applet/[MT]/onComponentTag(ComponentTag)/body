@@ -1,0 +1,15 @@
+{
+  maybeCreateJar();
+  checkComponentTag(tag,"applet");
+  tag.put("code","wicket.markup.html.swing.WicketApplet.class");
+  tag.put("archive",SharedResources.path(getApplication(),Applet.class,appletCodeClass.getName(),null,null));
+  int width=getWidth();
+  if (width != -1) {
+    tag.put("width",width);
+  }
+  int height=getHeight();
+  if (height != -1) {
+    tag.put("height",height);
+  }
+  super.onComponentTag(tag);
+}

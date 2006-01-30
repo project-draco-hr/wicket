@@ -1,0 +1,31 @@
+{
+  int n=in.readUnsignedShort();
+  StackMapFrame[] entries=new StackMapFrame[n];
+  for (int i=0; i < n; i++) {
+    int tag=in.readUnsignedByte();
+    StackMapFrame frame=null;
+    if (tag >= 0 && tag <= 64)     frame=new SameFrame(tag);
+ else     if (tag >= 64 && tag <= 127) {
+      VerificationTypeInfo typeInfo=VerificationTypeInfo.loadVerificationTypeInfo(in,pool);
+      frame=new SameLocals1StackItemFrame(tag,typeInfo);
+    }
+ else     if (tag >= 128 && tag <= 246)     throw new InvalidClassFormatException("reserved stack map frame tag used: " + tag);
+ else     if (tag == 247) {
+      int offset=in.readUnsignedShort();
+      VerificationTypeInfo typeInfo=VerificationTypeInfo.loadVerificationTypeInfo(in,pool);
+      frame=new SameLocals1StackItemFrameExtended(tag,offset,typeInfo);
+    }
+ else     if (tag >= 248 && tag <= 250) {
+      int offset=in.readUnsignedShort();
+      frame=new ChopFrame(tag,offset);
+    }
+ else     if (tag == 251) {
+      int offset=in.readUnsignedShort();
+      frame=new SameFrameExtended(tag,offset);
+    }
+ else     if (tag >= 252 && tag <= 254)     frame=makeAppendFrame(tag,in,pool);
+ else     frame=makeFullFrame(in,pool);
+    entries[i]=frame;
+  }
+  return entries;
+}

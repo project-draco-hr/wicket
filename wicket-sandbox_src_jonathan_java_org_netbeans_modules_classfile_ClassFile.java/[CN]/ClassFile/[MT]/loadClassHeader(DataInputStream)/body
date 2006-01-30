@@ -1,0 +1,16 @@
+{
+  int magic=in.readInt();
+  if (magic != 0xCAFEBABE) {
+    throw new InvalidClassFormatException();
+  }
+  minorVersion=in.readShort();
+  majorVersion=in.readShort();
+  int count=in.readUnsignedShort();
+  ConstantPool pool=new ConstantPool(count,in);
+  classAccess=in.readUnsignedShort();
+  classInfo=pool.getClass(in.readUnsignedShort());
+  if (classInfo == null)   throw new InvalidClassFormatException();
+  int index=in.readUnsignedShort();
+  if (index != 0)   superClassInfo=pool.getClass(index);
+  return pool;
+}

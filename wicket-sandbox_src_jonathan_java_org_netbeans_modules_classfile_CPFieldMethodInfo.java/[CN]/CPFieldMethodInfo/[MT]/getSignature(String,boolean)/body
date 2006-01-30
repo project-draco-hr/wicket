@@ -1,0 +1,52 @@
+{
+  StringBuffer sb=new StringBuffer();
+  int arrays=0;
+  int i=0;
+  while (i < s.length()) {
+    char ch=s.charAt(i++);
+switch (ch) {
+case 'B':
+      sb.append("byte");
+    continue;
+case 'C':
+  sb.append("char");
+continue;
+case 'D':
+sb.append("double");
+continue;
+case 'F':
+sb.append("float");
+continue;
+case 'I':
+sb.append("int");
+continue;
+case 'J':
+sb.append("long");
+continue;
+case 'S':
+sb.append("short");
+continue;
+case 'Z':
+sb.append("boolean");
+continue;
+case 'V':
+sb.append("void");
+continue;
+case 'L':
+int l=s.indexOf(';');
+String cls=s.substring(1,l).replace('/','.');
+if (!fullName) {
+int idx=cls.lastIndexOf('.');
+if (idx >= 0) cls=cls.substring(idx + 1);
+}
+sb.append(cls);
+i=l + 1;
+continue;
+case '[':
+arrays++;
+continue;
+}
+}
+while (arrays-- > 0) sb.append("[]");
+return sb.toString();
+}

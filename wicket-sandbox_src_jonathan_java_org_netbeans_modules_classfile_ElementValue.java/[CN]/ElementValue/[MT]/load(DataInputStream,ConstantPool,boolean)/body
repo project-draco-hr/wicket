@@ -1,0 +1,25 @@
+{
+  char tag=(char)in.readByte();
+switch (tag) {
+case 'e':
+    return loadEnumValue(in,pool);
+case 'c':
+{
+    int classType=in.readUnsignedShort();
+    return new ClassElementValue(pool,classType);
+  }
+case '@':
+{
+  Annotation value=Annotation.loadAnnotation(in,pool,runtimeVisible);
+  return new NestedElementValue(pool,value);
+}
+case '[':
+{
+ElementValue[] values=new ElementValue[in.readUnsignedShort()];
+for (int i=0; i < values.length; i++) values[i]=load(in,pool,runtimeVisible);
+return new ArrayElementValue(pool,values);
+}
+default :
+return new PrimitiveElementValue(pool,in.readUnsignedShort());
+}
+}

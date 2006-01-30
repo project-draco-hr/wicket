@@ -1,0 +1,16 @@
+{
+  if (constValue == null) {
+    DataInputStream in=attributes.getStream("ConstantValue");
+    if (in != null) {
+      try {
+        int index=in.readUnsignedShort();
+        CPEntry cpe=classFile.constantPool.get(index);
+        constValue=cpe.getValue();
+      }
+ catch (      IOException e) {
+        System.err.println("invalid ConstantValue attribute");
+      }
+    }
+  }
+  return constValue;
+}

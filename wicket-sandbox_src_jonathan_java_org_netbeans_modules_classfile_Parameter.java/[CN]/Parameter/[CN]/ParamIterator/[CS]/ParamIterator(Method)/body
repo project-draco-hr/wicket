@@ -1,0 +1,21 @@
+{
+  classFile=method.getClassFile();
+  signature=method.getDescriptor();
+  isig=1;
+  ivar=method.isStatic() ? 0 : 1;
+  Code code=method.getCode();
+  localVars=code != null ? code.getLocalVariableTable() : new LocalVariableTableEntry[0];
+  AttributeMap attrs=method.getAttributes();
+  try {
+    visibleAnnotations=getParamAttr(attrs,"RuntimeVisibleParameterAnnotations");
+  }
+ catch (  IOException e) {
+    System.err.println("invalid RuntimeVisibleParameterAnnotations attribute");
+  }
+  try {
+    invisibleAnnotations=getParamAttr(attrs,"RuntimeInvisibleParameterAnnotations");
+  }
+ catch (  IOException e) {
+    System.err.println("invalid RuntimeInvisibleParameterAnnotations attribute");
+  }
+}

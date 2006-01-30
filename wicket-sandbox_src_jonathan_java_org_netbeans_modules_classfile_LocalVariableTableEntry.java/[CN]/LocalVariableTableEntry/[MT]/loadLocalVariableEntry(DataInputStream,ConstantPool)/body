@@ -1,0 +1,13 @@
+{
+  startPC=in.readUnsignedShort();
+  length=in.readUnsignedShort();
+  Object o=pool.get(in.readUnsignedShort());
+  if (!(o instanceof CPUTF8Info))   throw new InvalidClassFormatException();
+  CPUTF8Info entry=(CPUTF8Info)o;
+  name=entry.getName();
+  o=pool.get(in.readUnsignedShort());
+  if (!(o instanceof CPUTF8Info))   throw new InvalidClassFormatException();
+  entry=(CPUTF8Info)o;
+  description=entry.getName();
+  index=in.readUnsignedShort();
+}
