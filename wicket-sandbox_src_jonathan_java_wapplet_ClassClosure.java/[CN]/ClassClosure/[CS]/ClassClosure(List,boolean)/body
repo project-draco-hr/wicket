@@ -11,16 +11,7 @@
     ClassName classname=(ClassName)stack.pop();
     InputStream in=inputStreamForClassName(classname.getType());
     try {
-      if (in == null) {
-        throw new IllegalStateException("Unable to find class " + classname.getExternalName());
-      }
-      ClassFile classfile;
-      try {
-        classfile=new ClassFile(in);
-      }
- catch (      IOException e) {
-        throw new RuntimeException(e);
-      }
+      ClassFile classfile=new ClassFile(in);
       closure.add(classfile.getName().getExternalName());
       final ConstantPool pool=classfile.getConstantPool();
       final Iterator references=pool.getAllClassNames().iterator();
@@ -38,9 +29,18 @@
           }
         }
       }
-      addClass(classfile.getName().getExternalName(),in);
-    }
+      final InputStream in2=inputStreamForClassName(classname.getType());
+      try {
+        addClass(classfile.getName().getExternalName(),in2);
+      }
   finally {
+        in2.close();
+      }
+    }
+ catch (    IOException e) {
+      throw new WicketRuntimeException(e);
+    }
+ finally {
       try {
         in.close();
       }

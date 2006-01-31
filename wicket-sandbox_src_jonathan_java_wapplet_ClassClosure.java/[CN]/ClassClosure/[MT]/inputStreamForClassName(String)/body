@@ -1,3 +1,7 @@
 {
-  return ClassLoader.getSystemClassLoader().getResourceAsStream(className + ".class");
+  InputStream in=ClassLoader.getSystemClassLoader().getResourceAsStream(classname + ".class");
+  if (in == null) {
+    throw new IllegalStateException("Unable to find class " + classname);
+  }
+  return in;
 }
