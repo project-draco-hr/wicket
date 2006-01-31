@@ -3,8 +3,10 @@
     Iterator entries=parameters.entrySet().iterator();
     while (entries.hasNext()) {
       Map.Entry entry=(Entry)entries.next();
-      String escapedValue=urlEncode((String)entry.getValue().toString());
-      url.append("/").append(entry.getKey()).append("/").append(escapedValue);
+      if (entry.getValue() != null) {
+        String escapedValue=urlEncode((String)entry.getValue().toString());
+        url.append("/").append(entry.getKey()).append("/").append(escapedValue);
+      }
     }
   }
 }
