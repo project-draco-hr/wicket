@@ -3,13 +3,7 @@
     Iterator entries=parameters.entrySet().iterator();
     while (entries.hasNext()) {
       Map.Entry entry=(Entry)entries.next();
-      String escapedValue=(String)entry.getValue().toString();
-      try {
-        escapedValue=URLEncoder.encode(escapedValue,Application.get().getRequestCycleSettings().getResponseRequestEncoding());
-      }
- catch (      UnsupportedEncodingException e) {
-        log.error(e.getMessage(),e);
-      }
+      String escapedValue=urlEncode((String)entry.getValue().toString());
       url.append("/").append(entry.getKey()).append("/").append(escapedValue);
     }
   }
