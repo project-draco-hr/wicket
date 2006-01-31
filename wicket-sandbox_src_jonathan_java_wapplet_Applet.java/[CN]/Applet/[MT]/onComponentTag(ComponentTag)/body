@@ -1,8 +1,13 @@
 {
-  maybeCreateJar();
   checkComponentTag(tag,"applet");
-  tag.put("code",HostApplet.class.getName() + ".class");
-  tag.put("archive",SharedResources.path(getApplication(),Applet.class,appletCodeClass.getName(),null,null));
+  tag.put("code",HostApplet.class.getName());
+  final ResourceReference jarResourceReference=new ResourceReference(appletCodeClass.getName() + ".jar"){
+    protected Resource newResource(){
+      return new ByteArrayResource("application/x-compressed",jarClasses(classes));
+    }
+  }
+;
+  tag.put("archive",jarResourceReference.getPath());
   final int width=getWidth();
   if (width != -1) {
     tag.put("width",width);
