@@ -1,0 +1,11 @@
+{
+  int i=0;
+  while (parameters.containsKey(String.valueOf(i))) {
+    String value=parameters.getString(String.valueOf(i));
+    url.append("/").append(urlEncode(value));
+    i++;
+  }
+  if (i != parameters.size()) {
+    throw new WicketRuntimeException("Not all parameters were encoded. Make sure all parameter names are integers in consecutive order starting with zero. Current parameter names are: " + parameters.keySet().toString());
+  }
+}
