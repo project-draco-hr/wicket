@@ -3,9 +3,13 @@
     return this;
   }
   final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
-  final Component child=children_get(id);
-  if (child != null) {
-    return child.get(Strings.afterFirstPathComponent(path,Component.PATH_SEPARATOR));
+  Component child=children_get(id);
+  if ((child == null) && isTransparentResolver() && (getParent() != null)) {
+    child=getParent().get(path);
   }
-  return null;
+  final String path2=Strings.afterFirstPathComponent(path,Component.PATH_SEPARATOR);
+  if (child != null) {
+    return child.get(path2);
+  }
+  return child;
 }
