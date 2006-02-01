@@ -19,7 +19,18 @@
   }
 );
   Label label=new Label("clock",new DateModel());
-  label.add(AjaxIdSetter.INSTANCE);
   label.add(new AjaxSelfUpdatingTimerBehavior(1000));
   add(label);
+  Form form=new Form("form");
+  add(form);
+  final Label checked=new Label("checked",new PropertyModel(this,"checked"));
+  checked.add(AjaxIdSetter.INSTANCE);
+  form.add(checked);
+  FormComponent cb=new AjaxCheckBox("cb",new PropertyModel(this,"checked")){
+    protected void onClick(    AjaxRequestTarget target,    boolean check){
+      target.addComponent(checked);
+    }
+  }
+;
+  form.add(cb);
 }
