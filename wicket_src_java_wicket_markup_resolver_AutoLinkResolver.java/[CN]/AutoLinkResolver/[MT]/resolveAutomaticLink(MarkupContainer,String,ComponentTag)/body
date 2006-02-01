@@ -42,12 +42,9 @@
       if (infoPath.startsWith("/") || infoPath.startsWith("\\")) {
       }
  else {
-        MarkupContainer relevantContainer=container;
-        while (((relevantContainer instanceof IComponentResolver) || relevantContainer.isTransparentResolver()) && !(relevantContainer instanceof IComponentResolverMarker)) {
-          relevantContainer=relevantContainer.getParent();
-        }
+        Class clazz=((MarkupResourceStream)container.getMarkupStream().getResource()).getMarkupClass();
         try {
-          return new CssLink(autoId,relevantContainer.getClass(),href);
+          return new CssLink(autoId,clazz,href);
         }
  catch (        WicketRuntimeException ex) {
           log.info("Did not find autolink resource: " + href + "; Assume it is a valid external URL");
