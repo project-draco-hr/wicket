@@ -5,21 +5,17 @@
   }
   int index=associatedMarkupStream.getCurrentIndex();
   try {
-    associatedMarkupStream.setCurrentIndex(0);
-    do {
-      final MarkupElement element=associatedMarkupStream.get();
-      if (element instanceof ComponentTag) {
-        final ComponentTag tag=(ComponentTag)element;
-        if ("body".equalsIgnoreCase(tag.getName())) {
-          final String onLoad=tag.getAttributes().getString("onload");
-          if (onLoad != null) {
-            ((WebPage)getPage()).appendToBodyOnLoad(onLoad);
-          }
-          break;
+    final Iterator iter=associatedMarkupStream.componentTagIterator();
+    while (iter.hasNext()) {
+      final ComponentTag tag=(ComponentTag)iter.next();
+      if ("body".equalsIgnoreCase(tag.getName())) {
+        final String onLoad=tag.getAttributes().getString("onload");
+        if (onLoad != null) {
+          getWebPage().getBodyContainer().addOnLoadModifier(onLoad);
         }
+        break;
       }
     }
- while (associatedMarkupStream.next() != null);
   }
   finally {
     associatedMarkupStream.setCurrentIndex(index);

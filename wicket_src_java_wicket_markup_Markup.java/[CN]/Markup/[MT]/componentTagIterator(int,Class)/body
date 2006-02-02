@@ -1,0 +1,21 @@
+{
+  return new Iterator(){
+    int index=startIndex - 1;
+    public boolean hasNext(){
+      while (++index < size()) {
+        MarkupElement element=get(index);
+        if (matchClass.isInstance(element)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    public Object next(){
+      return get(index);
+    }
+    public void remove(){
+      throw new IllegalArgumentException("remove() is not supported");
+    }
+  }
+;
+}
