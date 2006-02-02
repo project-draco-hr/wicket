@@ -1,4 +1,16 @@
 {
+  if (log.isDebugEnabled()) {
+    String valueTypeName=(value != null ? value.getClass().getName() : "null");
+    int size;
+    try {
+      final ByteArrayOutputStream out=new ByteArrayOutputStream();
+      new ObjectOutputStream(out).writeObject(value);
+      log.debug("Stored attribute " + name + "{ "+ valueTypeName+ "} with size: "+ Bytes.bytes(out.size()));
+    }
+ catch (    Exception e) {
+      throw new WicketRuntimeException("Internal error cloning object. Make sure all dependent objects implement Serializable. Class: " + valueTypeName,e);
+    }
+  }
   HttpSession httpSession=getHttpSession();
   if (httpSession != null) {
     httpSession.setAttribute(getSessionAttributePrefix() + name,value);
