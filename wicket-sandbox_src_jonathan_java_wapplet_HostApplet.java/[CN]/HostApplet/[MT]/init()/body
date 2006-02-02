@@ -5,10 +5,17 @@
     Class c=Class.forName(initializerClassName);
     if (c != null) {
       final IAppletInitializer initializer=(IAppletInitializer)c.newInstance();
-      initializer.init(container,initializer);
+      final String modelUrl=getDocumentBase() + getParameter("modelUrl");
+      InputStream in=new URL(modelUrl).openStream();
+      Object model=new ObjectInputStream(in).readObject();
+      initializer.init(container,model);
     }
   }
- catch (  ClassNotFoundException e) {
+ catch (  IOException e) {
+    e.printStackTrace();
+    throw new RuntimeException(e);
+  }
+catch (  ClassNotFoundException e) {
     e.printStackTrace();
     throw new RuntimeException(e);
   }
