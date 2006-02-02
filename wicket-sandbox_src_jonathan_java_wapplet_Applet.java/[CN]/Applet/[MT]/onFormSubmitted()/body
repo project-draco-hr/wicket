@@ -1,16 +1,16 @@
 {
-  final Request request=getRequest();
-  if (request instanceof MultipartWebRequest) {
-    final FileItem item=((MultipartWebRequest)request).getFile("model");
-    try {
-      final Object model=new ObjectInputStream(item.getInputStream()).readObject();
-      setModelObject(model);
-    }
- catch (    ClassNotFoundException e) {
-      ((WebResponse)getResponse()).setHeader("STATUS","417");
-    }
-catch (    IOException e) {
-      ((WebResponse)getResponse()).setHeader("STATUS","417");
-    }
+  final WebRequest webRequest=((WebRequest)getRequest()).newMultipartWebRequest(Bytes.MAX);
+  getRequestCycle().setRequest(webRequest);
+  final FileItem item=((IMultipartWebRequest)webRequest).getFile("model");
+  try {
+    final Object model=new ObjectInputStream(item.getInputStream()).readObject();
+    System.out.println("Setting model to " + model);
+    setModelObject(model);
+  }
+ catch (  ClassNotFoundException e) {
+    ((WebResponse)getResponse()).setHeader("STATUS","417");
+  }
+catch (  IOException e) {
+    ((WebResponse)getResponse()).setHeader("STATUS","417");
   }
 }
