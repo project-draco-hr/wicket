@@ -1,0 +1,12 @@
+{
+  FormComponent fc=getFormComponent();
+  String url=getCallbackUrl();
+  AppendingStringBuffer buff=new AppendingStringBuffer(url.length() + 64);
+  buff.append("'");
+  buff.append(url);
+  buff.append("&");
+  buff.append(fc.getInputName());
+  buff.append("='+");
+  buff.append("wicketGetValue(this)");
+  return buildAjaxCallRaw(buff.toString());
+}

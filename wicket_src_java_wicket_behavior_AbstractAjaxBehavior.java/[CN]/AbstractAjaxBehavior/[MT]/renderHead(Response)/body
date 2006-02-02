@@ -1,0 +1,13 @@
+{
+  Set contributors=(Set)headContribHolder.get();
+  if (contributors == null) {
+    contributors=new HashSet(1);
+    headContribHolder.set(contributors);
+  }
+  String implementationId=getImplementationId();
+  if (!contributors.contains(implementationId)) {
+    onRenderHeadInitContribution(response);
+    contributors.add(implementationId);
+  }
+  onRenderHeadContribution(response);
+}

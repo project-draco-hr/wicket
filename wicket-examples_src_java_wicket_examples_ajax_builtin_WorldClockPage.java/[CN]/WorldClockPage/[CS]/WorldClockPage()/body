@@ -1,0 +1,22 @@
+{
+  final Clock la=new Clock("la",TimeZone.getTimeZone("America/Los_Angeles"));
+  final Clock ny=new Clock("ny",TimeZone.getTimeZone("America/New_York"));
+  final Clock moscow=new Clock("moscow",TimeZone.getTimeZone("Europe/Moscow"));
+  final Clock prague=new Clock("prague",TimeZone.getTimeZone("Europe/Prague"));
+  final Clock london=new Clock("london",TimeZone.getTimeZone("Europe/London"));
+  add(la.add(MarkupIdSetter.INSTANCE));
+  add(ny.add(MarkupIdSetter.INSTANCE));
+  add(moscow.add(MarkupIdSetter.INSTANCE));
+  add(prague.add(MarkupIdSetter.INSTANCE));
+  add(london.add(MarkupIdSetter.INSTANCE));
+  la.add(new AjaxTimerBehavior(5000){
+    protected void onTimer(    AjaxRequestTarget target){
+      target.addComponent(la);
+      target.addComponent(ny);
+      target.addComponent(moscow);
+      target.addComponent(prague);
+      target.addComponent(london);
+    }
+  }
+);
+}
