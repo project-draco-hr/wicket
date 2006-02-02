@@ -1,5 +1,9 @@
 {
-  String ref=(String)localeToLanguageReference.get(currentLocale.getLanguage());
+  String ref=(String)localeToLanguageReference.get(currentLocale.toString());
+  if (ref != null) {
+    return new PackageResourceReference(Application.get(),DatePickerSettings.class,ref);
+  }
+  ref=(String)localeToLanguageReference.get(currentLocale.getLanguage());
   if (ref != null) {
     return new PackageResourceReference(Application.get(),DatePickerSettings.class,ref);
   }
