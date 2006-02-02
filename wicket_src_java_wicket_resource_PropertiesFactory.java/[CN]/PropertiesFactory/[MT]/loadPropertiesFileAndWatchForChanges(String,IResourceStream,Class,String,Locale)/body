@@ -3,8 +3,8 @@
   if (watcher != null) {
     watcher.add(resourceStream,new IChangeListener(){
       public void onChange(){
-        log.info("Reloading properties files from " + resourceStream);
-        loadPropertiesFile(key,resourceStream,componentClass,style,locale);
+        log.info("A properties files has changed. Remove all entries from the cache. Resource: " + resourceStream);
+        clearCache();
         for (Iterator iter=afterReloadListeners.iterator(); iter.hasNext(); ) {
           IPropertiesReloadListener listener=(IPropertiesReloadListener)iter.next();
           try {
