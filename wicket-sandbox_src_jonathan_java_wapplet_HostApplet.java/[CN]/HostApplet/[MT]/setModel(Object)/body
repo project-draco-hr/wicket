@@ -1,2 +1,26 @@
 {
+  try {
+    URL url=new URL(getDocumentBase() + getParameter("setModelUrl"));
+    String boundary=MultiPartFormOutputStream.createBoundary();
+    URLConnection connection=MultiPartFormOutputStream.createConnection(url);
+    connection.setRequestProperty("Accept","*/*");
+    connection.setRequestProperty("Content-Type",MultiPartFormOutputStream.getContentType(boundary));
+    connection.setRequestProperty("Connection","Keep-Alive");
+    connection.setRequestProperty("Cache-Control","no-cache");
+    MultiPartFormOutputStream out=new MultiPartFormOutputStream(connection.getOutputStream(),boundary);
+    ByteArrayOutputStream modelOut=new ByteArrayOutputStream();
+    new ObjectOutputStream(modelOut).writeObject(model);
+    out.writeFile("model","application/x-wicket-model","model",modelOut.toByteArray());
+    out.close();
+    BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    String line="";
+    while ((line=in.readLine()) != null) {
+      System.out.println(line);
+    }
+    in.close();
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+    throw new RuntimeException(e);
+  }
 }
