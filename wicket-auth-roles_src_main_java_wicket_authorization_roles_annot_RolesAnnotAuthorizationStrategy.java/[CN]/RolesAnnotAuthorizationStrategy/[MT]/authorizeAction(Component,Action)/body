@@ -1,0 +1,13 @@
+{
+  AuthorizedActions actions=component.getClass().getAnnotation(AuthorizedActions.class);
+  if (actions != null) {
+    for (    AuthorizedAction a : actions.actions()) {
+      if (a.action().equals(action.toString())) {
+        if (!any(a.roles())) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}

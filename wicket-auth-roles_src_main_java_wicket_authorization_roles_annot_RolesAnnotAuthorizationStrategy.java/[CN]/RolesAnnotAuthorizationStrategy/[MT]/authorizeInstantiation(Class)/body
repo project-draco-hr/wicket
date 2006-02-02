@@ -1,0 +1,15 @@
+{
+  boolean authorized=true;
+  Package pkg=componentClass.getPackage();
+  if (pkg != null) {
+    AuthorizedRoles packageRolesAllowed=(AuthorizedRoles)pkg.getAnnotation(AuthorizedRoles.class);
+    if (packageRolesAllowed != null) {
+      authorized=any(packageRolesAllowed.value());
+    }
+  }
+  AuthorizedRoles classRolesAllowed=(AuthorizedRoles)componentClass.getAnnotation(AuthorizedRoles.class);
+  if (classRolesAllowed != null) {
+    authorized=any(classRolesAllowed.value());
+  }
+  return authorized;
+}
