@@ -1,0 +1,16 @@
+{
+  List users=Arrays.asList(new User[]{new User("jon","ADMIN,USER"),new User("pam","USER"),new User("kay","ADMIN")});
+  add(new ListView("users",users){
+    @Override protected void populateItem(    ListItem item){
+      final User user=(User)item.getModelObject();
+      item.add(new Link("link"){
+        @Override public void onClick(){
+          RolesAuthSession session=(RolesAuthSession)Session.get();
+          session.setUser(user);
+        }
+      }
+);
+    }
+  }
+);
+}
