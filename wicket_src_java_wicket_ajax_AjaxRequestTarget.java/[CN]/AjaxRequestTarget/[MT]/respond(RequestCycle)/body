@@ -1,13 +1,15 @@
 {
-  Application app=Application.get();
+  final Application app=Application.get();
   final boolean oldUseCheck=app.getDebugSettings().getComponentUseCheck();
   app.getDebugSettings().setComponentUseCheck(false);
+  final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
   WebResponse response=(WebResponse)requestCycle.getResponse();
-  response.setContentType("text/xml");
+  response.setCharacterEncoding(encoding);
+  response.setContentType("text/xml; charset=" + encoding);
   response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
   response.setHeader("Cache-Control","no-cache, must-revalidate");
   response.setHeader("Pragma","no-cache");
-  response.write("<?xml version=\"1.0\"?>");
+  response.write("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
   response.write("<ajax-response>");
   Iterator it=components.iterator();
   while (it.hasNext()) {
