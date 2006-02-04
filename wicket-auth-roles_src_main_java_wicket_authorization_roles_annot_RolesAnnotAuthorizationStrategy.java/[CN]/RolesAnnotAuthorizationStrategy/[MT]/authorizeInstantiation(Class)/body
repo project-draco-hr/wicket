@@ -1,8 +1,8 @@
 {
   boolean authorized=true;
-  Package pkg=componentClass.getPackage();
-  if (pkg != null) {
-    AuthorizedRoles packageRolesAllowed=(AuthorizedRoles)pkg.getAnnotation(AuthorizedRoles.class);
+  Package annotPackage=componentClass.getPackage();
+  if (annotPackage != null) {
+    AuthorizedRoles packageRolesAllowed=(AuthorizedRoles)annotPackage.getAnnotation(AuthorizedRoles.class);
     if (packageRolesAllowed != null) {
       authorized=any(packageRolesAllowed.value());
     }
