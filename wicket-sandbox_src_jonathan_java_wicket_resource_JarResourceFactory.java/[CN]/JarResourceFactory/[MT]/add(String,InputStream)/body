@@ -1,0 +1,13 @@
+{
+  checkWritable();
+  try {
+    ZipEntry entry=new ZipEntry(path + ".class");
+    jar.putNextEntry(entry);
+    Streams.copy(in,jar);
+    jar.closeEntry();
+    System.out.println("JAR: Added " + path);
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("Unable to add input " + in + " to jar at path "+ path,e);
+  }
+}

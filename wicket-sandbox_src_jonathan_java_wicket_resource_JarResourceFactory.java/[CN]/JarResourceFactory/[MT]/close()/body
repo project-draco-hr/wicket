@@ -1,0 +1,13 @@
+{
+  checkWritable();
+  try {
+    jar.close();
+    out.close();
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("Unable to close JAR",e);
+  }
+  System.out.println("JAR: Size is " + Bytes.bytes(out.size()));
+  resource=new ByteArrayResource("application/x-compressed",out.toByteArray());
+  resource.setCacheable(false);
+}
