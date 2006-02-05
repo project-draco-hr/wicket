@@ -1,0 +1,9 @@
+{
+  Application application=Application.get();
+  ComponentCreationAuthBindings authorizedRoles=(ComponentCreationAuthBindings)application.getMetaData(MD_ROLES_FOR_CREATION);
+  if (authorizedRoles == null) {
+    authorizedRoles=new ComponentCreationAuthBindings();
+    application.setMetaData(MD_ROLES_FOR_CREATION,authorizedRoles);
+  }
+  authorizedRoles.add(componentClass,roles);
+}

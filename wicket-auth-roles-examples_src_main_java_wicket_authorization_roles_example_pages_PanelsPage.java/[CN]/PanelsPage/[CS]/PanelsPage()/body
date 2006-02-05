@@ -1,5 +1,10 @@
 {
-  add(new ForAllUsers("forAllUsersPanel"));
-  add(new ForAdminsAndUsers("forAdminsAndUsersPanel"));
-  add(new ForAdmins("forAdminsPanel"));
+  ForAllUsers forAllUsers=new ForAllUsers("forAllUsersPanel");
+  add(forAllUsers);
+  ForAdminsAndUsers forAdminsAndUsers=new ForAdminsAndUsers("forAdminsAndUsersPanel");
+  add(forAdminsAndUsers);
+  RolesBinder.authorize(forAdminsAndUsers,RENDER,new String[]{"ADMIN","USER"});
+  ForAdmins forAdmins=new ForAdmins("forAdminsPanel");
+  add(forAdmins);
+  RolesBinder.authorize(forAdmins,RENDER,"ADMIN");
 }
