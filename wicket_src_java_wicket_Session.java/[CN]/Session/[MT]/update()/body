@@ -11,6 +11,7 @@
       log.debug("update: Session not dirty.");
     }
   }
+  List dirtyObjects=(List)Session.dirtyObjects.get();
   if (dirtyObjects != null) {
     for (final Iterator iterator=dirtyObjects.iterator(); iterator.hasNext(); ) {
       String attribute=null;
@@ -28,6 +29,6 @@
         setAttribute(attribute,object);
       }
     }
-    dirtyObjects=null;
+    Session.dirtyObjects.set(null);
   }
 }
