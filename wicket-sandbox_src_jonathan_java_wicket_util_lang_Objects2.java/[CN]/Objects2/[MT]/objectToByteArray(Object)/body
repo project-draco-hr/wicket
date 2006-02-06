@@ -1,8 +1,12 @@
 {
   try {
     final ByteArrayOutputStream out=new ByteArrayOutputStream();
-    new ObjectOutputStream(out).writeObject(object);
-    out.close();
+    try {
+      new ObjectOutputStream(out).writeObject(object);
+    }
+  finally {
+      out.close();
+    }
     return out.toByteArray();
   }
  catch (  IOException e) {

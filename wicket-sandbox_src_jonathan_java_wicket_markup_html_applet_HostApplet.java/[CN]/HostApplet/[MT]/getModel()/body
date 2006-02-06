@@ -1,15 +1,22 @@
 {
   try {
     final String url=getDocumentBase() + getParameter("getModelUrl");
-    InputStream in=new URL(url).openStream();
-    return new ObjectInputStream(in).readObject();
+    final InputStream in=new URL(url).openStream();
+    try {
+      return new ObjectInputStream(in).readObject();
+    }
+  finally {
+      in.close();
+    }
   }
  catch (  ClassNotFoundException e) {
+    System.out.println("** Unable to get model.");
     e.printStackTrace();
-    throw new RuntimeException(e);
+    return null;
   }
 catch (  IOException e) {
+    System.out.println("** Unable to get model.");
     e.printStackTrace();
-    throw new RuntimeException(e);
+    return null;
   }
 }
