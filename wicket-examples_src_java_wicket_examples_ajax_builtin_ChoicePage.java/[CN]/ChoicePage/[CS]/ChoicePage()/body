@@ -24,12 +24,15 @@
   Form form=new Form("form");
   add(form);
   final DropDownChoice makes=new DropDownChoice("makes",new PropertyModel(this,"selectedMake"),makeChoices);
+  final WebMarkupContainer modelsContainer=new WebMarkupContainer("modelsContainer");
+  modelsContainer.add(MarkupIdSetter.INSTANCE);
   final DropDownChoice models=new DropDownChoice("models",new Model(),modelChoices);
   form.add(makes);
-  form.add(models.add(MarkupIdSetter.INSTANCE));
+  form.add(modelsContainer);
+  modelsContainer.add(models);
   makes.add(new AjaxFormComponentUpdatingBehavior("onchange"){
     protected void onUpdate(    AjaxRequestTarget target){
-      target.addComponent(models);
+      target.addComponent(modelsContainer);
     }
   }
 );
