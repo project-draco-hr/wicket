@@ -54,10 +54,10 @@ default :
 }
 }
 }
- catch (RuntimeException e) {
-if (e instanceof AbortAndRespondException) {
+ catch (AbortAndRespondException e) {
 throw e;
 }
+catch (RuntimeException e) {
 currentStep=HANDLE_EXCEPTION;
 log.error(e.getMessage(),e);
 if (processor != null) {
