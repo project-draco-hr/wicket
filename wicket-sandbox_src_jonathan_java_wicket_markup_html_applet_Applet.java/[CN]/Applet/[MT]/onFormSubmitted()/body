@@ -3,9 +3,15 @@
   getRequestCycle().setRequest(webRequest);
   final FileItem item=((IMultipartWebRequest)webRequest).getFile("model");
   try {
-    final Object model=new ObjectInputStream(item.getInputStream()).readObject();
-    System.out.println("Setting model to " + model);
-    setAppletModel(model);
+    final InputStream in=item.getInputStream();
+    try {
+      final Object model=new ObjectInputStream(in).readObject();
+      System.out.println("Setting model to " + model);
+      setAppletModel(model);
+    }
+  finally {
+      in.close();
+    }
   }
  catch (  ClassNotFoundException e) {
     ((WebResponse)getResponse()).setHeader("STATUS","417");
