@@ -9,7 +9,7 @@ catch (  IllegalAccessException e) {
     throw new WicketRuntimeException("Can't instantiate page using constructor " + constructor + " and argument "+ argument,e);
   }
 catch (  InvocationTargetException e) {
-    if (e.getTargetException() instanceof AbortAndRespondException) {
+    if (e.getTargetException() instanceof AbstractRestartResponseException) {
       throw (RuntimeException)e.getTargetException();
     }
     throw new WicketRuntimeException("Can't instantiate page using constructor " + constructor + " and argument "+ argument,e);
