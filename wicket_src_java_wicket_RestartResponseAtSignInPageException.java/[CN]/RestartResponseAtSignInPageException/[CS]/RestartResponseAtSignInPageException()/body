@@ -1,0 +1,8 @@
+{
+  Application app=Application.get();
+  Class signIn=app.getApplicationSettings().getSignInPage();
+  if (signIn == null) {
+    throw new IllegalStateException("RestartResponseAtSignInPageException cannot be thrown if SignInPage setting is null in application settings");
+  }
+  RequestCycle.get().setResponsePage(signIn);
+}
