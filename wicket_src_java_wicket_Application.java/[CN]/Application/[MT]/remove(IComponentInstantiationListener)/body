@@ -1,7 +1,18 @@
 {
-  if (listener != null) {
-    List newListeners=Arrays.asList(componentInstantiationListeners);
-    newListeners.remove(listener);
-    componentInstantiationListeners=(IComponentInstantiationListener[])newListeners.toArray(new IComponentInstantiationListener[newListeners.size()]);
+  IComponentInstantiationListener[] listeners=componentInstantiationListeners;
+  int len=listeners.length;
+  if (listener != null && len > 0) {
+    int pos=0;
+    for (pos=0; pos < len; pos++) {
+      if (listener == listeners[pos]) {
+        break;
+      }
+    }
+    if (pos < len) {
+      listeners[pos]=listeners[len - 1];
+      IComponentInstantiationListener[] newListeners=new IComponentInstantiationListener[len - 1];
+      System.arraycopy(listeners,0,newListeners,0,newListeners.length);
+      componentInstantiationListeners=newListeners;
+    }
   }
 }
