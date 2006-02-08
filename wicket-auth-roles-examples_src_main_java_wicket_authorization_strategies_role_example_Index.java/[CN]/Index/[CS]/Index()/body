@@ -1,0 +1,32 @@
+{
+  add(new Label("currentUser",new PropertyModel(this,"session.user")));
+  add(new ListView("users",RolesApplication.USERS){
+    @Override protected void populateItem(    ListItem item){
+      final User user=(User)item.getModelObject();
+      item.add(new Link("selectUserLink"){
+        @Override public void onClick(){
+          RolesSession session=(RolesSession)Session.get();
+          session.setUser(user);
+        }
+      }
+.add(new Label("userId",new Model(user))));
+    }
+  }
+);
+  add(new BookmarkablePageLink("adminBookmarkableLink",AdminBookmarkablePage.class));
+  add(new Link("adminInternalLink"){
+    @Override public void onClick(){
+      setResponsePage(new AdminInternalPage("foo"));
+    }
+  }
+);
+  add(new BookmarkablePageLink("panelsPageLink",PanelsPage.class));
+  add(new BookmarkablePageLink("adminAnnotBookmarkableLink",AdminAnnotationsBookmarkablePage.class));
+  add(new Link("adminAnnotInternalLink"){
+    @Override public void onClick(){
+      setResponsePage(new AdminAnnotationsInternalPage("bar"));
+    }
+  }
+);
+  add(new BookmarkablePageLink("panelsAnnotPageLink",AnnotationsPanelsPage.class));
+}

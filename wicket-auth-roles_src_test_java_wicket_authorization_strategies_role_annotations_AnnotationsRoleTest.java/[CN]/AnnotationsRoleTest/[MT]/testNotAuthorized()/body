@@ -1,0 +1,15 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.getSecuritySettings().setAuthorizationStrategy(new RoleAuthorizationStrategy(new UserRolesAuthorizer("USER")));
+  try {
+    tester.startPage(new ITestPageSource(){
+      public Page getTestPage(){
+        return new AdminPage();
+      }
+    }
+);
+    fail("an authorization exception should have been thrown");
+  }
+ catch (  Exception e) {
+  }
+}
