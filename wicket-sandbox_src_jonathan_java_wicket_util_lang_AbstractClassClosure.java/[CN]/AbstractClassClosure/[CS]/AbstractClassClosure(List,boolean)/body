@@ -8,10 +8,10 @@
     visited.add(classname.getExternalName());
   }
   while (!stack.empty()) {
-    ClassName classname=(ClassName)stack.pop();
-    InputStream in=inputStreamForClassName(classname.getType());
+    final ClassName classname=(ClassName)stack.pop();
+    final InputStream in=inputStreamForClassName(classname.getType());
     try {
-      ClassFile classfile=new ClassFile(in);
+      final ClassFile classfile=new ClassFile(in);
       closure.add(classfile.getName().getExternalName());
       final ConstantPool pool=classfile.getConstantPool();
       final Iterator references=pool.getAllClassNames().iterator();
