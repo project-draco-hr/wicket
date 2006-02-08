@@ -6,6 +6,11 @@
   add(new AjaxLink("c1-link"){
     protected void onClick(    AjaxRequestTarget target){
       counter1++;
+      addStateChange(new Change(){
+        public void undo(){
+        }
+      }
+);
       target.addComponent(c1);
     }
   }
@@ -16,6 +21,12 @@
       if (target != null) {
         target.addComponent(c2);
       }
+    }
+  }
+);
+  add(new Link("c3-link"){
+    public void onClick(){
+      System.out.println("hello");
     }
   }
 );
