@@ -1,16 +1,4 @@
 {
-  boolean renderAllowed=authorize(RENDER);
-  if (!renderAllowed) {
-    log.debug("Page not allowed to render: " + this);
-  }
-  visitChildren(new IVisitor(){
-    public Object component(    final Component component){
-      final boolean renderAllowed=component.authorize(RENDER);
-      component.setRenderAllowed(renderAllowed);
-      return IVisitor.CONTINUE_TRAVERSAL;
-    }
-  }
-);
   final MarkupStream associatedMarkupStream=getAssociatedMarkupStream();
   setMarkupStream(associatedMarkupStream);
   configureResponse();

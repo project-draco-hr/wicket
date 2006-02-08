@@ -1,4 +1,18 @@
 {
+  if (!authorize(RENDER)) {
+    if (log.isDebugEnabled()) {
+      log.debug("Page not allowed to render: " + this);
+    }
+    throw new RestartResponseException(getApplication().getApplicationSettings().getAccessDeniedPage());
+  }
+  visitChildren(new IVisitor(){
+    public Object component(    final Component component){
+      final boolean renderAllowed=component.authorize(RENDER);
+      component.setRenderAllowed(renderAllowed);
+      return IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
   renderedComponents=null;
   this.stateless=true;
   setFormComponentValuesFromCookies();
