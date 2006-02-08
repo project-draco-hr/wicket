@@ -10,22 +10,8 @@
     return new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND,"Unable to load Bookmarkable Page");
   }
   try {
-    Page newPage=null;
-    IPageFactory pageFactory=session.getPageFactory();
     PageParameters params=new PageParameters(requestParameters.getParameters());
-synchronized (session) {
-      if (params.size() == 0) {
-        newPage=pageFactory.newPage(pageClass);
-      }
- else {
-        newPage=pageFactory.newPage(pageClass,params);
-      }
-    }
-    IRequestTarget requestTarget=requestCycle.getRequestTarget();
-    if (!(requestTarget instanceof IPageRequestTarget || requestTarget instanceof IBookmarkablePageRequestTarget)) {
-      requestTarget=new PageRequestTarget(newPage);
-    }
-    return requestTarget;
+    return new BookmarkablePageRequestTarget(requestParameters.getPageMapName(),pageClass,params);
   }
  catch (  RuntimeException e) {
     throw new WicketRuntimeException("Unable to instantiate Page class: " + bookmarkablePageClass + ". See below for details.",e);
