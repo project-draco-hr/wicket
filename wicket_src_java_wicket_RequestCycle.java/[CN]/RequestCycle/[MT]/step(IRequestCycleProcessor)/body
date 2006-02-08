@@ -20,29 +20,10 @@ case RESOLVE_TARGET:
     requestTargets.push(target);
     break;
   }
-case CHECK_ACCESS:
-{
-  IRequestTarget target=getRequestTarget();
-  boolean access=true;
-  if (target instanceof IAccessCheck) {
-    access=((IAccessCheck)target).checkAccess(this);
-  }
-  IRequestTarget otherTarget=getRequestTarget();
-  if (otherTarget != target) {
-    currentStep=CHECK_ACCESS - 1;
-    requestTargets.pop();
-    requestTargets.push(target);
-    requestTargets.push(otherTarget);
-  }
- else   if (!access) {
-    setResponsePage(getApplication().getApplicationSettings().getAccessDeniedPage());
-  }
-  break;
-}
 case PROCESS_EVENTS:
 {
-processEventsAndRespond(processor);
-break;
+  processEventsAndRespond(processor);
+  break;
 }
 case RESPOND:
 {
