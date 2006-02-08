@@ -4,13 +4,14 @@
   try {
     method=clz.getMethod("get" + name,null);
   }
- catch (  Exception ex) {
+ catch (  Exception e) {
   }
   if (method == null) {
     try {
       method=clz.getMethod("is" + name,null);
     }
- catch (    Exception ex) {
+ catch (    Exception e) {
+      log.warn("Cannot find getter " + clz + "."+ expression,e);
     }
   }
   return method;

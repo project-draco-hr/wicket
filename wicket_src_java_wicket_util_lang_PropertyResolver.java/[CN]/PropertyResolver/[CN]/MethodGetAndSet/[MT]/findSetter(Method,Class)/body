@@ -8,10 +8,13 @@
   }
   try {
     Method method=clz.getMethod(name,new Class[]{getMethod.getReturnType()});
-    if (method != null)     method.setAccessible(true);
+    if (method != null) {
+      method.setAccessible(true);
+    }
     return method;
   }
- catch (  Exception ex) {
+ catch (  Exception e) {
+    log.warn("Cannot find setter corresponding to " + getMethod,e);
   }
   return null;
 }
