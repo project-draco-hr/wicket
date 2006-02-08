@@ -5,5 +5,8 @@
     throw new WicketRuntimeException("shared resource " + resourceKey + " not found");
   }
   sharedResources.onResourceRequested(resourceKey);
+  if (requestParameters != null) {
+    resource.setParameters(requestParameters.getParameters());
+  }
   resource.onResourceRequested();
 }
