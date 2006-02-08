@@ -33,11 +33,11 @@
   }
  else {
     redirectUrl=page.urlFor(page,IRedirectListener.class);
-    session.touch(page);
     page.internalEndRequest();
   }
   if (redirectUrl == null) {
     redirectUrl=page.urlFor(page,IRedirectListener.class);
   }
+  session.touch(page);
   response.redirect(redirectUrl);
 }
