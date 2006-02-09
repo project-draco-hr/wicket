@@ -2,12 +2,11 @@
   getExceptionSettings().setThrowExceptionOnMissingResource(false);
   getRequestCycleSettings().setRenderStrategy(Settings.REDIRECT_TO_RENDER);
   getApplicationSettings().setSignInPage(SignIn.class);
-  SimplePageAuthorizationStrategy authorizationStrategy=new SimplePageAuthorizationStrategy(){
+  SimplePageAuthorizationStrategy authorizationStrategy=new SimplePageAuthorizationStrategy(AuthenticatedWebPage.class){
     protected boolean isAuthorized(){
       return (((LibrarySession)Session.get()).isSignedIn());
     }
   }
 ;
-  authorizationStrategy.add(AuthenticatedWebPage.class);
   getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);
 }
