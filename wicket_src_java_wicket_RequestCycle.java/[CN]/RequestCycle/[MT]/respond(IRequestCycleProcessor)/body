@@ -1,0 +1,11 @@
+{
+  Object lock=getRequestTarget().getLock(this);
+  if (lock != null) {
+synchronized (lock) {
+      processor.respond(this);
+    }
+  }
+ else {
+    processor.respond(this);
+  }
+}
