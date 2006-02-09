@@ -4,12 +4,12 @@
   if (annotPackage != null) {
     AuthorizedRoles packageRolesAllowed=(AuthorizedRoles)annotPackage.getAnnotation(AuthorizedRoles.class);
     if (packageRolesAllowed != null) {
-      authorized=any(packageRolesAllowed.value());
+      authorized=hasAny(packageRolesAllowed.value());
     }
   }
   AuthorizedRoles classRolesAllowed=(AuthorizedRoles)componentClass.getAnnotation(AuthorizedRoles.class);
   if (classRolesAllowed != null) {
-    authorized=any(classRolesAllowed.value());
+    authorized=hasAny(classRolesAllowed.value());
   }
   return authorized;
 }
