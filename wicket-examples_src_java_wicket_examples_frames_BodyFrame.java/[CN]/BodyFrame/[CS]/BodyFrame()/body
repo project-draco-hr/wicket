@@ -1,19 +1,12 @@
 {
+  RequestCycle cycle=getRequestCycle();
   LeftFrame leftFrame=new LeftFrame(this);
-  String leftFrameSrc=urlForNotYetRenderedPage(leftFrame);
+  IRequestCodingStrategy encoder=cycle.getProcessor().getRequestCodingStrategy();
+  String leftFrameSrc=encoder.encode(cycle,new PageRequestTarget(leftFrame));
   WebComponent leftFrameTag=new WebComponent("leftFrame");
   leftFrameTag.add(new AttributeModifier("src",new Model(leftFrameSrc)));
   add(leftFrameTag);
   WebComponent rightFrameTag=new WebComponent("rightFrame");
-  IModel rightFrameModel=new Model(){
-    public Object getObject(    Component component){
-      WebRequest webRequest=(WebRequest)getRequest();
-      String pathTo=webRequest.getContextPath() + webRequest.getServletPath();
-      String url=pathTo + "?bookmarkablePage=" + frameTarget.getFrameClass()+ "&pagemap=rightFrame";
-      return url;
-    }
-  }
-;
-  rightFrameTag.add(new AttributeModifier("src",rightFrameModel));
+  rightFrameTag.add(new AttributeModifier("src",new FrameModel()));
   add(rightFrameTag);
 }
