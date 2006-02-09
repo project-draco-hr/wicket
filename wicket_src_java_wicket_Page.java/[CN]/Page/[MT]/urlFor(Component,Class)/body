@@ -1,8 +1,3 @@
 {
-  stateless=false;
-  String interfaceName=Classes.name(listenerInterface);
-  RequestCycle requestCycle=getRequestCycle();
-  IRequestTarget target=new ListenerInterfaceRequestTarget(this,component,requestCycle.getRequestInterfaceMethod(interfaceName));
-  IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
-  return requestCodingStrategy.encode(requestCycle,target);
+  return getRequestCycle().urlFor(component,listenerInterface);
 }
