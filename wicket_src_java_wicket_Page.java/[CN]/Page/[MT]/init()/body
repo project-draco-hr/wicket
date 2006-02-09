@@ -1,13 +1,9 @@
 {
   RequestCycle cycle=getRequestCycle();
+  String pagemapName=null;
   if (cycle != null) {
     RequestParameters parameters=cycle.getProcessor().getRequestCodingStrategy().decode(cycle.getRequest());
-    String pagemapName=parameters.getPageMapName();
-    if (pagemapName != null) {
-      setPageMap(pagemapName);
-    }
+    pagemapName=parameters.getPageMapName();
   }
-  setNumericId(getPageMap().nextId());
-  setVersioned(Application.get().getPageSettings().getVersionPagesByDefault());
-  dirty();
+  init(pagemapName);
 }
