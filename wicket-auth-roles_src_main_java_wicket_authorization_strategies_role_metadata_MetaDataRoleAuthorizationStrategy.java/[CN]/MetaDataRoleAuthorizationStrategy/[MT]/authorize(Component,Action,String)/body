@@ -1,3 +1,8 @@
 {
-  authorize(component,action,new String[]{role});
+  ActionPermissions permissions=(ActionPermissions)component.getMetaData(ACTION_PERMISSIONS);
+  if (permissions == null) {
+    permissions=new ActionPermissions();
+    component.setMetaData(ACTION_PERMISSIONS,permissions);
+  }
+  permissions.authorize(action,role);
 }

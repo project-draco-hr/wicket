@@ -1,7 +1,6 @@
 {
   if (componentClass == null) {
-    throw new IllegalArgumentException("argument componentClass has to be not null");
+    throw new IllegalArgumentException("argument componentClass cannot be null");
   }
-  String[] roles=rolesForInstantiation(componentClass);
-  return hasAny(roles);
+  return hasAny((String[])rolesAuthorizedToInstantiate(componentClass).toArray());
 }

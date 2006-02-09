@@ -5,6 +5,5 @@
   if (action == null) {
     throw new IllegalArgumentException("argument action has to be not null");
   }
-  String[] roles=rolesForAction(component,action);
-  return hasAny(roles);
+  return hasAny((String[])rolesAuthorizedToPerformAction(component,action).toArray());
 }

@@ -1,0 +1,13 @@
+{
+  ActionPermissions permissions=new ActionPermissions();
+  Action mambo=new Action("mambo");
+  permissions.authorize(mambo,"jonathan");
+  permissions.authorize(mambo,"johan");
+  permissions.authorize(mambo,"maurice");
+  permissions.authorize(mambo,"eelco");
+  assertEquals(4,permissions.rolesFor(mambo).size());
+  permissions.unauthorize(mambo,"maurice");
+  assertEquals(3,permissions.rolesFor(mambo).size());
+  permissions.authorizeAll(mambo);
+  assertEquals(0,permissions.rolesFor(mambo));
+}
