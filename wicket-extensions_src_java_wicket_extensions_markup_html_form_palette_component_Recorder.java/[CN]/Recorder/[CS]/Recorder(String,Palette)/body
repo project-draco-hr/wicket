@@ -1,0 +1,16 @@
+{
+  super(id);
+  this.palette=palette;
+  IChoiceRenderer renderer=getPalette().getChoiceRenderer();
+  StringBuffer modelStringBuffer=new StringBuffer();
+  Iterator selection=getPalette().getModelCollection().iterator();
+  while (selection.hasNext()) {
+    modelStringBuffer.append(renderer.getIdValue(selection.next(),0));
+    if (selection.hasNext()) {
+      modelStringBuffer.append(",");
+    }
+  }
+  String modelString=modelStringBuffer.toString();
+  setModel(new Model(modelString));
+  ids=modelString.split(",");
+}
