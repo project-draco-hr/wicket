@@ -2,7 +2,7 @@
   final AuthorizedAction authorizedAction=component.getClass().getAnnotation(AuthorizedAction.class);
   if (authorizedAction != null) {
     if (authorizedAction.action().equals(action.toString())) {
-      if (!hasAny(toSet(authorizedAction.roles()))) {
+      if (!hasAny(new Roles(authorizedAction.roles()))) {
         return false;
       }
     }
@@ -11,7 +11,7 @@
   if (authorizedActions != null) {
     for (    AuthorizedAction a : authorizedActions.actions()) {
       if (a.action().equals(action.toString())) {
-        if (!hasAny(toSet(a.roles()))) {
+        if (!hasAny(new Roles(a.roles()))) {
           return false;
         }
       }

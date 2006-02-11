@@ -1,0 +1,15 @@
+{
+  if (componentClass == null) {
+    throw new IllegalArgumentException("Argument componentClass cannot be null");
+  }
+  if (rolesToRemove == null) {
+    throw new IllegalArgumentException("Argument rolesToRemove cannot be null");
+  }
+  final Roles roles=rolesForComponentClass.get(componentClass);
+  if (roles != null) {
+    roles.removeAll(rolesToRemove);
+  }
+  if (roles.size() == 0) {
+    roles.add(MetaDataRoleAuthorizationStrategy.NO_ROLE);
+  }
+}
