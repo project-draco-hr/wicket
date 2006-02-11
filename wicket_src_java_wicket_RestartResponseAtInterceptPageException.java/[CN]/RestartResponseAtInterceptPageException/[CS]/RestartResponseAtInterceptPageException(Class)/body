@@ -1,3 +1,6 @@
 {
-  Session.get().redirectToInterceptPage(Session.get().getPageFactory().newPage(pageClass));
+  if (interceptPageClass == null) {
+    throw new IllegalStateException("Argument pageClass cannot be null");
+  }
+  Session.get().redirectToInterceptPage(Session.get().getPageFactory().newPage(interceptPageClass));
 }
