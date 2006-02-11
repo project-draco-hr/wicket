@@ -1,0 +1,17 @@
+{
+  markupStream.skipRawMarkup();
+  int currentIndex=markupStream.getCurrentIndex();
+  int index=markupStream.findComponentIndex(null,markupId);
+  if (index == -1) {
+    throw new MarkupException("Markup does not contain a fragment with id=" + markupId + "; Component: "+ toString());
+  }
+  markupStream.setCurrentIndex(index);
+  try {
+    ComponentTag fragmentOpenTag=markupStream.getTag();
+    markupStream.next();
+    super.onComponentTagBody(markupStream,fragmentOpenTag);
+  }
+  finally {
+    markupStream.setCurrentIndex(currentIndex);
+  }
+}
