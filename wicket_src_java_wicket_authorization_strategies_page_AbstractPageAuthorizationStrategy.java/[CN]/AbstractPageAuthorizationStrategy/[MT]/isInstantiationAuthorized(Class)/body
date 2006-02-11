@@ -1,8 +1,6 @@
 {
-  if (isPageClass(componentClass)) {
-    if (!isSignInPage(componentClass) && !isAuthorized(componentClass)) {
-      throw new RestartResponseAtSignInPageException();
-    }
+  if (instanceOf(componentClass,Page.class)) {
+    return isPageAuthorized(componentClass);
   }
   return true;
 }

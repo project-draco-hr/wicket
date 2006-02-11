@@ -9,5 +9,15 @@
   getPageSettings().addComponentResolver(new WicketLinkResolver());
   getPageSettings().addComponentResolver(new WicketMessageResolver());
   getResourceSettings().addResourceFactory("buttonFactory",new DefaultButtonImageResourceFactory());
-  addComponentInstantiationListener(new ComponentInstantiationAuthorizer());
+  addComponentInstantiationListener(new IComponentInstantiationListener(){
+    /** 
+ * @see wicket.application.IComponentInstantiationListener#onInstantiation(wicket.Component)
+ */
+    public void onInstantiation(    final Component component){
+      if (!Session.get().getAuthorizationStrategy().isInstantiationAuthorized(component.getClass())) {
+        getSecuritySettings().getUnauthorizedComponentInstantiationListener().onUnauthorizedInstantiation(component);
+      }
+    }
+  }
+);
 }

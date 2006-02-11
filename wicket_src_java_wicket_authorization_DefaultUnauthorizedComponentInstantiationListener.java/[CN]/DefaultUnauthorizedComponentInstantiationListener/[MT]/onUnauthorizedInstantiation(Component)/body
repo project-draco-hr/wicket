@@ -1,0 +1,9 @@
+{
+  final Class signInPageClass=Application.get().getSecuritySettings().getSignInPage();
+  if (signInPageClass != null && component instanceof Page && signInPageClass != component.getClass()) {
+    throw new RestartResponseAtInterceptPageException(signInPageClass);
+  }
+ else {
+    throw new UnauthorizedInstantiationException(component.getClass());
+  }
+}
