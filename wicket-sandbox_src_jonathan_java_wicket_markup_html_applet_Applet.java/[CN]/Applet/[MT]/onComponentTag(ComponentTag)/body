@@ -10,8 +10,9 @@
     }
   }
 ;
-  String servletPath=((ServletWebRequest)getRequest()).getServletPath();
-  tag.put("codebase",servletPath + '/' + Strings.beforeLastPathComponent(jarResourceReference.getSharedResourceKey(),'/')+ "/");
+  final String jarResourceUrl=getRequestCycle().urlFor(jarResourceReference);
+  final String codebase=Strings.beforeLastPathComponent(jarResourceUrl,'/') + '/';
+  tag.put("codebase",codebase);
   tag.put("archive",jarName);
   tag.put("name",getPageRelativePath().replace(':','_'));
   final int width=getWidth();
