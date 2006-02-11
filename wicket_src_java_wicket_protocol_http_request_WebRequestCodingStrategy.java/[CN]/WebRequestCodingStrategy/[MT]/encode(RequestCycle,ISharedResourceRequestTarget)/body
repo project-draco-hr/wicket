@@ -1,0 +1,19 @@
+{
+  final String prefix=urlPrefix(requestCycle);
+  final String sharedResourceKey=requestTarget.getResourceKey();
+  if ((sharedResourceKey == null) || (sharedResourceKey.trim().length() == 0)) {
+    return prefix;
+  }
+ else {
+    final AppendingStringBuffer buffer=new AppendingStringBuffer(sharedResourceKey.length() + prefix.length() + 11);
+    buffer.append(prefix);
+    if (prefix.endsWith("/")) {
+      buffer.append("resources/");
+    }
+ else {
+      buffer.append("/resources/");
+    }
+    buffer.append(sharedResourceKey);
+    return buffer.toString();
+  }
+}
