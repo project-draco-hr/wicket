@@ -1,11 +1,9 @@
 {
-  final String packageResourceKey=scope.getPackage().getName() + '/' + SharedResources.resourceKey(path,locale,style);
-synchronized (resourceMap) {
-    PackageResource resource=(PackageResource)resourceMap.get(packageResourceKey);
-    if (resource == null) {
-      resource=new PackageResource(scope,path,locale,style);
-      resourceMap.put(packageResourceKey,resource);
-    }
-    return resource;
+  final SharedResources sharedResources=Application.get().getSharedResources();
+  PackageResource resource=(PackageResource)sharedResources.get(scope,path,locale,style,true);
+  if (resource == null) {
+    resource=new PackageResource(scope,path,locale,style);
+    sharedResources.add(scope,path,locale,style,resource);
   }
+  return resource;
 }
