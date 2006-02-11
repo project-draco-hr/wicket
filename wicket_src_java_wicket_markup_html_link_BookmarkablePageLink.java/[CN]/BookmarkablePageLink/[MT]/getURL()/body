@@ -1,8 +1,8 @@
 {
-  String pageMapName=null;
+  String pageMapName=PageMap.DEFAULT_NAME;
   if (getPopupSettings() != null) {
     pageMapName="popup" + popupNumber;
     popupNumber++;
   }
-  return getPage().urlFor(pageMapName,pageClass,parameters);
+  return getPage().urlFor(getSession().getPageMap(pageMapName),pageClass,parameters);
 }
