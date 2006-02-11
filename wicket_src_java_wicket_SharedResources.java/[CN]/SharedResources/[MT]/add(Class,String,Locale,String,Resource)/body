@@ -1,13 +1,13 @@
 {
-  final String key=path(application,scope,name,locale,style);
+  final String resourceKey=resourceKey(application,scope,name,locale,style);
   ResourceState resourceState;
 synchronized (resourceMap) {
-    resourceState=(ResourceState)resourceMap.get(key);
+    resourceState=(ResourceState)resourceMap.get(resourceKey);
   }
   if (resourceState == null) {
-    resourceState=new ResourceState(key,resource);
+    resourceState=new ResourceState(resourceKey,resource);
   }
 synchronized (resourceMap) {
-    resourceMap.put(key,resourceState);
+    resourceMap.put(resourceKey,resourceState);
   }
 }
