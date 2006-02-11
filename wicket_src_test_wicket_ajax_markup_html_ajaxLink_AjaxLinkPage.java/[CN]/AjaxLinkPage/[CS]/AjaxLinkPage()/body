@@ -1,0 +1,13 @@
+{
+  final Label label=new Label("ajaxLabel",new PropertyModel(this,"labelText"));
+  label.add(MarkupIdSetter.INSTANCE);
+  add(label);
+  add(new AjaxLink("ajaxLink"){
+    private static final long serialVersionUID=1L;
+    protected void onClick(    AjaxRequestTarget target){
+      labelText="Updated!";
+      target.addComponent(label);
+    }
+  }
+);
+}
