@@ -1,8 +1,15 @@
 {
-  String pageMapName=PageMap.DEFAULT_NAME;
+  PageMap pageMap=getPageMap();
   if (getPopupSettings() != null) {
-    pageMapName="popup" + popupNumber;
+    if (pageMap != null) {
+      throw new IllegalStateException("You cannot set the page map for a link that also has popup settings");
+    }
+    final String popupPageMapName="popup" + popupNumber;
     popupNumber++;
+    pageMap=PageMap.forName(popupPageMapName);
+    if (pageMap == null) {
+      pageMap=getSession().newPageMap(popupPageMapName);
+    }
   }
-  return getPage().urlFor(PageMap.forName(pageMapName),pageClass,parameters);
+  return getPage().urlFor(pageMap,pageClass,parameters);
 }
