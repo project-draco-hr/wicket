@@ -5,6 +5,26 @@
   if (path == null) {
     path="";
   }
+ else   if (path.indexOf(":") != -1) {
+    Pattern re=Pattern.compile(":\\d+");
+    Matcher matcher=re.matcher(path);
+    path=matcher.replaceAll("");
+  }
+ else   if (id != null) {
+    try {
+      Integer.parseInt(id);
+      id=Strings.afterLast(path,':');
+      if (id.length() == 0) {
+        id=path;
+        path="";
+      }
+ else {
+        path=Strings.beforeLast(path,':');
+      }
+    }
+ catch (    NumberFormatException ex) {
+    }
+  }
   int position=-1;
   for (int pos=0; pos < markup.size(); pos++) {
     MarkupElement element=(MarkupElement)markup.get(pos);
