@@ -1,4 +1,7 @@
 {
+  if (!component.isActionAuthorized(Component.ENABLE)) {
+    throw new UnauthorizedActionException(component,Component.ENABLE);
+  }
   page.beforeCallComponent(component,method);
   try {
     method.invoke(component,new Object[]{});
