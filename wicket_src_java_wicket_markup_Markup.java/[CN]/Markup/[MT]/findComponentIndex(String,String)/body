@@ -1,59 +1,14 @@
 {
-  final String wicketId=ComponentTag.DEFAULT_WICKET_NAMESPACE + ":id";
-  Stack markupElements=new Stack();
-  String elementsPath="";
-  if (path == null) {
-    path="";
+  if ((id == null) || (id.length() == 0)) {
+    throw new IllegalArgumentException("Parameter 'id' must not be null");
   }
- else   if (path.indexOf(":") != -1) {
-    Pattern re=Pattern.compile(":\\d+");
-    Matcher matcher=re.matcher(path);
-    path=matcher.replaceAll("");
+  String completePath=(path == null || path.length() == 0 ? id : path + ":" + id);
+  Pattern re=Pattern.compile(":\\d+");
+  Matcher matcher=re.matcher(completePath);
+  completePath=matcher.replaceAll("");
+  final Integer value=(Integer)this.componentMap.get(completePath);
+  if (value == null) {
+    return -1;
   }
- else   if (id != null) {
-    try {
-      Integer.parseInt(id);
-      id=Strings.afterLast(path,':');
-      if (id.length() == 0) {
-        id=path;
-        path="";
-      }
- else {
-        path=Strings.beforeLast(path,':');
-      }
-    }
- catch (    NumberFormatException ex) {
-    }
-  }
-  int position=-1;
-  for (int pos=0; pos < markup.size(); pos++) {
-    MarkupElement element=(MarkupElement)markup.get(pos);
-    if (element instanceof ComponentTag) {
-      ComponentTag tag=(ComponentTag)element;
-      if (tag.isOpen() || tag.isOpenClose()) {
-        boolean hasWicketId=tag.getAttributes().containsKey(wicketId);
-        if (hasWicketId) {
-          if (tag.getId().equals(id)) {
-            if (elementsPath.equals(path)) {
-              position=pos;
-              break;
-            }
-          }
-        }
-        if (tag.isOpen()) {
-          markupElements.push(elementsPath);
-          if (hasWicketId) {
-            if (elementsPath.length() > 0) {
-              elementsPath+=":";
-            }
-            elementsPath+=tag.getId();
-          }
-        }
-      }
- else       if (tag.isClose()) {
-        elementsPath=(String)markupElements.pop();
-      }
-    }
-  }
-  return position;
+  return value.intValue();
 }

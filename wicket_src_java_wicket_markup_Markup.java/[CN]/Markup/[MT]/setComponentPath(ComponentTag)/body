@@ -1,0 +1,33 @@
+{
+  if ((tag.isOpen() || tag.isOpenClose()) && tag.getAttributes().containsKey(wicketId)) {
+    if (tag.isOpenClose()) {
+      if ((this.currentPath != null) && (this.currentPath.length() > 0)) {
+        tag.setPath(this.currentPath.toString());
+      }
+    }
+ else {
+      if (this.currentPath == null) {
+        this.currentPath=new StringBuffer(100);
+      }
+ else       if (this.currentPath.length() > 0) {
+        tag.setPath(this.currentPath.toString());
+        this.currentPath.append(':');
+      }
+      this.currentPath.append(tag.getId());
+    }
+    if (this.componentMap == null) {
+      this.componentMap=new HashMap();
+    }
+    final String key=(tag.getPath() != null ? tag.getPath() + ":" + tag.getId() : tag.getId());
+    this.componentMap.put(key,new Integer(this.markup.size() - 1));
+  }
+ else   if (tag.isClose() && (this.currentPath != null)) {
+    int index=this.currentPath.lastIndexOf(":");
+    if (index != -1) {
+      this.currentPath.setLength(index);
+    }
+ else {
+      this.currentPath.setLength(0);
+    }
+  }
+}
