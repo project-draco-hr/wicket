@@ -18,7 +18,7 @@
         servletResponse.filter(currentResponse);
         servletResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         servletResponse.close();
-        redirectUrl=page.urlFor(page,IRedirectListener.class);
+        redirectUrl=page.urlFor(IRedirectListener.class);
         String sessionId=getWebRequest().getHttpServletRequest().getSession(true).getId();
         ((WebApplication)application).addBufferedResponse(sessionId,redirectUrl,servletResponse);
       }
@@ -32,11 +32,11 @@
     }
   }
  else {
-    redirectUrl=page.urlFor(page,IRedirectListener.class);
+    redirectUrl=page.urlFor(IRedirectListener.class);
     page.internalEndRequest();
   }
   if (redirectUrl == null) {
-    redirectUrl=page.urlFor(page,IRedirectListener.class);
+    redirectUrl=page.urlFor(IRedirectListener.class);
   }
   session.touch(page);
   response.redirect(redirectUrl);
