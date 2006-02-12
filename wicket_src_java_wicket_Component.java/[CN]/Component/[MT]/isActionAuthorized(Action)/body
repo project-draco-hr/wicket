@@ -1,3 +1,7 @@
 {
-  return getSession().getAuthorizationStrategy().isActionAuthorized(this,action);
+  IAuthorizationStrategy authorizationStrategy=getSession().getAuthorizationStrategy();
+  if (authorizationStrategy != null) {
+    return authorizationStrategy.isActionAuthorized(this,action);
+  }
+  return true;
 }
