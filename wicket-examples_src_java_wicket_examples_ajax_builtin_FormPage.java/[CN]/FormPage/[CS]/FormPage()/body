@@ -1,0 +1,15 @@
+{
+  final FeedbackPanel feedback=new FeedbackPanel("feedback");
+  add(feedback.add(MarkupIdSetter.INSTANCE));
+  Form form=new Form("form",new CompoundPropertyModel(bean));
+  add(form);
+  form.add(MarkupIdSetter.INSTANCE);
+  FormComponent fc;
+  fc=new RequiredTextField("name");
+  fc.add(LengthValidator.min(4));
+  form.add(fc);
+  fc=new RequiredTextField("email");
+  fc.add(EmailAddressPatternValidator.getInstance());
+  form.add(fc);
+  AjaxFormValidatingBehavior.addToAllFormComponents(form,"onblur");
+}
