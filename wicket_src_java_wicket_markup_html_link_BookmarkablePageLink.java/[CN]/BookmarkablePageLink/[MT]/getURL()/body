@@ -1,15 +1,11 @@
 {
-  PageMap pageMap=getPageMap();
-  if (getPopupSettings() != null) {
-    if (pageMap != null) {
-      throw new IllegalStateException("You cannot set the page map for a link that also has popup settings");
-    }
-    final String popupPageMapName="popup" + popupNumber;
-    popupNumber++;
-    pageMap=PageMap.forName(popupPageMapName);
-    if (pageMap == null) {
-      pageMap=getSession().newPageMap(popupPageMapName);
-    }
+  if (pageMapName != null && getPopupSettings() != null) {
+    throw new IllegalStateException("You cannot specify popup settings and a page map");
   }
-  return getPage().urlFor(pageMap,pageClass,parameters);
+  if (getPopupSettings() != null) {
+    return urlFor(PageMap.forName("popup" + (popupNumber++)),pageClass,parameters);
+  }
+ else {
+    return urlFor(getPageMap(),pageClass,parameters);
+  }
 }
