@@ -1,14 +1,12 @@
 {
-  final AuthorizeAction authorizeAction=component.getClass().getAnnotation(AuthorizeAction.class);
-  if (authorizeAction != null) {
-    if (!check(action,authorizeAction)) {
-      return false;
-    }
+  final Class<? extends Component> componentClass=component.getClass();
+  if (!check(action,componentClass.getAnnotation(AuthorizeAction.class))) {
+    return false;
   }
-  final AuthorizeActions authorizedActions=component.getClass().getAnnotation(AuthorizeActions.class);
+  final AuthorizeActions authorizedActions=componentClass.getAnnotation(AuthorizeActions.class);
   if (authorizedActions != null) {
-    for (    final AuthorizeAction a : authorizedActions.actions()) {
-      if (!check(action,a)) {
+    for (    final AuthorizeAction authorizeAction : authorizedActions.actions()) {
+      if (!check(action,authorizeAction)) {
         return false;
       }
     }
