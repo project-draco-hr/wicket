@@ -1,3 +1,7 @@
 {
-  RequestCycle.get().getRequest().getPage().getPageMap().redirectToInterceptPage(interceptPage);
+  Page p=RequestCycle.get().getRequest().getPage();
+  if (p == null) {
+    p=interceptPage;
+  }
+  p.getPageMap().redirectToInterceptPage(interceptPage);
 }
