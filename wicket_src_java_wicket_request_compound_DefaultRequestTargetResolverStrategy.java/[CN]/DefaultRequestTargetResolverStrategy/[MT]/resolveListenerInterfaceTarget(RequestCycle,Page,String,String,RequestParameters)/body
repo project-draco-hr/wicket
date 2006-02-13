@@ -3,15 +3,15 @@
     return new RedirectPageRequestTarget(page);
   }
  else {
-    Method listenerMethod=requestCycle.getRequestInterfaceMethod(interfaceName);
-    if (listenerMethod == null) {
-      throw new WicketRuntimeException("Attempt to access unknown interface " + interfaceName);
+    final RequestListenerInterface listener=RequestCycle.requestListenerInterfaceForName(interfaceName);
+    if (listener == null) {
+      throw new WicketRuntimeException("Attempt to access unknown request listener interface " + interfaceName);
     }
-    String componentPart=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
+    final String componentPart=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
     if (Strings.isEmpty(componentPart)) {
-      throw new WicketRuntimeException("when trying to call " + listenerMethod + ", a component must be provided");
+      throw new WicketRuntimeException("When trying to call " + listener + ", a component must be provided");
     }
-    Component component=page.get(componentPart);
+    final Component component=page.get(componentPart);
     if (component == null) {
       throw new WicketRuntimeException("Calling listener methods on non-existing component: " + componentPath);
     }
@@ -19,11 +19,11 @@
       throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed: " + componentPath);
     }
     if (interfaceName.equals("IResourceListener")) {
-      return new ComponentResourceRequestTarget(page,component,listenerMethod);
+      return new ComponentResourceRequestTarget(page,component,listener);
     }
  else     if (interfaceName.equals("IBehaviorListener")) {
-      return new BehaviorRequestTarget(page,component,listenerMethod,requestParameters);
+      return new BehaviorRequestTarget(page,component,listener,requestParameters);
     }
-    return new ListenerInterfaceRequestTarget(page,component,listenerMethod,requestParameters);
+    return new ListenerInterfaceRequestTarget(page,component,listener,requestParameters);
   }
 }

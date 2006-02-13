@@ -20,9 +20,9 @@
     if (!component.isVisible()) {
       throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
     }
-    Method method=requestCycle.getRequestInterfaceMethod(interfaceName);
-    if (method != null) {
-      new FormSubmitInterfaceRequestTarget(page,component,method).processEvents(requestCycle);
+    final RequestListenerInterface listener=RequestCycle.requestListenerInterfaceForName(interfaceName);
+    if (listener != null) {
+      new FormSubmitInterfaceRequestTarget(page,component,listener).processEvents(requestCycle);
     }
   }
  else {

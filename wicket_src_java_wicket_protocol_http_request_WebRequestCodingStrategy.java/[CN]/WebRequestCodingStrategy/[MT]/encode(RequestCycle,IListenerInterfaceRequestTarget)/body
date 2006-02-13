@@ -2,20 +2,20 @@
   final StringBuffer url=new StringBuffer(64);
   url.append(urlPrefix(requestCycle));
   url.append("?path=");
-  Component component=requestTarget.getTarget();
+  final Component component=requestTarget.getTarget();
   url.append(component.getPath());
-  Page currentPage=component.getPage();
+  final Page currentPage=component.getPage();
   final PageMap pageMap=currentPage.getPageMap();
   if (!pageMap.isDefault()) {
     url.append("&pagemap=");
     url.append(pageMap.getName());
   }
-  int versionNumber=component.getPage().getCurrentVersionNumber();
+  final int versionNumber=component.getPage().getCurrentVersionNumber();
   if (versionNumber > 0) {
     url.append("&version=");
     url.append(versionNumber);
   }
-  String listenerName=Classes.name(requestTarget.getListenerMethod().getDeclaringClass());
+  final String listenerName=requestTarget.getRequestListenerInterface().getName();
   if (!"IRedirectListener".equals(listenerName)) {
     url.append("&interface=");
     url.append(listenerName);
