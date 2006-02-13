@@ -7,23 +7,17 @@
     if (listener == null) {
       throw new WicketRuntimeException("Attempt to access unknown request listener interface " + interfaceName);
     }
-    final String componentPart=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
-    if (Strings.isEmpty(componentPart)) {
+    final String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
+    if (Strings.isEmpty(pageRelativeComponentPath)) {
       throw new WicketRuntimeException("When trying to call " + listener + ", a component must be provided");
     }
-    final Component component=page.get(componentPart);
+    final Component component=page.get(pageRelativeComponentPath);
     if (component == null) {
-      throw new WicketRuntimeException("Calling listener methods on non-existing component: " + componentPath);
+      throw new WicketRuntimeException("Attempt to call listener method on non-existant component: " + componentPath);
     }
     if (!component.isVisible()) {
       throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed: " + componentPath);
     }
-    if (listener == Resource.RESOURCE_LISTENER_INTERFACE) {
-      return new ComponentResourceRequestTarget(page,component,listener);
-    }
- else     if (listener == Page.BEHAVIOR_LISTENER_INTERFACE) {
-      return new BehaviorRequestTarget(page,component,listener,requestParameters);
-    }
-    return new ListenerInterfaceRequestTarget(page,component,listener,requestParameters);
+    return listener.newRequestTarget(page,component,listener,requestParameters);
   }
 }
