@@ -1,0 +1,13 @@
+{
+  return new ISessionFactory(){
+    public Session newSession(){
+      try {
+        return webSessionClass.getConstructor(new Class[]{Application.class}).newInstance(AuthenticatedWebApplication.this);
+      }
+ catch (      Exception e) {
+        throw new WicketRuntimeException("Unable to instantiate web session class " + webSessionClass,e);
+      }
+    }
+  }
+;
+}
