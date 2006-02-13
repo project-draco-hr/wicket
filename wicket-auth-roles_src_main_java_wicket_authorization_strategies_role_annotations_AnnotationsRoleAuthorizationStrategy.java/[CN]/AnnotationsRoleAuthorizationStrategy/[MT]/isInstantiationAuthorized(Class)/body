@@ -1,15 +1,15 @@
 {
   boolean authorized=true;
-  Package annotPackage=componentClass.getPackage();
-  if (annotPackage != null) {
-    AuthorizeInstantiation packageRolesAllowed=(AuthorizeInstantiation)annotPackage.getAnnotation(AuthorizeInstantiation.class);
-    if (packageRolesAllowed != null) {
-      authorized=hasAny(new Roles(packageRolesAllowed.value()));
+  final Package componentPackage=componentClass.getPackage();
+  if (componentPackage != null) {
+    final AuthorizeInstantiation packageAnnotation=(AuthorizeInstantiation)componentPackage.getAnnotation(AuthorizeInstantiation.class);
+    if (packageAnnotation != null) {
+      authorized=hasAny(new Roles(packageAnnotation.value()));
     }
   }
-  AuthorizeInstantiation classRolesAllowed=(AuthorizeInstantiation)componentClass.getAnnotation(AuthorizeInstantiation.class);
-  if (classRolesAllowed != null) {
-    authorized=hasAny(new Roles(classRolesAllowed.value()));
+  final AuthorizeInstantiation classAnnotation=(AuthorizeInstantiation)componentClass.getAnnotation(AuthorizeInstantiation.class);
+  if (classAnnotation != null) {
+    authorized=hasAny(new Roles(classAnnotation.value()));
   }
   return authorized;
 }
