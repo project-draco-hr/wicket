@@ -1,7 +1,17 @@
 {
   getExceptionSettings().setThrowExceptionOnMissingResource(false);
   getRequestCycleSettings().setRenderStrategy(Settings.REDIRECT_TO_RENDER);
-  getApplicationSettings().setSignInPage(SignIn.class);
+  getSecuritySettings().setUnauthorizedComponentInstantiationListener(new IUnauthorizedComponentInstantiationListener(){
+    public void onUnauthorizedInstantiation(    final Component component){
+      if (component instanceof Page) {
+        throw new RestartResponseAtInterceptPageException(SignIn.class);
+      }
+ else {
+        throw new UnauthorizedInstantiationException(component.getClass());
+      }
+    }
+  }
+);
   SimplePageAuthorizationStrategy authorizationStrategy=new SimplePageAuthorizationStrategy(AuthenticatedWebPage.class){
     protected boolean isAuthorized(){
       return (((LibrarySession)Session.get()).isSignedIn());
