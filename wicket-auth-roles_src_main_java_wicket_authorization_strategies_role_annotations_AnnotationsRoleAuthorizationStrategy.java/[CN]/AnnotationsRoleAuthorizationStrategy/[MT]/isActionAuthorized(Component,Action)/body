@@ -1,19 +1,15 @@
 {
-  final AuthorizeAction authorizedAction=component.getClass().getAnnotation(AuthorizeAction.class);
-  if (authorizedAction != null) {
-    if (authorizedAction.action().equals(action.toString())) {
-      if (!hasAny(new Roles(authorizedAction.roles()))) {
-        return false;
-      }
+  final AuthorizeAction authorizeAction=component.getClass().getAnnotation(AuthorizeAction.class);
+  if (authorizeAction != null) {
+    if (!check(action,authorizeAction)) {
+      return false;
     }
   }
-  AuthorizeActions authorizedActions=component.getClass().getAnnotation(AuthorizeActions.class);
+  final AuthorizeActions authorizedActions=component.getClass().getAnnotation(AuthorizeActions.class);
   if (authorizedActions != null) {
-    for (    AuthorizeAction a : authorizedActions.actions()) {
-      if (a.action().equals(action.toString())) {
-        if (!hasAny(new Roles(a.roles()))) {
-          return false;
-        }
+    for (    final AuthorizeAction a : authorizedActions.actions()) {
+      if (!check(action,a)) {
+        return false;
       }
     }
   }
