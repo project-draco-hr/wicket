@@ -18,10 +18,10 @@
     if (!component.isVisible()) {
       throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed: " + componentPath);
     }
-    if (interfaceName.equals("IResourceListener")) {
+    if (listener == Resource.RESOURCE_LISTENER_INTERFACE) {
       return new ComponentResourceRequestTarget(page,component,listener);
     }
- else     if (interfaceName.equals("IBehaviorListener")) {
+ else     if (listener == Page.BEHAVIOR_LISTENER_INTERFACE) {
       return new BehaviorRequestTarget(page,component,listener,requestParameters);
     }
     return new ListenerInterfaceRequestTarget(page,component,listener,requestParameters);
