@@ -1,22 +1,21 @@
 {
-  final int startIndex=this.inputPosition;
-  int tagNameLen=skipUntilText.length();
-  int lastPos;
-  while (true) {
-    this.inputPosition=input.indexOf("</",this.inputPosition);
-    if ((this.inputPosition == -1) || ((this.inputPosition + (tagNameLen + 2)) >= input.length())) {
-      throw new ParseException(skipUntilText + " tag not closed (line " + lineNumber+ ", column "+ columnNumber+ ")",startIndex);
+  final int startIndex=this.input.getPosition();
+  final int tagNameLen=this.skipUntilText.length();
+  int pos=this.input.getPosition() - 1;
+  String endTagText=null;
+  int lastPos=0;
+  while (!skipUntilText.equalsIgnoreCase(endTagText)) {
+    pos=this.input.find("</",pos + 1);
+    if ((pos == -1) || ((pos + (tagNameLen + 2)) >= this.input.size())) {
+      throw new ParseException(skipUntilText + " tag not closed (line " + this.input.getLineNumber()+ ", column "+ this.input.getColumnNumber()+ ")",startIndex);
     }
-    lastPos=this.inputPosition + 2;
-    final String endTagText=input.substring(lastPos,lastPos + tagNameLen);
-    if (endTagText.toLowerCase().equals(skipUntilText)) {
-      break;
-    }
-    this.inputPosition=lastPos;
+    lastPos=pos + 2;
+    endTagText=this.input.getSubstring(lastPos,lastPos + tagNameLen).toString();
   }
-  lastPos=input.indexOf('>',lastPos + tagNameLen);
+  this.input.setPosition(pos);
+  lastPos=this.input.find('>',lastPos + tagNameLen);
   if (lastPos == -1) {
-    throw new ParseException("Script tag not closed (line " + lineNumber + ", column "+ columnNumber+ ")",startIndex);
+    throw new ParseException("Script tag not closed (line " + this.input.getLineNumber() + ", column "+ this.input.getColumnNumber()+ ")",startIndex);
   }
   this.skipUntilText=null;
 }

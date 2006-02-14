@@ -2,28 +2,29 @@
   if (this.skipUntilText != null) {
     skipUntil();
   }
-  int openBracketIndex=input.indexOf('<',this.inputPosition);
+  int openBracketIndex=this.input.find('<');
   if (openBracketIndex != -1) {
-    countLinesTo(input,openBracketIndex);
-    int closeBracketIndex=input.indexOf('>',openBracketIndex);
+    this.input.countLinesTo(openBracketIndex);
+    int closeBracketIndex=this.input.find('>',openBracketIndex + 1);
     if (closeBracketIndex == -1) {
-      throw new ParseException("No matching close bracket at position " + openBracketIndex,this.inputPosition);
+      throw new ParseException("No matching close bracket at position " + openBracketIndex,this.input.getPosition());
     }
-    String tagText=input.substring(openBracketIndex + 1,closeBracketIndex);
+    String tagText=this.input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
     if (tagText.startsWith("!--")) {
-      this.inputPosition=input.indexOf("-->",openBracketIndex + 4) + 3;
-      if (this.inputPosition == -1) {
-        throw new ParseException("Unclosed comment beginning at " + openBracketIndex,openBracketIndex);
+      int pos=this.input.find("-->",openBracketIndex + 1);
+      if (pos == -1) {
+        throw new ParseException("Unclosed comment beginning at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),openBracketIndex);
       }
+      this.input.setPosition(pos + 3);
       return nextTag();
     }
     final String startText=(tagText.length() <= 8 ? tagText : tagText.substring(0,8));
     if (startText.toUpperCase().equals("![CDATA[")) {
-      closeBracketIndex=findCloseBracket(input,'>',openBracketIndex);
+      closeBracketIndex=findCloseBracket('>',openBracketIndex);
       if (closeBracketIndex == -1) {
-        throw new ParseException("No matching close bracket at position " + openBracketIndex,this.inputPosition);
+        throw new ParseException("No matching close bracket at position " + openBracketIndex,this.input.getPosition());
       }
-      tagText=input.substring(openBracketIndex + 1,closeBracketIndex);
+      tagText=this.input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
     }
 {
       XmlTag.Type type=XmlTag.OPEN;
@@ -36,7 +37,7 @@
         tagText=tagText.substring(1);
       }
       if (tagText.startsWith("!") || tagText.startsWith("?")) {
-        this.inputPosition=closeBracketIndex + 1;
+        this.input.setPosition(closeBracketIndex + 1);
         return nextTag();
       }
  else {
@@ -54,14 +55,14 @@
           tag.type=type;
           tag.pos=openBracketIndex;
           tag.length=(closeBracketIndex + 1) - openBracketIndex;
-          tag.text=input.substring(openBracketIndex,closeBracketIndex + 1);
-          tag.lineNumber=lineNumber;
-          tag.columnNumber=columnNumber;
-          this.inputPosition=closeBracketIndex + 1;
+          tag.text=this.input.getSubstring(openBracketIndex,closeBracketIndex + 1).toString();
+          tag.lineNumber=this.input.getLineNumber();
+          tag.columnNumber=this.input.getColumnNumber();
+          this.input.setPosition(closeBracketIndex + 1);
           return tag;
         }
  else {
-          throw new ParseException("Malformed tag (line " + lineNumber + ", column "+ columnNumber+ ")",openBracketIndex);
+          throw new ParseException("Malformed tag (line " + this.input.getLineNumber() + ", column "+ this.input.getColumnNumber()+ ")",openBracketIndex);
         }
       }
     }

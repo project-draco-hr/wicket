@@ -1,0 +1,20 @@
+{
+  this.encoding=null;
+  if (!this.inputStream.markSupported()) {
+    throw new IOException("BufferedInputStream does not support mark/reset");
+  }
+  final int readAheadSize=80;
+  this.inputStream.mark(readAheadSize);
+  final String encoding=determineEncoding(this.inputStream,readAheadSize);
+  if (encoding != null) {
+    this.encoding=encoding;
+  }
+  final String markup;
+  if (this.encoding == null) {
+    this.inputStream.reset();
+    this.reader=new BufferedReader(new InputStreamReader(this.inputStream));
+  }
+ else {
+    this.reader=new BufferedReader(new InputStreamReader(this.inputStream,this.encoding));
+  }
+}
