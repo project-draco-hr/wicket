@@ -23,6 +23,7 @@
       ComponentTag top=(ComponentTag)stack.pop();
       boolean mismatch=!top.hasEqualTagName(tag);
       if (mismatch) {
+        top.setHasNoCloseTag(true);
         while (mismatch && !requiresCloseTag(top.getName())) {
           top=(ComponentTag)stack.pop();
           mismatch=!top.hasEqualTagName(tag);

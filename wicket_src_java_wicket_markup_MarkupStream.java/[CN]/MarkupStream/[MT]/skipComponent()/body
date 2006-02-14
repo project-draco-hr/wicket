@@ -1,8 +1,10 @@
 {
   final ComponentTag startTag=getTag();
   if (startTag.isOpen()) {
-    next();
-    skipToMatchingCloseTag(startTag);
+    if (startTag.hasNoCloseTag() == false) {
+      next();
+      skipToMatchingCloseTag(startTag);
+    }
     next();
   }
  else   if (startTag.isOpenClose()) {
