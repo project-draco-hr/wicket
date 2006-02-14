@@ -2,13 +2,12 @@
   if (items.hasNext()) {
     final int cols=getColumns();
     int row=0;
-    int index=0;
     do {
       Item rowItem=newRowItem(newChildId(),row);
       RepeatingView rowView=new RepeatingView("cols");
       rowItem.add(rowView);
       add(rowItem);
-      for (int i=0; i < cols; i++) {
+      for (int index=0; index < cols; index++) {
         final Item cellItem;
         if (items.hasNext()) {
           cellItem=(Item)items.next();
@@ -18,7 +17,6 @@
           populateEmptyItem(cellItem);
         }
         rowView.add(cellItem);
-        index++;
       }
       row++;
     }
