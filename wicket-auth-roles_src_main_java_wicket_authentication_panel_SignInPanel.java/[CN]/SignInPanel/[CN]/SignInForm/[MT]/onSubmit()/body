@@ -1,0 +1,10 @@
+{
+  if (signIn(getUsername(),getPassword())) {
+    if (!continueToOriginalDestination()) {
+      setResponsePage(getApplication().getSessionSettings().getPageFactory().newPage(getApplication().getHomePage(),(PageParameters)null));
+    }
+  }
+ else {
+    error(getLocalizer().getString("signInFailed",this,"Sign in failed"));
+  }
+}
