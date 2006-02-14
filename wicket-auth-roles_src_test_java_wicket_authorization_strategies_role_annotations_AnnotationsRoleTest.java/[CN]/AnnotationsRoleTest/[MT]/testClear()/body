@@ -1,0 +1,11 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.getSecuritySettings().setAuthorizationStrategy(new RoleAuthorizationStrategy(new UserRolesAuthorizer("FOO")));
+  tester.startPage(new ITestPageSource(){
+    public Page getTestPage(){
+      return new NormalPage();
+    }
+  }
+);
+  tester.assertRenderedPage(NormalPage.class);
+}

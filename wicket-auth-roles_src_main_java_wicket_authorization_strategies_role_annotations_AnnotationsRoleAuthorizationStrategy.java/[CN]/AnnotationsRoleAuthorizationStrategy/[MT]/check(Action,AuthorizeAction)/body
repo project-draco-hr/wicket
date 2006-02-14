@@ -1,7 +1,9 @@
 {
-  if (action.getName().equals(authorizeActionAnnotation.action())) {
-    if (!hasAny(new Roles(authorizeActionAnnotation.roles()))) {
-      return false;
+  if (authorizeActionAnnotation != null) {
+    if (action.getName().equals(authorizeActionAnnotation.action())) {
+      if (!hasAny(new Roles(authorizeActionAnnotation.roles()))) {
+        return false;
+      }
     }
   }
   return true;
