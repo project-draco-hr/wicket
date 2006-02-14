@@ -7,12 +7,12 @@
       return node;
     }
     if (onlyIfVisible)     return null;
-    Stack paths;
+    ArrayListStack paths;
     if (tempStacks.size() == 0) {
-      paths=new Stack();
+      paths=new ArrayListStack();
     }
  else {
-      paths=(Stack)tempStacks.pop();
+      paths=(ArrayListStack)tempStacks.pop();
     }
     try {
       paths.push(path);
@@ -32,7 +32,7 @@
       }
     }
   finally {
-      paths.removeAllElements();
+      paths.clear();
       tempStacks.push(paths);
     }
     return null;
