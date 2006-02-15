@@ -7,7 +7,10 @@
   buffer.append("value=\"");
   buffer.append(renderer.getIdValue(choice,index));
   buffer.append("\">");
-  String display=getLocalizer().getString(displayValue,this,displayValue);
+  String display=displayValue;
+  if (localizeDisplayValues()) {
+    display=getLocalizer().getString(displayValue,this,displayValue);
+  }
   String escaped=Strings.escapeMarkup(display,false,true);
   buffer.append(escaped);
   buffer.append("</option>");
