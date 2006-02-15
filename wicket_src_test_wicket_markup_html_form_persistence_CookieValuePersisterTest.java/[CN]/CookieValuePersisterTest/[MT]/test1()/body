@@ -14,13 +14,13 @@
   assertEquals(1,getResponseCookies(cycle).size());
   assertEquals("test",((Cookie)getResponseCookies(cycle).get(0)).getValue());
   assertEquals("form:input",((Cookie)getResponseCookies(cycle).get(0)).getName());
-  assertNull(((Cookie)getResponseCookies(cycle).get(0)).getPath());
+  assertEquals(cycle.getWebRequest().getContextPath(),((Cookie)getResponseCookies(cycle).get(0)).getPath());
   persister.clear(textField);
   assertEquals(0,getRequestCookies(cycle).length);
   assertEquals(1,getResponseCookies(cycle).size());
   assertEquals("test",((Cookie)getResponseCookies(cycle).get(0)).getValue());
   assertEquals("form:input",((Cookie)getResponseCookies(cycle).get(0)).getName());
-  assertNull(((Cookie)getResponseCookies(cycle).get(0)).getPath());
+  assertEquals(cycle.getWebRequest().getContextPath(),((Cookie)getResponseCookies(cycle).get(0)).getPath());
   persister.load(textField);
   assertEquals("test",textField.getModelObjectAsString());
   assertEquals("test",textField.getModelObjectAsString());
