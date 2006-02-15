@@ -6,29 +6,24 @@ case PREPARE_REQUEST:
         prepare();
         break;
       }
-case DECODE_PARAMETERS:
-{
-      requestParameters=getRequestParameters(processor);
-      break;
-    }
 case RESOLVE_TARGET:
 {
-    final IRequestTarget target=processor.resolve(this,requestParameters);
-    if (target == null) {
-      throw new WicketRuntimeException("the processor did not resolve to any request target");
+      final IRequestTarget target=processor.resolve(this,request.getRequestParameters());
+      if (target == null) {
+        throw new WicketRuntimeException("the processor did not resolve to any request target");
+      }
+      requestTargets.push(target);
+      break;
     }
-    requestTargets.push(target);
-    break;
-  }
 case PROCESS_EVENTS:
 {
-  processEventsAndRespond();
-  break;
-}
+    processEventsAndRespond();
+    break;
+  }
 case RESPOND:
 {
-respond();
-break;
+  respond();
+  break;
 }
 default :
 {
