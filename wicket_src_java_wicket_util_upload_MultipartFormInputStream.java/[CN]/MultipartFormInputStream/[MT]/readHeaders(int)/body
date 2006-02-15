@@ -12,6 +12,9 @@
       throw new MalformedStreamException("Stream ended unexpectedly");
     }
     size++;
+    if (size > maxSize) {
+      throw new MalformedStreamException("Stream exceeded maximum of " + maxSize + " bytes");
+    }
     if (b[0] == HEADER_SEPARATOR[i]) {
       i++;
     }
