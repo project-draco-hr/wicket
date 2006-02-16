@@ -1,0 +1,9 @@
+{
+  executeTest(SimpleTestPage.class,"SimpleTestPageExpectedResult.html");
+  Page page=application.getLastRenderedPage();
+  application.setupRequestAndResponse();
+  application.getServletRequest().setRequestToRedirectString("?path=0:testPanel:baseSpan:linja1&interface=IBehaviorListener&behaviorId=0");
+  application.processRequestCycle();
+  String document=application.getServletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,this.getClass(),"SimpleTestPageExpectedResult-1.html"));
+}
