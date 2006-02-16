@@ -1,7 +1,16 @@
 {
-  response.write("<evaluate>");
+  tempResponse.reset();
+  tempResponse.write(js);
+  response.write("<evaluate");
+  if (tempResponse.isContentsEncoded()) {
+    response.write(" encoding=\"");
+    response.write(tempResponse.getEncodingName());
+    response.write("\"");
+  }
+  response.write(">");
   response.write("<![CDATA[");
-  response.write(js);
+  response.write(tempResponse.getContents());
   response.write("]]>");
   response.write("</evaluate>");
+  tempResponse.reset();
 }

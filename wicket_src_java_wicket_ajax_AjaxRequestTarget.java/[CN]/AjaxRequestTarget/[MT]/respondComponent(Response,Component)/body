@@ -1,7 +1,8 @@
 {
   String id=component.getMarkupId();
-  response.write("<component id=\"" + id + "\">");
-  response.write("<![CDATA[");
+  final Response originalResponse=response;
+  tempResponse.reset();
+  RequestCycle.get().setResponse(tempResponse);
   Page page=component.getPage();
   if (page != null) {
     page.startComponentRender(component);
@@ -13,6 +14,15 @@
   if (page != null) {
     page.endComponentRender(component);
   }
-  response.write("]]>");
-  response.write("</component>");
+  RequestCycle.get().setResponse(originalResponse);
+  response.write("<component id=\"" + id + "\" ");
+  if (tempResponse.isContentsEncoded()) {
+    response.write(" encoding=\"");
+    response.write(tempResponse.getEncodingName());
+    response.write("\" ");
+  }
+  response.write("><![CDATA[");
+  response.write(tempResponse.getContents());
+  response.write("]]></component>");
+  tempResponse.reset();
 }
