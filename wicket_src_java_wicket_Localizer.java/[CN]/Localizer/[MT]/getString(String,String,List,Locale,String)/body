@@ -5,7 +5,10 @@
   Class componentClass=(searchStack.size() > 0 ? (Class)searchStack.get(0) : null);
   String id=createCacheId(componentClass,locale,style,key);
   String string=getCachedValue(id);
-  if (string == null) {
+  if (string == NULL) {
+    string=null;
+  }
+ else   if (string == null) {
     string=traverseResourceLoaders(key,path,searchStack,locale,style);
     if (string != null) {
       this.cachedValues.put(id,string);
@@ -14,5 +17,5 @@
       this.cachedValues.put(id,NULL);
     }
   }
-  return string == NULL ? null : string;
+  return string;
 }
