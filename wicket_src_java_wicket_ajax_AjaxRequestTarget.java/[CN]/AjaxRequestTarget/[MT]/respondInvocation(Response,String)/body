@@ -1,16 +1,20 @@
 {
-  tempResponse.reset();
-  tempResponse.write(js);
+  boolean encoded=false;
+  String javascript=js;
+  if (needsEncoding(js)) {
+    encoded=true;
+    javascript=encode(js);
+  }
   response.write("<evaluate");
-  if (tempResponse.isContentsEncoded()) {
+  if (encoded) {
     response.write(" encoding=\"");
-    response.write(tempResponse.getEncodingName());
+    response.write(getEncodingName());
     response.write("\"");
   }
   response.write(">");
   response.write("<![CDATA[");
-  response.write(tempResponse.getContents());
+  response.write(javascript);
   response.write("]]>");
   response.write("</evaluate>");
-  tempResponse.reset();
+  encodingResponse.reset();
 }
