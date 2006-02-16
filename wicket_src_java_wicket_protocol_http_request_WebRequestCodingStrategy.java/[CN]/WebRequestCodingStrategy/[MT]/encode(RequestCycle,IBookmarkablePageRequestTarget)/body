@@ -1,26 +1,29 @@
 {
-  final Class pageClass=requestTarget.getPageClass();
-  final PageParameters parameters=requestTarget.getPageParameters();
   final StringBuffer url=new StringBuffer(64);
   url.append(urlPrefix(requestCycle));
-  url.append("?bookmarkablePage=");
-  url.append(pageClass.getName());
+  url.append('?');
+  url.append(PageParameters.BOOKMARKABLE_PAGE);
+  url.append('=');
+  final Class pageClass=requestTarget.getPageClass();
   String pageMapName=requestTarget.getPageMapName();
   if (pageMapName == null) {
     IRequestTarget currentTarget=requestCycle.getRequestTarget();
     if (currentTarget instanceof IPageRequestTarget) {
       Page currentPage=((IPageRequestTarget)currentTarget).getPage();
       final PageMap pageMap=currentPage.getPageMap();
-      if (!pageMap.isDefault()) {
-        url.append("&pagemap=");
-        url.append(pageMap.getName());
+      if (pageMap.isDefault()) {
+        pageMapName="";
+      }
+ else {
+        pageMapName=pageMap.getName();
       }
     }
-  }
  else {
-    url.append("&pagemap=");
-    url.append(pageMapName);
+      pageMapName="";
+    }
   }
+  url.append(pageMapName + Component.PATH_SEPARATOR + pageClass.getName());
+  final PageParameters parameters=requestTarget.getPageParameters();
   if (parameters != null) {
     for (final Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
       final String key=(String)iterator.next();

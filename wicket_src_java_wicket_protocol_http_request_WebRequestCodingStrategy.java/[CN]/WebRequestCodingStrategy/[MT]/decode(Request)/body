@@ -1,9 +1,11 @@
 {
-  RequestParameters parameters=new RequestParameters();
-  String pathInfo=getRequestPath(request);
+  final RequestParameters parameters=new RequestParameters();
+  final String pathInfo=getRequestPath(request);
   parameters.setPath(pathInfo);
-  addPageParameters(request,parameters);
+  addInterfaceParameters(request,parameters);
   addBookmarkablePageParameters(request,parameters);
   addResourceParameters(request,parameters);
+  parameters.setBehaviorId(request.getParameter(BEHAVIOR_ID_PARAMETER_NAME));
+  parameters.setParameters(request.getParameterMap());
   return parameters;
 }

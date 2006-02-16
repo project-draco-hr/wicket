@@ -1,23 +1,25 @@
 {
   final StringBuffer url=new StringBuffer(64);
   url.append(urlPrefix(requestCycle));
-  url.append("?path=");
+  url.append('?');
+  url.append(INTERFACE_PARAMETER_NAME);
+  url.append('=');
   final Component component=requestTarget.getTarget();
-  url.append(component.getPath());
-  final Page currentPage=component.getPage();
-  final PageMap pageMap=currentPage.getPageMap();
+  final Page page=component.getPage();
+  final PageMap pageMap=page.getPageMap();
   if (!pageMap.isDefault()) {
-    url.append("&pagemap=");
     url.append(pageMap.getName());
   }
+  url.append(Component.PATH_SEPARATOR);
+  url.append(component.getPath());
+  url.append(Component.PATH_SEPARATOR);
   final int versionNumber=component.getPage().getCurrentVersionNumber();
   if (versionNumber > 0) {
-    url.append("&version=");
     url.append(versionNumber);
   }
+  url.append(Component.PATH_SEPARATOR);
   final String listenerName=requestTarget.getRequestListenerInterface().getName();
   if (!IRedirectListener.INTERFACE.getName().equals(listenerName)) {
-    url.append("&interface=");
     url.append(listenerName);
   }
   return requestCycle.getResponse().encodeURL(url.toString());

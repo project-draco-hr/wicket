@@ -1,30 +1,11 @@
 {
-  RequestCycle requestCycle=RequestCycle.get();
-  String decodedUrl=requestCycle.getRequest().decodeURL(url);
-  int indexOfPath=decodedUrl.indexOf("path=");
-  int indexOfInterface=decodedUrl.indexOf("interface=");
-  if (indexOfPath != -1 && indexOfInterface != -1) {
-    indexOfPath+="path=".length();
-    indexOfInterface+="interface=".length();
-    int indexOfPathEnd=decodedUrl.indexOf("&",indexOfPath);
-    if (indexOfPathEnd == -1) {
-      indexOfPathEnd=decodedUrl.length();
-    }
-    int indexOfInterfaceEnd=decodedUrl.indexOf("&",indexOfInterface);
-    if (indexOfInterfaceEnd == -1) {
-      indexOfInterfaceEnd=decodedUrl.length();
-    }
-    String path=decodedUrl.substring(indexOfPath,indexOfPathEnd);
-    String interfaceName=decodedUrl.substring(indexOfInterface,indexOfInterfaceEnd);
-    final Component component=page.get(Strings.afterFirstPathComponent(path,Component.PATH_SEPARATOR));
-    if (!component.isVisible()) {
-      throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
-    }
-    final RequestListenerInterface listener=RequestListenerInterface.forName(interfaceName);
-    if (listener != null) {
-      new FormSubmitInterfaceRequestTarget(page,component,listener).processEvents(requestCycle);
-    }
+  final RequestParameters requestParameters=getRequest().getRequestParameters();
+  final Component component=page.get(requestParameters.getComponentPath());
+  if (!component.isVisible()) {
+    throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
   }
- else {
+  final RequestListenerInterface listener=requestParameters.getInterface();
+  if (listener != null) {
+    new FormSubmitInterfaceRequestTarget(page,component,listener).processEvents(getRequestCycle());
   }
 }

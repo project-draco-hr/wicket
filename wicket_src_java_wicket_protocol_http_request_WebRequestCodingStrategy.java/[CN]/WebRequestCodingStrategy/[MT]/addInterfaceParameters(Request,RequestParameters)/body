@@ -1,0 +1,20 @@
+{
+  final String requestString=request.getParameter(INTERFACE_PARAMETER_NAME);
+  if (requestString != null) {
+    String[] pathComponents=Strings.split(requestString,Component.PATH_SEPARATOR);
+    if (pathComponents.length < 4) {
+      throw new WicketRuntimeException("Internal error parsing " + INTERFACE_PARAMETER_NAME + " = "+ requestString);
+    }
+    final String pageMapName=pathComponents[0];
+    parameters.setPageMapName(pageMapName.length() == 0 ? PageMap.DEFAULT_NAME : pageMapName);
+    final String interfaceName=pathComponents[pathComponents.length - 1];
+    parameters.setInterfaceName(interfaceName.length() != 0 ? interfaceName : IRedirectListener.INTERFACE.getName());
+    final String versionNumberString=pathComponents[pathComponents.length - 2];
+    final int versionNumber=Strings.isEmpty(versionNumberString) ? 0 : Integer.parseInt(versionNumberString);
+    parameters.setVersionNumber(versionNumber);
+    final int start=pageMapName.length() + 1;
+    final int end=requestString.length() - interfaceName.length() - versionNumberString.length()- 2;
+    final String componentPath=requestString.substring(start,end);
+    parameters.setComponentPath(componentPath);
+  }
+}
