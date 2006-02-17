@@ -3,10 +3,10 @@
   if (tag == null) {
     return tag;
   }
-  final String wicketMessageAttribute=tag.getAttributes().getString(WICKET_MESSAGE_ATTR_NAME);
+  final String wicketMessageAttribute=tag.getAttributes().getString(WICKET_MESSAGE_ATTRIBUTE_NAME);
   if ((wicketMessageAttribute != null) && (wicketMessageAttribute.trim().length() > 0)) {
     if (this.containerInfo == null) {
-      throw new ParseException("Found " + WICKET_MESSAGE_ATTR_NAME + " but the message can not be resolved, because the associated Page is not known."+ " This might be caused by using the wrong MarkupParser constructor",tag.getPos());
+      throw new ParseException("Found " + WICKET_MESSAGE_ATTRIBUTE_NAME + " but the message can not be resolved, because the associated Page is not known."+ " This might be caused by using the wrong MarkupParser constructor",tag.getPos());
     }
     StringTokenizer attrTokenizer=new StringTokenizer(wicketMessageAttribute,",");
     while (attrTokenizer.hasMoreTokens()) {
