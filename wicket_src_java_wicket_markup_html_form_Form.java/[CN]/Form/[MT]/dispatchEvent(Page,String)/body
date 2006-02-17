@@ -1,14 +1,13 @@
 {
-  final RequestParameters requestParameters=getRequest().getRequestParameters();
-  final Component component=page.get(requestParameters.getComponentPath());
-  if (component == null) {
-    throw new WicketRuntimeException("Component not found: " + requestParameters.getComponentPath());
+  RequestCycle rc=RequestCycle.get();
+  IRequestCycleProcessor processor=rc.getProcessor();
+  final RequestParameters requestParameters=processor.getRequestCodingStrategy().decode(new FormDispatchRequest(rc.getRequest(),url));
+  IRequestTarget rt=processor.resolve(rc,requestParameters);
+  if (rt instanceof ListenerInterfaceRequestTarget) {
+    ListenerInterfaceRequestTarget interfaceTarget=((ListenerInterfaceRequestTarget)rt);
+    interfaceTarget.getRequestListenerInterface().invoke(page,interfaceTarget.getTarget());
   }
-  if (!component.isVisible()) {
-    throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed");
-  }
-  final RequestListenerInterface listener=requestParameters.getInterface();
-  if (listener != null) {
-    new FormSubmitInterfaceRequestTarget(page,component,listener).processEvents(getRequestCycle());
+ else {
+    throw new WicketRuntimeException("Attempt to access unknown request listener interface " + requestParameters.getInterfaceName());
   }
 }

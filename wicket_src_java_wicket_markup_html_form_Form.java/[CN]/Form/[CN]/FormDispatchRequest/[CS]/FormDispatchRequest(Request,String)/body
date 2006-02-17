@@ -1,0 +1,13 @@
+{
+  this.realRequest=realRequest;
+  this.url=realRequest.decodeURL(url);
+  String queryPart=this.url.substring(this.url.indexOf("?") + 1);
+  StringTokenizer paramsSt=new StringTokenizer(queryPart,"&");
+  while (paramsSt.hasMoreTokens()) {
+    String param=paramsSt.nextToken();
+    int equalsSign=param.indexOf("=");
+    String paramName=param.substring(0,equalsSign);
+    String value=param.substring(equalsSign + 1);
+    params.put(paramName,value);
+  }
+}
