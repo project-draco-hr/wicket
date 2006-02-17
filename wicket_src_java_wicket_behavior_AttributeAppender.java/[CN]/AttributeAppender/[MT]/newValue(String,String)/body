@@ -1,5 +1,13 @@
 {
-  StringBuffer sb=new StringBuffer(currentValue == null ? "" : currentValue);
+  final int appendValueLen=(appendValue == null) ? 0 : appendValue.length();
+  AppendingStringBuffer sb;
+  if (currentValue == null) {
+    sb=new AppendingStringBuffer(appendValueLen + separator.length());
+  }
+ else {
+    sb=new AppendingStringBuffer(currentValue.length() + appendValueLen + separator.length());
+    sb.append(currentValue);
+  }
   if (!Strings.isEmpty(currentValue) && !Strings.isEmpty(appendValue)) {
     sb.append(separator);
   }
