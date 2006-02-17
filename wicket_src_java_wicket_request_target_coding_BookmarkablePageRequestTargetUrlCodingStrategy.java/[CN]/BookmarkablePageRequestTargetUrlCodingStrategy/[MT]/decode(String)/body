@@ -1,6 +1,7 @@
 {
-  String parametersFragment=urlFragment.substring(getMountPath().length());
-  PageParameters parameters=decodePageParameters(parametersFragment);
-  BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(bookmarkablePageClass,parameters);
+  final String parametersFragment=urlFragment.substring(getMountPath().length());
+  final PageParameters parameters=decodePageParameters(parametersFragment);
+  final String pageMapName=parameters.getString("wicket:pageMapName");
+  final BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(pageMapName,bookmarkablePageClass,parameters);
   return target;
 }
