@@ -1,0 +1,40 @@
+{
+  Form form=new Form("form"){
+    private static final long serialVersionUID=1L;
+    protected void onSubmit(){
+      throw new WicketRuntimeException("on submit shouldn't be reached");
+    }
+  }
+;
+  DropDownChoice dropDown=new DropDownChoice("dropdown"){
+    private static final long serialVersionUID=1L;
+    protected void onSelectionChanged(    Object newSelection){
+      selection=true;
+    }
+    /** 
+ * @see wicket.markup.html.form.DropDownChoice#wantOnSelectionChangedNotifications()
+ */
+    protected boolean wantOnSelectionChangedNotifications(){
+      return true;
+    }
+  }
+;
+  form.add(dropDown);
+  MockPage page=new MockPage();
+  page.add(form);
+  application.setupRequestAndResponse();
+  RequestCycle cycle=application.createRequestCycle();
+  page.urlFor(IRedirectListener.INTERFACE);
+  cycle.getSession().touch(page);
+  try {
+    form.onFormSubmitted();
+    throw new Exception("form should throw an error");
+  }
+ catch (  WicketRuntimeException ex) {
+  }
+  application.getServletRequest().setParameter(form.getHiddenFieldId(),dropDown.urlFor(IOnChangeListener.INTERFACE));
+  form.onFormSubmitted();
+  if (!selection) {
+    throw new Exception("Selection should be called");
+  }
+}
