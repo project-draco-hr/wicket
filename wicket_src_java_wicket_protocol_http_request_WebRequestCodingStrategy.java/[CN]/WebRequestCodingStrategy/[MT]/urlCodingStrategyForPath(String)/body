@@ -1,14 +1,15 @@
 {
-  if (path != null && path.equals("/")) {
-    return null;
-  }
   if (path == null) {
     return (IRequestTargetUrlCodingStrategy)mountsOnPath.get(null);
   }
-  Iterator it=mountsOnPath.entrySet().iterator();
-  while (it.hasNext()) {
-    Map.Entry entry=(Entry)it.next();
-    String key=(String)entry.getKey();
+ else {
+    if (path.equals("/")) {
+      throw new IllegalArgumentException("The mount path '/' is reserved for the application home page");
+    }
+  }
+  for (final Iterator it=mountsOnPath.entrySet().iterator(); it.hasNext(); ) {
+    final Map.Entry entry=(Entry)it.next();
+    final String key=(String)entry.getKey();
     if (path.startsWith(key)) {
       return (IRequestTargetUrlCodingStrategy)entry.getValue();
     }
