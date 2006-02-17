@@ -8,10 +8,10 @@
     requestCycle.setResponsePage(override);
     requestCycle.setRedirect(true);
   }
- else   if (settings.getUnexpectedExceptionDisplay() != Settings.SHOW_NO_EXCEPTION_PAGE) {
+ else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
     Class internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
     Class responseClass=responsePage != null ? responsePage.getClass() : null;
-    if (responseClass != internalErrorPageClass && settings.getUnexpectedExceptionDisplay() == Settings.SHOW_INTERNAL_ERROR_PAGE) {
+    if (responseClass != internalErrorPageClass && settings.getUnexpectedExceptionDisplay() == IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE) {
       final IPageFactory pageFactory;
       IRequestTarget requestTarget=requestCycle.getRequestTarget();
       if (requestTarget instanceof IPageRequestTarget) {
