@@ -3,19 +3,6 @@
     throw new IllegalArgumentException("Parameter 'searchStack' must have at least one entry");
   }
   Class componentClass=(searchStack.size() > 0 ? (Class)searchStack.get(0) : null);
-  String id=createCacheId(componentClass,locale,style,key);
-  String string=getCachedValue(id);
-  if (string == NULL) {
-    string=null;
-  }
- else   if (string == null) {
-    string=traverseResourceLoaders(key,path,searchStack,locale,style);
-    if (string != null) {
-      this.cachedValues.put(id,string);
-    }
- else {
-      this.cachedValues.put(id,NULL);
-    }
-  }
+  String string=traverseResourceLoaders(key,path,searchStack,locale,style);
   return string;
 }

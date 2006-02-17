@@ -1,34 +1,17 @@
 {
-  Class clazz=(component != null ? component.getClass() : null);
-  String id=createCacheId(clazz,locale,style,key);
+  final List searchStack;
+  final String path;
   if (component != null) {
-    id+=":" + component.getId();
+    searchStack=getComponentStack(component);
+    path=Strings.replaceAll(component.getPageRelativePath(),":",".");
   }
-  String string=getCachedValue(id);
-  if (string == null) {
-    final List searchStack;
-    final String path;
-    if (component != null) {
-      searchStack=getComponentStack(component);
-      path=Strings.replaceAll(component.getPageRelativePath(),":",".");
-    }
  else {
-      searchStack=new ArrayList(0);
-      searchStack.add(Application.get().getClass());
-      path=null;
-    }
-    string=traverseResourceLoaders(key,path,searchStack,locale,style);
-    if (string != null) {
-      this.cachedValues.put(id,string);
-    }
- else {
-      this.cachedValues.put(id,NULL);
-    }
+    searchStack=new ArrayList(0);
+    searchStack.add(Application.get().getClass());
+    path=null;
   }
-  if (string == NULL) {
-    string=null;
-  }
- else   if (string != null) {
+  String string=traverseResourceLoaders(key,path,searchStack,locale,style);
+  if (string != null) {
     return substitutePropertyExpressions(component,string,model);
   }
   final IResourceSettings resourceSettings=application.getResourceSettings();
@@ -36,7 +19,7 @@
     return defaultValue;
   }
   if (resourceSettings.getThrowExceptionOnMissingResource()) {
-    throw new MissingResourceException("Unable to find resource: " + key,(clazz != null ? getClass().getName() : ""),key);
+    throw new MissingResourceException("Unable to find resource: " + key,(component != null ? component.getClass().getName() : ""),key);
   }
  else {
     return "[Warning: String resource for '" + key + "' not found]";
