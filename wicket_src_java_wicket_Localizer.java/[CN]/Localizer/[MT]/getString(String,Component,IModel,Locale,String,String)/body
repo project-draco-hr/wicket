@@ -6,11 +6,10 @@
     path=Strings.replaceAll(component.getPageRelativePath(),":",".");
   }
  else {
-    searchStack=new ArrayList(0);
-    searchStack.add(Application.get().getClass());
+    searchStack=null;
     path=null;
   }
-  String string=traverseResourceLoaders(key,path,searchStack,locale,style);
+  String string=visitResourceLoaders(key,path,searchStack,locale,style);
   if (string != null) {
     return substitutePropertyExpressions(component,string,model);
   }

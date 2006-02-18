@@ -2,7 +2,10 @@
   if (searchStack == null) {
     throw new IllegalArgumentException("Parameter 'searchStack' must have at least one entry");
   }
-  Class componentClass=(searchStack.size() > 0 ? (Class)searchStack.get(0) : null);
-  String string=traverseResourceLoaders(key,path,searchStack,locale,style);
+  Class componentClass=null;
+  if ((searchStack != null) && (searchStack.size() > 0)) {
+    componentClass=(Class)searchStack.get(0);
+  }
+  String string=visitResourceLoaders(key,path,searchStack,locale,style);
   return string;
 }

@@ -1,0 +1,14 @@
+{
+  WicketTester tester=new MyTesterApplication();
+  tester.getResourceSettings().setThrowExceptionOnMissingResource(true);
+  tester.setupRequestAndResponse();
+  WebRequestCycle cycle=tester.createRequestCycle();
+  boolean hit=false;
+  try {
+    tester.getResourceSettings().getLocalizer().getString("XXX",null);
+  }
+ catch (  MissingResourceException ex) {
+    hit=true;
+  }
+  assertEquals("MissingResourceException expected",hit,true);
+}
