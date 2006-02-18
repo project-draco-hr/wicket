@@ -6,14 +6,12 @@
   if (tag.getId() != null) {
     return tag;
   }
+  String contextPath=application.getApplicationSettings().getContextPath();
   if (contextPath == null) {
-    contextPath=((WebRequestCycle)RequestCycle.get()).getWebRequest().getContextPath();
-    if (contextPath == null) {
-      contextPath="";
-    }
- else     if (contextPath.endsWith("/") == false) {
-      contextPath+="/";
-    }
+    contextPath="";
+  }
+ else   if (contextPath.endsWith("/") == false) {
+    contextPath+="/";
   }
   if (contextPath.length() > 0) {
     for (int i=0; i < attributeNames.length; i++) {
