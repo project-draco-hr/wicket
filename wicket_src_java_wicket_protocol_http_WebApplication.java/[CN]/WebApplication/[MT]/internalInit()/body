@@ -1,6 +1,10 @@
 {
   super.internalInit();
   getResourceSettings().setResourceFinder(new WebApplicationPath(getWicketServlet().getServletContext()));
+  String contextPath=wicketServlet.getInitParameter(Application.CONTEXTPATH);
+  if (contextPath != null) {
+    getApplicationSettings().setContextPath(contextPath);
+  }
   String configuration=null;
   try {
     configuration=System.getProperty("wicket." + Application.CONFIGURATION);
