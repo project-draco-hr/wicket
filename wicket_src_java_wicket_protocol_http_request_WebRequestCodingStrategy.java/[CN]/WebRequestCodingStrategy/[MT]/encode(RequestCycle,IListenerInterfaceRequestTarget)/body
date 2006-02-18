@@ -1,4 +1,5 @@
 {
+  final RequestListenerInterface rli=requestTarget.getRequestListenerInterface();
   final StringBuffer url=new StringBuffer(64);
   url.append(urlPrefix(requestCycle));
   url.append('?');
@@ -14,11 +15,14 @@
   url.append(component.getPath());
   url.append(Component.PATH_SEPARATOR);
   final int versionNumber=component.getPage().getCurrentVersionNumber();
-  if (versionNumber > 0) {
+  if (!rli.getRecordsPageVersion()) {
+    url.append(Page.LATEST_VERSION);
+  }
+ else   if (versionNumber > 0) {
     url.append(versionNumber);
   }
   url.append(Component.PATH_SEPARATOR);
-  final String listenerName=requestTarget.getRequestListenerInterface().getName();
+  final String listenerName=rli.getName();
   if (!IRedirectListener.INTERFACE.getName().equals(listenerName)) {
     url.append(listenerName);
   }
