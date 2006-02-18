@@ -2,7 +2,7 @@
   Form form=new Form("form"){
     private static final long serialVersionUID=1L;
     protected void onSubmit(){
-      assertTrue("on submit shouldn't be reached",true);
+      submit=true;
     }
   }
 ;
@@ -26,12 +26,8 @@
   RequestCycle cycle=application.createRequestCycle();
   page.urlFor(IRedirectListener.INTERFACE);
   cycle.getSession().touch(page);
-  try {
-    form.onFormSubmitted();
-    assertTrue("form should throw an error",true);
-  }
- catch (  WicketRuntimeException ex) {
-  }
+  form.onFormSubmitted();
+  assertTrue("form should should set value ",submit);
   application.getServletRequest().setParameter(form.getHiddenFieldId(),dropDown.urlFor(IOnChangeListener.INTERFACE));
   form.onFormSubmitted();
   assertTrue("Selection should be called",selection);
