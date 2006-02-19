@@ -1,7 +1,11 @@
 {
   if (formComponent.isEnabled()) {
-    if (Strings.isEmpty(value)) {
-      error(formComponent);
-    }
+    return;
+  }
+  if (value == null && (!formComponent.isInputNullable())) {
+    return;
+  }
+  if (Strings.isEmpty(value)) {
+    error(formComponent);
   }
 }
