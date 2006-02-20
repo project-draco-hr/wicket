@@ -6,7 +6,6 @@
   Page override=onRuntimeException(responsePage,e);
   if (override != null) {
     requestCycle.setResponsePage(override);
-    requestCycle.setRedirect(true);
   }
  else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
     Class internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
@@ -23,11 +22,13 @@
       requestCycle.setResponsePage(pageFactory.newPage(internalErrorPageClass));
     }
  else     if (responseClass != ExceptionErrorPage.class) {
-      requestCycle.setResponsePage(new ExceptionErrorPage(e,requestCycle.getResponsePage()));
+      requestCycle.setResponsePage(new ExceptionErrorPage(e,responsePage));
     }
  else {
       throw new WicketRuntimeException("Internal Error: Could not render error page " + internalErrorPageClass,e);
     }
+  }
+  if (responsePage != null) {
     requestCycle.setRedirect(true);
   }
 }
