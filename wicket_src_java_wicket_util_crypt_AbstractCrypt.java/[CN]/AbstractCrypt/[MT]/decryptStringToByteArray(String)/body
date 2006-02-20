@@ -1,13 +1,11 @@
 {
   final byte[] plainBytes;
   try {
-    plainBytes=new BASE64Decoder().decodeBuffer(encrypted);
+    plainBytes=Base64.decodeBase64(encrypted.getBytes());
+    ;
     return crypt(plainBytes,Cipher.DECRYPT_MODE);
   }
- catch (  IOException e) {
-    throw new WicketRuntimeException(e.getMessage());
-  }
-catch (  GeneralSecurityException e) {
+ catch (  GeneralSecurityException e) {
     throw new WicketRuntimeException("Unable to decrypt the text '" + encrypted + "'",e);
   }
 }

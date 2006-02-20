@@ -1,18 +1,7 @@
 {
   try {
     byte[] cipherText=encryptStringToByteArray(plainText);
-    String text=new BASE64Encoder().encode(cipherText);
-    if ((text.indexOf("\n") != -1) || (text.indexOf("\r") != -1)) {
-      StringBuffer buf=new StringBuffer(text.length());
-      for (int i=0; i < text.length(); i++) {
-        char ch=text.charAt(i);
-        if ((ch != '\n') && (ch != '\r')) {
-          buf.append(ch);
-        }
-      }
-      text=buf.toString();
-    }
-    return text;
+    return new String(Base64.encodeBase64(cipherText));
   }
  catch (  GeneralSecurityException e) {
     log.error("Unable to encrypt text '" + plainText + "'",e);
