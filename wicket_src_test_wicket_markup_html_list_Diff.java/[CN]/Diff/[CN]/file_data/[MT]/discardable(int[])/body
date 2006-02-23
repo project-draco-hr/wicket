@@ -4,13 +4,21 @@
   final int[] equivs=this.equivs;
   int many=5;
   int tem=end / 64;
-  while ((tem=tem >> 2) > 0)   many*=2;
+  while ((tem=tem >> 2) > 0) {
+    many*=2;
+  }
   for (int i=0; i < end; i++) {
     int nmatch;
-    if (equivs[i] == 0)     continue;
+    if (equivs[i] == 0) {
+      continue;
+    }
     nmatch=counts[equivs[i]];
-    if (nmatch == 0)     discards[i]=1;
- else     if (nmatch > many)     discards[i]=2;
+    if (nmatch == 0) {
+      discards[i]=1;
+    }
+ else     if (nmatch > many) {
+      discards[i]=2;
+    }
   }
   return discards;
 }

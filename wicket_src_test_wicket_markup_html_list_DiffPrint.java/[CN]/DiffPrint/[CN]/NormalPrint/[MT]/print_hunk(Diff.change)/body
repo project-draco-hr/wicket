@@ -1,11 +1,23 @@
 {
   analyze_hunk(hunk);
-  if (deletes == 0 && inserts == 0)   return;
+  if (deletes == 0 && inserts == 0) {
+    return;
+  }
   print_number_range(',',first0,last0);
   outfile.print(change_letter(inserts,deletes));
   print_number_range(',',first1,last1);
   outfile.println();
-  if (deletes != 0)   for (int i=first0; i <= last0; i++)   print_1_line("< ",file0[i]);
-  if (inserts != 0 && deletes != 0)   outfile.println("---");
-  if (inserts != 0)   for (int i=first1; i <= last1; i++)   print_1_line("> ",file1[i]);
+  if (deletes != 0) {
+    for (int i=first0; i <= last0; i++) {
+      print_1_line("< ",file0[i]);
+    }
+  }
+  if (inserts != 0 && deletes != 0) {
+    outfile.println("---");
+  }
+  if (inserts != 0) {
+    for (int i=first1; i <= last1; i++) {
+      print_1_line("> ",file1[i]);
+    }
+  }
 }

@@ -7,15 +7,23 @@
   int index=hash & (tab.length - 1);
   Entry first=tab[index];
   Entry e;
-  for (e=first; e != null; e=e.next)   if (e.hash == hash && eq(key,e.key))   break;
+  for (e=first; e != null; e=e.next) {
+    if (e.hash == hash && eq(key,e.key)) {
+      break;
+    }
+  }
 synchronized (this) {
     if (tab == table) {
       if (e == null) {
         if (first == tab[index]) {
           Entry newEntry=new Entry(hash,key,value,first);
           tab[index]=newEntry;
-          if (++count >= threshold)           rehash();
- else           recordModification(newEntry);
+          if (++count >= threshold) {
+            rehash();
+          }
+ else {
+            recordModification(newEntry);
+          }
           return null;
         }
       }

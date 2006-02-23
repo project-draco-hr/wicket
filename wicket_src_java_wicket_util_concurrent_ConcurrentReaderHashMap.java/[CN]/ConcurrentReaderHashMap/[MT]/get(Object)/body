@@ -7,7 +7,9 @@
   for (; ; ) {
     if (e == null) {
       Entry[] reread=getTableForReading();
-      if (tab == reread && first == tab[index])       return null;
+      if (tab == reread && first == tab[index]) {
+        return null;
+      }
  else {
         tab=reread;
         e=first=tab[index=hash & (tab.length - 1)];
@@ -15,12 +17,16 @@
     }
  else     if (e.hash == hash && eq(key,e.key)) {
       Object value=e.value;
-      if (value != null)       return value;
+      if (value != null) {
+        return value;
+      }
 synchronized (this) {
         tab=table;
       }
       e=first=tab[index=hash & (tab.length - 1)];
     }
- else     e=e.next;
+ else {
+      e=e.next;
+    }
   }
 }

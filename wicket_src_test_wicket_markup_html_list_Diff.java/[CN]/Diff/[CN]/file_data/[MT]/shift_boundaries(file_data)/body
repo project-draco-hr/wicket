@@ -9,14 +9,20 @@
   for (; ; ) {
     int start, end, other_start;
     while (i < i_end && !changed[1 + i]) {
-      while (other_changed[1 + j++])       other_preceding=j;
+      while (other_changed[1 + j++]) {
+        other_preceding=j;
+      }
       i++;
     }
-    if (i == i_end)     break;
+    if (i == i_end) {
+      break;
+    }
     start=i;
     other_start=j;
     for (; ; ) {
-      while (i < i_end && changed[1 + i])       i++;
+      while (i < i_end && changed[1 + i]) {
+        i++;
+      }
       end=i;
       if (end != i_end && equivs[start] == equivs[end] && !other_changed[1 + j] && end != i_end && !((preceding >= 0 && start == preceding) || (other_preceding >= 0 && other_start == other_preceding))) {
         changed[1 + end++]=true;
@@ -24,7 +30,9 @@
         ++i;
         ++j;
       }
- else       break;
+ else {
+        break;
+      }
     }
     preceding=i;
     other_preceding=j;

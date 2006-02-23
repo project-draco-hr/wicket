@@ -1,12 +1,16 @@
 {
   analyze_hunk(hunk);
-  if (deletes == 0 && inserts == 0)   return;
+  if (deletes == 0 && inserts == 0) {
+    return;
+  }
   print_number_range(',',first0,last0);
   outfile.println(change_letter(inserts,deletes));
   if (inserts != 0) {
     boolean inserting=true;
     for (int i=first1; i <= last1; i++) {
-      if (!inserting)       outfile.println(i - first1 + first0 + "a");
+      if (!inserting) {
+        outfile.println(i - first1 + first0 + "a");
+      }
       inserting=true;
       if (".".equals(file1[i])) {
         outfile.println("..");
@@ -14,8 +18,12 @@
         outfile.println(i - first1 + first0 + 1 + "s/^\\.\\././");
         inserting=false;
       }
- else       print_1_line("",file1[i]);
+ else {
+        print_1_line("",file1[i]);
+      }
     }
-    if (inserting)     outfile.println(".");
+    if (inserting) {
+      outfile.println(".");
+    }
   }
 }

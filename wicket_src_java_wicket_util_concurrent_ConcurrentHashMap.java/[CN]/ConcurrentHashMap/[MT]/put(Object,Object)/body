@@ -20,11 +20,17 @@ synchronized (seg) {
     }
     Entry newEntry=new Entry(hash,key,value,first);
     tab[index]=newEntry;
-    if ((segcount=++seg.count) < threshold)     return null;
+    if ((segcount=++seg.count) < threshold) {
+      return null;
+    }
     int bit=(1 << (hash & SEGMENT_MASK));
     votes=votesForResize;
-    if ((votes & bit) == 0)     votes=votesForResize|=bit;
+    if ((votes & bit) == 0) {
+      votes=votesForResize|=bit;
+    }
   }
-  if (bitcount(votes) >= CONCURRENCY_LEVEL / 4 || segcount > (threshold * CONCURRENCY_LEVEL))   resize(0,tab);
+  if (bitcount(votes) >= CONCURRENCY_LEVEL / 4 || segcount > (threshold * CONCURRENCY_LEVEL)) {
+    resize(0,tab);
+  }
   return null;
 }

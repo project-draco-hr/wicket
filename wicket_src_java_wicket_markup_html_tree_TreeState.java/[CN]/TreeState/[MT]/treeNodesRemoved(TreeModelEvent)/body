@@ -11,13 +11,17 @@
         changedParentNode.removeChildAtModelIndex(changedIndexs[counter],isVisible);
       }
       if (isVisible) {
-        if (treeSelectionModel != null)         treeSelectionModel.resetRowSelection();
+        if (treeSelectionModel != null) {
+          treeSelectionModel.resetRowSelection();
+        }
         if (treeModel.getChildCount(changedParentNode.getUserObject()) == 0 && changedParentNode.isLeaf()) {
           changedParentNode.collapse(false);
         }
         visibleNodesChanged();
       }
- else       if (changedParentNode.isVisible())       visibleNodesChanged();
+ else       if (changedParentNode.isVisible()) {
+        visibleNodesChanged();
+      }
     }
   }
 }

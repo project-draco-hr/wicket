@@ -3,8 +3,12 @@
 synchronized (seg) {
     if (assumedTab == table) {
       int next=index + 1;
-      if (next < segments.length)       resize(next,assumedTab);
- else       rehash();
+      if (next < segments.length) {
+        resize(next,assumedTab);
+      }
+ else {
+        rehash();
+      }
     }
   }
 }
