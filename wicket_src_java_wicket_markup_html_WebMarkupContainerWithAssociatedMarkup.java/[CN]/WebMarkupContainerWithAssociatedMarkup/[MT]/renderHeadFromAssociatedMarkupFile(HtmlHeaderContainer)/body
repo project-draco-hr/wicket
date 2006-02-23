@@ -3,7 +3,10 @@
   if (headerPart != null) {
     if (container.get(headerPart.getId()) == null) {
       container.autoAdd(headerPart);
-      checkBodyOnLoad();
+      if (checkedBody == false) {
+        checkedBody=true;
+        checkBodyOnLoad();
+      }
     }
  else {
       Response response=getRequestCycle().getResponse();
