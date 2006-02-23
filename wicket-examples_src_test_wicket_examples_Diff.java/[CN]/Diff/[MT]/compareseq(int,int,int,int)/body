@@ -7,8 +7,16 @@
     --xlim;
     --ylim;
   }
-  if (xoff == xlim)   while (yoff < ylim)   filevec[1].changed_flag[1 + filevec[1].realindexes[yoff++]]=true;
- else   if (yoff == ylim)   while (xoff < xlim)   filevec[0].changed_flag[1 + filevec[0].realindexes[xoff++]]=true;
+  if (xoff == xlim) {
+    while (yoff < ylim) {
+      filevec[1].changed_flag[1 + filevec[1].realindexes[yoff++]]=true;
+    }
+  }
+ else   if (yoff == ylim) {
+    while (xoff < xlim) {
+      filevec[0].changed_flag[1 + filevec[0].realindexes[xoff++]]=true;
+    }
+  }
  else {
     int d=diag(xoff,xlim,yoff,ylim);
     int c=cost;
