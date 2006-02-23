@@ -1,9 +1,11 @@
 {
   final FeedbackPanel feedback=new FeedbackPanel("feedback");
-  add(feedback.add(MarkupIdSetter.INSTANCE));
+  feedback.setOutputMarkupId(true);
+  add(feedback);
   Form form=new Form("form",new CompoundPropertyModel(bean));
   add(form);
-  form.add(MarkupIdSetter.INSTANCE);
+  form.setOutputMarkupId(true);
+  form.add(form);
   FormComponent fc;
   fc=new RequiredTextField("name");
   fc.add(LengthValidator.min(4));

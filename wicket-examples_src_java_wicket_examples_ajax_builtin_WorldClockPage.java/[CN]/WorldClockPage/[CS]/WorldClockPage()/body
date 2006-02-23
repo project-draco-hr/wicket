@@ -4,11 +4,16 @@
   final Clock moscow=new Clock("moscow",TimeZone.getTimeZone("Europe/Moscow"));
   final Clock prague=new Clock("prague",TimeZone.getTimeZone("Europe/Prague"));
   final Clock london=new Clock("london",TimeZone.getTimeZone("Europe/London"));
-  add(la.add(MarkupIdSetter.INSTANCE));
-  add(ny.add(MarkupIdSetter.INSTANCE));
-  add(moscow.add(MarkupIdSetter.INSTANCE));
-  add(prague.add(MarkupIdSetter.INSTANCE));
-  add(london.add(MarkupIdSetter.INSTANCE));
+  la.setOutputMarkupId(true);
+  ny.setOutputMarkupId(true);
+  moscow.setOutputMarkupId(true);
+  prague.setOutputMarkupId(true);
+  london.setOutputMarkupId(true);
+  add(la);
+  add(ny);
+  add(moscow);
+  add(prague);
+  add(london);
   la.add(new AbstractAjaxTimerBehavior(Duration.seconds(5)){
     /** 
  * @see wicket.ajax.AbstractAjaxTimerBehavior#onTimer(wicket.ajax.AjaxRequestTarget)
