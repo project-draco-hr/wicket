@@ -14,7 +14,7 @@
       model.put("maxSize",maxSize);
       if (e instanceof SizeLimitExceededException) {
         final String defaultValue="Upload must be less than " + maxSize;
-        String msg=getString(getId() + ".uploadTooLarge",Model.valueOf(model),defaultValue);
+        String msg=getString(getId() + "." + UPLOAD_TOO_LARGE_RESOURCE_KEY,Model.valueOf(model),defaultValue);
         error(msg);
         if (log.isDebugEnabled()) {
           log.error(msg,e);
@@ -25,7 +25,7 @@
       }
  else {
         final String defaultValue="Upload failed: " + e.getLocalizedMessage();
-        String msg=getString(getId() + ".uploadFailed",Model.valueOf(model),defaultValue);
+        String msg=getString(getId() + "." + UPLOAD_FAILED_RESOURCE_KEY,Model.valueOf(model),defaultValue);
         error(msg);
         log.error(msg,e);
       }
