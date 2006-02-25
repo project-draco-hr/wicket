@@ -1,6 +1,6 @@
 {
   if ((tag.isOpen() || tag.isOpenClose()) && tag.getAttributes().containsKey(wicketId)) {
-    if (tag.isOpenClose()) {
+    if (tag.isOpenClose() || tag.hasNoCloseTag()) {
       if ((this.currentPath != null) && (this.currentPath.length() > 0)) {
         tag.setPath(this.currentPath.toString());
       }
@@ -25,4 +25,5 @@
       this.currentPath.setLength(0);
     }
   }
+  return this.currentPath;
 }
