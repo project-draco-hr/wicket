@@ -7,13 +7,25 @@
  else   if ((tag instanceof WicketTag) && "head".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() != null)) {
     if (container instanceof WebPage) {
       final WebMarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
-      final WebMarkupContainer header2=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID);
+      final WebMarkupContainer header2=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
+        private static final long serialVersionUID=1L;
+        public boolean isTransparentResolver(){
+          return true;
+        }
+      }
+;
       header2.setRenderBodyOnly(true);
       header.add(header2);
       container.autoAdd(header);
     }
  else     if (container instanceof HtmlHeaderContainer) {
-      final WebMarkupContainer header=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID);
+      final WebMarkupContainer header=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
+        private static final long serialVersionUID=1L;
+        public boolean isTransparentResolver(){
+          return true;
+        }
+      }
+;
       header.setRenderBodyOnly(true);
       try {
         container.autoAdd(header);
