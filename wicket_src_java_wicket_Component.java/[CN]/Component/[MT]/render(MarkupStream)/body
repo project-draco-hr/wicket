@@ -5,8 +5,24 @@
     if (log.isDebugEnabled()) {
       log.debug("Begin render " + this);
     }
-    onRender(markupStream);
-    rendered();
+    try {
+      onRender(markupStream);
+      rendered();
+    }
+ catch (    RuntimeException ex) {
+      if (behaviors != null) {
+        for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
+          IBehavior behavior=(IBehavior)i.next();
+          try {
+            behavior.onException();
+          }
+ catch (          Throwable ex2) {
+            log.error("Error while cleaning up after exception",ex2);
+          }
+        }
+      }
+      throw ex;
+    }
     if (log.isDebugEnabled()) {
       log.debug("End render " + this);
     }

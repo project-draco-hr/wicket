@@ -8,5 +8,8 @@
  catch (  Exception ex) {
     throw new WicketRuntimeException("Error while transforming the output: " + this,ex);
   }
-  requestCycle.setResponse(this.webResponse);
+ finally {
+    requestCycle.setResponse(this.webResponse);
+    this.webResponse=null;
+  }
 }
