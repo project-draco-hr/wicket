@@ -1,5 +1,4 @@
 {
-  List markupElements=new ArrayList();
   boolean wicketHeadProcessed=false;
   boolean headProcessed=false;
   WicketTag childTag=null;
@@ -12,7 +11,7 @@
         childTag=wtag;
         WicketTag childOpenTag=(WicketTag)wtag.mutable();
         childOpenTag.getXmlTag().setType(XmlTag.OPEN);
-        markupElements.add(childOpenTag);
+        addMarkupElement(childOpenTag);
         break;
       }
     }
@@ -25,7 +24,7 @@
         openTag.setName("head");
         openTag.setNamespace(tag.getNamespace());
         openTag.setType(XmlTag.OPEN);
-        markupElements.add(openTag);
+        addMarkupElement(openTag);
       }
       boolean hitHead=tag.isClose() && "head".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() != null);
       if (hitHead || hitPanel) {
@@ -47,7 +46,7 @@
             }
           }
           if (copy == true) {
-            markupElements.add(elem);
+            addMarkupElement(elem);
           }
         }
       }
@@ -57,7 +56,7 @@
         closeTag.setNamespace(tag.getNamespace());
         closeTag.setType(XmlTag.CLOSE);
         closeTag.setOpenTag(openTag);
-        markupElements.add(closeTag);
+        addMarkupElement(closeTag);
       }
     }
     if ((headProcessed == false) && (element instanceof ComponentTag)) {
@@ -81,19 +80,19 @@
             }
           }
           if (copy == true) {
-            markupElements.add(elem);
+            addMarkupElement(elem);
           }
         }
       }
     }
-    markupElements.add(element);
+    addMarkupElement(element);
   }
   if (baseIndex == baseMarkup.size()) {
     throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup");
   }
   for (; extendIndex < markup.size(); extendIndex++) {
     MarkupElement element=markup.get(extendIndex);
-    markupElements.add(element);
+    addMarkupElement(element);
     if (element instanceof WicketTag) {
       WicketTag wtag=(WicketTag)element;
       if (wtag.isExtendTag() && wtag.isClose()) {
@@ -106,10 +105,9 @@
   }
   WicketTag childCloseTag=(WicketTag)childTag.mutable();
   childCloseTag.getXmlTag().setType(XmlTag.CLOSE);
-  markupElements.add(childCloseTag);
+  addMarkupElement(childCloseTag);
   for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
     MarkupElement element=baseMarkup.get(baseIndex);
-    markupElements.add(element);
+    addMarkupElement(element);
   }
-  return new Markup(markup,markupElements);
 }
