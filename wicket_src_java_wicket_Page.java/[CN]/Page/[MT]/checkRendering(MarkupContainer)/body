@@ -6,11 +6,11 @@
     final StringBuffer buffer=new StringBuffer();
     renderedContainer.visitChildren(new IVisitor(){
       public Object component(      final Component component){
-        if (renderedComponents == null || !renderedComponents.contains(component)) {
-          if (component.isAuto()) {
-            unrenderedAutoComponents.add(component);
-          }
- else           if (component.isVisibleInHierarchy()) {
+        if (component.isAuto()) {
+          unrenderedAutoComponents.add(component);
+        }
+ else         if (renderedComponents == null || !renderedComponents.contains(component)) {
+          if (component.isVisibleInHierarchy()) {
             unrenderedComponents.increment();
             buffer.append(Integer.toString(unrenderedComponents.getCount()) + ". " + component+ "\n");
           }

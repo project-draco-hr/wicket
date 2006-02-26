@@ -1,9 +1,4 @@
 {
   executeTest(TreePageWithBorder.class,"TreePageWithBorderExpectedResult_1.html");
-  Page page=application.getLastRenderedPage();
-  application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToRedirectString('?' + WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME + "=:0:tree:tree:3:node:junctionLink::ILinkListener");
-  application.processRequestCycle();
-  String document=application.getServletResponse().getDocument();
-  assertTrue(DiffUtil.validatePage(document,this.getClass(),"TreePageWithBorderExpectedResult_1-1.html"));
+  executedListener(TreePageWithBorder.class,application.getLastRenderedPage().get("tree:tree:3:node:junctionLink"),ILinkListener.INTERFACE,"TreePageWithBorderExpectedResult_1-1.html");
 }
