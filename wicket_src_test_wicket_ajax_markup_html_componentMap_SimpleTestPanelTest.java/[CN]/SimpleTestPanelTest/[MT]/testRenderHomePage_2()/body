@@ -1,0 +1,11 @@
+{
+  executeTest(SimpleTestPage.class,"SimpleTestPageExpectedResult.html");
+  application.setupRequestAndResponse();
+  WebRequestCycle cycle=application.createRequestCycle();
+  Page page=application.getLastRenderedPage();
+  String url=((SimpleTestPanel)page.get("testPanel")).getTimeBehavior().getCallbackUrl();
+  application.getServletRequest().setRequestToRedirectString(url);
+  application.processRequestCycle(cycle);
+  String document=application.getServletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,SimpleTestPage.class,"SimpleTestPageExpectedResult-1.html"));
+}
