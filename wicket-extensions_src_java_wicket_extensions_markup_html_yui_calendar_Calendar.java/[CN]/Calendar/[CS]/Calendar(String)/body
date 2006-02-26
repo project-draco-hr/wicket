@@ -1,0 +1,21 @@
+{
+  super(id);
+  add(new StyleSheetReference("calendarCSS",Calendar.class,"calendar.css"));
+  add(new JavaScriptReference("YAHOO",Calendar.class,"YAHOO.js"));
+  add(new JavaScriptReference("dom",Calendar.class,"dom.js"));
+  add(new JavaScriptReference("event",Calendar.class,"event.js"));
+  add(new JavaScriptReference("calendar",Calendar.class,"calendar.js"));
+  Label initialization=new Label("initialization",new AbstractReadOnlyModel(){
+    private static final long serialVersionUID=1L;
+    /** 
+ * @see wicket.model.IModel#getObject(wicket.Component)
+ */
+    public Object getObject(    Component component){
+      return getJavaScriptComponentInitializationScript();
+    }
+  }
+);
+  initialization.setEscapeModelStrings(false);
+  add(initialization);
+  add(calendarContainer=new CalendarContainer("calendarContainer"));
+}
