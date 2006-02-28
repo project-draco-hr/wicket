@@ -1,9 +1,19 @@
 {
-  visitFormComponents(new FormComponent.IVisitor(){
-    public void formComponent(    final FormComponent formComponent){
-      if (formComponent.isVisibleInHierarchy()) {
-        formComponent.validate();
-      }
+  visitFormComponents(new ValidationVisitor(){
+    public void validate(    final FormComponent formComponent){
+      formComponent.validateRequired();
+    }
+  }
+);
+  visitFormComponents(new ValidationVisitor(){
+    public void validate(    final FormComponent formComponent){
+      formComponent.convertAndValidate();
+    }
+  }
+);
+  visitFormComponents(new ValidationVisitor(){
+    public void validate(    final FormComponent formComponent){
+      formComponent.validate();
     }
   }
 );
