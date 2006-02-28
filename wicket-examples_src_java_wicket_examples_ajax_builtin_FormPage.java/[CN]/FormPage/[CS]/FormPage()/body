@@ -5,13 +5,16 @@
   Form form=new Form("form",new CompoundPropertyModel(bean));
   add(form);
   form.setOutputMarkupId(true);
-  form.add(form);
   FormComponent fc;
   fc=new RequiredTextField("name");
   fc.add(LengthValidator.min(4));
+  fc.setLabel(new ResourceModel("label.name"));
   form.add(fc);
+  form.add(new SimpleFormComponentLabel("name-label",fc));
   fc=new RequiredTextField("email");
   fc.add(EmailAddressPatternValidator.getInstance());
+  fc.setLabel(new ResourceModel("label.email"));
   form.add(fc);
+  form.add(new SimpleFormComponentLabel("email-label",fc));
   AjaxFormValidatingBehavior.addToAllFormComponents(form,"onblur");
 }
