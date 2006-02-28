@@ -1,0 +1,10 @@
+{
+  System.out.println("=== " + pageClass.getName() + " : "+ component.getPageRelativePath()+ " ===");
+  assertNotNull(component);
+  application.setupRequestAndResponse();
+  WebRequestCycle cycle=application.createRequestCycle();
+  application.getServletRequest().setRequestToComponent(component);
+  application.processRequestCycle(cycle);
+  String document=application.getServletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,pageClass,filename));
+}
