@@ -1,5 +1,11 @@
 {
-  validate();
+  validateRequired();
+  if (!hasError()) {
+    convertAndValidate();
+    if (!hasError()) {
+      validate();
+    }
+  }
   if (hasError()) {
     markFormComponentsInvalid();
     onError();

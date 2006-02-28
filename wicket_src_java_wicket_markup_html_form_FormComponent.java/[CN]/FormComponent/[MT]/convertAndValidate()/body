@@ -1,0 +1,14 @@
+{
+  if (type == null) {
+    convertedInput=getInput();
+  }
+ else   if (!Strings.isEmpty(getInput())) {
+    final IConverter converter=getConverter();
+    try {
+      convertedInput=converter.convert(getInput(),type);
+    }
+ catch (    Exception e) {
+      new TypeValidator(type).validate(this);
+    }
+  }
+}
