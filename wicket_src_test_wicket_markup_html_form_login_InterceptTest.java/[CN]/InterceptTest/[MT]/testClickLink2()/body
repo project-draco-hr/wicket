@@ -3,6 +3,7 @@
   application.processRequestCycle();
   MockLoginPage loginPage=(MockLoginPage)application.getLastRenderedPage();
   assertEquals(application.getLoginPage(),loginPage.getClass());
+  application.setupRequestAndResponse();
   WebRequestCycle requestCycle=application.createRequestCycle();
   assertTrue(((MockLoginPage)application.getLastRenderedPage()).login("admin"));
   application.processRequestCycle(requestCycle);
