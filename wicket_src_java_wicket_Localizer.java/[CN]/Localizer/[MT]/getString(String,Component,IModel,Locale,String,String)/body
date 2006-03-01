@@ -18,7 +18,12 @@
     return defaultValue;
   }
   if (resourceSettings.getThrowExceptionOnMissingResource()) {
-    throw new MissingResourceException("Unable to find resource: " + key,(component != null ? component.getClass().getName() : ""),key);
+    AppendingStringBuffer message=new AppendingStringBuffer("Unable to find resource: " + key);
+    if (component != null) {
+      message.append(" for component: ");
+      message.append(component.getPageRelativePath());
+    }
+    throw new MissingResourceException(message.toString(),(component != null ? component.getClass().getName() : ""),key);
   }
  else {
     return "[Warning: String resource for '" + key + "' not found]";
