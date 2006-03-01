@@ -1,0 +1,20 @@
+{
+  return new ResourceState(){
+    byte[] imageData=getImageData();
+    Time lastModifiedTime=DynamicImageResource.this.lastModifiedTime;
+    String contentType="image/" + format;
+    public Time lastModifiedTime(){
+      return lastModifiedTime != null ? lastModifiedTime : Time.now();
+    }
+    public int getLength(){
+      return imageData.length;
+    }
+    public byte[] getData(){
+      return imageData;
+    }
+    public String getContentType(){
+      return contentType;
+    }
+  }
+;
+}

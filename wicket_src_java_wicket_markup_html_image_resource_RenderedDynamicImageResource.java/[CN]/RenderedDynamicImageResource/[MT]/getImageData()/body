@@ -1,18 +1,11 @@
 {
-  byte[] data;
-synchronized (this) {
-    if (imageData != null) {
-      data=(byte[])imageData.get();
-    }
- else {
-      data=null;
-    }
+  byte[] data=null;
+  if (imageData != null) {
+    data=(byte[])imageData.get();
   }
   if (data == null) {
     data=render();
-synchronized (this) {
-      imageData=new SoftReference(data);
-    }
+    imageData=new SoftReference(data);
     setLastModifiedTime(Time.now());
   }
   return data;
