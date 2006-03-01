@@ -3,7 +3,7 @@
     if (log.isDebugEnabled()) {
       log.debug("Page not allowed to render: " + this);
     }
-    throw new RestartResponseException(getApplication().getApplicationSettings().getAccessDeniedPage());
+    throw new UnauthorizedActionException(this,Component.RENDER);
   }
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
