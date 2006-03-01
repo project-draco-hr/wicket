@@ -7,8 +7,19 @@
     try {
       convertedInput=converter.convert(getInput(),type);
     }
- catch (    Exception e) {
-      error(Collections.singleton("TypeValidator"),new HashMap());
+ catch (    ConversionException e) {
+      Map args=new HashMap();
+      args.put("type",Classes.simpleName(type));
+      final Locale locale=e.getLocale();
+      if (locale != null) {
+        args.put("locale",locale);
+      }
+      args.put("exception",e);
+      Format format=e.getFormat();
+      if (format instanceof SimpleDateFormat) {
+        args.put("format",((SimpleDateFormat)format).toLocalizedPattern());
+      }
+      error(Collections.singleton("TypeValidator"),args);
     }
   }
 }
