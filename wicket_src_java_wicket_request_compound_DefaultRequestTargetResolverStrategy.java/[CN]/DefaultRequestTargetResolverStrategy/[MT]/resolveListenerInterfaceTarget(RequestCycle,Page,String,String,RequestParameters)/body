@@ -18,6 +18,12 @@
     if (!component.isVisibleInHierarchy()) {
       throw new WicketRuntimeException("Calling listener methods on components that are not visible is not allowed: " + componentPath);
     }
+    if (!component.isEnabled()) {
+      throw new WicketRuntimeException("Calling listener methods on components that are not enabled is not allowed: " + componentPath);
+    }
+    if (!component.isActionAuthorized(Component.ENABLE)) {
+      throw new UnauthorizedActionException(component,Component.ENABLE);
+    }
     return listener.newRequestTarget(page,component,listener,requestParameters);
   }
 }
