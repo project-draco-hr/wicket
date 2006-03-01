@@ -19,7 +19,9 @@
       if (format instanceof SimpleDateFormat) {
         args.put("format",((SimpleDateFormat)format).toLocalizedPattern());
       }
-      error(Collections.singleton("TypeValidator"),args);
+      final String typedResourceKey="TypeValidator" + "." + Classes.simpleName(type);
+      String[] resourceKeys=new String[]{typedResourceKey,"TypeValidator"};
+      error(Arrays.asList(resourceKeys),args);
     }
   }
 }
