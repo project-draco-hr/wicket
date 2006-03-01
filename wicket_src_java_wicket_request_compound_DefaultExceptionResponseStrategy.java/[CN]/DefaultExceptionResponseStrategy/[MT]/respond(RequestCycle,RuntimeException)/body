@@ -7,6 +7,10 @@
   if (override != null) {
     requestCycle.setResponsePage(override);
   }
+ else   if (e instanceof AuthorizationException) {
+    Class accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
+    requestCycle.setRequestTarget(new BookmarkablePageRequestTarget(accessDeniedPageClass));
+  }
  else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
     Class internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
     Class responseClass=responsePage != null ? responsePage.getClass() : null;
