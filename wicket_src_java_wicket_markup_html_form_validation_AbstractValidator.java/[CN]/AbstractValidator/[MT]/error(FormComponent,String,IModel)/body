@@ -1,9 +1,7 @@
 {
-  Localizer localizer=formComponent.getLocalizer();
-  String message=localizer.getString(resourceKey,formComponent.getParent(),resourceModel,"");
-  if (Strings.isEmpty(message)) {
-    String key=Classes.simpleName(getClass());
-    message=localizer.getString(key,formComponent.getParent(),resourceModel);
-  }
-  formComponent.error(message);
+  List keys=new ArrayList(2);
+  keys.add(resourceKey);
+  keys.add(Classes.simpleName(getClass()));
+  Map map=(Map)resourceModel.getObject(formComponent);
+  formComponent.error(keys,map);
 }

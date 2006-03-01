@@ -1,5 +1,11 @@
 {
   if (isRequired()) {
-    RequiredValidator.getInstance().validate(this);
+    final String input=getInput();
+    if (input == null && (!isInputNullable())) {
+      return;
+    }
+    if (Strings.isEmpty(input)) {
+      error(Collections.singleton("RequiredValidator"),new HashMap());
+    }
   }
 }
