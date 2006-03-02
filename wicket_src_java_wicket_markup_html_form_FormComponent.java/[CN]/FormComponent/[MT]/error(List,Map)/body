@@ -1,4 +1,8 @@
 {
+  String prefix=getValidatorKeyPrefix();
+  if (Strings.isEmpty(prefix)) {
+    prefix="";
+  }
   final Map fullArgs=new HashMap(args.size() + 4);
   fullArgs.putAll(args);
   if (!fullArgs.containsKey("input")) {
@@ -24,11 +28,11 @@
   final Iterator keys=resourceKeys.iterator();
   String message=null;
   while (keys.hasNext()) {
-    final String key=(String)keys.next();
+    final String key=prefix + (String)keys.next();
     String resource=getId() + "." + key;
     message=localizer.getString(resource,getParent(),argsModel,"");
     if (Strings.isEmpty(message)) {
-      resource=key;
+      resource=prefix + key;
       if (keys.hasNext()) {
         message=localizer.getString(resource,getParent(),argsModel,"");
       }

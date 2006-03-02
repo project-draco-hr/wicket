@@ -1,0 +1,23 @@
+{
+  FormComponent[] fcs=getDependentFormComponents();
+  if (fcs != null && fcs.length > 0) {
+    Map args=new HashMap(fcs.length * 2);
+    for (int i=0; i < fcs.length; i++) {
+      final FormComponent fc=fcs[i];
+      String arg="label" + i;
+      IModel label=fc.getLabel();
+      if (label != null) {
+        args.put(arg,label.getObject(fc));
+      }
+ else {
+        args.put(arg,fc.getLocalizer().getString(fc.getId(),fc.getParent(),fc.getId()));
+      }
+      arg="input" + i;
+      args.put(arg,fc.getInput());
+    }
+    return args;
+  }
+ else {
+    return new HashMap(2);
+  }
+}
