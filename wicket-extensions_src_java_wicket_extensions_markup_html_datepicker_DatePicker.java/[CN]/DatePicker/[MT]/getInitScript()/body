@@ -4,6 +4,10 @@
   b.append("\n\t\tinputField : \"").append(targetId).append("\",");
   b.append("\n\t\tbutton : \"").append(triggerButton.getPath()).append("\",");
   b.append(settings.toScript(getLocale()));
+  int last=b.length() - 1;
+  if (',' == b.charAt(last)) {
+    b.deleteCharAt(last);
+  }
   b.append("\n});");
   return b.toString();
 }
