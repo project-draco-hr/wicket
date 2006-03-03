@@ -1,6 +1,7 @@
 {
   try {
-    final URL url=new URL(getDocumentBase() + getParameter("setModelUrl"));
+    final URL url=new URL(savedDocumentBase + getParameter("setModelUrl"));
+    System.out.println("setting model on " + url);
     final String boundary=MultiPartFormOutputStream.createBoundary();
     URLConnection connection=MultiPartFormOutputStream.createConnection(url);
     connection.setRequestProperty("Accept","*/*");
@@ -26,7 +27,7 @@
     }
   }
  catch (  Exception e) {
-    System.out.println("** Unable to set model.");
+    System.err.println("** Unable to set model.");
     e.printStackTrace();
   }
 }

@@ -1,6 +1,9 @@
 {
   try {
     final String appletClassName=getParameter("appletClassName");
+    savedDocumentBase=getDocumentBase();
+    savedDocumentBase=new URL(savedDocumentBase.getProtocol(),savedDocumentBase.getHost(),savedDocumentBase.getPort(),"");
+    System.out.println("document base: " + savedDocumentBase);
     Container container=getContentPane();
     Class c=Class.forName(appletClassName);
     if (c != null) {
@@ -9,15 +12,23 @@
     }
   }
  catch (  ClassNotFoundException e) {
-    System.out.println("** Unable to initialize.");
+    System.err.println("** Unable to initialize.");
     e.printStackTrace();
   }
 catch (  IllegalAccessException e) {
-    System.out.println("** Unable to initialize.");
+    System.err.println("** Unable to initialize.");
     e.printStackTrace();
   }
 catch (  InstantiationException e) {
-    System.out.println("** Unable to initialize.");
+    System.err.println("** Unable to initialize.");
     e.printStackTrace();
+  }
+catch (  RuntimeException re) {
+    System.err.println("** Unable to initialize.");
+    re.printStackTrace();
+  }
+catch (  MalformedURLException ex) {
+    System.err.println("** Unable to initialize.");
+    ex.printStackTrace();
   }
 }

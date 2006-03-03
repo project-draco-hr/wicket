@@ -1,15 +1,21 @@
 {
   final Set visited=new HashSet();
   final ArrayListStack stack=new ArrayListStack();
+  ClassLoader classloader=null;
   for (final Iterator iterator=classes.iterator(); iterator.hasNext(); ) {
     final Class c=(Class)iterator.next();
+    if (classloader == null)     classloader=c.getClassLoader();
     final ClassName classname=ClassName.getClassName(c.getName().replace('.','/'));
     stack.push(classname);
     visited.add(classname.getExternalName());
   }
+  if (classloader == null) {
+    classloader=getClass().getClassLoader();
+    if (classloader == null)     classloader=ClassLoader.getSystemClassLoader();
+  }
   while (!stack.empty()) {
     final ClassName classname=(ClassName)stack.pop();
-    final InputStream in=inputStreamForClassName(classname.getType());
+    final InputStream in=inputStreamForClassName(classloader,classname.getType());
     try {
       final ClassFile classfile=new ClassFile(in);
       closure.add(classfile.getName().getExternalName());
@@ -29,7 +35,7 @@
           }
         }
       }
-      final InputStream in2=inputStreamForClassName(classname.getType());
+      final InputStream in2=inputStreamForClassName(classloader,classname.getType());
       try {
         addClass(classfile.getName().getInternalName(),in2);
       }
