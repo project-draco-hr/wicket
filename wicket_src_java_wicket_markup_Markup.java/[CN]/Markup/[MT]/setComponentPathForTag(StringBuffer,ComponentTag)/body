@@ -17,12 +17,14 @@
     }
   }
  else   if (tag.isClose() && (this.currentPath != null)) {
-    int index=this.currentPath.lastIndexOf(":");
-    if (index != -1) {
-      this.currentPath.setLength(index);
-    }
+    if ((tag.getOpenTag() == null) || tag.getOpenTag().getAttributes().containsKey(wicketId)) {
+      int index=this.currentPath.lastIndexOf(":");
+      if (index != -1) {
+        this.currentPath.setLength(index);
+      }
  else {
-      this.currentPath.setLength(0);
+        this.currentPath.setLength(0);
+      }
     }
   }
   return this.currentPath;
