@@ -1,10 +1,10 @@
 {
   if (resource instanceof ICachingResource) {
-    ICachingResource dynamicResource=(ICachingResource)resource;
-    Duration cacheTimeout=dynamicResource.getCacheTimeout();
+    ICachingResource cachingResource=(ICachingResource)resource;
+    Duration cacheTimeout=cachingResource.getCacheTimeout();
     long milliseconds=cacheTimeout.getMilliseconds();
     if (milliseconds != 0) {
-      this.cacheTask=getDynamicImageFlushTask(key,(ICachingResource)resource);
+      this.cacheTask=getCachingResourceFlushTask(key,(ICachingResource)resource);
       idleTimer.schedule(cacheTask,milliseconds);
     }
   }
