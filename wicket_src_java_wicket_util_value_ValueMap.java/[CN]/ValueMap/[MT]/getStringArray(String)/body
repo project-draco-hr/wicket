@@ -1,0 +1,21 @@
+{
+  final Object o=get(key);
+  if (o == null) {
+    return null;
+  }
+ else   if (o instanceof String[]) {
+    return (String[])o;
+  }
+ else   if (o.getClass().isArray()) {
+    int length=Array.getLength(o);
+    String[] array=new String[length];
+    for (int i=0; i < length; i++) {
+      final Object arrayValue=Array.get(o,i);
+      if (arrayValue != null) {
+        array[i]=arrayValue.toString();
+      }
+    }
+    return array;
+  }
+  return new String[]{o.toString()};
+}
