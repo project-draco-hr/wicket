@@ -1,6 +1,14 @@
 {
   HttpSession httpSession=getHttpSession(false);
   if (httpSession != null) {
-    httpSession.removeAttribute(getSessionAttributePrefix() + name);
+    String attributeName=getSessionAttributePrefix() + name;
+    RequestLogger logger=((WebApplication)Application.get()).getRequestLogger();
+    if (logger != null) {
+      Object value=httpSession.getAttribute(attributeName);
+      if (value != null) {
+        logger.objectRemoved(value);
+      }
+    }
+    httpSession.removeAttribute(attributeName);
   }
 }

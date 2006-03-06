@@ -1,4 +1,5 @@
 {
+  long time=System.currentTimeMillis();
   Application.set(webApplication);
   HttpSession httpSession=servletRequest.getSession(false);
   if (httpSession != null && webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
@@ -33,6 +34,10 @@
   }
   finally {
     response.close();
+    RequestLogger requestLogger=webApplication.getRequestLogger();
+    if (requestLogger != null) {
+      requestLogger.requestTime((System.currentTimeMillis() - time));
+    }
     Session.unset();
     Application.unset();
   }

@@ -12,6 +12,16 @@
   }
   HttpSession httpSession=getHttpSession(true);
   if (httpSession != null) {
-    httpSession.setAttribute(getSessionAttributePrefix() + name,value);
+    RequestLogger logger=((WebApplication)Application.get()).getRequestLogger();
+    String attributeName=getSessionAttributePrefix() + name;
+    if (logger != null) {
+      if (httpSession.getAttribute(attributeName) == null) {
+        logger.objectCreated(value);
+      }
+ else {
+        logger.objectUpdated(value);
+      }
+    }
+    httpSession.setAttribute(attributeName,value);
   }
 }

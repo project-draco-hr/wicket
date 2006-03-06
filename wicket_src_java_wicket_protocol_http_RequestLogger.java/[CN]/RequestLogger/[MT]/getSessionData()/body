@@ -1,0 +1,13 @@
+{
+  Session session=Session.get();
+  SessionData sessionData=(SessionData)liveSessions.get(session);
+  if (sessionData == null) {
+    sessionData=new SessionData(session);
+    liveSessions.put(session,sessionData);
+    totalCreatedSessions++;
+    if (peakSessions < liveSessions.size()) {
+      peakSessions=liveSessions.size();
+    }
+  }
+  return sessionData;
+}
