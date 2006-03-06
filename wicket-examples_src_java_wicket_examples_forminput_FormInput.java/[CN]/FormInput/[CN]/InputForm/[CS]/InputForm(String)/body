@@ -25,6 +25,16 @@
   rc.setLabel(new Model("number"));
   rc.setRequired(true);
   add(rc);
+  RadioGroup group=new RadioGroup("numbersGroup");
+  add(group);
+  ListView persons=new ListView("numbers",NUMBERS){
+    protected void populateItem(    ListItem item){
+      item.add(new Radio("radio",item.getModel()));
+      item.add(new Label("number",item.getModelObjectAsString()));
+    }
+  }
+;
+  group.add(persons);
   add(new ListMultipleChoice("siteSelection",SITES));
   add(new TextField("urlProperty",URL.class){
     public IConverter getConverter(){
