@@ -1,0 +1,17 @@
+{
+  BufferedReader br=null;
+  try {
+    br=new BufferedReader(new InputStreamReader((InputStream)packageListing.openStream()));
+    while (br.ready()) {
+      String listing=br.readLine();
+      String extension=Strings.afterLast(listing,'.');
+      if (!listing.endsWith("class"))       resources.add(listing);
+    }
+  }
+ catch (  IOException e) {
+    e.printStackTrace(System.err);
+  }
+ finally {
+    IOUtils.closeQuietly(br);
+  }
+}

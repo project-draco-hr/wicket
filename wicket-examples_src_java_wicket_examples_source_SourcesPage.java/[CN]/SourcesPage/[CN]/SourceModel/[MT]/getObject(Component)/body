@@ -1,0 +1,22 @@
+{
+  if (Strings.isEmpty(name)) {
+    return "";
+  }
+  BufferedReader br=null;
+  try {
+    StringBuffer sb=new StringBuffer();
+    br=new BufferedReader(new InputStreamReader(page.getResourceAsStream(name)));
+    while (br.ready()) {
+      sb.append(br.readLine());
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+    return "";
+  }
+ finally {
+    IOUtils.closeQuietly(br);
+  }
+}

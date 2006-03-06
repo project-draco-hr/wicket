@@ -1,0 +1,18 @@
+{
+  if (resources.isEmpty()) {
+    PackageName name=PackageName.forClass(page);
+    ClassLoader loader=page.getClassLoader();
+    String path=Strings.replaceAll(name.getName(),".","/");
+    try {
+      Enumeration urls=loader.getResources(path);
+      while (urls.hasMoreElements()) {
+        URL url=(URL)urls.nextElement();
+        getPackageContents(url);
+      }
+    }
+ catch (    IOException e) {
+      e.printStackTrace();
+    }
+  }
+  return resources;
+}
