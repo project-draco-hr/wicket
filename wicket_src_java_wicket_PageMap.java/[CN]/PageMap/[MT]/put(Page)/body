@@ -3,7 +3,7 @@
     final IPageMapEntry entry=page.getPageMapEntry();
     pushAccess(entry);
     final String attribute=attributeForId(entry.getNumericId());
-    session.setAttribute(attribute,entry);
+    session.dirtyPage(page);
     session.getApplication().getSessionSettings().getPageMapEvictionStrategy().evict(this);
   }
 }
