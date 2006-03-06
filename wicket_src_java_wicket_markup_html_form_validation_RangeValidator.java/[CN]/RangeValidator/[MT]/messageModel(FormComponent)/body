@@ -1,0 +1,13 @@
+{
+  Map map=super.messageModel(formComponent);
+  Number number=(Number)formComponent.getConvertedInput();
+  if (number instanceof Double || number instanceof Float) {
+    map.put("min",new Double(min));
+    map.put("max",new Double(max));
+  }
+ else {
+    map.put("min",new Long((long)min));
+    map.put("max",new Long((long)max));
+  }
+  return map;
+}
