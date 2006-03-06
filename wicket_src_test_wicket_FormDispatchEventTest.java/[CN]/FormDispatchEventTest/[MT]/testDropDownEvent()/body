@@ -1,11 +1,5 @@
 {
-  Form form=new Form("form"){
-    private static final long serialVersionUID=1L;
-    protected void onSubmit(){
-      submit=true;
-    }
-  }
-;
+  MyForm form=new MyForm("form");
   DropDownChoice dropDown=new DropDownChoice("dropdown"){
     private static final long serialVersionUID=1L;
     protected void onSelectionChanged(    Object newSelection){
@@ -26,9 +20,10 @@
   RequestCycle cycle=application.createRequestCycle();
   page.urlFor(IRedirectListener.INTERFACE);
   cycle.getSession().touch(page);
+  cycle.getSession().update();
   form.onFormSubmitted();
   assertTrue("form should should set value ",submit);
-  application.getServletRequest().setParameter(form.getHiddenFieldId(),dropDown.urlFor(IOnChangeListener.INTERFACE));
+  application.getServletRequest().setParameter(form.getHiddenField(),dropDown.urlFor(IOnChangeListener.INTERFACE));
   form.onFormSubmitted();
   assertTrue("Selection should be called",selection);
 }
