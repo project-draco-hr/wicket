@@ -18,16 +18,14 @@
       Object object=iterator.next();
       if (object instanceof Page) {
         final Page page=(Page)object;
+        if (page.isStateless())         continue;
         attribute=page.getPageMap().attributeForId(page.getNumericId());
         object=page.getPageMapEntry();
       }
  else       if (object instanceof PageMap) {
         attribute=attributeForPageMapName(((PageMap)object).getName());
       }
-      Object previous=getAttribute(attribute);
-      if (previous != null) {
-        setAttribute(attribute,object);
-      }
+      setAttribute(attribute,object);
     }
     Session.dirtyObjects.set(null);
   }
