@@ -1,0 +1,18 @@
+{
+  super(id,new CompoundPropertyModel(new TodoItem()));
+  setOutputMarkupId(true);
+  add(new TextField("text"));
+  add(new AjaxSubmitButton("add",this){
+    protected void onSubmit(    AjaxRequestTarget target){
+      TodoItem item=(TodoItem)getParent().getModelObject();
+      onAdd(item,target);
+    }
+  }
+);
+  add(new AjaxSubmitButton("cancel",this){
+    public void onSubmit(    AjaxRequestTarget target){
+      onCancelTodo(target);
+    }
+  }
+);
+}
