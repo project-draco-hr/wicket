@@ -8,14 +8,14 @@
     referenceResolver=DEFAULT_ATTRIBUTE_RESOLVER;
   }
   String reference=referenceResolver.getReference(tag);
-  IAutolinkResolverDelegate autolinkResolverDelegate=(IAutolinkResolverDelegate)tagNameToAutolinkResolverDelegates.get(tagName);
-  if (autolinkResolverDelegate == null) {
-    autolinkResolverDelegate=DEFAULT_RESOLVER_DELEGATE;
-  }
   PathInfo pathInfo=new PathInfo(reference);
-  Component autoComponent=autolinkResolverDelegate.newAutoComponent(container,autoId,pathInfo);
+  IAutolinkResolverDelegate autolinkResolverDelegate=(IAutolinkResolverDelegate)tagNameToAutolinkResolverDelegates.get(tagName);
+  Component autoComponent=null;
+  if (autolinkResolverDelegate != null) {
+    autoComponent=autolinkResolverDelegate.newAutoComponent(container,autoId,pathInfo);
+  }
   if (autoComponent == null) {
-    autoComponent=DEFAULT_RESOLVER_DELEGATE.newAutoComponent(container,autoId,pathInfo);
+    autoComponent=new AutolinkExternalLink(autoId,pathInfo.reference);
   }
   return autoComponent;
 }
