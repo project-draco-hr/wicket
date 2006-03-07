@@ -1,0 +1,23 @@
+{
+  this.reference=reference;
+  String infoPath;
+  int queryStringPos=reference.indexOf("?");
+  if (queryStringPos != -1) {
+    final String queryString=reference.substring(queryStringPos + 1);
+    pageParameters=new PageParameters(new ValueMap(queryString,"&"));
+    infoPath=reference.substring(0,queryStringPos);
+  }
+ else {
+    pageParameters=null;
+    infoPath=reference;
+  }
+  this.absolute=(infoPath.startsWith("/") || infoPath.startsWith("\\"));
+  String extension=null;
+  int pos=infoPath.lastIndexOf(".");
+  if (pos != -1) {
+    extension=infoPath.substring(pos + 1);
+    infoPath=infoPath.substring(0,pos);
+  }
+  this.path=infoPath;
+  this.extension=extension;
+}

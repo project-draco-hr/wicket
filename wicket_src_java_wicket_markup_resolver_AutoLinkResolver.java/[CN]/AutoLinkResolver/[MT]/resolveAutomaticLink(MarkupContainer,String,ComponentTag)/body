@@ -1,56 +1,21 @@
 {
   final Page page=container.getPage();
-  final String href=tag.getAttributes().getString("href");
-  final PageParameters pageParameters;
-  String infoPath;
-  int pos=href.indexOf("?");
-  if (pos != -1) {
-    final String queryString=href.substring(pos + 1);
-    pageParameters=new PageParameters(new ValueMap(queryString,"&"));
-    infoPath=href.substring(0,pos);
-  }
- else {
-    pageParameters=null;
-    infoPath=href;
-  }
   final String autoId=id + Integer.toString(page.getAutoIndex());
+  final String tagName=tag.getName();
   tag.setId(autoId);
-  String extension=null;
-  pos=infoPath.lastIndexOf(".");
-  if (pos != -1) {
-    extension=infoPath.substring(pos + 1);
-    infoPath=infoPath.substring(0,pos);
-    if (supportedPageExtensions.containsKey(extension.toLowerCase())) {
-      infoPath=Strings.replaceAll(infoPath,"/",".");
-      final IClassResolver defaultClassResolver=page.getApplication().getApplicationSettings().getClassResolver();
-      final String className;
-      if (!infoPath.startsWith(".")) {
-        className=Packages.extractPackageName(page.getClass()) + "." + infoPath;
-      }
- else {
-        className=infoPath.substring(1);
-      }
-      try {
-        final Class clazz=defaultClassResolver.resolveClass(className);
-        return new AutolinkBookmarkablePageLink(autoId,clazz,pageParameters);
-      }
- catch (      WicketRuntimeException ex) {
-        log.info("Did not find corresponding java class: " + className);
-      }
-    }
- else {
-      if (infoPath.startsWith("/") || infoPath.startsWith("\\")) {
-      }
- else {
-        Class clazz=((MarkupResourceStream)container.getMarkupStream().getResource()).getMarkupClass();
-        try {
-          return new AutoLink(autoId,clazz,href);
-        }
- catch (        WicketRuntimeException ex) {
-          log.info("Did not find autolink resource: " + href + "; Assume it is a valid external URL");
-        }
-      }
-    }
+  ITagReferenceResolver referenceResolver=(ITagReferenceResolver)tagNameToTagReferenceResolvers.get(tagName);
+  if (referenceResolver == null) {
+    referenceResolver=DEFAULT_ATTRIBUTE_RESOLVER;
   }
-  return new AutolinkExternalLink(autoId,href);
+  String reference=referenceResolver.getReference(tag);
+  IAutolinkResolverDelegate autolinkResolverDelegate=(IAutolinkResolverDelegate)tagNameToAutolinkResolverDelegates.get(tagName);
+  if (autolinkResolverDelegate == null) {
+    autolinkResolverDelegate=DEFAULT_RESOLVER_DELEGATE;
+  }
+  PathInfo pathInfo=new PathInfo(reference);
+  Component autoComponent=autolinkResolverDelegate.newAutoComponent(container,autoId,pathInfo);
+  if (autoComponent == null) {
+    autoComponent=DEFAULT_RESOLVER_DELEGATE.newAutoComponent(container,autoId,pathInfo);
+  }
+  return autoComponent;
 }

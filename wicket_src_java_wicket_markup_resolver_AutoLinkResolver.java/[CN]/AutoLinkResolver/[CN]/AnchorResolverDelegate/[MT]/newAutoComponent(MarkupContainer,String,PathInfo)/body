@@ -1,0 +1,25 @@
+{
+  if (pathInfo.extension != null && supportedPageExtensions.contains(pathInfo.extension)) {
+    String infoPath=Strings.replaceAll(pathInfo.path,"/",".");
+    Page page=container.getPage();
+    final IClassResolver defaultClassResolver=page.getApplication().getApplicationSettings().getClassResolver();
+    final String className;
+    if (!infoPath.startsWith(".")) {
+      className=Packages.extractPackageName(page.getClass()) + "." + infoPath;
+    }
+ else {
+      className=infoPath.substring(1);
+    }
+    try {
+      final Class clazz=defaultClassResolver.resolveClass(className);
+      return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.pageParameters);
+    }
+ catch (    WicketRuntimeException ex) {
+      log.warn("Did not find corresponding java class: " + className);
+    }
+  }
+ else {
+    return newPackageResourceReferenceAutoComponent(container,autoId,pathInfo);
+  }
+  return null;
+}
