@@ -1,5 +1,4 @@
 {
-  String id=component.getMarkupId();
   final Response originalResponse=response;
   encodingResponse.reset();
   RequestCycle.get().setResponse(encodingResponse);
@@ -15,7 +14,7 @@
     page.endComponentRender(component);
   }
   RequestCycle.get().setResponse(originalResponse);
-  response.write("<component id=\"" + id + "\" ");
+  response.write("<component id=\"" + markupId + "\" ");
   if (encodingResponse.isContentsEncoded()) {
     response.write(" encoding=\"");
     response.write(getEncodingName());

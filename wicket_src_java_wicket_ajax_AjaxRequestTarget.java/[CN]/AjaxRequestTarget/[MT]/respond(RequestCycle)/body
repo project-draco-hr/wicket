@@ -11,10 +11,12 @@
   response.setHeader("Pragma","no-cache");
   response.write("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
   response.write("<ajax-response>");
-  Iterator it=components.iterator();
+  Iterator it=markupIdToComponent.entrySet().iterator();
   while (it.hasNext()) {
-    Component c=(Component)it.next();
-    respondComponent(response,c);
+    final Map.Entry entry=(Entry)it.next();
+    final Component component=(Component)entry.getValue();
+    final String markupId=(String)entry.getKey();
+    respondComponent(response,markupId,component);
   }
   it=javascripts.iterator();
   while (it.hasNext()) {
