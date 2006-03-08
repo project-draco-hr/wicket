@@ -1,5 +1,15 @@
 {
-  if ((href != null) && (href.getObject(this) != null)) {
-    tag.put("href",Strings.replaceAll(href.getObject(this).toString(),"&","&amp;"));
+  if (href != null) {
+    Object hrefValue=href.getObject(this);
+    if (hrefValue != null) {
+      if (popupSettings != null) {
+        popupSettings.setTarget("'" + hrefValue.toString() + "'");
+        String popupScript=popupSettings.getPopupJavaScript();
+        tag.put("onclick",popupScript);
+      }
+ else {
+        tag.put("href",Strings.replaceAll(hrefValue.toString(),"&","&amp;"));
+      }
+    }
   }
 }
