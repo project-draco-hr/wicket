@@ -1,5 +1,11 @@
 {
   super.onBeginRequest();
-  containerDomId=calendarContainer.getPath().replace(':','_');
-  javaScriptComponentName="JsComp" + containerDomId;
+  if (elementId == null) {
+    String id=getMarkupId();
+    if (id == null) {
+      id=getPath().replace(':','_');
+    }
+    elementId=id + "Element";
+    javaScriptId=elementId + "JS";
+  }
 }
