@@ -1,0 +1,30 @@
+{
+  List resources=null;
+  String packageRef=Strings.replaceAll(PackageName.forClass(scope).getName(),".","/");
+  ClassLoader loader=scope.getClassLoader();
+  try {
+    Enumeration packageResources=loader.getResources(packageRef);
+    while (packageResources.hasMoreElements()) {
+      URL resource=(URL)packageResources.nextElement();
+      BufferedReader reader=new BufferedReader(new InputStreamReader(resource.openStream()));
+      String entry=null;
+      try {
+        while ((entry=reader.readLine()) != null) {
+          if (pattern.matcher(entry).matches()) {
+            if (resources == null) {
+              resources=new ArrayList();
+            }
+            resources.add(get(scope,entry,null,null));
+          }
+        }
+      }
+  finally {
+        IOUtils.closeQuietly(reader);
+      }
+    }
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
+  return (resources != null) ? (PackageResource[])resources.toArray(new PackageResource[resources.size()]) : null;
+}

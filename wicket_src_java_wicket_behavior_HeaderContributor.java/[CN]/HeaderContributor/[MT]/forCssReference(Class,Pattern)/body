@@ -1,0 +1,11 @@
+{
+  PackageResource[] resources=PackageResource.get(scope,pattern);
+  HeaderContributor contributor=new HeaderContributor();
+  if (resources != null) {
+    int len=resources.length;
+    for (int i=0; i < len; i++) {
+      contributor.addContributor(new CSSReferenceHeaderContributor(scope,resources[i].getPath()));
+    }
+  }
+  return contributor;
+}

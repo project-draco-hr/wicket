@@ -1,7 +1,4 @@
 {
-  if (scope == null) {
-    throw new IllegalArgumentException("argument scope may not be null");
-  }
   if (name == null) {
     throw new IllegalArgumentException("argument name may not be null");
   }
@@ -9,29 +6,6 @@
     get(scope,name,locale,style);
   }
  else {
-    Pattern pattern=Pattern.compile(name);
-    String packageRef=Strings.replaceAll(PackageName.forClass(scope).getName(),".","/");
-    ClassLoader loader=scope.getClassLoader();
-    try {
-      Enumeration packageResources=loader.getResources(packageRef);
-      while (packageResources.hasMoreElements()) {
-        URL resource=(URL)packageResources.nextElement();
-        BufferedReader reader=new BufferedReader(new InputStreamReader(resource.openStream()));
-        String entry=null;
-        try {
-          while ((entry=reader.readLine()) != null) {
-            if (pattern.matcher(entry).matches()) {
-              get(scope,entry,locale,style);
-            }
-          }
-        }
-  finally {
-          IOUtils.closeQuietly(reader);
-        }
-      }
-    }
- catch (    IOException e) {
-      throw new WicketRuntimeException(e);
-    }
+    throw new IllegalArgumentException("no package resource was found for scope " + scope + ", name "+ name+ ", locale "+ locale+ ", style "+ style);
   }
 }
