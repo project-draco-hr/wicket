@@ -1,0 +1,14 @@
+{
+  Class pageClass=BorderTestHierarchyPage_4.class;
+  System.out.println("=== " + pageClass.getName() + " ===");
+  application.setHomePage(pageClass);
+  application.setupRequestAndResponse();
+  MarkupException markupException=null;
+  try {
+    application.processRequestCycle();
+  }
+ catch (  MarkupException e) {
+    markupException=e;
+  }
+  assertNotNull("Markup does not match component hierarchy, but exception not thrown.",markupException);
+}
