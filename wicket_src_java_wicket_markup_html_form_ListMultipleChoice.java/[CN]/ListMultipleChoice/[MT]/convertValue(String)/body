@@ -1,0 +1,17 @@
+{
+  final String[] ids=inputAsStringArray();
+  ArrayList selectedValues=new ArrayList();
+  if (ids != null && ids.length > 0 && !Strings.isEmpty(ids[0])) {
+    final List choices=getChoices();
+    for (int i=0; i < ids.length; i++) {
+      for (int index=0; index < choices.size(); index++) {
+        final Object choice=choices.get(index);
+        if (getChoiceRenderer().getIdValue(choice,index).equals(ids[i])) {
+          selectedValues.add(choice);
+          break;
+        }
+      }
+    }
+  }
+  return selectedValues;
+}

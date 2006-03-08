@@ -1,6 +1,23 @@
 {
   if (type == null) {
-    convertedInput=getInput();
+    try {
+      convertedInput=convertValue(getInput());
+    }
+ catch (    ConversionException e) {
+      Map args=new HashMap();
+      final Locale locale=e.getLocale();
+      if (locale != null) {
+        args.put("locale",locale);
+      }
+      args.put("exception",e);
+      Format format=e.getFormat();
+      if (format instanceof SimpleDateFormat) {
+        args.put("format",((SimpleDateFormat)format).toLocalizedPattern());
+      }
+      String typedResourceKey="ConversionError." + e.getTargetType();
+      String[] resourceKeys=new String[]{typedResourceKey,"ConversionError"};
+      error(Arrays.asList(resourceKeys),args);
+    }
   }
  else   if (!Strings.isEmpty(getInput())) {
     final IConverter converter=getConverter();
