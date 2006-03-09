@@ -5,7 +5,7 @@
       final MarkupElement element=markupStream.next();
       if (element instanceof ComponentTag) {
         final ComponentTag tag=(ComponentTag)element;
-        if (tag.isOpen() && "body".equals(tag.getName()) && (tag.getNamespace() == null)) {
+        if (tag.isOpen() && "body".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
           if (BodyOnLoadHandler.BODY_ID.equals(tag.getId())) {
             add(new HtmlBodyContainer());
           }
