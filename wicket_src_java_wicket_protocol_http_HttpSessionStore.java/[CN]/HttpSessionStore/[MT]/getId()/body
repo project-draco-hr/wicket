@@ -1,7 +1,11 @@
 {
-  HttpSession httpSession=getHttpSession(false);
-  if (httpSession != null) {
-    return httpSession.getId();
+  if (id == null) {
+    HttpSession httpSession=getHttpSession(false);
+    if (httpSession != null) {
+      id=httpSession.getId();
+      return id;
+    }
+    return String.valueOf(hashCode());
   }
-  return String.valueOf(hashCode());
+  return id;
 }
