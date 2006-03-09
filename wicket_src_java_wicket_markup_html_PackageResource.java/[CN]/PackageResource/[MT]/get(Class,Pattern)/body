@@ -6,20 +6,26 @@
     Enumeration packageResources=loader.getResources(packageRef);
     while (packageResources.hasMoreElements()) {
       URL resource=(URL)packageResources.nextElement();
-      BufferedReader reader=new BufferedReader(new InputStreamReader(resource.openStream()));
-      String entry=null;
-      try {
-        while ((entry=reader.readLine()) != null) {
-          if (pattern.matcher(entry).matches()) {
-            if (resources == null) {
-              resources=new ArrayList();
+      InputStream inputStream=resource.openStream();
+      if (inputStream != null) {
+        BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
+        String entry=null;
+        try {
+          while ((entry=reader.readLine()) != null) {
+            if (pattern.matcher(entry).matches()) {
+              if (resources == null) {
+                resources=new ArrayList();
+              }
+              resources.add(get(scope,entry,null,null));
             }
-            resources.add(get(scope,entry,null,null));
           }
         }
-      }
   finally {
-        IOUtils.closeQuietly(reader);
+          IOUtils.closeQuietly(reader);
+        }
+      }
+ else {
+        log.error("though " + resource + " was listed as a resource by "+ packageRef+ ", it did not return an imput stream and can thus not be read");
       }
     }
   }
