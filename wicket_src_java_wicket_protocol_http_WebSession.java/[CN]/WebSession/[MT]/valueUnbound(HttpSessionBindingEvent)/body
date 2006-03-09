@@ -1,9 +1,9 @@
 {
-  String id=getSessionStore().getId();
   Application application=getApplication();
-  if (application instanceof WebApplication) {
-    ((WebApplication)application).sessionDestroyed(id);
-  }
- else {
+  if (application != null) {
+    String id=getSessionStore().getId();
+    if (application instanceof WebApplication) {
+      ((WebApplication)application).sessionDestroyed(id);
+    }
   }
 }
