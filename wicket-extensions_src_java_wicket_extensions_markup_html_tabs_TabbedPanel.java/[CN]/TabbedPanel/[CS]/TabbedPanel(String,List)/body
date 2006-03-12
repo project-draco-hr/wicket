@@ -16,13 +16,16 @@
       final Link titleLink=newLink("link",index);
       titleLink.add(new Label("title",tab.getTitle()));
       item.add(titleLink);
-      item.add(new AttributeModifier("class",true,new Model("selected")){
+      item.add(new SimpleAttributeModifier("class","selected"){
         private static final long serialVersionUID=1L;
         public boolean isEnabled(){
           return index == selected;
         }
       }
 );
+      if (item.getIteration() == getIterations() - 1) {
+        item.add(new AttributeAppender("class",true,new Model("last")," "));
+      }
     }
   }
 );
