@@ -1,3 +1,9 @@
 {
+  final IAjaxSettings settings=Application.get().getAjaxSettings();
   writeJsReference(response,JAVASCRIPT);
+  if (settings.isAjaxDebugModeEnabled()) {
+    response.write("<script>wicketAjaxDebugEnable=true;</script>");
+    writeJsReference(response,JAVASCRIPT_DEBUG_DRAG);
+    writeJsReference(response,JAVASCRIPT_DEBUG);
+  }
 }
