@@ -1,0 +1,27 @@
+{
+  final IAjaxCallDecorator callDecorator=getAjaxCallDecorator();
+  final String before=(callDecorator == null) ? null : callDecorator.getBeforeScript();
+  final String after=(callDecorator == null) ? null : callDecorator.getAfterScript();
+  final String success=(callDecorator == null) ? null : callDecorator.getOnSuccessScript();
+  final String failure=(callDecorator == null) ? null : callDecorator.getOnFailureScript();
+  StringBuilder buff=new StringBuilder(128);
+  if (!Strings.isEmpty(before)) {
+    buff.append(before);
+    if (!before.endsWith(";")) {
+      buff.append(";");
+    }
+  }
+  buff.append("var ").append(IAjaxCallDecorator.WICKET_CALL_MADE_VAR).append("=");
+  buff.append(partialCall);
+  if (!Strings.isEmpty(success)) {
+    buff.append(", function() { ").append(success).append("}");
+  }
+  buff.append(");");
+  if (!Strings.isEmpty(after)) {
+    buff.append(after);
+    if (!after.endsWith(";")) {
+      buff.append(";");
+    }
+  }
+  return buff.toString();
+}

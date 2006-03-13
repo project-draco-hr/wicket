@@ -5,8 +5,8 @@
     protected void onEvent(    AjaxRequestTarget target){
       onClick(target);
     }
-    protected String getEventHandler(){
-      return AjaxFallbackLink.this.getEventHandler("return !" + super.getEventHandler());
+    protected IAjaxCallDecorator getAjaxCallDecorator(){
+      return new AjaxCallDecoratorMutator(AjaxFallbackLink.this.getAjaxCallDecorator()).setPostAfterScript("return !" + IAjaxCallDecorator.WICKET_CALL_MADE_VAR);
     }
   }
 );
