@@ -6,26 +6,46 @@
     Enumeration packageResources=loader.getResources(packageRef);
     while (packageResources.hasMoreElements()) {
       URL resource=(URL)packageResources.nextElement();
-      InputStream inputStream=resource.openStream();
-      if (inputStream != null) {
-        BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
-        String entry=null;
-        try {
-          while ((entry=reader.readLine()) != null) {
-            if (pattern.matcher(entry).matches()) {
+      URLConnection connection=resource.openConnection();
+      if (connection instanceof JarURLConnection) {
+        JarFile jf=((JarURLConnection)connection).getJarFile();
+        Enumeration enumeration=jf.entries();
+        while (enumeration.hasMoreElements()) {
+          JarEntry je=(JarEntry)enumeration.nextElement();
+          String name=je.getName();
+          if (name.startsWith(packageRef)) {
+            name=name.substring(packageRef.length() + 1);
+            if (pattern.matcher(name).matches()) {
               if (resources == null) {
                 resources=new ArrayList();
               }
-              resources.add(get(scope,entry,null,null));
+              resources.add(get(scope,name,null,null));
             }
           }
         }
-  finally {
-          IOUtils.closeQuietly(reader);
-        }
       }
  else {
-        log.error("though " + resource + " was listed as a resource by "+ packageRef+ ", it did not return an imput stream and can thus not be read");
+        InputStream inputStream=connection.getInputStream();
+        if (inputStream != null) {
+          BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
+          String entry=null;
+          try {
+            while ((entry=reader.readLine()) != null) {
+              if (pattern.matcher(entry).matches()) {
+                if (resources == null) {
+                  resources=new ArrayList();
+                }
+                resources.add(get(scope,entry,null,null));
+              }
+            }
+          }
+  finally {
+            IOUtils.closeQuietly(reader);
+          }
+        }
+ else {
+          log.error("though " + resource + " was listed as a resource by "+ packageRef+ ", it did not return an imput stream and can thus not be read");
+        }
       }
     }
   }
