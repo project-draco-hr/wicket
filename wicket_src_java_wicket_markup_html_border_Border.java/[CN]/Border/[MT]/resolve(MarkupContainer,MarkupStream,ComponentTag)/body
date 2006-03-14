@@ -6,36 +6,20 @@
   if (!wtag.isBodyTag()) {
     return false;
   }
-  ComponentTag bodyTag=tag;
-  if (tag.isOpen()) {
-    markupStream.next();
-    markupStream.skipRawMarkup();
-  }
- else   if (tag.isOpenClose()) {
-    bodyTag=tag.mutable();
-    bodyTag.setType(XmlTag.OPEN);
+  final Response originalResponse;
+  if (this.bodyVisible == true) {
+    originalResponse=null;
   }
  else {
-    markupStream.throwMarkupException("A <wicket:body> tag must be an open or open-close tag.");
+    originalResponse=getRequestCycle().setResponse(NullResponse.getInstance());
   }
-  renderComponentTag(bodyTag);
-  Border border=this;
-  if (border.getMarkupStream() == null) {
-    final MarkupContainer borderParent=border.getParent();
-    border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
+  try {
+    renderBodyComponent(markupStream,wtag);
   }
-  final MarkupStream borderMarkup=border.findMarkupStream();
-  border.setMarkupStream(null);
-  border.renderComponentTagBody(border.findMarkupStream(),border.openTag);
-  border.setMarkupStream(borderMarkup);
-  if (tag.isOpenClose()) {
-    markupStream.next();
-    bodyTag.setType(XmlTag.CLOSE);
-    renderComponentTag(bodyTag);
+  finally {
+    if (originalResponse != null) {
+      getRequestCycle().setResponse(originalResponse);
+    }
   }
-  if (border.haveSeenBodyTag == true) {
-    markupStream.throwMarkupException("There must be exactly one <wicket:body> tag for each border compoment.");
-  }
-  border.haveSeenBodyTag=true;
   return true;
 }

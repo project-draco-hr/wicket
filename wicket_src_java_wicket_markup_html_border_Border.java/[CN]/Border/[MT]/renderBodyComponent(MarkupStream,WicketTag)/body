@@ -1,0 +1,16 @@
+{
+  final ComponentTag bodyTag=renderBodyComponentTag(wtag,markupStream);
+  final MarkupStream borderMarkup=findMarkupStream();
+  setMarkupStream(null);
+  renderBodyComponentTagBody(findMarkupStream(),openTag);
+  setMarkupStream(borderMarkup);
+  if (wtag.isOpenClose()) {
+    markupStream.next();
+    bodyTag.setType(XmlTag.CLOSE);
+    renderComponentTag(bodyTag);
+  }
+  if (haveSeenBodyTag == true) {
+    markupStream.throwMarkupException("There must be exactly one <wicket:body> tag for each border compoment.");
+  }
+  haveSeenBodyTag=true;
+}
