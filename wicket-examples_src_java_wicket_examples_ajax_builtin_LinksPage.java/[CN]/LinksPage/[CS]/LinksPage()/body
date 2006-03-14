@@ -5,10 +5,19 @@
   final Label c2=new Label("c2",new PropertyModel(this,"counter2"));
   c2.setOutputMarkupId(true);
   add(c2);
-  add(new AjaxLink("c1-link"){
+  final Label c3=new Label("c3",new PropertyModel(this,"counter3"));
+  c3.setOutputMarkupId(true);
+  add(c3);
+  add(new IndicatingAjaxLink("c1-link"){
     public void onClick(    AjaxRequestTarget target){
       counter1++;
       target.addComponent(c1);
+      try {
+        Thread.sleep(3000);
+      }
+ catch (      InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 );
@@ -21,9 +30,15 @@
     }
   }
 );
-  add(new Link("c3-link"){
-    public void onClick(){
-      System.out.println("hello");
+  add(new IndicatingAjaxLink("c3-link"){
+    public void onClick(    AjaxRequestTarget target){
+      counter3++;
+      target.addComponent(c3);
+      try {
+        Thread.sleep(5000);
+      }
+ catch (      InterruptedException e) {
+      }
     }
   }
 );
