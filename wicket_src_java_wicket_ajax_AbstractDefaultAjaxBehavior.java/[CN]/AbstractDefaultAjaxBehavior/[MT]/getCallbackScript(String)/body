@@ -4,7 +4,11 @@
   final String after=(callDecorator == null) ? null : callDecorator.getAfterScript();
   final String success=(callDecorator == null) ? null : callDecorator.getOnSuccessScript();
   final String failure=(callDecorator == null) ? null : callDecorator.getOnFailureScript();
+  String indicatorId=findIndicatorId();
   StringBuilder buff=new StringBuilder(128);
+  if (!Strings.isEmpty(indicatorId)) {
+    buff.append("wicketShow('").append(indicatorId).append("');");
+  }
   if (!Strings.isEmpty(before)) {
     buff.append(before);
     if (!before.endsWith(";")) {
@@ -13,8 +17,18 @@
   }
   buff.append("var ").append(IAjaxCallDecorator.WICKET_CALL_MADE_VAR).append("=");
   buff.append(partialCall);
-  if (!Strings.isEmpty(success)) {
-    buff.append(", function() { ").append(success).append("}");
+  if (!Strings.isEmpty(success) || !Strings.isEmpty(indicatorId)) {
+    buff.append(", function() { ");
+    if (!Strings.isEmpty(indicatorId)) {
+      buff.append("wicketHide('").append(indicatorId).append("');");
+    }
+    if (!Strings.isEmpty(success)) {
+      buff.append(success);
+      if (!success.endsWith(";")) {
+        buff.append(";");
+      }
+    }
+    buff.append("}");
   }
   buff.append(");");
   if (!Strings.isEmpty(after)) {
