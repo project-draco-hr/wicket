@@ -1,0 +1,22 @@
+{
+  final HeaderPartContainer headerPart=getHeaderPart();
+  if (headerPart != null) {
+    if (htmlContainer.get(headerPart.getId()) == null) {
+      htmlContainer.autoAdd(headerPart);
+      if (checkedBody == false) {
+        checkedBody=true;
+        checkBodyOnLoad();
+      }
+    }
+ else {
+      Response response=container.getRequestCycle().getResponse();
+      try {
+        container.getRequestCycle().setResponse(NullResponse.getInstance());
+        htmlContainer.autoAdd(headerPart);
+      }
+  finally {
+        container.getRequestCycle().setResponse(response);
+      }
+    }
+  }
+}

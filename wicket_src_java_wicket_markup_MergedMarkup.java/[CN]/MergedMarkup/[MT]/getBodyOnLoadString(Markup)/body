@@ -1,16 +1,28 @@
 {
-  boolean foundWicketHead=false;
-  for (int i=0; i < markup.size(); i++) {
+  int i=0;
+  for (; i < markup.size(); i++) {
     MarkupElement elem=markup.get(i);
     if (elem instanceof WicketTag) {
       WicketTag tag=(WicketTag)elem;
-      if (tag.isClose() && tag.isHeadTag() && tag.getNamespace() != null) {
-        foundWicketHead=true;
+      if (tag.isClose() && tag.isHeadTag()) {
+        break;
+      }
+ else       if (tag.isPanelTag() || tag.isBorderTag()) {
+        return null;
       }
     }
- else     if ((foundWicketHead == true) && (elem instanceof ComponentTag)) {
+ else     if (elem instanceof ComponentTag) {
       ComponentTag tag=(ComponentTag)elem;
-      if (tag.isOpen() && "body".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
+      if (TagUtils.isBodyTag(tag)) {
+        return null;
+      }
+    }
+  }
+  for (; i < markup.size(); i++) {
+    MarkupElement elem=markup.get(i);
+    if (elem instanceof ComponentTag) {
+      ComponentTag tag=(ComponentTag)elem;
+      if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
         String onLoad=tag.getAttributes().getString("onLoad");
         return onLoad;
       }

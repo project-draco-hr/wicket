@@ -1,0 +1,23 @@
+{
+  final MarkupStream associatedMarkupStream=container.getAssociatedMarkupStream(false);
+  if (associatedMarkupStream == null) {
+    return;
+  }
+  int index=associatedMarkupStream.getCurrentIndex();
+  try {
+    final Iterator iter=associatedMarkupStream.componentTagIterator();
+    while (iter.hasNext()) {
+      final ComponentTag tag=(ComponentTag)iter.next();
+      if ("body".equalsIgnoreCase(tag.getName())) {
+        final String onLoad=tag.getAttributes().getString("onload");
+        if (onLoad != null) {
+          container.getWebPage().getBodyContainer().addOnLoadModifier(onLoad);
+        }
+        break;
+      }
+    }
+  }
+  finally {
+    associatedMarkupStream.setCurrentIndex(index);
+  }
+}
