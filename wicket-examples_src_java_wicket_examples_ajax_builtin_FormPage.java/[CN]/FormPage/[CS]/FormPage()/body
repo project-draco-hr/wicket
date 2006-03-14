@@ -17,4 +17,10 @@
   form.add(fc);
   form.add(new SimpleFormComponentLabel("email-label",fc));
   AjaxFormValidatingBehavior.addToAllFormComponents(form,"onblur");
+  form.add(new AjaxSubmitButton("ajax-submit-button",form){
+    protected void onSubmit(    AjaxRequestTarget target){
+      target.addComponent(feedback);
+    }
+  }
+);
 }
