@@ -1,0 +1,13 @@
+{
+  Class type=propertyMeta.getPropertyType();
+  BeanPropertyEditor editor=findCustomEditor(panelId,propertyMeta);
+  if (editor == null) {
+    if (propertyMeta.getPropertyDescriptor() instanceof IndexedPropertyDescriptor) {
+      throw new WicketRuntimeException("indexed properties not supported yet ");
+    }
+ else {
+      editor=newDefaultEditor(panelId,propertyMeta);
+    }
+  }
+  return editor;
+}
