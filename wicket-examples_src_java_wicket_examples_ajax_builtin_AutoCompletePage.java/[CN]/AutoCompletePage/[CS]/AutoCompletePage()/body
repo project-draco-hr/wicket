@@ -1,18 +1,17 @@
 {
   Form form=new Form("form");
   add(form);
-  TextField tf1=new TextField("tf1",new Model());
-  form.add(tf1);
-  tf1.add(new AutoAssistBehavior(new StringAutoAssistRenderer()){
-    protected Iterator getCompletions(    String val){
+  TextField tf1=new AutoAssistTextField("tf1",new Model()){
+    protected Iterator getAssists(    String input){
       List completions=new ArrayList();
-      completions.add(val + "1");
-      completions.add(val + "2");
-      completions.add(val + "3");
+      completions.add(input + "1");
+      completions.add(input + "2");
+      completions.add(input + "3");
       return completions.iterator();
     }
   }
-);
+;
+  form.add(tf1);
   IAutoAssistRenderer randomRenderer=new AbstractAutoAssistRenderer(){
     protected void renderAssist(    Object object,    Response r){
       String val=object.toString();
@@ -27,10 +26,8 @@
     }
   }
 ;
-  TextField tf2=new TextField("tf2",new Model());
-  form.add(tf2);
-  tf2.add(new AutoAssistBehavior(randomRenderer){
-    protected Iterator getCompletions(    String input){
+  TextField tf2=new AutoAssistTextField("tf2",new Model(),randomRenderer){
+    protected Iterator getAssists(    String input){
       List completions=new ArrayList();
       completions.add(input + "1");
       completions.add(input + "2");
@@ -38,5 +35,6 @@
       return completions.iterator();
     }
   }
-);
+;
+  form.add(tf2);
 }
