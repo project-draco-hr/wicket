@@ -1,7 +1,17 @@
 {
   super(id,new Model());
   setCollapsed(true);
-  setTransparentResolver(true);
+  setOutputMarkupId(true);
   header=new WebMarkupContainer("header");
   add(header);
+  header.add(new AjaxFallbackLink("toggle-link"){
+    private static final long serialVersionUID=1L;
+    public void onClick(    AjaxRequestTarget target){
+      setCollapsed(!isCollapsed());
+      if (target != null) {
+        target.addComponent(AjaxCollapsableBorder.this);
+      }
+    }
+  }
+);
 }
