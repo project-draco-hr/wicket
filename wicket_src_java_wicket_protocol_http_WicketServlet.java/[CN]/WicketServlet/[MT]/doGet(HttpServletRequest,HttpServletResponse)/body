@@ -27,7 +27,11 @@
   response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
   try {
     RequestCycle cycle=session.newRequestCycle(request,response);
-    cycle.request();
+    try {
+      cycle.request();
+    }
+ catch (    AbortException e) {
+    }
   }
   finally {
     response.close();

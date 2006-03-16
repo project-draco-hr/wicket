@@ -18,7 +18,10 @@
         }
         return time != null ? time.getMilliseconds() : -1;
       }
-  finally {
+ catch (      AbortException e) {
+        return -1;
+      }
+ finally {
         resource.setParameters(null);
         Application.unset();
       }
