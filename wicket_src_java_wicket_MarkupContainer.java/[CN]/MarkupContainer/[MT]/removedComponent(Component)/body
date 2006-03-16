@@ -3,6 +3,21 @@
   if (page != null) {
     page.componentRemoved(component);
   }
-  component.detachModel();
+  if (component instanceof MarkupContainer) {
+    System.out.println("detaching all chilcren");
+    ((MarkupContainer)component).visitChildren(new IVisitor(){
+      public Object component(      Component component){
+        try {
+          component.detachModels();
+        }
+ catch (        Exception e) {
+          log.error("detaching models of component " + component + " failed:",e);
+        }
+        return IVisitor.CONTINUE_TRAVERSAL;
+      }
+    }
+);
+  }
+  component.detachModels();
   component.setParent(null);
 }
