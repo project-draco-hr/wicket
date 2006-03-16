@@ -9,7 +9,6 @@
     throw new IllegalStateException("This exception can only be thrown when wicket is processing an http request");
   }
   WebResponse wr=(WebResponse)r;
-  HttpServletResponse httpResponse=wr.getHttpServletResponse();
-  httpResponse.setStatus(status);
+  wr.getHttpServletResponse().setStatus(status);
   rc.setRequestTarget(EmptyRequestTarget.getInstance());
 }
