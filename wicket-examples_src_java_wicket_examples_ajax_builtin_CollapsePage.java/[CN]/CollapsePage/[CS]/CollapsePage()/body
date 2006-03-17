@@ -1,0 +1,32 @@
+{
+  AjaxCollapsableBorder border=new AjaxCollapsableBorder("border");
+  add(border);
+  final Clock la=new Clock("la",TimeZone.getTimeZone("America/Los_Angeles"));
+  final Clock ny=new Clock("ny",TimeZone.getTimeZone("America/New_York"));
+  final Clock moscow=new Clock("moscow",TimeZone.getTimeZone("Europe/Moscow"));
+  final Clock prague=new Clock("prague",TimeZone.getTimeZone("Europe/Prague"));
+  final Clock london=new Clock("london",TimeZone.getTimeZone("Europe/London"));
+  la.setOutputMarkupId(true);
+  ny.setOutputMarkupId(true);
+  moscow.setOutputMarkupId(true);
+  prague.setOutputMarkupId(true);
+  london.setOutputMarkupId(true);
+  border.add(la);
+  border.add(ny);
+  border.add(moscow);
+  border.add(prague);
+  border.add(london);
+  la.add(new AbstractAjaxTimerBehavior(Duration.seconds(5)){
+    /** 
+ * @see wicket.ajax.AbstractAjaxTimerBehavior#onTimer(wicket.ajax.AjaxRequestTarget)
+ */
+    protected void onTimer(    AjaxRequestTarget target){
+      target.addComponent(la);
+      target.addComponent(ny);
+      target.addComponent(moscow);
+      target.addComponent(prague);
+      target.addComponent(london);
+    }
+  }
+);
+}
