@@ -1,0 +1,34 @@
+{
+  final ContainerInfo containerInfo=new ContainerInfo(container);
+  Class containerClass=clazz;
+  if (clazz == null) {
+    containerClass=containerInfo.getContainerClass();
+  }
+ else {
+    if (!clazz.isAssignableFrom(containerInfo.getContainerClass())) {
+      throw new WicketRuntimeException("Parameter clazz must be instance of container");
+    }
+  }
+  final AppendingStringBuffer key=markupKey(containerInfo,clazz);
+  Markup markup=(Markup)markupCache.get(key);
+  if (markup == null) {
+synchronized (markupCache) {
+      markup=(Markup)markupCache.get(key);
+      if (markup == null) {
+        MarkupResourceStream markupResource=null;
+        while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
+          markupResource=newMarkupResourceStream(container,containerClass,containerInfo);
+          containerClass=containerClass.getSuperclass();
+        }
+        if (markupResource != null) {
+          markup=loadMarkupAndWatchForChanges(container,key,markupResource);
+        }
+ else {
+          markup=Markup.NO_MARKUP;
+          markupCache.put(key,markup);
+        }
+      }
+    }
+  }
+  return markup;
+}

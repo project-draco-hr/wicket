@@ -1,0 +1,33 @@
+{
+  int extendIndex=requiresBaseMarkup(markup);
+  if (extendIndex == -1) {
+    return markup;
+  }
+  final Markup baseMarkup=getMarkup(container,markup.getResource().getMarkupClass().getSuperclass());
+  if (baseMarkup == Markup.NO_MARKUP) {
+    throw new MarkupNotFoundException("Parent markup of inherited markup not found. Component class: " + markup.getResource().getContainerInfo().getContainerClass().getName() + " Enable debug messages for wicket.util.resource.Resource to get a list of all filenames tried.");
+  }
+  afterLoadListeners.add(baseMarkup.getResource(),new IChangeListener(){
+    public void onChange(){
+      log.info("Remove derived markup from cache: " + markup.getResource());
+      removeMarkup(key,markup.getResource());
+    }
+    /** 
+ * Make sure there is only one listener per derived markup
+ * @see java.lang.Object#equals(java.lang.Object)
+ */
+    public boolean equals(    Object obj){
+      return true;
+    }
+    /** 
+ * Make sure there is only one listener per derived markup
+ * @see java.lang.Object#hashCode()
+ */
+    public int hashCode(){
+      return key.hashCode();
+    }
+  }
+);
+  Markup mergedMarkup=new MergedMarkup(markup,baseMarkup,extendIndex);
+  return mergedMarkup;
+}

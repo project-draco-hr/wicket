@@ -1,0 +1,15 @@
+{
+  final ModificationWatcher watcher=application.getResourceSettings().getResourceWatcher();
+  if (watcher != null) {
+    watcher.add(markupResourceStream,new IChangeListener(){
+      public void onChange(){
+        log.info("Remove markup from cache: " + markupResourceStream);
+        removeMarkup(key,markupResourceStream);
+        watcher.remove(markupResourceStream);
+      }
+    }
+);
+  }
+  log.info("Loading markup from " + markupResourceStream);
+  return loadMarkup(container,key,markupResourceStream);
+}

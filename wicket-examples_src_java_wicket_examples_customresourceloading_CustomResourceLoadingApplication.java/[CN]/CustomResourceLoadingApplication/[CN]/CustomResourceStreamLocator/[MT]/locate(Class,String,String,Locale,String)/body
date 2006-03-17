@@ -1,0 +1,23 @@
+{
+  if (log.isDebugEnabled()) {
+    log.debug("Attempting to locate resource '" + path + "' using classloader the servlet context");
+  }
+  String location;
+  if (clazz == AlternativePageFromWebContext.class) {
+    location="/WEB-INF/templates/" + Strings.lastPathComponent(AlternativePageFromWebContext.class.getName(),'.') + "."+ extension;
+  }
+ else {
+    location="/WEB-INF/templates/" + path + "."+ extension;
+  }
+  URL url;
+  try {
+    url=getWicketServlet().getServletContext().getResource(location);
+    if (url != null) {
+      return new UrlResourceStream(url);
+    }
+  }
+ catch (  MalformedURLException e) {
+    throw new WicketRuntimeException(e);
+  }
+  return classLoaderLocator.locate(clazz,path,style,locale,extension);
+}
