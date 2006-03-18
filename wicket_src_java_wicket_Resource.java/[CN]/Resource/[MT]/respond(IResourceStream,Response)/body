@@ -18,13 +18,13 @@
         ignoreException=message != null && (message.indexOf("Connection reset by peer") != -1 || message.indexOf("Software caused connection abort") != -1);
       }
  else {
-        ignoreException=throwable.getClass().getName().indexOf("ClientAbortException") != 0;
-      }
-      if (ignoreException) {
-        if (log.isDebugEnabled()) {
-          log.debug("Socket exception ignored for sending Resource " + "response to client (ClientAbort)",e);
+        ignoreException=throwable.getClass().getName().indexOf("ClientAbortException") >= 0;
+        if (ignoreException) {
+          if (log.isDebugEnabled()) {
+            log.debug("Socket exception ignored for sending Resource " + "response to client (ClientAbort)",e);
+          }
+          break;
         }
-        break;
       }
       throwable=throwable.getCause();
     }
