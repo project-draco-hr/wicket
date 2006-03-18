@@ -1,4 +1,7 @@
 {
+  if (component.getRenderBodyOnly() == true) {
+    throw new IllegalStateException("Ajax render cannot be called on component that has setRenderBodyOnly enabled. Component: " + component.toString());
+  }
   final Response originalResponse=response;
   encodingResponse.reset();
   RequestCycle.get().setResponse(encodingResponse);
@@ -6,10 +9,7 @@
   if (page != null) {
     page.startComponentRender(component);
   }
-  boolean old=component.getRenderBodyOnly();
-  component.setRenderBodyOnly(true);
   component.doRender();
-  component.setRenderBodyOnly(old);
   if (page != null) {
     page.endComponentRender(component);
   }
