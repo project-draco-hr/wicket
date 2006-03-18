@@ -1,5 +1,11 @@
 {
-  IResourceStream markupResource=container.getMarkupResourceStream();
+  IResourceStream markupResource=null;
+  if (container.getClass() == containerClass) {
+    markupResource=container.getMarkupResourceStreamOverride();
+  }
+  if (markupResource == null) {
+    markupResource=application.getResourceSettings().getResourceStreamLocator().locate(containerClass,containerClass.getName().replace('.','/'),containerInfo.getStyle(),containerInfo.getLocale(),containerInfo.getFileExtension());
+  }
   if (markupResource == null) {
     return null;
   }
