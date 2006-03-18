@@ -1,16 +1,21 @@
 {
-  final ComponentTag bodyTag=renderBodyComponentTag(wtag,markupStream);
-  final MarkupStream borderMarkup=findMarkupStream();
-  setMarkupStream(null);
-  renderBodyComponentTagBody(findMarkupStream(),openTag);
-  setMarkupStream(borderMarkup);
+  final ComponentTag bodyTag=renderBodyComponentTag(markupStream,wtag);
+  Border border=this;
+  if (border.getMarkupStream() == null) {
+    final MarkupContainer borderParent=border.getParent();
+    border=(Border)((borderParent instanceof Border) ? borderParent : borderParent.findParent(Border.class));
+  }
+  final MarkupStream borderMarkup=border.findMarkupStream();
+  border.setMarkupStream(null);
+  border.renderComponentTagBody(border.findMarkupStream(),border.openTag);
+  border.setMarkupStream(borderMarkup);
   if (wtag.isOpenClose()) {
     markupStream.next();
     bodyTag.setType(XmlTag.CLOSE);
     renderComponentTag(bodyTag);
   }
-  if (haveSeenBodyTag == true) {
+  if (border.haveSeenBodyTag == true) {
     markupStream.throwMarkupException("There must be exactly one <wicket:body> tag for each border compoment.");
   }
-  haveSeenBodyTag=true;
+  border.haveSeenBodyTag=true;
 }
