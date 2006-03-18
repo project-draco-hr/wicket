@@ -1,0 +1,14 @@
+{
+  Properties properties=new Properties();
+  InputStream is=null;
+  try {
+    is=Settings.class.getResourceAsStream("/wicket.properties");
+    properties.load(is);
+  }
+ catch (  IOException e) {
+  }
+ finally {
+    IOUtils.closeQuietly(is);
+  }
+  return properties.getProperty("wicket.version","n/a");
+}
