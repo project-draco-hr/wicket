@@ -8,18 +8,15 @@
       throw new WicketRuntimeException("Parameter clazz must be instance of container");
     }
   }
-  final AppendingStringBuffer key=markupKey(containerInfo,clazz);
+  final CharSequence key=markupKey(containerInfo,clazz);
   Markup markup=(Markup)markupCache.get(key);
   if (markup == null) {
 synchronized (markupCache) {
       markup=(Markup)markupCache.get(key);
       if (markup == null) {
-        MarkupResourceStream markupResource=null;
-        while ((markupResource == null) && (containerClass != MarkupContainer.class)) {
-          markupResource=newMarkupResourceStream(container,containerClass,containerInfo);
-          containerClass=containerClass.getSuperclass();
-        }
-        if (markupResource != null) {
+        IResourceStream resourceStream=container.newMarkupResourceStream(containerClass,containerInfo);
+        if (resourceStream != null) {
+          final MarkupResourceStream markupResource=new MarkupResourceStream(resourceStream,containerInfo,containerClass);
           markup=loadMarkupAndWatchForChanges(container,key,markupResource);
         }
  else {

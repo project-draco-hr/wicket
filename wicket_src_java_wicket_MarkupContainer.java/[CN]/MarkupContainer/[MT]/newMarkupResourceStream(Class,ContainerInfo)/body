@@ -1,0 +1,11 @@
+{
+  final IResourceStreamLocator locator=getApplication().getResourceSettings().getResourceStreamLocator();
+  while (containerClass != MarkupContainer.class) {
+    final IResourceStream resourceStream=locator.locate(containerClass,containerClass.getName().replace('.','/'),containerInfo.getStyle(),containerInfo.getLocale(),containerInfo.getFileExtension());
+    if (resourceStream != null) {
+      return resourceStream;
+    }
+    containerClass=containerClass.getSuperclass();
+  }
+  return null;
+}
