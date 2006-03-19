@@ -7,6 +7,10 @@
     throw new IOException("File not found: " + filename);
   }
   String reference=Streams.readString(in);
+  reference=reference.replaceAll("\n\r","\n");
+  reference=reference.replaceAll("\r\n","\n");
+  document=document.replaceAll("\n\r","\n");
+  document=document.replaceAll("\r\n","\n");
   boolean equals=document.equals(reference);
   if (equals == false) {
     final String prop=System.getProperty("wicket.replace.expected.results");
