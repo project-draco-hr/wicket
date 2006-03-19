@@ -1,8 +1,12 @@
 {
   IRequestTargetUrlCodingStrategy encoder=getMountEncoder(requestTarget);
   if (encoder != null) {
-    final StringBuffer prefix=new StringBuffer(urlPrefix(requestCycle));
-    return requestCycle.getResponse().encodeURL(prefix.append(pathForTarget(requestTarget)).toString());
+    String prefix=urlPrefix(requestCycle);
+    String path=pathForTarget(requestTarget);
+    final AppendingStringBuffer buffer=new AppendingStringBuffer(prefix.length() + path.length());
+    buffer.append(prefix);
+    buffer.append(path);
+    return requestCycle.getResponse().encodeURL(buffer.toString());
   }
   if (requestTarget instanceof IBookmarkablePageRequestTarget) {
     return encode(requestCycle,(IBookmarkablePageRequestTarget)requestTarget);

@@ -2,7 +2,7 @@
   if (!(requestTarget instanceof IBookmarkablePageRequestTarget)) {
     throw new IllegalArgumentException("This encoder can only be used with instances of " + IBookmarkablePageRequestTarget.class.getName());
   }
-  final StringBuffer url=new StringBuffer();
+  final AppendingStringBuffer url=new AppendingStringBuffer(40);
   url.append(getMountPath());
   final IBookmarkablePageRequestTarget target=(IBookmarkablePageRequestTarget)requestTarget;
   PageParameters pageParameters=target.getPageParameters();
