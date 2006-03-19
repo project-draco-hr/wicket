@@ -1,22 +1,22 @@
 {
   Class containerClass=clazz;
   if (clazz == null) {
-    containerClass=containerInfo.getContainerClass();
+    containerClass=container.getClass();
   }
  else {
-    if (!clazz.isAssignableFrom(containerInfo.getContainerClass())) {
+    if (!clazz.isAssignableFrom(container.getClass())) {
       throw new WicketRuntimeException("Parameter clazz must be instance of container");
     }
   }
-  final CharSequence key=markupKey(containerInfo,clazz);
+  final CharSequence key=markupKey(container,clazz);
   Markup markup=(Markup)markupCache.get(key);
   if (markup == null) {
 synchronized (markupCache) {
       markup=(Markup)markupCache.get(key);
       if (markup == null) {
-        IResourceStream resourceStream=container.newMarkupResourceStream(containerClass,containerInfo);
+        final IResourceStream resourceStream=container.newMarkupResourceStream(containerClass);
         if (resourceStream != null) {
-          final MarkupResourceStream markupResource=new MarkupResourceStream(resourceStream,containerInfo,containerClass);
+          final MarkupResourceStream markupResource=new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
           markup=loadMarkupAndWatchForChanges(container,key,markupResource);
         }
  else {
