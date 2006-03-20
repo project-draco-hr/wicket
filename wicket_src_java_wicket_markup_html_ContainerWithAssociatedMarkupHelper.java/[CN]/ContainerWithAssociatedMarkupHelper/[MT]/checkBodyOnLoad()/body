@@ -8,7 +8,7 @@
     final Iterator iter=associatedMarkupStream.componentTagIterator();
     while (iter.hasNext()) {
       final ComponentTag tag=(ComponentTag)iter.next();
-      if ("body".equalsIgnoreCase(tag.getName())) {
+      if (TagUtils.isBodyTag(tag)) {
         final String onLoad=tag.getAttributes().getString("onload");
         if (onLoad != null) {
           container.getWebPage().getBodyContainer().addOnLoadModifier(onLoad);

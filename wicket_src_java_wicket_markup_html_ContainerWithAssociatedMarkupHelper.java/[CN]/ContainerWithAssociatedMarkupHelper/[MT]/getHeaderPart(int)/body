@@ -1,0 +1,16 @@
+{
+  final MarkupStream associatedMarkupStream=container.getAssociatedMarkupStream(false);
+  associatedMarkupStream.setCurrentIndex(index);
+  final MarkupElement element=associatedMarkupStream.get();
+  if (element instanceof WicketTag) {
+    final WicketTag wTag=(WicketTag)element;
+    if ((wTag.isHeadTag() == true) && (wTag.getNamespace() != null)) {
+      final String headerId="_" + Classes.simpleName(container.getClass()) + container.getVariation()+ "Header"+ index;
+      HeaderPartContainer headerContainer=new HeaderPartContainer(headerId,container,wTag.getAttributes().getString(associatedMarkupStream.getWicketNamespace() + ":scope"));
+      headerContainer.setMyMarkupStream(associatedMarkupStream);
+      headerContainer.setRenderBodyOnly(true);
+      return headerContainer;
+    }
+  }
+  throw new WicketRuntimeException("Programming error: expected a WicketTag: " + associatedMarkupStream.toString());
+}

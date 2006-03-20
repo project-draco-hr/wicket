@@ -1,22 +1,29 @@
 {
-  final HeaderPartContainer headerPart=getHeaderPart();
-  if (headerPart != null) {
-    if (htmlContainer.get(headerPart.getId()) == null) {
-      htmlContainer.autoAdd(headerPart);
-      if (checkedBody == false) {
-        checkedBody=true;
-        checkBodyOnLoad();
-      }
-    }
- else {
-      Response response=container.getRequestCycle().getResponse();
-      try {
-        container.getRequestCycle().setResponse(NullResponse.getInstance());
+  final MarkupStream associatedMarkupStream=container.getAssociatedMarkupStream(false);
+  if (associatedMarkupStream == null) {
+    return;
+  }
+  while (nextHeaderMarkup(associatedMarkupStream) != -1) {
+    final HeaderPartContainer headerPart=getHeaderPart(associatedMarkupStream.getCurrentIndex());
+    if (headerPart != null) {
+      if (htmlContainer.get(headerPart.getId()) == null) {
         htmlContainer.autoAdd(headerPart);
+        if (checkedBody == false) {
+          checkedBody=true;
+          checkBodyOnLoad();
+        }
       }
+ else {
+        Response response=container.getRequestCycle().getResponse();
+        try {
+          container.getRequestCycle().setResponse(NullResponse.getInstance());
+          htmlContainer.autoAdd(headerPart);
+        }
   finally {
-        container.getRequestCycle().setResponse(response);
+          container.getRequestCycle().setResponse(response);
+        }
       }
     }
+    associatedMarkupStream.skipComponent();
   }
 }

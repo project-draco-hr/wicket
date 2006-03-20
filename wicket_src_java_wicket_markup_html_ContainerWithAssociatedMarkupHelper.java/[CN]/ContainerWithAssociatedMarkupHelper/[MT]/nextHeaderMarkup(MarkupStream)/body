@@ -1,0 +1,28 @@
+{
+  if (associatedMarkupStream == null) {
+    return -1;
+  }
+  MarkupElement elem=(MarkupElement)associatedMarkupStream.get();
+  while (elem != null) {
+    if (elem instanceof WicketTag) {
+      WicketTag tag=(WicketTag)elem;
+      if (tag.isOpen() && tag.isHeadTag()) {
+        return associatedMarkupStream.getCurrentIndex();
+      }
+ else       if (tag.isOpen() && (tag.isPanelTag() || tag.isBorderTag() || tag.isExtendTag())) {
+        break;
+      }
+    }
+ else     if (elem instanceof ComponentTag) {
+      ComponentTag tag=(ComponentTag)elem;
+      if (tag.isClose() && TagUtils.isHeadTag(tag)) {
+        break;
+      }
+ else       if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
+        break;
+      }
+    }
+    elem=(MarkupElement)associatedMarkupStream.next();
+  }
+  return -1;
+}
