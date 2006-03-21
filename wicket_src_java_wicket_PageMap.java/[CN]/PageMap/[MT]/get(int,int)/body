@@ -1,10 +1,10 @@
 {
   final IPageMapEntry entry=(IPageMapEntry)session.getAttribute(attributeForId(id));
   if (entry != null) {
-    access(entry,versionNumber);
     Page page=entry.getPage();
     page.dirty();
     final Page version=page.getVersion(versionNumber);
+    access(entry,versionOf(entry));
     if (version != null) {
       if (version != page) {
         page=version;

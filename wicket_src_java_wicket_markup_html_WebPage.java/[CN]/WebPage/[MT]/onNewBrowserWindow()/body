@@ -1,0 +1,12 @@
+{
+  ArrayListStack accessStack=getPageMap().getAccessStack();
+  if (accessStack.size() > 1) {
+    Access access=(Access)accessStack.get(0);
+    if (!(access.getId() == getNumericId() && access.getVersion() == getCurrentVersionNumber())) {
+      WebPage clonedPage=(WebPage)Objects.cloneObject(this);
+      PageMap map=PageMap.forName(Long.toString(System.currentTimeMillis()));
+      clonedPage.moveToPageMap(map);
+      setResponsePage(clonedPage);
+    }
+  }
+}
