@@ -13,7 +13,7 @@
 ;
       redirectResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
       setResponse(redirectResponse);
-      page.doRender();
+      page.renderPage();
       setResponse(currentResponse);
       final String responseRedirect=servletResponse.getRedirectUrl();
       if (responseRedirect != null) {
@@ -39,7 +39,7 @@
   }
  else {
     redirectUrl=page.urlFor(IRedirectListener.INTERFACE);
-    page.internalEndRequest();
+    page.internalDetach();
   }
   if (redirectUrl == null) {
     redirectUrl=page.urlFor(IRedirectListener.INTERFACE);

@@ -6,7 +6,13 @@
       log.debug("Begin render " + this);
     }
     try {
-      onRender(markupStream);
+      onBeforeRender();
+      try {
+        onRender(markupStream);
+      }
+  finally {
+        onAfterRender();
+      }
       rendered();
     }
  catch (    RuntimeException ex) {

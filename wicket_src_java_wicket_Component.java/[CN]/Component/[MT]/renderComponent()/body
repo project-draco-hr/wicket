@@ -1,0 +1,20 @@
+{
+  if (this instanceof Page) {
+    ((Page)this).renderPage();
+  }
+ else {
+    MarkupContainer parent=getParent();
+    MarkupStream originalMarkupStream=parent.getMarkupStream();
+    MarkupStream markupStream=initializeMarkupStream();
+    try {
+      parent.setMarkupStream(markupStream);
+      internalAttach();
+      onBeforeRender();
+      render(markupStream);
+    }
+  finally {
+      parent.setMarkupStream(originalMarkupStream);
+      onAfterRender();
+    }
+  }
+}

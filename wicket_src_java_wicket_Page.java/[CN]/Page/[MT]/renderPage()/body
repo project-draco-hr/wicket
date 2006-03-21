@@ -16,20 +16,22 @@
   renderedComponents=null;
   this.stateless=true;
   setFormComponentValuesFromCookies();
-  try {
-    visitChildren(IFeedback.class,new IVisitor(){
-      public Object component(      Component component){
-        ((IFeedback)component).updateFeedback();
-        component.internalBeginRequest();
-        return IVisitor.CONTINUE_TRAVERSAL;
-      }
+  visitChildren(IFeedback.class,new IVisitor(){
+    public Object component(    Component component){
+      ((IFeedback)component).updateFeedback();
+      component.internalAttach();
+      return IVisitor.CONTINUE_TRAVERSAL;
     }
+  }
 );
-    internalBeginRequest();
+  internalAttach();
+  onBeforeRender();
+  try {
     render(null);
-    checkRendering(this);
-    getSession().touch(this);
   }
   finally {
+    onAfterRender();
   }
+  checkRendering(this);
+  getSession().touch(this);
 }
