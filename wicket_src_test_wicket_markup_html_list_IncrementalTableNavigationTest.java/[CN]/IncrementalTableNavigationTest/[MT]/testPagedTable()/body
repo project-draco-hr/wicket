@@ -1,21 +1,8 @@
 {
-  MockWebApplication application=new MockWebApplication(null);
-  application.setHomePage(IncrementalTableNavigationPage.class);
-  application.setupRequestAndResponse();
-  application.processRequestCycle();
-  IncrementalTableNavigationPage page=(IncrementalTableNavigationPage)application.getLastRenderedPage();
-  String document=application.getServletResponse().getDocument();
-  assertTrue(validatePage1(document));
+  executeTest(IncrementalTableNavigationPage.class,"IncrementalTableNavigationPage_ExpectedResult_1.html");
+  Page page=(IncrementalTableNavigationPage)application.getLastRenderedPage();
   Link link=(Link)page.get("nextNext");
-  application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToComponent(link);
-  application.processRequestCycle();
-  document=application.getServletResponse().getDocument();
-  assertTrue(validatePage2(document));
+  executedListener(IncrementalTableNavigationPage.class,link,"IncrementalTableNavigationPage_ExpectedResult_1-1.html");
   link=(Link)page.get("prev");
-  application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToComponent(link);
-  application.processRequestCycle();
-  document=application.getServletResponse().getDocument();
-  assertTrue(validatePage3(document));
+  executedListener(IncrementalTableNavigationPage.class,link,"IncrementalTableNavigationPage_ExpectedResult_1-2.html");
 }
