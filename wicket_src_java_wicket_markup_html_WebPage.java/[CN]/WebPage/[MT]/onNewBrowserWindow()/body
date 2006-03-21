@@ -4,7 +4,7 @@
     Access access=(Access)accessStack.get(0);
     if (!(access.getId() == getNumericId() && access.getVersion() == getCurrentVersionNumber())) {
       WebPage clonedPage=(WebPage)Objects.cloneObject(this);
-      PageMap map=PageMap.forName(Long.toString(System.currentTimeMillis()));
+      PageMap map=getSession().createAutoPageMap();
       clonedPage.moveToPageMap(map);
       setResponsePage(clonedPage);
     }
