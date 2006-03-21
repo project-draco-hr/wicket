@@ -1,10 +1,10 @@
 {
-  final MarkupStream associatedMarkupStream=container.getAssociatedMarkupStream(false);
-  if (associatedMarkupStream == null) {
+  final MarkupStream markupStream=container.getAssociatedMarkupStream(false);
+  if (markupStream == null) {
     return;
   }
-  while (nextHeaderMarkup(associatedMarkupStream) != -1) {
-    final HeaderPartContainer headerPart=getHeaderPart(associatedMarkupStream.getCurrentIndex());
+  while (nextHeaderMarkup(markupStream) != -1) {
+    final HeaderPartContainer headerPart=getHeaderPart(markupStream.getCurrentIndex());
     if (headerPart != null) {
       if (htmlContainer.get(headerPart.getId()) == null) {
         htmlContainer.autoAdd(headerPart);
@@ -24,6 +24,6 @@
         }
       }
     }
-    associatedMarkupStream.skipComponent();
+    markupStream.skipComponent();
   }
 }

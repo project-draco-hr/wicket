@@ -18,7 +18,7 @@
     }
     if ((wicketHeadProcessed == false) && (element instanceof WicketTag)) {
       final WicketTag tag=(WicketTag)element;
-      boolean hitPanel=tag.isOpen() && "panel".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() != null);
+      boolean hitPanel=tag.isOpen() && (tag.isPanelTag() || tag.isBorderTag());
       WicketTag openTag=null;
       if (hitPanel) {
         openTag=new WicketTag(new XmlTag());
@@ -27,14 +27,14 @@
         openTag.setType(XmlTag.OPEN);
         addMarkupElement(openTag);
       }
-      boolean hitHead=tag.isClose() && "head".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() != null);
+      boolean hitHead=tag.isClose() && tag.isHeadTag();
       if (hitHead || hitPanel) {
         boolean copy=false;
         for (int i=0; i < extendIndex; i++) {
           MarkupElement elem=markup.get(i);
           if (elem instanceof WicketTag) {
             WicketTag etag=(WicketTag)elem;
-            if ("head".equalsIgnoreCase(etag.getName()) && (etag.getNamespace() != null)) {
+            if (etag.isHeadTag()) {
               if (etag.isOpen()) {
                 wicketHeadProcessed=true;
                 copy=true;
@@ -62,13 +62,13 @@
     }
     if ((headProcessed == false) && (element instanceof ComponentTag)) {
       final ComponentTag tag=(ComponentTag)element;
-      if (tag.isClose() && "head".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
+      if (tag.isClose() && TagUtils.isHeadTag(tag)) {
         boolean copy=false;
         for (int i=0; i < extendIndex; i++) {
           MarkupElement elem=markup.get(i);
           if (elem instanceof WicketTag) {
             WicketTag etag=(WicketTag)elem;
-            if ("head".equalsIgnoreCase(etag.getName()) && (etag.getNamespace() != null)) {
+            if (etag.isHeadTag()) {
               if (etag.isOpen()) {
                 headProcessed=true;
                 copy=true;
@@ -88,7 +88,7 @@
     }
     if (element instanceof ComponentTag) {
       ComponentTag tag=(ComponentTag)element;
-      if (tag.isOpen() && "body".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
+      if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
         String onLoadBase=tag.getAttributes().getString("onLoad");
         if (onLoadBase == null) {
           if (onLoad != null) {
