@@ -1,10 +1,10 @@
 {
-  ArrayListStack accessStack=getPageMap().getAccessStack();
+  final ArrayListStack accessStack=getPageMap().getAccessStack();
   if (accessStack.size() > 1) {
-    Access access=(Access)accessStack.get(0);
+    final Access access=(Access)accessStack.get(0);
     if (!(access.getId() == getNumericId() && access.getVersion() == getCurrentVersionNumber())) {
-      WebPage clonedPage=(WebPage)Objects.cloneObject(this);
-      PageMap map=getSession().createAutoPageMap();
+      final WebPage clonedPage=(WebPage)Objects.cloneObject(this);
+      final PageMap map=getSession().createAutoPageMap();
       clonedPage.moveToPageMap(map);
       setResponsePage(clonedPage);
     }

@@ -1,13 +1,13 @@
 {
-  final MarkupStream markupStream=container.getAssociatedMarkupStream(false);
+  final MarkupStream markupStream=this.container.getAssociatedMarkupStream(false);
   markupStream.setCurrentIndex(index);
   final MarkupElement element=markupStream.get();
   if (element instanceof WicketTag) {
     final WicketTag wTag=(WicketTag)element;
     if ((wTag.isHeadTag() == true) && (wTag.getNamespace() != null)) {
-      final String headerId="_" + Classes.simpleName(container.getClass()) + container.getVariation()+ "Header"+ index;
-      final String scope=wTag.getAttributes().getString(markupStream.getWicketNamespace() + ":scope");
-      final HeaderPartContainer headerContainer=new HeaderPartContainer(headerId,container,scope);
+      final String headerId="_" + Classes.simpleName(markupClass) + this.container.getVariation()+ "Header"+ index;
+      String scope=wTag.getAttributes().getString(markupStream.getWicketNamespace() + ":scope");
+      final HeaderPartContainer headerContainer=new HeaderPartContainer(headerId,this.container,scope);
       headerContainer.setMyMarkupStream(markupStream);
       headerContainer.setRenderBodyOnly(true);
       return headerContainer;

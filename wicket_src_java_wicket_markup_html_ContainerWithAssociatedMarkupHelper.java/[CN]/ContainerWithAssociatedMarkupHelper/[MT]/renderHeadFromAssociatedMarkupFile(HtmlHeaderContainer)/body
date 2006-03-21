@@ -4,9 +4,13 @@
     return;
   }
   while (nextHeaderMarkup(markupStream) != -1) {
-    final HeaderPartContainer headerPart=getHeaderPart(markupStream.getCurrentIndex());
+    Class markupClass=((WicketTag)markupStream.getTag()).getWicketHeaderClass();
+    if (markupClass == null) {
+      markupClass=markupStream.getContainerClass();
+    }
+    final HeaderPartContainer headerPart=getHeaderPart(markupClass,markupStream.getCurrentIndex());
     if (headerPart != null) {
-      if (htmlContainer.get(headerPart.getId()) == null) {
+      if (htmlContainer.okToRenderComponent(headerPart.getScope(),headerPart.getId())) {
         htmlContainer.autoAdd(headerPart);
         if (checkedBody == false) {
           checkedBody=true;
