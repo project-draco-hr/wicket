@@ -6,6 +6,10 @@
   int baseIndex=0;
   for (; baseIndex < baseMarkup.size(); baseIndex++) {
     MarkupElement element=baseMarkup.get(baseIndex);
+    if ((element instanceof ComponentTag) && (baseMarkup.getResource() != null)) {
+      ComponentTag tag=(ComponentTag)element;
+      tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+    }
     if (element instanceof WicketTag) {
       WicketTag wtag=(WicketTag)element;
       if (wtag.isChildTag() && wtag.isOpenClose()) {
@@ -129,5 +133,9 @@
   for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
     MarkupElement element=baseMarkup.get(baseIndex);
     addMarkupElement(element);
+    if ((element instanceof ComponentTag) && (baseMarkup.getResource() != null)) {
+      ComponentTag tag=(ComponentTag)element;
+      tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+    }
   }
 }

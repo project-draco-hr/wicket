@@ -1,6 +1,9 @@
 {
   if (!pathInfo.absolute) {
-    Class clazz=((MarkupResourceStream)container.getMarkupStream().getResource()).getMarkupClass();
+    Class clazz=container.getMarkupStream().getContainerClass();
+    if (container.getMarkupStream().getTag().getMarkupClass() != null) {
+      clazz=container.getMarkupStream().getTag().getMarkupClass();
+    }
     PackageResourceReferenceAutolink autoLink=new PackageResourceReferenceAutolink(autoId,clazz,pathInfo.reference);
     if (autoLink.resourceReference != null) {
       return autoLink;
