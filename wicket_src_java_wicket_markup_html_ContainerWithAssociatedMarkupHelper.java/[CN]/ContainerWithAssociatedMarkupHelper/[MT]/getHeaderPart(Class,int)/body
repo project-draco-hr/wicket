@@ -7,7 +7,7 @@
     if ((wTag.isHeadTag() == true) && (wTag.getNamespace() != null)) {
       final String headerId="_" + Classes.simpleName(markupClass) + this.container.getVariation()+ "Header"+ index;
       String scope=wTag.getAttributes().getString(markupStream.getWicketNamespace() + ":scope");
-      final HeaderPartContainer headerContainer=new HeaderPartContainer(headerId,this.container,scope);
+      final HeaderPartContainer headerContainer=this.container.newHeaderPartContainer(headerId,scope);
       headerContainer.setMyMarkupStream(markupStream);
       headerContainer.setRenderBodyOnly(true);
       return headerContainer;
