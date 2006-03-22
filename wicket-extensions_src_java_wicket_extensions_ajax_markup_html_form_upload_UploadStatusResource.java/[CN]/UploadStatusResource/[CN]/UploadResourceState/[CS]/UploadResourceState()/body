@@ -1,0 +1,16 @@
+{
+  RequestCycle rc=RequestCycle.get();
+  HttpServletRequest req=((WebRequest)rc.getRequest()).getHttpServletRequest();
+  UploadInfo info=UploadWebRequest.getUploadInfo(req);
+  if (info == null) {
+    status="0|0|0|0";
+  }
+ else {
+    if (info.getTotalBytes() > 0) {
+      status="" + info.getPercentageComplete() + "|"+ info.getBytesUploadedString()+ "|"+ info.getTotalBytesString()+ "|"+ info.getTransferRateString()+ "|"+ info.getRemainingTimeString();
+    }
+ else {
+      status="0|0|0|0";
+    }
+  }
+}
