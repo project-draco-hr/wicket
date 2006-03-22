@@ -1,12 +1,6 @@
 {
-  final ArrayListStack accessStack=getPageMap().getAccessStack();
-  if (accessStack.size() > 1) {
-    final Access access=(Access)accessStack.get(0);
-    if (!(access.getId() == getNumericId() && access.getVersion() == getCurrentVersionNumber())) {
-      final WebPage clonedPage=(WebPage)Objects.cloneObject(this);
-      final PageMap map=getSession().createAutoPageMap();
-      clonedPage.moveToPageMap(map);
-      setResponsePage(clonedPage);
-    }
-  }
+  final WebPage clonedPage=(WebPage)Objects.cloneObject(this);
+  final PageMap map=getSession().createAutoPageMap();
+  clonedPage.moveToPageMap(map);
+  setResponsePage(clonedPage);
 }

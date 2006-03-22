@@ -1,7 +1,11 @@
 {
+  int initialAccessStackSize=0;
+  if (getApplication().getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_RENDER && getRequestCycle().getRequestTarget() instanceof RedirectPageRequestTarget) {
+    initialAccessStackSize=1;
+  }
   final ArrayListStack accessStack=getPageMap().getAccessStack();
-  if (accessStack.size() > 1) {
-    response.write("<script language=\"JavaScript\">if(history.length == 1){document.location.href = '");
+  if (accessStack.size() > initialAccessStackSize) {
+    response.write("<script language=\"JavaScript\">if((history.length == 0 && document.all) || (history.length == 1 && !document.all)){ if (!document.all) window.location.hash='some-random-hash!'; document.location.href = '");
     response.write(urlFor(INewBrowserWindowListener.INTERFACE));
     response.write("'}</script>");
   }
