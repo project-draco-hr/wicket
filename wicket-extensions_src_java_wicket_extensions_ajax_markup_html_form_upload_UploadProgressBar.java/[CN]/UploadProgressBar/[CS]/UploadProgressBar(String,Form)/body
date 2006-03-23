@@ -3,6 +3,12 @@
   this.form=form;
   setOutputMarkupId(true);
   form.setOutputMarkupId(true);
+  final WebMarkupContainer barDiv=new WebMarkupContainer("bar");
+  barDiv.setOutputMarkupId(true);
+  add(barDiv);
+  final WebMarkupContainer statusDiv=new WebMarkupContainer("status");
+  statusDiv.setOutputMarkupId(true);
+  add(statusDiv);
   add(new ProgressbarScriptIncluder());
   ScriptLabel progressBarCSS=new ScriptLabel("progressBarCSS",new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
@@ -21,10 +27,19 @@
  * @see wicket.model.IModel#getObject(wicket.Component)
  */
     public Object getObject(    Component component){
-      return getJavaScriptComponentInitializationScript();
+      String javascriptFile=getPackagedTextFileContents("progressbar.js");
+      Map variables=new HashMap();
+      ResourceReference ref=new ResourceReference(RESOURCE_NAME);
+      String statusUrl=getPage().urlFor(ref);
+      variables.put("bar-id",barDiv.getMarkupId());
+      variables.put("status-id",statusDiv.getMarkupId());
+      variables.put("statusUrl",statusUrl);
+      variables.put("formMarkupId",form.getMarkupId());
+      MapVariableInterpolator interpolator=new MapVariableInterpolator(javascriptFile,variables);
+      return "<script>" + interpolator.toString() + "</script>";
     }
   }
 );
   add(progressBarJS);
-  form.add(new AttributeModifier("onsubmit",true,new Model("startupload();")));
+  form.add(new AttributeModifier("onsubmit",true,new Model("wupb.start();")));
 }
