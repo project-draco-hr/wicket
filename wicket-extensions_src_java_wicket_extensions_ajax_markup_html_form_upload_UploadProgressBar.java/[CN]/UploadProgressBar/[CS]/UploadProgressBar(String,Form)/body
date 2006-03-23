@@ -1,9 +1,10 @@
 {
   super(id);
   this.form=form;
+  setOutputMarkupId(true);
   form.setOutputMarkupId(true);
-  add(new ProgressbarAjaxBehavior());
-  Label progressBarCSS=new Label("progressBarCSS",new AbstractReadOnlyModel(){
+  add(new ProgressbarScriptIncluder());
+  ScriptLabel progressBarCSS=new ScriptLabel("progressBarCSS",new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
     /** 
  * @see wicket.model.IModel#getObject(wicket.Component)
@@ -13,10 +14,8 @@
     }
   }
 );
-  progressBarCSS.setEscapeModelStrings(false);
-  progressBarCSS.setRenderBodyOnly(true);
   add(progressBarCSS);
-  Label progressBarJS=new Label("progressBarJS",new AbstractReadOnlyModel(){
+  ScriptLabel progressBarJS=new ScriptLabel("progressBarJS",new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
     /** 
  * @see wicket.model.IModel#getObject(wicket.Component)
@@ -26,8 +25,6 @@
     }
   }
 );
-  progressBarJS.setEscapeModelStrings(false);
-  progressBarJS.setRenderBodyOnly(true);
   add(progressBarJS);
   form.add(new AttributeModifier("onsubmit",true,new Model("startupload();")));
 }
