@@ -1,4 +1,7 @@
 {
+  if (resourceModel == null) {
+    resourceModel=Model.valueOf(messageModel(formComponent));
+  }
   if (formComponent == null) {
     throw new IllegalArgumentException("formComponent cannot be null");
   }
@@ -11,12 +14,6 @@
   if (!keys.contains(defaultKey)) {
     keys.add(defaultKey);
   }
-  Map args;
-  if (resourceModel == null) {
-    args=null;
-  }
- else {
-    args=(Map)resourceModel.getObject(formComponent);
-  }
+  Map args=(Map)resourceModel.getObject(formComponent);
   formComponent.error(keys,args);
 }
