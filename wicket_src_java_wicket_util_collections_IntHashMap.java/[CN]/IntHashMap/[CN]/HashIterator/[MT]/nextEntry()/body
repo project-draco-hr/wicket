@@ -1,0 +1,12 @@
+{
+  if (modCount != expectedModCount)   throw new ConcurrentModificationException();
+  Entry e=next;
+  if (e == null)   throw new NoSuchElementException();
+  Entry n=e.next;
+  Entry[] t=table;
+  int i=index;
+  while (n == null && i > 0)   n=t[--i];
+  index=i;
+  next=n;
+  return current=e;
+}
