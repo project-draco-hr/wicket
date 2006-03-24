@@ -1,5 +1,9 @@
 {
   final NumberFormat numberFormat=getNumberFormat(locale);
+  if (value instanceof String) {
+    String v=(String)value;
+    value=v.replace(' ','\u00A0');
+  }
   final Number number=(Number)parse(numberFormat,value);
   if (number == null) {
     return null;
