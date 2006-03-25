@@ -1,0 +1,27 @@
+{
+  final IAjaxCallDecorator decorator=getAjaxCallDecorator();
+  String indicatorId=findIndicatorId();
+  String success=(onSuccessScript == null) ? "" : onSuccessScript;
+  String failure=(onFailureScript == null) ? "" : onFailureScript;
+  if (decorator != null) {
+    success=decorator.decorateOnSuccessScript(success);
+  }
+  if (!Strings.isEmpty(indicatorId)) {
+    success=success + ";wicketHide('" + indicatorId+ "');";
+  }
+  if (decorator != null) {
+    failure=decorator.decorateOnFailureScript(failure);
+  }
+  AppendingStringBuffer buff=new AppendingStringBuffer(256);
+  buff.append("var ").append(IAjaxCallDecorator.WICKET_CALL_RESULT_VAR).append("=");
+  buff.append(partialCall).append(", function() { ").append(success);
+  buff.append("}, function() { ").append(failure).append("});");
+  String call=buff.toString();
+  if (decorator != null) {
+    call=decorator.decorateScript(call);
+  }
+  if (!Strings.isEmpty(indicatorId)) {
+    call="wicketShow('" + indicatorId + "');"+ call;
+  }
+  return call;
+}

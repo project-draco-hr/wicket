@@ -6,7 +6,7 @@
       onClick(target);
     }
     protected IAjaxCallDecorator getAjaxCallDecorator(){
-      return new AjaxCallDecoratorMutator(AjaxFallbackLink.this.getAjaxCallDecorator()).setPostAfterScript("return !" + IAjaxCallDecorator.WICKET_CALL_MADE_VAR);
+      return new CancelEventIfNoAjaxDecorator(AjaxFallbackLink.this.getAjaxCallDecorator());
     }
   }
 );

@@ -1,0 +1,8 @@
+{
+  String script=super.getCallbackScript(partialCall,onSuccessScript,onFailureScript);
+  final ThrottlingSettings ts=throttlingSettings;
+  if (ts != null) {
+    script=AbstractAjaxTimerBehavior.throttleScript(script,ts.getId(),ts.getDuration());
+  }
+  return script;
+}
