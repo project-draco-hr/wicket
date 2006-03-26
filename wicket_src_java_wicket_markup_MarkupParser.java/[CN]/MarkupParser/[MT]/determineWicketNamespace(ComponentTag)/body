@@ -1,13 +1,14 @@
 {
   String attrValue=null;
   final ValueMap attributes=tag.getAttributes();
-  final Iterator it=attributes.keySet().iterator();
+  final Iterator it=attributes.entrySet().iterator();
   while (it.hasNext()) {
-    final String attributeName=(String)it.next();
-    if (attributeName.startsWith("xmlns:")) {
-      final String xmlnsUrl=attributes.getString(attributeName);
+    final Map.Entry entry=(Map.Entry)it.next();
+    final String attributeName=(String)entry.getKey();
+    if (attributeName.startsWith(XMLNS)) {
+      final String xmlnsUrl=(String)entry.getValue();
       if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.toLowerCase().startsWith("http://wicket.sourceforge.net")) {
-        String namespace=attributeName.substring(6);
+        String namespace=attributeName.substring(XMLNS.length());
         markup.setWicketNamespace(namespace);
         attrValue=attributeName;
       }
