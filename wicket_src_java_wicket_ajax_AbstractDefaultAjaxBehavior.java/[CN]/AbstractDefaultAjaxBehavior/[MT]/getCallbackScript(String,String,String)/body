@@ -7,7 +7,9 @@
     success=decorator.decorateOnSuccessScript(success);
   }
   if (!Strings.isEmpty(indicatorId)) {
-    success=success + ";wicketHide('" + indicatorId+ "');";
+    String hide=";wicketHide('" + indicatorId + "');";
+    success=success + hide;
+    failure=failure + hide;
   }
   if (decorator != null) {
     failure=decorator.decorateOnFailureScript(failure);
