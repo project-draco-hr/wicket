@@ -7,7 +7,7 @@
     final String attributeName=(String)entry.getKey();
     if (attributeName.startsWith(XMLNS)) {
       final String xmlnsUrl=(String)entry.getValue();
-      if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.toLowerCase().startsWith("http://wicket.sourceforge.net")) {
+      if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.startsWith(WICKET_URI)) {
         String namespace=attributeName.substring(XMLNS.length());
         markup.setWicketNamespace(namespace);
         attrValue=attributeName;
