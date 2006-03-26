@@ -1,12 +1,20 @@
 {
   int numKeysToBeAdded=m.size();
-  if (numKeysToBeAdded == 0)   return;
+  if (numKeysToBeAdded == 0) {
+    return;
+  }
   if (numKeysToBeAdded > threshold) {
     int targetCapacity=(int)(numKeysToBeAdded / loadFactor + 1);
-    if (targetCapacity > MAXIMUM_CAPACITY)     targetCapacity=MAXIMUM_CAPACITY;
+    if (targetCapacity > MAXIMUM_CAPACITY) {
+      targetCapacity=MAXIMUM_CAPACITY;
+    }
     int newCapacity=table.length;
-    while (newCapacity < targetCapacity)     newCapacity<<=1;
-    if (newCapacity > table.length)     resize(newCapacity);
+    while (newCapacity < targetCapacity) {
+      newCapacity<<=1;
+    }
+    if (newCapacity > table.length) {
+      resize(newCapacity);
+    }
   }
   for (Iterator i=m.entrySet().iterator(); i.hasNext(); ) {
     Entry e=(Entry)i.next();
