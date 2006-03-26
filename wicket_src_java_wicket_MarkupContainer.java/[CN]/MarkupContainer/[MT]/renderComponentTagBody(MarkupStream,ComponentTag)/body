@@ -1,17 +1,7 @@
 {
   boolean render=openTag.requiresCloseTag();
   if (render == false) {
-    int pos=markupStream.getCurrentIndex();
-    while (markupStream.hasMore()) {
-      MarkupElement elem=markupStream.next();
-      if (elem instanceof ComponentTag) {
-        if (elem.closes(openTag)) {
-          render=true;
-          break;
-        }
-      }
-    }
-    markupStream.setCurrentIndex(pos);
+    render=!openTag.hasNoCloseTag();
   }
   if (render == true) {
     while (markupStream.hasMore() && !markupStream.get().closes(openTag)) {
