@@ -1,15 +1,17 @@
 {
+  final RequestCycle cycle=getRequestCycle();
+  final IRequestTarget target=cycle.getRequestTarget();
   int initialAccessStackSize=0;
-  if (getApplication().getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_RENDER && getRequestCycle().getRequestTarget() instanceof RedirectPageRequestTarget) {
+  if (getApplication().getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_RENDER && target instanceof RedirectPageRequestTarget) {
     initialAccessStackSize=1;
   }
   final ArrayListStack accessStack=getPageMap().getAccessStack();
   if (accessStack.size() > initialAccessStackSize) {
     response.write("<script language=\"JavaScript\">if((history.length == 0 && document.all) || (history.length == 1 && !document.all)){ if (!document.all) window.location.hash='some-random-hash!'; document.location.href = '");
-    if (getRequestCycle().getRequestTarget() instanceof IBookmarkablePageRequestTarget) {
-      IBookmarkablePageRequestTarget current=(IBookmarkablePageRequestTarget)getRequestCycle().getRequestTarget();
+    if (target instanceof IBookmarkablePageRequestTarget) {
+      IBookmarkablePageRequestTarget current=(IBookmarkablePageRequestTarget)target;
       BookmarkablePageRequestTarget redirect=new BookmarkablePageRequestTarget(getSession().createAutoPageMapName(),current.getPageClass(),current.getPageParameters());
-      response.write(getRequestCycle().urlFor(redirect));
+      response.write(cycle.urlFor(redirect));
     }
  else {
       response.write(urlFor(INewBrowserWindowListener.INTERFACE));
