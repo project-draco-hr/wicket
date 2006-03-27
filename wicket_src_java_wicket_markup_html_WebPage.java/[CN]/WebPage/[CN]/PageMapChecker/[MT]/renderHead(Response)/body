@@ -6,7 +6,14 @@
   final ArrayListStack accessStack=getPageMap().getAccessStack();
   if (accessStack.size() > initialAccessStackSize) {
     response.write("<script language=\"JavaScript\">if((history.length == 0 && document.all) || (history.length == 1 && !document.all)){ if (!document.all) window.location.hash='some-random-hash!'; document.location.href = '");
-    response.write(urlFor(INewBrowserWindowListener.INTERFACE));
+    if (getRequestCycle().getRequestTarget() instanceof IBookmarkablePageRequestTarget) {
+      IBookmarkablePageRequestTarget current=(IBookmarkablePageRequestTarget)getRequestCycle().getRequestTarget();
+      BookmarkablePageRequestTarget redirect=new BookmarkablePageRequestTarget(getSession().createAutoPageMapName(),current.getPageClass(),current.getPageParameters());
+      response.write(getRequestCycle().urlFor(redirect));
+    }
+ else {
+      response.write(urlFor(INewBrowserWindowListener.INTERFACE));
+    }
     response.write("'}</script>");
   }
 }
