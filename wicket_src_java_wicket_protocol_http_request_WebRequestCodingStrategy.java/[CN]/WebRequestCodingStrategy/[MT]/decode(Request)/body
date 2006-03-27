@@ -6,6 +6,14 @@
   addBookmarkablePageParameters(request,parameters);
   addResourceParameters(request,parameters);
   parameters.setBehaviorId(request.getParameter(BEHAVIOR_ID_PARAMETER_NAME));
-  parameters.setParameters(request.getParameterMap());
+  Map map=request.getParameterMap();
+  Iterator iterator=map.keySet().iterator();
+  while (iterator.hasNext()) {
+    String key=(String)iterator.next();
+    if (key.startsWith(NAME_SPACE)) {
+      iterator.remove();
+    }
+  }
+  parameters.setParameters(map);
   return parameters;
 }
