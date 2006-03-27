@@ -8,6 +8,17 @@
     MarkupStream markupStream=initializeMarkupStream();
     try {
       parent.setMarkupStream(markupStream);
+      if (this instanceof MarkupContainer) {
+        MarkupContainer container=(MarkupContainer)this;
+        container.visitChildren(IFeedback.class,new IVisitor(){
+          public Object component(          Component component){
+            ((IFeedback)component).updateFeedback();
+            component.internalAttach();
+            return IVisitor.CONTINUE_TRAVERSAL;
+          }
+        }
+);
+      }
       internalAttach();
       onBeforeRender();
       render(markupStream);
