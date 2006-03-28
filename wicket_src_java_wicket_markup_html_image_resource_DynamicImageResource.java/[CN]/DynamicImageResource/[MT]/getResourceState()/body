@@ -1,15 +1,16 @@
 {
   return new ResourceState(){
-    byte[] imageData=getImageData();
-    Time lastModifiedTime=DynamicImageResource.this.lastModifiedTime;
-    String contentType="image/" + format;
+    private byte[] imageData;
+    private final String contentType="image/" + format;
     public Time lastModifiedTime(){
-      return lastModifiedTime != null ? lastModifiedTime : Time.now();
-    }
-    public int getLength(){
-      return imageData.length;
+      if (lastModifiedTime == null) {
+        lastModifiedTime=DynamicImageResource.this.lastModifiedTime;
+        if (lastModifiedTime == null)         lastModifiedTime=Time.now();
+      }
+      return lastModifiedTime;
     }
     public byte[] getData(){
+      if (imageData == null)       imageData=getImageData();
       return imageData;
     }
     public String getContentType(){
