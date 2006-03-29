@@ -3,7 +3,7 @@
     String infoPath=Strings.replaceAll(pathInfo.path,"/",".");
     Page page=container.getPage();
     final IClassResolver defaultClassResolver=page.getApplication().getApplicationSettings().getClassResolver();
-    final String className;
+    String className;
     if (!infoPath.startsWith(".")) {
       className=Packages.extractPackageName(page.getClass()) + "." + infoPath;
     }
@@ -16,6 +16,18 @@
     }
  catch (    WicketRuntimeException ex) {
       log.warn("Did not find corresponding java class: " + className);
+    }
+    MarkupContainer parentWithContainer=container.findParentWithAssociatedMarkup();
+    if ((parentWithContainer instanceof Page) && !infoPath.startsWith(".") && page.getMarkupStream().isMergedMarkup()) {
+      Class clazz=container.getMarkupStream().getTag().getMarkupClass();
+      className=Packages.extractPackageName(clazz) + "." + infoPath;
+      try {
+        clazz=defaultClassResolver.resolveClass(className);
+        return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters());
+      }
+ catch (      WicketRuntimeException ex) {
+        log.warn("Did not find corresponding java class: " + className);
+      }
     }
   }
  else {
