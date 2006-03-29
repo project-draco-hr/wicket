@@ -1,12 +1,12 @@
 {
   String leftImage=RequestCycle.get().urlFor(new PackageResourceReference(Calendar.class,"callt.gif"));
   String rightImage=RequestCycle.get().urlFor(new PackageResourceReference(Calendar.class,"calrt.gif"));
-  StringBuffer b=new StringBuffer("\nvar ").append(javaScriptId).append(";\n");
-  b.append("function init").append(javaScriptId).append("() {\n\t");
-  b.append(javaScriptId).append(" = new YAHOO.widget.Calendar(\"").append(javaScriptId).append("\",\"").append(elementId).append("\");\n\t");
-  b.append(javaScriptId).append(".Options.NAV_ARROW_LEFT = \"").append(leftImage).append("\";\n\t");
-  b.append(javaScriptId).append(".Options.NAV_ARROW_RIGHT = \"").append(rightImage).append("\";\n\t");
-  b.append(javaScriptId).append(".render();\n");
-  b.append("}\n");
-  return b.toString();
+  Map variables=new MiniMap(4);
+  variables.put("javaScriptId",javaScriptId);
+  variables.put("elementId",elementId);
+  variables.put("navigationArrowLeft",leftImage);
+  variables.put("navigationArrowRight",rightImage);
+  PackagedTextTemplate template=new PackagedTextTemplate(Calendar.class,"init.js");
+  template.interpolate(variables);
+  return template.toString();
 }

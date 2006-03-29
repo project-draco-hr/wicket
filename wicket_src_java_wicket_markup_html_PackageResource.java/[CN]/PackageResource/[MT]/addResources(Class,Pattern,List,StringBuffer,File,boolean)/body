@@ -1,0 +1,17 @@
+{
+  File[] files=dir.listFiles();
+  for (int i=0; i < files.length; i++) {
+    File file=files[i];
+    if (file.isDirectory()) {
+      if (recurse) {
+        addResources(scope,pattern,resources,relativePath.append(file.getName()).append('/'),file,recurse);
+      }
+    }
+ else {
+      String fileName=file.getName();
+      if (pattern.matcher(fileName).matches()) {
+        resources.add(get(scope,relativePath + fileName,null,null));
+      }
+    }
+  }
+}

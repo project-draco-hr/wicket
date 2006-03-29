@@ -1,0 +1,38 @@
+{
+  final List resources=new ArrayList();
+  String packageRef=Strings.replaceAll(PackageName.forClass(scope).getName(),".","/");
+  ClassLoader loader=scope.getClassLoader();
+  try {
+    Enumeration packageResources=loader.getResources(packageRef);
+    while (packageResources.hasMoreElements()) {
+      URL resource=(URL)packageResources.nextElement();
+      URLConnection connection=resource.openConnection();
+      if (connection instanceof JarURLConnection) {
+        JarFile jf=((JarURLConnection)connection).getJarFile();
+        Enumeration enumeration=jf.entries();
+        while (enumeration.hasMoreElements()) {
+          JarEntry je=(JarEntry)enumeration.nextElement();
+          String name=je.getName();
+          if (name.startsWith(packageRef)) {
+            name=name.substring(packageRef.length() + 1);
+            if (pattern.matcher(name).matches() && (recurse || (name.indexOf('/') == -1))) {
+              resources.add(get(scope,name,null,null));
+            }
+          }
+        }
+      }
+ else {
+        String absolutePath=scope.getResource("").getPath();
+        File basedir=new File(absolutePath);
+        if (!basedir.isDirectory()) {
+          throw new IllegalStateException("unable to read resources from directory " + basedir);
+        }
+        addResources(scope,pattern,resources,new StringBuffer(""),basedir,recurse);
+      }
+    }
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
+  return (resources != null) ? (PackageResource[])resources.toArray(new PackageResource[resources.size()]) : null;
+}

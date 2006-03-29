@@ -1,0 +1,22 @@
+{
+  super(contentType);
+  String path=Packages.absolutePath(clazz,fileName);
+  IResourceStream stream=streamLocator.locate(clazz,path);
+  if (stream == null) {
+    throw new IllegalArgumentException("resource " + fileName + " not found for scope "+ clazz+ " (path = "+ path+ ")");
+  }
+  try {
+    if (encoding != null) {
+      buffer.append(Streams.readString(stream.getInputStream(),encoding));
+    }
+ else {
+      buffer.append(Streams.readString(stream.getInputStream()));
+    }
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+catch (  ResourceStreamNotFoundException e) {
+    throw new RuntimeException(e);
+  }
+}

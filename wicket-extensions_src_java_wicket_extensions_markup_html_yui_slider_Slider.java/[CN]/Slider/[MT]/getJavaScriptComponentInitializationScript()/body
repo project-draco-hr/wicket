@@ -1,9 +1,9 @@
 {
-  String script=getPackagedTextFileContents("init.js");
   Map variables=new MiniMap(3);
   variables.put("javaScriptId",javaScriptId);
   variables.put("backGroundElementId",backgroundElementId);
   variables.put("imageElementId",imageElementId);
-  MapVariableInterpolator interpolator=new MapVariableInterpolator(script,variables);
-  return interpolator.toString();
+  PackagedTextTemplate template=new PackagedTextTemplate(Slider.class,"init.js");
+  template.interpolate(variables);
+  return template.toString();
 }
