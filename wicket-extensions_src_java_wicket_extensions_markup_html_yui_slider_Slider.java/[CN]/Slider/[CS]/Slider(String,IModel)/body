@@ -2,18 +2,27 @@
   super(id,model);
   add(HeaderContributor.forJavaScript(Slider.class,"slider.js"));
   add(HeaderContributor.forCss(Slider.class,"css/screen.css"));
-  Label initialization=new Label("initialization",new AbstractReadOnlyModel(){
+  IModel variablesModel=new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
     /** 
- * @see wicket.model.IModel#getObject(wicket.Component)
+ * cached variables; we only need to fill this once. 
+ */
+    private Map variables;
+    /** 
+ * @see wicket.model.AbstractReadOnlyModel#getObject(wicket.Component)
  */
     public Object getObject(    Component component){
-      return getJavaScriptComponentInitializationScript();
+      if (variables == null) {
+        this.variables=new MiniMap(3);
+        variables.put("javaScriptId",javaScriptId);
+        variables.put("backGroundElementId",backgroundElementId);
+        variables.put("imageElementId",imageElementId);
+      }
+      return variables;
     }
   }
-);
-  initialization.setEscapeModelStrings(false);
-  add(initialization);
+;
+  add(TextTemplateHeaderContributor.forJavaScript(Slider.class,"init.js",variablesModel));
   WebMarkupContainer backgroundElement=new WebMarkupContainer("backgroundElement");
   backgroundElement.add(new AttributeModifier("id",true,new PropertyModel(this,"backgroundElementId")));
   add(backgroundElement);
