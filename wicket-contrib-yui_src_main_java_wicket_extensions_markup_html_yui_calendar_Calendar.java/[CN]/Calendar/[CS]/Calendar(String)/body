@@ -1,0 +1,18 @@
+{
+  super(id);
+  add(HeaderContributor.forJavaScript(Calendar.class));
+  add(HeaderContributor.forCss(Calendar.class));
+  Label initialization=new Label("initialization",new AbstractReadOnlyModel(){
+    private static final long serialVersionUID=1L;
+    /** 
+ * @see wicket.model.IModel#getObject(wicket.Component)
+ */
+    public Object getObject(    Component component){
+      return getJavaScriptComponentInitializationScript();
+    }
+  }
+);
+  initialization.setEscapeModelStrings(false);
+  add(initialization);
+  add(calendarElement=new CalendarElement("calendarContainer"));
+}
