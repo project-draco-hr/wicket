@@ -1,5 +1,8 @@
 {
-  String result=new MapVariableInterpolator(buffer.toString(),variables).toString();
-  replaceContents(result);
+  if (variables != null) {
+    String result=new MapVariableInterpolator(buffer.toString(),variables).toString();
+    buffer.delete(0,buffer.length());
+    buffer.append(result);
+  }
   return this;
 }
