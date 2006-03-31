@@ -1,6 +1,11 @@
 {
   List data=new TestList(10,false);
-  add(new TableWithAlternatingRowStyle("entries",data){
+  add(new ListVieweWithAlternatingRowStyle("entries",data){
+    /** 
+ * populateItem() is called for each item of the list. ListItem
+ * provides, beside the IModel, the current index while iterating
+ * over the data provided.
+ */
     public void populateItem(    final ListItem listItem){
       final ListObject value=(ListObject)listItem.getModelObject();
       listItem.add(new Label("entry",value.getName()));
