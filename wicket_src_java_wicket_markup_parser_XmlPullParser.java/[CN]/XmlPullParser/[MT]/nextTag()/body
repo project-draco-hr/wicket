@@ -22,11 +22,16 @@
   }
   final String startText=(tagText.length() <= 8 ? tagText : tagText.substring(0,8));
   if (startText.toUpperCase().equals("![CDATA[")) {
-    closeBracketIndex=findCloseBracket('>',openBracketIndex);
-    if (closeBracketIndex == -1) {
-      throw new ParseException("No matching close bracket at position " + openBracketIndex,this.input.getPosition());
+    int pos1=openBracketIndex;
+    do {
+      closeBracketIndex=findCloseBracket('>',pos1);
+      if (closeBracketIndex == -1) {
+        throw new ParseException("No matching close bracket at position " + openBracketIndex,this.input.getPosition());
+      }
+      tagText=this.input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
+      pos1=closeBracketIndex + 1;
     }
-    tagText=this.input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
+ while (tagText.endsWith("]]") == false);
   }
 {
     XmlTag.Type type=XmlTag.OPEN;
