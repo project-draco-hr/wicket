@@ -6,15 +6,16 @@
   encodingResponse.reset();
   RequestCycle.get().setResponse(encodingResponse);
   final Page page=component.getPage();
-  if (page == null) {
-    throw new IllegalStateException("Ajax request attempted on a component that is not associated with a Page");
+  final boolean versioned=(page != null) ? page.isVersioned() : false;
+  if (page != null) {
+    page.setVersioned(false);
+    page.startComponentRender(component);
   }
-  final boolean versioned=page.isVersioned();
-  page.setVersioned(false);
-  page.startComponentRender(component);
   component.renderComponent();
-  page.endComponentRender(component);
-  page.setVersioned(versioned);
+  if (page != null) {
+    page.endComponentRender(component);
+    page.setVersioned(versioned);
+  }
   RequestCycle.get().setResponse(originalResponse);
   response.write("<component id=\"" + markupId + "\" ");
   if (encodingResponse.isContentsEncoded()) {
