@@ -22,8 +22,14 @@
         }
       }
  else {
-        String absolutePath=scope.getResource("").getPath();
-        File basedir=new File(absolutePath);
+        String absolutePath=scope.getResource("").toExternalForm();
+        File basedir;
+        try {
+          basedir=new File(new URI(absolutePath));
+        }
+ catch (        URISyntaxException e) {
+          throw new RuntimeException(e);
+        }
         if (!basedir.isDirectory()) {
           throw new IllegalStateException("unable to read resources from directory " + basedir);
         }
