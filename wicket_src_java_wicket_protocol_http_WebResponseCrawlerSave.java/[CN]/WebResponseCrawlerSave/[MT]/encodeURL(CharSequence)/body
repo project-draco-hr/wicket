@@ -1,0 +1,11 @@
+{
+  String stringUrl=url.toString();
+  final int pos=stringUrl.indexOf('?');
+  if (pos > 0) {
+    final String urlPrefix=stringUrl.substring(0,pos);
+    CharSequence queryString=stringUrl.substring(pos + 1);
+    queryString=encodeQueryString(queryString);
+    return new AppendingStringBuffer(urlPrefix).append(queryString);
+  }
+  return url;
+}

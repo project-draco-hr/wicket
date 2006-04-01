@@ -1,0 +1,35 @@
+{
+  if (s == null) {
+    return null;
+  }
+  if (searchFor == null || "".equals(searchFor)) {
+    return s;
+  }
+  if (replaceWith == null) {
+    replaceWith="";
+  }
+  String searchString=searchFor.toString();
+  int matchIndex=search(s,searchString,0);
+  if (matchIndex == -1) {
+    return s;
+  }
+ else {
+    int size=s.length();
+    final int replaceWithLength=replaceWith.length();
+    final int searchForLength=searchFor.length();
+    if (replaceWithLength > searchForLength) {
+      size+=(replaceWithLength - searchForLength);
+    }
+    final AppendingStringBuffer buffer=new AppendingStringBuffer(size + 16);
+    int pos=0;
+    do {
+      append(buffer,s,pos,matchIndex);
+      buffer.append(replaceWith);
+      pos=matchIndex + searchForLength;
+      matchIndex=search(s,searchString,pos);
+    }
+ while (matchIndex != -1);
+    buffer.append(s.subSequence(pos,s.length()));
+    return buffer;
+  }
+}

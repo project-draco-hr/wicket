@@ -1,5 +1,5 @@
 {
   final String formId=form.getMarkupId();
-  final String url=getCallbackUrl();
-  return getCallbackScript("wicketSubmitFormById('" + formId + "', '"+ url+ "' ",null,null) + ";";
+  final CharSequence url=getCallbackUrl();
+  return getCallbackScript(new AppendingStringBuffer("wicketSubmitFormById('").append(formId).append("', '").append(url).append("' "),null,null) + ";";
 }

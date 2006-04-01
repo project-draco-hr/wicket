@@ -2,9 +2,9 @@
   RequestCycle cycle=getRequestCycle();
   LeftFrame leftFrame=new LeftFrame(this);
   IRequestCodingStrategy encoder=cycle.getProcessor().getRequestCodingStrategy();
-  String leftFrameSrc=encoder.encode(cycle,new PageRequestTarget(leftFrame));
+  CharSequence leftFrameSrc=encoder.encode(cycle,new PageRequestTarget(leftFrame));
   WebComponent leftFrameTag=new WebComponent("leftFrame");
-  leftFrameTag.add(new AttributeModifier("src",new Model(leftFrameSrc)));
+  leftFrameTag.add(new AttributeModifier("src",new Model((Serializable)leftFrameSrc)));
   add(leftFrameTag);
   WebComponent rightFrameTag=new WebComponent("rightFrame");
   rightFrameTag.add(new AttributeModifier("src",new FrameModel()));

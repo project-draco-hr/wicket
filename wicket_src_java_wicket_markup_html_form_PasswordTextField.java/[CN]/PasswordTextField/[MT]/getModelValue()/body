@@ -1,10 +1,12 @@
 {
   final String value=getModelObjectAsString();
-  try {
-    return getApplication().getSecuritySettings().getCryptFactory().newCrypt().encrypt(value);
-  }
- catch (  Exception ex) {
-    log.error("Failed to instantiate encryption object. Continue without encryption");
+  if (value != null) {
+    try {
+      return getApplication().getSecuritySettings().getCryptFactory().newCrypt().encrypt(value);
+    }
+ catch (    Exception ex) {
+      log.error("Failed to instantiate encryption object. Continue without encryption");
+    }
   }
   return value;
 }

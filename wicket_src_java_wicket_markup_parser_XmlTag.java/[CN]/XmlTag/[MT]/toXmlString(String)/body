@@ -1,5 +1,5 @@
 {
-  final StringBuffer buffer=new StringBuffer();
+  final AppendingStringBuffer buffer=new AppendingStringBuffer();
   buffer.append('<');
   if (type == CLOSE) {
     buffer.append('/');
@@ -17,7 +17,7 @@
       if ((key != null) && ((attributeToBeIgnored == null) || !key.equalsIgnoreCase(attributeToBeIgnored))) {
         buffer.append(" ");
         buffer.append(key);
-        String value=getString(key);
+        CharSequence value=getString(key);
         if (value != null) {
           buffer.append("=\"");
           value=Strings.replaceAll(value,"\"","\\\"");
@@ -31,5 +31,5 @@
     buffer.append('/');
   }
   buffer.append('>');
-  return buffer.toString();
+  return buffer;
 }

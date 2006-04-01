@@ -1,0 +1,23 @@
+{
+  final ValueMap param=new ValueMap(queryString.toString(),"&");
+  final String bookmarkablePage=param.getString(WebRequestCodingStrategy.BOOKMARKABLE_PAGE_PARAMETER_NAME);
+  if (bookmarkablePage != null) {
+    AppendingStringBuffer url=new AppendingStringBuffer("/");
+    url.append(Strings.replaceAll(bookmarkablePage,".","/"));
+    url.append(".wic");
+    param.remove(WebRequestCodingStrategy.BOOKMARKABLE_PAGE_PARAMETER_NAME);
+    if (param.size() > 0) {
+      char separator='?';
+      for (final Iterator iterator=param.keySet().iterator(); iterator.hasNext(); ) {
+        final String key=(String)iterator.next();
+        url.append(separator);
+        url.append(key);
+        url.append("=");
+        url.append(param.getCharSequence(key));
+        separator='&';
+      }
+    }
+    return url;
+  }
+  return new AppendingStringBuffer("?").append(queryString);
+}

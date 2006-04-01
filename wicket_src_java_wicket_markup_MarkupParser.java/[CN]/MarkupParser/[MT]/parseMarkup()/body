@@ -14,7 +14,7 @@
       if (tag.isOpen() && "html".equals(tag.getName().toLowerCase())) {
         add|=determineWicketNamespace(tag);
         if ((add == true) && (tag.getId() == null)) {
-          replaceTag=new RawMarkup(tag.toString());
+          replaceTag=new RawMarkup(tag.toCharSequence());
         }
       }
       if (add || (autoAddList.size() > 0) || tag.isModified()) {
@@ -50,7 +50,7 @@
         xmlParser.setPositionMarker();
       }
  else       if (tag.isModified()) {
-        this.markup.addMarkupElement(new RawMarkup(tag.toString()));
+        this.markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
         xmlParser.setPositionMarker();
       }
     }

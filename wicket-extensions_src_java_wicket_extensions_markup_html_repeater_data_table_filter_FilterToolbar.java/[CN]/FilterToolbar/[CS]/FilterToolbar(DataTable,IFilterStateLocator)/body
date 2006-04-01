@@ -17,7 +17,7 @@
   add(new WebMarkupContainer("focus-restore"){
     private static final long serialVersionUID=1L;
     protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
-      String script="<script>_filter_focus_restore('" + form.getFocusTrackerFieldCssId() + "');</script>";
+      AppendingStringBuffer script=new AppendingStringBuffer("<script>_filter_focus_restore('").append(form.getFocusTrackerFieldCssId()).append("');</script>");
       replaceComponentTagBody(markupStream,openTag,script);
     }
   }

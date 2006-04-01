@@ -8,12 +8,12 @@
  else {
   }
   if (resource == null && resourceReference == null) {
-    final String src=tag.getString("src");
+    final CharSequence src=tag.getString("src");
     if (src != null) {
-      loadStaticImage(src);
+      loadStaticImage(src.toString());
     }
  else {
-      final String value=tag.getString("value");
+      final CharSequence value=tag.getString("value");
       if (value != null) {
         newImage(value);
       }
@@ -22,7 +22,7 @@
       }
     }
   }
-  final String url;
+  final CharSequence url;
   if (this.resourceReference != null) {
     url=RequestCycle.get().urlFor(resourceReference);
   }

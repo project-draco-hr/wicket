@@ -6,7 +6,7 @@
     try {
       final BufferedHttpServletResponse servletResponse=new BufferedHttpServletResponse(currentResponse.getHttpServletResponse());
       final WebResponse redirectResponse=new WebResponse(servletResponse){
-        public String encodeURL(        String url){
+        public CharSequence encodeURL(        CharSequence url){
           return currentResponse.encodeURL(url);
         }
       }
@@ -23,7 +23,7 @@
         servletResponse.filter(currentResponse);
         servletResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         servletResponse.close();
-        redirectUrl=page.urlFor(IRedirectListener.INTERFACE);
+        redirectUrl=page.urlFor(IRedirectListener.INTERFACE).toString();
         int index=redirectUrl.indexOf("?");
         String sessionId=getWebRequest().getHttpServletRequest().getSession(true).getId();
         ((WebApplication)application).addBufferedResponse(sessionId,redirectUrl.substring(index + 1),servletResponse);
@@ -38,11 +38,11 @@
     }
   }
  else {
-    redirectUrl=page.urlFor(IRedirectListener.INTERFACE);
+    redirectUrl=page.urlFor(IRedirectListener.INTERFACE).toString();
     page.internalDetach();
   }
   if (redirectUrl == null) {
-    redirectUrl=page.urlFor(IRedirectListener.INTERFACE);
+    redirectUrl=page.urlFor(IRedirectListener.INTERFACE).toString();
   }
   session.touch(page);
   response.redirect(redirectUrl);

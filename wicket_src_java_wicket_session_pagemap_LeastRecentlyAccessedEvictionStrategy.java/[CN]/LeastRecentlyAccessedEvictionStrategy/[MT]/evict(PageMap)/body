@@ -1,19 +1,21 @@
 {
-  if (pageMap.getVersions() > maxVersions) {
-    final PageMap.Access oldestAccess=(PageMap.Access)pageMap.getAccessStack().remove(0);
-    final IPageMapEntry oldestEntry=pageMap.getEntry(oldestAccess.getId());
-    if (oldestEntry instanceof Page) {
-      Page page=(Page)oldestEntry;
-      if (page.getVersions() > 1) {
-        page.expireOldestVersion();
+synchronized (Session.get()) {
+    if (pageMap.getVersions() > maxVersions) {
+      final PageMap.Access oldestAccess=(PageMap.Access)pageMap.getAccessStack().remove(0);
+      final IPageMapEntry oldestEntry=pageMap.getEntry(oldestAccess.getId());
+      if (oldestEntry instanceof Page) {
+        Page page=(Page)oldestEntry;
+        if (page.getVersions() > 1) {
+          page.expireOldestVersion();
+        }
+ else {
+          pageMap.removeEntry(page);
+        }
       }
  else {
-        pageMap.removeEntry(page);
-      }
-    }
- else {
-      if (oldestEntry != null) {
-        pageMap.removeEntry(oldestEntry);
+        if (oldestEntry != null) {
+          pageMap.removeEntry(oldestEntry);
+        }
       }
     }
   }

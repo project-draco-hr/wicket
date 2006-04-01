@@ -1,5 +1,5 @@
 {
-  final StringBuffer buffer=new StringBuffer();
+  final AppendingStringBuffer buffer=new AppendingStringBuffer(128);
   Iterator options=getOptionsIterator();
   IChoiceRenderer renderer=getPalette().getChoiceRenderer();
   while (options.hasNext()) {
@@ -10,5 +10,5 @@
     buffer.append("\n<option value=\"").append(id).append("\">").append(value).append("</option>");
   }
   buffer.append("\n");
-  replaceComponentTagBody(markupStream,openTag,buffer.toString());
+  replaceComponentTagBody(markupStream,openTag,buffer);
 }
