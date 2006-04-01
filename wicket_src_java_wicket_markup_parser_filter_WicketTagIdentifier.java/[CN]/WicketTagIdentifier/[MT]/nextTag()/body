@@ -8,6 +8,9 @@
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new WicketTag(xmlTag);
     tag.setId(tag.getName());
+    if (wellKnownTagNames.contains(xmlTag.getName()) == false) {
+      throw new ParseException("Unkown tag name with Wicket namespace: '" + xmlTag.getName() + "'",tag.getPos());
+    }
   }
  else {
     tag=new ComponentTag(xmlTag);
