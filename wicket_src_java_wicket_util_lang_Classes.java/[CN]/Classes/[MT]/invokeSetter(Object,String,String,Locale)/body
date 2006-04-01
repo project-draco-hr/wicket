@@ -16,7 +16,7 @@
   }
   final Class paramClass=parameterClasses[0];
   try {
-    final IConverter converter=new ConverterFactory().newConverter(Locale.US);
+    final IConverter converter=Application.get().getApplicationSettings().getConverterFactory().newConverter(locale);
     final Object param=converter.convert(value,paramClass);
     if (param == null) {
       throw new MarkupException("Unable to convert value '" + value + "' into "+ paramClass+ ". May be there is no converter for that type registered?");
