@@ -1,9 +1,9 @@
 {
-  String path=requestCycle.getRequest().getPath();
-  IRequestTarget mounted=requestCycle.getProcessor().getRequestCodingStrategy().targetForPath(path);
+  IRequestTarget mounted=requestCycle.getProcessor().getRequestCodingStrategy().targetForRequest(requestParameters);
   if (mounted != null) {
     return mounted;
   }
+  final String path=requestParameters.getPath();
   if (requestParameters.getComponentPath() != null) {
     return resolveRenderedPage(requestCycle,requestParameters);
   }

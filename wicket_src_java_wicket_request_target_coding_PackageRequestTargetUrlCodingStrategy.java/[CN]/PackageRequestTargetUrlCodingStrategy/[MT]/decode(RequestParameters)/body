@@ -1,0 +1,22 @@
+{
+  String remainder=requestParameters.getPath().substring(getMountPath().length());
+  final String parametersFragment;
+  int ix=remainder.indexOf('/',1);
+  if (ix == -1) {
+    ix=remainder.length();
+    parametersFragment="";
+  }
+ else {
+    parametersFragment=remainder.substring(ix);
+  }
+  if (remainder.startsWith("/")) {
+    remainder=remainder.substring(1);
+    ix--;
+  }
+  final String bookmarkablePageClassName=packageName + "." + remainder.substring(0,ix);
+  Class bookmarkablePageClass=Session.get().getClassResolver().resolveClass(bookmarkablePageClassName);
+  PageParameters parameters=new PageParameters(decodeParameters(parametersFragment));
+  parameters.putAll(requestParameters.getParameters());
+  BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(bookmarkablePageClass,parameters);
+  return target;
+}
