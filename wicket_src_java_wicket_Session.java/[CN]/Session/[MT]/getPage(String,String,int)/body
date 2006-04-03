@@ -5,6 +5,15 @@
   PageMap pageMap=pageMapForName(pageMapName,pageMapName == PageMap.DEFAULT_NAME);
   if (pageMap != null) {
     final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
+    while (usedPages.contains(id)) {
+      try {
+        wait();
+      }
+ catch (      InterruptedException ex) {
+        throw new WicketRuntimeException(ex);
+      }
+    }
+    usedPages.add(id);
     return pageMap.get(Integer.parseInt(id),versionNumber);
   }
   return null;
