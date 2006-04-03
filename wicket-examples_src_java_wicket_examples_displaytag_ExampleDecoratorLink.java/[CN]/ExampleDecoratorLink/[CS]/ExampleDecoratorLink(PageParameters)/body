@@ -19,15 +19,13 @@
     }
   }
 );
-  add(new ListView("rows2",data){
+  add(new SimpleListView("rows2",data){
     public void populateItem(    final ListItem listItem){
       final ListObject value=(ListObject)listItem.getModelObject();
-      listItem.add(new AttributeModifier("class",new Model((listItem.getIndex() % 2) == 0 ? "even" : "odd")));
       BookmarkablePageLink idLink=new BookmarkablePageLink("idLink",Page3.class);
       idLink.setParameter("id",value.getId());
       idLink.add(new Label("id",Integer.toString(value.getId())));
       listItem.add(idLink);
-      listItem.add(new Label("email",value.getEmail()));
       listItem.add(new BookmarkablePageLink("view",Page3.class).setParameter("id",value.getId()).setParameter("action","view"));
       listItem.add(new BookmarkablePageLink("edit",Page3.class).setParameter("id",value.getId()).setParameter("action","edit"));
       listItem.add(new BookmarkablePageLink("delete",Page3.class).setParameter("id",value.getId()).setParameter("action","delete"));
