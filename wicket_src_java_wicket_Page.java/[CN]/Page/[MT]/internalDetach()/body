@@ -1,4 +1,11 @@
 {
-  super.internalDetach();
-  getSession().pageDetached(this);
+  try {
+    super.internalDetach();
+  }
+ catch (  RuntimeException re) {
+    throw re;
+  }
+ finally {
+    getSession().pageDetached(this);
+  }
 }
