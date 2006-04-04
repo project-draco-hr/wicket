@@ -1,6 +1,13 @@
 {
   try {
-    return DefaultClassResolver.class.getClassLoader().loadClass(classname);
+    Class clz=(Class)classes.get(classname);
+    if (clz == null) {
+synchronized (classes) {
+        clz=DefaultClassResolver.class.getClassLoader().loadClass(classname);
+        classes.put(classname,clz);
+      }
+    }
+    return clz;
   }
  catch (  ClassNotFoundException ex) {
     throw new WicketRuntimeException("Unable to load class with name: " + classname);
