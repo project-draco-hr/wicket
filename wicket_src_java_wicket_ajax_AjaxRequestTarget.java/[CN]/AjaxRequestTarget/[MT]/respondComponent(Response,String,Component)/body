@@ -2,6 +2,7 @@
   if (component.getRenderBodyOnly() == true) {
     throw new IllegalStateException("Ajax render cannot be called on component that has setRenderBodyOnly enabled. Component: " + component.toString());
   }
+  component.setOutputMarkupId(true);
   final Response originalResponse=response;
   encodingResponse.reset();
   RequestCycle.get().setResponse(encodingResponse);
