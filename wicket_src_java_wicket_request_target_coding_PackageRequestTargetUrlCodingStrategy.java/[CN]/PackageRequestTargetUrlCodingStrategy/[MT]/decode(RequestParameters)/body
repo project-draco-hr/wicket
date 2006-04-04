@@ -15,8 +15,7 @@
   }
   final String bookmarkablePageClassName=packageName + "." + remainder.substring(0,ix);
   Class bookmarkablePageClass=Session.get().getClassResolver().resolveClass(bookmarkablePageClassName);
-  PageParameters parameters=new PageParameters(decodeParameters(parametersFragment));
-  parameters.putAll(requestParameters.getParameters());
+  PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
   BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(bookmarkablePageClass,parameters);
   return target;
 }
