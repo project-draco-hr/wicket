@@ -1,11 +1,14 @@
 {
-  if (isVisibleInHierarchy()) {
+  if (isVisibleInHierarchy() && isEnabled()) {
     final String[] input=inputAsStringArray();
     if (input != null) {
       rawInput=StringList.valueOf(input).join(";");
     }
- else {
+ else     if (isInputNullable()) {
       rawInput=null;
+    }
+ else {
+      rawInput=NO_RAW_INPUT;
     }
   }
 }
