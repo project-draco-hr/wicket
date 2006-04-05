@@ -1,18 +1,19 @@
 {
-  final StringBuffer buffer=new StringBuffer();
   if (isNullValid()) {
     final String option=getLocalizer().getString("null",this,"");
+    final AppendingStringBuffer buffer=new AppendingStringBuffer(32 + option.length());
     buffer.append("\n<option");
     if (selected == null) {
       buffer.append(" selected=\"selected\"");
     }
     buffer.append(" value=\"\">").append(option).append("</option>");
+    return buffer;
   }
  else {
     if (selected == null || selected.equals(NO_SELECTION_VALUE) || selected.equals(EMPTY_STRING)) {
       final String option=getLocalizer().getString("null",this,CHOOSE_ONE);
-      buffer.append("\n<option selected=\"selected\" value=\"\">").append(option).append("</option>");
+      return new AppendingStringBuffer("\n<option selected=\"selected\" value=\"\">").append(option).append("</option>");
     }
   }
-  return buffer.toString();
+  return "";
 }
