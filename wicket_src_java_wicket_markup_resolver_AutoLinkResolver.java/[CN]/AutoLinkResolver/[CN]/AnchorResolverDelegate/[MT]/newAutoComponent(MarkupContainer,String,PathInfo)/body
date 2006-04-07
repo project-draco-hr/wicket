@@ -20,13 +20,15 @@
     MarkupContainer parentWithContainer=container.findParentWithAssociatedMarkup();
     if ((parentWithContainer instanceof Page) && !infoPath.startsWith(".") && page.getMarkupStream().isMergedMarkup()) {
       Class clazz=container.getMarkupStream().getTag().getMarkupClass();
-      className=Packages.extractPackageName(clazz) + "." + infoPath;
-      try {
-        clazz=defaultClassResolver.resolveClass(className);
-        return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters());
-      }
- catch (      WicketRuntimeException ex) {
-        log.warn("Did not find corresponding java class: " + className);
+      if (clazz != null) {
+        className=Packages.extractPackageName(clazz) + "." + infoPath;
+        try {
+          clazz=defaultClassResolver.resolveClass(className);
+          return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters());
+        }
+ catch (        WicketRuntimeException ex) {
+          log.warn("Did not find corresponding java class: " + className);
+        }
       }
     }
   }
