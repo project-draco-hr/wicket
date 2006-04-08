@@ -4,7 +4,12 @@
     Request request=requestCycle.getRequest();
     if (request instanceof WebRequest) {
       WebRequest webRequest=(WebRequest)request;
-      return webRequest.getHttpServletRequest().getSession(createWhenNeeded);
+      HttpSession httpSession=webRequest.getHttpServletRequest().getSession(createWhenNeeded);
+      if (httpSession != null) {
+        String key=getSessionAttributePrefix() + "-SessionBindingListener";
+        httpSession.setAttribute(key,new SessionBindingListener());
+      }
+      return httpSession;
     }
   }
   return null;
