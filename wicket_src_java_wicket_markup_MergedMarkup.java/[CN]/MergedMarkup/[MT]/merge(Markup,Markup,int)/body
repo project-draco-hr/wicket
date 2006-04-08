@@ -1,7 +1,6 @@
 {
   final String onLoad=getBodyOnLoadString(markup);
   boolean wicketHeadProcessed=false;
-  boolean headProcessed=false;
   WicketTag childTag=null;
   int baseIndex=0;
   for (; baseIndex < baseMarkup.size(); baseIndex++) {
@@ -55,9 +54,10 @@
         }
       }
     }
-    if ((headProcessed == false) && (element instanceof ComponentTag)) {
+    if ((wicketHeadProcessed == false) && (element instanceof ComponentTag)) {
       final ComponentTag tag=(ComponentTag)element;
-      if (tag.isClose() && TagUtils.isHeadTag(tag)) {
+      if ((tag.isClose() && TagUtils.isHeadTag(tag)) || (tag.isOpen() && TagUtils.isBodyTag(tag))) {
+        wicketHeadProcessed=true;
         boolean copy=false;
         for (int i=0; i < extendIndex; i++) {
           MarkupElement elem=markup.get(i);
