@@ -4,9 +4,9 @@
     container.autoAdd(header);
     return true;
   }
- else   if ((tag instanceof WicketTag) && "head".equalsIgnoreCase(tag.getName()) && (tag.getNamespace() != null)) {
+ else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
     if (container instanceof WebPage) {
-      final WebMarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
+      final MarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
       final WebMarkupContainer header2=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         public boolean isTransparentResolver(){

@@ -3,7 +3,7 @@
   while (containerClass != MarkupContainer.class) {
     final IResourceStream resourceStream=locator.locate(containerClass,containerClass.getName().replace('.','/'),getStyle(),getLocale(),getMarkupType());
     if (resourceStream != null) {
-      return resourceStream;
+      return new MarkupResourceStream(resourceStream,new ContainerInfo(this),containerClass);
     }
     containerClass=containerClass.getSuperclass();
   }

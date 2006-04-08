@@ -7,19 +7,22 @@
     if (elem instanceof WicketTag) {
       WicketTag tag=(WicketTag)elem;
       if (tag.isOpen() && tag.isHeadTag()) {
+        if (this.noMoreWicketHeadTagsAllowed == true) {
+          throw new MarkupException("<wicket:head> tags are only allowed before <body>, </head>, <wicket:panel> etc. tag");
+        }
         return associatedMarkupStream.getCurrentIndex();
       }
  else       if (tag.isOpen() && (tag.isPanelTag() || tag.isBorderTag() || tag.isExtendTag())) {
-        break;
+        this.noMoreWicketHeadTagsAllowed=true;
       }
     }
  else     if (elem instanceof ComponentTag) {
       ComponentTag tag=(ComponentTag)elem;
       if (tag.isClose() && TagUtils.isHeadTag(tag)) {
-        break;
+        this.noMoreWicketHeadTagsAllowed=true;
       }
  else       if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
-        break;
+        this.noMoreWicketHeadTagsAllowed=true;
       }
     }
     elem=associatedMarkupStream.next();
