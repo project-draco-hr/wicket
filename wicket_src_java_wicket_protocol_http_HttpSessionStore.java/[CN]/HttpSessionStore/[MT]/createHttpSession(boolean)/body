@@ -5,10 +5,6 @@
     if (request instanceof WebRequest) {
       WebRequest webRequest=(WebRequest)request;
       HttpSession httpSession=webRequest.getHttpServletRequest().getSession(createWhenNeeded);
-      if (httpSession != null) {
-        String key=getSessionAttributePrefix() + "-SessionBindingListener";
-        httpSession.setAttribute(key,new SessionBindingListener());
-      }
       return httpSession;
     }
   }

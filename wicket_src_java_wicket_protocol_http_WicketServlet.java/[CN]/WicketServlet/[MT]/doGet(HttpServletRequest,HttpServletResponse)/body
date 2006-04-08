@@ -1,8 +1,13 @@
 {
   long time=System.currentTimeMillis();
   Application.set(webApplication);
-  HttpSession httpSession=servletRequest.getSession(false);
-  if (httpSession != null && webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
+  if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
+    HttpSession httpSession=servletRequest.getSession(false);
+    if (httpSession == null) {
+      httpSession=servletRequest.getSession(true);
+      SessionBindingListener sessionBindingListener=new SessionBindingListener(webApplication,httpSession.getId());
+      httpSession.setAttribute("wicket-" + sessionBindingListener.hashCode(),sessionBindingListener);
+    }
     String sessionId=httpSession.getId();
     String queryString=servletRequest.getQueryString();
     if (queryString != null) {
