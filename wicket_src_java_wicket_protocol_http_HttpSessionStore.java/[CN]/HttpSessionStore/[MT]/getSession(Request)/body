@@ -1,0 +1,9 @@
+{
+  WebRequest request=(WebRequest)req;
+  final HttpSession httpSession=request.getHttpServletRequest().getSession(false);
+  final String sessionAttribute=getSessionAttributePrefix(request) + Session.SESSION_ATTRIBUTE_NAME;
+  if (httpSession != null) {
+    return (Session)httpSession.getAttribute(sessionAttribute);
+  }
+  return null;
+}

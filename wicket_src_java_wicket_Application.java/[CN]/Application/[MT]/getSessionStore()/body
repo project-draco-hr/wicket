@@ -1,0 +1,10 @@
+{
+  if (sessionStore == null) {
+    ISessionStoreFactory sessionStoreFactory=getSessionSettings().getSessionStoreFactory();
+    sessionStore=sessionStoreFactory.newSessionStore();
+    if (sessionStore == null) {
+      throw new IllegalStateException(sessionStoreFactory.getClass().getName() + " did not produce a session store");
+    }
+  }
+  return sessionStore;
+}

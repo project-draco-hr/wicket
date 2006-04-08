@@ -3,18 +3,15 @@
   Application.set(webApplication);
   if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
     HttpSession httpSession=servletRequest.getSession(false);
-    if (httpSession == null) {
-      httpSession=servletRequest.getSession(true);
-      SessionBindingListener sessionBindingListener=new SessionBindingListener(webApplication,httpSession.getId());
-      httpSession.setAttribute("wicket-" + sessionBindingListener.hashCode(),sessionBindingListener);
-    }
-    String sessionId=httpSession.getId();
-    String queryString=servletRequest.getQueryString();
-    if (queryString != null) {
-      BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
-      if (bufferedResponse != null) {
-        bufferedResponse.writeTo(servletResponse);
-        return;
+    if (httpSession != null) {
+      String sessionId=httpSession.getId();
+      String queryString=servletRequest.getQueryString();
+      if (queryString != null) {
+        BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
+        if (bufferedResponse != null) {
+          bufferedResponse.writeTo(servletResponse);
+          return;
+        }
       }
     }
   }

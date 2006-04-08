@@ -1,9 +1,17 @@
 {
-  if (httpSession == null) {
-    httpSession=createHttpSession(createWhenNeeded);
-    if (httpSession != null) {
-      id=httpSession.getId();
+  RequestCycle requestCycle=RequestCycle.get();
+  if (requestCycle != null) {
+    Request request=requestCycle.getRequest();
+    if (request instanceof WebRequest) {
+      WebRequest webRequest=(WebRequest)request;
+      HttpSession httpSession=webRequest.getHttpServletRequest().getSession(createWhenNeeded);
+      String bindingListenerKey=getSessionAttributePrefix() + "SessionBindingListener";
+      if (httpSession != null && httpSession.getAttribute(bindingListenerKey) == null) {
+        SessionBindingListener sessionBindingListener=new SessionBindingListener(Application.get().getApplicationSettings().getServletContextKey(),httpSession.getId());
+        httpSession.setAttribute(bindingListenerKey,sessionBindingListener);
+      }
+      return httpSession;
     }
   }
-  return httpSession;
+  return null;
 }

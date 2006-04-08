@@ -1,10 +1,5 @@
 {
-  final HttpSession httpSession=request.getHttpServletRequest().getSession(false);
-  final String sessionAttribute=getSessionAttributePrefix(request) + Session.SESSION_ATTRIBUTE_NAME;
-  WebSession webSession=null;
-  if (httpSession != null) {
-    webSession=(WebSession)httpSession.getAttribute(sessionAttribute);
-  }
+  WebSession webSession=(WebSession)getSessionStore().getSession(request);
   if (webSession == null) {
     final Session session=getSessionFactory().newSession();
     if (session instanceof WebSession) {
@@ -14,9 +9,7 @@
       throw new WicketRuntimeException("Session created by a WebApplication session factory must be a subclass of WebSession");
     }
     webSession.setLocale(request.getLocale());
-    if (httpSession != null) {
-      httpSession.setAttribute(sessionAttribute,webSession);
-    }
+    getSessionStore().storeInitialSession(request,webSession);
   }
   webSession.setApplication(this);
   webSession.initForRequest();
