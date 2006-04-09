@@ -1,5 +1,8 @@
 {
-  SessionFacade sessionFacade=getApplication().getSessionFacade();
-  RequestCycle requestCycle=RequestCycle.get();
-  return sessionFacade.getSessionStore(requestCycle != null ? requestCycle.getRequest() : null);
+  if (sessionStore == null) {
+    SessionFacade sessionFacade=getApplication().getSessionFacade();
+    RequestCycle requestCycle=RequestCycle.get();
+    sessionStore=sessionFacade.getSessionStore(requestCycle != null ? requestCycle.getRequest() : null);
+  }
+  return sessionStore;
 }
