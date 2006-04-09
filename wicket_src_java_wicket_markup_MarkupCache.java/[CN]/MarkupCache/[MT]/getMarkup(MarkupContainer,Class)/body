@@ -14,8 +14,15 @@
 synchronized (markupCache) {
       markup=(Markup)markupCache.get(key);
       if (markup == null) {
-        final MarkupResourceStream markupResource=container.newMarkupResourceStream(containerClass);
-        if (markupResource != null) {
+        final IResourceStream resourceStream=container.newMarkupResourceStream(containerClass);
+        if (resourceStream != null) {
+          final MarkupResourceStream markupResource;
+          if (resourceStream instanceof MarkupResourceStream) {
+            markupResource=(MarkupResourceStream)resourceStream;
+          }
+ else {
+            markupResource=new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
+          }
           markup=loadMarkupAndWatchForChanges(container,key,markupResource);
         }
  else {
