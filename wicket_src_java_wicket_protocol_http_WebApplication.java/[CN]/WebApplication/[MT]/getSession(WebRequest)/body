@@ -1,17 +1,19 @@
 {
-  WebSession webSession=(WebSession)getSessionStore().getSession(request);
-  if (webSession == null) {
-    final Session session=getSessionFactory().newSession();
-    if (session instanceof WebSession) {
-      webSession=(WebSession)session;
-    }
- else {
-      throw new WicketRuntimeException("Session created by a WebApplication session factory must be a subclass of WebSession");
-    }
-    webSession.setLocale(request.getLocale());
-    getSessionStore().storeInitialSession(request,webSession);
+  SessionFacade sessionFacade=getSessionFacade();
+  Session session=sessionFacade.getSession(request);
+  if (session == null) {
+    session=getSessionFactory().newSession();
+    session.setLocale(request.getLocale());
+    sessionFacade.bind(request,session);
   }
-  webSession.setApplication(this);
+  WebSession webSession;
+  if (session instanceof WebSession) {
+    webSession=(WebSession)session;
+  }
+ else {
+    throw new WicketRuntimeException("Session created by a WebApplication session factory " + "must be a subclass of WebSession");
+  }
+  session.setApplication(this);
   webSession.initForRequest();
   return webSession;
 }

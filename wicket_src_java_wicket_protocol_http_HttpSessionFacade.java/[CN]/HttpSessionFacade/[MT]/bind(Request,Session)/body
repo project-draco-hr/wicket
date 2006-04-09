@@ -1,0 +1,8 @@
+{
+  WebRequest webRequest=toWebRequest(request);
+  HttpSession httpSession=getHttpSession(webRequest);
+  String sessionObjectAttribute=getSessionObjectAttribute(webRequest);
+  httpSession.setAttribute(sessionObjectAttribute,newSession);
+  String applicationKey=Application.get().getApplicationKey();
+  httpSession.setAttribute("Wicket:SessionUnbindingListener-" + applicationKey,new SessionBindingListener(applicationKey,httpSession.getId()));
+}
