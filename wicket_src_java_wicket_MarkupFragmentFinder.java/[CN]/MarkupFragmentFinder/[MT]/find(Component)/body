@@ -4,13 +4,17 @@
   while (markupStream == null) {
     markupStream=parentWithAssociatedMarkup.getAssociatedMarkupStream(true);
     if (component.markupIndex != -1) {
-      markupStream.setCurrentIndex(component.markupIndex);
-      MarkupElement elem=markupStream.get();
-      if (elem instanceof ComponentTag) {
-        ComponentTag tag=(ComponentTag)elem;
-        if (tag.getId().equals(component.getId())) {
-          return markupStream;
+      try {
+        markupStream.setCurrentIndex(component.markupIndex);
+        MarkupElement elem=markupStream.get();
+        if (elem instanceof ComponentTag) {
+          ComponentTag tag=(ComponentTag)elem;
+          if (tag.getId().equals(component.getId())) {
+            return markupStream;
+          }
         }
+      }
+ catch (      IndexOutOfBoundsException ex) {
       }
     }
     String relativePath=getComponentRelativePath(component,parentWithAssociatedMarkup);
