@@ -1,15 +1,16 @@
 {
-  final String onLoad=getBodyOnLoadString(markup);
   boolean wicketHeadProcessed=false;
   WicketTag childTag=null;
   int baseIndex=0;
   for (; baseIndex < baseMarkup.size(); baseIndex++) {
     MarkupElement element=baseMarkup.get(baseIndex);
-    if ((element instanceof ComponentTag) && (baseMarkup.getResource() != null)) {
-      ComponentTag tag=(ComponentTag)element;
-      if (tag.getMarkupClass() == null) {
-        tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
-      }
+    if (element instanceof RawMarkup) {
+      addMarkupElement(element);
+      continue;
+    }
+    final ComponentTag tag=(ComponentTag)element;
+    if ((baseMarkup.getResource() != null) && (tag.getMarkupClass() == null)) {
+      tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
     }
     if (element instanceof WicketTag) {
       WicketTag wtag=(WicketTag)element;
@@ -20,82 +21,40 @@
         addMarkupElement(childOpenTag);
         break;
       }
-    }
-    if ((wicketHeadProcessed == false) && (element instanceof WicketTag)) {
-      final WicketTag tag=(WicketTag)element;
-      boolean hitHead=tag.isClose() && tag.isHeadTag();
-      if (hitHead) {
-        addMarkupElement(tag);
-      }
-      boolean hitPanel=tag.isOpen() && (tag.isPanelTag() || tag.isBorderTag() || tag.isExtendTag());
-      if (hitHead || hitPanel) {
-        boolean copy=false;
-        for (int i=0; i < extendIndex; i++) {
-          MarkupElement elem=markup.get(i);
-          if (elem instanceof WicketTag) {
-            WicketTag etag=(WicketTag)elem;
-            if (etag.isHeadTag()) {
-              if (etag.isOpen()) {
-                copy=true;
-              }
- else {
-                addMarkupElement(elem);
-                copy=false;
-              }
-            }
-          }
-          if (copy == true) {
-            addMarkupElement(elem);
-          }
-        }
-        wicketHeadProcessed=true;
-        if (hitHead) {
+      if (wicketHeadProcessed == false) {
+        if (wtag.isClose() && wtag.isHeadTag()) {
+          wicketHeadProcessed=true;
+          addMarkupElement(wtag);
+          copyWicketHead(markup,extendIndex);
           continue;
         }
+        if (wtag.isOpen() && (wtag.isPanelTag() || wtag.isBorderTag() || wtag.isExtendTag())) {
+          wicketHeadProcessed=true;
+          copyWicketHead(markup,extendIndex);
+        }
       }
     }
-    if ((wicketHeadProcessed == false) && (element instanceof ComponentTag)) {
-      final ComponentTag tag=(ComponentTag)element;
+    if (wicketHeadProcessed == false) {
       if ((tag.isClose() && TagUtils.isHeadTag(tag)) || (tag.isOpen() && TagUtils.isBodyTag(tag))) {
         wicketHeadProcessed=true;
-        boolean copy=false;
-        for (int i=0; i < extendIndex; i++) {
-          MarkupElement elem=markup.get(i);
-          if (elem instanceof WicketTag) {
-            WicketTag etag=(WicketTag)elem;
-            if (etag.isHeadTag()) {
-              if (etag.isOpen()) {
-                copy=true;
-              }
- else {
-                addMarkupElement(elem);
-                copy=false;
-              }
-            }
-          }
-          if (copy == true) {
-            addMarkupElement(elem);
-          }
-        }
+        copyWicketHead(markup,extendIndex);
       }
     }
-    if (element instanceof ComponentTag) {
-      ComponentTag tag=(ComponentTag)element;
-      if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
-        String onLoadBase=tag.getAttributes().getString("onLoad");
-        if (onLoadBase == null) {
-          if (onLoad != null) {
-            tag=tag.mutable();
-            tag.getAttributes().put("onLoad",onLoad);
-            element=tag;
-          }
+    if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
+      final String onLoad=getBodyOnLoadString(markup);
+      String onLoadBase=tag.getAttributes().getString("onLoad");
+      if (onLoadBase == null) {
+        if (onLoad != null) {
+          ComponentTag mutableTag=tag.mutable();
+          mutableTag.getAttributes().put("onLoad",onLoad);
+          element=mutableTag;
         }
- else         if (onLoad != null) {
-          onLoadBase+=onLoad;
-          tag=tag.mutable();
-          tag.getAttributes().put("onLoad",onLoadBase);
-          element=tag;
-        }
+      }
+ else       if (onLoad != null) {
+        onLoadBase+=onLoad;
+        ComponentTag mutableTag=tag.mutable();
+        mutableTag.getAttributes().put("onLoad",onLoadBase);
+        element=mutableTag;
       }
     }
     addMarkupElement(element);
