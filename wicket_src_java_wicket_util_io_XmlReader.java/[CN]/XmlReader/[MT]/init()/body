@@ -7,12 +7,14 @@
   final String encoding=determineEncoding(this.inputStream,readAheadSize);
   if (encoding != null) {
     this.encoding=encoding;
+    this.reader=new BufferedReader(new InputStreamReader(this.inputStream,this.encoding));
   }
-  if (this.encoding == null) {
+ else   if (this.encoding == null) {
     this.inputStream.reset();
     this.reader=new BufferedReader(new InputStreamReader(this.inputStream));
   }
  else {
+    this.inputStream.reset();
     this.reader=new BufferedReader(new InputStreamReader(this.inputStream,this.encoding));
   }
 }
