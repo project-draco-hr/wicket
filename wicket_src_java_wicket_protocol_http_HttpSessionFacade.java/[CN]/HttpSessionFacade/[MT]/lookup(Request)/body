@@ -1,6 +1,6 @@
 {
   WebRequest webRequest=toWebRequest(request);
   String sessionObjectAttribute=getSessionObjectAttribute(webRequest);
-  ISessionStore store=getSessionStore(request);
-  return (Session)store.getAttribute(sessionObjectAttribute);
+  HttpSession httpSession=getHttpSession(webRequest);
+  return (Session)httpSession.getAttribute(sessionObjectAttribute);
 }

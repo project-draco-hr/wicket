@@ -1,5 +1,7 @@
 {
   onUnbind(applicationKey,sessionId);
   ISessionStore sessionStore=(ISessionStore)sessionIdToSessionStore.remove(sessionId);
-  sessionStore.destroy();
+  if (sessionStore != null) {
+    sessionStore.destroy();
+  }
 }
