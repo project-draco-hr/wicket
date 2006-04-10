@@ -2,16 +2,17 @@
   long time=System.currentTimeMillis();
   Application.set(webApplication);
   if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
-    HttpSession httpSession=servletRequest.getSession(false);
-    if (httpSession != null) {
-      String sessionId=httpSession.getId();
-      String queryString=servletRequest.getQueryString();
-      if (queryString != null) {
-        BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
-        if (bufferedResponse != null) {
-          bufferedResponse.writeTo(servletResponse);
-          return;
-        }
+    SessionFacade sessionFacade=webApplication.getSessionFacade();
+    if (!(sessionFacade instanceof AbstractHttpSessionFacade)) {
+      throw new IllegalStateException("in a servlet environment with the redirect to buffer strategy" + ", the session facade has to be of type (extend from) " + AbstractHttpSessionFacade.class);
+    }
+    String sessionId=((AbstractHttpSessionFacade)sessionFacade).getSessionId(servletRequest);
+    String queryString=servletRequest.getQueryString();
+    if (queryString != null) {
+      BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
+      if (bufferedResponse != null) {
+        bufferedResponse.writeTo(servletResponse);
+        return;
       }
     }
   }

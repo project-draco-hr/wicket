@@ -1,10 +1,9 @@
 {
   ISessionStore sessionStore=(ISessionStore)sessionIdToSessionStore.get(sessionId);
   if (sessionStore == null) {
-    ISessionStoreFactory sessionStoreFactory=Application.get().getSessionSettings().getSessionStoreFactory();
-    sessionStore=sessionStoreFactory.newSessionStore();
+    sessionStore=newSessionStore(sessionId);
     if (sessionStore == null) {
-      throw new IllegalStateException("factory " + sessionStoreFactory + " did not produce a session store instance");
+      throw new IllegalStateException("session facade " + getClass().getName() + " did not produce a session store instance");
     }
     sessionIdToSessionStore.put(sessionId,sessionStore);
   }
