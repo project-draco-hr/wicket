@@ -1,13 +1,7 @@
 {
   super.setUp();
   this.application=new DummyApplication();
-  Session.set(new Session(this.application){
-    private static final long serialVersionUID=1L;
-    protected IRequestCycleFactory getRequestCycleFactory(){
-      return null;
-    }
-  }
-);
+  this.application.createRequestCycle();
   this.component=new DummyComponent("test",this.application);
   DummyPage page=new DummyPage();
   page.add(this.component);
