@@ -1,10 +1,10 @@
 {
-  SessionFacade sessionFacade=getSessionFacade();
-  Session session=sessionFacade.getSession(request);
+  ISessionStore sessionStore=getSessionStore();
+  Session session=sessionStore.lookup(request);
   if (session == null) {
     session=getSessionFactory().newSession();
     session.setLocale(request.getLocale());
-    sessionFacade.bind(request,session);
+    sessionStore.bind(request,session);
   }
   WebSession webSession;
   if (session instanceof WebSession) {

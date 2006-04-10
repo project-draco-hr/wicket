@@ -1,0 +1,28 @@
+{
+  if (log.isDebugEnabled()) {
+    String valueTypeName=(value != null ? value.getClass().getName() : "null");
+    try {
+      final ByteArrayOutputStream out=new ByteArrayOutputStream();
+      new ObjectOutputStream(out).writeObject(value);
+      log.debug("Stored attribute " + name + "{ "+ valueTypeName+ "} with size: "+ Bytes.bytes(out.size()));
+    }
+ catch (    Exception e) {
+      throw new WicketRuntimeException("Internal error cloning object. Make sure all dependent objects implement Serializable. Class: " + valueTypeName,e);
+    }
+  }
+  WebRequest webRequest=toWebRequest(request);
+  HttpSession httpSession=getHttpSession(webRequest);
+  if (httpSession != null) {
+    RequestLogger logger=application.getRequestLogger();
+    String attributeName=getSessionAttributePrefix(webRequest) + name;
+    if (logger != null) {
+      if (httpSession.getAttribute(attributeName) == null) {
+        logger.objectCreated(value);
+      }
+ else {
+        logger.objectUpdated(value);
+      }
+    }
+    httpSession.setAttribute(attributeName,value);
+  }
+}

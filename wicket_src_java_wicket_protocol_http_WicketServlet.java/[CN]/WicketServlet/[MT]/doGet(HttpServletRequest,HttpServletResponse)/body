@@ -1,12 +1,10 @@
 {
   long time=System.currentTimeMillis();
   Application.set(webApplication);
+  final WebRequest request=webApplication.newWebRequest(servletRequest);
   if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
-    SessionFacade sessionFacade=webApplication.getSessionFacade();
-    if (!(sessionFacade instanceof AbstractHttpSessionFacade)) {
-      throw new IllegalStateException("in a servlet environment with the redirect to buffer strategy" + ", the session facade has to be of type (extend from) " + AbstractHttpSessionFacade.class);
-    }
-    String sessionId=((AbstractHttpSessionFacade)sessionFacade).getSessionId(servletRequest);
+    ISessionStore sessionStore=webApplication.getSessionStore();
+    String sessionId=sessionStore.getSessionId(request);
     String queryString=servletRequest.getQueryString();
     if (queryString != null) {
       BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
@@ -24,7 +22,6 @@
       throw new WicketRuntimeException(ex.getMessage());
     }
   }
-  final WebRequest request=webApplication.newWebRequest(servletRequest);
   final WebSession session=webApplication.getSession(request);
   final WebResponse response=webApplication.newWebResponse(servletResponse);
   response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
