@@ -1,12 +1,9 @@
 {
   try {
-    final Class clazz=getClass().getClassLoader().loadClass("com.sun.crypto.provider.SunJCE");
+    final Class clazz=Application.get().getApplicationSettings().getClassResolver().resolveClass("com.sun.crypto.provider.SunJCE");
     Security.addProvider((Provider)clazz.newInstance());
   }
- catch (  ClassNotFoundException ex) {
-    throw new WicketRuntimeException("Unable to load SunJCE service provider",ex);
-  }
-catch (  IllegalAccessException ex) {
+ catch (  IllegalAccessException ex) {
     throw new WicketRuntimeException("Unable to load SunJCE service provider",ex);
   }
 catch (  InstantiationException ex) {

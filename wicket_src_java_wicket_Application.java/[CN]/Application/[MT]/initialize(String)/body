@@ -1,13 +1,10 @@
 {
   if (!Strings.isEmpty(className)) {
     try {
-      Class c=getClass().getClassLoader().loadClass(className);
+      Class c=getApplicationSettings().getClassResolver().resolveClass(className);
       ((IInitializer)c.newInstance()).init(this);
     }
  catch (    ClassCastException e) {
-      throw new WicketRuntimeException("Unable to initialize " + className,e);
-    }
-catch (    ClassNotFoundException e) {
       throw new WicketRuntimeException("Unable to initialize " + className,e);
     }
 catch (    InstantiationException e) {
