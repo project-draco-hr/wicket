@@ -1,4 +1,5 @@
 {
+  super.onComponentTag(tag);
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","checkbox");
   CheckGroup group=(CheckGroup)findParent(CheckGroup.class);
@@ -21,7 +22,6 @@
  else   if (collection.contains(getModelObject())) {
     tag.put("checked","checked");
   }
-  super.onComponentTag(tag);
   if (group.wantOnSelectionChangedNotifications()) {
     final CharSequence url=group.urlFor(IOnChangeListener.INTERFACE);
     try {
@@ -31,5 +31,8 @@
  catch (    WicketRuntimeException ex) {
       tag.put("onClick","location.href='" + url + "&"+ group.getInputName()+ "=' + this.value;");
     }
+  }
+  if (!isActionAuthorized(ENABLE) || !isEnabled()) {
+    tag.put(ATTR_DISABLED,ATTR_DISABLED);
   }
 }
