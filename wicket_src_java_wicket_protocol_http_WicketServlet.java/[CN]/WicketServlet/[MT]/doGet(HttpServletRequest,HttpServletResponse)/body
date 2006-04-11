@@ -3,10 +3,10 @@
   Application.set(webApplication);
   final WebRequest request=webApplication.newWebRequest(servletRequest);
   if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
-    ISessionStore sessionStore=webApplication.getSessionStore();
-    String sessionId=sessionStore.getSessionId(request);
     String queryString=servletRequest.getQueryString();
     if (queryString != null) {
+      ISessionStore sessionStore=webApplication.getSessionStore();
+      String sessionId=sessionStore.getSessionId(request);
       BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
       if (bufferedResponse != null) {
         bufferedResponse.writeTo(servletResponse);
