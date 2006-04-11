@@ -1,3 +1,6 @@
 {
-  getSessionStore().removeAttribute(RequestCycle.get().getRequest(),name);
+  RequestCycle cycle=RequestCycle.get();
+  if (cycle != null) {
+    getSessionStore().removeAttribute(cycle.getRequest(),name);
+  }
 }
