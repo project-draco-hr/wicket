@@ -11,6 +11,7 @@
       groups.put(previousValue.getCity(),new Integer(i - startIdx));
       groups.put(value.getCity(),new Integer(0));
       previousValue=value;
+      startIdx=i;
     }
   }
   groups.put(previousValue.getCity(),new Integer(data.size() - startIdx));
@@ -24,7 +25,7 @@
       String group=listItem.getModelObjectAsString();
       int size=((Integer)groups.get(group)).intValue();
       subtable.setViewSize(size);
-      startIndex=size;
+      startIndex+=size;
       listItem.add(subtable);
       listItem.add(new Label("name",new PropertyModel(subtable,"group1")));
       listItem.add(new Label("value",new PropertyModel(subtable,"subtotal")));
