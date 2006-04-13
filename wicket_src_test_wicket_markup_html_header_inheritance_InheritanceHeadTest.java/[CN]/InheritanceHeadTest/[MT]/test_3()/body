@@ -1,4 +1,12 @@
 {
-  application=new MyApp();
+  application=new WicketTester(){
+    /** 
+ * @see wicket.protocol.http.WebApplication#newSession()
+ */
+    public Session newSession(){
+      return new WebSession(this).setStyle("myStyle");
+    }
+  }
+;
   executeTest(ConcretePage2.class,"ExpectedResult3.html");
 }
