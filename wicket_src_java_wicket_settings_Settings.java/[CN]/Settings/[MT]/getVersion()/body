@@ -1,14 +1,13 @@
 {
-  Properties properties=new Properties();
-  InputStream is=null;
+  String implVersion=null;
   try {
-    is=Settings.class.getResourceAsStream("/wicket.properties");
-    properties.load(is);
+    Class cls=Class.forName("wicket.Application");
+    Package pkg=cls.getPackage();
+    if (pkg != null) {
+      implVersion=pkg.getImplementationVersion();
+    }
   }
- catch (  IOException e) {
+ catch (  ClassNotFoundException e) {
   }
- finally {
-    IOUtils.closeQuietly(is);
-  }
-  return properties.getProperty("wicket.version","n/a");
+  return Strings.isEmpty(implVersion) ? "n/a" : implVersion;
 }
