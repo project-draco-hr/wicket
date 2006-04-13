@@ -19,4 +19,14 @@
 catch (  ResourceStreamNotFoundException e) {
     throw new RuntimeException(e);
   }
+ finally {
+    if (stream != null) {
+      try {
+        stream.close();
+      }
+ catch (      IOException e) {
+        log.error(e.getMessage(),e);
+      }
+    }
+  }
 }
