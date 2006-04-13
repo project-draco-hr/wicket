@@ -5,14 +5,6 @@
     }
     throw new UnauthorizedActionException(this,Component.RENDER);
   }
-  visitChildren(new IVisitor(){
-    public Object component(    final Component component){
-      final boolean renderAllowed=component.isActionAuthorized(RENDER);
-      component.setRenderAllowed(renderAllowed);
-      return IVisitor.CONTINUE_TRAVERSAL;
-    }
-  }
-);
   renderedComponents=null;
   this.stateless=true;
   setFormComponentValuesFromCookies();
@@ -25,6 +17,14 @@
   }
 );
   internalAttach();
+  visitChildren(new IVisitor(){
+    public Object component(    final Component component){
+      final boolean renderAllowed=component.isActionAuthorized(RENDER);
+      component.setRenderAllowed(renderAllowed);
+      return IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
   onBeforeRender();
   try {
     render(null);
