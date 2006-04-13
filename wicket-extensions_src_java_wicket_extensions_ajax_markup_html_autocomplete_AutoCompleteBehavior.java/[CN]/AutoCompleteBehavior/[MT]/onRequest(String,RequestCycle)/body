@@ -1,0 +1,21 @@
+{
+  IRequestTarget target=new IRequestTarget(){
+    public void respond(    RequestCycle requestCycle){
+      Response r=requestCycle.getResponse();
+      Iterator comps=getChoices(val);
+      renderer.renderHeader(r);
+      while (comps.hasNext()) {
+        final Object comp=comps.next();
+        renderer.render(comp,r);
+      }
+      renderer.renderFooter(r);
+    }
+    public void detach(    RequestCycle requestCycle){
+    }
+    public Object getLock(    RequestCycle requestCycle){
+      return requestCycle.getSession();
+    }
+  }
+;
+  requestCycle.setRequestTarget(target);
+}
