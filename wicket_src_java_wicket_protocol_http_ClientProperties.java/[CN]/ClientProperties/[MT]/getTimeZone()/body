@@ -1,0 +1,9 @@
+{
+  String utcOffset=(String)data.get(ClientProperties.UTC_OFFSET);
+  if (utcOffset != null) {
+    int offset=Integer.parseInt(utcOffset);
+    TimeZone timeZone=TimeZone.getTimeZone("GMT" + ((offset > 0) ? "+" : "-") + utcOffset);
+    return timeZone;
+  }
+  return null;
+}
