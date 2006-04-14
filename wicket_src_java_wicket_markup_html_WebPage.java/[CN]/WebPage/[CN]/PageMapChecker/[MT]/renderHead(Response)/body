@@ -17,7 +17,21 @@
       url=urlFor(INewBrowserWindowListener.INTERFACE);
     }
     final BodyContainer body=getBodyContainer();
-    if (cycle.getWebRequest().getCookies() == null || body == null) {
+    final Cookie[] cookies=cycle.getWebRequest().getCookies();
+    if (cookies == null || body == null) {
+      if (cookies != null && body == null) {
+        Application app=getApplication();
+        MissingBodyTagLoggedMetaData meta=(MissingBodyTagLoggedMetaData)app.getMetaData(MISSING_BODY_TAG_LOGGED_MDK);
+        if (meta == null) {
+          meta=new MissingBodyTagLoggedMetaData();
+          app.setMetaData(MISSING_BODY_TAG_LOGGED_MDK,meta);
+        }
+        Class pageClass=WebPage.this.getClass();
+        if (!meta.missingBodyTagsLogged.contains(pageClass)) {
+          log.warn("Page with class " + pageClass.getName() + " does not have a body tag. It is advisable to have"+ " a body tag pair, as multi window support might be problematic without.");
+          meta.missingBodyTagsLogged.add(pageClass);
+        }
+      }
       response.write("<script language=\"javascript\">if((history.length == 0 && document.all) || (history.length == 1 && !document.all)){ if (!document.all) window.location.hash='some-random-hash!'; document.location.href = '");
       response.write(url);
       response.write("'}</script>");
