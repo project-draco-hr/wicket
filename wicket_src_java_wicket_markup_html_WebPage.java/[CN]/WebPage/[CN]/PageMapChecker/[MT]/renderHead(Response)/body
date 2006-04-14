@@ -19,7 +19,7 @@
     final BodyContainer body=getBodyContainer();
     final Cookie[] cookies=cycle.getWebRequest().getCookies();
     if (cookies == null || body == null) {
-      if (cookies != null && body == null) {
+      if (cookies != null && body == null && log.isWarnEnabled()) {
         Application app=getApplication();
         MissingBodyTagLoggedMetaData meta=(MissingBodyTagLoggedMetaData)app.getMetaData(MISSING_BODY_TAG_LOGGED_MDK);
         if (meta == null) {
