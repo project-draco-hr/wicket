@@ -16,12 +16,13 @@
  else {
       url=urlFor(INewBrowserWindowListener.INTERFACE);
     }
+    final BodyContainer body=getBodyContainer();
     if (cycle.getWebRequest().getCookies() == null) {
       response.write("<script language=\"javascript\">if((history.length == 0 && document.all) || (history.length == 1 && !document.all)){ if (!document.all) window.location.hash='some-random-hash!'; document.location.href = '");
       response.write(url);
       response.write("'}</script>");
     }
- else {
+ else     if (body != null) {
       if (onUnLoadModel == null) {
         onUnLoadModel=new Model(){
           private static final long serialVersionUID=1L;
@@ -33,17 +34,18 @@
           }
         }
 ;
-        getBodyContainer().addOnUnLoadModifier(onUnLoadModel);
+        body.addOnUnLoadModifier(onUnLoadModel);
       }
+      final String pageMapName=getPageMap().getName();
       response.write("<script type=\"text/javascript\" src=\"");
       response.write(urlFor(cookiesResource));
       response.write("\"></script>\n");
       response.write("<script language=\"javascript\">\n");
       response.write("var pagemapcookie = getCookie('pagemap-");
-      response.write(getPageMap().getName());
+      response.write(pageMapName);
       response.write("');\n");
       response.write("if(!pagemapcookie && pagemapcookie != '1'){setCookie('pagemap-");
-      response.write(getPageMap().getName());
+      response.write(pageMapName);
       response.write("',1);}\n");
       response.write("else {document.location.href = '");
       response.write(url);
