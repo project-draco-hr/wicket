@@ -17,12 +17,12 @@
       url=urlFor(INewBrowserWindowListener.INTERFACE);
     }
     final BodyContainer body=getBodyContainer();
-    if (cycle.getWebRequest().getCookies() == null) {
+    if (cycle.getWebRequest().getCookies() == null || body == null) {
       response.write("<script language=\"javascript\">if((history.length == 0 && document.all) || (history.length == 1 && !document.all)){ if (!document.all) window.location.hash='some-random-hash!'; document.location.href = '");
       response.write(url);
       response.write("'}</script>");
     }
- else     if (body != null) {
+ else {
       if (onUnLoadModel == null) {
         onUnLoadModel=new Model(){
           private static final long serialVersionUID=1L;
