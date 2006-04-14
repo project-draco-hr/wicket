@@ -1,10 +1,5 @@
 {
   super(id,pageableListView);
-  add(new Label("headline",(String)null){
-    protected void onComponentTagBody(    final MarkupStream markupStream,    final ComponentTag openTag){
-      CharSequence text=getHeadlineText(pageableListView);
-      replaceComponentTagBody(markupStream,openTag,text);
-    }
-  }
-);
+  this.pageableListView=pageableListView;
+  add(new Label("headline",new PropertyModel(this,"headlineText")));
 }
