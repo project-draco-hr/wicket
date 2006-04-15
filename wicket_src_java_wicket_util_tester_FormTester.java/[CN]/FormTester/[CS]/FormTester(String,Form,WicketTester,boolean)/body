@@ -3,14 +3,18 @@
   this.workingForm=workingForm;
   this.wicketTester=wicketTester;
   this.wicketTester.setupRequestAndResponse();
-  if (fillBlankString) {
-    workingForm.visitFormComponents(new FormComponent.IVisitor(){
-      public void formComponent(      FormComponent formComponent){
-        if (formComponent.isEnabled()) {
-          setValue(formComponent.getInputName(),"");
+  workingForm.visitFormComponents(new FormComponent.IVisitor(){
+    public void formComponent(    FormComponent formComponent){
+      if (!formComponent.isVisibleInHierarchy()) {
+        return;
+      }
+      if (formComponent instanceof AbstractTextComponent) {
+        if (fillBlankString && Strings.isEmpty(formComponent.getValue())) {
+          setFormComponentValue(formComponent,"");
+          return;
         }
       }
     }
-);
   }
+);
 }

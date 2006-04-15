@@ -1,0 +1,11 @@
+{
+  formTester.select("listMultipleChoice",0);
+  formTester.selectMultiple("listMultipleChoice",new int[]{0,3});
+  formTester.selectMultiple("listMultipleChoice",new int[]{1});
+  formTester.selectMultiple("checkGroup",new int[]{2});
+  formTester.selectMultiple("checkGroup",new int[]{2,3});
+  formTester.select("checkGroup",0);
+  formTester.submit();
+  assertBooksEquals(new Book[]{books[0],books[1],books[3]},choicePage.listMultipleChoice);
+  assertBooksEquals(new Book[]{books[0],books[2],books[3]},choicePage.checkGroup);
+}

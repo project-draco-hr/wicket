@@ -1,0 +1,25 @@
+{
+  if (formComponent instanceof RadioGroup) {
+    Radio foundRadio=(Radio)formComponent.visitChildren(Radio.class,new SearchOptionByIndexVisitor(index));
+    if (foundRadio == null) {
+      Assert.fail("RadioGroup " + formComponent.getPath() + " does not has index:"+ index);
+    }
+    assignValueToFormComponent(formComponent,foundRadio.getPath());
+  }
+ else   if (formComponent instanceof CheckGroup) {
+    Check foundCheck=(Check)formComponent.visitChildren(Check.class,new SearchOptionByIndexVisitor(index));
+    if (foundCheck == null) {
+      Assert.fail("CheckGroup " + formComponent.getPath() + " does not has index:"+ index);
+    }
+    assignValueToFormComponent(formComponent,foundCheck.getPath());
+  }
+ else {
+    String idValue=selectAbstractChoice(formComponent,index);
+    if (idValue == null) {
+      Assert.fail(formComponent.getPath() + " is not selectable component.");
+    }
+ else {
+      assignValueToFormComponent(formComponent,idValue);
+    }
+  }
+}
