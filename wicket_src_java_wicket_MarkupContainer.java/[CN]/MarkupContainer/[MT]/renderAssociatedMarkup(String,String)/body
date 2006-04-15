@@ -4,7 +4,7 @@
   associatedMarkupStream.skipUntil(openTagName);
   setMarkupStream(associatedMarkupStream);
   final ComponentTag associatedMarkupOpenTag=associatedMarkupStream.getTag();
-  if (!(associatedMarkupStream.atOpenTag(openTagName) && (associatedMarkupOpenTag instanceof WicketTag))) {
+  if (!((associatedMarkupOpenTag != null) && associatedMarkupOpenTag.isOpen() && (associatedMarkupOpenTag instanceof WicketTag))) {
     associatedMarkupStream.throwMarkupException(exceptionMessage);
   }
   try {

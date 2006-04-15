@@ -1,7 +1,7 @@
 {
   if (tag instanceof WicketTag) {
     WicketTag wtag=(WicketTag)tag;
-    if (wtag.isMessageTag() && (wtag.getNamespace() != null)) {
+    if (wtag.isMessageTag()) {
       String messageKey=wtag.getAttributes().getString("key");
       if ((messageKey == null) || (messageKey.trim().length() == 0)) {
         throw new MarkupException("Wrong format of <wicket:message key='xxx'>: attribute 'key' is missing");
@@ -13,6 +13,7 @@
         component=new MyLabel(id,value);
       }
  else {
+        log.info("No value found for message key: " + messageKey);
         component=new WebMarkupContainer(id);
       }
       component.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
