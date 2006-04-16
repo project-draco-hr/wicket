@@ -1,6 +1,6 @@
 {
   IDataProvider dataProvider=new ContactDataProvider();
-  GridView dv=new GridView("rows",dataProvider){
+  GridView gridView=new GridView("rows",dataProvider){
     protected void populateItem(    Item item){
       final Contact contact=(Contact)item.getModelObject();
       item.add(new Label("firstName",contact.getFirstName() + " " + contact.getLastName()));
@@ -10,8 +10,8 @@
     }
   }
 ;
-  dv.setRows(4);
-  dv.setColumns(3);
-  add(dv);
-  add(new PagingNavigator("navigator",dv));
+  gridView.setRows(4);
+  gridView.setColumns(3);
+  add(gridView);
+  add(new PagingNavigator("navigator",gridView));
 }
