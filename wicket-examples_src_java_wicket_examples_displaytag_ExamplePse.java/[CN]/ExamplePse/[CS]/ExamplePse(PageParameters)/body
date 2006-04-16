@@ -1,25 +1,19 @@
 {
   final ReportList data=new ReportList();
-  final PagedTableWithAlternatingRowStyle table=new PagedTableWithAlternatingRowStyle("rows",data,10){
+  final SimplePageableListView table=new SimplePageableListView("rows",data,10){
     private ReportableListObject previousValue=null;
     /** 
- * @see wicket.examples.displaytag.utils.PagedTableWithAlternatingRowStyle#populateItem(ListItem)
  */
     public void populateItem(    final ListItem listItem){
       super.populateItem(listItem);
       final ReportableListObject value=(ReportableListObject)listItem.getModelObject();
-      if (previousValue == null) {
-        listItem.add(new Label("city",value.getCity()));
-        listItem.add(new Label("project",value.getProject()));
-      }
- else {
+      if (previousValue != null) {
         boolean equal=value.getCity().equals(previousValue.getCity());
         listItem.add(new Label("city",equal ? "" : value.getCity()));
         equal&=value.getProject().equals(previousValue.getProject());
         listItem.add(new Label("project",equal ? "" : value.getProject()));
       }
       listItem.add(new Label("hours",Double.toString(value.getAmount())));
-      listItem.add(new Label("task",value.getTask()));
       previousValue=value;
     }
   }

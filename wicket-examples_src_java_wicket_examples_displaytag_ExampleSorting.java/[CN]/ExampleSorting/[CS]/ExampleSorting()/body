@@ -1,16 +1,6 @@
 {
   final List data=new TestList(6,false);
-  ListView table=new ListViewWithAlternatingRowStyle("rows",data){
-    public void populateItem(    final ListItem listItem){
-      final ListObject value=(ListObject)listItem.getModelObject();
-      listItem.add(new Label("id",Integer.toString(value.getId())));
-      listItem.add(new Label("name",value.getName()));
-      listItem.add(new Label("email",value.getEmail()));
-      listItem.add(new Label("status",value.getStatus()));
-      listItem.add(new Label("comment",value.getDescription()));
-    }
-  }
-;
+  SimpleListView table=new SimpleListView("rows",data);
   add(table);
   add(new SortableListViewHeaders("header",table){
     /** 
