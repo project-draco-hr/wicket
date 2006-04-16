@@ -3,43 +3,21 @@
   setOutputMarkupId(true);
   form.setOutputMarkupId(true);
   setRenderBodyOnly(true);
+  add(new JavaScriptReference("javascript",JS_PROGRESSBAR));
   final WebMarkupContainer barDiv=new WebMarkupContainer("bar");
   barDiv.setOutputMarkupId(true);
   add(barDiv);
   final WebMarkupContainer statusDiv=new WebMarkupContainer("status");
   statusDiv.setOutputMarkupId(true);
   add(statusDiv);
-  add(new ProgressbarScriptIncluder());
-  ScriptLabel progressBarCSS=new ScriptLabel("progressBarCSS",new AbstractReadOnlyModel(){
-    private static final long serialVersionUID=1L;
+  form.add(new AttributeModifier("onsubmit",true,new Model(){
     /** 
- * @see wicket.model.IModel#getObject(wicket.Component)
  */
-    public Object getObject(    Component component){
-      return getCSSComponentInitializationScript();
-    }
-  }
-);
-  add(progressBarCSS);
-  ScriptLabel progressBarJS=new ScriptLabel("progressBarJS",new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
-    /** 
- * @see wicket.model.IModel#getObject(wicket.Component)
- */
     public Object getObject(    Component component){
-      String javascriptFile=getPackagedTextFileContents("progressbar.js");
-      Map variables=new HashMap();
       ResourceReference ref=new ResourceReference(RESOURCE_NAME);
-      CharSequence statusUrl=getPage().urlFor(ref);
-      variables.put("bar-id",barDiv.getMarkupId());
-      variables.put("status-id",statusDiv.getMarkupId());
-      variables.put("statusUrl",statusUrl);
-      variables.put("form-id",form.getMarkupId());
-      MapVariableInterpolator interpolator=new MapVariableInterpolator(javascriptFile,variables);
-      return "<script>" + interpolator.toString() + "</script>";
+      return "var def=new wupb.Def('" + form.getMarkupId() + "', '"+ statusDiv.getMarkupId()+ "', '"+ barDiv.getMarkupId()+ "', '"+ getPage().urlFor(ref)+ "'); wupb.start(def);";
     }
   }
-);
-  add(progressBarJS);
-  form.add(new AttributeModifier("onsubmit",true,new Model("wupb.start();")));
+));
 }
