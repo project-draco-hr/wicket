@@ -7,14 +7,10 @@
       break;
     }
   }
-  final Matcher matcher=encodingPattern.matcher(pushBack);
+  final Matcher matcher=xmlDecl.matcher(pushBack);
   if (!matcher.matches()) {
-    return null;
+    return false;
   }
   this.xmlDeclarationString=pushBack.toString().trim();
-  String encoding=matcher.group(3);
-  if ((encoding == null) || (encoding.length() == 0)) {
-    encoding=matcher.group(4);
-  }
-  return encoding;
+  return true;
 }

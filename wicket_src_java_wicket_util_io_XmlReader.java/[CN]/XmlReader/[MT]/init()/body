@@ -4,17 +4,16 @@
   }
   final int readAheadSize=80;
   this.inputStream.mark(readAheadSize);
-  final String encoding=determineEncoding(this.inputStream,readAheadSize);
-  if (encoding != null) {
-    this.encoding=encoding;
-    this.reader=new BufferedReader(new InputStreamReader(this.inputStream,this.encoding));
-  }
- else   if (this.encoding == null) {
-    this.inputStream.reset();
-    this.reader=new BufferedReader(new InputStreamReader(this.inputStream));
+  if (getXmlDeclaration(this.inputStream,readAheadSize)) {
+    this.encoding=determineEncoding(this.xmlDeclarationString);
   }
  else {
     this.inputStream.reset();
+  }
+  if (this.encoding == null) {
+    this.reader=new BufferedReader(new InputStreamReader(this.inputStream));
+  }
+ else {
     this.reader=new BufferedReader(new InputStreamReader(this.inputStream,this.encoding));
   }
 }

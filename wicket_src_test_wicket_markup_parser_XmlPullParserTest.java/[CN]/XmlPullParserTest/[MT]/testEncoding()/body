@@ -12,15 +12,9 @@
   assertEquals("iso-8859-1",parser.getEncoding());
   tag=(XmlTag)parser.nextTag();
   assertNull(tag);
+  parser.parse(new StringResourceStream("<?xml encoding=iso-8859-1 ?> test test"),null);
+  assertEquals("iso-8859-1",parser.getEncoding());
   Exception ex=null;
-  try {
-    parser.parse(new StringResourceStream("<?xml encoding=iso-8859-1 ?> test test"),null);
-  }
- catch (  UnsupportedEncodingException e) {
-    ex=e;
-  }
-  assertNotNull(ex);
-  ex=null;
   try {
     parser.parse(new StringResourceStream("<?xml encoding='XXX' ?>"),null);
   }
