@@ -10,7 +10,10 @@
     if (pageParameters == null) {
       pageParameters=new PageParameters();
     }
-    pageParameters.put("wicket:pageMapName",pageMapName);
+    pageParameters.put(WebRequestCodingStrategy.PAGEMAP,pageMapName);
+  }
+ else   if (target.getPageMapName() != null) {
+    pageParameters.put(WebRequestCodingStrategy.PAGEMAP,target.getPageMapName());
   }
   appendParameters(url,pageParameters);
   return url;

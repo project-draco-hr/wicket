@@ -1,6 +1,14 @@
 {
   checkComponentTag(tag,"input");
-  checkComponentTagAttribute(tag,"type",getInputType());
+  String inputType=getInputType();
+  if (inputType != null) {
+    checkComponentTagAttribute(tag,"type",inputType);
+  }
+ else {
+    if (tag.getAttributes().containsKey("type")) {
+      checkComponentTagAttribute(tag,"type","text");
+    }
+  }
   tag.put("value",getValue());
   super.onComponentTag(tag);
 }
