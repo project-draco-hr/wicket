@@ -16,7 +16,7 @@
       throw new WicketRuntimeException(ex);
     }
     final ICrypt urlCrypt=Application.get().getSecuritySettings().getCryptFactory().newCrypt();
-    final String queryString=urlCrypt.decrypt(secureParam);
+    final String queryString=urlCrypt.decryptUrlSafe(secureParam);
     return rebuildUrl(queryString);
   }
   return url;

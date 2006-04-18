@@ -7,7 +7,7 @@
       String queryString=url.subSequence(pos + 1,url.length()).toString();
       if (!queryString.startsWith("x=")) {
         queryString=shortenUrl(queryString).toString();
-        final String encryptedQueryString=urlCrypt.encrypt(queryString);
+        final String encryptedQueryString=urlCrypt.encryptUrlSafe(queryString);
         return new AppendingStringBuffer(urlPrefix).append("?x=").append(escapeUrl(encryptedQueryString));
       }
     }
