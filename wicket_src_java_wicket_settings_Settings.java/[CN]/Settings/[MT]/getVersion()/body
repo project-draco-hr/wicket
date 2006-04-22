@@ -1,13 +1,8 @@
 {
   String implVersion=null;
-  try {
-    Class cls=Class.forName("wicket.Application");
-    Package pkg=cls.getPackage();
-    if (pkg != null) {
-      implVersion=pkg.getImplementationVersion();
-    }
-  }
- catch (  ClassNotFoundException e) {
+  Package pkg=this.getClass().getPackage();
+  if (pkg != null) {
+    implVersion=pkg.getImplementationVersion();
   }
   return Strings.isEmpty(implVersion) ? "n/a" : implVersion;
 }
