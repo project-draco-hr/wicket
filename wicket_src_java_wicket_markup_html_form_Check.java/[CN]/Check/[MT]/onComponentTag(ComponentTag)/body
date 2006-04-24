@@ -13,9 +13,9 @@
   if (collection == null) {
     throw new WicketRuntimeException("CheckGroup [" + group.getPath() + "] contains a null model object, must be an object of type java.util.Collection");
   }
-  String rawInput=group.getRawInput();
-  if (rawInput != null) {
-    if (rawInput.indexOf(path) != -1) {
+  if (group.hasRawInput()) {
+    String rawInput=group.getRawInput();
+    if (rawInput != null && rawInput.indexOf(path) != -1) {
       tag.put("checked","checked");
     }
   }
