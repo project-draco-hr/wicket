@@ -1,0 +1,103 @@
+{
+  if (format != null) {
+    boolean showTime=false;
+    String timeFormat="24";
+    char prev=0;
+    StringBuffer sb=new StringBuffer();
+    for (int i=0; i < format.length(); i++) {
+      char ch=format.charAt(i);
+      if (ch == 'd') {
+        if (prev != 'd') {
+          sb.append("%d");
+        }
+        prev=ch;
+      }
+ else       if (ch == 'M') {
+        if (prev != 'M') {
+          sb.append("%m");
+        }
+        prev=ch;
+      }
+ else       if (ch == 'y') {
+        if (prev != 'y') {
+          sb.append("%Y");
+        }
+        prev=ch;
+      }
+ else       if (ch == 'H') {
+        showTime=true;
+        if (prev != 'H') {
+          sb.append("%H");
+        }
+        prev=ch;
+      }
+ else       if (ch == 'h') {
+        timeFormat="12";
+        showTime=true;
+        if (prev != 'h') {
+          sb.append("%I");
+        }
+        prev=ch;
+      }
+ else       if (ch == 'm') {
+        showTime=true;
+        if (prev != 'm') {
+          sb.append("%M");
+        }
+        prev=ch;
+      }
+ else       if (ch == 's') {
+        showTime=true;
+        if (prev != 's') {
+          sb.append("%S");
+        }
+        prev=ch;
+      }
+ else       if (ch == 'a') {
+        if (prev != 'a') {
+          sb.append("%P");
+        }
+        prev=ch;
+      }
+ else       if ("GwWDFEkKSzZ".indexOf(ch) != -1) {
+        prev=0;
+      }
+ else       if (prev != 0) {
+        sb.append(ch);
+      }
+    }
+    setIfFormat(sb.toString().trim());
+    setShowsTime(showTime);
+    setTimeFormat(timeFormat);
+  }
+  StringBuffer b=new StringBuffer();
+  if (!isMode()) {
+    b.append("\n\tmode : false,");
+  }
+  if (getFirstDay() != 0) {
+    b.append("\n\tfistDay : ").append(getFirstDay()).append(",");
+  }
+  if (!isWeekNumbers()) {
+    b.append("\n\tweekNumbers : false,");
+  }
+  if (getAlign() != null) {
+    b.append("\n\talign : ").append(getAlign()).append(",");
+  }
+  if (isShowsTime()) {
+    b.append("\n\tshowsTime : true,");
+  }
+  if (getTimeFormat() != null) {
+    b.append("\n\ttimeFormat : ").append(getTimeFormat()).append(",");
+  }
+  if (!isElectric()) {
+    b.append("\n\telectric : false,");
+  }
+  if (isShowOthers()) {
+    b.append("\n\tshowOthers : true,");
+  }
+  String ifFormat=getIfFormat(locale);
+  if (ifFormat != null) {
+    b.append("\n\t\tifFormat : \"").append(ifFormat).append("\"");
+  }
+  return b.toString();
+}

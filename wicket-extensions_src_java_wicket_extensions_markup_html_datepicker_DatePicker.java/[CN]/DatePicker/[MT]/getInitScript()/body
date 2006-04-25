@@ -3,7 +3,15 @@
   AppendingStringBuffer b=new AppendingStringBuffer("\nCalendar.setup(\n{");
   b.append("\n\t\tinputField : \"").append(targetId).append("\",");
   b.append("\n\t\tbutton : \"").append(triggerButton.getPath()).append("\",");
-  b.append(settings.toScript(getLocale()));
+  String pattern=null;
+  if (dateConverter == null) {
+    dateConverter=new DateConverter();
+  }
+  DateFormat df=dateConverter.getDateFormat(target.getLocale());
+  if (df instanceof SimpleDateFormat) {
+    pattern=((SimpleDateFormat)df).toPattern();
+  }
+  b.append(settings.toScript(target.getLocale(),pattern));
   int last=b.length() - 1;
   if (',' == b.charAt(last)) {
     b.deleteCharAt(last);
