@@ -9,21 +9,27 @@
   if (tag.isOpenClose() && openTag.isOpen()) {
     markupStream.throwMarkupException("You can not modify a open tag to open-close: " + tag);
   }
-  if (getRenderBodyOnly() == false) {
-    renderComponentTag(tag);
-  }
-  markupStream.next();
-  if (tag.isOpen()) {
-    onComponentTagBody(markupStream,tag);
-  }
-  if (tag.isOpen()) {
-    if (openTag.isOpen()) {
-      renderClosingComponentTag(markupStream,tag,getRenderBodyOnly());
+  try {
+    if (getRenderBodyOnly() == false) {
+      renderComponentTag(tag);
     }
+    markupStream.next();
+    if (tag.isOpen()) {
+      onComponentTagBody(markupStream,tag);
+    }
+    if (tag.isOpen()) {
+      if (openTag.isOpen()) {
+        renderClosingComponentTag(markupStream,tag,getRenderBodyOnly());
+      }
  else {
-      if (getRenderBodyOnly() == false) {
-        getResponse().write(openTag.syntheticCloseTagString());
+        if (getRenderBodyOnly() == false) {
+          getResponse().write(openTag.syntheticCloseTagString());
+        }
       }
     }
+  }
+ catch (  RuntimeException re) {
+    if (re instanceof WicketRuntimeException)     throw re;
+    throw new WicketRuntimeException("Exception in rendering component: " + this,re);
   }
 }
