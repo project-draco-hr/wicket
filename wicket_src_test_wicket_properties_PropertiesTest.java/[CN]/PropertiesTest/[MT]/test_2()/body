@@ -1,0 +1,16 @@
+{
+  application.getResourceSettings().addStringResourceLoader(new WicketBundleStringResourceLoader(application,application.getClass()));
+  application.setupRequestAndResponse();
+  WebRequestCycle cycle=application.createRequestCycle();
+  TestPage page=new TestPage(){
+    private static final long serialVersionUID=1L;
+    public String getVariation(){
+      return "mystyle";
+    }
+  }
+;
+  String str=page.getString("test1");
+  str=page.getString("test2");
+  str=page.getString("test3");
+  str=page.getString("test4");
+}

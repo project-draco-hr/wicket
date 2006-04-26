@@ -1,0 +1,13 @@
+{
+  String value=super.loadStringResource(clazz,key,locale,style);
+  if (value == null) {
+    value=super.loadStringResource(clazz,key,locale,null);
+    if (value == null) {
+      value=super.loadStringResource(clazz,key,null,style);
+      if (value == null) {
+        value=super.loadStringResource(clazz,key,null,null);
+      }
+    }
+  }
+  return value;
+}
