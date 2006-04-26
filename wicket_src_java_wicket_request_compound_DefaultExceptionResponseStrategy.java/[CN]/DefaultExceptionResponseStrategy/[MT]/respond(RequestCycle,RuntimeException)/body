@@ -9,7 +9,7 @@
   }
  else   if (e instanceof AuthorizationException) {
     Class accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
-    requestCycle.setRequestTarget(new BookmarkablePageRequestTarget(accessDeniedPageClass));
+    throw new RestartResponseAtInterceptPageException(accessDeniedPageClass);
   }
  else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
     Class internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
