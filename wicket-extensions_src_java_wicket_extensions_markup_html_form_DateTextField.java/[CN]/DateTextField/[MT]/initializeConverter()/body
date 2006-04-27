@@ -1,0 +1,8 @@
+{
+  StringConverter stringConverter=new StringConverter();
+  stringConverter.set(Date.class,new DateToStringPatternConverter());
+  Converter converter=new Converter(getSession().getLocale());
+  converter.set(String.class,stringConverter);
+  converter.set(Date.class,new StringPatternToDateConverter());
+  return converter;
+}
