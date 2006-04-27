@@ -1,0 +1,31 @@
+{
+  super(panelId);
+  Object userObject=node.getUserObject();
+  final Link junctionLink=new Link("junctionLink"){
+    public void onClick(){
+      junctionLinkClicked(node);
+    }
+  }
+;
+  add(junctionLink);
+  IModel junctionLabelModel=new AbstractReadOnlyModel(){
+    public Object getObject(    Component component){
+      return (!node.isLeaf()) ? (isExpanded(node)) ? "^" : ">" : "";
+    }
+  }
+;
+  String junctionLabel="";
+  if (!node.isLeaf()) {
+    junctionLabel=(isExpanded(node)) ? "[-]" : "[+]";
+  }
+  junctionLink.add(new Label("junctionLabel",junctionLabelModel));
+  final Link nodeLink=new Link("nodeLink"){
+    public void onClick(){
+      nodeLinkClicked(node);
+    }
+  }
+;
+  String label=(userObject instanceof List) ? "" : String.valueOf(node.getUserObject());
+  nodeLink.add(new Label("label",label));
+  add(nodeLink);
+}
