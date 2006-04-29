@@ -1,0 +1,17 @@
+{
+  if (this.componentReference != null) {
+    final Component behaviorOwner=(Component)componentReference.get();
+    if (behaviorOwner == null) {
+      setEnabled(false);
+      return currentValue;
+    }
+    if (behaviorOwner.findParent(Page.class) == null) {
+      setEnabled(false);
+      return currentValue;
+    }
+    if (behaviorOwner.isVisibleInHierarchy() == false) {
+      return currentValue;
+    }
+  }
+  return (currentValue == null ? replacementValue : currentValue + replacementValue);
+}
