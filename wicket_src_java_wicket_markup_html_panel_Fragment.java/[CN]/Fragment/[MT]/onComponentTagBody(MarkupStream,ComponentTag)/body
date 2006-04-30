@@ -5,6 +5,9 @@
   }
  else {
     final MarkupStream providerMarkupStream=this.markupProvider.getMarkupStream();
+    if (providerMarkupStream == null) {
+      throw new IllegalStateException("no markup stream found for providing markup container " + markupProvider);
+    }
     renderFragment(providerMarkupStream,openTag);
   }
 }
