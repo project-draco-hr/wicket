@@ -16,7 +16,7 @@
     button=(Button)getPage().visitChildren(SubmitLink.class,new IVisitor(){
       public Object component(      final Component component){
         final SubmitLink button=(SubmitLink)component;
-        if (button.getSubmitLinkForm() == Form.this && (getRequest().getParameter(button.getInputName()) != null || getRequest().getParameter(button.getInputName() + ".x") != null)) {
+        if (button.getForm() == Form.this && (getRequest().getParameter(button.getInputName()) != null || getRequest().getParameter(button.getInputName() + ".x") != null)) {
           if (!button.isVisible()) {
             throw new WicketRuntimeException("Submit Button is not visible");
           }
