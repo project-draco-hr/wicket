@@ -1,0 +1,15 @@
+{
+  application.setHomePage(EmailPage.class);
+  application.setupRequestAndResponse();
+  application.processRequestCycle();
+  assertEquals(EmailPage.class,application.getLastRenderedPage().getClass());
+  EmailPage page=(EmailPage)application.getLastRenderedPage();
+  FormTester formTester=application.newFormTester("form");
+  formTester.setValue("email","a");
+  formTester.submit();
+  assertEquals(EmailPage.class,application.getLastRenderedPage().getClass());
+  page=(EmailPage)application.getLastRenderedPage();
+  assertNull(page.getEmail());
+  assertTrue(page.getFeedbackMessages().hasMessageFor(page.get("form:email")));
+  assertEquals("wrong email address pattern for email",page.getFeedbackMessages().messageForComponent(page.get("form:email")).getMessage());
+}
