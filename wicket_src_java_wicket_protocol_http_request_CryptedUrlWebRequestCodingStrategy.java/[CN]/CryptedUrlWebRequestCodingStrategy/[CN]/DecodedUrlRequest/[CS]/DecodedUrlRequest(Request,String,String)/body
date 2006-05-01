@@ -1,0 +1,20 @@
+{
+  this.request=request;
+  this.parameterMap=this.request.getParameterMap();
+  this.parameterMap.remove("x");
+  PageParameters params=new PageParameters(encodedParamReplacement,"&");
+  this.parameterMap.putAll(params);
+  int pos1=url.indexOf("?x=");
+  if (pos1 == -1) {
+    throw new WicketRuntimeException("Programming error: we should come here");
+  }
+  int pos2=url.indexOf("&");
+  AppendingStringBuffer urlBuf=new AppendingStringBuffer(url.length() + encodedParamReplacement.length());
+  urlBuf.append(url.subSequence(0,pos1 + 1));
+  urlBuf.append(encodedParamReplacement);
+  if (pos2 != -1) {
+    urlBuf.append(url.substring(pos2));
+  }
+  this.url=urlBuf.toString();
+  this.startRelativeUrl=url.indexOf(request.getRelativeURL());
+}
