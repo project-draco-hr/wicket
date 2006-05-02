@@ -1,8 +1,10 @@
 {
-  boolean wasAttached=attached;
-  tempModelObject=null;
-  attached=false;
-  if (wasAttached && log.isDebugEnabled()) {
-    log.debug("removed transient object for " + this + ", requestCycle "+ RequestCycle.get());
+  if (attached) {
+    attached=false;
+    tempModelObject=null;
+    if (log.isDebugEnabled()) {
+      log.debug("removed transient object for " + this + ", requestCycle "+ RequestCycle.get());
+    }
+    onDetach();
   }
 }
