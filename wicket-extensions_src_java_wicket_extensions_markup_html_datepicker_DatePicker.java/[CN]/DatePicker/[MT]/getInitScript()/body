@@ -5,7 +5,14 @@
   b.append("\n\t\tbutton : \"").append(triggerButton.getPath()).append("\",");
   String pattern=null;
   if (dateConverter == null) {
-    dateConverter=new DateConverter();
+    IConverter converter=target.getConverter();
+    if (converter instanceof Converter) {
+      ITypeConverter typeConverter=((Converter)converter).get(Date.class);
+      if (typeConverter instanceof DateConverter) {
+        dateConverter=(DateConverter)typeConverter;
+      }
+    }
+    if (dateConverter == null)     dateConverter=new DateConverter();
   }
   DateFormat df=dateConverter.getDateFormat(target.getLocale());
   if (df instanceof SimpleDateFormat) {
