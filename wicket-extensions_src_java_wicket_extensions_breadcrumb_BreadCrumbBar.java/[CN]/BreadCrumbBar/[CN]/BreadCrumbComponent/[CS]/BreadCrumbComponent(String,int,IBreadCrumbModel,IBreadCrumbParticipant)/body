@@ -1,0 +1,13 @@
+{
+  super(id);
+  add(new Label("sep",(index > 0) ? "&nbsp;&nbsp;>&nbsp;" : "").setEscapeModelStrings(false).setRenderBodyOnly(true));
+  BreadCrumbLink link=new BreadCrumbLink("link",breadCrumbModel){
+    private static final long serialVersionUID=1L;
+    protected IBreadCrumbParticipant getParticipant(    String componentId){
+      return breadCrumbParticipant;
+    }
+  }
+;
+  add(link);
+  link.add(new Label("label",breadCrumbParticipant.getTitle()).setRenderBodyOnly(true));
+}
