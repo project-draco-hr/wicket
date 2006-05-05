@@ -1,10 +1,10 @@
 {
-  final java.io.File[] files=listFiles(new FileFilter(){
+  final java.io.File[] files=listFiles(new java.io.FileFilter(){
     /** 
  * @see java.io.FileFilter#accept(java.io.File)
  */
     public boolean accept(    java.io.File file){
-      return filter.accept(new File(file));
+      return file.isFile() && filter.accept(new File(file));
     }
   }
 );
