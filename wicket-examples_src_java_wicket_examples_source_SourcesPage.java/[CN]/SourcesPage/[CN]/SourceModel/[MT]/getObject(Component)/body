@@ -5,7 +5,11 @@
   BufferedReader br=null;
   try {
     StringBuffer sb=new StringBuffer();
-    br=new BufferedReader(new InputStreamReader(page.getResourceAsStream(name)));
+    InputStream resourceAsStream=page.getResourceAsStream(name);
+    if (resourceAsStream == null) {
+      return "Unable to read the source for " + name;
+    }
+    br=new BufferedReader(new InputStreamReader(resourceAsStream));
     while (br.ready()) {
       sb.append(br.readLine());
       sb.append("\n");

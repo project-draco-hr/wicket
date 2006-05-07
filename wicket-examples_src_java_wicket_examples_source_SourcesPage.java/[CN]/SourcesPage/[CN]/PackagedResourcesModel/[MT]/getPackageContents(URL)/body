@@ -1,7 +1,11 @@
 {
   BufferedReader br=null;
   try {
-    br=new BufferedReader(new InputStreamReader(packageListing.openStream()));
+    InputStream openStream=packageListing.openStream();
+    if (openStream == null) {
+      return;
+    }
+    br=new BufferedReader(new InputStreamReader(openStream));
     while (br.ready()) {
       String listing=br.readLine();
       String extension=Strings.afterLast(listing,'.');
