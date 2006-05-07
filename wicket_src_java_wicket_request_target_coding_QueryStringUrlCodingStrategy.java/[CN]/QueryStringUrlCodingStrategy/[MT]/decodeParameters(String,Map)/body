@@ -1,22 +1,7 @@
 {
-  if (fragment.indexOf('?') != 0) {
-    throw new IllegalStateException("URL fragment '" + fragment + "' contains must start with '?'. "+ "This maybe caused by you manually manipulating "+ "the url or a conflict due to mount names");
-  }
   ValueMap parameters=new ValueMap();
   if (passedParameters != null) {
     parameters.putAll(passedParameters);
-  }
-  if (fragment.length() == 0) {
-    return parameters;
-  }
-  final String[] pairs=fragment.split("(&|;)");
-  if (pairs.length % 2 != 0) {
-    throw new IllegalStateException("URL query string has unmatched key or value(s): " + fragment);
-  }
-  for (int i=0; i < pairs.length; i+=2) {
-    String value=pairs[i + 1];
-    value=urlDecode(value);
-    parameters.add(pairs[i],value);
   }
   return parameters;
 }
