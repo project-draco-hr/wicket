@@ -3,10 +3,12 @@
   if (modelObject != null) {
     final IConverter converter=getConverter();
     final String modelString=(String)converter.convert(modelObject,String.class);
-    if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {
-      return Strings.escapeMarkup(modelString).toString();
+    if (modelString != null) {
+      if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {
+        return Strings.escapeMarkup(modelString).toString();
+      }
+      return modelString;
     }
-    return modelString;
   }
   return "";
 }
