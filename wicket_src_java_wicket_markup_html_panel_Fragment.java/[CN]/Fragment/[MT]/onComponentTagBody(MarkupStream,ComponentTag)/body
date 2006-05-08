@@ -1,13 +1,8 @@
 {
   markupStream.skipRawMarkup();
-  if (this.markupProvider == null) {
-    renderFragment(markupStream,openTag);
+  final MarkupStream providerMarkupStream=chooseMarkupStream(markupStream);
+  if (providerMarkupStream == null) {
+    throw new IllegalStateException("no markup stream found for providing markup container " + markupProvider);
   }
- else {
-    final MarkupStream providerMarkupStream=this.markupProvider.getMarkupStream();
-    if (providerMarkupStream == null) {
-      throw new IllegalStateException("no markup stream found for providing markup container " + markupProvider);
-    }
-    renderFragment(providerMarkupStream,openTag);
-  }
+  renderFragment(providerMarkupStream,openTag);
 }
