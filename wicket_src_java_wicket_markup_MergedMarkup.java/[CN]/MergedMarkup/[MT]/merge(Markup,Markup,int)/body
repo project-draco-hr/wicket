@@ -14,12 +14,22 @@
     }
     if (element instanceof WicketTag) {
       WicketTag wtag=(WicketTag)element;
-      if (wtag.isChildTag() && wtag.isOpenClose()) {
-        childTag=wtag;
-        WicketTag childOpenTag=(WicketTag)wtag.mutable();
-        childOpenTag.getXmlTag().setType(XmlTag.OPEN);
-        addMarkupElement(childOpenTag);
-        break;
+      if (wtag.isChildTag() && (tag.getMarkupClass() == baseMarkup.getResource().getMarkupClass())) {
+        if (wtag.isOpenClose()) {
+          childTag=wtag;
+          WicketTag childOpenTag=(WicketTag)wtag.mutable();
+          childOpenTag.getXmlTag().setType(XmlTag.OPEN);
+          childOpenTag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+          addMarkupElement(childOpenTag);
+          break;
+        }
+ else         if (wtag.isOpen()) {
+          addMarkupElement(wtag);
+          break;
+        }
+ else {
+          throw new WicketRuntimeException("Did not expect a </wicket:child> tag in " + baseMarkup.toString());
+        }
       }
       if (wicketHeadProcessed == false) {
         if (wtag.isClose() && wtag.isHeadTag()) {
@@ -60,7 +70,7 @@
     addMarkupElement(element);
   }
   if (baseIndex == baseMarkup.size()) {
-    throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup");
+    throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup: " + baseMarkup.toString());
   }
   for (; extendIndex < markup.size(); extendIndex++) {
     MarkupElement element=markup.get(extendIndex);
@@ -73,11 +83,36 @@
     }
   }
   if (extendIndex == markup.size()) {
-    throw new WicketRuntimeException("Missing close tag </wicket:extend> in derived markup");
+    throw new WicketRuntimeException("Missing close tag </wicket:extend> in derived markup: " + markup.toString());
   }
-  WicketTag childCloseTag=(WicketTag)childTag.mutable();
-  childCloseTag.getXmlTag().setType(XmlTag.CLOSE);
-  addMarkupElement(childCloseTag);
+  if (((ComponentTag)baseMarkup.get(baseIndex)).isOpen()) {
+    for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
+      MarkupElement element=baseMarkup.get(baseIndex);
+      if (element instanceof WicketTag) {
+        WicketTag tag=(WicketTag)element;
+        if (tag.isChildTag() && tag.isClose()) {
+          tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+          addMarkupElement(tag);
+          break;
+        }
+ else {
+          throw new WicketRuntimeException("Wicket tags like <wicket:xxx> are not allowed in between <wicket:child> and </wicket:child> tags: " + markup.toString());
+        }
+      }
+ else       if (element instanceof ComponentTag) {
+        throw new WicketRuntimeException("Wicket tags identified by wicket:id are not allowed in between <wicket:child> and </wicket:child> tags: " + markup.toString());
+      }
+    }
+    if (baseIndex == baseMarkup.size()) {
+      throw new WicketRuntimeException("Expected to find </wicket:child> in base markup: " + baseMarkup.toString());
+    }
+  }
+ else {
+    WicketTag childCloseTag=(WicketTag)childTag.mutable();
+    childCloseTag.getXmlTag().setType(XmlTag.CLOSE);
+    childCloseTag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+    addMarkupElement(childCloseTag);
+  }
   for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
     MarkupElement element=baseMarkup.get(baseIndex);
     addMarkupElement(element);
