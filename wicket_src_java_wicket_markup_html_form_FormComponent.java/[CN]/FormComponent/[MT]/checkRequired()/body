@@ -2,10 +2,11 @@
   if (isRequired()) {
     final String input=getInput();
     if (input == null && !isInputNullable()) {
-      return;
+      return true;
     }
     if (Strings.isEmpty(input)) {
-      error(Collections.singletonList("RequiredValidator"),new HashMap());
+      return false;
     }
   }
+  return true;
 }
