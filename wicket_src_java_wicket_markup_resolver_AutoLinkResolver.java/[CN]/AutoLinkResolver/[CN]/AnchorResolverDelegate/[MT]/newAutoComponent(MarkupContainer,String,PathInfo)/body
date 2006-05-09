@@ -1,5 +1,5 @@
 {
-  if (pathInfo.extension != null && supportedPageExtensions.contains(pathInfo.extension)) {
+  if ((pathInfo.extension != null) && supportedPageExtensions.contains(pathInfo.extension)) {
     String infoPath=Strings.replaceAll(pathInfo.path,"/",".").toString();
     Page page=container.getPage();
     final IClassResolver defaultClassResolver=page.getApplication().getApplicationSettings().getClassResolver();
@@ -12,7 +12,7 @@
     }
     try {
       final Class clazz=defaultClassResolver.resolveClass(className);
-      return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.pageParameters);
+      return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.pageParameters,pathInfo.anchor);
     }
  catch (    WicketRuntimeException ex) {
       log.warn("Did not find corresponding java class: " + className);
@@ -24,7 +24,7 @@
         className=Packages.extractPackageName(clazz) + "." + infoPath;
         try {
           clazz=defaultClassResolver.resolveClass(className);
-          return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters());
+          return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters(),pathInfo.anchor);
         }
  catch (        WicketRuntimeException ex) {
           log.warn("Did not find corresponding java class: " + className);
