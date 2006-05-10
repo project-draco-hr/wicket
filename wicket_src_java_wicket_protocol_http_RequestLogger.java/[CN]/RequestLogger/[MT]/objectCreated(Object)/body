@@ -1,5 +1,11 @@
 {
-  SessionData sd=getSessionData();
+  SessionData sd=null;
+  if (value instanceof Session) {
+    sd=createSessionData((Session)value);
+  }
+ else {
+    sd=getSessionData();
+  }
   if (value instanceof Page) {
     sd.pageCreated((Page)value);
   }
