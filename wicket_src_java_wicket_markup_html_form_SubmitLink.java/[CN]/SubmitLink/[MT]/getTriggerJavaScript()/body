@@ -6,8 +6,12 @@
   sb.append("').name=\'");
   sb.append(getInputName());
   sb.append("';");
-  sb.append("document.getElementById('");
+  sb.append("var f=document.getElementById('");
   sb.append(form.getJavascriptId());
-  sb.append("').submit();return false;");
+  sb.append("');");
+  if (shouldInvokeFormOnsubmit()) {
+    sb.append("if (f.onsubmit != undefined) { if (f.onsubmit()==false) return false; }");
+  }
+  sb.append("f.submit();return false;");
   return sb.toString();
 }
