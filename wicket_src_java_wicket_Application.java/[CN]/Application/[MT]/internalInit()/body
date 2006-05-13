@@ -1,11 +1,13 @@
 {
   settingsAccessible=true;
-  getPageSettings().addComponentResolver(new ParentResolver());
-  getPageSettings().addComponentResolver(new AutoComponentResolver());
-  getPageSettings().addComponentResolver(new MarkupInheritanceResolver());
-  getPageSettings().addComponentResolver(new HtmlHeaderResolver());
-  getPageSettings().addComponentResolver(new WicketLinkResolver());
-  getPageSettings().addComponentResolver(new WicketMessageResolver());
+  IPageSettings pageSettings=getPageSettings();
+  pageSettings.addComponentResolver(new ParentResolver());
+  pageSettings.addComponentResolver(new AutoComponentResolver());
+  pageSettings.addComponentResolver(new MarkupInheritanceResolver());
+  pageSettings.addComponentResolver(new HtmlHeaderResolver());
+  pageSettings.addComponentResolver(new WicketLinkResolver());
+  pageSettings.addComponentResolver(new WicketMessageResolver());
+  pageSettings.addComponentResolver(new FragmentResolver());
   getResourceSettings().addResourceFactory("buttonFactory",new DefaultButtonImageResourceFactory());
   String applicationKey=getApplicationKey();
   applicationKeyToApplication.put(applicationKey,this);
