@@ -8,5 +8,5 @@
   if (throttleDelay == null) {
     throw new IllegalArgumentException("throttleDelay cannot be null");
   }
-  return "wicketThrottler.throttle( '" + throttleId + "', "+ throttleDelay.getMilliseconds()+ ", function() { "+ script+ "});";
+  return new AppendingStringBuffer("wicketThrottler.throttle( '").append(throttleId).append("', ").append(throttleDelay.getMilliseconds()).append(", function() { ").append(script).append("});");
 }
