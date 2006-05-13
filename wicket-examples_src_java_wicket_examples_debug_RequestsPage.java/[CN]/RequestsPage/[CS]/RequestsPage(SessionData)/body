@@ -1,0 +1,53 @@
+{
+  add(new Image("bug"));
+  add(new SessionView("session",sessionData.getSession()));
+  Model requestsModel=new Model(){
+    private static final long serialVersionUID=1L;
+    public Object getObject(    Component component){
+      return new ArrayList(sessionData.getRequests());
+    }
+  }
+;
+  PageableListView listView=new PageableListView("requests",requestsModel,50){
+    private static final long serialVersionUID=1L;
+    private final SimpleDateFormat sdf=new SimpleDateFormat("dd MMM hh:mm:ss.SSS");
+    protected void populateItem(    ListItem item){
+      RequestData rd=(RequestData)item.getModelObject();
+      Label startDate=new Label("startDate",new Model(rd.getStartDate())){
+        private static final long serialVersionUID=1L;
+        /** 
+ * @see wicket.Component#getConverter()
+ */
+        public IConverter getConverter(){
+          final IConverter converter=super.getConverter();
+          return new IConverter(){
+            private static final long serialVersionUID=1L;
+            public Locale getLocale(){
+              return converter.getLocale();
+            }
+            public void setLocale(            Locale locale){
+              converter.setLocale(locale);
+            }
+            public Object convert(            Object value,            Class c){
+              if (value instanceof Date && c == String.class) {
+                return sdf.format((Date)value);
+              }
+              return converter.convert(value,c);
+            }
+          }
+;
+        }
+      }
+;
+      item.add(startDate);
+      item.add(new Label("timeTaken",new Model(rd.getTimeTaken())));
+      item.add(new Label("eventTarget",new Model(rd.getEventTargert())));
+      item.add(new Label("responseTarget",new Model(rd.getResponseTarget())));
+      item.add(new Label("alteredObjects",new Model(rd.getAlteredObjects())).setEscapeModelStrings(false));
+    }
+  }
+;
+  add(listView);
+  PagingNavigator navigator=new PagingNavigator("navigator",listView);
+  add(navigator);
+}
