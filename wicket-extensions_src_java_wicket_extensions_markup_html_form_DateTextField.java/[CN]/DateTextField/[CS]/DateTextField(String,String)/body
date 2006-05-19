@@ -1,5 +1,14 @@
 {
   super(id,Date.class);
-  this.datePattern=datePattern;
-  this.converter=new DateTextFieldConverter();
+  this.dateFormat=new SimpleDateFormat(datePattern);
+  this.converter=new DateConverter(){
+    private static final long serialVersionUID=1L;
+    /** 
+ * @see wicket.util.convert.converters.DateConverter#getDateFormat(java.util.Locale)
+ */
+    public DateFormat getDateFormat(    Locale locale){
+      return dateFormat;
+    }
+  }
+;
 }
