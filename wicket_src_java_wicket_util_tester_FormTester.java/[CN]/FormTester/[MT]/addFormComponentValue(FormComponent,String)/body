@@ -1,9 +1,9 @@
 {
   if (parameterExist(formComponent)) {
     String[] values=wicketTester.getServletRequest().getParameterValues(formComponent.getInputName());
-    HashSet all=new HashSet(Arrays.asList(values));
+    HashSet<String> all=new HashSet<String>(Arrays.asList(values));
     all.add(value);
-    Map newParameters=new HashMap();
+    Map<String,Object> newParameters=new HashMap<String,Object>();
     newParameters.put(formComponent.getInputName(),all.toArray(new String[all.size()]));
     wicketTester.getServletRequest().setParameters(newParameters);
   }

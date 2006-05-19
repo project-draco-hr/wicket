@@ -14,16 +14,16 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
-    Iterator it=markupIdToComponent.entrySet().iterator();
+    Iterator<Entry<String,Component>> it=markupIdToComponent.entrySet().iterator();
     while (it.hasNext()) {
-      final Map.Entry entry=(Entry)it.next();
-      final Component component=(Component)entry.getValue();
-      final String markupId=(String)entry.getKey();
+      final Map.Entry<String,Component> entry=it.next();
+      final Component component=entry.getValue();
+      final String markupId=entry.getKey();
       respondComponent(response,markupId,component);
     }
-    it=javascripts.iterator();
-    while (it.hasNext()) {
-      String js=(String)it.next();
+    Iterator<String> it2=javascripts.iterator();
+    while (it2.hasNext()) {
+      String js=it2.next();
       respondInvocation(response,js);
     }
     response.write("</ajax-response>");

@@ -1,8 +1,8 @@
 {
   final Object modelObject=getModelObject();
   if (modelObject != null) {
-    final IConverter converter=getConverter();
-    final String modelString=(String)converter.convert(modelObject,String.class);
+    final IConverter converter=getConverter(modelObject.getClass());
+    final String modelString=(String)converter.convertToString(modelObject,getLocale());
     if (modelString != null) {
       if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {
         return Strings.escapeMarkup(modelString).toString();

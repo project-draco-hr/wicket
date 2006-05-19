@@ -2,16 +2,21 @@
   String bookmarkablePageClass=requestParameters.getBookmarkablePageClass();
   Session session=requestCycle.getSession();
   Application application=session.getApplication();
-  Class pageClass;
+  Class<? extends Page> pageClass;
   try {
-    pageClass=session.getClassResolver().resolveClass(bookmarkablePageClass);
+    pageClass=(Class<? extends Page>)session.getClassResolver().resolveClass(bookmarkablePageClass);
   }
  catch (  RuntimeException e) {
     return new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND,"Unable to load Bookmarkable Page");
   }
   try {
-    PageParameters params=new PageParameters(requestParameters.getParameters());
-    return new BookmarkablePageRequestTarget(requestParameters.getPageMapName(),pageClass,params);
+    PageParameters<String,Object> params=new PageParameters<String,Object>(requestParameters.getParameters());
+    if (requestParameters.getBookmarkableFormName() != null) {
+      return new BookmarkableFormPageRequestTarget(requestParameters.getPageMapName(),pageClass,params,requestParameters.getBookmarkableFormName());
+    }
+ else {
+      return new BookmarkablePageRequestTarget(requestParameters.getPageMapName(),pageClass,params);
+    }
   }
  catch (  RuntimeException e) {
     throw new WicketRuntimeException("Unable to instantiate Page class: " + bookmarkablePageClass + ". See below for details.",e);

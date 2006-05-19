@@ -1,21 +1,21 @@
 {
-  return new AbstractSet(){
-    public Iterator iterator(){
-      return new Iterator(){
+  return new AbstractSet<Map.Entry<K,V>>(){
+    public Iterator<Map.Entry<K,V>> iterator(){
+      return new Iterator<Map.Entry<K,V>>(){
         public boolean hasNext(){
           return index < MicroMap.this.size();
         }
-        public Object next(){
+        public Map.Entry<K,V> next(){
           index++;
-          return new Map.Entry(){
-            public Object getKey(){
+          return new Map.Entry<K,V>(){
+            public K getKey(){
               return key;
             }
-            public Object getValue(){
+            public V getValue(){
               return value;
             }
-            public Object setValue(            final Object value){
-              final Object oldValue=MicroMap.this.value;
+            public V setValue(            final V value){
+              final V oldValue=MicroMap.this.value;
               MicroMap.this.value=value;
               return oldValue;
             }

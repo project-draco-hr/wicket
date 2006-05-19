@@ -1,14 +1,14 @@
 {
   super(id);
-  final List data=new ArrayList();
+  final List<ComponentData> data=new ArrayList<ComponentData>();
   add(new Label("info",page == null ? "[Stateless Page]" : page.toString()));
   data.clear();
   if (page != null) {
     data.addAll(getComponentData(page));
   }
-  Collections.sort(data,new Comparator(){
-    public int compare(    Object o1,    Object o2){
-      return ((ComponentData)o1).path.compareTo(((ComponentData)o2).path);
+  Collections.sort(data,new Comparator<ComponentData>(){
+    public int compare(    ComponentData o1,    ComponentData o2){
+      return o1.path.compareTo(o2.path);
     }
   }
 );

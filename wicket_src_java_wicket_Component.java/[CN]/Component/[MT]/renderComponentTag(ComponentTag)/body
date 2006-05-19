@@ -3,8 +3,8 @@
   if (!(tag instanceof WicketTag) || !stripWicketTags) {
     if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       tag=tag.mutable();
-      for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
-        IBehavior behavior=(IBehavior)i.next();
+      for (Iterator<IBehavior> i=behaviors.iterator(); i.hasNext(); ) {
+        IBehavior behavior=i.next();
         if (isBehaviorAccepted(behavior)) {
           behavior.onComponentTag(this,tag);
         }

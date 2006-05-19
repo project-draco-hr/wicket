@@ -1,0 +1,10 @@
+{
+  RequestCycle rc=RequestCycle.get();
+  if (rc != null) {
+    final IPageMapEntry entry=(IPageMapEntry)Application.get().getSessionStore().getAttribute(rc.getRequest(),attributeForId(id));
+    if (entry != null) {
+      return entry.getPage().getVersion(versionNumber);
+    }
+  }
+  return null;
+}

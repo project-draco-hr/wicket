@@ -4,7 +4,7 @@
       convertedInput=convertValue(getInputAsArray());
     }
  catch (    ConversionException e) {
-      Map args=new HashMap();
+      Map<String,Serializable> args=new HashMap<String,Serializable>();
       final Locale locale=e.getLocale();
       if (locale != null) {
         args.put("locale",locale);
@@ -20,12 +20,12 @@
     }
   }
  else   if (!Strings.isEmpty(getInput())) {
-    final IConverter converter=getConverter();
+    final IConverter converter=getConverter(type);
     try {
-      convertedInput=converter.convert(getInput(),type);
+      convertedInput=(V)converter.convertToObject(getInput(),getLocale());
     }
  catch (    ConversionException e) {
-      Map args=new HashMap();
+      Map<String,Serializable> args=new HashMap<String,Serializable>();
       args.put("type",Classes.simpleName(type));
       final Locale locale=e.getLocale();
       if (locale != null) {

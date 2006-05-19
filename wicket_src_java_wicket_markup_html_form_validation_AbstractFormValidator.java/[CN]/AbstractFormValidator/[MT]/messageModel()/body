@@ -1,13 +1,13 @@
 {
   FormComponent[] formComponents=getDependentFormComponents();
   if (formComponents != null && formComponents.length > 0) {
-    Map args=new HashMap(formComponents.length * 3);
+    Map<String,Serializable> args=new HashMap<String,Serializable>(formComponents.length * 3);
     for (int i=0; i < formComponents.length; i++) {
       final FormComponent formComponent=formComponents[i];
       String arg="label" + i;
       IModel label=formComponent.getLabel();
       if (label != null) {
-        args.put(arg,label.getObject(formComponent));
+        args.put(arg,(Serializable)label.getObject(formComponent));
       }
  else {
         args.put(arg,formComponent.getLocalizer().getString(formComponent.getId(),formComponent.getParent(),formComponent.getId()));
@@ -18,6 +18,6 @@
     return args;
   }
  else {
-    return new HashMap(2);
+    return new HashMap<String,Serializable>(2);
   }
 }

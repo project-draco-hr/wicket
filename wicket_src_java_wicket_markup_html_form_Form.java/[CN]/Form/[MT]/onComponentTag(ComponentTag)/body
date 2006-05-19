@@ -12,7 +12,23 @@
     }
   }
   tag.put("method","post");
-  tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.INTERFACE),"&","&amp;"));
+  Page page=getPage();
+  boolean addAction=true;
+  if (bookmarkableHint && page.isStateless()) {
+    try {
+      if (page.getClass().getConstructor((Class[])null) != null || page.getClass().getConstructor(new Class[]{PageParameters.class}) != null) {
+        PageParameters<String,Object> pp=new PageParameters<String,Object>();
+        pp.add(WebRequestCodingStrategy.BOOKMARKABLE_FORM_PARAMETER_NAME,getPageRelativePath());
+        tag.put("action",urlFor(page.getClass(),pp));
+        addAction=false;
+      }
+    }
+ catch (    Exception e) {
+    }
+  }
+  if (addAction) {
+    tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.INTERFACE),"&","&amp;"));
+  }
   if (multiPart) {
     tag.put("enctype","multipart/form-data");
   }

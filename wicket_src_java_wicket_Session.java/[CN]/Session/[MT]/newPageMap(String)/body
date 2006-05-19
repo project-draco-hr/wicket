@@ -1,10 +1,10 @@
 {
   final int maxPageMaps=getApplication().getSessionSettings().getMaxPageMaps();
   if (usedPageMaps.size() >= maxPageMaps) {
-    PageMap pm=(PageMap)usedPageMaps.getFirst();
+    PageMap pm=usedPageMaps.getFirst();
     pm.remove();
   }
-  final PageMap pageMap=new PageMap(name,this);
+  final PageMap pageMap=getSessionStore().createPageMap(name,this);
   setAttribute(attributeForPageMapName(name),pageMap);
   dirty();
   return pageMap;

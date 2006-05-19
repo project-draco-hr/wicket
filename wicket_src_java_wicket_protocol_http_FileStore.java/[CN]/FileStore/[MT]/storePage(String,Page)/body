@@ -1,0 +1,23 @@
+{
+  File sessionDir=new File(workDir,sessionId);
+  sessionDir.mkdirs();
+  File pageFile=getPageFile(page.getNumericId(),page.getCurrentVersionNumber(),sessionDir);
+  page.detachModels();
+  byte[] bytes=Objects.objectToByteArray(page);
+  FileOutputStream fos=null;
+  try {
+    fos=new FileOutputStream(pageFile);
+    ByteBuffer bb=ByteBuffer.wrap(bytes);
+    fos.getChannel().write(bb);
+  }
+ catch (  Exception e) {
+    log.debug("Error saving page " + page.getId() + " with version "+ page.getCurrentVersionNumber()+ " for the sessionid "+ sessionId+ " from disc",e);
+  }
+ finally {
+    try {
+      if (fos != null)       fos.close();
+    }
+ catch (    IOException ex) {
+    }
+  }
+}

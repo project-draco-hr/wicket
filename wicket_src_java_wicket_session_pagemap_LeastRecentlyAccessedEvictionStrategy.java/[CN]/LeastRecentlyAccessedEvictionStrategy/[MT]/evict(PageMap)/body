@@ -1,20 +1,23 @@
 {
+  if (pageMap instanceof AccessStackPageMap) {
 synchronized (Session.get()) {
-    if (pageMap.getVersions() > maxVersions) {
-      final PageMap.Access oldestAccess=(PageMap.Access)pageMap.getAccessStack().remove(0);
-      final IPageMapEntry oldestEntry=pageMap.getEntry(oldestAccess.getId());
-      if (oldestEntry instanceof Page) {
-        Page page=(Page)oldestEntry;
-        if (page.getVersions() > 1) {
-          page.expireOldestVersion();
+      AccessStackPageMap accessPM=(AccessStackPageMap)pageMap;
+      if (accessPM.getVersions() > maxVersions) {
+        final AccessStackPageMap.Access oldestAccess=(AccessStackPageMap.Access)accessPM.getAccessStack().remove(0);
+        final IPageMapEntry oldestEntry=pageMap.getEntry(oldestAccess.getId());
+        if (oldestEntry instanceof Page) {
+          Page page=(Page)oldestEntry;
+          if (page.getVersions() > 1) {
+            page.expireOldestVersion();
+          }
+ else {
+            accessPM.removeEntry(page);
+          }
         }
  else {
-          pageMap.removeEntry(page);
-        }
-      }
- else {
-        if (oldestEntry != null) {
-          pageMap.removeEntry(oldestEntry);
+          if (oldestEntry != null) {
+            accessPM.removeEntry(oldestEntry);
+          }
         }
       }
     }

@@ -1,0 +1,17 @@
+{
+  final List<Component> sorted;
+  if (children == null) {
+    sorted=Collections.emptyList();
+  }
+ else {
+    if (children instanceof Component) {
+      sorted=new ArrayList<Component>(1);
+      sorted.add((Component)children);
+    }
+ else {
+      sorted=Arrays.asList((Component[])children);
+    }
+  }
+  Collections.sort(sorted,comparator);
+  return sorted.iterator();
+}

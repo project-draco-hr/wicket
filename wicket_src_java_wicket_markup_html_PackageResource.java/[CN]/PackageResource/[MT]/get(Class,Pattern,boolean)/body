@@ -1,5 +1,5 @@
 {
-  final List resources=new ArrayList();
+  final List<PackageResource> resources=new ArrayList<PackageResource>();
   String packageRef=Strings.replaceAll(PackageName.forClass(scope).getName(),".","/").toString();
   ClassLoader loader=scope.getClassLoader();
   try {
@@ -35,7 +35,7 @@
           log.debug("trying the filename: " + filename + " to load as a zip/jar.");
           JarFile jarFile=new JarFile(filename,false);
           scanJarFile(scope,pattern,recurse,resources,packageRef,jarFile);
-          return (PackageResource[])resources.toArray(new PackageResource[resources.size()]);
+          return resources.toArray(new PackageResource[resources.size()]);
         }
         if (!basedir.isDirectory()) {
           throw new IllegalStateException("unable to read resources from directory " + basedir);
@@ -47,5 +47,5 @@
  catch (  IOException e) {
     throw new WicketRuntimeException(e);
   }
-  return (PackageResource[])resources.toArray(new PackageResource[resources.size()]);
+  return resources.toArray(new PackageResource[resources.size()]);
 }

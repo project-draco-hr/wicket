@@ -1,11 +1,13 @@
 {
   try {
     final ByteArrayInputStream in=new ByteArrayInputStream(data);
+    ObjectInputStream ois=null;
     try {
-      return new ObjectInputStream(in).readObject();
+      ois=new ObjectInputStream(in);
+      return ois.readObject();
     }
   finally {
-      in.close();
+      if (ois != null)       ois.close();
     }
   }
  catch (  ClassNotFoundException e) {

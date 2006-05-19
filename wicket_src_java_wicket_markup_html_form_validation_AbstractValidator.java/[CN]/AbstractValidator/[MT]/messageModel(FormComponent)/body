@@ -1,5 +1,5 @@
 {
-  final Map resourceModel=new HashMap(4);
+  final Map<String,Serializable> resourceModel=new HashMap<String,Serializable>(4);
   resourceModel.put("input",formComponent.getInput());
   resourceModel.put("name",formComponent.getId());
   Object label=null;
@@ -7,7 +7,7 @@
     label=formComponent.getLabel().getObject(formComponent);
   }
   if (label != null) {
-    resourceModel.put("label",label);
+    resourceModel.put("label",(Serializable)label);
   }
  else {
     resourceModel.put("label",formComponent.getLocalizer().getString(formComponent.getId(),formComponent.getParent(),formComponent.getId()));

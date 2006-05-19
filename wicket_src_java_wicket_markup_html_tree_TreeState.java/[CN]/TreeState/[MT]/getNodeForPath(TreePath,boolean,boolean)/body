@@ -11,12 +11,12 @@
     if (onlyIfVisible) {
       return null;
     }
-    ArrayListStack paths;
+    ArrayListStack<TreePath> paths;
     if (tempStacks.size() == 0) {
-      paths=new ArrayListStack();
+      paths=new ArrayListStack<TreePath>();
     }
  else {
-      paths=(ArrayListStack)tempStacks.pop();
+      paths=tempStacks.pop();
     }
     try {
       paths.push(path);
@@ -25,7 +25,7 @@
         node=getMapping(path);
         if (node != null) {
           while (node != null && paths.size() > 0) {
-            path=(TreePath)paths.pop();
+            path=paths.pop();
             node=node.createChildFor(path.getLastPathComponent());
           }
           return node;

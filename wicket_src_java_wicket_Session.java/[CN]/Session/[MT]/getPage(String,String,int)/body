@@ -5,7 +5,7 @@
   PageMap pageMap=pageMapForName(pageMapName,pageMapName == PageMap.DEFAULT_NAME);
   if (pageMap != null) {
     final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
-    Thread t=(Thread)usedPages.get(id);
+    Thread t=usedPages.get(id);
     while (t != null && t != Thread.currentThread()) {
       try {
         wait(1000);
@@ -13,7 +13,7 @@
  catch (      InterruptedException ex) {
         throw new WicketRuntimeException(ex);
       }
-      t=(Thread)usedPages.get(id);
+      t=usedPages.get(id);
     }
     usedPages.put(id,Thread.currentThread());
     Page page=pageMap.get(Integer.parseInt(id),versionNumber);

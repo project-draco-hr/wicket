@@ -1,6 +1,6 @@
 {
-  for (Iterator iter=requestTargets.iterator(); iter.hasNext(); ) {
-    IRequestTarget target=(IRequestTarget)iter.next();
+  for (Iterator<IRequestTarget> iter=requestTargets.iterator(); iter.hasNext(); ) {
+    IRequestTarget target=iter.next();
     if (target != null) {
       try {
         target.detach(this);
@@ -18,10 +18,11 @@
     ((BufferedWebResponse)getResponse()).filter();
   }
   try {
+    getApplication().getSessionStore().onEndRequest(request);
     onEndRequest();
   }
  catch (  RuntimeException e) {
-    log.error("Exception occurred during onEndRequest",e);
+    log.error("Exception occurred during request detachement",e);
   }
   threadDetach();
 }

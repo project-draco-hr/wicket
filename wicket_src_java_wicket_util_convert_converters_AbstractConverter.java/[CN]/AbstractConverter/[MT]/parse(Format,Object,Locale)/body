@@ -1,0 +1,9 @@
+{
+  final ParsePosition position=new ParsePosition(0);
+  final String stringValue=value.toString();
+  final Object result=format.parseObject(stringValue,position);
+  if (position.getIndex() != stringValue.length()) {
+    throw newConversionException("Cannot parse '" + value + "' using format "+ format,value,locale).setFormat(format);
+  }
+  return result;
+}

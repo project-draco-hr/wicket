@@ -1,0 +1,20 @@
+{
+  final IModel<V> model=getModel();
+  if (model == null) {
+    throw new IllegalStateException("Attempt to set model object on null model of component: " + getPageRelativePath());
+  }
+  if (!isActionAuthorized(ENABLE)) {
+    throw new UnauthorizedActionException(this,ENABLE);
+  }
+  if (!getModelComparator().compare(this,object)) {
+    modelChanging();
+    if (getFlag(FLAG_HAS_ROOT_MODEL)) {
+      getRootModel(model).setObject(null,object);
+    }
+ else {
+      model.setObject(this,object);
+    }
+    modelChanged();
+  }
+  return this;
+}

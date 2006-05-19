@@ -1,7 +1,7 @@
 {
-  Iterator iter=locators.iterator();
+  Iterator<IResourceStreamLocator> iter=locators.iterator();
   while (iter.hasNext()) {
-    IResourceStream resource=((IResourceStreamLocator)iter.next()).locate(clazz,path,style,locale,extension);
+    IResourceStream resource=iter.next().locate(clazz,path,style,locale,extension);
     if (resource != null) {
       return resource;
     }

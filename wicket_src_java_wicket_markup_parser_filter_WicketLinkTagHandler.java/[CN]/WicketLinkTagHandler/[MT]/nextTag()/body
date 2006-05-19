@@ -14,7 +14,7 @@
       if (tag.isOpen() || tag.isOpenClose()) {
         if (tag.isOpen()) {
           if (autolinkStatus == null) {
-            autolinkStatus=new ArrayListStack();
+            autolinkStatus=new ArrayListStack<Boolean>();
           }
           autolinkStatus.push(new Boolean(autolinking));
         }
@@ -27,7 +27,7 @@
         }
       }
  else       if (tag.isClose()) {
-        autolinking=((Boolean)autolinkStatus.pop()).booleanValue();
+        autolinking=autolinkStatus.pop().booleanValue();
       }
       return wtag;
     }
