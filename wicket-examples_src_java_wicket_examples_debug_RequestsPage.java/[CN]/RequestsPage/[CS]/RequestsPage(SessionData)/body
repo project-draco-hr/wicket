@@ -16,23 +16,16 @@
       Label startDate=new Label("startDate",new Model(rd.getStartDate())){
         private static final long serialVersionUID=1L;
         /** 
- * @see wicket.Component#getConverter()
+ * @see wicket.Component#getConverter(Class)
  */
-        public IConverter getConverter(){
-          final IConverter converter=super.getConverter();
-          return new IConverter(){
+        public IConverter getConverter(        Class type){
+          return new DateConverter(){
             private static final long serialVersionUID=1L;
-            public Locale getLocale(){
-              return converter.getLocale();
-            }
-            public void setLocale(            Locale locale){
-              converter.setLocale(locale);
-            }
-            public Object convert(            Object value,            Class c){
-              if (value instanceof Date && c == String.class) {
-                return sdf.format((Date)value);
-              }
-              return converter.convert(value,c);
+            /** 
+ * @see wicket.util.convert.converters.DateConverter#getDateFormat(java.util.Locale)
+ */
+            public DateFormat getDateFormat(            Locale locale){
+              return sdf;
             }
           }
 ;
