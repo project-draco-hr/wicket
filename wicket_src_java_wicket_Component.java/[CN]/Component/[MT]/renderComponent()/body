@@ -9,9 +9,9 @@
     try {
       parent.setMarkupStream(markupStream);
       if (this instanceof MarkupContainer) {
-        MarkupContainer container=(MarkupContainer)this;
-        container.visitChildren(IFeedback.class,new IVisitor(){
-          public Object component(          Component component){
+        MarkupContainer<V> container=(MarkupContainer<V>)this;
+        container.visitChildren(IFeedback.class,new IVisitor<Component<?>>(){
+          public Object component(          Component<?> component){
             ((IFeedback)component).updateFeedback();
             component.internalAttach();
             return IVisitor.CONTINUE_TRAVERSAL;
