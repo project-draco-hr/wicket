@@ -14,7 +14,7 @@
   final List items;
   if (wantUploadProgressUpdates()) {
     ServletRequestContext ctx=new ServletRequestContext(request){
-      public InputStream getInputStream() throws IOException {
+      @Override public InputStream getInputStream() throws IOException {
         return new CountingInputStream(super.getInputStream());
       }
     }

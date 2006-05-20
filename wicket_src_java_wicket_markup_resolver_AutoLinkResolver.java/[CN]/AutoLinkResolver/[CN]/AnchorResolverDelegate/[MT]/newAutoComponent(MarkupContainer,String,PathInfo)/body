@@ -11,7 +11,7 @@
       className=infoPath.substring(1);
     }
     try {
-      final Class<? extends Page> clazz=(Class<? extends Page>)defaultClassResolver.resolveClass(className);
+      final Class<? extends Page> clazz=defaultClassResolver.resolveClass(className);
       return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.pageParameters,pathInfo.anchor);
     }
  catch (    WicketRuntimeException ex) {
@@ -19,11 +19,11 @@
     }
     MarkupContainer parentWithContainer=container.findParentWithAssociatedMarkup();
     if ((parentWithContainer instanceof Page) && !infoPath.startsWith(".") && page.getMarkupStream().isMergedMarkup()) {
-      Class<? extends Page> clazz=(Class<? extends Page>)container.getMarkupStream().getTag().getMarkupClass();
+      Class<? extends Page> clazz=container.getMarkupStream().getTag().getMarkupClass();
       if (clazz != null) {
         className=Packages.extractPackageName(clazz) + "." + infoPath;
         try {
-          clazz=(Class<? extends Page>)defaultClassResolver.resolveClass(className);
+          clazz=defaultClassResolver.resolveClass(className);
           return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters(),pathInfo.anchor);
         }
  catch (        WicketRuntimeException ex) {
