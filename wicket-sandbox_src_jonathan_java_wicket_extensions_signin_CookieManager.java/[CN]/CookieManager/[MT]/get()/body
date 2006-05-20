@@ -1,0 +1,12 @@
+{
+  final Session session=Session.get();
+  final CookieManager cookieManager=(CookieManager)session.getMetaData(metaDataKey);
+  if (cookieManager != null) {
+    return cookieManager;
+  }
+ else {
+    final CookieManager newCookieManager=new CookieManager();
+    session.setMetaData(metaDataKey,newCookieManager);
+    return newCookieManager;
+  }
+}

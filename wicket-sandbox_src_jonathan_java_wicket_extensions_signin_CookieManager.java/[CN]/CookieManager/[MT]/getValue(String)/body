@@ -1,0 +1,13 @@
+{
+  Cookie[] cookies=getWebRequest().getCookies();
+  if (cookies != null) {
+    for (    Cookie cookie : cookies) {
+      if (cookie.getName().equals(getCookieName(name))) {
+        if (cookie.getValue() != null && cookie.getValue().length() > 0) {
+          return cookie.getValue();
+        }
+      }
+    }
+  }
+  return null;
+}
