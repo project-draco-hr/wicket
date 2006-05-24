@@ -1,6 +1,27 @@
 {
   super(parent,id,columns,dataProvider,rowsPerPage);
-  addTopToolbar(new NavigationToolbar(this));
-  addTopToolbar(new HeadersToolbar(this,dataProvider));
-  addBottomToolbar(new NoRecordsToolbar(this));
+  addTopToolbar(new IToolbarFactory(){
+    public AbstractToolbar newToolbar(    MarkupContainer parent,    String id,    DataTable dataTable){
+      return new NavigationToolbar(parent,id,dataTable);
+    }
+  }
+);
+  addTopToolbar(new IToolbarFactory(){
+    public AbstractToolbar newToolbar(    MarkupContainer parent,    String id,    DataTable dataTable){
+      return new NavigationToolbar(parent,id,dataTable);
+    }
+  }
+);
+  addTopToolbar(new IToolbarFactory(){
+    public AbstractToolbar newToolbar(    MarkupContainer parent,    String id,    DataTable dataTable){
+      return new HeadersToolbar(parent,id,dataTable,dataProvider);
+    }
+  }
+);
+  addBottomToolbar(new IToolbarFactory(){
+    public AbstractToolbar newToolbar(    MarkupContainer parent,    String id,    DataTable dataTable){
+      return new NoRecordsToolbar(parent,id,dataTable);
+    }
+  }
+);
 }
