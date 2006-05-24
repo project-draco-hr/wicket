@@ -1,0 +1,19 @@
+{
+  super(parent,id);
+  ListView lv=new ListView(this,"file",new PackagedResourcesModel()){
+    protected void populateItem(    ListItem item){
+      AjaxFallbackLink link=new AjaxFallbackLink(item,"link",item.getModel()){
+        public void onClick(        AjaxRequestTarget target){
+          setName(getModelObjectAsString());
+          target.addComponent(codePanel);
+          target.addComponent(filename);
+        }
+      }
+;
+      link.add(new Label(link,"name",item.getModelObjectAsString()));
+      item.add(link);
+    }
+  }
+;
+  add(lv);
+}

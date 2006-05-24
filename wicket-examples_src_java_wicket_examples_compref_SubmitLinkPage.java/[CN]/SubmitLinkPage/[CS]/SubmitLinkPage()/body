@@ -1,16 +1,16 @@
 {
-  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  FeedbackPanel feedbackPanel=new FeedbackPanel(this,"feedback");
   add(feedbackPanel);
-  Form form=new Form("form");
+  Form form=new Form(this,"form");
   add(form);
-  SubmitLink internal=new SubmitLink("internal"){
+  SubmitLink internal=new SubmitLink(form,"internal"){
     protected void onSubmit(){
       info("internal onsubmit");
     }
   }
 ;
   form.add(internal);
-  SubmitLink external=new SubmitLink("external",form){
+  SubmitLink external=new SubmitLink(this,"external",form){
     protected void onSubmit(){
       info("external onsubmit");
     }

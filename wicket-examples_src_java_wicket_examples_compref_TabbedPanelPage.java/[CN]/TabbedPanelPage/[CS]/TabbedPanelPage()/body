@@ -3,22 +3,22 @@
   addCssSwitchingLinks();
   List tabs=new ArrayList();
   tabs.add(new AbstractTab(new Model("first tab")){
-    public Panel getPanel(    String panelId){
-      return new TabPanel1(panelId);
+    public Panel getPanel(    MarkupContainer<?> parent,    String panelId){
+      return new TabPanel1(parent,panelId);
     }
   }
 );
   tabs.add(new AbstractTab(new Model("second tab")){
-    public Panel getPanel(    String panelId){
-      return new TabPanel2(panelId);
+    public Panel getPanel(    MarkupContainer<?> parent,    String panelId){
+      return new TabPanel2(parent,panelId);
     }
   }
 );
   tabs.add(new AbstractTab(new Model("third tab")){
-    public Panel getPanel(    String panelId){
-      return new TabPanel3(panelId);
+    public Panel getPanel(    MarkupContainer<?> parent,    String panelId){
+      return new TabPanel3(parent,panelId);
     }
   }
 );
-  add(new TabbedPanel("tabs",tabs).add(new AttributeModifier("class",true,TabbedPanelPage.this.getModel())));
+  add(new TabbedPanel(this,"tabs",tabs).add(new AttributeModifier("class",true,TabbedPanelPage.this.getModel())));
 }

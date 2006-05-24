@@ -1,13 +1,13 @@
 {
-  CommentForm commentForm=new CommentForm("commentForm");
+  CommentForm commentForm=new CommentForm(this,"commentForm");
   add(commentForm);
-  comments=new WebMarkupContainer("comments");
+  comments=new WebMarkupContainer(this,"comments");
   add(comments.setOutputMarkupId(true));
-  comments.add(commentListView=new ListView("comments",new PropertyModel(this,"commentList")){
+  comments.add(commentListView=new ListView(comments,"comments",new PropertyModel(this,"commentList")){
     public void populateItem(    final ListItem listItem){
       final Comment comment=(Comment)listItem.getModelObject();
-      listItem.add(new Label("date",new Model(comment.getDate())));
-      listItem.add(new MultiLineLabel("text",comment.getText()));
+      listItem.add(new Label(listItem,"date",new Model(comment.getDate())));
+      listItem.add(new MultiLineLabel(listItem,"text",comment.getText()));
     }
   }
 );

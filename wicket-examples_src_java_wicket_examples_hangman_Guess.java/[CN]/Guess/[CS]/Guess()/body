@@ -1,15 +1,15 @@
 {
-  add(new Label("guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
-  add(new Label("word",new Model(){
+  add(new Label(this,"guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
+  add(new Label(this,"word",new Model(){
     public Object getObject(    wicket.Component component){
       return getGame().getWord().asString(true);
     }
   }
 ));
-  add(new ListView("letters",getGame().getLetters()){
+  add(new ListView(this,"letters",getGame().getLetters()){
     protected void populateItem(    final ListItem listItem){
       final Letter letter=(Letter)listItem.getModelObject();
-      final Link link=new Link("letter"){
+      final Link link=new Link(listItem,"letter"){
         protected void onBeginRequest(){
           setAutoEnable(false);
           setEnabled(!letter.isGuessed());
@@ -28,7 +28,7 @@
       }
 ;
       link.add(new AttributeModifier("id",true,new Model("letter_" + letter.asString())));
-      link.add(new Image("image",letter.getSharedImageResource()));
+      link.add(new Image(link,"image",letter.getSharedImageResource()));
       listItem.add(link);
     }
   }

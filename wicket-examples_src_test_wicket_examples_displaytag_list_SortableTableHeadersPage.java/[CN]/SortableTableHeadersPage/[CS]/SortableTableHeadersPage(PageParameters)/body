@@ -10,17 +10,17 @@
   addUser(list,7,"Name-bab","mail-7");
   addUser(list,8,"Name-dca","mail-8");
   addUser(list,9,"Name-eaa","mail-9");
-  ListView table=new ListView("table",list){
+  ListView table=new ListView(this,"table",list){
     protected void populateItem(    ListItem listItem){
       User user=(User)listItem.getModelObject();
-      listItem.add(new Label("id",new PropertyModel(user,"id")));
-      listItem.add(new Label("name",new PropertyModel(user,"name")));
-      listItem.add(new Label("email",new PropertyModel(user,"email")));
+      listItem.add(new Label(listItem,"id",new PropertyModel(user,"id")));
+      listItem.add(new Label(listItem,"name",new PropertyModel(user,"name")));
+      listItem.add(new Label(listItem,"email",new PropertyModel(user,"email")));
     }
   }
 ;
   add(table);
-  add(new SortableListViewHeaders("header",table){
+  add(new SortableListViewHeaders(this,"header",table){
     protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
       if (header.getId().equals("id")) {
         return ((User)o1).id - ((User)o2).id;

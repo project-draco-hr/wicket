@@ -1,0 +1,15 @@
+{
+  super(parent,id);
+  setOutputMarkupId(true);
+  add(new ListView(this,"item",items){
+    protected void populateItem(    ListItem item){
+      item.add(new AjaxCheckBox(item,"check",new PropertyModel(item.getModel(),"checked")){
+        protected void onUpdate(        AjaxRequestTarget target){
+        }
+      }
+);
+      item.add(new Label(item,"text",new PropertyModel(item.getModel(),"text")));
+    }
+  }
+);
+}

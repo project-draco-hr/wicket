@@ -1,0 +1,38 @@
+{
+  super(parent,id);
+  this.data=new ArrayList();
+  this.data.addAll(list);
+  final SimplePageableListView table=new SimplePageableListView(this,"rows",list,10);
+  add(table);
+  add(new SortableListViewHeaders(this,"header",table){
+    protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
+      if (header.getId().equals("id")) {
+        return ((ListObject)o1).getId() - ((ListObject)o2).getId();
+      }
+      return super.compareTo(header,o1,o2);
+    }
+    protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
+      final String name=header.getId();
+      if (name.equals("name")) {
+        return ((ListObject)object).getName();
+      }
+      if (name.equals("email")) {
+        return ((ListObject)object).getEmail();
+      }
+      if (name.equals("status")) {
+        return ((ListObject)object).getStatus();
+      }
+      if (name.equals("comment")) {
+        return ((ListObject)object).getDescription();
+      }
+      return "";
+    }
+  }
+);
+  add(new TableHeaderLabel(this,"headline",table));
+  add(new PagingNavigation(this,"navigation",table));
+  add(new PagingNavigationLink(this,"first",table,0));
+  add(new PagingNavigationIncrementLink(this,"prev",table,-1));
+  add(new PagingNavigationIncrementLink(this,"next",table,1));
+  add(new PagingNavigationLink(this,"last",table,table.getPageCount() - 1));
+}

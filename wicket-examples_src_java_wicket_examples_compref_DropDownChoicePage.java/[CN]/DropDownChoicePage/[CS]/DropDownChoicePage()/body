@@ -1,17 +1,17 @@
 {
   final Input input=new Input();
   setModel(new CompoundPropertyModel(input));
-  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  FeedbackPanel feedbackPanel=new FeedbackPanel(this,"feedback");
   add(feedbackPanel);
-  Form form=new Form("form"){
+  Form form=new Form(this,"form"){
     protected void onSubmit(){
       info("input: " + input);
     }
   }
 ;
   add(form);
-  form.add(new DropDownChoice("site",SITES));
-  form.add(new DropDownChoice("integer",INTEGERS,new IChoiceRenderer(){
+  form.add(new DropDownChoice(form,"site",SITES));
+  form.add(new DropDownChoice(form,"integer",INTEGERS,new IChoiceRenderer(){
     /** 
  * Gets the display value that is visible to the end user.
  * @see wicket.markup.html.form.IChoiceRenderer#getDisplayValue(java.lang.Object)

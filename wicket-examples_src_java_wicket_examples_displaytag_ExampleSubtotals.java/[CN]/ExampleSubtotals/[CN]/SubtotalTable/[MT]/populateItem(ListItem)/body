@@ -1,11 +1,11 @@
 {
   final ReportableListObject value=(ReportableListObject)listItem.getModelObject();
   if (previousValue != null) {
-    listItem.add(new Label("city",""));
+    listItem.add(new Label(listItem,"city",""));
     boolean equal=value.getProject().equals(previousValue.getProject());
-    listItem.add(new Label("project",equal ? "" : value.getProject()));
+    listItem.add(new Label(listItem,"project",equal ? "" : value.getProject()));
   }
-  listItem.add(new Label("hours",Double.toString(value.getAmount())));
+  listItem.add(new Label(listItem,"hours",Double.toString(value.getAmount())));
   subtotal+=value.getAmount();
   previousValue=value;
 }

@@ -1,23 +1,23 @@
 {
-  final Link actionLink=new Link("actionLink"){
+  final Link actionLink=new Link(this,"actionLink"){
     public void onClick(){
       linkClickCount++;
     }
   }
 ;
-  actionLink.add(new Label("linkClickCount",new PropertyModel(this,"linkClickCount")));
+  actionLink.add(new Label(actionLink,"linkClickCount",new PropertyModel(this,"linkClickCount")));
   add(actionLink);
-  final Link actionOnClickLink=new Link("actionOnClickLink"){
+  final Link actionOnClickLink=new Link(this,"actionOnClickLink"){
     public void onClick(){
       onClickLinkClickCount++;
     }
   }
 ;
   add(actionOnClickLink);
-  add(new Label("onClickLinkClickCount",new PropertyModel(this,"onClickLinkClickCount")));
-  add(new BookmarkablePageLink("page1Link",Page1.class));
-  add(new BookmarkablePageLink("page3Link",Page3.class).setParameter("bookmarkparameter","3++2 & 5 ? >< space + ?"));
-  add(new PageLink("bookDetailsLink",new IPageLink(){
+  add(new Label(this,"onClickLinkClickCount",new PropertyModel(this,"onClickLinkClickCount")));
+  add(new BookmarkablePageLink(this,"page1Link",Page1.class));
+  add(new BookmarkablePageLink(this,"page3Link",Page3.class).setParameter("bookmarkparameter","3++2 & 5 ? >< space + ?"));
+  add(new PageLink(this,"bookDetailsLink",new IPageLink(){
     public Page getPage(){
       return new BookDetails(new Book("The Hobbit"));
     }
@@ -26,7 +26,7 @@
     }
   }
 ));
-  add(new PageLink("bookDetailsLink2",new IPageLink(){
+  add(new PageLink(this,"bookDetailsLink2",new IPageLink(){
     public Page getPage(){
       return new BookDetails(new Book("Inside The Matrix"));
     }
@@ -35,15 +35,15 @@
     }
   }
 ));
-  add(new ImageMap("imageMap").addRectangleLink(0,0,100,100,new BookmarkablePageLink("page1",Page1.class)).addCircleLink(160,50,35,new BookmarkablePageLink("page2",Page2.class)).addPolygonLink(new int[]{212,79,241,4,279,54,212,79},new BookmarkablePageLink("page3",Page3.class)));
+  add(new ImageMap(this,"imageMap").addRectangleLink(0,0,100,100,new BookmarkablePageLink("page1",Page1.class)).addCircleLink(160,50,35,new BookmarkablePageLink("page2",Page2.class)).addPolygonLink(new int[]{212,79,241,4,279,54,212,79},new BookmarkablePageLink("page3",Page3.class)));
   PopupSettings popupSettings=new PopupSettings(PageMap.forName("popuppagemap")).setHeight(500).setWidth(500);
-  add(new BookmarkablePageLink("popupLink",Popup.class).setPopupSettings(popupSettings));
-  add(new BookmarkablePageLink("popupButtonLink",Popup.class).setPopupSettings(popupSettings));
-  add(new ExternalLink("google","http://www.google.com","Click this link to go to Google"));
+  add(new BookmarkablePageLink(this,"popupLink",Popup.class).setPopupSettings(popupSettings));
+  add(new BookmarkablePageLink(this,"popupButtonLink",Popup.class).setPopupSettings(popupSettings));
+  add(new ExternalLink(this,"google","http://www.google.com","Click this link to go to Google"));
   PopupSettings googlePopupSettings=new PopupSettings(PopupSettings.RESIZABLE | PopupSettings.SCROLLBARS).setHeight(500).setWidth(700);
-  add(new ExternalLink("googlePopup","http://www.google.com","Click this link to go to Google in a popup").setPopupSettings(googlePopupSettings));
-  add(new ResourceLink("cancelButtonLink",new ResourceReference("cancelButton")));
-  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(new ExternalLink(this,"googlePopup","http://www.google.com","Click this link to go to Google in a popup").setPopupSettings(googlePopupSettings));
+  add(new ResourceLink(this,"cancelButtonLink",new ResourceReference("cancelButton")));
+  FeedbackPanel feedbackPanel=new FeedbackPanel(this,"feedback");
   add(feedbackPanel);
-  add(new RedirectForm("redirectForm"));
+  add(new RedirectForm(this,"redirectForm"));
 }

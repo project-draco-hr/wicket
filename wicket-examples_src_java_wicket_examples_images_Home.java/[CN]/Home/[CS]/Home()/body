@@ -1,15 +1,15 @@
 {
   final ImagesApplication application=(ImagesApplication)getApplication();
-  add(new Image("image2"));
-  add(new Image("image3",new RenderedDynamicImageResource(100,100){
+  add(new Image(this,"image2"));
+  add(new Image(this,"image3",new RenderedDynamicImageResource(100,100){
     protected boolean render(    Graphics2D graphics){
       drawCircle(graphics);
       return true;
     }
   }
 ));
-  add(new Image("image4",new Model("Image2.gif")));
-  add(new Image("image5",getImage5Resource()));
-  add(new Image("okButton",getOkButtonImage()));
-  add(new NonCachingImage("cancelButton",new ResourceReference("cancelButton")));
+  add(new Image(this,"image4",new Model("Image2.gif")));
+  add(new Image(this,"image5",getImage5Resource()));
+  add(new Image(this,"okButton",getOkButtonImage()));
+  add(new NonCachingImage(this,"cancelButton",new ResourceReference("cancelButton")));
 }
