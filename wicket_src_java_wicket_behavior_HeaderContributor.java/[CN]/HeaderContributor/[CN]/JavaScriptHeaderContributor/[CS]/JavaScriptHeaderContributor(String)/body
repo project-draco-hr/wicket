@@ -1,0 +1,28 @@
+{
+  super(new AbstractReadOnlyModel(){
+    private static final long serialVersionUID=1L;
+    private String path=null;
+    public Object getObject(    Component component){
+      if (path == null) {
+        String contextPath=Application.get().getApplicationSettings().getContextPath();
+        if (contextPath == null) {
+          contextPath=((WebRequestCycle)RequestCycle.get()).getWebRequest().getContextPath();
+          if (contextPath == null) {
+            contextPath="";
+          }
+        }
+        AppendingStringBuffer b=new AppendingStringBuffer();
+        b.append("<script type=\"text/javascript\" src=\"");
+        b.append(contextPath);
+        if (!contextPath.endsWith("/") && !location.startsWith("/")) {
+          b.append("/");
+        }
+        b.append((location != null) ? location : "");
+        b.append("\"></script>");
+        path=b.toString();
+      }
+      return path;
+    }
+  }
+);
+}
