@@ -8,11 +8,16 @@
     props=new Properties(key,ValueMap.EMPTY_MAP);
   }
  else {
-    ValueMap strings=ValueMap.EMPTY_MAP;
+    ValueMap strings=null;
     try {
       try {
         properties.load(new BufferedInputStream(resourceStream.getInputStream()));
-        strings=new ValueMap(properties);
+        strings=new ValueMap();
+        Enumeration<?> enumeration=properties.propertyNames();
+        while (enumeration.hasMoreElements()) {
+          String property=(String)enumeration.nextElement();
+          strings.put(property,properties.getProperty(property));
+        }
       }
   finally {
         resourceStream.close();

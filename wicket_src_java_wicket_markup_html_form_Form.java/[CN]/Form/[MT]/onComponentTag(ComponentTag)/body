@@ -17,7 +17,7 @@
   if (bookmarkableHint && page.isStateless()) {
     try {
       if (page.getClass().getConstructor((Class[])null) != null || page.getClass().getConstructor(new Class[]{PageParameters.class}) != null) {
-        PageParameters<String,Object> pp=new PageParameters<String,Object>();
+        PageParameters pp=new PageParameters();
         pp.add(WebRequestCodingStrategy.BOOKMARKABLE_FORM_PARAMETER_NAME,getPageRelativePath());
         tag.put("action",urlFor(page.getClass(),pp));
         addAction=false;

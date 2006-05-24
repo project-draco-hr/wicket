@@ -1,6 +1,6 @@
 {
   final int pageIndex=getStartIndex() + loopItem.getIteration();
-  final PagingNavigationLink link=newPagingNavigationLink("pageLink",pageable,pageIndex);
+  final PagingNavigationLink link=newPagingNavigationLink(loopItem,"pageLink",pageable,pageIndex);
   loopItem.add(link);
   String label="";
   if (labelProvider != null) {
@@ -9,5 +9,5 @@
  else {
     label=String.valueOf(pageIndex + 1);
   }
-  link.add(new Label("pageNumber",label));
+  link.add(new Label(link,"pageNumber",label));
 }

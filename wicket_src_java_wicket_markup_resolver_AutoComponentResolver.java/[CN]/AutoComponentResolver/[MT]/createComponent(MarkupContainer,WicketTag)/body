@@ -10,8 +10,9 @@
   final Class componentClass=container.getSession().getClassResolver().resolveClass(classname);
   final Component component;
   try {
-    final Constructor constructor=componentClass.getConstructor(new Class[]{String.class});
-    component=(Component)constructor.newInstance(new Object[]{componentId});
+    final Constructor constructor=componentClass.getConstructor(new Class[]{MarkupContainer.class,String.class});
+    component=(Component)constructor.newInstance(new Object[]{container,componentId});
+    component.setAuto(true);
   }
  catch (  NoSuchMethodException e) {
     throw new MarkupException("Unable to create Component from wicket tag: Cause: " + e.getMessage());

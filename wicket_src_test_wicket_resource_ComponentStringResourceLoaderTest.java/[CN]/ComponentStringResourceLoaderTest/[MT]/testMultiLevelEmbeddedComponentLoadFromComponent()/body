@@ -1,8 +1,8 @@
 {
   DummyPage p=new DummyPage();
-  Panel panel=new Panel("panel");
+  Panel panel=new Panel(p,"panel");
   p.add(panel);
-  DummyComponent c=new DummyComponent("hello",application);
+  DummyComponent c=new DummyComponent(panel,"hello",application);
   panel.add(c);
   IStringResourceLoader loader=new ComponentStringResourceLoader(new DummyApplication());
   Assert.assertEquals("Valid resourse string should be found","Component string",loader.loadStringResource(c.getClass(),"component.string",Locale.getDefault(),null));

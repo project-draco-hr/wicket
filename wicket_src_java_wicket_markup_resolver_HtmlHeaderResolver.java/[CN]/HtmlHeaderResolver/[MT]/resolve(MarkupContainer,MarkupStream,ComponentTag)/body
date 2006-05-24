@@ -1,13 +1,14 @@
 {
   if (tag.getId().equals(HtmlHeaderSectionHandler.HEADER_ID)) {
-    final WebMarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
+    final WebMarkupContainer header=new HtmlHeaderContainer(container,HtmlHeaderSectionHandler.HEADER_ID);
     container.autoAdd(header);
     return true;
   }
  else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
     if (container instanceof WebPage) {
-      final MarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
-      final WebMarkupContainer header2=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
+      final MarkupContainer header=new HtmlHeaderContainer(container,HtmlHeaderSectionHandler.HEADER_ID);
+      container.autoAdd(header);
+      final WebMarkupContainer header2=new WebMarkupContainer(header,HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         @Override public boolean isTransparentResolver(){
           return true;
@@ -16,10 +17,9 @@
 ;
       header2.setRenderBodyOnly(true);
       header.add(header2);
-      container.autoAdd(header);
     }
  else     if (container instanceof HtmlHeaderContainer) {
-      final WebMarkupContainer header=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
+      final WebMarkupContainer header=new WebMarkupContainer(container,HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         @Override public boolean isTransparentResolver(){
           return true;

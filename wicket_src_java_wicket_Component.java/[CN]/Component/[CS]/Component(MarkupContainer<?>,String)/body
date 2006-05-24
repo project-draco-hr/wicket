@@ -1,0 +1,10 @@
+{
+  if (parent == null) {
+    if (!(this instanceof Page)) {
+      throw new WicketRuntimeException("component without a parent is not allowed.");
+    }
+  }
+  this.parent=parent;
+  setId(id);
+  getApplication().notifyComponentInstantiationListeners(this);
+}

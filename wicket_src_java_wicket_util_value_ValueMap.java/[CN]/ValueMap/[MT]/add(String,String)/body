@@ -2,7 +2,7 @@
   checkMutability();
   final Object o=get(key);
   if (o == null) {
-    return put((K)key,(V)value);
+    return put(key,value);
   }
  else   if (o.getClass().isArray()) {
     int length=Array.getLength(o);
@@ -14,9 +14,9 @@
       }
     }
     destArray[length]=value;
-    return put((K)key,(V)destArray);
+    return put(key,destArray);
   }
  else {
-    return put((K)key,(V)new String[]{o.toString(),value});
+    return put(key,new String[]{o.toString(),value});
   }
 }

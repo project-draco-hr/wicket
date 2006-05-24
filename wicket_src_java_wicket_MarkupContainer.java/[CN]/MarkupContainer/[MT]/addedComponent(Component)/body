@@ -1,12 +1,10 @@
 {
   if (component == this) {
-    throw new IllegalArgumentException("Component can't be added to itself");
+    throw new IllegalArgumentException("Component " + component + " can't be added to itself");
   }
-  MarkupContainer parent=component.getParent();
-  if (parent != null) {
-    parent.remove(component);
+  if (component.getParent() != this) {
+    throw new IllegalArgumentException("Component " + component + " can't be added to another parent "+ component.getParent()+ " then "+ this);
   }
-  component.setParent(this);
   final Page page=findPage();
   if (page != null) {
     page.componentAdded(component);

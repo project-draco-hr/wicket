@@ -2,6 +2,8 @@
   if (component == null) {
     throw new IllegalArgumentException("argument component may not be null");
   }
-  children_remove(component);
-  removedComponent(component);
+  if (children_remove(component) != null) {
+    component.setFlag(FLAG_REMOVED_FROM_PARENT,true);
+    removedComponent(component);
+  }
 }
