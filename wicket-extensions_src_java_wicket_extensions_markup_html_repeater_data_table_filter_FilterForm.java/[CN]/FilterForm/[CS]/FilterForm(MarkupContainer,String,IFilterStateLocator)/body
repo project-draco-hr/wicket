@@ -1,0 +1,14 @@
+{
+  super(parent,id,new FilterStateModel(locator));
+  this.locator=locator;
+  hidden=new HiddenField(this,"focus-tracker",new Model());
+  hidden.add(new AbstractBehavior(){
+    private static final long serialVersionUID=1L;
+    public void onComponentTag(    Component component,    ComponentTag tag){
+      tag.put("id",getFocusTrackerFieldCssId());
+      super.onComponentTag(component,tag);
+    }
+  }
+);
+  add(hidden);
+}

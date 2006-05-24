@@ -3,13 +3,13 @@
     throw new IllegalArgumentException("argument wizardModel must be not null");
   }
   this.wizardModel=wizardModel;
-  form=new Form("form");
+  form=new Form(this,"form");
   add(form);
-  form.add(new WebMarkupContainer(HEADER_ID));
-  form.add(newFeedbackPanel(FEEDBACK_ID));
-  form.add(new WebMarkupContainer(VIEW_ID));
-  form.add(newButtonBar(BUTTONS_ID));
-  form.add(newOverviewBar(OVERVIEW_ID));
+  form.add(new WebMarkupContainer(form,HEADER_ID));
+  form.add(newFeedbackPanel(form,FEEDBACK_ID));
+  form.add(new WebMarkupContainer(form,VIEW_ID));
+  form.add(newButtonBar(form,BUTTONS_ID));
+  form.add(newOverviewBar(form,OVERVIEW_ID));
   wizardModel.addListener(this);
   for (Iterator iter=wizardModel.stepIterator(); iter.hasNext(); ) {
     ((IWizardStep)iter.next()).init(wizardModel);

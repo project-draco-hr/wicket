@@ -1,0 +1,23 @@
+{
+  super(parent,id);
+  setOutputMarkupId(true);
+  form.setOutputMarkupId(true);
+  setRenderBodyOnly(true);
+  add(new JavaScriptReference(this,"javascript",JS_PROGRESSBAR));
+  final WebMarkupContainer barDiv=new WebMarkupContainer(this,"bar");
+  barDiv.setOutputMarkupId(true);
+  add(barDiv);
+  final WebMarkupContainer statusDiv=new WebMarkupContainer(this,"status");
+  statusDiv.setOutputMarkupId(true);
+  add(statusDiv);
+  form.add(new AttributeModifier("onsubmit",true,new Model(){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    public Object getObject(    Component component){
+      ResourceReference ref=new ResourceReference(RESOURCE_NAME);
+      return "var def=new wupb.Def('" + form.getMarkupId() + "', '"+ statusDiv.getMarkupId()+ "', '"+ barDiv.getMarkupId()+ "', '"+ getPage().urlFor(ref)+ "'); wupb.start(def);";
+    }
+  }
+));
+}

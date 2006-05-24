@@ -1,6 +1,6 @@
 {
   final IModel rowModel=item.getModel();
-  item.add(new RefreshingView(CELL_REPEATER_ID){
+  item.add(new RefreshingView(item,CELL_REPEATER_ID){
     private static final long serialVersionUID=1L;
     protected Iterator getItemModels(){
       return getPopulatorsIterator();
@@ -12,7 +12,7 @@
         throw new WicketRuntimeException(populator.getClass().getName() + ".populateItem() failed to add a component with id [" + CELL_ITEM_ID+ "] to the provided [cellItem] object. Make sure you call add() on cellItem ( cellItem.add(new MyComponent(componentId, rowModel) )");
       }
     }
-    protected Item newItem(    String id,    int index,    IModel model){
+    protected Item newItem(    final String id,    int index,    IModel model){
       return newCellItem(id,index,model);
     }
   }
