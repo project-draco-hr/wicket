@@ -3,10 +3,10 @@
   add(commentForm);
   comments=new WebMarkupContainer(this,"comments");
   add(comments.setOutputMarkupId(true));
-  comments.add(commentListView=new ListView(comments,"comments",new PropertyModel(this,"commentList")){
-    public void populateItem(    final ListItem listItem){
-      final Comment comment=(Comment)listItem.getModelObject();
-      listItem.add(new Label(listItem,"date",new Model(comment.getDate())));
+  comments.add(commentListView=new ListView<Comment>(comments,"comments",new PropertyModel<List<Comment>>(this,"commentList")){
+    public void populateItem(    final ListItem<Comment> listItem){
+      final Comment comment=listItem.getModelObject();
+      listItem.add(new Label(listItem,"date",new Model<Date>(comment.getDate())));
       listItem.add(new MultiLineLabel(listItem,"text",comment.getText()));
     }
   }
