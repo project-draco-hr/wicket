@@ -16,5 +16,9 @@
  else {
     rli=IUnversionedBehaviorListener.INTERFACE;
   }
-  return new AppendingStringBuffer(getComponent().urlFor(rli)).append('&').append(WebRequestCodingStrategy.BEHAVIOR_ID_PARAMETER_NAME).append('=').append(index);
+  AppendingStringBuffer url=new AppendingStringBuffer(getComponent().urlFor(rli)).append('&').append(WebRequestCodingStrategy.BEHAVIOR_ID_PARAMETER_NAME).append('=').append(index);
+  if (onlyTargetActivePage) {
+    url.append("&").append(WebRequestCodingStrategy.IGNORE_IF_NOT_ACTIVE_PARAMETER_NAME).append("=true");
+  }
+  return url;
 }
