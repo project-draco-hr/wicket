@@ -1,8 +1,12 @@
 {
   if (tag.getName().equalsIgnoreCase("th")) {
-    final String componentId=tag.getId();
+    String componentId=tag.getId();
+    if ((componentId != null) && !componentId.startsWith(Component.AUTO_COMPONENT_PREFIX)) {
+      componentId=Component.AUTO_COMPONENT_PREFIX + componentId;
+      tag.setId(componentId);
+    }
     if ((componentId != null) && (get(componentId) == null)) {
-      autoAdd(new SortableListViewHeader(this,componentId,group){
+      SortableListViewHeader slvh=new SortableListViewHeader(this,componentId,group){
         protected int compareTo(        final Object o1,        final Object o2){
           return SortableListViewHeaders.this.compareTo(this,o1,o2);
         }
@@ -10,7 +14,8 @@
           return SortableListViewHeaders.this.getObjectToCompare(this,object);
         }
       }
-);
+;
+      slvh.autoAdded();
       return true;
     }
   }

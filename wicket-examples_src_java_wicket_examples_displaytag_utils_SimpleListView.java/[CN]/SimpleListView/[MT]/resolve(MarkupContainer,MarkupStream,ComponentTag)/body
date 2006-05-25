@@ -1,4 +1,9 @@
 {
-  container.autoAdd(newLabel(container,tag.getId()));
+  String componentId=tag.getId();
+  if ((componentId != null) && !componentId.startsWith(Component.AUTO_COMPONENT_PREFIX)) {
+    componentId=Component.AUTO_COMPONENT_PREFIX + componentId;
+    tag.setId(componentId);
+  }
+  newLabel(container,componentId).autoAdded();
   return true;
 }
