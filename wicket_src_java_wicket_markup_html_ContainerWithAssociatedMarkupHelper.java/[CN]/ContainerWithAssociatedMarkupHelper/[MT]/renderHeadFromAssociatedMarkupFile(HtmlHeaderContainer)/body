@@ -12,7 +12,7 @@
     final HeaderPartContainer headerPart=getHeaderPart(htmlContainer,markupClass,markupStream.getCurrentIndex());
     if (headerPart != null) {
       if (htmlContainer.okToRenderComponent(headerPart.getScope(),headerPart.getId())) {
-        htmlContainer.autoAdd(headerPart);
+        headerPart.autoAdded();
         if (checkedBody == false) {
           checkedBody=true;
           checkBodyOnLoad();
@@ -22,7 +22,7 @@
         Response response=container.getRequestCycle().getResponse();
         try {
           container.getRequestCycle().setResponse(NullResponse.getInstance());
-          htmlContainer.autoAdd(headerPart);
+          headerPart.autoAdded();
         }
   finally {
           container.getRequestCycle().setResponse(response);

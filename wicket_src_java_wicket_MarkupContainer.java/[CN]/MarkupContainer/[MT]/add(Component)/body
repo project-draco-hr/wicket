@@ -6,9 +6,12 @@
     log.debug("Add " + child.getId() + " to "+ this);
   }
   addedComponent(child);
-  if (put(child) != null) {
-    throw new IllegalArgumentException(exceptionMessage("A child with id '" + child.getId() + "' already exists"));
-  }
+  Component replaced=put(child);
   child.setFlag(FLAG_REMOVED_FROM_PARENT,false);
+  if (replaced != null) {
+    replaced.setFlag(FLAG_REMOVED_FROM_PARENT,true);
+    removedComponent(replaced);
+    child.markupIndex=replaced.markupIndex;
+  }
   return this;
 }

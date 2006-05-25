@@ -2,7 +2,7 @@
   if (tag instanceof WicketTag) {
     WicketTag wtag=(WicketTag)tag;
     if (wtag.isLinkTag() && (wtag.getNamespace() != null)) {
-      final String id="_link_" + container.getPage().getAutoIndex();
+      final String id=Component.AUTO_COMPONENT_PREFIX + "_link_" + container.getPage().getAutoIndex();
       final Component component=new WebMarkupContainer(container,id){
         private static final long serialVersionUID=1L;
         /** 
@@ -13,7 +13,7 @@
         }
       }
 ;
-      container.autoAdd(component);
+      component.autoAdded();
       return true;
     }
   }

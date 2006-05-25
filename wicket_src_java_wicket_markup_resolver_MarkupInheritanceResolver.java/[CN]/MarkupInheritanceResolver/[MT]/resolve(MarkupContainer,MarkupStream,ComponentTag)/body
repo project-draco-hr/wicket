@@ -2,11 +2,11 @@
   if (tag instanceof WicketTag) {
     final WicketTag wicketTag=(WicketTag)tag;
     if (wicketTag.isExtendTag()) {
-      container.autoAdd(new TransparentWebMarkupContainer(container,wicketTag.getId()));
+      new TransparentWebMarkupContainer(container,Component.AUTO_COMPONENT_PREFIX + wicketTag.getId()).autoAdded();
       return true;
     }
     if (wicketTag.isChildTag()) {
-      container.autoAdd(new TransparentWebMarkupContainer(container,wicketTag.getId()));
+      new TransparentWebMarkupContainer(container,Component.AUTO_COMPONENT_PREFIX + wicketTag.getId()).autoAdded();
       return true;
     }
   }

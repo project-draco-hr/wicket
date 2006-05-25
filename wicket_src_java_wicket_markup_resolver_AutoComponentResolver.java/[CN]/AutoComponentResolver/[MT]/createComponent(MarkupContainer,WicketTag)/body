@@ -1,7 +1,10 @@
 {
   String componentId=tag.getNameAttribute();
   if (componentId == null) {
-    componentId="anonymous-" + container.getPage().getAutoIndex();
+    componentId=Component.AUTO_COMPONENT_PREFIX + container.getPage().getAutoIndex();
+  }
+ else {
+    componentId=Component.AUTO_COMPONENT_PREFIX + componentId;
   }
   final String classname=tag.getAttributes().getString("class");
   if ((classname == null) || (classname.trim().length() == 0)) {
@@ -12,7 +15,6 @@
   try {
     final Constructor constructor=componentClass.getConstructor(new Class[]{MarkupContainer.class,String.class});
     component=(Component)constructor.newInstance(new Object[]{container,componentId});
-    component.setAuto(true);
   }
  catch (  NoSuchMethodException e) {
     throw new MarkupException("Unable to create Component from wicket tag: Cause: " + e.getMessage());
