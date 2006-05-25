@@ -1,14 +1,14 @@
 {
   final ClickCount count1=new ClickCount();
   Link link1=new Link(this,"link1"){
-    public void onClick(){
+    @Override public void onClick(){
       count1.clicks++;
     }
   }
 ;
   add(link1);
   link1.add(new Label(link1,"label1",new Model(){
-    public Object getObject(    Component component){
+    @Override public Object getObject(    Component component){
       return Integer.toString(count1.clicks);
     }
   }
@@ -24,7 +24,7 @@ class CustomLink extends Link {
       count2=new ClickCount();
       add(new ClickCountLabel(this,"label2",count2));
     }
-    public void onClick(){
+    @Override public void onClick(){
       count2.clicks++;
     }
   }
@@ -39,13 +39,13 @@ class ButtonLink extends Link {
       super(parent,id);
       count3=new ClickCount();
       add(new AttributeModifier("value",new Model(){
-        public Object getObject(        Component component){
+        @Override public Object getObject(        Component component){
           return "this button is clicked " + count3.clicks + " times";
         }
       }
 ));
     }
-    public void onClick(){
+    @Override public void onClick(){
       count3.clicks++;
     }
   }

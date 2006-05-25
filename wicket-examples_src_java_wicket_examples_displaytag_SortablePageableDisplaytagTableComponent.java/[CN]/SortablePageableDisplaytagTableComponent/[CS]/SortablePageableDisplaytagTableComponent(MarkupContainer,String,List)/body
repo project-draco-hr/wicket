@@ -5,13 +5,13 @@
   final SimplePageableListView table=new SimplePageableListView(this,"rows",list,10);
   add(table);
   add(new SortableListViewHeaders(this,"header",table){
-    protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
+    @Override protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
       if (header.getId().equals("id")) {
         return ((ListObject)o1).getId() - ((ListObject)o2).getId();
       }
       return super.compareTo(header,o1,o2);
     }
-    protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
+    @Override protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getId();
       if (name.equals("name")) {
         return ((ListObject)object).getName();

@@ -4,7 +4,7 @@
   FeedbackPanel feedbackPanel=new FeedbackPanel(this,"feedback");
   add(feedbackPanel);
   Form form=new Form(this,"form"){
-    protected void onSubmit(){
+    @Override protected void onSubmit(){
       info("input: " + input);
     }
   }
@@ -23,9 +23,9 @@
       return object.toString();
     }
     public IModel getModel(    Object value){
-      return new Model((Serializable)value);
+      return new Model(value);
     }
   }
 ;
-  choices.add(new SelectOptions(choices,"manychoices",new Model((Serializable)MANY_CHOICES),renderer));
+  choices.add(new SelectOptions(choices,"manychoices",new Model(MANY_CHOICES),renderer));
 }

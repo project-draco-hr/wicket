@@ -6,7 +6,7 @@
   List data2=new ArrayList();
   data2.addAll(data.subList(0,10));
   final SimplePageableListView table2=new SimplePageableListView(this,"rows2",data2,20){
-    public void populateItem(    final ListItem listItem){
+    @Override public void populateItem(    final ListItem listItem){
       super.populateItem(listItem);
       final ListObject value=(ListObject)listItem.getModelObject();
       listItem.add(new Label(listItem,"comments",value.getDescription()));
@@ -32,10 +32,10 @@
   addRemoveOptions.add("-5");
   addRemoveOptions.add("-10");
   add(new DropDownChoice(this,"addRemove",new Model(null),addRemoveOptions){
-    protected boolean wantOnSelectionChangedNotifications(){
+    @Override protected boolean wantOnSelectionChangedNotifications(){
       return true;
     }
-    protected void onSelectionChanged(    Object newSelection){
+    @Override protected void onSelectionChanged(    Object newSelection){
       int anz=Integer.parseInt((String)newSelection);
       Label info5=(Label)ExamplePaging.this.get("info5");
       List data5=(List)ExamplePaging.this.get("rows5").getModelObject();

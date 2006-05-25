@@ -4,7 +4,7 @@
     private ReportableListObject previousValue=null;
     /** 
  */
-    public void populateItem(    final ListItem listItem){
+    @Override public void populateItem(    final ListItem listItem){
       super.populateItem(listItem);
       final ReportableListObject value=(ReportableListObject)listItem.getModelObject();
       if (previousValue != null) {
@@ -20,7 +20,7 @@
 ;
   add(table);
   add(new SortableListViewHeaders(this,"header",table){
-    protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
+    @Override protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getId();
       if (name.equals("city")) {
         return ((ReportableListObject)object).getCity();

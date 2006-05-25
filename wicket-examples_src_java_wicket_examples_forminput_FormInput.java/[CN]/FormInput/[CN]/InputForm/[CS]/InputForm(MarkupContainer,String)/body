@@ -2,7 +2,7 @@
   super(parent,name,new CompoundPropertyModel(new FormInputModel()));
   add(new LocaleDropDownChoice(this,"localeSelect"));
   add(new Link(this,"defaultLocaleLink"){
-    public void onClick(){
+    @Override public void onClick(){
       WebRequest request=(WebRequest)getRequest();
       setLocale(request.getLocale());
     }
@@ -28,7 +28,7 @@
   RadioGroup group=new RadioGroup(this,"numbersGroup");
   add(group);
   ListView persons=new ListView(group,"numbers",NUMBERS){
-    protected void populateItem(    ListItem item){
+    @Override protected void populateItem(    ListItem item){
       item.add(new Radio(item,"radio",item.getModel()));
       item.add(new Label(item,"number",item.getModelObjectAsString()));
     }
@@ -38,7 +38,7 @@
   CheckGroup checks=new CheckGroup(this,"numbersCheckGroup");
   add(checks);
   ListView checksList=new ListView(checks,"numbers",NUMBERS){
-    protected void populateItem(    ListItem item){
+    @Override protected void populateItem(    ListItem item){
       item.add(new Check(item,"check",item.getModel()));
       item.add(new Label(item,"number",item.getModelObjectAsString()));
     }
@@ -49,10 +49,10 @@
   add(new TextField(this,"urlProperty",URL.class){
     public IConverter getConverter(){
       return new SimpleConverterAdapter(){
-        public String toString(        Object value){
+        @Override public String toString(        Object value){
           return value != null ? value.toString() : null;
         }
-        public Object toObject(        String value){
+        @Override public Object toObject(        String value){
           try {
             return new URL(value.toString());
           }
@@ -74,7 +74,7 @@
   add(new LinesListView(this,"lines"));
   add(new ImageButton(this,"saveButton"));
   Link link=new Link(this,"resetButtonLink"){
-    public void onClick(){
+    @Override public void onClick(){
       InputForm.this.modelChanged();
     }
   }

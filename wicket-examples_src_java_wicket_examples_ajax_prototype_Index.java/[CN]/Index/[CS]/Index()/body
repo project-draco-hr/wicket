@@ -5,7 +5,7 @@
  * using a standard http request, but in this example, we use Ajax
  * to perform the call.
  */
-    public void onClick(){
+    @Override public void onClick(){
       count++;
       getRequestCycle().setRequestTarget(new ComponentRequestTarget(counter));
     }
@@ -13,7 +13,7 @@
  * Alter the javascript 'onclick' event to emit the Ajax call and
  * update the counter label.
  */
-    protected String getOnClickScript(    String url){
+    @Override protected String getOnClickScript(    String url){
       return new AppendingStringBuffer("new Ajax.Updater('counter', '").append(urlFor(ILinkListener.INTERFACE)).append("', {method:'get'}); return false;").toString();
     }
   }

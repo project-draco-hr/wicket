@@ -1,20 +1,20 @@
 {
   add(new Label(this,"guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
   add(new Label(this,"word",new Model(){
-    public Object getObject(    wicket.Component component){
+    @Override public Object getObject(    wicket.Component component){
       return getGame().getWord().asString(true);
     }
   }
 ));
   add(new ListView(this,"letters",getGame().getLetters()){
-    protected void populateItem(    final ListItem listItem){
+    @Override protected void populateItem(    final ListItem listItem){
       final Letter letter=(Letter)listItem.getModelObject();
       final Link link=new Link(listItem,"letter"){
-        protected void onBeginRequest(){
+        @Override protected void onBeginRequest(){
           setAutoEnable(false);
           setEnabled(!letter.isGuessed());
         }
-        public void onClick(){
+        @Override public void onClick(){
           getGame().guess(letter);
           if (getGame().isWon()) {
             setResponsePage(new Win());

@@ -2,14 +2,14 @@
   super(parent,panelId);
   Object userObject=node.getUserObject();
   final Link junctionLink=new Link(this,"junctionLink"){
-    public void onClick(){
+    @Override public void onClick(){
       junctionLinkClicked(node);
     }
   }
 ;
   add(junctionLink);
   IModel junctionLabelModel=new AbstractReadOnlyModel(){
-    public Object getObject(    Component component){
+    @Override public Object getObject(    Component component){
       return (!node.isLeaf()) ? (isExpanded(node)) ? "^" : ">" : "";
     }
   }
@@ -20,7 +20,7 @@
   }
   junctionLink.add(new Label(junctionLink,"junctionLabel",junctionLabelModel));
   final Link nodeLink=new Link(this,"nodeLink"){
-    public void onClick(){
+    @Override public void onClick(){
       nodeLinkClicked(node);
     }
   }

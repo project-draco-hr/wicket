@@ -9,14 +9,14 @@
   c3.setOutputMarkupId(true);
   add(c3);
   add(new AjaxLink(this,"c1-link"){
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       counter1++;
       target.addComponent(c1);
     }
   }
 );
   add(new AjaxFallbackLink(this,"c2-link"){
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       counter2++;
       if (target != null) {
         target.addComponent(c2);
@@ -25,7 +25,7 @@
   }
 );
   add(new IndicatingAjaxLink(this,"c3-link"){
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       counter3++;
       target.addComponent(c3);
       try {
@@ -37,17 +37,17 @@
   }
 );
   add(new AjaxLink(this,"success-link"){
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
     }
-    protected wicket.ajax.IAjaxCallDecorator getAjaxCallDecorator(){
+    @Override protected wicket.ajax.IAjaxCallDecorator getAjaxCallDecorator(){
       return new AjaxCallDecorator(){
-        public CharSequence decorateOnSuccessScript(        CharSequence script){
+        @Override public CharSequence decorateOnSuccessScript(        CharSequence script){
           return "alert('Success');";
         }
-        public CharSequence decorateOnFailureScript(        CharSequence script){
+        @Override public CharSequence decorateOnFailureScript(        CharSequence script){
           return "alert('Failure');";
         }
-        public CharSequence decorateScript(        CharSequence script){
+        @Override public CharSequence decorateScript(        CharSequence script){
           return "alert('Before ajax call');" + script;
         }
       }
@@ -56,18 +56,18 @@
   }
 );
   add(new AjaxLink(this,"failure-link"){
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       throw new WicketRuntimeException("Failure link clicked");
     }
-    protected wicket.ajax.IAjaxCallDecorator getAjaxCallDecorator(){
+    @Override protected wicket.ajax.IAjaxCallDecorator getAjaxCallDecorator(){
       return new AjaxCallDecorator(){
-        public CharSequence decorateOnSuccessScript(        CharSequence script){
+        @Override public CharSequence decorateOnSuccessScript(        CharSequence script){
           return "alert('Success');";
         }
-        public CharSequence decorateOnFailureScript(        CharSequence script){
+        @Override public CharSequence decorateOnFailureScript(        CharSequence script){
           return "alert('Failure');";
         }
-        public CharSequence decorateScript(        CharSequence script){
+        @Override public CharSequence decorateScript(        CharSequence script){
           return "alert('Before ajax call');" + script;
         }
       }

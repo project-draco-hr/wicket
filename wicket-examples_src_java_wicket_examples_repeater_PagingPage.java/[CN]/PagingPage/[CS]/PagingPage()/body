@@ -1,6 +1,6 @@
 {
   DataView dataView=new DataView(this,"pageable",new ContactDataProvider()){
-    protected void populateItem(    final Item item){
+    @Override protected void populateItem(    final Item item){
       Contact contact=(Contact)item.getModelObject();
       item.add(new ActionPanel(item,"actions",item.getModel()));
       item.add(new Label(item,"contactid",String.valueOf(contact.getId())));
@@ -9,7 +9,7 @@
       item.add(new Label(item,"homephone",contact.getHomePhone()));
       item.add(new Label(item,"cellphone",contact.getCellPhone()));
       item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel(){
-        public Object getObject(        Component component){
+        @Override public Object getObject(        Component component){
           return (item.getIndex() % 2 == 1) ? "even" : "odd";
         }
       }

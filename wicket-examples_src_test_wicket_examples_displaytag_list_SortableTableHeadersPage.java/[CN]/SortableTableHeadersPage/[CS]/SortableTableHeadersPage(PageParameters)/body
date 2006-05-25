@@ -11,7 +11,7 @@
   addUser(list,8,"Name-dca","mail-8");
   addUser(list,9,"Name-eaa","mail-9");
   ListView table=new ListView(this,"table",list){
-    protected void populateItem(    ListItem listItem){
+    @Override protected void populateItem(    ListItem listItem){
       User user=(User)listItem.getModelObject();
       listItem.add(new Label(listItem,"id",new PropertyModel(user,"id")));
       listItem.add(new Label(listItem,"name",new PropertyModel(user,"name")));
@@ -21,7 +21,7 @@
 ;
   add(table);
   add(new SortableListViewHeaders(this,"header",table){
-    protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
+    @Override protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
       if (header.getId().equals("id")) {
         return ((User)o1).id - ((User)o2).id;
       }
@@ -31,7 +31,7 @@
  * Define how to do sorting
  * @see SortableListViewHeaders#getObjectToCompare(SortableListViewHeader,java.lang.Object)
  */
-    protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
+    @Override protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getId();
       if (name.equals("name")) {
         return ((User)object).name;
