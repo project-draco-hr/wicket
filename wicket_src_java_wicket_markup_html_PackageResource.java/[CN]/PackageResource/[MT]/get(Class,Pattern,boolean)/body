@@ -29,8 +29,12 @@
           String jarZipPart=uri.getSchemeSpecificPart();
           String lowerJarZipPart=jarZipPart.toLowerCase();
           int index=lowerJarZipPart.indexOf(".zip");
-          if (index == -1)           index=lowerJarZipPart.indexOf(".jar");
-          if (index == -1)           throw e;
+          if (index == -1) {
+            index=lowerJarZipPart.indexOf(".jar");
+          }
+          if (index == -1) {
+            throw e;
+          }
           String filename=jarZipPart.substring(0,index + 4);
           log.debug("trying the filename: " + filename + " to load as a zip/jar.");
           JarFile jarFile=new JarFile(filename,false);
