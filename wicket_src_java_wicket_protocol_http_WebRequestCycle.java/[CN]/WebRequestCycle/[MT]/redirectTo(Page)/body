@@ -31,7 +31,9 @@
     }
  catch (    RuntimeException ex) {
       setResponse(currentResponse);
-      if (ex instanceof AbortException)       throw ex;
+      if (ex instanceof AbortException) {
+        throw ex;
+      }
       log.error(ex.getMessage(),ex);
       IRequestCycleProcessor processor=getProcessor();
       processor.respond(ex,this);

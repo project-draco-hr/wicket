@@ -11,7 +11,9 @@
  else     if (rt instanceof BookmarkablePageRequestTarget) {
       page=((BookmarkablePageRequestTarget)rt).getPage();
     }
-    if (page == null || page.isStateless())     return responseBuffer;
+    if (page == null || page.isStateless()) {
+      return responseBuffer;
+    }
     page.detachModels();
     String encodedState;
     try {
