@@ -9,7 +9,7 @@
   this.tabs=tabs;
   add(new Loop(this,"tabs",tabs.size()){
     private static final long serialVersionUID=1L;
-    protected void populateItem(    LoopItem item){
+    @Override protected void populateItem(    LoopItem item){
       final int index=item.getIteration();
       final ITab tab=((ITab)TabbedPanel.this.tabs.get(index));
       final int selected=getSelectedTab();
@@ -18,7 +18,7 @@
       item.add(titleLink);
       item.add(new SimpleAttributeModifier("class","selected"){
         private static final long serialVersionUID=1L;
-        public boolean isEnabled(){
+        @Override public boolean isEnabled(){
           return index == selected;
         }
       }
