@@ -1,3 +1,11 @@
 {
+  if (getApplication().getRequestCycleSettings().getGatherExtendedBrowserInfo()) {
+    Session session=getSession();
+    if (session.getMetaData(BROWSER_WAS_POLLED_KEY) == null) {
+      session.setMetaData(BROWSER_WAS_POLLED_KEY,Boolean.TRUE);
+      throw new RestartResponseAtInterceptPageException(new BrowserInfoPage(getRequest().getURL()));
+    }
+    session.setMetaData(BROWSER_WAS_POLLED_KEY,(Boolean)null);
+  }
   return new WebClientInfo(this);
 }
