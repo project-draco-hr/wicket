@@ -2,16 +2,16 @@
   IModel wsDetachModel=new AbstractReadOnlyDetachableModel(){
     private static final long serialVersionUID=1L;
     private transient WeatherStation station;
-    protected void onAttach(){
+    @Override protected void onAttach(){
       station=new WeatherStation();
     }
-    protected void onDetach(){
+    @Override protected void onDetach(){
       station=null;
     }
-    protected Object onGetObject(    final Component component){
+    @Override protected Object onGetObject(    final Component component){
       return station;
     }
-    public IModel getNestedModel(){
+    @Override public IModel getNestedModel(){
       return null;
     }
   }

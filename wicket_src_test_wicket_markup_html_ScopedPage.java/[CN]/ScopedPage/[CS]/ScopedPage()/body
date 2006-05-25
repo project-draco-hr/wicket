@@ -3,7 +3,7 @@
   add(new Label(this,"unscoped","unscoped"));
   add(new ScopedLabel(this,"clicked",new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
-    public Object getObject(    Component component){
+    @Override public Object getObject(    Component component){
       return "Clicked: " + _clicked;
     }
   }
@@ -11,7 +11,7 @@
   add(new ScopedLabel(this,"global","Global"));
   add(new ScopedLink(this,"globalLink"){
     private static final long serialVersionUID=1L;
-    public void onClick(){
+    @Override public void onClick(){
       _clicked++;
     }
   }
