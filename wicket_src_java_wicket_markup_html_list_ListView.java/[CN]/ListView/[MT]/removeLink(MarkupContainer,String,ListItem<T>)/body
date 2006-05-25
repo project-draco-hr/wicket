@@ -1,0 +1,23 @@
+{
+  return new Link(item,id){
+    private static final long serialVersionUID=1L;
+    /** 
+ * @see wicket.markup.html.link.Link#onClick()
+ */
+    @Override public void onClick(){
+      addStateChange(new Change(){
+        private static final long serialVersionUID=1L;
+        final T removedObject=item.getModelObject();
+        final int oldIndex=getList().indexOf(item.getModelObject());
+        @Override public void undo(){
+          getList().add(oldIndex,removedObject);
+        }
+      }
+);
+      item.modelChanging();
+      getList().remove(item.getModelObject());
+      ListView.this.modelChanged();
+    }
+  }
+;
+}

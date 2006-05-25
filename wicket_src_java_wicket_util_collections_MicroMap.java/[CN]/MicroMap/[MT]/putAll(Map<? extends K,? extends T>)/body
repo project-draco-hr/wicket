@@ -1,0 +1,12 @@
+{
+  if (map.size() <= MAX_ENTRIES) {
+    Iterator<? extends Map.Entry<? extends K,? extends T>> i=map.entrySet().iterator();
+    if (i.hasNext()) {
+      Map.Entry<? extends K,? extends T> e=i.next();
+      put(e.getKey(),e.getValue());
+    }
+  }
+ else {
+    throw new IllegalStateException("Map full.  Cannot add " + map.size() + " entries");
+  }
+}
