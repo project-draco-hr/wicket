@@ -1,11 +1,11 @@
 {
-  final RadioGroup group=new RadioGroup(form,"group",new Model());
   Form form=new Form(this,"form"){
     @Override protected void onSubmit(){
-      info("selected person: " + group.getModelObjectAsString());
+      info("selected person: " + RadioGroupPage.this.group.getModelObjectAsString());
     }
   }
 ;
+  this.group=new RadioGroup(form,"group",new Model());
   ListView persons=new ListView(group,"persons",ComponentReferenceApplication.getPersons()){
     @Override protected void populateItem(    ListItem item){
       new Radio(item,"radio",item.getModel());
