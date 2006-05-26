@@ -4,12 +4,11 @@
   }
   this.wizardModel=wizardModel;
   form=new Form(this,"form");
-  add(form);
-  form.add(new WebMarkupContainer(form,HEADER_ID));
-  form.add(newFeedbackPanel(form,FEEDBACK_ID));
-  form.add(new WebMarkupContainer(form,VIEW_ID));
-  form.add(newButtonBar(form,BUTTONS_ID));
-  form.add(newOverviewBar(form,OVERVIEW_ID));
+  new WebMarkupContainer(form,HEADER_ID);
+  newFeedbackPanel(form,FEEDBACK_ID);
+  new WebMarkupContainer(form,VIEW_ID);
+  newButtonBar(form,BUTTONS_ID);
+  newOverviewBar(form,OVERVIEW_ID);
   wizardModel.addListener(this);
   for (Iterator iter=wizardModel.stepIterator(); iter.hasNext(); ) {
     ((IWizardStep)iter.next()).init(wizardModel);

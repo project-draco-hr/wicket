@@ -13,17 +13,15 @@
     }
   }
 ;
-  add(form);
-  add(new WebMarkupContainer(this,"focus-restore"){
+  new WebMarkupContainer(this,"focus-restore"){
     private static final long serialVersionUID=1L;
     @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
       AppendingStringBuffer script=new AppendingStringBuffer("<script>_filter_focus_restore('").append(form.getFocusTrackerFieldCssId()).append("');</script>");
       replaceComponentTagBody(markupStream,openTag,script);
     }
   }
-);
+;
   RepeatingView filters=new RepeatingView(form,"filters");
-  form.add(filters);
   IColumn[] cols=table.getColumns();
   for (  IColumn col : cols) {
     WebMarkupContainer item=new WebMarkupContainer(filters,filters.newChildId());
@@ -41,7 +39,5 @@
         throw new IllegalStateException("filter component returned  with an invalid component id. invalid component id [" + filter.getId() + "] required component id ["+ FILTER_COMPONENT_ID+ "] generating column ["+ col.toString()+ "] ");
       }
     }
-    item.add(filter);
-    filters.add(item);
   }
 }

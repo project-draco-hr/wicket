@@ -7,15 +7,14 @@
     throw new IllegalArgumentException("argument [tabs] must contain a list of at least one tab");
   }
   this.tabs=tabs;
-  add(new Loop(this,"tabs",tabs.size()){
+  new Loop(this,"tabs",tabs.size()){
     private static final long serialVersionUID=1L;
     @Override protected void populateItem(    LoopItem item){
       final int index=item.getIteration();
       final ITab tab=((ITab)TabbedPanel.this.tabs.get(index));
       final int selected=getSelectedTab();
       final WebMarkupContainer titleLink=newLink(item,"link",index);
-      titleLink.add(new Label(titleLink,"title",tab.getTitle()));
-      item.add(titleLink);
+      new Label(titleLink,"title",tab.getTitle());
       item.add(new SimpleAttributeModifier("class","selected"){
         private static final long serialVersionUID=1L;
         @Override public boolean isEnabled(){
@@ -28,6 +27,6 @@
       }
     }
   }
-);
+;
   setSelectedTab(0);
 }
