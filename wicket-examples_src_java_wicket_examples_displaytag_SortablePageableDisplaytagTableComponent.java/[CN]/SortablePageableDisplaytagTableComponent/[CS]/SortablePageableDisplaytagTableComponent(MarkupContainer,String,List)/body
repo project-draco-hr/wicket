@@ -3,8 +3,7 @@
   this.data=new ArrayList();
   this.data.addAll(list);
   final SimplePageableListView table=new SimplePageableListView(this,"rows",list,10);
-  add(table);
-  add(new SortableListViewHeaders(this,"header",table){
+  new SortableListViewHeaders(this,"header",table){
     @Override protected int compareTo(    SortableListViewHeader header,    Object o1,    Object o2){
       if (header.getId().equals("id")) {
         return ((ListObject)o1).getId() - ((ListObject)o2).getId();
@@ -28,11 +27,11 @@
       return "";
     }
   }
-);
-  add(new TableHeaderLabel(this,"headline",table));
-  add(new PagingNavigation(this,"navigation",table));
-  add(new PagingNavigationLink(this,"first",table,0));
-  add(new PagingNavigationIncrementLink(this,"prev",table,-1));
-  add(new PagingNavigationIncrementLink(this,"next",table,1));
-  add(new PagingNavigationLink(this,"last",table,table.getPageCount() - 1));
+;
+  new TableHeaderLabel(this,"headline",table);
+  new PagingNavigation(this,"navigation",table);
+  new PagingNavigationLink(this,"first",table,0);
+  new PagingNavigationIncrementLink(this,"prev",table,-1);
+  new PagingNavigationIncrementLink(this,"next",table,1);
+  new PagingNavigationLink(this,"last",table,table.getPageCount() - 1);
 }

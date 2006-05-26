@@ -6,13 +6,12 @@
     }
   }
 ;
-  add(link1);
-  link1.add(new Label(link1,"label1",new Model(){
+  new Label(link1,"label1",new Model(){
     @Override public Object getObject(    Component component){
       return Integer.toString(count1.clicks);
     }
   }
-));
+);
 class CustomLink extends Link {
     final ClickCount count2;
     /** 
@@ -22,13 +21,13 @@ class CustomLink extends Link {
     public CustomLink(    MarkupContainer parent,    String id){
       super(parent,id);
       count2=new ClickCount();
-      add(new ClickCountLabel(this,"label2",count2));
+      new ClickCountLabel(this,"label2",count2);
     }
     @Override public void onClick(){
       count2.clicks++;
     }
   }
-  add(new CustomLink(this,"link2"));
+  new CustomLink(this,"link2");
 class ButtonLink extends Link {
     final ClickCount count3;
     /** 
@@ -49,5 +48,5 @@ class ButtonLink extends Link {
       count3.clicks++;
     }
   }
-  add(new ButtonLink(this,"link3"));
+  new ButtonLink(this,"link3");
 }

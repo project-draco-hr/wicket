@@ -7,7 +7,6 @@
     }
   }
 ;
-  add(junctionLink);
   IModel junctionLabelModel=new AbstractReadOnlyModel(){
     @Override public Object getObject(    Component component){
       return (!node.isLeaf()) ? (isExpanded(node)) ? "^" : ">" : "";
@@ -18,7 +17,7 @@
   if (!node.isLeaf()) {
     junctionLabel=(isExpanded(node)) ? "[-]" : "[+]";
   }
-  junctionLink.add(new Label(junctionLink,"junctionLabel",junctionLabelModel));
+  new Label(junctionLink,"junctionLabel",junctionLabelModel);
   final Link nodeLink=new Link(this,"nodeLink"){
     @Override public void onClick(){
       nodeLinkClicked(node);
@@ -26,6 +25,5 @@
   }
 ;
   String label=(userObject instanceof List) ? "" : String.valueOf(node.getUserObject());
-  nodeLink.add(new Label(nodeLink,"label",label));
-  add(nodeLink);
+  new Label(nodeLink,"label",label);
 }

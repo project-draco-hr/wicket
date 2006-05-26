@@ -1,14 +1,13 @@
 {
-  add(new Label(this,"staticLabel","static text"));
-  add(new Label(this,"dynamicLabel",new Model(){
+  new Label(this,"staticLabel","static text");
+  new Label(this,"dynamicLabel",new Model(){
     @Override public Object getObject(    Component component){
       return new Date();
     }
   }
-));
+);
   StringResourceModel stringResourceModel=new StringResourceModel("label.current.locale",this,null,new Object[]{getLocale()});
-  add(new Label(this,"resourceLabel",stringResourceModel));
+  new Label(this,"resourceLabel",stringResourceModel);
   Label markupLabel=new Label(this,"markupLabel","now <i>that</i> is a pretty <b>bold</b> statement!");
   markupLabel.setEscapeModelStrings(false);
-  add(markupLabel);
 }

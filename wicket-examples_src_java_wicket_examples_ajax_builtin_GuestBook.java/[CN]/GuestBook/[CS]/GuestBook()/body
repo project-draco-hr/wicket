@@ -1,16 +1,15 @@
 {
   CommentForm commentForm=new CommentForm(this,"commentForm");
-  add(commentForm);
   comments=new WebMarkupContainer(this,"comments");
-  add(comments.setOutputMarkupId(true));
-  comments.add(commentListView=new ListView<Comment>(comments,"comments",new PropertyModel<List<Comment>>(this,"commentList")){
+  comments.setOutputMarkupId(true);
+  commentListView=new ListView<Comment>(comments,"comments",new PropertyModel<List<Comment>>(this,"commentList")){
     @Override public void populateItem(    final ListItem<Comment> listItem){
       final Comment comment=listItem.getModelObject();
-      listItem.add(new Label(listItem,"date",new Model<Date>(comment.getDate())));
-      listItem.add(new MultiLineLabel(listItem,"text",comment.getText()));
+      new Label(listItem,"date",new Model<Date>(comment.getDate()));
+      new MultiLineLabel(listItem,"text",comment.getText());
     }
   }
-);
+;
   commentForm.add(new AjaxFormSubmitBehavior(commentForm,"onsubmit"){
     @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
       return new AjaxCallDecorator(){

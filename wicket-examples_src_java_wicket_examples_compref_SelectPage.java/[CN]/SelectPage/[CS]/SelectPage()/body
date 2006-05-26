@@ -2,22 +2,18 @@
   final Input input=new Input();
   setModel(new CompoundPropertyModel(input));
   FeedbackPanel feedbackPanel=new FeedbackPanel(this,"feedback");
-  add(feedbackPanel);
   Form form=new Form(this,"form"){
     @Override protected void onSubmit(){
       info("input: " + input);
     }
   }
 ;
-  add(form);
   Select site=new Select(form,"site");
-  form.add(site);
-  site.add(new SelectOption(site,"site1",new Model("tss")));
-  site.add(new SelectOption(site,"site2",new Model("jl")));
-  site.add(new SelectOption(site,"site3",new Model("sd")));
-  site.add(new SelectOption(site,"site4",new Model("bn")));
+  new SelectOption(site,"site1",new Model("tss"));
+  new SelectOption(site,"site2",new Model("jl"));
+  new SelectOption(site,"site3",new Model("sd"));
+  new SelectOption(site,"site4",new Model("bn"));
   Select choices=new Select(form,"choices");
-  form.add(choices);
   IOptionRenderer renderer=new IOptionRenderer(){
     public String getDisplayValue(    Object object){
       return object.toString();
@@ -27,5 +23,5 @@
     }
   }
 ;
-  choices.add(new SelectOptions(choices,"manychoices",new Model(MANY_CHOICES),renderer));
+  new SelectOptions(choices,"manychoices",new Model(MANY_CHOICES),renderer);
 }

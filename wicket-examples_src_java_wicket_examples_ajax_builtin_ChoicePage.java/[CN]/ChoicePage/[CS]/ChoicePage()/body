@@ -21,12 +21,9 @@
   }
 ;
   Form form=new Form(this,"form");
-  add(form);
   final DropDownChoice makes=new DropDownChoice(form,"makes",new PropertyModel(this,"selectedMake"),makeChoices);
   final DropDownChoice models=new DropDownChoice(form,"models",new Model(),modelChoices);
   models.setOutputMarkupId(true);
-  form.add(makes);
-  form.add(models);
   makes.add(new AjaxFormComponentUpdatingBehavior("onchange"){
     @Override protected void onUpdate(    AjaxRequestTarget target){
       target.addComponent(models);

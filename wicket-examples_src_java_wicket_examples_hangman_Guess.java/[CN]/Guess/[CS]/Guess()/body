@@ -1,12 +1,12 @@
 {
-  add(new Label(this,"guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
-  add(new Label(this,"word",new Model(){
+  new Label(this,"guessesRemaining",new PropertyModel(getGame(),"guessesRemaining"));
+  new Label(this,"word",new Model(){
     @Override public Object getObject(    wicket.Component component){
       return getGame().getWord().asString(true);
     }
   }
-));
-  add(new ListView(this,"letters",getGame().getLetters()){
+);
+  new ListView(this,"letters",getGame().getLetters()){
     @Override protected void populateItem(    final ListItem listItem){
       final Letter letter=(Letter)listItem.getModelObject();
       final Link link=new Link(listItem,"letter"){
@@ -28,9 +28,8 @@
       }
 ;
       link.add(new AttributeModifier("id",true,new Model("letter_" + letter.asString())));
-      link.add(new Image(link,"image",letter.getSharedImageResource()));
-      listItem.add(link);
+      new Image(link,"image",letter.getSharedImageResource());
     }
   }
-);
+;
 }

@@ -1,32 +1,32 @@
 {
   super(parent,id);
-  add(new Label(this,"id",session.getId()));
-  add(new Label(this,"locale",session.getLocale().toString()));
-  add(new Label(this,"style",session.getStyle() == null ? "[None]" : session.getStyle()));
-  add(new Label(this,"size",new Model(){
+  new Label(this,"id",session.getId());
+  new Label(this,"locale",session.getLocale().toString());
+  new Label(this,"style",session.getStyle() == null ? "[None]" : session.getStyle());
+  new Label(this,"size",new Model(){
     private static final long serialVersionUID=1L;
     @Override public Object getObject(    Component component){
       return Bytes.bytes(Objects.sizeof(session));
     }
   }
-));
-  add(new Label(this,"totalSize",new Model(){
+);
+  new Label(this,"totalSize",new Model(){
     private static final long serialVersionUID=1L;
     @Override public Object getObject(    Component component){
       return Bytes.bytes(session.getSizeInBytes());
     }
   }
-));
+);
   final List pagemaps=session.getPageMaps();
-  add(new ListView(this,"pagemaps",pagemaps){
+  new ListView(this,"pagemaps",pagemaps){
     private static final long serialVersionUID=1L;
     /** 
  * Populate the table with Wicket elements
  */
     @Override protected void populateItem(    final ListItem listItem){
       PageMap p=(PageMap)listItem.getModelObject();
-      listItem.add(new PageMapView(listItem,"pagemap",p));
+      new PageMapView(listItem,"pagemap",p);
     }
   }
-);
+;
 }

@@ -16,7 +16,7 @@
   groups.put(previousValue.getCity(),new Integer(data.size() - startIdx));
   List groupList=new ArrayList();
   groupList.addAll(groups.keySet());
-  add(new ListView(this,"border",groupList){
+  new ListView(this,"border",groupList){
     private int startIndex=0;
     @Override public void populateItem(    final ListItem listItem){
       SubtotalTable subtable=new SubtotalTable(listItem,"rows",data);
@@ -25,10 +25,9 @@
       int size=((Integer)groups.get(group)).intValue();
       subtable.setViewSize(size);
       startIndex+=size;
-      listItem.add(subtable);
-      listItem.add(new Label(listItem,"name",new PropertyModel(subtable,"group1")));
-      listItem.add(new Label(listItem,"value",new PropertyModel(subtable,"subtotal")));
+      new Label(listItem,"name",new PropertyModel(subtable,"group1"));
+      new Label(listItem,"value",new PropertyModel(subtable,"subtotal"));
     }
   }
-);
+;
 }

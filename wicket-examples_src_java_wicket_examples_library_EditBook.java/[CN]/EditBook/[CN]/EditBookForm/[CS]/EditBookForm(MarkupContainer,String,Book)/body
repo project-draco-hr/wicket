@@ -4,19 +4,14 @@
   final TextField title=new TextField(titleFeedback,"title");
   title.setRequired(true);
   title.add(StringValidator.maximumLength(30));
-  add(titleFeedback);
-  titleFeedback.add(title);
   final FormComponentFeedbackBorder authorFeedback=new FormComponentFeedbackBorder(this,"authorFeedback");
   final TextField author=new TextField(authorFeedback,"author");
   author.setRequired(true);
-  add(authorFeedback);
-  authorFeedback.add(author);
-  add(new CheckBox(this,"fiction"));
+  new CheckBox(this,"fiction");
   List books=new ArrayList();
   books.addAll(Book.getBooks());
   books.remove(otherBook);
-  add(new DropDownChoice(this,"companionBook",books));
+  new DropDownChoice(this,"companionBook",books);
   final RadioChoice relatedBook=new RadioChoice(this,"relatedBook",books);
-  add(relatedBook);
-  add(new ListMultipleChoice(this,"writingStyles",EnumeratedType.getValues(Book.WritingStyle.class)));
+  new ListMultipleChoice(this,"writingStyles",EnumeratedType.getValues(Book.WritingStyle.class));
 }

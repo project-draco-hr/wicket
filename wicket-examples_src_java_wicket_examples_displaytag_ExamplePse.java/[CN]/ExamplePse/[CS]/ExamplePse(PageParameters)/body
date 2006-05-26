@@ -9,17 +9,16 @@
       final ReportableListObject value=(ReportableListObject)listItem.getModelObject();
       if (previousValue != null) {
         boolean equal=value.getCity().equals(previousValue.getCity());
-        listItem.add(new Label(listItem,"city",equal ? "" : value.getCity()));
+        new Label(listItem,"city",equal ? "" : value.getCity());
         equal&=value.getProject().equals(previousValue.getProject());
-        listItem.add(new Label(listItem,"project",equal ? "" : value.getProject()));
+        new Label(listItem,"project",equal ? "" : value.getProject());
       }
-      listItem.add(new Label(listItem,"hours",Double.toString(value.getAmount())));
+      new Label(listItem,"hours",Double.toString(value.getAmount()));
       previousValue=value;
     }
   }
 ;
-  add(table);
-  add(new SortableListViewHeaders(this,"header",table){
+  new SortableListViewHeaders(this,"header",table){
     @Override protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getId();
       if (name.equals("city")) {
@@ -31,9 +30,9 @@
       return "";
     }
   }
-);
-  add(new MyPageableListViewNavigator(this,"pageTableNav",table));
-  add(new ExportLink(this,"exportCsv",data,new CsvView(data,true,false,false)));
-  add(new ExportLink(this,"exportExcel",data,new ExcelView(data,true,false,false)));
-  add(new ExportLink(this,"exportXml",data,new XmlView(data,true,false,false)));
+;
+  new MyPageableListViewNavigator(this,"pageTableNav",table);
+  new ExportLink(this,"exportCsv",data,new CsvView(data,true,false,false));
+  new ExportLink(this,"exportExcel",data,new ExcelView(data,true,false,false));
+  new ExportLink(this,"exportXml",data,new XmlView(data,true,false,false));
 }
