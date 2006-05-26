@@ -4,9 +4,7 @@
   parameters.put("cto",continueTo);
   CharSequence url=urlFor(new BookmarkablePageRequestTarget(BrowserInfoPage.class,parameters));
   meta.add(new AttributeModifier<String>("content",true,new Model<String>("0; url=" + url)));
-  add(meta);
   WebMarkupContainer link=new WebMarkupContainer<Object>(this,"link");
   link.add(new AttributeModifier<CharSequence>("href",true,new Model<CharSequence>(url)));
-  add(link);
-  add(new PostBackForm(this,"postback"));
+  new PostBackForm(this,"postback");
 }

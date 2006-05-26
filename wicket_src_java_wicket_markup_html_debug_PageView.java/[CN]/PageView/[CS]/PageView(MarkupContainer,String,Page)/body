@@ -1,7 +1,7 @@
 {
   super(parent,id);
   final List<ComponentData> data=new ArrayList<ComponentData>();
-  add(new Label(this,"info",page == null ? "[Stateless Page]" : page.toString()));
+  new Label(this,"info",page == null ? "[Stateless Page]" : page.toString());
   data.clear();
   if (page != null) {
     data.addAll(getComponentData(page));
@@ -12,19 +12,19 @@
     }
   }
 );
-  add(new ListView<ComponentData>(this,"components",data){
+  new ListView<ComponentData>(this,"components",data){
     private static final long serialVersionUID=1L;
     /** 
  * Populate the table with Wicket elements
  */
     @Override protected void populateItem(    final ListItem<ComponentData> listItem){
       final ComponentData componentData=listItem.getModelObject();
-      listItem.add(new Label(listItem,"row",Integer.toString(listItem.getIndex() + 1)));
-      listItem.add(new Label(listItem,"path",componentData.path));
-      listItem.add(new Label(listItem,"size",Bytes.bytes(componentData.size).toString()));
-      listItem.add(new Label(listItem,"type",componentData.type));
-      listItem.add(new Label(listItem,"model",componentData.value));
+      new Label(listItem,"row",Integer.toString(listItem.getIndex() + 1));
+      new Label(listItem,"path",componentData.path);
+      new Label(listItem,"size",Bytes.bytes(componentData.size).toString());
+      new Label(listItem,"type",componentData.type);
+      new Label(listItem,"model",componentData.value);
     }
   }
-);
+;
 }

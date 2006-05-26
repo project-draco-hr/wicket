@@ -1,6 +1,6 @@
 {
   this.throwable=throwable;
-  add(new MultiLineLabel(this,"exception",Strings.toString(throwable)));
+  new MultiLineLabel(this,"exception",Strings.toString(throwable));
   String resource="";
   String markup="";
   MarkupStream markupStream=null;
@@ -14,14 +14,12 @@
   final WebMarkupContainer markupHighlight=new WebMarkupContainer(this,"markupHighlight");
   final MultiLineLabel markupLabel=new MultiLineLabel(markupHighlight,"markup",markup);
   markupLabel.setEscapeModelStrings(false);
-  markupHighlight.add(markupLabel);
-  markupHighlight.add(new Label(markupHighlight,"resource",resource));
-  add(markupHighlight);
+  new Label(markupHighlight,"resource",resource);
   markupHighlight.setVisible(markupStream != null);
   if (page != null) {
-    add(new PageView(this,"componentTree",page));
+    new PageView(this,"componentTree",page);
   }
  else {
-    add(new Label(this,"componentTree",""));
+    new Label(this,"componentTree","");
   }
 }

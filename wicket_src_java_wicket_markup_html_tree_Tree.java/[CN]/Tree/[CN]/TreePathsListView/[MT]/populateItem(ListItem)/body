@@ -1,7 +1,7 @@
 {
   DefaultMutableTreeNode node=(DefaultMutableTreeNode)listItem.getModelObject();
   int level=node.getLevel();
-  listItem.add(new SpacerList(listItem,"spacers",level));
+  new SpacerList(listItem,"spacers",level);
   Component nodePanel=newNodePanel(listItem,"node",node);
   if (nodePanel == null) {
     throw new WicketRuntimeException("node panel must be not-null");
@@ -9,6 +9,5 @@
   if (!"node".equals(nodePanel.getId())) {
     throw new WicketRuntimeException("panel must have id 'node' assigned");
   }
-  listItem.add(nodePanel);
   listItem.add(new AttributeModifier("class",true,new SelectedPathReplacementModel(Tree.this,node)));
 }
