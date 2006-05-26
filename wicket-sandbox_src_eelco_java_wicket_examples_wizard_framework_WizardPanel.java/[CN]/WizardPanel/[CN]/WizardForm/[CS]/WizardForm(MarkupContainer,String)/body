@@ -1,0 +1,62 @@
+{
+  super(parent,id);
+  Panel editor=newEditor(this,"editor");
+  Button previousButton=new Button(this,"previous"){
+    protected void onSubmit(){
+      Node current=state.getCurrentNode();
+      if (current instanceof Step) {
+        record(current);
+        TransitionLabel result=((Step)current).previous(WizardForm.this);
+        state.move(result);
+        newEditor(WizardForm.this,"editor");
+      }
+    }
+    public boolean isVisible(){
+      Node current=state.getCurrentNode();
+      Transitions transitions=state.getTransitions();
+      return transitions.exists(current,TransitionLabel.PREVIOUS);
+    }
+  }
+;
+  Button nextButton=new Button(this,"next"){
+    protected void onSubmit(){
+      Node current=state.getCurrentNode();
+      if (current instanceof Step) {
+        record(current);
+        TransitionLabel result=((Step)current).next(WizardForm.this);
+        state.move(result);
+        newEditor(WizardForm.this,"editor");
+      }
+    }
+    public boolean isVisible(){
+      Node current=state.getCurrentNode();
+      Transitions transitions=state.getTransitions();
+      return transitions.exists(current,TransitionLabel.NEXT);
+    }
+  }
+;
+  Button exitButton=new Button(this,"exit"){
+    protected void onSubmit(){
+      Node current=state.getCurrentNode();
+      if (current instanceof Exit) {
+        record(current);
+        TransitionLabel result=((Step)current).next(WizardForm.this);
+        ((Exit)current).exit(getRequestCycle());
+      }
+    }
+    public boolean isVisible(){
+      return (state.getCurrentNode() instanceof Exit);
+    }
+  }
+;
+  exitButton.add(new AttributeModifier("value",new Model(){
+    public Object getObject(    wicket.Component component){
+      Node current=state.getCurrentNode();
+      if (current instanceof Exit) {
+        return ((Exit)current).getLabel();
+      }
+      return null;
+    }
+  }
+));
+}

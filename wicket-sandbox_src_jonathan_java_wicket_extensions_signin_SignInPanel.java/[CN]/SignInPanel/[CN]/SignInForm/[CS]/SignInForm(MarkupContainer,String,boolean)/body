@@ -1,0 +1,11 @@
+{
+  super(parent,id);
+  setModel(new CompoundPropertyModel(this));
+  usernameTextField=new TextField(this,idUsername);
+  passwordTextField=new PasswordTextField(this,idPassword);
+  final WebMarkupContainer rememberMeRow=new WebMarkupContainer(this,"rememberMeRow");
+  rememberMeRow.setVisible(includeRememberMe);
+  rememberMeCheckBox=new CheckBox(rememberMeRow,idRememberMe);
+  usernameTextField.add(EmailAddressPatternValidator.getInstance());
+  new ImageButton(this,"signInButton",new ResourceReference("signInButton"));
+}
