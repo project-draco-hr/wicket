@@ -1,11 +1,8 @@
 {
-  ForAllUsers forAllUsers=new ForAllUsers("forAllUsersPanel");
-  add(forAllUsers);
-  ForAdminsAndUsers forAdminsAndUsers=new ForAdminsAndUsers("forAdminsAndUsersPanel");
-  add(forAdminsAndUsers);
+  ForAllUsers forAllUsers=new ForAllUsers(this,"forAllUsersPanel");
+  ForAdminsAndUsers forAdminsAndUsers=new ForAdminsAndUsers(this,"forAdminsAndUsersPanel");
   MetaDataRoleAuthorizationStrategy.authorize(forAdminsAndUsers,RENDER,"ADMIN");
   MetaDataRoleAuthorizationStrategy.authorize(forAdminsAndUsers,RENDER,"USER");
-  ForAdmins forAdmins=new ForAdmins("forAdminsPanel");
+  ForAdmins forAdmins=new ForAdmins(this,"forAdminsPanel");
   MetaDataRoleAuthorizationStrategy.authorize(forAdmins,RENDER,"ADMIN");
-  add(forAdmins);
 }
