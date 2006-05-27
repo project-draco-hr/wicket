@@ -1,17 +1,17 @@
 {
-  BoundCompoundPropertyModel emptyModel=new BoundCompoundPropertyModel("");
+  BoundCompoundPropertyModel emptyModel=new BoundCompoundPropertyModel<String>("");
   String expected="Model:classname=[wicket.model.BoundCompoundPropertyModel]:attached=false:nestedModel=[]:bindings=[]";
   assertEquals(expected,emptyModel.toString());
   Properties properties=new Properties();
   properties.put("name","foo");
-  BoundCompoundPropertyModel stringProperty=new BoundCompoundPropertyModel(properties);
+  BoundCompoundPropertyModel stringProperty=new BoundCompoundPropertyModel<Properties>(properties);
   expected="Model:classname=[wicket.model.BoundCompoundPropertyModel]:attached=false:nestedModel=[{name=foo}]:bindings=[]";
   assertEquals(expected,stringProperty.toString());
   stringProperty.attach();
   expected="Model:classname=[wicket.model.BoundCompoundPropertyModel]:attached=true:nestedModel=[{name=foo}]:bindings=[]";
   assertEquals(expected,stringProperty.toString());
   InnerPOJO innerPOJO=new InnerPOJO();
-  BoundCompoundPropertyModel pojoProperty=new BoundCompoundPropertyModel(innerPOJO);
+  BoundCompoundPropertyModel pojoProperty=new BoundCompoundPropertyModel<InnerPOJO>(innerPOJO);
   expected="Model:classname=[wicket.model.BoundCompoundPropertyModel]:attached=false:nestedModel=[" + innerPOJO + "]:bindings=[]";
   assertEquals(expected,pojoProperty.toString());
   Component component1=pojoProperty.bind(new Label(new EmptyPage(),"label"),Integer.class);

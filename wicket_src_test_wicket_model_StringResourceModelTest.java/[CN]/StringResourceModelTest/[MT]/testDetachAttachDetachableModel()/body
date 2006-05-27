@@ -1,5 +1,5 @@
 {
-  IModel wsDetachModel=new AbstractReadOnlyDetachableModel(){
+  IModel wsDetachModel=new AbstractReadOnlyDetachableModel<WeatherStation>(){
     private static final long serialVersionUID=1L;
     private transient WeatherStation station;
     @Override protected void onAttach(){
@@ -8,7 +8,7 @@
     @Override protected void onDetach(){
       station=null;
     }
-    @Override protected Object onGetObject(    final Component component){
+    @Override protected WeatherStation onGetObject(    final Component component){
       return station;
     }
     @Override public IModel getNestedModel(){
