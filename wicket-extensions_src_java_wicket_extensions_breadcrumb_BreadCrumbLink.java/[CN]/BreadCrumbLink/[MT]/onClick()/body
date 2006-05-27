@@ -3,7 +3,8 @@
   if (active == null) {
     throw new IllegalStateException("The model has no active bread crumb. Before using " + this + ", you have to have at least one bread crumb in the model");
   }
-  final IBreadCrumbParticipant participant=getParticipant(active.getComponent().getId());
+  Component component=active.getComponent();
+  final IBreadCrumbParticipant participant=getParticipant(component.getParent(),component.getId());
   addStateChange(new Change(){
     private static final long serialVersionUID=1L;
     @Override public void undo(){
