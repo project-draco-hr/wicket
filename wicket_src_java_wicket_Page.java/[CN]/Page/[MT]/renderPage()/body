@@ -8,7 +8,7 @@
   renderedComponents=null;
   this.stateless=null;
   setFormComponentValuesFromCookies();
-  visitChildren(IFeedback.class,new IVisitor<Component>(){
+  visitChildren(IFeedback.class,new IVisitor(){
     public Object component(    Component component){
       ((IFeedback)component).updateFeedback();
       component.internalAttach();
@@ -20,7 +20,7 @@
     ((IFeedback)this).updateFeedback();
   }
   internalAttach();
-  visitChildren(new IVisitor<Component>(){
+  visitChildren(new IVisitor(){
     public Object component(    final Component component){
       final boolean renderAllowed=component.isActionAuthorized(RENDER);
       component.setRenderAllowed(renderAllowed);
