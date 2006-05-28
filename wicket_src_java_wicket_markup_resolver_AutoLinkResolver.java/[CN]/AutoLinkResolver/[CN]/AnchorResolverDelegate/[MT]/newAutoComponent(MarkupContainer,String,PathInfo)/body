@@ -11,7 +11,7 @@
       className=infoPath.substring(1);
     }
     try {
-      final Class<? extends Page> clazz=defaultClassResolver.resolveClass(className);
+      final Class clazz=defaultClassResolver.resolveClass(className);
       return new AutolinkBookmarkablePageLink(container,autoId,clazz,pathInfo.pageParameters,pathInfo.anchor);
     }
  catch (    WicketRuntimeException ex) {
@@ -19,7 +19,7 @@
     }
     MarkupContainer parentWithContainer=container.findParentWithAssociatedMarkup();
     if ((parentWithContainer instanceof Page) && !infoPath.startsWith(".") && page.getMarkupStream().isMergedMarkup()) {
-      Class<? extends Page> clazz=container.getMarkupStream().getTag().getMarkupClass();
+      Class clazz=container.getMarkupStream().getTag().getMarkupClass();
       if (clazz != null) {
         className=Packages.extractPackageName(clazz) + "." + infoPath;
         try {
@@ -27,7 +27,7 @@
           return new AutolinkBookmarkablePageLink(container,autoId,clazz,pathInfo.getPageParameters(),pathInfo.anchor);
         }
  catch (        WicketRuntimeException ex) {
-          log.warn("Did not find corresponding java class: " + className);
+          log.warn("Did not find corresponding java class: " + className + "("+ ex.getMessage()+ ")");
         }
       }
     }
