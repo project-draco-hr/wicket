@@ -34,13 +34,13 @@
  while (tagText.endsWith("]]") == false);
   }
 {
-    XmlTag.Type type=XmlTag.OPEN;
+    XmlTag.Type type=XmlTag.Type.OPEN;
     if (tagText.endsWith("/")) {
-      type=XmlTag.OPEN_CLOSE;
+      type=XmlTag.Type.OPEN_CLOSE;
       tagText=tagText.substring(0,tagText.length() - 1);
     }
  else     if (tagText.startsWith("/")) {
-      type=XmlTag.CLOSE;
+      type=XmlTag.Type.CLOSE;
       tagText=tagText.substring(1);
     }
     if (tagText.startsWith("!") || tagText.startsWith("?")) {
@@ -49,7 +49,7 @@
     }
  else {
       String lowerCase=tagText.toLowerCase();
-      if ((type == XmlTag.OPEN) && lowerCase.startsWith("s")) {
+      if ((type == XmlTag.Type.OPEN) && lowerCase.startsWith("s")) {
         if (lowerCase.startsWith("script")) {
           this.skipUntilText="script";
         }
