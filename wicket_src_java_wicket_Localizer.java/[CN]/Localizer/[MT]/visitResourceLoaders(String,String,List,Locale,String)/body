@@ -1,8 +1,8 @@
 {
-  final Iterator iterator=application.getResourceSettings().getStringResourceLoaders().iterator();
+  final Iterator<IStringResourceLoader> iterator=application.getResourceSettings().getStringResourceLoaders().iterator();
   String string=null;
   while (iterator.hasNext() && (string == null)) {
-    IStringResourceLoader loader=(IStringResourceLoader)iterator.next();
+    IStringResourceLoader loader=iterator.next();
     String prefix=path;
     if ((searchStack != null) && (searchStack.size() > 0)) {
       for (int i=searchStack.size() - 1; (i >= 0) && (string == null); i--) {
