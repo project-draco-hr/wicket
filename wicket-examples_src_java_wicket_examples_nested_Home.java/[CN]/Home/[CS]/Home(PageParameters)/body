@@ -14,7 +14,7 @@
   l1.add("test 1.3");
   add(new NestedList("nestedList",l1));
   TreeModel treeModel=convertToTreeModel(l1);
-  Tree tree=new Tree("tree",treeModel){
+  final Tree tree=new Tree("tree",treeModel){
     protected String getNodeLabel(    DefaultMutableTreeNode node){
       Object userObject=node.getUserObject();
       return (userObject instanceof List) ? "<sub>" : String.valueOf(node.getUserObject());
@@ -22,6 +22,18 @@
   }
 ;
   add(tree);
+  add(new Link("expandAll"){
+    public void onClick(){
+      tree.expandAll(true);
+    }
+  }
+);
+  add(new Link("collapseAll"){
+    public void onClick(){
+      tree.expandAll(false);
+    }
+  }
+);
   Tree tree2=new MyTree("tree2",treeModel);
   add(tree2);
   Tree tree3=new AnotherTree("tree3",treeModel);
