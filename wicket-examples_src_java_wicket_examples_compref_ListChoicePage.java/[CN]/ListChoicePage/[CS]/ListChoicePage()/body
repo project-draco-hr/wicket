@@ -1,13 +1,13 @@
 {
-  final Input input=new Input();
-  setModel(new CompoundPropertyModel(input));
+  final ListChoicePageInput listChoicePageInput=new ListChoicePageInput();
+  setModel(new CompoundPropertyModel<ListChoicePageInput>(listChoicePageInput));
   FeedbackPanel feedbackPanel=new FeedbackPanel(this,"feedback");
   Form form=new Form(this,"form"){
     @Override protected void onSubmit(){
-      info("input: " + input);
+      info("input: " + listChoicePageInput);
     }
   }
 ;
-  ListChoice listChoice=new ListChoice(form,"site",SITES);
+  ListChoice listChoice=new ListChoice(form,"site",ListChoicePageInput.SITES);
   listChoice.setMaxRows(4);
 }

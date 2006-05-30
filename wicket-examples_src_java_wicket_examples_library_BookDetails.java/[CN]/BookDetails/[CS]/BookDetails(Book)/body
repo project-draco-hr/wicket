@@ -1,5 +1,5 @@
 {
-  Model bookModel=new Model(book);
+  IModel<Book> bookModel=new Model<Book>(book);
   new Label(this,"title",book.getTitle());
   new Label(this,"author",book.getAuthor());
   new Label(this,"fiction",Boolean.toString(book.getFiction()));
@@ -9,8 +9,7 @@
   final boolean hasStyles=(book.getWritingStyles() != null) && (book.getWritingStyles().size() > 0);
   if (hasStyles) {
     StringList styles=new StringList();
-    for (Iterator iterator=book.getWritingStyles().iterator(); iterator.hasNext(); ) {
-      Book.WritingStyle style=(Book.WritingStyle)iterator.next();
+    for (    WritingStyle style : book.getWritingStyles()) {
       styles.add(getLocalizer().getString(style.toString(),this));
     }
     writingStyles=styles.toString();
@@ -19,7 +18,7 @@
     writingStyles=getLocalizer().getString("noWritingStyles",this);
   }
   Label writingStylesLabel=new Label(this,"writingStyles",writingStyles);
-  final AttributeModifier italic=new AttributeModifier("class",new Model("italic"));
+  final AttributeModifier italic=new AttributeModifier("class",new Model<String>("italic"));
   italic.setEnabled(!hasStyles);
   writingStylesLabel.add(italic);
   EditBook.link(this,"edit",book.getId());

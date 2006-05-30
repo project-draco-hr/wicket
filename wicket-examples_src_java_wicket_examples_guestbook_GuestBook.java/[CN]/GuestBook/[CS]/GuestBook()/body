@@ -1,9 +1,9 @@
 {
   new CommentForm(this,"commentForm");
-  commentListView=(ListView)new ListView(this,"comments",commentList){
-    @Override public void populateItem(    final ListItem listItem){
-      final Comment comment=(Comment)listItem.getModelObject();
-      new Label(listItem,"date",new Model(comment.getDate()));
+  commentListView=(ListView)new ListView<Comment>(this,"comments",commentList){
+    @Override public void populateItem(    final ListItem<Comment> listItem){
+      final Comment comment=listItem.getModelObject();
+      new Label(listItem,"date",new Model<Date>(comment.getDate()));
       new MultiLineLabel(listItem,"text",comment.getText());
     }
   }

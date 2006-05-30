@@ -1,10 +1,10 @@
 {
   final PageableListView listView;
-  listView=new PageableListView(this,"books",new PropertyModel(this,"books"),4){
-    @Override public void populateItem(    final ListItem listItem){
-      final Book book=(Book)listItem.getModelObject();
+  listView=new PageableListView<Book>(this,"books",new PropertyModel<List<Book>>(this,"books"),4){
+    @Override public void populateItem(    final ListItem<Book> listItem){
+      final Book book=listItem.getModelObject();
       BookDetails.link(listItem,"details",book,getLocalizer().getString("noBookTitle",this));
-      new Label(listItem,"author",new Model(book));
+      new Label(listItem,"author",new Model<Book>(book));
       moveUpLink(listItem,"moveUp",listItem);
       moveDownLink(listItem,"moveDown",listItem);
       removeLink(listItem,"remove",listItem);

@@ -1,5 +1,5 @@
 {
-  super(parent,id,new CompoundPropertyModel(book));
+  super(parent,id,new CompoundPropertyModel<Book>(book));
   final FormComponentFeedbackBorder titleFeedback=new FormComponentFeedbackBorder(this,"titleFeedback");
   final TextField title=new TextField(titleFeedback,"title");
   title.setRequired(true);
@@ -8,10 +8,10 @@
   final TextField author=new TextField(authorFeedback,"author");
   author.setRequired(true);
   new CheckBox(this,"fiction");
-  List books=new ArrayList();
+  List<Book> books=new ArrayList<Book>();
   books.addAll(Book.getBooks());
   books.remove(otherBook);
-  new DropDownChoice(this,"companionBook",books);
+  new DropDownChoice<Book>(this,"companionBook",books);
   final RadioChoice relatedBook=new RadioChoice(this,"relatedBook",books);
-  new ListMultipleChoice(this,"writingStyles",EnumeratedType.getValues(Book.WritingStyle.class));
+  new ListMultipleChoice<WritingStyle>(this,"writingStyles",Arrays.asList(WritingStyle.values()));
 }
