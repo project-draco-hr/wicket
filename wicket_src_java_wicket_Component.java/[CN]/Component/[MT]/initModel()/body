@@ -1,9 +1,9 @@
 {
   for (Component current=getParent(); current != null; current=current.getParent()) {
-    final IModel<T> model=current.getModel();
+    final IModel model=current.getModel();
     if (model instanceof ICompoundModel) {
       setVersioned(false);
-      return model;
+      return new WrapModel<T>((ICompoundModel)model);
     }
   }
   return null;
