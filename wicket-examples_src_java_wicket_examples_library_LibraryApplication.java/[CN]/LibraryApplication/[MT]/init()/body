@@ -3,7 +3,7 @@
   getRequestCycleSettings().setRenderStrategy(RenderStrategy.REDIRECT_TO_RENDER);
   IAuthorizationStrategy authorizationStrategy=new SimplePageAuthorizationStrategy(AuthenticatedWebPage.class,SignIn.class){
     @Override protected boolean isAuthorized(){
-      return (((LibrarySession)Session.get()).isSignedIn());
+      return LibrarySession.get().isSignedIn();
     }
   }
 ;
