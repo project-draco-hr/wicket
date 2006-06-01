@@ -4,8 +4,8 @@
   getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
   getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
   getPageSettings().addComponentResolver(new AutoLinkResolver());
-  getResourceSettings().setResourceFinder(new WebApplicationPath(getWicketServlet().getServletContext()));
-  String contextPath=wicketServlet.getInitParameter(Application.CONTEXTPATH);
+  getResourceSettings().setResourceFinder(new WebApplicationPath(wicketFilter.getFilterConfig().getServletContext()));
+  String contextPath=wicketFilter.getFilterConfig().getInitParameter(Application.CONTEXTPATH);
   if (contextPath != null) {
     getApplicationSettings().setContextPath(contextPath);
   }
@@ -16,15 +16,15 @@
  catch (  SecurityException e) {
   }
   if (configuration == null) {
-    configuration=wicketServlet.getInitParameter(Application.CONFIGURATION);
+    configuration=wicketFilter.getFilterConfig().getInitParameter(Application.CONFIGURATION);
   }
   if (configuration == null) {
-    configuration=wicketServlet.getServletContext().getInitParameter(Application.CONFIGURATION);
+    configuration=wicketFilter.getFilterConfig().getServletContext().getInitParameter(Application.CONFIGURATION);
   }
   if (configuration != null) {
-    configure(configuration,wicketServlet.getInitParameter("sourceFolder"));
+    configure(configuration,wicketFilter.getFilterConfig().getInitParameter("sourceFolder"));
   }
  else {
-    configure(Application.DEVELOPMENT,wicketServlet.getInitParameter("sourceFolder"));
+    configure(Application.DEVELOPMENT,wicketFilter.getFilterConfig().getInitParameter("sourceFolder"));
   }
 }

@@ -1,3 +1,8 @@
 {
-  return httpServletRequest.getPathInfo();
+  String url=httpServletRequest.getRequestURI();
+  String rootPath=((WebApplication)Application.get()).getRootPath();
+  if (url.startsWith(rootPath)) {
+    return url.substring(rootPath.length());
+  }
+  return null;
 }

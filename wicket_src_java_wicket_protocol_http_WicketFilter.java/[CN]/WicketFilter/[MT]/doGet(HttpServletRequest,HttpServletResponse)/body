@@ -1,0 +1,45 @@
+{
+  long time=System.currentTimeMillis();
+  Application.set(webApplication);
+  final WebRequest request=webApplication.newWebRequest(servletRequest);
+  if (webApplication.getRequestCycleSettings().getRenderStrategy() == RenderStrategy.REDIRECT_TO_BUFFER) {
+    String queryString=servletRequest.getQueryString();
+    if (!Strings.isEmpty(queryString)) {
+      ISessionStore sessionStore=webApplication.getSessionStore();
+      String sessionId=sessionStore.getSessionId(request);
+      BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
+      if (bufferedResponse != null) {
+        bufferedResponse.writeTo(servletResponse);
+        return;
+      }
+    }
+  }
+  if (servletRequest.getCharacterEncoding() == null) {
+    try {
+      servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+    }
+ catch (    UnsupportedEncodingException ex) {
+      throw new WicketRuntimeException(ex.getMessage());
+    }
+  }
+  final WebSession session=webApplication.getSession(request);
+  final WebResponse response=webApplication.newWebResponse(servletResponse);
+  response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+  try {
+    RequestCycle cycle=session.newRequestCycle(request,response);
+    try {
+      cycle.request();
+    }
+ catch (    AbortException e) {
+    }
+  }
+  finally {
+    response.close();
+    RequestLogger requestLogger=webApplication.getRequestLogger();
+    if (requestLogger != null) {
+      requestLogger.requestTime((System.currentTimeMillis() - time));
+    }
+    Session.unset();
+    Application.unset();
+  }
+}

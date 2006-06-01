@@ -1,0 +1,19 @@
+{
+  this.filterConfig=filterConfig;
+  IWebApplicationFactory factory=getApplicationFactory();
+  this.webApplication=factory.createApplication(this);
+  this.webApplication.setWicketFilter(this);
+  String contextKey="wicket:" + filterConfig.getFilterName();
+  filterConfig.getServletContext().setAttribute(contextKey,this.webApplication);
+  filterPath=filterConfig.getInitParameter(FILTER_PATH_PARAM);
+  log.info("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
+  try {
+    Application.set(webApplication);
+    this.webApplication.internalInit();
+    this.webApplication.init();
+    this.webApplication.initializeComponents();
+  }
+  finally {
+    Application.unset();
+  }
+}

@@ -1,0 +1,19 @@
+{
+  String path=encoder.getMountPath();
+  if (path == null) {
+    throw new IllegalArgumentException("Argument path must be not-null");
+  }
+  if (path.equals("/")) {
+    throw new IllegalArgumentException("The mount path '/' is reserved for the application home page");
+  }
+  if (encoder == null) {
+    throw new IllegalArgumentException("Argument encoder must be not-null");
+  }
+  if (!path.startsWith("/")) {
+    path="/" + path;
+  }
+  if (mountsOnPath.containsKey(path)) {
+    throw new WicketRuntimeException(path + " is already mounted for " + mountsOnPath.get(path));
+  }
+  mountsOnPath.put(path,encoder);
+}
