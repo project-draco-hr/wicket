@@ -2,17 +2,17 @@
   super(parent,id);
   new Label(this,"name",pageMap.getName() == null ? "null" : pageMap.getName());
   new Label(this,"size","" + Bytes.bytes(pageMap.getSizeInBytes()));
-  final ArrayListStack accessStack;
+  final ArrayListStack<Access> accessStack;
   if (pageMap instanceof AccessStackPageMap) {
     accessStack=((AccessStackPageMap)pageMap).getAccessStack();
   }
  else {
-    accessStack=new ArrayListStack();
+    accessStack=new ArrayListStack<Access>();
   }
-  final List reversedAccessStack=new ArrayList();
+  final List<Access> reversedAccessStack=new ArrayList<Access>();
   reversedAccessStack.addAll(accessStack);
   Collections.reverse(reversedAccessStack);
-  new ListView(this,"accesses",reversedAccessStack){
+  new ListView<Access>(this,"accesses",reversedAccessStack){
     private static final long serialVersionUID=1L;
     /** 
  * Populate the table with Wicket elements

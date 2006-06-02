@@ -53,7 +53,7 @@
   Model sessionModel=new Model(){
     private static final long serialVersionUID=1L;
     @Override public Object getObject(    Component component){
-      return new ArrayList(getRequestLogger().getLiveSessions());
+      return new ArrayList<SessionData>(getRequestLogger().getLiveSessions());
     }
   }
 ;
@@ -71,10 +71,10 @@
         }
       }
 ;
-      new Label(link,"id",new Model(sd.getId()));
-      new Label(item,"requestCount",new Model(new Integer(sd.getRequests().size())));
-      new Label(item,"requestsTime",new Model(sd.getRequestsTime()));
-      new Label(item,"sessionSize",new Model(Bytes.bytes(sd.getSessionSize())));
+      new Label(link,"id",new Model<String>(sd.getId()));
+      new Label(item,"requestCount",new Model<Integer>(new Integer(sd.getRequests().size())));
+      new Label(item,"requestsTime",new Model<Double>(sd.getRequestsTime()));
+      new Label(item,"sessionSize",new Model<Bytes>(Bytes.bytes(sd.getSessionSize())));
     }
   }
 ;

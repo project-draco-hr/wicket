@@ -4,7 +4,7 @@
   Model requestsModel=new Model(){
     private static final long serialVersionUID=1L;
     @Override public Object getObject(    Component component){
-      return new ArrayList(sessionData.getRequests());
+      return new ArrayList<RequestData>(sessionData.getRequests());
     }
   }
 ;
@@ -13,7 +13,7 @@
     private final SimpleDateFormat sdf=new SimpleDateFormat("dd MMM hh:mm:ss.SSS");
     @Override protected void populateItem(    ListItem item){
       RequestData rd=(RequestData)item.getModelObject();
-      Label startDate=new Label(item,"startDate",new Model(rd.getStartDate())){
+      Label startDate=new Label(item,"startDate",new Model<Date>(rd.getStartDate())){
         private static final long serialVersionUID=1L;
         /** 
  * @see wicket.Component#getConverter(Class)
@@ -32,10 +32,10 @@
         }
       }
 ;
-      new Label(item,"timeTaken",new Model(rd.getTimeTaken()));
-      new Label(item,"eventTarget",new Model(rd.getEventTargert()));
-      new Label(item,"responseTarget",new Model(rd.getResponseTarget()));
-      new Label(item,"alteredObjects",new Model(rd.getAlteredObjects())).setEscapeModelStrings(false);
+      new Label(item,"timeTaken",new Model<Long>(rd.getTimeTaken()));
+      new Label(item,"eventTarget",new Model<String>(rd.getEventTargert()));
+      new Label(item,"responseTarget",new Model<String>(rd.getResponseTarget()));
+      new Label(item,"alteredObjects",new Model<String>(rd.getAlteredObjects())).setEscapeModelStrings(false);
     }
   }
 ;

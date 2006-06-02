@@ -1,6 +1,6 @@
 {
   final ReportList data=new ReportList();
-  final Map groups=new LinkedHashMap();
+  final Map<String,Integer> groups=new LinkedHashMap<String,Integer>();
   ReportableListObject previousValue=(ReportableListObject)data.get(0);
   groups.put(previousValue.getCity(),new Integer(0));
   int startIdx=0;
@@ -14,9 +14,9 @@
     }
   }
   groups.put(previousValue.getCity(),new Integer(data.size() - startIdx));
-  List groupList=new ArrayList();
+  List<String> groupList=new ArrayList<String>();
   groupList.addAll(groups.keySet());
-  new ListView(this,"border",groupList){
+  new ListView<String>(this,"border",groupList){
     private int startIndex=0;
     @Override public void populateItem(    final ListItem listItem){
       SubtotalTable subtable=new SubtotalTable(listItem,"rows",data);
