@@ -5,7 +5,7 @@
   if (httpResponse.isRedirect()) {
     generateLastRenderedPage(cycle);
     final MockHttpServletRequest httpRequest=(MockHttpServletRequest)cycle.getWebRequest().getHttpServletRequest();
-    MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(this,servletSession,context);
+    MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(this,servletSession,getServletContext());
     newHttpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
     wicketRequest=newWebRequest(newHttpRequest);
     wicketSession=getSession(wicketRequest);
