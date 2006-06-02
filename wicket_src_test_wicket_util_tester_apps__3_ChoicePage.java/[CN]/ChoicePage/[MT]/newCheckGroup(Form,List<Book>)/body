@@ -1,0 +1,11 @@
+{
+  CheckGroup checkGroupComponent=new CheckGroup(parent,"checkGroup");
+  ListView<Book> listView=new ListView<Book>(checkGroupComponent,"loop",candidateChoices){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    ListItem item){
+      new Check<Book>(item,"check",new Model<Book>((Book)item.getModelObject()));
+    }
+  }
+;
+  return checkGroupComponent;
+}

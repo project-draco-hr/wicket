@@ -1,16 +1,16 @@
 {
   final String radio1="radio1-selection";
   MockModelObject modelObject=new MockModelObject();
-  Model model=new Model();
+  Model<String> model=new Model<String>();
   RequestCycle cycle=application.createRequestCycle();
   MockPage page=new MockPage();
-  final Form form=new Form(page,"form",new CompoundPropertyModel(modelObject));
+  final Form form=new Form<MockModelObject>(page,"form",new CompoundPropertyModel<MockModelObject>(modelObject));
   final RadioGroup group=new RadioGroup(form,"prop1");
   final WebMarkupContainer container=new WebMarkupContainer(group,"container");
-  final Radio choice1=new Radio(container,"radio1",new Model(radio1));
-  final Radio choice2=new Radio(group,"prop2");
-  final RadioGroup group2=new RadioGroup(form,"group2",model);
-  final Radio choice3=new Radio(group2,"radio3",new Model(radio1));
+  final Radio<String> choice1=new Radio<String>(container,"radio1",new Model<String>(radio1));
+  final Radio<String> choice2=new Radio<String>(group,"prop2");
+  final RadioGroup group2=new RadioGroup<String>(form,"group2",model);
+  final Radio choice3=new Radio<String>(group2,"radio3",new Model<String>(radio1));
   modelObject.setProp1(radio1);
   form.onFormSubmitted();
   assertTrue("group: running with nothing selected - model must be set to null",modelObject.getProp1() == null);

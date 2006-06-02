@@ -3,11 +3,11 @@
   final String check2="check2-selection";
   MockModelObject modelObject=new MockModelObject();
   modelObject.setProp2(check2);
-  List list=new ArrayList();
-  Model<List> model=new Model<List>(list);
-  final CheckGroup group2=new CheckGroup(new EmptyPage(),"group2",model);
+  List<MockModelObject> list=new ArrayList<MockModelObject>();
+  Model<Collection<MockModelObject>> model=new Model<Collection<MockModelObject>>(list);
+  final CheckGroup group2=new CheckGroup<MockModelObject>(new EmptyPage(),"group2",model);
   assertTrue(group2.getModelObject() == list);
-  final CheckGroup group3=new CheckGroup(new EmptyPage(),"group3",list);
+  final CheckGroup group3=new CheckGroup<MockModelObject>(new EmptyPage(),"group3",list);
   assertTrue(group3.getModelObject() == list);
   RequestCycle cycle=application.createRequestCycle();
   MockPage page=new MockPage();

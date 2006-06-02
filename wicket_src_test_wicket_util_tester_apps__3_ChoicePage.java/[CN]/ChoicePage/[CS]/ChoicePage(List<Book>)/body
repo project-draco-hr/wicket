@@ -1,0 +1,19 @@
+{
+  ChoiceRenderer<Book> bookChoiceRenderer=new ChoiceRenderer<Book>("name","id");
+  Form<?> form=new Form(this,"choiceForm");
+  form.setModel(new CompoundPropertyModel(this));
+  new DropDownChoice<Book>(form,"dropDownChoice",candidateChoices,bookChoiceRenderer);
+  new ListChoice<Book>(form,"listChoice",candidateChoices,bookChoiceRenderer).setMaxRows(4);
+  new RadioChoice<Book>(form,"radioChoice",candidateChoices,bookChoiceRenderer);
+  newRadioGroup(form,candidateChoices);
+  new ListMultipleChoice<Book>(form,"listMultipleChoice",candidateChoices,bookChoiceRenderer).setMaxRows(4);
+  new CheckBoxMultipleChoice<Book>(form,"checkBoxMultipleChoice",candidateChoices,bookChoiceRenderer);
+  newCheckGroup(form,candidateChoices);
+  new Button(form,"anotherButton"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(){
+      anotherButtonPressed=true;
+    }
+  }
+;
+}
