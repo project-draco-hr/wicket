@@ -1,0 +1,19 @@
+{
+  String className=desc.getName();
+  Application application=Application.get();
+  IApplicationSettings applicationSettings=application.getApplicationSettings();
+  IClassResolver classResolver=applicationSettings.getClassResolver();
+  Class candidate=null;
+  try {
+    candidate=classResolver.resolveClass(className);
+    if (candidate == null) {
+      candidate=super.resolveClass(desc);
+    }
+  }
+ catch (  WicketRuntimeException ex) {
+    if (ex.getCause() instanceof ClassNotFoundException) {
+      throw (ClassNotFoundException)ex.getCause();
+    }
+  }
+  return candidate;
+}
