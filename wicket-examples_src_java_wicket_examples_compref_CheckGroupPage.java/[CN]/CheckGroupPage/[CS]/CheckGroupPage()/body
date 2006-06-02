@@ -5,9 +5,9 @@
     }
   }
 ;
-  group=new CheckGroup(form,"group",new ArrayList());
+  group=new CheckGroup<String>(form,"group",new ArrayList<String>());
   new CheckGroupSelector(group,"groupselector");
-  ListView persons=new ListView(group,"persons",ComponentReferenceApplication.getPersons()){
+  ListView<Person> persons=new ListView<Person>(group,"persons",ComponentReferenceApplication.getPersons()){
     @Override protected void populateItem(    ListItem item){
       new Check(item,"checkbox",item.getModel());
       new Label(item,"name",new PropertyModel(item.getModel(),"name"));
