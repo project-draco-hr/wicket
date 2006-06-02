@@ -4,7 +4,7 @@
   MockModelObject modelObject=new MockModelObject();
   modelObject.setProp2(check2);
   List list=new ArrayList();
-  Model model=new Model(list);
+  Model<List> model=new Model<List>(list);
   final CheckGroup group2=new CheckGroup(new EmptyPage(),"group2",model);
   assertTrue(group2.getModelObject() == list);
   final CheckGroup group3=new CheckGroup(new EmptyPage(),"group3",list);
@@ -14,7 +14,7 @@
   final Form form=new Form(page,"form",new CompoundPropertyModel(modelObject));
   final CheckGroup group=new CheckGroup(form,"prop1");
   final WebMarkupContainer container=new WebMarkupContainer(group,"container");
-  final Check choice1=new Check(container,"check1",new Model(check1));
+  final Check<String> choice1=new Check<String>(container,"check1",new Model<String>(check1));
   final Check choice2=new Check(group,"prop2");
   modelObject.getProp1().add(check1);
   form.onFormSubmitted();

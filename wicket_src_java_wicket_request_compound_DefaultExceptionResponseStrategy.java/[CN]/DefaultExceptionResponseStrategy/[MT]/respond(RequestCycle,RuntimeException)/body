@@ -8,7 +8,7 @@
     requestCycle.setResponsePage(override);
   }
  else   if (e instanceof AuthorizationException) {
-    Class accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
+    Class<? extends Page> accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
     throw new RestartResponseAtInterceptPageException(accessDeniedPageClass);
   }
  else   if (settings.getUnexpectedExceptionDisplay() != UnexpectedExceptionDisplay.SHOW_NO_EXCEPTION_PAGE) {
