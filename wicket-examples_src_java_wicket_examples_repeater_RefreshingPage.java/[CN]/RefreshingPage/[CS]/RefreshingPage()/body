@@ -1,5 +1,5 @@
 {
-  final List contacts=new ArrayList(10);
+  final List<IModel<Contact>> contacts=new ArrayList<IModel<Contact>>(10);
   ContactDataProvider dp=new ContactDataProvider();
   Iterator it=dp.iterator(0,10);
   while (it.hasNext()) {
@@ -21,8 +21,8 @@
       new Label(item,"lastname",contact.getLastName());
       new Label(item,"homephone",contact.getHomePhone());
       new Label(item,"cellphone",contact.getCellPhone());
-      item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel(){
-        @Override public Object getObject(        Component component){
+      item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel<String>(){
+        @Override public String getObject(        Component component){
           return (item.getIndex() % 2 == 1) ? "even" : "odd";
         }
       }
