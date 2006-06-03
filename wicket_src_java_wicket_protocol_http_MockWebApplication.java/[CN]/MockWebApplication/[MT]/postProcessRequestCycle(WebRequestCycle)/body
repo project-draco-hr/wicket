@@ -1,0 +1,18 @@
+{
+  previousRenderedPage=lastRenderedPage;
+  final MockHttpServletResponse httpResponse=(MockHttpServletResponse)cycle.getWebResponse().getHttpServletResponse();
+  if (httpResponse.isRedirect()) {
+    this.lastRenderedPage=generateLastRenderedPage(cycle);
+    MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(this,servletSession,getServletContext());
+    newHttpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
+    wicketRequest=newWebRequest(newHttpRequest);
+    wicketSession=getSession(wicketRequest);
+    cycle=new WebRequestCycle(wicketSession,wicketRequest,wicketResponse);
+    cycle.request();
+  }
+  this.lastRenderedPage=generateLastRenderedPage(cycle);
+  Session.set(getWicketSession());
+  if (getLastRenderedPage() instanceof ExceptionErrorPage) {
+    throw (RuntimeException)((ExceptionErrorPage)getLastRenderedPage()).getThrowable();
+  }
+}

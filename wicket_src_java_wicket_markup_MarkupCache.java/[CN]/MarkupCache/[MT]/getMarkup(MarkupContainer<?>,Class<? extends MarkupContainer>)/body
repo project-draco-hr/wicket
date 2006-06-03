@@ -14,16 +14,16 @@
 synchronized (markupCache) {
       markup=markupCache.get(key);
       if (markup == null) {
-        final IResourceStream resourceStream=container.newMarkupResourceStream(containerClass);
-        if (resourceStream != null) {
-          final MarkupResourceStream markupResource;
-          if (resourceStream instanceof MarkupResourceStream) {
-            markupResource=(MarkupResourceStream)resourceStream;
+        final MarkupResourceStreamLookupResult lookupResult=container.newMarkupResourceStream(containerClass);
+        if (lookupResult != null) {
+          if (lookupResult.getCacheKey() == null) {
+            lookupResult.setCacheKey(key);
           }
- else {
-            markupResource=new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
+          final IResourceStream resourceStream=lookupResult.getResourceStream();
+          if (!(resourceStream instanceof MarkupResourceStream)) {
+            lookupResult.setResourceStream(new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass));
           }
-          markup=loadMarkupAndWatchForChanges(container,key,markupResource);
+          markup=loadMarkupAndWatchForChanges(container,lookupResult);
         }
  else {
           markup=Markup.NO_MARKUP;

@@ -1,0 +1,17 @@
+{
+  if (lookupResult.isDisableCaching() == false) {
+    final ModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(true);
+    if (watcher != null) {
+      watcher.add(lookupResult.getResourceStream(),new IChangeListener(){
+        public void onChange(){
+          log.info("Remove markup from cache: " + lookupResult.getResourceStream());
+          removeMarkup(lookupResult);
+          watcher.remove(lookupResult.getResourceStream());
+        }
+      }
+);
+    }
+  }
+  log.info("Loading markup from " + lookupResult.getResourceStream());
+  return loadMarkup(container,lookupResult);
+}

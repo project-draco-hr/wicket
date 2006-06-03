@@ -1,0 +1,20 @@
+{
+  try {
+    Markup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser().readAndParse(lookupResult.getMarkupResourceStream());
+    markup=checkForMarkupInheritance(container,lookupResult,markup);
+    markupCache.put(lookupResult.getCacheKey(),markup);
+    afterLoadListeners.notifyListeners(lookupResult.getResourceStream());
+    return markup;
+  }
+ catch (  ResourceStreamNotFoundException e) {
+    log.error("Unable to find markup from " + lookupResult.getResourceStream(),e);
+  }
+catch (  IOException e) {
+    log.error("Unable to read markup from " + lookupResult.getResourceStream(),e);
+  }
+synchronized (markupCache) {
+    markupCache.remove(lookupResult.getCacheKey());
+    afterLoadListeners.remove(lookupResult.getResourceStream());
+  }
+  return Markup.NO_MARKUP;
+}

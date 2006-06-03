@@ -11,7 +11,7 @@
   afterLoadListeners.add(baseMarkup.getResource(),new IChangeListener(){
     public void onChange(){
       log.info("Remove derived markup from cache: " + markup.getResource());
-      removeMarkup(key,markup.getResource());
+      removeMarkup(lookupResult);
     }
     /** 
  * Make sure there is only one listener per derived markup
@@ -25,7 +25,7 @@
  * @see java.lang.Object#hashCode()
  */
     @Override public int hashCode(){
-      return key.hashCode();
+      return lookupResult.getCacheKey().hashCode();
     }
   }
 );
