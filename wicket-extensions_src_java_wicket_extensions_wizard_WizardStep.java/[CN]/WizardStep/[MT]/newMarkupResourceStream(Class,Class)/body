@@ -3,7 +3,7 @@
     String name=Strings.afterLast(stepClass.getName(),'.') + ".html";
     final URL url=stepClass.getResource(name);
     if (url != null) {
-      return new UrlResourceStream(url);
+      return new MarkupResourceStreamLookupResult(new UrlResourceStream(url));
     }
  else {
       return newMarkupResourceStream(stepClass.getSuperclass(),containerClass);
