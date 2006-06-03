@@ -1,7 +1,7 @@
 {
-  IntKeyWeakReference ref=null;
-  while ((ref=(IntKeyWeakReference)queue.poll()) != null) {
-    directComponentRefs.remove(ref.uid);
+  Object ref;
+  while ((ref=queue.poll()) != null) {
+    directComponentRefs.remove(((IntKeyWeakReference)ref).uid);
   }
   int uid=Integer.parseInt(uidString);
   ComponentAndInterface cai=(ComponentAndInterface)directComponentRefs.get(uid);

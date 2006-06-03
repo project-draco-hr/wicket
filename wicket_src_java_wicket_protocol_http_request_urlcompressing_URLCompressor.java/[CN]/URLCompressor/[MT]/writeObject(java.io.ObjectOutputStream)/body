@@ -1,7 +1,7 @@
 {
-  IntKeyWeakReference ref=null;
-  while ((ref=(IntKeyWeakReference)queue.poll()) != null) {
-    directComponentRefs.remove(ref.uid);
+  Object ref=null;
+  while ((ref=queue.poll()) != null) {
+    directComponentRefs.remove(((IntKeyWeakReference)ref).uid);
   }
   s.defaultWriteObject();
   s.writeInt(directComponentRefs.size());
