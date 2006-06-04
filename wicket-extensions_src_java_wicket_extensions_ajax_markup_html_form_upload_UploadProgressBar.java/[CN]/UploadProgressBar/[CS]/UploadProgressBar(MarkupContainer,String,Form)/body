@@ -8,11 +8,9 @@
   barDiv.setOutputMarkupId(true);
   final WebMarkupContainer statusDiv=new WebMarkupContainer(this,"status");
   statusDiv.setOutputMarkupId(true);
-  form.add(new AttributeModifier("onsubmit",true,new Model(){
-    /** 
- */
+  form.add(new AttributeModifier("onsubmit",true,new Model<String>(){
     private static final long serialVersionUID=1L;
-    @Override public Object getObject(    Component component){
+    @Override public String getObject(    Component component){
       ResourceReference ref=new ResourceReference(RESOURCE_NAME);
       return "var def=new wupb.Def('" + form.getMarkupId() + "', '"+ statusDiv.getMarkupId()+ "', '"+ barDiv.getMarkupId()+ "', '"+ getPage().urlFor(ref)+ "'); wupb.start(def);";
     }
