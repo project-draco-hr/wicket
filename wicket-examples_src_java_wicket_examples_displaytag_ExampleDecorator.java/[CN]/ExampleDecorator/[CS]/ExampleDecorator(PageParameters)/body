@@ -1,6 +1,6 @@
 {
-  List data=new TestList(10,false);
-  new SimpleListView(this,"rows",data){
+  List<ListObject> data=new TestList(10,false);
+  new SimpleListView<ListObject>(this,"rows",data){
     @Override public void populateItem(    final ListItem listItem){
       final ListObject value=(ListObject)listItem.getModelObject();
       new Label(listItem,"date",Time.valueOf(value.getDate()).toString("yyyy-MM-dd"));
@@ -10,5 +10,5 @@
   }
 ;
   new LocaleSelector(this,"localeSelector");
-  new SimpleListView(this,"rows2",data);
+  new SimpleListView<ListObject>(this,"rows2",data);
 }

@@ -1,14 +1,14 @@
 {
   new Image(this,"bug");
   new SessionView(this,"session",sessionData.getSession());
-  Model requestsModel=new Model(){
+  IModel<List<RequestData>> requestsModel=new Model<List<RequestData>>(){
     private static final long serialVersionUID=1L;
-    @Override public Object getObject(    Component component){
+    @Override public List<RequestData> getObject(    Component component){
       return new ArrayList<RequestData>(sessionData.getRequests());
     }
   }
 ;
-  PageableListView listView=new PageableListView(this,"requests",requestsModel,50){
+  PageableListView<RequestData> listView=new PageableListView<RequestData>(this,"requests",requestsModel,50){
     private static final long serialVersionUID=1L;
     private final SimpleDateFormat sdf=new SimpleDateFormat("dd MMM hh:mm:ss.SSS");
     @Override protected void populateItem(    ListItem item){

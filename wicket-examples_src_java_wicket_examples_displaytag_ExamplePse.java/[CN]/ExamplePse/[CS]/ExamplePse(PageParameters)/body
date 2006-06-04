@@ -1,6 +1,6 @@
 {
   final ReportList data=new ReportList();
-  final SimplePageableListView table=new SimplePageableListView(this,"rows",data,10){
+  final SimplePageableListView<ReportableListObject> table=new SimplePageableListView<ReportableListObject>(this,"rows",data,10){
     private ReportableListObject previousValue=null;
     /** 
  */
@@ -18,7 +18,7 @@
     }
   }
 ;
-  new SortableListViewHeaders(this,"header",table){
+  new SortableListViewHeaders<ReportableListObject>(this,"header",table){
     @Override protected Comparable getObjectToCompare(    final SortableListViewHeader header,    final Object object){
       final String name=header.getId();
       if (name.equals("city")) {
