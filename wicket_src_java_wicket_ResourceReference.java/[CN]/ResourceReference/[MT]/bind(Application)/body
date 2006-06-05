@@ -1,15 +1,17 @@
 {
   if (resource == null) {
-    resource=application.getSharedResources().get(scope,name,locale,style,true);
+    SharedResources sharedResources=application.getSharedResources();
+    resource=sharedResources.get(scope,name,locale,style,true);
     if (resource == null) {
       resource=newResource();
       if (resource == null) {
-        resource=application.getSharedResources().get(scope,name,locale,style,false);
+        resource=sharedResources.get(scope,name,locale,style,false);
         if (resource == null) {
-          throw new WicketRuntimeException("Unable to resolve shared resource " + this);
+          PackageResource packageResource=PackageResource.get(scope,name);
+          sharedResources.add(name,packageResource);
         }
       }
-      application.getSharedResources().add(scope,name,locale,style,resource);
+      sharedResources.add(scope,name,locale,style,resource);
     }
   }
 }
