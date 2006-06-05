@@ -1,7 +1,28 @@
 {
-  SharedResources sharedResources=requestCycle.getApplication().getSharedResources();
+  Application application=requestCycle.getApplication();
+  SharedResources sharedResources=application.getSharedResources();
   final String resourceKey=getRequestParameters().getResourceKey();
   Resource resource=sharedResources.get(resourceKey);
+  if (resource == null) {
+    int ix=resourceKey.indexOf('/');
+    if (ix != -1) {
+      String className=resourceKey.substring(0,ix);
+      IClassResolver resolver=application.getApplicationSettings().getClassResolver();
+      Class scope=null;
+      try {
+        scope=resolver.resolveClass(className);
+        String path=resourceKey.substring(ix + 1);
+        PackageResource packageResource=PackageResource.get(scope,path);
+        if (sharedResources.get(resourceKey) == null) {
+          sharedResources.add(resourceKey,packageResource);
+        }
+        resource=packageResource;
+      }
+ catch (      Exception e) {
+        log.error("unable to lazily register shared resource " + resourceKey + ", exception="+ e.getMessage());
+      }
+    }
+  }
   if (resource == null) {
     Response response=requestCycle.getResponse();
     if (response instanceof WebResponse) {
