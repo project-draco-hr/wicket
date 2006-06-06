@@ -1,0 +1,14 @@
+{
+  final StringBuffer buffer=new StringBuffer(value.length() + 10);
+  for (int i=0; i < value.length(); i++) {
+    final char c=value.charAt(i);
+    if (Character.isLetterOrDigit(c)) {
+      buffer.append(c);
+    }
+ else {
+      buffer.append('%');
+      buffer.append(Integer.toHexString(c));
+    }
+  }
+  return buffer.toString();
+}
