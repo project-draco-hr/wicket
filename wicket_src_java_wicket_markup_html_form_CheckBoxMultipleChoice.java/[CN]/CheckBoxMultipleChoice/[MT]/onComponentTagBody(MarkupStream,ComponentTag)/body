@@ -9,7 +9,7 @@
       buffer.append(getPrefix());
       String id=getChoiceRenderer().getIdValue(choice,index);
       final String idAttr=getInputName() + "_" + id;
-      buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"checkbox\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"/>");
+      buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"checkbox\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((isEnabled() ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"/>");
       String display=label;
       if (localizeDisplayValues()) {
         display=getLocalizer().getString(label,this,label);
