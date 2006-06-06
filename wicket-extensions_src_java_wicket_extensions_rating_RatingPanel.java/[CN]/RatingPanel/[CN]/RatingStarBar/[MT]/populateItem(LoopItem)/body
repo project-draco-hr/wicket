@@ -1,10 +1,10 @@
 {
   AjaxFallbackLink link=new AjaxFallbackLink(item,"link"){
     private static final long serialVersionUID=1L;
-    public boolean isEnabled(){
+    @Override public boolean isEnabled(){
       return !((Boolean)hasVoted.getObject(RatingPanel.this)).booleanValue();
     }
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       LoopItem item=(LoopItem)getParent();
       onRated(item.getIteration() + 1,target);
       if (target != null) {
