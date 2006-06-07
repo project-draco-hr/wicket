@@ -1,13 +1,22 @@
 {
   final FormComponent formComponent=getFormComponent();
-  formComponent.inputChanged();
-  formComponent.validate();
-  if (formComponent.hasErrorMessage()) {
-    formComponent.invalid();
-  }
+  boolean callOnUpdate=true;
+  try {
+    formComponent.inputChanged();
+    formComponent.validate();
+    if (formComponent.hasErrorMessage()) {
+      formComponent.invalid();
+    }
  else {
-    formComponent.valid();
-    formComponent.updateModel();
+      formComponent.valid();
+      formComponent.updateModel();
+    }
   }
-  onUpdate(target);
+ catch (  RuntimeException e) {
+    callOnUpdate=false;
+    onError(target,e);
+  }
+  if (callOnUpdate) {
+    onUpdate(target);
+  }
 }
