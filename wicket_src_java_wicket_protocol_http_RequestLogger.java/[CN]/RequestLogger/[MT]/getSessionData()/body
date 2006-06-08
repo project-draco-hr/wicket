@@ -1,6 +1,7 @@
 {
   Session session=Session.get();
-  SessionData sessionData=liveSessions.get(session.getId());
+  String sessionId=session.getId();
+  SessionData sessionData=(sessionId != null) ? liveSessions.get(sessionId) : null;
   if (sessionData == null) {
     sessionData=createSessionData(session);
   }

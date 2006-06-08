@@ -1,9 +1,12 @@
 {
   SessionData sessionData=new SessionData(session);
-  liveSessions.put(session.getId(),sessionData);
-  totalCreatedSessions++;
-  if (peakSessions < liveSessions.size()) {
-    peakSessions=liveSessions.size();
+  String sessionId=session.getId();
+  if (sessionId != null) {
+    liveSessions.put(sessionId,sessionData);
+    totalCreatedSessions++;
+    if (peakSessions < liveSessions.size()) {
+      peakSessions=liveSessions.size();
+    }
   }
   return sessionData;
 }

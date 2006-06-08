@@ -1,7 +1,10 @@
 {
-  if (lastPage != page) {
-    lastPage=page;
-    dirty();
+  String sessionId=getSession().getId();
+  if (sessionId != null) {
+    if (lastPage != page) {
+      lastPage=page;
+      dirty();
+    }
+    getStore().storePage(sessionId,page);
   }
-  getStore().storePage(getSession().getId(),page);
 }

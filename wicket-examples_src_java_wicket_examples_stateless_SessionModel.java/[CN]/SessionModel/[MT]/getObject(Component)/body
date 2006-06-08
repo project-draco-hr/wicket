@@ -1,0 +1,11 @@
+{
+  final String msg;
+  String sessionId=Application.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),false);
+  if (sessionId == null) {
+    msg="no concrete session is created yet (only a volatile one)";
+  }
+ else {
+    msg="a session exists for this client, with session id " + sessionId;
+  }
+  return msg;
+}

@@ -3,8 +3,10 @@
   Session session=sessionStore.lookup(request);
   if (session == null) {
     session=getSessionFactory().newSession(request);
-    session.setLocale(request.getLocale());
-    sessionStore.bind(request,session);
+    if (sessionStore.getSessionId(request,false) != null) {
+      session.setLocale(request.getLocale());
+      sessionStore.bind(request,session);
+    }
   }
   WebSession webSession;
   if (session instanceof WebSession) {

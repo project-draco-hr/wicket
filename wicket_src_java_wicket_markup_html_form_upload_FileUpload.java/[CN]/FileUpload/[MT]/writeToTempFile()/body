@@ -1,5 +1,6 @@
 {
-  File temp=File.createTempFile(Session.get().getId(),item.getFieldName());
+  String sessionId=Application.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);
+  File temp=File.createTempFile(sessionId,item.getFieldName());
   writeTo(temp);
   return temp;
 }

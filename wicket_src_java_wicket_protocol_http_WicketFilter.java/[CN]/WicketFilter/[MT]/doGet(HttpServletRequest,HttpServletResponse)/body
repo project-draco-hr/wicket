@@ -6,11 +6,13 @@
     String queryString=servletRequest.getQueryString();
     if (!Strings.isEmpty(queryString)) {
       ISessionStore sessionStore=webApplication.getSessionStore();
-      String sessionId=sessionStore.getSessionId(request);
-      BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
-      if (bufferedResponse != null) {
-        bufferedResponse.writeTo(servletResponse);
-        return;
+      String sessionId=sessionStore.getSessionId(request,false);
+      if (sessionId != null) {
+        BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
+        if (bufferedResponse != null) {
+          bufferedResponse.writeTo(servletResponse);
+          return;
+        }
       }
     }
   }
@@ -27,6 +29,7 @@
   response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
   try {
     RequestCycle cycle=session.newRequestCycle(request,response);
+    RequestLogger requestLogger=webApplication.getRequestLogger();
     try {
       cycle.request();
     }

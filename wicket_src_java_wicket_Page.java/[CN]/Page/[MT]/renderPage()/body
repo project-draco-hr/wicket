@@ -7,6 +7,10 @@
   }
   renderedComponents=null;
   this.stateless=null;
+  if (!isStateless()) {
+    Session.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);
+  }
+  getSession().touch(this);
   setFormComponentValuesFromCookies();
   visitChildren(IFeedback.class,new IVisitor(){
     public Object component(    Component component){
@@ -36,5 +40,4 @@
     onAfterRender();
   }
   checkRendering(this);
-  getSession().touch(this);
 }
