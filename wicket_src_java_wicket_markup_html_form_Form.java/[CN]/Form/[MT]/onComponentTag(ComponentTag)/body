@@ -1,16 +1,7 @@
 {
   checkComponentTag(tag,"form");
+  setOutputMarkupId(true);
   super.onComponentTag(tag);
-  if (!Strings.isEmpty(javascriptId)) {
-    tag.put("id",javascriptId);
-  }
- else {
-    javascriptId=(String)tag.getAttributes().get("id");
-    if (Strings.isEmpty(javascriptId)) {
-      javascriptId=getJavascriptId();
-      tag.put("id",javascriptId);
-    }
-  }
   tag.put("method","post");
   Page page=getPage();
   boolean addAction=true;

@@ -1,7 +1,8 @@
 {
   this.markupIndex=markupStream.getCurrentIndex();
   final ComponentTag openTag=markupStream.getTag();
-  final ComponentTag tag=openTag.mutable();
+  final AttributeMap attributeMap=markupAttributes != null ? new AttributeMap(markupAttributes) : null;
+  final ComponentTag tag=openTag.mutable(attributeMap);
   onComponentTag(tag);
   if (!tag.isOpenClose() && !tag.isOpen()) {
     markupStream.throwMarkupException("Method renderComponent called on bad markup element: " + tag);

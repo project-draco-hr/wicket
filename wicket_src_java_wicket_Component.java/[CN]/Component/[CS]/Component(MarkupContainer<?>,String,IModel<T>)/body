@@ -12,6 +12,16 @@
     parent.autoAdd(this);
   }
  else {
+    try {
+      MarkupStream markupStream=MarkupFragmentFinder.find(this);
+      ComponentTag tag=markupStream.getTag();
+      if (tag.hasAttributes()) {
+        markupAttributes=new CopyOnWriteValueMap(tag.getAttributes());
+      }
+    }
+ catch (    RuntimeException re) {
+      throw new WicketRuntimeException("Couldn't find the markup of the component " + id + " in parent "+ parent.getPageRelativePath());
+    }
     parent.add(this);
   }
 }
