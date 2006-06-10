@@ -2,11 +2,11 @@
   checkComponentTag(tag,"select");
   if (wantOnSelectionChangedNotifications()) {
     final CharSequence url=urlFor(IOnChangeListener.INTERFACE);
-    try {
-      Form form=getForm();
+    Form form=(Form)findParent(Form.class);
+    if (form != null) {
       tag.put("onchange",form.getJsForInterfaceUrl(url));
     }
- catch (    WicketRuntimeException ex) {
+ else {
       tag.put("onchange","location.href='" + url + "&"+ getInputName()+ "=' + this.options[this.selectedIndex].value;");
     }
   }

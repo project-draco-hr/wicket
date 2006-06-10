@@ -17,11 +17,11 @@
   }
   if (wantOnSelectionChangedNotifications()) {
     final CharSequence url=urlFor(IOnChangeListener.INTERFACE);
-    try {
-      Form form=getForm();
+    Form form=(Form)findParent(Form.class);
+    if (form != null) {
       tag.put("onclick",form.getJsForInterfaceUrl(url));
     }
- catch (    WicketRuntimeException ex) {
+ else {
       tag.put("onclick","location.href='" + url + "&"+ getInputName()+ "=' + this.checked;");
     }
   }
