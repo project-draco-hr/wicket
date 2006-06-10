@@ -13,11 +13,11 @@
       buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"");
       if (wantOnSelectionChangedNotifications()) {
         final CharSequence url=urlFor(IOnChangeListener.INTERFACE);
-        try {
-          Form form=getForm();
+        Form form=(Form)findParent(Form.class);
+        if (form != null) {
           buffer.append(" onclick=\"").append(form.getJsForInterfaceUrl(url)).append(";\"");
         }
- catch (        WicketRuntimeException ex) {
+ else {
           buffer.append(" onclick=\"").append(url).append("&" + getInputName()).append("=").append(id).append("';\"");
         }
       }
