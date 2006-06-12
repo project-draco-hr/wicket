@@ -6,7 +6,6 @@
   }
   this.parent=parent;
   setId(id);
-  this.model=model;
   getApplication().notifyComponentInstantiationListeners(this);
   if (id.startsWith(AUTO_COMPONENT_PREFIX)) {
     parent.autoAdd(this);
@@ -23,5 +22,11 @@
       throw new WicketRuntimeException("Couldn't find the markup of the component " + id + " in parent "+ parent.getPageRelativePath());
     }
     parent.add(this);
+  }
+  if (model instanceof ICompoundModel) {
+    this.model=new WrapModel<T>(model,true);
+  }
+ else {
+    this.model=model;
   }
 }
