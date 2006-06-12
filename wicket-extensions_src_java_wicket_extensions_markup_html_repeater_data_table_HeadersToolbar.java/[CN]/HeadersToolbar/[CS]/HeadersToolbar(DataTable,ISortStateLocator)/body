@@ -1,27 +1,29 @@
 {
   super(table);
-  RepeatingView headers=new RepeatingView("headers");
-  add(headers);
-  IColumn[] cols=table.getColumns();
-  for (int i=0; i < cols.length; i++) {
-    WebMarkupContainer item=new WebMarkupContainer(headers.newChildId());
-    headers.add(item);
-    IColumn column=cols[i];
-    WebMarkupContainer header=null;
-    if (column.isSortable()) {
-      header=new OrderByBorder("header",column.getSortProperty(),stateLocator){
-        private static final long serialVersionUID=1L;
-        protected void onSortChanged(){
-          table.setCurrentPage(0);
+  RefreshingView headers=new RefreshingView("headers"){
+    private static final long serialVersionUID=1L;
+    protected Iterator getItemModels(){
+      return new ArrayIteratorAdapter(table.getColumns()){
+        protected IModel model(        Object object){
+          return new Model((IColumn)object);
         }
       }
 ;
     }
+    protected void populateItem(    Item item){
+      IColumn column=(IColumn)item.getModelObject();
+      WebMarkupContainer header=null;
+      if (column.isSortable()) {
+        header=newSortableHeader("header",column.getSortProperty(),stateLocator);
+      }
  else {
-      header=new WebMarkupContainer("header");
+        header=new WebMarkupContainer("header");
+      }
+      item.add(header);
+      item.setRenderBodyOnly(true);
+      header.add(column.getHeader("label"));
     }
-    item.add(header);
-    item.setRenderBodyOnly(true);
-    header.add(column.getHeader("label"));
   }
+;
+  add(headers);
 }
