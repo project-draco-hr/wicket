@@ -1,26 +1,27 @@
 {
   super(parent,id,table);
-  RepeatingView headers=new RepeatingView(this,"headers");
-  IColumn[] cols=table.getColumns();
-  for (  IColumn column : cols) {
-    WebMarkupContainer item=new WebMarkupContainer(headers,headers.newChildId());
-    WebMarkupContainer header=null;
-    if (column.isSortable()) {
-      header=new OrderByBorder(item,"header",column.getSortProperty(),stateLocator){
-        private static final long serialVersionUID=1L;
-        @Override protected void onSortChanged(){
-          table.setCurrentPage(0);
-        }
-        @Override protected void onLinkCreated(        OrderByLink link){
-          HeadersToolbar.this.onLinkCreated(link);
+  new RefreshingView(this,"headers"){
+    private static final long serialVersionUID=1L;
+    protected Iterator getItemModels(){
+      return new ArrayIteratorAdapter(table.getColumns()){
+        protected IModel model(        Object object){
+          return new Model((IColumn)object);
         }
       }
 ;
     }
+    protected void populateItem(    Item item){
+      item.setRenderBodyOnly(true);
+      IColumn column=(IColumn)item.getModelObject();
+      WebMarkupContainer header=null;
+      if (column.isSortable()) {
+        header=newSortableHeader(item,"header",column.getSortProperty(),stateLocator);
+      }
  else {
-      header=new WebMarkupContainer(item,"header");
+        header=new WebMarkupContainer(item,"header");
+      }
+      column.getHeader(header,"label");
     }
-    item.setRenderBodyOnly(true);
-    column.getHeader(header,"label");
   }
+;
 }
