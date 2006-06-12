@@ -1,3 +1,9 @@
 {
-  return getString(key,component,model,component.getLocale(),component.getStyle(),defaultValue);
+  if (component != null) {
+    return getString(key,component,model,component.getLocale(),component.getStyle(),defaultValue);
+  }
+ else {
+    Session session=Session.get();
+    return getString(key,component,model,session.getLocale(),session.getStyle(),defaultValue);
+  }
 }
