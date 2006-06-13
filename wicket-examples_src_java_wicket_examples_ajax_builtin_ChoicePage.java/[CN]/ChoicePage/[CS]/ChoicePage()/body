@@ -3,7 +3,7 @@
   modelsMap.put("CADILLAC",Arrays.asList(new String[]{"CTS","DTS","ESCALADE","SRX","DEVILLE"}));
   modelsMap.put("FORD",Arrays.asList(new String[]{"CROWN","ESCAPE","EXPEDITION","EXPLORER","F-150"}));
   IModel<List<String>> makeChoices=new AbstractReadOnlyModel<List<String>>(){
-    @Override public List<String> getObject(    Component component){
+    @Override public List<String> getObject(){
       Set<String> keys=modelsMap.keySet();
       List<String> list=new ArrayList<String>(keys);
       return list;
@@ -11,7 +11,7 @@
   }
 ;
   IModel<List<String>> modelChoices=new AbstractReadOnlyModel<List<String>>(){
-    @SuppressWarnings("unchecked") @Override public List<String> getObject(    Component component){
+    @SuppressWarnings("unchecked") @Override public List<String> getObject(){
       List<String> models=modelsMap.get(selectedMake);
       if (models == null) {
         models=Collections.EMPTY_LIST;

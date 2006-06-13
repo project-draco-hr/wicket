@@ -17,7 +17,7 @@
 ;
   new Label(link,"toggletext",new Model(){
     private static final long serialVersionUID=1L;
-    @Override public Object getObject(    Component component){
+    @Override public Object getObject(){
       WebApplication webApplication=(WebApplication)Application.get();
       RequestLogger requestLogger=webApplication.getRequestLogger();
       if (requestLogger == null) {
@@ -31,28 +31,28 @@
 );
   new Label(this,"totalSessions",new Model(){
     private static final long serialVersionUID=1L;
-    @Override public Object getObject(    Component component){
+    @Override public Object getObject(){
       return new Integer(getRequestLogger().getTotalCreatedSessions());
     }
   }
 );
   new Label(this,"peakSessions",new Model(){
     private static final long serialVersionUID=1L;
-    @Override public Object getObject(    Component component){
+    @Override public Object getObject(){
       return new Integer(getRequestLogger().getLiveSessions().size());
     }
   }
 );
   new Label(this,"liveSessions",new Model(){
     private static final long serialVersionUID=1L;
-    @Override public Object getObject(    Component component){
+    @Override public Object getObject(){
       return new Integer(getRequestLogger().getPeakSessions());
     }
   }
 );
   IModel<List<SessionData>> sessionModel=new Model<List<SessionData>>(){
     private static final long serialVersionUID=1L;
-    @Override public List<SessionData> getObject(    Component component){
+    @Override public List<SessionData> getObject(){
       return new ArrayList<SessionData>(getRequestLogger().getLiveSessions());
     }
   }
