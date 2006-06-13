@@ -23,8 +23,8 @@
     }
     parent.add(this);
   }
-  if (model instanceof ICompoundModel) {
-    this.model=new WrapModel<T>(model,true);
+  if (model instanceof IInhertanceAware) {
+    this.model=((IInhertanceAware)model).wrapOnInhertance(this);
   }
  else {
     this.model=model;

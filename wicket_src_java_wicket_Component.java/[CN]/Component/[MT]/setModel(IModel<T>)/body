@@ -3,15 +3,15 @@
     this.model.detach();
   }
   IModel prevModel=this.model;
-  if (prevModel instanceof WrapModel) {
+  if (prevModel instanceof IWrapModel) {
     prevModel=model.getNestedModel();
   }
   if (prevModel != model) {
     if (prevModel != null) {
       addStateChange(new ComponentModelChange(prevModel));
     }
-    if (model instanceof ICompoundModel) {
-      this.model=new WrapModel<T>(model,true);
+    if (model instanceof IAssignmentAware) {
+      this.model=((IAssignmentAware<T>)model).wrapOnAssignment(this);
     }
  else {
       this.model=model;

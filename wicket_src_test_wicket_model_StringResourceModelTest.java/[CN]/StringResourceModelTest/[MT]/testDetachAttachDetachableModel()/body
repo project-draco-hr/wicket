@@ -8,7 +8,7 @@
     @Override protected void onDetach(){
       station=null;
     }
-    @Override protected WeatherStation onGetObject(    final Component component){
+    @Override protected WeatherStation onGetObject(){
       return station;
     }
     @Override public IModel getNestedModel(){
@@ -20,7 +20,7 @@
   application.setupRequestAndResponse();
   new WebRequestCycle(application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
   model.attach();
-  Assert.assertNotNull(model.getNestedModel().getObject(page));
+  Assert.assertNotNull(model.getNestedModel().getObject());
   Assert.assertNotNull(model.getLocalizer());
   model.detach();
   Assert.assertNull(model.getLocalizer());
