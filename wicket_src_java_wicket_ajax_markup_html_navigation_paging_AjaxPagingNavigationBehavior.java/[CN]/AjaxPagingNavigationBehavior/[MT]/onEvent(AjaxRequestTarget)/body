@@ -1,14 +1,9 @@
 {
   owner.onClick(target);
-  Component container=((Component)pageable).findParent(MarkupContainer.class);
-  target.addComponent(container);
-  Component navigator=(AjaxPagingNavigator)((Component)owner).findParent(AjaxPagingNavigator.class);
+  AjaxPagingNavigator navigator=(AjaxPagingNavigator)((Component)owner).findParent(AjaxPagingNavigator.class);
   if (navigator == null) {
-    navigator=(Component)owner;
+    throw new WicketRuntimeException("Unable to find AjaxPagingNavigator component in hierarchy starting from " + owner);
   }
-  if (navigator != null) {
-    if (!(container instanceof MarkupContainer && ((MarkupContainer)container).contains(navigator,true))) {
-      target.addComponent(navigator);
-    }
-  }
+  navigator.onAjaxEvent(target);
+  target.addComponent(navigator);
 }
