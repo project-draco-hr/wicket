@@ -1,0 +1,40 @@
+{
+  super(parent,id);
+  DynamicImageResource captchaImageResource=new DynamicImageResource(){
+    protected byte[] getImageData(){
+      try {
+        ByteArrayOutputStream jpegOutputStream=new ByteArrayOutputStream();
+        challengeId=new UID().toString();
+        BufferedImage challenge=captchaService.getImageChallengeForID(challengeId,Session.get().getLocale());
+        JPEGImageEncoder jpegEncoder=JPEGCodec.createJPEGEncoder(jpegOutputStream);
+        jpegEncoder.encode(challenge);
+        return jpegOutputStream.toByteArray();
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+;
+  new Image(this,"captchaImage",captchaImageResource);
+  IModel<String> responseModel=new PropertyModel<String>(this,"challengeResponse");
+  TextField responseField=new TextField<String>(this,"response",responseModel){
+    protected final void onComponentTag(    final ComponentTag tag){
+      super.onComponentTag(tag);
+      tag.put("value","");
+    }
+  }
+;
+  responseField.add(new AbstractValidator(){
+    public void validate(    FormComponent component){
+      if (!captchaService.validateResponseForID(challengeId,component.getInput()).booleanValue()) {
+        error(component);
+      }
+    }
+    protected String resourceKey(    final FormComponent formComponent){
+      return "captcha.validation.failed";
+    }
+  }
+);
+  new FeedbackPanel(this,"feedback");
+}
