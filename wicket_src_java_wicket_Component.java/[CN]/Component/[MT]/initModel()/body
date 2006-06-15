@@ -4,9 +4,12 @@
     if (model instanceof IWrapModel) {
       model=((IWrapModel)model).getNestedModel();
     }
-    if (model instanceof IInhertanceAware) {
+    if (model instanceof IInheritableModel) {
       setVersioned(false);
-      return ((IInhertanceAware)model).wrapOnInhertance(this);
+      model=((IInheritableModel)model).wrapOnInhertance(this);
+      if (model != null && (model instanceof IAssignmentAware)) {
+        model=((IAssignmentAware)model).wrapOnAssignment(this);
+      }
     }
   }
   return null;
