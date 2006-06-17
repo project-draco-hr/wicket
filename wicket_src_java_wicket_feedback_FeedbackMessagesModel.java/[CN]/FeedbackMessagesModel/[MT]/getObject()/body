@@ -1,7 +1,10 @@
 {
   if (messages == null) {
-    List<FeedbackMessage> pageMessages=component.getPage().getFeedbackMessages().messages(filter);
-    List<FeedbackMessage> sessionMessages=component.getSession().getFeedbackMessages().messages(filter);
+    if (page == null) {
+      throw new IllegalStateException("getObject() cannot be called on this model until it has been attached to a component");
+    }
+    List<FeedbackMessage> pageMessages=page.getFeedbackMessages().messages(filter);
+    List<FeedbackMessage> sessionMessages=page.getSession().getFeedbackMessages().messages(filter);
     messages=new ArrayList<FeedbackMessage>(pageMessages.size() + sessionMessages.size());
     messages.addAll(pageMessages);
     messages.addAll(sessionMessages);
