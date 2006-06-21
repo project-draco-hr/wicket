@@ -1,0 +1,9 @@
+{
+  RfcCompliantEmailAddressPatternValidator validator=RfcCompliantEmailAddressPatternValidator.getInstance();
+  String[] validEmails=new String[]{"bill.gates@gmail.com","firstname.middlename@lastname.dk","buy@something.nu","user@post.inet.tele.dk","read@my.info","my @email.com","my@ email.com","\"John Doe\"@email.com","no@domain"};
+  for (int i=0; i < validEmails.length; i++) {
+    String emailAddress=validEmails[i];
+    Matcher matcher=validator.getPattern().matcher(emailAddress);
+    assertTrue(emailAddress + " wasn't valid but should be",matcher.matches());
+  }
+}
