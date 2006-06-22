@@ -1,8 +1,8 @@
 {
   super(parent,id);
-  ListView lv=new ListView(this,"file",new PackagedResourcesModel()){
-    @Override protected void populateItem(    ListItem item){
-      AjaxFallbackLink link=new AjaxFallbackLink(item,"link",item.getModel()){
+  ListView lv=new ListView<String>(this,"file",new PackagedResourcesModel()){
+    @Override protected void populateItem(    ListItem<String> item){
+      AjaxFallbackLink link=new AjaxFallbackLink<String>(item,"link",item.getModel()){
         @Override public void onClick(        AjaxRequestTarget target){
           setName(getModelObjectAsString());
           target.addComponent(codePanel);
