@@ -1,8 +1,8 @@
 {
   new Label(this,"currentUser",new PropertyModel(this,"session.user"));
-  new ListView(this,"users",RolesApplication.USERS){
-    @Override protected void populateItem(    ListItem item){
-      final User user=(User)item.getModelObject();
+  new ListView<User>(this,"users",RolesApplication.USERS){
+    @Override protected void populateItem(    ListItem<User> item){
+      final User user=item.getModelObject();
       Link link=new Link(item,"selectUserLink"){
         @Override public void onClick(){
           RolesSession session=(RolesSession)Session.get();
@@ -10,7 +10,7 @@
         }
       }
 ;
-      new Label(link,"userId",new Model(user));
+      new Label(link,"userId",new Model<User>(user));
     }
   }
 ;
