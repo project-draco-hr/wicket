@@ -1,0 +1,29 @@
+{
+  new RatingPanel(this,"rating1",new PropertyModel<Integer>(rating1,"rating"),5,new PropertyModel<Integer>(rating1,"nrOfVotes"),true){
+    protected boolean onIsStarActive(    int star){
+      return RatingsPage.rating1.isActive(star);
+    }
+    protected void onRated(    int rating,    AjaxRequestTarget target){
+      RatingsPage.rating1.addRating(rating);
+    }
+  }
+;
+  new RatingPanel(this,"rating2",new PropertyModel<Integer>(rating2,"rating"),new Model<Integer>(new Integer(5)),new PropertyModel<Integer>(rating2,"nrOfVotes"),new PropertyModel<Boolean>(this,"hasVoted"),true){
+    protected String getActiveStarUrl(    int iteration){
+      return getRequestCycle().urlFor(WICKETSTAR1).toString();
+    }
+    protected String getInactiveStarUrl(    int iteration){
+      return getRequestCycle().urlFor(WICKETSTAR0).toString();
+    }
+    protected boolean onIsStarActive(    int star){
+      return RatingsPage.rating2.isActive(star);
+    }
+    protected void onRated(    int rating,    AjaxRequestTarget target){
+      hasVoted=Boolean.TRUE;
+      RatingsPage.rating2.addRating(rating);
+    }
+  }
+;
+  new ResetRatingLink(this,"reset1",new Model<RatingModel>(rating1));
+  new ResetRatingLink(this,"reset2",new Model<RatingModel>(rating2));
+}
