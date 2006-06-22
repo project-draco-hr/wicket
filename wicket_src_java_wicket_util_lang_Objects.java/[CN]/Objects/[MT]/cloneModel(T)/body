@@ -9,7 +9,7 @@
       ObjectOutputStream oos=new ReplaceObjectOutputStream(out,replacedObjects);
       oos.writeObject(object);
       ObjectInputStream ois=new ReplaceObjectInputStream(new ByteArrayInputStream(out.toByteArray()),replacedObjects);
-      return ois.readObject();
+      return (T)ois.readObject();
     }
  catch (    ClassNotFoundException e) {
       throw new WicketRuntimeException("Internal error cloning object",e);
