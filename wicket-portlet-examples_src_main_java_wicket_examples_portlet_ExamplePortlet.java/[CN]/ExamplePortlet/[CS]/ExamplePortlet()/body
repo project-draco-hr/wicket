@@ -1,0 +1,25 @@
+{
+  PropertyModel messageModel=new PropertyModel(this,"message");
+  add(new Label("msg",messageModel));
+  Form form=new Form("form"){
+    protected void onSubmit(){
+      log.info(hashCode() + " : " + this+ " Form.onSubmit()");
+    }
+  }
+;
+  form.add(new TextField("msgInput",messageModel));
+  add(new Link("link"){
+    public void onClick(){
+      log.info("link clicked");
+      message="Link clicked!";
+    }
+  }
+);
+  add(form);
+  add(new Link("link2"){
+    @Override public void onClick(){
+      setResponsePage(new ExamplePortlet2(ExamplePortlet.this));
+    }
+  }
+);
+}
