@@ -1,0 +1,30 @@
+{
+  super.internalInit();
+  getApplicationSettings().setPageExpiredErrorPage(PageExpiredPortletPage.class);
+  getApplicationSettings().setInternalErrorPage(InternalErrorPortletPage.class);
+  getApplicationSettings().setAccessDeniedPage(AccessDeniedPortletPage.class);
+  getPageSettings().addComponentResolver(new AutoLinkResolver());
+  getResourceSettings().setResourceFinder(new PortletApplicationPath(portlet.getPortletContext()));
+  String contextPath=portlet.getInitParameter(Application.CONTEXTPATH);
+  if (contextPath != null) {
+    getApplicationSettings().setContextPath(contextPath);
+  }
+  String configuration=null;
+  try {
+    configuration=System.getProperty("wicket." + Application.CONFIGURATION);
+  }
+ catch (  SecurityException e) {
+  }
+  if (configuration == null) {
+    configuration=portlet.getInitParameter(Application.CONFIGURATION);
+  }
+  if (configuration == null) {
+    configuration=portlet.getPortletContext().getInitParameter(Application.CONFIGURATION);
+  }
+  if (configuration != null) {
+    configure(configuration,portlet.getInitParameter("sourceFolder"));
+  }
+ else {
+    configure(Application.DEVELOPMENT,portlet.getInitParameter("sourceFolder"));
+  }
+}

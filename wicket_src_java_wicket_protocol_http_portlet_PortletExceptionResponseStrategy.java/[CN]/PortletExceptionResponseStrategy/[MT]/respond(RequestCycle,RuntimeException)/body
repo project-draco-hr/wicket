@@ -1,0 +1,35 @@
+{
+  final Session session=requestCycle.getSession();
+  final Application application=session.getApplication();
+  final IExceptionSettings settings=application.getExceptionSettings();
+  final Page responsePage=requestCycle.getResponsePage();
+  Page override=onRuntimeException(responsePage,e);
+  if (override != null) {
+    requestCycle.setResponsePage(override);
+  }
+ else   if (e instanceof AuthorizationException) {
+    Class accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
+    throw new RestartResponseAtInterceptPageException(accessDeniedPageClass);
+  }
+ else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
+    Class internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
+    Class responseClass=responsePage != null ? responsePage.getClass() : null;
+    if (responseClass != internalErrorPageClass && settings.getUnexpectedExceptionDisplay() == IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE) {
+      final IPageFactory pageFactory;
+      IRequestTarget requestTarget=requestCycle.getRequestTarget();
+      if (requestTarget instanceof IPageRequestTarget) {
+        pageFactory=session.getPageFactory(((IPageRequestTarget)requestTarget).getPage());
+      }
+ else {
+        pageFactory=session.getPageFactory();
+      }
+      requestCycle.setResponsePage(pageFactory.newPage(internalErrorPageClass));
+    }
+ else     if (responseClass != ExceptionErrorPortletPage.class) {
+      requestCycle.setResponsePage(new ExceptionErrorPortletPage(e,responsePage));
+    }
+ else {
+      throw new WicketRuntimeException("Internal Error: Could not render error page " + internalErrorPageClass,e);
+    }
+  }
+}

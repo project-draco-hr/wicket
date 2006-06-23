@@ -1,0 +1,10 @@
+{
+  if (sessionAttributePrefix == null) {
+    String contextPath=request.getContextPath();
+    if (contextPath == null) {
+      throw new WicketRuntimeException("unable to retrieve portlet context path");
+    }
+    sessionAttributePrefix="wicket:" + contextPath + ":";
+  }
+  return sessionAttributePrefix;
+}

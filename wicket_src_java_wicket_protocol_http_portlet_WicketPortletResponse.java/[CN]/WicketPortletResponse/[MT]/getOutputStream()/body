@@ -1,0 +1,13 @@
+{
+  try {
+    if (res instanceof RenderResponse) {
+      return ((RenderResponse)res).getPortletOutputStream();
+    }
+ else {
+      throw new WicketRuntimeException("OutputStream not available during ActionRequest");
+    }
+  }
+ catch (  final IOException e) {
+    throw new WicketRuntimeException("Error while writing to portlet output writer.",e);
+  }
+}

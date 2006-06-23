@@ -1,0 +1,23 @@
+{
+  if (portletApplication == null) {
+synchronized (this) {
+      if (portletApplication == null) {
+        final IPortletApplicationFactory factory=getApplicationFactory();
+        this.portletApplication=factory.createApplication(req.getPreferences());
+        this.portletApplication.setWicketPortlet(this);
+        final String contextKey="wicket:" + getPortletConfig().getPortletName();
+        getPortletContext().setAttribute(contextKey,this.portletApplication);
+        log.info("WicketPortlet loaded application " + this.portletApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
+        try {
+          Application.set(portletApplication);
+          this.portletApplication.initPortlet();
+          this.portletApplication.initializeComponents();
+        }
+  finally {
+          Application.unset();
+        }
+      }
+    }
+  }
+  return this.portletApplication;
+}

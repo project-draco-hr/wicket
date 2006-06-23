@@ -1,0 +1,16 @@
+{
+  List list=new ArrayList();
+  WicketPortletRequest webRequest=toPortletRequest(request);
+  PortletSession httpSession=getPortletSession(webRequest);
+  if (httpSession != null) {
+    final Enumeration names=httpSession.getAttributeNames();
+    final String prefix=getSessionAttributePrefix(webRequest);
+    while (names.hasMoreElements()) {
+      final String name=(String)names.nextElement();
+      if (name.startsWith(prefix)) {
+        list.add(name.substring(prefix.length()));
+      }
+    }
+  }
+  return list;
+}
