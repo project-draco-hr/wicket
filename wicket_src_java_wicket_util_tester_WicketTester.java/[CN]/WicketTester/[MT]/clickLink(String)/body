@@ -1,4 +1,18 @@
 {
-  Link link=(Link)getComponentFromLastRenderedPage(path);
-  newRequestToComponent(link);
+  Component linkComponent=getComponentFromLastRenderedPage(path);
+  if (linkComponent instanceof AjaxLink) {
+    AjaxLink link=(AjaxLink)linkComponent;
+    RequestCycle requestCycle=createRequestCycle();
+    AjaxRequestTarget target=new AjaxRequestTarget();
+    requestCycle.setRequestTarget(target);
+    link.onClick(target);
+    target.respond(requestCycle);
+  }
+ else   if (linkComponent instanceof Link) {
+    Link link=(Link)linkComponent;
+    newRequestToComponent(link);
+  }
+ else {
+    Assert.fail("Link " + path + " is not a Link or AjaxLink");
+  }
 }
