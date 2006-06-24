@@ -2,15 +2,15 @@
   super(parent,id,table);
   new RefreshingView(this,"headers"){
     private static final long serialVersionUID=1L;
-    protected Iterator getItemModels(){
+    @Override protected Iterator getItemModels(){
       return new ArrayIteratorAdapter(table.getColumns()){
-        protected IModel model(        Object object){
+        @Override protected IModel model(        Object object){
           return new Model((IColumn)object);
         }
       }
 ;
     }
-    protected void populateItem(    Item item){
+    @Override protected void populateItem(    Item item){
       item.setRenderBodyOnly(true);
       IColumn column=(IColumn)item.getModelObject();
       WebMarkupContainer header=null;
