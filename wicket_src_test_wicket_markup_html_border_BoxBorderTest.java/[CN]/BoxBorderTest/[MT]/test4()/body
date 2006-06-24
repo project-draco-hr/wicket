@@ -3,12 +3,12 @@
   System.out.println("=== " + pageClass.getName() + " ===");
   application.setHomePage(pageClass);
   application.setupRequestAndResponse();
-  MarkupException markupException=null;
+  WicketRuntimeException wicketRuntimeException=null;
   try {
     application.processRequestCycle();
   }
- catch (  MarkupException e) {
-    markupException=e;
+ catch (  WicketRuntimeException e) {
+    wicketRuntimeException=e;
   }
-  assertNotNull("Markup does not match component hierarchy, but exception not thrown.",markupException);
+  assertNotNull("Markup does not match component hierarchy, but exception not thrown.",wicketRuntimeException);
 }
