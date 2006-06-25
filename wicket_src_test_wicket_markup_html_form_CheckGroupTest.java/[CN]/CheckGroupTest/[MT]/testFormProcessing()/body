@@ -1,7 +1,7 @@
 {
   MockModelObject modelObject=new MockModelObject();
   MockPage page=new MockPage();
-  final Form form=new Form(page,"form",new CompoundPropertyModel(modelObject));
+  final Form<MockModelObject> form=new Form<MockModelObject>(page,"form",new CompoundPropertyModel<MockModelObject>(modelObject));
   final CheckGroup group=new CheckGroup(form,"prop1");
   final WebMarkupContainer container=new WebMarkupContainer(group,"container");
   final String check1="check1-selection";
@@ -34,5 +34,6 @@
     fail("running with an invalid choice value in the request param, should fail");
   }
  catch (  WicketRuntimeException e) {
+    ;
   }
 }
