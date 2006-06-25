@@ -1,0 +1,32 @@
+{
+  WicketTester tester=new WicketTester();
+  final Page page=new MockPageWithLink();
+  AjaxLink ajaxLink=new AjaxLink(MockPageWithLink.LINK_ID){
+    private static final long serialVersionUID=1L;
+    public void onClick(    AjaxRequestTarget target){
+      Link link=new Link(MockPageWithLink.LINK_ID){
+        private static final long serialVersionUID=1L;
+        public void onClick(){
+        }
+      }
+;
+      link.setOutputMarkupId(true);
+      page.replace(link);
+      target.addComponent(link);
+    }
+  }
+;
+  ajaxLink.setOutputMarkupId(true);
+  page.add(ajaxLink);
+  tester.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  tester.clickLink(MockPageWithLink.LINK_ID);
+  tester.assertComponent(MockPageWithLink.LINK_ID,Link.class);
+  Component component=tester.getComponentFromLastRenderedPage(MockPageWithLink.LINK_ID);
+  tester.assertComponentOnAjaxResponse(component);
+}
