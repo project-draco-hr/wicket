@@ -1,0 +1,22 @@
+{
+  String failMessage="Can't execute event on a component which is null.";
+  Assert.assertNotNull(failMessage,component);
+  failMessage="event must not be null";
+  Assert.assertNotNull(failMessage,event);
+  AjaxEventBehavior ajaxEventBehavior=null;
+  List<IBehavior> behaviors=component.getBehaviors();
+  for (  IBehavior behavior : behaviors) {
+    if (behavior instanceof AjaxEventBehavior) {
+      AjaxEventBehavior tmp=(AjaxEventBehavior)behavior;
+      if (tmp.getEvent() == event) {
+        ajaxEventBehavior=tmp;
+      }
+    }
+  }
+  failMessage="No AjaxEventBehavior found on component: " + component.getId() + " which matches the event: "+ event.toString();
+  Assert.assertNotNull(failMessage,ajaxEventBehavior);
+  setupRequestAndResponse();
+  RequestCycle requestCycle=createRequestCycle();
+  ajaxEventBehavior.onRequest();
+  requestCycle.getRequestTarget().respond(requestCycle);
+}

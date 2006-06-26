@@ -1,0 +1,21 @@
+{
+  WicketTester tester=new WicketTester();
+  final MockPageWithOneComponent page=new MockPageWithOneComponent();
+  Label label=new Label(page,"component","Dblclick This To See Magick");
+  label.add(new AjaxEventBehavior(ClientEvent.DBLCLICK){
+    private static final long serialVersionUID=1L;
+    @Override protected void onEvent(    AjaxRequestTarget target){
+      eventExecuted=true;
+    }
+  }
+);
+  tester.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  tester.executeAjaxEvent(label,ClientEvent.DBLCLICK);
+  assertTrue(eventExecuted);
+}
