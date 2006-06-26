@@ -5,21 +5,8 @@
     throw new WicketRuntimeException("SelectOption component [" + getPath() + "] cannot find its parent Select. All SelectOption components must be a child of or below in the hierarchy of a Select component.");
   }
   tag.put("value",getPath());
-  Object selected=select.getModelObject();
   boolean isSelected=false;
-  Object value=getModelObject();
-  if (selected != null && selected instanceof Collection) {
-    if (value instanceof Collection) {
-      isSelected=selected.equals(value);
-    }
- else {
-      isSelected=((Collection)selected).contains(value);
-    }
-  }
- else {
-    isSelected=Objects.equal(selected,value);
-  }
-  if (isSelected) {
+  if (select.isSelected(this)) {
     tag.put("selected","true");
   }
   super.onComponentTag(tag);
