@@ -2,7 +2,7 @@
   super.onComponentTag(tag);
   CharSequence url=getURL();
   if (!isEnabled()) {
-    if (tag.getName().equalsIgnoreCase("a")) {
+    if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
       tag.setName("span");
       tag.remove("href");
       if (popupSettings != null) {
@@ -14,7 +14,7 @@
     }
   }
  else {
-    if (tag.getName().equalsIgnoreCase("a")) {
+    if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
       tag.put("href",Strings.replaceAll(url,"&","&amp;"));
       if (popupSettings != null) {
         tag.put("onclick",popupSettings.getPopupJavaScript());
