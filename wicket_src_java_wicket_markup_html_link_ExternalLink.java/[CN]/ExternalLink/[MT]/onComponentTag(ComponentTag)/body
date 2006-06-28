@@ -2,13 +2,22 @@
   if (href != null) {
     Object hrefValue=href.getObject();
     if (hrefValue != null) {
-      if (popupSettings != null) {
-        popupSettings.setTarget("'" + hrefValue.toString() + "'");
-        String popupScript=popupSettings.getPopupJavaScript();
-        tag.put("onclick",popupScript);
+      String url=hrefValue.toString();
+      if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
+        tag.put("href",Strings.replaceAll(url,"&","&amp;"));
+        if (popupSettings != null) {
+          tag.put("onclick",popupSettings.getPopupJavaScript());
+        }
       }
  else {
-        tag.put("href",Strings.replaceAll(hrefValue.toString(),"&","&amp;"));
+        if (popupSettings != null) {
+          popupSettings.setTarget("'" + url + "'");
+          String popupScript=popupSettings.getPopupJavaScript();
+          tag.put("onclick",popupScript);
+        }
+ else {
+          tag.put("onclick","location.href='" + url + "';");
+        }
       }
     }
   }
