@@ -1,17 +1,22 @@
 {
   Form form=getForm();
-  StringBuffer sb=new StringBuffer(100);
-  sb.append("var e=document.getElementById('");
-  sb.append(form.getHiddenFieldId());
-  sb.append("'); e.name=\'");
-  sb.append(getInputName());
-  sb.append("'; e.value='x';");
-  sb.append("var f=document.getElementById('");
-  sb.append(form.getJavascriptId());
-  sb.append("');");
-  if (shouldInvokeJavascriptFormOnsubmit()) {
-    sb.append("if (f.onsubmit != undefined) { if (f.onsubmit()==false) return false; }");
+  if (form != null) {
+    StringBuffer sb=new StringBuffer(100);
+    sb.append("var e=document.getElementById('");
+    sb.append(form.getHiddenFieldId());
+    sb.append("'); e.name=\'");
+    sb.append(getInputName());
+    sb.append("'; e.value='x';");
+    sb.append("var f=document.getElementById('");
+    sb.append(form.getJavascriptId());
+    sb.append("');");
+    if (shouldInvokeJavascriptFormOnsubmit()) {
+      sb.append("if (f.onsubmit != undefined) { if (f.onsubmit()==false) return false; }");
+    }
+    sb.append("f.submit();return false;");
+    return sb.toString();
   }
-  sb.append("f.submit();return false;");
-  return sb.toString();
+ else {
+    return "location.href='" + urlFor(ILinkListener.INTERFACE).toString() + "';";
+  }
 }
