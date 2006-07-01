@@ -6,6 +6,19 @@
   url.append(getMountPath());
   final IBookmarkablePageRequestTarget target=(IBookmarkablePageRequestTarget)requestTarget;
   PageParameters pageParameters=target.getPageParameters();
+  if (target instanceof BookmarkableListenerInterfaceRequestTarget) {
+    BookmarkableListenerInterfaceRequestTarget interfaceRequestTarget=(BookmarkableListenerInterfaceRequestTarget)target;
+    final AppendingStringBuffer value=new AppendingStringBuffer(32);
+    value.append(Component.PATH_SEPARATOR);
+    value.append(interfaceRequestTarget.getComponentPath());
+    value.append(Component.PATH_SEPARATOR);
+    value.append(Component.PATH_SEPARATOR);
+    value.append(interfaceRequestTarget.getInterfaceName());
+    if (pageParameters == null) {
+      pageParameters=new PageParameters();
+    }
+    pageParameters.put(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME,value);
+  }
   String pagemap=pageMapName != null ? pageMapName : target.getPageMapName();
   if (pagemap != null) {
     if (pageParameters == null) {
