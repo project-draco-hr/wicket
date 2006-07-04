@@ -1,7 +1,9 @@
 {
   if (id == null) {
     id=getSessionStore().getSessionId(RequestCycle.get().getRequest(),false);
-    dirty=true;
+    if (id != null) {
+      dirty();
+    }
   }
   return id;
 }
