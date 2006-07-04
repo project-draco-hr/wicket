@@ -4,7 +4,9 @@
   if (session == null) {
     session=getSessionFactory().newSession();
     session.setLocale(request.getLocale());
-    sessionStore.bind(request,session);
+    if (sessionStore.getSessionId(request) != null) {
+      sessionStore.bind(request,session);
+    }
   }
   WebSession webSession;
   if (session instanceof WebSession) {
