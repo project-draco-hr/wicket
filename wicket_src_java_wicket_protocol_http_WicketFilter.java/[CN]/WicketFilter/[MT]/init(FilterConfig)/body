@@ -6,14 +6,12 @@
   String contextKey="wicket:" + filterConfig.getFilterName();
   filterConfig.getServletContext().setAttribute(contextKey,this.webApplication);
   filterPath=filterConfig.getInitParameter(FILTER_PATH_PARAM);
-  if (log.isDebugEnabled()) {
-    log.debug("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
-  }
   try {
     Application.set(webApplication);
     this.webApplication.internalInit();
     this.webApplication.init();
     this.webApplication.initializeComponents();
+    log.info("Wicket application " + this.webApplication.getName() + " started [factory="+ factory.getClass().getName()+ "]");
   }
   finally {
     Application.unset();
