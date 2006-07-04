@@ -1,8 +1,15 @@
 {
   RequestCycle cycle=RequestCycle.get();
-  if (cycle != null) {
-    getSessionStore().setAttribute(cycle.getRequest(),name,value);
-    return;
+  if (cycle == null) {
+    throw new WicketRuntimeException("Can not set the attribute. No RequestCycle available");
   }
-  throw new WicketRuntimeException("Can not set the attribute. No RequestCycle available");
+  ISessionStore store=getSessionStore();
+  Request request=cycle.getRequest();
+  if (value == this) {
+    Object current=store.getAttribute(request,name);
+    if (current == null) {
+      store.bind(request,(Session)value);
+    }
+  }
+  store.setAttribute(request,name,value);
 }
