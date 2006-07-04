@@ -10,7 +10,9 @@
   }
   afterLoadListeners.add(baseMarkup.getResource(),new IChangeListener(){
     public void onChange(){
-      log.info("Remove derived markup from cache: " + markup.getResource());
+      if (log.isDebugEnabled()) {
+        log.debug("Remove derived markup from cache: " + markup.getResource());
+      }
       removeMarkup(lookupResult);
     }
     /** 
