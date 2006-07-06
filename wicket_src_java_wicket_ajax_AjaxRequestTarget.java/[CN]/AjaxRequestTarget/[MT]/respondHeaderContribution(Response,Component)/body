@@ -1,7 +1,7 @@
 {
   final HtmlHeaderContainer header=new HtmlHeaderContainer(component.getPage(),HtmlHeaderSectionHandler.HEADER_ID);
-  response.write("<header-contribution>");
-  Response oldResponse=RequestCycle.get().setResponse(response);
+  EncodingResponse encodingResponse=new EncodingResponse(response);
+  Response oldResponse=RequestCycle.get().setResponse(encodingResponse);
   component.renderHead(header);
   if (component instanceof MarkupContainer) {
     ((MarkupContainer)component).visitChildren(new Component.IVisitor(){
@@ -15,5 +15,9 @@
 );
   }
   RequestCycle.get().setResponse(oldResponse);
-  response.write("</header-contribution>");
+  if (encodingResponse.getContents().length() != 0) {
+    response.write("<header-contribution>");
+    response.write(encodingResponse.getContents());
+    response.write("</header-contribution>");
+  }
 }
