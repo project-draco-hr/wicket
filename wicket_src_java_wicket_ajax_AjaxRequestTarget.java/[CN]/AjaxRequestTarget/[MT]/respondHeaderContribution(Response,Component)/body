@@ -1,0 +1,19 @@
+{
+  final HtmlHeaderContainer header=new HtmlHeaderContainer(component.getPage(),HtmlHeaderSectionHandler.HEADER_ID);
+  response.write("<header-contribution>");
+  Response oldResponse=RequestCycle.get().setResponse(response);
+  component.renderHead(header);
+  if (component instanceof MarkupContainer) {
+    ((MarkupContainer)component).visitChildren(new Component.IVisitor(){
+      public Object component(      Component component){
+        if (component.isVisible()) {
+          component.renderHead(header);
+        }
+        return CONTINUE_TRAVERSAL;
+      }
+    }
+);
+  }
+  RequestCycle.get().setResponse(oldResponse);
+  response.write("</header-contribution>");
+}
