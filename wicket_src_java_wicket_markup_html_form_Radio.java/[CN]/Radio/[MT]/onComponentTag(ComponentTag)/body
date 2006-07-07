@@ -2,16 +2,17 @@
   super.onComponentTag(tag);
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","radio");
-  RadioGroup group=(RadioGroup)findParent(RadioGroup.class);
-  String path=getPath();
+  final RadioGroup group=(RadioGroup)findParent(RadioGroup.class);
+  final String path=getPath();
+  final String relativePath=path.substring(group.getPath().length() + 1);
   if (group == null) {
     throw new WicketRuntimeException("Radio component [" + path + "] cannot find its parent RadioGroup. All Radio components must be a child of or below in the hierarchy of a RadioGroup component.");
   }
   tag.put("name",group.getInputName());
-  tag.put("value",path);
+  tag.put("value",relativePath);
   if (group.hasRawInput()) {
     String rawInput=group.getRawInput();
-    if (rawInput != null && rawInput.equals(path)) {
+    if (rawInput != null && rawInput.equals(relativePath)) {
       tag.put("checked","checked");
     }
   }
