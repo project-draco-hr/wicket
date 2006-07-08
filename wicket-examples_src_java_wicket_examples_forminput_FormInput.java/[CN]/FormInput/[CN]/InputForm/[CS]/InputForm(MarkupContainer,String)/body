@@ -22,7 +22,7 @@
   rc.setLabel(new Model<String>("number"));
   rc.setRequired(true);
   RadioGroup group=new RadioGroup(this,"numbersGroup");
-  ListView numbers=new ListView<String>(group,"numbers",NUMBERS){
+  new ListView<String>(group,"numbers",NUMBERS){
     @Override protected void populateItem(    ListItem<String> item){
       new Radio<String>(item,"radio",item.getModel());
       new Label(item,"number",item.getModelObject());
@@ -30,7 +30,7 @@
   }
 ;
   CheckGroup checks=new CheckGroup(this,"numbersCheckGroup");
-  ListView checksList=new ListView<String>(checks,"numbers",NUMBERS){
+  new ListView<String>(checks,"numbers",NUMBERS){
     @Override protected void populateItem(    ListItem<String> item){
       new Check<String>(item,"check",item.getModel());
       new Label(item,"number",item.getModelObject());
@@ -38,8 +38,11 @@
   }
 ;
   new ListMultipleChoice<String>(this,"siteSelection",SITES);
-  new TextField(this,"urlProperty",URL.class){
-    public IConverter getConverter(){
+  new TextField<URL>(this,"urlProperty",URL.class){
+    /** 
+ * @see wicket.Component#getConverter(java.lang.Class)
+ */
+    @Override public IConverter getConverter(    Class type){
       return new SimpleConverterAdapter(){
         @Override public Object toObject(        String value){
           try {
@@ -57,8 +60,11 @@
     }
   }
 ;
-  new TextField(this,"phoneNumberUS",UsPhoneNumber.class){
-    public IConverter getConverter(){
+  new TextField<UsPhoneNumber>(this,"phoneNumberUS",UsPhoneNumber.class){
+    /** 
+ * @see wicket.Component#getConverter(java.lang.Class)
+ */
+    @Override public IConverter getConverter(    Class type){
       return new MaskConverter("(###) ###-####",UsPhoneNumber.class);
     }
   }
