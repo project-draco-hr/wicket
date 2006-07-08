@@ -1,22 +1,27 @@
 {
   MarkupStream markupStream=getAssociatedMarkupStream(false);
-  if (markupStream != null) {
-    while (markupStream.hasMore()) {
-      final MarkupElement element=markupStream.next();
-      if (element instanceof ComponentTag) {
-        final ComponentTag tag=(ComponentTag)element;
-        if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
-          if (BodyOnLoadHandler.BODY_ID.equals(tag.getId())) {
-            new HtmlBodyContainer(this,tag.getId());
-          }
-          bodyContainer=new BodyContainer(this,tag.getId());
-          break;
-        }
+  if (markupStream == null) {
+    throw new MarkupNotFoundException("Each Page must have associated markup. Unable to find the markup file for Page: " + this.toString());
+  }
+  while (markupStream.hasMoreComponentTags()) {
+    final ComponentTag tag=markupStream.getTag();
+    if (tag.isOpen() && tag.isBodyTag()) {
+      if (BodyOnLoadHandler.BODY_ID.equals(tag.getId())) {
+        new HtmlBodyContainer(this,tag.getId());
       }
+      bodyContainer=new BodyContainer(this,tag.getId());
+      break;
     }
   }
- else {
-    throw new MarkupNotFoundException("Each Page must have associated markup. Unable to find the markup file for Page: " + this.toString());
+  markupStream.setCurrentIndex(0);
+  while (markupStream.hasMoreComponentTags()) {
+    final ComponentTag tag=markupStream.getTag();
+    if (tag.isOpen() && tag.isHeadTag()) {
+      if (HtmlHeaderSectionHandler.HEADER_ID.equals(tag.getId())) {
+        new HtmlHeaderContainer(this,tag.getId());
+      }
+      break;
+    }
   }
   if (getApplication().getPageSettings().getAutomaticMultiWindowSupport()) {
     add(new PageMapChecker());

@@ -1,9 +1,5 @@
 {
-  if (!(tag instanceof WicketTag)) {
-    return false;
-  }
-  final WicketTag wtag=(WicketTag)tag;
-  if (!wtag.isBodyTag()) {
+  if (!tag.isWicketBodyTag()) {
     return false;
   }
   final Response originalResponse;
@@ -14,7 +10,7 @@
     originalResponse=getRequestCycle().setResponse(NullResponse.getInstance());
   }
   try {
-    renderBodyComponent(markupStream,wtag);
+    renderBodyComponent(markupStream,tag);
   }
   finally {
     if (originalResponse != null) {

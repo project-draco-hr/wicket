@@ -1,6 +1,6 @@
 {
   final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
-  if (!(tag instanceof WicketTag) || !stripWicketTags) {
+  if ((tag.isWicketTag() == false) || (stripWicketTags == false)) {
     if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       AttributeMap attributeMap=markupAttributes != null ? new AttributeMap(markupAttributes) : null;
       tag=tag.mutable(attributeMap);

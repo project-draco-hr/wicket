@@ -1,5 +1,5 @@
 {
-  final ComponentTag tag=(ComponentTag)getParent().nextTag();
+  final ComponentTag tag=nextComponentTag();
   if (tag == null) {
     return tag;
   }
@@ -8,28 +8,24 @@
     tag.setId(AUTOLINK_ID);
     return tag;
   }
-  if (tag instanceof WicketTag) {
-    final WicketTag wtag=(WicketTag)tag;
-    if (wtag.isLinkTag()) {
-      if (tag.isOpen() || tag.isOpenClose()) {
-        if (tag.isOpen()) {
-          if (autolinkStatus == null) {
-            autolinkStatus=new ArrayListStack<Boolean>();
-          }
-          autolinkStatus.push(new Boolean(autolinking));
+  if (tag.isLinkTag()) {
+    if (tag.isOpen() || tag.isOpenClose()) {
+      if (tag.isOpen()) {
+        if (autolinkStatus == null) {
+          autolinkStatus=new ArrayListStack<Boolean>();
         }
-        final String autolink=tag.getAttributes().getString("autolink");
-        try {
-          autolinking=Strings.isEmpty(autolink) || Strings.isTrue(autolink);
-        }
- catch (        StringValueConversionException e) {
-          throw new WicketRuntimeException("Invalid autolink attribute value \"" + autolink + "\"");
-        }
+        autolinkStatus.push(new Boolean(autolinking));
       }
- else       if (tag.isClose()) {
-        autolinking=autolinkStatus.pop().booleanValue();
+      final String autolink=tag.getAttributes().getString("autolink");
+      try {
+        autolinking=Strings.isEmpty(autolink) || Strings.isTrue(autolink);
       }
-      return wtag;
+ catch (      StringValueConversionException e) {
+        throw new WicketRuntimeException("Invalid autolink attribute value \"" + autolink + "\"");
+      }
+    }
+ else     if (tag.isClose()) {
+      autolinking=autolinkStatus.pop().booleanValue();
     }
   }
   return tag;

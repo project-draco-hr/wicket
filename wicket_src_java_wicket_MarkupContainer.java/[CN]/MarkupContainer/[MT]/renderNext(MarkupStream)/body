@@ -3,6 +3,9 @@
   if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
     final ComponentTag tag=(ComponentTag)element;
     final String id=tag.getId();
+    if (id == null) {
+      throw new WicketRuntimeException("Prgamming error: tag id must not be null: " + tag.toString());
+    }
     final Component<?> component=get(id);
     if (component != null) {
       component.render(markupStream);
@@ -23,8 +26,8 @@
           return;
         }
       }
-      if (tag instanceof WicketTag) {
-        if (((WicketTag)tag).isChildTag()) {
+      if (tag.isWicketTag()) {
+        if (tag.isChildTag()) {
           markupStream.throwMarkupException("Found " + tag.toString() + " but no <wicket:extend>");
         }
  else {

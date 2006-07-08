@@ -6,7 +6,8 @@
   final String namespace=this.markup.getWicketNamespace();
   ComponentTag tag;
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
-    tag=new WicketTag(xmlTag);
+    tag=new ComponentTag(xmlTag);
+    tag.setWicketTag(true);
     tag.setId("_" + tag.getName());
     if (wellKnownTagNames.contains(xmlTag.getName()) == false) {
       throw new ParseException("Unkown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag.getPos());

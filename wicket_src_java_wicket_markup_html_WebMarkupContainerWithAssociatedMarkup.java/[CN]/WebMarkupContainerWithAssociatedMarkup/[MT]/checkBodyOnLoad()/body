@@ -1,0 +1,23 @@
+{
+  final MarkupStream associatedMarkupStream=getAssociatedMarkupStream(false);
+  if (associatedMarkupStream == null) {
+    return;
+  }
+  int index=associatedMarkupStream.getCurrentIndex();
+  try {
+    associatedMarkupStream.setCurrentIndex(0);
+    while (associatedMarkupStream.hasMoreComponentTags()) {
+      final ComponentTag tag=associatedMarkupStream.getTag();
+      if (tag.isBodyTag()) {
+        final CharSequence onLoad=tag.getString("onload");
+        if (onLoad != null) {
+          getWebPage().getBodyContainer().addOnLoadModifier(onLoad,this);
+        }
+        break;
+      }
+    }
+  }
+  finally {
+    associatedMarkupStream.setCurrentIndex(index);
+  }
+}

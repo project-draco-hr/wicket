@@ -1,10 +1,5 @@
 {
-  if (tag.getId().equals(HtmlHeaderSectionHandler.HEADER_ID)) {
-    final WebMarkupContainer header=new HtmlHeaderContainer(container,HtmlHeaderSectionHandler.HEADER_ID);
-    header.autoAdded();
-    return true;
-  }
- else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
+  if (tag.isWicketHeadTag()) {
     if (container instanceof WebPage) {
       final MarkupContainer header=new HtmlHeaderContainer(container,HtmlHeaderSectionHandler.HEADER_ID);
       final WebMarkupContainer header2=new WebMarkupContainer(header,HtmlHeaderSectionHandler.HEADER_ID){
@@ -30,7 +25,7 @@
         header.autoAdded();
       }
  catch (      IllegalArgumentException ex) {
-        throw new WicketRuntimeException("If the root exception says something like " + "\"A child with id '_header' already exists\" " + "then you most likely forgot to override autoAdd() "+ "in your bordered page component.",ex);
+        throw new WicketRuntimeException("If the root exception states that " + "\"A child with id '_header' already exists\" " + "then you most likely forgot to override autoAdd() "+ "in your bordered page component.",ex);
       }
     }
  else {

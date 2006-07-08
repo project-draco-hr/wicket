@@ -1,31 +1,22 @@
 {
-  int i=0;
-  for (; i < markup.size(); i++) {
-    MarkupElement elem=markup.get(i);
-    if (elem instanceof WicketTag) {
-      WicketTag tag=(WicketTag)elem;
-      if (tag.isClose() && tag.isHeadTag()) {
-        break;
-      }
- else       if (tag.isMajorWicketComponentTag()) {
-        return null;
-      }
+  final MarkupStream markupStream=new MarkupStream(markup);
+  while (markupStream.hasMoreComponentTags()) {
+    final ComponentTag tag=markupStream.getTag();
+    if (tag.isClose() && tag.isWicketHeadTag()) {
+      break;
     }
- else     if (elem instanceof ComponentTag) {
-      ComponentTag tag=(ComponentTag)elem;
-      if (TagUtils.isBodyTag(tag)) {
-        return null;
-      }
+ else     if (tag.isMajorWicketComponentTag()) {
+      return null;
+    }
+ else     if (tag.isBodyTag()) {
+      return null;
     }
   }
-  for (; i < markup.size(); i++) {
-    MarkupElement elem=markup.get(i);
-    if (elem instanceof ComponentTag) {
-      ComponentTag tag=(ComponentTag)elem;
-      if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
-        String onLoad=tag.getAttributes().getString("onload");
-        return onLoad;
-      }
+  while (markupStream.hasMoreComponentTags()) {
+    final ComponentTag tag=markupStream.getTag();
+    if (tag.isOpen() && tag.isBodyTag()) {
+      String onLoad=tag.getAttributes().getString("onload");
+      return onLoad;
     }
   }
   return null;
