@@ -1,10 +1,14 @@
 {
   if (rootPath == null) {
     String contextPath=webApplication.getApplicationSettings().getContextPath();
-    if (contextPath == null)     contextPath=request.getContextPath();
+    if (contextPath == null) {
+      contextPath=request.getContextPath();
+    }
     if (SERVLET_PATH_HOLDER.equals(filterPath)) {
       filterPath=request.getServletPath();
-      if (filterPath.startsWith("/"))       filterPath=filterPath.substring(1);
+      if (filterPath.startsWith("/")) {
+        filterPath=filterPath.substring(1);
+      }
     }
     if (!contextPath.endsWith("/")) {
       rootPath=contextPath + "/" + filterPath;
