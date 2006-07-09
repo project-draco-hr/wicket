@@ -1,0 +1,22 @@
+{
+  ComponentTag tag=super.nextComponentTag();
+  if (tag != null) {
+    if (tag.isWicketHeadTag()) {
+      if (tag.isOpen()) {
+        inHead=true;
+      }
+ else       if (tag.isClose()) {
+        inHead=false;
+      }
+    }
+ else     if (inHead == true) {
+      if (tag.isWicketTag() == false && tag.getId() == null && (tag.isOpen() || tag.isOpenClose()) && needId(tag)) {
+        if (tag.getAttributes().get("id") == null) {
+          tag.getAttributes().put("id",headElementIdPrefix + "-" + nextValue());
+          tag.setModified(true);
+        }
+      }
+    }
+  }
+  return tag;
+}
