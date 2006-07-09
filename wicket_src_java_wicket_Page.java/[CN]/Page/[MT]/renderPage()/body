@@ -1,4 +1,5 @@
 {
+  resetHeadRendered();
   if (!isActionAuthorized(RENDER)) {
     if (log.isDebugEnabled()) {
       log.debug("Page not allowed to render: " + this);
@@ -22,6 +23,7 @@
   internalAttach();
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
+      component.resetHeadRendered();
       final boolean renderAllowed=component.isActionAuthorized(RENDER);
       component.setRenderAllowed(renderAllowed);
       return IVisitor.CONTINUE_TRAVERSAL;
