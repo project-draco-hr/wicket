@@ -4,6 +4,9 @@
   filter=new HtmlHandler(filter);
   filter=new WicketRemoveTagHandler(filter);
   filter=new WicketLinkTagHandler(filter);
+  if (getMarkupResourceStream() != null && getMarkupResourceStream().getContainerInfo() != null) {
+    filter=new HeadForceTagIdHandler(filter,getMarkupResourceStream().getContainerInfo().getContainerClass());
+  }
   MarkupResourceStream resource=markup.getResource();
   if ((resource != null) && (resource.getContainerInfo() != null)) {
     if (WicketMessageTagHandler.enable) {
