@@ -1,9 +1,8 @@
 {
-  if (isStateless() == false) {
+  if (getPage().isStateless() == false) {
     return urlFor(ILinkListener.INTERFACE);
   }
  else {
-    if (getPage().isBookmarkable() == false)     throw new WicketRuntimeException("Stateless link can only be used within a bookmarkable page.");
     IRequestTarget requestTarget=new BookmarkableListenerInterfaceRequestTarget(getPage().getPageMap().getName(),getPage().getClass(),new PageParameters(),this,ILinkListener.INTERFACE);
     return urlFor(requestTarget);
   }

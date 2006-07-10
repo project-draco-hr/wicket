@@ -1,9 +1,19 @@
 {
+  if (getStatelessHint() == false || isBookmarkable() == false) {
+    stateless=false;
+  }
   if (stateless == null) {
     Object returnValue=visitChildren(Component.class,new IVisitor(){
-      public Object component(      Component component){
-        if (!component.isStateless()) {
+      public Object component(      Component<?> component){
+        if (!component.getStatelessHint()) {
           return Boolean.FALSE;
+        }
+        final Iterator<IBehavior> behaviors=component.getBehaviors().iterator();
+        while (behaviors.hasNext()) {
+          IBehavior behavior=behaviors.next();
+          if (!behavior.getStatelessHint()) {
+            return false;
+          }
         }
         return CONTINUE_TRAVERSAL;
       }

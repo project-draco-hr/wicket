@@ -1,8 +1,17 @@
 {
   try {
-    return getClass().getConstructor((Class[])null) != null || getClass().getConstructor(new Class[]{PageParameters.class}) != null;
+    if (getClass().getConstructor(new Class[]{PageParameters.class}) != null) {
+      return true;
+    }
   }
  catch (  Exception ignore) {
-    return false;
+    try {
+      if (getClass().getConstructor(new Class[]{}) != null) {
+        return true;
+      }
+    }
+ catch (    Exception ignore2) {
+    }
   }
+  return false;
 }

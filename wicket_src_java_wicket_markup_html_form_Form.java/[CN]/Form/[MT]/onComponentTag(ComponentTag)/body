@@ -5,13 +5,11 @@
   tag.put("method","post");
   Page page=getPage();
   boolean addAction=true;
-  if (bookmarkableHint && page.isStateless()) {
+  if (page.isStateless()) {
     try {
-      if (page.getClass().getConstructor((Class[])null) != null || page.getClass().getConstructor(new Class[]{PageParameters.class}) != null) {
-        BookmarkableListenerInterfaceRequestTarget target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMap().getName(),page.getClass(),new PageParameters(),this,IFormSubmitListener.INTERFACE);
-        tag.put("action",urlFor(target));
-        addAction=false;
-      }
+      BookmarkableListenerInterfaceRequestTarget target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMap().getName(),page.getClass(),new PageParameters(),this,IFormSubmitListener.INTERFACE);
+      tag.put("action",urlFor(target));
+      addAction=false;
     }
  catch (    Exception e) {
     }
