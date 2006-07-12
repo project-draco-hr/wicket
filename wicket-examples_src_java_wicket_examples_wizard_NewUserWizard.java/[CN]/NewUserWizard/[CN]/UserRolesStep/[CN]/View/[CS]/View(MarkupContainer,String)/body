@@ -1,0 +1,20 @@
+{
+  super(parent,id);
+  final ListMultipleChoice rolesChoiceField=new ListMultipleChoice<String>(this,"user.roles",allRoles);
+  final TextField<String> rolesSetNameField=new TextField<String>(this,"user.rolesSetName");
+  Form form=findParent(Form.class);
+  form.add(new AbstractFormValidator(){
+    public FormComponent[] getDependentFormComponents(){
+      return null;
+    }
+    public void validate(    Form form){
+      String rolesInput=rolesChoiceField.getInput();
+      if (rolesInput != null && (!"".equals(rolesInput))) {
+        if ("".equals(rolesSetNameField.getInput())) {
+          rolesSetNameField.error(Collections.singletonList("error.noSetNameForRoles"),null);
+        }
+      }
+    }
+  }
+);
+}
