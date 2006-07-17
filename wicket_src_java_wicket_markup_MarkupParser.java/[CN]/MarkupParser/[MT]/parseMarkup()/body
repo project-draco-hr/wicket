@@ -10,13 +10,6 @@
       if (!add && tag.getXmlTag().isClose()) {
         add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
       }
-      RawMarkup replaceTag=null;
-      if (tag.isOpen() && "html".equals(tag.getName().toLowerCase())) {
-        add|=determineWicketNamespace(tag);
-        if ((add == true) && (tag.getId() == null)) {
-          replaceTag=new RawMarkup(tag.toCharSequence());
-        }
-      }
       if (add || (autoAddList.size() > 0) || tag.isModified()) {
         final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
         if (text.length() > 0) {
@@ -40,12 +33,7 @@
       }
       if (add) {
         if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
-          if (replaceTag != null) {
-            this.markup.addMarkupElement(replaceTag);
-          }
- else {
-            this.markup.addMarkupElement(tag);
-          }
+          this.markup.addMarkupElement(tag);
         }
         xmlParser.setPositionMarker();
       }

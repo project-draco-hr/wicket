@@ -1,5 +1,4 @@
 {
-  String attrValue=null;
   final ValueMap attributes=tag.getAttributes();
   final Iterator it=attributes.entrySet().iterator();
   while (it.hasNext()) {
@@ -9,14 +8,13 @@
       final String xmlnsUrl=(String)entry.getValue();
       if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.startsWith(WICKET_URI)) {
         String namespace=attributeName.substring(XMLNS.length());
-        markup.setWicketNamespace(namespace);
-        attrValue=attributeName;
+        if (Application.get().getMarkupSettings().getStripWicketTags()) {
+          attributes.remove(attributeName);
+          tag.setModified(true);
+        }
+        return namespace;
       }
     }
   }
-  if ((attrValue != null) && this.markupSettings.getStripWicketTags()) {
-    attributes.remove(attrValue);
-    return true;
-  }
-  return false;
+  return null;
 }

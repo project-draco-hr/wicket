@@ -4,17 +4,19 @@
   filter=new HtmlHandler(filter);
   filter=new WicketRemoveTagHandler(filter);
   filter=new WicketLinkTagHandler(filter);
-  if (getMarkupResourceStream() != null && getMarkupResourceStream().getContainerInfo() != null) {
-    filter=new HeadForceTagIdHandler(filter,getMarkupResourceStream().getContainerInfo().getContainerClass());
-  }
+  filter=new WicketNamespaceHandler(filter,markup);
   MarkupResourceStream resource=markup.getResource();
-  if ((resource != null) && (resource.getContainerInfo() != null)) {
-    if (WicketMessageTagHandler.enable) {
-      filter=new WicketMessageTagHandler(filter,resource.getContainerInfo());
-    }
-    filter=new BodyOnLoadHandler(filter);
-    if (Page.class.isAssignableFrom(resource.getContainerInfo().getContainerClass())) {
-      filter=new HtmlHeaderSectionHandler(tagList,filter);
+  if (resource != null) {
+    final ContainerInfo containerInfo=resource.getContainerInfo();
+    if (containerInfo != null) {
+      if (WicketMessageTagHandler.enable) {
+        filter=new WicketMessageTagHandler(filter,containerInfo);
+      }
+      filter=new BodyOnLoadHandler(filter);
+      if (Page.class.isAssignableFrom(containerInfo.getContainerClass())) {
+        filter=new HtmlHeaderSectionHandler(tagList,filter);
+      }
+      filter=new HeadForceTagIdHandler(filter,containerInfo.getContainerClass());
     }
   }
   return filter;
