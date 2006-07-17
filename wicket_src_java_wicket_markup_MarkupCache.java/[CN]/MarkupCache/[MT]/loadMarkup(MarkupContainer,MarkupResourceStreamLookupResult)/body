@@ -1,6 +1,6 @@
 {
   try {
-    Markup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser().readAndParse(lookupResult.getMarkupResourceStream());
+    IMarkup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser().readAndParse(lookupResult.getMarkupResourceStream());
     markup=checkForMarkupInheritance(container,lookupResult,markup);
     markupCache.put(lookupResult.getCacheKey(),markup);
     afterLoadListeners.notifyListeners(lookupResult.getResourceStream());
@@ -16,5 +16,5 @@ synchronized (markupCache) {
     markupCache.remove(lookupResult.getCacheKey());
     afterLoadListeners.remove(lookupResult.getResourceStream());
   }
-  return Markup.NO_MARKUP;
+  return IMarkup.NO_MARKUP;
 }

@@ -9,7 +9,7 @@
     }
   }
   final CharSequence key=markupKey(container,clazz);
-  Markup markup=markupCache.get(key);
+  IMarkup markup=markupCache.get(key);
   if (markup == null) {
 synchronized (markupCache) {
       markup=markupCache.get(key);
@@ -26,7 +26,7 @@ synchronized (markupCache) {
           markup=loadMarkupAndWatchForChanges(container,lookupResult);
         }
  else {
-          markup=Markup.NO_MARKUP;
+          markup=IMarkup.NO_MARKUP;
           markupCache.put(key,markup);
         }
       }

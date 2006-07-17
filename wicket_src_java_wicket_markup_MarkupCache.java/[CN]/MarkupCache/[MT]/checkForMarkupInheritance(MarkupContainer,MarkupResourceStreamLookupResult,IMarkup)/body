@@ -4,8 +4,8 @@
     return markup;
   }
   Class<? extends MarkupContainer> markupClass=markup.getResource().getMarkupClass();
-  final Markup baseMarkup=getMarkup(container,(Class<? extends MarkupContainer>)markupClass.getSuperclass());
-  if (baseMarkup == Markup.NO_MARKUP) {
+  final IMarkup baseMarkup=getMarkup(container,(Class<? extends MarkupContainer>)markupClass.getSuperclass());
+  if (baseMarkup == IMarkup.NO_MARKUP) {
     throw new MarkupNotFoundException("Parent markup of inherited markup not found. Component class: " + markup.getResource().getContainerInfo().getContainerClass().getName() + " Enable debug messages for wicket.util.resource.Resource to get a list of all filenames tried.");
   }
   afterLoadListeners.add(baseMarkup.getResource(),new IChangeListener(){
@@ -31,6 +31,6 @@
     }
   }
 );
-  Markup mergedMarkup=new MergedMarkup(markup,baseMarkup,extendIndex);
+  IMarkup mergedMarkup=new MergedMarkup(markup,baseMarkup,extendIndex);
   return mergedMarkup;
 }
