@@ -16,7 +16,7 @@
       if (tag.isChildTag() && (tag.getMarkupClass() == baseMarkup.getResource().getMarkupClass())) {
         if (tag.isOpenClose()) {
           childTag=tag;
-          ComponentTag childOpenTag=tag.mutable();
+          final ComponentTag childOpenTag=tag.mutable();
           childOpenTag.getXmlTag().setType(XmlTag.Type.OPEN);
           childOpenTag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
           childOpenTag.setWicketTag(true);
@@ -55,14 +55,14 @@
       String onLoadBase=tag.getAttributes().getString("onload");
       if (onLoadBase == null) {
         if (onLoad != null) {
-          ComponentTag mutableTag=tag.mutable();
+          final ComponentTag mutableTag=tag.mutable();
           mutableTag.getAttributes().put("onload",onLoad);
           element=mutableTag;
         }
       }
  else       if (onLoad != null) {
         onLoadBase+=onLoad;
-        ComponentTag mutableTag=tag.mutable();
+        final ComponentTag mutableTag=tag.mutable();
         mutableTag.getAttributes().put("onload",onLoadBase);
         element=mutableTag;
       }
@@ -73,10 +73,10 @@
     throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup: " + baseMarkup.toString());
   }
   for (; extendIndex < markup.size(); extendIndex++) {
-    MarkupElement element=markup.get(extendIndex);
+    final MarkupElement element=markup.get(extendIndex);
     addMarkupElement(element);
     if (element instanceof ComponentTag) {
-      ComponentTag tag=(ComponentTag)element;
+      final ComponentTag tag=(ComponentTag)element;
       if (tag.isExtendTag() && tag.isClose()) {
         break;
       }
@@ -87,9 +87,9 @@
   }
   if (((ComponentTag)baseMarkup.get(baseIndex)).isOpen()) {
     for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
-      MarkupElement element=baseMarkup.get(baseIndex);
+      final MarkupElement element=baseMarkup.get(baseIndex);
       if (element instanceof ComponentTag) {
-        ComponentTag tag=(ComponentTag)element;
+        final ComponentTag tag=(ComponentTag)element;
         if (tag.isChildTag() && tag.isClose()) {
           tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
           addMarkupElement(tag);
@@ -108,17 +108,17 @@
     }
   }
  else   if (childTag != null) {
-    ComponentTag childCloseTag=childTag.mutable();
+    final ComponentTag childCloseTag=childTag.mutable();
     childCloseTag.getXmlTag().setType(XmlTag.Type.CLOSE);
     childCloseTag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
     childCloseTag.setWicketTag(true);
     addMarkupElement(childCloseTag);
   }
   for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
-    MarkupElement element=baseMarkup.get(baseIndex);
+    final MarkupElement element=baseMarkup.get(baseIndex);
     addMarkupElement(element);
     if ((element instanceof ComponentTag) && (baseMarkup.getResource() != null)) {
-      ComponentTag tag=(ComponentTag)element;
+      final ComponentTag tag=(ComponentTag)element;
       tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
     }
   }
@@ -127,9 +127,9 @@
     int hasCloseWicketHead=-1;
     int hasHead=-1;
     for (int i=0; i < size(); i++) {
-      MarkupElement element=get(i);
+      final MarkupElement element=get(i);
       if (element instanceof ComponentTag) {
-        ComponentTag tag=(ComponentTag)element;
+        final ComponentTag tag=(ComponentTag)element;
         if ((hasOpenWicketHead == -1) && tag.isWicketHeadTag()) {
           hasOpenWicketHead=i;
         }

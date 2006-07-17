@@ -4,12 +4,12 @@
     return tag;
   }
   if ("img".equals(tag.getName()) && (tag.isOpen() || tag.isOpenClose())) {
-    String src=tag.getAttributes().getString("src");
+    final String src=tag.getAttributes().getString("src");
     if ((src != null) && (src.trim().length() == 0)) {
       escalateWarning("Attribute 'src' should not be empty. Location: ",tag);
     }
   }
-  Iterator iter=tag.getAttributes().keySet().iterator();
+  final Iterator iter=tag.getAttributes().keySet().iterator();
   while (iter.hasNext()) {
     String key=(String)iter.next();
     if (key != null) {

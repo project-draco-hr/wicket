@@ -14,10 +14,10 @@
     contextPath+="/";
   }
   if (contextPath.length() > 0) {
-    for (    String attrName : attributeNames) {
-      String attrValue=tag.getAttributes().getString(attrName);
+    for (    final String attrName : attributeNames) {
+      final String attrValue=tag.getAttributes().getString(attrName);
       if ((attrValue != null) && (attrValue.startsWith("/") == false) && (attrValue.indexOf(":") < 0)&& !(attrValue.startsWith("#"))) {
-        String url=contextPath + attrValue;
+        final String url=contextPath + attrValue;
         tag.getAttributes().put(attrName,url);
         tag.setModified(true);
       }
