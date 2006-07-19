@@ -1,12 +1,22 @@
 {
   ServletContext sc=servlet.getServletContext();
   ApplicationContext ac=WebApplicationContextUtils.getRequiredWebApplicationContext(sc);
-  Map beans=ac.getBeansOfType(WebApplication.class,false,false);
-  if (beans.size() == 0) {
-    throw new IllegalStateException("bean of type [" + WebApplication.class.getName() + "] not found");
+  String beanName=servlet.getInitParameter("applicationBean");
+  if (beanName != null) {
+    WebApplication application=(WebApplication)ac.getBean(beanName);
+    if (application == null) {
+      throw new IllegalArgumentException("Unable to find WebApplication bean with name [" + beanName + "]");
+    }
+    return application;
   }
-  if (beans.size() > 1) {
-    throw new IllegalStateException("more then one bean of type [" + WebApplication.class.getName() + "] found, must have only one");
+ else {
+    Map beans=ac.getBeansOfType(WebApplication.class,false,false);
+    if (beans.size() == 0) {
+      throw new IllegalStateException("bean of type [" + WebApplication.class.getName() + "] not found");
+    }
+    if (beans.size() > 1) {
+      throw new IllegalStateException("more then one bean of type [" + WebApplication.class.getName() + "] found, must have only one");
+    }
+    return (WebApplication)beans.values().iterator().next();
   }
-  return (WebApplication)beans.values().iterator().next();
 }
