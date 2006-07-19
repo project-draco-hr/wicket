@@ -9,11 +9,13 @@
     }
     if (rootItem == null) {
       TreeNode rootNode=(TreeNode)getModelObject().getRoot();
-      rootItem=createTreeItem(rootNode,0);
-      if (isRootLess()) {
-        rootItem.setVisible(false);
+      if (rootNode != null) {
+        rootItem=createTreeItem(rootNode,0);
+        if (isRootLess()) {
+          rootItem.setVisible(false);
+        }
+        buildItemChildren(rootItem);
       }
-      buildItemChildren(rootItem);
     }
     attached=true;
   }
