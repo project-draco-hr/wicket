@@ -1,0 +1,14 @@
+{
+  final int index=markupStream.getCurrentIndex();
+  super.onRender(markupStream);
+  if (isRenderChildren()) {
+    visitItemChildren(this,new ItemCallback(){
+      public void visitItem(      TreeItem item){
+        markupStream.setCurrentIndex(index);
+        item.onRender(markupStream);
+      }
+    }
+);
+    setRenderChildren(false);
+  }
+}

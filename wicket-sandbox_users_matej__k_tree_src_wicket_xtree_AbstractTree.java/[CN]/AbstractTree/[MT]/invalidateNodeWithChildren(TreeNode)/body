@@ -1,0 +1,13 @@
+{
+  TreeItem item=nodeToItemMap.get(node);
+  if (item != null) {
+    visitItemChildren(item,new ItemCallback(){
+      public void visitItem(      TreeItem item){
+        removeItem(item);
+      }
+    }
+);
+    item.setChildren(null);
+    dirtyItems.add(item);
+  }
+}

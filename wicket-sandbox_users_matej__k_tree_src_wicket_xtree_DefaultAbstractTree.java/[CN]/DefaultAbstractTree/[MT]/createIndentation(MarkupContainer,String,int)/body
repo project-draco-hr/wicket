@@ -1,0 +1,14 @@
+{
+  WebMarkupContainer result=new WebMarkupContainer(parent,id){
+    @Override protected void onComponentTag(    ComponentTag tag){
+      super.onComponentTag(tag);
+      Response response=RequestCycle.get().getResponse();
+      for (int i=0; i < level; ++i) {
+        response.write(getIndentationString());
+      }
+    }
+  }
+;
+  result.setRenderBodyOnly(true);
+  return result;
+}
