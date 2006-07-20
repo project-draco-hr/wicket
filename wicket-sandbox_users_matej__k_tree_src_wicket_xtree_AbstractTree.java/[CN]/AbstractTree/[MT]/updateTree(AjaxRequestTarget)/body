@@ -10,7 +10,7 @@
     if (deleteIds.length() != 0) {
       String js=getElementsDeleteJavascript();
       System.out.println(js);
-      target.addJavascript(js);
+      target.prependJavascript(js);
     }
     for (    TreeItem item : dirtyItemsCreateDOM) {
       TreeItem parent=item.getParentItem();
@@ -25,7 +25,7 @@
           previous=previous.getChildren().get(previous.getChildren().size() - 1);
         }
       }
-      target.addJavascript("Wicket.Tree.createElement(\"" + item.getMarkupId() + "\","+ "\""+ previous.getMarkupId()+ "\")");
+      target.prependJavascript("Wicket.Tree.createElement(\"" + item.getMarkupId() + "\","+ "\""+ previous.getMarkupId()+ "\")");
     }
     for (    TreeItem item : dirtyItems) {
       if (item.getChildren() == null) {
