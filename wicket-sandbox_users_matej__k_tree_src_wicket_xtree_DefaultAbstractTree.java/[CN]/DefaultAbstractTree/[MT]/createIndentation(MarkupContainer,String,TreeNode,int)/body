@@ -1,0 +1,19 @@
+{
+  WebMarkupContainer result=new WebMarkupContainer(parent,id){
+    @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+      Response response=RequestCycle.get().getResponse();
+      TreeNode parent=node.getParent();
+      CharSequence urls[]=new CharSequence[level];
+      for (int i=0; i < level; ++i) {
+        if (isNodeLast(parent))         urls[i]="indent-blank";
+ else         urls[i]="indent-line";
+        parent=parent.getParent();
+      }
+      for (int i=level - 1; i >= 0; --i) {
+        response.write("<span class=\"" + urls[i] + "\"></span>");
+      }
+    }
+  }
+;
+  return result;
+}
