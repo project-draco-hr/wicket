@@ -14,6 +14,9 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
+    for (    String js : prependJavascripts) {
+      respondInvocation(response,js);
+    }
     Iterator<Entry<String,Component>> it=markupIdToComponent.entrySet().iterator();
     while (it.hasNext()) {
       final Map.Entry<String,Component> entry=it.next();
@@ -22,9 +25,7 @@
       respondHeaderContribution(response,component);
       respondComponent(response,markupId,component);
     }
-    Iterator<String> it2=javascripts.iterator();
-    while (it2.hasNext()) {
-      String js=it2.next();
+    for (    String js : appendJavascripts) {
       respondInvocation(response,js);
     }
     response.write("</ajax-response>");
