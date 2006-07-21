@@ -1,16 +1,23 @@
 {
   final WebRequestCycle cycle=(WebRequestCycle)getRequestCycle();
   final IRequestTarget target=cycle.getRequestTarget();
-  int initialAccessStackSize=0;
-  if (getApplication().getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_RENDER && target instanceof RedirectPageRequestTarget) {
-    initialAccessStackSize=1;
-  }
   String name=getPageMap().getName();
   if (name == null) {
     name="wicket:default";
   }
  else {
     name=name.replace('"','_');
+  }
+  Session session=getSession();
+  PageMapAccessMetaData meta=(PageMapAccessMetaData)session.getMetaData(PAGEMAP_ACCESS_MDK);
+  if (meta == null) {
+    meta=new PageMapAccessMetaData();
+    session.setMetaData(PAGEMAP_ACCESS_MDK,meta);
+  }
+  boolean firstAccess=false;
+  if (!meta.pageMapNames.contains(name)) {
+    firstAccess=true;
+    meta.pageMapNames.add(name);
   }
   CharSequence url=null;
   if (target instanceof IBookmarkablePageRequestTarget) {
@@ -22,7 +29,7 @@
     url=urlFor(INewBrowserWindowListener.INTERFACE);
   }
   final ArrayListStack accessStack=getPageMap().getAccessStack();
-  if (accessStack.size() == initialAccessStackSize) {
+  if (firstAccess) {
     JavascriptUtils.writeOpenTag(response);
     response.write("window.name=\"");
     response.write(name);
