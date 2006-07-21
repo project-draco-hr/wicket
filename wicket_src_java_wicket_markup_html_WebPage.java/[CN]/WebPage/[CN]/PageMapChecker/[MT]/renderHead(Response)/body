@@ -1,19 +1,23 @@
 {
-  if (WebPage.this.isStateless() == true) {
-    return;
-  }
   final WebRequestCycle cycle=(WebRequestCycle)getRequestCycle();
   final IRequestTarget target=cycle.getRequestTarget();
-  int initialAccessStackSize=0;
-  if (getApplication().getRequestCycleSettings().getRenderStrategy() == RenderStrategy.REDIRECT_TO_RENDER && target instanceof RedirectPageRequestTarget) {
-    initialAccessStackSize=1;
-  }
-  final ArrayListStack accessStack;
-  if (getPageMap() instanceof AccessStackPageMap) {
-    accessStack=((AccessStackPageMap)getPageMap()).getAccessStack();
+  String name=getPageMap().getName();
+  if (name == null) {
+    name="wicket:default";
   }
  else {
-    accessStack=new ArrayListStack();
+    name=name.replace('"','_');
+  }
+  Session session=getSession();
+  PageMapAccessMetaData meta=(PageMapAccessMetaData)session.getMetaData(PAGEMAP_ACCESS_MDK);
+  if (meta == null) {
+    meta=new PageMapAccessMetaData();
+    session.setMetaData(PAGEMAP_ACCESS_MDK,meta);
+  }
+  boolean firstAccess=false;
+  if (!meta.pageMapNames.contains(name)) {
+    firstAccess=true;
+    meta.pageMapNames.add(name);
   }
   CharSequence url=null;
   if (target instanceof IBookmarkablePageRequestTarget) {
@@ -24,62 +28,22 @@
  else {
     url=urlFor(INewBrowserWindowListener.INTERFACE);
   }
-  final BodyContainer body=getBodyContainer();
-  final Cookie[] cookies=cycle.getWebRequest().getCookies();
-  if ((cookies == null && accessStack.size() > initialAccessStackSize) || body == null) {
-    if (cookies != null && body == null && log.isWarnEnabled()) {
-      Application app=getApplication();
-      MissingBodyTagLoggedMetaData meta=(MissingBodyTagLoggedMetaData)app.getMetaData(MISSING_BODY_TAG_LOGGED_MDK);
-      if (meta == null) {
-        meta=new MissingBodyTagLoggedMetaData();
-        app.setMetaData(MISSING_BODY_TAG_LOGGED_MDK,meta);
-      }
-      Class<? extends WebPage> pageClass=WebPage.this.getClass();
-      if (!meta.missingBodyTagsLogged.contains(pageClass)) {
-        log.warn("Page with class " + pageClass.getName() + " does not have a body tag. It is advisable to have"+ " a body tag pair, as multi window support might be problematic without.");
-        meta.missingBodyTagsLogged.add(pageClass);
-      }
-    }
-    if (accessStack.size() > initialAccessStackSize) {
-      JavascriptUtils.writeOpenTag(response);
-      response.write("if((history.length == 0 && document.all) || (history.length == 1 && !document.all)){ if (!document.all) window.location.hash='some-random-hash!'; document.location.href = '");
-      response.write(url);
-      response.write("'}");
-      JavascriptUtils.writeCloseTag(response);
-    }
+  if (firstAccess) {
+    JavascriptUtils.writeOpenTag(response);
+    response.write("window.name=\"");
+    response.write(name);
+    response.write("\";");
+    JavascriptUtils.writeCloseTag(response);
   }
  else {
-    if (onUnLoadModel == null) {
-      onUnLoadModel=new Model<String>(){
-        private static final long serialVersionUID=1L;
-        /** 
- * @see wicket.model.Model#getObject()
- */
-        @Override public String getObject(){
-          Application application=Application.get();
-          return "deleteWicketCookie('pm-" + getPageMap().getName() + application.getApplicationSettings().getContextPath()+ application.getApplicationKey()+ "');";
-        }
-      }
-;
-      body.addOnUnLoadModifier(onUnLoadModel,null);
-    }
-    Application application=Application.get();
-    final String pageMapName=getPageMap().getName();
-    JavascriptUtils.writeJavascriptUrl(response,urlFor(cookiesResource));
     JavascriptUtils.writeOpenTag(response);
-    response.write("var pagemapcookie = getWicketCookie('pm-");
-    response.write(pageMapName);
-    response.write(application.getApplicationSettings().getContextPath());
-    response.write(application.getApplicationKey());
-    response.println("');");
-    response.write("if(!pagemapcookie && pagemapcookie != '1'){setWicketCookie('pm-");
-    response.write(pageMapName);
-    response.write(application.getApplicationSettings().getContextPath());
-    response.write(application.getApplicationKey());
-    response.println("',1);}");
-    response.write("else {document.location.href = '");
+    response.write("if (window.name=='') { window.location=\"");
     response.write(url);
-    response.println("';}");
+    response.write("\"; } else if (window.name !='");
+    response.write(name);
+    response.write("') { window.name=\"");
+    response.write(name);
+    response.write("\"; }");
     JavascriptUtils.writeCloseTag(response);
   }
 }
