@@ -1,4 +1,8 @@
 {
+  if (entry == null) {
+    log.warn("PageMap.removeEntry called with an null entry");
+    return;
+  }
 synchronized (session) {
     session.removeAttribute(attributeForId(entry.getNumericId()));
     final Iterator stack=accessStack.iterator();
