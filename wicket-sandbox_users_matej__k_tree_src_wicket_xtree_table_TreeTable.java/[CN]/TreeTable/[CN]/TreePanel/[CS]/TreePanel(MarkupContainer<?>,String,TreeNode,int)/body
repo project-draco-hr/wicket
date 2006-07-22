@@ -1,0 +1,13 @@
+{
+  super(parent,id,"fragment");
+  createIndentation(this,"indent",node,level);
+  createJunctionLink(this,"link","image",node);
+  WebMarkupContainer nodeLink=createNodeLink(this,"nodeLink",node);
+  createNodeIcon(nodeLink,"icon",node);
+  new Label(nodeLink,"label",new Model<String>(){
+    @Override public String getObject(){
+      return renderNode(node);
+    }
+  }
+);
+}

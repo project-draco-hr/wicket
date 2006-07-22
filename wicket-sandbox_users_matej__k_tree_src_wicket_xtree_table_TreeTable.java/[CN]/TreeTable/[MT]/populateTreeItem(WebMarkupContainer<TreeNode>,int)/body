@@ -1,0 +1,27 @@
+{
+  final TreeNode node=item.getModelObject();
+  int i=0;
+  SideColumnsView sideColumns=new SideColumnsView(item,"sideColumns");
+  for (  Column column : columns) {
+    if (column.getLocation().getAlignment() == Alignment.LEFT || column.getLocation().getAlignment() == Alignment.RIGHT) {
+      Component component=column.createCell(sideColumns,"" + i++,node,level);
+      sideColumns.addColumn(column,component);
+    }
+  }
+  i=0;
+  MiddleColumnsView middleColumns=new MiddleColumnsView(item,"middleColumns");
+  for (  Column column : columns) {
+    if (column.getLocation().getAlignment() == Alignment.MIDDLE) {
+      Component component=column.createCell(middleColumns,"" + i++,node,level);
+      middleColumns.addColumn(column,component);
+    }
+  }
+  item.add(new AbstractBehavior(){
+    @Override public void onComponentTag(    Component component,    ComponentTag tag){
+      super.onComponentTag(component,tag);
+      if (getTreeState().isNodeSelected(node))       tag.put("class","row-selected");
+ else       tag.put("class","row");
+    }
+  }
+);
+}

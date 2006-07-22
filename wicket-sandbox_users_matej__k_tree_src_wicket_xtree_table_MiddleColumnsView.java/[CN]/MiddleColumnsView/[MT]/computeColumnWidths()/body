@@ -1,0 +1,21 @@
+{
+  int result[]=new int[columns.size()];
+  double sum=0d;
+  double whole=99d;
+  for (  Column column : columns) {
+    if (column.getLocation().getUnit() != Unit.PROPORTIONAL) {
+      throw new IllegalStateException("Middle columns must have PROPORTIONAL unit set.");
+    }
+    sum+=column.getLocation().getSize();
+  }
+  int index=0;
+  int together=0;
+  for (  Column column : columns) {
+    together+=result[index]=(int)Math.round(((double)column.getLocation().getSize()) / sum * whole);
+    ++index;
+  }
+  if (together > 99) {
+    result[result.length - 1]-=together - 99;
+  }
+  return result;
+}
