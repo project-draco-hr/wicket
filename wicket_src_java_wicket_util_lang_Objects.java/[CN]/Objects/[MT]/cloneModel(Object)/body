@@ -8,7 +8,7 @@
       final HashMap replacedObjects=new HashMap();
       ObjectOutputStream oos=new ReplaceObjectOutputStream(out,replacedObjects);
       oos.writeObject(object);
-      ObjectInputStream ois=new ReplaceObjectInputStream(new ByteArrayInputStream(out.toByteArray()),replacedObjects);
+      ObjectInputStream ois=new ReplaceObjectInputStream(new ByteArrayInputStream(out.toByteArray()),replacedObjects,object.getClass().getClassLoader());
       return ois.readObject();
     }
  catch (    ClassNotFoundException e) {
