@@ -4,16 +4,30 @@
   SideColumnsView sideColumns=new SideColumnsView(item,"sideColumns");
   for (  Column column : columns) {
     if (column.getLocation().getAlignment() == Alignment.LEFT || column.getLocation().getAlignment() == Alignment.RIGHT) {
-      Component component=column.createCell(sideColumns,"" + i++,node,level);
-      sideColumns.addColumn(column,component);
+      Component component;
+      Renderable renderable=column.createCell(node,level);
+      if (renderable == null) {
+        component=column.createCell(sideColumns,"" + i++,node,level);
+      }
+ else {
+        component=null;
+      }
+      sideColumns.addColumn(column,component,renderable);
     }
   }
   i=0;
   MiddleColumnsView middleColumns=new MiddleColumnsView(item,"middleColumns");
   for (  Column column : columns) {
     if (column.getLocation().getAlignment() == Alignment.MIDDLE) {
-      Component component=column.createCell(middleColumns,"" + i++,node,level);
-      middleColumns.addColumn(column,component);
+      Component component;
+      Renderable renderable=column.createCell(node,level);
+      if (renderable == null) {
+        component=column.createCell(sideColumns,"" + i++,node,level);
+      }
+ else {
+        component=null;
+      }
+      middleColumns.addColumn(column,component,renderable);
     }
   }
   item.add(new AbstractBehavior(){
