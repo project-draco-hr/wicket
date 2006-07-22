@@ -27,6 +27,17 @@
       parentWithAssociatedMarkup=parentWithAssociatedMarkup.findParentWithAssociatedMarkup();
     }
  else {
+      MarkupContainer mc=component.findParent(Fragment.class);
+      if (mc != null) {
+        String fragmentId=((Fragment)mc).getFragmentMarkupId();
+        String componentId=getComponentRelativePath(mc,parentWithAssociatedMarkup) + mc.getId();
+        relativePath=relativePath.replace(componentId,fragmentId);
+        index=markupStream.findComponentIndex(relativePath,component.getId());
+        if (index != -1) {
+          markupStream.setCurrentIndex(index);
+          return markupStream;
+        }
+      }
       throw new WicketRuntimeException("Unable to find the markup for the component. That may be due to transparent containers or components implementing IComponentResolver: " + component.getId());
     }
     markupStream=null;
