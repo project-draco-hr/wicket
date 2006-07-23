@@ -1,4 +1,9 @@
 {
   TreeTable table=parent.findParent(TreeTable.class);
-  return table.createTreePanel(parent,id,node,level);
+  return table.createTreePanel(parent,id,node,level,new IRenderNodeCallback(){
+    public String renderNode(    TreeNode node){
+      return TreeColumn.this.renderNode(node);
+    }
+  }
+);
 }
