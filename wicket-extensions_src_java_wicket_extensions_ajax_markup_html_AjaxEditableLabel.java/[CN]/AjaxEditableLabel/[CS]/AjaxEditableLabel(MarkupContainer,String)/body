@@ -1,5 +1,8 @@
 {
   super(parent,id);
-  checkModel(getModel());
-  init(getModel());
+  IModel<T> m=getModel();
+  if (m == null) {
+    throw new IllegalStateException("No model found for this component, either pass one explicitly or " + "make sure an inheritable model is available");
+  }
+  init(m);
 }
