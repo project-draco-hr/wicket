@@ -3,13 +3,6 @@
   final Session session=requestCycle.getSession();
   final PortletPage page=(PortletPage)session.getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
   if (page != null) {
-    PortletRequestCycle cycle=(PortletRequestCycle)requestCycle;
-    IRequestTarget prevTarget=cycle.getRequestTarget();
-    page.setPortletMode(cycle.getPortletRequest().getPortletRequest().getPortletMode());
-    page.setWindowState(cycle.getPortletRequest().getPortletRequest().getWindowState());
-    if (requestCycle.getRequestTarget() != prevTarget) {
-      return requestCycle.getRequestTarget();
-    }
     requestCycle.getRequest().setPage(page);
     final String interfaceName=requestParameters.getInterfaceName();
     if (interfaceName != null) {
