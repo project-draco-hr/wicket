@@ -1,0 +1,12 @@
+{
+  TreeItem item=nodeToItemMap.get(node);
+  if (forceRebuld) {
+    int level=item.getLevel();
+    List<TreeItem> children=item.getChildren();
+    String id=item.getId();
+    item.remove();
+    item=createTreeItem(node,level,id);
+    item.setChildren(children);
+  }
+  if (item != null)   dirtyItems.add(item);
+}
