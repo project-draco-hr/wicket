@@ -1,5 +1,8 @@
 {
   setId(id);
   getApplication().notifyComponentInstantiationListeners(this);
-  setModel(model);
+  this.model=model;
+  if (model instanceof ICompoundModel) {
+    setFlag(FLAG_HAS_ROOT_MODEL,true);
+  }
 }
