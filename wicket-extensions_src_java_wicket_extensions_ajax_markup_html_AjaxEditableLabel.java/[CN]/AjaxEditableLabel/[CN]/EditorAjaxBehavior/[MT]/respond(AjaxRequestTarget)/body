@@ -1,12 +1,12 @@
 {
-  label.setVisible(true);
-  editor.setVisible(false);
-  target.addComponent(AjaxEditableLabel.this);
   RequestCycle requestCycle=RequestCycle.get();
   boolean save=Boolean.valueOf(requestCycle.getRequest().getParameter("save")).booleanValue();
   if (save) {
     editor.processInput();
     if (editor.isValid()) {
+      label.setVisible(true);
+      editor.setVisible(false);
+      target.addComponent(AjaxEditableLabel.this);
       if (save) {
         onSubmit(target);
       }
@@ -16,6 +16,9 @@
     }
   }
  else {
+    label.setVisible(true);
+    editor.setVisible(false);
+    target.addComponent(AjaxEditableLabel.this);
     onCancel(target);
   }
 }
