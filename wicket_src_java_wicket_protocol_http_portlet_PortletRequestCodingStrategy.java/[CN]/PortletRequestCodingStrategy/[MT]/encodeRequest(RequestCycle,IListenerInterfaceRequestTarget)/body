@@ -1,12 +1,17 @@
 {
   PortletURL url;
+  final RequestListenerInterface rli=requestTarget.getRequestListenerInterface();
+  if (IResourceListener.class.isAssignableFrom(rli.getMethod().getDeclaringClass())) {
+    final CharSequence prefix=urlPrefix(requestCycle);
+    log.warn("Support for dynamic resources is not yet implemented");
+    return prefix;
+  }
   try {
     url=getActionURL(requestCycle);
   }
  catch (  WicketRuntimeException e) {
     return null;
   }
-  final RequestListenerInterface rli=requestTarget.getRequestListenerInterface();
   final Component component=requestTarget.getTarget();
   final Page page=component.getPage();
   final PageMap pageMap=page.getPageMap();
