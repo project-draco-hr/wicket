@@ -2,10 +2,10 @@
   final TreeNode node=item.getModelObject();
   int i=0;
   SideColumnsView sideColumns=new SideColumnsView(item,"sideColumns");
-  for (  Column column : columns) {
+  for (  IColumn column : columns) {
     if (column.getLocation().getAlignment() == Alignment.LEFT || column.getLocation().getAlignment() == Alignment.RIGHT) {
       Component component;
-      Renderable renderable=column.createCell(this,node,level);
+      IRenderable renderable=column.createCell(this,node,level);
       if (renderable == null) {
         component=column.createCell(sideColumns,"" + i++,node,level);
       }
@@ -17,10 +17,10 @@
   }
   i=0;
   MiddleColumnsView middleColumns=new MiddleColumnsView(item,"middleColumns",node);
-  for (  Column column : columns) {
+  for (  IColumn column : columns) {
     if (column.getLocation().getAlignment() == Alignment.MIDDLE) {
       Component component;
-      Renderable renderable=column.createCell(this,node,level);
+      IRenderable renderable=column.createCell(this,node,level);
       if (renderable == null) {
         component=column.createCell(middleColumns,"" + i++,node,level);
       }
