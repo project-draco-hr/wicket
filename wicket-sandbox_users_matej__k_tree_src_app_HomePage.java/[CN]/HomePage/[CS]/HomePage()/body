@@ -5,7 +5,7 @@
   }
 ;
   final DefaultTreeModel treeModel=(DefaultTreeModel)createTreeModel();
-  IColumn columns[]=new IColumn[]{new DefaultTreeColumn(new ColumnLocation(Alignment.LEFT,15,Unit.EM),"Tree Column"),new StringColumn(new ColumnLocation(Alignment.MIDDLE,3,Unit.PROPORTIONAL),"M1","First middle column. Has weight 2."){
+  IColumn columns[]=new IColumn[]{new PropertyTreeColumn(new ColumnLocation(Alignment.LEFT,15,Unit.EM),"Tree Column","userObject"),new StringColumn(new ColumnLocation(Alignment.MIDDLE,3,Unit.PROPORTIONAL),"M1","First middle column. Has weight 3."){
     @Override public int getSpan(    TreeNode node){
       if (node != null) {
         if (node.isLeaf())         return 0;
@@ -15,8 +15,8 @@
       return 1;
     }
   }
-,new StringColumn(new ColumnLocation(Alignment.MIDDLE,2,Unit.PROPORTIONAL),"M2","Second middle column. Has weight 1."),new StringColumn(new ColumnLocation(Alignment.MIDDLE,2,Unit.PROPORTIONAL),"M3","Third middle column. Has weight 1."),new StringColumn(new ColumnLocation(Alignment.RIGHT,8,Unit.EM),"R1","First right column. Width set to 8 em.")};
-  Tree tree=new TreeTable(this,"tree",treeModel,columns);
+,new StringColumn(new ColumnLocation(Alignment.MIDDLE,2,Unit.PROPORTIONAL),"M2","Second middle column. Has weight 2."),new StringColumn(new ColumnLocation(Alignment.MIDDLE,2,Unit.PROPORTIONAL),"M3","Third middle column. Has weight 2."),new StringColumn(new ColumnLocation(Alignment.RIGHT,8,Unit.EM),"R1","First right column. Width set to 8 em.")};
+  DefaultAbstractTree tree=new TreeTable(this,"tree",treeModel,columns);
   tree.getTreeState().setAllowSelectMultiple(true);
   setVersioned(false);
 }
