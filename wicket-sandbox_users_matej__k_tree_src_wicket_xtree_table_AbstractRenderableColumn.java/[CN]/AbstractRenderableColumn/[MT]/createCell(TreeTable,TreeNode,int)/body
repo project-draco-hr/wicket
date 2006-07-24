@@ -1,0 +1,18 @@
+{
+  return new IRenderable(){
+    public void render(    TreeNode node,    Response response){
+      String content=getNodeValue(node);
+      if (isEscapeContent()) {
+        content=Strings.escapeMarkup(content).toString();
+      }
+      response.write("<span class=\"text\"");
+      if (isContentAsTooltip()) {
+        response.write(" title=\"" + content + "\"");
+      }
+      response.write(">");
+      response.write(content);
+      response.write("</span>");
+    }
+  }
+;
+}
