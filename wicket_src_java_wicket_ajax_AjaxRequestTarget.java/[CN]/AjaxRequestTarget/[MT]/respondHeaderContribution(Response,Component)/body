@@ -1,0 +1,39 @@
+{
+  final HtmlHeaderContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
+  if (component.getPage().get(HtmlHeaderSectionHandler.HEADER_ID) != null) {
+    component.getPage().replace(header);
+  }
+ else {
+    component.getPage().add(header);
+  }
+  Response oldResponse=RequestCycle.get().setResponse(encodingResponse);
+  encodingResponse.reset();
+  component.renderHead(header);
+  if (component instanceof MarkupContainer) {
+    ((MarkupContainer)component).visitChildren(new Component.IVisitor(){
+      public Object component(      Component component){
+        if (component.isVisible()) {
+          component.renderHead(header);
+          return CONTINUE_TRAVERSAL;
+        }
+ else {
+          return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+        }
+      }
+    }
+);
+  }
+  RequestCycle.get().setResponse(oldResponse);
+  if (encodingResponse.getContents().length() != 0) {
+    response.write("<header-contribution");
+    if (encodingResponse.isContentsEncoded()) {
+      response.write(" encoding=\"");
+      response.write(getEncodingName());
+      response.write("\" ");
+    }
+    response.write("><![CDATA[<head xmlns:wicket=\"http://wicket.sourceforge.net\">");
+    response.write(encodingResponse.getContents());
+    response.write("</head>]]>");
+    response.write("</header-contribution>");
+  }
+}
