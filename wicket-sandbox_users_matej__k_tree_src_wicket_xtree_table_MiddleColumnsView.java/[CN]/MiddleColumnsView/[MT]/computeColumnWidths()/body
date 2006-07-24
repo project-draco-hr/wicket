@@ -1,8 +1,8 @@
 {
-  int result[]=new int[columns.size()];
-  Arrays.fill(result,0);
+  double result[]=new double[columns.size()];
+  Arrays.fill(result,0d);
   double sum=0d;
-  double whole=99d;
+  double whole=99.8d;
   for (  IColumn column : columns) {
     if (column.getLocation().getUnit() != Unit.PROPORTIONAL) {
       throw new IllegalStateException("Middle columns must have PROPORTIONAL unit set.");
@@ -18,7 +18,7 @@
       i=spanColumn;
       --spanLeft;
     }
-    result[i]+=(int)Math.round(((double)column.getLocation().getSize()) / sum * whole);
+    result[i]+=Math.round(((double)column.getLocation().getSize()) / sum * whole);
     if (spanLeft == 0 && column.getSpan(node) > 1) {
       int maxSpan=columns.size() - columns.indexOf(column);
       int span=column.getSpan(node) - 1;
@@ -27,14 +27,14 @@
     }
     ++index;
   }
-  int together=0;
+  double together=0d;
   for (int i=0; i < result.length; ++i) {
     together+=result[i];
   }
-  if (together > 99) {
+  if (together > 99.8d) {
     for (int i=result.length - 1; i >= 0; --i) {
-      if (result[i] != 0) {
-        result[i]-=together - 99;
+      if (result[i] != 0d) {
+        result[i]-=together - 99.8d;
         break;
       }
     }
