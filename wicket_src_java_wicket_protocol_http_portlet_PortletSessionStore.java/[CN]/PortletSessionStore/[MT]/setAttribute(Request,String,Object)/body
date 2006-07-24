@@ -16,13 +16,13 @@
     RequestLogger logger=application.getRequestLogger();
     String attributeName=getSessionAttributePrefix(webRequest) + name;
     if (logger != null) {
-      if (httpSession.getAttribute(attributeName) == null) {
+      if (httpSession.getAttribute(attributeName,SCOPE) == null) {
         logger.objectCreated(value);
       }
  else {
         logger.objectUpdated(value);
       }
     }
-    httpSession.setAttribute(attributeName,value,PortletSession.PORTLET_SCOPE);
+    httpSession.setAttribute(attributeName,value,SCOPE);
   }
 }

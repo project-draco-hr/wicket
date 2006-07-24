@@ -2,9 +2,7 @@
   PortletURL url;
   final RequestListenerInterface rli=requestTarget.getRequestListenerInterface();
   if (IResourceListener.class.isAssignableFrom(rli.getMethod().getDeclaringClass())) {
-    final CharSequence prefix=urlPrefix(requestCycle);
-    log.warn("Support for dynamic resources is not yet implemented");
-    return prefix;
+    return encodeServletRequest(requestCycle,requestTarget);
   }
   try {
     url=getActionURL(requestCycle);
