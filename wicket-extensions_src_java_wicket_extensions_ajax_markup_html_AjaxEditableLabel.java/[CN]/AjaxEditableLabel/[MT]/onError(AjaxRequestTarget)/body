@@ -1,10 +1,10 @@
 {
   String errorMessage=editor.getFeedbackMessage().getMessage();
   if (errorMessage != null) {
-    target.addJavascript("window.status='" + JavascriptUtils.escapeQuotes(errorMessage) + "';");
+    target.appendJavascript("window.status='" + JavascriptUtils.escapeQuotes(errorMessage) + "';");
   }
   String editorMarkupId=editor.getMarkupId();
-  target.addJavascript(editorMarkupId + ".select();");
-  target.addJavascript(editorMarkupId + ".focus();");
+  target.appendJavascript(editorMarkupId + ".select();");
+  target.appendJavascript(editorMarkupId + ".focus();");
   target.addComponent(editor);
 }
