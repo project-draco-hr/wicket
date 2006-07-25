@@ -1,0 +1,13 @@
+{
+  if (!isEmpty() && (peek() instanceof AjaxRequestTarget)) {
+    AjaxRequestTarget ajaxRequestTarget=(AjaxRequestTarget)peek();
+    CharSequence url=RequestCycle.get().urlFor(requestTarget);
+    if (requestTarget instanceof IPageRequestTarget) {
+      Session.get().touch(((IPageRequestTarget)requestTarget).getPage());
+    }
+    ajaxRequestTarget.prependJavascript("window.location='" + url + "';");
+  }
+ else {
+    add(requestTarget);
+  }
+}
