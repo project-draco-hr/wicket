@@ -1,5 +1,12 @@
 {
   String className=desc.getName();
+  Class clzz=usedClasses.get(className);
+  if (clzz != null) {
+    return clzz;
+  }
+ else {
+    log.debug("No Class  found for " + className + " trying through IClassResolver");
+  }
   Application application=Application.get();
   IApplicationSettings applicationSettings=application.getApplicationSettings();
   IClassResolver classResolver=applicationSettings.getClassResolver();

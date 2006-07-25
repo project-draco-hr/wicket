@@ -5,10 +5,9 @@
  else {
     try {
       final ByteArrayOutputStream out=new ByteArrayOutputStream(256);
-      final HashMap<String,Object> replacedObjects=new HashMap<String,Object>();
-      ObjectOutputStream oos=new ReplaceObjectOutputStream(out,replacedObjects);
+      ReplaceObjectOutputStream oos=new ReplaceObjectOutputStream(out);
       oos.writeObject(object);
-      ObjectInputStream ois=new ReplaceObjectInputStream(new ByteArrayInputStream(out.toByteArray()),replacedObjects);
+      ObjectInputStream ois=new ReplaceObjectInputStream(new ByteArrayInputStream(out.toByteArray()),oos.getUsedClasses(),oos.getReplacedComponents());
       return (T)ois.readObject();
     }
  catch (    ClassNotFoundException e) {

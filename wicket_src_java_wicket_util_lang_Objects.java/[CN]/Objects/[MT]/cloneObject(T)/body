@@ -5,30 +5,9 @@
  else {
     try {
       final ByteArrayOutputStream out=new ByteArrayOutputStream(256);
-      ObjectOutputStream oos=new ObjectOutputStream(out);
+      ClassRecordingObjectOutputStream oos=new ClassRecordingObjectOutputStream(out);
       oos.writeObject(object);
-      ObjectInputStream ois=new ObjectInputStream(new ByteArrayInputStream(out.toByteArray())){
-        @Override protected Class<?> resolveClass(        ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-          String className=desc.getName();
-          Application application=Application.get();
-          IApplicationSettings applicationSettings=application.getApplicationSettings();
-          IClassResolver classResolver=applicationSettings.getClassResolver();
-          Class candidate=null;
-          try {
-            candidate=classResolver.resolveClass(className);
-            if (candidate == null) {
-              candidate=super.resolveClass(desc);
-            }
-          }
- catch (          WicketRuntimeException ex) {
-            if (ex.getCause() instanceof ClassNotFoundException) {
-              throw (ClassNotFoundException)ex.getCause();
-            }
-          }
-          return candidate;
-        }
-      }
-;
+      ClassRecordingObjectInputStream ois=new ClassRecordingObjectInputStream(new ByteArrayInputStream(out.toByteArray()),oos.getUsedClasses());
       return (T)ois.readObject();
     }
  catch (    ClassNotFoundException e) {
