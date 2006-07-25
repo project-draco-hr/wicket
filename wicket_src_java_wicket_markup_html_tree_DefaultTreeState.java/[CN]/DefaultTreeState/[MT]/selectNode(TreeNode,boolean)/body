@@ -1,0 +1,23 @@
+{
+  if (selected == true && selectedNodes.contains(node) == false) {
+    if (isAllowSelectMultiple() == false && selectedNodes.size() > 0) {
+      for (Iterator<TreeNode> i=selectedNodes.iterator(); i.hasNext(); ) {
+        TreeNode current=i.next();
+        i.remove();
+        for (        TreeStateListener l : listeners) {
+          l.nodeUnselected(current);
+        }
+      }
+    }
+    selectedNodes.add(node);
+    for (    TreeStateListener l : listeners) {
+      l.nodeSelected(node);
+    }
+  }
+ else   if (selected == false && selectedNodes.contains(node) == true) {
+    selectedNodes.remove(node);
+    for (    TreeStateListener l : listeners) {
+      l.nodeUnselected(node);
+    }
+  }
+}

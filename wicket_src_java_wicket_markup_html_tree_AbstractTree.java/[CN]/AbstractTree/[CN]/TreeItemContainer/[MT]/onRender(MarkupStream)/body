@@ -1,0 +1,27 @@
+{
+  final int markupStart=markupStream.getCurrentIndex();
+class Rendered {
+    boolean rendered=false;
+  }
+  ;
+  final Rendered rendered=new Rendered();
+  if (rootItem != null) {
+    IItemCallback callback=new IItemCallback(){
+      public void visitItem(      TreeItem item){
+        markupStream.setCurrentIndex(markupStart);
+        item.render(markupStream);
+        rendered.rendered=true;
+      }
+    }
+;
+    if (isRootLess()) {
+      visitItemChildren(rootItem,callback);
+    }
+ else {
+      visitItemAndChildren(rootItem,callback);
+    }
+  }
+  if (rendered.rendered == false) {
+    markupStream.skipComponent();
+  }
+}
