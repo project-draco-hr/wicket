@@ -1,14 +1,14 @@
 {
   PortletURL url;
   final RequestListenerInterface rli=requestTarget.getRequestListenerInterface();
-  if (IResourceListener.class.isAssignableFrom(rli.getMethod().getDeclaringClass())) {
-    return encodeServletRequest(requestCycle,requestTarget);
-  }
   try {
     url=getActionURL(requestCycle);
   }
  catch (  WicketRuntimeException e) {
     return null;
+  }
+  if (IResourceListener.class.isAssignableFrom(rli.getMethod().getDeclaringClass())) {
+    return encodeServletRequest(requestCycle,requestTarget);
   }
   final Component component=requestTarget.getTarget();
   final Page page=component.getPage();
