@@ -5,9 +5,9 @@
   for (  IColumn column : columns) {
     if (column.getLocation().getAlignment() == Alignment.LEFT || column.getLocation().getAlignment() == Alignment.RIGHT) {
       Component component;
-      IRenderable renderable=column.createCell(node,level);
+      IRenderable renderable=column.newCell(node,level);
       if (renderable == null) {
-        component=column.createCell(sideColumns,"" + i++,node,level);
+        component=column.newCell(sideColumns,"" + i++,node,level);
       }
  else {
         component=null;
@@ -20,9 +20,9 @@
   for (  IColumn column : columns) {
     if (column.getLocation().getAlignment() == Alignment.MIDDLE) {
       Component component;
-      IRenderable renderable=column.createCell(node,level);
+      IRenderable renderable=column.newCell(node,level);
       if (renderable == null) {
-        component=column.createCell(middleColumns,"" + i++,node,level);
+        component=column.newCell(middleColumns,"" + i++,node,level);
       }
  else {
         component=null;
@@ -31,13 +31,15 @@
     }
   }
   item.add(new AbstractBehavior(){
-    /** 
- */
     private static final long serialVersionUID=1L;
     @Override public void onComponentTag(    Component component,    ComponentTag tag){
       super.onComponentTag(component,tag);
-      if (getTreeState().isNodeSelected(node))       tag.put("class","row-selected");
- else       tag.put("class","row");
+      if (getTreeState().isNodeSelected(node)) {
+        tag.put("class","row-selected");
+      }
+ else {
+        tag.put("class","row");
+      }
     }
   }
 );

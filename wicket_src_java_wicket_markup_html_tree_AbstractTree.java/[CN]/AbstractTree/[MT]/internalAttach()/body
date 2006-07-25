@@ -1,4 +1,5 @@
 {
+  super.internalAttach();
   if (attached == false) {
     checkModel();
     if (dirtyAll && rootItem != null) {
@@ -11,11 +12,11 @@
       TreeNode rootNode=(TreeNode)getModelObject().getRoot();
       if (rootNode != null) {
         if (isRootLess()) {
-          rootItem=createTreeItem(rootNode,-1);
+          rootItem=newTreeItem(rootNode,-1);
           rootItem.setVisible(false);
         }
  else {
-          rootItem=createTreeItem(rootNode,0);
+          rootItem=newTreeItem(rootNode,0);
         }
         buildItemChildren(rootItem);
       }

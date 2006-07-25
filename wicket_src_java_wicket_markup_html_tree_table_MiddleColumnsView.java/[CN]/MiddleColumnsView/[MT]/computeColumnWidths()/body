@@ -18,7 +18,7 @@
       i=spanColumn;
       --spanLeft;
     }
-    result[i]+=Math.round(((double)column.getLocation().getSize()) / sum * whole);
+    result[i]+=Math.round((column.getLocation().getSize()) / sum * whole);
     if (spanLeft == 0 && column.getSpan(node) > 1) {
       int maxSpan=columns.size() - columns.indexOf(column);
       int span=column.getSpan(node) - 1;
@@ -28,8 +28,8 @@
     ++index;
   }
   double together=0d;
-  for (int i=0; i < result.length; ++i) {
-    together+=result[i];
+  for (  double element : result) {
+    together+=element;
   }
   if (together > 99.8d) {
     for (int i=result.length - 1; i >= 0; --i) {

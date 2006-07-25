@@ -1,12 +1,10 @@
 {
   final TreeNode node=item.getModelObject();
-  createIndentation(item,"indent",item.getModelObject(),level);
-  createJunctionLink(item,"link","image",node);
-  WebMarkupContainer nodeLink=createNodeLink(item,"nodeLink",node);
-  createNodeIcon(nodeLink,"icon",node);
+  newIndentation(item,"indent",item.getModelObject(),level);
+  newJunctionLink(item,"link","image",node);
+  MarkupContainer nodeLink=newNodeLink(item,"nodeLink",node);
+  newNodeIcon(nodeLink,"icon",node);
   new Label(nodeLink,"label",new Model<String>(){
-    /** 
- */
     private static final long serialVersionUID=1L;
     @Override public String getObject(){
       return renderNode(node);
@@ -14,13 +12,15 @@
   }
 );
   item.add(new AbstractBehavior(){
-    /** 
- */
     private static final long serialVersionUID=1L;
     @Override public void onComponentTag(    Component component,    ComponentTag tag){
       super.onComponentTag(component,tag);
-      if (getTreeState().isNodeSelected(node))       tag.put("class","row-selected");
- else       tag.put("class","row");
+      if (getTreeState().isNodeSelected(node)) {
+        tag.put("class","row-selected");
+      }
+ else {
+        tag.put("class","row");
+      }
     }
   }
 );
