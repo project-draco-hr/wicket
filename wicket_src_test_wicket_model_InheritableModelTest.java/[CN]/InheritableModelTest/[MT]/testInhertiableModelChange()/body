@@ -1,0 +1,15 @@
+{
+  TestPage page=new TestPage();
+  WebMarkupContainer<Person> parent=new WebMarkupContainer<Person>(page,"parent");
+  WebMarkupContainer<String> child=new WebMarkupContainer<String>(parent,"name");
+  Person person1=new Person();
+  person1.setName("john");
+  parent.setModel(new CompoundPropertyModel<Person>(person1));
+  assertEquals("john",child.getModel().getObject());
+  assertEquals("john",child.getModelObject());
+  Person person2=new Person();
+  person2.setName("igor");
+  parent.setModel(new CompoundPropertyModel<Person>(person2));
+  assertEquals("igor",child.getModel().getObject());
+  assertEquals("igor",child.getModelObject());
+}

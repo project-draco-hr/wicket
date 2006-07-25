@@ -5,6 +5,9 @@
     visitChildren(new IVisitor(){
       public Object component(      Component component){
         IModel compModel=component.getModel();
+        if (compModel instanceof IWrapModel) {
+          compModel=((IWrapModel)compModel).getNestedModel();
+        }
         if (compModel == previous) {
           component.setModel(null);
         }
