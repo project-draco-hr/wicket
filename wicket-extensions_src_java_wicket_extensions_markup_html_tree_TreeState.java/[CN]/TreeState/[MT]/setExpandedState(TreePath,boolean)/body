@@ -1,0 +1,18 @@
+{
+  if (isExpanded) {
+    ensurePathIsExpanded(path,true);
+  }
+ else   if (path != null) {
+    TreePath parentPath=path.getParentPath();
+    if (parentPath != null) {
+      TreeStateNode parentNode=getNodeForPath(parentPath,false,true);
+      if (parentNode != null) {
+        parentNode.makeVisible();
+      }
+    }
+    TreeStateNode childNode=getNodeForPath(path,true,false);
+    if (childNode != null) {
+      childNode.collapse(true);
+    }
+  }
+}

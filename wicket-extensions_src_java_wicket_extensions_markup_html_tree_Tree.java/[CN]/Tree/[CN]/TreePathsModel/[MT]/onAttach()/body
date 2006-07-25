@@ -1,0 +1,13 @@
+{
+  if (dirty) {
+    paths.clear();
+    TreeModel model=getTreeState().getModel();
+    DefaultMutableTreeNode rootNode=(DefaultMutableTreeNode)model.getRoot();
+    Enumeration e=rootNode.preorderEnumeration();
+    while (e.hasMoreElements()) {
+      DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)e.nextElement();
+      paths.add(treeNode);
+    }
+    dirty=false;
+  }
+}
