@@ -22,17 +22,5 @@
     }
   }
 );
-  add(new Image("image",new RenderedDynamicImageResource(100,100){
-    protected boolean render(    Graphics2D graphics){
-      final Random random=new Random();
-      int dx=Math.abs(10 + random.nextInt(80));
-      int dy=Math.abs(10 + random.nextInt(80));
-      int x=Math.abs(random.nextInt(100 - dx));
-      int y=Math.abs(random.nextInt(100 - dy));
-      graphics.setStroke(new BasicStroke(5));
-      graphics.drawOval(x,y,dx,dy);
-      return true;
-    }
-  }
-));
+  add(new Image("image",new ResourceReference(ExamplePortlet.class,"wicket-logo.png")));
 }
