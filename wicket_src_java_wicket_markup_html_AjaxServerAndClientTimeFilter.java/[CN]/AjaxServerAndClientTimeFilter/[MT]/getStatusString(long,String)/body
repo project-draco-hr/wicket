@@ -1,0 +1,11 @@
+{
+  Map<String,String> map=new HashMap<String,String>(4);
+  map.put("clienttime","' + (new Date().getTime() - clientTimeVariable)/1000 +  's");
+  map.put("servertime",((double)timeTaken) / 1000 + "s");
+  AppendingStringBuffer defaultValue=new AppendingStringBuffer(128);
+  defaultValue.append("Server parsetime: ");
+  defaultValue.append(((double)timeTaken) / 1000);
+  defaultValue.append("s, Client parsetime: ' + (new Date().getTime() - clientTimeVariable)/1000 +  's");
+  String txt=Application.get().getResourceSettings().getLocalizer().getString(resourceKey,null,Model.valueOf(map),Session.get().getLocale(),Session.get().getStyle(),defaultValue.toString());
+  return txt;
+}
