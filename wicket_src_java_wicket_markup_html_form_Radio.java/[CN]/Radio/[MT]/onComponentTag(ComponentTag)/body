@@ -4,10 +4,10 @@
   checkComponentTagAttribute(tag,"type","radio");
   final RadioGroup group=findParent(RadioGroup.class);
   final String path=getPath();
-  final String relativePath=path.substring(group.getPath().length() + 1);
   if (group == null) {
     throw new WicketRuntimeException("Radio component [" + path + "] cannot find its parent RadioGroup. All Radio components must be a child of or below in the hierarchy of a RadioGroup component.");
   }
+  final String relativePath=path.substring(group.getPath().length() + 1);
   tag.put("name",group.getInputName());
   tag.put("value",relativePath);
   if (group.hasRawInput()) {
