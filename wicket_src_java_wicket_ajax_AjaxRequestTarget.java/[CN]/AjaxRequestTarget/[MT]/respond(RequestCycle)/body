@@ -1,5 +1,13 @@
 {
   try {
+    CharSequence url=null;
+    if (requestTarget != null) {
+      url=requestCycle.urlFor(requestTarget);
+      if (url == null) {
+        requestTarget.respond(requestCycle);
+        return;
+      }
+    }
     final Application app=Application.get();
     final boolean oldUseCheck=app.getDebugSettings().getComponentUseCheck();
     app.getDebugSettings().setComponentUseCheck(false);
@@ -14,7 +22,7 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
-    if (requestTarget == null) {
+    if (url == null) {
       Iterator it=prependJavascripts.iterator();
       while (it.hasNext()) {
         String js=(String)it.next();
@@ -35,7 +43,6 @@
       }
     }
  else {
-      CharSequence url=RequestCycle.get().urlFor(requestTarget);
       if (requestTarget instanceof IPageRequestTarget) {
         Session.get().touch(((IPageRequestTarget)requestTarget).getPage());
       }
