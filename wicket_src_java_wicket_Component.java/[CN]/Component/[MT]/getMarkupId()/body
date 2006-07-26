@@ -2,8 +2,9 @@
   String id=getMarkupAttributes().getString("id");
   if (id == null) {
     id=getPageRelativePath();
+    id=id.replace("_","__");
+    id=id.replace(':','_');
     getMarkupAttributes().put("id",id);
   }
-  id=id.replace(':','_');
   return id;
 }
