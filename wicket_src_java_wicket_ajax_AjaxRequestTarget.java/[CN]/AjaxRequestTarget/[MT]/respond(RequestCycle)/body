@@ -14,19 +14,28 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
-    for (    String js : prependJavascripts) {
-      respondInvocation(response,js);
+    if (requestTarget == null) {
+      for (      String js : prependJavascripts) {
+        respondInvocation(response,js);
+      }
+      Iterator<Entry<String,Component>> it=markupIdToComponent.entrySet().iterator();
+      while (it.hasNext()) {
+        final Map.Entry<String,Component> entry=it.next();
+        final Component component=entry.getValue();
+        final String markupId=entry.getKey();
+        respondHeaderContribution(response,component);
+        respondComponent(response,markupId,component);
+      }
+      for (      String js : appendJavascripts) {
+        respondInvocation(response,js);
+      }
     }
-    Iterator<Entry<String,Component>> it=markupIdToComponent.entrySet().iterator();
-    while (it.hasNext()) {
-      final Map.Entry<String,Component> entry=it.next();
-      final Component component=entry.getValue();
-      final String markupId=entry.getKey();
-      respondHeaderContribution(response,component);
-      respondComponent(response,markupId,component);
-    }
-    for (    String js : appendJavascripts) {
-      respondInvocation(response,js);
+ else {
+      CharSequence url=RequestCycle.get().urlFor(requestTarget);
+      if (requestTarget instanceof IPageRequestTarget) {
+        Session.get().touch(((IPageRequestTarget)requestTarget).getPage());
+      }
+      respondInvocation(response,"window.location='" + url + "';");
     }
     response.write("</ajax-response>");
     app.getDebugSettings().setComponentUseCheck(oldUseCheck);
