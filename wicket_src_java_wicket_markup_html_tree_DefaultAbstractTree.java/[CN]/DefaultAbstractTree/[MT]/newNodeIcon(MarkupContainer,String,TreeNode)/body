@@ -1,8 +1,9 @@
 {
-  return new Image(parent,id){
+  return new WebMarkupContainer(parent,id){
     private static final long serialVersionUID=1L;
-    @Override protected ResourceReference getImageResourceReference(){
-      return getNodeIcon(node);
+    @Override protected void onComponentTag(    ComponentTag tag){
+      super.onComponentTag(tag);
+      tag.put("style","background-image: url('" + RequestCycle.get().urlFor(getNodeIcon(node)) + "')");
     }
   }
 ;
