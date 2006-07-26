@@ -14,23 +14,32 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
-    Iterator it=prependJavascripts.iterator();
-    while (it.hasNext()) {
-      String js=(String)it.next();
-      respondInvocation(response,js);
+    if (requestTarget == null) {
+      Iterator it=prependJavascripts.iterator();
+      while (it.hasNext()) {
+        String js=(String)it.next();
+        respondInvocation(response,js);
+      }
+      it=markupIdToComponent.entrySet().iterator();
+      while (it.hasNext()) {
+        final Map.Entry entry=(Entry)it.next();
+        final Component component=(Component)entry.getValue();
+        final String markupId=(String)entry.getKey();
+        respondHeaderContribution(response,component);
+        respondComponent(response,markupId,component);
+      }
+      it=appendJavascripts.iterator();
+      while (it.hasNext()) {
+        String js=(String)it.next();
+        respondInvocation(response,js);
+      }
     }
-    it=markupIdToComponent.entrySet().iterator();
-    while (it.hasNext()) {
-      final Map.Entry entry=(Entry)it.next();
-      final Component component=(Component)entry.getValue();
-      final String markupId=(String)entry.getKey();
-      respondHeaderContribution(response,component);
-      respondComponent(response,markupId,component);
-    }
-    it=appendJavascripts.iterator();
-    while (it.hasNext()) {
-      String js=(String)it.next();
-      respondInvocation(response,js);
+ else {
+      CharSequence url=RequestCycle.get().urlFor(requestTarget);
+      if (requestTarget instanceof IPageRequestTarget) {
+        Session.get().touch(((IPageRequestTarget)requestTarget).getPage());
+      }
+      respondInvocation(response,"window.location='" + url + "';");
     }
     response.write("</ajax-response>");
     app.getDebugSettings().setComponentUseCheck(oldUseCheck);
