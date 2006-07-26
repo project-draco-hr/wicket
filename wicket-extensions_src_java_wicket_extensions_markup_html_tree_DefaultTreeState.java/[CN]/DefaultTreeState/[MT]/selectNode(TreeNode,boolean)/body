@@ -1,0 +1,26 @@
+{
+  if (selected == true && selectedNodes.contains(node) == false) {
+    if (isAllowSelectMultiple() == false && selectedNodes.size() > 0) {
+      for (Iterator i=selectedNodes.iterator(); i.hasNext(); ) {
+        TreeNode current=(TreeNode)i.next();
+        i.remove();
+        for (Iterator j=listeners.iterator(); j.hasNext(); ) {
+          ITreeStateListener l=(ITreeStateListener)j.next();
+          l.nodeUnselected(current);
+        }
+      }
+    }
+    selectedNodes.add(node);
+    for (Iterator i=listeners.iterator(); i.hasNext(); ) {
+      ITreeStateListener l=(ITreeStateListener)i.next();
+      l.nodeSelected(node);
+    }
+  }
+ else   if (selected == false && selectedNodes.contains(node) == true) {
+    selectedNodes.remove(node);
+    for (Iterator i=listeners.iterator(); i.hasNext(); ) {
+      ITreeStateListener l=(ITreeStateListener)i.next();
+      l.nodeUnselected(node);
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  super.internalAttach();
+  if (attached == false) {
+    checkModel();
+    if (dirtyAll && rootItem != null) {
+      clearAllItem();
+    }
+ else {
+      rebuildDirty();
+    }
+    if (rootItem == null) {
+      TreeNode rootNode=(TreeNode)((TreeModel)getModelObject()).getRoot();
+      if (rootNode != null) {
+        if (isRootLess()) {
+          rootItem=newTreeItem(rootNode,-1);
+          rootItem.setVisible(false);
+        }
+ else {
+          rootItem=newTreeItem(rootNode,0);
+        }
+        buildItemChildren(rootItem);
+      }
+    }
+    attached=true;
+  }
+}

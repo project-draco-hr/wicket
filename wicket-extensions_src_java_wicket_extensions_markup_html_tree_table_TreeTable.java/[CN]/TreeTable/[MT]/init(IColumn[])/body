@@ -1,0 +1,14 @@
+{
+  boolean found=false;
+  if (columns != null)   for (int i=0; i < columns.length; i++) {
+    IColumn column=columns[i];
+    if (column instanceof AbstractTreeColumn) {
+      found=true;
+      break;
+    }
+  }
+  if (found == false) {
+    throw new IllegalArgumentException("At least one column in TreeTable must be derived from AbstractTreeColumn.");
+  }
+  this.columns=columns;
+}
