@@ -12,27 +12,27 @@
   l2.add("test 2.4");
   l1.add(l2);
   l1.add("test 1.3");
-  new NestedList(this,"nestedList",l1);
+  new RecursivePanel(this,"panels",l1);
   TreeModel treeModel=convertToTreeModel(l1);
   final Tree tree=new Tree(this,"tree",treeModel){
-    @Override protected String getNodeLabel(    DefaultMutableTreeNode node){
-      Object userObject=node.getUserObject();
-      return (userObject instanceof List) ? "<sub>" : String.valueOf(node.getUserObject());
+    /** 
+ * @see wicket.markup.html.tree.Tree#renderNode(javax.swing.tree.TreeNode)
+ */
+    @Override protected String renderNode(    TreeNode node){
+      return node.isLeaf() ? node.toString() : "<sub>";
     }
   }
 ;
   new Link(this,"expandAll"){
     @Override public void onClick(){
-      tree.expandAll(true);
+      tree.getTreeState().expandAll();
     }
   }
 ;
   new Link(this,"collapseAll"){
     @Override public void onClick(){
-      tree.expandAll(false);
+      tree.getTreeState().collapseAll();
     }
   }
 ;
-  new MyTree(this,"tree2",treeModel);
-  new AnotherTree(this,"tree3",treeModel);
 }
