@@ -1,0 +1,30 @@
+{
+  PortletURL url;
+  final RequestListenerInterface rli=requestTarget.getRequestListenerInterface();
+  try {
+    url=getActionURL(requestCycle);
+  }
+ catch (  WicketRuntimeException e) {
+    return null;
+  }
+  if (IResourceListener.class.isAssignableFrom(rli.getMethod().getDeclaringClass())) {
+    return encodeServletRequest(requestCycle,requestTarget);
+  }
+  final Component component=requestTarget.getTarget();
+  final Page page=component.getPage();
+  final PageMap pageMap=page.getPageMap();
+  if (!pageMap.isDefault()) {
+    url.setParameter(PAGEMAP,pageMap.getName());
+  }
+  url.setParameter(COMPONENT_PATH_PARAMETER_NAME,component.getPath());
+  final int versionNumber=component.getPage().getCurrentVersionNumber();
+  if (!rli.getRecordsPageVersion()) {
+    url.setParameter(VERSION_PARAMETER_NAME,String.valueOf(Page.LATEST_VERSION));
+  }
+ else   if (versionNumber > 0) {
+    url.setParameter(VERSION_PARAMETER_NAME,String.valueOf(versionNumber));
+  }
+  final String listenerName=rli.getName();
+  url.setParameter(INTERFACE_PARAMETER_NAME,listenerName);
+  return url.toString();
+}

@@ -1,0 +1,18 @@
+{
+  Application.set(portletApplication);
+  final WicketPortletResponse response=portletApplication.newPortletResponse(res);
+  final WicketPortletRequest request=portletApplication.newPortletRequest(req);
+  final WicketPortletSession session=portletApplication.getSession(request);
+  try {
+    PortletRequestCycle cycle=(PortletRequestCycle)session.newRequestCycle(request,response);
+    try {
+      cycle.request();
+    }
+ catch (    AbortException e) {
+    }
+  }
+  finally {
+    Session.unset();
+    Application.unset();
+  }
+}
