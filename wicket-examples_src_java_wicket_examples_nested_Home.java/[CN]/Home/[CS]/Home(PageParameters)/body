@@ -15,12 +15,14 @@
   add(new RecursivePanel("panels",l1));
   TreeModel treeModel=convertToTreeModel(l1);
   final Tree tree=new Tree("tree",treeModel){
-    protected String getNodeLabel(    DefaultMutableTreeNode node){
-      Object userObject=node.getUserObject();
-      return (userObject instanceof List) ? "<sub>" : String.valueOf(node.getUserObject());
+    protected String renderNode(    TreeNode node){
+      DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)node;
+      Object userObject=treeNode.getUserObject();
+      return (userObject instanceof List) ? "<subtree>" : String.valueOf(treeNode.getUserObject());
     }
   }
 ;
+  tree.setLinkType(LinkType.REGULAR);
   add(tree);
   add(new Link("expandAll"){
     public void onClick(){
