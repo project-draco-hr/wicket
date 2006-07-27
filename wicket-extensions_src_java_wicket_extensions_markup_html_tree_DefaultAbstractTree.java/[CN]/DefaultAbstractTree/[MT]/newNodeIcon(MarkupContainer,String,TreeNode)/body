@@ -1,11 +1,9 @@
 {
-  return new Image(id){
+  return new WebMarkupContainer(id){
     private static final long serialVersionUID=1L;
-    /** 
- * @see wicket.markup.html.image.Image#getImageResourceReference()
- */
-    protected ResourceReference getImageResourceReference(){
-      return getNodeIcon(node);
+    protected void onComponentTag(    ComponentTag tag){
+      super.onComponentTag(tag);
+      tag.put("style","background-image: url('" + RequestCycle.get().urlFor(getNodeIcon(node)) + "')");
     }
   }
 ;
