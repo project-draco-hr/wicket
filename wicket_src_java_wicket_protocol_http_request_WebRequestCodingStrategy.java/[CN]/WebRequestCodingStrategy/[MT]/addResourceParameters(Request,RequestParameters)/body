@@ -1,18 +1,23 @@
 {
   String pathInfo=request.getPath();
-  if (pathInfo != null && pathInfo.startsWith("/resources/")) {
-    int ix="/resources/".length();
-    if (pathInfo.length() > ix) {
-      StringBuilder path=new StringBuilder(pathInfo.substring(ix));
-      int ixSemiColon=path.indexOf(";");
-      if (ixSemiColon != -1) {
-        int ixEnd=path.indexOf("?");
-        if (ixEnd == -1) {
-          ixEnd=path.length();
+  if (pathInfo != null) {
+    if (pathInfo.startsWith("/")) {
+      pathInfo=pathInfo.substring(1);
+    }
+    if (pathInfo.startsWith("resources/")) {
+      int ix="resources/".length();
+      if (pathInfo.length() > ix) {
+        StringBuilder path=new StringBuilder(pathInfo.substring(ix));
+        int ixSemiColon=path.indexOf(";");
+        if (ixSemiColon != -1) {
+          int ixEnd=path.indexOf("?");
+          if (ixEnd == -1) {
+            ixEnd=path.length();
+          }
+          path.delete(ixSemiColon,ixEnd);
         }
-        path.delete(ixSemiColon,ixEnd);
+        parameters.setResourceKey(path.toString());
       }
-      parameters.setResourceKey(path.toString());
     }
   }
 }
