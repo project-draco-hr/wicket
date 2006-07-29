@@ -1,0 +1,36 @@
+{
+  if (requestTarget instanceof PageRequestTarget) {
+    final PageRequestTarget target=(PageRequestTarget)requestTarget;
+    final Response response=RequestCycle.get().getResponse();
+    final Page page=target.getPage();
+    final HtmlHeaderContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
+    if (page.get(HtmlHeaderSectionHandler.HEADER_ID) != null) {
+      page.replace(header);
+    }
+ else {
+      page.add(header);
+    }
+    page.visitChildren(new Component.IVisitor(){
+      public Object component(      Component component){
+        if (component.isVisible()) {
+          component.renderHead(header);
+          return CONTINUE_TRAVERSAL;
+        }
+ else {
+          return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+        }
+      }
+    }
+);
+    header.visitChildren(new Component.IVisitor(){
+      public Object component(      Component component){
+        page.startComponentRender(component);
+        component.renderComponent();
+        page.endComponentRender(component);
+        return CONTINUE_TRAVERSAL;
+      }
+    }
+);
+    page.remove(header);
+  }
+}
