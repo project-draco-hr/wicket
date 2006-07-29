@@ -2,7 +2,7 @@
   String redirectUrl=null;
   IRequestCycleSettings settings=application.getRequestCycleSettings();
   if ((settings.getRenderStrategy() == RenderStrategy.REDIRECT_TO_BUFFER) && (application instanceof WebApplication)) {
-    final WebResponse currentResponse=getResponse();
+    final WebResponse currentResponse=getWebResponse();
     try {
       final BufferedHttpServletResponse servletResponse=new BufferedHttpServletResponse(currentResponse.getHttpServletResponse());
       final WebResponse redirectResponse=new WebResponse(servletResponse){
