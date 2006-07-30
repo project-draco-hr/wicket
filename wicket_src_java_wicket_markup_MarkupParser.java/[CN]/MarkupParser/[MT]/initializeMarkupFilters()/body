@@ -1,0 +1,23 @@
+{
+  this.markupFilterChain=xmlParser;
+  registerMarkupFilter(new WicketTagIdentifier(markup));
+  registerMarkupFilter(new TagTypeHandler());
+  registerMarkupFilter(new HtmlHandler());
+  registerMarkupFilter(new WicketRemoveTagHandler());
+  registerMarkupFilter(new WicketLinkTagHandler());
+  registerMarkupFilter(new WicketNamespaceHandler(markup));
+  final MarkupResourceStream resource=markup.getResource();
+  if (resource != null) {
+    final ContainerInfo containerInfo=resource.getContainerInfo();
+    if (containerInfo != null) {
+      if (WicketMessageTagHandler.enable) {
+        registerMarkupFilter(new WicketMessageTagHandler(containerInfo));
+      }
+      registerMarkupFilter(new BodyOnLoadHandler());
+      if (Page.class.isAssignableFrom(containerInfo.getContainerClass())) {
+        registerMarkupFilter(new HtmlHeaderSectionHandler(this.markup));
+      }
+      registerMarkupFilter(new HeadForceTagIdHandler(containerInfo.getContainerClass()));
+    }
+  }
+}
