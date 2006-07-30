@@ -1,23 +1,16 @@
 {
-  final List autoAddList=new ArrayList();
-  this.markupFilterChain=newFilterChain(autoAddList);
+  initializeMarkupFilters();
   initFilterChain();
-  boolean stripComments=this.markupSettings.getStripComments();
-  boolean compressWhitespace=this.markupSettings.getCompressWhitespace();
+  final boolean stripComments=this.markupSettings.getStripComments();
+  final boolean compressWhitespace=this.markupSettings.getCompressWhitespace();
   try {
+    int size=this.markup.size();
     for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
       boolean add=(tag.getId() != null);
       if (!add && tag.getXmlTag().isClose()) {
         add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
       }
-      RawMarkup replaceTag=null;
-      if (tag.isOpen() && "html".equals(tag.getName().toLowerCase())) {
-        add|=determineWicketNamespace(tag);
-        if ((add == true) && (tag.getId() == null)) {
-          replaceTag=new RawMarkup(tag.toCharSequence());
-        }
-      }
-      if (add || (autoAddList.size() > 0) || tag.isModified()) {
+      if (add || tag.isModified()) {
         final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
         if (text.length() > 0) {
           String rawMarkup=text.toString();
@@ -25,44 +18,31 @@
             rawMarkup=removeComment(rawMarkup);
           }
           if (compressWhitespace) {
-            rawMarkup=rawMarkup.replaceAll("[ \\t]+"," ");
-            rawMarkup=rawMarkup.replaceAll("( ?[\\r\\n] ?)+","\n");
+            rawMarkup=compressWhitespace(rawMarkup);
           }
-          this.markup.addMarkupElement(new RawMarkup(rawMarkup));
+          this.markup.addMarkupElement(size,new RawMarkup(rawMarkup));
         }
-        if ((add == false) && (autoAddList.size() > 0)) {
-          xmlParser.setPositionMarker(tag.getPos());
-        }
-        for (int i=0; i < autoAddList.size(); i++) {
-          this.markup.addMarkupElement((MarkupElement)autoAddList.get(i));
-        }
-        autoAddList.clear();
-      }
-      if (add) {
-        if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
-          if (replaceTag != null) {
-            this.markup.addMarkupElement(replaceTag);
-          }
- else {
+        if (add) {
+          if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
             this.markup.addMarkupElement(tag);
           }
         }
+ else         if (tag.isModified()) {
+          this.markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
+        }
         xmlParser.setPositionMarker();
       }
- else       if (tag.isModified()) {
-        this.markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
-        xmlParser.setPositionMarker();
-      }
+      size=this.markup.size();
     }
   }
- catch (  ParseException ex) {
+ catch (  final ParseException ex) {
     final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
     if (text.length() > 0) {
       this.markup.addMarkupElement(new RawMarkup(text));
     }
     this.markup.setEncoding(xmlParser.getEncoding());
     this.markup.setXmlDeclaration(xmlParser.getXmlDeclaration());
-    MarkupStream markupStream=new MarkupStream(markup);
+    final MarkupStream markupStream=new MarkupStream(markup);
     markupStream.setCurrentIndex(this.markup.size() - 1);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }

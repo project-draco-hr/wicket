@@ -1,0 +1,13 @@
+{
+  final ComponentTag tag=nextComponentTag();
+  if (tag == null) {
+    return tag;
+  }
+  if (tag.isOpen() && "html".equals(tag.getName().toLowerCase())) {
+    final String namespace=determineWicketNamespace(tag);
+    if (namespace != null) {
+      markup.setWicketNamespace(namespace);
+    }
+  }
+  return tag;
+}
