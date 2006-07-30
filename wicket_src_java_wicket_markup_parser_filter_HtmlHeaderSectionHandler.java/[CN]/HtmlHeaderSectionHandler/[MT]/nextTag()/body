@@ -1,22 +1,27 @@
 {
-  ComponentTag tag=(ComponentTag)getParent().nextTag();
+  final ComponentTag tag=nextComponentTag();
   if (tag == null) {
     return tag;
   }
   if (ignoreTheRest == true) {
     return tag;
   }
-  if (("head".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() == null)) {
-    if (tag.isClose()) {
+  if (HEAD.equalsIgnoreCase(tag.getName())) {
+    if (tag.getNamespace() == null) {
+      if (tag.isClose()) {
+        foundHead=true;
+      }
+ else       if (tag.getId() == null) {
+        tag.setId(HEADER_ID);
+      }
+      tag.setInternalTag(true);
+      return tag;
+    }
+ else {
       foundHead=true;
     }
-    tag.setId(HEADER_ID);
-    return tag;
   }
- else   if (("head".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() != null)) {
-    foundHead=true;
-  }
- else   if (("body".equalsIgnoreCase(tag.getName()) == true) && (tag.getNamespace() == null)) {
+ else   if (BODY.equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
     if (foundHead == false) {
       insertHeadTag();
     }

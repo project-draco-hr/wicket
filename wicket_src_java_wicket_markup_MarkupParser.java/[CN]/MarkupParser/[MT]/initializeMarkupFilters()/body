@@ -13,10 +13,11 @@
       if (WicketMessageTagHandler.enable) {
         appendMarkupFilter(new WicketMessageTagHandler(containerInfo));
       }
-      appendMarkupFilter(new BodyOnLoadHandler(null));
+      appendMarkupFilter(new BodyOnLoadHandler());
       if (Page.class.isAssignableFrom(containerInfo.getContainerClass())) {
         appendMarkupFilter(new HtmlHeaderSectionHandler(this.markup));
       }
+      appendMarkupFilter(new HeadForceTagIdHandler(containerInfo.getContainerClass()));
     }
   }
 }
