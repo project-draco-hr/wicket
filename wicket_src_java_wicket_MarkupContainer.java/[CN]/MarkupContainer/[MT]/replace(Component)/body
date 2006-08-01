@@ -7,11 +7,11 @@
   }
   if (child.getParent() != this) {
     final Component replaced=put(child);
-    addedComponent(child);
     if (replaced == null) {
       throw new WicketRuntimeException(exceptionMessage("Cannot replace a component which has not been added: id='" + child.getId() + "', component="+ child));
     }
     removedComponent(replaced);
+    addedComponent(child);
     child.markupIndex=replaced.markupIndex;
   }
   return this;
