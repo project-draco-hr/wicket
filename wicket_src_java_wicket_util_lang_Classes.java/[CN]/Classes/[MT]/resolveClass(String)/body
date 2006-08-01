@@ -1,0 +1,12 @@
+{
+  if (Application.isAttached()) {
+    return Application.get().getApplicationSettings().getClassResolver().resolveClass(className);
+  }
+  try {
+    return Class.forName(className);
+  }
+ catch (  ClassNotFoundException e) {
+    e.printStackTrace();
+    return null;
+  }
+}
