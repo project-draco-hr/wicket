@@ -1,7 +1,7 @@
 {
   if (dirtyAll == false) {
     TreeItem item=(TreeItem)nodeToItemMap.get(node);
-    if (forceRebuld) {
+    if (forceRebuld && item != null) {
       int level=item.getLevel();
       List children=item.getChildren();
       String id=item.getId();
@@ -9,6 +9,9 @@
       int index=parent != null ? parent.getChildren().indexOf(item) : -1;
       item.remove();
       item=newTreeItem(node,level,id);
+      if (level == -1) {
+        item.setVisible(false);
+      }
       itemContainer.add(item);
       item.setChildren(children);
       if (parent == null) {
