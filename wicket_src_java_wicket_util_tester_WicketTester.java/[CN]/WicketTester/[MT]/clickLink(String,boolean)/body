@@ -1,0 +1,72 @@
+{
+  Component linkComponent=getComponentFromLastRenderedPage(path);
+  if (linkComponent instanceof AjaxLink) {
+    if (isAjax == false) {
+      Assert.fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
+    }
+    AjaxLink link=(AjaxLink)linkComponent;
+    setupRequestAndResponse();
+    RequestCycle requestCycle=createRequestCycle();
+    AjaxRequestTarget target=new AjaxRequestTarget();
+    requestCycle.setRequestTarget(target);
+    link.onClick(target);
+    target.respond(requestCycle);
+  }
+ else   if (linkComponent instanceof AjaxFallbackLink && isAjax) {
+    AjaxFallbackLink link=(AjaxFallbackLink)linkComponent;
+    setupRequestAndResponse();
+    RequestCycle requestCycle=createRequestCycle();
+    AjaxRequestTarget target=new AjaxRequestTarget();
+    requestCycle.setRequestTarget(target);
+    link.onClick(target);
+    target.respond(requestCycle);
+  }
+ else   if (linkComponent instanceof AjaxSubmitLink) {
+    if (isAjax == false) {
+      Assert.fail("Link " + path + "is an AjaxSubmitLink and "+ "will not be invoked when AJAX (javascript) is disabled.");
+    }
+    AjaxSubmitLink link=(AjaxSubmitLink)linkComponent;
+    List behaviors=link.getBehaviors();
+    AjaxFormSubmitBehavior ajaxFormSubmitBehavior=null;
+    for (    Object behavior : behaviors) {
+      if (behavior instanceof AjaxFormSubmitBehavior) {
+        AjaxFormSubmitBehavior submitBehavior=(AjaxFormSubmitBehavior)behavior;
+        ajaxFormSubmitBehavior=submitBehavior;
+      }
+    }
+    String failMessage="No form submit behavior found on the submit link. Strange!!";
+    Assert.assertNotNull(failMessage,ajaxFormSubmitBehavior);
+    Form form=null;
+    try {
+      Field formField=AjaxFormSubmitBehavior.class.getDeclaredField("form");
+      formField.setAccessible(true);
+      form=(Form)formField.get(ajaxFormSubmitBehavior);
+    }
+ catch (    Exception e) {
+      Assert.fail(e.getMessage());
+    }
+    failMessage="No form attached to the submitlink.";
+    Assert.assertNotNull(failMessage,form);
+    setupRequestAndResponse();
+    RequestCycle requestCycle=createRequestCycle();
+    form.visitFormComponents(new FormComponent.IVisitor(){
+      public void formComponent(      FormComponent formComponent){
+        if (!(formComponent instanceof Button) && !(formComponent instanceof RadioGroup)) {
+          String name=formComponent.getInputName();
+          String value=formComponent.getValue();
+          getServletRequest().setParameter(name,value);
+        }
+      }
+    }
+);
+    ajaxFormSubmitBehavior.onRequest();
+    requestCycle.getRequestTarget().respond(requestCycle);
+  }
+ else   if (linkComponent instanceof Link) {
+    Link link=(Link)linkComponent;
+    newRequestToComponent(link);
+  }
+ else {
+    Assert.fail("Link " + path + " is not a Link, AjaxLink, AjaxFallbackLink or AjaxSubmitLink");
+  }
+}
