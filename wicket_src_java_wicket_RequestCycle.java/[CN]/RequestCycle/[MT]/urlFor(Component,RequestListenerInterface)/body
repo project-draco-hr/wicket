@@ -1,7 +1,13 @@
 {
   final Page page=component.getPage();
-  session.getSessionStore().getSessionId(request,true);
-  final IRequestTarget target=new ListenerInterfaceRequestTarget(page,component,listener);
+  final IRequestTarget target;
+  if (component.getStatelessHint() && page.isBookmarkable()) {
+    target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMap().getName(),page.getClass(),new PageParameters(),component,listener);
+  }
+ else {
+    session.getSessionStore().getSessionId(request,true);
+    target=new ListenerInterfaceRequestTarget(page,component,listener);
+  }
   final IRequestCodingStrategy requestCodingStrategy=getProcessor().getRequestCodingStrategy();
   return requestCodingStrategy.encode(this,target);
 }

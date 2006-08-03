@@ -5,16 +5,11 @@
     Class<? extends Page> homePageClass=application.getHomePage();
     PageParameters parameters=new PageParameters(requestParameters.getParameters());
     BookmarkablePageRequestTarget homepageTarget=null;
-    if (requestParameters.getBookmarkableFormName() != null) {
-      homepageTarget=new BookmarkableFormPageRequestTarget(null,homePageClass,parameters,requestParameters.getBookmarkableFormName());
-    }
- else {
-      homepageTarget=new BookmarkablePageRequestTarget(homePageClass,parameters);
-      IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
-      CharSequence path=requestCodingStrategy.pathForTarget(homepageTarget);
-      if (path != null) {
-        requestCycle.setRedirect(true);
-      }
+    homepageTarget=new BookmarkablePageRequestTarget(homePageClass,parameters);
+    IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
+    CharSequence path=requestCodingStrategy.pathForTarget(homepageTarget);
+    if (path != null) {
+      requestCycle.setRedirect(true);
     }
     return homepageTarget;
   }

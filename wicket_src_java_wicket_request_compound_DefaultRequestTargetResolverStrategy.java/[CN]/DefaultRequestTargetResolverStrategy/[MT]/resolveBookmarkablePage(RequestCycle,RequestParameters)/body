@@ -11,10 +11,14 @@
   try {
     PageParameters params=new PageParameters(requestParameters.getParameters());
     if (requestParameters.getComponentPath() != null && requestParameters.getInterfaceName() != null) {
-      return new BookmarkableListenerInterfaceRequestTarget(requestParameters.getPageMapName(),pageClass,params,requestParameters.getComponentPath(),requestParameters.getInterfaceName());
-    }
- else     if (requestParameters.getBookmarkableFormName() != null) {
-      return new BookmarkableFormPageRequestTarget(requestParameters.getPageMapName(),pageClass,params,requestParameters.getBookmarkableFormName());
+      final String componentPath=requestParameters.getComponentPath();
+      final Page page=session.getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
+      if (page != null && page.getClass() == pageClass) {
+        return resolveListenerInterfaceTarget(requestCycle,page,componentPath,requestParameters.getInterfaceName(),requestParameters);
+      }
+ else {
+        return new BookmarkableListenerInterfaceRequestTarget(requestParameters.getPageMapName(),pageClass,params,requestParameters.getComponentPath(),requestParameters.getInterfaceName());
+      }
     }
  else {
       return new BookmarkablePageRequestTarget(requestParameters.getPageMapName(),pageClass,params);
