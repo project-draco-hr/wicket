@@ -1,7 +1,10 @@
 {
-  if (!isEmpty() && (peek() instanceof AjaxRequestTarget)) {
-    AjaxRequestTarget ajaxRequestTarget=(AjaxRequestTarget)peek();
-    ajaxRequestTarget.setRequestTarget(requestTarget);
+  if (!isEmpty() && (peek() instanceof IRequestTargetInterceptor)) {
+    IRequestTargetInterceptor ajaxRequestTarget=(IRequestTargetInterceptor)peek();
+    IRequestTarget vetod=ajaxRequestTarget.onSetRequestTarget(requestTarget);
+    if (vetod != null) {
+      add(vetod);
+    }
   }
  else {
     add(requestTarget);
