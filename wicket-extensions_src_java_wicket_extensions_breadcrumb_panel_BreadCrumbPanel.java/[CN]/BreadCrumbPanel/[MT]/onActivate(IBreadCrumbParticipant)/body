@@ -1,6 +1,11 @@
 {
-  if (previous != null) {
+  if (getParent() != null) {
+    getParent().replace(this);
+  }
+ else   if (previous != null) {
     MarkupContainer parent=previous.getComponent().getParent();
-    parent.replace(this);
+    if (parent != null && parent.get(getId()) != null) {
+      parent.replace(this);
+    }
   }
 }
