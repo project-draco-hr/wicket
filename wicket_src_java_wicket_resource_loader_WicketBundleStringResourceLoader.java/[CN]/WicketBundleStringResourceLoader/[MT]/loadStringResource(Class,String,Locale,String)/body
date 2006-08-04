@@ -1,10 +1,10 @@
 {
   String value=super.loadStringResource(clazz,key,locale,style);
   if (value == null) {
-    value=super.loadStringResource(clazz,key,locale,null);
+    if (style != null)     value=super.loadStringResource(clazz,key,locale,null);
     if (value == null) {
-      value=super.loadStringResource(clazz,key,null,style);
-      if (value == null) {
+      if (locale != null)       value=super.loadStringResource(clazz,key,null,style);
+      if (value == null && style != null && locale != null) {
         value=super.loadStringResource(clazz,key,null,null);
       }
     }
