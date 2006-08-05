@@ -3,20 +3,7 @@
   setOutputMarkupId(true);
   super.onComponentTag(tag);
   tag.put("method","post");
-  Page page=getPage();
-  boolean addAction=true;
-  if (page.isStateless()) {
-    try {
-      BookmarkableListenerInterfaceRequestTarget target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMap().getName(),page.getClass(),new PageParameters(),this,IFormSubmitListener.INTERFACE);
-      tag.put("action",urlFor(target));
-      addAction=false;
-    }
- catch (    Exception e) {
-    }
-  }
-  if (addAction) {
-    tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.INTERFACE),"&","&amp;"));
-  }
+  tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.INTERFACE),"&","&amp;"));
   if (multiPart) {
     tag.put("enctype","multipart/form-data");
   }

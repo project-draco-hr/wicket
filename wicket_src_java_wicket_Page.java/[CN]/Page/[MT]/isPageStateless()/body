@@ -6,17 +6,9 @@
     final Object[] returnArray=new Object[1];
     Object returnValue=visitChildren(Component.class,new IVisitor(){
       public Object component(      Component<?> component){
-        if (!component.getStatelessHint()) {
+        if (!component.isStateless()) {
           returnArray[0]=component;
           return Boolean.FALSE;
-        }
-        final Iterator<IBehavior> behaviors=component.getBehaviors().iterator();
-        while (behaviors.hasNext()) {
-          IBehavior behavior=behaviors.next();
-          if (!behavior.getStatelessHint()) {
-            returnArray[0]=behavior;
-            return Boolean.FALSE;
-          }
         }
         return CONTINUE_TRAVERSAL;
       }
