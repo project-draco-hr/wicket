@@ -3,6 +3,7 @@
     byte bytes1[]=new byte[200];
     new Random().nextBytes(bytes1);
     byte[] s=new Base64UrlSafe().encode(bytes1);
+    assertNotNull(s);
     byte[] bytes2=new Base64UrlSafe().decode(s);
     boolean isEqual=ByteBuffer.wrap(bytes1).equals(ByteBuffer.wrap(bytes2));
     assertEquals(true,isEqual);
