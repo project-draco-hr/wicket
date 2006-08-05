@@ -38,7 +38,13 @@
           }
         }
         String fragmentId=fragment.getFragmentMarkupId();
-        String componentId=getComponentRelativePath(mc,parentWithAssociatedMarkup) + Component.PATH_SEPARATOR + mc.getId();
+        String componentId=getComponentRelativePath(mc,parentWithAssociatedMarkup);
+        if ((componentId == null) || (componentId.length() == 0)) {
+          componentId=mc.getId();
+        }
+ else {
+          componentId+=Component.PATH_SEPARATOR + mc.getId();
+        }
         relativePath=relativePath.replace(componentId,fragmentId);
         index=markupStream.findComponentIndex(relativePath,component.getId());
         if (index != -1) {
@@ -46,7 +52,7 @@
           return markupStream;
         }
       }
-      throw new WicketRuntimeException("Unable to find the markup for the component. That may be due to transparent containers or components implementing IComponentResolver: " + component.getId());
+      throw new WicketRuntimeException("Unable to find the markup for the component: " + component.getId());
     }
     markupStream=null;
   }
