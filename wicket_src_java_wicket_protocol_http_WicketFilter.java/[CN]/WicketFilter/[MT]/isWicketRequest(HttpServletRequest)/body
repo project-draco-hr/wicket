@@ -1,19 +1,12 @@
 {
   String fullRootPath=getRootPath(request);
   String url=request.getRequestURI();
-  if (Strings.isEmpty(request.getQueryString()) && url.equals(fullRootPath)) {
+  if (url.equals(fullRootPath)) {
     return true;
   }
   String tmp=Strings.join("/",fullRootPath,RESOURCES_PATH_PREFIX);
-  if (url.startsWith(Strings.join("/",fullRootPath,RESOURCES_PATH_PREFIX))) {
+  if (url.startsWith(tmp)) {
     return true;
-  }
-  Enumeration enumeration=request.getParameterNames();
-  while (enumeration.hasMoreElements()) {
-    String name=(String)enumeration.nextElement();
-    if (name.startsWith(WebRequestCodingStrategy.NAME_SPACE)) {
-      return true;
-    }
   }
   String path=url.substring(fullRootPath.length());
   return webApplication.getRequestCycleProcessor().getRequestCodingStrategy().urlCodingStrategyForPath(path) != null;
