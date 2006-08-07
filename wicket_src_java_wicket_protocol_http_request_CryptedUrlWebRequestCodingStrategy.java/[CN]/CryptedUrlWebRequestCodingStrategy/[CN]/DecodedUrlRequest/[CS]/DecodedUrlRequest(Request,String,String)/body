@@ -2,7 +2,14 @@
   this.request=request;
   this.parameterMap=this.request.getParameterMap();
   this.parameterMap.remove("x");
-  PageParameters params=new PageParameters(encodedParamReplacement,"&");
+  String decodedParamReplacement=encodedParamReplacement;
+  try {
+    decodedParamReplacement=URLDecoder.decode(encodedParamReplacement,Application.get().getRequestCycleSettings().getResponseRequestEncoding());
+  }
+ catch (  UnsupportedEncodingException ex) {
+    log.error("error decoding url: " + encodedParamReplacement,ex);
+  }
+  PageParameters params=new PageParameters(decodedParamReplacement,"&");
   this.parameterMap.putAll(params);
   int pos1=url.indexOf("?x=");
   if (pos1 == -1) {
