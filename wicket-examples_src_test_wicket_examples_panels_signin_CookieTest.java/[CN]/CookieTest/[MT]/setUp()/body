@@ -5,6 +5,7 @@
   application.setupRequestAndResponse();
   final ISecuritySettings settings=application.getSecuritySettings();
   settings.setCryptFactory(new NoCryptFactory());
+  this.page=new MockPage(null);
   this.panel=new SignInPanel(page,"panel"){
     @Override public boolean signIn(    final String username,    final String password){
       return true;
@@ -20,7 +21,5 @@
   this.cookiePassword=new Cookie("panel:signInForm:password",encryptedPassword);
   this.cookies=new Cookie[]{cookieUsername,cookiePassword};
   application.getServletRequest().setCookies(cookies);
-  new WebRequestCycle(application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
-  this.page=new MockPage(null);
   new WebRequestCycle(application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
 }
