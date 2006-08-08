@@ -1,0 +1,12 @@
+{
+  ServletContext sc=webapp.getWicketServlet().getServletContext();
+  final ApplicationContext applicationContext=WebApplicationContextUtils.getRequiredWebApplicationContext(sc);
+  ISpringContextLocator locator=new ISpringContextLocator(){
+    private static final long serialVersionUID=1L;
+    public ApplicationContext getSpringContext(){
+      return applicationContext;
+    }
+  }
+;
+  InjectorHolder.setInjector(new AnnotSpringInjector(locator));
+}
