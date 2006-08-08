@@ -1,5 +1,16 @@
 {
-  Label label=new Label("label",model);
+  Label label=new Label("label",model){
+    private static final long serialVersionUID=1L;
+    protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+      if (getModelObject() == null) {
+        replaceComponentTagBody(markupStream,openTag,defaultNullLabel());
+      }
+ else {
+        super.onComponentTagBody(markupStream,openTag);
+      }
+    }
+  }
+;
   label.setOutputMarkupId(true);
   label.add(new LabelAjaxBehavior("onclick"));
   return label;
