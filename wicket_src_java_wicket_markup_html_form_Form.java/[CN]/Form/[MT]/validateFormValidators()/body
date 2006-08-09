@@ -2,18 +2,6 @@
   final int multiCount=formValidators_size();
   for (int i=0; i < multiCount; i++) {
     final IFormValidator validator=formValidators_get(i);
-    final FormComponent[] dependents=validator.getDependentFormComponents();
-    boolean validate=true;
-    if (dependents != null) {
-      for (      final FormComponent dependent : dependents) {
-        if (!dependent.isValid()) {
-          validate=false;
-          break;
-        }
-      }
-    }
-    if (validate) {
-      validator.validate(this);
-    }
+    validateFormValidator(validator);
   }
 }
