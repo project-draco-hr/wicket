@@ -1,9 +1,6 @@
 {
   SessionData sd=null;
-  if (value instanceof Session) {
-    sd=createSessionData((Session)value);
-  }
- else {
+  if (!(value instanceof Session)) {
     sd=getSessionData();
   }
   if (value instanceof Page) {
@@ -11,9 +8,6 @@
   }
  else   if (value instanceof PageMap) {
     sd.pageMapCreated((PageMap)value);
-  }
- else   if (value instanceof WebSession) {
-    sd.webSessionCreated((WebSession)value);
   }
  else {
   }
