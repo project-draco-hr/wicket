@@ -1,12 +1,14 @@
 {
-  String configLocation=portletapp.getWicketPortlet().getInitParameter("contextConfigLocation");
   GenericApplicationContext ctx=new GenericApplicationContext();
-  XmlBeanDefinitionReader xmlReader=new XmlBeanDefinitionReader(ctx);
-  Resource resource=new ClassPathResource(configLocation);
-  if (!resource.exists()) {
-    resource=new FileSystemResource(configLocation);
+  String configLocation=portletapp.getWicketPortlet().getInitParameter("contextConfigLocation");
+  Resource resource=null;
+  try {
+    resource=new UrlResource(ResourceUtils.getURL(configLocation));
   }
-  xmlReader.loadBeanDefinitions(resource);
+ catch (  FileNotFoundException e) {
+    throw new RuntimeException(e.getMessage());
+  }
+  new XmlBeanDefinitionReader(ctx).loadBeanDefinitions(resource);
   ctx.refresh();
   portletapp.setMetaData(CONTEXT_KEY,new ApplicationContextHolder(ctx));
   InjectorHolder.setInjector(new AnnotSpringInjector(new ContextLocator()));
