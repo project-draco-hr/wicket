@@ -1,6 +1,16 @@
 {
   add(new Image("bug"));
-  add(new SessionView("session",sessionData.getSession()));
+  final Session session=sessionData.getSession();
+  add(new Label("id",session.getId()));
+  add(new Label("locale",session.getLocale().toString()));
+  add(new Label("style",session.getStyle() == null ? "[None]" : session.getStyle()));
+  add(new Label("size",new Model(){
+    private static final long serialVersionUID=1L;
+    public Object getObject(    Component component){
+      return Bytes.bytes(Objects.sizeof(session));
+    }
+  }
+));
   Model requestsModel=new Model(){
     private static final long serialVersionUID=1L;
     public Object getObject(    Component component){
