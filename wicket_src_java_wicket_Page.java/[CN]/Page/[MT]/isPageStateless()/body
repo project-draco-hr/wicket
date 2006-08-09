@@ -1,6 +1,9 @@
 {
   if (isBookmarkable() == false) {
     stateless=false;
+    if (getStatelessHint()) {
+      log.warn("Page '" + this + "' is not stateless because it is not bookmarkable, "+ "but the stateless hint is set to true!");
+    }
   }
   if (stateless == null) {
     final Object[] returnArray=new Object[1];
