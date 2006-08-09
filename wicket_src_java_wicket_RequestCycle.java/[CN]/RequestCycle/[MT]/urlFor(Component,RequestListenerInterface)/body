@@ -1,10 +1,11 @@
 {
   final Page page=component.getPage();
   final IRequestTarget target;
-  if (component.isStateless() && page.isBookmarkable()) {
+  if (listener != IRedirectListener.INTERFACE && component.isStateless() && page.isBookmarkable()) {
     target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMap().getName(),page.getClass(),new PageParameters(),component,listener);
   }
  else {
+    if (listener == IRedirectListener.INTERFACE)     page.setPageStateless(Boolean.FALSE);
     session.getSessionStore().getSessionId(request,true);
     target=new ListenerInterfaceRequestTarget(page,component,listener);
   }
