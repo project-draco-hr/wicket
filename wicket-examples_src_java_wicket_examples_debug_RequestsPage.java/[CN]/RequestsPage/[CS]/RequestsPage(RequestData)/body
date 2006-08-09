@@ -1,10 +1,29 @@
 {
   new Image(this,"bug");
-  new SessionView(this,"session",sessionData.getSession());
+  if (requestData == null) {
+    new Label(this,"id").setVisible(false);
+    new Label(this,"size").setVisible(false);
+    new WebMarkupContainer(this,"sessionid");
+  }
+ else {
+    new Label(this,"id",requestData.getSessionId());
+    new Label(this,"size",new Model<Bytes>(Bytes.bytes(requestData.getSessionSize())));
+    new WebMarkupContainer(this,"sessionid").setVisible(false);
+  }
   IModel<List<RequestData>> requestsModel=new Model<List<RequestData>>(){
     private static final long serialVersionUID=1L;
     @Override public List<RequestData> getObject(){
-      return new ArrayList<RequestData>(sessionData.getRequests());
+      List<RequestData> requests=getRequestLogger().getRequests();
+      if (requestData != null) {
+        List<RequestData> returnValues=new ArrayList<RequestData>();
+        for (        RequestData data : requests) {
+          if (requestData.getSessionId().equals(data.getSessionId())) {
+            returnValues.add(data);
+          }
+        }
+        return returnValues;
+      }
+      return requests;
     }
   }
 ;
@@ -13,6 +32,7 @@
     private final SimpleDateFormat sdf=new SimpleDateFormat("dd MMM hh:mm:ss.SSS");
     @Override protected void populateItem(    ListItem item){
       RequestData rd=(RequestData)item.getModelObject();
+      new Label(item,"id",new Model<String>(rd.getSessionId())).setVisible(requestData == null);
       new Label(item,"startDate",new Model<Date>(rd.getStartDate())){
         private static final long serialVersionUID=1L;
         /** 
@@ -36,6 +56,7 @@
       new Label(item,"eventTarget",new Model<String>(rd.getEventTargert()));
       new Label(item,"responseTarget",new Model<String>(rd.getResponseTarget()));
       new Label(item,"alteredObjects",new Model<String>(rd.getAlteredObjects())).setEscapeModelStrings(false);
+      new Label(item,"sessionSize",new Model<Bytes>(Bytes.bytes(rd.getSessionSize())));
     }
   }
 ;
