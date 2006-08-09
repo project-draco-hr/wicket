@@ -4,7 +4,10 @@
     if (log.isDebugEnabled()) {
       log.debug("commencing event handling for " + target);
     }
-    Application.get().logEventTarget(target);
+    IRequestLogger logger=Application.get().getRequestLogger();
+    if (logger != null) {
+      logger.logEventTarget(target);
+    }
     ((IEventProcessor)target).processEvents(requestCycle);
   }
 }

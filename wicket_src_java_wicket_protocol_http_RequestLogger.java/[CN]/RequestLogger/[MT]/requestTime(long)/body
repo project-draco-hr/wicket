@@ -1,4 +1,11 @@
 {
-  SessionData sd=getSessionData();
-  sd.endRequest(timeTaken);
+  RequestData rd=currentRequest.get();
+  if (rd != null) {
+    Session session=Session.get();
+    rd.setSessionId(session.getId());
+    rd.setSessionSize(session.getSizeInBytes());
+    rd.setTimeTaken(timeTaken);
+    requests.add(0,rd);
+    currentRequest.set(null);
+  }
 }

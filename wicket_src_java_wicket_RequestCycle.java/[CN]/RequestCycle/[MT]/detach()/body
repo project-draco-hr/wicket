@@ -23,5 +23,9 @@
  catch (  RuntimeException e) {
     log.error("Exception occurred during request detachement",e);
   }
+  IRequestLogger requestLogger=getApplication().getRequestLogger();
+  if (requestLogger != null) {
+    requestLogger.requestTime((System.currentTimeMillis() - startTime));
+  }
   threadDetach();
 }

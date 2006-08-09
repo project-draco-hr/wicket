@@ -1,7 +1,10 @@
 {
   IRequestTarget requestTarget=requestCycle.getRequestTarget();
   if (requestTarget != null) {
-    Application.get().logResponseTarget(requestTarget);
+    IRequestLogger logger=Application.get().getRequestLogger();
+    if (logger != null) {
+      logger.logResponseTarget(requestTarget);
+    }
     requestTarget.respond(requestCycle);
   }
 }

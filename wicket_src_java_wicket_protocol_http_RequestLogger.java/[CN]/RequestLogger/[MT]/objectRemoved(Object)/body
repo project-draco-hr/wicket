@@ -1,14 +1,17 @@
 {
-  SessionData sd=getSessionData();
+  RequestData rd=getCurrentRequest();
   if (value instanceof Page) {
-    sd.pageRemoved((Page)value);
+    Page page=(Page)value;
+    rd.addEntry("Page removed, id: " + page.getId() + ", class:"+ page.getClass());
   }
  else   if (value instanceof PageMap) {
-    sd.pageMapRemoved((PageMap)value);
+    PageMap map=(PageMap)value;
+    rd.addEntry("PageMap removed, name: " + (map.getName() == null ? "DEFAULT" : map.getName()));
   }
  else   if (value instanceof WebSession) {
-    sd.webSessionRemoved((WebSession)value);
+    rd.addEntry("Session removed");
   }
  else {
+    rd.addEntry("Custom object removed: " + value);
   }
 }

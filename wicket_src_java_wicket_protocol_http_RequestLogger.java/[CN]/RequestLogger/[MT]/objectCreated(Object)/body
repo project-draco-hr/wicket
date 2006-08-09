@@ -1,20 +1,17 @@
 {
-  SessionData sd=null;
+  RequestData rd=getCurrentRequest();
   if (value instanceof Session) {
-    sd=createSessionData((Session)value);
+    rd.addEntry("Session created");
   }
- else {
-    sd=getSessionData();
-  }
-  if (value instanceof Page) {
-    sd.pageCreated((Page)value);
+ else   if (value instanceof Page) {
+    Page page=(Page)value;
+    rd.addEntry("Page created, id: " + page.getId() + ", class:"+ page.getClass());
   }
  else   if (value instanceof PageMap) {
-    sd.pageMapCreated((PageMap)value);
-  }
- else   if (value instanceof WebSession) {
-    sd.webSessionCreated((WebSession)value);
+    PageMap map=(PageMap)value;
+    rd.addEntry("PageMap created, name: " + (map.getName() == null ? "DEFAULT" : map.getName()));
   }
  else {
+    rd.addEntry("Custom object created: " + value);
   }
 }
