@@ -1,0 +1,12 @@
+{
+  IHeaderContributor[] contributors=getHeaderContributors();
+  if (contributors == null) {
+    return;
+  }
+  for (int i=0; i < contributors.length; i++) {
+    if (response.wasRendered(contributors[i]) == false) {
+      contributors[i].renderHead(response);
+      response.markRendered(contributors[i]);
+    }
+  }
+}

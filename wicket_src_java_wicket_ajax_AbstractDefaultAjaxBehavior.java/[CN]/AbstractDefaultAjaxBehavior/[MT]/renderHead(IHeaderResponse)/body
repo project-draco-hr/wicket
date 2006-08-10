@@ -1,0 +1,10 @@
+{
+  super.renderHead(response);
+  final IAjaxSettings settings=Application.get().getAjaxSettings();
+  response.renderJavascriptReference(JAVASCRIPT);
+  if (settings.isAjaxDebugModeEnabled()) {
+    response.renderJavascript("wicketAjaxDebugEnable=true;","wicket-ajax-debug-enable");
+    response.renderJavascriptReference(JAVASCRIPT_DEBUG_DRAG);
+    response.renderJavascriptReference(JAVASCRIPT_DEBUG);
+  }
+}

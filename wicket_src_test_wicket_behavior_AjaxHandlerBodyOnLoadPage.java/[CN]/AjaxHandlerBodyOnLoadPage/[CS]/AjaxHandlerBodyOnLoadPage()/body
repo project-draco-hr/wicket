@@ -3,12 +3,12 @@
   MarkupContainer panel=new WebMarkupContainer(this,"panel");
   panel.add(new AbstractAjaxBehavior(){
     private static final long serialVersionUID=1L;
-    @Override protected String getImplementationId(){
-      return "test";
-    }
-    @Override protected void onRenderHeadInitContribution(    Response response){
-      super.onRenderHeadInitContribution(response);
-      getBodyContainer().addOnLoadModifier("myFunction();",null);
+    @Override public void renderHead(    IHeaderResponse response){
+      super.renderHead(response);
+      if (response.wasRendered("test") == false) {
+        getBodyContainer().addOnLoadModifier("myFunction();",null);
+        response.markRendered("test");
+      }
     }
     public void onRequest(){
     }

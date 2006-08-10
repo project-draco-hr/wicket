@@ -1,11 +1,14 @@
 {
   if (isHeadRendered() == false) {
+    if (this instanceof IHeaderContributor) {
+      ((IHeaderContributor)this).renderHead(container.getHeaderResponse());
+    }
     if (this.behaviors != null) {
       final Iterator<IBehavior> iter=this.behaviors.iterator();
       while (iter.hasNext()) {
         IBehavior behavior=iter.next();
         if (behavior instanceof IHeaderContributor) {
-          ((IHeaderContributor)behavior).renderHead(container.getResponse());
+          ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
         }
       }
     }
