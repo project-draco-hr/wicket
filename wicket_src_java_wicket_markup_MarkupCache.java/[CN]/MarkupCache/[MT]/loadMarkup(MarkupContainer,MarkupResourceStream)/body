@@ -1,0 +1,20 @@
+{
+  try {
+    IMarkup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser().readAndParse(markupResourceStream);
+    markup=checkForMarkupInheritance(container,markup);
+    markupCache.put(markupResourceStream.getCacheKey(),markup);
+    afterLoadListeners.notifyListeners(markupResourceStream);
+    return markup;
+  }
+ catch (  final ResourceStreamNotFoundException e) {
+    log.error("Unable to find markup from " + markupResourceStream,e);
+  }
+catch (  final IOException e) {
+    log.error("Unable to read markup from " + markupResourceStream,e);
+  }
+synchronized (markupCache) {
+    markupCache.remove(markupResourceStream.getCacheKey());
+    afterLoadListeners.remove(markupResourceStream);
+  }
+  return IMarkup.NO_MARKUP;
+}

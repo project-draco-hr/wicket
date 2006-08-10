@@ -8,26 +8,32 @@
       throw new WicketRuntimeException("Parameter clazz must be instance of container");
     }
   }
-  final CharSequence key=markupKey(container,clazz);
-  IMarkup markup=markupCache.get(key);
+  final IMarkupCacheKeyProvider markupCacheKeyProvider=getMarkupCacheKeyProvider(container);
+  final CharSequence cacheKey=markupCacheKeyProvider.getCacheKey(container,clazz);
+  IMarkup markup=null;
+  if (cacheKey != null) {
+    markup=markupCache.get(cacheKey);
+  }
   if (markup == null) {
 synchronized (markupCache) {
-      markup=markupCache.get(key);
+      markup=markupCache.get(cacheKey);
       if (markup == null) {
-        final MarkupResourceStreamLookupResult lookupResult=container.newMarkupResourceStream(containerClass);
-        if (lookupResult != null) {
-          if (lookupResult.getCacheKey() == null) {
-            lookupResult.setCacheKey(key);
+        final IMarkupResourceStreamProvider markupResourceStreamProvider=getMarkupResourceStreamProvider(container);
+        final IResourceStream resourceStream=markupResourceStreamProvider.getMarkupResourceStream(container,containerClass);
+        if (resourceStream != null) {
+          final MarkupResourceStream markupResourceStream;
+          if (resourceStream instanceof MarkupResourceStream) {
+            markupResourceStream=(MarkupResourceStream)resourceStream;
           }
-          final IResourceStream resourceStream=lookupResult.getResourceStream();
-          if (!(resourceStream instanceof MarkupResourceStream)) {
-            lookupResult.setResourceStream(new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass));
+ else {
+            markupResourceStream=new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
           }
-          markup=loadMarkupAndWatchForChanges(container,lookupResult);
+          markupResourceStream.setCacheKey(cacheKey);
+          markup=loadMarkupAndWatchForChanges(container,markupResourceStream);
         }
  else {
           markup=IMarkup.NO_MARKUP;
-          markupCache.put(key,markup);
+          markupCache.put(cacheKey,markup);
         }
       }
     }
