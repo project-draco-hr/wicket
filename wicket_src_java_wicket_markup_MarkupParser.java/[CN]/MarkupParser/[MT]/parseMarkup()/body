@@ -1,23 +1,19 @@
 {
-  initializeMarkupFilters();
-  initFilterChain();
-  final boolean stripComments=this.markupSettings.getStripComments();
-  final boolean compressWhitespace=this.markupSettings.getCompressWhitespace();
   try {
     int size=this.markup.size();
-    for (ComponentTag tag; null != (tag=(ComponentTag)markupFilterChain.nextTag()); ) {
+    for (ComponentTag tag; null != (tag=(ComponentTag)this.markupFilterChain.nextTag()); ) {
       boolean add=(tag.getId() != null);
       if (!add && tag.getXmlTag().isClose()) {
         add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
       }
       if (add || tag.isModified()) {
-        final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
+        final CharSequence text=this.xmlParser.getInputFromPositionMarker(tag.getPos());
         if (text.length() > 0) {
           String rawMarkup=text.toString();
-          if (stripComments) {
+          if (this.stripComments) {
             rawMarkup=removeComment(rawMarkup);
           }
-          if (compressWhitespace) {
+          if (this.compressWhitespace) {
             rawMarkup=compressWhitespace(rawMarkup);
           }
           this.markup.addMarkupElement(size,new RawMarkup(rawMarkup));
@@ -30,23 +26,23 @@
  else         if (tag.isModified()) {
           this.markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
         }
-        xmlParser.setPositionMarker();
+        this.xmlParser.setPositionMarker();
       }
       size=this.markup.size();
     }
   }
  catch (  final ParseException ex) {
-    final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
+    final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
     if (text.length() > 0) {
       this.markup.addMarkupElement(new RawMarkup(text));
     }
-    this.markup.setEncoding(xmlParser.getEncoding());
-    this.markup.setXmlDeclaration(xmlParser.getXmlDeclaration());
-    final MarkupStream markupStream=new MarkupStream(markup);
+    this.markup.setEncoding(this.xmlParser.getEncoding());
+    this.markup.setXmlDeclaration(this.xmlParser.getXmlDeclaration());
+    final MarkupStream markupStream=new MarkupStream(this.markup);
     markupStream.setCurrentIndex(this.markup.size() - 1);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }
-  final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
+  final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
   if (text.length() > 0) {
     this.markup.addMarkupElement(new RawMarkup(text));
   }
