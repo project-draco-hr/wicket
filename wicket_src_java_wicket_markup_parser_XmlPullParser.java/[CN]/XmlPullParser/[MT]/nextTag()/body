@@ -17,8 +17,12 @@
     if (pos == -1) {
       throw new ParseException("Unclosed comment beginning at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),openBracketIndex);
     }
-    this.input.setPosition(pos + 3);
-    return nextTag();
+    if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && this.input.getSubstring(pos + 3 - 12,pos + 3).equals("<![endif]-->")) {
+    }
+ else {
+      this.input.setPosition(pos + 3);
+      return nextTag();
+    }
   }
   final String startText=(tagText.length() <= 8 ? tagText : tagText.substring(0,8));
   if (startText.toUpperCase().equals("![CDATA[")) {
