@@ -1,12 +1,14 @@
 {
-  final MarkupParser parser=new MarkupParser(new XmlPullParser()){
-    @Override public void initFilterChain(){
-      registerMarkupFilter(new HtmlProblemFinder(HtmlProblemFinder.ERR_THROW_EXCEPTION));
+  final IMarkupParserFactory parserFactory=new MarkupParserFactory(){
+    @Override protected void initMarkupFilters(    final MarkupParser parser){
+      parser.registerMarkupFilter(new HtmlProblemFinder(HtmlProblemFinder.ERR_THROW_EXCEPTION));
+      super.initMarkupFilters(parser);
     }
   }
 ;
+  final MarkupParser parser=parserFactory.newMarkupParser(getResource("<img src=\"\"/>"));
   try {
-    parser.parse("<img src=\"\"/>");
+    parser.readAndParse();
     assertTrue("Should have thrown an exception",false);
   }
  catch (  Exception ex) {
