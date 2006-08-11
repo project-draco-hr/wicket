@@ -1,7 +1,6 @@
 {
   try {
-    IMarkup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser(markupResourceStream).readAndParse();
-    markup=checkForMarkupInheritance(container,markup);
+    final IMarkup markup=newMarkupLoader().loadMarkup(container,markupResourceStream);
     if (markupResourceStream.getCacheKey() != null) {
       markupCache.put(markupResourceStream.getCacheKey(),markup);
     }
