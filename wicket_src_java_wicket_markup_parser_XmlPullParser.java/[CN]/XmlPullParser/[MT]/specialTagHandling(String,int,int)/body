@@ -7,7 +7,17 @@
     pos+=3;
     this.lastText=this.input.getSubstring(openBracketIndex,pos);
     this.lastType=Type.COMMENT;
-    this.input.setPosition(pos);
+    if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && this.lastText.toString().endsWith("<![endif]-->")) {
+      this.input.setPosition(closeBracketIndex + 1);
+    }
+ else {
+      this.input.setPosition(pos);
+    }
+    return;
+  }
+  if (tagText.equals("![endif]--")) {
+    this.lastType=Type.COMMENT;
+    this.input.setPosition(closeBracketIndex + 1);
     return;
   }
   if (tagText.startsWith("![")) {
