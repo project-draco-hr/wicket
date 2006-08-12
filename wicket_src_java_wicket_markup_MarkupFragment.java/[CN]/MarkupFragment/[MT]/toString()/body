@@ -2,9 +2,8 @@
   final AppendingStringBuffer buf=new AppendingStringBuffer(400);
   buf.append(this.markup.toString());
   buf.append("\n");
-  final Iterator<MarkupElement> iter=this.markupElements.iterator();
-  while (iter.hasNext()) {
-    buf.append(iter.next());
+  for (  MarkupElement elem : this) {
+    buf.append(elem);
     buf.append(",");
   }
   return buf.toString();
