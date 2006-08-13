@@ -1,0 +1,16 @@
+{
+  if ((path == null) || (path.length() == 0)) {
+    throw new IllegalArgumentException("Parameter 'path' must not be null");
+  }
+  if ((this.markup != null) && (this.componentMap == null)) {
+    initialize();
+  }
+  if (this.componentMap == null) {
+    return -1;
+  }
+  final Integer value=this.componentMap.get(path);
+  if (value == null) {
+    return -1;
+  }
+  return value.intValue();
+}

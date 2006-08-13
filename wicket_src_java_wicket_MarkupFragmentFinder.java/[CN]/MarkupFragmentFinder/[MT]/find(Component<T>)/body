@@ -18,7 +18,11 @@
       }
     }
     String relativePath=getComponentRelativePath(component,parentWithAssociatedMarkup);
-    int index=markupStream.findComponentIndex(relativePath,component.getId());
+    relativePath=((relativePath != null) && (relativePath.length() > 0) ? relativePath + IMarkup.TAG_PATH_SEPARATOR + component.getId() : component.getId());
+    final Pattern re=Pattern.compile(IMarkup.TAG_PATH_SEPARATOR + "\\d+");
+    final Matcher matcher=re.matcher(relativePath);
+    relativePath=matcher.replaceAll("");
+    int index=markupStream.findComponentIndex(relativePath);
     if (index != -1) {
       markupStream.setCurrentIndex(index);
       return markupStream;
@@ -46,7 +50,8 @@
           componentId+=Component.PATH_SEPARATOR + mc.getId();
         }
         relativePath=relativePath.replace(componentId,fragmentId);
-        index=markupStream.findComponentIndex(relativePath,component.getId());
+        relativePath=((relativePath != null) && (relativePath.length() > 0) ? relativePath + IMarkup.TAG_PATH_SEPARATOR + component.getId() : component.getId());
+        index=markupStream.findComponentIndex(relativePath);
         if (index != -1) {
           markupStream.setCurrentIndex(index);
           return markupStream;
