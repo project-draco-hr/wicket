@@ -1,0 +1,15 @@
+{
+  if ((path == null) || (path.length() == 0)) {
+    throw new IllegalArgumentException("Parameter 'path' must not be null or empty");
+  }
+  int index=this.markup.findTag(path);
+  if (index == -1) {
+    if (throwException == true) {
+      throw new MarkupException("Markup does not contain a Wicket tag with path '" + path + "'; Resource: "+ this.markup.getResource().toString());
+    }
+  }
+ else {
+    setCurrentIndex(index);
+  }
+  return index;
+}
