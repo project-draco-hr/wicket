@@ -1,0 +1,16 @@
+{
+  if ((id == null) || (id.length() == 0)) {
+    return null;
+  }
+  for (  MarkupElement elem : this) {
+    if (elem instanceof MarkupFragment) {
+      MarkupFragment fragment=(MarkupFragment)elem;
+      ComponentTag tag=(ComponentTag)fragment.get(0);
+      String tagId=tag.getId();
+      if ((tagId != null) && tagId.equals(id)) {
+        return fragment;
+      }
+    }
+  }
+  return null;
+}

@@ -1,0 +1,26 @@
+{
+  if ((path == null) || (path.length() == 0)) {
+    throw new IllegalArgumentException("Parameter 'path' must not be null");
+  }
+  if ((this.markup != null) && (this.markupFragments == null)) {
+    initialize();
+  }
+  if (this.componentMap == null) {
+    if (throwException == true) {
+      throw new MarkupException("Markup not found for tag with path: " + path + "; The markup does not have any Wicket tag");
+    }
+    return null;
+  }
+  String[] ids=Strings.split(path,TAG_PATH_SEPARATOR);
+  MarkupFragment fragment=this.markupFragments;
+  for (  String id : ids) {
+    fragment=fragment.getChildFragment(id);
+    if (fragment == null) {
+      if (throwException == true) {
+        throw new MarkupException("Markup not found for tag with path: " + path + "; Tag with id '"+ id+ "' not found");
+      }
+      return null;
+    }
+  }
+  return fragment;
+}
