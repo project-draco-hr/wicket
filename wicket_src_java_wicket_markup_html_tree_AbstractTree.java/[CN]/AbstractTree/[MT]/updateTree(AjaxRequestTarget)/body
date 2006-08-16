@@ -11,20 +11,28 @@
       String js=getElementsDeleteJavascript();
       target.prependJavascript(js);
     }
-    for (    TreeItem item : dirtyItemsCreateDOM) {
-      TreeItem parent=item.getParentItem();
-      int index=parent.getChildren().indexOf(item);
-      TreeItem previous;
-      if (index == 0) {
-        previous=parent;
-      }
+    while (dirtyItemsCreateDOM.isEmpty() == false) {
+      for (Iterator<TreeItem> i=dirtyItemsCreateDOM.iterator(); i.hasNext(); ) {
+        TreeItem item=i.next();
+        TreeItem parent=item.getParentItem();
+        int index=parent.getChildren().indexOf(item);
+        TreeItem previous;
+        if (index == 0) {
+          previous=parent;
+        }
  else {
-        previous=parent.getChildren().get(index - 1);
-        while (previous.getChildren() != null && previous.getChildren().size() > 0) {
-          previous=previous.getChildren().get(previous.getChildren().size() - 1);
+          previous=(TreeItem)parent.getChildren().get(index - 1);
+          while (previous.getChildren() != null && previous.getChildren().size() > 0) {
+            previous=(TreeItem)previous.getChildren().get(previous.getChildren().size() - 1);
+          }
+        }
+        if (dirtyItemsCreateDOM.contains(previous) == false) {
+          target.prependJavascript("Wicket.Tree.createElement(\"" + item.getMarkupId() + "\","+ "\""+ previous.getMarkupId()+ "\")");
+          i.remove();
+        }
+ else {
         }
       }
-      target.prependJavascript("Wicket.Tree.createElement(\"" + item.getMarkupId() + "\","+ "\""+ previous.getMarkupId()+ "\")");
     }
     for (    TreeItem item : dirtyItems) {
       if (item.getChildren() == null) {

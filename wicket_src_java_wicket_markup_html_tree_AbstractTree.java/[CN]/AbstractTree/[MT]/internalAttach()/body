@@ -1,6 +1,6 @@
 {
-  super.internalAttach();
   if (attached == false) {
+    onBeforeAttach();
     checkModel();
     if (dirtyAll && rootItem != null) {
       clearAllItem();
@@ -13,7 +13,6 @@
       if (rootNode != null) {
         if (isRootLess()) {
           rootItem=newTreeItem(rootNode,-1);
-          rootItem.setVisible(false);
         }
  else {
           rootItem=newTreeItem(rootNode,0);
@@ -23,4 +22,5 @@
     }
     attached=true;
   }
+  super.internalAttach();
 }
