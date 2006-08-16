@@ -7,7 +7,7 @@
   ComponentTag tag=new ComponentTag(xmlTag);
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag.setWicketTag(true);
-    tag.setId("<auto>_" + tag.getName());
+    tag.setId(Component.AUTO_COMPONENT_PREFIX + tag.getName());
     if (wellKnownTagNames.contains(xmlTag.getName()) == false) {
       throw new ParseException("Unkown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag.getPos());
     }
