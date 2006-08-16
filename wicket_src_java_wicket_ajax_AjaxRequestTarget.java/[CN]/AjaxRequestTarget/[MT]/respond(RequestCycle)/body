@@ -1,13 +1,5 @@
 {
   try {
-    CharSequence url=null;
-    if (requestTarget != null) {
-      url=requestCycle.urlFor(requestTarget);
-      if (url == null) {
-        requestTarget.respond(requestCycle);
-        return;
-      }
-    }
     final Application app=Application.get();
     final boolean oldUseCheck=app.getDebugSettings().getComponentUseCheck();
     app.getDebugSettings().setComponentUseCheck(false);
@@ -22,31 +14,23 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
-    if (url == null) {
-      Iterator it=prependJavascripts.iterator();
-      while (it.hasNext()) {
-        String js=(String)it.next();
-        respondInvocation(response,js);
-      }
-      it=markupIdToComponent.entrySet().iterator();
-      while (it.hasNext()) {
-        final Map.Entry entry=(Entry)it.next();
-        final Component component=(Component)entry.getValue();
-        final String markupId=(String)entry.getKey();
-        respondHeaderContribution(response,component);
-        respondComponent(response,markupId,component);
-      }
-      it=appendJavascripts.iterator();
-      while (it.hasNext()) {
-        String js=(String)it.next();
-        respondInvocation(response,js);
-      }
+    Iterator it=prependJavascripts.iterator();
+    while (it.hasNext()) {
+      String js=(String)it.next();
+      respondInvocation(response,js);
     }
- else {
-      if (requestTarget instanceof IPageRequestTarget) {
-        Session.get().touch(((IPageRequestTarget)requestTarget).getPage());
-      }
-      respondInvocation(response,"window.location='" + url + "';");
+    it=markupIdToComponent.entrySet().iterator();
+    while (it.hasNext()) {
+      final Map.Entry entry=(Entry)it.next();
+      final Component component=(Component)entry.getValue();
+      final String markupId=(String)entry.getKey();
+      respondHeaderContribution(response,component);
+      respondComponent(response,markupId,component);
+    }
+    it=appendJavascripts.iterator();
+    while (it.hasNext()) {
+      String js=(String)it.next();
+      respondInvocation(response,js);
     }
     response.write("</ajax-response>");
     app.getDebugSettings().setComponentUseCheck(oldUseCheck);
