@@ -1,0 +1,27 @@
+{
+  log.info("Randomly parse all markups already loaded");
+  this.duration=new long[count];
+  int index=0;
+  MarkupResourceStream resourceStream=null;
+  try {
+    Random random=new Random();
+    int size=this.resources.size();
+    for (int i=0; i < count; i++) {
+      index=random.nextInt(size);
+      MarkupResourceStream stream=this.resources.get(index);
+      resourceStream=stream;
+      long time=System.currentTimeMillis();
+      DefaultMarkupLoader loader=new DefaultMarkupLoader(this.application);
+      loader.loadMarkup(null,stream);
+      this.duration[i]=System.currentTimeMillis() - time;
+      if ((i % 100) == 0) {
+        log.info("... " + i);
+      }
+    }
+  }
+ catch (  Exception ex) {
+    log.error("Failed to load markup: " + this.files.get(index).toString());
+    throw ex;
+  }
+  log.info("Finished: " + count);
+}

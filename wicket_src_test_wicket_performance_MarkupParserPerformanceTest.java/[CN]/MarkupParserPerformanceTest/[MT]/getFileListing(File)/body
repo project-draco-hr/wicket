@@ -1,0 +1,50 @@
+{
+  final List<File> result=new ArrayList<File>();
+  final File[] filesAndDirs=startDir.listFiles();
+  for (  File file : filesAndDirs) {
+    if (file.isFile() == false) {
+      final List<File> deeperList=getFileListing(file);
+      result.addAll(deeperList);
+    }
+ else {
+      if (file.getName().endsWith(".html")) {
+        boolean hit=false;
+        for (        String name : exclude) {
+          if (file.getPath().endsWith(name)) {
+            hit=true;
+            break;
+          }
+        }
+        if (hit == false) {
+          result.add(file);
+          String name=file.getPath();
+          int pos=name.indexOf("\\wicket");
+          name=name.substring(pos + 1);
+          name=name.substring(0,name.length() - 5);
+          name=name.replace('\\','.');
+          name=name.replace("..",".");
+          try {
+            Class clazz=this.getClass().getClassLoader().loadClass(name);
+            Constructor constructor=null;
+            try {
+              constructor=clazz.getConstructor(new Class[]{});
+            }
+ catch (            Exception ex) {
+              try {
+                constructor=clazz.getConstructor(new Class[]{MarkupContainer.class,String.class});
+              }
+ catch (              Exception ex2) {
+                log.error("Failed to load constructor for: " + clazz.toString());
+                throw ex2;
+              }
+            }
+            this.containers.add((Class<? extends MarkupContainer>)clazz);
+          }
+ catch (          Exception ex) {
+          }
+        }
+      }
+    }
+  }
+  return result;
+}

@@ -1,0 +1,14 @@
+{
+  List<MarkupResourceStream> resources=new ArrayList<MarkupResourceStream>(files.size());
+  int i=0;
+  for (  File file : files) {
+    String buf=Streams.readString(new FileInputStream(file));
+    StringResourceStream stream=new StringResourceStream(buf);
+    resources.add(new MarkupResourceStream(stream,null,null));
+    if ((++i % 100) == 0) {
+      log.info("... " + i);
+    }
+  }
+  log.info("Finished: " + i);
+  return resources;
+}
