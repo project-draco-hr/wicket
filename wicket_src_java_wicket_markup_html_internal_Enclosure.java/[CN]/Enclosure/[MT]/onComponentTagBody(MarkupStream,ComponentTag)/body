@@ -1,0 +1,14 @@
+{
+  if (this.childComponent == this) {
+    throw new WicketRuntimeException("Programming error: childComponent == enclose component; endless loop");
+  }
+ else   if (this.childComponent != null) {
+    setVisible(this.childComponent.isVisible());
+  }
+  if (isVisible() == true) {
+    super.onComponentTagBody(markupStream,openTag);
+  }
+ else {
+    markupStream.skipUntil(openTag.getName());
+  }
+}

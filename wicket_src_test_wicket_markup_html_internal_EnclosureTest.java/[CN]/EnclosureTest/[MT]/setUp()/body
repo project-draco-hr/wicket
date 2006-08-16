@@ -1,0 +1,11 @@
+{
+  super.setUp();
+  this.application.getMarkupSettings().setMarkupParserFactory(new MarkupParserFactory(){
+    @Override public MarkupParser newMarkupParser(    MarkupResourceStream resource){
+      MarkupParser parser=super.newMarkupParser(resource);
+      parser.registerMarkupFilter(new EnclosureHandler(application));
+      return parser;
+    }
+  }
+);
+}
