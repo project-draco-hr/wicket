@@ -16,7 +16,9 @@
   }
   if (markup == null) {
 synchronized (markupCache) {
-      markup=markupCache.get(cacheKey);
+      if (cacheKey != null) {
+        markup=markupCache.get(cacheKey);
+      }
       if (markup == null) {
         final IMarkupResourceStreamProvider markupResourceStreamProvider=getMarkupResourceStreamProvider(container);
         final IResourceStream resourceStream=markupResourceStreamProvider.getMarkupResourceStream(container,containerClass);
@@ -33,7 +35,9 @@ synchronized (markupCache) {
         }
  else {
           markup=IMarkup.NO_MARKUP;
-          markupCache.put(cacheKey,markup);
+          if (cacheKey != null) {
+            markupCache.put(cacheKey,markup);
+          }
         }
       }
     }
