@@ -1,3 +1,12 @@
 {
-  this.application=application;
+  String contextPath=application.getApplicationSettings().getContextPath();
+  if (contextPath != null) {
+    if (contextPath.length() == 0) {
+      contextPath=null;
+    }
+ else     if (contextPath.endsWith("/") == false) {
+      contextPath+="/";
+    }
+  }
+  this.contextPath=contextPath;
 }

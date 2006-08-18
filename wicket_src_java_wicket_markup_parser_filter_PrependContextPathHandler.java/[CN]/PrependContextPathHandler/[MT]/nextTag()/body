@@ -6,18 +6,17 @@
   if (tag.getId() != null) {
     return tag;
   }
-  String contextPath=application.getApplicationSettings().getContextPath();
-  if (contextPath == null) {
-    contextPath="";
-  }
- else   if (contextPath.endsWith("/") == false) {
-    contextPath+="/";
-  }
-  if (contextPath.length() > 0) {
+  if (contextPath != null) {
     for (    final String attrName : attributeNames) {
       final String attrValue=tag.getAttributes().getString(attrName);
       if ((attrValue != null) && (attrValue.startsWith("/") == false) && (attrValue.indexOf(":") < 0)&& !(attrValue.startsWith("#"))) {
-        final String url=contextPath + attrValue;
+        final String url;
+        if (this.contextPath != null) {
+          url=contextPath + attrValue;
+        }
+ else {
+          url=attrValue;
+        }
         tag.getAttributes().put(attrName,url);
         tag.setModified(true);
       }
