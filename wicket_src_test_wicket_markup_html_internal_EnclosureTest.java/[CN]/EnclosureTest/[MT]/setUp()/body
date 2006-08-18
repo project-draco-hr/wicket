@@ -1,9 +1,15 @@
 {
-  super.setUp();
+  application=new WicketTester(null){
+    protected void init(){
+      super.init();
+      getPageSettings().addComponentResolver(new EnclosureResolver());
+    }
+  }
+;
   this.application.getMarkupSettings().setMarkupParserFactory(new MarkupParserFactory(){
     @Override public MarkupParser newMarkupParser(    MarkupResourceStream resource){
       MarkupParser parser=super.newMarkupParser(resource);
-      parser.registerMarkupFilter(new EnclosureHandler(application));
+      parser.registerMarkupFilter(new EnclosureHandler());
       return parser;
     }
   }
