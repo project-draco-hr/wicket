@@ -1,0 +1,21 @@
+{
+  log.debug("Sequentially parse all markups already loaded");
+  long time=System.currentTimeMillis();
+  this.duration=new double[this.resources.size()];
+  int i=0;
+  try {
+    DefaultMarkupLoader loader=new DefaultMarkupLoader(this.application);
+    for (    MarkupResourceStream stream : this.resources) {
+      loader.loadMarkup(null,stream);
+      if (((++i % 100) == 0) && log.isDebugEnabled()) {
+        log.debug("... " + i);
+      }
+    }
+  }
+ catch (  Exception ex) {
+    log.error("Failed to load markup: " + this.files.get(i).toString());
+  }
+  long diff=System.currentTimeMillis() - time;
+  log.info("Finished: " + i + " files; duration: "+ diff+ "ms; avg per file: "+ ((double)diff / i)+ "ms");
+  return i;
+}

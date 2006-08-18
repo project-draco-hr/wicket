@@ -1,0 +1,31 @@
+{
+  log.debug("Sequentially parse all markups (with MarkupCache)");
+  long overallTime=System.currentTimeMillis();
+  this.duration=new double[this.files.size()];
+  int i=0;
+  int failures=0;
+  File markupFile=null;
+  MarkupCache cache=this.application.getMarkupCache();
+  DummyPage page=new DummyPage();
+  DummyContainer container=new DummyContainer(page);
+  for (  final File file : this.files) {
+    markupFile=file;
+    container.setMarkupFile(file);
+    try {
+      long time=System.currentTimeMillis();
+      cache.getMarkupStream(container,true);
+      this.duration[i]=System.currentTimeMillis() - time;
+    }
+ catch (    Exception ex) {
+      failures+=1;
+      log.debug("Failed to load markup: " + this.files.get(i).toString());
+    }
+    if ((++i % 100) == 0) {
+      log.debug("... " + i);
+    }
+  }
+  long diff=System.currentTimeMillis() - overallTime;
+  i-=failures;
+  log.info(i + " files; duration: " + diff+ "ms; avg per file: "+ ((double)diff / i)+ "ms; failures: "+ failures);
+  return i;
+}
