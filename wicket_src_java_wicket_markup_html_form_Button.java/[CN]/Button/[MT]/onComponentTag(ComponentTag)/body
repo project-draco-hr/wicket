@@ -12,4 +12,13 @@
   if (onClickJavaScript != null) {
     tag.put("onclick",onClickJavaScript);
   }
+ else {
+    Form parentForm=findParent(Form.class);
+    if (parentForm == null && form != null) {
+      String triggerJavaScript=getTriggerJavaScript();
+      if (Strings.isEmpty(triggerJavaScript) == false) {
+        tag.put(ClientEvent.CLICK.getEvent(),triggerJavaScript);
+      }
+    }
+  }
 }

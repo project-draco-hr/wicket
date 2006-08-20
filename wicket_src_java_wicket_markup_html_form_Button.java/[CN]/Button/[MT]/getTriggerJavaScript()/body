@@ -1,14 +1,13 @@
 {
-  Form form=getForm();
-  if (form != null) {
+  if (getForm() != null) {
     StringBuffer sb=new StringBuffer(100);
     sb.append("var e=document.getElementById('");
-    sb.append(form.getHiddenFieldId(Form.HIDDEN_FIELD_FAKE_SUBMIT));
+    sb.append(getForm().getHiddenFieldId(Form.HIDDEN_FIELD_FAKE_SUBMIT));
     sb.append("'); e.name=\'");
     sb.append(getInputName());
     sb.append("'; e.value='x';");
     sb.append("var f=document.getElementById('");
-    sb.append(form.getMarkupId());
+    sb.append(getForm().getMarkupId());
     sb.append("');");
     if (shouldInvokeJavascriptFormOnsubmit()) {
       sb.append("if (f.onsubmit != undefined) { if (f.onsubmit()==false) return false; }");
@@ -17,6 +16,6 @@
     return sb.toString();
   }
  else {
-    return "location.href='" + urlFor(ILinkListener.INTERFACE).toString() + "';";
+    return null;
   }
 }

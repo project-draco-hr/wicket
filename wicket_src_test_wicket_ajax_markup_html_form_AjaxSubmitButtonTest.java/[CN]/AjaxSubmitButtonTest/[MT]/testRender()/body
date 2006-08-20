@@ -1,0 +1,23 @@
+{
+  application.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      FormWithButtonPage page=new FormWithButtonPage();
+      AjaxSubmitButton button=new AjaxSubmitButton(page.getForm(),FormWithButtonPage.SUBMIT_ID,page.getForm()){
+        private static final long serialVersionUID=1L;
+        @Override protected void onSubmit(        AjaxRequestTarget target,        Form form){
+        }
+      }
+;
+      return page;
+    }
+  }
+);
+  application.assertComponent("form:ajaxSubmitButton",AjaxSubmitButton.class);
+  TagTester ajaxSubmitButton=application.getTagByWicketId("ajaxSubmitButton");
+  assertEquals("input",ajaxSubmitButton.getName());
+  assertTrue(ajaxSubmitButton.hasAttribute("onclick"));
+  assertTrue(ajaxSubmitButton.getAttributeContains("onclick","wicketSubmitFormById"));
+  assertTrue(ajaxSubmitButton.getAttributeContains("onclick","return false"));
+  assertTrue(ajaxSubmitButton.getAttributeIs("type","submit"));
+}

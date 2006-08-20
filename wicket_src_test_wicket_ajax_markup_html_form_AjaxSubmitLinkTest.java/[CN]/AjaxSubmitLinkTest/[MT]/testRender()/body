@@ -1,0 +1,22 @@
+{
+  application.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      FormWithLinkPage page=new FormWithLinkPage();
+      new AjaxSubmitLink(page,FormWithLinkPage.SUBMIT_ID,page.getForm()){
+        private static final long serialVersionUID=1L;
+        @Override protected void onSubmit(        AjaxRequestTarget target,        Form form){
+        }
+      }
+;
+      return page;
+    }
+  }
+);
+  application.assertComponent(FormWithLinkPage.SUBMIT_ID,AjaxSubmitLink.class);
+  TagTester ajaxSubmitLink=application.getTagByWicketId(FormWithLinkPage.SUBMIT_ID);
+  assertEquals("a",ajaxSubmitLink.getName());
+  assertTrue(ajaxSubmitLink.getAttributeIs("href","#"));
+  assertTrue(ajaxSubmitLink.getAttributeContains("onclick","wicketSubmitFormById"));
+  assertTrue(ajaxSubmitLink.getAttributeEndsWith("onclick","return false;"));
+}
