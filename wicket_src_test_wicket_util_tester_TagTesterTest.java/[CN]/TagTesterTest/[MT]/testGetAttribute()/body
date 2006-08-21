@@ -1,0 +1,17 @@
+{
+  TagTester tester=TagTester.createTagByAttribute(MARKUP_1,"id","test");
+  assertNotNull(tester);
+  assertEquals("class1",tester.getAttribute("class"));
+  tester=TagTester.createTagByAttribute(MARKUP_1,"id","test2");
+  assertNotNull(tester);
+  assertEquals("class2",tester.getAttribute("class"));
+  tester=TagTester.createTagByAttribute(MARKUP_1,"id","test2");
+  assertNotNull(tester);
+  assertEquals("class2",tester.getAttribute("CLASS"));
+  tester=TagTester.createTagByAttribute(MARKUP_1,"id","test");
+  assertNotNull(tester);
+  assertNull(tester.getAttribute("noattribute"));
+  tester=TagTester.createTagByAttribute("<p id=\"test\" empty=\"\">Mock</p>","id","test");
+  assertNotNull(tester);
+  assertEquals("",tester.getAttribute("empty"));
+}
