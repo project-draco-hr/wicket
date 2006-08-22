@@ -1,0 +1,61 @@
+{
+  MarkupContainer parentWithAssociatedMarkup=component.findParentWithAssociatedMarkup();
+  MarkupStream markupStream=null;
+  while (true) {
+    markupStream=parentWithAssociatedMarkup.getAssociatedMarkupStream(true);
+    if (component.markupIndex != -1) {
+      try {
+        markupStream.setCurrentIndex(component.markupIndex);
+        MarkupElement elem=markupStream.get();
+        if (elem instanceof ComponentTag) {
+          ComponentTag tag=(ComponentTag)elem;
+          if (tag.getId().equals(component.getId())) {
+            return markupStream;
+          }
+        }
+      }
+ catch (      IndexOutOfBoundsException ex) {
+      }
+    }
+    String relativePath=getComponentRelativePath(component,parentWithAssociatedMarkup);
+    relativePath=joinPath(relativePath,component.getId());
+    final Matcher matcher=LIST_VIEW_NUMBER.matcher(relativePath);
+    relativePath=matcher.replaceAll("");
+    int index=markupStream.positionAt(relativePath,false);
+    if (index != -1) {
+      return markupStream;
+    }
+    if (parentWithAssociatedMarkup instanceof Border) {
+      parentWithAssociatedMarkup=parentWithAssociatedMarkup.findParentWithAssociatedMarkup();
+    }
+ else {
+      MarkupContainer mc=component.findParent(Fragment.class);
+      if (mc != null) {
+        final Fragment fragment=(Fragment)mc;
+        final MarkupContainer markupProvider=fragment.getMarkupProvider();
+        if (markupProvider != null) {
+          markupStream=markupProvider.getMarkupStream();
+          if (markupStream == null) {
+            markupStream=markupProvider.getAssociatedMarkupStream(true);
+          }
+        }
+        String fragmentId=fragment.getFragmentMarkupId();
+        String componentId=getComponentRelativePath(mc,parentWithAssociatedMarkup);
+        if ((componentId == null) || (componentId.length() == 0)) {
+          componentId=mc.getId();
+        }
+ else {
+          componentId+=Component.PATH_SEPARATOR + mc.getId();
+        }
+        relativePath=relativePath.replace(componentId,fragmentId);
+        relativePath=joinPath(relativePath,component.getId());
+        index=markupStream.positionAt(relativePath,false);
+        if (index != -1) {
+          return markupStream;
+        }
+      }
+      throw new WicketRuntimeException("Unable to find the markup for the component: " + component.getId());
+    }
+    markupStream=null;
+  }
+}
