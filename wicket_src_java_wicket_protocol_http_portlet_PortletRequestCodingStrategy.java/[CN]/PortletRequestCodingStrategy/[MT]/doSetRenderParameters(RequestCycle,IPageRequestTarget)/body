@@ -3,10 +3,6 @@
   final PortletPage page=(PortletPage)requestTarget.getPage();
   page.urlFor(requestTarget);
   requestCycle.getSession().touch(page);
-  final PageMap pageMap=page.getPageMap();
-  if (!pageMap.isDefault()) {
-    response.setRenderParameter(PAGEMAP,pageMap.getName());
-  }
   response.setRenderParameter(COMPONENT_PATH_PARAMETER_NAME,page.getPath());
   final int versionNumber=page.getCurrentVersionNumber();
   response.setRenderParameter(VERSION_PARAMETER_NAME,String.valueOf(versionNumber));
