@@ -1,0 +1,11 @@
+{
+  TagTester tester=TagTester.createTagByAttribute(MARKUP_1,"id","test");
+  assertNotNull(tester);
+  assertTrue(tester.getAttributeIs("class","class1"));
+  assertFalse(tester.getAttributeIs("class","class1 "));
+  assertFalse(tester.getAttributeIs("class"," class1"));
+  assertFalse(tester.getAttributeIs("class","Class1"));
+  assertTrue(tester.getAttributeIs("noattribute",null));
+  assertFalse(tester.getAttributeIs("noattribute","somevalue"));
+  assertFalse(tester.getAttributeIs("class",null));
+}
