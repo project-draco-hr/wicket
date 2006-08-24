@@ -44,7 +44,14 @@
   }
   final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
   if (text.length() > 0) {
-    this.markup.addMarkupElement(new RawMarkup(text));
+    String rawMarkup=text.toString();
+    if (this.stripComments) {
+      rawMarkup=removeComment(rawMarkup);
+    }
+    if (this.compressWhitespace) {
+      rawMarkup=compressWhitespace(rawMarkup);
+    }
+    this.markup.addMarkupElement(new RawMarkup(rawMarkup));
   }
   this.markup.makeImmutable();
 }
