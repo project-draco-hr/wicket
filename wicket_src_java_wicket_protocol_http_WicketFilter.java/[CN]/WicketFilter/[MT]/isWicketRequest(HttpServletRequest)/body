@@ -13,7 +13,13 @@
   if (url.startsWith(tmp)) {
     return true;
   }
-  String path=url.substring(fullRootPath.length());
+  String path=null;
+  if (fullRootPath.length() < url.length()) {
+    path=url.substring(fullRootPath.length());
+  }
+ else {
+    path=url;
+  }
   if (!path.startsWith("/")) {
     path="/" + path;
   }
