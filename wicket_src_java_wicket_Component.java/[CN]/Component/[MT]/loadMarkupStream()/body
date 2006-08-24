@@ -8,8 +8,10 @@
   }
  catch (  MarkupException ex) {
     log.warn("MarkupFragmentFinder was unable to find the markup associated with Component '" + id + "'. You will not be able to use the component for AJAX calls.");
+    throw ex;
   }
 catch (  RuntimeException re) {
     log.warn("MarkupFragmentFinder was unable to find the markup associated with Component '" + id + "'. You will not be able to use the component for AJAX calls.");
+    throw new WicketRuntimeException("Couldn't find the markup of the component '" + id + "' in parent "+ parent.getPageRelativePath(),re);
   }
 }
