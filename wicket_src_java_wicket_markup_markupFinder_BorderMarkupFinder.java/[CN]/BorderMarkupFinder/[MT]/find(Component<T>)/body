@@ -1,0 +1,10 @@
+{
+  MarkupContainer parentWithAssociatedMarkup=component.findParentWithAssociatedMarkup();
+  MarkupStream markupStream=null;
+  while (parentWithAssociatedMarkup instanceof Border) {
+    parentWithAssociatedMarkup=parentWithAssociatedMarkup.findParentWithAssociatedMarkup();
+    markupStream=parentWithAssociatedMarkup.getAssociatedMarkupStream(true);
+    markupStream=find(component,markupStream,parentWithAssociatedMarkup);
+  }
+  return markupStream;
+}

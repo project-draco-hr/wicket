@@ -1,0 +1,22 @@
+{
+  if (component.getMarkupIndex() != -1) {
+    try {
+      markupStream.setCurrentIndex(component.getMarkupIndex());
+      MarkupElement elem=markupStream.get();
+      if (elem instanceof ComponentTag) {
+        ComponentTag tag=(ComponentTag)elem;
+        if (tag.getId().equals(component.getId())) {
+          return markupStream;
+        }
+      }
+    }
+ catch (    IndexOutOfBoundsException ex) {
+    }
+  }
+  String relativePath=getComponentRelativePath(component,parentWithAssociatedMarkup);
+  int index=positionAt(markupStream,relativePath);
+  if (index != -1) {
+    return markupStream;
+  }
+  return null;
+}

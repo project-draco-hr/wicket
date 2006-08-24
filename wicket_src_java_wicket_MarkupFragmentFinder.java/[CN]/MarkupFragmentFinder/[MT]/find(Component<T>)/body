@@ -3,8 +3,8 @@
   for (  IMarkupFinder finder : this.markupFinders) {
     markupStream=finder.find(component);
     if (markupStream != null) {
-      break;
+      return markupStream;
     }
   }
-  return markupStream;
+  throw new WicketRuntimeException("Unable to find the markup for the component: " + component.getId());
 }
