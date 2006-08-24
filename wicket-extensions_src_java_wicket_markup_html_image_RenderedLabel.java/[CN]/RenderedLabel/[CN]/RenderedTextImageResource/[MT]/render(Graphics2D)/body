@@ -1,0 +1,31 @@
+{
+  renderedText=getModelObjectAsString();
+  final int width=getWidth(), height=getHeight();
+  if (backgroundColor != null) {
+    graphics.setColor(backgroundColor);
+    graphics.fillRect(0,0,width,height);
+  }
+  if (renderedText == null) {
+    if (width == 1 && height == 1)     return true;
+    setWidth(1);
+    setHeight(1);
+    return false;
+  }
+  graphics.setFont(font);
+  final FontMetrics metrics=graphics.getFontMetrics();
+  List<String> lines=new LinkedList<String>();
+  int dxText=breakLines(renderedText,metrics,lines), lineHeight=metrics.getHeight(), dyText=lineHeight * lines.size();
+  if (dxText != width || dyText != height) {
+    setWidth(dxText);
+    setHeight(dyText);
+    return false;
+  }
+  graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+  graphics.setColor(color);
+  int baseline=metrics.getAscent();
+  for (  String line : lines) {
+    graphics.drawString(line,0,baseline);
+    baseline+=lineHeight;
+  }
+  return true;
+}

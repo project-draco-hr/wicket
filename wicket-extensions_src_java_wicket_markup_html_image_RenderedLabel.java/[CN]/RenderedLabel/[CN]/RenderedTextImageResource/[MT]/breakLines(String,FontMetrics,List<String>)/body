@@ -1,0 +1,24 @@
+{
+  if (maxWidth == null) {
+    outputLines.add(source);
+    return metrics.stringWidth(source);
+  }
+  String sp=" ";
+  String words[]=source.split(sp);
+  StringBuilder line=new StringBuilder();
+  int topWidth=0;
+  for (  String word : words) {
+    if (line.length() > 0) {
+      int curWidth=metrics.stringWidth(line + sp + word);
+      if (curWidth > maxWidth) {
+        outputLines.add(line.toString());
+        line.setLength(0);
+      }
+ else       line.append(sp);
+    }
+    line.append(word);
+    topWidth=Math.max(metrics.stringWidth(line.toString()),topWidth);
+  }
+  outputLines.add(line.toString());
+  return topWidth;
+}

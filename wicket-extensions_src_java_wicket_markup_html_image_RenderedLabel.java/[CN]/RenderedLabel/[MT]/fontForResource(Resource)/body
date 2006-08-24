@@ -1,0 +1,11 @@
+{
+  try {
+    InputStream is=fontRes.getResourceStream().getInputStream();
+    Font font=Font.createFont(Font.TRUETYPE_FONT,is);
+    is.close();
+    return font.deriveFont(Font.PLAIN,16);
+  }
+ catch (  Throwable e) {
+    throw new WicketRuntimeException("Error loading font resources",e);
+  }
+}
