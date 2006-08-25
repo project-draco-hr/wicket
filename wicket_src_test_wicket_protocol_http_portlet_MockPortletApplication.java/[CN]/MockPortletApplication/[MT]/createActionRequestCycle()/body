@@ -1,0 +1,9 @@
+{
+  if (wicketPortletRequest == null) {
+    throw new IllegalStateException("PortletRequest is not initialized");
+  }
+  if (!(wicketPortletResponse.getPortletResponse() instanceof ActionResponse)) {
+    throw new IllegalStateException("Unable to initialize PortletActionRequestCycle, request is not ActionResponse");
+  }
+  return new PortletActionRequestCycle(wicketPortletSession,wicketPortletRequest,wicketPortletResponse);
+}

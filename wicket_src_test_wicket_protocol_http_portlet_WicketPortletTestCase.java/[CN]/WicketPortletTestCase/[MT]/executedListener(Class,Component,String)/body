@@ -1,0 +1,12 @@
+{
+  assertNotNull(component);
+  System.out.println("=== " + pageClass.getName() + " : "+ component.getPageRelativePath()+ " ===");
+  application.createActionRequest();
+  PortletActionRequestCycle cycle=application.createActionRequestCycle();
+  application.getPortletRequest().setRequestToComponent(component);
+  application.processActionRequestCycle(cycle);
+  application.createRenderRequest();
+  application.processRenderRequestCycle(application.createRenderRequestCycle());
+  String document=application.getPortletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,pageClass,filename));
+}

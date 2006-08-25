@@ -1,0 +1,8 @@
+{
+  application.createRenderRequest();
+  application.processRenderRequestCycle(application.createRenderRequestCycle());
+  String document=application.getPortletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,this.getClass(),"MockPortletPage_expectedResult.html"));
+  MockPortletPage p=(MockPortletPage)application.getLastRenderedPage();
+  Assert.assertEquals("Link should have been clicked 0 times",0,p.getLinkClickCount());
+}

@@ -1,0 +1,8 @@
+{
+  System.out.println("=== " + pageClass.getName() + " ===");
+  application.setHomePage(pageClass);
+  application.processRenderRequestCycle(application.createRenderRequestCycle());
+  assertEquals(pageClass,application.getLastRenderedPage().getClass());
+  String document=application.getPortletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,this.getClass(),filename));
+}

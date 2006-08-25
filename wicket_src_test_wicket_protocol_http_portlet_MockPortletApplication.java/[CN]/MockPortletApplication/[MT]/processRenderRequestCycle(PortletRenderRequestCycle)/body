@@ -1,0 +1,10 @@
+{
+  cycle.request();
+  previousRenderedPage=lastRenderedPage;
+  final MockPortletResponse httpResponse=(MockPortletResponse)cycle.getPortletResponse().getPortletResponse();
+  generateLastRenderedPage(cycle);
+  Session.set(getWicketPortletSession());
+  if (getLastRenderedPage() instanceof ExceptionErrorPortletPage) {
+    throw (RuntimeException)((ExceptionErrorPortletPage)getLastRenderedPage()).getThrowable();
+  }
+}
