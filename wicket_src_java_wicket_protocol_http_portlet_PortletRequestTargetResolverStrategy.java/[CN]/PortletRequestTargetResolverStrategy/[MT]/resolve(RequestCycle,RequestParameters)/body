@@ -3,16 +3,18 @@
     return resolveBookmarkablePage(requestCycle,requestParameters);
   }
   final String componentPath=requestParameters.getComponentPath();
-  final Session session=requestCycle.getSession();
-  final Page page=session.getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
-  if (page != null) {
-    requestCycle.getRequest().setPage(page);
-    final String interfaceName=requestParameters.getInterfaceName();
-    if (interfaceName != null) {
-      return resolveListenerInterfaceTarget(requestCycle,page,componentPath,interfaceName,requestParameters);
-    }
+  if (componentPath != null) {
+    final Session session=requestCycle.getSession();
+    final Page page=session.getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
+    if (page != null) {
+      requestCycle.getRequest().setPage(page);
+      final String interfaceName=requestParameters.getInterfaceName();
+      if (interfaceName != null) {
+        return resolveListenerInterfaceTarget(requestCycle,page,componentPath,interfaceName,requestParameters);
+      }
  else {
-      return new PageRequestTarget(page);
+        return new PageRequestTarget(page);
+      }
     }
   }
   if (requestParameters.getPath() == null && requestParameters.getComponentPath() == null) {
