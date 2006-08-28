@@ -6,10 +6,7 @@
   final Fragment fragment=(Fragment)mc;
   final MarkupContainer markupProvider=fragment.getMarkupProvider();
   if (markupProvider != null) {
-    markupStream=markupProvider.getMarkupStream();
-    if (markupStream == null) {
-      markupStream=markupProvider.getAssociatedMarkupStream(true);
-    }
+    markupStream=markupProvider.getAssociatedMarkupStream(true);
   }
   String relativePath=fragment.getFragmentMarkupId() + IMarkup.TAG_PATH_SEPARATOR + getComponentRelativePath(component,mc);
   int index=markupStream.positionAt(relativePath,false);
