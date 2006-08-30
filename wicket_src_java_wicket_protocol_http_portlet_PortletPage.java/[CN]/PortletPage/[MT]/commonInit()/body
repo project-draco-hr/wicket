@@ -1,0 +1,16 @@
+{
+  MarkupStream markupStream=getAssociatedMarkupStream(false);
+  if (markupStream == null) {
+    throw new MarkupNotFoundException("Each Page must have associated markup. Unable to find the markup file for Page: " + this.toString());
+  }
+  markupStream.setCurrentIndex(0);
+  while (markupStream.hasMoreComponentTags()) {
+    final ComponentTag tag=markupStream.getTag();
+    if (tag.isOpen() && tag.isHeadTag()) {
+      if (HtmlHeaderSectionHandler.HEADER_ID.equals(tag.getId())) {
+        new PortletHeaderContainer(this,tag.getId());
+      }
+      break;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  super.onComponentTagBody(markupStream,openTag);
+  MarkupContainer parent=getParent();
+  while ((parent instanceof Border)) {
+    parent=parent.getParent();
+  }
+  if (parent instanceof Page) {
+    renderHeaderSections((Page)parent,this);
+  }
+ else {
+    throw new WicketRuntimeException("Programming error: 'parent' should be a Page or a Border.");
+  }
+}
