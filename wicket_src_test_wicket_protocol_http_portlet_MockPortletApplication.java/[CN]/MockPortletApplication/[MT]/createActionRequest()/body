@@ -1,8 +1,9 @@
 {
+  renderParameters=new HashMap<String,Object>();
   MockHttpServletRequest req=new MockHttpServletRequest(null,servletSession,context);
   MockHttpServletResponse res=new MockHttpServletResponse();
-  portletRequest=new MockPortletRequest(this,portletSession,req);
-  portletResponse=new MockPortletActionResponse(res);
+  portletRequest=new MockPortletRequest(this,portletSession,req,renderParameters);
+  portletResponse=new MockPortletActionResponse(res,renderParameters);
   portletRequest.initialize();
   portletResponse.initialize();
   portletRequest.setParameters(parametersForNextRequest);
