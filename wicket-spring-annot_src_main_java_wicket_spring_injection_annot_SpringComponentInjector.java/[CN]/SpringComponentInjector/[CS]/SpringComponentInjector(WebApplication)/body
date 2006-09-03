@@ -1,6 +1,3 @@
 {
-  ServletContext sc=webapp.getWicketServlet().getServletContext();
-  final ApplicationContext ctx=WebApplicationContextUtils.getRequiredWebApplicationContext(sc);
-  webapp.setMetaData(CONTEXT_KEY,new ApplicationContextHolder(ctx));
-  InjectorHolder.setInjector(new AnnotSpringInjector(new ContextLocator()));
+  this(webapp,WebApplicationContextUtils.getRequiredWebApplicationContext(webapp.getWicketServlet().getServletContext()));
 }
