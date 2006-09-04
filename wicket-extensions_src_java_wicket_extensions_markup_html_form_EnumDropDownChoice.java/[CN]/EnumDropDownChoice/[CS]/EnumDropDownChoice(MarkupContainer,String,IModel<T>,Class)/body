@@ -1,0 +1,12 @@
+{
+  super(parent,id);
+  if (enumType == null) {
+    throw new IllegalArgumentException("Argument [[enumType]] cannot be null");
+  }
+ else   if (enumType.isEnum() == false) {
+    throw new IllegalArgumentException("Argument [[enumType]] must be an enum");
+  }
+  setModel(model);
+  setChoices((List<T>)Arrays.asList(enumType.getEnumConstants()));
+  setChoiceRenderer(new EnumRenderer<T>());
+}
