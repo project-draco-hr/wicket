@@ -1,0 +1,12 @@
+{
+  super(parent,id);
+  captchaImageResource=new CaptchaImageResource(imagePass);
+  new Image(this,"captchaImage",captchaImageResource);
+  new RequiredTextField<String>(this,"password",new PropertyModel<String>(properties,"password")){
+    protected final void onComponentTag(    final ComponentTag tag){
+      super.onComponentTag(tag);
+      tag.put("value","");
+    }
+  }
+;
+}
