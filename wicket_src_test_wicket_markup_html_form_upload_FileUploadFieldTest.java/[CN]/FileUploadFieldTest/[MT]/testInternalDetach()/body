@@ -1,0 +1,33 @@
+{
+  final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
+  FileUploadField field=new FileUploadField(page.getForm(),"upload");
+  application.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  RequestCycle requestCycle=application.createRequestCycle();
+  MockHttpServletRequest servletRequest=application.getServletRequest();
+  servletRequest.setContentType(ServletFileUpload.MULTIPART_FORM_DATA);
+  servletRequest.setMethod("POST");
+  servletRequest.setParameter("form2:hf:fs","");
+  servletRequest.setParameter("wicketState","");
+  servletRequest.addFile("upload",new File("pom.xml"),"text/xml");
+  requestCycle.setRequest(new MultipartServletWebRequest(servletRequest,Bytes.MAX));
+  FileUpload fileUpload=field.getFileUpload();
+  assertNotNull(fileUpload);
+  InputStream is=fileUpload.getInputStream();
+  assertTrue(is.read() != -1);
+  field.internalOnDetach();
+  try {
+    is.read();
+    fail();
+  }
+ catch (  IOException e) {
+  }
+catch (  Exception e) {
+    fail();
+  }
+}

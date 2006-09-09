@@ -1,0 +1,35 @@
+{
+  StringBuffer issb=new StringBuffer();
+  String crlf="\r\n";
+  String boundary="--abcdefgABCDEFG";
+  for (  String parameter : parameters.keySet()) {
+    issb.append(boundary).append(crlf);
+    issb.append("Content-Disposition: form-data; name=\"").append(parameter).append("\"").append(crlf).append(crlf);
+    issb.append(parameters.get(parameter)).append(crlf);
+  }
+  try {
+    if (uploadedFiles != null) {
+      for (      String fieldName : uploadedFiles.keySet()) {
+        UploadedFile uf=uploadedFiles.get(fieldName);
+        issb.append(boundary).append(crlf);
+        issb.append("Content-Disposition: form-data; name=\"").append(fieldName).append("\"; filename=\"").append(uf.getFile().getName()).append("\"").append(crlf);
+        issb.append("Content-Type: ").append(uf.getContentType()).append(crlf).append(crlf);
+        FileInputStream fis=new FileInputStream(uf.getFile());
+        StringWriter sw=new StringWriter();
+        byte[] data=new byte[1024];
+        int read=0;
+        while ((read=fis.read(data)) > 0) {
+          sw.write(new String(data,0,read));
+        }
+        fis.close();
+        issb.append(sw.getBuffer()).append(crlf);
+        sw.close();
+      }
+    }
+  }
+ catch (  IOException e) {
+    throw new IllegalStateException(e);
+  }
+  issb.append(boundary).append("--").append(crlf);
+  return issb.toString();
+}
