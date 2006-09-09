@@ -3,7 +3,10 @@
   if (request instanceof IMultipartWebRequest) {
     final FileItem item=((IMultipartWebRequest)request).getFile(getInputName());
     if (item != null && item.getSize() > 0) {
-      return new FileUpload(item);
+      if (fileUpload == null) {
+        fileUpload=new FileUpload(item);
+      }
+      return fileUpload;
     }
   }
   return null;
