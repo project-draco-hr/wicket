@@ -1,0 +1,41 @@
+{
+  this.markupFragments=new MarkupFragment(this);
+  MarkupFragment current=this.markupFragments;
+  Stack<String> stack=new Stack<String>();
+  String basePath=null;
+  for (  MarkupElement elem : this.markup) {
+    if (elem instanceof RawMarkup) {
+      current.addMarkupElement(elem);
+    }
+ else {
+      final ComponentTag tag=(ComponentTag)elem;
+      final String path=(basePath == null ? tag.getId() : basePath + IMarkup.TAG_PATH_SEPARATOR + tag.getId());
+      if (tag.isOpen()) {
+        if (tag.hasNoCloseTag()) {
+          MarkupFragment fragment=new MarkupFragment(this,current,tag);
+          this.pathToFragment.put(path,fragment);
+        }
+ else {
+          current=new MarkupFragment(this,current,tag);
+          stack.push(basePath);
+          if (tag.getId().startsWith(Component.AUTO_COMPONENT_PREFIX)) {
+            this.pathToFragment.put(path,current);
+          }
+ else {
+            basePath=path;
+            this.pathToFragment.put(basePath,current);
+          }
+        }
+      }
+ else       if (tag.isOpenClose()) {
+        MarkupFragment fragment=new MarkupFragment(this,current,tag);
+        this.pathToFragment.put(path,fragment);
+      }
+ else {
+        current.addMarkupElement(tag);
+        current=current.getParentFragment();
+        basePath=stack.pop();
+      }
+    }
+  }
+}

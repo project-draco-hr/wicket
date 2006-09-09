@@ -5,6 +5,8 @@
     if (tag.hasAttributes()) {
       markupAttributes=new CopyOnWriteValueMap(tag.getAttributes());
     }
+    MarkupFragment markupFragment=getMarkupFragment();
+    return markupStream;
   }
  catch (  MarkupException ex) {
     log.warn("MarkupFragmentFinder was unable to find the markup associated with Component '" + id + "'. You will not be able to use the component for AJAX calls.");
@@ -12,6 +14,6 @@
   }
 catch (  RuntimeException re) {
     log.warn("MarkupFragmentFinder was unable to find the markup associated with Component '" + id + "'. You will not be able to use the component for AJAX calls.");
-    throw new WicketRuntimeException("Couldn't find the markup of the component '" + id + "' in parent "+ parent.getPageRelativePath(),re);
+    throw new MarkupNotFoundException("Couldn't find the markup of the component '" + id + "' in parent '"+ parent.getPageRelativePath()+ "'",re);
   }
 }

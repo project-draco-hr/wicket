@@ -2,15 +2,26 @@
   if ((id == null) || (id.length() == 0)) {
     return null;
   }
-  for (  MarkupElement elem : this) {
-    if (elem instanceof MarkupFragment) {
-      MarkupFragment fragment=(MarkupFragment)elem;
-      ComponentTag tag=(ComponentTag)fragment.get(0);
-      String tagId=tag.getId();
-      if ((tagId != null) && tagId.equals(id)) {
-        return fragment;
+  if (id.indexOf(IMarkup.TAG_PATH_SEPARATOR) == -1) {
+    for (    MarkupElement elem : this) {
+      if (elem instanceof MarkupFragment) {
+        MarkupFragment fragment=(MarkupFragment)elem;
+        ComponentTag tag=(ComponentTag)fragment.get(0);
+        String tagId=tag.getId();
+        if ((tagId != null) && tagId.equals(id)) {
+          return fragment;
+        }
       }
     }
+  }
+ else {
+    String root=Strings.firstPathComponent(id,IMarkup.TAG_PATH_SEPARATOR);
+    MarkupFragment child=getChildFragment(root);
+    if (child == null) {
+      return null;
+    }
+    String remainingPath=Strings.afterFirst(id,IMarkup.TAG_PATH_SEPARATOR);
+    return child.getChildFragment(remainingPath);
   }
   return null;
 }
