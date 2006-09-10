@@ -4,26 +4,16 @@
   }
  catch (  RuntimeException ex) {
   }
-  PrependingStringBuffer buf=new PrependingStringBuffer(80);
-  buf.prepend(path);
-  buf.prepend(IMarkup.TAG_PATH_SEPARATOR);
-  buf.prepend(getMarkupPathName());
+  path=getId() + IMarkup.TAG_PATH_SEPARATOR + path;
   MarkupContainer parent=getParent();
   while ((parent != null) && !(parent instanceof IMarkupProvider)) {
-    String pathName=parent.getMarkupPathName();
-    if ((pathName != null) && (pathName.length() > 0)) {
-      if (buf.length() > 0) {
-        buf.prepend(IMarkup.TAG_PATH_SEPARATOR);
-      }
-      buf.prepend(parent.getMarkupPathName());
-    }
+    path=parent.getMarkupFragmentPath(path);
     parent=parent.getParent();
   }
   if (parent == null) {
-    throw new MarkupNotFoundException("Border has no parent with external markup file: " + getId());
+    throw new MarkupNotFoundException("Component has no parent with external markup file: " + getId());
   }
-  String newPath=buf.toString();
-  MarkupFragment fragment=((IMarkupProvider)parent).getMarkupFragment(newPath);
+  MarkupFragment fragment=((IMarkupProvider)parent).getMarkupFragment(path);
   if (fragment == null) {
     throw new MarkupNotFoundException("Unable to find the markup fragment with markup path '" + path + "'. Component: "+ getId());
   }
