@@ -11,7 +11,12 @@
       final String variableName=string.substring(startVariableName,endVariableName);
       final String value=getValue(variableName);
       if (value == null) {
-        buffer.append("${" + variableName + "}");
+        if (exceptionOnNullVarValue) {
+          throw new IllegalArgumentException("Value of variable [[" + variableName + "]] could not be resolved while interpolating [["+ string+ "]]");
+        }
+ else {
+          buffer.append("${" + variableName + "}");
+        }
       }
  else {
         buffer.append(value);
