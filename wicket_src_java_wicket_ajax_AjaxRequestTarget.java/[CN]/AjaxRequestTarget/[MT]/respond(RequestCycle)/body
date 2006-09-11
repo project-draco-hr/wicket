@@ -1,8 +1,6 @@
 {
   try {
     final Application app=Application.get();
-    final boolean oldUseCheck=app.getDebugSettings().getComponentUseCheck();
-    app.getDebugSettings().setComponentUseCheck(false);
     final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
     WebResponse response=(WebResponse)requestCycle.getResponse();
     response.setCharacterEncoding(encoding);
@@ -33,7 +31,6 @@
       respondInvocation(response,js);
     }
     response.write("</ajax-response>");
-    app.getDebugSettings().setComponentUseCheck(oldUseCheck);
   }
  catch (  RuntimeException ex) {
     LOG.error("Error while responding to an AJAX request: " + toString(),ex);
