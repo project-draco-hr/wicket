@@ -1,11 +1,13 @@
 {
-  Thread t=Thread.currentThread();
-  Iterator<Map.Entry<PageMap,Thread>> it=pageMapsUsedInRequest.entrySet().iterator();
-  while (it.hasNext()) {
-    Entry<PageMap,Thread> entry=it.next();
-    if (entry.getValue() == t) {
-      it.remove();
+  if (pageMapsUsedInRequest != null) {
+    Thread t=Thread.currentThread();
+    Iterator<Map.Entry<PageMap,Thread>> it=pageMapsUsedInRequest.entrySet().iterator();
+    while (it.hasNext()) {
+      Entry<PageMap,Thread> entry=it.next();
+      if (entry.getValue() == t) {
+        it.remove();
+      }
     }
+    notifyAll();
   }
-  notifyAll();
 }
