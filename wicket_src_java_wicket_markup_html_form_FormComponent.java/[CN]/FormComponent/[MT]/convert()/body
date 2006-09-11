@@ -6,17 +6,17 @@
  catch (    ConversionException e) {
       ValidationError error=new ValidationError();
       if (e.getTargetType() != null) {
-        error.addKey("ConversionError." + Classes.simpleName(e.getTargetType()));
+        error.addMessageKey("ConversionError." + Classes.simpleName(e.getTargetType()));
       }
-      error.addKey("ConversionError");
+      error.addMessageKey("ConversionError");
       final Locale locale=e.getLocale();
       if (locale != null) {
-        error.setParam("locale",locale);
+        error.setVar("locale",locale);
       }
-      error.setParam("exception",e);
+      error.setVar("exception",e);
       Format format=e.getFormat();
       if (format instanceof SimpleDateFormat) {
-        error.setParam("format",((SimpleDateFormat)format).toLocalizedPattern());
+        error.setVar("format",((SimpleDateFormat)format).toLocalizedPattern());
       }
       error(error);
     }
@@ -28,17 +28,17 @@
     }
  catch (    ConversionException e) {
       ValidationError error=new ValidationError();
-      error.addKey("TypeValidator." + Classes.simpleName(type));
-      error.addKey("TypeValidator");
-      error.setParam("type",Classes.simpleName(type));
+      error.addMessageKey("TypeValidator." + Classes.simpleName(type));
+      error.addMessageKey("TypeValidator");
+      error.setVar("type",Classes.simpleName(type));
       final Locale locale=e.getLocale();
       if (locale != null) {
-        error.setParam("locale",locale);
+        error.setVar("locale",locale);
       }
-      error.setParam("exception",e);
+      error.setVar("exception",e);
       Format format=e.getFormat();
       if (format instanceof SimpleDateFormat) {
-        error.setParam("format",((SimpleDateFormat)format).toLocalizedPattern());
+        error.setVar("format",((SimpleDateFormat)format).toLocalizedPattern());
       }
       error(error);
     }

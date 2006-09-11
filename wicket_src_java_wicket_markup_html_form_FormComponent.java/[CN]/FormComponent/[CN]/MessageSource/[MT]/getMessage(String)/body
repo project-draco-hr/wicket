@@ -1,0 +1,17 @@
+{
+  String prefix=FormComponent.this.getValidatorKeyPrefix();
+  if (Strings.isEmpty(prefix)) {
+    prefix="";
+  }
+  final Localizer localizer=FormComponent.this.getLocalizer();
+  String resource=prefix + getId() + "."+ key;
+  String message=localizer.getString(resource,FormComponent.this,"");
+  if (Strings.isEmpty(message)) {
+    resource=prefix + key;
+    message=localizer.getString(resource,FormComponent.this,"");
+  }
+  if (Strings.isEmpty(message)) {
+    message=null;
+  }
+  return message;
+}
