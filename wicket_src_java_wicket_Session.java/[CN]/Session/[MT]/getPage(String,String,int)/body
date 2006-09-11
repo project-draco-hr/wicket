@@ -4,21 +4,25 @@
   }
   PageMap pageMap=pageMapForName(pageMapName,pageMapName == PageMap.DEFAULT_NAME);
   if (pageMap != null) {
-    final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
-    Thread t=(Thread)usedPages.get(id);
+    long startTime=System.currentTimeMillis();
+    Thread t=(Thread)pageMapsUsedInRequest.get(pageMap);
     while (t != null && t != Thread.currentThread()) {
       try {
-        wait(1000);
+        wait(20000);
       }
  catch (      InterruptedException ex) {
         throw new WicketRuntimeException(ex);
       }
-      t=(Thread)usedPages.get(id);
+      t=(Thread)pageMapsUsedInRequest.get(pageMap);
+      if (t != null && t != Thread.currentThread() && (startTime + 20000) < System.currentTimeMillis()) {
+        throw new WicketRuntimeException("After 20s the Pagemap " + pageMapName + " is still locked by: "+ t+ ", giving up trying to get the page for path: "+ path);
+      }
     }
-    usedPages.put(id,Thread.currentThread());
+    pageMapsUsedInRequest.put(pageMap,Thread.currentThread());
+    final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
     Page page=pageMap.get(Integer.parseInt(id),versionNumber);
     if (page == null) {
-      usedPages.remove(id);
+      pageMapsUsedInRequest.remove(pageMap);
       notifyAll();
     }
     return page;
