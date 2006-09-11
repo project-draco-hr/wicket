@@ -4,25 +4,21 @@
       convertedInput=convertValue(getInputAsArray());
     }
  catch (    ConversionException e) {
-      Map<String,Serializable> args=new HashMap<String,Serializable>();
+      ValidationError error=new ValidationError();
+      if (e.getTargetType() != null) {
+        error.addKey("ConversionError." + Classes.simpleName(e.getTargetType()));
+      }
+      error.addKey("ConversionError");
       final Locale locale=e.getLocale();
       if (locale != null) {
-        args.put("locale",locale);
+        error.setParam("locale",locale);
       }
-      args.put("exception",e);
+      error.setParam("exception",e);
       Format format=e.getFormat();
       if (format instanceof SimpleDateFormat) {
-        args.put("format",((SimpleDateFormat)format).toLocalizedPattern());
+        error.setParam("format",((SimpleDateFormat)format).toLocalizedPattern());
       }
-      String[] resourceKeys=null;
-      if (e.getTargetType() != null) {
-        String typedResourceKey="ConversionError." + Classes.simpleName(e.getTargetType());
-        resourceKeys=new String[]{typedResourceKey,"ConversionError"};
-      }
- else {
-        resourceKeys=new String[]{"ConversionError"};
-      }
-      error(Arrays.asList(resourceKeys),args);
+      error(error);
     }
   }
  else   if (!Strings.isEmpty(getInput())) {
@@ -31,20 +27,20 @@
       convertedInput=(T)converter.convertToObject(getInput(),getLocale());
     }
  catch (    ConversionException e) {
-      Map<String,Serializable> args=new HashMap<String,Serializable>();
-      args.put("type",Classes.simpleName(type));
+      ValidationError error=new ValidationError();
+      error.addKey("TypeValidator." + Classes.simpleName(type));
+      error.addKey("TypeValidator");
+      error.setParam("type",Classes.simpleName(type));
       final Locale locale=e.getLocale();
       if (locale != null) {
-        args.put("locale",locale);
+        error.setParam("locale",locale);
       }
-      args.put("exception",e);
+      error.setParam("exception",e);
       Format format=e.getFormat();
       if (format instanceof SimpleDateFormat) {
-        args.put("format",((SimpleDateFormat)format).toLocalizedPattern());
+        error.setParam("format",((SimpleDateFormat)format).toLocalizedPattern());
       }
-      final String typedResourceKey="TypeValidator." + Classes.simpleName(type);
-      String[] resourceKeys=new String[]{typedResourceKey,"TypeValidator"};
-      error(Arrays.asList(resourceKeys),args);
+      error(error);
     }
   }
 }
