@@ -2,5 +2,10 @@
   if (this.markup == null) {
     this.markup=getAssociatedMarkupStream(true).getMarkup();
   }
-  return this.markup.findMarkupFragment(path,true);
+  try {
+    return this.markup.findMarkupFragment(path,true);
+  }
+ catch (  WicketRuntimeException ex) {
+    throw new MarkupNotFoundException(ex.getMessage() + "; Component: " + toString(),ex);
+  }
 }

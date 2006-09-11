@@ -1,11 +1,11 @@
 {
   try {
+    MarkupFragment markupFragment=getMarkupFragment();
     MarkupStream markupStream=Application.get().getMarkupSettings().getMarkupFragmentFinder().find(this);
     ComponentTag tag=markupStream.getTag();
     if (tag.hasAttributes()) {
       markupAttributes=new CopyOnWriteValueMap(tag.getAttributes());
     }
-    MarkupFragment markupFragment=getMarkupFragment();
     return markupStream;
   }
  catch (  MarkupException ex) {
