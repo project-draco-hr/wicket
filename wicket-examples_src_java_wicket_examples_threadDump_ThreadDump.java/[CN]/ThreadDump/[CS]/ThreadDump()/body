@@ -1,0 +1,28 @@
+{
+  ThreadDumpBean bean=new ThreadDumpBean();
+  RepeatingView threads=new RepeatingView(this,"threads");
+  for (  Thread thread : bean.getThreads()) {
+    WebMarkupContainer item=new WebMarkupContainer(threads,threads.newChildId());
+    MarkupContainer anchor=new WebMarkupContainer(item,"anchor");
+    anchor.add(new AttributeModifier("href",true,new Model<String>("#" + thread.getId())));
+    new Label(anchor,"name",thread.getName());
+    new Label(item,"state",thread.getState().toString());
+    new Label(item,"priority",new Model<Integer>(Integer.valueOf(thread.getPriority())));
+    new Label(item,"daemon",new Model<Boolean>(Boolean.valueOf(thread.isDaemon())));
+  }
+  RepeatingView traces=new RepeatingView(this,"traces");
+  for (  Map.Entry<Thread,StackTraceElement[]> entry : bean.getTraces().entrySet()) {
+    Thread thread=entry.getKey();
+    StackTraceElement[] trace=entry.getValue();
+    WebMarkupContainer item=new WebMarkupContainer(traces,traces.newChildId());
+    MarkupContainer anchor=new WebMarkupContainer(item,"anchor");
+    anchor.add(new AttributeModifier("name",true,new Model<Long>(thread.getId())));
+    new Label(anchor,"key",new Model<String>(thread.getName()));
+    new ListView<StackTraceElement>(item,"lines",Arrays.asList(trace)){
+      @Override protected void populateItem(      final ListItem item){
+        new Label(item,"line",item.getModel());
+      }
+    }
+;
+  }
+}
