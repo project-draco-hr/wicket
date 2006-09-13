@@ -1,12 +1,11 @@
 {
+  final FormComponent fc=FormComponent.this;
   Object label=null;
-  if (FormComponent.this.getLabel() != null) {
-    label=FormComponent.this.getLabel().getObject();
+  if (fc.getLabel() != null) {
+    label=fc.getLabel().getObject();
   }
   if (label == null) {
-    final String id=FormComponent.this.getId();
-    final Localizer localizer=FormComponent.this.getLocalizer();
-    label=localizer.getString(id,FormComponent.this,id);
+    label=fc.getLocalizer().getString(fc.getId(),fc.getParent(),fc.getId());
   }
   return label;
 }

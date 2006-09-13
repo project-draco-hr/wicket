@@ -1,14 +1,15 @@
 {
-  String prefix=FormComponent.this.getValidatorKeyPrefix();
+  final FormComponent fc=FormComponent.this;
+  String prefix=fc.getValidatorKeyPrefix();
   if (Strings.isEmpty(prefix)) {
     prefix="";
   }
-  final Localizer localizer=FormComponent.this.getLocalizer();
+  final Localizer localizer=fc.getLocalizer();
   String resource=prefix + getId() + "."+ key;
-  String message=localizer.getString(resource,FormComponent.this,"");
+  String message=localizer.getString(resource,fc.getParent(),"");
   if (Strings.isEmpty(message)) {
     resource=prefix + key;
-    message=localizer.getString(resource,FormComponent.this,"");
+    message=localizer.getString(resource,fc.getParent(),"");
   }
   if (Strings.isEmpty(message)) {
     message=null;
