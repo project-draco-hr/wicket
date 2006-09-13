@@ -13,7 +13,7 @@
     }
     return fragment;
   }
-  MarkupFragment fragment=this.markupProvider.getMarkupFragment().getChildFragment(this.markupId);
+  MarkupFragment fragment=((IMarkupProvider)this.markupProvider).getMarkupFragment(this.markupId);
   if (fragment == null) {
     throw new WicketRuntimeException("Unable to find the markup fragment with markup path '" + path + "' in markup provided by container: "+ this.markupProvider.getId()+ ". Component: "+ getId());
   }

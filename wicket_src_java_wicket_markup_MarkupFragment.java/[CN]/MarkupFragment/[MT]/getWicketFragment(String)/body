@@ -1,0 +1,18 @@
+{
+  for (  MarkupElement elem : this) {
+    if (elem instanceof MarkupFragment) {
+      MarkupFragment fragment=(MarkupFragment)elem;
+      ComponentTag tag=(ComponentTag)fragment.get(0);
+      if (tag.isWicketTag(name)) {
+        return fragment;
+      }
+ else {
+        fragment=fragment.getWicketFragment(name);
+        if (fragment != null) {
+          return fragment;
+        }
+      }
+    }
+  }
+  return null;
+}
