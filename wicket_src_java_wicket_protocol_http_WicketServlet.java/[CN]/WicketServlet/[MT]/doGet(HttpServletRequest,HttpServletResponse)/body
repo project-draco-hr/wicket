@@ -1,6 +1,5 @@
 {
   long time=System.currentTimeMillis();
-  Application.set(webApplication);
   final WebRequest request=webApplication.newWebRequest(servletRequest);
   if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
     String queryString=servletRequest.getQueryString();
@@ -22,6 +21,7 @@
       throw new WicketRuntimeException(ex.getMessage());
     }
   }
+  Application.set(webApplication);
   final WebSession session=webApplication.getSession(request);
   final WebResponse response=webApplication.newWebResponse(servletResponse);
   response.setAjax(request.isAjax());
