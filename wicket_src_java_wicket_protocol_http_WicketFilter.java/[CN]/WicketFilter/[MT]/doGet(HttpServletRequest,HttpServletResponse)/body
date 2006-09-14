@@ -1,5 +1,12 @@
 {
-  Application.set(webApplication);
+  if (servletRequest.getCharacterEncoding() == null) {
+    try {
+      servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+    }
+ catch (    UnsupportedEncodingException ex) {
+      throw new WicketRuntimeException(ex.getMessage());
+    }
+  }
   final WebRequest request=webApplication.newWebRequest(servletRequest);
   if (webApplication.getRequestCycleSettings().getRenderStrategy() == RenderStrategy.REDIRECT_TO_BUFFER) {
     String queryString=servletRequest.getQueryString();
@@ -15,14 +22,7 @@
       }
     }
   }
-  if (servletRequest.getCharacterEncoding() == null) {
-    try {
-      servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
-    }
- catch (    UnsupportedEncodingException ex) {
-      throw new WicketRuntimeException(ex.getMessage());
-    }
-  }
+  Application.set(webApplication);
   final WebSession session=webApplication.getSession(request);
   final WebResponse response=webApplication.newWebResponse(servletResponse);
   response.setAjax(request.isAjax());
