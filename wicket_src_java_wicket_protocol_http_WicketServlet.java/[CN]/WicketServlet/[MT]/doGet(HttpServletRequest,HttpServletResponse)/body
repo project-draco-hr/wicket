@@ -1,5 +1,13 @@
 {
   long time=System.currentTimeMillis();
+  if (servletRequest.getCharacterEncoding() == null) {
+    try {
+      servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+    }
+ catch (    UnsupportedEncodingException ex) {
+      throw new WicketRuntimeException(ex.getMessage());
+    }
+  }
   final WebRequest request=webApplication.newWebRequest(servletRequest);
   if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
     String queryString=servletRequest.getQueryString();
@@ -11,14 +19,6 @@
         bufferedResponse.writeTo(servletResponse);
         return;
       }
-    }
-  }
-  if (servletRequest.getCharacterEncoding() == null) {
-    try {
-      servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
-    }
- catch (    UnsupportedEncodingException ex) {
-      throw new WicketRuntimeException(ex.getMessage());
     }
   }
   Application.set(webApplication);
