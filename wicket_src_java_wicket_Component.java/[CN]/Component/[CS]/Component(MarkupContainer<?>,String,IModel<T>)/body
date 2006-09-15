@@ -1,4 +1,5 @@
 {
+  setId(id);
   if (parent == null) {
     if (!(this instanceof Page)) {
       throw new WicketRuntimeException("component without a parent is not allowed.");
@@ -8,7 +9,6 @@
     parent=((IAlternateParentProvider)parent).getAlternateParent();
   }
   this.parent=parent;
-  setId(id);
   getApplication().notifyComponentInstantiationListeners(this);
   if (id.startsWith(AUTO_COMPONENT_PREFIX)) {
     parent.autoAdd(this);
