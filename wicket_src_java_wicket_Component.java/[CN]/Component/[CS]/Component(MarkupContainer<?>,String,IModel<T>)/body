@@ -4,6 +4,9 @@
       throw new WicketRuntimeException("component without a parent is not allowed.");
     }
   }
+ else   if (parent instanceof IAlternateParentProvider) {
+    parent=((IAlternateParentProvider)parent).getAlternateParent();
+  }
   this.parent=parent;
   setId(id);
   getApplication().notifyComponentInstantiationListeners(this);
