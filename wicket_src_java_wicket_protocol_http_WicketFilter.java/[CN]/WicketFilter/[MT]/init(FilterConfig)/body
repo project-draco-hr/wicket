@@ -6,7 +6,9 @@
   String contextKey="wicket:" + filterConfig.getFilterName();
   filterConfig.getServletContext().setAttribute(contextKey,this.webApplication);
   filterPath=filterConfig.getInitParameter(FILTER_PATH_PARAM);
-  if (filterPath == null)   filterPath="";
+  if (filterPath == null) {
+    filterPath="";
+  }
   try {
     Application.set(webApplication);
     this.webApplication.internalInit();
