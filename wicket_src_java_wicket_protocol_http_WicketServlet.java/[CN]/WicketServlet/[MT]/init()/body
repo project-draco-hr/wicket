@@ -1,10 +1,12 @@
 {
-  IWebApplicationFactory factory=getApplicationFactory();
-  this.webApplication=factory.createApplication(this);
+  if (this.webApplication == null) {
+    IWebApplicationFactory factory=getApplicationFactory();
+    this.webApplication=factory.createApplication(this);
+    log.info("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
+  }
   this.webApplication.setWicketServlet(this);
   String contextKey="wicket:" + getServletConfig().getServletName();
   getServletContext().setAttribute(contextKey,this.webApplication);
-  log.info("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
   try {
     Application.set(webApplication);
     this.webApplication.internalInit();
