@@ -18,6 +18,10 @@
   Assert.assertNotNull(failMessage,ajaxEventBehavior);
   setupRequestAndResponse();
   RequestCycle requestCycle=createRequestCycle();
+  if (ajaxEventBehavior instanceof AjaxFormSubmitBehavior) {
+    AjaxFormSubmitBehavior ajaxFormSubmitBehavior=(AjaxFormSubmitBehavior)ajaxEventBehavior;
+    submitAjaxFormSubmitBehavior(ajaxFormSubmitBehavior);
+  }
   ajaxEventBehavior.onRequest();
   requestCycle.getRequestTarget().respond(requestCycle);
 }

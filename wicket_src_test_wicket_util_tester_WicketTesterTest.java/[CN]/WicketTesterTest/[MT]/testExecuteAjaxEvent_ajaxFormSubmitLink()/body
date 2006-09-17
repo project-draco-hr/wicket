@@ -1,0 +1,11 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.startPage(MockPageWithFormAndAjaxFormSubmitBehavior.class);
+  MockPageWithFormAndAjaxFormSubmitBehavior page=(MockPageWithFormAndAjaxFormSubmitBehavior)tester.getLastRenderedPage();
+  Pojo pojo=page.getPojo();
+  assertEquals("Mock name",pojo.getName());
+  assertFalse(page.isExecuted());
+  tester.executeAjaxEvent("eventComponent","onclick");
+  assertEquals("Mock name",pojo.getName());
+  assertTrue(page.isExecuted());
+}
