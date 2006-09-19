@@ -1,4 +1,12 @@
 {
+  String responseType=resourceStream.getContentType();
+  if (responseType == null) {
+    responseType=this.responseType;
+  }
   response.setContentType(responseType + ";charset=" + response.getCharacterEncoding());
   response.setContentLength((int)resourceStream.length());
+  String file=getFileName();
+  if (file != null && (response instanceof WebResponse)) {
+    ((WebResponse)response).setAttachmentHeader(file);
+  }
 }
