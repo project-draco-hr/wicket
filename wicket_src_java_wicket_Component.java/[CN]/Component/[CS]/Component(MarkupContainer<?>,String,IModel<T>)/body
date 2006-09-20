@@ -6,7 +6,13 @@
     }
   }
  else   if (parent instanceof IAlternateParentProvider) {
-    parent=((IAlternateParentProvider)parent).getAlternateParent(this.getClass(),id);
+    MarkupContainer recursiveCheck=parent;
+    while (parent instanceof IAlternateParentProvider) {
+      parent=((IAlternateParentProvider)parent).getAlternateParent(this.getClass(),id);
+      if (parent == recursiveCheck) {
+        break;
+      }
+    }
   }
   this.parent=parent;
   getApplication().notifyComponentInstantiationListeners(this);
