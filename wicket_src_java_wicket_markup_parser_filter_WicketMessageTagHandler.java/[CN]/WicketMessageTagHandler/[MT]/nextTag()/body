@@ -5,43 +5,7 @@
   }
   final String wicketMessageAttribute=tag.getAttributes().getString(WICKET_MESSAGE_ATTRIBUTE_NAME);
   if ((wicketMessageAttribute != null) && (wicketMessageAttribute.trim().length() > 0)) {
-    if (this.containerInfo == null) {
-      throw new ParseException("Found " + WICKET_MESSAGE_ATTRIBUTE_NAME + " but the message can not be resolved, because the associated Page is not known."+ " This might be caused by using the wrong MarkupParser constructor",tag.getPos());
-    }
-    final StringTokenizer attrTokenizer=new StringTokenizer(wicketMessageAttribute,",");
-    while (attrTokenizer.hasMoreTokens()) {
-      String text=attrTokenizer.nextToken().trim();
-      if (text == null) {
-        text=wicketMessageAttribute;
-      }
-      final StringTokenizer valueTokenizer=new StringTokenizer(text,"=");
-      if (valueTokenizer.countTokens() != 2) {
-        throw new ParseException("Wrong format of wicket:message attribute value. " + text + "; Must be: key=value[, key=value]",tag.getPos());
-      }
-      final String attrName=valueTokenizer.nextToken();
-      final String messageKey=valueTokenizer.nextToken();
-      if ((attrName == null) || (attrName.trim().length() == 0) || (messageKey == null)|| (messageKey.trim().length() == 0)) {
-        throw new ParseException("Wrong format of wicket:message attribute value. " + text + "; Must be: key=value[, key=value]",tag.getPos());
-      }
-      Component c=null;
-      Page page=RequestCycle.get().getResponsePage();
-      String path=containerInfo.getComponentPath();
-      String value=null;
-      if (page != null) {
-        c=page.get(path);
-        value=settings.getLocalizer().getString(messageKey,c);
-      }
-      if (value != null && (value.length() > 0)) {
-        tag.getAttributes().put(attrName,value);
-        tag.setModified(true);
-      }
- else       if (tag.getAttributes().get(attrName) == null) {
-        tag.getAttributes().put(attrName,value);
-        tag.setModified(true);
-      }
- else {
-      }
-    }
+    tag.addBehavior(ATTRIBUTE_LOCALIZER);
   }
   return tag;
 }

@@ -6,6 +6,12 @@
     if (tag.hasAttributes()) {
       markupAttributes=new CopyOnWriteValueMap(tag.getAttributes());
     }
+    if (tag.hasBehaviors()) {
+      Iterator<IBehavior> behaviors=tag.getBehaviors();
+      while (behaviors.hasNext()) {
+        add(behaviors.next());
+      }
+    }
     return markupStream;
   }
  catch (  MarkupException ex) {
