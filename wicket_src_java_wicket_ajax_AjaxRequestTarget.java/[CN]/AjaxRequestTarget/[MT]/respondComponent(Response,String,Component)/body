@@ -4,8 +4,8 @@
   }
   component.setOutputMarkupId(true);
   final Response originalResponse=response;
-  encodingResponse.reset();
-  RequestCycle.get().setResponse(encodingResponse);
+  encodingBodyResponse.reset();
+  RequestCycle.get().setResponse(encodingBodyResponse);
   final Page page=component.getPage();
   if (page == null) {
     throw new IllegalStateException("Ajax request attempted on a component that is not associated with a Page");
@@ -14,19 +14,20 @@
   page.setVersioned(false);
   page.startComponentRender(component);
   component.renderComponent();
+  respondHeaderContribution(response,component);
   page.endComponentRender(component);
   page.setVersioned(versioned);
   RequestCycle.get().setResponse(originalResponse);
   response.write("<component id=\"");
   response.write(markupId);
   response.write("\" ");
-  if (encodingResponse.isContentsEncoded()) {
+  if (encodingBodyResponse.isContentsEncoded()) {
     response.write(" encoding=\"");
     response.write(getEncodingName());
     response.write("\" ");
   }
   response.write("><![CDATA[");
-  response.write(encodingResponse.getContents());
+  response.write(encodingBodyResponse.getContents());
   response.write("]]></component>");
-  encodingResponse.reset();
+  encodingBodyResponse.reset();
 }
