@@ -1,17 +1,4 @@
 {
-  if (tag.getId().equals(WicketMessageTagHandler.WICKET_MESSAGE_CONTAINER_ID)) {
-    final String id=newAutoId(container);
-    MarkupContainer messageContainer=new WebMarkupContainer(container,id){
-      private static final long serialVersionUID=1L;
-      @Override public boolean isTransparentResolver(){
-        return true;
-      }
-    }
-;
-    messageContainer.add(WicketMessageTagHandler.ATTRIBUTE_LOCALIZER);
-    messageContainer.autoAdded();
-    return true;
-  }
   if (tag.isMessageTag()) {
     String messageKey=tag.getAttributes().getString("key");
     if ((messageKey == null) || (messageKey.trim().length() == 0)) {
@@ -29,6 +16,19 @@
     }
     component.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
     component.autoAdded();
+    return true;
+  }
+  if (tag.getId().equals(WicketMessageTagHandler.WICKET_MESSAGE_CONTAINER_ID)) {
+    final String id=newAutoId(container);
+    MarkupContainer messageContainer=new WebMarkupContainer(container,id){
+      private static final long serialVersionUID=1L;
+      @Override public boolean isTransparentResolver(){
+        return true;
+      }
+    }
+;
+    messageContainer.add(WicketMessageTagHandler.ATTRIBUTE_LOCALIZER);
+    messageContainer.autoAdded();
     return true;
   }
   return false;
