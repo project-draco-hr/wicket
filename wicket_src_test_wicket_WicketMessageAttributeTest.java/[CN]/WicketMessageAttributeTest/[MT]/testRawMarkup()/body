@@ -1,0 +1,13 @@
+{
+  Page page=new TestPage(){
+    private static final long serialVersionUID=1L;
+    @Override protected String getMarkupString(){
+      return "<span wicket:message='title:title-key,style:style-key'/>";
+    }
+  }
+;
+  application.startPage(page);
+  String response=application.getServletResponse().getDocument();
+  assertTrue(response.contains("title=\"title-value\""));
+  assertTrue(response.contains("style=\"style-value\""));
+}

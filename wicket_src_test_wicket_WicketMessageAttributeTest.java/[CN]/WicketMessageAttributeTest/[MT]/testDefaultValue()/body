@@ -1,0 +1,13 @@
+{
+  Page page=new TestPage(){
+    private static final long serialVersionUID=1L;
+    @Override protected String getMarkupString(){
+      return "<span wicket:id='label' width='100%' wicket:message='title:title-key,style:style-key,width:width-key'></span>";
+    }
+  }
+;
+  new Label(page,"label","i am label");
+  application.startPage(page);
+  TagTester tester=application.getTagByWicketId("label");
+  assertTrue("100%".equals(tester.getAttribute("width")));
+}

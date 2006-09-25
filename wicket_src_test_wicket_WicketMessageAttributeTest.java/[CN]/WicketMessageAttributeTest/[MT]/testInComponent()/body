@@ -1,0 +1,14 @@
+{
+  Page page=new TestPage(){
+    private static final long serialVersionUID=1L;
+    @Override protected String getMarkupString(){
+      return "<span wicket:id='label' wicket:message='title:title-key,style:style-key'></span>";
+    }
+  }
+;
+  new Label(page,"label","i am label");
+  application.startPage(page);
+  TagTester tester=application.getTagByWicketId("label");
+  assertTrue("title-value".equals(tester.getAttribute("title")));
+  assertTrue("style-value".equals(tester.getAttribute("style")));
+}

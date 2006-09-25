@@ -1,11 +1,16 @@
 {
+  if (tag.isRawWicketMessageTag()) {
+    final String id=newAutoId(container);
+    new WebMarkupContainer(container,id).add(WicketMessageTagHandler.ATTRIBUTE_LOCALIZER).autoAdded();
+    return true;
+  }
   if (tag.isMessageTag()) {
     String messageKey=tag.getAttributes().getString("key");
     if ((messageKey == null) || (messageKey.trim().length() == 0)) {
       throw new MarkupException("Wrong format of <wicket:message key='xxx'>: attribute 'key' is missing");
     }
     final String value=container.getApplication().getResourceSettings().getLocalizer().getString(messageKey,container,"");
-    final String id=Component.AUTO_COMPONENT_PREFIX + "_message_" + container.getPage().getAutoIndex();
+    final String id=newAutoId(container);
     Component component=null;
     if ((value != null) && (value.trim().length() > 0)) {
       component=new MyLabel(container,id,value);
