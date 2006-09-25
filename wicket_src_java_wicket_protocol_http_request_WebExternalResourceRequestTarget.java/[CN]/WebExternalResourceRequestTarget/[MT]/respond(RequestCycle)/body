@@ -2,9 +2,12 @@
   try {
     WebResponse webResponse=((WebRequestCycle)requestCycle).getWebResponse();
     final ServletContext context=((WebApplication)requestCycle.getApplication()).getServletContext();
-    webResponse.setContentType(context.getMimeType(url));
     final InputStream in=context.getResourceAsStream(url);
     if (in != null) {
+      String contentType=context.getMimeType(url);
+      if (contentType != null) {
+        webResponse.setContentType(contentType);
+      }
       try {
         Streams.copy(in,webResponse.getHttpServletResponse().getOutputStream());
       }
