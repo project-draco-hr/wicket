@@ -4,7 +4,14 @@
   }
  catch (  RuntimeException ex) {
   }
-  path=getId() + IMarkup.TAG_PATH_SEPARATOR + path;
+  if (this instanceof IAlternateParentProvider) {
+    MarkupContainer parent=((IAlternateParentProvider)this).getAlternateParent(null,null);
+    String id=parent.getId() + Component.PATH_SEPARATOR;
+    if (path.startsWith(id)) {
+      path=path.substring(id.length());
+    }
+  }
+  path=getId() + Component.PATH_SEPARATOR + path;
   MarkupContainer parent=getParent();
   while ((parent != null) && !(parent instanceof IMarkupProvider)) {
     path=parent.getMarkupFragmentPath(path);

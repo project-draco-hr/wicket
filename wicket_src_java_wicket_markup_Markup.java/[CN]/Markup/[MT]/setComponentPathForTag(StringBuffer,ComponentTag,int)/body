@@ -2,7 +2,7 @@
   if ((tag.isOpen() || tag.isOpenClose()) && tag.getAttributes().containsKey(wicketId)) {
     int size=tagPath.length();
     if (size > 0) {
-      tagPath.append(TAG_PATH_SEPARATOR);
+      tagPath.append(Component.PATH_SEPARATOR);
     }
     tagPath.append(tag.getId());
     this.componentMap.put(tagPath.toString(),Integer.valueOf(tagIndex));
@@ -12,7 +12,7 @@
   }
  else   if (tag.isClose() && (tagPath != null)) {
     if ((tag.getOpenTag() == null) || tag.getOpenTag().getAttributes().containsKey(wicketId)) {
-      final int index=tagPath.lastIndexOf(String.valueOf(TAG_PATH_SEPARATOR));
+      final int index=tagPath.lastIndexOf(String.valueOf(Component.PATH_SEPARATOR));
       if (index != -1) {
         tagPath.setLength(index);
       }
