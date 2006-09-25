@@ -7,7 +7,7 @@
     if (parent == null) {
       throw new WicketRuntimeException("Component has no parent with external markup file: " + getId());
     }
-    MarkupFragment fragment=((IMarkupProvider)parent).getMarkupFragment(this.markupId);
+    MarkupFragment fragment=((IMarkupProvider)parent).getMarkupFragment(this.markupId + Component.PATH_SEPARATOR + path);
     if (fragment == null) {
       throw new WicketRuntimeException("Unable to find the markup fragment with markup path '" + path + "'. Component: "+ getId());
     }
