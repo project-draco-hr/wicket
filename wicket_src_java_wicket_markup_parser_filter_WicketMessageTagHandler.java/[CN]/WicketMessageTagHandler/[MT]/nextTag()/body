@@ -6,6 +6,10 @@
   final String wicketMessageAttribute=tag.getAttributes().getString(WICKET_MESSAGE_ATTRIBUTE_NAME);
   if ((wicketMessageAttribute != null) && (wicketMessageAttribute.trim().length() > 0)) {
     tag.addBehavior(ATTRIBUTE_LOCALIZER);
+    if (tag.getId() == null) {
+      tag.setId(getClass().getSimpleName());
+      tag.setRawWicketMessageTag(true);
+    }
   }
   return tag;
 }
