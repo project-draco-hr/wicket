@@ -1,7 +1,14 @@
 {
-  final String href=tag.getAttributes().getString("href");
-  if ((tag.getId() == null) && (href != null) && (href.indexOf(":") == -1)) {
-    return true;
+  if (tag.getId() == null) {
+    ValueMap attributes=tag.getAttributes();
+    String ref=attributes.getString("href");
+    if (checkRef(ref)) {
+      return true;
+    }
+    ref=attributes.getString("src");
+    if (checkRef(ref)) {
+      return true;
+    }
   }
   return false;
 }
