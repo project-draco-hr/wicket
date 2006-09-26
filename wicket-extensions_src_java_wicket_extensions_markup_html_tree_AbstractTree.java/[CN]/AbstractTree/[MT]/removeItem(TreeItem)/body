@@ -1,7 +1,11 @@
 {
   dirtyItems.remove(item);
-  dirtyItemsCreateDOM.remove(item);
-  deleteIds.append(getShortItemId(item));
-  deleteIds.append(",");
+  if (dirtyItemsCreateDOM.contains(item)) {
+    dirtyItemsCreateDOM.remove(item);
+  }
+ else {
+    deleteIds.append(getShortItemId(item));
+    deleteIds.append(",");
+  }
   item.remove();
 }
