@@ -6,6 +6,7 @@
       TreeNode node=(TreeNode)e.getChildren()[i];
       TreeItem item=(TreeItem)nodeToItemMap.get(node);
       if (item != null) {
+        markTheLastButOneChildDirty(parentItem,item);
         parentItem.getChildren().remove(item);
         visitItemChildren(item,new IItemCallback(){
           public void visitItem(          TreeItem item){
@@ -13,7 +14,6 @@
           }
         }
 );
-        markTheLastButOneChildDirty(parentItem,item);
         removeItem(item);
       }
     }
