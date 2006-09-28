@@ -1,5 +1,3 @@
 {
-  RequestCycle cycle=getRequestCycle();
-  IRequestCodingStrategy encoder=cycle.getProcessor().getRequestCodingStrategy();
-  return encoder.encode(cycle,new BookmarkablePageRequestTarget("rightFrame",frameTarget.getFrameClass()));
+  return RequestCycle.get().urlFor(PageMap.forName(RIGHT_FRAME_NAME),frameTarget.getFrameClass(),null);
 }
