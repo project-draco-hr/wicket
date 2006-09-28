@@ -7,7 +7,14 @@
     throw new IllegalArgumentException("argument [tabs] must contain a list of at least one tab");
   }
   this.tabs=tabs;
-  add(new Loop("tabs",tabs.size()){
+  final IModel tabCount=new AbstractReadOnlyModel(){
+    private static final long serialVersionUID=1L;
+    public Object getObject(    Component component){
+      return Integer.valueOf(TabbedPanel.this.size());
+    }
+  }
+;
+  add(new Loop("tabs",tabCount){
     private static final long serialVersionUID=1L;
     protected void populateItem(    LoopItem item){
       final int index=item.getIteration();
