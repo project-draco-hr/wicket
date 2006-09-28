@@ -1,8 +1,12 @@
 {
+  if (markup == null) {
+    return;
+  }
   this.markupFragments=new MarkupFragment(this);
-  MarkupFragment current=this.markupFragments;
   Stack<String> stack=new Stack<String>();
   String basePath=null;
+  Stack<MarkupFragment> fragmentStack=new Stack<MarkupFragment>();
+  MarkupFragment current=this.markupFragments;
   for (  MarkupElement elem : this.markup) {
     if (elem instanceof RawMarkup) {
       current.addMarkupElement(elem);
@@ -12,30 +16,31 @@
       final String path=(basePath == null ? tag.getId() : basePath + Component.PATH_SEPARATOR + tag.getId());
       if (tag.isOpen()) {
         if (tag.hasNoCloseTag()) {
-          MarkupFragment fragment=new MarkupFragment(this,current,tag);
-          this.pathToFragment.put(path,fragment);
+          current.addMarkupElement(new MarkupFragment(this,tag));
         }
  else {
-          current=new MarkupFragment(this,current,tag);
           stack.push(basePath);
-          if (tag.getId().startsWith(Component.AUTO_COMPONENT_PREFIX)) {
-            this.pathToFragment.put(path,current);
-          }
- else {
+          fragmentStack.push(current);
+          MarkupFragment newFragment=new MarkupFragment(this,tag);
+          current.addMarkupElement(newFragment);
+          current=newFragment;
+          if (!tag.getId().startsWith(Component.AUTO_COMPONENT_PREFIX)) {
             basePath=path;
-            this.pathToFragment.put(basePath,current);
           }
         }
       }
  else       if (tag.isOpenClose()) {
-        MarkupFragment fragment=new MarkupFragment(this,current,tag);
-        this.pathToFragment.put(path,fragment);
+        MarkupFragment newFragment=new MarkupFragment(this,tag);
+        current.addMarkupElement(newFragment);
       }
  else {
         current.addMarkupElement(tag);
-        current=current.getParentFragment();
+        current=fragmentStack.pop();
         basePath=stack.pop();
       }
     }
+  }
+  if ((this.markupFragments.size() == 1) && (this.markupFragments.get(0) instanceof MarkupFragment)) {
+    this.markupFragments=(MarkupFragment)this.markupFragments.get(0);
   }
 }

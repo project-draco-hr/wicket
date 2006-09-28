@@ -1,16 +1,17 @@
 {
+  MarkupElement element=get(0);
+  if (element instanceof ComponentTag) {
+    ComponentTag tag=getTag(0);
+    if (tag.isWicketTag(name)) {
+      return this;
+    }
+  }
   for (  MarkupElement elem : this) {
     if (elem instanceof MarkupFragment) {
       MarkupFragment fragment=(MarkupFragment)elem;
-      ComponentTag tag=(ComponentTag)fragment.get(0);
-      if (tag.isWicketTag(name)) {
+      fragment=fragment.getWicketFragment(name);
+      if (fragment != null) {
         return fragment;
-      }
- else {
-        fragment=fragment.getWicketFragment(name);
-        if (fragment != null) {
-          return fragment;
-        }
       }
     }
   }

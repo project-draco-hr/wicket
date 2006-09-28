@@ -2,17 +2,20 @@
   if ((id == null) || (id.length() == 0)) {
     return null;
   }
+  String tagId=getId();
+  if ((tagId != null) && tagId.equals(id)) {
+    return this;
+  }
   if (id.indexOf(Component.PATH_SEPARATOR) == -1) {
     for (    MarkupElement elem : this) {
       if (elem instanceof MarkupFragment) {
         MarkupFragment fragment=(MarkupFragment)elem;
-        ComponentTag tag=(ComponentTag)fragment.get(0);
-        String tagId=tag.getId();
+        tagId=fragment.getId();
         if ((tagId != null) && tagId.equals(id)) {
           return fragment;
         }
         if (tagId.startsWith(Component.AUTO_COMPONENT_PREFIX)) {
-          MarkupFragment frag=fragment.getChildFragment(id);
+          MarkupFragment frag=fragment.getChildFragment(id,false);
           if (frag != null) {
             return frag;
           }
@@ -22,12 +25,14 @@
   }
  else {
     String root=Strings.firstPathComponent(id,Component.PATH_SEPARATOR);
-    MarkupFragment child=getChildFragment(root);
-    if (child == null) {
-      return null;
+    MarkupFragment child=getChildFragment(root,false);
+    if (child != null) {
+      String remainingPath=Strings.afterFirst(id,Component.PATH_SEPARATOR);
+      return child.getChildFragment(remainingPath,throwException);
     }
-    String remainingPath=Strings.afterFirst(id,Component.PATH_SEPARATOR);
-    return child.getChildFragment(remainingPath);
+  }
+  if (throwException == true) {
+    throw new MarkupException("Markup fragment with id '" + id + "' not found: Markup Fragment: "+ this.getId());
   }
   return null;
 }
