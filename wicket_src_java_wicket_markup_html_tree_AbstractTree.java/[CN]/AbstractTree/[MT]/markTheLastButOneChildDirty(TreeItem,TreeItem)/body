@@ -1,17 +1,8 @@
 {
   if (parent.getChildren().indexOf(child) == parent.getChildren().size() - 1) {
-    final Boolean[] stop=new Boolean[]{Boolean.FALSE};
-    for (int i=parent.getChildren().size() - 2; i >= 0 && stop[0] == Boolean.FALSE; --i) {
+    for (int i=parent.getChildren().size() - 2; i >= 0; --i) {
       TreeItem item=(TreeItem)parent.getChildren().get(i);
-      visitItemAndChildren(item,new IItemCallback(){
-        public void visitItem(        TreeItem item){
-          if (dirtyItems.contains(item) == false && dirtyItemsCreateDOM.contains(item) == false) {
-            dirtyItems.add(item);
-            stop[0]=Boolean.TRUE;
-          }
-        }
-      }
-);
+      invalidateNodeWithChildren((TreeNode)item.getModelObject());
     }
   }
 }
