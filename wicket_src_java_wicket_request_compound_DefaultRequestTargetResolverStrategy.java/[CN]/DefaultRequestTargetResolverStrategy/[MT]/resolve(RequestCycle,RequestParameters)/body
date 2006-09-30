@@ -1,20 +1,32 @@
 {
-  IRequestTarget mounted=requestCycle.getProcessor().getRequestCodingStrategy().targetForRequest(requestParameters);
+  IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
+  IRequestTarget mounted=requestCodingStrategy.targetForRequest(requestParameters);
   if (mounted != null) {
     return mounted;
   }
+  IRequestTarget target=null;
   final String path=requestParameters.getPath();
   if (requestParameters.getBookmarkablePageClass() != null) {
-    return resolveBookmarkablePage(requestCycle,requestParameters);
+    target=resolveBookmarkablePage(requestCycle,requestParameters);
   }
  else   if (requestParameters.getComponentPath() != null) {
-    return resolveRenderedPage(requestCycle,requestParameters);
+    target=resolveRenderedPage(requestCycle,requestParameters);
   }
  else   if (requestParameters.getResourceKey() != null) {
-    return resolveSharedResource(requestCycle,requestParameters);
+    target=resolveSharedResource(requestCycle,requestParameters);
   }
  else   if (Strings.isEmpty(path) || ("/".equals(path))) {
-    return resolveHomePageTarget(requestCycle,requestParameters);
+    target=resolveHomePageTarget(requestCycle,requestParameters);
   }
-  return resolveExternalResource(requestCycle);
+  if (target != null) {
+    if (Application.get().getSecuritySettings().getEnforceMounts() && requestCodingStrategy.pathForTarget(target) != null) {
+      String msg="Direct access not allowed for mounted targets";
+      log.error(msg + " [request=" + requestCycle.getRequest()+ ",target="+ target+ ",session="+ Session.get()+ "]");
+      target=new WebErrorCodeResponseTarget(HttpServletResponse.SC_FORBIDDEN,msg);
+    }
+    return target;
+  }
+ else {
+    return resolveExternalResource(requestCycle);
+  }
 }
