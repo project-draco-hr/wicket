@@ -1,5 +1,9 @@
 {
-  IMarkup markup=super.loadMarkup(container,markupResourceStream);
-  markup=checkForMarkupInheritance(container,markup);
+  MarkupFragment markup=super.loadMarkup(container,markupResourceStream);
+  final MarkupFragment extendFragment=requiresBaseMarkup(markup);
+  if (extendFragment != null) {
+    final MarkupFragment baseMarkup=getBaseMarkup(container,markup);
+    markup=mergedMarkup(markup,baseMarkup,extendFragment);
+  }
   return markup;
 }

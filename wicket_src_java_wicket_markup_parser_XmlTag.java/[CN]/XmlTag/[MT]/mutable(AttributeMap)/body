@@ -13,7 +13,12 @@
     tag.isMutable=true;
     tag.closes=closes;
     tag.copyOf=copyOf;
-    tag.attributes=markupAttributes;
+    if (markupAttributes == null) {
+      tag.attributes=new AttributeMap(attributes);
+    }
+ else {
+      tag.attributes=markupAttributes;
+    }
     return tag;
   }
 }

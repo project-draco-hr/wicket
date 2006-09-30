@@ -10,7 +10,7 @@
   }
   final IMarkupCacheKeyProvider markupCacheKeyProvider=getMarkupCacheKeyProvider(container);
   final CharSequence cacheKey=markupCacheKeyProvider.getCacheKey(container,clazz);
-  IMarkup markup=null;
+  MarkupFragment markup=null;
   if (cacheKey != null) {
     markup=markupCache.get(cacheKey);
   }
@@ -34,7 +34,7 @@ synchronized (markupCache) {
           markup=loadMarkupAndWatchForChanges(container,markupResourceStream);
         }
  else {
-          markup=IMarkup.NO_MARKUP;
+          markup=MarkupFragment.NO_MARKUP_FRAGMENT;
           if (cacheKey != null) {
             markupCache.put(cacheKey,markup);
           }

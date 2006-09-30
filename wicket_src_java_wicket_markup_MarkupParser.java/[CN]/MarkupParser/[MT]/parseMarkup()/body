@@ -1,6 +1,7 @@
 {
+  MarkupFragment markupFragment=this.markup.getMarkupFragments();
   try {
-    int size=this.markup.size();
+    int size=markupFragment.size();
     for (ComponentTag tag; null != (tag=(ComponentTag)this.markupFilterChain.nextTag()); ) {
       boolean add=(tag.getId() != null);
       if (!add && tag.getXmlTag().isClose()) {
@@ -16,30 +17,30 @@
           if (this.compressWhitespace) {
             rawMarkup=compressWhitespace(rawMarkup);
           }
-          this.markup.addMarkupElement(size,new RawMarkup(rawMarkup));
+          markupFragment.addMarkupElement(size,new RawMarkup(rawMarkup));
         }
         if (add) {
           if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
-            this.markup.addMarkupElement(tag);
+            markupFragment.addMarkupElement(tag);
           }
         }
  else         if (tag.isModified()) {
-          this.markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
+          markupFragment.addMarkupElement(new RawMarkup(tag.toCharSequence()));
         }
         this.xmlParser.setPositionMarker();
       }
-      size=this.markup.size();
+      size=markupFragment.size();
     }
   }
  catch (  final ParseException ex) {
     final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
     if (text.length() > 0) {
-      this.markup.addMarkupElement(new RawMarkup(text));
+      markupFragment.addMarkupElement(new RawMarkup(text));
     }
     this.markup.setEncoding(this.xmlParser.getEncoding());
     this.markup.setXmlDeclaration(this.xmlParser.getXmlDeclaration());
-    final MarkupStream markupStream=new MarkupStream(this.markup);
-    markupStream.setCurrentIndex(this.markup.size() - 1);
+    final MarkupStream markupStream=new MarkupStream(markupFragment);
+    markupStream.setCurrentIndex(markupFragment.size() - 1);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }
   final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
@@ -51,7 +52,8 @@
     if (this.compressWhitespace) {
       rawMarkup=compressWhitespace(rawMarkup);
     }
-    this.markup.addMarkupElement(new RawMarkup(rawMarkup));
+    markupFragment.addMarkupElement(new RawMarkup(rawMarkup));
   }
   this.markup.makeImmutable();
+  return this.markup.getMarkupFragments();
 }

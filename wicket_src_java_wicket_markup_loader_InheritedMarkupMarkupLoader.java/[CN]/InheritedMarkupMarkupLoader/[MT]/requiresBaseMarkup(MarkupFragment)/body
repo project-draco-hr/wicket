@@ -1,0 +1,21 @@
+{
+  if (markup.get(0) instanceof ComponentTag) {
+    ComponentTag tag=markup.getTag(0);
+    if (tag.isExtendTag()) {
+      return markup;
+    }
+  }
+  return (MarkupFragment)markup.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
+    public Object visit(    final MarkupElement element){
+      MarkupFragment fragment=(MarkupFragment)element;
+      if (fragment.get(0) instanceof ComponentTag) {
+        ComponentTag tag=fragment.getTag(0);
+        if (tag.isExtendTag()) {
+          return fragment;
+        }
+      }
+      return MarkupFragment.IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

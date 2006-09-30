@@ -1,6 +1,6 @@
 {
   try {
-    final IMarkup markup=newMarkupLoader().loadMarkup(container,markupResourceStream);
+    final MarkupFragment markup=newMarkupLoader().loadMarkup(container,markupResourceStream);
     if (markupResourceStream.getCacheKey() != null) {
       markupCache.put(markupResourceStream.getCacheKey(),markup);
     }
@@ -17,5 +17,5 @@ synchronized (markupCache) {
     markupCache.remove(markupResourceStream.getCacheKey());
     afterLoadListeners.remove(markupResourceStream);
   }
-  return IMarkup.NO_MARKUP;
+  return MarkupFragment.NO_MARKUP_FRAGMENT;
 }
