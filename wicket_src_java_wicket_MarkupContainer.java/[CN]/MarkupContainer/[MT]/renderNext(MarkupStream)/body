@@ -6,6 +6,9 @@
     if (id == null) {
       throw new WicketRuntimeException("Prgamming error: tag id must not be null: " + tag.toString());
     }
+    if (log.isDebugEnabled()) {
+      log.debug("Render component: " + id);
+    }
     final Component<?> component=get(id);
     if (component != null) {
       component.render(markupStream);
@@ -38,9 +41,6 @@
     }
   }
  else {
-    if (log.isDebugEnabled()) {
-      log.debug("Rendering raw markup");
-    }
     getResponse().write(element.toCharSequence());
     markupStream.next();
   }
