@@ -17,20 +17,6 @@
  catch (    WicketRuntimeException ex) {
       log.warn("Did not find corresponding java class: " + className);
     }
-    MarkupContainer parentWithContainer=container.findParentWithAssociatedMarkup();
-    if ((parentWithContainer instanceof Page) && !infoPath.startsWith(".")) {
-      Class clazz=container.getMarkupStream().getTag().getMarkupClass();
-      if (clazz != null) {
-        className=Packages.extractPackageName(clazz) + "." + infoPath;
-        try {
-          clazz=defaultClassResolver.resolveClass(className);
-          return new AutolinkBookmarkablePageLink(container,autoId,clazz,pathInfo.getPageParameters(),pathInfo.anchor);
-        }
- catch (        WicketRuntimeException ex) {
-          log.warn("Did not find corresponding java class: " + className + "("+ ex.getMessage()+ ")");
-        }
-      }
-    }
   }
  else {
     return newResourceReferenceAutoComponent(container,autoId,pathInfo,attribute);

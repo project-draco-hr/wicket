@@ -1,17 +1,19 @@
 {
   try {
     this.markupFragment=getMarkupFragment();
-    final MarkupStream markupStream=new MarkupStream(markupFragment);
-    final ComponentTag tag=markupStream.getTag();
-    if (tag.hasAttributes()) {
-      markupAttributes=new CopyOnWriteValueMap(tag.getAttributes());
-    }
-    if (tag.hasBehaviors()) {
-      Iterator<IBehavior> behaviors=tag.getBehaviors();
-      while (behaviors.hasNext()) {
-        add(behaviors.next());
+    if ((this.markupFragment.size() > 0) && (this.markupFragment.get(0) instanceof ComponentTag)) {
+      final ComponentTag tag=this.markupFragment.getTag(0);
+      if (tag.hasAttributes()) {
+        markupAttributes=new CopyOnWriteValueMap(tag.getAttributes());
+      }
+      if (tag.hasBehaviors()) {
+        Iterator<IBehavior> behaviors=tag.getBehaviors();
+        while (behaviors.hasNext()) {
+          add(behaviors.next());
+        }
       }
     }
+    final MarkupStream markupStream=new MarkupStream(markupFragment);
     return markupStream;
   }
  catch (  MarkupException ex) {

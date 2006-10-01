@@ -1,6 +1,12 @@
 {
   final MarkupStream originalMarkupStream=getMarkupStream();
-  final MarkupStream associatedMarkupStream=getAssociatedMarkupStream(true);
+  final MarkupStream associatedMarkupStream;
+  try {
+    associatedMarkupStream=new MarkupStream(getAssociatedMarkupFragment(true).getWicketFragment(openTagName));
+  }
+ catch (  WicketRuntimeException ex) {
+    throw new MarkupException("Unable to load associated markup file for " + this,ex);
+  }
   associatedMarkupStream.skipUntil(openTagName);
   setMarkupStream(associatedMarkupStream);
   final ComponentTag associatedMarkupOpenTag=associatedMarkupStream.getTag();

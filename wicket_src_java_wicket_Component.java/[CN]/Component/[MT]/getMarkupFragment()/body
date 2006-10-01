@@ -2,14 +2,13 @@
   if (this.markupFragment != null) {
     return this.markupFragment;
   }
-  String path=getId();
   MarkupContainer parent=getParent();
-  while ((parent != null) && !(parent instanceof IMarkupProvider)) {
-    path=parent.getMarkupFragmentPath(path);
-    parent=parent.getParent();
-  }
   if (parent == null) {
-    throw new MarkupNotFoundException("Component has no parent with external markup file: " + getId());
+    throw new MarkupNotFoundException("The component is expected to have a parent: " + getId());
   }
-  return ((IMarkupProvider)parent).getMarkupFragment(path);
+  MarkupFragment markupFragment=parent.getMarkupFragment(getId());
+  if (markupFragment == null) {
+    throw new MarkupNotFoundException("Unable to find markup for Component: " + getId());
+  }
+  return markupFragment;
 }

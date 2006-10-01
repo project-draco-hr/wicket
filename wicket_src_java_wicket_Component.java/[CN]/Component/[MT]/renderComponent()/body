@@ -4,10 +4,12 @@
   }
  else {
     MarkupContainer parent=getParent();
-    MarkupStream originalMarkupStream=parent.getMarkupStream();
+    if (parent == null) {
+      throw new WicketRuntimeException("Expected the Component to have a parent container: " + getId());
+    }
     MarkupStream markupStream=new MarkupStream(getMarkupFragment());
+    parent.setMarkupStream(markupStream);
     try {
-      parent.setMarkupStream(markupStream);
       if (this instanceof MarkupContainer) {
         MarkupContainer<T> container=(MarkupContainer<T>)this;
         container.visitChildren(IFeedback.class,new IVisitor(){
@@ -27,7 +29,6 @@
       render(markupStream);
     }
   finally {
-      parent.setMarkupStream(originalMarkupStream);
       onAfterRender();
     }
   }

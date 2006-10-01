@@ -1,21 +1,8 @@
 {
-  if (!tag.isWicketBodyTag()) {
-    return false;
+  if ((this.body == null) && tag.isWicketBodyTag()) {
+    this.body=newBorderBodyContainer(container);
+    this.body.render(markupStream);
+    return true;
   }
-  final Response originalResponse;
-  if (this.bodyVisible == true) {
-    originalResponse=null;
-  }
- else {
-    originalResponse=getRequestCycle().setResponse(NullResponse.getInstance());
-  }
-  try {
-    renderBodyComponent(markupStream,tag);
-  }
-  finally {
-    if (originalResponse != null) {
-      getRequestCycle().setResponse(originalResponse);
-    }
-  }
-  return true;
+  return false;
 }
