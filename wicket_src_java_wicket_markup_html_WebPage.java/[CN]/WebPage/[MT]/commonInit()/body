@@ -1,8 +1,9 @@
 {
-  MarkupStream markupStream=getAssociatedMarkupStream(false);
-  if (markupStream == null) {
+  MarkupFragment fragment=getAssociatedMarkup(false);
+  if (fragment == null) {
     throw new MarkupNotFoundException("Each Page must have associated markup. Unable to find the markup file for Page: " + this.toString());
   }
+  MarkupStream markupStream=new MarkupStream(fragment);
   while (markupStream.hasMoreComponentTags()) {
     final ComponentTag tag=markupStream.getTag();
     if (tag.isOpen() && tag.isBodyTag()) {

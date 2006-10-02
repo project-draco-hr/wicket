@@ -1,7 +1,6 @@
 {
-  MarkupFragment markupFragment=this.markup.getMarkupFragments();
   try {
-    int size=markupFragment.size();
+    int size=rootFragment.size();
     for (ComponentTag tag; null != (tag=(ComponentTag)this.markupFilterChain.nextTag()); ) {
       boolean add=(tag.getId() != null);
       if (!add && tag.getXmlTag().isClose()) {
@@ -17,30 +16,30 @@
           if (this.compressWhitespace) {
             rawMarkup=compressWhitespace(rawMarkup);
           }
-          markupFragment.addMarkupElement(size,new RawMarkup(rawMarkup));
+          rootFragment.addMarkupElement(size,new RawMarkup(rawMarkup));
         }
         if (add) {
           if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
-            markupFragment.addMarkupElement(tag);
+            rootFragment.addMarkupElement(tag);
           }
         }
  else         if (tag.isModified()) {
-          markupFragment.addMarkupElement(new RawMarkup(tag.toCharSequence()));
+          rootFragment.addMarkupElement(new RawMarkup(tag.toCharSequence()));
         }
         this.xmlParser.setPositionMarker();
       }
-      size=markupFragment.size();
+      size=rootFragment.size();
     }
   }
  catch (  final ParseException ex) {
     final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
     if (text.length() > 0) {
-      markupFragment.addMarkupElement(new RawMarkup(text));
+      rootFragment.addMarkupElement(new RawMarkup(text));
     }
     this.markup.setEncoding(this.xmlParser.getEncoding());
     this.markup.setXmlDeclaration(this.xmlParser.getXmlDeclaration());
-    final MarkupStream markupStream=new MarkupStream(markupFragment);
-    markupStream.setCurrentIndex(markupFragment.size() - 1);
+    final MarkupStream markupStream=new MarkupStream(rootFragment);
+    markupStream.setCurrentIndex(rootFragment.size() - 1);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }
   final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
@@ -52,8 +51,9 @@
     if (this.compressWhitespace) {
       rawMarkup=compressWhitespace(rawMarkup);
     }
-    markupFragment.addMarkupElement(new RawMarkup(rawMarkup));
+    rootFragment.addMarkupElement(new RawMarkup(rawMarkup));
   }
-  this.markup.makeImmutable();
-  return this.markup.getMarkupFragments();
+  MarkupFragment fragment=rootFragment.translateFlatIntoTreeStructure();
+  fragment.makeImmutable();
+  return fragment;
 }

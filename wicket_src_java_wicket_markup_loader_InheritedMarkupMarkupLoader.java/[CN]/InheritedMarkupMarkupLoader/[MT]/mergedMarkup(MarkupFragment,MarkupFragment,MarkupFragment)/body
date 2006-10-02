@@ -5,12 +5,8 @@
     log.debug("Merge markup: derived markup: " + derivedResource + "; base markup: "+ baseResource);
   }
   MarkupFragment mergedMarkup=merge(derivedMarkup,baseMarkup,extendFragment);
-  MergedMarkup markup=new MergedMarkup(derivedMarkup.getMarkup(),baseMarkup.getMarkup());
-  for (  MarkupElement element : mergedMarkup) {
-    markup.getMarkupFragments().addMarkupElement(element);
-  }
-  markup.makeImmutable();
-  mergedMarkup=markup.getMarkupFragments();
+  mergedMarkup=mergedMarkup.translateFlatIntoTreeStructure();
+  mergedMarkup.makeImmutable();
   if (log.isDebugEnabled()) {
     log.debug("Merged markup: " + mergedMarkup.toString());
   }

@@ -1,10 +1,10 @@
 {
-  MarkupFragment rootFragment=new MarkupFragment(this);
+  MarkupFragment rootFragment=new MarkupFragment(this.getMarkup());
   Stack<String> stack=new Stack<String>();
   String basePath=null;
   Stack<MarkupFragment> fragmentStack=new Stack<MarkupFragment>();
   MarkupFragment current=rootFragment;
-  for (  MarkupElement elem : this.markupFragments) {
+  for (  MarkupElement elem : this.markupElements) {
     if (elem instanceof RawMarkup) {
       current.addMarkupElement(elem);
     }
@@ -13,12 +13,12 @@
       final String path=(basePath == null ? tag.getId() : basePath + Component.PATH_SEPARATOR + tag.getId());
       if (tag.isOpen()) {
         if (tag.hasNoCloseTag()) {
-          current.addMarkupElement(new MarkupFragment(this,tag));
+          current.addMarkupElement(new MarkupFragment(this.getMarkup(),tag));
         }
  else {
           stack.push(basePath);
           fragmentStack.push(current);
-          MarkupFragment newFragment=new MarkupFragment(this,tag);
+          MarkupFragment newFragment=new MarkupFragment(this.getMarkup(),tag);
           current.addMarkupElement(newFragment);
           current=newFragment;
           if (!tag.getId().startsWith(Component.AUTO_COMPONENT_PREFIX)) {
@@ -27,7 +27,7 @@
         }
       }
  else       if (tag.isOpenClose()) {
-        MarkupFragment newFragment=new MarkupFragment(this,tag);
+        MarkupFragment newFragment=new MarkupFragment(this.getMarkup(),tag);
         current.addMarkupElement(newFragment);
       }
  else {
@@ -40,5 +40,5 @@
   if ((rootFragment.size() == 1) && (rootFragment.get(0) instanceof MarkupFragment)) {
     rootFragment=(MarkupFragment)rootFragment.get(0);
   }
-  this.markupFragments=rootFragment;
+  return rootFragment;
 }
