@@ -1,0 +1,38 @@
+{
+  if ((id == null) || (id.length() == 0)) {
+    return null;
+  }
+  String tagId=getId();
+  if ((tagId != null) && tagId.equals(id)) {
+    return this;
+  }
+  if (id.indexOf(Component.PATH_SEPARATOR) == -1) {
+    for (    MarkupElement elem : this) {
+      if (elem instanceof MarkupFragment) {
+        MarkupFragment fragment=(MarkupFragment)elem;
+        tagId=fragment.getId();
+        if ((tagId != null) && tagId.equals(id)) {
+          return fragment;
+        }
+        if (tagId.startsWith(Component.AUTO_COMPONENT_PREFIX)) {
+          MarkupFragment frag=fragment.getChildFragment(id,false);
+          if (frag != null) {
+            return frag;
+          }
+        }
+      }
+    }
+  }
+ else {
+    String root=Strings.firstPathComponent(id,Component.PATH_SEPARATOR);
+    MarkupFragment child=getChildFragment(root,false);
+    if (child != null) {
+      String remainingPath=Strings.afterFirst(id,Component.PATH_SEPARATOR);
+      return child.getChildFragment(remainingPath,throwException);
+    }
+  }
+  if (throwException == true) {
+    throw new MarkupException("Markup with path '" + id + "' not found in fragment: "+ this.getId());
+  }
+  return null;
+}

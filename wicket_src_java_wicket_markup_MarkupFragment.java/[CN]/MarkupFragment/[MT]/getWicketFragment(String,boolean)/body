@@ -9,11 +9,14 @@
   for (  MarkupElement elem : this) {
     if (elem instanceof MarkupFragment) {
       MarkupFragment fragment=(MarkupFragment)elem;
-      fragment=fragment.getWicketFragment(name);
+      fragment=fragment.getWicketFragment(name,false);
       if (fragment != null) {
         return fragment;
       }
     }
+  }
+  if (throwException == true) {
+    throw new MarkupException("Wicket tag with name 'wicket:" + name + "' not found");
   }
   return null;
 }
