@@ -11,11 +11,21 @@
   }
   session.cleanupFeedbackMessages();
   if (updateSession) {
-    session.update();
+    try {
+      session.update();
+    }
+ catch (    RuntimeException re) {
+      log.error("there was an error updating the session " + session + ".",re);
+    }
   }
   session.requestDetached();
   if (getResponse() instanceof BufferedWebResponse) {
-    ((BufferedWebResponse)getResponse()).filter();
+    try {
+      ((BufferedWebResponse)getResponse()).filter();
+    }
+ catch (    RuntimeException re) {
+      log.error("there was an error filtering the response.",re);
+    }
   }
   try {
     getApplication().getSessionStore().onEndRequest(request);
