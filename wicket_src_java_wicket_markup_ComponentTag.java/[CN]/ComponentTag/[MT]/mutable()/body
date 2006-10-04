@@ -1,3 +1,14 @@
 {
-  return mutable(null);
+  if (xmlTag.isMutable()) {
+    return this;
+  }
+ else {
+    final ComponentTag tag=new ComponentTag(xmlTag.mutable());
+    tag.id=id;
+    tag.setMarkupClass(this.markupClass);
+    tag.setHasNoCloseTag(this.hasNoCloseTag);
+    tag.setWicketTag(this.wicketTag);
+    tag.setInternalTag(this.internalTag);
+    return tag;
+  }
 }
