@@ -2,15 +2,17 @@
   if ((id == null) || (id.length() == 0)) {
     return null;
   }
-  String tagId=getId();
-  if ((tagId != null) && tagId.equals(id)) {
-    return this;
+  if (ignoreFirstTag == false) {
+    String tagId=getId();
+    if ((tagId != null) && tagId.equals(id)) {
+      return this;
+    }
   }
   if (id.indexOf(Component.PATH_SEPARATOR) == -1) {
     for (    MarkupElement elem : this) {
       if (elem instanceof MarkupFragment) {
         MarkupFragment fragment=(MarkupFragment)elem;
-        tagId=fragment.getId();
+        String tagId=fragment.getId();
         if ((tagId != null) && tagId.equals(id)) {
           return fragment;
         }
