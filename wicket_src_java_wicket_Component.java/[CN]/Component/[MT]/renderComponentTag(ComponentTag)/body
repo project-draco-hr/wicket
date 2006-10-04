@@ -2,7 +2,7 @@
   final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
   if ((tag.isWicketTag() == false) || (stripWicketTags == false)) {
     if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
-      AttributeMap attributeMap=markupAttributes != null ? new AttributeMap(markupAttributes) : null;
+      IValueMap attributeMap=markupAttributes != null ? new ValueMap(markupAttributes) : null;
       tag=tag.mutable(attributeMap);
       for (      IBehavior behavior : behaviors) {
         if (isBehaviorAccepted(behavior)) {
