@@ -2,21 +2,7 @@
   MarkupFragment borderFragment=getMarkupFragment();
   MarkupStream borderMarkupStream=new MarkupStream(borderFragment);
   borderMarkupStream.next();
-  final Response originalResponse;
-  if (Border.this.bodyVisible == true) {
-    originalResponse=null;
-  }
- else {
-    originalResponse=getRequestCycle().setResponse(NullResponse.getInstance());
-  }
-  try {
-    renderComponentTagBody(borderMarkupStream,borderFragment.getTag(0));
-  }
-  finally {
-    if (originalResponse != null) {
-      getRequestCycle().setResponse(originalResponse);
-    }
-  }
+  renderComponentTagBody(borderMarkupStream,borderFragment.getTag(0));
   if (wasOpenClose == false) {
     markupStream.skipRawMarkup();
   }
