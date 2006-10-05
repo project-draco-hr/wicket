@@ -1,7 +1,7 @@
 {
   final IValuePersister persister=getValuePersister();
-  visitFormComponents(new FormComponent.IVisitor(){
-    public void formComponent(    final FormComponent formComponent){
+  visitFormComponents(new FormComponent.AbstractVisitor(){
+    @Override public void onFormComponent(    final FormComponent formComponent){
       if (formComponent.isVisibleInHierarchy()) {
         persister.clear(formComponent);
         if (formComponent.isPersistent() && disablePersistence) {

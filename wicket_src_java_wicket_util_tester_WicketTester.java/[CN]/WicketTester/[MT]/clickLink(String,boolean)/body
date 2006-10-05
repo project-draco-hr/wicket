@@ -49,8 +49,8 @@
     Assert.assertNotNull(failMessage,form);
     setupRequestAndResponse();
     RequestCycle requestCycle=createRequestCycle();
-    form.visitFormComponents(new FormComponent.IVisitor(){
-      public void formComponent(      FormComponent formComponent){
+    form.visitFormComponents(new FormComponent.AbstractVisitor(){
+      @Override public void onFormComponent(      FormComponent formComponent){
         if (!(formComponent instanceof Button) && !(formComponent instanceof RadioGroup)) {
           String name=formComponent.getInputName();
           String value=formComponent.getValue();
