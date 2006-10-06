@@ -1,0 +1,15 @@
+{
+  for (  Map.Entry<Field,Object> entry : clonemap.entrySet()) {
+    Field field=entry.getKey();
+    Object value=entry.getValue();
+    value=checkAndConvertValue(value);
+    try {
+      if (!Modifier.isFinal(field.getModifiers())) {
+        field.set(object,value);
+      }
+    }
+ catch (    Exception e) {
+      throw new WicketRuntimeException("Internal error cloning/restoring from map the object: " + object,e);
+    }
+  }
+}

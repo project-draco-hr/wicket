@@ -1,0 +1,12 @@
+{
+  CompoundPropertyModel<CloneObject> sharedModel=new CompoundPropertyModel<CloneObject>(new CloneObject());
+  PropertyModel<Integer> model=new PropertyModel<Integer>(sharedModel,"nr");
+  PropertyModel<Integer> model2=new PropertyModel<Integer>(sharedModel,"nr");
+  model.setObject(1);
+  assertEquals(1,(int)model2.getObject());
+  MiniMap<Field,Object> clonemap=Objects.mapObject(model);
+  model.setObject(10);
+  assertEquals(10,(int)model2.getObject());
+  Objects.restoreObject(model,clonemap);
+  assertEquals(1,(int)model2.getObject());
+}

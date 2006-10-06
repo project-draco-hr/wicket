@@ -1,0 +1,29 @@
+{
+  if (addedObjects.contains(value)) {
+    return recursive;
+  }
+  if (value == null || value instanceof String || value instanceof Number || value instanceof Boolean || value instanceof Class) {
+    return value;
+  }
+ else   if (value != null && value.getClass().isArray()) {
+    if (!value.getClass().getComponentType().isPrimitive()) {
+      int length=Array.getLength(value);
+      Object[] arrayValues=new Object[length];
+      while (length-- != 0) {
+        Object arrayValue=Array.get(value,length);
+        arrayValues[length]=analyzeObject(arrayValue,addedObjects);
+      }
+      ArrayInstanceHolder holder=new ArrayInstanceHolder();
+      holder.array=value;
+      holder.values=arrayValues;
+      return holder;
+    }
+ else {
+      return cloneObject(value);
+    }
+  }
+  ObjectInstanceHashmapHolder holder=new ObjectInstanceHashmapHolder();
+  holder.instance=value;
+  holder.clonemap=mapObject(value,addedObjects);
+  return holder;
+}

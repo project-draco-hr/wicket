@@ -1,0 +1,10 @@
+{
+  PropertyModel<Integer> model=new PropertyModel<Integer>(new CompoundPropertyModel<CloneObject>(new CloneObject()),"nr");
+  model.setObject(1);
+  assertEquals(1,(int)model.getObject());
+  MiniMap<Field,Object> clonemap=Objects.mapObject(model);
+  model.setObject(10);
+  assertEquals(10,(int)model.getObject());
+  Objects.restoreObject(model,clonemap);
+  assertEquals(1,(int)model.getObject());
+}

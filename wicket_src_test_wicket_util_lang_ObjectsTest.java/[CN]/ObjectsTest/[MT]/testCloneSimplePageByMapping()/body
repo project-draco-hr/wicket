@@ -1,0 +1,17 @@
+{
+  SimplePage page=new SimplePage();
+  MiniMap<Field,Object> clonemap=Objects.mapObject(page);
+  assertEquals(true,page.get("myLabel").isVisible());
+  page.get("myLabel").setVisible(false);
+  assertEquals(false,page.get("myLabel").isVisible());
+  Objects.restoreObject(page,clonemap);
+  assertEquals(true,page.get("myLabel").isVisible());
+  page.remove("myLabel");
+  assertNull(page.get("myLabel"));
+  Objects.restoreObject(page,clonemap);
+  assertNotNull(page.get("myLabel"));
+  page.get("myLabel").add(new SimpleAttributeModifier("test","test"));
+  assertEquals(1,page.get("myLabel").getBehaviors().size());
+  Objects.restoreObject(page,clonemap);
+  assertEquals(0,page.get("myLabel").getBehaviors().size());
+}

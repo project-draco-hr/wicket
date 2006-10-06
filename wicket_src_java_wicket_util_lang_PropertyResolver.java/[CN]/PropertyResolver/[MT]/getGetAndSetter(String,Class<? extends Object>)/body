@@ -16,11 +16,8 @@
     }
  else {
       method=findGetter(clz,exp);
-      if (method == null) {
-        field=findField(clz,exp);
-      }
     }
-    if (method == null && field == null) {
+    if (method == null) {
       if (List.class.isAssignableFrom(clz)) {
         try {
           int index=Integer.parseInt(exp);
@@ -54,28 +51,34 @@
         }
       }
  else {
-        method=findMethod(clz,exp);
-        if (method == null) {
-          int index=exp.indexOf('.');
-          if (index != -1) {
-            String propertyName=exp.substring(0,index);
-            String propertyIndex=exp.substring(index + 1);
-            try {
-              int parsedIndex=Integer.parseInt(propertyIndex);
-              String name=Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
-              method=clz.getMethod("get" + name,new Class[]{int.class});
-              getAndSetter=new ArrayPropertyGetSet(method,parsedIndex);
+        field=findField(clz,exp);
+        if (field == null) {
+          method=findMethod(clz,exp);
+          if (method == null) {
+            int index=exp.indexOf('.');
+            if (index != -1) {
+              String propertyName=exp.substring(0,index);
+              String propertyIndex=exp.substring(index + 1);
+              try {
+                int parsedIndex=Integer.parseInt(propertyIndex);
+                String name=Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
+                method=clz.getMethod("get" + name,new Class[]{int.class});
+                getAndSetter=new ArrayPropertyGetSet(method,parsedIndex);
+              }
+ catch (              Exception e) {
+                throw new WicketRuntimeException("no get method defined for class: " + clz + " expression: "+ propertyName);
+              }
             }
- catch (            Exception e) {
-              throw new WicketRuntimeException("no get method defined for class: " + clz + " expression: "+ propertyName);
+ else {
+              throw new WicketRuntimeException("No get method defined for class: " + clz + " expression: "+ exp);
             }
           }
  else {
-            throw new WicketRuntimeException("No get method defined for class: " + clz + " expression: "+ exp);
+            getAndSetter=new MethodGetAndSet(method);
           }
         }
  else {
-          getAndSetter=new MethodGetAndSet(method);
+          getAndSetter=new FieldGetAndSetter(field);
         }
       }
     }
