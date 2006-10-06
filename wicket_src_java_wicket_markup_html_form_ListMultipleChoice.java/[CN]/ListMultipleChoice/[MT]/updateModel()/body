@@ -5,6 +5,12 @@
     selectedValues.clear();
     selectedValues.addAll(getConvertedInput());
     modelChanged();
+    try {
+      getModel().setObject(selectedValues);
+    }
+ catch (    Exception e) {
+      log.info("no setter for the property attached to " + this);
+    }
   }
  else {
     selectedValues=getConvertedInput();
