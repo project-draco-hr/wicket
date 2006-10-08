@@ -1,0 +1,18 @@
+{
+  try {
+    for (int i=0; i < 2; i++) {
+      doGet("http://localhost:8090/app?wicket:bookmarkablePage=one:wicket.threadtest.Home");
+      doGet("http://localhost:8090/app?wicket:bookmarkablePage=two:wicket.threadtest.Home");
+      doGet("http://localhost:8090/app?wicket:interface=two:" + i + ":link::ILinkListener");
+      doGet("http://localhost:8090/app?wicket:interface=one:" + i + ":link::ILinkListener");
+      doGet("http://localhost:8090/app?wicket:bookmarkablePage=three:wicket.threadtest.Home");
+      doGet("http://localhost:8090/app?wicket:bookmarkablePage=four:wicket.threadtest.Home");
+      doGet("http://localhost:8090/app?wicket:interface=three:" + i + ":link::ILinkListener");
+      doGet("http://localhost:8090/app?wicket:interface=four:" + i + ":link::ILinkListener");
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    return;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  GetMethod method=new GetMethod(url);
+  try {
+    int code=client.executeMethod(method);
+    if (code != 200) {
+      System.err.println("ERROR! code: " + code);
+      byte[] body=method.getResponseBody();
+      throw new Exception(new String(body));
+    }
+  }
+  finally {
+    method.releaseConnection();
+  }
+}
