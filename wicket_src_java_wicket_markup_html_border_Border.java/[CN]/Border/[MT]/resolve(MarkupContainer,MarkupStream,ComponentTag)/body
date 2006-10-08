@@ -1,8 +1,12 @@
 {
-  if ((this.body == null) && tag.isWicketBodyTag()) {
-    this.body=newBorderBodyContainer(container);
-    this.body.render(markupStream);
-    return true;
+  if (tag.isWicketBodyTag()) {
+    if (this.body == null) {
+      throw new MarkupException(markupStream,"Border body container not initialized. Did you forget to call newBorderBodyContainer() ??");
+    }
+    if (markupStream.get() == this.body.getMarkupFragment().get(0)) {
+      this.body.render(markupStream);
+      return true;
+    }
   }
   return false;
 }
