@@ -15,6 +15,11 @@
     @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
       return AjaxSubmitButton.this.getAjaxCallDecorator();
     }
+    @Override protected void onComponentTag(    ComponentTag tag){
+      if (isEnableAllowed() && isEnabled()) {
+        super.onComponentTag(tag);
+      }
+    }
   }
 );
 }

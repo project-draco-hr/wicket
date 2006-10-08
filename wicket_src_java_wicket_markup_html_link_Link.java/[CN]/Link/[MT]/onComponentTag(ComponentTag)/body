@@ -2,19 +2,7 @@
   super.onComponentTag(tag);
   CharSequence url=getURL();
   url=appendAnchor(tag,url);
-  if (!isEnabled()) {
-    if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
-      tag.setName("span");
-      tag.remove("href");
-      if (popupSettings != null) {
-        tag.remove("onclick");
-      }
-    }
- else {
-      tag.remove("onclick");
-    }
-  }
- else {
+  if (isLinkEnabled()) {
     if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
       tag.put("href",Strings.replaceAll(url,"&","&amp;"));
       if (popupSettings != null) {
@@ -31,9 +19,12 @@
         tag.put("onclick","location.href='" + url + "';");
       }
     }
+    final CharSequence onClickJavaScript=getOnClickScript(url);
+    if (onClickJavaScript != null) {
+      tag.put("onclick",onClickJavaScript);
+    }
   }
-  final CharSequence onClickJavaScript=getOnClickScript(url);
-  if (onClickJavaScript != null) {
-    tag.put("onclick",onClickJavaScript);
+ else {
+    disableLink(tag);
   }
 }

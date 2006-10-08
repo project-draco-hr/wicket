@@ -1,0 +1,15 @@
+{
+  String id=getId();
+  final PrependingStringBuffer inputName=new PrependingStringBuffer(id.length());
+  Component c=this;
+  while (true) {
+    inputName.prepend(id);
+    c=c.getParent();
+    if (c == null || c instanceof Form || c instanceof Page) {
+      break;
+    }
+    inputName.prepend(Component.PATH_SEPARATOR);
+    id=c.getId();
+  }
+  return inputName.toString();
+}

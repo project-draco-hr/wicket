@@ -1,17 +1,11 @@
 {
-  if (!isEnabled()) {
-    if (tag.getName().equalsIgnoreCase("a")) {
-      tag.setName("span");
-      tag.remove("href");
-    }
- else {
-      tag.remove("onclick");
-    }
-  }
- else {
+  if (isLinkEnabled()) {
     if (tag.getName().equalsIgnoreCase("a")) {
       tag.put("href","#");
     }
     tag.put("onclick",getTriggerJavaScript());
+  }
+ else {
+    disableLink(tag);
   }
 }
