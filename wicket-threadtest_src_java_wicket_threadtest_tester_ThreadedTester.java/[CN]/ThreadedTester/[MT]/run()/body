@@ -1,0 +1,22 @@
+{
+  Server server=new Server(8090);
+  WebAppContext ctx=new WebAppContext("./src/webapp","/app");
+  server.addHandler(ctx);
+  server.start();
+  try {
+    long start=System.currentTimeMillis();
+    ThreadGroup g=new ThreadGroup("runners");
+    for (int i=0; i < numberOfThreads; i++) {
+      Thread t=new Thread(g,new CommandRunner(commands));
+      t.start();
+    }
+    while (g.activeCount() > 0) {
+      Thread.yield();
+    }
+    long end=System.currentTimeMillis();
+    log.info("\n******** finished in " + (end - start) + " miliseconds\n");
+  }
+  finally {
+    server.stop();
+  }
+}

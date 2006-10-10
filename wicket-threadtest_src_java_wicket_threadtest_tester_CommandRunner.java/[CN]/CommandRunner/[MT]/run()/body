@@ -1,0 +1,14 @@
+{
+  for (  Command command : commands) {
+    try {
+      command.execute();
+    }
+ catch (    Exception e) {
+      log.fatal("execution of command " + command + ", thread "+ Thread.currentThread()+ " failed",e);
+      return;
+    }
+ finally {
+      command.release();
+    }
+  }
+}
