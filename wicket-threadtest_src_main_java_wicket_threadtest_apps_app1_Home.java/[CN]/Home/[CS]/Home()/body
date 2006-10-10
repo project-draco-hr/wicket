@@ -1,0 +1,30 @@
+{
+  add(new Link("link"){
+    @Override public void onClick(){
+      System.out.println("click received for session " + Session.get());
+    }
+  }
+);
+  add(new Label("selectedLabel",new PropertyModel(this,"selectedContactLabel")));
+  add(new DataView("simple",new ContactDataProvider()){
+    protected void populateItem(    final Item item){
+      Contact contact=(Contact)item.getModelObject();
+      item.add(new ActionPanel("actions",item.getModel()));
+      item.add(new Label("contactid",String.valueOf(contact.getId())));
+      item.add(new Label("firstname",contact.getFirstName()));
+      item.add(new Label("lastname",contact.getLastName()));
+      item.add(new Label("homephone",contact.getHomePhone()));
+      item.add(new Label("cellphone",contact.getCellPhone()));
+      item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel(){
+        public Object getObject(        Component component){
+          return (item.getIndex() % 2 == 1) ? "even" : "odd";
+        }
+      }
+));
+    }
+  }
+);
+  final FeedbackPanel feedback=new FeedbackPanel("feedback");
+  add(feedback);
+  add(new InputForm("inputForm"));
+}
