@@ -5,7 +5,7 @@
   server.start();
   long start=System.currentTimeMillis();
   ThreadGroup g=new ThreadGroup("runners");
-  for (int i=0; i < 100; i++) {
+  for (int i=0; i < 20; i++) {
     Thread t=new Thread(g,new PageRunner());
     t.start();
   }
@@ -13,6 +13,6 @@
     Thread.yield();
   }
   long end=System.currentTimeMillis();
-  System.out.print("\n\nfinished in " + (end - start) + " miliseconds\n");
+  log.info("\n******** finished in " + (end - start) + " miliseconds\n");
   server.stop();
 }
