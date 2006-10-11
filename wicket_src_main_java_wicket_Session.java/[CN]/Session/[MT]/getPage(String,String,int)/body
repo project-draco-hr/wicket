@@ -9,7 +9,7 @@ synchronized (pageMapsUsedInRequest) {
       Thread t=(Thread)pageMapsUsedInRequest.get(pageMap);
       while (t != null && t != Thread.currentThread()) {
         try {
-          wait(20000);
+          pageMapsUsedInRequest.wait(20000);
         }
  catch (        InterruptedException ex) {
           throw new WicketRuntimeException(ex);
