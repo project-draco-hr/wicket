@@ -1,16 +1,23 @@
 {
-  checkComponentTag(tag,"form");
-  setOutputMarkupId(true);
   super.onComponentTag(tag);
-  tag.put("method","post");
-  tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.INTERFACE),"&","&amp;"));
-  if (multiPart) {
-    tag.put("enctype","multipart/form-data");
+  if (isRootForm()) {
+    checkComponentTag(tag,"form");
+    tag.put("method","post");
+    tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.INTERFACE),"&","&amp;"));
+    if (multiPart) {
+      tag.put("enctype","multipart/form-data");
+    }
+ else {
+      String enctype=(String)tag.getAttributes().get("enctype");
+      if ("multipart/form-data".equalsIgnoreCase(enctype)) {
+        setMultiPart(true);
+      }
+    }
   }
  else {
-    String enctype=(String)tag.getAttributes().get("enctype");
-    if ("multipart/form-data".equalsIgnoreCase(enctype)) {
-      setMultiPart(true);
-    }
+    tag.setName("div");
+    tag.remove("method");
+    tag.remove("action");
+    tag.remove("enctype");
   }
 }
