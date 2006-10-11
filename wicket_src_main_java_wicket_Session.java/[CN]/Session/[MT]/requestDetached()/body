@@ -1,11 +1,13 @@
 {
-  Thread t=Thread.currentThread();
-  Iterator it=pageMapsUsedInRequest.entrySet().iterator();
-  while (it.hasNext()) {
-    Entry entry=(Entry)it.next();
-    if (entry.getValue() == t) {
-      it.remove();
+synchronized (pageMapsUsedInRequest) {
+    Thread t=Thread.currentThread();
+    Iterator it=pageMapsUsedInRequest.entrySet().iterator();
+    while (it.hasNext()) {
+      Entry entry=(Entry)it.next();
+      if (entry.getValue() == t) {
+        it.remove();
+      }
     }
+    pageMapsUsedInRequest.notifyAll();
   }
-  notifyAll();
 }
