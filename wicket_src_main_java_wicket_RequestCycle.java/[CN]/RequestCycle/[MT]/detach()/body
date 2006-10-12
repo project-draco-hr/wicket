@@ -10,7 +10,12 @@
       }
     }
   }
-  session.cleanupFeedbackMessages();
+  try {
+    session.cleanupFeedbackMessages();
+  }
+ catch (  RuntimeException re) {
+    log.error("there was an error cleaning up the feedback messages",re);
+  }
   if (updateSession) {
     try {
       session.update();
@@ -19,7 +24,12 @@
       log.error("there was an error updating the session " + session + ".",re);
     }
   }
-  session.requestDetached();
+  try {
+    session.requestDetached();
+  }
+ catch (  RuntimeException re) {
+    log.error("there was an error detaching the request from the session " + session + ".",re);
+  }
   if (getResponse() instanceof BufferedWebResponse) {
     try {
       ((BufferedWebResponse)getResponse()).filter();
@@ -34,5 +44,10 @@
  catch (  RuntimeException e) {
     log.error("Exception occurred during onEndRequest",e);
   }
-  threadDetach();
+  try {
+    threadDetach();
+  }
+ catch (  RuntimeException re) {
+    log.error("Exception occurred during threadDetach",re);
+  }
 }
