@@ -31,7 +31,9 @@
       threads[i].start();
     }
     while (activeThreads > 0) {
-      Thread.sleep(2000);
+synchronized (this) {
+        wait();
+      }
     }
     long end=System.currentTimeMillis();
     log.info("\n******** finished in " + (end - start) + " miliseconds\n");
