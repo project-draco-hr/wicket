@@ -7,7 +7,13 @@
   if (encoder == null) {
     throw new WicketRuntimeException("request encoder must be not-null (provided by " + processor + ")");
   }
-  requestParameters=encoder.decode(this);
+  try {
+    requestParameters=encoder.decode(this);
+  }
+ catch (  RuntimeException re) {
+    requestParameters=new RequestParameters();
+    throw re;
+  }
   if (requestParameters == null) {
     throw new WicketRuntimeException("request parameters must be not-null (provided by " + encoder + ")");
   }
