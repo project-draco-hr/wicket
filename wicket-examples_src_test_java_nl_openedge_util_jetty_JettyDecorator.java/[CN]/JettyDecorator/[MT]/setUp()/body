@@ -1,8 +1,13 @@
 {
-  if (getJettyConfig() != null) {
-    jettyServer=JettyHelper.startJetty(getJettyConfig(),isUseJettyPlus());
-  }
- else {
-    jettyServer=JettyHelper.startJetty(getPort(),getWebappContextRoot(),getContextPath(),isUseJettyPlus());
-  }
+  server=new Server();
+  SelectChannelConnector connector=new SelectChannelConnector();
+  connector.setPort(getPort());
+  server.setConnectors(new Connector[]{connector});
+  WebAppContext web=new WebAppContext();
+  web.setContextPath(getContextPath());
+  web.setWar(getWebappContextRoot());
+  server.addHandler(web);
+  log.info("Starting Jetty");
+  server.start();
+  log.info("Jetty started");
 }
