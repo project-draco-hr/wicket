@@ -6,9 +6,6 @@
   if (pageMap != null) {
 synchronized (pageMapsUsedInRequest) {
       long startTime=System.currentTimeMillis();
-      if (pageMapsUsedInRequest == null) {
-        pageMapsUsedInRequest=new HashMap<PageMap,Thread>(3);
-      }
       Thread t=pageMapsUsedInRequest.get(pageMap);
       while (t != null && t != Thread.currentThread()) {
         try {
