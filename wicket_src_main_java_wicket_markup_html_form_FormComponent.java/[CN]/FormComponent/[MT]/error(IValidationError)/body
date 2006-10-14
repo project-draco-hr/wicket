@@ -4,9 +4,7 @@
   }
   String message=error.getErrorMessage(new MessageSource());
   if (message == null) {
-    error("Could not locate error message for error: " + error.toString());
+    message="Could not locate error message for error: " + error.toString();
   }
- else {
-    error(message);
-  }
+  error(new ValidationErrorFeedback(error,message));
 }

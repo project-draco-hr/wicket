@@ -1,4 +1,8 @@
 {
-  List<String> actualMessages=getMessages(FeedbackMessage.ERROR);
-  WicketTesterHelper.assertEquals(Arrays.asList(expectedErrorMessages),actualMessages);
+  List<Serializable> actualMessages=getMessages(FeedbackMessage.ERROR);
+  List<String> msgs=new ArrayList<String>();
+  for (  Serializable msg : actualMessages) {
+    msgs.add(msg.toString());
+  }
+  WicketTesterHelper.assertEquals(Arrays.asList(expectedErrorMessages),msgs);
 }
