@@ -1,0 +1,17 @@
+{
+  if ((server != null) && server.isStarted()) {
+    log.info("sending reply OK");
+    socketOutputStream.write("OK\r\n".getBytes());
+  }
+ else {
+    if (server == null) {
+      log.info("Server (still) is null");
+    }
+ else {
+      log.info("Server not started yet");
+    }
+    log.info("sending reply STARTING");
+    socketOutputStream.write("STARTING\r\n".getBytes());
+  }
+  socketOutputStream.flush();
+}

@@ -1,0 +1,21 @@
+{
+  try {
+    log.info("sending reply ACK_STOP");
+    socketOutputStream.write("ACK_STOP\r\n".getBytes());
+    socketOutputStream.flush();
+  }
+ catch (  Exception e) {
+    log.error("sending acknowledgement of stop command failed:",e);
+  }
+  try {
+    server.stop();
+    log.info("Jetty server stopped");
+  }
+ catch (  Exception e) {
+    log.fatal(e.getMessage(),e);
+    log.fatal("************* Hard shutdown this server (System.exit)!");
+    System.exit(1);
+  }
+  System.out.flush();
+  System.err.flush();
+}
