@@ -1,13 +1,15 @@
 {
+  if (pageMapsUsedInRequest != null) {
 synchronized (pageMapsUsedInRequest) {
-    Thread t=Thread.currentThread();
-    Iterator it=pageMapsUsedInRequest.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry=(Entry)it.next();
-      if (entry.getValue() == t) {
-        it.remove();
+      Thread t=Thread.currentThread();
+      Iterator it=pageMapsUsedInRequest.entrySet().iterator();
+      while (it.hasNext()) {
+        Entry entry=(Entry)it.next();
+        if (entry.getValue() == t) {
+          it.remove();
+        }
       }
+      pageMapsUsedInRequest.notifyAll();
     }
-    pageMapsUsedInRequest.notifyAll();
   }
 }
