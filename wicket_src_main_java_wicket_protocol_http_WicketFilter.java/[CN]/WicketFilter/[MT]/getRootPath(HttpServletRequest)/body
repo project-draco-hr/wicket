@@ -1,23 +1,23 @@
 {
   if (rootPath == null) {
-    String contextPath=webApplication.getApplicationSettings().getContextPath();
-    if (contextPath == null) {
-      contextPath=request.getContextPath();
-      if (contextPath == null) {
-        contextPath="";
+    String path=webApplication.getApplicationSettings().getContextPath();
+    if (path == null) {
+      path=request.getContextPath();
+      if (path == null) {
+        path="";
       }
     }
-    if (SERVLET_PATH_HOLDER.equals(filterPath)) {
+    if (filterPath == null) {
       filterPath=request.getServletPath();
       if (filterPath.startsWith("/")) {
         filterPath=filterPath.substring(1);
       }
     }
-    if (!contextPath.endsWith("/")) {
-      rootPath=contextPath + "/" + filterPath;
+    if (!path.endsWith("/")) {
+      rootPath=path + "/" + filterPath;
     }
  else {
-      rootPath=contextPath + filterPath;
+      rootPath=path + filterPath;
     }
   }
   return rootPath;
