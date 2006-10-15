@@ -24,6 +24,7 @@
       if (this instanceof IFeedback) {
         ((IFeedback)this).updateFeedback();
       }
+      internalAttach();
       setRenderAllowed(isActionAuthorized(RENDER));
       if (this instanceof MarkupContainer) {
         MarkupContainer container=(MarkupContainer)this;
@@ -36,7 +37,6 @@
         }
 );
       }
-      internalAttach();
       onBeforeRender();
       render(markupStream);
     }
