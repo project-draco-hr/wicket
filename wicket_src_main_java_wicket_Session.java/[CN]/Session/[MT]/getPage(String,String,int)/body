@@ -4,6 +4,11 @@
   }
   PageMap pageMap=pageMapForName(pageMapName,Objects.equal(PageMap.DEFAULT_NAME,pageMapName));
   if (pageMap != null) {
+synchronized (usedPageMaps) {
+      if (pageMapsUsedInRequest == null) {
+        pageMapsUsedInRequest=new HashMap<PageMap,Thread>(3);
+      }
+    }
 synchronized (pageMapsUsedInRequest) {
       long startTime=System.currentTimeMillis();
       Thread t=pageMapsUsedInRequest.get(pageMap);
