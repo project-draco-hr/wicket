@@ -8,7 +8,7 @@
         final Properties properties=new Properties();
         in=url.openStream();
         properties.load(in);
-        initializeComponents(properties);
+        load(properties);
       }
   finally {
         if (in != null) {
@@ -20,4 +20,5 @@
  catch (  IOException e) {
     throw new WicketRuntimeException("Unable to load initializers file",e);
   }
+  callInitializers();
 }
