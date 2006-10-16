@@ -7,10 +7,6 @@
   web.setContextPath("/wicket-examples");
   web.setWar("src/webapp");
   server.addHandler(web);
-  MBeanServer mBeanServer=ManagementFactory.getPlatformMBeanServer();
-  MBeanContainer mBeanContainer=new MBeanContainer(mBeanServer);
-  server.getContainer().addEventListener(mBeanContainer);
-  mBeanContainer.start();
   try {
     server.start();
     server.join();
