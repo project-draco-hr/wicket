@@ -1,0 +1,14 @@
+{
+  MBeanServer mbs=ManagementFactory.getPlatformMBeanServer();
+  for (  ObjectName objectName : registered) {
+    try {
+      mbs.unregisterMBean(objectName);
+    }
+ catch (    InstanceNotFoundException e) {
+      log.error(e.getMessage(),e);
+    }
+catch (    MBeanRegistrationException e) {
+      log.error(e.getMessage(),e);
+    }
+  }
+}

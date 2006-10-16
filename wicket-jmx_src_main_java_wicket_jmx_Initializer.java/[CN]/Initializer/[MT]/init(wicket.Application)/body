@@ -12,19 +12,19 @@
     }
     domain=tempDomain;
     Application appBean=new Application(application);
-    mbs.registerMBean(appBean,appBeanName);
-    mbs.registerMBean(new ApplicationSettings(application),new ObjectName(domain + ":type=Application,name=ApplicationSettings"));
-    mbs.registerMBean(new DebugSettings(application),new ObjectName(domain + ":type=Application,name=DebugSettings"));
-    mbs.registerMBean(new MarkupSettings(application),new ObjectName(domain + ":type=Application,name=MarkupSettings"));
-    mbs.registerMBean(new ResourceSettings(application),new ObjectName(domain + ":type=Application,name=ResourceSettings"));
-    mbs.registerMBean(new PageSettings(application),new ObjectName(domain + ":type=Application,name=PageSettings"));
-    mbs.registerMBean(new RequestCycleSettings(application),new ObjectName(domain + ":type=Application,name=RequestCycleSettings"));
-    mbs.registerMBean(new SecuritySettings(application),new ObjectName(domain + ":type=Application,name=SecuritySettings"));
-    mbs.registerMBean(new SessionSettings(application),new ObjectName(domain + ":type=Application,name=SessionSettings"));
-    mbs.registerMBean(new CookieValuePersisterSettings(application),new ObjectName(domain + ":type=Application,name=CookieValuePersisterSettings"));
+    register(mbs,appBean,appBeanName);
+    register(mbs,new ApplicationSettings(application),new ObjectName(domain + ":type=Application,name=ApplicationSettings"));
+    register(mbs,new DebugSettings(application),new ObjectName(domain + ":type=Application,name=DebugSettings"));
+    register(mbs,new MarkupSettings(application),new ObjectName(domain + ":type=Application,name=MarkupSettings"));
+    register(mbs,new ResourceSettings(application),new ObjectName(domain + ":type=Application,name=ResourceSettings"));
+    register(mbs,new PageSettings(application),new ObjectName(domain + ":type=Application,name=PageSettings"));
+    register(mbs,new RequestCycleSettings(application),new ObjectName(domain + ":type=Application,name=RequestCycleSettings"));
+    register(mbs,new SecuritySettings(application),new ObjectName(domain + ":type=Application,name=SecuritySettings"));
+    register(mbs,new SessionSettings(application),new ObjectName(domain + ":type=Application,name=SessionSettings"));
+    register(mbs,new CookieValuePersisterSettings(application),new ObjectName(domain + ":type=Application,name=CookieValuePersisterSettings"));
     RequestLogger sessionsBean=new RequestLogger(application);
     ObjectName sessionsBeanName=new ObjectName(domain + ":type=RequestLogger");
-    mbs.registerMBean(sessionsBean,sessionsBeanName);
+    register(mbs,sessionsBean,sessionsBeanName);
   }
  catch (  MalformedObjectNameException e) {
     throw new WicketRuntimeException(e);
