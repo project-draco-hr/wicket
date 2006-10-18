@@ -5,8 +5,8 @@
   }
   final String path=requestParameters.getPath();
   if (requestParameters.getComponentPath() != null) {
+    boolean processRequest=true;
 synchronized (requestCycle.getSession()) {
-      boolean processRequest=true;
       if (requestParameters.isOnlyProcessIfPathActive()) {
         Session session=Session.get();
         PageMap pageMap=session.pageMapForName(requestParameters.getPageMapName(),false);
@@ -29,12 +29,12 @@ synchronized (requestCycle.getSession()) {
           }
         }
       }
-      if (processRequest) {
-        return resolveRenderedPage(requestCycle,requestParameters);
-      }
+    }
+    if (processRequest) {
+      return resolveRenderedPage(requestCycle,requestParameters);
+    }
  else {
-        return EmptyRequestTarget.getInstance();
-      }
+      return EmptyRequestTarget.getInstance();
     }
   }
  else   if (requestParameters.getBookmarkablePageClass() != null) {
