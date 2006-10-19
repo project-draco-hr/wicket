@@ -1,8 +1,9 @@
 {
-  final MarkupStream markupStream=new MarkupStream(getAssociatedMarkup(false));
-  if (markupStream == null) {
+  final MarkupFragment markupFragment=getAssociatedMarkup(false);
+  if (markupFragment == null) {
     return;
   }
+  final MarkupStream markupStream=new MarkupStream(markupFragment);
   this.noMoreWicketHeadTagsAllowed=false;
   while (nextHeaderMarkup(markupStream) != -1) {
     Class markupClass=markupStream.getTag().getMarkupClass();

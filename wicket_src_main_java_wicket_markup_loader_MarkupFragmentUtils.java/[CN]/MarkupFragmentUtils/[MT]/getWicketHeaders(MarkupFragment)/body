@@ -1,0 +1,15 @@
+{
+  final List<MarkupFragment> headers=new ArrayList<MarkupFragment>();
+  fragment.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
+    public Object visit(    final MarkupElement element,    final MarkupFragment parent){
+      MarkupFragment fragment=(MarkupFragment)element;
+      if (isWicketHeadTag(fragment)) {
+        headers.add(fragment);
+        return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+  return (headers.size() == 0 ? null : headers);
+}

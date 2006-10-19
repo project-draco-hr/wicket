@@ -1,11 +1,11 @@
 {
   if (fragment == null) {
-    throw new MarkupException("You can not create a MarkupStream without a markup fragment");
+    throw new IllegalArgumentException("You can not create a MarkupStream without a markupFragments fragment. Parameter 'fragment' == null");
   }
-  this.markup=fragment;
-  this.markup.makeImmutable();
-  this.markupElements=fragment.getAllElementsFlat();
-  if (this.markupElements.size() > 0) {
+  this.markupFragments=fragment;
+  this.markupFragments.makeImmutable();
+  this.markup=fragment.getAllElementsFlat();
+  if (this.markup.size() > 0) {
     current=get(currentIndex);
   }
 }

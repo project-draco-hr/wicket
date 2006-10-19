@@ -1,0 +1,15 @@
+{
+  if (isHeadTag(fragment)) {
+    return fragment;
+  }
+  for (  MarkupElement element : fragment) {
+    if (element instanceof MarkupFragment) {
+      MarkupFragment frag=(MarkupFragment)element;
+      frag=getHeadTag(frag);
+      if (frag != null) {
+        return frag;
+      }
+    }
+  }
+  return null;
+}

@@ -2,10 +2,12 @@
   if (visitor == null) {
     throw new IllegalArgumentException("Argument visitor may not be null");
   }
-  for (  MarkupElement element : this) {
+  final Iterator iter=iterator();
+  while (iter.hasNext()) {
+    MarkupElement element=(MarkupElement)iter.next();
     Object value=null;
     if ((clazz == null) || clazz.isInstance(element)) {
-      value=visitor.visit(element);
+      value=visitor.visit(element,this);
       if ((value != IVisitor.CONTINUE_TRAVERSAL) && (value != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
         return value;
       }

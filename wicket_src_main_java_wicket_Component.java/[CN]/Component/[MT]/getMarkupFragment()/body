@@ -10,9 +10,9 @@
   if (markupFragment == null) {
     throw new MarkupNotFoundException("Unable to find markup for Component: " + getId());
   }
-  if ((markupFragment.size() > 0) && (markupFragment.get(0) instanceof ComponentTag)) {
-    final ComponentTag tag=markupFragment.getTag(0);
-    if (tag.hasBehaviors()) {
+  if (markupFragment.size() > 0) {
+    final ComponentTag tag=markupFragment.getTag();
+    if ((tag != null) && tag.hasBehaviors()) {
       Iterator<IBehavior> behaviors=tag.getBehaviors();
       while (behaviors.hasNext()) {
         add(behaviors.next());

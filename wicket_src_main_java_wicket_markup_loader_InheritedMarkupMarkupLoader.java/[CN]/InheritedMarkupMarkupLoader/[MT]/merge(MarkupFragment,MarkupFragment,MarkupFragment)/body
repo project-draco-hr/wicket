@@ -1,156 +1,125 @@
 {
-  MarkupFragment mergedMarkup=new MarkupFragment(derivedMarkup.getMarkup());
-  boolean wicketHeadProcessed=false;
-  ComponentTag childTag=null;
-  int baseIndex=0;
-  List<MarkupElement> baseMarkupList=baseMarkup.getAllElementsFlat();
-  for (; baseIndex < baseMarkupList.size(); baseIndex++) {
-    MarkupElement element=baseMarkupList.get(baseIndex);
-    if (element instanceof RawMarkup) {
-      mergedMarkup.addMarkupElement(element);
-      continue;
+  MarkupFragment mergedMarkup=baseMarkup.makeCopy();
+{
+    final MarkupFragment childFragment=MarkupFragmentUtils.getWicketChildTag(mergedMarkup);
+    if (childFragment == null) {
+      throw new MarkupException(new MarkupStream(baseMarkup),"Didn't find <wicket:child> tag in base markup. Markup: " + baseMarkup.toUserDebugString());
     }
-    final ComponentTag tag=(ComponentTag)element;
-    if ((baseMarkup.getMarkup().getResource() != null) && (tag.getMarkupClass() == null)) {
-      tag.setMarkupClass(baseMarkup.getMarkup().getResource().getMarkupClass());
+    if (childFragment.getTag().isOpenClose()) {
+      ComponentTag bodyTag=childFragment.getTag().mutable();
+      bodyTag.setType(XmlTag.Type.OPEN);
+      bodyTag.makeImmutable();
+      ComponentTag bodyCloseTag=bodyTag.mutable();
+      bodyCloseTag.setType(XmlTag.Type.CLOSE);
+      childFragment.removeMarkupElement(0);
+      childFragment.addMarkupElement(bodyTag);
+      childFragment.addMarkupElement(bodyCloseTag);
     }
-    if (tag.isWicketTag()) {
-      if (tag.isChildTag() && (tag.getMarkupClass() == baseMarkup.getMarkup().getResource().getMarkupClass())) {
-        if (tag.isOpenClose()) {
-          childTag=tag;
-          final ComponentTag childOpenTag=tag.mutable();
-          childOpenTag.setType(XmlTag.Type.OPEN);
-          childOpenTag.setMarkupClass(baseMarkup.getMarkup().getResource().getMarkupClass());
-          childOpenTag.setWicketTag(true);
-          mergedMarkup.addMarkupElement(childOpenTag);
-          break;
-        }
- else         if (tag.isOpen()) {
-          mergedMarkup.addMarkupElement(tag);
-          break;
-        }
  else {
-          throw new WicketRuntimeException("Did not expect a </wicket:child> tag in " + baseMarkup.toString());
+      while (childFragment.size() > 2) {
+        childFragment.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
+          public Object visit(          MarkupElement element,          MarkupFragment parent){
+            MarkupStream markupStream=new MarkupStream(baseMarkup);
+            while (markupStream.hasMore()) {
+              if (markupStream.next() == childFragment) {
+                break;
+              }
+            }
+            throw new MarkupException(markupStream,"No wicket components are allowed in the preview area in between the wicket:child tag");
+          }
         }
+);
+        childFragment.removeMarkupElement(1);
       }
-      if (wicketHeadProcessed == false) {
-        if (tag.isClose() && tag.isWicketHeadTag()) {
-          wicketHeadProcessed=true;
-          mergedMarkup.addMarkupElement(tag);
-          copyWicketHead(mergedMarkup,derivedMarkup);
-          continue;
+    }
+    childFragment.addMarkupElement(1,extendFragment.makeCopy());
+  }
+{
+    MarkupFragment body1=MarkupFragmentUtils.getBodyTag(derivedMarkup);
+    if (body1 != null) {
+      MarkupFragment body2=MarkupFragmentUtils.getBodyTag(mergedMarkup);
+      ComponentTag newBodyTag=body2.getTag().mutable();
+      String onload=Strings.join(";",newBodyTag.getAttributes().getString(ONLOAD),body1.getTag().getAttributes().getString(ONLOAD));
+      String onunload=Strings.join(";",newBodyTag.getAttributes().getString(ONUNLOAD),body1.getTag().getAttributes().getString(ONUNLOAD));
+      if (Strings.isEmpty(onload) == false) {
+        newBodyTag.put(ONLOAD,onload);
+      }
+      if (Strings.isEmpty(onunload) == false) {
+        newBodyTag.put(ONUNLOAD,onunload);
+      }
+      body2.removeMarkupElement(0);
+      body2.addMarkupElement(0,newBodyTag);
+    }
+  }
+{
+    final List<MarkupFragment> headers=MarkupFragmentUtils.getWicketHeaders(derivedMarkup);
+    if (headers != null) {
+      MarkupFragmentUtils.LookupResult result=null;
+      result=MarkupFragmentUtils.getWicketHeadTagPosition(mergedMarkup);
+      if (result == null) {
+        result=MarkupFragmentUtils.getHeadTagPosition(mergedMarkup);
+      }
+      if (result == null) {
+        result=MarkupFragmentUtils.getBodyTagPosition(mergedMarkup);
+      }
+      if (result == null) {
+        if ((mergedMarkup.size() == 1) && (mergedMarkup.get(0) instanceof MarkupFragment)) {
+          mergedMarkup=(MarkupFragment)mergedMarkup.get(0);
         }
-        if (tag.isOpen() && tag.isMajorWicketComponentTag()) {
-          wicketHeadProcessed=true;
-          copyWicketHead(mergedMarkup,derivedMarkup);
+        result=new MarkupFragmentUtils.LookupResult(mergedMarkup,0);
+      }
+      if (result != null) {
+        for (        MarkupFragment fragment : headers) {
+          result.fragment.addMarkupElement(result.index++,fragment);
         }
       }
     }
-    if (wicketHeadProcessed == false) {
-      if ((tag.isClose() && tag.isHeadTag()) || (tag.isOpen() && tag.isBodyTag())) {
-        wicketHeadProcessed=true;
-        copyWicketHead(mergedMarkup,derivedMarkup);
-      }
-    }
-    if (tag.isOpen() && tag.isBodyTag()) {
-      final String onLoad=getBodyOnLoadString(derivedMarkup);
-      String onLoadBase=tag.getAttributes().getString(ONLOAD);
-      if (onLoadBase == null) {
-        if (onLoad != null) {
-          final ComponentTag mutableTag=tag.mutable();
-          mutableTag.getAttributes().put(ONLOAD,onLoad);
-          element=mutableTag;
-        }
-      }
- else       if (onLoad != null) {
-        onLoadBase+=onLoad;
-        final ComponentTag mutableTag=tag.mutable();
-        mutableTag.getAttributes().put(ONLOAD,onLoadBase);
-        element=mutableTag;
-      }
-    }
-    mergedMarkup.addMarkupElement(element);
   }
-  if (baseIndex == baseMarkupList.size()) {
-    throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup: " + baseMarkup.toString());
-  }
-  for (  MarkupElement elem : extendFragment.getAllElementsFlat()) {
-    mergedMarkup.addMarkupElement(elem);
-  }
-  if (((ComponentTag)baseMarkupList.get(baseIndex)).isOpen()) {
-    for (baseIndex++; baseIndex < baseMarkupList.size(); baseIndex++) {
-      final MarkupElement element=baseMarkupList.get(baseIndex);
-      if (element instanceof ComponentTag) {
-        final ComponentTag tag=(ComponentTag)element;
-        if (tag.isChildTag() && tag.isClose()) {
-          tag.setMarkupClass(baseMarkup.getMarkup().getResource().getMarkupClass());
-          mergedMarkup.addMarkupElement(tag);
-          break;
-        }
+  if (Page.class.isAssignableFrom(mergedMarkup.getMarkup().getResource().getContainerInfo().getContainerClass())) {
+    if (MarkupFragmentUtils.getHeadTag(mergedMarkup) == null) {
+      MarkupFragmentUtils.LookupResult result=MarkupFragmentUtils.getWicketHeadTagPosition(mergedMarkup);
+      if (result != null) {
+        ComponentTag openTag=new ComponentTag(new XmlTag());
+        openTag.setName("head");
+        openTag.setId(HtmlHeaderSectionHandler.HEADER_ID);
+        openTag.setType(XmlTag.Type.OPEN);
+        openTag.makeImmutable();
+        ComponentTag closeTag=openTag.mutable();
+        closeTag.setType(XmlTag.Type.CLOSE);
+        closeTag.setOpenTag(openTag);
+        MarkupFragment headerFragment=new MarkupFragment(result.fragment.getMarkup());
+        headerFragment.addMarkupElement(openTag);
+        headerFragment.addMarkupElement(closeTag);
+        result.fragment.addMarkupElement(1,headerFragment);
+        while (result.index < result.fragment.size()) {
+          MarkupElement elem=result.fragment.get(result.index);
+          if (elem instanceof MarkupFragment) {
+            ComponentTag tag=((MarkupFragment)elem).getTag();
+            if (tag.isWicketHeadTag()) {
+              headerFragment.addMarkupElement(headerFragment.size() - 1,elem);
+              result.fragment.removeMarkupElement(result.index);
+            }
  else {
-          throw new WicketRuntimeException("Wicket tags like <wicket:xxx> are not allowed in between <wicket:child> and </wicket:child> tags: " + derivedMarkup.toString());
-        }
-      }
- else       if (element instanceof ComponentTag) {
-        throw new WicketRuntimeException("Wicket tags identified by wicket:id are not allowed in between <wicket:child> and </wicket:child> tags: " + derivedMarkup.toString());
-      }
-    }
-    if (baseIndex == baseMarkupList.size()) {
-      throw new WicketRuntimeException("Expected to find </wicket:child> in base markup: " + baseMarkup.toString());
-    }
-  }
- else   if (childTag != null) {
-    final ComponentTag childCloseTag=childTag.mutable();
-    childCloseTag.setType(XmlTag.Type.CLOSE);
-    childCloseTag.setMarkupClass(baseMarkup.getMarkup().getResource().getMarkupClass());
-    childCloseTag.setWicketTag(true);
-    mergedMarkup.addMarkupElement(childCloseTag);
-  }
-  for (baseIndex++; baseIndex < baseMarkupList.size(); baseIndex++) {
-    final MarkupElement element=baseMarkupList.get(baseIndex);
-    mergedMarkup.addMarkupElement(element);
-    if ((element instanceof ComponentTag) && (baseMarkup.getMarkup().getResource() != null)) {
-      final ComponentTag tag=(ComponentTag)element;
-      tag.setMarkupClass(baseMarkup.getMarkup().getResource().getMarkupClass());
-    }
-  }
-  if (Page.class.isAssignableFrom(derivedMarkup.getMarkup().getResource().getMarkupClass())) {
-    int hasOpenWicketHead=-1;
-    int hasCloseWicketHead=-1;
-    int hasHead=-1;
-    for (int i=0; i < mergedMarkup.size(); i++) {
-      final MarkupElement element=mergedMarkup.get(i);
-      if (element instanceof ComponentTag) {
-        final ComponentTag tag=(ComponentTag)element;
-        if ((hasOpenWicketHead == -1) && tag.isWicketHeadTag()) {
-          hasOpenWicketHead=i;
-        }
- else         if (tag.isWicketHeadTag() && tag.isClose()) {
-          hasCloseWicketHead=i;
-        }
- else         if ((hasHead == -1) && tag.isHeadTag()) {
-          hasHead=i;
-        }
-        if ((hasHead != -1) && (hasOpenWicketHead != -1)) {
-          break;
+              break;
+            }
+          }
+ else {
+            break;
+          }
         }
       }
     }
-    if ((hasOpenWicketHead != -1) && (hasHead == -1)) {
-      final XmlTag headOpenTag=new XmlTag();
-      headOpenTag.setName("head");
-      headOpenTag.setType(XmlTag.Type.OPEN);
-      final ComponentTag openTag=new ComponentTag(headOpenTag);
-      openTag.setId(HtmlHeaderSectionHandler.HEADER_ID);
-      final XmlTag headCloseTag=new XmlTag();
-      headCloseTag.setName(headOpenTag.getName());
-      headCloseTag.setType(XmlTag.Type.CLOSE);
-      final ComponentTag closeTag=new ComponentTag(headCloseTag);
-      closeTag.setOpenTag(openTag);
-      closeTag.setId(HtmlHeaderSectionHandler.HEADER_ID);
-      mergedMarkup.addMarkupElement(hasOpenWicketHead,openTag);
-      mergedMarkup.addMarkupElement(hasCloseWicketHead + 2,closeTag);
+  }
+  if ((mergedMarkup.size() == 1) && (mergedMarkup.get(0) instanceof MarkupFragment)) {
+    mergedMarkup=(MarkupFragment)mergedMarkup.get(0);
+  }
+  mergedMarkup.visitChildren(ComponentTag.class,new MarkupFragment.IVisitor(){
+    public Object visit(    final MarkupElement element,    final MarkupFragment parent){
+      ComponentTag tag=(ComponentTag)element;
+      tag.setMarkupClass(parent.getMarkup().getResource().getMarkupClass());
+      return CONTINUE_TRAVERSAL;
     }
   }
+);
   return mergedMarkup;
 }

@@ -1,0 +1,12 @@
+{
+  final MarkupFragment fragment=new MarkupFragment(this.markup);
+  for (  MarkupElement element : this) {
+    if (element instanceof MarkupFragment) {
+      fragment.addMarkupElement(((MarkupFragment)element).makeCopy());
+    }
+ else {
+      fragment.addMarkupElement(element);
+    }
+  }
+  return fragment;
+}

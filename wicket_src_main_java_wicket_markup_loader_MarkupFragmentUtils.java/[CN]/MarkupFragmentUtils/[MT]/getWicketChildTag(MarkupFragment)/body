@@ -1,0 +1,17 @@
+{
+  final MarkupFragment holder[]=new MarkupFragment[1];
+  if (isChildTag(fragment)) {
+    holder[0]=fragment;
+  }
+  fragment.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
+    public Object visit(    final MarkupElement element,    final MarkupFragment parent){
+      MarkupFragment fragment=(MarkupFragment)element;
+      if (isChildTag(fragment)) {
+        holder[0]=fragment;
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+  return holder[0];
+}

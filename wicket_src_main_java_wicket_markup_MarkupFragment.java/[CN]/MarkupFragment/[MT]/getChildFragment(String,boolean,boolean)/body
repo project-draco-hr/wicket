@@ -16,7 +16,7 @@
         if ((tagId != null) && tagId.equals(id)) {
           return fragment;
         }
-        if (tagId.startsWith(Component.AUTO_COMPONENT_PREFIX)) {
+        if ((tagId != null) && tagId.startsWith(Component.AUTO_COMPONENT_PREFIX)) {
           MarkupFragment frag=fragment.getChildFragment(id,false);
           if (frag != null) {
             return frag;
@@ -34,7 +34,7 @@
     }
   }
   if (throwException == true) {
-    throw new MarkupException("Markup with path '" + id + "' not found in fragment: "+ this.getId());
+    throw new MarkupException(getMarkup().getResource(),"Markup with path '" + id + "' not found in fragment: "+ getId());
   }
   return null;
 }
