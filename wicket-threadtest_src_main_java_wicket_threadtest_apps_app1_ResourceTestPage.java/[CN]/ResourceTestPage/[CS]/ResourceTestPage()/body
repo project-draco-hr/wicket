@@ -1,0 +1,50 @@
+{
+  List list=Arrays.asList(new Object[IMAGES_PER_PAGE]);
+  new ListView(this,"listView",list){
+    @Override protected void populateItem(    ListItem item){
+      final Random random=new Random();
+      BufferedImage image=new BufferedImage(16,16,BufferedImage.TYPE_INT_RGB);
+      Graphics gfx=image.getGraphics();
+      gfx.setColor(new Color(random.nextFloat(),random.nextFloat(),random.nextFloat()));
+      gfx.fillRect(0,0,32,32);
+      gfx.dispose();
+      ByteArrayOutputStream baos=new ByteArrayOutputStream();
+      JPEGImageEncoder encoder=JPEGCodec.createJPEGEncoder(baos);
+      try {
+        encoder.encode(image);
+      }
+ catch (      IOException e) {
+        throw new WicketRuntimeException(e);
+      }
+      final byte[] imageData=baos.toByteArray();
+      new Image(item,"image",new WebResource(){
+        @Override public IResourceStream getResourceStream(){
+          return new IResourceStream(){
+            public void close() throws IOException {
+            }
+            public String getContentType(){
+              return "image/jpeg";
+            }
+            public InputStream getInputStream() throws ResourceStreamNotFoundException {
+              return new ByteArrayInputStream(imageData);
+            }
+            public Locale getLocale(){
+              return null;
+            }
+            public Time lastModifiedTime(){
+              return Time.now();
+            }
+            public long length(){
+              return imageData.length;
+            }
+            public void setLocale(            Locale locale){
+            }
+          }
+;
+        }
+      }
+);
+    }
+  }
+;
+}
