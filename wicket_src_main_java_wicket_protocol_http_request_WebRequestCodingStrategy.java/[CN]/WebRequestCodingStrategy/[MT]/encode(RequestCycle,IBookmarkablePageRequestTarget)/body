@@ -26,7 +26,14 @@
     url.append('?');
     url.append(WebRequestCodingStrategy.BOOKMARKABLE_PAGE_PARAMETER_NAME);
     url.append('=');
-    url.append(pageMapName + Component.PATH_SEPARATOR + pageClass.getName());
+    String pageClassName=pageClass.getName();
+    try {
+      pageClassName=URLEncoder.encode(pageClassName,"UTF-8");
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+    url.append(pageMapName + Component.PATH_SEPARATOR + pageClassName);
   }
   final PageParameters parameters=requestTarget.getPageParameters();
   if (parameters != null) {
