@@ -10,7 +10,7 @@
   assertNull(page.get("myLabel"));
   Objects.restoreObject(page,clonemap);
   assertNotNull(page.get("myLabel"));
-  page.get("myLabel").add(new SimpleAttributeModifier("test","test"));
+  page.get("myLabel").add(new AttributeModifier("test",true,new Model<String>("test")));
   assertEquals(1,page.get("myLabel").getBehaviors().size());
   Objects.restoreObject(page,clonemap);
   assertEquals(0,page.get("myLabel").getBehaviors().size());
