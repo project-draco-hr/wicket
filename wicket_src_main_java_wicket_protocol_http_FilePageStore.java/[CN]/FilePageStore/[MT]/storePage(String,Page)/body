@@ -3,6 +3,7 @@
   sessionDir.mkdirs();
   File pageFile=getPageFile(page.getNumericId(),page.getCurrentVersionNumber(),sessionDir);
   page.internalDetach();
+  AnnotationUtils.invokeOnDetachListeners(page);
   byte[] bytes=Objects.objectToByteArray(page);
   FileOutputStream fos=null;
   try {
