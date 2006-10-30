@@ -1,0 +1,17 @@
+{
+  int index=0;
+switch (order) {
+case SUB_TO_SUPER:
+    index=1;
+  break;
+case SUPER_TO_SUB:
+index=2;
+break;
+}
+ClassReflectionCache classCache=classToMethods[index].get(clazz);
+if (classCache == null) {
+classCache=new ClassReflectionCache(clazz,order,IMethodFilter.IGNORE_OVERRIDES);
+classToMethods[index].put(clazz,classCache);
+}
+return classCache.methodsForAnnot(annot);
+}

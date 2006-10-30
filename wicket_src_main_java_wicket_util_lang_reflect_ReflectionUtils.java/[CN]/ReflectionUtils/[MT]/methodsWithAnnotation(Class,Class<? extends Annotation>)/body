@@ -1,0 +1,8 @@
+{
+  ClassReflectionCache classCache=classToMethods[0].get(clazz);
+  if (classCache == null) {
+    classCache=new ClassReflectionCache(clazz,ClassOrder.SUPER_TO_SUB,IMethodFilter.ANY);
+    classToMethods[0].put(clazz,classCache);
+  }
+  return classCache.methodsForAnnot(annot);
+}

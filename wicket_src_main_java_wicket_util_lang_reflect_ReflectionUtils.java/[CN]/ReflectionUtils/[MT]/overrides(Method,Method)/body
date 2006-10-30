@@ -1,0 +1,21 @@
+{
+  if (a.getName().equals(b.getName())) {
+    if (Arrays.equals(a.getParameterTypes(),b.getParameterTypes())) {
+      final int amods=a.getModifiers();
+      final int bmods=b.getModifiers();
+      if (Modifier.isPublic(amods) || Modifier.isProtected(amods)) {
+        if (Modifier.isPublic(bmods) || Modifier.isProtected(bmods)) {
+          return true;
+        }
+      }
+      final Package apack=a.getDeclaringClass().getPackage();
+      final Package bpack=b.getDeclaringClass().getPackage();
+      if (apack == bpack || apack.equals(bpack)) {
+        if (!Modifier.isPrivate(amods) && !Modifier.isPrivate(bmods)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
