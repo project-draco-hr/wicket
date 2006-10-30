@@ -1,0 +1,14 @@
+{
+  if (!method.getReturnType().equals(void.class) || method.getParameterTypes().length != 0) {
+    throw new IllegalStateException("Method [[" + method.getName() + "]] cannot be annotated with [["+ OnAttach.class.getSimpleName()+ "]] because it doesnt match signature [[void method()]]");
+  }
+  try {
+    if (!method.isAccessible()) {
+      method.setAccessible(true);
+    }
+    method.invoke(this,LISTENER_ARGS);
+  }
+ catch (  Exception e) {
+    throw new WicketRuntimeException("Error while invoking listener method [[" + method.getName() + "]] for [["+ annot.getClass().getSimpleName()+ "]] event",e);
+  }
+}
