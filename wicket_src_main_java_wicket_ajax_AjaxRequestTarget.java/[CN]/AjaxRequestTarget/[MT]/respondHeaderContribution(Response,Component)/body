@@ -5,13 +5,11 @@
   Response oldResponse=RequestCycle.get().setResponse(encodingHeaderResponse);
   encodingHeaderResponse.reset();
   component.renderHead(header);
-  component.renderedBehaviors();
   if (component instanceof MarkupContainer) {
     ((MarkupContainer)component).visitChildren(new Component.IVisitor(){
       public Object component(      Component component){
         if (component.isVisible()) {
           component.renderHead(header);
-          component.renderedBehaviors();
           return CONTINUE_TRAVERSAL;
         }
  else {
