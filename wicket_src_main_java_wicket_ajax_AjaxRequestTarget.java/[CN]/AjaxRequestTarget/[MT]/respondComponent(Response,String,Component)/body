@@ -11,9 +11,9 @@
   page.setVersioned(false);
   page.startComponentRender(component);
   respondHeaderContribution(response,component);
-  Response encodingResponse=new StringResponse();
+  Response componentResponse=new StringResponse();
   try {
-    RequestCycle.get().setResponse(encodingResponse);
+    RequestCycle.get().setResponse(componentResponse);
     component.renderComponent();
   }
   finally {
@@ -24,12 +24,14 @@
   response.write("<component id=\"");
   response.write(markupId);
   response.write("\" ");
-  if (needsEncoding(encodingResponse.toString())) {
+  String data=componentResponse.toString();
+  if (needsEncoding(componentResponse.toString())) {
     response.write(" encoding=\"");
     response.write(getEncodingName());
     response.write("\" ");
+    data=encode(data);
   }
   response.write("><![CDATA[");
-  response.write(encodingResponse.toString());
+  response.write(data);
   response.write("]]></component>");
 }

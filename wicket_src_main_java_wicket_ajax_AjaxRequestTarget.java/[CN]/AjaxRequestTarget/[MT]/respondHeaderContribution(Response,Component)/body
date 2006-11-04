@@ -8,15 +8,17 @@
   finally {
     RequestCycle.get().setResponse(response);
   }
-  if (encodingResponse.toString().length() != 0) {
+  String data=encodingResponse.toString();
+  if (data.length() != 0) {
     response.write("<header-contribution");
     if (needsEncoding(encodingResponse.toString())) {
       response.write(" encoding=\"");
       response.write(getEncodingName());
       response.write("\" ");
+      data=encode(data);
     }
     response.write("><![CDATA[<head xmlns:wicket=\"http://wicket.sourceforge.net\">");
-    response.write(encodingResponse.toString());
+    response.write(data);
     response.write("</head>]]>");
     response.write("</header-contribution>");
   }
