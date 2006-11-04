@@ -2,6 +2,7 @@
   try {
     final MarkupFragment markup=newMarkupLoader().loadMarkup(container,markupResourceStream);
     if (markupResourceStream.getCacheKey() != null) {
+      markup.makeImmutable();
       markupCache.put(markupResourceStream.getCacheKey(),markup);
     }
     afterLoadListeners.notifyListeners(markupResourceStream);

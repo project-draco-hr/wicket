@@ -1,0 +1,16 @@
+{
+  application.setHomePage(EmailPage.class);
+  application.setupRequestAndResponse();
+  application.processRequestCycle();
+  String document=application.getServletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,this.getClass(),"ExpectedResult-1.html"));
+  assertEquals(EmailPage.class,application.getLastRenderedPage().getClass());
+  EmailPage page=(EmailPage)application.getLastRenderedPage();
+  FormTester formTester=application.newFormTester("form");
+  formTester.setValue("email","a");
+  formTester.submit();
+  page=(EmailPage)application.getLastRenderedPage();
+  assertEquals(EmailPage.class,page.getClass());
+  document=application.getServletResponse().getDocument();
+  assertTrue(DiffUtil.validatePage(document,this.getClass(),"ExpectedResult-2.html"));
+}

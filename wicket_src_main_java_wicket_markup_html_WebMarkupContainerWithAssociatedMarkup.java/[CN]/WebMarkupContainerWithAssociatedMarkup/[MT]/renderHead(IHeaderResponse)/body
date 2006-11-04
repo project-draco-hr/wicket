@@ -1,0 +1,11 @@
+{
+  if (isVisible()) {
+    getAssociatedMarkup(true);
+    for (    Component child : this) {
+      if (child instanceof WicketHeadContainer) {
+        child.render(new MarkupStream(child.getMarkupFragment()));
+      }
+    }
+    super.renderHead(response);
+  }
+}

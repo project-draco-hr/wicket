@@ -6,12 +6,12 @@
   if (parent == null) {
     throw new MarkupNotFoundException("The component is expected to have a parent: " + getId());
   }
-  MarkupFragment markupFragment=parent.getMarkupFragment(getId());
-  if (markupFragment == null) {
+  this.markupFragment=parent.getMarkupFragment(getId());
+  if (this.markupFragment == null) {
     throw new MarkupNotFoundException("Unable to find markup for Component: " + getId());
   }
-  if (markupFragment.size() > 0) {
-    final ComponentTag tag=markupFragment.getTag();
+  if (this.markupFragment.size() > 0) {
+    final ComponentTag tag=this.markupFragment.getTag();
     if ((tag != null) && tag.hasBehaviors()) {
       Iterator<IBehavior> behaviors=tag.getBehaviors();
       while (behaviors.hasNext()) {

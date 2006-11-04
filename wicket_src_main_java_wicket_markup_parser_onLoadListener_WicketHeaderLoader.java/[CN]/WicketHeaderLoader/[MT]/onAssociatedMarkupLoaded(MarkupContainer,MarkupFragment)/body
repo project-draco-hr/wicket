@@ -1,0 +1,60 @@
+{
+  container.visitChildren(WicketHeadContainer.class,new IVisitor(){
+    public Object component(    final Component<?> component){
+      component.remove();
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+  final Page page=container.getPage();
+  final HeaderContainer headerContainer;
+  if (container instanceof WebPage) {
+    headerContainer=((WebPage)page).getHeaderContainer();
+  }
+ else {
+    headerContainer=(HeaderContainer)page.get(HtmlHeaderSectionHandler.HEADER_ID);
+  }
+  fragment.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
+    private boolean foundBody=false;
+    /** 
+ * @see wicket.markup.MarkupFragment.IVisitor#visit(wicket.markup.MarkupElement,wicket.markup.MarkupFragment)
+ */
+    public Object visit(    final MarkupElement element,    final MarkupFragment parent){
+      final MarkupFragment frag=(MarkupFragment)element;
+      final ComponentTag tag=frag.getTag();
+      if (tag.isWicketHeadTag()) {
+        if (foundBody == true) {
+          MarkupStream markupStream=new MarkupStream(fragment);
+          while (markupStream.hasMore()) {
+            if (markupStream.next() == tag) {
+              break;
+            }
+          }
+          throw new MarkupException("<wicket:head> must be before the <body>, <wicket:panel> ... tag");
+        }
+        WicketHeadContainer header=newWicketHeaderContainer(container,frag);
+        header.setEnable(headerContainer.okToRender(header));
+        return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+      }
+ else       if (tag.isBodyTag()) {
+        foundBody=true;
+        if (page instanceof WebPage) {
+          WebPage webPage=(WebPage)page;
+          final CharSequence onLoad=tag.getString(ONLOAD);
+          if (onLoad != null) {
+            webPage.getBodyContainer().addOnLoadModifier(onLoad,container);
+          }
+          final CharSequence onUnLoad=tag.getString(ONUNLOAD);
+          if (onUnLoad != null) {
+            webPage.getBodyContainer().addOnUnLoadModifier(onUnLoad,container);
+          }
+        }
+      }
+ else       if (tag.isMajorWicketComponentTag()) {
+        foundBody=true;
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

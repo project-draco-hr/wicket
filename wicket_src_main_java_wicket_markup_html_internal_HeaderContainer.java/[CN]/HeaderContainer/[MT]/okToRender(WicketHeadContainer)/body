@@ -1,0 +1,21 @@
+{
+  if (this.componentsPerScope == null) {
+    this.componentsPerScope=new HashMap<String,Map<Class,MarkupContainer>>();
+  }
+  String scope=header.getScope();
+  Map<Class,MarkupContainer> componentScope=this.componentsPerScope.get(scope);
+  if (componentScope == null) {
+    componentScope=new HashMap<Class,MarkupContainer>();
+    this.componentsPerScope.put(scope,componentScope);
+  }
+  Class markupClass=header.getMarkupFragment().getMarkup().getResource().getMarkupClass();
+  Component creator=componentScope.get(markupClass);
+  if (creator != null) {
+    if (creator == header.getParent()) {
+      return true;
+    }
+    return false;
+  }
+  componentScope.put(markupClass,header.getParent());
+  return true;
+}

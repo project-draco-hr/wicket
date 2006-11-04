@@ -1,8 +1,8 @@
 {
+  final WebResponse response=(WebResponse)requestCycle.getResponse();
   try {
     final Application app=Application.get();
     final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
-    WebResponse response=(WebResponse)requestCycle.getResponse();
     response.setCharacterEncoding(encoding);
     response.setContentType("text/xml; charset=" + encoding);
     response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
@@ -15,9 +15,7 @@
     for (    String js : prependJavascripts) {
       respondInvocation(response,js);
     }
-    Iterator<Entry<String,Component>> it=markupIdToComponent.entrySet().iterator();
-    while (it.hasNext()) {
-      final Map.Entry<String,Component> entry=it.next();
+    for (    Map.Entry<String,Component> entry : markupIdToComponent.entrySet()) {
       final Component component=entry.getValue();
       final String markupId=entry.getKey();
       respondComponent(response,markupId,component);
@@ -28,8 +26,9 @@
     response.write("</ajax-response>");
   }
  catch (  RuntimeException ex) {
-    LOG.error("Error while responding to an AJAX request: " + toString(),ex);
-    System.out.println(ex.getMessage());
-    ex.printStackTrace();
+    Log.error("Error while responding to an AJAX request: " + toString(),ex);
+  }
+ finally {
+    requestCycle.setResponse(response);
   }
 }

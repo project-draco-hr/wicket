@@ -3,9 +3,6 @@
     throw new IllegalStateException("Ajax render cannot be called on component that has setRenderBodyOnly enabled. Component: " + component.toString());
   }
   component.setOutputMarkupId(true);
-  final Response originalResponse=response;
-  encodingBodyResponse.reset();
-  RequestCycle.get().setResponse(encodingBodyResponse);
   final Page page=component.getPage();
   if (page == null) {
     throw new IllegalStateException("Ajax request attempted on a component that is not associated with a Page");
@@ -13,21 +10,26 @@
   final boolean versioned=page.isVersioned();
   page.setVersioned(false);
   page.startComponentRender(component);
-  component.renderComponent();
   respondHeaderContribution(response,component);
+  Response encodingResponse=new StringResponse();
+  try {
+    RequestCycle.get().setResponse(encodingResponse);
+    component.renderComponent();
+  }
+  finally {
+    RequestCycle.get().setResponse(response);
+  }
   page.endComponentRender(component);
   page.setVersioned(versioned);
-  RequestCycle.get().setResponse(originalResponse);
   response.write("<component id=\"");
   response.write(markupId);
   response.write("\" ");
-  if (encodingBodyResponse.isContentsEncoded()) {
+  if (needsEncoding(encodingResponse.toString())) {
     response.write(" encoding=\"");
     response.write(getEncodingName());
     response.write("\" ");
   }
   response.write("><![CDATA[");
-  response.write(encodingBodyResponse.getContents());
+  response.write(encodingResponse.toString());
   response.write("]]></component>");
-  encodingBodyResponse.reset();
 }

@@ -1,0 +1,19 @@
+{
+  final MarkupFragment header=MarkupFragmentUtils.getHeadTag(markup);
+  if (header != null) {
+    markup.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
+      public Object visit(      final MarkupElement element,      final MarkupFragment parent){
+        if (element == header) {
+          return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+        }
+        if (((MarkupFragment)element).getTag().isWicketHeadTag()) {
+          if (parent.removeMarkupElement(element) == true) {
+            header.addMarkupElement(header.size() - 1,element);
+          }
+        }
+        return CONTINUE_TRAVERSAL;
+      }
+    }
+);
+  }
+}

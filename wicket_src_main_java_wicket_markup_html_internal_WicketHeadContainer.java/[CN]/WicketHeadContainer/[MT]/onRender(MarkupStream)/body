@@ -1,0 +1,13 @@
+{
+  Response response=getRequestCycle().getResponse();
+  try {
+    if (this.enable == false) {
+      getRequestCycle().setResponse(NullResponse.getInstance());
+    }
+    super.onRender(new MarkupStream(getMarkupFragment()));
+  }
+  finally {
+    markupStream.skipComponent();
+    getRequestCycle().setResponse(response);
+  }
+}

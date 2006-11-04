@@ -3,6 +3,8 @@
   openTag.setId(HEADER_ID);
   final ComponentTag closeTag=new ComponentTag(HEAD,XmlTag.Type.CLOSE);
   closeTag.setOpenTag(openTag);
-  this.markup.addMarkupElement(openTag);
-  this.markup.addMarkupElement(closeTag);
+  MarkupFragment fragment=new MarkupFragment(parser.getMarkup());
+  fragment.addMarkupElement(openTag);
+  fragment.addMarkupElement(closeTag);
+  this.parser.getCurrentMarkupFragment().addMarkupElement(fragment);
 }

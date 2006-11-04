@@ -6,25 +6,16 @@
   if (ignoreTheRest == true) {
     return tag;
   }
-  if (HEAD.equalsIgnoreCase(tag.getName())) {
-    if (tag.getNamespace() == null) {
-      if (tag.isClose()) {
-        foundHead=true;
-      }
- else       if (tag.getId() == null) {
-        tag.setId(HEADER_ID);
-      }
-      tag.setInternalTag(true);
-      return tag;
+  if (tag.isHeadTag()) {
+    ignoreTheRest=true;
+    if (tag.getId() == null) {
+      tag.setId(HEADER_ID);
     }
- else {
-      foundHead=true;
-    }
+    tag.setInternalTag(true);
+    return tag;
   }
- else   if (BODY.equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
-    if (foundHead == false) {
-      insertHeadTag();
-    }
+ else   if (tag.isBodyTag()) {
+    insertHeadTag();
     ignoreTheRest=true;
     return tag;
   }

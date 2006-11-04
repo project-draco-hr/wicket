@@ -1,8 +1,8 @@
 {
   final Stack<MarkupFragment> fragmentStack=new Stack<MarkupFragment>();
-  MarkupFragment fragment=this.rootFragment;
+  this.currentFragment=this.rootFragment;
   try {
-    int size=fragment.size();
+    int size=currentFragment.size();
     for (ComponentTag tag; null != (tag=(ComponentTag)this.markupFilterChain.nextTag()); ) {
       boolean add=(tag.getId() != null);
       if (!add && tag.getXmlTag().isClose()) {
@@ -18,38 +18,38 @@
           if (this.compressWhitespace) {
             rawMarkup=compressWhitespace(rawMarkup);
           }
-          fragment.addMarkupElement(size,new RawMarkup(rawMarkup));
+          currentFragment.addMarkupElement(size,new RawMarkup(rawMarkup));
         }
         if (add) {
           if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
             if (tag.isOpen() || tag.isOpenClose()) {
-              fragmentStack.push(fragment);
+              fragmentStack.push(currentFragment);
               MarkupFragment newFragment=new MarkupFragment(this.markup);
-              fragment.addMarkupElement(newFragment);
-              fragment=newFragment;
+              currentFragment.addMarkupElement(newFragment);
+              currentFragment=newFragment;
             }
-            fragment.addMarkupElement(tag);
+            currentFragment.addMarkupElement(tag);
             if (tag.isClose() || tag.isOpenClose() || tag.hasNoCloseTag()) {
-              fragment=fragmentStack.pop();
+              currentFragment=fragmentStack.pop();
             }
           }
         }
  else         if (tag.isModified()) {
-          fragment.addMarkupElement(new RawMarkup(tag.toCharSequence()));
+          currentFragment.addMarkupElement(new RawMarkup(tag.toCharSequence()));
         }
         this.xmlParser.setPositionMarker();
       }
-      size=fragment.size();
+      size=currentFragment.size();
     }
   }
  catch (  final ParseException ex) {
     final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
     if (text.length() > 0) {
-      fragment.addMarkupElement(new RawMarkup(text));
+      currentFragment.addMarkupElement(new RawMarkup(text));
     }
     this.markup.setEncoding(this.xmlParser.getEncoding());
     this.markup.setXmlDeclaration(this.xmlParser.getXmlDeclaration());
-    MarkupElement element=fragment.get(fragment.size() - 1);
+    MarkupElement element=currentFragment.get(currentFragment.size() - 1);
     MarkupStream markupStream=new MarkupStream(this.rootFragment);
     while (markupStream.hasMore()) {
       if (markupStream.next() == element) {
@@ -67,15 +67,14 @@
     if (this.compressWhitespace) {
       rawMarkup=compressWhitespace(rawMarkup);
     }
-    fragment.addMarkupElement(new RawMarkup(rawMarkup));
+    currentFragment.addMarkupElement(new RawMarkup(rawMarkup));
   }
   if (fragmentStack.size() > 0) {
-    fragment.handleUnclosedTags();
-    fragment=this.rootFragment;
+    currentFragment.handleUnclosedTags();
+    currentFragment=this.rootFragment;
   }
-  if ((fragment.size() == 1) && (fragment.get(0) instanceof MarkupFragment)) {
-    fragment=(MarkupFragment)fragment.get(0);
+  if ((currentFragment.size() == 1) && (currentFragment.get(0) instanceof MarkupFragment)) {
+    currentFragment=(MarkupFragment)currentFragment.get(0);
   }
-  fragment.makeImmutable();
-  return fragment;
+  return currentFragment;
 }

@@ -1,0 +1,12 @@
+{
+  if ((isVisible() == true) && (isHeadRendered() == false)) {
+    if (this.behaviors != null) {
+      for (      IBehavior behavior : this.behaviors) {
+        if (behavior instanceof IHeaderContributor) {
+          ((IHeaderContributor)behavior).renderHead(response);
+        }
+      }
+    }
+    setFlag(FLAG_HEAD_RENDERED,true);
+  }
+}

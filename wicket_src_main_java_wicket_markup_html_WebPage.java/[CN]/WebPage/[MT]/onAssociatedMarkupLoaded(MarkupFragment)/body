@@ -1,26 +1,22 @@
 {
-  MarkupStream markupStream=new MarkupStream(markup);
-  while (markupStream.hasMoreComponentTags()) {
-    final ComponentTag tag=markupStream.getTag();
-    if (tag.isOpen() && tag.isBodyTag()) {
-      if (BodyOnLoadHandler.BODY_ID.equals(tag.getId())) {
-        new HtmlBodyContainer(this,tag.getId());
+  if (get(HtmlHeaderSectionHandler.HEADER_ID) == null) {
+    MarkupStream markupStream=new MarkupStream(markup);
+    while (markupStream.hasMoreComponentTags()) {
+      final ComponentTag tag=markupStream.getTag();
+      if (tag.isOpen() && tag.isBodyTag()) {
+        if (BodyOnLoadHandler.BODY_ID.equals(tag.getId())) {
+          new HtmlBodyContainer(this,tag.getId());
+        }
+        bodyContainer=new BodyContainer(this,tag.getId());
+        break;
       }
-      bodyContainer=new BodyContainer(this,tag.getId());
-      break;
     }
   }
-  markupStream.setCurrentIndex(0);
-  while (markupStream.hasMoreComponentTags()) {
-    final ComponentTag tag=markupStream.getTag();
-    if (tag.isOpen() && tag.isHeadTag()) {
-      if (HtmlHeaderSectionHandler.HEADER_ID.equals(tag.getId())) {
-        new HtmlHeaderContainer(this,tag.getId());
-      }
-      break;
-    }
+  if (get(HtmlHeaderSectionHandler.HEADER_ID) == null) {
+    new HtmlHeaderContainer(this,HtmlHeaderSectionHandler.HEADER_ID);
   }
   if (getApplication().getPageSettings().getAutomaticMultiWindowSupport()) {
     add(new PageMapChecker());
   }
+  super.onAssociatedMarkupLoaded(markup);
 }

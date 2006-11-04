@@ -1,34 +1,22 @@
 {
-  if (header == null) {
-    header=new HtmlHeaderContainer(component.getPage(),HtmlHeaderSectionHandler.HEADER_ID);
+  Response encodingResponse=new StringResponse();
+  try {
+    final IHeaderResponse headerResponse=new HeaderResponse(encodingResponse);
+    RequestCycle.get().setResponse(headerResponse.getResponse());
+    component.renderHead(headerResponse);
   }
-  Response oldResponse=RequestCycle.get().setResponse(encodingHeaderResponse);
-  encodingHeaderResponse.reset();
-  component.renderHead(header);
-  if (component instanceof MarkupContainer) {
-    ((MarkupContainer)component).visitChildren(new Component.IVisitor(){
-      public Object component(      Component component){
-        if (component.isVisible()) {
-          component.renderHead(header);
-          return CONTINUE_TRAVERSAL;
-        }
- else {
-          return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
-        }
-      }
-    }
-);
+  finally {
+    RequestCycle.get().setResponse(response);
   }
-  RequestCycle.get().setResponse(oldResponse);
-  if (encodingHeaderResponse.getContents().length() != 0) {
+  if (encodingResponse.toString().length() != 0) {
     response.write("<header-contribution");
-    if (encodingHeaderResponse.isContentsEncoded()) {
+    if (needsEncoding(encodingResponse.toString())) {
       response.write(" encoding=\"");
       response.write(getEncodingName());
       response.write("\" ");
     }
     response.write("><![CDATA[<head xmlns:wicket=\"http://wicket.sourceforge.net\">");
-    response.write(encodingHeaderResponse.getContents());
+    response.write(encodingResponse.toString());
     response.write("</head>]]>");
     response.write("</header-contribution>");
   }
