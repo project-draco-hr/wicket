@@ -1,12 +1,5 @@
 {
-  container.visitChildren(WicketHeadContainer.class,new IVisitor(){
-    public Object component(    final Component<?> component){
-      component.remove();
-      return CONTINUE_TRAVERSAL;
-    }
-  }
-);
-  final Page page=container.getPage();
+  final Page page=getPage();
   final HeaderContainer headerContainer=(HeaderContainer)page.get(HtmlHeaderSectionHandler.HEADER_ID);
   fragment.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
     private boolean foundBody=false;
@@ -20,15 +13,16 @@
         if (foundBody == true) {
           throwMarkupException(fragment,tag,"<wicket:head> must be before the <body>, <wicket:panel> ... tag");
         }
-        WicketHeadContainer header=newWicketHeaderContainer(container,frag);
+        WicketHeadContainer header=newWicketHeaderContainer(frag);
         header.setEnable(headerContainer.okToRender(header));
+        header.render(new MarkupStream(frag));
         return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
       }
  else       if (tag.isBodyTag()) {
         foundBody=true;
-        if ((page instanceof WebPage) && !(container instanceof Page)) {
-          addBodyModifier(BodyContainer.ONLOAD,container,tag);
-          addBodyModifier(BodyContainer.ONUNLOAD,container,tag);
+        if (page instanceof WebPage) {
+          addBodyModifier(BodyContainer.ONLOAD,tag);
+          addBodyModifier(BodyContainer.ONUNLOAD,tag);
         }
       }
  else       if (tag.isMajorWicketComponentTag()) {
