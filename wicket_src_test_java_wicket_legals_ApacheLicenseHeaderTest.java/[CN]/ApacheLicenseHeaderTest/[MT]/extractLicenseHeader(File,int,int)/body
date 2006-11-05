@@ -1,0 +1,25 @@
+{
+  String header="";
+  FileReader fileReader=null;
+  try {
+    fileReader=new FileReader(file);
+    LineNumberReader lineNumberReader=new LineNumberReader(fileReader);
+    for (int i=start; i < length; i++) {
+      header+=lineNumberReader.readLine() + LINE_ENDING;
+    }
+  }
+ catch (  Exception e) {
+    fail(e.getMessage());
+  }
+ finally {
+    if (fileReader != null) {
+      try {
+        fileReader.close();
+      }
+ catch (      IOException e) {
+        fail(e.getMessage());
+      }
+    }
+  }
+  return header.trim();
+}

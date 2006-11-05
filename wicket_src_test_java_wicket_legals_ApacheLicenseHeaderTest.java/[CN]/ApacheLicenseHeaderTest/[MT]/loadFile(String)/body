@@ -1,0 +1,12 @@
+{
+  String contents=null;
+  try {
+    File legalsDir=new File(baseDirectory,"src/test/java/wicket/legals");
+    String legalsDirString=legalsDir.getAbsolutePath();
+    contents=new wicket.util.file.File(legalsDirString,filename).readString();
+  }
+ catch (  IOException e) {
+    fail(e.getMessage());
+  }
+  return contents.trim();
+}

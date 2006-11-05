@@ -1,0 +1,12 @@
+{
+  final List<File> badFiles=new ArrayList<File>();
+  visitFiles("properties",new FileVisitor(){
+    public void visitFile(    File file){
+      if (checkPropertiesHeader(file) == false) {
+        badFiles.add(file);
+      }
+    }
+  }
+);
+  failIncorrectLicenceHeaders(badFiles);
+}
