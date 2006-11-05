@@ -7,13 +7,7 @@
   }
 );
   final Page page=container.getPage();
-  final HeaderContainer headerContainer;
-  if (container instanceof WebPage) {
-    headerContainer=((WebPage)page).getHeaderContainer();
-  }
- else {
-    headerContainer=(HeaderContainer)page.get(HtmlHeaderSectionHandler.HEADER_ID);
-  }
+  final HeaderContainer headerContainer=(HeaderContainer)page.get(HtmlHeaderSectionHandler.HEADER_ID);
   fragment.visitChildren(MarkupFragment.class,new MarkupFragment.IVisitor(){
     private boolean foundBody=false;
     /** 
@@ -24,13 +18,7 @@
       final ComponentTag tag=frag.getTag();
       if (tag.isWicketHeadTag()) {
         if (foundBody == true) {
-          MarkupStream markupStream=new MarkupStream(fragment);
-          while (markupStream.hasMore()) {
-            if (markupStream.next() == tag) {
-              break;
-            }
-          }
-          throw new MarkupException("<wicket:head> must be before the <body>, <wicket:panel> ... tag");
+          throwMarkupException(fragment,tag,"<wicket:head> must be before the <body>, <wicket:panel> ... tag");
         }
         WicketHeadContainer header=newWicketHeaderContainer(container,frag);
         header.setEnable(headerContainer.okToRender(header));
@@ -38,16 +26,9 @@
       }
  else       if (tag.isBodyTag()) {
         foundBody=true;
-        if (page instanceof WebPage) {
-          WebPage webPage=(WebPage)page;
-          final CharSequence onLoad=tag.getString(ONLOAD);
-          if (onLoad != null) {
-            webPage.getBodyContainer().addOnLoadModifier(onLoad,container);
-          }
-          final CharSequence onUnLoad=tag.getString(ONUNLOAD);
-          if (onUnLoad != null) {
-            webPage.getBodyContainer().addOnUnLoadModifier(onUnLoad,container);
-          }
+        if ((page instanceof WebPage) && !(container instanceof Page)) {
+          addBodyModifier(BodyContainer.ONLOAD,container,tag);
+          addBodyModifier(BodyContainer.ONUNLOAD,container,tag);
         }
       }
  else       if (tag.isMajorWicketComponentTag()) {
