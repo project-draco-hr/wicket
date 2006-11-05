@@ -1,5 +1,3 @@
 {
-  AbstractMarkupLoader loaderChain=new InheritedMarkupMarkupLoader(application);
-  loaderChain.setParent(new DefaultMarkupLoader(application));
-  return loaderChain;
+  return new InheritedMarkupMarkupLoader(application).setParent(new HeaderCleanupMarkupLoader(application).setParent(new DefaultMarkupLoader(application)));
 }
