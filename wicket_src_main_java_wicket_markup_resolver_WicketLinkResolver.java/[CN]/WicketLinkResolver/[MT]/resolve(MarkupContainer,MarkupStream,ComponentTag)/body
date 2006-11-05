@@ -1,7 +1,7 @@
 {
-  final ComponentTag tag=fragment.getTag();
   if (tag.isLinkTag()) {
-    new WebMarkupContainer(container,tag.getId()){
+    final String id=Component.AUTO_COMPONENT_PREFIX + "_link_" + container.getPage().getAutoIndex();
+    final Component component=new WebMarkupContainer(container,id){
       private static final long serialVersionUID=1L;
       /** 
  * @see wicket.MarkupContainer#isTransparentResolver()
@@ -11,6 +11,8 @@
       }
     }
 ;
+    component.render(markupStream);
+    return true;
   }
-  return MarkupFragment.IVisitor.CONTINUE_TRAVERSAL;
+  return false;
 }
