@@ -1,11 +1,12 @@
 {
   String contents=null;
   try {
-    File legalsDir=new File(baseDirectory,"src/test/java/wicket/legals");
+    URL url=ApacheLicenseHeaderTestCase.class.getResource(".");
+    File legalsDir=new File(url.toURI());
     String legalsDirString=legalsDir.getAbsolutePath();
     contents=new wicket.util.file.File(legalsDirString,filename).readString();
   }
- catch (  IOException e) {
+ catch (  Exception e) {
     fail(e.getMessage());
   }
   return contents.trim();
