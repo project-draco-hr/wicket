@@ -1,30 +1,46 @@
 {
+  String[] extensions;
   if (extension == null) {
-    extension="." + Strings.lastPathComponent(path,'.');
+    extensions=new String[]{"." + Strings.lastPathComponent(path,'.')};
     path=Strings.beforeLastPathComponent(path,'.');
   }
  else {
-    if (!extension.startsWith(".")) {
-      extension="." + extension;
+    extensions=Strings.split(extension,',');
+    for (int i=extensions.length - 1; i >= 0; i--) {
+      if (!extensions[i].startsWith(".")) {
+        extensions[i]="." + extensions[i];
+      }
     }
   }
   if (style != null && locale != null) {
-    final IResourceStream resource=locate(clazz,path + '_' + style,locale,extension);
-    if (resource != null) {
-      return resource;
+    for (    String ext : extensions) {
+      final IResourceStream resource=locate(clazz,path + '_' + style,locale,ext);
+      if (resource != null) {
+        return resource;
+      }
     }
   }
   if (locale != null) {
-    final IResourceStream resource=locate(clazz,path,locale,extension);
-    if (resource != null) {
-      return resource;
+    for (    String ext : extensions) {
+      final IResourceStream resource=locate(clazz,path,locale,ext);
+      if (resource != null) {
+        return resource;
+      }
     }
   }
   if (style != null) {
-    final IResourceStream resource=locate(clazz,path + '_' + style+ extension);
+    for (    String ext : extensions) {
+      final IResourceStream resource=locate(clazz,path + '_' + style+ ext);
+      if (resource != null) {
+        return resource;
+      }
+    }
+  }
+  for (  String ext : extensions) {
+    final IResourceStream resource=locate(clazz,path + ext);
     if (resource != null) {
       return resource;
     }
   }
-  return locate(clazz,path + extension);
+  return null;
 }
