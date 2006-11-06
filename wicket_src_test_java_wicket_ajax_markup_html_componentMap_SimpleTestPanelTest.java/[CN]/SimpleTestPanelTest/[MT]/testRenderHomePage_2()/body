@@ -1,12 +1,12 @@
 {
   executeTest(SimpleTestPage.class,"SimpleTestPageExpectedResult.html");
-  application.setupRequestAndResponse();
-  application.getDebugSettings().setAjaxDebugModeEnabled(false);
-  WebRequestCycle cycle=application.createRequestCycle();
-  Page page=application.getLastRenderedPage();
+  tester.setupRequestAndResponse();
+  tester.getApplication().getDebugSettings().setAjaxDebugModeEnabled(false);
+  WebRequestCycle cycle=tester.createRequestCycle();
+  Page page=tester.getLastRenderedPage();
   String url=((SimpleTestPanel)page.get("testPanel")).getTimeBehavior().getCallbackUrl().toString();
-  application.getServletRequest().setRequestToRedirectString(url);
-  application.processRequestCycle(cycle);
-  String document=application.getServletResponse().getDocument();
+  tester.getServletRequest().setRequestToRedirectString(url);
+  tester.processRequestCycle(cycle);
+  String document=tester.getServletResponse().getDocument();
   assertTrue(DiffUtil.validatePage(document,SimpleTestPage.class,"SimpleTestPageExpectedResult-1.html"));
 }

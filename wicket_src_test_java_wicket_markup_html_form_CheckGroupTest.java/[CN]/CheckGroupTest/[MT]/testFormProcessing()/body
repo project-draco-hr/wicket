@@ -12,23 +12,23 @@
   assertTrue(group2.getModelObject() == list);
   final CheckGroup group3=new CheckGroup<String>(form,"group3",list);
   assertTrue(group3.getModelObject() == list);
-  application.createRequestCycle();
+  tester.createRequestCycle();
   new Check<String>(container,"check1",new Model<String>(check1));
   new Check(group,"prop2");
   modelObject.setProp2(check2);
   modelObject.getProp1().add(check1);
   form.onFormSubmitted();
   assertTrue("running with nothing selected - model must be empty",modelObject.getProp1().size() == 0);
-  application.getServletRequest().setParameter(group.getInputName(),"container:check1");
+  tester.getServletRequest().setParameter(group.getInputName(),"container:check1");
   form.onFormSubmitted();
   assertTrue("running with choice1 selected - model must only contain value of check1",modelObject.getProp1().size() == 1 && modelObject.getProp1().contains(check1));
-  application.getServletRequest().setParameter(group.getInputName(),"prop2");
+  tester.getServletRequest().setParameter(group.getInputName(),"prop2");
   form.onFormSubmitted();
   assertTrue("running with choice2 selected - model must only contain value of check2",modelObject.getProp1().size() == 1 && modelObject.getProp1().contains(check2));
-  application.getServletRequest().getParameterMap().put(group.getInputName(),new String[]{null,"container:check1",null,"prop2"});
+  tester.getServletRequest().getParameterMap().put(group.getInputName(),new String[]{null,"container:check1",null,"prop2"});
   form.onFormSubmitted();
   assertTrue("running with choice1 and choice2 selected - model must only contain values of check1 and check2",modelObject.getProp1().size() == 2 && modelObject.getProp1().contains(check2) && modelObject.getProp1().contains(check1));
-  application.getServletRequest().getParameterMap().put(group.getInputName(),new String[]{"some weird path to test error"});
+  tester.getServletRequest().getParameterMap().put(group.getInputName(),new String[]{"some weird path to test error"});
   try {
     form.onFormSubmitted();
     fail("running with an invalid choice value in the request param, should fail");

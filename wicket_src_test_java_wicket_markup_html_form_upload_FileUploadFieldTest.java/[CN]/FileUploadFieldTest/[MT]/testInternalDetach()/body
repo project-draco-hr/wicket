@@ -1,15 +1,15 @@
 {
   final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
   FileUploadField field=new FileUploadField(page.getForm(),"upload");
-  application.startPage(new ITestPageSource(){
+  tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
     public Page getTestPage(){
       return page;
     }
   }
 );
-  RequestCycle requestCycle=application.createRequestCycle();
-  MockHttpServletRequest servletRequest=application.getServletRequest();
+  RequestCycle requestCycle=tester.createRequestCycle();
+  MockHttpServletRequest servletRequest=tester.getServletRequest();
   servletRequest.setMethod("POST");
   servletRequest.setParameter("form2:hf:fs","");
   servletRequest.setParameter("wicketState","");

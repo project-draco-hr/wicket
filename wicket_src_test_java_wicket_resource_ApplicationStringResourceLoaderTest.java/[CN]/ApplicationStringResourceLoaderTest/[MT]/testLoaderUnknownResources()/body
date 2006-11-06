@@ -1,5 +1,10 @@
 {
-  MockWebApplication app=new MockWebApplication(null);
-  IStringResourceLoader loader=new ClassStringResourceLoader(app,app.getClass());
+  application=new WicketTester(new WebApplication(){
+    @Override public Class<? extends Page> getHomePage(){
+      return null;
+    }
+  }
+).getApplication();
+  IStringResourceLoader loader=createLoader();
   Assert.assertNull("Unknown resource should return null",loader.loadStringResource(component.getClass(),"test.string",Locale.getDefault(),null));
 }

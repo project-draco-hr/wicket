@@ -1,5 +1,5 @@
 {
-  application.startPage(new ITestPageSource(){
+  tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
     public Page getTestPage(){
       FormWithButtonPage page=new FormWithButtonPage();
@@ -13,8 +13,8 @@
     }
   }
 );
-  application.assertComponent("form:ajaxSubmitButton",AjaxSubmitButton.class);
-  TagTester ajaxSubmitButton=application.getTagByWicketId("ajaxSubmitButton");
+  tester.assertComponent("form:ajaxSubmitButton",AjaxSubmitButton.class);
+  TagTester ajaxSubmitButton=tester.getTagByWicketId("ajaxSubmitButton");
   assertEquals("input",ajaxSubmitButton.getName());
   assertTrue(ajaxSubmitButton.hasAttribute("onclick"));
   assertTrue(ajaxSubmitButton.getAttributeContains("onclick","wicketSubmitFormById"));

@@ -1,15 +1,15 @@
 {
-  application.setupRequestAndResponse();
-  application.processRequestCycle();
-  MockLoginPage loginPage=(MockLoginPage)application.getLastRenderedPage();
+  tester.setupRequestAndResponse();
+  tester.processRequestCycle();
+  MockLoginPage loginPage=(MockLoginPage)tester.getLastRenderedPage();
   assertEquals(application.getLoginPage(),loginPage.getClass());
-  application.setupRequestAndResponse();
-  WebRequestCycle requestCycle=application.createRequestCycle();
-  assertTrue(((MockLoginPage)application.getLastRenderedPage()).login("admin"));
-  application.processRequestCycle(requestCycle);
-  assertEquals(application.getHomePage(),application.getLastRenderedPage().getClass());
-  application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToComponent(application.getLastRenderedPage().get("link"));
-  application.processRequestCycle();
-  assertEquals(PageA.class,application.getLastRenderedPage().getClass());
+  tester.setupRequestAndResponse();
+  WebRequestCycle requestCycle=tester.createRequestCycle();
+  assertTrue(((MockLoginPage)tester.getLastRenderedPage()).login("admin"));
+  tester.processRequestCycle(requestCycle);
+  assertEquals(application.getHomePage(),tester.getLastRenderedPage().getClass());
+  tester.setupRequestAndResponse();
+  tester.getServletRequest().setRequestToComponent(tester.getLastRenderedPage().get("link"));
+  tester.processRequestCycle();
+  assertEquals(PageA.class,tester.getLastRenderedPage().getClass());
 }

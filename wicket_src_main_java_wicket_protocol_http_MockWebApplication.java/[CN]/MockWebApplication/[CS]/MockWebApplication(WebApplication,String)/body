@@ -1,0 +1,55 @@
+{
+  this.application=application;
+  final MockServletContext context=new MockServletContext(this.application,null);
+  WicketFilter filter=new WicketFilter(){
+    @Override protected IWebApplicationFactory getApplicationFactory(){
+      return new IWebApplicationFactory(){
+        public WebApplication createApplication(        WicketFilter filter){
+          return application;
+        }
+      }
+;
+    }
+  }
+;
+  try {
+    filter.init(new FilterConfig(){
+      public ServletContext getServletContext(){
+        return context;
+      }
+      public Enumeration getInitParameterNames(){
+        return null;
+      }
+      public String getInitParameter(      String name){
+        if (name.equals(WicketFilter.FILTER_PATH_PARAM)) {
+          return application.getName();
+        }
+        return null;
+      }
+      public String getFilterName(){
+        return "WicketMockServlet";
+      }
+    }
+);
+  }
+ catch (  ServletException e) {
+    throw new RuntimeException(e);
+  }
+  Application.set(this.application);
+  this.servletSession=new MockHttpSession(context);
+  this.servletRequest=new MockHttpServletRequest(this.application,servletSession,context);
+  this.servletResponse=new MockHttpServletResponse();
+  this.wicketRequest=this.application.newWebRequest(servletRequest);
+  this.wicketSession=this.application.getSession(wicketRequest);
+  this.application.internalInit();
+  this.application.init();
+  this.application.initializeComponents();
+  this.application.logStarted();
+  this.application.getApplicationSettings().setContextPath(context.getServletContextName());
+  this.application.getRequestCycleSettings().setRenderStrategy(RenderStrategy.ONE_PASS_RENDER);
+  this.application.getResourceSettings().setResourceFinder(new WebApplicationPath(context));
+  this.application.getPageSettings().setAutomaticMultiWindowSupport(false);
+  this.application.getResourceSettings().setResourcePollFrequency(null);
+  this.application.getDebugSettings().setSerializeSessionAttributes(false);
+  createRequestCycle();
+}

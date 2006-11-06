@@ -1,14 +1,14 @@
 {
   executeTest(BoxBorderTestPage_3.class,"BoxBorderTestPage_ExpectedResult_3.html");
-  application.getLastRenderedPage().get("border");
-  Form form=(Form)application.getLastRenderedPage().get("border:myForm");
-  TextField input=(TextField)application.getLastRenderedPage().get("border:myForm:borderBody:name");
+  tester.getLastRenderedPage().get("border");
+  Form form=(Form)tester.getLastRenderedPage().get("border:myForm");
+  TextField input=(TextField)tester.getLastRenderedPage().get("border:myForm:borderBody:name");
   assertEquals("",input.getModelObjectAsString());
-  application.setupRequestAndResponse();
-  MockHttpServletRequest mockRequest=application.getServletRequest();
+  tester.setupRequestAndResponse();
+  MockHttpServletRequest mockRequest=tester.getServletRequest();
   mockRequest.setRequestToComponent(form);
   mockRequest.setParameter(input.getInputName(),"jdo");
-  application.processRequestCycle();
-  input=(TextField)application.getLastRenderedPage().get("border:myForm:borderBody:name");
+  tester.processRequestCycle();
+  input=(TextField)tester.getLastRenderedPage().get("border:myForm:borderBody:name");
   assertEquals("jdo",input.getModelObjectAsString());
 }

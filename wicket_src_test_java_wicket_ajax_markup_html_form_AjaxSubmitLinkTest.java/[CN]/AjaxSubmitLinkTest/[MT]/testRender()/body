@@ -1,5 +1,5 @@
 {
-  application.startPage(new ITestPageSource(){
+  tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
     public Page getTestPage(){
       FormWithLinkPage page=new FormWithLinkPage();
@@ -13,8 +13,8 @@
     }
   }
 );
-  application.assertComponent(FormWithLinkPage.SUBMIT_ID,AjaxSubmitLink.class);
-  TagTester ajaxSubmitLink=application.getTagByWicketId(FormWithLinkPage.SUBMIT_ID);
+  tester.assertComponent(FormWithLinkPage.SUBMIT_ID,AjaxSubmitLink.class);
+  TagTester ajaxSubmitLink=tester.getTagByWicketId(FormWithLinkPage.SUBMIT_ID);
   assertEquals("a",ajaxSubmitLink.getName());
   assertTrue(ajaxSubmitLink.getAttributeIs("href","#"));
   assertTrue(ajaxSubmitLink.getAttributeContains("onclick","wicketSubmitFormById"));

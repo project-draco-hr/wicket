@@ -1,13 +1,12 @@
 {
-  MockWebApplication mockWebApp=new MockWebApplication(null);
-  mockWebApp.setHomePage(SimpleResponsePageClass.class);
-  mockWebApp.setupRequestAndResponse();
-  mockWebApp.processRequestCycle();
-  SimpleResponsePageClass manageBook=(SimpleResponsePageClass)mockWebApp.getLastRenderedPage();
+  WicketTester tester=new WicketTester(SimpleResponsePageClass.class);
+  tester.setupRequestAndResponse();
+  tester.processRequestCycle();
+  SimpleResponsePageClass manageBook=(SimpleResponsePageClass)tester.getLastRenderedPage();
   Form form=(Form)manageBook.get("form");
-  mockWebApp.setupRequestAndResponse();
-  MockHttpServletRequest mockRequest=mockWebApp.getServletRequest();
+  tester.setupRequestAndResponse();
+  MockHttpServletRequest mockRequest=tester.getServletRequest();
   mockRequest.setRequestToComponent(form);
-  mockWebApp.processRequestCycle();
-  assertTrue(mockWebApp.getLastRenderedPage() instanceof SimplePage);
+  tester.processRequestCycle();
+  assertTrue(tester.getLastRenderedPage() instanceof SimplePage);
 }

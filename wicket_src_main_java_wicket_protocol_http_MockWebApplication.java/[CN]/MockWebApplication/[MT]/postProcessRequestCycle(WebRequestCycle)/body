@@ -3,10 +3,10 @@
   final MockHttpServletResponse httpResponse=(MockHttpServletResponse)cycle.getWebResponse().getHttpServletResponse();
   if (httpResponse.isRedirect()) {
     this.lastRenderedPage=generateLastRenderedPage(cycle);
-    MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(this,servletSession,getServletContext());
+    MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(this.application,servletSession,this.application.getServletContext());
     newHttpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
-    wicketRequest=newWebRequest(newHttpRequest);
-    wicketSession=getSession(wicketRequest);
+    wicketRequest=this.application.newWebRequest(newHttpRequest);
+    wicketSession=this.application.getSession(wicketRequest);
     cycle=new WebRequestCycle(wicketSession,wicketRequest,wicketResponse);
     cycle.request();
   }
