@@ -1,7 +1,7 @@
 {
-  application.setHomePage(pageClass);
-  application.setupRequestAndResponse();
-  application.processRequestCycle();
-  assertEquals(pageClass,application.getLastRenderedPage().getClass());
-  return application.getServletResponse();
+  tester=new WicketTester(pageClass);
+  tester.setupRequestAndResponse();
+  tester.processRequestCycle();
+  assertEquals(pageClass,tester.getLastRenderedPage().getClass());
+  return tester.getServletResponse();
 }
