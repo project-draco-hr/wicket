@@ -16,4 +16,13 @@
   mimeTypes.put("gif","image/gif");
   mimeTypes.put("jpg","image/jpeg");
   mimeTypes.put("png","image/png");
+  try {
+    File tmpDir=File.createTempFile("wicket",null);
+    tmpDir.delete();
+    tmpDir.mkdir();
+    setAttribute("javax.servlet.context.tempdir",tmpDir);
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
 }
