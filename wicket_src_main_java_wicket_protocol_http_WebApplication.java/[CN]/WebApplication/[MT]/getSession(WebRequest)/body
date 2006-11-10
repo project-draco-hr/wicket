@@ -2,9 +2,9 @@
   ISessionStore sessionStore=getSessionStore();
   Session session=sessionStore.lookup(request);
   if (session == null) {
-    session=getSessionFactory().newSession();
+    session=getSessionFactory().newSession(request);
     session.setLocale(request.getLocale());
-    if (sessionStore.getSessionId(request) != null) {
+    if (sessionStore.getSessionId(request,false) != null) {
       sessionStore.bind(request,session);
     }
   }
@@ -15,7 +15,6 @@
  else {
     throw new WicketRuntimeException("Session created by a WebApplication session factory " + "must be a subclass of WebSession");
   }
-  session.setApplication(this);
   webSession.initForRequest();
   return webSession;
 }

@@ -2,7 +2,7 @@
   ISessionStore sessionStore=getSessionStore();
   Session session=sessionStore.lookup(request);
   if (session == null) {
-    session=getSessionFactory().newSession();
+    session=getSessionFactory().newSession(request);
     session.setLocale(request.getLocale());
     sessionStore.bind(request,session);
   }
