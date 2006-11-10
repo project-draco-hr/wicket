@@ -16,7 +16,6 @@
           public Object component(          Component component){
             ((IFeedback)component).updateFeedback();
             component.internalAttach();
-            AnnotationUtils.invokeOnAttachListeners(component);
             return IVisitor.CONTINUE_TRAVERSAL;
           }
         }
@@ -39,12 +38,10 @@
 );
       }
       onBeforeRender();
-      AnnotationUtils.invokeOnBeforeRenderListeners(this);
       render(markupStream);
     }
   finally {
       onAfterRender();
-      AnnotationUtils.invokeOnAfterRenderListeners(this);
     }
   }
 }
