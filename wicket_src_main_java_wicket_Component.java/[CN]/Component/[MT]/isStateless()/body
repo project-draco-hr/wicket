@@ -1,0 +1,13 @@
+{
+  if (!getStatelessHint()) {
+    return false;
+  }
+  final Iterator behaviors=getBehaviors().iterator();
+  while (behaviors.hasNext()) {
+    IBehavior behavior=(IBehavior)behaviors.next();
+    if (!behavior.getStatelessHint()) {
+      return false;
+    }
+  }
+  return true;
+}

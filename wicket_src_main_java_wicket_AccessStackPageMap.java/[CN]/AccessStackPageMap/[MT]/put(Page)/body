@@ -1,0 +1,15 @@
+{
+  if (!page.isPageStateless()) {
+    Session session=getSession();
+    final IPageMapEntry entry=page.getPageMapEntry();
+    pushAccess(entry);
+    final String attribute=attributeForId(entry.getNumericId());
+    if (session.getAttribute(attribute) == null) {
+      session.setAttribute(attribute,entry);
+    }
+ else {
+      session.dirtyPage(page);
+    }
+    session.getApplication().getSessionSettings().getPageMapEvictionStrategy().evict(this);
+  }
+}

@@ -8,7 +8,10 @@
   if (value == this) {
     Object current=store.getAttribute(request,name);
     if (current == null) {
-      store.bind(request,(Session)value);
+      String id=store.getSessionId(request,false);
+      if (id != null) {
+        store.bind(request,(Session)value);
+      }
     }
   }
   store.setAttribute(request,name,value);

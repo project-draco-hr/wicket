@@ -1,7 +1,16 @@
 {
   final Page page=component.getPage();
-  page.setStateless(false);
-  final IRequestTarget target=new ListenerInterfaceRequestTarget(page,component,listener);
+  final IRequestTarget target;
+  if (listener != IRedirectListener.INTERFACE && component.isStateless() && page.isBookmarkable()) {
+    target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMap().getName(),page.getClass(),new PageParameters(),component,listener);
+  }
+ else {
+    if (listener == IRedirectListener.INTERFACE) {
+      page.setPageStateless(Boolean.FALSE);
+    }
+    session.getSessionStore().getSessionId(request,true);
+    target=new ListenerInterfaceRequestTarget(page,component,listener);
+  }
   final IRequestCodingStrategy requestCodingStrategy=getProcessor().getRequestCodingStrategy();
   return requestCodingStrategy.encode(this,target);
 }

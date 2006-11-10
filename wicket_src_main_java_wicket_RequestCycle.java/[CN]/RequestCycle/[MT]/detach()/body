@@ -38,6 +38,10 @@
       log.error("there was an error filtering the response.",re);
     }
   }
+  IRequestLogger requestLogger=getApplication().getRequestLogger();
+  if (requestLogger != null) {
+    requestLogger.requestTime((System.currentTimeMillis() - startTime));
+  }
   try {
     onEndRequest();
   }

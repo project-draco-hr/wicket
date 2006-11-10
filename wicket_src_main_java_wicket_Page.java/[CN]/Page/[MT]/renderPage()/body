@@ -6,7 +6,7 @@
     throw new UnauthorizedActionException(this,Component.RENDER);
   }
   renderedComponents=null;
-  this.stateless=true;
+  this.stateless=null;
   setFormComponentValuesFromCookies();
   visitChildren(IFeedback.class,new IVisitor(){
     public Object component(    Component component){
@@ -33,5 +33,8 @@
 );
   render(null);
   checkRendering(this);
-  getSession().touch(this);
+  if (!isPageStateless()) {
+    Session.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);
+    getSession().touch(this);
+  }
 }
