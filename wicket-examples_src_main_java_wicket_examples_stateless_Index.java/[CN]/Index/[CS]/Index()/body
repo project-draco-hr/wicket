@@ -1,0 +1,14 @@
+{
+  setStatelessHint(true);
+  add(new Label("message",new SessionModel()));
+  add(new BookmarkablePageLink("linkToStatelessPage",StatelessPage.class));
+  add(new StatelessLink("linkToStatefulPage"){
+    /** 
+ * @see wicket.markup.html.link.Link#onClick()
+ */
+    public void onClick(){
+      setResponsePage(StatefulPage.class);
+    }
+  }
+);
+}
