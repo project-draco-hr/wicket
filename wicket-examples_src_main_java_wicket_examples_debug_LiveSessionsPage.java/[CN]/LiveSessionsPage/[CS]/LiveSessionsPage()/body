@@ -5,7 +5,7 @@
     private static final long serialVersionUID=1L;
     public void onClick(){
       WebApplication webApplication=(WebApplication)Application.get();
-      RequestLogger requestLogger=webApplication.getRequestLogger();
+      IRequestLogger requestLogger=webApplication.getRequestLogger();
       if (requestLogger == null) {
         webApplication.setRequestLogger(new RequestLogger());
       }
@@ -19,7 +19,7 @@
     private static final long serialVersionUID=1L;
     public Object getObject(    Component component){
       WebApplication webApplication=(WebApplication)Application.get();
-      RequestLogger requestLogger=webApplication.getRequestLogger();
+      IRequestLogger requestLogger=webApplication.getRequestLogger();
       if (requestLogger == null) {
         return "Enable request recording";
       }
@@ -40,7 +40,7 @@
   add(new Label("peakSessions",new Model(){
     private static final long serialVersionUID=1L;
     public Object getObject(    Component component){
-      return new Integer(getRequestLogger().getLiveSessions().size());
+      return new Integer(getRequestLogger().getPeakSessions());
     }
   }
 ));
@@ -54,14 +54,7 @@
   Model sessionModel=new Model(){
     private static final long serialVersionUID=1L;
     public Object getObject(    Component component){
-      List lst=new ArrayList(getRequestLogger().getLiveSessions());
-      Collections.sort(lst,new Comparator(){
-        public int compare(        Object o1,        Object o2){
-          return (int)(((SessionData)o2).getLastRequestTime() - ((SessionData)o1).getLastRequestTime());
-        }
-      }
-);
-      return lst;
+      return Arrays.asList(getRequestLogger().getLiveSessions());
     }
   }
 ;
@@ -80,11 +73,11 @@
         }
       }
 ;
-      link.add(new Label("id",new Model(sd.getId())));
+      link.add(new Label("id",new Model(sd.getSessionId())));
       item.add(link);
-      item.add(new Label("lastRequestTime",new Model(sdf.format(new Date(sd.getLastRequestTime())))));
-      item.add(new Label("requestCount",new Model(new Integer(sd.getRequests().size()))));
-      item.add(new Label("requestsTime",new Model(sd.getRequestsTime())));
+      item.add(new Label("lastRequestTime",new Model(sdf.format(sd.getLastActive()))));
+      item.add(new Label("requestCount",new Model(new Long(sd.getNumberOfRequests()))));
+      item.add(new Label("requestsTime",new Model(new Long(sd.getTotalTimeTaken()))));
       item.add(new Label("sessionSize",new Model(Bytes.bytes(sd.getSessionSize()))));
     }
   }

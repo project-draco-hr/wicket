@@ -2,7 +2,13 @@
   super(id);
   add(new Label("name",pageMap.getName() == null ? "null" : pageMap.getName()));
   add(new Label("size","" + Bytes.bytes(pageMap.getSizeInBytes())));
-  final ArrayListStack accessStack=pageMap.getAccessStack();
+  final ArrayListStack accessStack;
+  if (pageMap instanceof AccessStackPageMap) {
+    accessStack=((AccessStackPageMap)pageMap).getAccessStack();
+  }
+ else {
+    accessStack=new ArrayListStack();
+  }
   final List reversedAccessStack=new ArrayList();
   reversedAccessStack.addAll(accessStack);
   Collections.reverse(reversedAccessStack);
