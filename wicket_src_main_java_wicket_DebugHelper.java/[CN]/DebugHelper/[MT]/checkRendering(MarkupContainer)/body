@@ -1,10 +1,10 @@
 {
   final IDebugSettings debugSettings=Application.get().getDebugSettings();
-  if (debugSettings.getComponentUseCheck() && !getResponse().isRedirect()) {
+  if (debugSettings.getComponentUseCheck() && !RequestCycle.get().getResponse().isRedirect()) {
     final Count unrenderedComponents=new Count();
     final List<Component> unrenderedAutoComponents=new ArrayList<Component>();
     final StringBuffer buffer=new StringBuffer();
-    renderedContainer.visitChildren(new IVisitor(){
+    container.visitChildren(new IVisitor(){
       public Object component(      final Component component){
         if (renderedComponents == null || !renderedComponents.contains(component)) {
           if (component.isAuto()) {

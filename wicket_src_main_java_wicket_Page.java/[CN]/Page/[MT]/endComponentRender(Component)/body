@@ -1,8 +1,5 @@
 {
-  if (component instanceof MarkupContainer) {
-    checkRendering((MarkupContainer)component);
-  }
- else {
-    renderedComponents=null;
+  if (Application.get().getDebugSettings().getComponentUseCheck()) {
+    RequestCycle.get().getDebugHelper().onEndComponentRender(component);
   }
 }
