@@ -1,0 +1,13 @@
+{
+  if (lastPage != null && lastPage.getNumericId() == id) {
+    Page page=lastPage.getVersion(versionNumber);
+    if (page != null) {
+      return page;
+    }
+  }
+  String sessionId=getSession().getId();
+  if (sessionId != null) {
+    return getStore().getPage(sessionId,id,versionNumber);
+  }
+  return null;
+}
