@@ -4,5 +4,7 @@
     throw new WicketRuntimeException("user agent must be provided");
   }
   this.userAgent=userAgent;
+  HttpServletRequest httpServletRequest=requestCycle.getWebRequest().getHttpServletRequest();
+  properties.setProperty(ClientProperties.REMOTE_ADDRESS,httpServletRequest.getRemoteAddr());
   init();
 }

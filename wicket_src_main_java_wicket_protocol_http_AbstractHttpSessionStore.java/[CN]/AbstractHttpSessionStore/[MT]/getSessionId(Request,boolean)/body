@@ -1,11 +1,17 @@
 {
+  String id=null;
   WebRequest webRequest=toWebRequest(request);
-  boolean created=create && webRequest.getHttpServletRequest().getSession(false) == null;
-  HttpSession httpSession=webRequest.getHttpServletRequest().getSession(create);
-  String id=(httpSession != null) ? httpSession.getId() : null;
-  if (created && id != null) {
-    IRequestLogger logger=Application.get().getRequestLogger();
-    if (logger != null)     logger.sessionCreated(id);
+  HttpSession httpSession=webRequest.getHttpServletRequest().getSession(false);
+  if (httpSession != null) {
+    id=httpSession.getId();
+  }
+ else   if (create) {
+    httpSession=webRequest.getHttpServletRequest().getSession(true);
+    id=httpSession.getId();
+    if (id != null) {
+      IRequestLogger logger=Application.get().getRequestLogger();
+      if (logger != null)       logger.sessionCreated(id);
+    }
   }
   return id;
 }
