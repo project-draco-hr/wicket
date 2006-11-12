@@ -1,0 +1,16 @@
+{
+  if (files.size() > 0) {
+    StringBuffer failString=new StringBuffer();
+    for (    ILicenseHeaderHandler licenseHeaderHandler : files.keySet()) {
+      failString.append("\n");
+      failString.append(licenseHeaderHandler.getClass().getName());
+      failString.append(" failed. The following files(");
+      failString.append(files.get(licenseHeaderHandler).size());
+      failString.append(") didn't have correct license header:\n");
+      for (      File file : files.get(licenseHeaderHandler)) {
+        failString.append(file.getAbsolutePath()).append(LINE_ENDING);
+      }
+    }
+    fail(failString.toString());
+  }
+}
