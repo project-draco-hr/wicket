@@ -1,0 +1,17 @@
+{
+  licenseHeaderHandlers=new ILicenseHeaderHandler[]{new JavaLicenseHeaderHandler(javaIgnore),new JavaScriptLicenseHeaderHandler(javaScriptIgnore),new XmlLicenseHeaderHandler(xmlIgnore),new PropertiesLicenseHeaderHandler(propertiesIgnore),new CssLicenseHeaderHandler(cssIgnore),new HtmlLicenseHeaderHandler(htmlIgnore),new VelocityLicenseHeaderHandler(velocityIgnore)};
+  final List<File> badFiles=new ArrayList<File>();
+  for (  final ILicenseHeaderHandler licenseHeaderHandler : licenseHeaderHandlers) {
+    visitFiles(licenseHeaderHandler.getSuffixes(),licenseHeaderHandler.getIgnoreFiles(),new FileVisitor(){
+      public void visitFile(      File file){
+        if (licenseHeaderHandler.checkLicenseHeader(file) == false) {
+          if (addHeaders == false || licenseHeaderHandler.addLicenseHeader(file) == false) {
+            badFiles.add(file);
+          }
+        }
+      }
+    }
+);
+  }
+  failIncorrectLicenceHeaders(badFiles);
+}

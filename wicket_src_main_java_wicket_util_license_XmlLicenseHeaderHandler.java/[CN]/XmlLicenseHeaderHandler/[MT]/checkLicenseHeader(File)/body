@@ -1,0 +1,24 @@
+{
+  Revision revision=null;
+  try {
+    String header=extractLicenseHeader(file,0,17);
+    if (header.startsWith("<?xml")) {
+      header=header.substring(header.indexOf(LINE_ENDING) + 1);
+    }
+ else {
+      String[] headers=header.split(LINE_ENDING);
+      header="";
+      for (int i=0; i < 16; i++) {
+        if (header.length() > 0) {
+          header+=LINE_ENDING;
+        }
+        header+=headers[i];
+      }
+    }
+    revision=Diff.diff(getLicenseHeader().split(LINE_ENDING),header.split(LINE_ENDING));
+  }
+ catch (  Exception e) {
+    Assert.fail(e.getMessage());
+  }
+  return revision.size() == 0;
+}
