@@ -70,16 +70,15 @@
   }
 ;
   new LinesListView(this,"lines");
-  new ImageButton(this,"saveButton"){
+  new Button<String>(this,"saveButton",new ResourceModel("save")){
     @Override public void onSubmit(){
     }
   }
 ;
-  Link link=new Link(this,"resetButtonLink"){
-    @Override public void onClick(){
+  new Button<String>(this,"resetButton",new ResourceModel("reset")){
+    @Override public void onSubmit(){
       InputForm.this.modelChanged();
     }
   }
-;
-  new Image(link,"resetButtonImage");
+.setDefaultFormProcessing(false);
 }
