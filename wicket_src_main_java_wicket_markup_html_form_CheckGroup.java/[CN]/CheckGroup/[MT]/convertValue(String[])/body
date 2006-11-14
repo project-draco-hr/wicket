@@ -1,12 +1,22 @@
 {
   List<T> collection=new ArrayList<T>();
-  if (paths != null && paths.length > 0) {
-    for (    String element : paths) {
-      String path=element;
-      if (path != null) {
-        Check<T> checkbox=(Check<T>)get(path);
+  if (values != null && values.length > 0) {
+    for (    final String value : values) {
+      if (value != null) {
+        Check<T> checkbox=(Check)visitChildren(new Component.IVisitor(){
+          public Object component(          Component component){
+            if (component instanceof Check) {
+              final Check check=(Check)component;
+              if (String.valueOf(check.getValue()).equals(value)) {
+                return check;
+              }
+            }
+            return CONTINUE_TRAVERSAL;
+          }
+        }
+);
         if (checkbox == null) {
-          throw new WicketRuntimeException("submitted http post value [" + paths.toString() + "] for CheckGroup component ["+ getPath()+ "] contains an illegal relative path "+ "element ["+ path+ "] which does not point to a Check component. Due to this the CheckGroup component cannot resolve the selected Check component pointed to by the illegal value. A possible reason is that componment hierarchy changed between rendering and form submission.");
+          throw new WicketRuntimeException("submitted http post value [" + Arrays.toString(values) + "] for CheckGroup component ["+ getPath()+ "] contains an illegal value "+ "["+ value+ "] which does not point to a Check component. Due to this the CheckGroup component cannot resolve the selected Check component pointed to by the illegal value. A possible reason is that componment hierarchy changed between rendering and form submission.");
         }
         collection.add(checkbox.getModelObject());
       }
