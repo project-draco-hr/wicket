@@ -10,25 +10,12 @@
     name=name.replace('"','_');
   }
   Session session=getSession();
-  PageMapAccessMetaData meta=session.getMetaData(PAGEMAP_ACCESS_MDK);
+  Session.PageMapAccessMetaData meta=session.getMetaData(Session.PAGEMAP_ACCESS_MDK);
   if (meta == null) {
-    meta=new PageMapAccessMetaData();
-    session.setMetaData(PAGEMAP_ACCESS_MDK,meta);
+    meta=new Session.PageMapAccessMetaData();
+    session.setMetaData(Session.PAGEMAP_ACCESS_MDK,meta);
   }
-  boolean firstAccess=false;
-  if (!meta.pageMapNames.contains(name)) {
-    firstAccess=true;
-    meta.pageMapNames.add(name);
-  }
-  CharSequence url=null;
-  if (target instanceof IBookmarkablePageRequestTarget) {
-    IBookmarkablePageRequestTarget current=(IBookmarkablePageRequestTarget)target;
-    BookmarkablePageRequestTarget redirect=new BookmarkablePageRequestTarget(getSession().createAutoPageMapName(),current.getPageClass(),current.getPageParameters());
-    url=cycle.urlFor(redirect);
-  }
- else {
-    url=urlFor(INewBrowserWindowListener.INTERFACE);
-  }
+  boolean firstAccess=meta.add(getPageMap());
   if (firstAccess) {
     JavascriptUtils.writeOpenTag(response);
     response.write("if (window.name=='') { window.name=\"");
@@ -37,6 +24,15 @@
     JavascriptUtils.writeCloseTag(response);
   }
  else {
+    CharSequence url=null;
+    if (target instanceof IBookmarkablePageRequestTarget) {
+      IBookmarkablePageRequestTarget current=(IBookmarkablePageRequestTarget)target;
+      BookmarkablePageRequestTarget redirect=new BookmarkablePageRequestTarget(getSession().createAutoPageMapName(),current.getPageClass(),current.getPageParameters());
+      url=cycle.urlFor(redirect);
+    }
+ else {
+      url=urlFor(INewBrowserWindowListener.INTERFACE);
+    }
     JavascriptUtils.writeOpenTag(response);
     response.write("if (window.name=='') { window.location=\"");
     response.write(url);
