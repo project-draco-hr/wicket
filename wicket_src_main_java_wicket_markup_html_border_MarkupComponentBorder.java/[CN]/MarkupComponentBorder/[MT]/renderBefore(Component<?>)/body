@@ -1,0 +1,18 @@
+{
+  MarkupFragment mf=findMarkup();
+  MarkupFragment child=mf.getWicketFragment(Border.BORDER,true);
+  List<MarkupElement> allElementsFlat=child.getAllElementsFlat();
+  Response response=component.getResponse();
+  for (  MarkupElement markupElement : allElementsFlat) {
+    if (markupElement instanceof ComponentTag) {
+      ComponentTag ct=(ComponentTag)markupElement;
+      if (ct.isWicketBodyTag()) {
+        break;
+      }
+ else       if (ct.isBorderTag()) {
+        continue;
+      }
+    }
+    response.write(markupElement.toCharSequence());
+  }
+}

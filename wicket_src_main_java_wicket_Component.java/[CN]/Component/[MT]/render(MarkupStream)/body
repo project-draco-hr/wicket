@@ -8,7 +8,10 @@
     try {
       onBeforeRender();
       try {
+        IComponentBorder border=getBorder();
+        if (border != null)         border.renderBefore(this);
         onRender(markupStream);
+        if (border != null)         border.renderAfter(this);
       }
   finally {
         onAfterRender();
