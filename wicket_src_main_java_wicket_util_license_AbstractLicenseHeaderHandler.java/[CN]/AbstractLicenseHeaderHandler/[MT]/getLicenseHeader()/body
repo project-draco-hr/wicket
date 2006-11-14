@@ -1,0 +1,13 @@
+{
+  if (Strings.isEmpty(licenseHeader)) {
+    try {
+      URL url=ApacheLicenseHeaderTestCase.class.getResource(getLicenseHeaderFilename());
+      licenseHeader=new wicket.util.file.File(new URI(url.toString())).readString();
+      licenseHeader=licenseHeader.trim();
+    }
+ catch (    Exception e) {
+      Assert.fail(e.getMessage());
+    }
+  }
+  return licenseHeader;
+}
