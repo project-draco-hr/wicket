@@ -3,21 +3,22 @@
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","checkbox");
   CheckGroup group=(CheckGroup)findParent(CheckGroup.class);
-  String path=getPath();
   if (group == null) {
-    throw new WicketRuntimeException("Check component [" + path + "] cannot find its parent CheckGroup. All Check components must be a child of or below in the hierarchy of a CheckGroup component.");
+    throw new WicketRuntimeException("Check component [" + getPath() + "] cannot find its parent CheckGroup");
   }
-  String relativePath=path.substring(group.getPath().length() + 1);
+  final String uuid=getValue();
   tag.put("name",group.getInputName());
-  tag.put("value",relativePath);
+  tag.put("value",uuid);
   Collection collection=(Collection)group.getModelObject();
   if (collection == null) {
     throw new WicketRuntimeException("CheckGroup [" + group.getPath() + "] contains a null model object, must be an object of type java.util.Collection");
   }
   if (group.hasRawInput()) {
-    String rawInput=group.getRawInput();
-    if (rawInput != null && rawInput.indexOf(relativePath) != -1) {
-      tag.put("checked","checked");
+    final String[] input=group.getInputAsArray();
+    for (int i=0; i < input.length; i++) {
+      if (uuid.equals(input[i])) {
+        tag.put("checked","checked");
+      }
     }
   }
  else   if (collection.contains(getModelObject())) {
