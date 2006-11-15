@@ -1,5 +1,4 @@
 {
-  Response response=headResponse.getResponse();
   final WebRequestCycle cycle=(WebRequestCycle)getRequestCycle();
   final IRequestTarget target=cycle.getRequestTarget();
   String name=getPageMap().getName();
@@ -17,11 +16,11 @@
   }
   boolean firstAccess=meta.add(getPageMap());
   if (firstAccess) {
-    JavascriptUtils.writeOpenTag(response);
-    response.write("if (window.name=='') { window.name=\"");
-    response.write(name);
-    response.write("\"; }");
-    JavascriptUtils.writeCloseTag(response);
+    StringBuilder javascript=new StringBuilder();
+    javascript.append("if (window.name=='') { window.name=\"");
+    javascript.append(name);
+    javascript.append("\"; }");
+    headResponse.renderJavascript(javascript.toString(),getClass().getName());
   }
  else {
     CharSequence url=null;
@@ -33,10 +32,10 @@
  else {
       url=urlFor(INewBrowserWindowListener.INTERFACE);
     }
-    JavascriptUtils.writeOpenTag(response);
-    response.write("if (window.name=='') { window.location=\"");
-    response.write(url);
-    response.write("\"; }");
-    JavascriptUtils.writeCloseTag(response);
+    StringBuilder javascript=new StringBuilder();
+    javascript.append("if (window.name=='') { window.location=\"");
+    javascript.append(url);
+    javascript.append("\"; }");
+    headResponse.renderJavascript(javascript,getClass().getName());
   }
 }
