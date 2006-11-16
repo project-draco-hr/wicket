@@ -1,28 +1,11 @@
 {
   if (path == null) {
-    return mountsOnPath.get(null);
+    return mountsOnPath.strategyForMount(null);
   }
  else   if (!path.equals("/")) {
-    for (final Iterator it=mountsOnPath.entrySet().iterator(); it.hasNext(); ) {
-      final Map.Entry entry=(Entry)it.next();
-      final String key=(String)entry.getKey();
-      boolean match=false;
-      if (!settings.areMountsCaseSensitive()) {
-        if (path.length() >= key.length()) {
-          String mount=path.substring(0,key.length());
-          if (mount.equalsIgnoreCase(key)) {
-            match=true;
-          }
-        }
-      }
- else {
-        if (path.startsWith(key)) {
-          match=true;
-        }
-      }
-      if (match) {
-        return (IRequestTargetUrlCodingStrategy)entry.getValue();
-      }
+    IRequestTargetUrlCodingStrategy strat=mountsOnPath.strategyForPath(path);
+    if (strat != null) {
+      return strat;
     }
   }
   return null;
