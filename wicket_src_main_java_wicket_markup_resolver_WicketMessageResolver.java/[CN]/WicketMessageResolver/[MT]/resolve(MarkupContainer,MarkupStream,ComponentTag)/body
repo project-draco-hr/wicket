@@ -15,7 +15,7 @@
       component=new WebMarkupContainer(container,id);
     }
     component.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
-    component.autoAdded();
+    component.render(markupStream);
     return true;
   }
   if (tag.getId().equals(WicketMessageTagHandler.WICKET_MESSAGE_CONTAINER_ID)) {
@@ -28,7 +28,7 @@
     }
 ;
     messageContainer.add(WicketMessageTagHandler.ATTRIBUTE_LOCALIZER);
-    messageContainer.autoAdded();
+    messageContainer.render(markupStream);
     return true;
   }
   return false;
