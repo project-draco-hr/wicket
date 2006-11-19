@@ -1,0 +1,42 @@
+{
+  Response response=headResponse.getResponse();
+  final WebRequestCycle cycle=(WebRequestCycle)getRequestCycle();
+  final IRequestTarget target=cycle.getRequestTarget();
+  String name=getPageMap().getName();
+  if (name == null) {
+    name="wicket:default";
+  }
+ else {
+    name=name.replace('"','_');
+  }
+  Session session=getSession();
+  Session.PageMapAccessMetaData meta=(Session.PageMapAccessMetaData)session.getMetaData(Session.PAGEMAP_ACCESS_MDK);
+  if (meta == null) {
+    meta=new Session.PageMapAccessMetaData();
+    session.setMetaData(Session.PAGEMAP_ACCESS_MDK,meta);
+  }
+  boolean firstAccess=meta.add(getPageMap());
+  if (firstAccess) {
+    JavascriptUtils.writeOpenTag(response);
+    response.write("if (window.name=='') { window.name=\"");
+    response.write(name);
+    response.write("\"; }");
+    JavascriptUtils.writeCloseTag(response);
+  }
+ else {
+    CharSequence url=null;
+    if (target instanceof IBookmarkablePageRequestTarget) {
+      IBookmarkablePageRequestTarget current=(IBookmarkablePageRequestTarget)target;
+      BookmarkablePageRequestTarget redirect=new BookmarkablePageRequestTarget(getSession().createAutoPageMapName(),current.getPageClass(),current.getPageParameters());
+      url=cycle.urlFor(redirect);
+    }
+ else {
+      url=urlFor(INewBrowserWindowListener.INTERFACE);
+    }
+    JavascriptUtils.writeOpenTag(response);
+    response.write("if (window.name=='') { window.location=\"");
+    response.write(url);
+    response.write("\"; }");
+    JavascriptUtils.writeCloseTag(response);
+  }
+}
