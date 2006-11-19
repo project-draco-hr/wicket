@@ -1,31 +1,16 @@
 {
-  Button button=(Button)visitChildren(Button.class,new IVisitor(){
+  IFormSubmittingComponent submit=(IFormSubmittingComponent)getPage().visitChildren(IFormSubmittingComponent.class,new IVisitor(){
     public Object component(    final Component component){
-      final Button button=(Button)component;
-      if (getRequest().getParameter(button.getInputName()) != null || getRequest().getParameter(button.getInputName() + ".x") != null) {
-        if (!button.isVisible()) {
-          throw new WicketRuntimeException("Submit Button " + button.getInputName() + " (path="+ button.getPageRelativePath()+ ") is not visible");
+      final IFormSubmittingComponent submit=(IFormSubmittingComponent)component;
+      if (submit.getForm() == Form.this && (getRequest().getParameter(submit.getInputName()) != null || getRequest().getParameter(submit.getInputName() + ".x") != null)) {
+        if (!component.isVisible()) {
+          throw new WicketRuntimeException("Submit Button " + submit.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not visible");
         }
-        return button;
+        return submit;
       }
       return CONTINUE_TRAVERSAL;
     }
   }
 );
-  if (button == null) {
-    button=(Button)getPage().visitChildren(SubmitLink.class,new IVisitor(){
-      public Object component(      final Component component){
-        final SubmitLink button=(SubmitLink)component;
-        if (button.getForm() == Form.this && (getRequest().getParameter(button.getInputName()) != null || getRequest().getParameter(button.getInputName() + ".x") != null)) {
-          if (!button.isVisible()) {
-            throw new WicketRuntimeException("Submit Button is not visible");
-          }
-          return button;
-        }
-        return CONTINUE_TRAVERSAL;
-      }
-    }
-);
-  }
-  return button;
+  return submit;
 }
