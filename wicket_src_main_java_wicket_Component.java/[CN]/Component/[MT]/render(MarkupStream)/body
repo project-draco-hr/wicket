@@ -5,17 +5,21 @@
     if (log.isDebugEnabled()) {
       log.debug("Begin render " + this);
     }
-    if (isAuto() == true) {
+    if (getFlag(FLAG_AUTO) == true) {
       internalAttach();
     }
     try {
       onBeforeRender();
       notifyBehaviorsComponentBeforeRender();
       try {
-        IComponentBorder border=getComponentBorder();
-        if (border != null)         border.renderBefore(this);
+        final IComponentBorder border=getComponentBorder();
+        if (border != null) {
+          border.renderBefore(this);
+        }
         onRender(markupStream);
-        if (border != null)         border.renderAfter(this);
+        if (border != null) {
+          border.renderAfter(this);
+        }
       }
   finally {
         onAfterRender();
