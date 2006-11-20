@@ -7,6 +7,13 @@
   }
  else {
   }
+  Object modelObject=component.getModelObject();
+  if (modelObject instanceof ResourceReference) {
+    resourceReference=(ResourceReference)modelObject;
+  }
+ else   if (modelObject instanceof Resource) {
+    resource=(Resource)modelObject;
+  }
   if (resource == null && resourceReference == null) {
     final CharSequence src=tag.getString("src");
     if (src != null) {
