@@ -9,9 +9,11 @@
         return;
       }
       if (formComponent instanceof AbstractTextComponent) {
-        if (fillBlankString && Strings.isEmpty(formComponent.getValue())) {
-          setFormComponentValue(formComponent,"");
-          return;
+        if (Strings.isEmpty(formComponent.getValue())) {
+          if (fillBlankString)           setFormComponentValue(formComponent,"");
+        }
+ else {
+          setFormComponentValue(formComponent,formComponent.getValue());
         }
       }
     }
