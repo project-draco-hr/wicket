@@ -1,0 +1,12 @@
+{
+  String document=application.getServletResponse().getDocument();
+  String updateScript=timer.getUpdateScript();
+  validateTimerScript(document,updateScript);
+  application.setupRequestAndResponse();
+  WebRequestCycle cycle=application.createRequestCycle();
+  String url=timer.getCallbackUrl().toString();
+  application.getServletRequest().setRequestToRedirectString(url);
+  application.processRequestCycle(cycle);
+  document=application.getServletResponse().getDocument();
+  validateTimerScript(document,updateScript);
+}
