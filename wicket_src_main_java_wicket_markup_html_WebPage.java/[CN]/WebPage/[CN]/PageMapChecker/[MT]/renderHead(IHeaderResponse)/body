@@ -17,7 +17,7 @@
   boolean firstAccess=meta.add(getPageMap());
   if (firstAccess) {
     StringBuilder javascript=new StringBuilder();
-    javascript.append("if (window.name=='') { window.name=\"");
+    javascript.append("if (window.name=='' || window.name.indexOf('wicket') > -1) { window.name=\"");
     javascript.append(name);
     javascript.append("\"; }");
     headResponse.renderJavascript(javascript.toString(),getClass().getName());
@@ -33,7 +33,7 @@
       url=urlFor(INewBrowserWindowListener.INTERFACE);
     }
     StringBuilder javascript=new StringBuilder();
-    javascript.append("if (window.name=='') { window.location=\"");
+    javascript.append("if (window.name=='' || (window.name.indexOf('wicket') > -1 && window.name!='" + name + "')) { window.location=\"");
     javascript.append(url);
     javascript.append("\"; }");
     headResponse.renderJavascript(javascript,getClass().getName());
