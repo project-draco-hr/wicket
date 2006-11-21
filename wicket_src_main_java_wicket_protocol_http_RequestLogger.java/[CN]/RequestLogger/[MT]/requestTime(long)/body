@@ -12,6 +12,11 @@
     }
     rd.setSessionSize(sizeInBytes);
     rd.setTimeTaken(timeTaken);
+synchronized (this) {
+      if (active > 0) {
+        rd.setActiveRequest(active--);
+      }
+    }
     requests.add(0,rd);
     currentRequest.set(null);
     if (sessionId != null) {
