@@ -7,7 +7,7 @@
     asb.append(rd.getEventTarget());
     asb.append(",response=");
     asb.append(rd.getResponseTarget());
-    if (rd.getSessionInfo() != null) {
+    if (rd.getSessionInfo() != null && !rd.getSessionInfo().equals("")) {
       asb.append(",sessioninfo=");
       asb.append(rd.getSessionInfo());
     }
@@ -25,6 +25,8 @@
       asb.append(",totaltime=");
       asb.append(sd.getTotalTimeTaken());
     }
+    asb.append(",activerequests=");
+    asb.append(rd.getActiveRequest());
     Runtime runtime=Runtime.getRuntime();
     long max=runtime.maxMemory() / 1000000;
     long total=runtime.totalMemory() / 1000000;
