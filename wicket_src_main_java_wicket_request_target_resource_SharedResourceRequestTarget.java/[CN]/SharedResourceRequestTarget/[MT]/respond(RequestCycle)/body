@@ -10,7 +10,10 @@
       IClassResolver resolver=application.getApplicationSettings().getClassResolver();
       Class scope=null;
       try {
-        scope=resolver.resolveClass(className);
+        scope=Application.get().getSharedResources().getAliasClass(className);
+        if (scope == null) {
+          scope=resolver.resolveClass(className);
+        }
         String path=resourceKey.substring(ix + 1);
         PackageResource packageResource=PackageResource.get(scope,path);
         if (sharedResources.get(resourceKey) == null) {
