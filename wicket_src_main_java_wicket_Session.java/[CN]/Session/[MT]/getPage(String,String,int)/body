@@ -2,11 +2,11 @@
   if (log.isDebugEnabled()) {
     log.debug("Getting page [path = " + path + ", versionNumber = "+ versionNumber+ "]");
   }
-  PageMap pageMap=pageMapForName(pageMapName,Objects.equal(PageMap.DEFAULT_NAME,pageMapName));
+  IPageMap pageMap=pageMapForName(pageMapName,Objects.equal(PageMap.DEFAULT_NAME,pageMapName));
   if (pageMap != null) {
 synchronized (usedPageMaps) {
       if (pageMapsUsedInRequest == null) {
-        pageMapsUsedInRequest=new HashMap<PageMap,Thread>(3);
+        pageMapsUsedInRequest=new HashMap<IPageMap,Thread>(3);
       }
     }
 synchronized (pageMapsUsedInRequest) {
