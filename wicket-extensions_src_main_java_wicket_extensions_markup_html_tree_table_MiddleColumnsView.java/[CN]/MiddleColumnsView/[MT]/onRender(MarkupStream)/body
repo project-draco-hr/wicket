@@ -11,7 +11,8 @@
     IRenderable renderable=(IRenderable)renderables.get(i);
     IColumn column=(IColumn)columns.get(i);
     response.write("<span class=\"b_\" style=\"width:" + nf.format(widths[i]) + "%\">");
-    response.write("<span class=\"c_\">");
+    if (!treeHasLeftColumn && i == 0)     response.write("<span class=\"d_\">");
+ else     response.write("<span class=\"c_\">");
     if (component != null) {
       markupStream.setCurrentIndex(markupStart);
       component.render(markupStream);
