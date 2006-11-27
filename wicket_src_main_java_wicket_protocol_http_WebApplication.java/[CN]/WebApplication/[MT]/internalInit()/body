@@ -4,8 +4,8 @@
   getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
   getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
   getPageSettings().addComponentResolver(new AutoLinkResolver());
-  getResourceSettings().setResourceFinder(new WebApplicationPath(getWicketServlet().getServletContext()));
-  String contextPath=wicketServlet.getInitParameter(Application.CONTEXTPATH);
+  getResourceSettings().setResourceFinder(new WebApplicationPath(getServletContext()));
+  String contextPath=getInitParameter(Application.CONTEXTPATH);
   if (contextPath != null) {
     getApplicationSettings().setContextPath(contextPath);
   }
