@@ -16,15 +16,15 @@
  catch (  SecurityException e) {
   }
   if (configuration == null) {
-    configuration=wicketServlet.getInitParameter(Application.CONFIGURATION);
+    configuration=getInitParameter(Application.CONFIGURATION);
   }
   if (configuration == null) {
-    configuration=wicketServlet.getServletContext().getInitParameter(Application.CONFIGURATION);
+    configuration=getServletContext().getInitParameter(Application.CONFIGURATION);
   }
   if (configuration != null) {
-    configure(configuration,wicketServlet.getInitParameter("sourceFolder"));
+    configure(configuration,getInitParameter("sourceFolder"));
   }
  else {
-    configure(Application.DEVELOPMENT,wicketServlet.getInitParameter("sourceFolder"));
+    configure(Application.DEVELOPMENT,getInitParameter("sourceFolder"));
   }
 }
