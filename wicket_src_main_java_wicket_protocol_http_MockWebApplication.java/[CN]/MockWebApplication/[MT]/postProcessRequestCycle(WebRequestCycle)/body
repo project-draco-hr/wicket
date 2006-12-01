@@ -7,7 +7,7 @@
     newHttpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
     wicketRequest=this.application.newWebRequest(newHttpRequest);
     wicketSession=this.application.getSession(wicketRequest);
-    cycle=new WebRequestCycle(wicketSession,wicketRequest,wicketResponse);
+    cycle=createRequestCycle();
     cycle.request();
   }
   this.lastRenderedPage=generateLastRenderedPage(cycle);
