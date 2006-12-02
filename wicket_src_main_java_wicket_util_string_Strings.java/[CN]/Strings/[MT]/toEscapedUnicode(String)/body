@@ -1,4 +1,7 @@
 {
+  if ((unicodeString == null) || (unicodeString.length() == 0)) {
+    return unicodeString;
+  }
   int len=unicodeString.length();
   int bufLen=len * 2;
   StringBuffer outBuffer=new StringBuffer(bufLen);
@@ -15,7 +18,9 @@
     }
 switch (aChar) {
 case ' ':
-      if (x == 0)       outBuffer.append('\\');
+      if (x == 0) {
+        outBuffer.append('\\');
+      }
     outBuffer.append(' ');
   break;
 case '\t':
