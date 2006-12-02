@@ -1,20 +1,33 @@
 {
-  if (this.webApplication == null) {
-    IWebApplicationFactory factory=getApplicationFactory();
-    this.webApplication=factory.createApplication(this);
-    log.info("WicketServlet loaded application " + this.webApplication.getName() + " via "+ factory.getClass().getName()+ " factory");
+  wicketFilter=new WicketFilter();
+  wicketFilter.init(new FilterConfig(){
+    /** 
+ * @see javax.servlet.FilterConfig#getServletContext()
+ */
+    public ServletContext getServletContext(){
+      return WicketServlet.this.getServletContext();
+    }
+    /** 
+ * @see javax.servlet.FilterConfig#getInitParameterNames()
+ */
+    public Enumeration getInitParameterNames(){
+      return WicketServlet.this.getInitParameterNames();
+    }
+    /** 
+ * @see javax.servlet.FilterConfig#getInitParameter(java.lang.String)
+ */
+    public String getInitParameter(    String name){
+      if (WicketFilter.FILTER_PATH_PARAM.equals(name)) {
+        return WicketFilter.SERVLET_PATH_HOLDER;
+      }
+      return WicketServlet.this.getInitParameter(name);
+    }
+    /** 
+ * @see javax.servlet.FilterConfig#getFilterName()
+ */
+    public String getFilterName(){
+      return WicketServlet.this.getServletName();
+    }
   }
-  this.webApplication.setWicketServlet(this);
-  String contextKey="wicket:" + getServletConfig().getServletName();
-  getServletContext().setAttribute(contextKey,this.webApplication);
-  try {
-    Application.set(webApplication);
-    this.webApplication.internalInit();
-    this.webApplication.init();
-    this.webApplication.initializeComponents();
-    this.webApplication.logStarted();
-  }
-  finally {
-    Application.unset();
-  }
+);
 }

@@ -1,25 +1,41 @@
 {
-  Application.set(this);
   context=new MockServletContext(this,path);
-  setWicketServlet(new WicketServlet(){
-    private static final long serialVersionUID=1L;
-    public ServletContext getServletContext(){
-      return context;
-    }
-    /** 
- * @see javax.servlet.GenericServlet#getInitParameter(java.lang.String)
- */
-    public String getInitParameter(    String name){
-      return null;
-    }
-    /** 
- * @see javax.servlet.GenericServlet#getServletName()
- */
-    public String getServletName(){
-      return "WicketMockServlet";
+  Application.set(this);
+  WicketFilter filter=new WicketFilter(){
+    protected IWebApplicationFactory getApplicationFactory(){
+      return new IWebApplicationFactory(){
+        public WebApplication createApplication(        WicketFilter filter){
+          return MockWebApplication.this;
+        }
+      }
+;
     }
   }
+;
+  try {
+    filter.init(new FilterConfig(){
+      public ServletContext getServletContext(){
+        return context;
+      }
+      public Enumeration getInitParameterNames(){
+        return null;
+      }
+      public String getInitParameter(      String name){
+        if (name.equals(WicketFilter.FILTER_PATH_PARAM)) {
+          return MockWebApplication.this.getName();
+        }
+        return null;
+      }
+      public String getFilterName(){
+        return "WicketMockServlet";
+      }
+    }
 );
+  }
+ catch (  ServletException e) {
+    throw new RuntimeException(e);
+  }
+  Application.set(this);
   this.internalInit();
   getDebugSettings().setSerializeSessionAttributes(false);
   this.init();
