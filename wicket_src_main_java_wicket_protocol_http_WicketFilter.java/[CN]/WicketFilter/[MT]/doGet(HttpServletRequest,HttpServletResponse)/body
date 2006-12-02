@@ -1,43 +1,50 @@
 {
-  if (servletRequest.getCharacterEncoding() == null) {
-    try {
-      servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+  final ClassLoader previousClassLoader=getClassLoader();
+  try {
+    Thread.currentThread().setContextClassLoader(previousClassLoader);
+    if (servletRequest.getCharacterEncoding() == null) {
+      try {
+        servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+      }
+ catch (      UnsupportedEncodingException ex) {
+        throw new WicketRuntimeException(ex.getMessage());
+      }
     }
- catch (    UnsupportedEncodingException ex) {
-      throw new WicketRuntimeException(ex.getMessage());
-    }
-  }
-  final WebRequest request=webApplication.newWebRequest(servletRequest);
-  if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
-    String queryString=servletRequest.getQueryString();
-    if (!Strings.isEmpty(queryString)) {
-      ISessionStore sessionStore=webApplication.getSessionStore();
-      String sessionId=sessionStore.getSessionId(request,false);
-      if (sessionId != null) {
-        BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
-        if (bufferedResponse != null) {
-          bufferedResponse.writeTo(servletResponse);
-          return;
+    final WebRequest request=webApplication.newWebRequest(servletRequest);
+    if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
+      String queryString=servletRequest.getQueryString();
+      if (!Strings.isEmpty(queryString)) {
+        ISessionStore sessionStore=webApplication.getSessionStore();
+        String sessionId=sessionStore.getSessionId(request,false);
+        if (sessionId != null) {
+          BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
+          if (bufferedResponse != null) {
+            bufferedResponse.writeTo(servletResponse);
+            return;
+          }
         }
       }
     }
-  }
-  Application.set(webApplication);
-  final WebSession session=webApplication.getSession(request);
-  final WebResponse response=webApplication.newWebResponse(servletResponse);
-  response.setAjax(request.isAjax());
-  response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
-  try {
-    RequestCycle cycle=session.newRequestCycle(request,response);
+    Application.set(webApplication);
+    final WebSession session=webApplication.getSession(request);
+    final WebResponse response=webApplication.newWebResponse(servletResponse);
+    response.setAjax(request.isAjax());
+    response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
     try {
-      cycle.request();
+      RequestCycle cycle=session.newRequestCycle(request,response);
+      try {
+        cycle.request();
+      }
+ catch (      AbortException e) {
+      }
     }
- catch (    AbortException e) {
+  finally {
+      response.close();
+      Session.unset();
+      Application.unset();
     }
   }
   finally {
-    response.close();
-    Session.unset();
-    Application.unset();
+    Thread.currentThread().setContextClassLoader(previousClassLoader);
   }
 }

@@ -3,7 +3,11 @@
     Class clz=(Class)classes.get(classname);
     if (clz == null) {
 synchronized (classes) {
-        clz=DefaultClassResolver.class.getClassLoader().loadClass(classname);
+        ClassLoader loader=Thread.currentThread().getContextClassLoader();
+        if (loader == null) {
+          loader=DefaultClassResolver.class.getClassLoader();
+        }
+        clz=loader.loadClass(classname);
         classes.put(classname,clz);
       }
     }
