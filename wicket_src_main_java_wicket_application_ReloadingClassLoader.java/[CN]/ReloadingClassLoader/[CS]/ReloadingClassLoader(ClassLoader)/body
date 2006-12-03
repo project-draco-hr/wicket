@@ -1,4 +1,8 @@
 {
-  super((URL[])urls.toArray(new URL[0]),parent);
+  super(new URL[]{},parent);
+  addClassLoaderUrls(parent);
+  for (Iterator i=urls.iterator(); i.hasNext(); ) {
+    addURL((URL)i.next());
+  }
   this.watcher=new ModificationWatcher(pollFrequency);
 }

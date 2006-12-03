@@ -1,0 +1,15 @@
+{
+  if (loader != null) {
+    final Enumeration resources;
+    try {
+      resources=loader.getResources("");
+    }
+ catch (    IOException e) {
+      throw new RuntimeException(e);
+    }
+    while (resources.hasMoreElements()) {
+      URL location=(URL)resources.nextElement();
+      ReloadingClassLoader.addLocation(location);
+    }
+  }
+}
