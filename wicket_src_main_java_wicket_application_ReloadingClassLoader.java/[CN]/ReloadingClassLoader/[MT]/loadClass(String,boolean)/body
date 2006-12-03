@@ -2,13 +2,15 @@
   Class clazz=findLoadedClass(name);
   if (clazz == null) {
     final ClassLoader parent=getParent();
-    try {
-      clazz=findClass(name);
-      watchForModifications(clazz);
-    }
- catch (    ClassNotFoundException cnfe) {
-      if (parent == null) {
-        throw cnfe;
+    if (tryClassHere(name)) {
+      try {
+        clazz=findClass(name);
+        watchForModifications(clazz);
+      }
+ catch (      ClassNotFoundException cnfe) {
+        if (parent == null) {
+          throw cnfe;
+        }
       }
     }
     if (clazz == null) {
