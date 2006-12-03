@@ -1,5 +1,5 @@
 {
-  final ClassLoader previousClassLoader=getClassLoader();
+  final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   try {
     Thread.currentThread().setContextClassLoader(previousClassLoader);
     if (servletRequest.getCharacterEncoding() == null) {

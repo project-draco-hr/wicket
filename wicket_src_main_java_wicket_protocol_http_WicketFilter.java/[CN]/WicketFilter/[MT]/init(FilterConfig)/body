@@ -1,6 +1,6 @@
 {
   this.filterConfig=filterConfig;
-  final ClassLoader previousClassLoader=getClassLoader();
+  final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   try {
     Thread.currentThread().setContextClassLoader(previousClassLoader);
     IWebApplicationFactory factory=getApplicationFactory();
