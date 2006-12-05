@@ -3,5 +3,9 @@
   final CharSequence url=RequestCycle.get().urlFor(getResourceReference());
   response.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
   response.write(url);
-  response.println("\"></link>");
+  if (media != null) {
+    response.write("\" media=\"");
+    response.write(media);
+  }
+  response.println("\" />");
 }

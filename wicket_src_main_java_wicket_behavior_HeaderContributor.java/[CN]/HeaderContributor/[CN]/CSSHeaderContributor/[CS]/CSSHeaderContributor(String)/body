@@ -1,28 +1,3 @@
 {
-  super(new AbstractReadOnlyModel<String>(){
-    private static final long serialVersionUID=1L;
-    private String path=null;
-    @Override public String getObject(){
-      if (path == null) {
-        String contextPath=Application.get().getApplicationSettings().getContextPath();
-        if (contextPath == null) {
-          contextPath=((WebRequestCycle)RequestCycle.get()).getWebRequest().getContextPath();
-          if (contextPath == null) {
-            contextPath="";
-          }
-        }
-        AppendingStringBuffer b=new AppendingStringBuffer();
-        b.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
-        b.append(contextPath);
-        if (!contextPath.endsWith("/") && !location.startsWith("/")) {
-          b.append("/");
-        }
-        b.append((location != null) ? location : "");
-        b.append("\"></link>");
-        path=b.toString();
-      }
-      return path;
-    }
-  }
-);
+  this(location,null);
 }
