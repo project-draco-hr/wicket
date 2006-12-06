@@ -4,20 +4,12 @@
     private String path=null;
     @Override public String getObject(){
       if (path == null) {
-        String contextPath=Application.get().getApplicationSettings().getContextPath();
-        if (contextPath == null) {
-          contextPath=((WebRequestCycle)RequestCycle.get()).getWebRequest().getContextPath();
-          if (contextPath == null) {
-            contextPath="";
-          }
+        if (location == null) {
+          return "";
         }
         AppendingStringBuffer b=new AppendingStringBuffer();
         b.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
-        b.append(contextPath);
-        if (!contextPath.endsWith("/") && !location.startsWith("/")) {
-          b.append("/");
-        }
-        b.append((location != null) ? location : "");
+        appendPathWithContext(b,location);
         if (media != null) {
           b.append("\" media=\"");
           b.append(media);
