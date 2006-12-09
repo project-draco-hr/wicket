@@ -1,0 +1,22 @@
+{
+  if (items.hasNext()) {
+    final int cols=getColumns();
+    int row=0;
+    do {
+      Item<T> rowItem=newRowItem(newChildId(),row);
+      new RepeatingView<T>(rowItem,"cols");
+      for (int index=0; index < cols; index++) {
+        final Item<T> cellItem;
+        if (items.hasNext()) {
+          cellItem=items.next();
+        }
+ else {
+          cellItem=newEmptyItem(newChildId(),index);
+          populateEmptyItem(cellItem);
+        }
+      }
+      row++;
+    }
+ while (items.hasNext());
+  }
+}
