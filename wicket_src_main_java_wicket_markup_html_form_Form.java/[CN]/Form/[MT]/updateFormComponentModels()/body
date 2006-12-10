@@ -1,9 +1,7 @@
 {
-  visitFormComponents(new FormComponent.IVisitor(){
-    public void formComponent(    final FormComponent formComponent){
-      if (formComponent.isVisibleInHierarchy() && formComponent.isEnabled() && formComponent.isValid()&& formComponent.isEnableAllowed()) {
-        formComponent.updateModel();
-      }
+  visitFormComponents(new ValidationVisitor(){
+    public void validate(    FormComponent formComponent){
+      formComponent.updateModel();
     }
   }
 );

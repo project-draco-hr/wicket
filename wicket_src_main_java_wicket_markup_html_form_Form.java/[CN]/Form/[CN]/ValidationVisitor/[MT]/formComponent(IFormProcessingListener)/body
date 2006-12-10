@@ -1,0 +1,14 @@
+{
+  if (component instanceof FormComponent) {
+    FormComponent formComponent=(FormComponent)component;
+    if (formComponent.isVisibleInHierarchy() && formComponent.isValid() && formComponent.isEnabled()&& formComponent.isEnableAllowed()) {
+      validate(formComponent);
+    }
+  }
+  if (component.processChildren()) {
+    return Component.IVisitor.CONTINUE_TRAVERSAL;
+  }
+ else {
+    return Component.IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+  }
+}
