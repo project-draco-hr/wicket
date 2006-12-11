@@ -1,0 +1,30 @@
+{
+  form=new Form("form");
+  add(form);
+  RefreshingView refreshingView=new RefreshingView("simple"){
+    protected Iterator getItemModels(){
+      Iterator contacts=DatabaseLocator.getDatabase().find(0,10,"firstName",true).iterator();
+      return new ModelIteratorAdapter(contacts){
+        protected IModel model(        Object object){
+          return new DetachableContactModel((Contact)object);
+        }
+      }
+;
+    }
+    protected void populateItem(    final Item item){
+      IModel contact=item.getModel();
+      item.add(new ActionPanel("actions",contact));
+      item.add(new TextField("id",new PropertyModel(contact,"id")));
+      item.add(new TextField("firstName",new PropertyModel(contact,"firstName")));
+      item.add(new TextField("lastName",new PropertyModel(contact,"lastName")));
+      item.add(new TextField("homePhone",new PropertyModel(contact,"homePhone")));
+      item.add(new TextField("cellPhone",new PropertyModel(contact,"cellPhone")));
+    }
+    protected Item newItem(    String id,    int index,    IModel model){
+      return new OddEvenItem(id,index,model);
+    }
+  }
+;
+  refreshingView.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance());
+  form.add(refreshingView);
+}
