@@ -13,18 +13,21 @@
     Throwable throwable=e;
     boolean ignoreException=false;
     while (throwable != null) {
-      if (throwable instanceof SocketException) {
+      if (throwable instanceof SQLException) {
+        break;
+      }
+ else       if (throwable instanceof SocketException) {
         String message=throwable.getMessage();
-        ignoreException=message != null && (message.indexOf("Connection reset by peer") != -1 || message.indexOf("Software caused connection abort") != -1);
+        ignoreException=message != null && (message.indexOf("Connection reset") != -1 || message.indexOf("Broken pipe") != -1 || message.indexOf("Socket closed") != -1 || message.indexOf("connection abort") != -1);
       }
  else {
         ignoreException=throwable.getClass().getName().indexOf("ClientAbortException") >= 0;
-        if (ignoreException) {
-          if (log.isDebugEnabled()) {
-            log.debug("Socket exception ignored for sending Resource " + "response to client (ClientAbort)",e);
-          }
-          break;
+      }
+      if (ignoreException) {
+        if (log.isDebugEnabled()) {
+          log.debug("Socket exception ignored for sending Resource " + "response to client (ClientAbort)",e);
         }
+        break;
       }
       throwable=throwable.getCause();
     }
