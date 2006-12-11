@@ -1,0 +1,18 @@
+{
+  super(parent,id,model);
+  new Link(this,"select"){
+    @Override public void onClick(){
+      FormPage.this.setSelected((Contact)getParent().getModelObject());
+    }
+  }
+;
+  SubmitLink removeLink=new SubmitLink(this,"remove",form){
+    public void onSubmit(){
+      Contact contact=(Contact)getParent().getModelObject();
+      info("Removed contact " + contact);
+      DatabaseLocator.getDatabase().delete(contact);
+    }
+  }
+;
+  removeLink.setDefaultFormProcessing(false);
+}
