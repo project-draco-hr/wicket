@@ -6,14 +6,14 @@
     }
   }
 );
-  SubmitLink removeLink;
-  add(removeLink=new SubmitLink("remove",form){
+  SubmitLink removeLink=new SubmitLink("remove",form){
     public void onSubmit(){
       Contact contact=(Contact)getParent().getModelObject();
       info("Removed contact " + contact);
       DatabaseLocator.getDatabase().delete(contact);
     }
   }
-);
+;
   removeLink.setDefaultFormProcessing(false);
+  add(removeLink);
 }
