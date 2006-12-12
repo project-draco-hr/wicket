@@ -1,6 +1,5 @@
 {
   final FormComponent formComponent=getFormComponent();
-  boolean callOnUpdate=true;
   try {
     formComponent.inputChanged();
     formComponent.validate();
@@ -11,13 +10,10 @@
  else {
       formComponent.valid();
       formComponent.updateModel();
+      onUpdate(target);
     }
   }
  catch (  RuntimeException e) {
-    callOnUpdate=false;
     onError(target,e);
-  }
-  if (callOnUpdate) {
-    onUpdate(target);
   }
 }
