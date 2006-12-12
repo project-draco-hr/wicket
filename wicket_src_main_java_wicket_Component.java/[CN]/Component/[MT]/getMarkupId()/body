@@ -1,8 +1,11 @@
 {
-  String markupId=getMetaData(MARKUP_ID_KEY);
-  if (markupId == null) {
-    markupId=getId() + getPage().getAutoIndex();
-    setMetaData(MARKUP_ID_KEY,markupId);
+  String markupId=getMarkupAttributes().getString(MARKUP_ID_ATTR_NAME);
+  if (id == null) {
+    markupId=getMetaData(MARKUP_ID_KEY);
+    if (markupId == null) {
+      markupId=getId() + getPage().getAutoIndex();
+      setMetaData(MARKUP_ID_KEY,markupId);
+    }
   }
   return markupId;
 }
