@@ -5,6 +5,9 @@
     }
  catch (    ConversionException e) {
       ValidationError error=new ValidationError();
+      if (e.getResourceKey() != null) {
+        error.addMessageKey(e.getResourceKey());
+      }
       if (e.getTargetType() != null) {
         error.addMessageKey("ConversionError." + Classes.simpleName(e.getTargetType()));
       }
@@ -28,6 +31,9 @@
     }
  catch (    ConversionException e) {
       ValidationError error=new ValidationError();
+      if (e.getResourceKey() != null) {
+        error.addMessageKey(e.getResourceKey());
+      }
       error.addMessageKey("TypeValidator." + Classes.simpleName(type));
       error.addMessageKey("TypeValidator");
       error.setVar("type",Classes.simpleName(type));
