@@ -12,6 +12,9 @@
     }
     rd.setSessionSize(sizeInBytes);
     rd.setTimeTaken(timeTaken);
+    if (active.decrementAndGet() < 0) {
+      active.set(0);
+    }
     requests.add(0,rd);
     currentRequest.set(null);
     if (sessionId != null) {
