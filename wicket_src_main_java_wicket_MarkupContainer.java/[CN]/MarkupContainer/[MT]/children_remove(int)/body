@@ -1,7 +1,7 @@
 {
   if (children instanceof Component) {
     if (index == 0) {
-      final Component removed=(Component)children;
+      final Component<?> removed=(Component<?>)children;
       this.children=null;
       return removed;
     }
@@ -10,8 +10,8 @@
     }
   }
  else {
-    Component[] c=((Component[])children);
-    final Component removed=c[index];
+    Component<?>[] c=((Component[])children);
+    final Component<?> removed=c[index];
     if (c.length == 2) {
       if (index == 0) {
         this.children=c[1];
@@ -24,7 +24,7 @@
       }
     }
  else {
-      Component[] newChildren=new Component[c.length - 1];
+      Component<?>[] newChildren=new Component[c.length - 1];
       int j=0;
       for (int i=0; i < c.length; i++) {
         if (i != index) {

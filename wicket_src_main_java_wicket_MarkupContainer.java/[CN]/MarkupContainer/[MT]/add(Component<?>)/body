@@ -5,8 +5,7 @@
   if (log.isDebugEnabled()) {
     log.debug("Add " + child.getId() + " to component "+ this.getClass().getName()+ " with path "+ getPath());
   }
-  addedComponent(child);
-  Component replaced=put(child);
+  Component<?> replaced=put(child);
   child.setFlag(FLAG_REMOVED_FROM_PARENT,false);
   if (replaced != null) {
     replaced.setFlag(FLAG_REMOVED_FROM_PARENT,true);
@@ -15,5 +14,6 @@
     String replacedId=(replaced.hasMarkupIdMetaData()) ? replaced.getMarkupId() : null;
     child.setMarkupIdMetaData(replacedId);
   }
+  addedComponent(child);
   return this;
 }
