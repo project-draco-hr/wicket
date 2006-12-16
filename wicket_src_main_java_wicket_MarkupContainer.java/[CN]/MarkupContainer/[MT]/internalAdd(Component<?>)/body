@@ -2,6 +2,13 @@
   if (log.isDebugEnabled()) {
     log.debug("internalAdd " + child.getId() + " to "+ this);
   }
-  addedComponent(child);
+  int index=children_indexOf(child.getId());
+  if (index != -1) {
+    if (children_get(index) != child) {
+      throw new IllegalArgumentException("MarkupContainer " + getId() + " already contains child: "+ child.getId());
+    }
+    return;
+  }
   put(child);
+  addedComponent(child);
 }
