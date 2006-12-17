@@ -5,10 +5,10 @@
     }
   }
 ;
-  new Label(this,"selectedLabel",new PropertyModel(this,"selectedContactLabel"));
-  new DataView(this,"simple",new ContactDataProvider()){
-    @Override protected void populateItem(    final Item item){
-      Contact contact=(Contact)item.getModelObject();
+  new Label(this,"selectedLabel",new PropertyModel<String>(this,"selectedContactLabel"));
+  new DataView<Contact>(this,"simple",new ContactDataProvider()){
+    @Override protected void populateItem(    final Item<Contact> item){
+      Contact contact=item.getModelObject();
       new ActionPanel(item,"actions",item.getModel());
       new Label(item,"contactid",String.valueOf(contact.getId()));
       new Label(item,"firstname",contact.getFirstName());
