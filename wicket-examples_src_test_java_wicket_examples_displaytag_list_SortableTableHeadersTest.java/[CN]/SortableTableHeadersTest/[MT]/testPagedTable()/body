@@ -5,7 +5,7 @@
   application.processRequestCycle();
   SortableTableHeadersPage page=(SortableTableHeadersPage)application.getLastRenderedPage();
   String document=application.getServletResponse().getDocument();
-  assertTrue(DiffUtil.validatePage(document,this.getClass(),"SortableTableHeadersExpectedResult_1.html"));
+  DiffUtil.validatePage(document,this.getClass(),"SortableTableHeadersExpectedResult_1.html",true);
   Link link=(Link)page.get("header:<auto>-id:actionLink");
   assertTrue(link.isEnabled());
   link=(Link)page.get("header:<auto>-name:actionLink");
@@ -23,7 +23,7 @@
   application.getServletRequest().setRequestToRedirectString(redirect);
   application.processRequestCycle();
   document=application.getServletResponse().getDocument();
-  assertTrue(DiffUtil.validatePage(document,this.getClass(),"SortableTableHeadersExpectedResult_2.html"));
+  DiffUtil.validatePage(document,this.getClass(),"SortableTableHeadersExpectedResult_2.html",true);
   link=(Link)page.get("header:<auto>-name:actionLink");
   application.setupRequestAndResponse();
   application.getServletRequest().setRequestToComponent(link);
@@ -35,5 +35,5 @@
   application.getServletRequest().setRequestToRedirectString(redirect);
   application.processRequestCycle();
   document=application.getServletResponse().getDocument();
-  assertTrue(DiffUtil.validatePage(document,this.getClass(),"SortableTableHeadersExpectedResult_3.html"));
+  DiffUtil.validatePage(document,this.getClass(),"SortableTableHeadersExpectedResult_3.html",true);
 }
