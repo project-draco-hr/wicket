@@ -6,7 +6,7 @@
   tester.getServletRequest().setRequestToComponent(link);
   tester.processRequestCycle();
   String document=tester.getServletResponse().getDocument();
-  assertTrue(DiffUtil.validatePage(document,this.getClass(),"MockPage_expectedResult2.html"));
+  DiffUtil.validatePage(document,this.getClass(),"MockPage_expectedResult2.html",true);
   p=(MockPage)tester.getLastRenderedPage();
   Assert.assertEquals("Link should have been clicked 1 time",1,p.getLinkClickCount());
 }
