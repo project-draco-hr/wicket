@@ -21,7 +21,7 @@
     }
   }
   boolean firstParameter=true;
-  if (!application.getHomePage().equals(pageClass) || !"".equals(pageMapName) || requestTarget instanceof BookmarkableListenerInterfaceRequestTarget) {
+  if (!application.getHomePage().equals(pageClass) || !"".equals(pageMapName)) {
     firstParameter=false;
     url.append('?');
     url.append(WebRequestCodingStrategy.BOOKMARKABLE_PAGE_PARAMETER_NAME);
@@ -34,23 +34,6 @@
       throw new RuntimeException(e);
     }
     url.append(pageMapName + Component.PATH_SEPARATOR + pageClassName);
-  }
-  if (requestTarget instanceof BookmarkableListenerInterfaceRequestTarget) {
-    BookmarkableListenerInterfaceRequestTarget listenerTarget=(BookmarkableListenerInterfaceRequestTarget)requestTarget;
-    if (firstParameter == true) {
-      url.append("?");
-    }
- else {
-      url.append("&");
-    }
-    firstParameter=false;
-    url.append(INTERFACE_PARAMETER_NAME);
-    url.append("=");
-    url.append(Component.PATH_SEPARATOR);
-    url.append(listenerTarget.getComponentPath());
-    url.append(Component.PATH_SEPARATOR);
-    url.append(Component.PATH_SEPARATOR);
-    url.append(listenerTarget.getInterfaceName());
   }
   final PageParameters parameters=requestTarget.getPageParameters();
   if (parameters != null) {
