@@ -1,0 +1,12 @@
+{
+  application.mountBookmarkablePage("/stateless",StatelessComponentPage.class);
+  application.setupRequestAndResponse();
+  application.getServletRequest().setURL("/WicketTester/WicketTester/stateless/wicket:interface/:0:link::ILinkListener");
+  try {
+    application.processRequestCycle();
+    assertTrue(false);
+  }
+ catch (  Exception e) {
+    assertEquals(e.getMessage(),"wanted exception");
+  }
+}
