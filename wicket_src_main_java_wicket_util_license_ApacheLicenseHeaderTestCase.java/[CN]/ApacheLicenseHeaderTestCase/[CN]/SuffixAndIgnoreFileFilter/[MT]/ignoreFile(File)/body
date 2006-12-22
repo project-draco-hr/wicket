@@ -4,6 +4,7 @@
     String relativePathname=pathname.getAbsolutePath();
     relativePathname=relativePathname.replace(baseDirectory.getAbsolutePath() + System.getProperty("file.separator"),"");
     for (    String ignorePath : ignoreFiles) {
+      ignorePath=ignorePath.replace("/",System.getProperty("file.separator"));
       File ignoreFile=new File(baseDirectory,ignorePath);
       if (ignoreFile.isDirectory()) {
         if (pathname.getAbsolutePath().startsWith(ignoreFile.getAbsolutePath())) {
