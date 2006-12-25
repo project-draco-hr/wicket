@@ -8,11 +8,8 @@
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag.setWicketTag(true);
     String id=Component.AUTO_COMPONENT_PREFIX + tag.getName();
-    if (requiresUniqueId.contains(tag.getName())) {
-      id=id + this.index++;
-    }
     tag.setId(id);
-    if (isRegisteredToHaveUniqueId(tag) == false) {
+    if (wellKnownTagNames.contains(tag.getName()) == false) {
       throw new ParseException("Unkown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag.getPos());
     }
   }
