@@ -1,5 +1,7 @@
 {
   onTimer(target);
-  String js="setTimeout(\"" + getCallbackScript(false,true) + "\", "+ updateInterval.getMilliseconds()+ ");";
-  target.appendJavascript(js);
+  if (!stopped) {
+    String js="setTimeout(\"" + getCallbackScript(false,true) + "\", "+ updateInterval.getMilliseconds()+ ");";
+    target.appendJavascript(js);
+  }
 }
