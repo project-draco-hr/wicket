@@ -1,8 +1,7 @@
 {
-  final Stack<MarkupFragment> fragmentStack=new Stack<MarkupFragment>();
-  this.currentFragment=this.rootFragment;
+  this.markupElements=new ArrayList<MarkupElement>(20);
   try {
-    int size=currentFragment.size();
+    int size=this.markupElements.size();
     for (ComponentTag tag; null != (tag=(ComponentTag)this.markupFilterChain.nextTag()); ) {
       boolean add=(tag.getId() != null);
       if (!add && tag.getXmlTag().isClose()) {
@@ -18,44 +17,34 @@
           if (this.compressWhitespace) {
             rawMarkup=compressWhitespace(rawMarkup);
           }
-          currentFragment.addMarkupElement(size,new RawMarkup(rawMarkup));
+          this.markupElements.add(size,new RawMarkup(rawMarkup));
         }
         if (add) {
           if (!WicketRemoveTagHandler.IGNORE.equals(tag.getId())) {
-            if (tag.isOpen() || tag.isOpenClose()) {
-              fragmentStack.push(currentFragment);
-              MarkupFragment newFragment=new MarkupFragment(this.markup);
-              currentFragment.addMarkupElement(newFragment);
-              currentFragment=newFragment;
-            }
-            currentFragment.addMarkupElement(tag);
-            if (tag.isClose() || tag.isOpenClose() || tag.hasNoCloseTag()) {
-              currentFragment=fragmentStack.pop();
-            }
+            this.markupElements.add(tag);
           }
         }
  else         if (tag.isModified()) {
-          currentFragment.addMarkupElement(new RawMarkup(tag.toCharSequence()));
+          this.markupElements.add(new RawMarkup(tag.toCharSequence()));
         }
         this.xmlParser.setPositionMarker();
       }
-      size=currentFragment.size();
+      size=this.markupElements.size();
     }
   }
  catch (  final ParseException ex) {
+    int size=this.markupElements.size();
     final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
     if (text.length() > 0) {
-      currentFragment.addMarkupElement(new RawMarkup(text));
+      this.markupElements.add(new RawMarkup(text));
     }
     this.markup.setEncoding(this.xmlParser.getEncoding());
     this.markup.setXmlDeclaration(this.xmlParser.getXmlDeclaration());
-    MarkupElement element=currentFragment.get(currentFragment.size() - 1);
-    MarkupStream markupStream=new MarkupStream(this.rootFragment);
-    while (markupStream.hasMore()) {
-      if (markupStream.next() == element) {
-        break;
-      }
+    for (    MarkupElement elem : this.markupElements) {
+      this.rootFragment.addMarkupElement(elem);
     }
+    MarkupStream markupStream=new MarkupStream(this.rootFragment);
+    markupStream.setCurrentIndex(size);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }
   final CharSequence text=this.xmlParser.getInputFromPositionMarker(-1);
@@ -67,14 +56,36 @@
     if (this.compressWhitespace) {
       rawMarkup=compressWhitespace(rawMarkup);
     }
-    currentFragment.addMarkupElement(new RawMarkup(rawMarkup));
+    this.markupElements.add(new RawMarkup(rawMarkup));
   }
-  if (fragmentStack.size() > 0) {
-    currentFragment.handleUnclosedTags();
-    currentFragment=this.rootFragment;
+  if (this.markupElements.size() > 0) {
+    Stack<MarkupFragment> stack=new Stack<MarkupFragment>();
+    stack.push(this.rootFragment);
+    MarkupFragment currentFragment=this.rootFragment;
+    for (    MarkupElement elem : this.markupElements) {
+      if (elem instanceof RawMarkup) {
+        currentFragment.addMarkupElement(elem);
+      }
+ else {
+        ComponentTag tag=(ComponentTag)elem;
+        if (tag.isOpen() || tag.isOpenClose()) {
+          stack.push(currentFragment);
+          MarkupFragment newFragment=new MarkupFragment(this.rootFragment.getMarkup());
+          currentFragment.addMarkupElement(newFragment);
+          currentFragment=newFragment;
+        }
+        currentFragment.addMarkupElement(tag);
+        if (tag.isOpenClose() || tag.isClose() || tag.hasNoCloseTag()) {
+          currentFragment=stack.pop();
+        }
+      }
+    }
+    if (this.rootFragment.size() == 1) {
+      MarkupElement elem=this.rootFragment.get(0);
+      if (elem instanceof MarkupFragment) {
+        return (MarkupFragment)elem;
+      }
+    }
   }
-  if ((currentFragment.size() == 1) && (currentFragment.get(0) instanceof MarkupFragment)) {
-    currentFragment=(MarkupFragment)currentFragment.get(0);
-  }
-  return currentFragment;
+  return this.rootFragment;
 }
