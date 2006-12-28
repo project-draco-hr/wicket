@@ -1,11 +1,11 @@
 {
   if (timeZone == null) {
-    String utcOffset=(String)data.get(ClientProperties.UTC_OFFSET);
-    if (utcOffset != null) {
-      int dotPos=utcOffset.indexOf('.');
+    String utc=getUtcOffset();
+    if (utc != null) {
+      int dotPos=utc.indexOf('.');
       if (dotPos >= 0) {
-        String hours=utcOffset.substring(0,dotPos);
-        String hourPart=utcOffset.substring(dotPos + 1);
+        String hours=utc.substring(0,dotPos);
+        String hourPart=utc.substring(dotPos + 1);
         if (hours.startsWith("+")) {
           hours=hours.substring(1);
         }
@@ -22,11 +22,11 @@
         timeZone=TimeZone.getTimeZone(sb.toString());
       }
  else {
-        int offset=Integer.parseInt(utcOffset);
+        int offset=Integer.parseInt(utc);
         if (offset < 0) {
-          utcOffset=utcOffset.substring(1);
+          utc=utc.substring(1);
         }
-        timeZone=TimeZone.getTimeZone("GMT" + ((offset > 0) ? "+" : "-") + utcOffset);
+        timeZone=TimeZone.getTimeZone("GMT" + ((offset > 0) ? "+" : "-") + utc);
       }
     }
   }
