@@ -1,14 +1,18 @@
 {
   new AjaxLink(this,"closeOK"){
-    @Override public void onClick(    AjaxRequestTarget target){
-      if (modalWindowPage != null)       modalWindowPage.setResult("Modal window 1 - close link OK");
+    @Override public void onClick(    final AjaxRequestTarget target){
+      if (modalWindowPage != null) {
+        modalWindowPage.setResult("Modal window 1 - close link OK");
+      }
       ModalWindow.close(target);
     }
   }
 ;
   new AjaxLink(this,"closeCancel"){
-    @Override public void onClick(    AjaxRequestTarget target){
-      if (modalWindowPage != null)       modalWindowPage.setResult("Modal window 1 - close link Cancel");
+    @Override public void onClick(    final AjaxRequestTarget target){
+      if (modalWindowPage != null) {
+        modalWindowPage.setResult("Modal window 1 - close link Cancel");
+      }
       ModalWindow.close(target);
     }
   }
@@ -28,14 +32,14 @@
   }
 );
   modal.setCloseButtonCallback(new ModalWindow.CloseButtonCallback(){
-    public boolean onCloseButtonClicked(    AjaxRequestTarget target){
+    public boolean onCloseButtonClicked(    final AjaxRequestTarget target){
       target.appendJavascript("alert('You can\\'t close this modal window using close button." + " Use the link inside the window instead.');");
       return false;
     }
   }
 );
   new AjaxLink(this,"open"){
-    @Override public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    final AjaxRequestTarget target){
       modal.show(target);
     }
   }

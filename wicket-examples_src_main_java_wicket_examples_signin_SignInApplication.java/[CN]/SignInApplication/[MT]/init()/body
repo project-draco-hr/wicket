@@ -1,9 +1,9 @@
 {
   getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy(){
-    public boolean isActionAuthorized(    Component component,    Action action){
+    public boolean isActionAuthorized(    final Component component,    final Action action){
       return true;
     }
-    public boolean isInstantiationAuthorized(    Class componentClass){
+    public boolean isInstantiationAuthorized(    final Class componentClass){
       if (AuthenticatedWebPage.class.isAssignableFrom(componentClass)) {
         if (((SignInSession)Session.get()).isSignedIn()) {
           return true;

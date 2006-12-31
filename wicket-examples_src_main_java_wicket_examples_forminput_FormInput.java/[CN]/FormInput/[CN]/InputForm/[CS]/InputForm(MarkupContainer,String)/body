@@ -22,7 +22,7 @@
   rc.setRequired(true);
   RadioGroup group=new RadioGroup(this,"numbersGroup");
   new ListView<String>(group,"numbers",NUMBERS){
-    @Override protected void populateItem(    ListItem<String> item){
+    @Override protected void populateItem(    final ListItem<String> item){
       new Radio<String>(item,"radio",item.getModel());
       new Label(item,"number",item.getModelObject());
     }
@@ -30,7 +30,7 @@
 ;
   CheckGroup checks=new CheckGroup(this,"numbersCheckGroup");
   new ListView<String>(checks,"numbers",NUMBERS){
-    @Override protected void populateItem(    ListItem<String> item){
+    @Override protected void populateItem(    final ListItem<String> item){
       new Check<String>(item,"check",item.getModel());
       new Label(item,"number",item.getModelObject());
     }
@@ -41,9 +41,9 @@
     /** 
  * @see wicket.Component#getConverter(java.lang.Class)
  */
-    @Override public IConverter getConverter(    Class type){
+    @Override public IConverter getConverter(    final Class type){
       return new SimpleConverterAdapter(){
-        @Override public Object toObject(        String value){
+        @Override public Object toObject(        final String value){
           try {
             return new URL(value.toString());
           }
@@ -51,7 +51,7 @@
             throw new ConversionException("'" + value + "' is not a valid URL");
           }
         }
-        @Override public String toString(        Object value){
+        @Override public String toString(        final Object value){
           return value != null ? value.toString() : null;
         }
       }
@@ -63,7 +63,7 @@
     /** 
  * @see wicket.Component#getConverter(java.lang.Class)
  */
-    @Override public IConverter getConverter(    Class type){
+    @Override public IConverter getConverter(    final Class type){
       return new MaskConverter("(###) ###-####",UsPhoneNumber.class);
     }
   }

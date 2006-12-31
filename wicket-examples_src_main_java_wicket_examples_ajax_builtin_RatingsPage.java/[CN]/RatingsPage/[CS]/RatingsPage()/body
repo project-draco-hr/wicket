@@ -1,24 +1,24 @@
 {
   new RatingPanel(this,"rating1",new PropertyModel<Integer>(rating1,"rating"),5,new PropertyModel<Integer>(rating1,"nrOfVotes"),true){
-    @Override protected boolean onIsStarActive(    int star){
+    @Override protected boolean onIsStarActive(    final int star){
       return RatingsPage.rating1.isActive(star);
     }
-    @Override protected void onRated(    int rating,    AjaxRequestTarget target){
+    @Override protected void onRated(    final int rating,    final AjaxRequestTarget target){
       RatingsPage.rating1.addRating(rating);
     }
   }
 ;
   new RatingPanel(this,"rating2",new PropertyModel<Integer>(rating2,"rating"),new Model<Integer>(new Integer(5)),new PropertyModel<Integer>(rating2,"nrOfVotes"),new PropertyModel<Boolean>(this,"hasVoted"),true){
-    @Override protected String getActiveStarUrl(    int iteration){
+    @Override protected String getActiveStarUrl(    final int iteration){
       return getRequestCycle().urlFor(WICKETSTAR1).toString();
     }
-    @Override protected String getInactiveStarUrl(    int iteration){
+    @Override protected String getInactiveStarUrl(    final int iteration){
       return getRequestCycle().urlFor(WICKETSTAR0).toString();
     }
-    @Override protected boolean onIsStarActive(    int star){
+    @Override protected boolean onIsStarActive(    final int star){
       return RatingsPage.rating2.isActive(star);
     }
-    @Override protected void onRated(    int rating,    AjaxRequestTarget target){
+    @Override protected void onRated(    final int rating,    final AjaxRequestTarget target){
       hasVoted=Boolean.TRUE;
       RatingsPage.rating2.addRating(rating);
     }

@@ -14,10 +14,10 @@
   new SimpleFormComponentLabel(form,"email-label",fc);
   AjaxFormValidatingBehavior.addToAllFormComponents(form,ClientEvent.KEYUP,Duration.ONE_SECOND);
   new AjaxSubmitButton(form,"ajax-submit-button",form){
-    protected void onSubmit(    AjaxRequestTarget target,    Form form){
+    @Override protected void onSubmit(    final AjaxRequestTarget target,    final Form form){
       target.addComponent(feedback);
     }
-    @Override protected void onError(    AjaxRequestTarget target,    Form form){
+    @Override protected void onError(    final AjaxRequestTarget target,    final Form form){
       target.addComponent(feedback);
     }
   }

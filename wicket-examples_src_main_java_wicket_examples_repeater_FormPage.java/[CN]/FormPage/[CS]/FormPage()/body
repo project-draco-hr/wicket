@@ -4,7 +4,7 @@
     @Override protected Iterator<IModel<Contact>> getItemModels(){
       Iterator<Contact> contacts=DatabaseLocator.getDatabase().find(0,10,"firstName",true).iterator();
       return new ModelIteratorAdapter<Contact>(contacts){
-        protected IModel<Contact> model(        Contact object){
+        @Override protected IModel<Contact> model(        Contact object){
           return new DetachableContactModel(object);
         }
       }
