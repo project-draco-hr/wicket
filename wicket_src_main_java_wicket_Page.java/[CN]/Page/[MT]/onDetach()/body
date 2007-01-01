@@ -1,0 +1,11 @@
+{
+  if (log.isDebugEnabled()) {
+    log.debug("ending request for page " + this + ", request "+ getRequest());
+  }
+  detachModels();
+  if (isVersioned()) {
+    setFlag(FLAG_TRACK_CHANGES,true);
+    endVersion();
+  }
+  super.onDetach();
+}

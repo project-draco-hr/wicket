@@ -14,7 +14,7 @@
   visitChildren(IFeedback.class,new IVisitor(){
     public Object component(    Component component){
       ((IFeedback)component).updateFeedback();
-      component.internalAttach();
+      component.attach();
       return IVisitor.CONTINUE_TRAVERSAL;
     }
   }
@@ -22,7 +22,7 @@
   if (this instanceof IFeedback) {
     ((IFeedback)this).updateFeedback();
   }
-  internalAttach();
+  attach();
   setRenderAllowed(isActionAuthorized(RENDER));
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
