@@ -1,6 +1,9 @@
 {
   final IMarkupSettings settings=Application.get().getMarkupSettings();
+  final MarkupParser parser=settings.getMarkupParserFactory().newMarkupParser(markupResourceStream);
   parser.setCompressWhitespace(settings.getCompressWhitespace());
   parser.setStripComments(settings.getStripComments());
   parser.setDefaultMarkupEncoding(settings.getDefaultMarkupEncoding());
+  MarkupFragment markup=parser.readAndParse();
+  return markup;
 }
