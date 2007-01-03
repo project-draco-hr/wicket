@@ -1,4 +1,5 @@
 {
-  MarkupFragment markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser(markupResourceStream).readAndParse();
-  return markup;
+  final Application application=Application.get();
+  IMarkupLoader loader=new InheritedMarkupMarkupLoader(application).setParent(new HeaderCleanupMarkupLoader(application).setParent(new BaseMarkupLoader()));
+  return loader.loadMarkup(container,markupResourceStream);
 }
