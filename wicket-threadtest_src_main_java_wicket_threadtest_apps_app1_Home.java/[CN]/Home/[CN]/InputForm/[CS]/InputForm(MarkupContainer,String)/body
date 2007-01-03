@@ -8,15 +8,13 @@
     }
   }
 ;
-  RequiredTextField stringTextField=new RequiredTextField<String>(this,"stringProperty");
-  stringTextField.setLabel(new Model<String>("String"));
-  RequiredTextField integerTextField=new RequiredTextField<Integer>(this,"integerProperty",Integer.class);
-  integerTextField.add(NumberValidator.POSITIVE);
-  new RequiredTextField<Double>(this,"doubleProperty",Double.class);
+  new TextField<String>(this,"stringProperty").setRequired(true).setLabel(new Model<String>("String"));
+  new TextField<Integer>(this,"integerProperty",Integer.class).setRequired(true).add(NumberValidator.POSITIVE);
+  new TextField<Double>(this,"doubleProperty",Double.class).setRequired(true);
   WebMarkupContainer dateLabel=new WebMarkupContainer(this,"dateLabel");
   TextField datePropertyTextField=new TextField<Date>(this,"dateProperty",Date.class);
   new DatePicker(this,"datePicker",dateLabel,datePropertyTextField);
-  new RequiredTextField<Integer>(this,"integerInRangeProperty",Integer.class).add(NumberValidator.range(0,100));
+  new TextField<Integer>(this,"integerInRangeProperty",Integer.class).add(NumberValidator.range(0,100)).setRequired(true);
   new CheckBox(this,"booleanProperty");
   RadioChoice<String> rc=new RadioChoice<String>(this,"numberRadioChoice",NUMBERS).setSuffix("");
   rc.setLabel(new Model<String>("number"));
