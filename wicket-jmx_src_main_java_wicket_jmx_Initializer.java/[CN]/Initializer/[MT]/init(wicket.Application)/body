@@ -1,17 +1,37 @@
 {
   try {
     String name=application.getName();
-    ArrayList<MBeanServer> mbeanServers=(ArrayList<MBeanServer>)MBeanServerFactory.findMBeanServer(null);
-    mbeanServer=mbeanServers.get(0);
-    String mbeanServerImplClass=System.getProperty("wicket.mbean.server.impl");
-    if (mbeanServerImplClass != null) {
-      for (      MBeanServer mbs : mbeanServers) {
-        if (mbs.getClass().getName().equals(mbeanServerImplClass)) {
-          mbeanServer=mbs;
-          break;
+    String agentId=System.getProperty("wicket.mbean.server.agentid");
+    if (agentId != null) {
+      ArrayList<MBeanServer> mbeanServers=(ArrayList<MBeanServer>)MBeanServerFactory.findMBeanServer(agentId);
+      if (!mbeanServers.isEmpty()) {
+        mbeanServer=mbeanServers.get(0);
+      }
+ else {
+        log.error("unable to find mbean server with agent id " + agentId);
+      }
+    }
+    if (mbeanServer == null) {
+      String impl=System.getProperty("wicket.mbean.server.class");
+      if (impl != null) {
+        ArrayList<MBeanServer> mbeanServers=(ArrayList<MBeanServer>)MBeanServerFactory.findMBeanServer(null);
+        if (!mbeanServers.isEmpty()) {
+          for (          MBeanServer mbs : mbeanServers) {
+            if (mbs.getClass().getName().equals(impl)) {
+              mbeanServer=mbs;
+              break;
+            }
+          }
+        }
+        if (mbeanServer == null) {
+          log.error("unable to find mbean server of type " + impl);
         }
       }
     }
+    if (mbeanServer == null) {
+      mbeanServer=ManagementFactory.getPlatformMBeanServer();
+    }
+    log.info("registering Wicket mbeans with server " + mbeanServer);
     String domain="wicket.app." + name;
     ObjectName appBeanName=new ObjectName(domain + ":type=Application");
     String tempDomain=domain;
@@ -22,19 +42,19 @@
     }
     domain=tempDomain;
     Application appBean=new Application(application);
-    register(mbeanServer,appBean,appBeanName);
-    register(mbeanServer,new ApplicationSettings(application),new ObjectName(domain + ":type=Application,name=ApplicationSettings"));
-    register(mbeanServer,new DebugSettings(application),new ObjectName(domain + ":type=Application,name=DebugSettings"));
-    register(mbeanServer,new MarkupSettings(application),new ObjectName(domain + ":type=Application,name=MarkupSettings"));
-    register(mbeanServer,new ResourceSettings(application),new ObjectName(domain + ":type=Application,name=ResourceSettings"));
-    register(mbeanServer,new PageSettings(application),new ObjectName(domain + ":type=Application,name=PageSettings"));
-    register(mbeanServer,new RequestCycleSettings(application),new ObjectName(domain + ":type=Application,name=RequestCycleSettings"));
-    register(mbeanServer,new SecuritySettings(application),new ObjectName(domain + ":type=Application,name=SecuritySettings"));
-    register(mbeanServer,new SessionSettings(application),new ObjectName(domain + ":type=Application,name=SessionSettings"));
-    register(mbeanServer,new CookieValuePersisterSettings(application),new ObjectName(domain + ":type=Application,name=CookieValuePersisterSettings"));
+    register(appBean,appBeanName);
+    register(new ApplicationSettings(application),new ObjectName(domain + ":type=Application,name=ApplicationSettings"));
+    register(new DebugSettings(application),new ObjectName(domain + ":type=Application,name=DebugSettings"));
+    register(new MarkupSettings(application),new ObjectName(domain + ":type=Application,name=MarkupSettings"));
+    register(new ResourceSettings(application),new ObjectName(domain + ":type=Application,name=ResourceSettings"));
+    register(new PageSettings(application),new ObjectName(domain + ":type=Application,name=PageSettings"));
+    register(new RequestCycleSettings(application),new ObjectName(domain + ":type=Application,name=RequestCycleSettings"));
+    register(new SecuritySettings(application),new ObjectName(domain + ":type=Application,name=SecuritySettings"));
+    register(new SessionSettings(application),new ObjectName(domain + ":type=Application,name=SessionSettings"));
+    register(new CookieValuePersisterSettings(application),new ObjectName(domain + ":type=Application,name=CookieValuePersisterSettings"));
     RequestLogger sessionsBean=new RequestLogger(application);
     ObjectName sessionsBeanName=new ObjectName(domain + ":type=RequestLogger");
-    register(mbeanServer,sessionsBean,sessionsBeanName);
+    register(sessionsBean,sessionsBeanName);
   }
  catch (  MalformedObjectNameException e) {
     throw new WicketRuntimeException(e);
