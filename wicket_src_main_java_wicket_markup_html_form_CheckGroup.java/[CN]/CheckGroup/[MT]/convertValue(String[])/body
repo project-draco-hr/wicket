@@ -3,11 +3,11 @@
   if (values != null && values.length > 0) {
     for (    final String value : values) {
       if (value != null) {
-        Check<T> checkbox=(Check)visitChildren(new Component.IVisitor(){
+        AbstractCheck<T> checkbox=(AbstractCheck<T>)visitChildren(new Component.IVisitor(){
           public Object component(          Component component){
             if (component instanceof Check) {
-              final Check check=(Check)component;
-              if (String.valueOf(check.getValue()).equals(value)) {
+              final AbstractCheck<T> check=(AbstractCheck<T>)component;
+              if (String.valueOf(check.getValue()).equals(value) && check.getGroup() == CheckGroup.this) {
                 return check;
               }
             }
