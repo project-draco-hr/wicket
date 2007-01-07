@@ -2,18 +2,18 @@
   for (  Folder folder : folders) {
     final File file=new File(folder,pathname);
     if (file.exists()) {
-      try {
-        return file.toURI().toURL();
-      }
- catch (      MalformedURLException ex) {
-      }
+      return new FileResourceStream(file);
     }
   }
   for (  String path : webappPaths) {
     try {
-      final URL file=servletContext.getResource(path + pathname);
-      if (file != null) {
-        return file;
+      final URL url=servletContext.getResource(path + pathname);
+      if (url != null) {
+        IResourceStream stream=new UrlResourceStream(url);
+        if (stream == null) {
+          log.error("ClassLoader problem: found the URL, but was unable to load it. URL=" + url.toExternalForm());
+        }
+        return stream;
       }
     }
  catch (    Exception ex) {

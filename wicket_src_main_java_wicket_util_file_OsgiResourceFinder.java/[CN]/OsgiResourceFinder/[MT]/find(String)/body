@@ -1,0 +1,15 @@
+{
+  String resourcePathName=pathname;
+  if (log.isDebugEnabled()) {
+    log.debug("classLoader: " + classLoader.toString());
+  }
+  URL url=classLoader.getResource(resourcePathName);
+  if (url != null) {
+    IResourceStream stream=new UrlResourceStream(url);
+    if (stream == null) {
+      log.error("ClassLoader problem: found the URL (" + url.toExternalForm() + ") but was unable to load the resource stream");
+    }
+    return stream;
+  }
+  return null;
+}

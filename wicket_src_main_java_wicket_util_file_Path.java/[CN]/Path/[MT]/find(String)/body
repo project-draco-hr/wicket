@@ -2,11 +2,7 @@
   for (  Folder folder : folders) {
     final File file=new File(folder,pathname);
     if (file.exists()) {
-      try {
-        return file.toURI().toURL();
-      }
- catch (      MalformedURLException ex) {
-      }
+      return new FileResourceStream(file);
     }
   }
   return null;

@@ -2,18 +2,14 @@
   for (  Folder folder : folders) {
     File file=new File(folder,pathname);
     if (file.exists()) {
-      try {
-        return file.toURI().toURL();
-      }
- catch (      MalformedURLException ex) {
-      }
+      return new FileResourceStream(file);
     }
   }
   for (  String path : webappPaths) {
     try {
-      final URL file=portletContext.getResource(path + pathname);
-      if (file != null) {
-        return file;
+      final URL url=portletContext.getResource(path + pathname);
+      if (url != null) {
+        return new UrlResourceStream(url);
       }
     }
  catch (    Exception ex) {
