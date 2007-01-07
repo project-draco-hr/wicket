@@ -1,7 +1,11 @@
 {
-  final IResourceStreamLocator locator=Application.get().getResourceSettings().getResourceStreamLocator();
+  final IResourceStreamFactory locator=Application.get().getResourceSettings().getResourceStreamFactory();
+  String style=container.getStyle();
+  Locale locale=container.getLocale();
+  String ext=container.getMarkupType();
   while (containerClass != MarkupContainer.class) {
-    final IResourceStream resourceStream=locator.locate(containerClass,containerClass.getName().replace('.','/'),container.getStyle(),container.getLocale(),container.getMarkupType());
+    String path=containerClass.getName().replace('.','/');
+    IResourceStream resourceStream=locator.locate(container.getClass(),path,style,locale,ext);
     if (resourceStream != null) {
       return new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
     }

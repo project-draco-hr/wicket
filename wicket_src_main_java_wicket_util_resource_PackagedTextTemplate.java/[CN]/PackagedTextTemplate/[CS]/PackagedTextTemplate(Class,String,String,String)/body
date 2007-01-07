@@ -1,7 +1,7 @@
 {
   super(contentType);
   String path=Packages.absolutePath(clazz,fileName);
-  IResourceStream stream=streamLocator.locate(clazz,path);
+  IResourceStream stream=ResourceStreamFactory.get().locate(clazz,path);
   if (stream == null) {
     throw new IllegalArgumentException("resource " + fileName + " not found for scope "+ clazz+ " (path = "+ path+ ")");
   }

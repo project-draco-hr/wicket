@@ -1,0 +1,34 @@
+{
+  if (locale == null) {
+    state=999;
+    return path;
+  }
+  if (state == 0) {
+    this.state++;
+    this.currentLocale=locale;
+    this.currentPath=path + '_' + locale.toString();
+    return this.currentPath;
+  }
+  final String language=locale.getLanguage();
+  final String country=locale.getCountry();
+  if (state == 1) {
+    this.state++;
+    if (!Strings.isEmpty(language) && !Strings.isEmpty(country)) {
+      this.currentLocale=new Locale(language,country);
+      String newPath=path + '_' + language+ '_'+ country;
+      if (this.currentPath.equals(newPath) == false) {
+        return newPath;
+      }
+    }
+  }
+  if (state == 2) {
+    this.state++;
+    if (!Strings.isEmpty(language)) {
+      this.currentLocale=new Locale(language);
+      return path + '_' + language;
+    }
+  }
+  this.state++;
+  this.currentLocale=null;
+  return path;
+}

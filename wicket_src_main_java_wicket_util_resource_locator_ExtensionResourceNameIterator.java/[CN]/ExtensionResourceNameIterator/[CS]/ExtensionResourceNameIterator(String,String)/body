@@ -1,0 +1,17 @@
+{
+  if (extension == null) {
+    extensions=new String[]{"." + Strings.lastPathComponent(path,'.')};
+    path=Strings.beforeLastPathComponent(path,'.');
+  }
+ else {
+    extensions=Strings.split(extension,',');
+    for (int i=extensions.length - 1; i >= 0; i--) {
+      extensions[i]=extensions[i].trim();
+      if (!extensions[i].startsWith(".")) {
+        extensions[i]="." + extensions[i];
+      }
+    }
+  }
+  this.path=path;
+  this.index=0;
+}

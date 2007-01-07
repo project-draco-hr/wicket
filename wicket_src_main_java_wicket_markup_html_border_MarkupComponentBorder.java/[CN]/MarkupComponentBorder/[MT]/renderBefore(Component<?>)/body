@@ -1,7 +1,14 @@
 {
-  MarkupFragment mf=findMarkup();
-  MarkupFragment child=mf.getWicketFragment(Border.BORDER,true);
-  List<MarkupElement> allElementsFlat=child.getAllElementsFlat();
+  final String extension;
+  if (component instanceof MarkupContainer) {
+    extension=((MarkupContainer<?>)component).getMarkupType();
+  }
+ else {
+    extension=component.getParent().getMarkupId();
+  }
+  MarkupFragment markupFragment=findMarkup(extension);
+  MarkupFragment childFragment=markupFragment.getWicketFragment(Border.BORDER,true);
+  List<MarkupElement> allElementsFlat=childFragment.getAllElementsFlat();
   Response response=component.getResponse();
   for (  MarkupElement markupElement : allElementsFlat) {
     if (markupElement instanceof ComponentTag) {
