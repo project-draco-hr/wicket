@@ -2,6 +2,9 @@
   Page page=getPage(requestCycle);
   final String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
   Component component=page.get(pageRelativeComponentPath);
+  if (component == null) {
+    throw new WicketRuntimeException("unable to find component with path " + pageRelativeComponentPath + " on page "+ page);
+  }
   RequestListenerInterface listenerInterface=RequestListenerInterface.forName(interfaceName);
   listenerInterface.invoke(page,component);
 }
