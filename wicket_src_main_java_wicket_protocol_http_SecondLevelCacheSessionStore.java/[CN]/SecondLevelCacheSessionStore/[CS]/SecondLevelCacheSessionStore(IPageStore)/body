@@ -1,20 +1,6 @@
 {
   this.cachingStore=new IPageStore(){
-    Map<String,SoftReference<Map<String,SoftReference<Page>>>> sessionMap=new ConcurrentHashMap<String,SoftReference<Map<String,SoftReference<Page>>>>();
-    public void unbind(    String sessionId){
-      sessionMap.remove(sessionId);
-      pageStore.unbind(sessionId);
-    }
-    public void removePage(    String sessionId,    Page page){
-      SoftReference sr=sessionMap.get(sessionId);
-      if (sr != null) {
-        Map map=(Map)sr.get();
-        if (map != null) {
-          map.remove(page.getId());
-        }
-      }
-      pageStore.removePage(sessionId,page);
-    }
+    private Map<String,SoftReference<Map<String,SoftReference<Page>>>> sessionMap=new ConcurrentHashMap<String,SoftReference<Map<String,SoftReference<Page>>>>();
     public Page getPage(    String sessionId,    int id,    int versionNumber){
       SoftReference sr=sessionMap.get(sessionId);
       if (sr != null) {
@@ -34,6 +20,16 @@
       }
       return pageStore.getPage(sessionId,id,versionNumber);
     }
+    public void removePage(    String sessionId,    Page page){
+      SoftReference sr=sessionMap.get(sessionId);
+      if (sr != null) {
+        Map map=(Map)sr.get();
+        if (map != null) {
+          map.remove(page.getId());
+        }
+      }
+      pageStore.removePage(sessionId,page);
+    }
     public void storePage(    String sessionId,    Page page){
       Map<String,SoftReference<Page>> pageMap=null;
       SoftReference<Map<String,SoftReference<Page>>> sr=sessionMap.get(sessionId);
@@ -43,6 +39,10 @@
       }
       pageMap.put(page.getId(),new SoftReference<Page>(page));
       pageStore.storePage(sessionId,page);
+    }
+    public void unbind(    String sessionId){
+      sessionMap.remove(sessionId);
+      pageStore.unbind(sessionId);
     }
   }
 ;
