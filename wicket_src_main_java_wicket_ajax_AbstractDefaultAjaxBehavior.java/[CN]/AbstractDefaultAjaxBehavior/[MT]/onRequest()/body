@@ -1,14 +1,5 @@
 {
-  boolean isPageVersioned=true;
-  Page page=getComponent().getPage();
-  try {
-    isPageVersioned=page.isVersioned();
-    page.setVersioned(false);
-    AjaxRequestTarget target=new AjaxRequestTarget();
-    RequestCycle.get().setRequestTarget(target);
-    respond(target);
-  }
-  finally {
-    page.setVersioned(isPageVersioned);
-  }
+  AjaxRequestTarget target=new AjaxRequestTarget();
+  RequestCycle.get().setRequestTarget(target);
+  respond(target);
 }
