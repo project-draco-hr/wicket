@@ -2,38 +2,36 @@
   File sessionDir=new File(getWorkDir(),sessionId);
   sessionDir.mkdirs();
   File pageFile=getPageFile(page.getNumericId(),page.getCurrentVersionNumber(),sessionDir);
-  if (!pageFile.exists()) {
-    page.internalDetach();
-    FileOutputStream fos=null;
+  page.internalDetach();
+  FileOutputStream fos=null;
+  try {
+    long t1=System.currentTimeMillis();
+    final ByteArrayOutputStream out=new ByteArrayOutputStream();
     try {
-      long t1=System.currentTimeMillis();
-      final ByteArrayOutputStream out=new ByteArrayOutputStream();
-      try {
-        new ObjectOutputStream(out).writeObject(page);
-      }
+      new ObjectOutputStream(out).writeObject(page);
+    }
   finally {
-        out.close();
-      }
-      byte[] bytes=out.toByteArray();
-      fos=new FileOutputStream(pageFile);
-      ByteBuffer bb=ByteBuffer.wrap(bytes);
-      fos.getChannel().write(bb);
-      if (log.isDebugEnabled()) {
-        long t2=System.currentTimeMillis();
-        log.info("storing page " + page.getNumericId() + ","+ page.getCurrentVersionNumber()+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds");
-      }
+      out.close();
     }
- catch (    Exception e) {
-      log.error("Error saving page " + page.getId() + ","+ page.getCurrentVersionNumber()+ " for the sessionid "+ sessionId,e);
+    byte[] bytes=out.toByteArray();
+    fos=new FileOutputStream(pageFile);
+    ByteBuffer bb=ByteBuffer.wrap(bytes);
+    fos.getChannel().write(bb);
+    if (log.isDebugEnabled()) {
+      long t2=System.currentTimeMillis();
+      log.info("storing page " + page.getNumericId() + ","+ page.getCurrentVersionNumber()+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds");
     }
+  }
+ catch (  Exception e) {
+    log.error("Error saving page " + page.getId() + ","+ page.getCurrentVersionNumber()+ " for the sessionid "+ sessionId,e);
+  }
  finally {
-      try {
-        if (fos != null) {
-          fos.close();
-        }
+    try {
+      if (fos != null) {
+        fos.close();
       }
- catch (      IOException ex) {
-      }
+    }
+ catch (    IOException ex) {
     }
   }
 }
