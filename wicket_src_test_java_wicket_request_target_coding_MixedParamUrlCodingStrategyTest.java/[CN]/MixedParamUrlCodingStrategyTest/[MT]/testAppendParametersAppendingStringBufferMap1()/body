@@ -1,0 +1,12 @@
+{
+  Map parameters=new HashMap();
+  parameters.put("a","1");
+  parameters.put("d","4");
+  parameters.put("e","5");
+  String[] parameterNames=new String[]{"a","b","c"};
+  MixedParamUrlCodingStrategy npucs=new MixedParamUrlCodingStrategy("mnt",TestPage.class,parameterNames);
+  AppendingStringBuffer url=new AppendingStringBuffer(40);
+  npucs.appendParameters(url,parameters);
+  String urlStr=url.toString();
+  assertTrue("/1?d=4&e=5".equals(urlStr) || "/1?e=5&d=4".equals(urlStr));
+}
