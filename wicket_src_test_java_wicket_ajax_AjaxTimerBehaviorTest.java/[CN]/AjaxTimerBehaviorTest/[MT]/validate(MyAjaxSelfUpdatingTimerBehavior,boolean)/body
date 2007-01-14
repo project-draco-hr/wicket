@@ -1,7 +1,13 @@
 {
   String document=application.getServletResponse().getDocument();
   String updateScript=timer.getUpdateScript();
-  validateTimerScript(document,updateScript);
+  String bodyOnLoadUpdateScript="<body onload=\"" + Strings.replaceAll(updateScript,"\"","\\\"") + "\">";
+  if (inBodyOnLoad) {
+    validateTimerScript(document,bodyOnLoadUpdateScript);
+  }
+ else {
+    validateTimerScript(document,updateScript);
+  }
   application.setupRequestAndResponse();
   WebRequestCycle cycle=application.createRequestCycle();
   String url=timer.getCallbackUrl().toString();
