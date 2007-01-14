@@ -1,10 +1,18 @@
 {
   checkClosed();
   try {
-    wicketTester.getServletRequest().setRequestToComponent(workingForm);
-    wicketTester.processRequestCycle();
+    MockHttpServletRequest servletRequest=wicketTester.getServletRequest();
+    WebRequestCycle requestCycle=wicketTester.createRequestCycle();
+    servletRequest.setRequestToComponent(workingForm);
+    if (servletRequest.hasUploadedFiles()) {
+      requestCycle.setRequest(new MultipartServletWebRequest(servletRequest,workingForm.getMaxSize()));
+    }
+    wicketTester.processRequestCycle(requestCycle);
   }
-  finally {
+ catch (  FileUploadException e) {
+    throw new WicketRuntimeException(e);
+  }
+ finally {
     closed=true;
   }
 }
