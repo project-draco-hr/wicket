@@ -2,6 +2,8 @@
   executeTest(SimplePage_10.class,"SimplePageExpectedResult_10.html");
   Panel panel=(Panel)application.getLastRenderedPage().get("myPanel");
   assertNotNull(panel);
+  application.setupRequestAndResponse();
+  application.createRequestCycle();
   panel.setVisible(true);
   application.processRequestCycle(panel);
   String document=application.getServletResponse().getDocument();
