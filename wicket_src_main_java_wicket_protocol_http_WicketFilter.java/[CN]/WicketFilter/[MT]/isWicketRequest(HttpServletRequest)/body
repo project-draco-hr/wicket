@@ -1,9 +1,16 @@
 {
   String fullRootPath=getRootPath(request);
   String url=request.getRequestURI();
+  String containerSuppliedContextPath=request.getContextPath();
+  if (!fullRootPath.startsWith(containerSuppliedContextPath)) {
+    url=url.substring(containerSuppliedContextPath.length());
+  }
   if (url.startsWith(fullRootPath)) {
     if (url.equals("/")) {
       return true;
+    }
+    if (fullRootPath.length() > 0 && fullRootPath.length() == url.length() - 1 && url.endsWith("/")) {
+      url=url.substring(0,url.length() - 1);
     }
     if (url.length() == fullRootPath.length()) {
       return true;
