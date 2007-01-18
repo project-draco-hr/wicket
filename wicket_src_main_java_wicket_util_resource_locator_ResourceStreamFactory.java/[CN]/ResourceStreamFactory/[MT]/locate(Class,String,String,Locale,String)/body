@@ -2,7 +2,7 @@
   Iterator<String> styleIter=new StyleAndVariationResourceNameIterator(path,style,null);
   while (styleIter.hasNext()) {
     String newPath=styleIter.next();
-    Iterator<String> localeIter=new LocaleResourceNameIterator(newPath,locale);
+    LocaleResourceNameIterator localeIter=new LocaleResourceNameIterator(newPath,locale);
     while (localeIter.hasNext()) {
       newPath=localeIter.next();
       Iterator<String> extIter=new ExtensionResourceNameIterator(newPath,extension);
@@ -10,6 +10,7 @@
         newPath=extIter.next();
         IResourceStream stream=locate(clazz,newPath);
         if (stream != null) {
+          stream.setLocale(localeIter.getLocale());
           return stream;
         }
       }

@@ -1,4 +1,10 @@
 {
   String absolutePath=Packages.absolutePath(scope,path);
-  return Application.get().getResourceSettings().getResourceStreamFactory().locate(scope,absolutePath,style,locale,null) != null;
+  String extension=null;
+  int index=absolutePath.lastIndexOf(".");
+  if (index != -1) {
+    extension=absolutePath.substring(index + 1);
+    absolutePath=absolutePath.substring(0,index);
+  }
+  return Application.get().getResourceSettings().getResourceStreamFactory().locate(scope,absolutePath,style,locale,extension) != null;
 }
