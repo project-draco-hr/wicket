@@ -16,14 +16,5 @@
   mimeTypes.put("gif","image/gif");
   mimeTypes.put("jpg","image/jpeg");
   mimeTypes.put("png","image/png");
-  try {
-    File tmpDir=File.createTempFile("wicket",null);
-    File dir=new File(tmpDir.getParentFile(),tmpDir.getName() + "p");
-    dir.mkdir();
-    setAttribute("javax.servlet.context.tempdir",dir);
-    tmpDir.delete();
-  }
- catch (  IOException e) {
-    throw new WicketRuntimeException(e);
-  }
+  setAttribute("javax.servlet.context.tempdir",createTempDir("wicket" + UUID.randomUUID()));
 }
