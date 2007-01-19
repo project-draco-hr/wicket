@@ -8,26 +8,36 @@
       throw new WicketRuntimeException("Parameter clazz must be instance of container");
     }
   }
-  final CharSequence key=markupKey(container,clazz);
-  Markup markup=(Markup)markupCache.get(key);
+  final IMarkupCacheKeyProvider markupCacheKeyProvider=getMarkupCacheKeyProvider(container);
+  final CharSequence cacheKey=markupCacheKeyProvider.getCacheKey(container,clazz);
+  Markup markup=null;
+  if (cacheKey != null) {
+    markup=(Markup)markupCache.get(cacheKey);
+  }
   if (markup == null) {
 synchronized (markupCache) {
-      markup=(Markup)markupCache.get(key);
+      if (cacheKey != null) {
+        markup=(Markup)markupCache.get(cacheKey);
+      }
       if (markup == null) {
-        final IResourceStream resourceStream=container.newMarkupResourceStream(containerClass);
+        final IMarkupResourceStreamProvider markupResourceStreamProvider=getMarkupResourceStreamProvider(container);
+        final IResourceStream resourceStream=markupResourceStreamProvider.getMarkupResourceStream(container,containerClass);
         if (resourceStream != null) {
-          final MarkupResourceStream markupResource;
+          final MarkupResourceStream markupResourceStream;
           if (resourceStream instanceof MarkupResourceStream) {
-            markupResource=(MarkupResourceStream)resourceStream;
+            markupResourceStream=(MarkupResourceStream)resourceStream;
           }
  else {
-            markupResource=new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
+            markupResourceStream=new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
           }
-          markup=loadMarkupAndWatchForChanges(container,key,markupResource);
+          markupResourceStream.setCacheKey(cacheKey);
+          markup=loadMarkupAndWatchForChanges(container,markupResourceStream);
         }
  else {
           markup=Markup.NO_MARKUP;
-          markupCache.put(key,markup);
+          if (cacheKey != null) {
+            markupCache.put(cacheKey,markup);
+          }
         }
       }
     }
