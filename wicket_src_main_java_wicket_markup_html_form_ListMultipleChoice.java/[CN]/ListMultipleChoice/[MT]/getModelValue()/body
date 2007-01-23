@@ -1,5 +1,7 @@
 {
-  final Collection selectedValues=(Collection)getModelObject();
+  Object modelObject=getModelObject();
+  if (!(modelObject instanceof Collection))   throw new WicketRuntimeException("Model object for a ListMultipleChoice must be a Collection (found " + modelObject.getClass() + ")");
+  final Collection selectedValues=(Collection)modelObject;
   final AppendingStringBuffer buffer=new AppendingStringBuffer();
   if (selectedValues != null) {
     final List choices=getChoices();
