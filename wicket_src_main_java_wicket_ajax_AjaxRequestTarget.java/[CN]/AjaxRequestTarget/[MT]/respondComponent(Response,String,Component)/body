@@ -7,8 +7,6 @@
   if (page == null) {
     throw new IllegalStateException("Ajax request attempted on a component that is not associated with a Page");
   }
-  final boolean versioned=page.isVersioned();
-  page.setVersioned(false);
   page.startComponentRender(component);
   respondHeaderContribution(response,component);
   Response componentResponse=new StringResponse();
@@ -20,7 +18,6 @@
     RequestCycle.get().setResponse(response);
   }
   page.endComponentRender(component);
-  page.setVersioned(versioned);
   response.write("<component id=\"");
   response.write(markupId);
   response.write("\" ");

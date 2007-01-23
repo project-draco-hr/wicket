@@ -2,6 +2,7 @@
   executeTest(SimplePage_10.class,"SimplePageExpectedResult_10.html");
   Panel panel=(Panel)tester.getLastRenderedPage().get("myPanel");
   assertNotNull(panel);
+  tester.createRequestCycle();
   panel.setVisible(true);
   tester.processRequestCycle(panel);
   String document=tester.getServletResponse().getDocument();
