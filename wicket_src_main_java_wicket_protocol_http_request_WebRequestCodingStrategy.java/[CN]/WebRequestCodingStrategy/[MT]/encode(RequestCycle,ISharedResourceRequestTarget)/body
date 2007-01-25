@@ -1,18 +1,11 @@
 {
-  final CharSequence prefix=urlPrefix(requestCycle);
   final String sharedResourceKey=requestTarget.getResourceKey();
   if ((sharedResourceKey == null) || (sharedResourceKey.trim().length() == 0)) {
-    return prefix;
+    return "";
   }
  else {
-    final AppendingStringBuffer buffer=new AppendingStringBuffer(sharedResourceKey.length() + prefix.length() + 11);
-    buffer.append(prefix);
-    if ((buffer.length() > 0) && buffer.charAt(buffer.length() - 1) == '/') {
-      buffer.append("resources/");
-    }
- else {
-      buffer.append("/resources/");
-    }
+    final AppendingStringBuffer buffer=new AppendingStringBuffer(sharedResourceKey.length());
+    buffer.append("resources/");
     buffer.append(sharedResourceKey);
     Map map=requestTarget.getRequestParameters().getParameters();
     if (map != null && map.size() > 0) {
@@ -27,6 +20,6 @@
       }
       buffer.setLength(buffer.length() - 1);
     }
-    return requestCycle.getOriginalResponse().encodeURL(buffer);
+    return buffer;
   }
 }

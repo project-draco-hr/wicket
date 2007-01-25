@@ -1,0 +1,47 @@
+{
+  CharSequence url=pathForTarget(requestTarget);
+  if (url != null) {
+  }
+ else   if (requestTarget instanceof IBookmarkablePageRequestTarget) {
+    url=encode(requestCycle,(IBookmarkablePageRequestTarget)requestTarget);
+  }
+ else   if (requestTarget instanceof ISharedResourceRequestTarget) {
+    url=encode(requestCycle,(ISharedResourceRequestTarget)requestTarget);
+  }
+ else   if (requestTarget instanceof IListenerInterfaceRequestTarget) {
+    url=encode(requestCycle,(IListenerInterfaceRequestTarget)requestTarget);
+  }
+ else   if (requestTarget instanceof IPageRequestTarget) {
+    url=encode(requestCycle,(IPageRequestTarget)requestTarget);
+  }
+ else {
+    url=doEncode(requestCycle,requestTarget);
+  }
+  if (url != null) {
+    if (url.length() > 0 && url.charAt(0) == '/') {
+      url=url.subSequence(1,url.length());
+    }
+    if (absolutePath) {
+      url=urlPrefix(requestCycle).toString() + url;
+    }
+    String relativeUrl=requestCycle.getRequest().getRelativeURL();
+    String segments="";
+    for (int i=0; i < relativeUrl.length(); i++) {
+      if (relativeUrl.charAt(i) == '?') {
+        break;
+      }
+      if (relativeUrl.charAt(i) == '/') {
+        segments+="../";
+      }
+    }
+    if (segments.length() > 0) {
+      url=segments + url;
+    }
+ else     if (url.length() > 0 && (url.charAt(0) == '?' || url.charAt(0) == ';')) {
+      url="./" + url;
+    }
+    url=requestCycle.getOriginalResponse().encodeURL(url);
+    return url;
+  }
+  return null;
+}
