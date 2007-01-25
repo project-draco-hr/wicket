@@ -1,0 +1,16 @@
+{
+  Iterator it;
+  if (listeners != null) {
+    final Map components=Collections.unmodifiableMap(markupIdToComponent);
+    final IJavascriptResponse jsresponse=new IJavascriptResponse(){
+      public void addJavascript(      String script){
+        respondInvocation(response,script);
+      }
+    }
+;
+    it=listeners.iterator();
+    while (it.hasNext()) {
+      ((IListener)it.next()).onAfterRespond(components,jsresponse);
+    }
+  }
+}

@@ -12,36 +12,18 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
-    if (listeners != null) {
-      final Map components=Collections.unmodifiableMap(markupIdToComponent);
-      Iterator it=listeners.iterator();
-      while (it.hasNext()) {
-        ((IListener)it.next()).onBeforeRespond(components,this);
-      }
-    }
+    fireOnBeforeRespondListeners();
     Iterator it=prependJavascripts.iterator();
     while (it.hasNext()) {
       String js=(String)it.next();
       respondInvocation(response,js);
     }
     respondComponents(response);
+    fireOnAfterRespondListeners(response);
     it=appendJavascripts.iterator();
     while (it.hasNext()) {
       String js=(String)it.next();
       respondInvocation(response,js);
-    }
-    if (listeners != null) {
-      final Map components=Collections.unmodifiableMap(markupIdToComponent);
-      final IJavascriptResponse jsresponse=new IJavascriptResponse(){
-        public void addJavascript(        String script){
-          respondInvocation(response,script);
-        }
-      }
-;
-      it=listeners.iterator();
-      while (it.hasNext()) {
-        ((IListener)it.next()).onAfterRespond(components,jsresponse);
-      }
     }
     response.write("</ajax-response>");
   }
