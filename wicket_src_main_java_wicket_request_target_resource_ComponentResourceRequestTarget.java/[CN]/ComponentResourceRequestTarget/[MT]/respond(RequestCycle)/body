@@ -1,5 +1,4 @@
 {
-  page.beforeCallComponent(component,listener);
   try {
     listener.getMethod().invoke(component,new Object[]{});
   }
@@ -13,8 +12,5 @@
  else {
       throw new WicketRuntimeException("method " + listener.getName() + " of "+ listener.getMethod().getDeclaringClass()+ " targetted at component "+ component+ " threw an exception",e);
     }
-  }
- finally {
-    page.afterCallComponent(component,listener);
   }
 }
