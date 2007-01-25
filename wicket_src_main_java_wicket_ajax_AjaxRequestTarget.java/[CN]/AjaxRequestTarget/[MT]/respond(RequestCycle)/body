@@ -12,6 +12,12 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
+    if (listeners != null) {
+      final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
+      for (      Listener listener : listeners) {
+        listener.onBeforeRespond(components,this);
+      }
+    }
     for (    String js : prependJavascripts) {
       respondInvocation(response,js);
     }
