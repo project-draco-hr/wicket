@@ -1,8 +1,4 @@
 {
-  if (requestTarget instanceof IPageRequestTarget) {
-    Page page=((IPageRequestTarget)requestTarget).getPage();
-    requestTarget=new RedirectPageRequestTarget(page);
-  }
   CharSequence url=pathForTarget(requestTarget);
   if (url != null) {
   }
@@ -14,6 +10,9 @@
   }
  else   if (requestTarget instanceof IListenerInterfaceRequestTarget) {
     url=encode(requestCycle,(IListenerInterfaceRequestTarget)requestTarget);
+  }
+ else   if (requestTarget instanceof IPageRequestTarget) {
+    url=encode(requestCycle,(IPageRequestTarget)requestTarget);
   }
  else {
     url=doEncode(requestCycle,requestTarget);
