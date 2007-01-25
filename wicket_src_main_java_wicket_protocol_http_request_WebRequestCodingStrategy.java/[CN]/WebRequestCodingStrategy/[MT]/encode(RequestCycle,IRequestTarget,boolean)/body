@@ -18,11 +18,14 @@
     url=doEncode(requestCycle,requestTarget);
   }
   if (url != null) {
+    String rootPath=((WebApplication)Application.get()).getRootPath();
+    String filterPath=((WebApplication)Application.get()).getFilterPath();
     if (url.length() > 0 && url.charAt(0) == '/') {
       url=url.subSequence(1,url.length());
     }
     if (absolutePath) {
-      url=urlPrefix(requestCycle).toString() + url;
+      url=rootPath + "/" + url;
+      return requestCycle.getOriginalResponse().encodeURL(url);
     }
     String relativeUrl=requestCycle.getRequest().getRelativeURL();
     String segments="";
@@ -34,14 +37,25 @@
         segments+="../";
       }
     }
+    PrependingStringBuffer prepender=new PrependingStringBuffer();
+    prepender.prepend(url.toString());
+    if (url.length() > 0 && (url.charAt(0) == '?' || url.charAt(0) == ';')) {
+      if (segments.length() == 0) {
+        if (filterPath.length() == 0) {
+          prepender.prepend("./");
+        }
+ else {
+        }
+      }
+    }
+ else     if (filterPath.length() > 0) {
+      prepender.prepend('/');
+    }
+    prepender.prepend(filterPath);
     if (segments.length() > 0) {
-      url=segments + url;
+      prepender.prepend(segments);
     }
- else     if (url.length() > 0 && (url.charAt(0) == '?' || url.charAt(0) == ';')) {
-      url="./" + url;
-    }
-    url=requestCycle.getOriginalResponse().encodeURL(url);
-    return url;
+    return requestCycle.getOriginalResponse().encodeURL(prepender.toString());
   }
   return null;
 }
