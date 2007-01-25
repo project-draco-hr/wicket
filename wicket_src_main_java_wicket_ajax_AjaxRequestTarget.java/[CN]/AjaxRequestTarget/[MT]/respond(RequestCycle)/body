@@ -2,7 +2,7 @@
   try {
     final Application app=Application.get();
     final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
-    WebResponse response=(WebResponse)requestCycle.getResponse();
+    final WebResponse response=(WebResponse)requestCycle.getResponse();
     response.setCharacterEncoding(encoding);
     response.setContentType("text/xml; charset=" + encoding);
     response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
@@ -16,7 +16,7 @@
       final Map components=Collections.unmodifiableMap(markupIdToComponent);
       Iterator it=listeners.iterator();
       while (it.hasNext()) {
-        ((Listener)it.next()).onBeforeRespond(components,this);
+        ((IListener)it.next()).onBeforeRespond(components,this);
       }
     }
     Iterator it=prependJavascripts.iterator();
@@ -29,6 +29,19 @@
     while (it.hasNext()) {
       String js=(String)it.next();
       respondInvocation(response,js);
+    }
+    if (listeners != null) {
+      final Map components=Collections.unmodifiableMap(markupIdToComponent);
+      final IJavascriptResponse jsresponse=new IJavascriptResponse(){
+        public void addJavascript(        String script){
+          respondInvocation(response,script);
+        }
+      }
+;
+      it=listeners.iterator();
+      while (it.hasNext()) {
+        ((IListener)it.next()).onAfterRespond(components,jsresponse);
+      }
     }
     response.write("</ajax-response>");
   }
