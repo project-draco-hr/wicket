@@ -12,30 +12,14 @@
     response.write(encoding);
     response.write("\"?>");
     response.write("<ajax-response>");
-    if (listeners != null) {
-      final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
-      for (      IListener listener : listeners) {
-        listener.onBeforeRespond(components,this);
-      }
-    }
+    fireOnBeforeRespondListeners();
     for (    String js : prependJavascripts) {
       respondInvocation(response,js);
     }
     respondComponents(response);
+    fireOnAfterRespondListeners(response);
     for (    String js : appendJavascripts) {
       respondInvocation(response,js);
-    }
-    if (listeners != null) {
-      final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
-      final IJavascriptResponse jsresponse=new IJavascriptResponse(){
-        public void addJavascript(        String script){
-          respondInvocation(response,script);
-        }
-      }
-;
-      for (      IListener listener : listeners) {
-        listener.onAfterRespond(components,jsresponse);
-      }
     }
     response.write("</ajax-response>");
   }
