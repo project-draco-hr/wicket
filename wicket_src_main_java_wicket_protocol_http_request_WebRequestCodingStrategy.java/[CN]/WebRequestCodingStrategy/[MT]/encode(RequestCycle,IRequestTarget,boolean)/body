@@ -25,7 +25,12 @@
       url=url.subSequence(1,url.length());
     }
     if (absolutePath) {
-      url=rootPath + "/" + url;
+      if (rootPath.endsWith("/") || url.length() > 0 && url.charAt(0) == '?') {
+        url=rootPath + url;
+      }
+ else {
+        url=rootPath + "/" + url;
+      }
       return requestCycle.getOriginalResponse().encodeURL(url);
     }
     String relativeUrl=requestCycle.getRequest().getRelativeURL();
@@ -41,12 +46,8 @@
     PrependingStringBuffer prepender=new PrependingStringBuffer();
     prepender.prepend(url.toString());
     if (url.length() > 0 && (url.charAt(0) == '?' || url.charAt(0) == ';')) {
-      if (segments.length() == 0) {
-        if (filterPath.length() == 0) {
-          prepender.prepend("./");
-        }
- else {
-        }
+      if (segments.length() == 0 && filterPath.length() == 0) {
+        prepender.prepend("./");
       }
     }
  else     if (filterPath.length() > 0) {
