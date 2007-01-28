@@ -1,17 +1,24 @@
 {
-  try {
-    if (getClass().getConstructor(new Class[]{PageParameters.class}) != null) {
-      return true;
-    }
-  }
- catch (  Exception ignore) {
+  Boolean bookmarkable=pageClassToBookmarkableCache.get(getClass());
+  if (bookmarkable == null) {
     try {
       if (getClass().getConstructor(new Class[]{}) != null) {
-        return true;
+        bookmarkable=Boolean.TRUE;
       }
     }
- catch (    Exception ignore2) {
+ catch (    Exception ignore) {
+      try {
+        if (getClass().getConstructor(new Class[]{PageParameters.class}) != null) {
+          bookmarkable=Boolean.TRUE;
+        }
+      }
+ catch (      Exception ignore2) {
+      }
     }
+    if (bookmarkable == null) {
+      bookmarkable=Boolean.FALSE;
+    }
+    pageClassToBookmarkableCache.put(getClass(),bookmarkable);
   }
-  return false;
+  return bookmarkable;
 }
