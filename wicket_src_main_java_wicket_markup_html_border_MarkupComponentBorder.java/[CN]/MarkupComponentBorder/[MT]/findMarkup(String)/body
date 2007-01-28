@@ -7,7 +7,7 @@
   Class containerClass=getClass();
   while (containerClass != MarkupComponentBorder.class) {
     String path=containerClass.getName().replace('.','/');
-    IResourceStream resourceStream=locator.locate(containerClass,path,style,locale,extension);
+    IResourceStream resourceStream=locator.newResourceStream(containerClass,path,style,locale,extension);
     if (resourceStream != null) {
       ContainerInfo ci=new ContainerInfo(containerClass,locale,style,null,extension,null);
       markupResourceStream=new MarkupResourceStream(resourceStream,ci,containerClass);
