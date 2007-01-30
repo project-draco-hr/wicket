@@ -1,6 +1,7 @@
 {
   HttpServletRequest httpServletRequest=(HttpServletRequest)request;
-  if (isWicketRequest(httpServletRequest)) {
+  String relativePath=getRelativePath(httpServletRequest);
+  if (isWicketRequest(relativePath)) {
     HttpServletResponse httpServletResponse=(HttpServletResponse)response;
     long lastModified=getLastModified(httpServletRequest);
     if (lastModified == -1) {

@@ -1,0 +1,41 @@
+{
+  try {
+    ArrayList urlPatterns=new ArrayList();
+    Document doc=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+    is.close();
+    NodeList filterMappings=doc.getElementsByTagName("filter-mapping");
+    for (int i=0; i < filterMappings.getLength(); i++) {
+      Node filterMapping=filterMappings.item(i);
+      NodeList mappingElements=filterMapping.getChildNodes();
+      String urlPattern=null;
+      boolean add=false;
+      for (int j=0; j < mappingElements.getLength(); j++) {
+        Node mappingElement=mappingElements.item(j);
+        if (mappingElement.getNodeType() != Node.ELEMENT_NODE) {
+          continue;
+        }
+        if (mappingElement.getNodeName().equals("filter-name") && mappingElement.getFirstChild().getNodeValue().equals(filterName)) {
+          add=true;
+        }
+        if (mappingElement.getNodeName().equals("url-pattern")) {
+          urlPattern=mappingElement.getFirstChild().getNodeValue();
+        }
+      }
+      if (add) {
+        add=false;
+        urlPatterns.add(urlPattern);
+      }
+    }
+    if (urlPatterns.size() == 0) {
+      throw new ServletException("Error initialising WicketFilter - you have no filter-mapping element with a url-pattern that uses filter: " + filterName);
+    }
+    String urlPattern=(String)urlPatterns.get(0);
+    if (!urlPattern.startsWith("/") || !urlPattern.endsWith("*")) {
+      throw new ServletException("Filter mappings for Wicket filter must start with '/' and end with '*'.");
+    }
+    return urlPattern.substring(1,urlPattern.length() - 1);
+  }
+ catch (  Exception e) {
+    throw new ServletException("Error finding filter " + filterName + " in web.xml",e);
+  }
+}

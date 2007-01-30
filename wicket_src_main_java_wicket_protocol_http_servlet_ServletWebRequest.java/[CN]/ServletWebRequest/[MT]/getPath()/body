@@ -1,8 +1,3 @@
 {
-  String url=Strings.stripJSessionId(httpServletRequest.getRequestURI());
-  String rootPath=((WebApplication)Application.get()).getRootPath();
-  if (url.startsWith(rootPath)) {
-    return url.substring(rootPath.endsWith("/") ? rootPath.length() - 1 : rootPath.length());
-  }
-  return null;
+  return ((WebApplication)Application.get()).getWicketFilter().getRelativePath(httpServletRequest);
 }

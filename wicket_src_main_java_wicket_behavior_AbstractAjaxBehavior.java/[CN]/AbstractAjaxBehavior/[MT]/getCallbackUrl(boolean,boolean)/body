@@ -2,10 +2,6 @@
   if (getComponent() == null) {
     throw new IllegalArgumentException("Behavior must be bound to a component to create the URL");
   }
-  int index=getComponent().getBehaviors().indexOf(this);
-  if (index == -1) {
-    throw new IllegalArgumentException("Behavior " + this + " was not registered with this component: "+ getComponent().toString());
-  }
   final RequestListenerInterface rli;
   if (recordPageVersion) {
     rli=IBehaviorListener.INTERFACE;
@@ -13,7 +9,7 @@
  else {
     rli=IUnversionedBehaviorListener.INTERFACE;
   }
-  AppendingStringBuffer url=new AppendingStringBuffer(getComponent().urlFor(rli)).append('&').append(WebRequestCodingStrategy.BEHAVIOR_ID_PARAMETER_NAME).append('=').append(index);
+  AppendingStringBuffer url=new AppendingStringBuffer(getComponent().urlFor(this,rli));
   if (onlyTargetActivePage) {
     url.append("&").append(WebRequestCodingStrategy.IGNORE_IF_NOT_ACTIVE_PARAMETER_NAME).append("=true");
   }

@@ -8,8 +8,8 @@
   if (encoder == null) {
     throw new IllegalArgumentException("Argument encoder must be not-null");
   }
-  if (!path.startsWith("/")) {
-    path="/" + path;
+  if (path.startsWith("/")) {
+    path=path.substring(1);
   }
   if (mountsOnPath.strategyForMount(path) != null) {
     throw new WicketRuntimeException(path + " is already mounted for " + mountsOnPath.strategyForMount(path));

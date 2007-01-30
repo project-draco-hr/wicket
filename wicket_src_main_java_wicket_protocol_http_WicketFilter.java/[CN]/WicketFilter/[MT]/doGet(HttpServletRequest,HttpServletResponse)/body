@@ -1,4 +1,10 @@
 {
+  String relativePath=getRelativePath(servletRequest);
+  if (relativePath.length() == 0 && !Strings.stripJSessionId(servletRequest.getRequestURI()).endsWith("/")) {
+    String foo=servletRequest.getRequestURI() + "/";
+    servletResponse.sendRedirect(foo);
+    return;
+  }
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   try {
     Thread.currentThread().setContextClassLoader(getClassLoader());

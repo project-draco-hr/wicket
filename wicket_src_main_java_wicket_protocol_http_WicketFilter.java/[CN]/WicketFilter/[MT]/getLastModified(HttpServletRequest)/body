@@ -1,13 +1,12 @@
 {
-  final String pathInfo=servletRequest.getRequestURI();
-  int rootPathLength=getRootPath(servletRequest).length();
-  if (pathInfo.length() > rootPathLength && pathInfo.substring(rootPathLength).startsWith(RESOURCES_PATH_PREFIX)) {
-    final String resourceReferenceKey=pathInfo.substring(rootPathLength + RESOURCES_PATH_PREFIX.length());
+  final String pathInfo=getRelativePath(request);
+  if (pathInfo.startsWith(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX)) {
+    final String resourceReferenceKey=pathInfo.substring(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX.length());
     Resource resource=webApplication.getSharedResources().get(resourceReferenceKey);
     if ((resource != null) && resource.isCacheable()) {
       try {
         Application.set(webApplication);
-        final WebRequest webRequest=webApplication.newWebRequest(servletRequest);
+        final WebRequest webRequest=webApplication.newWebRequest(request);
         resource.setParameters(webRequest.getParameterMap());
         IResourceStream stream=resource.getResourceStream();
         Time time=stream.lastModifiedTime();
