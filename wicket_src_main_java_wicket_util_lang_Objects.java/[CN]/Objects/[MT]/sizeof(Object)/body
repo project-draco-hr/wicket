@@ -1,11 +1,13 @@
 {
+  if (object == null)   return 0;
   try {
     final ByteCountingOutputStream out=new ByteCountingOutputStream();
     new ObjectOutputStream(out).writeObject(object);
     out.close();
     return out.size();
   }
- catch (  IOException e) {
-    return -1;
+ catch (  Exception e) {
+    log.warn("Size of failed of object: " + object.getClass().getName(),e);
+    return 0;
   }
 }

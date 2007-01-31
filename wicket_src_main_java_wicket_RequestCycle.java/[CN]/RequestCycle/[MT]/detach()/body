@@ -24,12 +24,6 @@
       log.error("there was an error updating the session " + session + ".",re);
     }
   }
-  try {
-    session.requestDetached();
-  }
- catch (  RuntimeException re) {
-    log.error("there was an error detaching the request from the session " + session + ".",re);
-  }
   if (getResponse() instanceof BufferedWebResponse) {
     try {
       ((BufferedWebResponse)getResponse()).filter();
@@ -38,9 +32,20 @@
       log.error("there was an error filtering the response.",re);
     }
   }
-  IRequestLogger requestLogger=getApplication().getRequestLogger();
-  if (requestLogger != null) {
-    requestLogger.requestTime((System.currentTimeMillis() - startTime));
+  try {
+    IRequestLogger requestLogger=getApplication().getRequestLogger();
+    if (requestLogger != null) {
+      requestLogger.requestTime((System.currentTimeMillis() - startTime));
+    }
+  }
+ catch (  RuntimeException re) {
+    log.error("there was an error in the RequestLogger ending.",re);
+  }
+  try {
+    session.requestDetached();
+  }
+ catch (  RuntimeException re) {
+    log.error("there was an error detaching the request from the session " + session + ".",re);
   }
   try {
     onEndRequest();

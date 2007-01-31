@@ -1,6 +1,11 @@
 {
   RequestData rd=(RequestData)currentRequest.get();
   if (rd != null) {
+synchronized (this) {
+      if (active > 0) {
+        rd.setActiveRequest(active--);
+      }
+    }
     Session session=Session.get();
     String sessionId=session.getId();
     rd.setSessionId(sessionId);
@@ -12,11 +17,6 @@
     }
     rd.setSessionSize(sizeInBytes);
     rd.setTimeTaken(timeTaken);
-synchronized (this) {
-      if (active > 0) {
-        rd.setActiveRequest(active--);
-      }
-    }
     requests.add(0,rd);
     currentRequest.set(null);
     if (sessionId != null) {
