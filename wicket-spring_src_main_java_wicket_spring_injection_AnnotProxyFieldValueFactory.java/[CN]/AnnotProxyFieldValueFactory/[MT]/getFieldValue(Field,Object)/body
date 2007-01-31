@@ -6,7 +6,9 @@
     if (cache.containsKey(locator)) {
       return cache.get(locator);
     }
-    testLocator(locator,fieldOwner,field);
+    if (failFast) {
+      testLocator(locator,fieldOwner,field);
+    }
     Object proxy=LazyInitProxyFactory.createProxy(field.getType(),locator);
     cache.put(locator,proxy);
     return proxy;
