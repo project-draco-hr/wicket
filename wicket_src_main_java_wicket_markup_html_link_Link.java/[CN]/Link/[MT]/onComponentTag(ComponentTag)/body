@@ -21,6 +21,9 @@
         tag.put("onclick",popupSettings.getPopupJavaScript());
       }
     }
+ else     if (tag.getName().equalsIgnoreCase("script") || tag.getName().equalsIgnoreCase("style")) {
+      tag.put("src",Strings.replaceAll(url,"&","&amp;"));
+    }
  else {
       if (popupSettings != null) {
         popupSettings.setTarget("'" + url + "'");
