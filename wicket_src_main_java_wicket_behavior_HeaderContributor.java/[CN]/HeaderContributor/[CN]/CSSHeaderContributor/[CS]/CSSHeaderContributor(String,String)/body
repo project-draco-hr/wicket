@@ -1,23 +1,19 @@
 {
-  super(new AbstractReadOnlyModel(){
+  super(new LoadableDetachableModel(){
     private static final long serialVersionUID=1L;
-    private String path=null;
-    public Object getObject(    Component component){
-      if (path == null) {
-        if (location == null) {
-          return "";
-        }
-        AppendingStringBuffer b=new AppendingStringBuffer();
-        b.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
-        appendPathWithPrependedContext(b,location);
-        if (media != null) {
-          b.append("\" media=\"");
-          b.append(media);
-        }
-        b.append("\" />");
-        path=b.toString();
+    protected Object load(){
+      if (location == null) {
+        return "";
       }
-      return path;
+      AppendingStringBuffer b=new AppendingStringBuffer();
+      b.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
+      appendPathWithPrependedContext(b,location);
+      if (media != null) {
+        b.append("\" media=\"");
+        b.append(media);
+      }
+      b.append("\" />");
+      return b;
     }
   }
 );
