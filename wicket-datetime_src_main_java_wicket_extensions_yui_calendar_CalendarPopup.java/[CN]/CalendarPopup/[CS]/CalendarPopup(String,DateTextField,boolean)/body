@@ -9,7 +9,6 @@
   final AbstractCalendar calendar=new AbstractCalendar("cal",contributeDependencies){
     private static final long serialVersionUID=1L;
     protected void appendToInit(    String markupId,    String javascriptId,    String javascriptWidgetId,    StringBuffer b){
-      super.appendToInit(markupId,javascriptId,javascriptWidgetId,b);
       String iconId=icon.getMarkupId();
       b.append("  YAHOO.util.Event.addListener(\"");
       b.append(iconId);
@@ -30,12 +29,16 @@
       b.append(".replace(/y+/, yr);\n    YAHOO.util.Dom.get(\"");
       b.append(target.getMarkupId());
       b.append("\").value = val;\n");
-      b.append("    cal.hide();\n}");
+      b.append("    cal.hide();\n  }\n");
       b.append("  ");
       b.append(javascriptWidgetId);
       b.append(".selectEvent.subscribe(selectHandler, ");
       b.append(javascriptWidgetId);
-      b.append(");");
+      b.append(");\n");
+    }
+    protected void configureWidgetProperties(    Map widgetProperties){
+      super.configureWidgetProperties(widgetProperties);
+      widgetProperties.put("close",Boolean.TRUE);
     }
   }
 ;
