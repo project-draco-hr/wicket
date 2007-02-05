@@ -14,20 +14,34 @@
   servletRequest.setMethod("POST");
   servletRequest.setParameter("form2:hf:fs","");
   servletRequest.setParameter("wicketState","");
-  servletRequest.addFile("upload",new File("wicket-xhtml1-strict.dtd"),"text/xml");
-  requestCycle.setRequest(new MultipartServletWebRequest(servletRequest,Bytes.MAX));
-  FileUpload fileUpload=field.getFileUpload();
-  assertNotNull(fileUpload);
-  InputStream is=fileUpload.getInputStream();
-  assertTrue(is.read() != -1);
-  field.internalOnDetach();
+  File tmp=null;
   try {
-    is.read();
-    fail();
+    tmp=new File(File.createTempFile(this.getClass().getName(),".txt"));
+    OutputStream os=new BufferedOutputStream(new FileOutputStream(tmp));
+    for (int i=0; i < 1000; i++) {
+      os.write("test test test test test\n".getBytes());
+    }
+    os.close();
+    servletRequest.addFile("upload",tmp,"text/plain");
+    requestCycle.setRequest(new MultipartServletWebRequest(servletRequest,Bytes.MAX));
+    FileUpload fileUpload=field.getFileUpload();
+    assertNotNull(fileUpload);
+    InputStream is=fileUpload.getInputStream();
+    assertTrue(is.read() != -1);
+    field.internalOnDetach();
+    try {
+      is.read();
+      fail();
+    }
+ catch (    IOException e) {
+    }
+catch (    Exception e) {
+      fail();
+    }
   }
- catch (  IOException e) {
-  }
-catch (  Exception e) {
-    fail();
+  finally {
+    if (tmp != null && tmp.exists()) {
+      tmp.delete();
+    }
   }
 }
