@@ -1,0 +1,17 @@
+{
+  DateTimeFormatter format=getFormat();
+  if (applyTimeZoneDifference) {
+    TimeZone zone=getClientTimeZone();
+    MutableDateTime dt=new MutableDateTime();
+    if (zone != null) {
+      format=format.withZone(DateTimeZone.forTimeZone(zone));
+      dt.setZone(DateTimeZone.forTimeZone(zone));
+    }
+    format.parseInto(dt,value,0);
+    dt.setZone(DateTimeZone.forTimeZone(TimeZone.getDefault()));
+    return dt.toDate();
+  }
+ else {
+    return format.parseDateTime(value).toDate();
+  }
+}

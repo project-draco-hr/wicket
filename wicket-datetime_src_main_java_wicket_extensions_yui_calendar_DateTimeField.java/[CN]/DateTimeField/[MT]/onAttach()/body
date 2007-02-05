@@ -1,0 +1,19 @@
+{
+  Date d=(Date)getModelObject();
+  if (d != null) {
+    date=new MutableDateTime(d);
+  }
+ else {
+    date=null;
+  }
+  if (date != null) {
+    TimeZone zone=getClientTimeZone();
+    if (zone != null) {
+      date.setZone(DateTimeZone.forTimeZone(zone));
+    }
+    hours=new Integer(date.get(DateTimeFieldType.hourOfHalfday()));
+    minutes=new Integer(date.getMinuteOfHour());
+    amOrPm=(date.get(DateTimeFieldType.halfdayOfDay()) == 0) ? AM_PM.AM : AM_PM.PM;
+  }
+  super.onAttach();
+}

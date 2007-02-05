@@ -1,0 +1,43 @@
+{
+  super(id);
+  if (target == null) {
+    throw new IllegalArgumentException("target component must be not null");
+  }
+  target.setOutputMarkupId(true);
+  final Icon icon=new Icon("icon");
+  add(icon);
+  final AbstractCalendar calendar=new AbstractCalendar("cal",contributeDependencies){
+    private static final long serialVersionUID=1L;
+    protected void appendToInit(    String markupId,    String javascriptId,    String javascriptWidgetId,    StringBuffer b){
+      super.appendToInit(markupId,javascriptId,javascriptWidgetId,b);
+      String iconId=icon.getMarkupId();
+      b.append("  YAHOO.util.Event.addListener(\"");
+      b.append(iconId);
+      b.append("\", \"click\", ");
+      b.append(javascriptWidgetId);
+      b.append(".show, ");
+      b.append(javascriptWidgetId);
+      b.append(", true);\n");
+      b.append("  function selectHandler(type, args, cal) {\n");
+      b.append("    var selDateArray = args[0][0];\n");
+      b.append("    var yr = selDateArray[0];\n");
+      b.append("    var month = selDateArray[1];\n");
+      b.append("    var dt = selDateArray[2];\n");
+      String datePattern=target.getDateConverter().getDatePattern();
+      b.append("    var val = '");
+      b.append(datePattern);
+      b.append("'.replace(/d+/, dt).replace(/M+/, month)");
+      b.append(".replace(/y+/, yr);\n    YAHOO.util.Dom.get(\"");
+      b.append(target.getMarkupId());
+      b.append("\").value = val;\n");
+      b.append("    cal.hide();\n}");
+      b.append("  ");
+      b.append(javascriptWidgetId);
+      b.append(".selectEvent.subscribe(selectHandler, ");
+      b.append(javascriptWidgetId);
+      b.append(");");
+    }
+  }
+;
+  add(calendar);
+}
