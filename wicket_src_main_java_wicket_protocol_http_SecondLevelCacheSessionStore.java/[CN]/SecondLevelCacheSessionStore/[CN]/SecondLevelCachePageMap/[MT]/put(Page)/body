@@ -2,8 +2,11 @@
   if (!page.isPageStateless()) {
     String sessionId=getSession().getId();
     if (sessionId != null) {
+      if (lastPage != page && page.getCurrentVersionNumber() == 0) {
+        page.internalDetach();
+        getStore().storePage(sessionId,page);
+      }
       lastPage=page;
-      getStore().storePage(sessionId,page);
       dirty();
     }
   }
