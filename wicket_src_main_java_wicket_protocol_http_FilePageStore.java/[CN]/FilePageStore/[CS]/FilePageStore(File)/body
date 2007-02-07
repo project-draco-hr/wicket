@@ -1,0 +1,9 @@
+{
+  defaultWorkDir=dir;
+  storePageMap=new ConcurrentHashMap();
+  thread=new PageSavingThread();
+  appName=Application.get().getApplicationKey();
+  Thread t=new Thread(thread,"FilePageStoreThread-" + appName);
+  t.setDaemon(true);
+  t.start();
+}

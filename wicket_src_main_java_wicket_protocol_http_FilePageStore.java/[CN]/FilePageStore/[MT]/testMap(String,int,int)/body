@@ -1,0 +1,18 @@
+{
+  SessionPageKey curentKey=new SessionPageKey(sessionId,id,versionNumber);
+  Object key=storePageMap.get(curentKey);
+  while (key != null) {
+    if (log.isDebugEnabled()) {
+      log.debug("The page " + id + ":"+ versionNumber+ " for session "+ sessionId+ " wasn't saved yet. blocking for 200ms");
+    }
+synchronized (key) {
+      try {
+        key.wait(200);
+      }
+ catch (      InterruptedException ex) {
+        log.error(ex);
+      }
+    }
+    key=storePageMap.get(curentKey);
+  }
+}

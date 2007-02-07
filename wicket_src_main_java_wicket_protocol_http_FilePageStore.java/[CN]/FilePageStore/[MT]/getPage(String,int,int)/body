@@ -1,8 +1,10 @@
 {
+  testMap(sessionId,id,versionNumber);
   File sessionDir=new File(getWorkDir(),sessionId);
   if (sessionDir.exists()) {
     File pageFile=getPageFile(id,versionNumber,sessionDir);
     if (pageFile.exists()) {
+      long t1=System.currentTimeMillis();
       FileInputStream fis=null;
       try {
         byte[] pageData=null;
@@ -17,8 +19,14 @@
           pageData=new byte[length];
           bb.get(pageData);
         }
+        long t2=System.currentTimeMillis();
         Page page=(Page)Objects.byteArrayToObject(pageData);
-        return page.getVersion(versionNumber);
+        page=page.getVersion(versionNumber);
+        if (page != null && log.isDebugEnabled()) {
+          long t3=System.currentTimeMillis();
+          log.debug("restoring page " + page.getClass() + "["+ page.getNumericId()+ ","+ page.getCurrentVersionNumber()+ "] size: "+ pageData.length+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds to read in and "+ (t3 - t2)+ " miliseconds to deserialize");
+        }
+        return page;
       }
  catch (      Exception e) {
         log.debug("Error loading page " + id + ","+ versionNumber+ " for the sessionid "+ sessionId+ " from disk",e);

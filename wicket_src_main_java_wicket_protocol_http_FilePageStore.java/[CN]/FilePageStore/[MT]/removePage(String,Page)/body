@@ -1,9 +1,6 @@
 {
-  File sessionDir=new File(getWorkDir(),sessionId);
-  if (sessionDir.exists()) {
-    File pageFile=getPageFile(page.getNumericId(),page.getCurrentVersionNumber(),sessionDir);
-    if (pageFile.exists()) {
-      pageFile.delete();
-    }
+synchronized (storePageMap) {
+    storePageMap.put(new SessionPageKey(sessionId,page.getNumericId(),page.getCurrentVersionNumber(),true),page);
+    storePageMap.notifyAll();
   }
 }

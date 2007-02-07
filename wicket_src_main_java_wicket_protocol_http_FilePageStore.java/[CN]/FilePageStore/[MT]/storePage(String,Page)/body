@@ -1,38 +1,6 @@
 {
-  File sessionDir=new File(getWorkDir(),sessionId);
-  sessionDir.mkdirs();
-  File pageFile=getPageFile(page.getNumericId(),page.getCurrentVersionNumber(),sessionDir);
-  FileOutputStream fos=null;
-  long t1=System.currentTimeMillis();
-  long t2=0;
-  try {
-    final ByteArrayOutputStream out=new ByteArrayOutputStream();
-    try {
-      new ObjectOutputStream(out).writeObject(page);
-    }
-  finally {
-      out.close();
-    }
-    byte[] bytes=out.toByteArray();
-    t2=System.currentTimeMillis();
-    fos=new FileOutputStream(pageFile);
-    ByteBuffer bb=ByteBuffer.wrap(bytes);
-    fos.getChannel().write(bb);
-  }
- catch (  Exception e) {
-    log.error("Error saving page " + page.getId() + ","+ page.getCurrentVersionNumber()+ " for the sessionid "+ sessionId,e);
-  }
- finally {
-    try {
-      if (fos != null) {
-        fos.close();
-      }
-    }
- catch (    IOException ex) {
-    }
-  }
-  if (log.isDebugEnabled()) {
-    long t3=System.currentTimeMillis();
-    log.debug("storing page " + page.getNumericId() + ","+ page.getCurrentVersionNumber()+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds to serialize and "+ (t3 - t2)+ "miliseconds to save");
+synchronized (storePageMap) {
+    storePageMap.put(new SessionPageKey(sessionId,page.getNumericId(),page.getCurrentVersionNumber()),page);
+    storePageMap.notifyAll();
   }
 }
