@@ -10,12 +10,7 @@
       log.debug("Stored attribute " + name + "{ "+ valueTypeName+ "} with size: "+ Bytes.bytes(out.size()));
     }
  catch (    Exception e) {
-      try {
-        new DebuggingObjectOutputStream().writeObject(value);
-      }
- catch (      IOException e1) {
-        throw new RuntimeException(e1);
-      }
+      Objects.checkSerializable(value);
       throw new WicketRuntimeException("first pass of serialization failed, but the second one " + "(that should gather extended information) passed? Please " + "report this error to the Wicket team",e);
     }
   }

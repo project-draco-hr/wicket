@@ -2,17 +2,17 @@
   if (obj == null) {
     return;
   }
-  if (set.contains(obj)) {
+  if (checked.contains(obj)) {
     return;
   }
-  if (stack.isEmpty()) {
-    stack.add("Class " + obj.getClass().getName());
+  if (parentsStack.isEmpty()) {
+    parentsStack.add("Class " + obj.getClass().getName());
   }
-  set.add(obj);
+  checked.add(obj);
   Field[] fields=obj.getClass().getDeclaredFields();
   for (int i=0; i < fields.length; i++) {
     fields[i].setAccessible(true);
-    StringBuilder buffer=new StringBuilder();
+    StringBuffer buffer=new StringBuffer();
     Field f=fields[i];
     int m=f.getModifiers();
     if (fields[i].getType().isPrimitive() || Modifier.isTransient(m) || Modifier.isStatic(m)) {
@@ -59,10 +59,10 @@
 catch (    IllegalAccessException e) {
       buffer.append("? (").append(e.getMessage()).append(")");
     }
-    stack.add(buffer.toString());
+    parentsStack.add(buffer.toString());
     if (Serializable.class.isAssignableFrom(fields[i].getType())) {
       try {
-        writeObjectOverride(fields[i].get(obj));
+        check(fields[i].get(obj));
       }
  catch (      IllegalAccessException e) {
         throw new WicketRuntimeException(getPrettyPrintedStack(fields[i].getType().getName()),e);
@@ -71,10 +71,10 @@ catch (    IllegalAccessException e) {
  else {
       throw new WicketRuntimeException(getPrettyPrintedStack(fields[i].getType().getName()).toString(),new NotSerializableException(fields[i].getType().getName()));
     }
-    stack.removeLast();
+    parentsStack.removeLast();
   }
-  if (stack.size() == 1) {
-    set.clear();
-    stack.removeLast();
+  if (parentsStack.size() == 1) {
+    checked.clear();
+    parentsStack.removeLast();
   }
 }
