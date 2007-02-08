@@ -1,7 +1,7 @@
 {
   if (Application.get().getDebugSettings().getSerializeSessionAttributes()) {
     if (value instanceof Page) {
-      ((Page)value).detach();
+      ((Page<?>)value).detach();
     }
     String valueTypeName=(value != null ? value.getClass().getName() : "null");
     try {
@@ -10,7 +10,13 @@
       log.debug("Stored attribute " + name + "{ "+ valueTypeName+ "} with size: "+ Bytes.bytes(out.size()));
     }
  catch (    Exception e) {
-      throw new WicketRuntimeException("Internal error cloning object. Make sure all dependent objects implement Serializable. Class=" + valueTypeName + ",attribute="+ name+ ", value="+ value,e);
+      try {
+        new DebuggingObjectOutputStream().writeObject(value);
+      }
+ catch (      IOException e1) {
+        throw new RuntimeException(e1);
+      }
+      throw new WicketRuntimeException("first pass of serialization failed, but the second one " + "(that should gather extended information) passed? Please " + "report this error to the Wicket team",e);
     }
   }
   WebRequest webRequest=toWebRequest(request);

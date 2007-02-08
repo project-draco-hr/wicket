@@ -23,7 +23,12 @@
     }
   }
  catch (  Exception e) {
-    log.error("Error saving page " + page.getId() + ","+ page.getCurrentVersionNumber()+ " for the sessionid "+ sessionId,e);
+    try {
+      new DebuggingObjectOutputStream().writeObject(page);
+    }
+ catch (    Exception e1) {
+      log.error("Error saving page " + page.getClass() + "["+ page.getId()+ ","+ page.getCurrentVersionNumber()+ "] for the sessionid "+ sessionId+ ": "+ e1.getMessage(),e1);
+    }
   }
  finally {
     try {
