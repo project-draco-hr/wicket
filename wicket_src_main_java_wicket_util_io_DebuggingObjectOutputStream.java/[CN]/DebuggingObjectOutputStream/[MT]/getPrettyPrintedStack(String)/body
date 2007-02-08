@@ -1,0 +1,14 @@
+{
+  set.clear();
+  StringBuffer result=new StringBuffer();
+  StringBuffer spaces=new StringBuffer();
+  result.append("Unable to serialize class: ");
+  result.append(type);
+  result.append("\nField hierarchy is:");
+  while (!stack.isEmpty()) {
+    spaces.append("  ");
+    result.append("\n").append(spaces).append(stack.removeFirst());
+  }
+  result.append(" <----- field that is not serializable");
+  return result.toString();
+}

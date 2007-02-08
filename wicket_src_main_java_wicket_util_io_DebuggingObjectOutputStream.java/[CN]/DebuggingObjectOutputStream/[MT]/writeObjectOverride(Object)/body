@@ -1,0 +1,80 @@
+{
+  if (obj == null) {
+    return;
+  }
+  if (set.contains(obj)) {
+    return;
+  }
+  if (stack.isEmpty()) {
+    stack.add("Class " + obj.getClass().getName());
+  }
+  set.add(obj);
+  Field[] fields=obj.getClass().getDeclaredFields();
+  for (int i=0; i < fields.length; i++) {
+    fields[i].setAccessible(true);
+    StringBuffer buffer=new StringBuffer();
+    Field f=fields[i];
+    int m=f.getModifiers();
+    if (fields[i].getType().isPrimitive() || Modifier.isTransient(m) || Modifier.isStatic(m)) {
+      continue;
+    }
+    if (Modifier.isPrivate(m)) {
+      buffer.append("private ");
+    }
+    if (Modifier.isProtected(m)) {
+      buffer.append("protected ");
+    }
+    if (Modifier.isPublic(m)) {
+      buffer.append("public ");
+    }
+    if (Modifier.isAbstract(m)) {
+      buffer.append("abstract ");
+    }
+    if (Modifier.isFinal(m)) {
+      buffer.append("final ");
+    }
+    if (Modifier.isStatic(m)) {
+      buffer.append("static ");
+    }
+    if (Modifier.isVolatile(m)) {
+      buffer.append("volatile ");
+    }
+    buffer.append(f.getType().getName()).append("");
+    buffer.append(" ").append(f.getName()).append(" => ");
+    try {
+      Object val=f.get(obj);
+      if (val != null) {
+        buffer.append(val.getClass().getName());
+        if (val instanceof Component) {
+          buffer.append(" [path=").append(((Component)val).getPath()).append("]");
+        }
+      }
+ else {
+        buffer.append(" null");
+      }
+    }
+ catch (    IllegalArgumentException e) {
+      buffer.append("? (").append(e.getMessage()).append(")");
+    }
+catch (    IllegalAccessException e) {
+      buffer.append("? (").append(e.getMessage()).append(")");
+    }
+    stack.add(buffer.toString());
+    if (Serializable.class.isAssignableFrom(fields[i].getType())) {
+      try {
+        writeObjectOverride(fields[i].get(obj));
+      }
+ catch (      IllegalAccessException e) {
+        throw new WicketRuntimeException(getPrettyPrintedStack(fields[i].getType().getName()),e);
+      }
+    }
+ else {
+      throw new WicketRuntimeException(getPrettyPrintedStack(fields[i].getType().getName()).toString(),new NotSerializableException(fields[i].getType().getName()));
+    }
+    stack.removeLast();
+  }
+  if (stack.size() == 1) {
+    set.clear();
+    stack.removeLast();
+  }
+}
