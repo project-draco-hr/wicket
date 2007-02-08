@@ -1,5 +1,9 @@
 {
-  if (!location.startsWith("http://") && !location.startsWith("https://")) {
+  if (location.startsWith("http://") || location.startsWith("https://")) {
+    return location;
+  }
+ else {
+    StringBuilder b=new StringBuilder();
     String contextPath=Application.get().getApplicationSettings().getContextPath();
     if (contextPath == null) {
       contextPath=((WebRequestCycle)RequestCycle.get()).getWebRequest().getContextPath();
@@ -11,6 +15,7 @@
     if (!contextPath.endsWith("/") && !location.startsWith("/")) {
       b.append("/");
     }
+    b.append(location);
+    return b.toString();
   }
-  b.append(location);
 }
