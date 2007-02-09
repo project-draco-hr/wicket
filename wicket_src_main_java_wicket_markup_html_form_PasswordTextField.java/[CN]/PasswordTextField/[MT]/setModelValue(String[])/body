@@ -4,9 +4,9 @@
   try {
     decryptedValue=getApplication().getSecuritySettings().getCryptFactory().newCrypt().decryptUrlSafe(value);
   }
- catch (  Exception ex) {
+ catch (  Exception e) {
     decryptedValue=value;
-    log.error("Failed to instantiate encryption object. Continue without encryption");
+    log.error("Problem applying encryption; go on without for now",e);
   }
   setModelObject(decryptedValue);
 }
