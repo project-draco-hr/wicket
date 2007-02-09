@@ -1,5 +1,9 @@
 {
   page.beforeCallComponent(component,this);
+  if (!component.isEnabled() || !component.isVisibleInHierarchy()) {
+    log.info("component not enabled or visible; ignoring call. Component: " + component);
+    return;
+  }
   try {
     method.invoke(component,new Object[]{});
   }
