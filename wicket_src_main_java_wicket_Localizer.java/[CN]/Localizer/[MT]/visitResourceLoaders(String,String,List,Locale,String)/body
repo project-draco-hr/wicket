@@ -1,5 +1,5 @@
 {
-  final Iterator<IStringResourceLoader> iterator=application.getResourceSettings().getStringResourceLoaders().iterator();
+  final Iterator<IStringResourceLoader> iterator=Application.get().getResourceSettings().getStringResourceLoaders().iterator();
   String string=null;
   while (iterator.hasNext() && (string == null)) {
     IStringResourceLoader loader=iterator.next();
@@ -18,7 +18,7 @@
     }
  else {
       string=loader.loadStringResource(null,key,locale,style);
-      if ((string == null) && (path != null) && (prefix.length() > 0)) {
+      if ((string == null) && (prefix != null) && (prefix.length() > 0)) {
         string=loader.loadStringResource(null,prefix + '.' + key,locale,style);
       }
     }
