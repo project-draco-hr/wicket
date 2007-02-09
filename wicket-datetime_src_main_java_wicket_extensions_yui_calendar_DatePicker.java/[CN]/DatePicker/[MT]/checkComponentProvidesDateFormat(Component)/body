@@ -1,0 +1,17 @@
+{
+  if (component instanceof IDatePatternProvider) {
+    return;
+  }
+  IConverter converter=component.getConverter();
+  if (converter instanceof Converter) {
+    ITypeConverter typeConverter=((Converter)converter).get(Date.class);
+    if (typeConverter instanceof DateConverter) {
+      DateConverter dateConverter=(DateConverter)typeConverter;
+      DateFormat df=dateConverter.getDateFormat(component.getLocale());
+      if (df instanceof SimpleDateFormat) {
+        return;
+      }
+    }
+  }
+  throw new WicketRuntimeException("this behavior can only be added to components that either implement " + IDatePatternProvider.class.getName() + " or that use "+ DateConverter.class.getName()+ " configured with an instance of "+ SimpleDateFormat.class.getName()+ " (like Wicket's default configuration has)");
+}

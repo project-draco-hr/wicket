@@ -1,0 +1,9 @@
+{
+  if (component instanceof IDatePatternProvider) {
+    return ((IDatePatternProvider)component).getDatePattern();
+  }
+ else {
+    DateConverter dateConverter=(DateConverter)((Converter)component.getConverter()).get(Date.class);
+    return ((SimpleDateFormat)dateConverter.getDateFormat(component.getLocale())).toPattern();
+  }
+}
