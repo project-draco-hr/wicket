@@ -1,0 +1,24 @@
+{
+  IResourceStream stream=getOriginalResourceStream();
+  try {
+    byte ret[]=cache.get();
+    if (ret != null && timeStamp != null) {
+      if (timeStamp.equals(stream.lastModifiedTime())) {
+        return ret;
+      }
+    }
+    ByteArrayOutputStream out=new ByteArrayOutputStream((int)stream.length());
+    Streams.copy(stream.getInputStream(),out);
+    stream.close();
+    ret=filterContent(out.toByteArray());
+    timeStamp=stream.lastModifiedTime();
+    cache=new SoftReference<byte[]>(ret);
+    return ret;
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+catch (  ResourceStreamNotFoundException e) {
+    throw new RuntimeException(e);
+  }
+}
