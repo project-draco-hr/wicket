@@ -7,12 +7,10 @@
         return ret;
       }
     }
-    ByteArrayOutputStream out=new ByteArrayOutputStream();
-    GZIPOutputStream zout=new GZIPOutputStream(out);
-    Streams.copy(stream.getInputStream(),zout);
-    zout.close();
+    ByteArrayOutputStream out=new ByteArrayOutputStream((int)stream.length());
+    Streams.copy(stream.getInputStream(),out);
     stream.close();
-    ret=out.toByteArray();
+    ret=filterContent(out.toByteArray());
     timeStamp=stream.lastModifiedTime();
     cache=new SoftReference(ret);
     return ret;
