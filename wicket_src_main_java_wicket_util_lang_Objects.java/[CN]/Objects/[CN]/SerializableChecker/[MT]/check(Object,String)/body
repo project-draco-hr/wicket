@@ -2,8 +2,10 @@
   if (obj == null) {
     return;
   }
+  if (!(obj instanceof Serializable)) {
+    throw new WicketRuntimeException(getPrettyPrintedStack(obj.getClass().getName()).toString(),new NotSerializableException(name));
+  }
   if (checked.contains(obj)) {
-    return;
   }
   if (parentsStack.isEmpty()) {
     parentsStack.add("Class " + obj.getClass().getName());
@@ -60,16 +62,11 @@ catch (    IllegalAccessException e) {
       buffer.append("? (").append(e.getMessage()).append(")");
     }
     parentsStack.add(buffer.toString());
-    if (Serializable.class.isAssignableFrom(fields[i].getType())) {
-      try {
-        check(fields[i].get(obj));
-      }
- catch (      IllegalAccessException e) {
-        throw new WicketRuntimeException(getPrettyPrintedStack(fields[i].getType().getName()),e);
-      }
+    try {
+      check(fields[i].get(obj),fields[i].getName());
     }
- else {
-      throw new WicketRuntimeException(getPrettyPrintedStack(fields[i].getType().getName()).toString(),new NotSerializableException(fields[i].getType().getName()));
+ catch (    IllegalAccessException e) {
+      throw new WicketRuntimeException(getPrettyPrintedStack(fields[i].getType().getName()),e);
     }
     parentsStack.removeLast();
   }
