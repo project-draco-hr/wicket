@@ -1,18 +1,29 @@
 {
-  SessionPageKey curentKey=new SessionPageKey(sessionId,id,versionNumber,ajaxVersionNumber);
-  Object key=storePageMap.get(curentKey);
-  while (key != null) {
-    if (log.isDebugEnabled()) {
-      log.debug("The page " + id + ":"+ versionNumber+ " for session "+ sessionId+ " wasn't saved yet. blocking for 200ms");
-    }
-synchronized (key) {
-      try {
-        key.wait(200);
+  SessionPageKey curentKey=new SessionPageKey(sessionId,id,versionNumber,ajaxVersionNumber,null);
+  Object value=storePageMap.get(curentKey);
+  if (value instanceof Page) {
+    if (storePageMap.put(curentKey,SERIALIZING) == value) {
+      byte[] bytes=serializePage((Page)value);
+      if (bytes != null) {
+        storePageMap.put(curentKey,bytes);
       }
- catch (      InterruptedException ex) {
-        log.error(ex);
+ else {
+        storePageMap.remove(curentKey);
       }
+      return bytes;
     }
-    key=storePageMap.get(curentKey);
+ else {
+      value=SERIALIZING;
+    }
   }
+  while (value == SERIALIZING) {
+    try {
+      Thread.sleep(50);
+    }
+ catch (    InterruptedException ex) {
+      throw new RuntimeException(ex);
+    }
+    value=storePageMap.get(curentKey);
+  }
+  return value instanceof byte[] ? (byte[])value : null;
 }

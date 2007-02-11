@@ -13,7 +13,7 @@ synchronized (storePageMap) {
       while (iterator.hasNext()) {
         SessionPageKey key=(SessionPageKey)iterator.next();
         Object value=storePageMap.get(key);
-        if (value == null)         continue;
+        if (value == null || value == SERIALIZING)         continue;
         if (key.remove) {
           if (key.id == -1) {
             removeSession(key.sessionId);
@@ -23,11 +23,29 @@ synchronized (storePageMap) {
             removePage(key.sessionId,key.id);
             removePageFromPendingMap(key.sessionId,key.id);
           }
+          iterator.remove();
         }
  else {
-          savePage(key.sessionId,(Page)value);
+          byte[] pageBytes=null;
+          if (value instanceof Page) {
+            if (storePageMap.put(key,SERIALIZING) == value) {
+              pageBytes=serializePage((Page)value);
+              if (pageBytes != null) {
+                storePageMap.put(key,pageBytes);
+              }
+ else {
+                iterator.remove();
+              }
+            }
+          }
+ else {
+            pageBytes=(byte[])value;
+          }
+          if (pageBytes != null) {
+            savePage(key,pageBytes);
+            iterator.remove();
+          }
         }
-        iterator.remove();
       }
     }
  catch (    Exception e) {
