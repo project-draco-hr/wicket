@@ -1,0 +1,107 @@
+{
+  if (obj == null) {
+    return;
+  }
+  nameStack.add(simpleName);
+  traceStack.add(new TraceSlot(obj,fieldDescription));
+  Class cls=obj.getClass();
+  if (!(obj instanceof Serializable)) {
+    throw new WicketNotSerializableException(toPrettyPrintedStack(obj.getClass().getName()).toString(),new NotSerializableException(obj.getClass().getName()));
+  }
+  final ObjectStreamClass desc;
+  try {
+    desc=(ObjectStreamClass)lookup.invoke(null,new Object[]{cls,Boolean.TRUE});
+  }
+ catch (  IllegalAccessException e) {
+    throw new RuntimeException(e);
+  }
+catch (  InvocationTargetException e) {
+    throw new RuntimeException(e);
+  }
+  if (cls.isPrimitive()) {
+  }
+ else   if (cls.isArray()) {
+    Class ccl=cls.getComponentType();
+    if (!(ccl.isPrimitive())) {
+      Object[] objs=(Object[])obj;
+      for (int i=0; i < objs.length; i++) {
+        String arrayPos="[" + i + "]";
+        simpleName=arrayPos;
+        fieldDescription+=arrayPos;
+        check(objs[i]);
+      }
+    }
+  }
+ else   if (obj instanceof Externalizable) {
+  }
+ else {
+    Method writeObjectMethod=null;
+    Object o=writeObjectMethodCache.get(cls);
+    if (o != null) {
+      if (o instanceof Method) {
+        writeObjectMethod=(Method)o;
+      }
+    }
+ else {
+      try {
+        writeObjectMethod=cls.getDeclaredMethod("writeObject",new Class[]{java.io.ObjectOutputStream.class});
+        writeObjectMethod.setAccessible(true);
+      }
+ catch (      SecurityException e) {
+        writeObjectMethodCache.put(cls,Boolean.FALSE);
+      }
+catch (      NoSuchMethodException e) {
+        writeObjectMethodCache.put(cls,Boolean.FALSE);
+      }
+    }
+    if (writeObjectMethod != null) {
+      try {
+class Counter {
+          int count;
+        }
+        final Counter counter=new Counter();
+class InterceptingObjectOutputStream extends ObjectOutputStream {
+          InterceptingObjectOutputStream() throws IOException {
+            super(DUMMY_OUTPUT_STREAM);
+            enableReplaceObject(true);
+            writeObject("");
+          }
+          protected Object replaceObject(          Object streamObj) throws IOException {
+            counter.count++;
+            String arrayPos="[" + counter.count + "]";
+            simpleName=arrayPos;
+            fieldDescription+=arrayPos;
+            check(streamObj);
+            return super.replaceObject(streamObj);
+          }
+        }
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+ else {
+      Object[] slots;
+      try {
+        slots=(Object[])getClassDataLayoutMethod.invoke(desc,null);
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+      for (int i=0; i < slots.length; i++) {
+        ObjectStreamClass slotDesc;
+        try {
+          Field descField=slots[i].getClass().getDeclaredField("desc");
+          descField.setAccessible(true);
+          slotDesc=(ObjectStreamClass)descField.get(slots[i]);
+        }
+ catch (        Exception e) {
+          throw new RuntimeException(e);
+        }
+        checkFields(obj,slotDesc);
+      }
+    }
+  }
+  traceStack.removeLast();
+  nameStack.removeLast();
+}
