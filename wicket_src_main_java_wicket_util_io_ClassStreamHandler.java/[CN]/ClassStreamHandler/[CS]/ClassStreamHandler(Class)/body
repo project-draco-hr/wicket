@@ -1,0 +1,14 @@
+{
+  this.classId=classCounter++;
+  this.clz=cls;
+  this.fields=new ArrayList();
+  if (cons == null) {
+    cons=getSerializableConstructor(clz);
+    if (cons == null) {
+      throw new RuntimeException("Failed to get the constructor");
+    }
+  }
+  writeObjectMethod=getPrivateMethod(cls,"writeObject",new Class[]{ObjectOutputStream.class},Void.TYPE);
+  readObjectMethod=getPrivateMethod(cls,"readObject",new Class[]{ObjectInputStream.class},Void.TYPE);
+  fillFields(cls);
+}

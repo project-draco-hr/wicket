@@ -1,0 +1,59 @@
+{
+  if (obj == null) {
+    out.write(ClassStreamHandler.NULL);
+    return;
+  }
+  Object handle=handledObjects.get(obj);
+  if (handle != null) {
+    out.write(ClassStreamHandler.HANDLE);
+    out.writeShort(((Short)handle).shortValue());
+  }
+ else {
+    if (obj instanceof Class) {
+      ClassStreamHandler classHandler=ClassStreamHandler.lookup((Class)obj);
+      out.write(ClassStreamHandler.CLASS);
+      out.writeShort(classHandler.getClassId());
+    }
+ else {
+      handledObjects.put(obj,new Short(handleCounter++));
+      Class cls=obj.getClass();
+      if (cls.isArray()) {
+        Class componentType=cls.getComponentType();
+        ClassStreamHandler classHandler=ClassStreamHandler.lookup(componentType);
+        if (componentType.isPrimitive() || Number.class.isAssignableFrom(componentType)) {
+          out.write(ClassStreamHandler.PRIMITIVE_ARRAY);
+          out.writeShort(classHandler.getClassId());
+          int length=Array.getLength(obj);
+          out.writeInt(length);
+          for (int i=0; i < length; i++) {
+            writeObjectOverride(Array.get(obj,i));
+          }
+        }
+ else {
+          out.write(ClassStreamHandler.ARRAY);
+          out.writeShort(classHandler.getClassId());
+          int length=Array.getLength(obj);
+          out.writeInt(length);
+          for (int i=0; i < length; i++) {
+            writeObjectOverride(Array.get(obj,i));
+          }
+        }
+        return;
+      }
+ else {
+        classHandler=ClassStreamHandler.lookup(cls);
+        out.write(ClassStreamHandler.CLASS_DEF);
+        out.writeShort(classHandler.getClassId());
+        if (obj instanceof String) {
+          out.writeUTF((String)obj);
+        }
+ else {
+          currentObject=obj;
+          if (!classHandler.invokeWriteMethod(this,obj)) {
+            classHandler.writeFields(this,obj);
+          }
+        }
+      }
+    }
+  }
+}
