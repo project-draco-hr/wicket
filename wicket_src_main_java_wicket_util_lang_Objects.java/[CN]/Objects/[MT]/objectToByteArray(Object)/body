@@ -2,7 +2,7 @@
   try {
     final ByteArrayOutputStream out=new ByteArrayOutputStream();
     try {
-      new WicketObjectOutputStream(out).writeObject(object);
+      new ObjectOutputStream(out).writeObject(object);
     }
   finally {
       out.close();
@@ -10,11 +10,16 @@
     return out.toByteArray();
   }
  catch (  IOException e) {
-    try {
-      Objects.checkSerializable(object);
+    if (SerializableChecker.isAvailable()) {
+      try {
+        new SerializableChecker(object).check();
+      }
+ catch (      Exception e1) {
+        log.error("Error serializing object " + object.getClass() + " [object="+ object+ "]",e1);
+      }
     }
- catch (    Exception e1) {
-      log.error("Error serializing object " + object.getClass() + "["+ object+ "]");
+ else {
+      log.error("Error serializing object " + object.getClass() + " [object="+ object+ "]",e);
     }
   }
   return null;

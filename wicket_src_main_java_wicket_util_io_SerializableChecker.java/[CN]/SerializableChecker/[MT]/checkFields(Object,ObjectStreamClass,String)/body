@@ -1,0 +1,62 @@
+{
+  int numFields;
+  try {
+    numFields=((Integer)getNumObjFields.invoke(desc,null)).intValue();
+  }
+ catch (  IllegalAccessException e) {
+    throw new RuntimeException(e);
+  }
+catch (  InvocationTargetException e) {
+    throw new RuntimeException(e);
+  }
+  if (numFields > 0) {
+    int numPrimFields;
+    ObjectStreamField[] fields=desc.getFields();
+    Object[] objVals=new Object[numFields];
+    numPrimFields=fields.length - objVals.length;
+    try {
+      getObjFieldValues.invoke(desc,new Object[]{obj,objVals});
+    }
+ catch (    IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+catch (    InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+    for (int i=0; i < objVals.length; i++) {
+      if (objVals[i] instanceof String || objVals[i] instanceof Number || objVals[i] instanceof Date|| objVals[i] instanceof Boolean) {
+        continue;
+      }
+      try {
+        if (checked.contains(objVals[i])) {
+          continue;
+        }
+        checked.add(objVals[i]);
+      }
+ catch (      Exception e) {
+        StringBuffer b=new StringBuffer();
+        for (Iterator it=nameStack.iterator(); it.hasNext(); ) {
+          b.append(it.next());
+          if (it.hasNext()) {
+            b.append('/');
+          }
+        }
+        System.err.println("error invoking hashCode on " + b + ": "+ e.getMessage());
+        continue;
+      }
+      ObjectStreamField fieldDesc=fields[numPrimFields + i];
+      Field field;
+      try {
+        field=(Field)fieldMethod.invoke(fieldDesc,null);
+      }
+ catch (      IllegalAccessException e) {
+        throw new RuntimeException(e);
+      }
+catch (      InvocationTargetException e) {
+        throw new RuntimeException(e);
+      }
+      String fieldName=field.getName();
+      check(objVals[i],fieldName,field.toString());
+    }
+  }
+}

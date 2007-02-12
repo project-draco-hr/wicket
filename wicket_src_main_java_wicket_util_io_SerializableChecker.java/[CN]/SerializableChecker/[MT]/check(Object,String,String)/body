@@ -1,0 +1,56 @@
+{
+  if (obj == null) {
+    return;
+  }
+  nameStack.add(simpleName);
+  traceStack.add(new TraceSlot(obj,fieldDescription));
+  Class cls=obj.getClass();
+  if (!(obj instanceof Serializable)) {
+    throw new WicketNotSerializableException(toPrettyPrintedStack(obj.getClass().getName()).toString(),new NotSerializableException(obj.getClass().getName()));
+  }
+  final ObjectStreamClass desc;
+  try {
+    desc=(ObjectStreamClass)lookup.invoke(null,new Object[]{cls,Boolean.TRUE});
+  }
+ catch (  IllegalAccessException e) {
+    throw new RuntimeException(e);
+  }
+catch (  InvocationTargetException e) {
+    throw new RuntimeException(e);
+  }
+  if (cls.isPrimitive()) {
+  }
+ else   if (cls.isArray()) {
+    Class ccl=cls.getComponentType();
+    if (!(ccl.isPrimitive())) {
+      Object[] objs=(Object[])obj;
+      for (int i=0; i < objs.length; i++) {
+        String arrayPos="[" + i + "]";
+        check(objs[i],arrayPos,fieldDescription + arrayPos);
+      }
+    }
+  }
+ else {
+    Object[] slots;
+    try {
+      slots=(Object[])getClassDataLayoutMethod.invoke(desc,null);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException(e);
+    }
+    for (int i=0; i < slots.length; i++) {
+      ObjectStreamClass slotDesc;
+      try {
+        Field descField=slots[i].getClass().getDeclaredField("desc");
+        descField.setAccessible(true);
+        slotDesc=(ObjectStreamClass)descField.get(slots[i]);
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+      checkFields(obj,slotDesc,fieldDescription);
+    }
+  }
+  traceStack.removeLast();
+  nameStack.removeLast();
+}
