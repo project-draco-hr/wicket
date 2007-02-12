@@ -23,11 +23,17 @@
     }
   }
  catch (  Exception e) {
-    try {
-      Objects.checkSerializable(page);
+    if ((e instanceof NotSerializableException) && SerializableChecker.isAvailable()) {
+      try {
+        new SerializableChecker((NotSerializableException)e).writeObject(page);
+        log.error("Error saving page " + page.getClass() + "["+ page.getId()+ ","+ page.getCurrentVersionNumber()+ "] for the sessionid "+ sessionId+ ": "+ e.getMessage(),e);
+      }
+ catch (      Exception e1) {
+        log.error("Error saving page " + page.getClass() + "["+ page.getId()+ ","+ page.getCurrentVersionNumber()+ "] for the sessionid "+ sessionId+ ": "+ e1.getMessage(),e1);
+      }
     }
- catch (    Exception e1) {
-      log.error("Error saving page " + page.getClass() + "["+ page.getId()+ ","+ page.getCurrentVersionNumber()+ "] for the sessionid "+ sessionId+ ": "+ e1.getMessage(),e1);
+ else {
+      log.error("Error saving page " + page.getClass() + "["+ page.getId()+ ","+ page.getCurrentVersionNumber()+ "] for the sessionid "+ sessionId+ ": "+ e.getMessage(),e);
     }
   }
  finally {

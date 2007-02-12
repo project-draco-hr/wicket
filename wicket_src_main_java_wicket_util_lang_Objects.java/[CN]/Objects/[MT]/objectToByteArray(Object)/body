@@ -1,20 +1,27 @@
 {
   try {
     final ByteArrayOutputStream out=new ByteArrayOutputStream();
-    ObjectOutputStream oos=null;
     try {
-      oos=new ObjectOutputStream(out);
-      oos.writeObject(object);
+      objectStreamFactory.newObjectOutputStream(out).writeObject(object);
     }
   finally {
-      if (oos != null) {
-        oos.close();
-      }
+      out.close();
     }
     return out.toByteArray();
   }
  catch (  IOException e) {
-    e.printStackTrace();
-    return null;
+    if ((e instanceof NotSerializableException) && SerializableChecker.isAvailable()) {
+      try {
+        new SerializableChecker((NotSerializableException)e).writeObject(object);
+        logSerializationException(object,e);
+      }
+ catch (      Exception e1) {
+        logSerializationException(object,e1);
+      }
+    }
+ else {
+      logSerializationException(object,e);
+    }
   }
+  return null;
 }
