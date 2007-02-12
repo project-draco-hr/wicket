@@ -1,6 +1,6 @@
 {
   defaultWorkDir=dir;
-  storePageMap=new ConcurrentHashMap();
+  storePageMap=Collections.synchronizedList(new LinkedList());
   thread=new PageSavingThread();
   appName=Application.get().getApplicationKey();
   Thread t=new Thread(thread,"FilePageStoreThread-" + appName);

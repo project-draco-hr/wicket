@@ -1,0 +1,46 @@
+{
+synchronized (storePageMap) {
+    int index=storePageMap.indexOf(currentKey);
+    if (index != -1) {
+      currentKey=(SessionPageKey)storePageMap.get(index);
+      Object object=currentKey.data;
+      if (object instanceof Page) {
+        storePageMap.remove(index);
+      }
+ else       if (object instanceof byte[]) {
+        return (byte[])object;
+      }
+ else       if (object != SERIALIZING) {
+        currentKey=null;
+      }
+    }
+ else {
+      currentKey=null;
+    }
+  }
+  if (currentKey != null) {
+    if (currentKey.data == SERIALIZING) {
+synchronized (currentKey) {
+        try {
+          currentKey.wait();
+        }
+ catch (        InterruptedException ex) {
+          throw new RuntimeException(ex);
+        }
+      }
+      Object data=currentKey.data;
+      if (data instanceof byte[]) {
+        return (byte[])data;
+      }
+    }
+ else {
+      byte[] bytes=serializePage(currentKey,(Page)currentKey.data);
+      if (bytes != null) {
+        currentKey.setObject(bytes);
+        storePageMap.add(currentKey);
+      }
+      return bytes;
+    }
+  }
+  return null;
+}

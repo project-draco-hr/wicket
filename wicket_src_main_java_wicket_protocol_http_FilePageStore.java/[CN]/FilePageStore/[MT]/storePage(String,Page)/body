@@ -1,13 +1,15 @@
 {
   if (storePageMap.size() > 25) {
-    byte[] bytes=serializePage(page);
+    SessionPageKey key=new SessionPageKey(sessionId,page);
+    byte[] bytes=serializePage(key,page);
     if (bytes != null) {
-      storePageMap.put(new SessionPageKey(sessionId,page,false),bytes);
+      key.setObject(bytes);
+      storePageMap.add(key);
     }
   }
  else {
 synchronized (storePageMap) {
-      storePageMap.put(new SessionPageKey(sessionId,page,false),page);
+      storePageMap.add(new SessionPageKey(sessionId,page));
       storePageMap.notifyAll();
     }
   }

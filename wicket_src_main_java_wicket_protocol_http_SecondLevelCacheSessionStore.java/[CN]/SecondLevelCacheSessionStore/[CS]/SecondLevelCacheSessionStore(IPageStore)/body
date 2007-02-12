@@ -1,7 +1,7 @@
 {
   this.cachingStore=new IPageStore(){
     private Map sessionMap=new ConcurrentHashMap();
-    public Page getPage(    String sessionId,    int id,    int versionNumber,    int ajaxVersionNumber){
+    public Page getPage(    String sessionId,    String pagemapName,    int id,    int versionNumber,    int ajaxVersionNumber){
       SoftReference sr=(SoftReference)sessionMap.get(sessionId);
       if (sr != null) {
         Map map=(Map)sr.get();
@@ -18,7 +18,7 @@
           }
         }
       }
-      return pageStore.getPage(sessionId,id,versionNumber,ajaxVersionNumber);
+      return pageStore.getPage(sessionId,pagemapName,id,versionNumber,ajaxVersionNumber);
     }
     public void removePage(    String sessionId,    Page page){
       SoftReference sr=(SoftReference)sessionMap.get(sessionId);

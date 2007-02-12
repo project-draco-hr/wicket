@@ -1,56 +1,40 @@
 {
   while (!stop) {
-    Iterator iterator=null;
+    SessionPageKey key=null;
     try {
-      iterator=storePageMap.keySet().iterator();
-      if (!iterator.hasNext()) {
+      Object data=null;
 synchronized (storePageMap) {
-          if (stop)           return;
+        if (stop)         return;
+        while (storePageMap.size() == 0) {
           storePageMap.wait();
         }
-        continue;
+        key=(SessionPageKey)storePageMap.get(0);
+        data=key.getObject();
+        if (data instanceof Page) {
+          key.setObject(SERIALIZING);
+        }
       }
-      while (iterator.hasNext()) {
-        SessionPageKey key=(SessionPageKey)iterator.next();
-        Object value=storePageMap.get(key);
-        if (value == null || value == SERIALIZING)         continue;
-        if (key.remove) {
-          if (key.id == -1) {
-            removeSession(key.sessionId);
-            removeSessionFromPendingMap(key.sessionId);
-          }
- else {
-            removePage(key.sessionId,key.id);
-            removePageFromPendingMap(key.sessionId,key.id);
-          }
-          iterator.remove();
+      byte[] pageBytes=null;
+      if (data instanceof Page) {
+        pageBytes=serializePage(key,(Page)data);
+synchronized (key) {
+          key.setObject(pageBytes);
+          key.notifyAll();
         }
- else {
-          byte[] pageBytes=null;
-          if (value instanceof Page) {
-            if (storePageMap.put(key,SERIALIZING) == value) {
-              pageBytes=serializePage((Page)value);
-              if (pageBytes != null) {
-                storePageMap.put(key,pageBytes);
-              }
- else {
-                iterator.remove();
-              }
-            }
-          }
- else {
-            pageBytes=(byte[])value;
-          }
-          if (pageBytes != null) {
-            savePage(key,pageBytes);
-            iterator.remove();
-          }
-        }
+      }
+ else       if (data instanceof byte[]) {
+        pageBytes=(byte[])data;
+      }
+      if (pageBytes != null) {
+        savePage(key,pageBytes);
+      }
+      if (storePageMap.remove(0) != key) {
+        System.err.println("Remove 0 is not the same!!");
       }
     }
  catch (    Exception e) {
       log.error("Error in page save thread",e);
-      if (iterator != null)       iterator.remove();
+      storePageMap.remove(key);
     }
   }
 }

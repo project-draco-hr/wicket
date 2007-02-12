@@ -1,7 +1,7 @@
 {
   File sessionDir=new File(getWorkDir(),key.sessionId);
   sessionDir.mkdirs();
-  File pageFile=getPageFile(key.id,key.versionNumber,key.ajaxVersionNumber,sessionDir);
+  File pageFile=getPageFile(key,sessionDir);
   FileOutputStream fos=null;
   long t1=System.currentTimeMillis();
   int length=0;
@@ -28,4 +28,6 @@
     log.debug("storing page " + key.pageClass + "["+ key.id+ ","+ key.versionNumber+ "] size: "+ length+ " for session "+ key.sessionId+ " took "+ (t3 - t1)+ " miliseconds to save");
   }
   totalSavingTime+=(t3 - t1);
+  saved++;
+  bytesSaved+=length;
 }
