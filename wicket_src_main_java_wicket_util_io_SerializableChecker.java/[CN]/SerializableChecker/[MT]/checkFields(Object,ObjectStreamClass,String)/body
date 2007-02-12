@@ -24,7 +24,7 @@ catch (    InvocationTargetException e) {
       throw new RuntimeException(e);
     }
     for (int i=0; i < objVals.length; i++) {
-      if (objVals[i] instanceof String || objVals[i] instanceof Number || objVals[i] instanceof Date|| objVals[i] instanceof Boolean) {
+      if (objVals[i] instanceof String || objVals[i] instanceof Number || objVals[i] instanceof Date|| objVals[i] instanceof Boolean|| objVals[i] instanceof Class) {
         continue;
       }
       try {
@@ -41,7 +41,7 @@ catch (    InvocationTargetException e) {
             b.append('/');
           }
         }
-        System.err.println("error invoking hashCode on " + b + ": "+ e.getMessage());
+        log.error("error invoking hashCode on " + b + ": "+ e.getMessage());
         continue;
       }
       ObjectStreamField fieldDesc=fields[numPrimFields + i];
