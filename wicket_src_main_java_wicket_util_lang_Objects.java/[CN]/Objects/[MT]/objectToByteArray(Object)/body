@@ -10,16 +10,17 @@
     return out.toByteArray();
   }
  catch (  IOException e) {
-    if (SerializableChecker.isAvailable()) {
+    if ((e instanceof NotSerializableException) && SerializableChecker.isAvailable()) {
       try {
-        new SerializableChecker().writeObject(object);
+        new SerializableChecker((NotSerializableException)e).writeObject(object);
+        logSerializationException(object,e);
       }
  catch (      Exception e1) {
-        log.error("Error serializing object " + object.getClass() + " [object="+ object+ "]",e1);
+        logSerializationException(object,e1);
       }
     }
  else {
-      log.error("Error serializing object " + object.getClass() + " [object="+ object+ "]",e);
+      logSerializationException(object,e);
     }
   }
   return null;
