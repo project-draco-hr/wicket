@@ -1,13 +1,12 @@
 {
-  checked.clear();
   StringBuffer result=new StringBuffer();
   StringBuffer spaces=new StringBuffer();
   result.append("Unable to serialize class: ");
   result.append(type);
   result.append("\nField hierarchy is:");
-  while (!traceStack.isEmpty()) {
+  for (Iterator i=traceStack.listIterator(); i.hasNext(); ) {
     spaces.append("  ");
-    TraceSlot slot=(TraceSlot)traceStack.removeFirst();
+    TraceSlot slot=(TraceSlot)i.next();
     result.append("\n").append(spaces).append(slot.fieldDescription);
     result.append(" [class=").append(slot.object.getClass().getName());
     if (slot.object instanceof Component) {

@@ -2,9 +2,9 @@
   if (obj == null) {
     return;
   }
+  Class cls=obj.getClass();
   nameStack.add(simpleName);
   traceStack.add(new TraceSlot(obj,fieldDescription));
-  Class cls=obj.getClass();
   if (!(obj instanceof Serializable)) {
     throw new WicketNotSerializableException(toPrettyPrintedStack(obj.getClass().getName()).toString(),new NotSerializableException(obj.getClass().getName()));
   }
@@ -21,6 +21,7 @@ catch (  InvocationTargetException e) {
   if (cls.isPrimitive()) {
   }
  else   if (cls.isArray()) {
+    checked.add(obj);
     Class ccl=cls.getComponentType();
     if (!(ccl.isPrimitive())) {
       Object[] objs=(Object[])obj;
@@ -32,7 +33,36 @@ catch (  InvocationTargetException e) {
       }
     }
   }
- else   if (obj instanceof Externalizable) {
+ else   if (obj instanceof Externalizable && (!Proxy.isProxyClass(cls))) {
+    Externalizable extObj=(Externalizable)obj;
+    try {
+      extObj.writeExternal(new ObjectOutputAdaptor(){
+        private int count=0;
+        public void writeObject(        Object streamObj) throws IOException {
+          try {
+            if (checked.contains(streamObj)) {
+              return;
+            }
+          }
+ catch (          Exception e) {
+            log.warn("error invoking hashCode: " + e.getMessage() + ", path:"+ currentPath()+ ": ");
+            return;
+          }
+          checked.add(streamObj);
+          String arrayPos="[write:" + count++ + "]";
+          simpleName=arrayPos;
+          fieldDescription+=arrayPos;
+          check(streamObj);
+        }
+      }
+);
+    }
+ catch (    Exception e) {
+      if (e instanceof WicketNotSerializableException) {
+        throw (WicketNotSerializableException)e;
+      }
+      log.warn("error delegating to Externalizable : " + e.getMessage() + ", path: "+ currentPath());
+    }
   }
  else {
     Method writeObjectMethod=null;
@@ -45,7 +75,6 @@ catch (  InvocationTargetException e) {
  else {
       try {
         writeObjectMethod=cls.getDeclaredMethod("writeObject",new Class[]{java.io.ObjectOutputStream.class});
-        writeObjectMethod.setAccessible(true);
       }
  catch (      SecurityException e) {
         writeObjectMethodCache.put(cls,Boolean.FALSE);
@@ -55,29 +84,43 @@ catch (      NoSuchMethodException e) {
       }
     }
     if (writeObjectMethod != null) {
-      try {
-class Counter {
-          int count;
-        }
-        final Counter counter=new Counter();
 class InterceptingObjectOutputStream extends ObjectOutputStream {
-          InterceptingObjectOutputStream() throws IOException {
-            super(DUMMY_OUTPUT_STREAM);
-            enableReplaceObject(true);
-            writeObject("");
+        private int counter;
+        InterceptingObjectOutputStream() throws IOException {
+          super(DUMMY_OUTPUT_STREAM);
+          enableReplaceObject(true);
+        }
+        protected Object replaceObject(        Object streamObj) throws IOException {
+          if (streamObj == obj) {
+            return streamObj;
           }
-          protected Object replaceObject(          Object streamObj) throws IOException {
-            counter.count++;
-            String arrayPos="[" + counter.count + "]";
-            simpleName=arrayPos;
-            fieldDescription+=arrayPos;
-            check(streamObj);
-            return super.replaceObject(streamObj);
+          counter++;
+          try {
+            if (checked.contains(streamObj)) {
+              return null;
+            }
           }
+ catch (          Exception e) {
+            log.warn("error invoking hashCode: " + e.getMessage() + ", path:"+ currentPath()+ ": ");
+            return null;
+          }
+          checked.add(obj);
+          String arrayPos="[write:" + counter + "]";
+          simpleName=arrayPos;
+          fieldDescription+=arrayPos;
+          check(streamObj);
+          return streamObj;
         }
       }
+      try {
+        InterceptingObjectOutputStream ioos=new InterceptingObjectOutputStream();
+        ioos.writeObject(obj);
+      }
  catch (      Exception e) {
-        throw new RuntimeException(e);
+        if (e instanceof WicketNotSerializableException) {
+          throw (WicketNotSerializableException)e;
+        }
+        log.warn("error delegating to writeObject : " + e.getMessage() + ", path: "+ currentPath());
       }
     }
  else {
@@ -98,6 +141,7 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
  catch (        Exception e) {
           throw new RuntimeException(e);
         }
+        checked.add(obj);
         checkFields(obj,slotDesc);
       }
     }

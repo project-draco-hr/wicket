@@ -31,11 +31,9 @@ catch (    InvocationTargetException e) {
         if (checked.contains(objVals[i])) {
           continue;
         }
-        checked.add(objVals[i]);
       }
  catch (      Exception e) {
-        StringBuffer b=getCurrentPath();
-        log.error("error invoking hashCode on " + b + ": "+ e.getMessage());
+        log.warn("error invoking hashCode: " + e.getMessage() + ", path:"+ currentPath()+ ": ");
         continue;
       }
       ObjectStreamField fieldDesc=fields[numPrimFields + i];
