@@ -27,13 +27,7 @@ catch (    InvocationTargetException e) {
       if (objVals[i] instanceof String || objVals[i] instanceof Number || objVals[i] instanceof Date|| objVals[i] instanceof Boolean|| objVals[i] instanceof Class) {
         continue;
       }
-      try {
-        if (checked.contains(objVals[i])) {
-          continue;
-        }
-      }
- catch (      Exception e) {
-        log.warn("error invoking hashCode: " + e.getMessage() + ", path:"+ currentPath()+ ": ");
+      if (checked.contains(objVals[i])) {
         continue;
       }
       ObjectStreamField fieldDesc=fields[numPrimFields + i];
