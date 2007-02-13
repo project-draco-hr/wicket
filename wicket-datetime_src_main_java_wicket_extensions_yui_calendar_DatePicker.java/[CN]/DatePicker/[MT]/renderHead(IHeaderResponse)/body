@@ -69,21 +69,12 @@
   buffer.append(javascriptWidgetId);
   buffer.append(".render();\n");
   buffer.append("}\n");
-  IRequestTarget requestTarget=RequestCycle.get().getRequestTarget();
-  if (requestTarget instanceof AjaxRequestTarget) {
-    StringBuffer initBuffer=new StringBuffer();
-    initBuffer.append("init");
-    initBuffer.append(javascriptId);
-    initBuffer.append("();");
-    AjaxRequestTarget ajaxRequestTarget=(AjaxRequestTarget)requestTarget;
-    ajaxRequestTarget.appendJavascript(initBuffer.toString());
-  }
- else {
-    buffer.append("YAHOO.util.Event.addListener(window, \"load\", init");
-    buffer.append(javascriptId);
-    buffer.append(");");
-  }
   buffer.insert(0,JavascriptUtils.SCRIPT_OPEN_TAG);
   buffer.append(JavascriptUtils.SCRIPT_CLOSE_TAG);
   response.renderString(buffer);
+  StringBuffer initBuffer=new StringBuffer();
+  initBuffer.append("init");
+  initBuffer.append(javascriptId);
+  initBuffer.append("();");
+  response.renderOnLoadJavascript(initBuffer.toString());
 }
