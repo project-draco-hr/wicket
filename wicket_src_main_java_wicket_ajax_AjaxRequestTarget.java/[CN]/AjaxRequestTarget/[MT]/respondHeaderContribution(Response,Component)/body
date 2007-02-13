@@ -1,6 +1,12 @@
 {
   if (header == null) {
-    header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
+    header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID){
+      private static final long serialVersionUID=1L;
+      protected IHeaderResponse newHeaderResponse(      Response response){
+        return new AjaxHeaderResponse(response);
+      }
+    }
+;
   }
   if (component.getPage().get(HtmlHeaderSectionHandler.HEADER_ID) != null) {
     component.getPage().replace(header);
