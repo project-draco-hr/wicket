@@ -20,7 +20,7 @@
       if (cls.isArray()) {
         Class componentType=cls.getComponentType();
         ClassStreamHandler classHandler=ClassStreamHandler.lookup(componentType);
-        if (componentType.isPrimitive() || Number.class.isAssignableFrom(componentType)) {
+        if (componentType.isPrimitive()) {
           out.write(ClassStreamHandler.PRIMITIVE_ARRAY);
           out.writeShort(classHandler.getClassId());
           int length=Array.getLength(obj);
@@ -52,6 +52,7 @@
           if (!classHandler.invokeWriteMethod(this,obj)) {
             classHandler.writeFields(this,obj);
           }
+          defaultWriteHappend=false;
         }
       }
     }

@@ -61,10 +61,10 @@ catch (      InvocationTargetException ex) {
     short classDef=in.readShort();
     ClassStreamHandler lookup=ClassStreamHandler.lookup(classDef);
     int length=in.readInt();
-    Object[] array=(Object[])Array.newInstance(lookup.getStreamClass(),length);
+    Object array=Array.newInstance(lookup.getStreamClass(),length);
     handledObjects.put(new Short(handleCounter++),array);
-    for (int i=0; i < array.length; i++) {
-      array[i]=readObjectOverride();
+    for (int i=0; i < length; i++) {
+      Array.set(array,i,readObjectOverride());
     }
     value=array;
   }
