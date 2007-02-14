@@ -44,6 +44,9 @@
  else {
     this.fields=new ArrayList();
     cons=getSerializableConstructor(clz);
+    if (cons == null) {
+      throw new NotSerializableException("No serializeable constructor found for " + cls);
+    }
     writeObjectMethods=new ArrayList();
     readObjectMethods=new ArrayList();
     primitiveArray=null;
