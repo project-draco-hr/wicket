@@ -1,29 +1,11 @@
 {
   this.classId=classCounter++;
   this.clz=cls;
-  if (!cls.isPrimitive()) {
-    this.fields=new ArrayList();
-    cons=getSerializableConstructor(clz);
-    if (cons == null) {
-      throw new RuntimeException("Failed to get the constructor from clz: " + clz);
-    }
-    writeObjectMethod=new ArrayList();
-    readObjectMethod=new ArrayList();
-    Class parent=cls;
-    while (parent != Object.class) {
-      Method method=getPrivateMethod(parent,"writeObject",new Class[]{ObjectOutputStream.class},Void.TYPE);
-      if (method != null)       writeObjectMethod.add(method);
-      method=getPrivateMethod(parent,"readObject",new Class[]{ObjectInputStream.class},Void.TYPE);
-      if (method != null)       readObjectMethod.add(method);
-      parent=parent.getSuperclass();
-    }
-    fillFields(cls);
-  }
- else {
+  if (cls.isPrimitive()) {
     fields=null;
     cons=null;
-    writeObjectMethod=null;
-    readObjectMethod=null;
+    writeObjectMethods=null;
+    readObjectMethods=null;
     if (clz == boolean.class) {
       primitiveArray=new BooleanPrimitiveArray();
     }
@@ -48,5 +30,31 @@
  else     if (clz == double.class) {
       primitiveArray=new DoublePrimitiveArray();
     }
+ else {
+      throw new RuntimeException("Unsupported primitive " + cls);
+    }
+  }
+ else   if (cls.isInterface()) {
+    fields=null;
+    cons=null;
+    writeObjectMethods=null;
+    readObjectMethods=null;
+    primitiveArray=null;
+  }
+ else {
+    this.fields=new ArrayList();
+    cons=getSerializableConstructor(clz);
+    writeObjectMethods=new ArrayList();
+    readObjectMethods=new ArrayList();
+    primitiveArray=null;
+    Class parent=cls;
+    while (parent != Object.class) {
+      Method method=getPrivateMethod(parent,"writeObject",new Class[]{ObjectOutputStream.class},Void.TYPE);
+      if (method != null)       writeObjectMethods.add(method);
+      method=getPrivateMethod(parent,"readObject",new Class[]{ObjectInputStream.class},Void.TYPE);
+      if (method != null)       readObjectMethods.add(method);
+      parent=parent.getSuperclass();
+    }
+    fillFields(cls);
   }
 }
