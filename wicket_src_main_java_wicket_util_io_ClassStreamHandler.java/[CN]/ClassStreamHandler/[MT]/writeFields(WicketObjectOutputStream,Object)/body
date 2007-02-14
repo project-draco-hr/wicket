@@ -2,49 +2,10 @@
   try {
     for (int i=0; i < fields.size(); i++) {
       FieldAndIndex fai=(FieldAndIndex)fields.get(i);
-      Field field=fai.field;
-      Object value=field.get(obj);
-      if (value instanceof Boolean) {
-        woos.getOutputStream().writeBoolean(((Boolean)value).booleanValue());
-        continue;
-      }
- else       if (value instanceof Byte) {
-        woos.getOutputStream().writeByte(((Byte)value).intValue());
-        continue;
-      }
- else       if (value instanceof Short) {
-        woos.getOutputStream().writeShort(((Short)value).intValue());
-        continue;
-      }
- else       if (value instanceof Character) {
-        woos.getOutputStream().writeChar(((Character)value).charValue());
-        continue;
-      }
- else       if (value instanceof Integer) {
-        woos.getOutputStream().writeInt(((Integer)value).intValue());
-        continue;
-      }
- else       if (value instanceof Long) {
-        woos.getOutputStream().writeLong(((Long)value).longValue());
-        continue;
-      }
- else       if (value instanceof Float) {
-        woos.getOutputStream().writeFloat(((Float)value).floatValue());
-        continue;
-      }
- else       if (value instanceof Double) {
-        woos.getOutputStream().writeDouble(((Double)value).doubleValue());
-        continue;
-      }
- else {
-        woos.writeObject(value);
-      }
+      fai.writeField(obj,woos);
     }
   }
  catch (  IllegalArgumentException ex) {
-    throw new RuntimeException(ex);
-  }
-catch (  IllegalAccessException ex) {
     throw new RuntimeException(ex);
   }
 catch (  IOException ex) {

@@ -6,7 +6,7 @@
   int handle=handledObjects.lookup(obj);
   if (handle != -1) {
     out.write(ClassStreamHandler.HANDLE);
-    out.writeShort((int)handle);
+    out.writeShort(handle);
   }
  else {
     if (obj instanceof Class) {
@@ -23,11 +23,7 @@
         if (componentType.isPrimitive()) {
           out.write(ClassStreamHandler.PRIMITIVE_ARRAY);
           out.writeShort(classHandler.getClassId());
-          int length=Array.getLength(obj);
-          out.writeInt(length);
-          for (int i=0; i < length; i++) {
-            writeObjectOverride(Array.get(obj,i));
-          }
+          classHandler.writeArray(obj,this);
         }
  else {
           out.write(ClassStreamHandler.ARRAY);
