@@ -1,15 +1,22 @@
 {
-  if (storePageMap.size() > 25) {
+  List list=(List)storePageMap.get(sessionId);
+  if (list == null) {
+    list=Collections.synchronizedList(new LinkedList());
+  }
+  if (pagesInMap > 25) {
     SessionPageKey key=new SessionPageKey(sessionId,page);
     byte[] bytes=serializePage(key,page);
     if (bytes != null) {
       key.setObject(bytes);
-      storePageMap.add(key);
+      list.add(key);
+      storePageMap.put(sessionId,list);
     }
   }
  else {
+    list.add(new SessionPageKey(sessionId,page));
+    storePageMap.put(sessionId,list);
 synchronized (storePageMap) {
-      storePageMap.add(new SessionPageKey(sessionId,page));
+      pagesInMap++;
       storePageMap.notifyAll();
     }
   }

@@ -1,46 +1,44 @@
 {
-synchronized (storePageMap) {
-    int index=storePageMap.indexOf(currentKey);
+  List list=(List)storePageMap.get(currentKey.sessionId);
+  if (list == null)   return null;
+synchronized (list) {
+    int index=list.indexOf(currentKey);
     if (index != -1) {
-      currentKey=(SessionPageKey)storePageMap.get(index);
+      currentKey=(SessionPageKey)list.get(index);
       Object object=currentKey.data;
       if (object instanceof Page) {
-        storePageMap.remove(index);
+        list.remove(index);
       }
  else       if (object instanceof byte[]) {
         return (byte[])object;
       }
- else       if (object != SERIALIZING) {
-        currentKey=null;
-      }
-    }
- else {
-      currentKey=null;
-    }
-  }
-  if (currentKey != null) {
-    if (currentKey.data == SERIALIZING) {
-synchronized (currentKey) {
+ else       if (object == SERIALIZING) {
         try {
-          currentKey.wait();
+          list.wait();
         }
  catch (        InterruptedException ex) {
           throw new RuntimeException(ex);
         }
-      }
-      Object data=currentKey.data;
-      if (data instanceof byte[]) {
-        return (byte[])data;
+        object=currentKey.data;
+        if (object instanceof byte[]) {
+          return (byte[])object;
+        }
+ else {
+          return null;
+        }
       }
     }
  else {
-      byte[] bytes=serializePage(currentKey,(Page)currentKey.data);
-      if (bytes != null) {
-        currentKey.setObject(bytes);
-        storePageMap.add(currentKey);
-      }
-      return bytes;
+      return null;
     }
   }
-  return null;
+synchronized (storePageMap) {
+    pagesInMap--;
+  }
+  byte[] bytes=serializePage(currentKey,(Page)currentKey.data);
+  if (bytes != null) {
+    currentKey.setObject(bytes);
+    list.add(currentKey);
+  }
+  return bytes;
 }
