@@ -1,10 +1,12 @@
 {
-  final Form form=getForm().getRootForm();
+  final Form<?> form=getForm().getRootForm();
   form.onFormSubmitted();
   if (!form.hasError()) {
     onSubmit(target);
   }
-  if (form.hasError()) {
-    onError(target);
+  if (form.findParent(Page.class) != null) {
+    if (getForm().hasError()) {
+      onError(target);
+    }
   }
 }
