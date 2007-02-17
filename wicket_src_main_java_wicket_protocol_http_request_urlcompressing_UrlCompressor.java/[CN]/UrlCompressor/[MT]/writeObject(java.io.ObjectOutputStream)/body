@@ -1,0 +1,16 @@
+{
+  Object ref=null;
+  while ((ref=queue.poll()) != null) {
+    directComponentRefs.remove(((IntKeyWeakReference)ref).uid);
+  }
+  s.defaultWriteObject();
+  s.writeInt(directComponentRefs.size());
+  Iterator it=directComponentRefs.entrySet().iterator();
+  while (it.hasNext()) {
+    IntHashMap.Entry entry=(Entry)it.next();
+    s.writeInt(entry.getKey());
+    ComponentAndInterface cai=(ComponentAndInterface)entry.getValue();
+    s.writeObject(cai.getComponent());
+    s.writeUTF(cai.getInterfaceName());
+  }
+}
