@@ -5,7 +5,7 @@
     int code=client.executeMethod(method);
     if (code != 200) {
       log.error("ERROR! code: " + code);
-      throw new Exception(new String(method.getResponseBody()));
+      log.error(method.getResponseBodyAsString());
     }
     if (getPrintResponse()) {
       log.info("\n" + new String(method.getResponseBody()));
