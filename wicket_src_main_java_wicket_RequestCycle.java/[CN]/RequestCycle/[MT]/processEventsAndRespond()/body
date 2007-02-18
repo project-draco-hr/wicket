@@ -1,11 +1,5 @@
 {
-  Object lock=getRequestTarget().getLock(this);
-  if (lock != null) {
-synchronized (lock) {
-      doProcessEventsAndRespond(processor);
-    }
-  }
- else {
-    doProcessEventsAndRespond(processor);
-  }
+  processor.processEvents(this);
+  currentStep=RESPOND;
+  processor.respond(this);
 }
