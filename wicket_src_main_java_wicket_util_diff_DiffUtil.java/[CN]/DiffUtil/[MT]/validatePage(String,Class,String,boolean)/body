@@ -13,8 +13,7 @@
   document=document.replaceAll("\r\n","\n");
   boolean equals=document.equals(reference);
   if (equals == false) {
-    final String prop=System.getProperty("wicket.replace.expected.results");
-    if (prop != null) {
+    if (Boolean.getBoolean("wicket.replace.expected.results")) {
       in.close();
       in=null;
       replaceExpectedResultFile(document,clazz,file);
