@@ -1,12 +1,14 @@
 {
   this.filterConfig=filterConfig;
-  IWebApplicationFactory factory=getApplicationFactory();
-  this.webApplication=factory.createApplication(this);
-  this.webApplication.setWicketFilter(this);
-  String contextKey="wicket:" + filterConfig.getFilterName();
-  filterConfig.getServletContext().setAttribute(contextKey,this.webApplication);
-  filterPath=filterConfig.getInitParameter(FILTER_PATH_PARAM);
+  final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   try {
+    Thread.currentThread().setContextClassLoader(getClassLoader());
+    IWebApplicationFactory factory=getApplicationFactory();
+    this.webApplication=factory.createApplication(this);
+    this.webApplication.setWicketFilter(this);
+    String contextKey="wicket:" + filterConfig.getFilterName();
+    filterConfig.getServletContext().setAttribute(contextKey,this.webApplication);
+    filterPath=filterConfig.getInitParameter(FILTER_PATH_PARAM);
     Application.set(webApplication);
     this.webApplication.internalInit();
     this.webApplication.init();
@@ -15,5 +17,6 @@
   }
   finally {
     Application.unset();
+    Thread.currentThread().setContextClassLoader(previousClassLoader);
   }
 }
