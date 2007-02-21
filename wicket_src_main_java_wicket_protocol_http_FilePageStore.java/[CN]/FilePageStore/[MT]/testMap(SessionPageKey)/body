@@ -1,5 +1,9 @@
 {
-  List list=(List)storePageMap.get(currentKey.sessionId);
+  SessionPageKey previousPage=(SessionPageKey)pagesToBeSaved.get(currentKey);
+  if (previousPage != null) {
+    return (byte[])previousPage.data;
+  }
+  List list=(List)pagesToBeSerialized.get(currentKey.sessionId);
   if (list == null)   return null;
 synchronized (list) {
     int index=list.indexOf(currentKey);
@@ -8,9 +12,6 @@ synchronized (list) {
       Object object=currentKey.data;
       if (object instanceof Page) {
         list.remove(index);
-      }
- else       if (object instanceof byte[]) {
-        return (byte[])object;
       }
  else       if (object == SERIALIZING) {
         try {
@@ -24,6 +25,10 @@ synchronized (list) {
           return (byte[])object;
         }
  else {
+          previousPage=(SessionPageKey)pagesToBeSaved.get(currentKey);
+          if (previousPage != null) {
+            return (byte[])previousPage.data;
+          }
           return null;
         }
       }
@@ -32,13 +37,10 @@ synchronized (list) {
       return null;
     }
   }
-synchronized (storePageMap) {
-    pagesInMap--;
-  }
   byte[] bytes=serializePage(currentKey,(Page)currentKey.data);
   if (bytes != null) {
     currentKey.setObject(bytes);
-    list.add(currentKey);
+    pagesToBeSaved.put(currentKey,currentKey);
   }
   return bytes;
 }

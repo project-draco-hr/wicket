@@ -1,23 +1,10 @@
 {
-  List list=(List)storePageMap.get(sessionId);
+  List list=(List)pagesToBeSerialized.get(sessionId);
   if (list == null) {
-    list=Collections.synchronizedList(new LinkedList());
+    list=new LinkedList();
   }
-  if (pagesInMap > 25) {
-    SessionPageKey key=new SessionPageKey(sessionId,page);
-    byte[] bytes=serializePage(key,page);
-    if (bytes != null) {
-      key.setObject(bytes);
-      list.add(key);
-      storePageMap.put(sessionId,list);
-    }
-  }
- else {
+synchronized (list) {
     list.add(new SessionPageKey(sessionId,page));
-    storePageMap.put(sessionId,list);
-synchronized (storePageMap) {
-      pagesInMap++;
-      storePageMap.notifyAll();
-    }
   }
+  pagesToBeSerialized.put(sessionId,list);
 }

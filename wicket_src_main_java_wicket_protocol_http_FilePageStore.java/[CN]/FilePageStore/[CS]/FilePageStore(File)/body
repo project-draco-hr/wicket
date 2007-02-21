@@ -1,9 +1,16 @@
 {
   defaultWorkDir=dir;
-  storePageMap=new ConcurrentHashMap();
-  thread=new PageSavingThread();
+  pagesToBeSerialized=new ConcurrentHashMap();
+  pagesToBeSaved=new ConcurrentHashMap();
   appName=Application.get().getApplicationKey();
-  Thread t=new Thread(thread,"FilePageStoreThread-" + appName);
+  saveThread=new PageSavingThread();
+  Thread t=new Thread(saveThread,"FilePageSavingThread-" + appName);
   t.setDaemon(true);
+  t.setPriority(Thread.MAX_PRIORITY);
+  t.start();
+  serThread=new PageSerializingThread();
+  t=new Thread(serThread,"FilePageSerializingThread-" + appName);
+  t.setDaemon(true);
+  t.setPriority(Thread.MIN_PRIORITY);
   t.start();
 }
