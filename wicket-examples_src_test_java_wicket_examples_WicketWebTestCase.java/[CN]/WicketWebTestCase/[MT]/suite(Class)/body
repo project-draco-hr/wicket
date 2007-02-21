@@ -5,7 +5,12 @@
   suite.addTestSuite(clazz);
   JettyDecorator deco=new JettyDecorator(suite);
   deco.setPort(8098);
-  deco.setWebappContextRoot("src/main/webapp");
+  String basedir=System.getProperty("basedir");
+  logger.debug("basedir=" + basedir);
+  String path="";
+  if (basedir != null)   path=basedir + "/";
+  path+="src/main/webapp";
+  deco.setWebappContextRoot(path);
   deco.setContextPath("/wicket-examples");
   return deco;
 }
