@@ -19,11 +19,13 @@
       if (behaviors != null) {
         for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
           IBehavior behavior=(IBehavior)i.next();
-          try {
-            behavior.exception(this,ex);
-          }
- catch (          Throwable ex2) {
-            log.error("Error while cleaning up after exception",ex2);
+          if (isBehaviorAccepted(behavior)) {
+            try {
+              behavior.exception(this,ex);
+            }
+ catch (            Throwable ex2) {
+              log.error("Error while cleaning up after exception",ex2);
+            }
           }
         }
       }
