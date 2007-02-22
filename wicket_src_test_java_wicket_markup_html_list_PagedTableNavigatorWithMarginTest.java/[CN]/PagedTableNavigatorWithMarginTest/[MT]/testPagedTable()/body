@@ -1,8 +1,6 @@
 {
-  MockWebApplication application=new MockWebApplication(null);
-  application.setHomePage(PagedTableNavigatorWithMarginPage.class);
-  application.setupRequestAndResponse();
-  application.processRequestCycle();
+  WicketTester application=new WicketTester();
+  application.startPage(PagedTableNavigatorWithMarginPage.class);
   PagedTableNavigatorWithMarginPage page=(PagedTableNavigatorWithMarginPage)application.getLastRenderedPage();
   String document=application.getServletResponse().getDocument();
   DiffUtil.validatePage(document,this.getClass(),"PagedTableNavigatorWithMarginExpectedResult_1.html",true);

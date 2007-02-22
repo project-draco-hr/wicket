@@ -1,12 +1,15 @@
 {
-  application=new WicketTester(){
+  application=new WicketTester(new WebApplication(){
     /** 
  * @see wicket.protocol.http.WebApplication#newSession(Request)
  */
     public Session newSession(    Request request){
       return new WebSession(this,request).setStyle("myStyle");
     }
+    public Class getHomePage(){
+      return ConcretePage2.class;
+    }
   }
-;
+);
   executeTest(ConcretePage2.class,"ExpectedResult3.html");
 }

@@ -4,8 +4,8 @@
   servletRequest.setParameters(parametersForNextRequest);
   parametersForNextRequest.clear();
   wicketRequest=new ServletWebRequest(servletRequest);
-  wicketSession=getSession(wicketRequest);
-  getSessionStore().bind(wicketRequest,wicketSession);
+  wicketSession=this.application.getSession(wicketRequest);
+  this.application.getSessionStore().bind(wicketRequest,wicketSession);
   wicketResponse=new WebResponse(servletResponse);
   wicketResponse.setAjax(wicketRequest.isAjax());
 }

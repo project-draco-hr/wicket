@@ -2,12 +2,12 @@
   application.setupRequestAndResponse();
   application.processRequestCycle();
   MockLoginPage loginPage=(MockLoginPage)application.getLastRenderedPage();
-  assertEquals(application.getLoginPage(),loginPage.getClass());
+  assertEquals(((MyMockWebApplication)application.getApplication()).getLoginPage(),loginPage.getClass());
   application.setupRequestAndResponse();
   WebRequestCycle requestCycle=application.createRequestCycle();
   assertTrue(((MockLoginPage)application.getLastRenderedPage()).login("admin"));
   application.processRequestCycle(requestCycle);
-  assertEquals(application.getHomePage(),application.getLastRenderedPage().getClass());
+  assertEquals(application.getApplication().getHomePage(),application.getLastRenderedPage().getClass());
   application.setupRequestAndResponse();
   application.getServletRequest().setRequestToComponent(application.getLastRenderedPage().get("link"));
   application.processRequestCycle();

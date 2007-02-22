@@ -1,20 +1,4 @@
 {
   cycle.request();
-  previousRenderedPage=lastRenderedPage;
-  final MockHttpServletResponse httpResponse=(MockHttpServletResponse)cycle.getWebResponse().getHttpServletResponse();
-  if (httpResponse.isRedirect()) {
-    generateLastRenderedPage(cycle);
-    final MockHttpServletRequest httpRequest=(MockHttpServletRequest)cycle.getWebRequest().getHttpServletRequest();
-    MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(this,servletSession,context);
-    newHttpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
-    wicketRequest=newWebRequest(newHttpRequest);
-    wicketSession=getSession(wicketRequest);
-    cycle=createRequestCycle();
-    cycle.request();
-  }
-  generateLastRenderedPage(cycle);
-  Session.set(getWicketSession());
-  if (getLastRenderedPage() instanceof ExceptionErrorPage) {
-    throw (RuntimeException)((ExceptionErrorPage)getLastRenderedPage()).getThrowable();
-  }
+  postProcessRequestCycle(cycle);
 }

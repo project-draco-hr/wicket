@@ -1,8 +1,7 @@
 {
-  WicketTester tester=new MyTesterApplication();
-  tester.getResourceSettings().setThrowExceptionOnMissingResource(false);
+  tester.getApplication().getResourceSettings().setThrowExceptionOnMissingResource(false);
   tester.setupRequestAndResponse();
   WebRequestCycle cycle=tester.createRequestCycle();
-  String str=tester.getResourceSettings().getLocalizer().getString("XXX",null);
+  String str=tester.getApplication().getResourceSettings().getLocalizer().getString("XXX",null);
   assertEquals("[Warning: String resource for 'XXX' not found]",str);
 }
