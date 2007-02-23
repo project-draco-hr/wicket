@@ -1,10 +1,6 @@
 {
   assertNotNull(behavior);
   System.out.println("=== " + pageClass.getName() + " : "+ behavior.toString()+ " ===");
-  tester.setupRequestAndResponse();
-  WebRequestCycle cycle=tester.createRequestCycle();
-  tester.getServletRequest().setRequestToRedirectString(behavior.getCallbackUrl(false).toString());
-  tester.processRequestCycle(cycle);
-  String document=tester.getServletResponse().getDocument();
-  DiffUtil.validatePage(document,pageClass,filename,true);
+  tester.executeBehavior(behavior);
+  tester.assertResultPage(pageClass,filename);
 }

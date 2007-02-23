@@ -1,6 +1,5 @@
 {
-  WicketTester app=new WicketTester();
-  app.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
     /** 
  * @see wicket.authorization.IAuthorizationStrategy#isActionAuthorized(wicket.Component,wicket.authorization.Action)
  */
@@ -12,8 +11,7 @@
     }
   }
 );
-  app.startPage(AuthTestPage1.class);
-  app.assertRenderedPage(AuthTestPage1.class);
-  app.assertInvisible("label");
-  app.destroy();
+  tester.startPage(AuthTestPage1.class);
+  tester.assertRenderedPage(AuthTestPage1.class);
+  tester.assertInvisible("label");
 }
