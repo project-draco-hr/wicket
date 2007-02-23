@@ -43,22 +43,6 @@
     ajaxFormSubmitBehavior.onRequest();
     requestCycle.getRequestTarget().respond(requestCycle);
   }
- else   if (linkComponent instanceof ResourceLink) {
-    Resource resource=null;
-    try {
-      Field resourceField=ResourceLink.class.getDeclaredField("resource");
-      resourceField.setAccessible(true);
-      resource=(Resource)resourceField.get(linkComponent);
-    }
- catch (    Exception e) {
-      Assert.fail(e.getMessage());
-    }
-    if (resource != null) {
-      newRequestToComponent(linkComponent);
-    }
- else {
-    }
-  }
  else   if (linkComponent instanceof Link) {
     Link link=(Link)linkComponent;
     if (link instanceof BookmarkablePageLink) {
