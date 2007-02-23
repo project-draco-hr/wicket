@@ -1,12 +1,12 @@
 {
-  application.startPage(EmailPage.class);
-  assertEquals(EmailPage.class,application.getLastRenderedPage().getClass());
-  EmailPage page=(EmailPage)application.getLastRenderedPage();
-  FormTester formTester=application.newFormTester("form");
+  tester.startPage(EmailPage.class);
+  assertEquals(EmailPage.class,tester.getLastRenderedPage().getClass());
+  EmailPage page=(EmailPage)tester.getLastRenderedPage();
+  FormTester formTester=tester.newFormTester("form");
   formTester.setValue("email","a");
   formTester.submit();
-  assertEquals(EmailPage.class,application.getLastRenderedPage().getClass());
-  page=(EmailPage)application.getLastRenderedPage();
+  assertEquals(EmailPage.class,tester.getLastRenderedPage().getClass());
+  page=(EmailPage)tester.getLastRenderedPage();
   assertNull(page.getEmail());
   assertTrue(page.getFeedbackMessages().hasMessageFor(page.get("form:email")));
   assertEquals("wrong email address pattern for email",page.getFeedbackMessages().messageForComponent(page.get("form:email")).getMessage());

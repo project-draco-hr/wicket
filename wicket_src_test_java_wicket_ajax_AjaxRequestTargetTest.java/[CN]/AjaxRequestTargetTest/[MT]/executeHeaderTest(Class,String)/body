@@ -17,17 +17,17 @@
     }
   }
 );
-  application.startPage(new ITestPageSource(){
+  tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
     public Page getTestPage(){
       return page;
     }
   }
 );
-  System.out.println(application.getServletResponse().getDocument());
-  application.debugComponentTrees();
-  application.clickLink(MockPageWithLinkAndComponent.LINK_ID);
-  String document=application.getServletResponse().getDocument();
+  System.out.println(tester.getServletResponse().getDocument());
+  tester.debugComponentTrees();
+  tester.clickLink(MockPageWithLinkAndComponent.LINK_ID);
+  String document=tester.getServletResponse().getDocument();
   Pattern pat=Pattern.compile(".*<header-contribution>(.*?)</header-contribution>.*",Pattern.DOTALL);
   Matcher mat=pat.matcher(document);
   String headerContribution=null;

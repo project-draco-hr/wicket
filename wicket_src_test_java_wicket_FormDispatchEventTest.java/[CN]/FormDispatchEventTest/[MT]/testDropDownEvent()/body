@@ -16,14 +16,14 @@
   form.add(dropDown);
   MockPage page=new MockPage();
   page.add(form);
-  application.setupRequestAndResponse();
-  RequestCycle cycle=application.createRequestCycle();
+  tester.setupRequestAndResponse();
+  RequestCycle cycle=tester.createRequestCycle();
   page.urlFor(IRedirectListener.INTERFACE);
   cycle.getSession().touch(page);
   cycle.getSession().update();
   form.onFormSubmitted();
   assertTrue("form should should set value ",submit);
-  application.getServletRequest().setParameter(form.getHiddenField(),dropDown.urlFor(IOnChangeListener.INTERFACE).toString());
+  tester.getServletRequest().setParameter(form.getHiddenField(),dropDown.urlFor(IOnChangeListener.INTERFACE).toString());
   form.onFormSubmitted();
   assertTrue("Selection should be called",selection);
 }

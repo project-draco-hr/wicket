@@ -1,13 +1,12 @@
 {
-  WicketTester app=new WicketTester();
-  app.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
     public boolean isInstantiationAuthorized(    Class c){
       return false;
     }
   }
 );
   try {
-    WebComponent c=new WebComponent("test");
+    new WebComponent("test");
     fail("authorization check failed to throw an exception");
   }
  catch (  AuthorizationException e) {

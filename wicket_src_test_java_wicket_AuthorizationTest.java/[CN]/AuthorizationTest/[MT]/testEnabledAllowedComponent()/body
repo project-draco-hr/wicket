@@ -1,12 +1,11 @@
 {
-  WicketTester app=new WicketTester();
-  app.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy());
-  app.startPage(AuthTestPage1.class);
-  app.assertRenderedPage(AuthTestPage1.class);
-  app.setParameterForNextRequest("form:stringInput","test");
-  app.submitForm("form");
-  app.assertRenderedPage(AuthTestPage1.class);
-  AuthTestPage1 page=(AuthTestPage1)app.getLastRenderedPage();
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy());
+  tester.startPage(AuthTestPage1.class);
+  tester.assertRenderedPage(AuthTestPage1.class);
+  tester.setParameterForNextRequest("form:stringInput","test");
+  tester.submitForm("form");
+  tester.assertRenderedPage(AuthTestPage1.class);
+  AuthTestPage1 page=(AuthTestPage1)tester.getLastRenderedPage();
   assertTrue(page.isSubmitted());
   Input input=page.getTestModel();
   assertNotNull(input.getStringInput());

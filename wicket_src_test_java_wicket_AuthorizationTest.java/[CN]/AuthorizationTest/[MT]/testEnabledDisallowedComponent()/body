@@ -1,6 +1,5 @@
 {
-  WicketTester app=new WicketTester();
-  app.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
     /** 
  * @see wicket.authorization.IAuthorizationStrategy#isActionAuthorized(wicket.Component,wicket.authorization.Action)
  */
@@ -12,12 +11,12 @@
     }
   }
 );
-  app.startPage(AuthTestPage1.class);
-  app.assertRenderedPage(AuthTestPage1.class);
-  app.setParameterForNextRequest("form:stringInput","test");
+  tester.startPage(AuthTestPage1.class);
+  tester.assertRenderedPage(AuthTestPage1.class);
+  tester.setParameterForNextRequest("form:stringInput","test");
   try {
-    app.submitForm("form");
-    Component component=app.getComponentFromLastRenderedPage("form:stringInput");
+    tester.submitForm("form");
+    Component component=tester.getComponentFromLastRenderedPage("form:stringInput");
     assertEquals("",component.getModelObjectAsString());
   }
  catch (  WicketRuntimeException e) {

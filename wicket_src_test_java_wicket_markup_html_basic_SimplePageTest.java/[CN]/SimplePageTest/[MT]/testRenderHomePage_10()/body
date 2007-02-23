@@ -1,12 +1,12 @@
 {
   executeTest(SimplePage_10.class,"SimplePageExpectedResult_10.html");
-  Panel panel=(Panel)application.getLastRenderedPage().get("myPanel");
+  Panel panel=(Panel)tester.getLastRenderedPage().get("myPanel");
   assertNotNull(panel);
-  application.setupRequestAndResponse();
-  application.createRequestCycle();
+  tester.setupRequestAndResponse();
+  tester.createRequestCycle();
   panel.setVisible(true);
-  application.processRequestCycle(panel);
-  String document=application.getServletResponse().getDocument();
+  tester.processRequestCycle(panel);
+  String document=tester.getServletResponse().getDocument();
   assertNotNull(document);
   assertEquals("<wicket:panel>Inside the panel<span wicket:id=\"label\">mein Label</span></wicket:panel>",document);
 }
