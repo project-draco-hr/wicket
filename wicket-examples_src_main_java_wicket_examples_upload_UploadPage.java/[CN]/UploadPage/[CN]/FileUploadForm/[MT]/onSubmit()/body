@@ -1,7 +1,7 @@
 {
   final FileUpload upload=fileUploadField.getFileUpload();
   if (upload != null) {
-    File newFile=new File(uploadFolder,upload.getClientFileName());
+    File newFile=new File(getUploadFolder(),upload.getClientFileName());
     checkFileExists(newFile);
     try {
       newFile.createNewFile();
@@ -11,6 +11,5 @@
  catch (    Exception e) {
       throw new IllegalStateException("Unable to write file");
     }
-    refreshFiles();
   }
 }
