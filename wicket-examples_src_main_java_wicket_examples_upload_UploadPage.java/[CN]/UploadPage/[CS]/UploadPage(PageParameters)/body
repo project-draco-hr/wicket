@@ -1,13 +1,16 @@
 {
-  this.uploadFolder=new Folder(System.getProperty("java.io.tmpdir"),"wicket-uploads");
-  uploadFolder.mkdirs();
+  Folder uploadFolder=getUploadFolder();
   final FeedbackPanel uploadFeedback=new FeedbackPanel("uploadFeedback");
   add(uploadFeedback);
   final FileUploadForm simpleUploadForm=new FileUploadForm("simpleUpload");
   add(simpleUploadForm);
   add(new Label("dir",uploadFolder.getAbsolutePath()));
-  files.addAll(Arrays.asList(uploadFolder.listFiles()));
-  fileListView=new FileListView("fileList",files);
+  fileListView=new FileListView("fileList",new LoadableDetachableModel(){
+    protected Object load(){
+      return Arrays.asList(getUploadFolder().listFiles());
+    }
+  }
+);
   add(fileListView);
   final FileUploadForm ajaxSimpleUploadForm=new FileUploadForm("ajax-simpleUpload");
   ajaxSimpleUploadForm.add(new UploadProgressBar("progress",ajaxSimpleUploadForm));
