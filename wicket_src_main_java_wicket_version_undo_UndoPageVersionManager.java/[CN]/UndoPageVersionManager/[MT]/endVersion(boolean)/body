@@ -1,11 +1,12 @@
 {
-  if (mergeVersion) {
+  if (mergeVersion && !ignoreMerge) {
     if (changeListStack.size() > 0) {
       ChangeList previous=(ChangeList)changeListStack.peek();
       previous.add(changeList);
     }
   }
  else {
+    ignoreMerge=false;
     changeListStack.push(changeList);
     if (getVersions() > maxVersions) {
       expireOldestVersion();
