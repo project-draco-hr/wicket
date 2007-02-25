@@ -21,7 +21,7 @@ catch (  InvocationTargetException e) {
   if (cls.isPrimitive()) {
   }
  else   if (cls.isArray()) {
-    checked.assign(obj);
+    checked.put(obj,null);
     Class ccl=cls.getComponentType();
     if (!(ccl.isPrimitive())) {
       Object[] objs=(Object[])obj;
@@ -39,10 +39,10 @@ catch (  InvocationTargetException e) {
       extObj.writeExternal(new ObjectOutputAdaptor(){
         private int count=0;
         public void writeObject(        Object streamObj) throws IOException {
-          if (checked.contains(streamObj)) {
+          if (checked.containsKey(streamObj)) {
             return;
           }
-          checked.assign(streamObj);
+          checked.put(streamObj,null);
           String arrayPos="[write:" + count++ + "]";
           simpleName=arrayPos;
           fieldDescription+=arrayPos;
@@ -89,10 +89,10 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
             return streamObj;
           }
           counter++;
-          if (checked.contains(streamObj)) {
+          if (checked.containsKey(streamObj)) {
             return null;
           }
-          checked.assign(obj);
+          checked.put(obj,null);
           String arrayPos="[write:" + counter + "]";
           simpleName=arrayPos;
           fieldDescription+=arrayPos;
@@ -129,7 +129,7 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
  catch (        Exception e) {
           throw new RuntimeException(e);
         }
-        checked.assign(obj);
+        checked.put(obj,null);
         checkFields(obj,slotDesc);
       }
     }
