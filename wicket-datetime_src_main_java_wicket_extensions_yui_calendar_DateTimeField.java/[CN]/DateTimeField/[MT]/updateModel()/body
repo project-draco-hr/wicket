@@ -1,0 +1,33 @@
+{
+  dateField.updateModel();
+  hoursField.updateModel();
+  minutesField.updateModel();
+  amOrPmChoice.updateModel();
+  if (date != null) {
+    try {
+      TimeZone zone=getClientTimeZone();
+      if (zone != null) {
+        date.setZone(DateTimeZone.forTimeZone(zone));
+      }
+      if (hours != null) {
+        date.set(DateTimeFieldType.hourOfHalfday(),hours.intValue());
+        date.setMinuteOfHour((minutes != null) ? minutes.intValue() : 0);
+      }
+      if (amOrPm == AM_PM.PM) {
+        date.set(DateTimeFieldType.halfdayOfDay(),1);
+      }
+ else {
+        date.set(DateTimeFieldType.halfdayOfDay(),0);
+      }
+      Date d=date.toDate();
+      setModelObject(d);
+    }
+ catch (    RuntimeException e) {
+      DateTimeField.this.error(e.getMessage());
+      invalid();
+    }
+  }
+ else {
+    setModelObject(null);
+  }
+}
