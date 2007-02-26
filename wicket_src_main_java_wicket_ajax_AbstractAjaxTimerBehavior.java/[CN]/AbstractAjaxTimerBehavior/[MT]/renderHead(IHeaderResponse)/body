@@ -1,9 +1,11 @@
 {
   super.renderHead(response);
-  if (RequestCycle.get().getRequestTarget() instanceof AjaxRequestTarget) {
-    response.renderJavascript(getJsTimeoutCall(updateInterval),getComponent().getMarkupId());
-  }
+  if (!stopped) {
+    if (RequestCycle.get().getRequestTarget() instanceof AjaxRequestTarget) {
+      response.renderJavascript(getJsTimeoutCall(updateInterval),getComponent().getMarkupId());
+    }
  else {
-    response.renderOnLoadJavascript(getJsTimeoutCall(updateInterval));
+      response.renderOnLoadJavascript(getJsTimeoutCall(updateInterval));
+    }
   }
 }
