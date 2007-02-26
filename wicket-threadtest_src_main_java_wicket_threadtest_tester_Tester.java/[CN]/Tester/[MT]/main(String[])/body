@@ -1,0 +1,22 @@
+{
+  int port=8090;
+  if (args.length > 0) {
+    port=Integer.valueOf(args[0]);
+  }
+  Server server=new Server(port);
+  WebAppContext ctx=new WebAppContext("./src/main/webapp","/");
+  server.addHandler(ctx);
+  try {
+    server.start();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    try {
+      server.stop();
+    }
+ catch (    Exception e1) {
+      e1.printStackTrace();
+    }
+    System.exit(1);
+  }
+}
