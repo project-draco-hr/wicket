@@ -1,12 +1,9 @@
 {
   super.renderHead(response);
-  if (this.attachedBodyOnLoadModifier == false) {
-    this.attachedBodyOnLoadModifier=true;
-    if (RequestCycle.get().getRequestTarget() instanceof AjaxRequestTarget) {
-      response.renderJavascript(getJsTimeoutCall(updateInterval),getComponent().getMarkupId());
-    }
+  if (RequestCycle.get().getRequestTarget() instanceof AjaxRequestTarget) {
+    response.renderJavascript(getJsTimeoutCall(updateInterval),getComponent().getMarkupId());
+  }
  else {
-      ((WebPage)getComponent().getPage()).getBodyContainer().addOnLoadModifier(getJsTimeoutCall(updateInterval),getComponent());
-    }
+    response.renderOnLoadJavascript(getJsTimeoutCall(updateInterval));
   }
 }
