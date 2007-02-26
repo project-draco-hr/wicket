@@ -2,12 +2,13 @@
   if (obj == null) {
     return 0;
   }
-  Map<Object,Object> visited=new IdentityHashMap<Object,Object>();
-  Stack<Object> stack=new Stack<Object>();
-  long result=internalSizeOf(obj,stack,visited);
-  while (!stack.isEmpty()) {
-    result+=internalSizeOf(stack.pop(),stack,visited);
+  try {
+    SizeRecodingOuputStream recorder=new SizeRecodingOuputStream();
+    recorder.writeObject(obj);
+    return recorder.getTotalSize();
   }
-  visited.clear();
-  return result;
+ catch (  IOException e) {
+    e.printStackTrace();
+    return -1;
+  }
 }
