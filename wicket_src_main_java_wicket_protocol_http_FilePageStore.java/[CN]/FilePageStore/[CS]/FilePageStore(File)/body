@@ -1,5 +1,6 @@
 {
-  defaultWorkDir=dir;
+  defaultWorkDir=new File(dir,"sessions/");
+  defaultWorkDir.mkdirs();
   pagesToBeSerialized=new ConcurrentHashMap();
   pagesToBeSaved=new ConcurrentHashMap();
   appName=Application.get().getApplicationKey();
@@ -11,6 +12,6 @@
   serThread=new PageSerializingThread();
   t=new Thread(serThread,"FilePageSerializingThread-" + appName);
   t.setDaemon(true);
-  t.setPriority(Thread.MIN_PRIORITY);
+  t.setPriority(Thread.NORM_PRIORITY);
   t.start();
 }
