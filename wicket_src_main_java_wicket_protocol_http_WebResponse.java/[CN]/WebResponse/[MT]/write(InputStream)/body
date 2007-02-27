@@ -1,0 +1,16 @@
+{
+  try {
+    Streams.copy(in,getHttpServletResponse().getOutputStream());
+  }
+ catch (  Exception e) {
+    throw new WicketRuntimeException(e);
+  }
+ finally {
+    try {
+      in.close();
+    }
+ catch (    IOException e) {
+      throw new WicketRuntimeException(e);
+    }
+  }
+}

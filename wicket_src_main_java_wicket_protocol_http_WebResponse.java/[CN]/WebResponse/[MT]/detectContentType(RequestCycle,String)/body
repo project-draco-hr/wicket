@@ -1,0 +1,10 @@
+{
+  final ServletContext context=((WebApplication)requestCycle.getApplication()).getServletContext();
+  String contentType=context.getMimeType(uri);
+  if (contentType == null) {
+    contentType=URLConnection.getFileNameMap().getContentTypeFor(uri);
+  }
+  if (contentType != null) {
+    setContentType(contentType);
+  }
+}

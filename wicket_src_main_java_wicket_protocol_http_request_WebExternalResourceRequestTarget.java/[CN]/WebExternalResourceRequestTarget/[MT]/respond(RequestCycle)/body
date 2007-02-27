@@ -4,16 +4,8 @@
     final ServletContext context=((WebApplication)requestCycle.getApplication()).getServletContext();
     final InputStream in=context.getResourceAsStream(url);
     if (in != null) {
-      String contentType=context.getMimeType(url);
-      if (contentType != null) {
-        webResponse.setContentType(contentType);
-      }
-      try {
-        Streams.copy(in,webResponse.getHttpServletResponse().getOutputStream());
-      }
-  finally {
-        in.close();
-      }
+      webResponse.write(in);
+      webResponse.detectContentType(requestCycle,url);
     }
  else {
       log.warn("the resource requested by request " + requestCycle.getRequest() + " was not found");
