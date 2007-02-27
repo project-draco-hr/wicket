@@ -6,24 +6,12 @@
       WebResponse r=(WebResponse)requestCycle.getResponse();
       r.setAttachmentHeader(fileName);
       try {
-        InputStream is=new FileInputStream(file);
-        try {
-          Streams.copy(is,r.getOutputStream());
-        }
- catch (        IOException e) {
-          throw new RuntimeException(e);
-        }
- finally {
-          try {
-            is.close();
-          }
- catch (          IOException e) {
-            throw new RuntimeException(e);
-          }
-        }
+        r.write(new FileInputStream(file));
+        r.setContentLength(file.length());
+        r.detectContentType(requestCycle,fileName);
       }
- catch (      FileNotFoundException e) {
-        throw new RuntimeException(e);
+ catch (      Exception e) {
+        throw new WicketRuntimeException(e);
       }
     }
   }
