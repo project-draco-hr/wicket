@@ -24,14 +24,6 @@
       log.error("there was an error updating the session " + session + ".",re);
     }
   }
-  if (getResponse() instanceof BufferedWebResponse) {
-    try {
-      ((BufferedWebResponse)getResponse()).filter();
-    }
- catch (    RuntimeException re) {
-      log.error("there was an error filtering the response.",re);
-    }
-  }
   try {
     IRequestLogger requestLogger=getApplication().getRequestLogger();
     if (requestLogger != null) {
@@ -46,6 +38,14 @@
   }
  catch (  RuntimeException re) {
     log.error("there was an error detaching the request from the session " + session + ".",re);
+  }
+  if (getResponse() instanceof BufferedWebResponse) {
+    try {
+      ((BufferedWebResponse)getResponse()).filter();
+    }
+ catch (    RuntimeException re) {
+      log.error("there was an error filtering the response.",re);
+    }
   }
   try {
     onEndRequest();
