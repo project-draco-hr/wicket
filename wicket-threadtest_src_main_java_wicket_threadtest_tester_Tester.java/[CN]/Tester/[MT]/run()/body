@@ -48,7 +48,8 @@ synchronized (this) {
       }
     }
     long end=System.currentTimeMillis();
-    log.info("\n******** finished in " + (end - start) + " miliseconds\n");
+    long time=end - start;
+    log.info("\n******** finished in " + Duration.milliseconds(time) + " ("+ time+ " milis)");
   }
   finally {
     MultiThreadedHttpConnectionManager.shutdownAll();
