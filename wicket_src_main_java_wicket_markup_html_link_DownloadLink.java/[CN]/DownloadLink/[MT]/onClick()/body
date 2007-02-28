@@ -6,9 +6,9 @@
       WebResponse r=(WebResponse)requestCycle.getResponse();
       r.setAttachmentHeader(fileName);
       try {
-        r.write(new FileInputStream(file));
         r.setContentLength(file.length());
         r.detectContentType(requestCycle,fileName);
+        r.write(new FileInputStream(file));
       }
  catch (      Exception e) {
         throw new WicketRuntimeException(e);
