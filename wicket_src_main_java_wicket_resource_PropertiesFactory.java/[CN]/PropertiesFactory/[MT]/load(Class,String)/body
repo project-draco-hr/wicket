@@ -1,0 +1,19 @@
+{
+  Properties properties=propertiesCache.get(path);
+  if (properties != null) {
+    if (properties == Properties.EMPTY_PROPERTIES) {
+      properties=null;
+    }
+    return properties;
+  }
+  IResourceStream stream=ResourceStreamFactory.get().newResourceStream(clazz,path);
+  if (stream != null) {
+    properties=loadPropertiesFileAndWatchForChanges(path,stream);
+    if (properties != null) {
+      this.propertiesCache.put(path,properties);
+      return properties;
+    }
+  }
+  this.propertiesCache.put(path,Properties.EMPTY_PROPERTIES);
+  return null;
+}
