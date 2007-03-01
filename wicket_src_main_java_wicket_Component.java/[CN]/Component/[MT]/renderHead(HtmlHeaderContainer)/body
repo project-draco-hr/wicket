@@ -1,5 +1,8 @@
 {
   if (isVisible()) {
+    if (this instanceof IHeaderContributor) {
+      ((IHeaderContributor)this).renderHead(container.getHeaderResponse());
+    }
     if (this.behaviors != null) {
       final Iterator iter=this.behaviors.iterator();
       while (iter.hasNext()) {
