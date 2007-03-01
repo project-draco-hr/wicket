@@ -1,2 +1,15 @@
 {
+  Form form=new Form("form",new CompoundPropertyModel(this)){
+    protected void onSubmit(){
+      System.out.println("UPLOADED: " + uploads.size() + " FILES");
+      Iterator it=uploads.iterator();
+      while (it.hasNext()) {
+        FileUpload upload=(FileUpload)it.next();
+        System.out.println("UPLOAD: " + upload.getClientFileName() + " SIZE: "+ upload.getSize());
+      }
+    }
+  }
+;
+  add(form);
+  form.add(new MultiFileUpload("uploads",2));
 }
