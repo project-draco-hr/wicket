@@ -1,0 +1,23 @@
+{
+  if (inputArrayCache == null) {
+    ArrayList names=null;
+    final Request request=getRequest();
+    if (request instanceof IMultipartWebRequest) {
+      final Map itemNameToItem=((IMultipartWebRequest)request).getFiles();
+      Iterator it=itemNameToItem.entrySet().iterator();
+      while (it.hasNext()) {
+        final Entry entry=(Entry)it.next();
+        final String name=(String)entry.getKey();
+        final FileItem item=(FileItem)entry.getValue();
+        if (!Strings.isEmpty(name) && name.startsWith(getInputName() + MAGIC_SEPARATOR) && !Strings.isEmpty(item.getName())) {
+          names=(names != null) ? names : new ArrayList();
+          names.add(name);
+        }
+      }
+    }
+    if (names != null) {
+      inputArrayCache=(String[])names.toArray(new String[names.size()]);
+    }
+  }
+  return inputArrayCache;
+}

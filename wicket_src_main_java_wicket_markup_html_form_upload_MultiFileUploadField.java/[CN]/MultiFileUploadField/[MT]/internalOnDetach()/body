@@ -1,0 +1,16 @@
+{
+  Collection uploads=(Collection)getConvertedInput();
+  if (uploads != null) {
+    Iterator it=uploads.iterator();
+    while (it.hasNext()) {
+      final FileUpload upload=(FileUpload)it.next();
+      upload.closeStreams();
+    }
+  }
+  inputArrayCache=null;
+  Object modelObject=getModelObject();
+  if (modelObject != null && (modelObject instanceof Collection)) {
+    ((Collection)modelObject).clear();
+  }
+  super.internalOnDetach();
+}
