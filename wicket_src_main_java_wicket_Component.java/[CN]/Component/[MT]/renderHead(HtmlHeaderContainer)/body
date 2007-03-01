@@ -1,10 +1,12 @@
 {
-  if (this.behaviors != null) {
-    final Iterator iter=this.behaviors.iterator();
-    while (iter.hasNext()) {
-      IBehavior behavior=(IBehavior)iter.next();
-      if (behavior instanceof IHeaderContributor) {
-        ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
+  if (isVisible()) {
+    if (this.behaviors != null) {
+      final Iterator iter=this.behaviors.iterator();
+      while (iter.hasNext()) {
+        IBehavior behavior=(IBehavior)iter.next();
+        if (behavior instanceof IHeaderContributor) {
+          ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
+        }
       }
     }
   }
