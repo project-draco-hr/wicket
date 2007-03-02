@@ -1,6 +1,7 @@
 {
   tester.startPage(DownloadPage.class);
   tester.clickLink(DownloadPage.TEXT_DOWNLOAD_LINK);
-  assertEquals("text/plain",getContentType());
+  assertTrue(getContentType().startsWith("text/plain"));
+  assertTrue(getContentDisposition().startsWith("attachment; filename="));
   assertEquals(0,getContentLength());
 }
