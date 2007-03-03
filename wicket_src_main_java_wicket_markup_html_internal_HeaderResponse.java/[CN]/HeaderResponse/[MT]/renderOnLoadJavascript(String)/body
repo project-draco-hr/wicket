@@ -1,4 +1,8 @@
 {
-  renderJavascriptReference(WicketEventReference.INSTANCE);
-  JavascriptUtils.writeJavascript(getResponse(),"Wicket.Event.add(window, \"load\", function() { " + javascript + ";});");
+  List token=Arrays.asList(new Object[]{"javascript-event","load",javascript});
+  if (wasRendered(token) == false) {
+    renderJavascriptReference(WicketEventReference.INSTANCE);
+    JavascriptUtils.writeJavascript(getResponse(),"Wicket.Event.add(window, \"load\", function() { " + javascript + ";});");
+    markRendered(token);
+  }
 }
