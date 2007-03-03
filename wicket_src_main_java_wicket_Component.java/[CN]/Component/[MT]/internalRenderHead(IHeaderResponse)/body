@@ -1,5 +1,8 @@
 {
   if (isVisible()) {
+    if (this instanceof IHeaderContributor) {
+      ((IHeaderContributor)this).renderHead(response);
+    }
     if (this.behaviors != null) {
       for (      IBehavior behavior : this.behaviors) {
         if (behavior instanceof IHeaderContributor) {
