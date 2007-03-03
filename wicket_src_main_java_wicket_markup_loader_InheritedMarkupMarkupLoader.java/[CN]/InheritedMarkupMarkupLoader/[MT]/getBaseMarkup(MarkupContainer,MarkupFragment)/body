@@ -1,10 +1,11 @@
 {
+  final Application application=Application.get();
   final Class<? extends MarkupContainer> markupClass=(Class<? extends MarkupContainer>)markup.getMarkup().getResource().getMarkupClass().getSuperclass();
-  final MarkupFragment baseMarkup=this.application.getMarkupCache().getMarkup(container,markupClass);
+  final MarkupFragment baseMarkup=application.getMarkupCache().getMarkup(container,markupClass);
   if (baseMarkup == MarkupFragment.NO_MARKUP_FRAGMENT) {
     throw new MarkupNotFoundException("Base markup of inherited markup not found. Component class: " + markup.getMarkup().getResource().getContainerInfo().getContainerClass().getName() + " Enable debug messages for wicket.util.resource.Resource to get a list of all filenames tried.");
   }
-  this.application.getMarkupCache().addAfterLoadListener(baseMarkup.getMarkup().getResource(),new IChangeListener(){
+  application.getMarkupCache().addAfterLoadListener(baseMarkup.getMarkup().getResource(),new IChangeListener(){
     public void onChange(){
       if (log.isDebugEnabled()) {
         log.debug("Remove derived markup from cache: " + markup.getMarkup().getResource());

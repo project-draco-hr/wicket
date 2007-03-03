@@ -7,7 +7,9 @@
       field.setAccessible(true);
       Object value=field.get(object);
       Object analyzed=analyzeObject(value,addedObjects);
-      if (recursive == analyzed)       continue;
+      if (recursive == analyzed) {
+        continue;
+      }
       if (!Modifier.isFinal(field.getModifiers()) || analyzed instanceof ArrayInstanceHolder || analyzed instanceof ObjectInstanceHashmapHolder) {
         values.put(field,analyzed);
       }

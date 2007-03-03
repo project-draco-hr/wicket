@@ -84,7 +84,7 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
           super(DUMMY_OUTPUT_STREAM);
           enableReplaceObject(true);
         }
-        protected Object replaceObject(        Object streamObj) throws IOException {
+        @Override protected Object replaceObject(        Object streamObj) throws IOException {
           if (streamObj == obj) {
             return streamObj;
           }

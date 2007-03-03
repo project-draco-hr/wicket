@@ -11,7 +11,9 @@
     Iterator includesIterator=patterns.iterator();
     while (includesIterator.hasNext()) {
       String rawpattern=(String)includesIterator.next();
-      if (rawpattern.length() <= 1)       continue;
+      if (rawpattern.length() <= 1) {
+        continue;
+      }
       boolean isInclude=rawpattern.substring(0,1).equals("+");
       String pattern=rawpattern.substring(1);
       if (WildcardMatcherHelper.match(pattern,name) != null) {
