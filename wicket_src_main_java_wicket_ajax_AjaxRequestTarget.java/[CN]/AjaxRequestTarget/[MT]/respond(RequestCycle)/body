@@ -1,33 +1,28 @@
 {
-  try {
-    final Application app=Application.get();
-    final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
-    final WebResponse response=(WebResponse)requestCycle.getResponse();
-    response.setCharacterEncoding(encoding);
-    response.setContentType("text/xml; charset=" + encoding);
-    response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
-    response.setHeader("Cache-Control","no-cache, must-revalidate");
-    response.setHeader("Pragma","no-cache");
-    response.write("<?xml version=\"1.0\" encoding=\"");
-    response.write(encoding);
-    response.write("\"?>");
-    response.write("<ajax-response>");
-    fireOnBeforeRespondListeners();
-    Iterator it=prependJavascripts.iterator();
-    while (it.hasNext()) {
-      String js=(String)it.next();
-      respondInvocation(response,js);
-    }
-    respondComponents(response);
-    fireOnAfterRespondListeners(response);
-    it=appendJavascripts.iterator();
-    while (it.hasNext()) {
-      String js=(String)it.next();
-      respondInvocation(response,js);
-    }
-    response.write("</ajax-response>");
+  final Application app=Application.get();
+  final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
+  final WebResponse response=(WebResponse)requestCycle.getResponse();
+  response.setCharacterEncoding(encoding);
+  response.setContentType("text/xml; charset=" + encoding);
+  response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
+  response.setHeader("Cache-Control","no-cache, must-revalidate");
+  response.setHeader("Pragma","no-cache");
+  response.write("<?xml version=\"1.0\" encoding=\"");
+  response.write(encoding);
+  response.write("\"?>");
+  response.write("<ajax-response>");
+  fireOnBeforeRespondListeners();
+  Iterator it=prependJavascripts.iterator();
+  while (it.hasNext()) {
+    String js=(String)it.next();
+    respondInvocation(response,js);
   }
- catch (  RuntimeException ex) {
-    LOG.error("Error while responding to an AJAX request: " + toString(),ex);
+  respondComponents(response);
+  fireOnAfterRespondListeners(response);
+  it=appendJavascripts.iterator();
+  while (it.hasNext()) {
+    String js=(String)it.next();
+    respondInvocation(response,js);
   }
+  response.write("</ajax-response>");
 }
