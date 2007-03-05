@@ -1,30 +1,30 @@
 {
   try {
     ArrayList urlPatterns=new ArrayList();
-    Document doc=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-    is.close();
-    NodeList filterMappings=doc.getElementsByTagName("filter-mapping");
-    for (int i=0; i < filterMappings.getLength(); i++) {
-      Node filterMapping=filterMappings.item(i);
-      NodeList mappingElements=filterMapping.getChildNodes();
-      String urlPattern=null;
-      boolean add=false;
-      for (int j=0; j < mappingElements.getLength(); j++) {
-        Node mappingElement=mappingElements.item(j);
-        if (mappingElement.getNodeType() != Node.ELEMENT_NODE) {
-          continue;
+    XmlPullParser parser=new XmlPullParser();
+    parser.parse(is);
+    while (true) {
+      XmlTag elem;
+      do {
+        elem=(XmlTag)parser.nextTag();
+      }
+ while (elem != null && (!(elem.getName().equals("filter-mapping") && elem.isOpen())));
+      if (elem == null)       break;
+      String encounteredFilterName=null, urlPattern=null;
+      do {
+        elem=(XmlTag)parser.nextTag();
+        if (elem.isOpen()) {
+          parser.setPositionMarker();
         }
-        if (mappingElement.getNodeName().equals("filter-name") && mappingElement.getFirstChild().getNodeValue().equals(filterName)) {
-          add=true;
+ else         if (elem.isClose() && elem.getName().equals("filter-name")) {
+          encounteredFilterName=parser.getInputFromPositionMarker(elem.getPos()).toString();
         }
-        if (mappingElement.getNodeName().equals("url-pattern")) {
-          urlPattern=mappingElement.getFirstChild().getNodeValue();
+ else         if (elem.isClose() && elem.getName().equals("url-pattern")) {
+          urlPattern=parser.getInputFromPositionMarker(elem.getPos()).toString();
         }
       }
-      if (add) {
-        add=false;
-        urlPatterns.add(urlPattern);
-      }
+ while (urlPattern == null || encounteredFilterName == null);
+      if (filterName.equals(encounteredFilterName))       urlPatterns.add(urlPattern);
     }
     if (urlPatterns.size() == 0) {
       throw new ServletException("Error initialising WicketFilter - you have no filter-mapping element with a url-pattern that uses filter: " + filterName);
