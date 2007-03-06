@@ -17,13 +17,6 @@
  else {
     path=url.substring(0,index);
     String queryString=url.substring(index + 1);
-    StringTokenizer st=new StringTokenizer(queryString,"&");
-    while (st.hasMoreTokens()) {
-      String token=st.nextToken();
-      int tmp=token.indexOf("=");
-      if (tmp != -1) {
-        setParameter(token.substring(0,tmp),token.substring(tmp + 1));
-      }
-    }
+    RequestUtils.decodeParameters(queryString,parameters);
   }
 }

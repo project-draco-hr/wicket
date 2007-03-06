@@ -9,7 +9,8 @@
  catch (  UnsupportedEncodingException ex) {
     log.error("error decoding url: " + encodedParamReplacement,ex);
   }
-  PageParameters params=new PageParameters(decodedParamReplacement,"&");
+  ValueMap params=new ValueMap();
+  RequestUtils.decodeParameters(decodedParamReplacement,params);
   this.parameterMap.putAll(params);
   int pos1=url.indexOf("?x=");
   if (pos1 == -1) {

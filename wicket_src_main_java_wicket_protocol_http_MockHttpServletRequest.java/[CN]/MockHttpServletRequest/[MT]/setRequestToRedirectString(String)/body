@@ -1,15 +1,5 @@
 {
   parameters.clear();
-  final String paramPart=redirect.substring(redirect.indexOf('?') + 1);
-  final String[] paramTuples=paramPart.split("&");
-  for (  String element : paramTuples) {
-    final String[] bits=element.split("=");
-    if (bits.length == 2) {
-      try {
-        parameters.put(URLDecoder.decode(bits[0],"UTF-8"),URLDecoder.decode(bits[1],"UTF-8"));
-      }
- catch (      UnsupportedEncodingException e) {
-      }
-    }
-  }
+  final String queryString=redirect.substring(redirect.indexOf('?') + 1);
+  RequestUtils.decodeParameters(queryString,parameters);
 }

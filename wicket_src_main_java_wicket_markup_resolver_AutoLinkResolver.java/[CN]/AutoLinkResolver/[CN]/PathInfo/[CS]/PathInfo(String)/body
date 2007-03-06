@@ -4,7 +4,8 @@
   int queryStringPos=reference.indexOf("?");
   if (queryStringPos != -1) {
     final String queryString=reference.substring(queryStringPos + 1);
-    pageParameters=new PageParameters(queryString,"&");
+    pageParameters=new PageParameters();
+    RequestUtils.decodeParameters(queryString,pageParameters);
     infoPath=reference.substring(0,queryStringPos);
   }
  else {
