@@ -1,8 +1,8 @@
 {
   if (!Strings.isEmpty(value)) {
-    final IConverter converter=formComponent.getConverter();
+    final IConverter converter=formComponent.getConverter(type);
     try {
-      converter.convert(value,type);
+      converter.convertToObject(value,formComponent.getLocale());
     }
  catch (    Exception e) {
       if (e instanceof ConversionException) {

@@ -19,7 +19,7 @@
       if (!(o instanceof String)) {
         throw new IllegalArgumentException("The model must provide an instance of String");
       }
-      String f=(String)component.getConverter().convert(file.getObject(component),String.class);
+      String f=(String)component.getConverter(String.class).convertToString(file.getObject(component),component.getLocale());
       ResourceReference ref=createPackageResourceReference(Application.get(),referer,f);
       return getRequestCycle().urlFor(ref);
     }

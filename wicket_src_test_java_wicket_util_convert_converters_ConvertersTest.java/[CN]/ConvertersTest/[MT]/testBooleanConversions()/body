@@ -1,12 +1,11 @@
 {
-  assertEquals("true",new StringConverter().convert(Boolean.TRUE,Locale.getDefault()));
-  assertEquals("false",new StringConverter().convert(Boolean.FALSE,Locale.getDefault()));
-  assertEquals(Boolean.TRUE,new BooleanConverter().convert(Boolean.TRUE,Locale.getDefault()));
-  assertEquals(Boolean.FALSE,new BooleanConverter().convert(Boolean.FALSE,Locale.getDefault()));
-  assertEquals(Boolean.TRUE,new BooleanConverter().convert("true",Locale.getDefault()));
-  assertEquals(Boolean.FALSE,new BooleanConverter().convert("false",Locale.getDefault()));
+  BooleanConverter booleanConverter=new BooleanConverter();
+  assertEquals("true",booleanConverter.convertToString(Boolean.TRUE,Locale.getDefault()));
+  assertEquals("false",booleanConverter.convertToString(Boolean.FALSE,Locale.getDefault()));
+  assertEquals(Boolean.TRUE,booleanConverter.convertToObject("true",Locale.getDefault()));
+  assertEquals(Boolean.FALSE,booleanConverter.convertToObject("false",Locale.getDefault()));
   try {
-    new BooleanConverter().convert("whatever",Locale.getDefault());
+    booleanConverter.convertToObject("whatever",Locale.getDefault());
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {
