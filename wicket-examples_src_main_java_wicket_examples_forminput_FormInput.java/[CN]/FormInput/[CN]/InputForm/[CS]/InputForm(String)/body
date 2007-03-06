@@ -44,12 +44,9 @@
   checks.add(checksList);
   add(new ListMultipleChoice("siteSelection",SITES));
   add(new TextField("urlProperty",URL.class){
-    public IConverter getConverter(){
+    public IConverter getConverter(    final Class type){
       return new SimpleConverterAdapter(){
-        public String toString(        Object value){
-          return value != null ? value.toString() : null;
-        }
-        public Object toObject(        String value){
+        public Object toObject(        final String value){
           try {
             return new URL(value.toString());
           }
@@ -57,13 +54,16 @@
             throw new ConversionException("'" + value + "' is not a valid URL");
           }
         }
+        public String toString(        final Object value){
+          return value != null ? value.toString() : null;
+        }
       }
 ;
     }
   }
 );
   add(new TextField("phoneNumberUS",UsPhoneNumber.class){
-    public IConverter getConverter(){
+    public IConverter getConverter(    final Class type){
       return new MaskConverter("(###) ###-####",UsPhoneNumber.class);
     }
   }
