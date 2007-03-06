@@ -5,7 +5,8 @@
     ICrypt urlCrypt=Application.get().getSecuritySettings().getCryptFactory().newCrypt();
     final String queryString=urlCrypt.decryptUrlSafe(secureParam);
     this.queryString=rebuildUrl(queryString);
-    this.parameters=analyzeQueryString(this.queryString);
+    this.parameters=new PageParameters();
+    RequestUtils.decodeParameters(this.queryString,this.parameters);
   }
  else {
     this.queryString=null;
