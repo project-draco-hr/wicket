@@ -1,0 +1,37 @@
+{
+  Iterator<Item<T>> items=new ItemsIterator<T>(iterator());
+  WebMarkupContainer fake1=new WebMarkupContainer(this,newChildId());
+  final WebMarkupContainer fake2=new RepeatingView(fake1,"cols");
+  IItemFactory<T> itemFactory=new IItemFactory<T>(){
+    public Item<T> newItem(    int index,    IModel<T> model){
+      String id=GridView.this.newChildId();
+      Item<T> item=GridView.this.newItem(fake2,id,index,model);
+      GridView.this.populateItem(item);
+      return item;
+    }
+  }
+;
+  items=getItemReuseStrategy().getItems(itemFactory,getItemModels(),items);
+  removeAll();
+  if (items.hasNext()) {
+    final int cols=getColumns();
+    int row=0;
+    do {
+      Item<T> rowItem=newRowItem(newChildId(),row);
+      RepeatingView rowRepeater=new RepeatingView<T>(rowItem,"cols");
+      for (int index=0; index < cols; index++) {
+        final Item<T> cellItem;
+        if (items.hasNext()) {
+          cellItem=items.next();
+          cellItem.reparent(rowRepeater);
+        }
+ else {
+          cellItem=newEmptyItem(rowRepeater,newChildId(),index);
+          populateEmptyItem(cellItem);
+        }
+      }
+      row++;
+    }
+ while (items.hasNext());
+  }
+}

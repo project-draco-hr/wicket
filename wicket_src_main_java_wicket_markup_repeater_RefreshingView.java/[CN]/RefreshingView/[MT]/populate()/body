@@ -1,0 +1,17 @@
+{
+  IItemFactory<T> itemFactory=new IItemFactory<T>(){
+    public Item<T> newItem(    int index,    IModel<T> model){
+      String id=RefreshingView.this.newChildId();
+      Item<T> item=RefreshingView.this.newItem(RefreshingView.this,id,index,model);
+      RefreshingView.this.populateItem(item);
+      return item;
+    }
+  }
+;
+  Iterator<IModel<T>> models=getItemModels();
+  Iterator<Item<T>> items=getItemReuseStrategy().getItems(itemFactory,models,getItems());
+  removeAll();
+  while (items.hasNext()) {
+    items.next().reAttach();
+  }
+}

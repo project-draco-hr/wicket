@@ -14,11 +14,12 @@
       final Item oldItem=modelToItem.get(model);
       final Item item;
       if (oldItem == null) {
-        item=factory.newItem(parent,index,model);
+        item=factory.newItem(index,model);
       }
  else {
         oldItem.setIndex(index);
         item=oldItem;
+        oldItem.reAttach();
       }
       index++;
       return item;

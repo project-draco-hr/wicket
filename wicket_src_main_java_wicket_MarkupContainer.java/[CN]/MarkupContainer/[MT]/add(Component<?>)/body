@@ -6,13 +6,15 @@
     log.debug("Add " + child.getId() + " to component "+ this.getClass().getName()+ " with path "+ getPath());
   }
   Component<?> replaced=put(child);
-  if (replaced != null) {
-    replaced.setFlag(FLAG_REMOVED_FROM_PARENT,true);
-    removedComponent(replaced);
-    child.markupIndex=replaced.markupIndex;
-    String replacedId=(replaced.hasMarkupIdMetaData()) ? replaced.getMarkupId() : null;
-    child.setMarkupIdMetaData(replacedId);
+  if (replaced != child) {
+    if (replaced != null) {
+      replaced.setFlag(FLAG_REMOVED_FROM_PARENT,true);
+      removedComponent(replaced);
+      child.markupIndex=replaced.markupIndex;
+      String replacedId=(replaced.hasMarkupIdMetaData()) ? replaced.getMarkupId() : null;
+      child.setMarkupIdMetaData(replacedId);
+    }
+    addedComponent(child);
   }
-  addedComponent(child);
   return this;
 }
