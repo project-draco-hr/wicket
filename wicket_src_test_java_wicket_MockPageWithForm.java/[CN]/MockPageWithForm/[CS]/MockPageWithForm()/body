@@ -1,0 +1,18 @@
+{
+  List list=new ArrayList();
+  list.add("Select me");
+  MyForm form=new MyForm(this,"form");
+  new DropDownChoice(form,"dropdown",new Model(),list){
+    private static final long serialVersionUID=1L;
+    protected void onSelectionChanged(    Object newSelection){
+      selected=true;
+    }
+    /** 
+ * @see wicket.markup.html.form.DropDownChoice#wantOnSelectionChangedNotifications()
+ */
+    protected boolean wantOnSelectionChangedNotifications(){
+      return true;
+    }
+  }
+;
+}
