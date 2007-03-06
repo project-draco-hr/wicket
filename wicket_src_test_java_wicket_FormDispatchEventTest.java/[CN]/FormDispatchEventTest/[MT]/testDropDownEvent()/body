@@ -1,29 +1,10 @@
 {
-  MyForm form=new MyForm("form");
-  DropDownChoice dropDown=new DropDownChoice("dropdown",new Model(),new ArrayList()){
-    private static final long serialVersionUID=1L;
-    protected void onSelectionChanged(    Object newSelection){
-      selection=true;
-    }
-    /** 
- * @see wicket.markup.html.form.DropDownChoice#wantOnSelectionChangedNotifications()
- */
-    protected boolean wantOnSelectionChangedNotifications(){
-      return true;
-    }
-  }
-;
-  form.add(dropDown);
-  MockPage page=new MockPage();
-  page.add(form);
-  tester.setupRequestAndResponse();
-  RequestCycle cycle=tester.createRequestCycle();
-  page.urlFor(IRedirectListener.INTERFACE);
-  cycle.getSession().touch(page);
-  cycle.getSession().update();
-  form.onFormSubmitted();
-  assertTrue("form should should set value ",submit);
-  tester.getServletRequest().setParameter(form.getHiddenField(),dropDown.urlFor(IOnChangeListener.INTERFACE).toString());
-  form.onFormSubmitted();
-  assertTrue("Selection should be called",selection);
+  tester.startPage(MockPageWithForm.class);
+  tester.createRequestCycle();
+  FormTester formTester=tester.newFormTester("form");
+  formTester.select("dropdown",0);
+  formTester.submit();
+  MockPageWithForm page=(MockPageWithForm)tester.getLastRenderedPage();
+  assertTrue("Form.onSubmit() should have been called",page.isSubmitted());
+  assertTrue("DropDownChoice.onSelectionChanged() should have been called",page.isSelected());
 }
