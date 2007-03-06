@@ -3,7 +3,10 @@
     return ((ITextFormatProvider)component).getTextFormat();
   }
  else {
-    DateConverter dateConverter=(DateConverter)((Converter)component.getConverter()).get(Date.class);
-    return ((SimpleDateFormat)dateConverter.getDateFormat(component.getLocale())).toPattern();
+    IConverter converter=component.getConverter(DateTime.class);
+    if (converter == null) {
+      converter=component.getConverter(Date.class);
+    }
+    return ((SimpleDateFormat)((DateConverter)converter).getDateFormat(component.getLocale())).toPattern();
   }
 }
