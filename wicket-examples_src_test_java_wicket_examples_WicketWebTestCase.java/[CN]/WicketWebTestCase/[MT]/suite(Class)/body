@@ -3,14 +3,6 @@
   System.setProperty("wicket.configuration","deployment");
   TestSuite suite=new TestSuite();
   suite.addTestSuite(clazz);
-  JettyDecorator deco=new JettyDecorator(suite);
-  deco.setPort(8098);
-  String basedir=System.getProperty("basedir");
-  logger.debug("basedir=" + basedir);
-  String path="";
-  if (basedir != null)   path=basedir + "/";
-  path+="src/main/webapp";
-  deco.setWebappContextRoot(path);
-  deco.setContextPath("/wicket-examples");
+  JettyTestCaseDecorator deco=new JettyTestCaseDecorator(suite);
   return deco;
 }
