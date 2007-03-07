@@ -12,7 +12,11 @@
         submittingButton.onSubmit();
       }
  else {
-        if (process()) {
+        Form formToProcess=this;
+        if (submittingButton != null) {
+          formToProcess=submittingButton.getForm();
+        }
+        if (formToProcess.process()) {
           delegateSubmit(submittingButton);
         }
       }
