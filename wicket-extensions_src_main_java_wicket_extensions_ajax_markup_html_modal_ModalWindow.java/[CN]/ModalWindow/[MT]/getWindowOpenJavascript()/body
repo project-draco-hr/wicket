@@ -44,7 +44,7 @@
     CloseButtonBehavior behavior=(CloseButtonBehavior)getBehaviors(CloseButtonBehavior.class).get(0);
     buffer.append("settings.onCloseButton = function() { " + behavior.getCallbackScript() + "};\n");
   }
-  if (isCustomComponent() == false || windowClosedCallback != null) {
+  if ((isCustomComponent() == false && deletePageMap) || windowClosedCallback != null) {
     WindowClosedBehavior behavior=(WindowClosedBehavior)getBehaviors(WindowClosedBehavior.class).get(0);
     buffer.append("settings.onClose = function() { " + behavior.getCallbackScript() + " };\n");
   }
