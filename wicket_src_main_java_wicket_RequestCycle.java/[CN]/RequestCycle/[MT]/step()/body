@@ -35,7 +35,9 @@ throw e;
 }
 catch (RuntimeException e) {
 currentStep=HANDLE_EXCEPTION;
+if (!(e instanceof PageExpiredException)) {
 log.error(e.getMessage(),e);
+}
 if (processor != null) {
 processor.respond(e,this);
 }

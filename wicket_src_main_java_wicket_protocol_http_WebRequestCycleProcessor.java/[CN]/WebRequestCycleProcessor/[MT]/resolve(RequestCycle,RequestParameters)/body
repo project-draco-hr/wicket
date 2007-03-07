@@ -36,7 +36,7 @@ synchronized (requestCycle.getSession()) {
       return resolveRenderedPage(requestCycle,requestParameters);
     }
  else {
-      return EmptyRequestTarget.getInstance();
+      throw new PageExpiredException("Request cannot be processed");
     }
   }
  else   if (requestParameters.getResourceKey() != null) {

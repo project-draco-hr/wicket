@@ -11,6 +11,10 @@
     Class accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
     throw new RestartResponseAtInterceptPageException(accessDeniedPageClass);
   }
+ else   if (e instanceof PageExpiredException) {
+    Class pageExpiredErrorPageClass=application.getApplicationSettings().getPageExpiredErrorPage();
+    throw new RestartResponseException(pageExpiredErrorPageClass);
+  }
  else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
     requestCycle.setRedirect(false);
     Class internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
