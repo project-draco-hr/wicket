@@ -2,13 +2,27 @@
   ChoiceRenderer<Book> bookChoiceRenderer=new ChoiceRenderer<Book>("name","id");
   Form<ChoicePage> form=new Form<ChoicePage>(this,"choiceForm");
   form.setModel(new CompoundPropertyModel<ChoicePage>(this));
+  dropDownChoice=(Book)candidateChoices.get(1);
+  listChoice=(Book)candidateChoices.get(3);
+  radioChoice=(Book)candidateChoices.get(2);
+  checkBox=true;
+  initialListMultipleChoice.add(candidateChoices.get(1));
+  initialListMultipleChoice.add(candidateChoices.get(2));
+  initialCheckBoxMultipleChoice.add(candidateChoices.get(0));
+  initialCheckBoxMultipleChoice.add(candidateChoices.get(3));
+  initialCheckGroup.add(candidateChoices.get(2));
+  initialCheckGroup.add(candidateChoices.get(3));
   new DropDownChoice<Book>(form,"dropDownChoice",candidateChoices,bookChoiceRenderer);
   new ListChoice<Book>(form,"listChoice",candidateChoices,bookChoiceRenderer).setMaxRows(4);
   new RadioChoice<Book>(form,"radioChoice",candidateChoices,bookChoiceRenderer);
+  new CheckBox(form,"checkBox");
   newRadioGroup(form,candidateChoices);
-  new ListMultipleChoice<Book>(form,"listMultipleChoice",candidateChoices,bookChoiceRenderer).setMaxRows(4);
-  new CheckBoxMultipleChoice<Book>(form,"checkBoxMultipleChoice",candidateChoices,bookChoiceRenderer);
-  newCheckGroup(form,candidateChoices);
+  new ListMultipleChoice(form,"initialListMultipleChoice",candidateChoices,bookChoiceRenderer);
+  new CheckBoxMultipleChoice(form,"initialCheckBoxMultipleChoice",candidateChoices,bookChoiceRenderer);
+  newCheckGroup(form,"initialCheckGroup",candidateChoices);
+  new ListMultipleChoice(form,"listMultipleChoice",candidateChoices,bookChoiceRenderer).setMaxRows(4);
+  new CheckBoxMultipleChoice(form,"checkBoxMultipleChoice",candidateChoices,bookChoiceRenderer);
+  newCheckGroup(form,"checkGroup",candidateChoices);
   new Button(form,"anotherButton"){
     private static final long serialVersionUID=1L;
     @Override public void onSubmit(){
