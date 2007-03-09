@@ -3,4 +3,6 @@
   String ajaxLocation=((MockHttpServletResponse)tester.getWicketResponse().getHttpServletResponse()).getHeader("Ajax-Location");
   log.debug(ajaxLocation);
   assertNotNull("Ajax-Location header should be present when using Ajax",ajaxLocation);
+  int statusCode=((MockHttpServletResponse)tester.getWicketResponse().getHttpServletResponse()).getStatus();
+  assertEquals(200,statusCode);
 }
