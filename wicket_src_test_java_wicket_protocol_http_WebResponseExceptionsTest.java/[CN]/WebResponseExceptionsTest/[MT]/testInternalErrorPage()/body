@@ -1,6 +1,5 @@
 {
-  WicketTester tester=new WicketTester();
-  tester.startPage(TestPage.class);
+  tester.startPage(TestErrorPage.class);
   AjaxLink link=(AjaxLink)tester.getComponentFromLastRenderedPage("link");
   tester.createRequestCycle();
   String callbackUrl=((AjaxEventBehavior)link.getBehaviors().get(0)).getCallbackUrl().toString();
@@ -9,9 +8,5 @@
   tester.getServletRequest().setURL(callbackUrl);
   WebRequestCycle cycle=tester.createRequestCycle();
   cycle.request();
-  assertNull(((MockHttpServletResponse)tester.getWicketResponse().getHttpServletResponse()).getRedirectLocation());
-  String ajaxLocation=((MockHttpServletResponse)tester.getWicketResponse().getHttpServletResponse()).getHeader("Ajax-Location");
-  log.debug(ajaxLocation);
-  assertNotNull(ajaxLocation);
-  tester.destroy();
+  assertAjaxLocation(tester);
 }
