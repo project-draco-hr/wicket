@@ -5,18 +5,25 @@
   Class cls=obj.getClass();
   nameStack.add(simpleName);
   traceStack.add(new TraceSlot(obj,fieldDescription));
-  if (!(obj instanceof Serializable)) {
+  if (!(obj instanceof Serializable) && (!Proxy.isProxyClass(cls))) {
     throw new WicketNotSerializableException(toPrettyPrintedStack(obj.getClass().getName()).toString(),exception);
   }
-  final ObjectStreamClass desc;
-  try {
-    desc=(ObjectStreamClass)lookup.invoke(null,new Object[]{cls,Boolean.TRUE});
-  }
- catch (  IllegalAccessException e) {
-    throw new RuntimeException(e);
-  }
-catch (  InvocationTargetException e) {
-    throw new RuntimeException(e);
+  ObjectStreamClass desc;
+  for (; ; ) {
+    try {
+      desc=(ObjectStreamClass)LOOKUP_METHOD.invoke(null,new Object[]{cls,Boolean.TRUE});
+      Class repCl;
+      if (!((Boolean)HAS_WRITE_REPLACE_METHOD_METHOD.invoke(desc,null)).booleanValue() || (obj=INVOKE_WRITE_REPLACE_METHOD.invoke(desc,new Object[]{obj})) == null || (repCl=obj.getClass()) == cls) {
+        break;
+      }
+      cls=repCl;
+    }
+ catch (    IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+catch (    InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
   }
   if (cls.isPrimitive()) {
   }
@@ -77,6 +84,7 @@ catch (      NoSuchMethodException e) {
         writeObjectMethodCache.put(cls,Boolean.FALSE);
       }
     }
+    final Object original=obj;
     if (writeObjectMethod != null) {
 class InterceptingObjectOutputStream extends ObjectOutputStream {
         private int counter;
@@ -85,14 +93,14 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
           enableReplaceObject(true);
         }
         protected Object replaceObject(        Object streamObj) throws IOException {
-          if (streamObj == obj) {
+          if (streamObj == original) {
             return streamObj;
           }
           counter++;
           if (checked.containsKey(streamObj)) {
             return null;
           }
-          checked.put(obj,null);
+          checked.put(original,null);
           String arrayPos="[write:" + counter + "]";
           simpleName=arrayPos;
           fieldDescription+=arrayPos;
@@ -114,7 +122,7 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
  else {
       Object[] slots;
       try {
-        slots=(Object[])getClassDataLayoutMethod.invoke(desc,null);
+        slots=(Object[])GET_CLASS_DATA_LAYOUT_METHOD.invoke(desc,null);
       }
  catch (      Exception e) {
         throw new RuntimeException(e);
