@@ -27,6 +27,9 @@
         component=page.get(pageRelativeComponentPath);
       }
     }
+    if (component == null) {
+      throw new WicketRuntimeException("cannot resolve component with path '" + pageRelativeComponentPath + "', listener "+ listener+ " on page "+ page);
+    }
     if (!component.isEnableAllowed()) {
       throw new UnauthorizedActionException(component,Component.ENABLE);
     }
