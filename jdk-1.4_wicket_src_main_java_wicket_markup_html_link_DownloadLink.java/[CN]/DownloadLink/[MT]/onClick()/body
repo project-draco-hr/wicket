@@ -1,18 +1,8 @@
 {
-  getRequestCycle().setRequestTarget(new IRequestTarget(){
-    public void detach(    RequestCycle requestCycle){
-    }
-    public void respond(    RequestCycle requestCycle){
-      WebResponse r=(WebResponse)requestCycle.getResponse();
-      r.setAttachmentHeader(fileName);
-      try {
-        r.setContentLength(file.length());
-        r.detectContentType(requestCycle,fileName);
-        r.write(new FileInputStream(file));
-      }
- catch (      Exception e) {
-        throw new WicketRuntimeException(e);
-      }
+  IResourceStream resourceStream=new FileResourceStream(new wicket.util.file.File(file));
+  getRequestCycle().setRequestTarget(new ResourceStreamRequestTarget(resourceStream){
+    public String getFileName(){
+      return fileName;
     }
   }
 );
