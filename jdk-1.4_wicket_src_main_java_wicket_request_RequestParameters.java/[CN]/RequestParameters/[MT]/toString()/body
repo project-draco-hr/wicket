@@ -12,7 +12,15 @@
     b.append(" bookmarkablePageClass=").append(getBookmarkablePageClass());
   }
   if (getParameters() != null) {
-    b.append(" parameters=").append(getParameters());
+    b.append(" parameters={");
+    for (Iterator i=getParameters().entrySet().iterator(); i.hasNext(); ) {
+      Entry entry=(Entry)i.next();
+      b.append(entry.getKey()).append("=").append(entry.getValue());
+      if (i.hasNext()) {
+        b.append(",");
+      }
+    }
+    b.append("}");
   }
   if (getResourceKey() != null) {
     b.append(" resourceKey=").append(getResourceKey());
