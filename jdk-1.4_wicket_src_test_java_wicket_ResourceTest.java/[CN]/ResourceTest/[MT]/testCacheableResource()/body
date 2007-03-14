@@ -1,0 +1,30 @@
+{
+  String testFileLastModified;
+  final File testFile;
+  try {
+    testFile=File.createTempFile(ResourceTest.class.getName(),null);
+    OutputStream out=new FileOutputStream(testFile);
+    out.write(TEST_STRING.getBytes());
+    out.close();
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+  testFileLastModified=MockHttpServletResponse.formatDate(testFile.lastModified());
+  tester.setupRequestAndResponse();
+  WebRequestCycle cycle=tester.createRequestCycle();
+  Resource resource=new Resource(){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    public IResourceStream getResourceStream(){
+      return new FileResourceStream(new wicket.util.file.File(testFile));
+    }
+  }
+;
+  resource.onResourceRequested();
+  tester.processRequestCycle(cycle);
+  log.debug(getLastModified());
+  assertEquals(testFileLastModified,getLastModified());
+  assertEquals(TEST_STRING.length(),getContentLength());
+}
