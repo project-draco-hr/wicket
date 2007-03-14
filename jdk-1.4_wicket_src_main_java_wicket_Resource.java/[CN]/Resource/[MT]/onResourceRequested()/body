@@ -3,8 +3,6 @@
     final RequestCycle cycle=RequestCycle.get();
     IResourceStream resourceStream=init();
     final Response response=cycle.getResponse();
-    response.setContentType(resourceStream.getContentType());
-    response.setContentLength((int)resourceStream.length());
     if (isCacheable()) {
       response.setLastModifiedTime(resourceStream.lastModifiedTime());
     }
@@ -12,7 +10,7 @@
       response.setLastModifiedTime(Time.valueOf(-1));
     }
     configureResponse(response);
-    respond(resourceStream,response);
+    cycle.setRequestTarget(new ResourceStreamRequestTarget(resourceStream));
   }
   finally {
     parameters.set(null);
