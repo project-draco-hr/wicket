@@ -13,7 +13,7 @@
 ;
   link.add(new Label("toggletext",new Model(){
     private static final long serialVersionUID=1L;
-    public Object getObject(    Component component){
+    public Object getObject(){
       WebApplication webApplication=(WebApplication)Application.get();
       IRequestLogger requestLogger=webApplication.getRequestLogger();
       if (requestLogger == null) {
@@ -28,28 +28,28 @@
   add(link);
   add(new Label("totalSessions",new Model(){
     private static final long serialVersionUID=1L;
-    public Object getObject(    Component component){
+    public Object getObject(){
       return new Integer(getRequestLogger().getTotalCreatedSessions());
     }
   }
 ));
   add(new Label("peakSessions",new Model(){
     private static final long serialVersionUID=1L;
-    public Object getObject(    Component component){
+    public Object getObject(){
       return new Integer(getRequestLogger().getPeakSessions());
     }
   }
 ));
   add(new Label("liveSessions",new Model(){
     private static final long serialVersionUID=1L;
-    public Object getObject(    Component component){
+    public Object getObject(){
       return new Integer(getRequestLogger().getPeakSessions());
     }
   }
 ));
   Model sessionModel=new Model(){
     private static final long serialVersionUID=1L;
-    public Object getObject(    Component component){
+    public Object getObject(){
       return Arrays.asList(getRequestLogger().getLiveSessions());
     }
   }
