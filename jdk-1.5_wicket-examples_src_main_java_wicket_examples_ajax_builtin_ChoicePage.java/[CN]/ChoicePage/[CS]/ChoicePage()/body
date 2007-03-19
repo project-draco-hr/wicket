@@ -3,7 +3,7 @@
   modelsMap.put("CADILLAC",Arrays.asList(new String[]{"CTS","DTS","ESCALADE","SRX","DEVILLE"}));
   modelsMap.put("FORD",Arrays.asList(new String[]{"CROWN","ESCAPE","EXPEDITION","EXPLORER","F-150"}));
   IModel makeChoices=new AbstractReadOnlyModel(){
-    public Object getObject(    Component component){
+    public Object getObject(){
       Set keys=modelsMap.keySet();
       List list=new ArrayList(keys);
       return list;
@@ -11,7 +11,7 @@
   }
 ;
   IModel modelChoices=new AbstractReadOnlyModel(){
-    public Object getObject(    Component component){
+    public Object getObject(){
       List models=(List)modelsMap.get(selectedMake);
       if (models == null) {
         models=Collections.EMPTY_LIST;
