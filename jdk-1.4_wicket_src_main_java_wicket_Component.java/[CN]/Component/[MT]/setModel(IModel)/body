@@ -2,12 +2,20 @@
   if (this.model != null) {
     this.model.detach();
   }
-  if (this.model != model) {
-    addStateChange(new ComponentModelChange(this.model));
-    this.model=model;
+  IModel prevModel=this.model;
+  if (prevModel instanceof IWrapModel) {
+    prevModel=((IWrapModel)prevModel).getNestedModel();
   }
-  if (model instanceof ICompoundModel) {
-    setFlag(FLAG_HAS_ROOT_MODEL,true);
+  if (prevModel != model) {
+    if (prevModel != null) {
+      addStateChange(new ComponentModelChange(prevModel));
+    }
+    if (model instanceof IAssignmentAwareModel) {
+      this.model=((IAssignmentAwareModel)model).wrapOnAssignment(this);
+    }
+ else {
+      this.model=model;
+    }
   }
   modelChanged();
   return this;

@@ -1,0 +1,10 @@
+{
+  if (error == null) {
+    throw new IllegalArgumentException("Argument [[error]] cannot be null");
+  }
+  String message=error.getErrorMessage(new MessageSource());
+  if (message == null) {
+    message="Could not locate error message for error: " + error.toString();
+  }
+  error(new ValidationErrorFeedback(error,message));
+}

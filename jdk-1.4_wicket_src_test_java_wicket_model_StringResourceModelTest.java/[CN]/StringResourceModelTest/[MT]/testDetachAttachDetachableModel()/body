@@ -1,26 +1,16 @@
 {
-  IModel wsDetachModel=new AbstractReadOnlyDetachableModel(){
+  IModel wsDetachModel=new LoadableDetachableModel(){
     private static final long serialVersionUID=1L;
     private transient WeatherStation station;
-    protected void onAttach(){
-      station=new WeatherStation();
-    }
-    protected void onDetach(){
-      station=null;
-    }
-    protected Object onGetObject(    final Component component){
-      return station;
-    }
-    public IModel getNestedModel(){
-      return null;
+    protected Object load(){
+      return new WeatherStation();
     }
   }
 ;
   StringResourceModel model=new StringResourceModel("simple.text",page,wsDetachModel);
   application.setupRequestAndResponse();
   RequestCycle cycle=new WebRequestCycle(application.getWicketSession(),application.getWicketRequest(),application.getWicketResponse());
-  model.attach();
-  Assert.assertNotNull(model.getNestedModel().getObject(page));
+  model.getObject();
   Assert.assertNotNull(model.getLocalizer());
   model.detach();
   Assert.assertNull(model.getLocalizer());

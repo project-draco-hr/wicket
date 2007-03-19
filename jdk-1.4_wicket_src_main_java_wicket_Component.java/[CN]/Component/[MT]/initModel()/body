@@ -1,8 +1,12 @@
 {
   for (Component current=getParent(); current != null; current=current.getParent()) {
-    final IModel model=current.getModel();
-    if (model instanceof ICompoundModel) {
+    IModel model=current.getModel();
+    if (model instanceof IWrapModel) {
+      model=((IWrapModel)model).getNestedModel();
+    }
+    if (model instanceof IInheritableModel) {
       setVersioned(false);
+      model=((IInheritableModel)model).wrapOnInheritance(this);
       return model;
     }
   }

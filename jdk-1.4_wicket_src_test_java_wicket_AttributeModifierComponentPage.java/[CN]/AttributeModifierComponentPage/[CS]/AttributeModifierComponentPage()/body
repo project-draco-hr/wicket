@@ -6,23 +6,11 @@
   label2.add(new AttributeModifier("unknown",new Model("invalid")));
   add(label2);
   Label label3=new Label("label3",new Model("Label 3"));
-  label3.add(new AttributeModifier("class",true,new AbstractDetachableModel(){
+  label3.add(new AttributeModifier("class",true,new LoadableDetachableModel(){
     private static final long serialVersionUID=1L;
     private transient String text=null;
-    public void onDetach(){
-      text=null;
-    }
-    public void onAttach(){
-      text="insertLabel";
-    }
-    public Object onGetObject(    final Component component){
-      return text;
-    }
-    public void onSetObject(    final Component component,    final Object object){
-      text=object.toString();
-    }
-    public IModel getNestedModel(){
-      return null;
+    protected Object load(){
+      return "insertLabel";
     }
   }
 ));

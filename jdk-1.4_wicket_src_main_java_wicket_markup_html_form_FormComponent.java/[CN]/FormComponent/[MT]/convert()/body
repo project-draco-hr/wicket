@@ -4,25 +4,24 @@
       convertedInput=convertValue(getInputAsArray());
     }
  catch (    ConversionException e) {
-      Map args=new HashMap();
+      ValidationError error=new ValidationError();
+      if (e.getResourceKey() != null) {
+        error.addMessageKey(e.getResourceKey());
+      }
+      if (e.getTargetType() != null) {
+        error.addMessageKey("ConversionError." + Classes.simpleName(e.getTargetType()));
+      }
+      error.addMessageKey("ConversionError");
       final Locale locale=e.getLocale();
       if (locale != null) {
-        args.put("locale",locale);
+        error.setVar("locale",locale);
       }
-      args.put("exception",e);
+      error.setVar("exception",e);
       Format format=e.getFormat();
       if (format instanceof SimpleDateFormat) {
-        args.put("format",((SimpleDateFormat)format).toLocalizedPattern());
+        error.setVar("format",((SimpleDateFormat)format).toLocalizedPattern());
       }
-      String[] resourceKeys=null;
-      if (e.getTargetType() != null) {
-        String typedResourceKey="ConversionError." + Classes.simpleName(e.getTargetType());
-        resourceKeys=new String[]{typedResourceKey,"ConversionError"};
-      }
- else {
-        resourceKeys=new String[]{"ConversionError"};
-      }
-      error(Arrays.asList(resourceKeys),args);
+      error((IValidationError)error);
     }
   }
  else   if (!Strings.isEmpty(getInput())) {
@@ -31,25 +30,23 @@
       convertedInput=converter.convertToObject(getInput(),getLocale());
     }
  catch (    ConversionException e) {
-      Map args=new HashMap();
-      args.put("type",Classes.simpleName(type));
+      ValidationError error=new ValidationError();
+      if (e.getResourceKey() != null) {
+        error.addMessageKey(e.getResourceKey());
+      }
+      error.addMessageKey("TypeValidator." + Classes.simpleName(type));
+      error.addMessageKey("TypeValidator");
+      error.setVar("type",Classes.simpleName(type));
       final Locale locale=e.getLocale();
       if (locale != null) {
-        args.put("locale",locale);
+        error.setVar("locale",locale);
       }
-      args.put("exception",e);
+      error.setVar("exception",e);
       Format format=e.getFormat();
       if (format instanceof SimpleDateFormat) {
-        args.put("format",((SimpleDateFormat)format).toLocalizedPattern());
+        error.setVar("format",((SimpleDateFormat)format).toLocalizedPattern());
       }
-      if (e.getResourceKey() == null) {
-        final String typedResourceKey="TypeValidator." + Classes.simpleName(type);
-        String[] resourceKeys=new String[]{typedResourceKey,"TypeValidator"};
-        error(Arrays.asList(resourceKeys),args);
-      }
- else {
-        error(Collections.singletonList(e.getResourceKey()),args);
-      }
+      error((IValidationError)error);
     }
   }
 }

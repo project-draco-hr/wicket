@@ -1,0 +1,16 @@
+{
+  final String expression=propertyExpression();
+  if (Strings.isEmpty(expression)) {
+    if (target instanceof IModel) {
+      ((IModel)target).setObject(object);
+    }
+ else {
+      target=object;
+    }
+  }
+ else {
+    PropertyResolverConverter prc=null;
+    prc=new PropertyResolverConverter(Session.get(),Session.get().getLocale());
+    PropertyResolver.setValue(expression,getTarget(),object,prc);
+  }
+}

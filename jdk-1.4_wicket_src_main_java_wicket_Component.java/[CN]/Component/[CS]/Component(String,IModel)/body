@@ -1,8 +1,10 @@
 {
   setId(id);
   getApplication().notifyComponentInstantiationListeners(this);
-  this.model=model;
-  if (model instanceof ICompoundModel) {
-    setFlag(FLAG_HAS_ROOT_MODEL,true);
+  if (model instanceof IAssignmentAwareModel) {
+    this.model=((IAssignmentAwareModel)model).wrapOnAssignment(this);
+  }
+ else {
+    this.model=model;
   }
 }
