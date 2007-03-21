@@ -15,7 +15,27 @@
     b.append(" parameters={");
     for (Iterator i=getParameters().entrySet().iterator(); i.hasNext(); ) {
       Entry entry=(Entry)i.next();
-      b.append(entry.getKey()).append("=").append(entry.getValue());
+      Object value=entry.getValue();
+      b.append(entry.getKey()).append("=");
+      if (value != null && value instanceof Object[]) {
+        Object[] values=(Object[])value;
+        if (values.length > 1) {
+          b.append("{");
+          for (int j=0; j < values.length; j++) {
+            b.append(values[j]);
+            if (j < values.length) {
+              b.append(",");
+            }
+          }
+          b.append("}");
+        }
+ else {
+          b.append((values.length == 1) ? values[0] : "");
+        }
+      }
+ else {
+        b.append(value);
+      }
       if (i.hasNext()) {
         b.append(",");
       }
