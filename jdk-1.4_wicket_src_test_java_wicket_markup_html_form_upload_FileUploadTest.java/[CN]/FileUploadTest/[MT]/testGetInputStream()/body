@@ -1,7 +1,7 @@
 {
   FileItem fileItem=new DiskFileItemFactory().createItem("dummyFieldName","text/java",false,"FileUploadTest.java");
   fileItem.getOutputStream();
-  Field inputStreamsField=FileUpload.class.getDeclaredField("inputStreams");
+  Field inputStreamsField=FileUpload.class.getDeclaredField("inputStreamsToClose");
   inputStreamsField.setAccessible(true);
   FileUpload fileUpload=new FileUpload(fileItem);
   List inputStreams=(List)inputStreamsField.get(fileUpload);
