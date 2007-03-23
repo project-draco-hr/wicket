@@ -1,7 +1,7 @@
 {
   Form form=new Form("form");
   add(form);
-  form.add(new AutoCompleteTextField("ac",new Model("")){
+  final AutoCompleteTextField field=new AutoCompleteTextField("ac",new Model("")){
     protected Iterator getChoices(    String input){
       if (Strings.isEmpty(input)) {
         return Collections.EMPTY_LIST.iterator();
@@ -19,6 +19,16 @@
         }
       }
       return choices.iterator();
+    }
+  }
+;
+  form.add(field);
+  final Label label=new Label("selectedValue",field.getModel());
+  label.setOutputMarkupId(true);
+  form.add(label);
+  field.add(new AjaxFormSubmitBehavior(form,"onchange"){
+    protected void onSubmit(    AjaxRequestTarget target){
+      target.addComponent(label);
     }
   }
 );
