@@ -10,7 +10,8 @@
     protected void populateItem(    final ListItem listItem){
       final Letter letter=(Letter)listItem.getModelObject();
       final Link link=new Link("letter"){
-        protected void onBeginRequest(){
+        @Override protected void onAttach(){
+          super.onAttach();
           setAutoEnable(false);
           setEnabled(!letter.isGuessed());
         }
