@@ -24,6 +24,7 @@
     os.close();
     servletRequest.addFile("upload",tmp,"text/plain");
     requestCycle.setRequest(new MultipartServletWebRequest(servletRequest,Bytes.MAX));
+    field.attach();
     FileUpload fileUpload=field.getFileUpload();
     assertNotNull(fileUpload);
     InputStream is=fileUpload.getInputStream();
