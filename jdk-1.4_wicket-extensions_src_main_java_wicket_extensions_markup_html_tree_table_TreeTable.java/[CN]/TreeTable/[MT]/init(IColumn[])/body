@@ -11,4 +11,11 @@
     throw new IllegalArgumentException("At least one column in TreeTable must be derived from AbstractTreeColumn.");
   }
   this.columns=columns;
+  add(new Label("attachJavascript",new Model(){
+    private static final long serialVersionUID=1L;
+    public Object getObject(){
+      return "Wicket.TreeTable.attachUpdate(\"" + getMarkupId() + "\");";
+    }
+  }
+).setEscapeModelStrings(false));
 }
