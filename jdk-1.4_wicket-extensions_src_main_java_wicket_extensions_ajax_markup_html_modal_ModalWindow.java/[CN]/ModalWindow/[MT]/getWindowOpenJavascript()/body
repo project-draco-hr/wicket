@@ -40,13 +40,15 @@
  else   if (getMaskType() == MaskType.SEMI_TRANSPARENT) {
     buffer.append("settings.mask=\"semi-transparent\";\n");
   }
-  if (closeButtonCallback != null) {
-    CloseButtonBehavior behavior=(CloseButtonBehavior)getBehaviors(CloseButtonBehavior.class).get(0);
-    buffer.append("settings.onCloseButton = function() { " + behavior.getCallbackScript() + "};\n");
-  }
+  boolean haveCloseCallback=false;
   if ((isCustomComponent() == false && deletePageMap) || windowClosedCallback != null) {
     WindowClosedBehavior behavior=(WindowClosedBehavior)getBehaviors(WindowClosedBehavior.class).get(0);
     buffer.append("settings.onClose = function() { " + behavior.getCallbackScript() + " };\n");
+    haveCloseCallback=true;
+  }
+  if (closeButtonCallback != null || haveCloseCallback == false) {
+    CloseButtonBehavior behavior=(CloseButtonBehavior)getBehaviors(CloseButtonBehavior.class).get(0);
+    buffer.append("settings.onCloseButton = function() { " + behavior.getCallbackScript() + "};\n");
   }
   buffer.append("Wicket.Window.create(settings).show();\n");
   return buffer.toString();
