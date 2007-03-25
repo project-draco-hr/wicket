@@ -1,0 +1,49 @@
+{
+  if (tagText.startsWith("!--")) {
+    int pos=this.input.find("-->",openBracketIndex + 1);
+    if (pos == -1) {
+      throw new ParseException("Unclosed comment beginning at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),openBracketIndex);
+    }
+    pos+=3;
+    this.lastText=this.input.getSubstring(openBracketIndex,pos);
+    this.lastType=COMMENT;
+    if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && this.lastText.toString().endsWith("<![endif]-->")) {
+      this.input.setPosition(closeBracketIndex + 1);
+    }
+ else {
+      this.input.setPosition(pos);
+    }
+    return;
+  }
+  if (tagText.equals("![endif]--")) {
+    this.lastType=COMMENT;
+    this.input.setPosition(closeBracketIndex + 1);
+    return;
+  }
+  if (tagText.startsWith("![")) {
+    final String startText=(tagText.length() <= 8 ? tagText : tagText.substring(0,8));
+    if (startText.toUpperCase().equals("![CDATA[")) {
+      int pos1=openBracketIndex;
+      do {
+        closeBracketIndex=findChar('>',pos1);
+        if (closeBracketIndex == -1) {
+          throw new ParseException("No matching close bracket at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),this.input.getPosition());
+        }
+        tagText=this.input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
+        pos1=closeBracketIndex + 1;
+      }
+ while (tagText.endsWith("]]") == false);
+      this.input.setPosition(closeBracketIndex + 1);
+      this.lastText=tagText;
+      this.lastType=CDATA;
+      return;
+    }
+  }
+  if (tagText.charAt(0) == '?') {
+    this.lastType=PROCESSING_INSTRUCTION;
+    this.input.setPosition(closeBracketIndex + 1);
+    return;
+  }
+  this.lastType=SPECIAL_TAG;
+  this.input.setPosition(closeBracketIndex + 1);
+}
