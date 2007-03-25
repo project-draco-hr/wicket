@@ -33,6 +33,20 @@
           b.append(value);
           b.append("\"");
         }
+ else         if (value instanceof CharSequence[]) {
+          b.append(":[");
+          CharSequence[] valueArray=(CharSequence[])value;
+          for (int j=0; j < valueArray.length; j++) {
+            CharSequence tmpValue=valueArray[j];
+            b.append("\"");
+            b.append(tmpValue);
+            b.append("\"");
+            if (j < valueArray.length - 1) {
+              b.append(",");
+            }
+          }
+          b.append("]");
+        }
  else {
           b.append(":");
           b.append(value);
