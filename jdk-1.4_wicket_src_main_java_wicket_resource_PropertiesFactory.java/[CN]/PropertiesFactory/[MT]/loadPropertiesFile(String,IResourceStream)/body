@@ -12,20 +12,7 @@
     try {
       try {
         BufferedInputStream in=new BufferedInputStream(resourceStream.getInputStream());
-        boolean loadAsXml=false;
-        if (resourceStream instanceof IFixedLocationResourceStream) {
-          String location=((IFixedLocationResourceStream)resourceStream).locationAsString();
-          if (location != null) {
-            String ext=Strings.lastPathComponent(location,'.').toLowerCase();
-            if ("xml".equals(ext)) {
-              loadAsXml=true;
-            }
-          }
-        }
-        if (loadAsXml) {
-          properties.loadFromXML(in);
-        }
- else {
+{
           properties.load(in);
         }
         strings=new ValueMap();
