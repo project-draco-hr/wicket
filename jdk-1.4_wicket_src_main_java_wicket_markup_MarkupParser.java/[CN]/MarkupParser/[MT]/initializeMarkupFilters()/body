@@ -10,9 +10,7 @@
   if (resource != null) {
     final ContainerInfo containerInfo=resource.getContainerInfo();
     if (containerInfo != null) {
-      if (WicketMessageTagHandler.enable) {
-        appendMarkupFilter(new WicketMessageTagHandler(containerInfo));
-      }
+      appendMarkupFilter(new WicketMessageTagHandler());
       appendMarkupFilter(new BodyOnLoadHandler());
       if (Page.class.isAssignableFrom(containerInfo.getContainerClass())) {
         appendMarkupFilter(new HtmlHeaderSectionHandler(this.markup));

@@ -1,31 +1,3 @@
 {
-  final List searchStack;
-  final String path;
-  if (component != null) {
-    searchStack=getComponentStack(component);
-    path=Strings.replaceAll(component.getPageRelativePath(),":",".").toString();
-  }
- else {
-    searchStack=null;
-    path=null;
-  }
-  String string=visitResourceLoaders(key,path,searchStack,locale,style);
-  if (string != null) {
-    return substitutePropertyExpressions(component,string,model);
-  }
-  final IResourceSettings resourceSettings=application.getResourceSettings();
-  if (resourceSettings.getUseDefaultOnMissingResource() && (defaultValue != null)) {
-    return defaultValue;
-  }
-  if (resourceSettings.getThrowExceptionOnMissingResource()) {
-    AppendingStringBuffer message=new AppendingStringBuffer("Unable to find resource: " + key);
-    if (component != null) {
-      message.append(" for component: ");
-      message.append(component.getPageRelativePath());
-    }
-    throw new MissingResourceException(message.toString(),(component != null ? component.getClass().getName() : ""),key);
-  }
- else {
-    return "[Warning: String resource for '" + key + "' not found]";
-  }
+  return null;
 }
