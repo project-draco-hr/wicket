@@ -3,16 +3,7 @@
   CharSequence url=getURL();
   url=appendAnchor(tag,url);
   if (!isEnabled()) {
-    if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
-      tag.setName("span");
-      tag.remove("href");
-      if (popupSettings != null) {
-        tag.remove("onclick");
-      }
-    }
- else {
-      tag.remove("onclick");
-    }
+    disableLink(tag);
   }
  else {
     if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
@@ -34,15 +25,15 @@
         tag.put("onclick","window.location.href='" + url + "';return false;");
       }
     }
-  }
-  final CharSequence onClickJavaScript=getOnClickScript(url);
-  if (onClickJavaScript != null) {
-    tag.put("onclick",onClickJavaScript);
-  }
-  if (popupSettings != null) {
-    IPageMap popupPageMap=popupSettings.getPageMap(this);
-    if (popupPageMap != null) {
-      tag.put("target",popupPageMap.getName());
+    final CharSequence onClickJavaScript=getOnClickScript(url);
+    if (onClickJavaScript != null) {
+      tag.put("onclick",onClickJavaScript);
+    }
+    if (popupSettings != null) {
+      IPageMap popupPageMap=popupSettings.getPageMap(this);
+      if (popupPageMap != null) {
+        tag.put("target",popupPageMap.getName());
+      }
     }
   }
 }
