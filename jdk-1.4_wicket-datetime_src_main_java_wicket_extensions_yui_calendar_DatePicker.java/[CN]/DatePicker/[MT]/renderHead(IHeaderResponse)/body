@@ -52,12 +52,26 @@
     }
   }
   buffer.append(" });\n");
+  buffer.append(" function showCalendar() {\n");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".select(YAHOO.util.Dom.get(\"");
+  buffer.append(component.getMarkupId());
+  buffer.append("\").value);\n");
+  buffer.append("var firstDate = ");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".getSelectedDates()[0];");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".cfg.setProperty(\"pagedate\", (firstDate.getMonth()+1) + \"/\" + firstDate.getFullYear());");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".render();\n");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".show();\n");
+  buffer.append(" }\n");
   buffer.append("  YAHOO.util.Event.addListener(\"");
   String iconId=getIconId();
   buffer.append(iconId);
   buffer.append("\", \"click\", ");
-  buffer.append(javascriptWidgetId);
-  buffer.append(".show, ");
+  buffer.append("showCalendar, ");
   buffer.append(javascriptWidgetId);
   buffer.append(", true);\n");
   buffer.append("  function selectHandler(type, args, cal) {\n");
