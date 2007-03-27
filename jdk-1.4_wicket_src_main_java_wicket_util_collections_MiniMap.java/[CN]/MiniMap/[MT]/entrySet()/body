@@ -6,6 +6,9 @@
           return index < size;
         }
         public Object next(){
+          if (!hasNext()) {
+            throw new NoSuchElementException();
+          }
           keyIndex=nextKey(nextIndex(keyIndex));
           index++;
           return new Map.Entry(){
