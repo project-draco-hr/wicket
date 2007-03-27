@@ -6,6 +6,9 @@
           return index < MicroMap.this.size();
         }
         public Object next(){
+          if (!hasNext()) {
+            throw new NoSuchElementException();
+          }
           index++;
           return new Map.Entry(){
             public Object getKey(){
