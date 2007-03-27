@@ -3,13 +3,13 @@
     public Iterator iterator(){
       return new Iterator(){
         public boolean hasNext(){
-          return i < size;
+          return i < size - 1;
         }
         public Object next(){
-          i=nextKey(nextIndex(i));
           if (!hasNext()) {
             throw new NoSuchElementException();
           }
+          i=nextKey(nextIndex(i));
           return keys[i];
         }
         public void remove(){
