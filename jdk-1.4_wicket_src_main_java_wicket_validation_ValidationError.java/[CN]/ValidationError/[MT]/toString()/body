@@ -1,3 +1,35 @@
 {
-  return super.toString();
+  StringBuffer tostring=new StringBuffer();
+  tostring.append("[").append(getClass().getName());
+  tostring.append(" message=[").append(message);
+  tostring.append("], keys=[");
+  if (keys != null) {
+    Iterator i=keys.iterator();
+    while (i.hasNext()) {
+      tostring.append(i.next());
+      if (i.hasNext()) {
+        tostring.append(", ");
+      }
+    }
+  }
+ else {
+    tostring.append("null");
+  }
+  tostring.append("], variables=[");
+  if (vars != null) {
+    Iterator i=vars.entrySet().iterator();
+    while (i.hasNext()) {
+      final Map.Entry e=(Entry)i.next();
+      tostring.append("[").append(e.getKey()).append("=").append(e.getValue()).append("]");
+      if (i.hasNext()) {
+        tostring.append(",");
+      }
+    }
+  }
+ else {
+    tostring.append("null");
+  }
+  tostring.append("]");
+  tostring.append("]");
+  return tostring.toString();
 }
