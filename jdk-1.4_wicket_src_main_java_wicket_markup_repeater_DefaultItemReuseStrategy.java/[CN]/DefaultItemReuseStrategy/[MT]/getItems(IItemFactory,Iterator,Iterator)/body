@@ -8,7 +8,9 @@
       return newModels.hasNext();
     }
     public Object next(){
-      final IModel model=(IModel)newModels.next();
+      Object next=newModels.next();
+      if (!(next instanceof IModel))       throw new WicketRuntimeException("Expecting an instance of " + IModel.class.getName() + ", got "+ next.getClass().getName());
+      final IModel model=(IModel)next;
       Item item=factory.newItem(index,model);
       index++;
       return item;
