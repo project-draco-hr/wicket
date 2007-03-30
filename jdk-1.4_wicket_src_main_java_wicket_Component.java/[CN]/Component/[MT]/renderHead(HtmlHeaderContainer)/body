@@ -7,7 +7,7 @@
       final Iterator iter=this.behaviors.iterator();
       while (iter.hasNext()) {
         IBehavior behavior=(IBehavior)iter.next();
-        if (behavior instanceof IHeaderContributor && behavior.isEnabled(this)) {
+        if (behavior instanceof IHeaderContributor && isBehaviorAccepted(behavior)) {
           ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
         }
       }
