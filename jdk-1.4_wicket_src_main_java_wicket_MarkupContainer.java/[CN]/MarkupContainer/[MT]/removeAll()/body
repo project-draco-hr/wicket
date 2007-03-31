@@ -3,6 +3,9 @@
     addStateChange(new Change(){
       private static final long serialVersionUID=1L;
       final Object removedChildren=MarkupContainer.this.children;
+      public String toString(){
+        return "RemoveAllChange[component: " + getPath() + ", removed Children: "+ removedChildren+ "]";
+      }
       public void undo(){
         MarkupContainer.this.children=removedChildren;
         int size=children_size();
@@ -10,9 +13,6 @@
           final Component child=children_get(i);
           child.setParent(MarkupContainer.this);
         }
-      }
-      public String toString(){
-        return "RemoveAllChange[component: " + getPath() + ", removed Children: "+ removedChildren+ "]";
       }
     }
 );
