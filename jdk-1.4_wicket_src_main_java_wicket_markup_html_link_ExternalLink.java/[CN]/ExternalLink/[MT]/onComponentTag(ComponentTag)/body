@@ -3,6 +3,22 @@
     Object hrefValue=href.getObject();
     if (hrefValue != null) {
       String url=hrefValue.toString();
+      if (contextRelative) {
+        if (url.length() > 0 && url.charAt(0) == '/') {
+          url=url.substring(1);
+        }
+        PrependingStringBuffer prepender=new PrependingStringBuffer(url.toString());
+        String relativeUrl=getRequest().getRelativeURL();
+        for (int i=0; i < relativeUrl.length(); i++) {
+          if (relativeUrl.charAt(i) == '?') {
+            break;
+          }
+          if (relativeUrl.charAt(i) == '/') {
+            prepender.prepend("../");
+          }
+        }
+        url=prepender.toString();
+      }
       if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
         tag.put("href",Strings.replaceAll(url,"&","&amp;"));
         if (popupSettings != null) {
