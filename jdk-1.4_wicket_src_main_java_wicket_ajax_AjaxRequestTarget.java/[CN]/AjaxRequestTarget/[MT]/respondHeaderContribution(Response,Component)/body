@@ -1,13 +1,7 @@
 {
   headerRendering=true;
   if (header == null) {
-    header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID){
-      private static final long serialVersionUID=1L;
-      protected IHeaderResponse newHeaderResponse(){
-        return AjaxRequestTarget.this.getHeaderResponse();
-      }
-    }
-;
+    header=new AjaxHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID,this);
   }
   Component oldHeader=component.getPage().get(HtmlHeaderSectionHandler.HEADER_ID);
   if (oldHeader != null) {
