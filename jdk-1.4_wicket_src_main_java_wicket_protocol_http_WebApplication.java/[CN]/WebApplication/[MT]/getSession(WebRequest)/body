@@ -3,9 +3,6 @@
   Session session=sessionStore.lookup(request);
   if (session == null) {
     session=getSessionFactory().newSession(request);
-    if (sessionStore.getSessionId(request,false) != null) {
-      sessionStore.bind(request,session);
-    }
   }
   WebSession webSession;
   if (session instanceof WebSession) {
