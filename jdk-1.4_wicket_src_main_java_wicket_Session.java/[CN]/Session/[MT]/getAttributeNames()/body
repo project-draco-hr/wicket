@@ -1,7 +1,14 @@
 {
-  RequestCycle cycle=RequestCycle.get();
-  if (cycle != null) {
-    return getSessionStore().getAttributeNames(cycle.getRequest());
+  if (!isTemporary()) {
+    RequestCycle cycle=RequestCycle.get();
+    if (cycle != null) {
+      return getSessionStore().getAttributeNames(cycle.getRequest());
+    }
   }
-  return null;
+ else {
+    if (temporarySessionAttributes != null) {
+      return new ArrayList(temporarySessionAttributes.keySet());
+    }
+  }
+  return Collections.EMPTY_LIST;
 }

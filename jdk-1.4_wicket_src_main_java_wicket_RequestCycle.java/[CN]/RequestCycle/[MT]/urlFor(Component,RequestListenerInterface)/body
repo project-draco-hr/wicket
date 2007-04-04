@@ -5,10 +5,11 @@
     target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMap().getName(),page.getClass(),new PageParameters(),component,listener);
   }
  else {
-    if (listener == IRedirectListener.INTERFACE) {
-      page.setPageStateless(Boolean.FALSE);
+    page.setPageStateless(Boolean.FALSE);
+    Session session=Session.get();
+    if (session.isTemporary()) {
+      session.bind();
     }
-    session.getSessionStore().getSessionId(request,true);
     target=new ListenerInterfaceRequestTarget(page,component,listener);
   }
   final IRequestCodingStrategy requestCodingStrategy=getProcessor().getRequestCodingStrategy();

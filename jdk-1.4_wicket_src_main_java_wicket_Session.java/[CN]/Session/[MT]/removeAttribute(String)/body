@@ -1,6 +1,13 @@
 {
-  RequestCycle cycle=RequestCycle.get();
-  if (cycle != null) {
-    getSessionStore().removeAttribute(cycle.getRequest(),name);
+  if (!isTemporary()) {
+    RequestCycle cycle=RequestCycle.get();
+    if (cycle != null) {
+      getSessionStore().removeAttribute(cycle.getRequest(),name);
+    }
+  }
+ else {
+    if (temporarySessionAttributes != null) {
+      temporarySessionAttributes.remove(name);
+    }
   }
 }

@@ -1,18 +1,26 @@
 {
-  RequestCycle cycle=RequestCycle.get();
-  if (cycle == null) {
-    throw new WicketRuntimeException("Can not set the attribute. No RequestCycle available");
-  }
-  ISessionStore store=getSessionStore();
-  Request request=cycle.getRequest();
-  if (value == this) {
-    Object current=store.getAttribute(request,name);
-    if (current == null) {
-      String id=store.getSessionId(request,false);
-      if (id != null) {
-        store.bind(request,(Session)value);
+  if (!isTemporary()) {
+    RequestCycle cycle=RequestCycle.get();
+    if (cycle == null) {
+      throw new IllegalStateException("Cannot set the attribute: no RequestCycle available");
+    }
+    ISessionStore store=getSessionStore();
+    Request request=cycle.getRequest();
+    if (value == this) {
+      Object current=store.getAttribute(request,name);
+      if (current == null) {
+        String id=store.getSessionId(request,false);
+        if (id != null) {
+          store.bind(request,(Session)value);
+        }
       }
     }
+    store.setAttribute(request,name,value);
   }
-  store.setAttribute(request,name,value);
+ else {
+    if (temporarySessionAttributes == null) {
+      temporarySessionAttributes=new HashMap(3);
+    }
+    temporarySessionAttributes.put(name,value);
+  }
 }
