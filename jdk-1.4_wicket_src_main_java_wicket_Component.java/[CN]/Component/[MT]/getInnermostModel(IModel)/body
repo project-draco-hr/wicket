@@ -1,7 +1,7 @@
 {
   IModel nested=model;
-  while (nested != null && nested instanceof IModelWrapper) {
-    final IModel next=((IModelWrapper)nested).getNestedModel();
+  while (nested != null && nested instanceof INestedModelContainer) {
+    final IModel next=((INestedModelContainer)nested).getNestedModel();
     if (nested == next) {
       throw new WicketRuntimeException("Model for " + nested + " is self-referential");
     }

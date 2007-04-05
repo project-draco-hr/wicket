@@ -1,8 +1,8 @@
 {
   for (Component current=getParent(); current != null; current=current.getParent()) {
     IModel model=current.getModel();
-    if (model instanceof IModelWrapper) {
-      model=((IModelWrapper)model).getNestedModel();
+    if (model instanceof INestedModelContainer) {
+      model=((INestedModelContainer)model).getNestedModel();
     }
     if (model instanceof IComponentInheritedModel) {
       setVersioned(false);
