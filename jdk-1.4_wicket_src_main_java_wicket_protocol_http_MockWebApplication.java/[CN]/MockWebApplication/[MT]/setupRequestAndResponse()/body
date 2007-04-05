@@ -3,9 +3,9 @@
   servletResponse.initialize();
   servletRequest.setParameters(parametersForNextRequest);
   parametersForNextRequest.clear();
-  wicketRequest=new ServletWebRequest(servletRequest);
-  wicketSession=this.application.getSession(wicketRequest);
+  this.wicketRequest=this.application.newWebRequest(servletRequest);
+  this.wicketResponse=this.application.newWebResponse(servletResponse);
+  this.wicketSession=this.application.getSession(wicketRequest,wicketResponse);
   this.application.getSessionStore().bind(wicketRequest,wicketSession);
-  wicketResponse=new WebResponse(servletResponse);
   wicketResponse.setAjax(wicketRequest.isAjax());
 }

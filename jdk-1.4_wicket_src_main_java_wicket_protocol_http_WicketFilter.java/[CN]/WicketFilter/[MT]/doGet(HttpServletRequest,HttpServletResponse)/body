@@ -32,10 +32,10 @@
       }
     }
     Application.set(webApplication);
-    final WebSession session=webApplication.getSession(request);
     final WebResponse response=webApplication.newWebResponse(servletResponse);
     response.setAjax(request.isAjax());
     response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+    final WebSession session=webApplication.getSession(request,response);
     try {
       RequestCycle cycle=session.newRequestCycle(request,response);
       try {
