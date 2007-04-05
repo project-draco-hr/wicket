@@ -46,8 +46,8 @@
   add(new ListMultipleChoice("siteSelection",SITES));
   add(new TextField("urlProperty",URL.class){
     public IConverter getConverter(    final Class type){
-      return new SimpleConverterAdapter(){
-        public Object toObject(        final String value){
+      return new IConverter(){
+        public Object convertToObject(        String value,        Locale locale){
           try {
             return new URL(value.toString());
           }
@@ -55,7 +55,7 @@
             throw new ConversionException("'" + value + "' is not a valid URL");
           }
         }
-        public String toString(        final Object value){
+        public String convertToString(        Object value,        Locale locale){
           return value != null ? value.toString() : null;
         }
       }
