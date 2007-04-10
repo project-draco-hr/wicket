@@ -57,6 +57,18 @@
   buffer.append(component.getMarkupId());
   buffer.append("\").value;\n");
   buffer.append("if (dateValue) {\n");
+  buffer.append("  var dateArray = dateValue.split('/');\n");
+  buffer.append("  if (dateArray[2] != undefined) {");
+  buffer.append("    var year = dateArray[2];");
+  buffer.append("    if (year < 100) {");
+  buffer.append("      if (year < 50) {");
+  buffer.append("        year = year * 1 + 2000;");
+  buffer.append("      } else {");
+  buffer.append("        year = year * 1 + 1900;");
+  buffer.append("      }");
+  buffer.append("    dateValue = dateArray[0] + '/' + dateArray[1] + '/' + year;");
+  buffer.append("    }");
+  buffer.append("  }");
   buffer.append(javascriptWidgetId);
   buffer.append(".select(dateValue);\n");
   buffer.append("var firstDate = ");
