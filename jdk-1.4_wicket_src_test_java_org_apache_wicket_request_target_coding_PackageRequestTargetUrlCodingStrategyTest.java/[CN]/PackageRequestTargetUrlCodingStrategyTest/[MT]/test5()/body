@@ -1,0 +1,12 @@
+{
+  tester.getServletRequest().setPath("/mount/point/nonexistent.TestPage");
+  IRequestTargetUrlCodingStrategy ucs=getRequestCodingStrategy();
+  assertNotNull(ucs);
+  try {
+    ucs.decode(tester.getWicketRequest().getRequestParameters());
+    fail("decode() should have raised a WicketRuntimeException!");
+  }
+ catch (  WicketRuntimeException e) {
+    assertEquals("Unable to load class with name: org.apache.wicket.request.target.coding.nonexistent.TestPage",e.getMessage());
+  }
+}

@@ -1,0 +1,48 @@
+{
+  return new IResourceStream(){
+    private static final long serialVersionUID=1L;
+    /** 
+ * Transient input stream to resource 
+ */
+    private transient InputStream inputStream=null;
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#close()
+ */
+    public void close() throws IOException {
+      if (inputStream != null) {
+        inputStream.close();
+        inputStream=null;
+      }
+    }
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#getContentType()
+ */
+    public String getContentType(){
+      return contentType;
+    }
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#getInputStream()
+ */
+    public InputStream getInputStream() throws ResourceStreamNotFoundException {
+      if (inputStream == null) {
+        inputStream=new ByteArrayInputStream(array);
+      }
+      return inputStream;
+    }
+    /** 
+ * @see org.apache.wicket.util.watch.IModifiable#lastModifiedTime()
+ */
+    public Time lastModifiedTime(){
+      return lastModified;
+    }
+    public long length(){
+      return array.length;
+    }
+    public Locale getLocale(){
+      return locale;
+    }
+    public void setLocale(    Locale locale){
+    }
+  }
+;
+}

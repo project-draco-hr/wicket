@@ -1,0 +1,12 @@
+{
+  tester.getApplication().mountBookmarkablePage("/stateless",StatelessComponentPage.class);
+  tester.setupRequestAndResponse();
+  tester.getServletRequest().setURL("/stateless/org.apache.wicket:interface/:0:link::ILinkListener:");
+  try {
+    tester.processRequestCycle();
+    fail("An exception should have been thrown for this request!");
+  }
+ catch (  Exception e) {
+    assertEquals("wanted exception",e.getMessage());
+  }
+}

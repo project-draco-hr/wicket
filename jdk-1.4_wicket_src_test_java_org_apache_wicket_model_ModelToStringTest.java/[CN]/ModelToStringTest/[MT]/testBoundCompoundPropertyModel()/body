@@ -1,0 +1,20 @@
+{
+  BoundCompoundPropertyModel emptyModel=new BoundCompoundPropertyModel("");
+  String expected="Model:classname=[org.apache.wicket.model.BoundCompoundPropertyModel]:nestedModel=[]:bindings=[]";
+  assertEquals(expected,emptyModel.toString());
+  Properties properties=new Properties();
+  properties.put("name","foo");
+  BoundCompoundPropertyModel stringProperty=new BoundCompoundPropertyModel(properties);
+  expected="Model:classname=[org.apache.wicket.model.BoundCompoundPropertyModel]:nestedModel=[{name=foo}]:bindings=[]";
+  assertEquals(expected,stringProperty.toString());
+  stringProperty.getObject();
+  expected="Model:classname=[org.apache.wicket.model.BoundCompoundPropertyModel]:nestedModel=[{name=foo}]:bindings=[]";
+  assertEquals(expected,stringProperty.toString());
+  InnerPOJO innerPOJO=new InnerPOJO();
+  BoundCompoundPropertyModel pojoProperty=new BoundCompoundPropertyModel(innerPOJO);
+  expected="Model:classname=[org.apache.wicket.model.BoundCompoundPropertyModel]:nestedModel=[" + innerPOJO + "]:bindings=[]";
+  assertEquals(expected,pojoProperty.toString());
+  Component component1=pojoProperty.bind(new Label("label"));
+  expected="Model:classname=[org.apache.wicket.model.BoundCompoundPropertyModel]:nestedModel=[" + innerPOJO + "]:bindings=[Binding(:component=["+ component1+ "]:expression=[label])]";
+  assertEquals(expected,pojoProperty.toString());
+}

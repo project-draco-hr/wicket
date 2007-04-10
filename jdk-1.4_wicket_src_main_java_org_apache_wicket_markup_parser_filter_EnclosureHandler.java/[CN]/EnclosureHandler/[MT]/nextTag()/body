@@ -1,0 +1,43 @@
+{
+  final ComponentTag tag=nextComponentTag();
+  if (tag == null) {
+    return tag;
+  }
+  final boolean isWicketTag=tag instanceof WicketTag;
+  final boolean isEnclosureTag=isWicketTag && ((WicketTag)tag).isEnclosureTag();
+  if (isEnclosureTag) {
+    if (tag.isOpen()) {
+      if (this.stack == null) {
+        this.stack=new Stack();
+      }
+      this.stack.push(tag);
+    }
+ else     if (tag.isClose()) {
+      if (this.stack == null) {
+        throw new ParseException("Missing open tag for Enclosure: " + tag.toString(),tag.getPos());
+      }
+      ComponentTag lastEnclosure=(ComponentTag)this.stack.pop();
+      if (this.childId != null) {
+        lastEnclosure.put(CHILD_ATTRIBUTE,this.childId);
+        lastEnclosure.setModified(true);
+        this.childId=null;
+      }
+      if (this.stack.size() == 0) {
+        this.stack=null;
+      }
+    }
+ else {
+      throw new ParseException("Open-close tag not allowed for Enclosure: " + tag.toString(),tag.getPos());
+    }
+  }
+ else   if ((tag.getId() != null) && (isWicketTag == false) && (stack != null)) {
+    ComponentTag lastEnclosure=(ComponentTag)this.stack.lastElement();
+    if (lastEnclosure.getString(CHILD_ATTRIBUTE) == null) {
+      if (this.childId != null) {
+        throw new ParseException("Use <org.apache.wicket:enclosure child='xxx'> to name the child component",tag.getPos());
+      }
+      this.childId=tag.getId();
+    }
+  }
+  return tag;
+}

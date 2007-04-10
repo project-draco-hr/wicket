@@ -1,0 +1,46 @@
+{
+  final MarkupElement element=markupStream.get();
+  if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
+    final ComponentTag tag=(ComponentTag)element;
+    final String id=tag.getId();
+    final Component component=get(id);
+    if (component != null) {
+      component.render(markupStream);
+    }
+ else {
+      MarkupContainer container=this;
+      while (container != null) {
+        if (container instanceof IComponentResolver) {
+          if (((IComponentResolver)container).resolve(this,markupStream,tag)) {
+            return;
+          }
+        }
+        container=container.findParent(MarkupContainer.class);
+      }
+      final List componentResolvers=this.getApplication().getPageSettings().getComponentResolvers();
+      final Iterator iterator=componentResolvers.iterator();
+      while (iterator.hasNext()) {
+        final IComponentResolver resolver=(IComponentResolver)iterator.next();
+        if (resolver.resolve(this,markupStream,tag)) {
+          return;
+        }
+      }
+      if (tag instanceof WicketTag) {
+        if (((WicketTag)tag).isChildTag()) {
+          markupStream.throwMarkupException("Found " + tag.toString() + " but no <org.apache.wicket:extend>");
+        }
+ else {
+          markupStream.throwMarkupException("Failed to handle: " + tag.toString());
+        }
+      }
+      markupStream.throwMarkupException("Unable to find component with id '" + id + "' in "+ this+ ". This means that you declared wicket:id="+ id+ " in your markup, but that you either did not add the "+ "component to your page at all, or that the hierarchy does not match.");
+    }
+  }
+ else {
+    if (log.isDebugEnabled()) {
+      log.debug("Rendering raw markup");
+    }
+    getResponse().write(element.toCharSequence());
+    markupStream.next();
+  }
+}
