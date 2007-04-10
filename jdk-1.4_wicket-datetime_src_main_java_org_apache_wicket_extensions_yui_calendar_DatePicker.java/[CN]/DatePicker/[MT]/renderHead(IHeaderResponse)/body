@@ -1,0 +1,123 @@
+{
+  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"yahoo.js"));
+  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"event.js"));
+  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"dom.js"));
+  response.renderJavascriptReference(new JavascriptResourceReference(DatePicker.class,"calendar.js"));
+  response.renderCSSReference(new CompressedResourceReference(DatePicker.class,"assets/calendar.css"));
+  String markupId=getCalendarMarkupId();
+  String javascriptId=getCalendarJavascriptId();
+  String javascriptWidgetId="YAHOO.wicket." + getCalendarJavascriptId();
+  StringBuffer buffer=new StringBuffer();
+  buffer.append("YAHOO.namespace(\"org.apache.wicket\");\nfunction init");
+  buffer.append(javascriptId);
+  buffer.append("() {\n");
+  buffer.append("  ");
+  buffer.append(javascriptWidgetId);
+  buffer.append(" = new YAHOO.widget.Calendar(\"");
+  buffer.append(javascriptId);
+  buffer.append("\",\"");
+  buffer.append(markupId);
+  Properties p=new Properties();
+  configureWidgetProperties(p);
+  buffer.append("\", { ");
+  for (Iterator i=p.entrySet().iterator(); i.hasNext(); ) {
+    Entry entry=(Entry)i.next();
+    buffer.append(entry.getKey());
+    Object value=entry.getValue();
+    if (value instanceof CharSequence) {
+      buffer.append(":\"");
+      buffer.append(value);
+      buffer.append("\"");
+    }
+ else     if (value instanceof CharSequence[]) {
+      buffer.append(":[");
+      CharSequence[] valueArray=(CharSequence[])value;
+      for (int j=0; j < valueArray.length; j++) {
+        CharSequence tmpValue=valueArray[j];
+        buffer.append("\"");
+        buffer.append(tmpValue);
+        buffer.append("\"");
+        if (j < valueArray.length - 1) {
+          buffer.append(",");
+        }
+      }
+      buffer.append("]");
+    }
+ else {
+      buffer.append(":");
+      buffer.append(value);
+    }
+    if (i.hasNext()) {
+      buffer.append(",");
+    }
+  }
+  buffer.append(" });\n");
+  buffer.append(" function showCalendar() {\n");
+  buffer.append("var dateValue = YAHOO.util.Dom.get(\"");
+  buffer.append(component.getMarkupId());
+  buffer.append("\").value;\n");
+  buffer.append("if (dateValue) {\n");
+  buffer.append("  var dateArray = dateValue.split('/');\n");
+  buffer.append("  if (dateArray[2] != undefined) {");
+  buffer.append("    var year = dateArray[2];");
+  buffer.append("    if (year < 100) {");
+  buffer.append("      if (year < 50) {");
+  buffer.append("        year = year * 1 + 2000;");
+  buffer.append("      } else {");
+  buffer.append("        year = year * 1 + 1900;");
+  buffer.append("      }");
+  buffer.append("    dateValue = dateArray[0] + '/' + dateArray[1] + '/' + year;");
+  buffer.append("    }");
+  buffer.append("  }");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".select(dateValue);\n");
+  buffer.append("var firstDate = ");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".getSelectedDates()[0];");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".cfg.setProperty(\"pagedate\", (firstDate.getMonth()+1) + \"/\" + firstDate.getFullYear());");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".render();\n");
+  buffer.append("}\n");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".show();\n");
+  buffer.append(" }\n");
+  buffer.append("  YAHOO.util.Event.addListener(\"");
+  String iconId=getIconId();
+  buffer.append(iconId);
+  buffer.append("\", \"click\", ");
+  buffer.append("showCalendar, ");
+  buffer.append(javascriptWidgetId);
+  buffer.append(", true);\n");
+  buffer.append("  function selectHandler(type, args, cal) {\n");
+  buffer.append("    var selDateArray = args[0][0];\n");
+  buffer.append("    var yr = selDateArray[0];\n");
+  buffer.append("    var month = selDateArray[1];\n");
+  buffer.append("    var dt = selDateArray[2];\n");
+  buffer.append("    var val = '");
+  String datePattern=getDatePattern();
+  buffer.append(datePattern);
+  buffer.append("'.replace(/d+/, dt).replace(/M+/, month)");
+  buffer.append(".replace(/y+/, yr);\n    YAHOO.util.Dom.get(\"");
+  buffer.append(component.getMarkupId());
+  buffer.append("\").value = val;\n");
+  buffer.append("    cal.hide();\n  }\n");
+  buffer.append("  ");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".selectEvent.subscribe(selectHandler, ");
+  buffer.append(javascriptWidgetId);
+  buffer.append(");\n");
+  appendToInit(markupId,javascriptId,javascriptWidgetId,buffer);
+  buffer.append("  ");
+  buffer.append(javascriptWidgetId);
+  buffer.append(".render();\n");
+  buffer.append("}\n");
+  buffer.insert(0,JavascriptUtils.SCRIPT_OPEN_TAG);
+  buffer.append(JavascriptUtils.SCRIPT_CLOSE_TAG);
+  response.renderString(buffer);
+  StringBuffer initBuffer=new StringBuffer();
+  initBuffer.append("init");
+  initBuffer.append(javascriptId);
+  initBuffer.append("();");
+  response.renderOnLoadJavascript(initBuffer.toString());
+}
