@@ -1,0 +1,18 @@
+{
+  setStatelessHint(true);
+  add(new Label("message",new SessionModel()));
+  add(new BookmarkablePageLink("indexLink",Index.class));
+  StatelessForm statelessForm=new StatelessForm("statelessform"){
+    /** 
+ * @see org.apache.wicket.markup.html.form.Form#onSubmit()
+ */
+    protected void onSubmit(){
+      info("Submitted text: " + tf.getModelObject());
+    }
+  }
+;
+  tf=new TextField("textfield",new Model());
+  add(statelessForm);
+  statelessForm.add(tf);
+  add(new FeedbackPanel("feedback"));
+}

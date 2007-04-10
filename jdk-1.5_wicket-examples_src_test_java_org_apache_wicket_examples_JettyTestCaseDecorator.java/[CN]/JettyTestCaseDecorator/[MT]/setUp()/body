@@ -1,0 +1,16 @@
+{
+  server=new Server();
+  SelectChannelConnector connector=new SelectChannelConnector();
+  connector.setPort(8098);
+  server.setConnectors(new Connector[]{connector});
+  WebAppContext web=new WebAppContext();
+  web.setContextPath("/org.apache.wicket-examples");
+  String basedir=System.getProperty("basedir");
+  String path="";
+  if (basedir != null)   path=basedir + "/";
+  path+="src/main/webapp";
+  web.setWar(path);
+  server.addHandler(web);
+  server.start();
+  super.setUp();
+}
