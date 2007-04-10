@@ -5,7 +5,7 @@
   IPageMap pageMap=webPage.getPageMap();
   String name=pageMap.getName();
   if (name == null) {
-    name="org.apache.wicket:default";
+    name="wicket:default";
   }
  else {
     name=name.replace('"','_');
@@ -19,7 +19,7 @@
   boolean firstAccess=meta.add(pageMap);
   if (firstAccess) {
     JavascriptUtils.writeOpenTag(response);
-    response.write("if (window.name=='' || window.name.indexOf('org.apache.wicket') > -1) { window.name=\"");
+    response.write("if (window.name=='' || window.name.indexOf('wicket') > -1) { window.name=\"");
     response.write(name);
     response.write("\"; }");
     JavascriptUtils.writeCloseTag(response);
@@ -35,7 +35,7 @@
       url=webPage.urlFor(INewBrowserWindowListener.INTERFACE);
     }
     JavascriptUtils.writeOpenTag(response);
-    response.write("if (window.name=='' || (window.name.indexOf('org.apache.wicket') > -1 && window.name!='" + name + "')) { window.location=\"");
+    response.write("if (window.name=='' || (window.name.indexOf('wicket') > -1 && window.name!='" + name + "')) { window.location=\"");
     response.write(url);
     response.write("\"; }");
     JavascriptUtils.writeCloseTag(response);

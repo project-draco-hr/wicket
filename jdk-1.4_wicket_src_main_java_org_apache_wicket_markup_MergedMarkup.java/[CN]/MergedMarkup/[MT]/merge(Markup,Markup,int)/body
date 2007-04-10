@@ -28,7 +28,7 @@
           break;
         }
  else {
-          throw new WicketRuntimeException("Did not expect a </org.apache.wicket:child> tag in " + baseMarkup.toString());
+          throw new WicketRuntimeException("Did not expect a </wicket:child> tag in " + baseMarkup.toString());
         }
       }
       if (wicketHeadProcessed == false) {
@@ -70,7 +70,7 @@
     addMarkupElement(element);
   }
   if (baseIndex == baseMarkup.size()) {
-    throw new WicketRuntimeException("Expected to find <org.apache.wicket:child/> in base markup: " + baseMarkup.toString());
+    throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup: " + baseMarkup.toString());
   }
   for (; extendIndex < markup.size(); extendIndex++) {
     MarkupElement element=markup.get(extendIndex);
@@ -83,7 +83,7 @@
     }
   }
   if (extendIndex == markup.size()) {
-    throw new WicketRuntimeException("Missing close tag </org.apache.wicket:extend> in derived markup: " + markup.toString());
+    throw new WicketRuntimeException("Missing close tag </wicket:extend> in derived markup: " + markup.toString());
   }
   if (((ComponentTag)baseMarkup.get(baseIndex)).isOpen()) {
     for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
@@ -96,15 +96,15 @@
           break;
         }
  else {
-          throw new WicketRuntimeException("Wicket tags like <org.apache.wicket:xxx> are not allowed in between <org.apache.wicket:child> and </org.apache.wicket:child> tags: " + markup.toString());
+          throw new WicketRuntimeException("Wicket tags like <wicket:xxx> are not allowed in between <wicket:child> and </wicket:child> tags: " + markup.toString());
         }
       }
  else       if (element instanceof ComponentTag) {
-        throw new WicketRuntimeException("Wicket tags identified by wicket:id are not allowed in between <org.apache.wicket:child> and </org.apache.wicket:child> tags: " + markup.toString());
+        throw new WicketRuntimeException("Wicket tags identified by wicket:id are not allowed in between <wicket:child> and </wicket:child> tags: " + markup.toString());
       }
     }
     if (baseIndex == baseMarkup.size()) {
-      throw new WicketRuntimeException("Expected to find </org.apache.wicket:child> in base markup: " + baseMarkup.toString());
+      throw new WicketRuntimeException("Expected to find </wicket:child> in base markup: " + baseMarkup.toString());
     }
   }
  else {
