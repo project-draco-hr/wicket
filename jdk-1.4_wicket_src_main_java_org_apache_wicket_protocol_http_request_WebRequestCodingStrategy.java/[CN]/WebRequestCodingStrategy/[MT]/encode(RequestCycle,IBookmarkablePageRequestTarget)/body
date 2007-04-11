@@ -36,9 +36,15 @@
   }
   final PageParameters parameters=requestTarget.getPageParameters();
   if (parameters != null) {
-    Iterator it=parameters.keySet().iterator();
-    while (it.hasNext()) {
-      final String key=(String)it.next();
+    final Iterator iterator;
+    if (UnitTestSettings.getSortUrlParameters()) {
+      iterator=new TreeSet(parameters.keySet()).iterator();
+    }
+ else {
+      iterator=parameters.keySet().iterator();
+    }
+    while (iterator.hasNext()) {
+      final String key=(String)iterator.next();
       final String value=parameters.getString(key);
       if (value != null) {
         String escapedValue=value;

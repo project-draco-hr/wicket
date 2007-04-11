@@ -8,7 +8,7 @@
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new WicketTag(xmlTag);
     tag.setId("_" + tag.getName());
-    if (wellKnownTagNames.contains(xmlTag.getName()) == false) {
+    if (!isWellKnown(xmlTag)) {
       throw new ParseException("Unknown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag.getPos());
     }
   }

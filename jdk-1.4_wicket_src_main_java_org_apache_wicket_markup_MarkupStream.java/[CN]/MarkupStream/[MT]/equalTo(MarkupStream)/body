@@ -1,0 +1,20 @@
+{
+  while (this.hasMore()) {
+    final MarkupElement thisElement=this.next();
+    final MarkupElement thatElement=that.next();
+    if (thisElement != null && thatElement != null) {
+      if (!thisElement.equalTo(thatElement)) {
+        return false;
+      }
+    }
+ else {
+      if (!(thisElement == null && thatElement == null)) {
+        return false;
+      }
+    }
+  }
+  if (!that.hasMore()) {
+    return true;
+  }
+  return false;
+}
