@@ -1,11 +1,11 @@
 {
-  List lst=(List)touchedPages.get();
-  if (lst != null) {
-    for (int i=0; i < lst.size(); i++) {
-      Page page=(Page)lst.get(i);
+  List touchedPages=(List)Session.touchedPages.get();
+  Session.touchedPages.set(null);
+  if (touchedPages != null) {
+    for (int i=0; i < touchedPages.size(); i++) {
+      Page page=(Page)touchedPages.get(i);
       page.getPageMap().put(page);
     }
-    touchedPages.set(null);
   }
   if (dirty) {
     if (log.isDebugEnabled()) {
@@ -20,6 +20,7 @@
     }
   }
   List dirtyObjects=(List)Session.dirtyObjects.get();
+  Session.dirtyObjects.set(null);
   if (dirtyObjects != null) {
     for (final Iterator iterator=dirtyObjects.iterator(); iterator.hasNext(); ) {
       String attribute=null;
@@ -40,6 +41,5 @@
       }
       setAttribute(attribute,object);
     }
-    Session.dirtyObjects.set(null);
   }
 }
