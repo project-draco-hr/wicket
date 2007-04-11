@@ -4,6 +4,14 @@
     return xmlTag;
   }
   final String namespace=this.markup.getWicketNamespace();
+  final String wicketidAttr=namespace + ":id";
+  final String wicketid=xmlTag.getAttributes().getString(wicketidAttr);
+  if (!Strings.isEmpty(wicketid) && ":".equals(wicketid.substring(0,1))) {
+    xmlTag=xmlTag.mutable();
+    xmlTag.setNamespace(namespace);
+    xmlTag.setName(wicketid.substring(1));
+    xmlTag.getAttributes().remove(wicketidAttr);
+  }
   ComponentTag tag;
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new WicketTag(xmlTag);
