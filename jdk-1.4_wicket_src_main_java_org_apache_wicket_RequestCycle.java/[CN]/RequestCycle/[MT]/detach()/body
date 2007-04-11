@@ -12,17 +12,19 @@
   }
   try {
     session.cleanupRenderedFeedbackMessages();
+    Page page=getResponsePage();
+    if (page != null) {
+      session.cleanupFeedbackMessages(page);
+    }
   }
  catch (  RuntimeException re) {
     log.error("there was an error cleaning up the feedback messages",re);
   }
-  if (updateSession) {
-    try {
-      session.update();
-    }
- catch (    RuntimeException re) {
-      log.error("there was an error updating the session " + session + ".",re);
-    }
+  try {
+    session.update();
+  }
+ catch (  RuntimeException re) {
+    log.error("there was an error updating the session " + session + ".",re);
   }
   try {
     IRequestLogger requestLogger=getApplication().getRequestLogger();
