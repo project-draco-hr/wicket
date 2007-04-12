@@ -10,15 +10,17 @@
       }
     }
   }
-  try {
-    session.cleanupRenderedFeedbackMessages();
-    Page page=getResponsePage();
-    if (page != null) {
-      session.cleanupFeedbackMessages(page);
+  if (automaticallyClearFeedbackMessages) {
+    try {
+      session.cleanupRenderedFeedbackMessages();
+      final Page page=getResponsePage();
+      if (page != null) {
+        session.cleanupFeedbackMessages(page);
+      }
     }
-  }
- catch (  RuntimeException re) {
-    log.error("there was an error cleaning up the feedback messages",re);
+ catch (    RuntimeException re) {
+      log.error("there was an error cleaning up the feedback messages",re);
+    }
   }
   try {
     session.update();
