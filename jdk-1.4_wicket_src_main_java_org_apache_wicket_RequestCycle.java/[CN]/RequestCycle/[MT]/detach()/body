@@ -12,17 +12,21 @@
   }
   if (automaticallyClearFeedbackMessages) {
     try {
-      session.cleanupFeedbackMessages();
+      if (sessionExists()) {
+        getSession().cleanupFeedbackMessages();
+      }
     }
  catch (    RuntimeException re) {
       log.error("there was an error cleaning up the feedback messages",re);
     }
   }
-  try {
-    session.update();
-  }
- catch (  RuntimeException re) {
-    log.error("there was an error updating the session " + session + ".",re);
+  if (sessionExists()) {
+    try {
+      getSession().update();
+    }
+ catch (    RuntimeException re) {
+      log.error("there was an error updating the session " + session + ".",re);
+    }
   }
   try {
     IRequestLogger requestLogger=getApplication().getRequestLogger();
@@ -33,11 +37,13 @@
  catch (  RuntimeException re) {
     log.error("there was an error in the RequestLogger ending.",re);
   }
-  try {
-    session.requestDetached();
-  }
- catch (  RuntimeException re) {
-    log.error("there was an error detaching the request from the session " + session + ".",re);
+  if (sessionExists()) {
+    try {
+      getSession().requestDetached();
+    }
+ catch (    RuntimeException re) {
+      log.error("there was an error detaching the request from the session " + session + ".",re);
+    }
   }
   if (getResponse() instanceof BufferedWebResponse) {
     try {

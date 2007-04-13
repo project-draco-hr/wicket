@@ -1,8 +1,8 @@
 {
   String relativePath=getRelativePath(servletRequest);
   if (relativePath.length() == 0 && !Strings.stripJSessionId(servletRequest.getRequestURI()).endsWith("/")) {
-    String foo=servletRequest.getRequestURI() + "/";
-    servletResponse.sendRedirect(foo);
+    final String redirectUrl=servletRequest.getRequestURI() + "/";
+    servletResponse.sendRedirect(redirectUrl);
     return;
   }
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
@@ -35,9 +35,8 @@
     final WebResponse response=webApplication.newWebResponse(servletResponse);
     response.setAjax(request.isAjax());
     response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
-    final WebSession session=webApplication.getSession(request,response);
     try {
-      RequestCycle cycle=session.newRequestCycle(request,response);
+      RequestCycle cycle=webApplication.newRequestCycle(webApplication,request,response);
       try {
         cycle.request();
       }

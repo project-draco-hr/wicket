@@ -1,7 +1,9 @@
 {
-  final Session session=(Session)current.get();
+  Session session=(Session)current.get();
   if (session == null) {
-    throw new WicketRuntimeException("there is no session attached to current thread " + Thread.currentThread().getName());
+    final RequestCycle cycle=RequestCycle.get();
+    session=Application.get().getSessionFactory().newSession(cycle.getRequest(),cycle.getResponse());
+    set(session);
   }
   return session;
 }

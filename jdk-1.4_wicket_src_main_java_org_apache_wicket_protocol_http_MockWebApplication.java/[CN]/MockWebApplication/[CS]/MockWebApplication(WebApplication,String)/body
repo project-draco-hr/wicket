@@ -39,14 +39,13 @@
   this.servletSession=new MockHttpSession(this.context);
   this.servletRequest=new MockHttpServletRequest(this.application,this.servletSession,this.context);
   this.servletResponse=new MockHttpServletResponse();
+  this.requestCycleFactory=this.application.getRequestCycleFactory();
   this.wicketRequest=this.application.newWebRequest(this.servletRequest);
   this.wicketResponse=this.application.newWebResponse(this.servletResponse);
-  this.wicketSession=this.application.getSession(this.wicketRequest,this.wicketResponse);
-  this.requestCycleFactory=this.wicketSession.getRequestCycleFactory();
+  createRequestCycle();
   this.application.getApplicationSettings().setContextPath(context.getServletContextName());
   this.application.getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.ONE_PASS_RENDER);
   this.application.getResourceSettings().setResourceFinder(new WebApplicationPath(context));
   this.application.getPageSettings().setAutomaticMultiWindowSupport(false);
   this.application.getResourceSettings().setResourcePollFrequency(null);
-  createRequestCycle();
 }
