@@ -1,9 +1,7 @@
 {
   Session session=(Session)current.get();
   if (session == null) {
-    final RequestCycle cycle=RequestCycle.get();
-    session=Application.get().getSessionFactory().newSession(cycle.getRequest(),cycle.getResponse());
-    set(session);
+    session=findOrCreate();
   }
   return session;
 }
