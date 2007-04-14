@@ -50,23 +50,6 @@
         copyWicketHead(markup,extendIndex);
       }
     }
-    if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
-      final String onLoad=getBodyOnLoadString(markup);
-      String onLoadBase=tag.getAttributes().getString("onload");
-      if (onLoadBase == null) {
-        if (onLoad != null) {
-          ComponentTag mutableTag=tag.mutable();
-          mutableTag.getAttributes().put("onload",onLoad);
-          element=mutableTag;
-        }
-      }
- else       if (onLoad != null) {
-        onLoadBase+=onLoad;
-        ComponentTag mutableTag=tag.mutable();
-        mutableTag.getAttributes().put("onload",onLoadBase);
-        element=mutableTag;
-      }
-    }
     addMarkupElement(element);
   }
   if (baseIndex == baseMarkup.size()) {
