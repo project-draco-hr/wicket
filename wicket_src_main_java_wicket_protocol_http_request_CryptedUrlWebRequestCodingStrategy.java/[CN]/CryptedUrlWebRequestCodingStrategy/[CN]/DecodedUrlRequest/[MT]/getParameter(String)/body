@@ -2,5 +2,18 @@
   if (key == null) {
     return null;
   }
-  return (String)this.parameterMap.get(key);
+  Object val=this.parameterMap.get(key);
+  if (val == null) {
+    return null;
+  }
+ else   if (val instanceof String[]) {
+    String[] arrayVal=(String[])val;
+    return arrayVal.length > 0 ? arrayVal[0] : null;
+  }
+ else   if (val instanceof String) {
+    return (String)val;
+  }
+ else {
+    return val.toString();
+  }
 }
