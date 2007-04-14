@@ -1,0 +1,18 @@
+{
+  mount("/docs",new URIRequestTargetUrlCodingStrategy("/docs"){
+    @Override public IRequestTarget decode(    RequestParameters requestParameters){
+      String path="/staticpages/" + getURI(requestParameters);
+      return new WebExternalResourceRequestTarget(path);
+    }
+  }
+);
+  mount("/xsldocs",new URIRequestTargetUrlCodingStrategy("/xsldocs"){
+    @Override public IRequestTarget decode(    RequestParameters requestParameters){
+      String path="/staticpages/" + getURI(requestParameters);
+      IResourceStream xslStream=new PackageResourceStream(Application.class,"layout.xsl");
+      IResourceStream docStream=new WebExternalResourceStream(path);
+      return new ResourceStreamRequestTarget(new XSLTResourceStream(xslStream,docStream));
+    }
+  }
+);
+}
