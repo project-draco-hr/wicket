@@ -4,13 +4,6 @@
     return xmlTag;
   }
   final String namespace=this.markup.getWicketNamespace();
-  final String wicketTagAttr=namespace + ":tag";
-  final String wicketTag=xmlTag.getAttributes().getString(wicketTagAttr);
-  if (!Strings.isEmpty(wicketTag)) {
-    xmlTag=xmlTag.mutable();
-    xmlTag.setNamespace(namespace);
-    xmlTag.setName(wicketTag);
-  }
   ComponentTag tag;
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new WicketTag(xmlTag);
