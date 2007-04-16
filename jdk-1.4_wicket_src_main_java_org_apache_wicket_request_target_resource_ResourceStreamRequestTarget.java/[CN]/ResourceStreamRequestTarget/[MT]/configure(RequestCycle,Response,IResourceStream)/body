@@ -7,7 +7,9 @@
     if (getFileName() != null)     response.detectContentType(requestCycle,getFileName());
  else     response.detectContentType(requestCycle,requestCycle.getRequest().getRelativeURL());
   }
-  response.setContentLength((int)resourceStream.length());
+  if (resourceStream.length() >= 0) {
+    response.setContentLength(resourceStream.length());
+  }
   String file=getFileName();
   if (file != null && (response instanceof WebResponse)) {
     ((WebResponse)response).setAttachmentHeader(file);
