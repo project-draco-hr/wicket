@@ -1,17 +1,5 @@
 {
   IRequestCodingStrategy requestCodingStrategy=requestCycle.getProcessor().getRequestCodingStrategy();
-  IRequestTarget mounted=requestCodingStrategy.targetForRequest(requestParameters);
-  if (mounted != null) {
-    if (mounted instanceof IBookmarkablePageRequestTarget) {
-      IBookmarkablePageRequestTarget bookmarkableTarget=(IBookmarkablePageRequestTarget)mounted;
-      if (requestParameters.getComponentPath() != null && requestParameters.getInterfaceName() != null) {
-        final String componentPath=requestParameters.getComponentPath();
-        final Page page=Session.get().getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
-        return resolveListenerInterfaceTarget(requestCycle,page,componentPath,requestParameters.getInterfaceName(),requestParameters);
-      }
-    }
-    return mounted;
-  }
   final String path=requestParameters.getPath();
   IRequestTarget target=null;
   if (requestParameters.getBookmarkablePageClass() != null) {
@@ -58,6 +46,20 @@ synchronized (requestCycle.getSession()) {
   }
  else   if (Strings.isEmpty(path) || ("/".equals(path))) {
     target=resolveHomePageTarget(requestCycle,requestParameters);
+  }
+ else {
+    IRequestTarget mounted=requestCodingStrategy.targetForRequest(requestParameters);
+    if (mounted != null) {
+      target=mounted;
+      if (mounted instanceof IBookmarkablePageRequestTarget) {
+        IBookmarkablePageRequestTarget bookmarkableTarget=(IBookmarkablePageRequestTarget)mounted;
+        if (requestParameters.getComponentPath() != null && requestParameters.getInterfaceName() != null) {
+          final String componentPath=requestParameters.getComponentPath();
+          final Page page=Session.get().getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
+          target=resolveListenerInterfaceTarget(requestCycle,page,componentPath,requestParameters.getInterfaceName(),requestParameters);
+        }
+      }
+    }
   }
   if (target != null) {
     if (Application.get().getSecuritySettings().getEnforceMounts() && requestCodingStrategy.pathForTarget(target) != null) {
