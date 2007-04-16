@@ -1,6 +1,4 @@
 {
-  if (mountPath == null) {
-    throw new IllegalArgumentException("Argument mountPath must be not null");
-  }
-  this.mountPath=mountPath.substring(1);
+  checkMountPath(mountPath);
+  this.mountPath=(mountPath.startsWith("/")) ? mountPath.substring(1) : mountPath;
 }
