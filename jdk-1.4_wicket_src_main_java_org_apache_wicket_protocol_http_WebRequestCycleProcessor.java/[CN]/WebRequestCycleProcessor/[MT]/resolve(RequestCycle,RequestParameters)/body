@@ -47,7 +47,7 @@ synchronized (requestCycle.getSession()) {
  else   if (Strings.isEmpty(path) || ("/".equals(path))) {
     target=resolveHomePageTarget(requestCycle,requestParameters);
   }
- else {
+  if (target == null) {
     IRequestTarget mounted=requestCodingStrategy.targetForRequest(requestParameters);
     if (mounted != null) {
       target=mounted;
@@ -61,15 +61,15 @@ synchronized (requestCycle.getSession()) {
       }
     }
   }
-  if (target != null) {
+ else {
     if (Application.get().getSecuritySettings().getEnforceMounts() && requestCodingStrategy.pathForTarget(target) != null) {
       String msg="Direct access not allowed for mounted targets";
       log.error(msg + " [request=" + requestCycle.getRequest()+ ",target="+ target+ ",session="+ Session.get()+ "]");
       throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_FORBIDDEN,msg);
     }
-    return target;
   }
- else {
+  if (target == null) {
     return resolveExternalResource(requestCycle);
   }
+  return target;
 }
