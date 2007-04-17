@@ -48,18 +48,7 @@ synchronized (requestCycle.getSession()) {
     target=resolveHomePageTarget(requestCycle,requestParameters);
   }
   if (target == null) {
-    IRequestTarget mounted=requestCodingStrategy.targetForRequest(requestParameters);
-    if (mounted != null) {
-      target=mounted;
-      if (mounted instanceof IBookmarkablePageRequestTarget) {
-        IBookmarkablePageRequestTarget bookmarkableTarget=(IBookmarkablePageRequestTarget)mounted;
-        if (requestParameters.getComponentPath() != null && requestParameters.getInterfaceName() != null) {
-          final String componentPath=requestParameters.getComponentPath();
-          final Page page=Session.get().getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
-          target=resolveListenerInterfaceTarget(requestCycle,page,componentPath,requestParameters.getInterfaceName(),requestParameters);
-        }
-      }
-    }
+    target=requestCodingStrategy.targetForRequest(requestParameters);
   }
  else {
     if (Application.get().getSecuritySettings().getEnforceMounts() && requestCodingStrategy.pathForTarget(target) != null) {
