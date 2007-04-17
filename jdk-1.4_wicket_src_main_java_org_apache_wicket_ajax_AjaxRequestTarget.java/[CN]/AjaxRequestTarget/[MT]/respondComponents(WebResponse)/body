@@ -1,8 +1,8 @@
 {
   Iterator it;
-  it=markupIdToComponent.entrySet().iterator();
+  it=markupIdToComponent.values().iterator();
   while (it.hasNext()) {
-    final Component component=(Component)((Entry)it.next()).getValue();
+    final Component component=(Component)it.next();
     if (component instanceof MarkupContainer) {
       MarkupContainer container=(MarkupContainer)component;
       container.visitChildren(IFeedback.class,new IVisitor(){
@@ -15,6 +15,23 @@
     }
     if (component instanceof IFeedback) {
       ((IFeedback)component).updateFeedback();
+    }
+  }
+  it=markupIdToComponent.values().iterator();
+  while (it.hasNext()) {
+    final Component component=(Component)it.next();
+    if (component instanceof IFeedback) {
+      component.attach();
+    }
+    if (component instanceof MarkupContainer) {
+      MarkupContainer container=(MarkupContainer)component;
+      container.visitChildren(IFeedback.class,new IVisitor(){
+        public Object component(        Component component){
+          component.attach();
+          return IVisitor.CONTINUE_TRAVERSAL;
+        }
+      }
+);
     }
   }
   it=markupIdToComponent.values().iterator();
