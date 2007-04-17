@@ -3,7 +3,6 @@
   if (props != null) {
     return props;
   }
-  final java.util.Properties properties=new java.util.Properties();
   if (resourceStream == null) {
     props=new Properties(key,ValueMap.EMPTY_MAP);
   }
@@ -12,7 +11,21 @@
     try {
       try {
         BufferedInputStream in=new BufferedInputStream(resourceStream.getInputStream());
-{
+        boolean loadAsXml=false;
+        if (resourceStream instanceof IFixedLocationResourceStream) {
+          String location=((IFixedLocationResourceStream)resourceStream).locationAsString();
+          if (location != null) {
+            String ext=Strings.lastPathComponent(location,'.').toLowerCase();
+            if ("xml".equals(ext)) {
+              loadAsXml=true;
+            }
+          }
+        }
+        java.util.Properties properties=new java.util.Properties();
+        if (loadAsXml) {
+          Streams.loadFromXml(properties,in);
+        }
+ else {
           properties.load(in);
         }
         strings=new ValueMap();
