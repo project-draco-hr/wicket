@@ -1,0 +1,38 @@
+{
+  this.filterConfig=filterConfig;
+  if (SERVLET_PATH_HOLDER.equals(filterConfig.getInitParameter(FILTER_MAPPING_PARAM))) {
+    servletMode=true;
+  }
+  final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
+  try {
+    Thread.currentThread().setContextClassLoader(getClassLoader());
+    if (filterConfig.getInitParameter(WicketFilter.FILTER_MAPPING_PARAM) == null) {
+      InputStream is=filterConfig.getServletContext().getResourceAsStream("/WEB-INF/web.xml");
+      if (is != null) {
+        try {
+          filterPath=getFilterPath(filterConfig.getFilterName(),is);
+        }
+ catch (        Exception e) {
+          log.debug("Error parsing web.xml",e);
+        }
+      }
+      if (filterPath == null) {
+        log.info("Unable to parse filter mapping web.xml for " + filterConfig.getFilterName() + ". "+ "Configure with init-param "+ FILTER_MAPPING_PARAM+ " if it is not \"/*\".");
+      }
+    }
+    IWebApplicationFactory factory=getApplicationFactory();
+    this.webApplication=factory.createApplication(this);
+    this.webApplication.setWicketFilter(this);
+    String contextKey="wicket:" + filterConfig.getFilterName();
+    filterConfig.getServletContext().setAttribute(contextKey,this.webApplication);
+    Application.set(webApplication);
+    this.webApplication.internalInit();
+    this.webApplication.init();
+    this.webApplication.initializeComponents();
+    this.webApplication.logStarted();
+  }
+  finally {
+    Application.unset();
+    Thread.currentThread().setContextClassLoader(previousClassLoader);
+  }
+}

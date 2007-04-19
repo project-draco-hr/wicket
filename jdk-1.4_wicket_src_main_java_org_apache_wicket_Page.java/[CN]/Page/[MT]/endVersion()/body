@@ -1,0 +1,10 @@
+{
+  setFlag(FLAG_TRACK_CHANGES,true);
+  if (getFlag(FLAG_NEW_VERSION)) {
+    setFlag(FLAG_NEW_VERSION,false);
+    if (versionManager != null) {
+      versionManager.endVersion(getRequest().mergeVersion());
+    }
+    getApplication().getSessionSettings().getPageMapEvictionStrategy().evict(getPageMap());
+  }
+}

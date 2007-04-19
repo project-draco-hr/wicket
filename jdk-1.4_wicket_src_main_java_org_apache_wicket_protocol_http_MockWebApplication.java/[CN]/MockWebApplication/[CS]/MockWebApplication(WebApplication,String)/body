@@ -1,0 +1,51 @@
+{
+  this.application=application;
+  this.context=newServletContext(path);
+  filter=new WicketFilter(){
+    protected IWebApplicationFactory getApplicationFactory(){
+      return new IWebApplicationFactory(){
+        public WebApplication createApplication(        WicketFilter filter){
+          return application;
+        }
+      }
+;
+    }
+  }
+;
+  try {
+    filter.init(new FilterConfig(){
+      public ServletContext getServletContext(){
+        return context;
+      }
+      public Enumeration getInitParameterNames(){
+        return null;
+      }
+      public String getInitParameter(      String name){
+        if (name.equals(WicketFilter.FILTER_MAPPING_PARAM)) {
+          return WicketFilter.SERVLET_PATH_HOLDER;
+        }
+        return null;
+      }
+      public String getFilterName(){
+        return "WicketMockServlet";
+      }
+    }
+);
+  }
+ catch (  ServletException e) {
+    throw new RuntimeException(e);
+  }
+  Application.set(this.application);
+  this.servletSession=new MockHttpSession(this.context);
+  this.servletRequest=new MockHttpServletRequest(this.application,this.servletSession,this.context);
+  this.servletResponse=new MockHttpServletResponse();
+  this.requestCycleFactory=this.application.getRequestCycleFactory();
+  this.wicketRequest=this.application.newWebRequest(this.servletRequest);
+  this.wicketResponse=this.application.newWebResponse(this.servletResponse);
+  createRequestCycle();
+  this.application.getApplicationSettings().setContextPath(context.getServletContextName());
+  this.application.getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.ONE_PASS_RENDER);
+  this.application.getResourceSettings().setResourceFinder(new WebApplicationPath(context));
+  this.application.getPageSettings().setAutomaticMultiWindowSupport(false);
+  this.application.getResourceSettings().setResourcePollFrequency(null);
+}

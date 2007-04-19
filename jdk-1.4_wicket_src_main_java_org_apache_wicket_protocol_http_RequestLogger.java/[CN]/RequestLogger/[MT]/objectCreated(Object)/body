@@ -1,0 +1,17 @@
+{
+  RequestData rd=getCurrentRequest();
+  if (value instanceof Session) {
+    rd.addEntry("Session created");
+  }
+ else   if (value instanceof Page) {
+    Page page=(Page)value;
+    rd.addEntry("Page created, id: " + page.getId() + ", class:"+ page.getClass());
+  }
+ else   if (value instanceof IPageMap) {
+    IPageMap map=(IPageMap)value;
+    rd.addEntry("PageMap created, name: " + (map.getName() == null ? "DEFAULT" : map.getName()));
+  }
+ else {
+    rd.addEntry("Custom object created: " + value);
+  }
+}

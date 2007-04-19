@@ -1,0 +1,18 @@
+{
+  tester=new WicketTester(new WebApplication(){
+    /** 
+ * @see org.apache.wicket.protocol.http.WebApplication#newSession(Request,Response)
+ */
+    public Session newSession(    Request request,    Response response){
+      return new WebSession(this,request).setStyle("myStyle");
+    }
+    public Class getHomePage(){
+      return ConcretePage2.class;
+    }
+    protected WebResponse newWebResponse(    HttpServletResponse servletResponse){
+      return new WebResponse(servletResponse);
+    }
+  }
+);
+  executeTest(ConcretePage2.class,"ExpectedResult3.html");
+}

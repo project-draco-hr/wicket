@@ -1,0 +1,16 @@
+{
+  int i=0;
+  while (parameters.containsKey(String.valueOf(i))) {
+    String value=(String)parameters.get(String.valueOf(i));
+    url.append("/").append(urlEncode(value));
+    i++;
+  }
+  String pageMap=(String)parameters.get(WebRequestCodingStrategy.PAGEMAP);
+  if (pageMap != null) {
+    i++;
+    url.append("/").append(WebRequestCodingStrategy.PAGEMAP).append("/").append(urlEncode(pageMap));
+  }
+  if (i != parameters.size()) {
+    throw new WicketRuntimeException("Not all parameters were encoded. Make sure all parameter names are integers in consecutive order starting with zero. Current parameter names are: " + parameters.keySet().toString());
+  }
+}

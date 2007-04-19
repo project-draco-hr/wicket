@@ -1,0 +1,14 @@
+{
+  List list=(List)pagesToBeSerialized.get(sessionId);
+  if (list == null)   return;
+synchronized (list) {
+    Iterator iterator=list.iterator();
+    while (iterator.hasNext()) {
+      SessionPageKey key=(SessionPageKey)iterator.next();
+      if (key.sessionId == sessionId && key.id == id) {
+        iterator.remove();
+      }
+    }
+  }
+  removePage(sessionId,id);
+}

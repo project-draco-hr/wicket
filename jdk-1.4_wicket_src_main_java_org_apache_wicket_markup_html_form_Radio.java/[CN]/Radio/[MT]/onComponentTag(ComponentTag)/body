@@ -1,0 +1,34 @@
+{
+  super.onComponentTag(tag);
+  checkComponentTag(tag,"input");
+  checkComponentTagAttribute(tag,"type","radio");
+  final String value=getValue();
+  RadioGroup group=(RadioGroup)findParent(RadioGroup.class);
+  if (group == null) {
+    throw new WicketRuntimeException("Radio component [" + getPath() + "] cannot find its parent RadioGroup. All Radio components must be a child of or below in the hierarchy of a RadioGroup component.");
+  }
+  tag.put("name",group.getInputName());
+  tag.put("value",value);
+  if (group.hasRawInput()) {
+    String rawInput=group.getRawInput();
+    if (rawInput != null && rawInput.equals(value)) {
+      tag.put("checked","checked");
+    }
+  }
+ else   if (Objects.equal(group.getModelObject(),getModelObject())) {
+    tag.put("checked","checked");
+  }
+  if (group.wantOnSelectionChangedNotifications()) {
+    final CharSequence url=group.urlFor(IOnChangeListener.INTERFACE);
+    Form form=(Form)group.findParent(Form.class);
+    if (form != null) {
+      tag.put("onclick",form.getJsForInterfaceUrl(url));
+    }
+ else {
+      tag.put("onclick","window.location.href='" + url + "&amp;"+ group.getInputName()+ "=' + this.value;");
+    }
+  }
+  if (!isActionAuthorized(ENABLE) || !isEnabled() || !group.isEnabled()) {
+    tag.put(ATTR_DISABLED,ATTR_DISABLED);
+  }
+}

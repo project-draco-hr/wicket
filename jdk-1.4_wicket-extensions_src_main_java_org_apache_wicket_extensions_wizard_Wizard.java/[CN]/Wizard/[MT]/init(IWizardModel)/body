@@ -1,0 +1,18 @@
+{
+  if (wizardModel == null) {
+    throw new IllegalArgumentException("argument wizardModel must be not null");
+  }
+  this.wizardModel=wizardModel;
+  form=new Form("form");
+  add(form);
+  form.add(new WebMarkupContainer(HEADER_ID));
+  form.add(newFeedbackPanel(FEEDBACK_ID));
+  form.add(new WebMarkupContainer(VIEW_ID));
+  form.add(newButtonBar(BUTTONS_ID));
+  form.add(newOverviewBar(OVERVIEW_ID));
+  wizardModel.addListener(this);
+  for (Iterator iter=wizardModel.stepIterator(); iter.hasNext(); ) {
+    ((IWizardStep)iter.next()).init(wizardModel);
+  }
+  wizardModel.reset();
+}

@@ -1,0 +1,20 @@
+{
+  final HashMap fullParams;
+  if (params == null) {
+    fullParams=new HashMap(6);
+  }
+ else {
+    fullParams=new HashMap(params.size() + 6);
+    fullParams.putAll(params);
+  }
+  if (!fullParams.containsKey("input")) {
+    fullParams.put("input",FormComponent.this.getInput());
+  }
+  if (!fullParams.containsKey("name")) {
+    fullParams.put("name",FormComponent.this.getId());
+  }
+  if (!fullParams.containsKey("label")) {
+    fullParams.put("label",getLabel());
+  }
+  return fullParams;
+}

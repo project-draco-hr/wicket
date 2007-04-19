@@ -1,0 +1,34 @@
+{
+  String p1="CANNOT RESOLVE FROM URL";
+  if (parameters.containsKey("param1")) {
+    p1="";
+    String[] array=parameters.getStringArray("param1");
+    for (int i=0; i < array.length; i++) {
+      p1+=array[i];
+      if (array.length - 1 != i) {
+        p1+=", ";
+      }
+    }
+  }
+  String p2="CANNOT RESOLVE FROM URL";
+  if (parameters.containsKey("param2")) {
+    p2="";
+    String[] array=parameters.getStringArray("param2");
+    for (int i=0; i < array.length; i++) {
+      p2+=array[i];
+      if (array.length - 1 != i) {
+        p2+=", ";
+      }
+    }
+  }
+  add(new Label("p1",p1));
+  add(new Label("p2",p2));
+  String newP1=String.valueOf(random.nextInt());
+  String newP2=String.valueOf(random.nextInt());
+  PageParameters params=new PageParameters();
+  params.put("param1",newP1);
+  params.put("param2",newP2);
+  BookmarkablePageLink link=new BookmarkablePageLink("refreshLink",Page5.class,params);
+  add(link);
+  add(new BookmarkablePageLink("homeLink",Home.class));
+}

@@ -1,0 +1,55 @@
+{
+  String relativePath=getRelativePath(servletRequest);
+  if (relativePath.length() == 0 && !Strings.stripJSessionId(servletRequest.getRequestURI()).endsWith("/")) {
+    final String redirectUrl=servletRequest.getRequestURI() + "/";
+    servletResponse.sendRedirect(redirectUrl);
+    return;
+  }
+  final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
+  try {
+    Thread.currentThread().setContextClassLoader(getClassLoader());
+    if (servletRequest.getCharacterEncoding() == null) {
+      try {
+        servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+      }
+ catch (      UnsupportedEncodingException ex) {
+        throw new WicketRuntimeException(ex.getMessage());
+      }
+    }
+    final WebRequest request=webApplication.newWebRequest(servletRequest);
+    if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
+      String queryString=servletRequest.getQueryString();
+      if (!Strings.isEmpty(queryString)) {
+        ISessionStore sessionStore=webApplication.getSessionStore();
+        String sessionId=sessionStore.getSessionId(request,false);
+        if (sessionId != null) {
+          BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
+          if (bufferedResponse != null) {
+            bufferedResponse.writeTo(servletResponse);
+            return;
+          }
+        }
+      }
+    }
+    Application.set(webApplication);
+    final WebResponse response=webApplication.newWebResponse(servletResponse);
+    response.setAjax(request.isAjax());
+    response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+    try {
+      RequestCycle cycle=webApplication.newRequestCycle(request,response);
+      try {
+        cycle.request();
+      }
+ catch (      AbortException e) {
+      }
+    }
+  finally {
+      response.close();
+      Session.unset();
+      Application.unset();
+    }
+  }
+  finally {
+    Thread.currentThread().setContextClassLoader(previousClassLoader);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  String errorMessage=null;
+  for (Iterator iterator=keys.iterator(); iterator.hasNext(); ) {
+    errorMessage=messageSource.getMessage((String)iterator.next());
+    if (errorMessage != null) {
+      break;
+    }
+  }
+  if (errorMessage == null && this.message != null) {
+    errorMessage=this.message;
+  }
+  if (errorMessage != null) {
+    final Map p=(vars == null) ? Collections.EMPTY_MAP : vars;
+    errorMessage=messageSource.substitute(errorMessage,p);
+  }
+  return errorMessage;
+}

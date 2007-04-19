@@ -1,0 +1,28 @@
+{
+  setFlag(FLAG_SUBMITTED,true);
+  if (handleMultiPart()) {
+    inputChanged();
+    String url=getRequest().getParameter(getHiddenFieldId());
+    if (!Strings.isEmpty(url)) {
+      dispatchEvent(getPage(),url);
+    }
+ else {
+      final IFormSubmittingComponent submittingButton=findSubmittingButton();
+      if (submittingButton != null && !submittingButton.getDefaultFormProcessing()) {
+        submittingButton.onSubmit();
+      }
+ else {
+        Form formToProcess=this;
+        if (submittingButton != null) {
+          formToProcess=submittingButton.getForm();
+        }
+        if (formToProcess.process()) {
+          delegateSubmit(submittingButton);
+        }
+      }
+    }
+  }
+ else   if (hasError()) {
+    onError();
+  }
+}

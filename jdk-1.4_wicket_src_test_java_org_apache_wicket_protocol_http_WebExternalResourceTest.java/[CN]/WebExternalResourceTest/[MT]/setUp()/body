@@ -1,0 +1,13 @@
+{
+  File tempDir=new File("target/webapp");
+  tempDir.mkdir();
+  File tempFile=new File(tempDir,"index.html");
+  FileOutputStream out=new FileOutputStream(tempFile);
+  InputStream in=WebExternalResourceTest.class.getResourceAsStream("index.html");
+  Streams.copy(in,out);
+  in.close();
+  out.close();
+  tester=new WicketTester(new DummyWebApplication(),tempDir.getPath());
+  tester.setupRequestAndResponse();
+  tester.getServletRequest().setPath("/index.html");
+}

@@ -1,0 +1,18 @@
+{
+  IChoiceRenderer renderer=getPalette().getChoiceRenderer();
+  if (ids.length == 0) {
+    return Collections.EMPTY_LIST.iterator();
+  }
+  List selected=new ArrayList(ids.length);
+  for (int i=0; i < ids.length; i++) {
+    Iterator it=getPalette().getChoices().iterator();
+    while (it.hasNext()) {
+      final Object choice=it.next();
+      if (renderer.getIdValue(choice,0).equals(ids[i])) {
+        selected.add(choice);
+        break;
+      }
+    }
+  }
+  return selected.iterator();
+}

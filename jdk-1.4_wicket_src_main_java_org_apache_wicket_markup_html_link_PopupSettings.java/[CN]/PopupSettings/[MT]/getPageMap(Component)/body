@@ -1,0 +1,15 @@
+{
+  if (pageMapName != null) {
+    return PageMap.forName(pageMapName);
+  }
+ else {
+    if (callee == null) {
+      throw new IllegalArgumentException("when the page map is not set, argument callee may not be null");
+    }
+    Page page=callee.getPage();
+    if (page == null) {
+      throw new IllegalStateException(callee + " is not yet set on a page; if you want to use this method " + "without a page map being set, argument callee must be not null "+ "and added to a page");
+    }
+    return page.getPageMap();
+  }
+}

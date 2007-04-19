@@ -1,0 +1,21 @@
+{
+  add(new ForAllUsers("forAllUsersPanel"));
+  add(new ForAdminsAndUsers("forAdminsAndUsersPanel"));
+  add(new ForAdmins("forAdminsPanel"));
+  add(outer=new WebMarkupContainer("outer"));
+  outer.setOutputMarkupId(true);
+  outer.add(new WebMarkupContainer("test").setOutputMarkupId(true));
+  add(new AjaxLink("link"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      showDummy=!showDummy;
+      if (showDummy) {
+        outer.replace(new WebMarkupContainer("test"));
+      }
+ else {
+        outer.replace(new Test("test"));
+      }
+      target.addComponent(outer);
+    }
+  }
+);
+}

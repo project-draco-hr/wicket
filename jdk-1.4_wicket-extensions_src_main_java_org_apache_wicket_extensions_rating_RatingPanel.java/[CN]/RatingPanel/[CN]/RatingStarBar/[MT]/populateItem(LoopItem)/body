@@ -1,0 +1,19 @@
+{
+  AjaxFallbackLink link=new AjaxFallbackLink("link"){
+    private static final long serialVersionUID=1L;
+    public void onClick(    AjaxRequestTarget target){
+      LoopItem item=(LoopItem)getParent();
+      onRated(item.getIteration() + 1,target);
+      if (target != null) {
+        target.addComponent(RatingPanel.this.get("rater"));
+      }
+    }
+    public boolean isEnabled(){
+      return !((Boolean)hasVoted.getObject()).booleanValue();
+    }
+  }
+;
+  int iteration=item.getIteration();
+  link.add(new WebMarkupContainer("star").add(new SimpleAttributeModifier("src",(onIsStarActive(iteration) ? getActiveStarUrl(iteration) : getInactiveStarUrl(iteration)))));
+  item.add(link);
+}

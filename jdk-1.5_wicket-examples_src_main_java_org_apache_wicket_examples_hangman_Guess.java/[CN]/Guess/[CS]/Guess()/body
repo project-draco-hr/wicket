@@ -1,0 +1,37 @@
+{
+  add(new Label("guessesRemaining",new PropertyModel(getGame(),"guessesRemaining")));
+  add(new Label("word",new Model(){
+    public Object getObject(){
+      return getGame().getWord().asString(true);
+    }
+  }
+));
+  add(new ListView("letters",getGame().getLetters()){
+    protected void populateItem(    final ListItem listItem){
+      final Letter letter=(Letter)listItem.getModelObject();
+      final Link link=new Link("letter"){
+        @Override protected void onAttach(){
+          super.onAttach();
+          setAutoEnable(false);
+          setEnabled(!letter.isGuessed());
+        }
+        public void onClick(){
+          getGame().guess(letter);
+          if (getGame().isWon()) {
+            setResponsePage(new Win());
+          }
+ else           if (getGame().isLost()) {
+            setResponsePage(new Lose());
+          }
+ else {
+          }
+        }
+      }
+;
+      link.add(new AttributeModifier("id",true,new Model("letter_" + letter.asString())));
+      link.add(new Image("image",letter.getSharedImageResource()));
+      listItem.add(link);
+    }
+  }
+);
+}

@@ -1,0 +1,14 @@
+{
+  checkComponentTag(tag,"select");
+  if (wantOnSelectionChangedNotifications()) {
+    final CharSequence url=urlFor(IOnChangeListener.INTERFACE);
+    Form form=(Form)findParent(Form.class);
+    if (form != null) {
+      tag.put("onchange",form.getJsForInterfaceUrl(url));
+    }
+ else {
+      tag.put("onchange","window.location.href='" + url + "&amp;"+ getInputName()+ "=' + this.options[this.selectedIndex].value;");
+    }
+  }
+  super.onComponentTag(tag);
+}

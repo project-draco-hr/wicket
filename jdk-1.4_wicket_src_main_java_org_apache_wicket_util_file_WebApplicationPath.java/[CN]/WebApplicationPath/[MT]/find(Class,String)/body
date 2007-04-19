@@ -1,0 +1,27 @@
+{
+  Iterator iter=folders.iterator();
+  while (iter.hasNext()) {
+    Folder folder=(Folder)iter.next();
+    final File file=new File(folder,pathname);
+    if (file.exists()) {
+      return new FileResourceStream(file);
+    }
+  }
+  iter=webappPaths.iterator();
+  while (iter.hasNext()) {
+    String path=(String)iter.next();
+    try {
+      final URL url=servletContext.getResource(path + pathname);
+      if (url != null) {
+        IResourceStream stream=new UrlResourceStream(url);
+        if (stream == null) {
+          log.error("ClassLoader problem: found the URL, but was unable to load it. URL=" + url.toExternalForm());
+        }
+        return stream;
+      }
+    }
+ catch (    Exception ex) {
+    }
+  }
+  return null;
+}

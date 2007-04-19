@@ -1,0 +1,40 @@
+{
+  super(id,new Model(new Integer(-1)));
+  if (tabs == null) {
+    throw new IllegalArgumentException("argument [tabs] cannot be null");
+  }
+  if (tabs.size() < 1) {
+    throw new IllegalArgumentException("argument [tabs] must contain a list of at least one tab");
+  }
+  this.tabs=tabs;
+  final IModel tabCount=new AbstractReadOnlyModel(){
+    private static final long serialVersionUID=1L;
+    public Object getObject(){
+      return new Integer(TabbedPanel.this.tabs.size());
+    }
+  }
+;
+  add(new Loop("tabs",tabCount){
+    private static final long serialVersionUID=1L;
+    protected void populateItem(    LoopItem item){
+      final int index=item.getIteration();
+      final ITab tab=((ITab)TabbedPanel.this.tabs.get(index));
+      final int selected=getSelectedTab();
+      final WebMarkupContainer titleLink=newLink("link",index);
+      titleLink.add(newTitle("title",tab.getTitle(),index));
+      item.add(titleLink);
+      item.add(new SimpleAttributeModifier("class","selected"){
+        private static final long serialVersionUID=1L;
+        public boolean isEnabled(        Component component){
+          return index == selected;
+        }
+      }
+);
+      if (item.getIteration() == getIterations() - 1) {
+        item.add(new AttributeAppender("class",true,new Model("last")," "));
+      }
+    }
+  }
+);
+  setSelectedTab(0);
+}

@@ -1,0 +1,15 @@
+{
+  return new Iterator(){
+    int index=0;
+    public boolean hasNext(){
+      return index < children_size();
+    }
+    public Object next(){
+      return children_get(index++);
+    }
+    public void remove(){
+      removedComponent(children_remove(--index));
+    }
+  }
+;
+}

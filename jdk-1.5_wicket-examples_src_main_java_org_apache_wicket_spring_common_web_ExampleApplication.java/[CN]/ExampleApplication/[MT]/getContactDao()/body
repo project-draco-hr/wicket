@@ -1,0 +1,10 @@
+{
+  if (contactDao == null) {
+synchronized (this) {
+      if (contactDao == null) {
+        contactDao=(ContactDao)internalGetApplicationContext().getBean("contactDao",ContactDao.class);
+      }
+    }
+  }
+  return contactDao;
+}

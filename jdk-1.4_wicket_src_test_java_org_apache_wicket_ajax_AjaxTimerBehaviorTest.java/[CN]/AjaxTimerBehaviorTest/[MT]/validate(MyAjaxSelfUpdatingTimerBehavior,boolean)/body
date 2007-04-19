@@ -1,0 +1,18 @@
+{
+  String document=tester.getServletResponse().getDocument();
+  String updateScript=timer.getUpdateScript();
+  String bodyOnLoadUpdateScript="Wicket.Event.add(window, \"load\", function() { " + updateScript + ";});";
+  if (inBodyOnLoad) {
+    validateTimerScript(document,bodyOnLoadUpdateScript);
+  }
+ else {
+    validateTimerScript(document,updateScript);
+  }
+  tester.setupRequestAndResponse();
+  WebRequestCycle cycle=tester.createRequestCycle();
+  String url=timer.getCallbackUrl().toString();
+  tester.getServletRequest().setRequestToRedirectString(url);
+  tester.processRequestCycle(cycle);
+  document=tester.getServletResponse().getDocument();
+  validateTimerScript(document,updateScript);
+}

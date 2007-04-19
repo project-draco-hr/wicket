@@ -1,0 +1,23 @@
+{
+  try {
+    IRequestCycleProcessor processor=safeGetRequestProcessor();
+    final int maxSteps=Short.MAX_VALUE;
+    for (int totalSteps=0; currentStep < DONE; totalSteps++) {
+      if (totalSteps >= maxSteps) {
+        throw new IllegalStateException("Request processing executed " + maxSteps + " steps, which means it is probably in an infinite loop.");
+      }
+      try {
+        step();
+        currentStep++;
+      }
+ catch (      AbstractRestartResponseException e) {
+        currentStep=RESPOND;
+      }
+    }
+  }
+  finally {
+    currentStep=DETACH_REQUEST;
+    detach();
+    currentStep=DONE;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  System.out.println("=== " + pageClass.getName() + " ===");
+  application=new WicketTester();
+  application.startPage(pageClass);
+  String document=application.getServletResponse().getDocument();
+  DiffUtil.validatePage(document,this.getClass(),filename,true);
+  application.destroy();
+}

@@ -1,0 +1,11 @@
+{
+  if (!getFlag(FLAG_ATTACHED)) {
+    setFlag(FLAG_ATTACHING,true);
+    setFlag(FLAG_ATTACHED,true);
+    onAttach();
+    if (getFlag(FLAG_ATTACHING)) {
+      throw new IllegalStateException(Component.class.getName() + " has not been properly attached. Something in the hierarchy of " + getClass().getName()+ " has not called super.onAttach() in the override of onAttach() method");
+    }
+  }
+  attachChildren();
+}

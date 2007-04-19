@@ -1,0 +1,17 @@
+{
+  Duration dur=Duration.seconds(20);
+  final MyAjaxSelfUpdatingTimerBehavior timer=new MyAjaxSelfUpdatingTimerBehavior(dur);
+  final MockPageWithOneComponent page=new MockPageWithOneComponent();
+  Label label=new Label(MockPageWithOneComponent.COMPONENT_ID,"Hello");
+  page.add(label);
+  label.setOutputMarkupId(true);
+  label.add(timer);
+  tester.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  validate(timer,true);
+}

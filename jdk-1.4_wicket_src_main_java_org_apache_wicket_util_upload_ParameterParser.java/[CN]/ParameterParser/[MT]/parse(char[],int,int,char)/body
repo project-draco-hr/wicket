@@ -1,0 +1,29 @@
+{
+  if (chars == null) {
+    return new HashMap();
+  }
+  HashMap params=new HashMap();
+  this.chars=chars;
+  this.pos=offset;
+  this.len=length;
+  String paramName=null;
+  String paramValue=null;
+  while (hasChar()) {
+    paramName=parseToken(new char[]{'=',separator});
+    paramValue=null;
+    if (hasChar() && (chars[pos] == '=')) {
+      pos++;
+      paramValue=parseQuotedToken(new char[]{separator});
+    }
+    if (hasChar() && (chars[pos] == separator)) {
+      pos++;
+    }
+    if ((paramName != null) && (paramName.length() > 0)) {
+      if (this.lowerCaseNames) {
+        paramName=paramName.toLowerCase();
+      }
+      params.put(paramName,paramValue);
+    }
+  }
+  return params;
+}

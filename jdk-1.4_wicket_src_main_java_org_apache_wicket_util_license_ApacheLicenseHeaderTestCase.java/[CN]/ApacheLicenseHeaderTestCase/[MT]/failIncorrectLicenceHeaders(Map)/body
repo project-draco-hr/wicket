@@ -1,0 +1,28 @@
+{
+  if (files.size() > 0) {
+    StringBuffer failString=new StringBuffer();
+    for (Iterator iter=files.keySet().iterator(); iter.hasNext(); ) {
+      ILicenseHeaderHandler licenseHeaderHandler=(ILicenseHeaderHandler)iter.next();
+      failString.append("\n");
+      failString.append(licenseHeaderHandler.getClass().getName());
+      failString.append(" failed. The following files(");
+      failString.append(((List)files.get(licenseHeaderHandler)).size());
+      failString.append(") didn't have correct license header:\n");
+      List fileList=(List)files.get(licenseHeaderHandler);
+      for (Iterator iterator=fileList.iterator(); iterator.hasNext(); ) {
+        File file=(File)iterator.next();
+        String filename=file.getAbsolutePath();
+        String licenseType=licenseHeaderHandler.getLicenseType(file);
+        if (licenseType == null) {
+          failString.append("NONE");
+        }
+ else {
+          failString.append(licenseType);
+        }
+        failString.append(" ").append(filename).append(LINE_ENDING);
+      }
+    }
+    System.out.println(failString);
+    fail(failString.toString());
+  }
+}

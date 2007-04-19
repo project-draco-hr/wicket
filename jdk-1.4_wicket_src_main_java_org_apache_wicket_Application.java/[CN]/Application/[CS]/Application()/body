@@ -1,0 +1,16 @@
+{
+  this.name=Classes.simpleName(getClass());
+  this.markupCache=new MarkupCache(this);
+  this.sharedResources=new SharedResources(this);
+  addComponentInstantiationListener(new IComponentInstantiationListener(){
+    /** 
+ * @see org.apache.wicket.application.IComponentInstantiationListener#onInstantiation(org.apache.wicket.Component)
+ */
+    public void onInstantiation(    final Component component){
+      if (!Session.get().getAuthorizationStrategy().isInstantiationAuthorized(component.getClass())) {
+        getSecuritySettings().getUnauthorizedComponentInstantiationListener().onUnauthorizedInstantiation(component);
+      }
+    }
+  }
+);
+}

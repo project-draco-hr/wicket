@@ -1,0 +1,11 @@
+{
+  try {
+    Method meth=cl.getDeclaredMethod(name,argTypes);
+    meth.setAccessible(true);
+    int mods=meth.getModifiers();
+    return ((meth.getReturnType() == returnType) && ((mods & Modifier.STATIC) == 0) && ((mods & Modifier.PRIVATE) != 0)) ? meth : null;
+  }
+ catch (  NoSuchMethodException ex) {
+    return null;
+  }
+}

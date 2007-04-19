@@ -1,0 +1,31 @@
+{
+  if ((tag.isOpen() || tag.isOpenClose()) && tag.getAttributes().containsKey(wicketId)) {
+    if (tag.isOpenClose() || tag.hasNoCloseTag()) {
+      if ((this.currentPath != null) && (this.currentPath.length() > 0)) {
+        tag.setPath(this.currentPath.toString());
+      }
+    }
+ else {
+      if (this.currentPath == null) {
+        this.currentPath=new StringBuffer(100);
+      }
+ else       if (this.currentPath.length() > 0) {
+        tag.setPath(this.currentPath.toString());
+        this.currentPath.append(':');
+      }
+      this.currentPath.append(tag.getId());
+    }
+  }
+ else   if (tag.isClose() && (this.currentPath != null)) {
+    if ((tag.getOpenTag() == null) || tag.getOpenTag().getAttributes().containsKey(wicketId)) {
+      int index=this.currentPath.lastIndexOf(":");
+      if (index != -1) {
+        this.currentPath.setLength(index);
+      }
+ else {
+        this.currentPath.setLength(0);
+      }
+    }
+  }
+  return this.currentPath;
+}

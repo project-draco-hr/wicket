@@ -1,0 +1,9 @@
+{
+  for (Iterator i=initializers.iterator(); i.hasNext(); ) {
+    IInitializer initializer=(IInitializer)i.next();
+    if (initializer instanceof IDestroyer) {
+      log.info("[" + getName() + "] destroy: "+ initializer);
+      ((IDestroyer)initializer).destroy(this);
+    }
+  }
+}

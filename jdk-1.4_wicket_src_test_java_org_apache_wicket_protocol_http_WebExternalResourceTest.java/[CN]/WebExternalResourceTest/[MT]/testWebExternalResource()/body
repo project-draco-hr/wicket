@@ -1,0 +1,9 @@
+{
+  WebExternalResourceStream resource=new WebExternalResourceStream("/index.html");
+  ResourceStreamRequestTarget rt=new ResourceStreamRequestTarget(resource);
+  WebRequestCycle cycle=tester.createRequestCycle();
+  cycle.setRequestTarget(rt);
+  tester.processRequestCycle(cycle);
+  assertTrue(getContentType().startsWith("text/html"));
+  tester.assertResultPage(WebExternalResourceTest.class,"index.html");
+}

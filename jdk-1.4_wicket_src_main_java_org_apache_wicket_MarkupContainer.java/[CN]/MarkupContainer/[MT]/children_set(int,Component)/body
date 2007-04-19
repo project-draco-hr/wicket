@@ -1,0 +1,18 @@
+{
+  final Component replaced;
+  if (index < children_size()) {
+    if (children == null || children instanceof Component) {
+      replaced=(Component)children;
+      children=child;
+    }
+ else {
+      final Component[] children=(Component[])this.children;
+      replaced=children[index];
+      children[index]=child;
+    }
+  }
+ else {
+    throw new IndexOutOfBoundsException();
+  }
+  return replaced;
+}

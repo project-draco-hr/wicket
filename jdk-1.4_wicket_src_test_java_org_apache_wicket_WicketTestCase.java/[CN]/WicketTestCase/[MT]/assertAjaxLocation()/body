@@ -1,0 +1,7 @@
+{
+  assertNull("Location header should *not* be present when using Ajax",((MockHttpServletResponse)tester.getWicketResponse().getHttpServletResponse()).getRedirectLocation());
+  String ajaxLocation=((MockHttpServletResponse)tester.getWicketResponse().getHttpServletResponse()).getHeader("Ajax-Location");
+  assertNotNull("Ajax-Location header should be present when using Ajax",ajaxLocation);
+  int statusCode=((MockHttpServletResponse)tester.getWicketResponse().getHttpServletResponse()).getStatus();
+  assertEquals(200,statusCode);
+}

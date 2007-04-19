@@ -1,0 +1,13 @@
+{
+  Component container=((Component)pageable);
+  if ((pageable instanceof MarkupContainer) && !(pageable instanceof ListView)) {
+    container=(MarkupContainer)pageable;
+  }
+ else {
+    container=((Component)pageable).findParent(MarkupContainer.class);
+  }
+  target.addComponent(container);
+  if (((MarkupContainer)container).contains(this,true) == false) {
+    target.addComponent(this);
+  }
+}

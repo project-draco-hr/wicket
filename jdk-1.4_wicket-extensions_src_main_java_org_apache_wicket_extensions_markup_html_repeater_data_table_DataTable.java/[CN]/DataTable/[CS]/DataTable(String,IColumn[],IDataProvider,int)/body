@@ -1,0 +1,32 @@
+{
+  super(id);
+  this.columns=columns;
+  datagrid=new DataGridView("rows",columns,dataProvider){
+    private static final long serialVersionUID=1L;
+    protected Item newCellItem(    String id,    int index,    IModel model){
+      return DataTable.this.newCellItem(id,index,model);
+    }
+    protected Item newRowItem(    String id,    int index,    IModel model){
+      return DataTable.this.newRowItem(id,index,model);
+    }
+  }
+;
+  datagrid.setRowsPerPage(rowsPerPage);
+  add(datagrid);
+  topToolbars=new RepeatingView("topToolbars"){
+    private static final long serialVersionUID=1L;
+    public boolean isVisible(){
+      return size() > 0;
+    }
+  }
+;
+  bottomToolbars=new RepeatingView("bottomToolbars"){
+    private static final long serialVersionUID=1L;
+    public boolean isVisible(){
+      return size() > 0;
+    }
+  }
+;
+  add(topToolbars);
+  add(bottomToolbars);
+}

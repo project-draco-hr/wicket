@@ -1,0 +1,16 @@
+{
+  Collection selectedValues=(Collection)getModelObject();
+  if (selectedValues != null) {
+    modelChanging();
+    selectedValues.clear();
+    selectedValues.addAll((Collection)getConvertedInput());
+    modelChanged();
+    getModel().setObject(selectedValues);
+  }
+ else {
+    selectedValues=(Collection)getConvertedInput();
+    modelChanging();
+    getModel().setObject(selectedValues);
+    modelChanged();
+  }
+}

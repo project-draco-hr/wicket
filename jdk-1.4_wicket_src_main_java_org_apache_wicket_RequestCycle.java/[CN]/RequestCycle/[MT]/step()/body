@@ -1,0 +1,45 @@
+{
+  try {
+switch (currentStep) {
+case PREPARE_REQUEST:
+{
+        prepare();
+        break;
+      }
+case RESOLVE_TARGET:
+{
+      final IRequestTarget target=processor.resolve(this,request.getRequestParameters());
+      if (target == null) {
+        throw new WicketRuntimeException("the processor did not resolve to any request target");
+      }
+      requestTargets.add(0,target);
+      break;
+    }
+case PROCESS_EVENTS:
+{
+    processEventsAndRespond();
+    break;
+  }
+case RESPOND:
+{
+  respond();
+  break;
+}
+default :
+{
+}
+}
+}
+ catch (AbortException e) {
+throw e;
+}
+catch (RuntimeException e) {
+currentStep=HANDLE_EXCEPTION;
+if (!(e instanceof PageExpiredException)) {
+logRuntimeException(e);
+}
+if (processor != null) {
+processor.respond(e,this);
+}
+}
+}

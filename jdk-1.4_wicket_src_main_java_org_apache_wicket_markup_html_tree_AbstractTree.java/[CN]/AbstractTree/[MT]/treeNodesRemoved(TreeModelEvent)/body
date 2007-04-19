@@ -1,0 +1,22 @@
+{
+  TreeNode parent=(TreeNode)e.getTreePath().getLastPathComponent();
+  TreeItem parentItem=(TreeItem)nodeToItemMap.get(parent);
+  if (isNodeVisible(parent) && isNodeExpanded(parent)) {
+    for (int i=0; i < e.getChildren().length; ++i) {
+      TreeNode node=(TreeNode)e.getChildren()[i];
+      TreeItem item=(TreeItem)nodeToItemMap.get(node);
+      if (item != null) {
+        markTheLastButOneChildDirty(parentItem,item);
+        parentItem.getChildren().remove(item);
+        visitItemChildren(item,new IItemCallback(){
+          public void visitItem(          TreeItem item){
+            removeItem(item);
+            getTreeState().selectNode((TreeNode)item.getModelObject(),false);
+          }
+        }
+);
+        removeItem(item);
+      }
+    }
+  }
+}

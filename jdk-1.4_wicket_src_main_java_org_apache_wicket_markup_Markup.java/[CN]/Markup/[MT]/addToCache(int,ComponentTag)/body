@@ -1,0 +1,15 @@
+{
+  if ((tag.isOpen() || tag.isOpenClose()) && tag.getAttributes().containsKey(wicketId)) {
+    if (this.componentMap == null) {
+      this.componentMap=new HashMap();
+    }
+    final String key;
+    if (tag.getPath() != null) {
+      key=tag.getPath() + ":" + tag.getId();
+    }
+ else {
+      key=tag.getId();
+    }
+    this.componentMap.put(key,new Integer(index));
+  }
+}

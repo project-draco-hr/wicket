@@ -1,0 +1,10 @@
+{
+  final Response response=requestCycle.getResponse();
+  configure(requestCycle,response,resourceStream);
+  try {
+    response.write(resourceStream.getInputStream());
+  }
+ catch (  ResourceStreamNotFoundException e) {
+    throw new WicketRuntimeException(e);
+  }
+}

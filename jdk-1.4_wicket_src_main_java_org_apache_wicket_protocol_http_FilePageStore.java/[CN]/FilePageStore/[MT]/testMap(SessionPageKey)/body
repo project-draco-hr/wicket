@@ -1,0 +1,46 @@
+{
+  SessionPageKey previousPage=(SessionPageKey)pagesToBeSaved.get(currentKey);
+  if (previousPage != null) {
+    return (byte[])previousPage.data;
+  }
+  List list=(List)pagesToBeSerialized.get(currentKey.sessionId);
+  if (list == null)   return null;
+synchronized (list) {
+    int index=list.indexOf(currentKey);
+    if (index != -1) {
+      currentKey=(SessionPageKey)list.get(index);
+      Object object=currentKey.data;
+      if (object instanceof Page) {
+        list.remove(index);
+      }
+ else       if (object == SERIALIZING) {
+        try {
+          list.wait();
+        }
+ catch (        InterruptedException ex) {
+          throw new RuntimeException(ex);
+        }
+        object=currentKey.data;
+        if (object instanceof byte[]) {
+          return (byte[])object;
+        }
+ else {
+          previousPage=(SessionPageKey)pagesToBeSaved.get(currentKey);
+          if (previousPage != null) {
+            return (byte[])previousPage.data;
+          }
+          return null;
+        }
+      }
+    }
+ else {
+      return null;
+    }
+  }
+  byte[] bytes=serializePage(currentKey,(Page)currentKey.data);
+  if (bytes != null) {
+    currentKey.setObject(bytes);
+    pagesToBeSaved.put(currentKey,currentKey);
+  }
+  return bytes;
+}

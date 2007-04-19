@@ -1,0 +1,6 @@
+{
+  application.startPage(HomePageClassRedirect.class);
+  assertEquals(RedirectPage.class,application.getLastRenderedPage().getClass());
+  String document=application.getServletResponse().getDocument();
+  DiffUtil.validatePage(document,this.getClass(),"RedirectPage.html",true);
+}

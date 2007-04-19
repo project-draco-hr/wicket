@@ -1,0 +1,17 @@
+{
+  String responseType=resourceStream.getContentType();
+  if (responseType != null) {
+    response.setContentType(responseType + "; charset=" + response.getCharacterEncoding());
+  }
+ else {
+    if (getFileName() != null)     response.detectContentType(requestCycle,getFileName());
+ else     response.detectContentType(requestCycle,requestCycle.getRequest().getRelativeURL());
+  }
+  if (resourceStream.length() >= 0) {
+    response.setContentLength(resourceStream.length());
+  }
+  String file=getFileName();
+  if (file != null && (response instanceof WebResponse)) {
+    ((WebResponse)response).setAttachmentHeader(file);
+  }
+}

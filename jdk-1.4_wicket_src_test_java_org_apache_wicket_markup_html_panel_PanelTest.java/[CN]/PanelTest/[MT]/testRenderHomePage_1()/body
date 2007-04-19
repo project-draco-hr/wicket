@@ -1,0 +1,13 @@
+{
+  boolean hit=false;
+  try {
+    executeTest(PanelPage_1.class,"Dummy.html");
+  }
+ catch (  MarkupException mex) {
+    hit=true;
+    assertNotNull(mex.getMarkupStream());
+    assertTrue(mex.getMessage().indexOf("did not have a close tag") != -1);
+    assertTrue(mex.getMessage().indexOf("SimplePanel_1.html") != -1);
+  }
+  assertTrue("Did expect a MarkupException",hit);
+}

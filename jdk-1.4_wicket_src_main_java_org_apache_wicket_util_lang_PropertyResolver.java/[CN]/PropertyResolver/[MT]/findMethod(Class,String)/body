@@ -1,0 +1,13 @@
+{
+  if (expression.endsWith("()")) {
+    expression=expression.substring(0,expression.length() - 2);
+  }
+  Method method=null;
+  try {
+    method=clz.getMethod(expression,null);
+  }
+ catch (  Exception e) {
+    log.debug("Cannot find method " + clz + "."+ expression,e);
+  }
+  return method;
+}

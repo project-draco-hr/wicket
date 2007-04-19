@@ -1,0 +1,31 @@
+{
+  if (this instanceof Page) {
+    ((Page)this).renderPage();
+  }
+ else {
+    MarkupContainer parent=getParent();
+    MarkupStream originalMarkupStream=parent.getMarkupStream();
+    MarkupStream markupStream=new MarkupFragmentFinder().find(this);
+    try {
+      parent.setMarkupStream(markupStream);
+      setRenderAllowed(isActionAuthorized(RENDER));
+      if (this instanceof MarkupContainer) {
+        MarkupContainer container=(MarkupContainer)this;
+        container.visitChildren(new IVisitor(){
+          public Object component(          final Component component){
+            final boolean renderAllowed=component.isActionAuthorized(RENDER);
+            component.setRenderAllowed(renderAllowed);
+            return IVisitor.CONTINUE_TRAVERSAL;
+          }
+        }
+);
+      }
+      onBeforeRender();
+      render(markupStream);
+    }
+  finally {
+      parent.setMarkupStream(originalMarkupStream);
+      onAfterRender();
+    }
+  }
+}

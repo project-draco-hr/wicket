@@ -1,0 +1,13 @@
+{
+  Page page=getPage(requestCycle);
+  final String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
+  Component component=page.get(pageRelativeComponentPath);
+  if (component == null) {
+    throw new WicketRuntimeException("unable to find component with path " + pageRelativeComponentPath + " on page "+ page);
+  }
+  RequestListenerInterface listenerInterface=RequestListenerInterface.forName(interfaceName);
+  if (listenerInterface == null) {
+    throw new WicketRuntimeException("unable to find listener interface " + interfaceName);
+  }
+  listenerInterface.invoke(page,component);
+}

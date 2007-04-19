@@ -1,0 +1,11 @@
+{
+  Session session=Session.get();
+  if (session.isTemporary()) {
+    session.bind();
+  }
+  final RequestCycle cycle=RequestCycle.get();
+  interceptContinuationURL=cycle.getRequest().getURL();
+  dirty();
+  cycle.setRedirect(true);
+  cycle.setResponsePage(page);
+}

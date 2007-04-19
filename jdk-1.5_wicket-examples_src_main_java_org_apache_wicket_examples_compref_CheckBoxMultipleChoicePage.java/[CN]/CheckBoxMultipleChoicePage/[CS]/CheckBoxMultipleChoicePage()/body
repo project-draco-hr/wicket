@@ -1,0 +1,17 @@
+{
+  final Input input=new Input();
+  setModel(new CompoundPropertyModel(input));
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form form=new Form("form"){
+    protected void onSubmit(){
+      info("input: " + input);
+    }
+  }
+;
+  add(form);
+  CheckBoxMultipleChoice listChoice=new CheckBoxMultipleChoice("sites",SITES);
+  form.add(listChoice);
+  listChoice=new CheckBoxMultipleChoice("choices",MANY_CHOICES);
+  form.add(listChoice);
+}

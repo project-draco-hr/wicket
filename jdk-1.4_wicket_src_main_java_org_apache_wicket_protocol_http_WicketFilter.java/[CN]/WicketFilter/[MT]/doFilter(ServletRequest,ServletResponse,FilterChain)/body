@@ -1,0 +1,24 @@
+{
+  HttpServletRequest httpServletRequest=(HttpServletRequest)request;
+  String relativePath=getRelativePath(httpServletRequest);
+  if (isWicketRequest(relativePath)) {
+    HttpServletResponse httpServletResponse=(HttpServletResponse)response;
+    long lastModified=getLastModified(httpServletRequest);
+    if (lastModified == -1) {
+      doGet(httpServletRequest,httpServletResponse);
+    }
+ else {
+      long ifModifiedSince=httpServletRequest.getDateHeader("If-Modified-Since");
+      if (ifModifiedSince < (lastModified / 1000 * 1000)) {
+        maybeSetLastModified(httpServletResponse,lastModified);
+        doGet(httpServletRequest,httpServletResponse);
+      }
+ else {
+        httpServletResponse.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+      }
+    }
+  }
+ else {
+    chain.doFilter(request,response);
+  }
+}

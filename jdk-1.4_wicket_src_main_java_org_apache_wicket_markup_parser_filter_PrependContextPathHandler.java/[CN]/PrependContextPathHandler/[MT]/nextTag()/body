@@ -1,0 +1,28 @@
+{
+  final ComponentTag tag=(ComponentTag)getParent().nextTag();
+  if (tag == null || tag.getId() != null) {
+    return tag;
+  }
+  if (tag.getId() != null) {
+    return tag;
+  }
+  String contextPath=application.getApplicationSettings().getContextPath();
+  if (contextPath == null) {
+    contextPath="";
+  }
+ else   if (contextPath.endsWith("/") == false) {
+    contextPath+="/";
+  }
+  if (contextPath.length() > 0) {
+    for (int i=0; i < attributeNames.length; i++) {
+      String attrName=attributeNames[i];
+      String attrValue=tag.getAttributes().getString(attrName);
+      if ((attrValue != null) && (attrValue.startsWith("/") == false) && (attrValue.indexOf(":") < 0)&& !(attrValue.startsWith("#"))) {
+        String url=contextPath + attrValue;
+        tag.getAttributes().put(attrName,url);
+        tag.setModified(true);
+      }
+    }
+  }
+  return tag;
+}

@@ -1,0 +1,72 @@
+{
+  super(id);
+  setOutputMarkupId(true);
+  if (contributeDependencies) {
+    contributeDependencies();
+  }
+  add(new StringHeaderContributor(new LoadableDetachableModel(){
+    private static final long serialVersionUID=1L;
+    protected Object load(){
+      String markupId=AbstractCalendar.this.getMarkupId();
+      String javascriptId=getJavascriptId();
+      String javascriptWidgetId=getJavascriptWidgetId();
+      StringBuffer b=new StringBuffer();
+      b.append(JavascriptUtils.SCRIPT_OPEN_TAG);
+      b.append("YAHOO.namespace(\"wicket\");\nfunction init");
+      b.append(javascriptId);
+      b.append("() {\n");
+      b.append("  ");
+      b.append(javascriptWidgetId);
+      b.append(" = new YAHOO.widget.Calendar(\"");
+      b.append(javascriptId);
+      b.append("\",\"");
+      b.append(markupId);
+      Properties p=new Properties();
+      configureWidgetProperties(p);
+      b.append("\", { ");
+      for (Iterator i=p.entrySet().iterator(); i.hasNext(); ) {
+        Entry entry=(Entry)i.next();
+        b.append(entry.getKey());
+        Object value=entry.getValue();
+        if (value instanceof CharSequence) {
+          b.append(":\"");
+          b.append(value);
+          b.append("\"");
+        }
+ else         if (value instanceof CharSequence[]) {
+          b.append(":[");
+          CharSequence[] valueArray=(CharSequence[])value;
+          for (int j=0; j < valueArray.length; j++) {
+            CharSequence tmpValue=valueArray[j];
+            b.append("\"");
+            b.append(tmpValue);
+            b.append("\"");
+            if (j < valueArray.length - 1) {
+              b.append(",");
+            }
+          }
+          b.append("]");
+        }
+ else {
+          b.append(":");
+          b.append(value);
+        }
+        if (i.hasNext()) {
+          b.append(",");
+        }
+      }
+      b.append(" });\n");
+      appendToInit(markupId,javascriptId,javascriptWidgetId,b);
+      b.append("  ");
+      b.append(javascriptWidgetId);
+      b.append(".render();\n");
+      b.append("}\n");
+      b.append("YAHOO.util.Event.addListener(window, \"load\", init");
+      b.append(javascriptId);
+      b.append(");");
+      b.append(JavascriptUtils.SCRIPT_CLOSE_TAG);
+      return b;
+    }
+  }
+));
+}

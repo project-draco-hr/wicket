@@ -1,0 +1,29 @@
+{
+  final FeedbackPanel feedback=new FeedbackPanel("feedback");
+  feedback.setOutputMarkupId(true);
+  add(feedback);
+  Form form=new Form("form",new CompoundPropertyModel(bean));
+  add(form);
+  form.setOutputMarkupId(true);
+  FormComponent fc;
+  fc=new RequiredTextField("name");
+  fc.add(StringValidator.minimumLength(4));
+  fc.setLabel(new ResourceModel("label.name"));
+  form.add(fc);
+  form.add(new SimpleFormComponentLabel("name-label",fc));
+  fc=new RequiredTextField("email");
+  fc.add(EmailAddressValidator.getInstance());
+  fc.setLabel(new ResourceModel("label.email"));
+  form.add(fc);
+  form.add(new SimpleFormComponentLabel("email-label",fc));
+  AjaxFormValidatingBehavior.addToAllFormComponents(form,"onkeyup",Duration.ONE_SECOND);
+  form.add(new AjaxSubmitButton("ajax-submit-button",form){
+    protected void onSubmit(    AjaxRequestTarget target,    Form form){
+      target.addComponent(feedback);
+    }
+    protected void onError(    AjaxRequestTarget target,    Form form){
+      target.addComponent(feedback);
+    }
+  }
+);
+}

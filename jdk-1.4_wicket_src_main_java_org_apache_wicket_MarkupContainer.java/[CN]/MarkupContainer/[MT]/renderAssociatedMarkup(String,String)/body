@@ -1,0 +1,21 @@
+{
+  final MarkupStream originalMarkupStream=getMarkupStream();
+  final MarkupStream associatedMarkupStream=getAssociatedMarkupStream(true);
+  associatedMarkupStream.skipUntil(openTagName);
+  setMarkupStream(associatedMarkupStream);
+  final ComponentTag associatedMarkupOpenTag=associatedMarkupStream.getTag();
+  if (!((associatedMarkupOpenTag != null) && associatedMarkupOpenTag.isOpen() && (associatedMarkupOpenTag instanceof WicketTag))) {
+    associatedMarkupStream.throwMarkupException(exceptionMessage);
+  }
+  try {
+    setIgnoreAttributeModifier(true);
+    renderComponentTag(associatedMarkupOpenTag);
+    associatedMarkupStream.next();
+    renderComponentTagBody(associatedMarkupStream,associatedMarkupOpenTag);
+    renderClosingComponentTag(associatedMarkupStream,associatedMarkupOpenTag,false);
+    setMarkupStream(originalMarkupStream);
+  }
+  finally {
+    setIgnoreAttributeModifier(false);
+  }
+}

@@ -1,0 +1,25 @@
+{
+  if (!(tag instanceof WicketTag)) {
+    return false;
+  }
+  final WicketTag wtag=(WicketTag)tag;
+  if (!wtag.isBodyTag()) {
+    return false;
+  }
+  final Response originalResponse;
+  if (this.bodyVisible == true) {
+    originalResponse=null;
+  }
+ else {
+    originalResponse=getRequestCycle().setResponse(NullResponse.getInstance());
+  }
+  try {
+    renderBodyComponent(markupStream,wtag);
+  }
+  finally {
+    if (originalResponse != null) {
+      getRequestCycle().setResponse(originalResponse);
+    }
+  }
+  return true;
+}

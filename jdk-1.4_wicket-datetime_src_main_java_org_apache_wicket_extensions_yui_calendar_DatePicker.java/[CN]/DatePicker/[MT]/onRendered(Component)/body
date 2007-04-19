@@ -1,0 +1,14 @@
+{
+  super.onRendered(component);
+  Response response=component.getResponse();
+  response.write("\n<span>&nbsp;<div style=\"display:none;z-index: 99999;position:absolute;\" id=\"");
+  response.write(getCalendarMarkupId());
+  response.write("\"></div><img style=\"");
+  response.write(getIconStyle());
+  response.write("\" id=\"");
+  response.write(getIconId());
+  response.write("\" src=\"");
+  CharSequence iconUrl=getIconUrl();
+  response.write(Strings.escapeMarkup(iconUrl != null ? iconUrl.toString() : ""));
+  response.write("\" /></span><input type=\"hidden\"/>");
+}

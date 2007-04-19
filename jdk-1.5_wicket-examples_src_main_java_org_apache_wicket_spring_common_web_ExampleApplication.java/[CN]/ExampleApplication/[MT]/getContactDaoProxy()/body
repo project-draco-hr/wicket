@@ -1,0 +1,10 @@
+{
+  if (contactDaoProxy == null) {
+synchronized (this) {
+      if (contactDaoProxy == null) {
+        contactDaoProxy=(ContactDao)createSpringBeanProxy(ContactDao.class,"contactDao");
+      }
+    }
+  }
+  return contactDaoProxy;
+}

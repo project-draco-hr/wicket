@@ -1,0 +1,27 @@
+{
+  List collection=new ArrayList();
+  if (values != null && values.length > 0) {
+    for (int i=0; i < values.length; i++) {
+      final String value=values[i];
+      if (value != null) {
+        Check checkbox=(Check)visitChildren(new Component.IVisitor(){
+          public Object component(          Component component){
+            if (component instanceof Check) {
+              final Check check=(Check)component;
+              if (String.valueOf(check.getValue()).equals(value)) {
+                return check;
+              }
+            }
+            return CONTINUE_TRAVERSAL;
+          }
+        }
+);
+        if (checkbox == null) {
+          throw new WicketRuntimeException("submitted http post value [" + Strings.join(",",values) + "] for CheckGroup component ["+ getPath()+ "] contains an illegal relative path "+ "element ["+ value+ "] which does not point to a Check component. Due to this the CheckGroup component cannot resolve the selected Check component pointed to by the illegal value. A possible reason is that componment hierarchy changed between rendering and form submission.");
+        }
+        collection.add(checkbox.getModelObject());
+      }
+    }
+  }
+  return collection;
+}

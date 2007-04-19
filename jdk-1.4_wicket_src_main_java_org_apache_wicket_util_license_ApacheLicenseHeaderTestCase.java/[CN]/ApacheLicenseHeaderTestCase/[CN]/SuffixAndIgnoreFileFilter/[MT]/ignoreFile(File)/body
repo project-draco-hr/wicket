@@ -1,0 +1,25 @@
+{
+  boolean ignore=false;
+  if (ignoreFiles != null) {
+    String relativePathname=pathname.getAbsolutePath();
+    relativePathname=Strings.replaceAll(relativePathname,baseDirectory.getAbsolutePath() + System.getProperty("file.separator"),"").toString();
+    for (int i=0; i < ignoreFiles.length; i++) {
+      String ignorePath=ignoreFiles[i];
+      ignorePath=Strings.replaceAll(ignorePath,"/",System.getProperty("file.separator")).toString();
+      File ignoreFile=new File(baseDirectory,ignorePath);
+      if (ignoreFile.isDirectory()) {
+        if (pathname.getAbsolutePath().startsWith(ignoreFile.getAbsolutePath())) {
+          ignore=true;
+          break;
+        }
+      }
+      if (ignoreFile.isFile()) {
+        if (relativePathname.equals(ignorePath)) {
+          ignore=true;
+          break;
+        }
+      }
+    }
+  }
+  return ignore;
+}

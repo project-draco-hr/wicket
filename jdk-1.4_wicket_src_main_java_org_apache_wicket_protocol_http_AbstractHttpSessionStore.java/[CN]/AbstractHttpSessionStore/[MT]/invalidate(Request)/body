@@ -1,0 +1,17 @@
+{
+  WebRequest webRequest=toWebRequest(request);
+  HttpSession httpSession=getHttpSession(webRequest);
+  if (httpSession != null) {
+    String applicationKey=application.getApplicationKey();
+    try {
+      SessionBindingListener l=(SessionBindingListener)httpSession.getAttribute("Wicket:SessionUnbindingListener-" + applicationKey);
+      if (l != null) {
+        l.unbound=true;
+      }
+      unbind(httpSession.getId());
+      httpSession.invalidate();
+    }
+ catch (    IllegalStateException e) {
+    }
+  }
+}
