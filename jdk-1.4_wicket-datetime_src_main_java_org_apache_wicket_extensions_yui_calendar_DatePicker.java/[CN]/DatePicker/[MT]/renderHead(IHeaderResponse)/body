@@ -4,7 +4,7 @@
   response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"dom.js"));
   response.renderJavascriptReference(new JavascriptResourceReference(DatePicker.class,"calendar.js"));
   response.renderCSSReference(new CompressedResourceReference(DatePicker.class,"assets/calendar.css"));
-  response.renderJavascriptReference(new JavascriptResourceReference(DatePicker.class,"date.js"));
+  response.renderJavascriptReference(new JavascriptResourceReference(DatePicker.class,"wicket-date.js"));
   String markupId=getCalendarMarkupId();
   String javascriptId=getCalendarJavascriptId();
   String javascriptWidgetId="YAHOO.wicket." + getCalendarJavascriptId();
@@ -59,9 +59,9 @@
   buffer.append(component.getMarkupId());
   buffer.append("\").value;\n");
   buffer.append("  if (dateValue) {\n");
-  buffer.append("    dateValue = new Date(getDateFromFormat(dateValue,\'");
+  buffer.append("    dateValue = Wicket.DateTime.parseDate(\'");
   buffer.append(datePattern);
-  buffer.append("\'));\n    ");
+  buffer.append("\', dateValue);\n    ");
   buffer.append(javascriptWidgetId);
   buffer.append(".select(dateValue);\n");
   buffer.append("    var firstDate = ");
