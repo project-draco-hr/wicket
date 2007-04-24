@@ -2,27 +2,5 @@
   if (feedbackMessages.clear(RENDERED_SESSION_SCOPED_MESSAGES) > 0) {
     dirty();
   }
-  final Page page=RequestCycle.get().getResponsePage();
-  final Counter notCleanedUpCounter=new Counter();
-  feedbackMessages.clear(new IFeedbackMessageFilter(){
-    private static final long serialVersionUID=1L;
-    public boolean accept(    FeedbackMessage message){
-      if (message.isRendered()) {
-        return true;
-      }
-      if (page != null) {
-        Component reporter=message.getReporter();
-        if (reporter != null) {
-          Page reporterPage=reporter.findPage();
-          return reporterPage != null && reporterPage.equals(page);
-        }
-      }
-      notCleanedUpCounter.count++;
-      return false;
-    }
-  }
-);
-  if (log.isDebugEnabled() && notCleanedUpCounter.count > 0) {
-    log.debug("still " + notCleanedUpCounter.count + " messages unrendered");
-  }
+  feedbackMessages.clear(MESSAGES_FOR_COMPONENTS);
 }
