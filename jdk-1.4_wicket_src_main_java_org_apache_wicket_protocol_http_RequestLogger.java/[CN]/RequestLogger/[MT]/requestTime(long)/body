@@ -13,7 +13,12 @@ synchronized (this) {
     rd.setSessionInfo(sessionInfo);
     long sizeInBytes=-1;
     if (Application.get().getRequestLoggerSettings().getRecordSessionSize()) {
-      sizeInBytes=session.getSizeInBytes();
+      try {
+        sizeInBytes=session.getSizeInBytes();
+      }
+ catch (      Exception e) {
+        log.error("Exception while determining the size of the session in the request logger: " + e.getMessage(),e);
+      }
     }
     rd.setSessionSize(sizeInBytes);
     rd.setTimeTaken(timeTaken);
