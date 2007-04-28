@@ -3,8 +3,9 @@
     if (this.componentMap == null) {
       this.componentMap=new HashMap();
     }
+    final boolean fragment=(tag instanceof WicketTag && ((WicketTag)tag).isFragementTag());
     final String key;
-    if (tag.getPath() != null) {
+    if (tag.getPath() != null && !fragment) {
       key=tag.getPath() + ":" + tag.getId();
     }
  else {
