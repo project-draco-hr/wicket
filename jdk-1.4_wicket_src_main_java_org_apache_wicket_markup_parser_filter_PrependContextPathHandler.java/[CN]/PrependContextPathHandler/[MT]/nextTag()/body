@@ -1,9 +1,9 @@
 {
   final ComponentTag tag=(ComponentTag)getParent().nextTag();
-  if (tag == null || tag.getId() != null) {
+  if ((tag == null) || tag.isClose()) {
     return tag;
   }
-  if (tag.getId() != null) {
+  if ((tag.getId() != null) && (tag.getId().equals(WicketMessageTagHandler.WICKET_MESSAGE_CONTAINER_ID) == false)) {
     return tag;
   }
   String contextPath=application.getApplicationSettings().getContextPath();
