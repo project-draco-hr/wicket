@@ -7,11 +7,22 @@
       format=format.withZone(DateTimeZone.forTimeZone(zone));
       dt.setZone(DateTimeZone.forTimeZone(zone));
     }
-    format.parseInto(dt,value,0);
+    try {
+      format.parseInto(dt,value,0);
+    }
+ catch (    RuntimeException e) {
+      throw new ConversionException(e);
+    }
     dt.setZone(getTimeZone());
     return dt.toDate();
   }
  else {
-    return format.parseDateTime(value).toDate();
+    try {
+      DateTime date=format.parseDateTime(value);
+      return date.toDate();
+    }
+ catch (    RuntimeException e) {
+      throw new ConversionException(e);
+    }
   }
 }
