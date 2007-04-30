@@ -1,5 +1,8 @@
 {
   DateTimeFormatter format=getFormat();
+  if (format == null) {
+    throw new IllegalStateException("format must be not null");
+  }
   if (applyTimeZoneDifference) {
     TimeZone zone=getClientTimeZone();
     MutableDateTime dt=new MutableDateTime();
