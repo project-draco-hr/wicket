@@ -1,7 +1,12 @@
 {
   if (type.isInterface()) {
     JdkHandler handler=new JdkHandler(type,locator);
-    return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+    try {
+      return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+    }
+ catch (    IllegalArgumentException e) {
+      return Proxy.newProxyInstance(LazyInitProxyFactory.class.getClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+    }
   }
  else {
     CGLibInterceptor handler=new CGLibInterceptor(type,locator);
