@@ -2,9 +2,7 @@
   if (!page.isPageStateless()) {
     String sessionId=getSession().getId();
     if (sessionId != null) {
-      if (lastPage != page && page.getCurrentVersionNumber() == 0) {
-        getStore().storePage(sessionId,page);
-      }
+      getStore().storePage(sessionId,page);
       lastPage=page;
       dirty();
     }
