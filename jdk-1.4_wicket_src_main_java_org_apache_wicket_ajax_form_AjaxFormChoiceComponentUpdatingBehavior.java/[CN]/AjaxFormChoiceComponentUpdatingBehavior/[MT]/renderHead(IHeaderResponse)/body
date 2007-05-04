@@ -1,0 +1,17 @@
+{
+  super.renderHead(response);
+  AppendingStringBuffer asb=new AppendingStringBuffer();
+  asb.append("function attachChoiceHandlers(markupid, callbackscript) {\n");
+  asb.append(" var choiceElement = document.getElementById(markupid);\n");
+  asb.append(" for( var x = 0; x < choiceElement.childNodes.length; x++ ) {\n");
+  asb.append("   if (choiceElement.childNodes[x] && choiceElement.childNodes[x].tagName) {\n");
+  asb.append("     var tag = choiceElement.childNodes[x].tagName.toLowerCase();\n");
+  asb.append("     if (tag == 'input') {\n");
+  asb.append("       Wicket.Event.add(choiceElement.childNodes[x],'click', callbackscript);");
+  asb.append("     }\n");
+  asb.append("   }\n");
+  asb.append(" }\n");
+  asb.append("}\n");
+  response.renderJavascript(asb,"attachChoice");
+  response.renderOnLoadJavascript("attachChoiceHandlers('" + component.getMarkupId() + "', function() {"+ getEventHandler()+ "});");
+}

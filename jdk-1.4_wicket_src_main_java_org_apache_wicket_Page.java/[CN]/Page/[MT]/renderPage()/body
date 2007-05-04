@@ -1,4 +1,7 @@
 {
+  if (!isAttached()) {
+    attach();
+  }
   if (!isActionAuthorized(RENDER)) {
     if (log.isDebugEnabled()) {
       log.debug("Page not allowed to render: " + this);
@@ -11,7 +14,7 @@
   visitChildren(IFeedback.class,new IVisitor(){
     public Object component(    Component component){
       ((IFeedback)component).updateFeedback();
-      component.attach();
+      component.beforeRender();
       return IVisitor.CONTINUE_TRAVERSAL;
     }
   }
@@ -19,7 +22,6 @@
   if (this instanceof IFeedback) {
     ((IFeedback)this).updateFeedback();
   }
-  attach();
   setRenderAllowed(isActionAuthorized(RENDER));
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
@@ -29,7 +31,9 @@
     }
   }
 );
+  beforeRender();
   render(null);
+  afterRender();
   checkRendering(this);
   if (!isPageStateless()) {
     Session.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);

@@ -1,0 +1,11 @@
+{
+  if (!getFlag(FLAG_RENDERING)) {
+    setFlag(FLAG_BEFORE_RENDERING,true);
+    setFlag(FLAG_RENDERING,true);
+    onBeforeRender();
+    if (getFlag(FLAG_BEFORE_RENDERING)) {
+      throw new IllegalStateException(Component.class.getName() + " has not been properly rendered. Something in the hierarchy of " + getClass().getName()+ " has not called super.onBeforeRender() in the override of onBeforeRender() method");
+    }
+  }
+  onBeforeRenderChildren();
+}

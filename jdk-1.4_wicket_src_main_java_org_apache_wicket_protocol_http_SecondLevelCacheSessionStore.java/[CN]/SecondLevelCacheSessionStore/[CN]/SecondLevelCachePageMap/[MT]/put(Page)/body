@@ -5,6 +5,12 @@
       getStore().storePage(sessionId,page);
       lastPage=page;
       dirty();
+      PageVersions pv=new PageVersions(page.getNumericId(),page.getCurrentVersionNumber(),page.getAjaxVersionNumber());
+      pageVersions.remove(pv);
+      pageVersions.add(pv);
+      if (pageVersions.size() > 100) {
+        pageVersions.remove(0);
+      }
     }
   }
 }

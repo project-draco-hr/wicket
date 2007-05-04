@@ -1,0 +1,16 @@
+{
+  super.onBeforeRenderChildren();
+  try {
+    final int size=children_size();
+    for (int i=0; i < size; i++) {
+      final Component child=children_get(i);
+      if (!(child instanceof IFeedback)) {
+        child.beforeRender();
+      }
+    }
+  }
+ catch (  RuntimeException ex) {
+    if (ex instanceof WicketRuntimeException)     throw ex;
+ else     throw new WicketRuntimeException("Error attaching this container for rendering: " + this,ex);
+  }
+}

@@ -6,20 +6,14 @@
       log.debug("Begin render " + this);
     }
     try {
-      onBeforeRender();
       notifyBehaviorsComponentBeforeRender();
-      try {
-        final IComponentBorder border=getComponentBorder();
-        if (border != null) {
-          border.renderBefore(this);
-        }
-        onRender(markupStream);
-        if (border != null) {
-          border.renderAfter(this);
-        }
+      final IComponentBorder border=getComponentBorder();
+      if (border != null) {
+        border.renderBefore(this);
       }
-  finally {
-        onAfterRender();
+      onRender(markupStream);
+      if (border != null) {
+        border.renderAfter(this);
       }
       rendered();
     }

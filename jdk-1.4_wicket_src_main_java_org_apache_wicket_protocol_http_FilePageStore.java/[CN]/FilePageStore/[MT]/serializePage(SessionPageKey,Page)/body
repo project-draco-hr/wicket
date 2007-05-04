@@ -1,10 +1,19 @@
 {
+  byte[] bytes=null;
+  System.err.println("SERIALIZING " + key);
   long t1=System.currentTimeMillis();
-  byte[] bytes=Objects.objectToByteArray(page);
-  totalSerializationTime+=(System.currentTimeMillis() - t1);
-  serialized++;
-  if (log.isDebugEnabled() && bytes != null) {
-    log.debug("serializing page " + key.pageClass + "["+ key.id+ ","+ key.versionNumber+ "] size: "+ bytes.length+ " for session "+ key.sessionId+ " took "+ (System.currentTimeMillis() - t1)+ " miliseconds to serialize");
+  Page.serializer.set(new PageSerializer(key));
+  try {
+    bytes=Objects.objectToByteArray(page);
+    totalSerializationTime+=(System.currentTimeMillis() - t1);
+    serialized++;
+    if (log.isDebugEnabled() && bytes != null) {
+      log.debug("serializing page " + key.pageClass + "["+ key.id+ ","+ key.versionNumber+ "] size: "+ bytes.length+ " for session "+ key.sessionId+ " took "+ (System.currentTimeMillis() - t1)+ " miliseconds to serialize");
+    }
   }
+  finally {
+    Page.serializer.set(null);
+  }
+  System.err.println("SERIALIZING " + key + " bytes: "+ bytes);
   return bytes;
 }

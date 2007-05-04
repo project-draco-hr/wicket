@@ -32,6 +32,10 @@ synchronized (pageMapsUsedInRequest) {
         pageMapsUsedInRequest.remove(pageMap);
         pageMapsUsedInRequest.notifyAll();
       }
+ else {
+        page.attach();
+        touch(page);
+      }
       return page;
     }
   }
