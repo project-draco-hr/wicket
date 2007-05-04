@@ -6,6 +6,9 @@
     behaviors=new ArrayList(1);
   }
   behaviors.add(behavior);
+  if (!behavior.isTemporary()) {
+    addStateChange(new AddedBehaviorChange(behavior));
+  }
   behavior.bind(this);
   return this;
 }
