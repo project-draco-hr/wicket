@@ -17,7 +17,7 @@
   AppendingStringBuffer buff=new AppendingStringBuffer(256);
   buff.append("var ").append(IAjaxCallDecorator.WICKET_CALL_RESULT_VAR).append("=");
   buff.append(partialCall).append(", function() { ").append(success);
-  buff.append("}, function() { ").append(failure).append("});");
+  buff.append("}.bind(this), function() { ").append(failure).append("}.bind(this));");
   CharSequence call=buff;
   if (!Strings.isEmpty(indicatorId)) {
     call=new AppendingStringBuffer("wicketShow('").append(indicatorId).append("');").append(call);
