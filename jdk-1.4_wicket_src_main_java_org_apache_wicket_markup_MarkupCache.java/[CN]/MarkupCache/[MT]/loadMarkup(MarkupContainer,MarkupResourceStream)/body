@@ -1,7 +1,7 @@
 {
   CharSequence cacheKey=markupResourceStream.getCacheKey();
   try {
-    Markup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser().readAndParse(markupResourceStream);
+    Markup markup=application.getMarkupSettings().getMarkupParserFactory().newMarkupParser(markupResourceStream).parse();
     markup=checkForMarkupInheritance(container,markup);
     if (cacheKey != null) {
       markupCache.put(cacheKey,markup);

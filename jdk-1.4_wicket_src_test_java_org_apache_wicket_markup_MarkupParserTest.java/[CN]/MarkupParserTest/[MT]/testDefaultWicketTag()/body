@@ -1,11 +1,13 @@
 {
-  final MarkupParser parser=new MarkupParser(new XmlPullParser());
+  MarkupParser parser=new MarkupParser("<span wcn:id=\"test\"/>");
   parser.setWicketNamespace("wcn");
-  Markup markup=parser.parse("<span wcn:id=\"test\"/>");
+  Markup markup=parser.parse();
   assertEquals(1,markup.size());
-  markup=parser.parse("<span wicket:id=\"test\"/>");
+  markup=new MarkupParser("<span wicket:id=\"test\"/>").parse();
   assertEquals(1,markup.size());
   WicketTagIdentifier.registerWellKnownTagName("xxx");
-  markup=parser.parse("<wcn:xxx>  </wcn:xxx>");
+  parser=new MarkupParser("<wcn:xxx>  </wcn:xxx>");
+  parser.setWicketNamespace("wcn");
+  markup=parser.parse();
   assertEquals(3,markup.size());
 }

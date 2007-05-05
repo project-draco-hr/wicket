@@ -1,6 +1,6 @@
 {
   tester.startPage(DownloadPage.class);
   tester.clickLink(DownloadPage.PDF_DOWNLOAD_LINK);
-  assertTrue(getContentType().startsWith("application/pdf"));
-  assertEquals(DownloadPage.HELLO_WORLD.length(),getContentLength());
+  assertTrue(tester.getContentTypeFromResponseHeader().startsWith("application/pdf"));
+  assertEquals(DownloadPage.HELLO_WORLD.length(),tester.getContentLengthFromResponseHeader());
 }
