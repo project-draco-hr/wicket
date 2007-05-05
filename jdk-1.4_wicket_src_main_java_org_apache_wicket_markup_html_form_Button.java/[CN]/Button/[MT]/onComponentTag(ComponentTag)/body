@@ -1,15 +1,13 @@
 {
   super.onComponentTag(tag);
   String name=tag.getName();
-  if (Strings.isEqual("input",name)) {
-    try {
-      String value=getModelObjectAsString();
-      if (value != null && !"".equals(value)) {
-        tag.put("value",value);
-      }
+  try {
+    String value=getModelObjectAsString();
+    if (value != null && !"".equals(value)) {
+      tag.put("value",value);
     }
- catch (    Exception e) {
-    }
+  }
+ catch (  Exception e) {
   }
   final String onClickJavaScript=getOnClickScript();
   if (onClickJavaScript != null) {
