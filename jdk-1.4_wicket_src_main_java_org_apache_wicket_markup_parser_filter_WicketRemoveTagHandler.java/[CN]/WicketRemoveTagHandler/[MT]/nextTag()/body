@@ -15,10 +15,10 @@
       continue;
     }
     if (closeTag.closes(openTag)) {
-      openTag.setId(IGNORE);
+      openTag.setIgnore(true);
       return openTag;
     }
-    throw new ParseException("Markup remove regions must not contain Wicket component tags. " + "tag: " + closeTag.toUserDebugString(),closeTag.getPos());
+    throw new ParseException("Markup remove regions must not contain Wicket component tags. tag: " + closeTag.toUserDebugString(),closeTag.getPos());
   }
-  throw new ParseException("Did not find close tag for markup remove region. " + "Open tag: " + openTag.toUserDebugString(),openTag.getPos());
+  throw new ParseException("Did not find close tag for markup remove region. Open tag: " + openTag.toUserDebugString(),openTag.getPos());
 }
