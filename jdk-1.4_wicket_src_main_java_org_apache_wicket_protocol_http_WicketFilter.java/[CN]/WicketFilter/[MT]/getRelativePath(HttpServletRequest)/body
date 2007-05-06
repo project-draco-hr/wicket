@@ -1,10 +1,10 @@
 {
-  String path=request.getServletPath();
+  String path=request.getRequestURI();
+  String contextPath=request.getContextPath();
+  path=path.substring(contextPath.length());
   if (servletMode) {
-    path=request.getPathInfo();
-    if (path == null) {
-      path="";
-    }
+    String servletPath=request.getServletPath();
+    path=path.substring(servletPath.length());
   }
   filterPath=getFilterPath(request);
   if (path.length() > 0) {
