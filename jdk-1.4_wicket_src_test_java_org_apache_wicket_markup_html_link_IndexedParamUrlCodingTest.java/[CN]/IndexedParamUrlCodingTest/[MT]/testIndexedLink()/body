@@ -12,7 +12,7 @@
   assertEquals("test1/Integer0/Integer1/a%3Ab",url1);
   assertEquals("test2/Integer0/Integer1/a%3Ab/wicket:pageMapName/mypagemap",url2);
   tester.setupRequestAndResponse();
-  tester.getServletRequest().setURL("/" + url1);
+  tester.getServletRequest().setURL("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/" + url1);
   cycle=tester.createRequestCycle();
   IRequestCodingStrategy encoder=cycle.getProcessor().getRequestCodingStrategy();
   RequestParameters requestParameters=encoder.decode(tester.getWicketRequest());
@@ -28,7 +28,7 @@
   assertEquals("Integer1",params.getString("1"));
   assertEquals("a:b",params.getString("2"));
   tester.setupRequestAndResponse();
-  tester.getServletRequest().setURL("/" + url2);
+  tester.getServletRequest().setURL("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/" + url2);
   cycle=tester.createRequestCycle();
   encoder=cycle.getProcessor().getRequestCodingStrategy();
   requestParameters=encoder.decode(tester.getWicketRequest());
