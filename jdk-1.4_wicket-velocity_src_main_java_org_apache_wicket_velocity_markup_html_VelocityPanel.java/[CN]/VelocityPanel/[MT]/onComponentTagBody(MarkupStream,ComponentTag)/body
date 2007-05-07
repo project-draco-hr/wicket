@@ -8,10 +8,10 @@
     try {
       Velocity.evaluate(ctx,writer,logTag,templateReader);
       String result=writer.toString();
-      if (escapeHtml) {
+      if (escapeHtml()) {
         result=Strings.escapeMarkup(result).toString();
       }
-      if (!getParseGeneratedMarkup()) {
+      if (!parseGeneratedMarkup()) {
         replaceComponentTagBody(markupStream,openTag,result);
       }
  else {
