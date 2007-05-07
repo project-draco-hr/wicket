@@ -8,8 +8,8 @@
   Session session=sessionStore.lookup(requestCycle.getRequest());
   if (session == null) {
     session=application.getSessionFactory().newSession(requestCycle.getRequest(),requestCycle.getResponse());
-    session.attach();
   }
   set(session);
+  session.attach();
   return session;
 }
