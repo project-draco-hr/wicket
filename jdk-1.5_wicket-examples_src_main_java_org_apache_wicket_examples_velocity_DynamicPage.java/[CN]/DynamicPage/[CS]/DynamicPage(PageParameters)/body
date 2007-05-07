@@ -1,10 +1,10 @@
 {
+  final IStringResourceStream template=new PackageResourceStream(DynamicPage.class,"fields.vm");
   Map<String,List<Field>> map=new HashMap<String,List<Field>>();
   List<Field> fields=VelocityTemplateApplication.getFields();
   map.put("fields",fields);
-  templateContext=Model.valueOf(map);
   VelocityPanel panel;
-  add(panel=new VelocityPanel("templatePanel",templateContext){
+  add(panel=new VelocityPanel("templatePanel",Model.valueOf(map)){
     @Override protected IStringResourceStream getTemplateResource(){
       return template;
     }
