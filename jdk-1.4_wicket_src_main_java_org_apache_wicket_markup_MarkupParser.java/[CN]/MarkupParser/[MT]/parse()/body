@@ -1,7 +1,8 @@
 {
-  this.xmlParser.parse(this.markup.getResource().getInputStream(),this.markupSettings.getDefaultMarkupEncoding());
+  MarkupResourceData markupResourceData=this.markup.getMarkupResourceData();
+  this.xmlParser.parse(markupResourceData.getResource().getInputStream(),this.markupSettings.getDefaultMarkupEncoding());
   parseMarkup();
-  this.markup.setEncoding(xmlParser.getEncoding());
-  this.markup.setXmlDeclaration(xmlParser.getXmlDeclaration());
+  markupResourceData.setEncoding(xmlParser.getEncoding());
+  markupResourceData.setXmlDeclaration(xmlParser.getXmlDeclaration());
   return this.markup;
 }

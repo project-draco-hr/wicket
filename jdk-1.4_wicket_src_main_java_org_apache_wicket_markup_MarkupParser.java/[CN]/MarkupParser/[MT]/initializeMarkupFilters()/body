@@ -1,19 +1,20 @@
 {
   this.markupFilterChain=xmlParser;
-  appendMarkupFilter(new WicketTagIdentifier(markup));
+  MarkupResourceData markupResourceData=this.markup.getMarkupResourceData();
+  appendMarkupFilter(new WicketTagIdentifier(markupResourceData));
   appendMarkupFilter(new TagTypeHandler());
   appendMarkupFilter(new HtmlHandler());
   appendMarkupFilter(new WicketRemoveTagHandler());
   appendMarkupFilter(new WicketLinkTagHandler());
-  appendMarkupFilter(new WicketNamespaceHandler(markup));
-  final MarkupResourceStream resource=markup.getResource();
+  appendMarkupFilter(new WicketNamespaceHandler(markupResourceData));
+  final MarkupResourceStream resource=markupResourceData.getResource();
   if (resource != null) {
     final ContainerInfo containerInfo=resource.getContainerInfo();
     if (containerInfo != null) {
       appendMarkupFilter(new WicketMessageTagHandler());
       appendMarkupFilter(new BodyTagHandler());
       if (Page.class.isAssignableFrom(containerInfo.getContainerClass())) {
-        appendMarkupFilter(new HtmlHeaderSectionHandler(this.markup));
+        appendMarkupFilter(new HtmlHeaderSectionHandler(markup));
       }
       appendMarkupFilter(new HeadForceTagIdHandler(containerInfo.getContainerClass()));
     }

@@ -39,9 +39,9 @@
     if (text.length() > 0) {
       this.markup.addMarkupElement(new RawMarkup(text));
     }
-    this.markup.setEncoding(xmlParser.getEncoding());
-    this.markup.setXmlDeclaration(xmlParser.getXmlDeclaration());
-    final MarkupStream markupStream=new MarkupStream(markup);
+    this.markup.getMarkupResourceData().setEncoding(xmlParser.getEncoding());
+    this.markup.getMarkupResourceData().setXmlDeclaration(xmlParser.getXmlDeclaration());
+    final MarkupStream markupStream=new MarkupStream(this.markup);
     markupStream.setCurrentIndex(this.markup.size() - 1);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }

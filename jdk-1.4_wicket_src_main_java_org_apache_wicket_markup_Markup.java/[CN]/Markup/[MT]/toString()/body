@@ -1,8 +1,11 @@
 {
-  if (resource != null) {
-    return resource.toString();
+  final AppendingStringBuffer buf=new AppendingStringBuffer(400);
+  buf.append(this.markupResourceData.toString());
+  buf.append("\n");
+  final Iterator iter=this.markupElements.iterator();
+  while (iter.hasNext()) {
+    buf.append(iter.next());
+    buf.append(",");
   }
- else {
-    return "(unknown resource)";
-  }
+  return buf.toString();
 }

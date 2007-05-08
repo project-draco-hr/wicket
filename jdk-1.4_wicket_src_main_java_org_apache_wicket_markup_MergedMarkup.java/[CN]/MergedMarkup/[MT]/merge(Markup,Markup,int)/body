@@ -9,17 +9,17 @@
       continue;
     }
     final ComponentTag tag=(ComponentTag)element;
-    if ((baseMarkup.getResource() != null) && (tag.getMarkupClass() == null)) {
-      tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+    if ((baseMarkup.getMarkupResourceData().getResource() != null) && (tag.getMarkupClass() == null)) {
+      tag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
     }
     if (element instanceof WicketTag) {
       WicketTag wtag=(WicketTag)element;
-      if (wtag.isChildTag() && (tag.getMarkupClass() == baseMarkup.getResource().getMarkupClass())) {
+      if (wtag.isChildTag() && (tag.getMarkupClass() == baseMarkup.getMarkupResourceData().getResource().getMarkupClass())) {
         if (wtag.isOpenClose()) {
           childTag=wtag;
           WicketTag childOpenTag=(WicketTag)wtag.mutable();
           childOpenTag.getXmlTag().setType(XmlTag.OPEN);
-          childOpenTag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+          childOpenTag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
           addMarkupElement(childOpenTag);
           break;
         }
@@ -74,7 +74,7 @@
       if (element instanceof WicketTag) {
         WicketTag tag=(WicketTag)element;
         if (tag.isChildTag() && tag.isClose()) {
-          tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+          tag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
           addMarkupElement(tag);
           break;
         }
@@ -93,18 +93,18 @@
  else {
     WicketTag childCloseTag=(WicketTag)childTag.mutable();
     childCloseTag.getXmlTag().setType(XmlTag.CLOSE);
-    childCloseTag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+    childCloseTag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
     addMarkupElement(childCloseTag);
   }
   for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
     MarkupElement element=baseMarkup.get(baseIndex);
     addMarkupElement(element);
-    if ((element instanceof ComponentTag) && (baseMarkup.getResource() != null)) {
+    if ((element instanceof ComponentTag) && (baseMarkup.getMarkupResourceData().getResource() != null)) {
       ComponentTag tag=(ComponentTag)element;
-      tag.setMarkupClass(baseMarkup.getResource().getMarkupClass());
+      tag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
     }
   }
-  if (Page.class.isAssignableFrom(markup.getResource().getMarkupClass())) {
+  if (Page.class.isAssignableFrom(markup.getMarkupResourceData().getResource().getMarkupClass())) {
     int hasOpenWicketHead=-1;
     int hasCloseWicketHead=-1;
     int hasHead=-1;

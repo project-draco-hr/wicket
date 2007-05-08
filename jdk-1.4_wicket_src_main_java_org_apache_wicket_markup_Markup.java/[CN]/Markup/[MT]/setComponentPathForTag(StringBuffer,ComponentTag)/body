@@ -1,5 +1,5 @@
 {
-  if ((tag.isOpen() || tag.isOpenClose()) && tag.getAttributes().containsKey(wicketId)) {
+  if ((tag.isOpen() || tag.isOpenClose()) && tag.getAttributes().containsKey(markupResourceData.getWicketId())) {
     if (tag.isOpenClose() || tag.hasNoCloseTag()) {
       if ((this.currentPath != null) && (this.currentPath.length() > 0)) {
         tag.setPath(this.currentPath.toString());
@@ -17,7 +17,7 @@
     }
   }
  else   if (tag.isClose() && (this.currentPath != null)) {
-    if ((tag.getOpenTag() == null) || tag.getOpenTag().getAttributes().containsKey(wicketId)) {
+    if ((tag.getOpenTag() == null) || tag.getOpenTag().getAttributes().containsKey(markupResourceData.getWicketId())) {
       int index=this.currentPath.lastIndexOf(":");
       if (index != -1) {
         this.currentPath.setLength(index);

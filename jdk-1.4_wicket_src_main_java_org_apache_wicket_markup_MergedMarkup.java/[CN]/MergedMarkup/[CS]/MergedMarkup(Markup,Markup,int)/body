@@ -1,16 +1,16 @@
 {
-  setResource(markup.getResource());
-  setXmlDeclaration(markup.getXmlDeclaration());
-  setEncoding(markup.getEncoding());
-  setWicketNamespace(markup.getWicketNamespace());
+  super(new MarkupResourceData());
+  getMarkupResourceData().setResource(markup.getMarkupResourceData().getResource());
+  getMarkupResourceData().setXmlDeclaration(markup.getMarkupResourceData().getXmlDeclaration());
+  getMarkupResourceData().setEncoding(markup.getMarkupResourceData().getEncoding());
+  getMarkupResourceData().setWicketNamespace(markup.getMarkupResourceData().getWicketNamespace());
   if (log.isDebugEnabled()) {
-    String derivedResource=Strings.afterLast(markup.getResource().toString(),'/');
-    String baseResource=Strings.afterLast(baseMarkup.getResource().toString(),'/');
+    String derivedResource=Strings.afterLast(markup.getMarkupResourceData().getResource().toString(),'/');
+    String baseResource=Strings.afterLast(baseMarkup.getMarkupResourceData().getResource().toString(),'/');
     log.debug("Merge markup: derived markup: " + derivedResource + "; base markup: "+ baseResource);
   }
   merge(markup,baseMarkup,extendIndex);
-  initialize();
   if (log.isDebugEnabled()) {
-    log.debug("Merge markup: " + toDebugString());
+    log.debug("Merge markup: " + toString());
   }
 }

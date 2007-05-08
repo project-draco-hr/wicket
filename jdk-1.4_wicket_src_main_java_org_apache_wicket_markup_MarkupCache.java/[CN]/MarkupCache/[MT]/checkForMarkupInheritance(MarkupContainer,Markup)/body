@@ -3,13 +3,13 @@
   if (extendIndex == -1) {
     return markup;
   }
-  final Markup baseMarkup=getMarkup(container,markup.getResource().getMarkupClass().getSuperclass());
+  final Markup baseMarkup=getMarkup(container,markup.getMarkupResourceData().getResource().getMarkupClass().getSuperclass());
   if (baseMarkup == Markup.NO_MARKUP) {
-    throw new MarkupNotFoundException("Parent markup of inherited markup not found. Component class: " + markup.getResource().getContainerInfo().getContainerClass().getName() + " Enable debug messages for org.apache.wicket.util.resource.Resource to get a list of all filenames tried.");
+    throw new MarkupNotFoundException("Parent markup of inherited markup not found. Component class: " + markup.getMarkupResourceData().getResource().getContainerInfo().getContainerClass().getName() + " Enable debug messages for org.apache.wicket.util.resource.Resource to get a list of all filenames tried.");
   }
-  final CharSequence key=markup.getResource().getCacheKey();
+  final CharSequence key=markup.getMarkupResourceData().getResource().getCacheKey();
   if (key != null) {
-    afterLoadListeners.add(baseMarkup.getResource(),new IChangeListener(){
+    afterLoadListeners.add(baseMarkup.getMarkupResourceData().getResource(),new IChangeListener(){
       /** 
  * Make sure there is only one listener per derived markup
  * @see java.lang.Object#equals(java.lang.Object)
@@ -26,9 +26,9 @@
       }
       public void onChange(){
         if (log.isDebugEnabled()) {
-          log.debug("Remove derived markup from cache: " + markup.getResource());
+          log.debug("Remove derived markup from cache: " + markup.getMarkupResourceData().getResource());
         }
-        removeMarkup(markup.getResource());
+        removeMarkup(markup.getMarkupResourceData().getResource());
       }
     }
 );
