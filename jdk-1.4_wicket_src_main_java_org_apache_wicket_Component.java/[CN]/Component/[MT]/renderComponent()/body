@@ -8,6 +8,7 @@
     MarkupStream markupStream=new MarkupFragmentFinder().find(this);
     try {
       parent.setMarkupStream(markupStream);
+      beforeRender();
       setRenderAllowed(isActionAuthorized(RENDER));
       if (this instanceof MarkupContainer) {
         MarkupContainer container=(MarkupContainer)this;
@@ -20,7 +21,6 @@
         }
 );
       }
-      beforeRender();
       render(markupStream);
     }
   finally {
