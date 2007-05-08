@@ -22,6 +22,7 @@
   if (this instanceof IFeedback) {
     ((IFeedback)this).updateFeedback();
   }
+  beforeRender();
   setRenderAllowed(isActionAuthorized(RENDER));
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
@@ -31,7 +32,6 @@
     }
   }
 );
-  beforeRender();
   render(null);
   afterRender();
   checkRendering(this);
