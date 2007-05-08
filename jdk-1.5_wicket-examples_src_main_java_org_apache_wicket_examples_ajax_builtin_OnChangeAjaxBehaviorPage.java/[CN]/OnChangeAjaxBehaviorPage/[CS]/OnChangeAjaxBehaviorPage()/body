@@ -1,0 +1,17 @@
+{
+  Form form=new Form("form");
+  add(form);
+  final TextField field=new TextField("field",new Model(""));
+  form.add(field);
+  final Label label=new Label("selectedValue",new Model(""));
+  label.setOutputMarkupId(true);
+  form.add(label);
+  OnChangeAjaxBehavior onChangeAjaxBehavior=new OnChangeAjaxBehavior(){
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      label.setModelObject(getValue(field.getModelObjectAsString()));
+      target.addComponent(label);
+    }
+  }
+;
+  field.add(onChangeAjaxBehavior);
+}
