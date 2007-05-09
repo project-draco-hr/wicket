@@ -7,6 +7,10 @@
     parent.remove(component);
   }
   component.setParent(this);
+  final IDebugSettings debugSettings=Application.get().getDebugSettings();
+  if (debugSettings.getComponentUseCheck()) {
+    component.setMetaData(ADDED_AT_KEY,Strings.toString(component,new MarkupException("added")));
+  }
   final Page page=findPage();
   if (page != null) {
     page.componentAdded(component);

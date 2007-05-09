@@ -2,4 +2,8 @@
   setId(id);
   getApplication().notifyComponentInstantiationListeners(this);
   this.model=wrap(model);
+  final IDebugSettings debugSettings=Application.get().getDebugSettings();
+  if (debugSettings.getComponentUseCheck()) {
+    setMetaData(CONSTRUCTED_AT_KEY,Strings.toString(this,new MarkupException("constructed")));
+  }
 }
