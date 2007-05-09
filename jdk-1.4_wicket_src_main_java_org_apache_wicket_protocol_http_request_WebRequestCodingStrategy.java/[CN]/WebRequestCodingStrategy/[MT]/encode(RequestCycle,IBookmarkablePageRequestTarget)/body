@@ -34,9 +34,11 @@
     }
     while (iterator.hasNext()) {
       final String key=(String)iterator.next();
-      final String value=parameters.getString(key);
-      if (value != null) {
-        encoder.addValue(key,value);
+      final String values[]=parameters.getStringArray(key);
+      if (values != null) {
+        for (int i=0; i < values.length; i++) {
+          encoder.addValue(key,values[i]);
+        }
       }
     }
   }
