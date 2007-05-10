@@ -1,0 +1,17 @@
+{
+  String tmp=getRelativePathPrefixToWicketHandler();
+  String servletPath=getServletPath();
+  if (servletPath == null || servletPath.length() == 0) {
+    return tmp;
+  }
+  PrependingStringBuffer prepender=new PrependingStringBuffer(tmp);
+  for (int i=1; i < servletPath.length(); i++) {
+    if (servletPath.charAt(i) == '?') {
+      break;
+    }
+    if (servletPath.charAt(i) == '/') {
+      prepender.prepend("../");
+    }
+  }
+  return prepender.toString();
+}

@@ -1,11 +1,5 @@
 {
-  Session session=Session.get();
-  if (session.isTemporary()) {
-    session.bind();
-  }
   final RequestCycle cycle=RequestCycle.get();
-  interceptContinuationURL=cycle.getRequest().getURL();
-  session.dirtyPageMap(this);
-  cycle.setRedirect(true);
+  setUpRedirect(cycle);
   cycle.setResponsePage(pageClazz);
 }
