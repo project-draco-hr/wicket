@@ -3,13 +3,14 @@
   tester.setupRequestAndResponse();
   tester.getServletRequest().setURL("?wicket:bookmarkablePage=:" + TestPage.class.getName() + "");
   try {
-    tester.processRequestCycle();
-    fail("This request should not have been allowed");
+    WebRequestCycle requestCycle=tester.createRequestCycle();
+    tester.processRequestCycle(requestCycle);
+    IRequestTarget requestTarget=requestCycle.getRequestTarget();
+    assertTrue(requestTarget instanceof WebErrorCodeResponseTarget);
+    WebErrorCodeResponseTarget error=(WebErrorCodeResponseTarget)requestTarget;
+    assertEquals(HttpServletResponse.SC_FORBIDDEN,error.getErrorCode());
   }
- catch (  AbortWithWebErrorCodeException e) {
-    assertEquals(e.getErrorCode(),HttpServletResponse.SC_FORBIDDEN);
-  }
- finally {
+  finally {
     tester.getApplication().getSecuritySettings().setEnforceMounts(false);
   }
 }
