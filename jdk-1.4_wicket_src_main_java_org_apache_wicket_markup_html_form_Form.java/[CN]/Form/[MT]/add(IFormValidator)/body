@@ -3,4 +3,10 @@
     throw new IllegalArgumentException("validator argument cannot be null");
   }
   formValidators_add(validator);
+  if (validator instanceof IBehaviorProvider) {
+    IBehavior behavior=((IBehaviorProvider)validator).newValidationBehavior(this);
+    if (behavior != null) {
+      add(behavior);
+    }
+  }
 }
