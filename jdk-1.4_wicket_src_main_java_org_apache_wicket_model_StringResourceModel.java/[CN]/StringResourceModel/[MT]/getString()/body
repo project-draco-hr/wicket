@@ -7,9 +7,11 @@
       throw new IllegalStateException("No localizer has been set");
     }
   }
-  String s=localizer.getString(getResourceKey(),component,model);
-  if (s == null)   s=defaultValue;
-  if (s != null) {
+  String value=localizer.getString(getResourceKey(),component,model,defaultValue);
+  if (value == null) {
+    value=defaultValue;
+  }
+  if (value != null) {
     Object[] parameters=getParameters();
     if (parameters != null) {
       Object[] realParams=new Object[parameters.length];
@@ -24,9 +26,9 @@
           realParams[i]=parameters[i];
         }
       }
-      final MessageFormat format=new MessageFormat(s,component != null ? component.getLocale() : locale);
-      s=format.format(realParams);
+      final MessageFormat format=new MessageFormat(value,component != null ? component.getLocale() : locale);
+      value=format.format(realParams);
     }
   }
-  return s;
+  return value;
 }

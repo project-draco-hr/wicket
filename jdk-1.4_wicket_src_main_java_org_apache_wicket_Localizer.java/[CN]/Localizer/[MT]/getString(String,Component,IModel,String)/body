@@ -1,6 +1,7 @@
 {
   String string=null;
-  Iterator iter=Application.get().getResourceSettings().getStringResourceLoaders().iterator();
+  final IResourceSettings resourceSettings=Application.get().getResourceSettings();
+  Iterator iter=resourceSettings.getStringResourceLoaders().iterator();
   while (iter.hasNext()) {
     IStringResourceLoader loader=(IStringResourceLoader)iter.next();
     string=loader.loadStringResource(component,key);
@@ -8,12 +9,13 @@
       break;
     }
   }
+  if ((string == null) && (defaultValue != null)) {
+    if (resourceSettings.getUseDefaultOnMissingResource()) {
+      string=defaultValue;
+    }
+  }
   if (string != null) {
     return substitutePropertyExpressions(component,string,model);
-  }
-  final IResourceSettings resourceSettings=Application.get().getResourceSettings();
-  if (resourceSettings.getUseDefaultOnMissingResource() && (defaultValue != null)) {
-    return defaultValue;
   }
   if (resourceSettings.getThrowExceptionOnMissingResource()) {
     AppendingStringBuffer message=new AppendingStringBuffer("Unable to find resource: " + key);
