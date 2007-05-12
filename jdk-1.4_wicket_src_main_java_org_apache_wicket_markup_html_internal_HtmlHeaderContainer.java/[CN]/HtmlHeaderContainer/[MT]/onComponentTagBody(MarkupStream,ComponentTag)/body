@@ -8,12 +8,7 @@
     while ((parent instanceof Border)) {
       parent=parent.getParent();
     }
-    if (parent instanceof WebPage) {
-      renderHeaderSections((WebPage)parent,this);
-    }
- else {
-      throw new WicketRuntimeException("Programming error: 'parent' should be a Page or a Border.");
-    }
+    renderHeaderSections(parent,this);
     CharSequence output=response.getBuffer();
     if (output.length() > 0) {
       if (output.charAt(0) == '\r') {
