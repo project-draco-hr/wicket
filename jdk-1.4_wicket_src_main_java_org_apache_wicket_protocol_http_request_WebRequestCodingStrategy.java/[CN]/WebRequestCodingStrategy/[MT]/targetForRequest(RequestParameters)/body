@@ -1,4 +1,16 @@
 {
   IRequestTargetUrlCodingStrategy encoder=urlCodingStrategyForPath(requestParameters.getPath());
-  return (encoder != null) ? encoder.decode(requestParameters) : null;
+  if (encoder == null) {
+    return null;
+  }
+  try {
+    return encoder.decode(requestParameters);
+  }
+ catch (  WicketRuntimeException ex) {
+    if (log.isDebugEnabled()) {
+      log.debug(ex.toString());
+      return new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND,"Unable to load Page: " + ex.toString());
+    }
+    return new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND,"Unable to load Page");
+  }
 }
