@@ -1,0 +1,6 @@
+{
+  HashMap model=new HashMap();
+  model.put("user","juergen");
+  Assert.assertEquals("Expected string should be returned","Welcome, juergen",localizer.getString("test.substitute",null,new PropertyModel(model,null),"DEFAULT {user}"));
+  Assert.assertEquals("Expected string should be returned","DEFAULT juergen",localizer.getString("test.substituteDoesNotExist",null,new PropertyModel(model,null),"DEFAULT ${user}"));
+}
