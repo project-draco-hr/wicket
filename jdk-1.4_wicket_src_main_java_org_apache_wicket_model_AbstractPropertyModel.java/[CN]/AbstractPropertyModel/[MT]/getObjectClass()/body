@@ -1,0 +1,12 @@
+{
+  final String expression=propertyExpression();
+  if (Strings.isEmpty(expression)) {
+    Object target=getTarget();
+    return target != null ? target.getClass() : null;
+  }
+  final Object target=getTarget();
+  if (target != null) {
+    return PropertyResolver.getPropertyClass(expression,target);
+  }
+  return null;
+}
