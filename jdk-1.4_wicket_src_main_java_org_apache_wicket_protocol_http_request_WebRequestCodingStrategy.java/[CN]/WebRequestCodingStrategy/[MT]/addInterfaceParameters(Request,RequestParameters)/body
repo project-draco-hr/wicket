@@ -7,15 +7,18 @@
     }
     final String pageMapName=pathComponents[0];
     parameters.setPageMapName(pageMapName.length() == 0 ? PageMap.DEFAULT_NAME : pageMapName);
-    final String behaviourId=pathComponents[pathComponents.length - 1];
+    final String urlDepthString=pathComponents[pathComponents.length - 1];
+    final int urlDepth=Strings.isEmpty(urlDepthString) ? 0 : Integer.parseInt(urlDepthString);
+    parameters.setUrlDepth(urlDepth);
+    final String behaviourId=pathComponents[pathComponents.length - 2];
     parameters.setBehaviorId(behaviourId.length() != 0 ? behaviourId : null);
-    final String interfaceName=pathComponents[pathComponents.length - 2];
+    final String interfaceName=pathComponents[pathComponents.length - 3];
     parameters.setInterfaceName(interfaceName.length() != 0 ? interfaceName : IRedirectListener.INTERFACE.getName());
-    final String versionNumberString=pathComponents[pathComponents.length - 3];
+    final String versionNumberString=pathComponents[pathComponents.length - 4];
     final int versionNumber=Strings.isEmpty(versionNumberString) ? 0 : Integer.parseInt(versionNumberString);
     parameters.setVersionNumber(versionNumber);
     final int start=pageMapName.length() + 1;
-    final int end=requestString.length() - behaviourId.length() - interfaceName.length()- versionNumberString.length()- 3;
+    final int end=requestString.length() - behaviourId.length() - interfaceName.length()- versionNumberString.length()- urlDepthString.length()- 4;
     final String componentPath=requestString.substring(start,end);
     parameters.setComponentPath(componentPath);
   }
