@@ -8,11 +8,7 @@
  else {
     validateTimerScript(document,updateScript);
   }
-  tester.setupRequestAndResponse();
-  WebRequestCycle cycle=tester.createRequestCycle();
-  String url=timer.getCallbackUrl().toString();
-  tester.getServletRequest().setRequestToRedirectString(url);
-  tester.processRequestCycle(cycle);
+  tester.executeBehavior(timer);
   document=tester.getServletResponse().getDocument();
   validateTimerScript(document,updateScript);
 }
