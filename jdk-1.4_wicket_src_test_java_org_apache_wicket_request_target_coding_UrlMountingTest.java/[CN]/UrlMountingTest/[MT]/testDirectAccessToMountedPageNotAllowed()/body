@@ -5,10 +5,7 @@
   try {
     WebRequestCycle requestCycle=tester.createRequestCycle();
     tester.processRequestCycle(requestCycle);
-    IRequestTarget requestTarget=requestCycle.getRequestTarget();
-    assertTrue(requestTarget instanceof WebErrorCodeResponseTarget);
-    WebErrorCodeResponseTarget error=(WebErrorCodeResponseTarget)requestTarget;
-    assertEquals(HttpServletResponse.SC_FORBIDDEN,error.getErrorCode());
+    assertEquals(HttpServletResponse.SC_FORBIDDEN,getErrorCode(requestCycle));
   }
   finally {
     tester.getApplication().getSecuritySettings().setEnforceMounts(false);
