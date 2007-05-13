@@ -5,6 +5,9 @@
   }
   RequestParameters params=new RequestParameters();
   params.setBehaviorId(String.valueOf(index));
+  if (request instanceof ServletWebRequest) {
+    params.setUrlDepth(((ServletWebRequest)request).getRelativePathPrefixToWicketHandler().length() / 3);
+  }
   final IRequestTarget target=new BehaviorRequestTarget(component.getPage(),component,listener,params);
   final IRequestCodingStrategy requestCodingStrategy=getProcessor().getRequestCodingStrategy();
   return requestCodingStrategy.encode(this,target);
