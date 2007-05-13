@@ -1,12 +1,16 @@
 {
   CharSequence url=pathForTarget(requestTarget);
+  boolean makePathRelative=false;
   if (url != null) {
+    makePathRelative=true;
   }
  else   if (requestTarget instanceof IBookmarkablePageRequestTarget) {
     url=encode(requestCycle,(IBookmarkablePageRequestTarget)requestTarget);
+    makePathRelative=true;
   }
  else   if (requestTarget instanceof ISharedResourceRequestTarget) {
     url=encode(requestCycle,(ISharedResourceRequestTarget)requestTarget);
+    makePathRelative=true;
   }
  else   if (requestTarget instanceof IListenerInterfaceRequestTarget) {
     url=encode(requestCycle,(IListenerInterfaceRequestTarget)requestTarget);
@@ -20,7 +24,9 @@
   }
   if (url != null) {
     PrependingStringBuffer prepender=new PrependingStringBuffer(url.toString());
-    prepender.prepend(requestCycle.getRequest().getRelativePathPrefixToWicketHandler());
+    if (makePathRelative) {
+      prepender.prepend(requestCycle.getRequest().getRelativePathPrefixToWicketHandler());
+    }
     String result=prepender.toString();
     if (result.length() == 0) {
       result="./";
