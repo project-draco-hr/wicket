@@ -1,11 +1,13 @@
 {
   if (!getFlag(FLAG_ATTACHED)) {
     setFlag(FLAG_ATTACHING,true);
-    setFlag(FLAG_ATTACHED,true);
+    setFlag(FLAG_ATTACH_SUPER_CALL_VERIFIED,false);
     onAttach();
-    if (getFlag(FLAG_ATTACHING)) {
-      throw new IllegalStateException(Component.class.getName() + " has not been properly attached. Something in the hierarchy of " + getClass().getName()+ " has not called super.onAttach() in the override of onAttach() method");
+    if (!getFlag(FLAG_ATTACH_SUPER_CALL_VERIFIED)) {
+      throw new IllegalStateException("Component " + this + " of type "+ getClass().getName()+ " has not been properly attached.  "+ "Something in its class hierarchy has failed to call super.onAttach() in an override of onAttach() method");
     }
+    setFlag(FLAG_ATTACHING,false);
+    setFlag(FLAG_ATTACHED,true);
+    attachChildren();
   }
-  attachChildren();
 }

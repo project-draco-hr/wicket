@@ -8,7 +8,9 @@
       return children_get(index++);
     }
     public void remove(){
-      removedComponent(children_remove(--index));
+      final Component removed=children_remove(--index);
+      checkHierarchyChange(removed);
+      removedComponent(removed);
     }
   }
 ;
