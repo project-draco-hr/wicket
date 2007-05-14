@@ -4,6 +4,10 @@
   if ((settings.getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) && (application instanceof WebApplication)) {
     final WebResponse currentResponse=getWebResponse();
     try {
+      redirectUrl=page.urlFor(IRedirectListener.INTERFACE).toString();
+      if (getWebRequest() instanceof ServletWebRequest) {
+        ((ServletWebRequest)getWebRequest()).setWicketRedirectUrl(redirectUrl.replaceAll("../",""));
+      }
       final BufferedHttpServletResponse servletResponse=new BufferedHttpServletResponse(currentResponse.getHttpServletResponse());
       final WebResponse redirectResponse=new WebResponse(servletResponse){
         public CharSequence encodeURL(        CharSequence url){
@@ -23,7 +27,6 @@
         servletResponse.filter(currentResponse);
         servletResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         servletResponse.close();
-        redirectUrl=page.urlFor(IRedirectListener.INTERFACE).toString();
         int index=redirectUrl.indexOf("?");
         String sessionId=getWebRequest().getHttpServletRequest().getSession(true).getId();
         ((WebApplication)application).addBufferedResponse(sessionId,redirectUrl.substring(index + 1),servletResponse);
