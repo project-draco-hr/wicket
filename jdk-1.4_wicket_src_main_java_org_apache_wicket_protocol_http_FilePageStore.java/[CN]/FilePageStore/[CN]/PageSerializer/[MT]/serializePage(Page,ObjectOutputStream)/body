@@ -1,6 +1,7 @@
 {
   if (current.id == page.getNumericId()) {
-    return page;
+    stream.writeBoolean(false);
+    stream.defaultWriteObject();
   }
   SessionPageKey spk=new SessionPageKey(current.sessionId,page);
   if (!completed.contains(spk) && !previous.contains(spk)) {
@@ -12,5 +13,6 @@
     completed.add(current);
     current=(SessionPageKey)previous.remove(previous.size() - 1);
   }
-  return new PageHolder(page);
+  stream.writeBoolean(true);
+  stream.writeObject(new PageHolder(page));
 }

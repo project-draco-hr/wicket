@@ -8,4 +8,12 @@
     }
     pagesMap.put(id,page);
   }
+  boolean b=stream.readBoolean();
+  if (b == false) {
+    stream.defaultReadObject();
+    return page;
+  }
+ else {
+    return (Page)stream.readObject();
+  }
 }
