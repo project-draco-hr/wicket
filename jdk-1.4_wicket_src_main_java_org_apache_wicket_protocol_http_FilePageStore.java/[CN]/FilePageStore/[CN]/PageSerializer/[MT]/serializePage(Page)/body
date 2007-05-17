@@ -3,7 +3,7 @@
     return page;
   }
   SessionPageKey spk=new SessionPageKey(current.sessionId,page);
-  if (!completed.contains(spk)) {
+  if (!completed.contains(spk) && !previous.contains(spk)) {
     previous.add(current);
     current=spk;
     byte[] bytes=Objects.objectToByteArray(page);

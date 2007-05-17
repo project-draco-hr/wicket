@@ -1,3 +1,19 @@
 {
-  return Session.get().getPage(pagemap,Integer.toString(pageid),-1);
+  IntHashMap intHashMap=null;
+  Map map=(Map)restoredPages.get();
+  if (map != null) {
+    intHashMap=(IntHashMap)map.get(pagemap);
+    if (intHashMap == null) {
+      intHashMap=new IntHashMap();
+      map.put(pagemap,intHashMap);
+    }
+  }
+  Page page=(Page)intHashMap.get(pageid);
+  if (page == null) {
+    page=Session.get().getPage(pagemap,Integer.toString(pageid),-1);
+    if (page != null) {
+      intHashMap.put(pageid,page);
+    }
+  }
+  return page;
 }

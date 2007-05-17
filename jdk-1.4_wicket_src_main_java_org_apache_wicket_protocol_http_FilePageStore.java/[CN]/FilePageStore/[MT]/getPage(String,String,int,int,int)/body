@@ -3,9 +3,7 @@
   long t=System.currentTimeMillis();
   byte[] bytes=testMap(currentKey);
   if (bytes != null) {
-    Page page=(Page)Objects.byteArrayToObject(bytes);
-    page=page.getVersion(versionNumber);
-    return page;
+    return readPage(versionNumber,bytes);
   }
   File sessionDir=new File(getWorkDir(),sessionId);
   if (sessionDir.exists()) {
@@ -26,14 +24,17 @@
           pageData=new byte[length];
           bb.get(pageData);
         }
-        long t2=System.currentTimeMillis();
-        Page page=(Page)Objects.byteArrayToObject(pageData);
-        page=page.getVersion(versionNumber);
-        if (page != null && log.isDebugEnabled()) {
-          long t3=System.currentTimeMillis();
-          log.debug("restoring page " + page.getClass() + "["+ page.getNumericId()+ ","+ page.getCurrentVersionNumber()+ "] size: "+ pageData.length+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds to read in and "+ (t3 - t2)+ " miliseconds to deserialize");
+        try {
+          long t2=System.currentTimeMillis();
+          Page page=readPage(versionNumber,pageData);
+          if (page != null && log.isDebugEnabled()) {
+            long t3=System.currentTimeMillis();
+            log.debug("restoring page " + page.getClass() + "["+ page.getNumericId()+ ","+ page.getCurrentVersionNumber()+ "] size: "+ pageData.length+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds to read in and "+ (t3 - t2)+ " miliseconds to deserialize");
+          }
+          return page;
         }
-        return page;
+  finally {
+        }
       }
  catch (      Exception e) {
         log.debug("Error loading page " + id + ","+ versionNumber+ " for the sessionid "+ sessionId+ " from disk",e);

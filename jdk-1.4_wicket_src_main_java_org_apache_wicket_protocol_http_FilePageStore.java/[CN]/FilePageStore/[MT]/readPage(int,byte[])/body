@@ -1,0 +1,20 @@
+{
+  Page page;
+  Map map=null;
+  try {
+    if (restoredPages.get() == null) {
+      map=new HashMap();
+      restoredPages.set(map);
+      Page.serializer.set(new PageSerializer(null));
+    }
+    page=(Page)Objects.byteArrayToObject(bytes);
+    page=page.getVersion(versionNumber);
+  }
+  finally {
+    if (map != null) {
+      Page.serializer.set(null);
+      restoredPages.set(null);
+    }
+  }
+  return page;
+}
