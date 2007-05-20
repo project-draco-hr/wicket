@@ -14,7 +14,16 @@
     }
   }
 ;
-  add(new Loop("tabs",tabCount){
+  WebMarkupContainer tabsContainer=new WebMarkupContainer("tabs-container"){
+    private static final long serialVersionUID=1L;
+    protected void onComponentTag(    ComponentTag tag){
+      super.onComponentTag(tag);
+      tag.put("class",getTabContainerCssClass());
+    }
+  }
+;
+  add(tabsContainer);
+  tabsContainer.add(new Loop("tabs",tabCount){
     private static final long serialVersionUID=1L;
     protected void populateItem(    LoopItem item){
       final int index=item.getIteration();
