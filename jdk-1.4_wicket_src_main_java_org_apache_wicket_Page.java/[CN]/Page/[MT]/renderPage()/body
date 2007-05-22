@@ -31,8 +31,12 @@
     }
   }
 );
-  render(null);
-  afterRender();
+  try {
+    render(null);
+  }
+  finally {
+    afterRender();
+  }
   checkRendering(this);
   if (!isPageStateless()) {
     Session.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);
