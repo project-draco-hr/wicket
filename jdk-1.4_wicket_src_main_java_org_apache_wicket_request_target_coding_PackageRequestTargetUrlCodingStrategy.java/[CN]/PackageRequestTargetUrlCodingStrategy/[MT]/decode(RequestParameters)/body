@@ -21,18 +21,10 @@
   log.debug("remainder=" + remainder);
   log.debug("parametersFragment=" + parametersFragment);
   final String bookmarkablePageClassName=packageName + "." + remainder.substring(0,ix);
-  try {
-    Class bookmarkablePageClass=Session.get().getClassResolver().resolveClass(bookmarkablePageClassName);
-    PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
-    final String pageMapName=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
-    requestParameters.setPageMapName(pageMapName);
-    BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(pageMapName,bookmarkablePageClass,parameters);
-    return target;
-  }
- catch (  RuntimeException ex) {
-    if (ex.getCause() != null && ex.getCause() instanceof ClassNotFoundException) {
-      return null;
-    }
-    throw ex;
-  }
+  Class bookmarkablePageClass=Session.get().getClassResolver().resolveClass(bookmarkablePageClassName);
+  PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
+  final String pageMapName=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
+  requestParameters.setPageMapName(pageMapName);
+  BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(pageMapName,bookmarkablePageClass,parameters);
+  return target;
 }
