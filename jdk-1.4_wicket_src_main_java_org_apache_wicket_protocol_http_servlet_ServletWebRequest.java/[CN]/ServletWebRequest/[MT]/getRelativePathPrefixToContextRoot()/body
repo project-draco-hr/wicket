@@ -4,12 +4,12 @@
   }
   String tmp=getRelativePathPrefixToWicketHandler();
   PrependingStringBuffer prepender=new PrependingStringBuffer(tmp);
-  String path=getPath();
+  String path=Strings.replaceAll(getPath(),"%3A",":").toString();
   if (path == null || path.length() == 0) {
     path="";
   }
   String wicketPath="";
-  String servletPath=getServletPath();
+  String servletPath=Strings.replaceAll(getServletPath(),"%3A",":").toString();
   if (servletPath.endsWith(path)) {
     wicketPath=servletPath.substring(0,servletPath.length() - path.length() - 1);
   }
