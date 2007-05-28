@@ -5,10 +5,9 @@ synchronized (list) {
     Iterator iterator=list.iterator();
     while (iterator.hasNext()) {
       SessionPageKey key=(SessionPageKey)iterator.next();
-      if (key.sessionId == sessionId && key.id == id) {
+      if ((id == -1 || key.id == id) && Objects.equal(key.sessionId,sessionId) && Objects.equal(key.pageMap,pageMap)) {
         iterator.remove();
       }
     }
   }
-  removePage(sessionId,id);
 }
