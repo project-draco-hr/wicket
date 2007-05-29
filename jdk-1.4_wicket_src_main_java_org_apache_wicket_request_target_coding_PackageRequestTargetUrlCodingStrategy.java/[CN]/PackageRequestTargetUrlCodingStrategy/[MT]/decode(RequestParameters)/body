@@ -21,6 +21,12 @@
   PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
   final String pageMapName=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
   requestParameters.setPageMapName(pageMapName);
-  BookmarkablePageRequestTarget target=new BookmarkablePageRequestTarget(pageMapName,bookmarkablePageClass,parameters);
-  return target;
+  final String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+  if (interfaceParameter != null) {
+    WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
+    return new BookmarkableListenerInterfaceRequestTarget(pageMapName,bookmarkablePageClass,parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName());
+  }
+ else {
+    return new BookmarkablePageRequestTarget(pageMapName,bookmarkablePageClass,parameters);
+  }
 }
