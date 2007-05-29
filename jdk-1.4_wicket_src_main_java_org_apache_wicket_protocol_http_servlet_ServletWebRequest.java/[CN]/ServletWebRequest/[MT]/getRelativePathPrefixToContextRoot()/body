@@ -12,9 +12,10 @@
   String servletPath=Strings.replaceAll(getServletPath(),"%3A",":").toString();
   if (servletPath.endsWith(path)) {
     int len=servletPath.length() - path.length() - 1;
-    if (len > -1) {
-      wicketPath=servletPath.substring(0,len);
+    if (len < 0) {
+      len=0;
     }
+    wicketPath=servletPath.substring(0,len);
   }
  else {
     wicketPath=servletPath;
