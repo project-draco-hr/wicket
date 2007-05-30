@@ -2,10 +2,14 @@
   if (object == null) {
     return null;
   }
- else   if (object instanceof Throwable) {
+  if (object instanceof Throwable) {
     return toString((Throwable)object);
   }
- else {
-    return object.toString();
+  if (object instanceof String) {
+    return (String)object;
   }
+  if (object instanceof String[] && ((String[])object).length == 1) {
+    return ((String[])object)[0];
+  }
+  return object.toString();
 }
