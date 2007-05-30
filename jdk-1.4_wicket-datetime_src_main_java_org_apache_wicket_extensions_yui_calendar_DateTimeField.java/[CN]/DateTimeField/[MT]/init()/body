@@ -2,14 +2,7 @@
   setType(Date.class);
   add(dateField=DateTextField.forShortStyle("date",new PropertyModel(this,"date")));
   dateField.add(new DatePicker());
-  add(hoursField=new TextField("hours",new PropertyModel(this,"hours"){
-    private static final long serialVersionUID=1L;
-    public void setObject(    Object object){
-      int hours=((Integer)object).intValue() % 12;
-      super.setObject(new Integer(hours));
-    }
-  }
-,Integer.class));
+  add(hoursField=new TextField("hours",new PropertyModel(this,"hours"),Integer.class));
   hoursField.add(NumberValidator.range(0,12));
   hoursField.setLabel(new Model("hours"));
   add(minutesField=new TextField("minutes",new PropertyModel(this,"minutes"),Integer.class));
