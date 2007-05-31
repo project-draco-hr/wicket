@@ -2,8 +2,14 @@
   if (relativePathPrefixToWicketHandler != null) {
     return relativePathPrefixToWicketHandler;
   }
-  String relativeUrl=getPath();
   PrependingStringBuffer prepender=new PrependingStringBuffer();
+  if (isAjax()) {
+    for (int i=0; i < getRequestParameters().getUrlDepth(); i++) {
+      prepender.prepend("../");
+    }
+    return relativePathPrefixToWicketHandler=prepender.toString();
+  }
+  String relativeUrl=getPath();
   HttpServletRequest httpRequest=getHttpServletRequest();
   String errorUrl=(String)httpRequest.getAttribute("javax.servlet.error.request_uri");
   String forwardUrl=(String)httpRequest.getAttribute("javax.servlet.forward.servlet_path");
@@ -21,7 +27,7 @@
         prepender.prepend("../");
       }
     }
-    return prepender.toString();
+    return relativePathPrefixToWicketHandler=prepender.toString();
   }
   if (forwardUrl != null) {
     relativeUrl=forwardUrl.substring(relativeUrl.length() > 0 ? 1 : 0);
