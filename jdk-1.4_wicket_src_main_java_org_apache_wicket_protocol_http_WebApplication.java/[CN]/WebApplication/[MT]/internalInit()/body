@@ -4,23 +4,10 @@
   getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
   getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
   getPageSettings().addComponentResolver(new AutoLinkResolver());
-  getResourceSettings().setResourceFinder(new WebApplicationPath(getServletContext()));
-  String configuration=null;
-  try {
-    configuration=System.getProperty("wicket." + Application.CONFIGURATION);
+  getResourceSettings().setResourceFinder(getResourceFinder());
+  String resourceFolder=getInitParameter("sourceFolder");
+  if (resourceFolder != null) {
+    getResourceSettings().addResourceFolder(resourceFolder);
   }
- catch (  SecurityException e) {
-  }
-  if (configuration == null) {
-    configuration=getInitParameter(Application.CONFIGURATION);
-  }
-  if (configuration == null) {
-    configuration=getServletContext().getInitParameter(Application.CONFIGURATION);
-  }
-  if (configuration != null) {
-    configure(configuration,getInitParameter("sourceFolder"));
-  }
- else {
-    configure(Application.DEVELOPMENT,getInitParameter("sourceFolder"));
-  }
+  configure();
 }
