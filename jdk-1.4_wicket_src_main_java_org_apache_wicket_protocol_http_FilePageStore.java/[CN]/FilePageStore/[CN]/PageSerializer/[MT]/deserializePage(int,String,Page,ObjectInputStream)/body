@@ -1,13 +1,15 @@
 {
-  HashMap map=(HashMap)restoredPages.get();
-  if (map != null) {
-    IntHashMap pagesMap=(IntHashMap)map.get(name);
-    if (pagesMap == null) {
-      pagesMap=new IntHashMap();
-      map.put(name,pagesMap);
-    }
-    pagesMap.put(id,page);
+  HashMap pageMaps=(HashMap)SecondLevelCacheSessionStore.usedPages.get();
+  if (pageMaps == null) {
+    pageMaps=new HashMap();
+    SecondLevelCacheSessionStore.usedPages.set(pageMaps);
   }
+  IntHashMap pages=(IntHashMap)pageMaps.get(name);
+  if (pages == null) {
+    pages=new IntHashMap();
+    pageMaps.put(name,pages);
+  }
+  pages.put(id,page);
   boolean b=stream.readBoolean();
   if (b == false) {
     stream.defaultReadObject();

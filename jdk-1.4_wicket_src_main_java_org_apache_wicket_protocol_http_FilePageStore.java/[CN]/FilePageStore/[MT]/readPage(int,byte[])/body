@@ -1,10 +1,8 @@
 {
+  boolean set=Page.serializer.get() == null;
   Page page=null;
-  Map map=null;
   try {
-    if (restoredPages.get() == null) {
-      map=new HashMap();
-      restoredPages.set(map);
+    if (set) {
       Page.serializer.set(new PageSerializer(null));
     }
     IPageMapEntry entry=(IPageMapEntry)Objects.byteArrayToObject(bytes);
@@ -14,9 +12,8 @@
     }
   }
   finally {
-    if (map != null) {
+    if (set) {
       Page.serializer.set(null);
-      restoredPages.set(null);
     }
   }
   return page;

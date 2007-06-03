@@ -1,4 +1,16 @@
 {
+  HashMap pageMaps=(HashMap)usedPages.get();
+  if (pageMaps == null) {
+    pageMaps=new HashMap();
+    usedPages.set(pageMaps);
+  }
+  IntHashMap pages=(IntHashMap)pageMaps.get(getName());
+  if (pages == null) {
+    pages=new IntHashMap();
+    pageMaps.put(getName(),pages);
+  }
+  Page page=(Page)pages.get(id);
+  if (page != null)   return page;
   PageVersions pv=null;
   if (versionNumber == -1) {
     for (int index=pageVersions.size() - 1; index >= 0; --index) {
@@ -11,9 +23,10 @@
   }
   String sessionId=getSession().getId();
   if (lastPage != null && lastPage.getNumericId() == id) {
-    Page page=lastPage.getVersion(versionNumber);
+    page=lastPage.getVersion(versionNumber);
     if (page != null) {
       getStore().pageAccessed(sessionId,page);
+      pages.put(id,page);
       return page;
     }
   }
@@ -29,7 +42,9 @@
       ajaxVersionNumber=pv.ajaxversionid;
     }
     lastPage=null;
-    return getStore().getPage(sessionId,getName(),id,versionNumber,ajaxVersionNumber);
+    page=getStore().getPage(sessionId,getName(),id,versionNumber,ajaxVersionNumber);
+    pages.put(id,page);
+    return page;
   }
   return null;
 }
