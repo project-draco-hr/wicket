@@ -1,13 +1,13 @@
 {
   if (WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID.equals(tag.getId())) {
-    Component wc=null;
+    final Component wc;
+    String id=WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID + container.getPage().getAutoIndex();
     if (tag.isOpenClose()) {
-      wc=new WebComponent(WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID + container.getPage().getAutoIndex());
+      wc=new WebComponent(id);
     }
  else {
-      wc=new WebMarkupContainer(WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID + container.getPage().getAutoIndex());
+      wc=new WebMarkupContainer(id);
     }
-    wc.add(RELATIVE_PATH_BEHAVIOR);
     container.autoAdd(wc);
     return true;
   }
