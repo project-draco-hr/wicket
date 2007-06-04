@@ -9,5 +9,5 @@
   if (setter == null) {
     throw new WicketRuntimeException("Null object returned for expression: " + expression + " for setting value: "+ value+ " on: "+ object);
   }
-  setter.setValue(value,converter == null ? new PropertyResolverConverter(Session.get(),Session.get().getLocale()) : converter);
+  setter.setValue(value,converter == null ? new PropertyResolverConverter(Application.get().getConverterLocator(),Session.get().getLocale()) : converter);
 }
