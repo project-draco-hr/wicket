@@ -26,7 +26,7 @@
  catch (        NumberFormatException ex) {
           method=findMethod(clz,exp);
           if (method != null) {
-            getAndSetter=new MethodGetAndSet(method);
+            getAndSetter=new MethodGetAndSet(method,null);
           }
  else {
             throw new WicketRuntimeException("The expression '" + exp + "' is neither an index nor is it a method for the list "+ clz);
@@ -74,7 +74,7 @@
             }
           }
  else {
-            getAndSetter=new MethodGetAndSet(method);
+            getAndSetter=new MethodGetAndSet(method,field);
           }
         }
  else {
@@ -83,7 +83,8 @@
       }
     }
  else {
-      getAndSetter=new MethodGetAndSet(method);
+      field=findField(clz,exp);
+      getAndSetter=new MethodGetAndSet(method,field);
     }
     getAndSetters.put(exp,getAndSetter);
   }

@@ -1,0 +1,12 @@
+{
+  Address address=new Address();
+  Method method=PropertyResolver.getPropertySetter("number",address);
+  assertEquals(method.getName(),"setNumber");
+  Person person=new Person();
+  person.setAddress(new Address());
+  method=PropertyResolver.getPropertySetter("address.number",person);
+  assertEquals(method.getName(),"setNumber");
+  person.setAddressArray(new Address[]{new Address(),new Address()});
+  method=PropertyResolver.getPropertySetter("addressArray[0].number",person);
+  assertEquals(method.getName(),"setNumber");
+}
