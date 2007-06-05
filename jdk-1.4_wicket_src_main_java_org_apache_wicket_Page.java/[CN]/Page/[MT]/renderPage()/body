@@ -21,7 +21,17 @@
   if (this instanceof IFeedback) {
     ((IFeedback)this).updateFeedback();
   }
-  beforeRender();
+  try {
+    beforeRender();
+  }
+ catch (  RuntimeException e) {
+    try {
+      afterRender();
+    }
+ catch (    RuntimeException e2) {
+    }
+    throw e;
+  }
   setRenderAllowed(isActionAuthorized(RENDER));
   visitChildren(new IVisitor(){
     public Object component(    final Component component){
