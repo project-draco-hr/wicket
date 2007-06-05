@@ -1,17 +1,17 @@
 {
   if (resource == null) {
     SharedResources sharedResources=application.getSharedResources();
-    resource=sharedResources.get(scope,name,locale,style,true);
+    resource=sharedResources.get(getScope(),name,locale,style,true);
     if (resource == null) {
       resource=newResource();
       if (resource == null) {
-        resource=sharedResources.get(scope,name,locale,style,false);
+        resource=sharedResources.get(getScope(),name,locale,style,false);
         if (resource == null) {
-          PackageResource packageResource=PackageResource.get(scope,name);
+          PackageResource packageResource=PackageResource.get(getScope(),name);
           sharedResources.add(name,packageResource);
         }
       }
-      sharedResources.add(scope,name,locale,style,resource);
+      sharedResources.add(getScope(),name,locale,style,resource);
     }
   }
 }
