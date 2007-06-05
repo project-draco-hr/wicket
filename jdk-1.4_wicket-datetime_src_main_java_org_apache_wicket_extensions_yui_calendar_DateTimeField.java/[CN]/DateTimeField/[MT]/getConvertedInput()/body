@@ -1,4 +1,8 @@
 {
+  MutableDateTime date=new MutableDateTime(dateField.getConvertedInput());
+  Integer hours=(Integer)hoursField.getConvertedInput();
+  Integer minutes=(Integer)minutesField.getConvertedInput();
+  AM_PM amOrPm=(AM_PM)amOrPmChoice.getConvertedInput();
   if (date != null) {
     try {
       TimeZone zone=getClientTimeZone();
@@ -15,15 +19,12 @@
  else {
         date.set(DateTimeFieldType.halfdayOfDay(),0);
       }
-      Date d=date.toDate();
-      setModelObject(d);
+      return date.toDate();
     }
  catch (    RuntimeException e) {
       DateTimeField.this.error(e.getMessage());
       invalid();
     }
   }
- else {
-    setModelObject(null);
-  }
+  return null;
 }
