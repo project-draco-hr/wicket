@@ -1,14 +1,3 @@
 {
-  final Object modelObject=getModelObject();
-  if (modelObject != null) {
-    final IConverter converter=getConverter(modelObject.getClass());
-    final String modelString=converter.convertToString(modelObject,getLocale());
-    if (modelString != null) {
-      if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {
-        return Strings.escapeMarkup(modelString,false,true).toString();
-      }
-      return modelString;
-    }
-  }
-  return "";
+  return getModelObjectAsString(getModelObject());
 }
