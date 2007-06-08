@@ -48,6 +48,16 @@
     afterRender();
   }
   checkRendering(this);
+  if (Application.get().getDebugSettings().getComponentUseCheck()) {
+    visitChildren(new IVisitor(){
+      public Object component(      Component component){
+        component.setMetaData(Component.CONSTRUCTED_AT_KEY,null);
+        component.setMetaData(Component.ADDED_AT_KEY,null);
+        return CONTINUE_TRAVERSAL;
+      }
+    }
+);
+  }
   if (!isPageStateless()) {
     Session.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);
     getSession().touch(this);
