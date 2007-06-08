@@ -4,7 +4,18 @@
   datagrid=new DataGridView("rows",columns,dataProvider){
     private static final long serialVersionUID=1L;
     protected Item newCellItem(    String id,    int index,    IModel model){
-      return DataTable.this.newCellItem(id,index,model);
+      Item item=DataTable.this.newCellItem(id,index,model);
+      final IColumn column=DataTable.this.columns[index];
+      if (column instanceof IStyledColumn) {
+        item.add(new DataTable.CssAttributeBehavior(){
+          private static final long serialVersionUID=1L;
+          protected String getCssClass(){
+            return ((IStyledColumn)column).getCssClass();
+          }
+        }
+);
+      }
+      return item;
     }
     protected Item newRowItem(    String id,    int index,    IModel model){
       return DataTable.this.newRowItem(id,index,model);

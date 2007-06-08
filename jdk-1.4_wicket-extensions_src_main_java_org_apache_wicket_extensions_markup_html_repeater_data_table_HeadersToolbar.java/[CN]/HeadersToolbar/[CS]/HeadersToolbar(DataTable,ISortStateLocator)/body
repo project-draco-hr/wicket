@@ -14,6 +14,15 @@
  else {
       header=new WebMarkupContainer("header");
     }
+    if (column instanceof IStyledColumn) {
+      header.add(new DataTable.CssAttributeBehavior(){
+        private static final long serialVersionUID=1L;
+        protected String getCssClass(){
+          return ((IStyledColumn)column).getCssClass();
+        }
+      }
+);
+    }
     item.add(header);
     item.setRenderBodyOnly(true);
     header.add(column.getHeader("label"));
