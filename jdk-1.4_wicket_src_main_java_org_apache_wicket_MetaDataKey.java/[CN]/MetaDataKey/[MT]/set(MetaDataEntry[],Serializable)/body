@@ -5,12 +5,27 @@
     for (int i=0; i < metaData.length; i++) {
       MetaDataEntry m=metaData[i];
       if (equals(m.key)) {
-        m.object=object;
+        if (object != null) {
+          m.object=object;
+        }
+ else {
+          if (metaData.length > 1) {
+            int l=metaData.length - 1;
+            MetaDataEntry[] newMetaData=new MetaDataEntry[l];
+            System.arraycopy(metaData,0,newMetaData,0,i);
+            System.arraycopy(metaData,i + 1,newMetaData,i,l - i);
+            metaData=newMetaData;
+          }
+ else {
+            metaData=null;
+            break;
+          }
+        }
         set=true;
       }
     }
   }
-  if (!set) {
+  if (!set && object != null) {
     MetaDataEntry m=new MetaDataEntry();
     m.key=this;
     m.object=object;
