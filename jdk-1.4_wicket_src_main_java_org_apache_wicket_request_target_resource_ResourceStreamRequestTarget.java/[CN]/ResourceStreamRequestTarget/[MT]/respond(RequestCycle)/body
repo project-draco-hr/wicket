@@ -5,6 +5,6 @@
     response.write(resourceStream.getInputStream());
   }
  catch (  ResourceStreamNotFoundException e) {
-    throw new WicketRuntimeException(e);
+    requestCycle.setRequestTarget(new WebErrorCodeResponseTarget(HttpServletResponse.SC_NOT_FOUND));
   }
 }
