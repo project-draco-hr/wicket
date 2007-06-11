@@ -1,5 +1,8 @@
 {
-  if (type.isInterface()) {
+  if (type == String.class) {
+    return locator.locateProxyTarget();
+  }
+ else   if (type.isInterface()) {
     JdkHandler handler=new JdkHandler(type,locator);
     try {
       return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
