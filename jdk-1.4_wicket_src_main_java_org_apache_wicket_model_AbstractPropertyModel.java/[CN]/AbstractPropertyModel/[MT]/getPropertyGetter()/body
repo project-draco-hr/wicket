@@ -3,7 +3,11 @@
   if (Strings.isEmpty(expression) == false) {
     Object target=getTarget();
     if (target != null) {
-      return PropertyResolver.getPropertyGetter(expression,target);
+      try {
+        return PropertyResolver.getPropertyGetter(expression,target);
+      }
+ catch (      Exception ignore) {
+      }
     }
   }
   return null;
