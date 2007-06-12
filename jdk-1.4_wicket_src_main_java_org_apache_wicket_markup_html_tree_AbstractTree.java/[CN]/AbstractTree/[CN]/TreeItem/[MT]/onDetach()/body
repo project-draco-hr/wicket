@@ -4,4 +4,13 @@
   if (object instanceof IDetachable) {
     ((IDetachable)object).detach();
   }
+  if (isRenderChildren()) {
+    visitItemChildren(this,new IItemCallback(){
+      public void visitItem(      TreeItem item){
+        item.detach();
+      }
+    }
+);
+  }
+  setRenderChildren(false);
 }

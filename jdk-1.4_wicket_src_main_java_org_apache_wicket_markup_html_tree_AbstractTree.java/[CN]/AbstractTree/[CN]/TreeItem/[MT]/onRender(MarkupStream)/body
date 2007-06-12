@@ -9,18 +9,11 @@
     if (isRenderChildren()) {
       visitItemChildren(this,new IItemCallback(){
         public void visitItem(        TreeItem item){
-          try {
-            item.beforeRender();
-            markupStream.setCurrentIndex(index);
-            item.onRender(markupStream);
-          }
-  finally {
-            item.afterRender();
-          }
+          markupStream.setCurrentIndex(index);
+          item.onRender(markupStream);
         }
       }
 );
-      setRenderChildren(false);
     }
   }
 }
