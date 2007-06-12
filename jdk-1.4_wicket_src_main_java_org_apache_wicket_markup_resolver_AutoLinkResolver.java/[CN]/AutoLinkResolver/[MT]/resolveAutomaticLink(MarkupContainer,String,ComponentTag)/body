@@ -2,7 +2,9 @@
   final Page page=container.getPage();
   final String autoId=id + Integer.toString(page.getAutoIndex());
   final String tagName=tag.getName();
-  tag.setId(autoId);
+  if (tag.getId() == null) {
+    tag.setId(autoId);
+  }
   ITagReferenceResolver referenceResolver=(ITagReferenceResolver)tagNameToTagReferenceResolvers.get(tagName);
   if (referenceResolver == null) {
     referenceResolver=DEFAULT_ATTRIBUTE_RESOLVER;
