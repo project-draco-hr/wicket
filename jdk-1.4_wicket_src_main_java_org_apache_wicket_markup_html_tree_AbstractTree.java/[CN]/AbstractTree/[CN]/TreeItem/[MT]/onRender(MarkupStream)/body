@@ -9,9 +9,14 @@
     if (isRenderChildren()) {
       visitItemChildren(this,new IItemCallback(){
         public void visitItem(        TreeItem item){
-          item.beforeRender();
-          markupStream.setCurrentIndex(index);
-          item.onRender(markupStream);
+          try {
+            item.beforeRender();
+            markupStream.setCurrentIndex(index);
+            item.onRender(markupStream);
+          }
+  finally {
+            item.afterRender();
+          }
         }
       }
 );
