@@ -35,7 +35,12 @@ synchronized (requestCycle.getSession()) {
       }
     }
     if (processRequest) {
-      target=resolveRenderedPage(requestCycle,requestParameters);
+      try {
+        target=resolveRenderedPage(requestCycle,requestParameters);
+      }
+ catch (      IgnoreAjaxRequestException e) {
+        target=EmptyAjaxRequestTarget.getInstance();
+      }
     }
  else {
       throw new PageExpiredException("Request cannot be processed");
