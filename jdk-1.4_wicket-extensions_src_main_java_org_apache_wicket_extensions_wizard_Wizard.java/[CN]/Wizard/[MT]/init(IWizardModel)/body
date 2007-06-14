@@ -11,8 +11,11 @@
   form.add(newButtonBar(BUTTONS_ID));
   form.add(newOverviewBar(OVERVIEW_ID));
   wizardModel.addListener(this);
-  for (Iterator iter=wizardModel.stepIterator(); iter.hasNext(); ) {
-    ((IWizardStep)iter.next()).init(wizardModel);
+  Iterator stepsIterator=wizardModel.stepIterator();
+  if (stepsIterator != null) {
+    while (stepsIterator.hasNext()) {
+      ((IWizardStep)stepsIterator.next()).init(wizardModel);
+    }
   }
   wizardModel.reset();
 }
