@@ -1,9 +1,10 @@
 {
   final String response=getSOAPQuote(symbol);
-  int start=response.indexOf("<Result xsi:type='xsd:float'>") + 29;
-  int end=response.indexOf("</Result>");
-  if (start < 29) {
+  int start=response.indexOf("&lt;Last&gt;") + "&lt;Last&gt;".length();
+  int end=response.indexOf("&lt;/Last&gt;");
+  if (start < "&lt;Last&gt;".length()) {
     return "(unknown)";
   }
-  return response.substring(start,end);
+  String result=response.substring(start,end);
+  return result.equals("0.00") ? "(unknown)" : result;
 }
