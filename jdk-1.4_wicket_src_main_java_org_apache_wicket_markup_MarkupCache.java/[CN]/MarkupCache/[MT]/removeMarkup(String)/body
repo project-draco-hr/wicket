@@ -1,0 +1,46 @@
+{
+  if (cacheKey == null) {
+    throw new IllegalArgumentException("Parameter 'cacheKey' must not be null");
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Remove from cache: cacheKey=" + cacheKey);
+  }
+  Markup markup=(Markup)markupCache.remove(cacheKey);
+  if (markup != null) {
+    int count;
+    do {
+      count=0;
+      Iterator iter=markupCache.values().iterator();
+      while (iter.hasNext()) {
+        Markup cacheMarkup=(Markup)iter.next();
+        MarkupResourceData resourceData=cacheMarkup.getMarkupResourceData().getBaseMarkupResourceData();
+        if (resourceData != null) {
+          String baseCacheKey=resourceData.getResource().getCacheKey();
+          if (markupCache.get(baseCacheKey) == null) {
+            if (log.isDebugEnabled()) {
+              log.debug("Remove from cache: cacheKey=" + cacheMarkup.getMarkupResourceData().getResource().getCacheKey());
+            }
+            iter.remove();
+            count++;
+          }
+        }
+      }
+    }
+ while (count > 0);
+    final ModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(true);
+    if (watcher != null) {
+      Iterator iter=watcher.getEntries().iterator();
+      while (iter.hasNext()) {
+        IModifiable modifiable=(IModifiable)iter.next();
+        if (modifiable instanceof MarkupResourceStream) {
+          MarkupResourceStream resourceStream=(MarkupResourceStream)modifiable;
+          String resourceCacheKey=resourceStream.getCacheKey();
+          if (markupCache.containsKey(resourceCacheKey) == false) {
+            iter.remove();
+          }
+        }
+      }
+    }
+  }
+  return markup;
+}
