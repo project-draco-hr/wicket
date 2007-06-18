@@ -1,11 +1,10 @@
 {
-  Map getAndSetters=(Map)classesToGetAndSetters.get(clz.getName());
+  Map getAndSetters=(Map)classesToGetAndSetters.get(clz);
   if (getAndSetters == null) {
     getAndSetters=new ConcurrentHashMap(8);
-    classesToGetAndSetters.put(clz.getName(),getAndSetters);
+    classesToGetAndSetters.put(clz,getAndSetters);
   }
-  WeakReference ref=(WeakReference)getAndSetters.get(exp);
-  IGetAndSet getAndSetter=ref == null ? null : (IGetAndSet)ref.get();
+  IGetAndSet getAndSetter=(IGetAndSet)getAndSetters.get(exp);
   if (getAndSetter == null) {
     Method method=null;
     Field field=null;
@@ -87,7 +86,7 @@
       field=findField(clz,exp);
       getAndSetter=new MethodGetAndSet(method,field);
     }
-    getAndSetters.put(exp,new WeakReference(getAndSetter));
+    getAndSetters.put(exp,getAndSetter);
   }
   return getAndSetter;
 }
