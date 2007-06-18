@@ -8,5 +8,14 @@
   WebMarkupContainer link=new WebMarkupContainer("link");
   link.add(new AttributeModifier("href",true,new Model((Serializable)url)));
   add(link);
-  add(new PostBackForm("postback"));
+  add(new BrowserInfoForm("postback"){
+    private static final long serialVersionUID=1L;
+    /** 
+ * @see org.apache.wicket.markup.html.pages.BrowserInfoForm#afterSubmit()
+ */
+    protected void afterSubmit(){
+      continueToPrevious();
+    }
+  }
+);
 }
