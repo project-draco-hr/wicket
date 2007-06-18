@@ -3,13 +3,13 @@
     return null;
   }
   if ("".equals(value)) {
-    if (type == String.class) {
+    if (((Class)type.get()) == String.class) {
       return "";
     }
     return null;
   }
   try {
-    return Objects.convertValue(value,type);
+    return Objects.convertValue(value,(Class)type.get());
   }
  catch (  Exception e) {
     throw new ConversionException(e.getMessage(),e).setSourceValue(value);
