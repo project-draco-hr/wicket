@@ -5,9 +5,6 @@
     if (locator.isSingletonBean() && cache.containsKey(locator)) {
       return cache.get(locator);
     }
-    if (failFast) {
-      testLocator(locator,fieldOwner,field);
-    }
     Object proxy=LazyInitProxyFactory.createProxy(field.getType(),locator);
     if (locator.isSingletonBean()) {
       cache.put(locator,proxy);
