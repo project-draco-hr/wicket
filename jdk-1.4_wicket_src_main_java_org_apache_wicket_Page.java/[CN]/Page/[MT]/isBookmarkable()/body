@@ -1,5 +1,5 @@
 {
-  Boolean bookmarkable=(Boolean)pageClassToBookmarkableCache.get(getClass());
+  Boolean bookmarkable=(Boolean)pageClassToBookmarkableCache.get(getClass().getName());
   if (bookmarkable == null) {
     try {
       if (getClass().getConstructor(new Class[]{}) != null) {
@@ -18,7 +18,7 @@
     if (bookmarkable == null) {
       bookmarkable=Boolean.FALSE;
     }
-    pageClassToBookmarkableCache.put(getClass(),bookmarkable);
+    pageClassToBookmarkableCache.put(getClass().getName(),bookmarkable);
   }
   return bookmarkable.booleanValue();
 }
