@@ -9,18 +9,22 @@
     if (previousClassLoader != newClassLoader) {
       Thread.currentThread().setContextClassLoader(newClassLoader);
     }
-    if (filterConfig.getInitParameter(WicketFilter.FILTER_MAPPING_PARAM) == null) {
+    String filterMapping=filterConfig.getInitParameter(WicketFilter.FILTER_MAPPING_PARAM);
+    if (filterMapping == null || filterMapping.equals(WicketFilter.SERVLET_PATH_HOLDER)) {
       InputStream is=filterConfig.getServletContext().getResourceAsStream("/WEB-INF/web.xml");
       if (is != null) {
         try {
           filterPath=getFilterPath(filterConfig.getFilterName(),is);
         }
- catch (        Exception e) {
-          log.debug("Error parsing web.xml",e);
+ catch (        ServletException e) {
+          log.error("Error reading servlet/filter path from web.xml",e);
         }
-      }
-      if (filterPath == null) {
-        log.info("Unable to parse filter mapping web.xml for " + filterConfig.getFilterName() + ". "+ "Configure with init-param "+ FILTER_MAPPING_PARAM+ " if it is not \"/*\".");
+catch (        SecurityException e) {
+          log.info("Couldn't read web.xml to automatically pick up servlet/filter path: " + e.getMessage());
+        }
+        if (filterPath == null) {
+          log.info("Unable to parse filter mapping web.xml for " + filterConfig.getFilterName() + ". "+ "Configure with init-param "+ FILTER_MAPPING_PARAM+ " if it is not \"/*\".");
+        }
       }
     }
     IWebApplicationFactory factory=getApplicationFactory();

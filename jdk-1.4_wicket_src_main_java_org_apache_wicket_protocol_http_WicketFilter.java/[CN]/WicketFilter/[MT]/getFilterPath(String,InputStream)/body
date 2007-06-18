@@ -1,4 +1,7 @@
 {
+  String prefix=servletMode ? "servlet" : "filter";
+  String mapping=prefix + "-mapping";
+  String name=prefix + "-name";
   try {
     ArrayList urlPatterns=new ArrayList();
     XmlPullParser parser=new XmlPullParser();
@@ -8,7 +11,7 @@
       do {
         elem=(XmlTag)parser.nextTag();
       }
- while (elem != null && (!(elem.getName().equals("filter-mapping") && elem.isOpen())));
+ while (elem != null && (!(elem.getName().equals(mapping) && elem.isOpen())));
       if (elem == null)       break;
       String encounteredFilterName=null, urlPattern=null;
       do {
@@ -16,7 +19,7 @@
         if (elem.isOpen()) {
           parser.setPositionMarker();
         }
- else         if (elem.isClose() && elem.getName().equals("filter-name")) {
+ else         if (elem.isClose() && elem.getName().equals(name)) {
           encounteredFilterName=parser.getInputFromPositionMarker(elem.getPos()).toString();
         }
  else         if (elem.isClose() && elem.getName().equals("url-pattern")) {
@@ -26,16 +29,23 @@
  while (urlPattern == null || encounteredFilterName == null);
       if (filterName.equals(encounteredFilterName))       urlPatterns.add(urlPattern);
     }
+    String prefixUppered=Character.toUpperCase(prefix.charAt(0)) + prefix.substring(1);
     if (urlPatterns.size() == 0) {
-      throw new ServletException("Error initialising WicketFilter - you have no filter-mapping element with a url-pattern that uses filter: " + filterName);
+      throw new IllegalArgumentException("Error initialising Wicket" + prefixUppered + " - you have no <"+ mapping+ "> element with a url-pattern that uses "+ prefix+ ": "+ filterName);
     }
     String urlPattern=(String)urlPatterns.get(0);
     if (!urlPattern.startsWith("/") || !urlPattern.endsWith("*")) {
-      throw new ServletException("Filter mappings for Wicket filter must start with '/' and end with '*'.");
+      throw new IllegalArgumentException("<" + mapping + "> for Wicket"+ prefixUppered+ " \""+ filterName+ "\" must start with '/' and end with '*'.");
     }
     return urlPattern.substring(1,urlPattern.length() - 1);
   }
- catch (  Exception e) {
-    throw new ServletException("Error finding filter " + filterName + " in web.xml",e);
+ catch (  IOException e) {
+    throw new ServletException("Error finding <" + prefix + "> "+ filterName+ " in web.xml",e);
+  }
+catch (  ParseException e) {
+    throw new ServletException("Error finding <" + prefix + "> "+ filterName+ " in web.xml",e);
+  }
+catch (  ResourceStreamNotFoundException e) {
+    throw new ServletException("Error finding <" + prefix + "> "+ filterName+ " in web.xml",e);
   }
 }
