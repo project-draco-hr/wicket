@@ -21,6 +21,9 @@
         ++i;
         continue;
       }
+ else       if (c == '/') {
+        state=REG_EXP;
+      }
  else       if (Character.isWhitespace(c) && Character.isWhitespace(next)) {
         state=WHITE_SPACE;
         c='\n';
@@ -56,6 +59,13 @@
     }
     if (state == STRING_DOUBLE_QUOTES) {
       if (c == '"' && prev != '\\') {
+        state=REGULAR_TEXT;
+      }
+      result.append(c);
+      continue;
+    }
+    if (state == REG_EXP) {
+      if (c == '/' && prev != '\\') {
         state=REGULAR_TEXT;
       }
       result.append(c);
