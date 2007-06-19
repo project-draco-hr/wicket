@@ -1,13 +1,13 @@
 {
   super(id,Date.class);
-  this.dateFormat=new SimpleDateFormat(datePattern);
+  this.datePattern=datePattern;
   this.converter=new DateConverter(){
     private static final long serialVersionUID=1L;
     /** 
  * @see org.apache.wicket.util.convert.converters.DateConverter#getDateFormat(java.util.Locale)
  */
     public DateFormat getDateFormat(    Locale locale){
-      return dateFormat;
+      return new SimpleDateFormat(DateTextField.this.datePattern);
     }
   }
 ;
