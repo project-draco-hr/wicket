@@ -22,7 +22,19 @@
         continue;
       }
  else       if (c == '/') {
-        state=POSSIBLE_REG_EXP;
+        int idx=i - 1;
+        while (idx > 0) {
+          char tmp=original.charAt(idx);
+          if (Character.isWhitespace(tmp)) {
+            idx--;
+            continue;
+          }
+          if (tmp == '=' || tmp == '(') {
+            state=REG_EXP;
+            break;
+          }
+          break;
+        }
       }
  else       if (Character.isWhitespace(c) && Character.isWhitespace(next)) {
         state=WHITE_SPACE;
@@ -64,11 +76,8 @@
       result.append(c);
       continue;
     }
-    if (state == POSSIBLE_REG_EXP) {
+    if (state == REG_EXP) {
       if (c == '/' && prev != '\\') {
-        state=REGULAR_TEXT;
-      }
-      if (c == '\r' || c == '\n') {
         state=REGULAR_TEXT;
       }
       result.append(c);
