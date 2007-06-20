@@ -1,4 +1,11 @@
 {
   GuiceInjectorHolder holder=(GuiceInjectorHolder)Application.get().getMetaData(GuiceInjectorHolder.INJECTOR_KEY);
-  return holder.getInjector().getInstance(Classes.resolveClass(typeName));
+  final Key<?> key;
+  if (bindingAnnotation == null) {
+    key=Key.get(Classes.resolveClass(typeName));
+  }
+ else {
+    key=Key.get(Classes.resolveClass(typeName),bindingAnnotation);
+  }
+  return holder.getInjector().getInstance(key);
 }

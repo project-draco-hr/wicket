@@ -1,0 +1,12 @@
+{
+  Annotation bindingAnnotation=null;
+  for (int i=0; i < annotations.length; i++) {
+    if (annotations[i].annotationType().getAnnotation(BindingAnnotation.class) != null) {
+      if (bindingAnnotation != null) {
+        throw new MoreThanOneBindingException();
+      }
+      bindingAnnotation=annotations[i];
+    }
+  }
+  return bindingAnnotation;
+}
