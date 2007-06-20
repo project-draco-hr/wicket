@@ -1,0 +1,22 @@
+{
+  Class<?> current=component.getClass();
+  do {
+    Field[] currentFields=current.getDeclaredFields();
+    for (    final Field field : currentFields) {
+      if (field.getAnnotation(Inject.class) != null) {
+        Object proxy=LazyInitProxyFactory.createProxy(field.getType(),new GuiceProxyTargetLocator(field.getType()));
+        try {
+          if (!field.isAccessible()) {
+            field.setAccessible(true);
+          }
+          field.set(component,proxy);
+        }
+ catch (        IllegalAccessException e) {
+          throw new WicketRuntimeException("Error Guice-injecting field " + field.getName() + " in "+ component,e);
+        }
+      }
+    }
+    current=current.getSuperclass();
+  }
+ while (current != null && current != Component.class);
+}

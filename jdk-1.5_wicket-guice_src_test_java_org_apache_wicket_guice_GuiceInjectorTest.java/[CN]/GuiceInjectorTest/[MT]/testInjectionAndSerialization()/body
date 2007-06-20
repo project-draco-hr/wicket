@@ -1,0 +1,28 @@
+{
+  MockWebApplication mockApp=new MockWebApplication(new WebApplication(){
+    @Override protected void outputDevelopmentModeWarning(){
+    }
+    @Override public Class<WebPage> getHomePage(){
+      return null;
+    }
+  }
+,null);
+  Application app=mockApp.getApplication();
+  try {
+    Application.set(app);
+    GuiceComponentInjector injector=new GuiceComponentInjector(app,new Module(){
+      public void configure(      Binder binder){
+        binder.bind(ITestService.class).to(TestService.class);
+      }
+    }
+);
+    app.addComponentInstantiationListener(injector);
+    TestComponent testComponent=new TestComponent("id");
+    assertEquals(ITestService.EXPECTED_RESULT,testComponent.getTestService().getString());
+    TestComponent copiedComponent=(TestComponent)Objects.cloneObject(testComponent);
+    assertEquals(ITestService.EXPECTED_RESULT,copiedComponent.getTestService().getString());
+  }
+  finally {
+    Application.unset();
+  }
+}
