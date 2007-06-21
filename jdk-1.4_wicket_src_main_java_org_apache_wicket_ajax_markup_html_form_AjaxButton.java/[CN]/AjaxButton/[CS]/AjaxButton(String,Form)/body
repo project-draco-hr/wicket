@@ -1,0 +1,20 @@
+{
+  super(id);
+  this.form=form;
+  add(new AjaxFormSubmitBehavior(form,"onclick"){
+    private static final long serialVersionUID=1L;
+    protected void onSubmit(    AjaxRequestTarget target){
+      AjaxButton.this.onSubmit(target,form);
+    }
+    protected void onError(    AjaxRequestTarget target){
+      AjaxButton.this.onError(target,form);
+    }
+    protected CharSequence getEventHandler(){
+      return new AppendingStringBuffer(super.getEventHandler()).append("; return false;");
+    }
+    protected IAjaxCallDecorator getAjaxCallDecorator(){
+      return AjaxButton.this.getAjaxCallDecorator();
+    }
+  }
+);
+}
