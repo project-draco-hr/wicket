@@ -3,10 +3,8 @@
   if (clazz == null) {
     containerClass=container.getClass();
   }
- else {
-    if (!clazz.isAssignableFrom(container.getClass())) {
-      throw new WicketRuntimeException("Parameter clazz must be an instance of " + container.getClass().getName() + ", but is a "+ clazz.getName());
-    }
+ else   if (!clazz.isAssignableFrom(container.getClass())) {
+    throw new WicketRuntimeException("Parameter clazz must be an instance of " + container.getClass().getName() + ", but is a "+ clazz.getName());
   }
   final String cacheKey=getMarkupCacheKeyProvider(container).getCacheKey(container,clazz);
   Markup markup=(enforceReload == false ? getMarkupFromCache(cacheKey,container) : null);
