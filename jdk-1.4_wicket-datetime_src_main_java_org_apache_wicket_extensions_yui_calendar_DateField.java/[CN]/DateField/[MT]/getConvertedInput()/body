@@ -1,3 +1,7 @@
 {
-  return dateField.getConvertedInput();
+  Object input=dateField.getConvertedInput();
+  if (input != null && getDiscardTime()) {
+    input=new DateTime(input).toDateMidnight().toDate();
+  }
+  return input;
 }
