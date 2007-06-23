@@ -3,10 +3,13 @@
   final IValidatable validatable=new ValidatableAdapter();
   int i=0;
   IValidator validator=null;
+  boolean isNull=getConvertedInput() == null;
   try {
     for (i=0; i < size; i++) {
       validator=validators_get(i);
-      validator.validate(validatable);
+      if (isNull == false || validator instanceof INullAcceptingValidator) {
+        validator.validate(validatable);
+      }
       if (!isValid()) {
         break;
       }
