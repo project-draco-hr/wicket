@@ -11,7 +11,13 @@
   assertTrue(group3.getModelObject() == list);
   RequestCycle cycle=tester.createRequestCycle();
   MockPage page=new MockPage();
-  final Form form=new Form("form",new CompoundPropertyModel(modelObject));
+  final Form form=new Form("form",new CompoundPropertyModel(modelObject)){
+    private static final long serialVersionUID=1L;
+    public String getMarkupId(){
+      return "foo";
+    }
+  }
+;
   final CheckGroup group=new CheckGroup("prop1");
   final WebMarkupContainer container=new WebMarkupContainer("container");
   final Check choice1=new Check("check1",new Model(check1));
