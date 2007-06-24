@@ -4,7 +4,7 @@
   }
  else {
     IConverter converter=component.getConverter(DateTime.class);
-    if (converter == null) {
+    if (!(converter instanceof DateConverter)) {
       converter=component.getConverter(Date.class);
     }
     return ((SimpleDateFormat)((DateConverter)converter).getDateFormat(component.getLocale())).toPattern();
