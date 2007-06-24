@@ -4,7 +4,13 @@
   Model model=new Model();
   RequestCycle cycle=tester.createRequestCycle();
   MockPage page=new MockPage();
-  final Form form=new Form("form",new CompoundPropertyModel(modelObject));
+  final Form form=new Form("form",new CompoundPropertyModel(modelObject)){
+    private static final long serialVersionUID=1L;
+    public String getMarkupId(){
+      return "foo";
+    }
+  }
+;
   final RadioGroup group=new RadioGroup("prop1");
   final WebMarkupContainer container=new WebMarkupContainer("container");
   final Radio choice1=new Radio("radio1",new Model(radio1));
