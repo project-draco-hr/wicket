@@ -4,11 +4,7 @@
     final StringResponse response=new StringResponse();
     this.getRequestCycle().setResponse(response);
     super.onComponentTagBody(markupStream,openTag);
-    MarkupContainer parent=getParent();
-    while ((parent instanceof Border)) {
-      parent=parent.getParent();
-    }
-    renderHeaderSections(parent,this);
+    renderHeaderSections(getPage(),this);
     CharSequence output=response.getBuffer();
     if (output.length() > 0) {
       if (output.charAt(0) == '\r') {
