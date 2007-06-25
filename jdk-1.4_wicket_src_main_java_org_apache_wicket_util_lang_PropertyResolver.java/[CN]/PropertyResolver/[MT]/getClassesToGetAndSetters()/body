@@ -1,3 +1,8 @@
 {
-  return (Map)applicationToClassesToGetAndSetters.get(Application.get());
+  Application app=Application.get();
+  Map result=(Map)applicationToClassesToGetAndSetters.get(Application.get());
+  if (result == null) {
+    applicationToClassesToGetAndSetters.put(app,result=new ConcurrentHashMap(64));
+  }
+  return result;
 }
