@@ -15,7 +15,7 @@
       if (!(formComponent instanceof Button) && !(formComponent instanceof RadioGroup) && !(formComponent instanceof CheckGroup)) {
         String name=formComponent.getInputName();
         String value=formComponent.getValue();
-        getServletRequest().setParameter(name,value);
+        if (getServletRequest().getParameterMap().get(name) == null)         getServletRequest().setParameter(name,value);
       }
     }
   }

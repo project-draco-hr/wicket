@@ -5,7 +5,8 @@
   parametersForNextRequest.clear();
   this.wicketRequest=this.application.newWebRequest(servletRequest);
   this.wicketResponse=this.application.newWebResponse(servletResponse);
-  createRequestCycle();
+  WebRequestCycle requestCycle=createRequestCycle();
   this.application.getSessionStore().bind(wicketRequest,wicketSession);
   wicketResponse.setAjax(wicketRequest.isAjax());
+  return requestCycle;
 }

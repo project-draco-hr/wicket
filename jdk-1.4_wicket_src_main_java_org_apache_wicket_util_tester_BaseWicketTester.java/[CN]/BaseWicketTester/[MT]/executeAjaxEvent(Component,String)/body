@@ -16,12 +16,13 @@
   }
   failMessage="No AjaxEventBehavior found on component: " + component.getId() + " which matches the event: "+ event.toString();
   notNull(failMessage,ajaxEventBehavior);
-  setupRequestAndResponse();
-  RequestCycle requestCycle=createRequestCycle();
+  WebRequestCycle requestCycle;
+  if (RequestCycle.get() == null)   requestCycle=setupRequestAndResponse();
+ else   requestCycle=(WebRequestCycle)RequestCycle.get();
   if (ajaxEventBehavior instanceof AjaxFormSubmitBehavior) {
     AjaxFormSubmitBehavior ajaxFormSubmitBehavior=(AjaxFormSubmitBehavior)ajaxEventBehavior;
     submitAjaxFormSubmitBehavior(ajaxFormSubmitBehavior);
   }
   ajaxEventBehavior.onRequest();
-  requestCycle.getRequestTarget().respond(requestCycle);
+  processRequestCycle(requestCycle);
 }

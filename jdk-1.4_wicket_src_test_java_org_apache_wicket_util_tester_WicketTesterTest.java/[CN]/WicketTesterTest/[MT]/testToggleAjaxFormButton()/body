@@ -1,0 +1,16 @@
+{
+  tester.startPage(new MockAjaxFormPage());
+  Button submit=getSubmitButton();
+  assertFalse(submit.isEnabled());
+  FormTester form=tester.newFormTester("form");
+  tester.setupRequestAndResponse();
+  form.setValue("text","XX");
+  setTextFieldAndAssertSubmit(false);
+  Session.get().cleanupFeedbackMessages();
+  tester.setupRequestAndResponse();
+  form.setValue("text","XXXYYYXXX");
+  setTextFieldAndAssertSubmit(true);
+  tester.setupRequestAndResponse();
+  form.setValue("text","");
+  setTextFieldAndAssertSubmit(false);
+}
