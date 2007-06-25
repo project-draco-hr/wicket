@@ -10,7 +10,16 @@
     String value=getConverter(displayClass).convertToString(displayValue,getLocale());
     value=getLocalizer().getString(id + "." + value,this,value);
     buffer.append(JavascriptUtils.SCRIPT_OPEN_TAG + "if (typeof(Wicket) != \"undefined\" && typeof(Wicket.Form) != \"undefined\")" + "    Wicket.Form.excludeFromAjaxSerialization."+ this.getMarkupId()+ "='true';"+ JavascriptUtils.SCRIPT_CLOSE_TAG);
-    buffer.append("\n<option value=\"").append(id).append("\">").append(value).append("</option>");
+    buffer.append("\n<option value=\"").append(id).append("\"");
+    HashMap additionalAttributesMap=getAdditionalAttributes(choice);
+    if (additionalAttributesMap != null) {
+      Iterator iter=additionalAttributesMap.keySet().iterator();
+      while (iter.hasNext()) {
+        String next=(String)iter.next();
+        buffer.append(" " + next.toString() + "=\""+ additionalAttributesMap.get(next).toString()+ "\"");
+      }
+    }
+    buffer.append(">").append(value).append("</option>");
   }
   buffer.append("\n");
   replaceComponentTagBody(markupStream,openTag,buffer);
