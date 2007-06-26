@@ -1,10 +1,6 @@
 {
   if (sessionAttributePrefix == null) {
-    String servletPath=request.getServletPath();
-    if (servletPath == null) {
-      throw new WicketRuntimeException("unable to retrieve servlet path");
-    }
-    sessionAttributePrefix="wicket:" + servletPath + ":";
+    sessionAttributePrefix="wicket:" + getWicketFilter().getFilterConfig().getFilterName() + ":";
   }
   return sessionAttributePrefix;
 }
