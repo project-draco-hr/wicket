@@ -1,8 +1,5 @@
 {
-  Object bean=beans.get(name);
-  if (bean == null) {
-    throw new NoSuchBeanDefinitionException(requiredType,name);
-  }
+  Object bean=getBean(name);
   if (!(requiredType.isAssignableFrom(bean.getClass()))) {
     throw new BeanNotOfRequiredTypeException(name,requiredType,bean.getClass());
   }
