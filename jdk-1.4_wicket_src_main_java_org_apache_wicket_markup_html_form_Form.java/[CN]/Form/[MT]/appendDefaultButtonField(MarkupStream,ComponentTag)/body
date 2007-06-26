@@ -1,12 +1,11 @@
 {
-  String nameAndId=getHiddenFieldId();
   AppendingStringBuffer buffer=new AppendingStringBuffer();
-  String value=defaultButton.getModelObjectAsString();
-  if (value == null || "".equals(value)) {
-    value=defaultButton.getMarkupAttributes().getString("value");
-  }
-  buffer.append("<input type=\"submit\" value=\"").append(value).append("\" name=\"").append(defaultButton.getInputName()).append("\"");
-  buffer.append("style=\"width: 0px; height: 0px; position: absolute; left:-100px;\"");
+  buffer.append("<div style=\"width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden\"");
+  buffer.append("<input type=\"text\" autocomplete=\"false\"/>");
+  buffer.append("<input type=\"submit\" onclick=\" var b=Wicket.$('");
+  buffer.append(defaultButton.getMarkupId());
+  buffer.append("'); if (typeof(b.onclick) != 'undefined') {  var r = b.onclick.bind(this)(); if (r != false) b.click(); } else { b.click(); };  return false;\" ");
   buffer.append(" />");
+  buffer.append("</div>");
   getResponse().write(buffer);
 }
