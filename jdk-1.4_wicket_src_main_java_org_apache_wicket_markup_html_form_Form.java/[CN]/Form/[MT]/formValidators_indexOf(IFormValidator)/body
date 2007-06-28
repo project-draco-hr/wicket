@@ -1,0 +1,20 @@
+{
+  if (formValidators != null) {
+    if (formValidators instanceof IFormValidator) {
+      final IFormValidator v=(IFormValidator)formValidators;
+      if (v == validator || v.equals(validator)) {
+        return 0;
+      }
+    }
+ else {
+      final IFormValidator[] validators=(IFormValidator[])formValidators;
+      for (int i=0; i < validators.length; i++) {
+        final IFormValidator v=validators[i];
+        if (v == validator || v.equals(validator)) {
+          return i;
+        }
+      }
+    }
+  }
+  return -1;
+}

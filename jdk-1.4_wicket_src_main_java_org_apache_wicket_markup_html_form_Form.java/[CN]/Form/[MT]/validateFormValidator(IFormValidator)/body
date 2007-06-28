@@ -11,6 +11,13 @@
         validate=false;
         break;
       }
+ else       if (!isFormComponentVisibleInPage(dependent)) {
+        if (log.isWarnEnabled()) {
+          log.warn("IFormValidator in form `" + getPageRelativePath() + "` depends on a component that has been removed from the page or is no longer visible. "+ "Offending component id `"+ dependent.getId()+ "`.");
+        }
+        validate=false;
+        break;
+      }
     }
   }
   if (validate) {
