@@ -7,13 +7,16 @@
   if ((classname == null) || (classname.trim().length() == 0)) {
     throw new MarkupException("Tag <wicket:component> must have attribute 'class'");
   }
-  final Class componentClass=container.getSession().getClassResolver().resolveClass(classname);
   final Component component;
   try {
+    final Class componentClass=container.getSession().getClassResolver().resolveClass(classname);
     final Constructor constructor=componentClass.getConstructor(new Class[]{String.class});
     component=(Component)constructor.newInstance(new Object[]{componentId});
   }
- catch (  NoSuchMethodException e) {
+ catch (  ClassNotFoundException e) {
+    throw new MarkupException("Unable to create Component from wicket tag: Cause: " + e.getMessage());
+  }
+catch (  NoSuchMethodException e) {
     throw new MarkupException("Unable to create Component from wicket tag: Cause: " + e.getMessage());
   }
 catch (  InvocationTargetException e) {

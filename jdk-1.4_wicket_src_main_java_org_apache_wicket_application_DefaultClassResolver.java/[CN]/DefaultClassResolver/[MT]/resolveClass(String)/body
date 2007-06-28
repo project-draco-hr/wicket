@@ -1,49 +1,44 @@
 {
-  try {
-    Class clazz=null;
-    WeakReference ref=(WeakReference)classes.get(classname);
-    if (ref != null) {
-      clazz=(Class)ref.get();
-    }
-    if (clazz == null) {
+  Class clazz=null;
+  WeakReference ref=(WeakReference)classes.get(classname);
+  if (ref != null) {
+    clazz=(Class)ref.get();
+  }
+  if (clazz == null) {
 synchronized (classes) {
-        if (classname.equals("byte")) {
-          clazz=byte.class;
-        }
- else         if (classname.equals("short")) {
-          clazz=short.class;
-        }
- else         if (classname.equals("int")) {
-          clazz=int.class;
-        }
- else         if (classname.equals("long")) {
-          clazz=long.class;
-        }
- else         if (classname.equals("float")) {
-          clazz=float.class;
-        }
- else         if (classname.equals("double")) {
-          clazz=double.class;
-        }
- else         if (classname.equals("boolean")) {
-          clazz=boolean.class;
-        }
- else         if (classname.equals("char")) {
-          clazz=char.class;
-        }
- else {
-          ClassLoader loader=Thread.currentThread().getContextClassLoader();
-          if (loader == null) {
-            loader=DefaultClassResolver.class.getClassLoader();
-          }
-          clazz=loader.loadClass(classname);
-        }
-        classes.put(classname,new WeakReference(clazz));
+      if (classname.equals("byte")) {
+        clazz=byte.class;
       }
+ else       if (classname.equals("short")) {
+        clazz=short.class;
+      }
+ else       if (classname.equals("int")) {
+        clazz=int.class;
+      }
+ else       if (classname.equals("long")) {
+        clazz=long.class;
+      }
+ else       if (classname.equals("float")) {
+        clazz=float.class;
+      }
+ else       if (classname.equals("double")) {
+        clazz=double.class;
+      }
+ else       if (classname.equals("boolean")) {
+        clazz=boolean.class;
+      }
+ else       if (classname.equals("char")) {
+        clazz=char.class;
+      }
+ else {
+        ClassLoader loader=Thread.currentThread().getContextClassLoader();
+        if (loader == null) {
+          loader=DefaultClassResolver.class.getClassLoader();
+        }
+        clazz=loader.loadClass(classname);
+      }
+      classes.put(classname,new WeakReference(clazz));
     }
-    return clazz;
   }
- catch (  ClassNotFoundException ex) {
-    throw new WicketRuntimeException("Unable to load class with name: " + classname,ex);
-  }
+  return clazz;
 }
