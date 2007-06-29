@@ -1,0 +1,20 @@
+{
+  super(id,model);
+  mForm=form;
+  add(new AjaxFormSubmitBehavior(form,"onclick"){
+    private static final long serialVersionUID=1L;
+    protected void onSubmit(    AjaxRequestTarget target){
+      AjaxFallbackButton.this.onSubmit(target,mForm);
+    }
+    protected void onError(    AjaxRequestTarget target){
+      AjaxFallbackButton.this.onError(target,mForm);
+    }
+    protected CharSequence getEventHandler(){
+      return new AppendingStringBuffer(super.getEventHandler()).append("; return false;");
+    }
+    protected IAjaxCallDecorator getAjaxCallDecorator(){
+      return AjaxFallbackButton.this.getAjaxCallDecorator();
+    }
+  }
+);
+}
