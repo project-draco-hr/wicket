@@ -1,7 +1,7 @@
 {
   while (this.hasMore()) {
-    final MarkupElement thisElement=this.next();
-    final MarkupElement thatElement=that.next();
+    final MarkupElement thisElement=this.get();
+    final MarkupElement thatElement=that.get();
     if (thisElement != null && thatElement != null) {
       if (!thisElement.equalTo(thatElement)) {
         return false;
@@ -12,6 +12,8 @@
         return false;
       }
     }
+    this.next();
+    that.next();
   }
   if (!that.hasMore()) {
     return true;
