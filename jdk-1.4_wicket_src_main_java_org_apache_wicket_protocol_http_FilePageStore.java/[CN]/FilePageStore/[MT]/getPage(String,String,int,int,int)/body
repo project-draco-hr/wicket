@@ -1,54 +1,21 @@
 {
   SessionPageKey currentKey=new SessionPageKey(sessionId,id,versionNumber,ajaxVersionNumber,pagemapName,null);
-  long t=System.currentTimeMillis();
+  long t1=System.currentTimeMillis();
   byte[] bytes=testMap(currentKey);
   if (bytes != null) {
     return readPage(versionNumber,bytes);
   }
-  File sessionDir=new File(getWorkDir(),sessionId);
-  if (sessionDir.exists()) {
-    File pageFile=getPageFile(currentKey,sessionDir);
-    if (pageFile.exists()) {
-      long t1=System.currentTimeMillis();
-      FileInputStream fis=null;
-      try {
-        byte[] pageData=null;
-        fis=new FileInputStream(pageFile);
-        int length=(int)pageFile.length();
-        ByteBuffer bb=ByteBuffer.allocate(length);
-        fis.getChannel().read(bb);
-        if (bb.hasArray()) {
-          pageData=bb.array();
-        }
- else {
-          pageData=new byte[length];
-          bb.get(pageData);
-        }
-        try {
-          long t2=System.currentTimeMillis();
-          Page page=readPage(versionNumber,pageData);
-          if (page != null && log.isDebugEnabled()) {
-            long t3=System.currentTimeMillis();
-            log.debug("restoring page " + page.getClass() + "["+ page.getNumericId()+ ","+ page.getCurrentVersionNumber()+ "] size: "+ pageData.length+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds to read in and "+ (t3 - t2)+ " miliseconds to deserialize");
-          }
-          return page;
-        }
-  finally {
-        }
-      }
- catch (      Exception e) {
-        log.debug("Error loading page " + id + ","+ versionNumber+ " for the sessionid "+ sessionId+ " from disk",e);
-      }
- finally {
-        try {
-          if (fis != null) {
-            fis.close();
-          }
-        }
- catch (        IOException ex) {
-        }
-      }
+  long t2=System.currentTimeMillis();
+  byte pageData[]=loadPage(currentKey);
+  if (pageData != null) {
+    Page page=readPage(versionNumber,pageData);
+    if (page != null && log.isDebugEnabled()) {
+      long t3=System.currentTimeMillis();
+      log.debug("restoring page " + page.getClass() + "["+ page.getNumericId()+ ","+ page.getCurrentVersionNumber()+ "] size: "+ pageData.length+ " for session "+ sessionId+ " took "+ (t2 - t1)+ " miliseconds to read in and "+ (t3 - t2)+ " miliseconds to deserialize");
     }
+    return page;
   }
-  return null;
+ else {
+    return null;
+  }
 }

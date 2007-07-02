@@ -1,0 +1,26 @@
+{
+  File sessionDir=new File(getWorkDir(),key.sessionId);
+  sessionDir.mkdirs();
+  File pageFile=getPageFile(key,sessionDir);
+  FileOutputStream fos=null;
+  int length=0;
+  try {
+    fos=new FileOutputStream(pageFile);
+    ByteBuffer bb=ByteBuffer.wrap(bytes);
+    fos.getChannel().write(bb);
+    length=bytes.length;
+  }
+ catch (  Exception e) {
+    log.error("Error saving page " + key.pageClassName + " ["+ key.id+ ","+ key.versionNumber+ "] for the sessionid "+ key.sessionId);
+  }
+ finally {
+    try {
+      if (fos != null) {
+        fos.close();
+      }
+    }
+ catch (    IOException ex) {
+    }
+  }
+  return length;
+}

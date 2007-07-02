@@ -1,28 +1,6 @@
 {
-  File sessionDir=new File(getWorkDir(),key.sessionId);
-  sessionDir.mkdirs();
-  File pageFile=getPageFile(key,sessionDir);
-  FileOutputStream fos=null;
   long t1=System.currentTimeMillis();
-  int length=0;
-  try {
-    fos=new FileOutputStream(pageFile);
-    ByteBuffer bb=ByteBuffer.wrap(bytes);
-    fos.getChannel().write(bb);
-    length=bytes.length;
-  }
- catch (  Exception e) {
-    log.error("Error saving page " + key.pageClassName + " ["+ key.id+ ","+ key.versionNumber+ "] for the sessionid "+ key.sessionId);
-  }
- finally {
-    try {
-      if (fos != null) {
-        fos.close();
-      }
-    }
- catch (    IOException ex) {
-    }
-  }
+  long length=FilePageStore.this.savePage(key,bytes);
   long t3=System.currentTimeMillis();
   if (log.isDebugEnabled()) {
     log.debug("storing page " + key.pageClassName + "["+ key.id+ ","+ key.versionNumber+ "] size: "+ length+ " for session "+ key.sessionId+ " took "+ (t3 - t1)+ " miliseconds to save");
