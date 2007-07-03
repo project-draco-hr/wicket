@@ -26,6 +26,9 @@
         servletResponse.filter(currentResponse);
         servletResponse.setCharacterEncoding(currentResponse.getCharacterEncoding());
         servletResponse.close();
+        if (getWebRequest() instanceof ServletWebRequest) {
+          ((ServletWebRequest)getWebRequest()).setWicketRedirectUrl(null);
+        }
         redirectUrl=page.urlFor(IRedirectListener.INTERFACE).toString();
         int index=redirectUrl.indexOf("?");
         String sessionId=getApplication().getSessionStore().getSessionId(request,true);
