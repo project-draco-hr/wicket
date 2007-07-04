@@ -2,4 +2,7 @@
   if (model != null) {
     model.detach();
   }
+  if (model instanceof IWrapModel && !getFlag(FLAG_INHERITABLE_MODEL)) {
+    ((IWrapModel)model).getWrappedModel().detach();
+  }
 }
