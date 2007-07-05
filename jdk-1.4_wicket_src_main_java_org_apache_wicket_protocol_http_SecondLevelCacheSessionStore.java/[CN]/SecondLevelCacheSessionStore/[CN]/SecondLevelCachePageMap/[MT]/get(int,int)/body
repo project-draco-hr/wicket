@@ -13,13 +13,7 @@
   if (page != null)   return page;
   PageVersions pv=null;
   if (versionNumber == -1) {
-    for (int index=pageVersions.size() - 1; index >= 0; --index) {
-      if (((PageVersions)pageVersions.get(index)).pageid == id) {
-        pv=(PageVersions)pageVersions.get(index);
-        versionNumber=pv.versionid;
-        break;
-      }
-    }
+    versionNumber=getLastPageVersion(id);
   }
   String sessionId=getSession().getId();
   if (lastPage != null && lastPage.getNumericId() == id) {
