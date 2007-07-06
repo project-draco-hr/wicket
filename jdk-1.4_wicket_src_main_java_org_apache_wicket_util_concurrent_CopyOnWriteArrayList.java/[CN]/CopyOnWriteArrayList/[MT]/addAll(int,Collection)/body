@@ -1,14 +1,22 @@
 {
   int len=array_.length;
-  if (index > len || index < 0)   throw new IndexOutOfBoundsException("Index: " + index + ", Size: "+ len);
+  if (index > len || index < 0) {
+    throw new IndexOutOfBoundsException("Index: " + index + ", Size: "+ len);
+  }
   int numNew=c.size();
-  if (numNew == 0)   return false;
+  if (numNew == 0) {
+    return false;
+  }
   Object[] newArray=new Object[len + numNew];
   System.arraycopy(array_,0,newArray,0,len);
   int numMoved=len - index;
-  if (numMoved > 0)   System.arraycopy(array_,index,newArray,index + numNew,numMoved);
+  if (numMoved > 0) {
+    System.arraycopy(array_,index,newArray,index + numNew,numMoved);
+  }
   Iterator e=c.iterator();
-  for (int i=0; i < numNew; i++)   newArray[index++]=e.next();
+  for (int i=0; i < numNew; i++) {
+    newArray[index++]=e.next();
+  }
   array_=newArray;
   return true;
 }

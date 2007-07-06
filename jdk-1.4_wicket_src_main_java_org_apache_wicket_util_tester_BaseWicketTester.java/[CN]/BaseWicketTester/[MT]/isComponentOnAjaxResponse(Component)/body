@@ -5,11 +5,15 @@
   failMessage="The Previous response was not an AJAX response. " + "You need to execute an AJAX event, using clickLink, before using this assert";
   boolean isAjaxResponse=ajaxResponse.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?><ajax-response>");
   Result result=isTrue(failMessage,isAjaxResponse);
-  if (result.wasFailed())   return result;
+  if (result.wasFailed()) {
+    return result;
+  }
   String markupId=component.getMarkupId();
   failMessage="The component doesn't have a markup id, " + "which means that it can't have been added to the AJAX response";
   result=isTrue(failMessage,!Strings.isEmpty(markupId));
-  if (result.wasFailed())   return result;
+  if (result.wasFailed()) {
+    return result;
+  }
   boolean isComponentInAjaxResponse=ajaxResponse.matches(".*<component id=\"" + markupId + "\" ?>.*");
   failMessage="Component wasn't found in the AJAX response";
   return isTrue(failMessage,isComponentInAjaxResponse);

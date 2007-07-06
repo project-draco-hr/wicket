@@ -37,8 +37,12 @@
     }
  catch (    RuntimeException ex) {
       setResponse(currentResponse);
-      if (ex instanceof AbortException)       throw ex;
-      if (!(ex instanceof PageExpiredException))       logRuntimeException(ex);
+      if (ex instanceof AbortException) {
+        throw ex;
+      }
+      if (!(ex instanceof PageExpiredException)) {
+        logRuntimeException(ex);
+      }
       IRequestCycleProcessor processor=getProcessor();
       processor.respond(ex,this);
       return;
