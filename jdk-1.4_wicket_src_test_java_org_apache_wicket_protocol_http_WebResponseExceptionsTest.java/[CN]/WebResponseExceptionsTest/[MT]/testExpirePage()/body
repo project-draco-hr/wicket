@@ -5,7 +5,7 @@
   tester.getWicketSession().invalidateNow();
   String callbackUrl=((AjaxEventBehavior)link.getBehaviors().get(0)).getCallbackUrl().toString();
   tester.setupRequestAndResponse();
-  ((MockHttpServletRequest)tester.getServletRequest()).addHeader("Wicket-Ajax","Yes");
+  (tester.getServletRequest()).addHeader("Wicket-Ajax","Yes");
   tester.getWicketResponse().setAjax(tester.getWicketRequest().isAjax());
   tester.getServletRequest().setURL(callbackUrl);
   WebRequestCycle cycle=tester.createRequestCycle();
