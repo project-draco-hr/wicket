@@ -12,13 +12,13 @@
     final HeaderPartContainer headerPart=getHeaderPart(markupClass,markupStream.getCurrentIndex());
     if (headerPart != null) {
       if (htmlContainer.okToRenderComponent(headerPart.getScope(),headerPart.getId())) {
-        htmlContainer.autoAdd(headerPart);
+        htmlContainer.autoAdd(headerPart,null);
       }
  else {
         Response response=container.getRequestCycle().getResponse();
         try {
           container.getRequestCycle().setResponse(NullResponse.getInstance());
-          htmlContainer.autoAdd(headerPart);
+          htmlContainer.autoAdd(headerPart,null);
         }
   finally {
           container.getRequestCycle().setResponse(response);

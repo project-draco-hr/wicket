@@ -1,0 +1,18 @@
+{
+  if (component == null) {
+    throw new IllegalArgumentException("argument component may not be null");
+  }
+  component.setAuto(true);
+  if (get(component.getId()) != null) {
+    this.remove(component);
+  }
+  add(component);
+  component.beforeRender();
+  if (markupStream == null) {
+    component.render();
+  }
+ else {
+    component.render(markupStream);
+  }
+  return true;
+}
