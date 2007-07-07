@@ -1,7 +1,7 @@
 {
   if (multiPart) {
     try {
-      final WebRequest multipartWebRequest=((WebRequest)getRequest()).newMultipartWebRequest(this.maxSize);
+      final WebRequest multipartWebRequest=((WebRequest)getRequest()).newMultipartWebRequest(getMaxSize());
       getRequestCycle().setRequest(multipartWebRequest);
     }
  catch (    WicketRuntimeException wre) {
@@ -11,9 +11,9 @@
       FileUploadException e=(FileUploadException)wre.getCause();
       final Map model=new HashMap();
       model.put("exception",e);
-      model.put("maxSize",maxSize);
+      model.put("maxSize",getMaxSize());
       if (e instanceof SizeLimitExceededException) {
-        final String defaultValue="Upload must be less than " + maxSize;
+        final String defaultValue="Upload must be less than " + getMaxSize();
         String msg=getString(getId() + "." + UPLOAD_TOO_LARGE_RESOURCE_KEY,Model.valueOf(model),defaultValue);
         error(msg);
         if (log.isDebugEnabled()) {
