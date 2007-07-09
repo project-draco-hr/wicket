@@ -9,12 +9,14 @@
   List searchStack=getComponentStack(component);
   for (int i=searchStack.size() - 1; (i >= 0) && (string == null); i--) {
     Class clazz=(Class)searchStack.get(i);
-    string=loadStringResource(clazz,key,locale,style);
-    if ((string == null) && (prefix != null) && (prefix.length() > 0)) {
+    if ((prefix != null) && (prefix.length() > 0)) {
       string=loadStringResource(clazz,prefix + '.' + key,locale,style);
       if (string == null) {
         prefix=Strings.afterFirst(prefix,'.');
       }
+    }
+    if (string == null) {
+      string=loadStringResource(clazz,key,locale,style);
     }
   }
   return string;
