@@ -9,6 +9,8 @@
     currentAjaxVersionNumber=0;
   }
  else {
-    currentAjaxVersionNumber++;
+    if (RequestCycle.get().getRequest() instanceof WebRequest && ((WebRequest)RequestCycle.get().getRequest()).isAjax()) {
+      currentAjaxVersionNumber++;
+    }
   }
 }
