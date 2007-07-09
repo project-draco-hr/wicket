@@ -18,6 +18,7 @@
   }
   List dirtyObjects=(List)Session.dirtyObjects.get();
   Session.dirtyObjects.set(null);
+  Set alreadySet=new HashSet();
   if (dirtyObjects != null) {
     for (final Iterator iterator=dirtyObjects.iterator(); iterator.hasNext(); ) {
       String attribute=null;
@@ -36,7 +37,10 @@
  else       if (object instanceof IPageMap) {
         attribute=attributeForPageMapName(((IPageMap)object).getName());
       }
-      setAttribute(attribute,object);
+      if (alreadySet.contains(attribute) == false) {
+        setAttribute(attribute,object);
+        alreadySet.add(attribute);
+      }
     }
   }
   if (pageMapsUsedInRequest != null) {
