@@ -1,0 +1,18 @@
+{
+  int index=-1;
+  if (idToWindowIndices == null) {
+    rebuildIndices();
+  }
+  List indices=(List)idToWindowIndices.get(pageId);
+  if (indices != null) {
+    for (Iterator i=indices.iterator(); i.hasNext(); ) {
+      Integer currentIndex=(Integer)i.next();
+      PageWindowInternal window=(PageWindowInternal)windows.get(currentIndex.intValue());
+      if (window.pageId == pageId && window.versionNumber == versionNumber && window.ajaxVersionNumber == ajaxVersionNumber) {
+        index=currentIndex.intValue();
+        break;
+      }
+    }
+  }
+  return index;
+}

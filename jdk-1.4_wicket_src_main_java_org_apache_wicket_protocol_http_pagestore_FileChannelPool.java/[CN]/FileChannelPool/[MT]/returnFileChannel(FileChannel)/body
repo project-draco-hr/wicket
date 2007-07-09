@@ -1,0 +1,19 @@
+{
+  Integer count=(Integer)channelToUseCount.get(channel);
+  if (count == null || count.intValue() == 0) {
+    throw new IllegalArgumentException("Trying to return unused channel");
+  }
+  count=new Integer(count.intValue() - 1);
+  if (count.intValue() == 0) {
+    channelToUseCount.remove(channel);
+    if (channelsToDeleteOnReturn.contains(channel)) {
+      closeAndDelete(channel);
+    }
+ else {
+      idleChannels.addLast(channel);
+    }
+  }
+ else {
+    channelToUseCount.put(channel,count);
+  }
+}

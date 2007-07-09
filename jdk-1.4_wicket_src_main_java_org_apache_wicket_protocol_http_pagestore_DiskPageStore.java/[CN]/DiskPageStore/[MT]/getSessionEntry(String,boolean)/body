@@ -1,0 +1,14 @@
+{
+  SessionEntry entry=(SessionEntry)sessionIdToEntryMap.get(sessionId);
+  if (entry == null && createIfDoesNotExist) {
+synchronized (sessionIdToEntryMap) {
+      entry=(SessionEntry)sessionIdToEntryMap.get(sessionId);
+      if (entry == null) {
+        entry=new SessionEntry();
+        entry.sessionId=sessionId;
+        sessionIdToEntryMap.put(sessionId,entry);
+      }
+    }
+  }
+  return entry;
+}

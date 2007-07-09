@@ -1,0 +1,22 @@
+{
+  PageWindowInternal window=(PageWindowInternal)windows.get(index);
+  if (index == windows.size() - 1) {
+    int delta=size - window.filePartSize;
+    totalSize+=delta;
+    window.filePartSize=size;
+  }
+ else {
+    while (window.filePartSize < size && index < windows.size() - 1) {
+      mergeWindowWithNext(index);
+    }
+    if (window.filePartSize < size) {
+      int delta=size - window.filePartSize;
+      totalSize+=delta;
+      window.filePartSize=size;
+    }
+ else {
+      splitWindow(index,size);
+    }
+  }
+  window.pageId=-1;
+}

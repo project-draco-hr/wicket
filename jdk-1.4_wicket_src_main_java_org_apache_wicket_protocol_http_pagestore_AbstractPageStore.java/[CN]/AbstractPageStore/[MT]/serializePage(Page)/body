@@ -1,0 +1,19 @@
+{
+  final List result=new ArrayList();
+  SerializedPage initialPage=new SerializedPage(page);
+  result.add(initialPage);
+  PageSerializer serializer=new PageSerializer(initialPage){
+    protected void onPageSerialized(    SerializedPage page){
+      result.add(page);
+    }
+  }
+;
+  Page.serializer.set(serializer);
+  try {
+    initialPage.setData(Objects.objectToByteArray(page.getPageMapEntry()));
+  }
+  finally {
+    Page.serializer.set(null);
+  }
+  return result;
+}

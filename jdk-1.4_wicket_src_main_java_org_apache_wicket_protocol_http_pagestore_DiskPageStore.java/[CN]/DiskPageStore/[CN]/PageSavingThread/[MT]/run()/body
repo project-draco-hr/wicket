@@ -1,0 +1,20 @@
+{
+  while (stop == false) {
+    while (pagesToSaveActive.isEmpty()) {
+      try {
+        Thread.sleep(getSavingThreadSleepTime());
+      }
+ catch (      InterruptedException ignore) {
+      }
+    }
+    for (Iterator i=pagesToSaveActive.entrySet().iterator(); i.hasNext(); ) {
+      Map.Entry entry=(Map.Entry)i.next();
+      String sessionId=(String)entry.getKey();
+      List pages=(List)entry.getValue();
+synchronized (pages) {
+        flushPagesToSaveList(sessionId,pages);
+        i.remove();
+      }
+    }
+  }
+}

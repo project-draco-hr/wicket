@@ -1,0 +1,17 @@
+{
+  FileChannel channel=(FileChannel)nameToChannel.get(name);
+  if (channel != null) {
+    nameToChannel.remove(name);
+    Integer count=(Integer)channelToUseCount.get(channel);
+    if (count != null && count.intValue() > 0) {
+      channelsToDeleteOnReturn.add(channel);
+    }
+ else {
+      closeAndDelete(channel);
+    }
+  }
+ else {
+    File file=new File(name);
+    file.delete();
+  }
+}

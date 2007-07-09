@@ -1,0 +1,12 @@
+{
+  log.debug("Destroying FileChannel pool");
+  for (Iterator i=channelToName.keySet().iterator(); i.hasNext(); ) {
+    FileChannel channel=(FileChannel)i.next();
+    try {
+      channel.close();
+    }
+ catch (    IOException e) {
+      log.error("Error closing file channel",e);
+    }
+  }
+}

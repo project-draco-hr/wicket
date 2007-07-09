@@ -1,0 +1,25 @@
+{
+  FileChannel channel=(FileChannel)nameToChannel.get(fileName);
+  if (channel == null) {
+    channel=newFileChannel(fileName,createIfDoesNotExist);
+    if (channel != null) {
+      if (nameToChannel.size() >= capacity) {
+        reduceChannels();
+      }
+      nameToChannel.put(fileName,channel);
+      channelToName.put(channel,fileName);
+    }
+  }
+  if (channel != null) {
+    Integer count=(Integer)channelToUseCount.get(channel);
+    if (count == null || count.intValue() == 0) {
+      channelToUseCount.put(channel,new Integer(1));
+      idleChannels.remove(channel);
+    }
+ else {
+      count=new Integer(count.intValue() + 1);
+      channelToUseCount.put(channel,count);
+    }
+  }
+  return channel;
+}
