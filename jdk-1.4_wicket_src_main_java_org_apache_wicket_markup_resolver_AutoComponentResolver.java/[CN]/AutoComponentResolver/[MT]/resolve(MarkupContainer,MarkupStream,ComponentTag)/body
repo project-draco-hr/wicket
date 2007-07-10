@@ -4,7 +4,12 @@
     if (wicketTag.isComponentTag()) {
       final Component component=createComponent(container,wicketTag);
       if (component != null) {
-        nestedComponents.put(component,null);
+        if (component instanceof Border) {
+          nestedComponents.put(((Border)component).getBodyContainer(),container);
+        }
+ else {
+          nestedComponents.put(component,container);
+        }
         try {
           container.autoAdd(component,markupStream);
         }
@@ -16,15 +21,16 @@
     }
   }
   if ((tag.getId() != null) && nestedComponents.containsKey(container)) {
-    MarkupContainer parent=container.getParent();
-    while ((parent != null) && nestedComponents.containsKey(parent)) {
-      parent=parent.getParent();
-    }
-    if (parent != null) {
-      final Component component=parent.get(tag.getId());
+    MarkupContainer parent=(MarkupContainer)nestedComponents.get(container);
+    while (parent != null) {
+      Component component=parent.get(tag.getId());
       if (component != null) {
         component.render(markupStream);
         return true;
+      }
+      parent=parent.getParent();
+      if (nestedComponents.containsKey(parent)) {
+        parent=(MarkupContainer)nestedComponents.get(parent);
       }
     }
   }

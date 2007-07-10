@@ -1,4 +1,14 @@
 {
+  MarkupContainer border=container.getParent();
+  while ((border != null) && !(border instanceof Border)) {
+    border=border.getParent();
+  }
+  if ((border == null) || (this == border)) {
+    return false;
+  }
+  if (!(border instanceof Border)) {
+    return false;
+  }
   if (!(tag instanceof WicketTag)) {
     return false;
   }
@@ -6,20 +16,6 @@
   if (!wtag.isBodyTag()) {
     return false;
   }
-  final Response originalResponse;
-  if (this.bodyVisible == true) {
-    originalResponse=null;
-  }
- else {
-    originalResponse=getRequestCycle().setResponse(NullResponse.getInstance());
-  }
-  try {
-    renderBodyComponent(markupStream,wtag);
-  }
-  finally {
-    if (originalResponse != null) {
-      getRequestCycle().setResponse(originalResponse);
-    }
-  }
+  this.body.render(markupStream);
   return true;
 }

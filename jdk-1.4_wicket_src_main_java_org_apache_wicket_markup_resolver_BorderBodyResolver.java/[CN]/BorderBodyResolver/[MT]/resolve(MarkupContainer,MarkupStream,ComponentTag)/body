@@ -1,0 +1,23 @@
+{
+  if (tag instanceof WicketTag) {
+    WicketTag wtag=(WicketTag)tag;
+    if (wtag.isBodyTag()) {
+      MarkupContainer parent=container.getParent();
+      while (parent != null) {
+        if (parent instanceof Border.BorderBodyContainer) {
+          break;
+        }
+ else         if (parent instanceof Border) {
+          Component component=parent.get(tag.getId());
+          if (component != null) {
+            component.render(markupStream);
+            log.warn("Please consider to change your java code to something like: " + container.getId() + ".add(getBodyContainer()); for the component hierarchy to better reflect the markup hierarchy.");
+          }
+          return true;
+        }
+        parent=parent.getParent();
+      }
+    }
+  }
+  return false;
+}

@@ -1,8 +1,8 @@
 {
   this.openTag=openTag;
-  this.haveSeenBodyTag=false;
-  renderAssociatedMarkup("border","Markup for a border component must begin a tag like '<wicket:border>'");
-  if (haveSeenBodyTag == false) {
-    markupStream.throwMarkupException("Didn't find <wicket:body/> tag for the border compoment.");
+  this.originalMarkupStream=getMarkupStream();
+  if (this.body.isVisible() == false) {
+    this.originalMarkupStream.skipToMatchingCloseTag(openTag);
   }
+  renderAssociatedMarkup("border","Markup for a border component must begin a tag like '<wicket:border>'");
 }
