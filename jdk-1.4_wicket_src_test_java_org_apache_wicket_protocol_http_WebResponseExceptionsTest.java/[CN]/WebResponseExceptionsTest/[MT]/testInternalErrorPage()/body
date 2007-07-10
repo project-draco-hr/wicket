@@ -2,7 +2,7 @@
   tester.startPage(TestErrorPage.class);
   AjaxLink link=(AjaxLink)tester.getComponentFromLastRenderedPage("link");
   tester.createRequestCycle();
-  String callbackUrl=((AjaxEventBehavior)link.getBehaviors().get(0)).getCallbackUrl().toString();
+  String callbackUrl=((AjaxEventBehavior)link.getBehaviors().get(0)).getCallbackUrl().toString().replaceAll("&amp;","&");
   tester.setupRequestAndResponse();
   (tester.getServletRequest()).addHeader("Wicket-Ajax","Yes");
   tester.getServletRequest().setURL(callbackUrl);
