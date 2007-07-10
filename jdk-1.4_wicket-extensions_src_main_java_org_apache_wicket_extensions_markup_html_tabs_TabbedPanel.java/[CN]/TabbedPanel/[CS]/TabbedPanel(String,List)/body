@@ -32,16 +32,27 @@
       final WebMarkupContainer titleLink=newLink("link",index);
       titleLink.add(newTitle("title",tab.getTitle(),index));
       item.add(titleLink);
-      item.add(new SimpleAttributeModifier("class","selected"){
+    }
+    protected LoopItem newItem(    int iteration){
+      return new LoopItem(iteration){
         private static final long serialVersionUID=1L;
-        public boolean isEnabled(        Component component){
-          return index == selected;
+        protected void onComponentTag(        ComponentTag tag){
+          super.onComponentTag(tag);
+          String cssClass=(String)tag.getString("class");
+          if (cssClass == null) {
+            cssClass=" ";
+          }
+          cssClass+=" tab" + getIteration();
+          if (getIteration() == getSelectedTab()) {
+            cssClass+=" selected";
+          }
+          if (getIteration() == getIterations() - 1) {
+            cssClass+=" last";
+          }
+          tag.put("class",cssClass.trim());
         }
       }
-);
-      if (item.getIteration() == getIterations() - 1) {
-        item.add(new AttributeAppender("class",true,new Model("last")," "));
-      }
+;
     }
   }
 );
