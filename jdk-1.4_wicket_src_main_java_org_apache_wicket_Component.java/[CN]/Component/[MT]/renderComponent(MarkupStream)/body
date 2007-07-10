@@ -23,7 +23,10 @@
       }
  else {
         if (getRenderBodyOnly() == false) {
-          getResponse().write(openTag.syntheticCloseTagString());
+          final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
+          if (!(openTag instanceof WicketTag) || !stripWicketTags) {
+            getResponse().write(openTag.syntheticCloseTagString());
+          }
         }
       }
     }
