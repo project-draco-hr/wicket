@@ -4,22 +4,7 @@
   if (entry != null) {
     PageWindow window=entry.manager.getPageWindow(id,versionNumber,ajaxVersionNumber);
     if (window != null) {
-      FileChannel channel=fileChannelPool.getFileChannel(entry.fileName,false);
-      if (channel != null) {
-        ByteBuffer buffer=ByteBuffer.allocate(window.getFilePartSize());
-        try {
-          channel.read(buffer,window.getFilePartOffset());
-          if (buffer.hasArray()) {
-            result=buffer.array();
-          }
-        }
- catch (        IOException e) {
-          log.error("Error reading from file channel " + channel,e);
-        }
- finally {
-          fileChannelPool.returnFileChannel(channel);
-        }
-      }
+      result=loadPage(window,entry.fileName);
     }
   }
   return result;

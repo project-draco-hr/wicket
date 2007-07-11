@@ -1,7 +1,7 @@
 {
   if (page.getData() != null) {
     PageMapEntry entry=getPageMapEntry(page.getPageMapName(),true);
-    PageWindow window=entry.manager.savePage(page.getPageId(),page.getVersionNumber(),page.getAjaxVersionNumber(),page.getData().length);
+    PageWindow window=entry.manager.createPageWindow(page.getPageId(),page.getVersionNumber(),page.getAjaxVersionNumber(),page.getData().length);
     pageMapEntryList.remove(entry);
     pageMapEntryList.add(entry);
     while (getTotalSize() > getMaxSizePerSession() && pageMapEntryList.size() > 1) {

@@ -12,7 +12,12 @@
       String sessionId=(String)entry.getKey();
       List pages=(List)entry.getValue();
 synchronized (pages) {
-        flushPagesToSaveList(sessionId,pages);
+        try {
+          flushPagesToSaveList(sessionId,pages);
+        }
+ catch (        Exception e) {
+          log.error("Error flushing serialized pages from worker thread for session " + sessionId,e);
+        }
         i.remove();
       }
     }

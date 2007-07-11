@@ -8,7 +8,9 @@
     IPageMapEntry entry=(IPageMapEntry)Objects.byteArrayToObject(data);
     if (entry != null) {
       page=entry.getPage();
-      page=page.getVersion(versionNumber);
+      if (versionNumber != -1) {
+        page=page.getVersion(versionNumber);
+      }
     }
   }
   finally {
