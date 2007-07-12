@@ -2,5 +2,7 @@
   if (log.isDebugEnabled()) {
     log.debug("UNDO ADD: removing " + component.getPath() + " ("+ Classes.simpleName(component.getClass())+ "@"+ component.hashCode()+ ") from parent");
   }
-  component.remove();
+  if (component.getParent() != null) {
+    component.remove();
+  }
 }
