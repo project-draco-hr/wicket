@@ -3,6 +3,9 @@
   this.maxSizePerSession=maxSizePerSession;
   this.fileChannelPool=new FileChannelPool(fileChannelPoolCapacity);
   this.fileStoreFolder=fileStoreFolder;
+  if (maxSizePerSession < maxSizePerPageMap) {
+    throw new IllegalArgumentException("Provided maximum session size must be bigger than maximum pagemap size");
+  }
   this.fileStoreFolder.mkdirs();
   appName=Application.get().getApplicationKey();
   initPageSavingThread();
