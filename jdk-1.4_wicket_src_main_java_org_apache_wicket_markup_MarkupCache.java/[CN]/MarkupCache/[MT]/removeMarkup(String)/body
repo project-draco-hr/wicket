@@ -5,14 +5,15 @@
   if (log.isDebugEnabled()) {
     log.debug("Remove from cache: cacheKey=" + cacheKey);
   }
-  Markup markup=(Markup)markupCache.remove(cacheKey);
+  Markup markup=(Markup)markupCache.get(cacheKey);
   if (markup != null) {
+    markupCache.remove(cacheKey);
     int count;
     do {
       count=0;
-      Iterator iter=markupCache.values().iterator();
+      Iterator iter=markupCache.getKeys().iterator();
       while (iter.hasNext()) {
-        Markup cacheMarkup=(Markup)iter.next();
+        Markup cacheMarkup=(Markup)markupCache.get(iter.next());
         MarkupResourceData resourceData=cacheMarkup.getMarkupResourceData().getBaseMarkupResourceData();
         if (resourceData != null) {
           String baseCacheKey=resourceData.getResource().getCacheKey();
