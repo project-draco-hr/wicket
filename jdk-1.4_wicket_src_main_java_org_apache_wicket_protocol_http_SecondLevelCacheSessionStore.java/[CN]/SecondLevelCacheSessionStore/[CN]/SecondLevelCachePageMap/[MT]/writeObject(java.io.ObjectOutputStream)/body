@@ -1,6 +1,11 @@
 {
   s.defaultWriteObject();
   if (serializeLastPage) {
-    s.writeObject(lastPage);
+    Serializable page=lastPage;
+    IPageStore store=getPageStore();
+    if (page != null && store instanceof ISerializationAwarePageStore) {
+      page=((ISerializationAwarePageStore)store).prepareForSerialization(lastPage);
+    }
+    s.writeObject(page);
   }
 }

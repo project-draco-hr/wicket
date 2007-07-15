@@ -1,4 +1,14 @@
 {
+  if (versionNumber == -1 || ajaxVersionNumber == -1) {
+    PageVersions versions=findPageVersion(sessionId,pagemapName,id,versionNumber);
+    if (versions == null) {
+      return null;
+    }
+ else {
+      versionNumber=versions.versionid;
+      ajaxVersionNumber=versions.ajaxversionid;
+    }
+  }
   SessionPageKey currentKey=new SessionPageKey(sessionId,id,versionNumber,ajaxVersionNumber,pagemapName,null);
   long t1=System.currentTimeMillis();
   byte[] bytes=testMap(currentKey);

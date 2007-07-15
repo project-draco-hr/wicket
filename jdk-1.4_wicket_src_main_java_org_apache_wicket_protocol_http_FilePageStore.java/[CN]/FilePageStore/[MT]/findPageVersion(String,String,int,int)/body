@@ -1,0 +1,23 @@
+{
+  List list=getPageVersions(sessionId,pageMapName,false);
+  PageVersions result=null;
+  if (list != null) {
+synchronized (list) {
+      if (pageVersion == -1) {
+        for (int index=list.size() - 1; index >= 0; --index) {
+          if (((PageVersions)list.get(index)).pageid == pageId) {
+            result=(PageVersions)list.get(index);
+            break;
+          }
+        }
+      }
+ else {
+        int index=list.indexOf(new PageVersions(pageId,pageVersion,-1));
+        if (index != -1) {
+          result=(PageVersions)list.get(index);
+        }
+      }
+    }
+  }
+  return result;
+}

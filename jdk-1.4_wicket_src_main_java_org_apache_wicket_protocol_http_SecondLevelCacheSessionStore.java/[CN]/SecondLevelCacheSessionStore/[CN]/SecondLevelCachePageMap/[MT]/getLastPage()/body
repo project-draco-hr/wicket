@@ -1,0 +1,13 @@
+{
+  if (lastPage == null && lastPageDeserialized != null) {
+    IPageStore store=getPageStore();
+    if (store instanceof ISerializationAwarePageStore) {
+      lastPage=((ISerializationAwarePageStore)store).restoreAfterSerialization(lastPageDeserialized);
+    }
+ else     if (lastPageDeserialized instanceof Page) {
+      lastPage=(Page)lastPageDeserialized;
+    }
+    lastPageDeserialized=null;
+  }
+  return lastPage;
+}

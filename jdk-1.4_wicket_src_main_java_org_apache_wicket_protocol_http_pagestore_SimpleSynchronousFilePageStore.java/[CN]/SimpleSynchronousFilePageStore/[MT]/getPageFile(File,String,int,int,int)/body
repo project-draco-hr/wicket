@@ -1,3 +1,43 @@
 {
-  return new File(sessionDir,appName + "-pm-" + pageMapName+ "-p-"+ pageId+ "-v-"+ versionNumber+ "-a-"+ ajaxVersionNumber);
+  final String fileNamePrefix=getFileName(pageMapName,pageId);
+  if (versionNumber != -1 && ajaxVersionNumber != -1) {
+    return new File(sessionDir,fileNamePrefix + "-v-" + versionNumber+ "-a-"+ ajaxVersionNumber);
+  }
+ else   if (versionNumber == -1) {
+    File[] files=sessionDir.listFiles(new FilenameFilter(){
+      public boolean accept(      File dir,      String name){
+        return name.startsWith(fileNamePrefix);
+      }
+    }
+);
+    if (files == null || files.length == 0) {
+      return null;
+    }
+    sortFiles(files);
+    return files[files.length - 1];
+  }
+ else {
+    final String prefixWithVersion=fileNamePrefix + "-v-" + versionNumber;
+    File[] files=sessionDir.listFiles(new FilenameFilter(){
+      public boolean accept(      File dir,      String name){
+        return name.startsWith(prefixWithVersion);
+      }
+    }
+);
+    if (files == null || files.length == 0) {
+      return null;
+    }
+    int lastAjaxVersion=-1;
+    int indexWithBiggestAjaxVersion=-1;
+    for (int i=0; i < files.length; ++i) {
+      File file=files[i];
+      String ajaxVersionString=file.getName().substring(file.getName().lastIndexOf('-') + 1);
+      int ajaxVersion=Integer.parseInt(ajaxVersionString);
+      if (lastAjaxVersion < ajaxVersion) {
+        lastAjaxVersion=ajaxVersion;
+        indexWithBiggestAjaxVersion=i;
+      }
+    }
+    return files[indexWithBiggestAjaxVersion];
+  }
 }

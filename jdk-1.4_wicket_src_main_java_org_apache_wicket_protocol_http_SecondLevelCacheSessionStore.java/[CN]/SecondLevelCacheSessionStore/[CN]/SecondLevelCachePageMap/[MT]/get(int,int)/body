@@ -13,13 +13,9 @@
   if (page != null) {
     return page;
   }
-  PageVersions pv=null;
-  if (versionNumber == -1) {
-    versionNumber=getLastPageVersion(id);
-  }
   String sessionId=getSession().getId();
-  if (lastPage != null && lastPage.getNumericId() == id) {
-    page=lastPage.getVersion(versionNumber);
+  if (getLastPage() != null && getLastPage().getNumericId() == id) {
+    page=versionNumber != -1 ? getLastPage().getVersion(versionNumber) : getLastPage();
     if (page != null) {
       getStore().pageAccessed(sessionId,page);
       pages.put(id,page);
@@ -27,18 +23,8 @@
     }
   }
   if (sessionId != null) {
-    int ajaxVersionNumber=0;
-    if (pv == null) {
-      int index=pageVersions.indexOf(new PageVersions(id,versionNumber,-1));
-      if (index != -1) {
-        pv=(PageVersions)pageVersions.get(index);
-      }
-    }
-    if (pv != null) {
-      ajaxVersionNumber=pv.ajaxversionid;
-    }
-    lastPage=null;
-    page=getStore().getPage(sessionId,getName(),id,versionNumber,ajaxVersionNumber);
+    setLastPage(null);
+    page=getStore().getPage(sessionId,getName(),id,versionNumber,-1);
     pages.put(id,page);
     return page;
   }

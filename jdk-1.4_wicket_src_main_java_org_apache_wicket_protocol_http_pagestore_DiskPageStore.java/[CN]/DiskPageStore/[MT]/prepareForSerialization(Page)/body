@@ -1,0 +1,14 @@
+{
+  Serializable result=page;
+  RequestCycle requestCycle=RequestCycle.get();
+  if (requestCycle != null) {
+    SerializedPagesMetadataEntry entry=(SerializedPagesMetadataEntry)requestCycle.getMetaData(SERIALIZED_PAGES_KEY);
+    if (entry != null) {
+      List list=(List)entry.map.get(page);
+      if (list != null && list.isEmpty() == false) {
+        result=new SerializedPageWithSession(entry.sessionId,page.getNumericId(),page.getPageMapName(),page.getCurrentVersionNumber(),page.getAjaxVersionNumber(),list);
+      }
+    }
+  }
+  return result;
+}

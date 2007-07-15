@@ -1,0 +1,36 @@
+{
+  int result=-1;
+  if (versionNumber != -1 && ajaxVersionNumber != -1) {
+    for (Iterator i=indices.iterator(); i.hasNext(); ) {
+      int currentIndex=((Integer)i.next()).intValue();
+      PageWindowInternal window=(PageWindowInternal)windows.get(currentIndex);
+      if (window.pageId == pageId && window.versionNumber == versionNumber && window.ajaxVersionNumber == ajaxVersionNumber) {
+        result=currentIndex;
+        break;
+      }
+    }
+  }
+ else   if (versionNumber == -1) {
+    for (Iterator i=indices.iterator(); i.hasNext(); ) {
+      int currentIndex=((Integer)i.next()).intValue();
+      PageWindowInternal window=(PageWindowInternal)windows.get(currentIndex);
+      if (window.pageId == pageId) {
+        if ((result == -1) || (currentIndex <= indexPointer && result > indexPointer) || (currentIndex > result && currentIndex <= indexPointer)|| (currentIndex > result && result > indexPointer)) {
+          result=currentIndex;
+        }
+      }
+    }
+  }
+ else   if (ajaxVersionNumber == -1) {
+    int lastAjaxVersion=-1;
+    for (Iterator i=indices.iterator(); i.hasNext(); ) {
+      int currentIndex=((Integer)i.next()).intValue();
+      PageWindowInternal window=(PageWindowInternal)windows.get(currentIndex);
+      if (window.pageId == pageId && window.versionNumber == versionNumber && window.ajaxVersionNumber > lastAjaxVersion) {
+        result=currentIndex;
+        lastAjaxVersion=window.ajaxVersionNumber;
+      }
+    }
+  }
+  return result;
+}
