@@ -1,12 +1,12 @@
 {
-  RequestCycle requestCycle=RequestCycle.get();
-  if (requestCycle != null) {
-    SerializedPagesMetadataEntry entry=(SerializedPagesMetadataEntry)requestCycle.getMetaData(SERIALIZED_PAGES_KEY);
-    if (entry == null) {
-      entry=new SerializedPagesMetadataEntry();
-      entry.sessionId=sessionId;
-      requestCycle.setMetaData(SERIALIZED_PAGES_KEY,entry);
+  if (getLastRecentlySerializedPagesCacheSize() > 0) {
+    SerializedPageWithSession entry=new SerializedPageWithSession(sessionId,page,pagesList);
+synchronized (lastRecentlySerializedPagesCache) {
+      removePageFromLastRecentlySerializedPagesCache(page);
+      lastRecentlySerializedPagesCache.add(entry);
+      if (lastRecentlySerializedPagesCache.size() > getLastRecentlySerializedPagesCacheSize()) {
+        lastRecentlySerializedPagesCache.remove(0);
+      }
     }
-    entry.map.put(page,pagesList);
   }
 }

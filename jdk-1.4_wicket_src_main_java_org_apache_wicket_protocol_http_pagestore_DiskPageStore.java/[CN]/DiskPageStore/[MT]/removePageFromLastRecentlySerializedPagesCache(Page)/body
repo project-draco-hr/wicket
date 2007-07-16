@@ -1,0 +1,10 @@
+{
+  for (Iterator i=lastRecentlySerializedPagesCache.iterator(); i.hasNext(); ) {
+    SerializedPageWithSession entry=(SerializedPageWithSession)i.next();
+    if (entry != null && entry.page.get() == page) {
+      i.remove();
+      return entry;
+    }
+  }
+  return null;
+}
