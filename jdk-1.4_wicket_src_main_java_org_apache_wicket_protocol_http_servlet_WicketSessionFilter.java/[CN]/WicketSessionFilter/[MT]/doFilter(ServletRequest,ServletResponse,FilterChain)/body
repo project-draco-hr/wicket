@@ -1,8 +1,4 @@
 {
-  WebApplication webApplication=(WebApplication)filterConfig.getServletContext().getAttribute(WebApplication.SERVLET_CONTEXT_APPLICATION_KEY);
-  if (webApplication != null) {
-    Application.set(webApplication);
-  }
   HttpServletRequest httpServletRequest=((HttpServletRequest)request);
   HttpSession httpSession=httpServletRequest.getSession(false);
   if (httpSession != null) {
@@ -25,8 +21,4 @@
     }
   }
   chain.doFilter(request,response);
-  Session.unset();
-  if (webApplication != null) {
-    Application.unset();
-  }
 }
