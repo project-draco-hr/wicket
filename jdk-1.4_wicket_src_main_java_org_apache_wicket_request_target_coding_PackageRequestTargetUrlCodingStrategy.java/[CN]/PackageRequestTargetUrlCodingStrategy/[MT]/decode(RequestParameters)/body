@@ -26,7 +26,8 @@
     return null;
   }
   PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
-  final String pageMapName=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
+  String pageMapName=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
+  pageMapName=WebRequestCodingStrategy.decodePageMapName(pageMapName);
   requestParameters.setPageMapName(pageMapName);
   final String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
   if (interfaceParameter != null) {

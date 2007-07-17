@@ -1,7 +1,7 @@
 {
   final String parametersFragment=requestParameters.getPath().substring(getMountPath().length());
   final PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
-  String pageMapName=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
+  String pageMapName=WebRequestCodingStrategy.decodePageMapName((String)parameters.remove(WebRequestCodingStrategy.PAGEMAP));
   if (requestParameters.getPageMapName() == null) {
     requestParameters.setPageMapName(pageMapName);
   }
