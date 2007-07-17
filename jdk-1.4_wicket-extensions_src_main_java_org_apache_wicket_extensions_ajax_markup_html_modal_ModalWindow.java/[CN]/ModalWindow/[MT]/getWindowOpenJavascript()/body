@@ -50,6 +50,7 @@
     CloseButtonBehavior behavior=(CloseButtonBehavior)getBehaviors(CloseButtonBehavior.class).get(0);
     buffer.append("settings.onCloseButton = function() { " + behavior.getCallbackScript() + "};\n");
   }
+  postProcessSettings(buffer);
   buffer.append("Wicket.Window.create(settings).show();\n");
   return buffer.toString();
 }
