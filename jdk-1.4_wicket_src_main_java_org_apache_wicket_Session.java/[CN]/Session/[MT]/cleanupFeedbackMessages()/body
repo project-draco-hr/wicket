@@ -1,6 +1,8 @@
 {
-  if (feedbackMessages.clear(RENDERED_SESSION_SCOPED_MESSAGES) > 0) {
-    dirty();
+  if (Application.get().getRequestCycleSettings().getRenderStrategy() != IRequestCycleSettings.REDIRECT_TO_RENDER || (!RequestCycle.get().isRedirect())) {
+    if (feedbackMessages.clear(RENDERED_SESSION_SCOPED_MESSAGES) > 0) {
+      dirty();
+    }
+    feedbackMessages.clear(MESSAGES_FOR_COMPONENTS);
   }
-  feedbackMessages.clear(MESSAGES_FOR_COMPONENTS);
 }
