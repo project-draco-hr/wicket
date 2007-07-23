@@ -1,4 +1,7 @@
 {
+  if (!url.endsWith("/")) {
+    url.append("/");
+  }
   Set parameterNamesToAdd=new HashSet(parameters.keySet());
   boolean foundParameter=false;
   int lastSpecifiedParameter=parameterNames.length;
@@ -12,7 +15,7 @@
       if (value == null) {
         value="";
       }
-      url.append("/").append(urlEncode(value));
+      url.append(urlEncode(value)).append("/");
       parameterNamesToAdd.remove(parameterName);
     }
   }
