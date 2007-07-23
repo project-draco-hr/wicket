@@ -1,12 +1,12 @@
 {
   if (encoder == null) {
-    throw new IllegalArgumentException("Argument encoder must be not-null");
+    throw new IllegalArgumentException("Argument encoder must not be null");
   }
   String path=encoder.getMountPath();
-  if (Strings.isEmpty(path)) {
-    throw new IllegalArgumentException("Argument path must be not-null and not empty");
+  if (path == null) {
+    throw new IllegalArgumentException("Argument path must not be null");
   }
-  if (path.equals("/")) {
+  if (path.equals("/") || path.equals("")) {
     throw new IllegalArgumentException("The mount path '/' is reserved for the application home page");
   }
   if (path.startsWith("/")) {

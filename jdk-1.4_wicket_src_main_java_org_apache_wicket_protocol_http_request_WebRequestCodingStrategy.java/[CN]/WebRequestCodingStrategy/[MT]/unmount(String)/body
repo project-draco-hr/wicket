@@ -2,8 +2,8 @@
   if (path == null) {
     throw new IllegalArgumentException("Argument path must be not-null");
   }
-  if (!path.startsWith("/")) {
-    path="/" + path;
+  if (path.startsWith("/")) {
+    path=path.substring(1);
   }
   mountsOnPath.unmount(path);
 }
