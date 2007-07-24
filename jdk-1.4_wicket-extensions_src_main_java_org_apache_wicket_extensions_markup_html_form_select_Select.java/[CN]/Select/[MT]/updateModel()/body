@@ -1,25 +1,18 @@
 {
   Object object=getModelObject();
-  boolean isModelCollection=object instanceof Collection;
-  List converted=(List)getConvertedInput();
-  if (!isModelCollection && converted.size() > 1) {
-    throw new WicketRuntimeException("The model of Select component [" + getPath() + "] is not of type java.util.Collection, but more then one SelectOption component has been selected. Either remove the multiple attribute from the select tag or make the model of the Select component a collection");
-  }
-  if (isModelCollection) {
+  boolean supportsMultiple=object instanceof Collection;
+  Object converted=getConvertedInput();
+  if (supportsMultiple) {
     Collection modelCollection=(Collection)object;
     modelChanging();
     modelCollection.clear();
     if (converted != null) {
-      modelCollection.addAll(converted);
+      modelCollection.addAll((Collection)converted);
     }
     modelChanged();
     getModel().setObject(modelCollection);
   }
  else {
-    object=null;
-    if (converted != null) {
-      object=converted.get(0);
-    }
-    setModelObject(object);
+    setModelObject(converted);
   }
 }
