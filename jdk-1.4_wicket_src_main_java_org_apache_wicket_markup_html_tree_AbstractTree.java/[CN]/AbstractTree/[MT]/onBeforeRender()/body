@@ -1,27 +1,4 @@
 {
+  onBeforeRenderInternal();
   super.onBeforeRender();
-  if (attached == false) {
-    onBeforeAttach();
-    checkModel();
-    if (dirtyAll && rootItem != null) {
-      clearAllItem();
-    }
- else {
-      rebuildDirty();
-    }
-    if (rootItem == null) {
-      TreeNode rootNode=(TreeNode)((TreeModel)getModelObject()).getRoot();
-      if (rootNode != null) {
-        if (isRootLess()) {
-          rootItem=newTreeItem(rootNode,-1);
-        }
- else {
-          rootItem=newTreeItem(rootNode,0);
-        }
-        itemContainer.add(rootItem);
-        buildItemChildren(rootItem);
-      }
-    }
-    attached=true;
-  }
 }
