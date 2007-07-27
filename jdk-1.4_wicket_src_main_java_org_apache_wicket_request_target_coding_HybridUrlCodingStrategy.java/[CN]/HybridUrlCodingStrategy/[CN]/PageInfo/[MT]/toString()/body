@@ -1,0 +1,23 @@
+{
+  AppendingStringBuffer buffer=new AppendingStringBuffer(5);
+  if (pageMapName != null) {
+    if (versionNumber == null && pageId == null) {
+      buffer.append(":");
+    }
+    buffer.append(pageMapName);
+    if (pageId != null) {
+      buffer.append(":");
+    }
+  }
+  if (pageId != null) {
+    buffer.append(pageId);
+  }
+  if ((versionNumber == null || versionNumber.intValue() == 0) && pageMapName != null) {
+    buffer.append(":");
+  }
+  if (versionNumber != null && versionNumber.intValue() != 0) {
+    buffer.append(":");
+    buffer.append(versionNumber);
+  }
+  return buffer.toString();
+}

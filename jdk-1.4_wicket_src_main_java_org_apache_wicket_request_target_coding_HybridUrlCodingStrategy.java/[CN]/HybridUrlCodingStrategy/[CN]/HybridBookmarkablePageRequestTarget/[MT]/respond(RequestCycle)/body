@@ -1,0 +1,9 @@
+{
+  super.respond(requestCycle);
+  if (requestCycle.isRedirect() == false) {
+    Page page=getPage(requestCycle);
+    if (page.isPageStateless() == false) {
+      requestCycle.redirectTo(page);
+    }
+  }
+}

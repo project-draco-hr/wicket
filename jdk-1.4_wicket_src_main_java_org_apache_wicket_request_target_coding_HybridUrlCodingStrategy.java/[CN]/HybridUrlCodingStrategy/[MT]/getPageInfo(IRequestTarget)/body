@@ -1,0 +1,19 @@
+{
+  if (requestTarget instanceof BookmarkablePageRequestTarget) {
+    BookmarkablePageRequestTarget target=(BookmarkablePageRequestTarget)requestTarget;
+    if (target.getPageMapName() != null) {
+      return new PageInfo(null,null,target.getPageMapName());
+    }
+ else {
+      return null;
+    }
+  }
+ else   if (requestTarget instanceof ListenerInterfaceRequestTarget) {
+    ListenerInterfaceRequestTarget target=(ListenerInterfaceRequestTarget)requestTarget;
+    Page page=target.getPage();
+    return new PageInfo(new Integer(page.getNumericId()),new Integer(page.getCurrentVersionNumber()),page.getPageMapName());
+  }
+ else {
+    return null;
+  }
+}

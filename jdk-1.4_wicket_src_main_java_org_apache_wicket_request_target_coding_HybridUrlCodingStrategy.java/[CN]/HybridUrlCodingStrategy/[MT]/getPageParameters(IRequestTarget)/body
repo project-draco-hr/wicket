@@ -1,0 +1,14 @@
+{
+  if (requestTarget instanceof BookmarkablePageRequestTarget) {
+    BookmarkablePageRequestTarget target=(BookmarkablePageRequestTarget)requestTarget;
+    return target.getPageParameters();
+  }
+ else   if (requestTarget instanceof ListenerInterfaceRequestTarget) {
+    ListenerInterfaceRequestTarget target=(ListenerInterfaceRequestTarget)requestTarget;
+    Page page=target.getPage();
+    return (PageParameters)page.getMetaData(PAGE_PARAMETERS_META_DATA_KEY);
+  }
+ else {
+    return null;
+  }
+}

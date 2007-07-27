@@ -1,0 +1,34 @@
+{
+  String parametersFragment=requestParameters.getPath().substring(getMountPath().length());
+  PageInfoExtraction extraction=extractPageInfo(parametersFragment);
+  PageInfo pageInfo=extraction.getPageInfo();
+  String pageMapName=pageInfo != null ? pageInfo.getPageMapName() : null;
+  Integer pageVersion=pageInfo != null ? pageInfo.getVersionNumber() : null;
+  Integer pageId=pageInfo != null ? pageInfo.getPageId() : null;
+  PageParameters parameters=new PageParameters(decodeParameters(extraction.getUrlAfterExtraction(),requestParameters.getParameters()));
+  if (requestParameters.getPageMapName() == null) {
+    requestParameters.setPageMapName(pageMapName);
+  }
+ else {
+    pageMapName=requestParameters.getPageMapName();
+  }
+  final String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+  if (interfaceParameter != null) {
+    WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
+    return new BookmarkableListenerInterfaceRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName());
+  }
+ else   if (pageId == null) {
+    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters);
+  }
+ else {
+    Page page=Session.get().getPage(pageMapName,"" + pageId,pageVersion != null ? pageVersion.intValue() : 0);
+    if (page != null && page.getClass().equals(pageClassRef.get())) {
+      requestParameters.setInterfaceName(IRedirectListener.INTERFACE.getName());
+      RequestCycle.get().getRequest().setPage(page);
+      return new PageRequestTarget(page);
+    }
+ else {
+      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters);
+    }
+  }
+}

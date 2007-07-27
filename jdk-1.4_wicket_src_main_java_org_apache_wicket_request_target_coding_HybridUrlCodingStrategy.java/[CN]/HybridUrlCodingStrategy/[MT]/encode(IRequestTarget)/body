@@ -1,0 +1,11 @@
+{
+  if (matches(requestTarget) == false) {
+    throw new IllegalArgumentException("Unsupported request target type.");
+  }
+  PageParameters parameters=getPageParameters(requestTarget);
+  PageInfo pageInfo=getPageInfo(requestTarget);
+  final AppendingStringBuffer url=new AppendingStringBuffer(40);
+  url.append(getMountPath());
+  appendParameters(url,parameters);
+  return addPageInfo(url.toString(),pageInfo);
+}
