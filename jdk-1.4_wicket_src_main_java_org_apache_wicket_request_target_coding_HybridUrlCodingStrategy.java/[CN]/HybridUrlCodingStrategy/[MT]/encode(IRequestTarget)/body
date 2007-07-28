@@ -7,5 +7,9 @@
   final AppendingStringBuffer url=new AppendingStringBuffer(40);
   url.append(getMountPath());
   appendParameters(url,parameters);
+  Integer trailingSlashesCount=getOriginalOriginalTrailingSlashesCount(requestTarget);
+  if (trailingSlashesCount != null) {
+    fixTrailingSlashes(url,trailingSlashesCount.intValue());
+  }
   return addPageInfo(url.toString(),pageInfo);
 }

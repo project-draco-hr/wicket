@@ -13,12 +13,13 @@
     pageMapName=requestParameters.getPageMapName();
   }
   final String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+  int originalUrlTrailingSlashesCount=getTrailingSlashesCount(extraction.getUrlAfterExtraction());
   if (interfaceParameter != null) {
     WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
     return new BookmarkableListenerInterfaceRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName());
   }
  else   if (pageId == null) {
-    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters);
+    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount);
   }
  else {
     Page page=Session.get().getPage(pageMapName,"" + pageId,pageVersion != null ? pageVersion.intValue() : 0);
@@ -28,7 +29,7 @@
       return new PageRequestTarget(page);
     }
  else {
-      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters);
+      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount);
     }
   }
 }

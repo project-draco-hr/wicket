@@ -1,7 +1,7 @@
 {
-  int lastIndexLeft=url.lastIndexOf(getBeginSeparator());
   int lastIndexRight=url.lastIndexOf(getEndSeparator());
-  if (lastIndexLeft != -1 && lastIndexRight != -1 && lastIndexLeft < lastIndexRight && lastIndexRight - lastIndexLeft > 0 && lastIndexRight == url.length() - 1) {
+  int lastIndexLeft=url.lastIndexOf(getBeginSeparator(),lastIndexRight - 1);
+  if (lastIndexLeft != -1 && lastIndexRight != -1 && lastIndexRight - lastIndexLeft > 0 && lastIndexRight == url.length() - 1) {
     String infoSubstring=url.substring(lastIndexLeft + 1,lastIndexRight);
     PageInfo info=PageInfo.parsePageInfo(infoSubstring);
     if (info != null) {
