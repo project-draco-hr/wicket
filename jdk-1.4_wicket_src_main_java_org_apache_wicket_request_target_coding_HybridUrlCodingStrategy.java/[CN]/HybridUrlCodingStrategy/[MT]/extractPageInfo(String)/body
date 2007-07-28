@@ -1,11 +1,11 @@
 {
-  int lastIndexLeft=url.lastIndexOf('(');
-  int lastIndexRight=url.lastIndexOf(')');
-  if (lastIndexLeft != -1 && lastIndexRight != -1 && lastIndexLeft < lastIndexRight && lastIndexRight - lastIndexLeft > 0 && lastIndexRight == url.length() - 1 && url.charAt(lastIndexLeft - 1) == '/') {
+  int lastIndexLeft=url.lastIndexOf(getBeginSeparator());
+  int lastIndexRight=url.lastIndexOf(getEndSeparator());
+  if (lastIndexLeft != -1 && lastIndexRight != -1 && lastIndexLeft < lastIndexRight && lastIndexRight - lastIndexLeft > 0 && lastIndexRight == url.length() - 1) {
     String infoSubstring=url.substring(lastIndexLeft + 1,lastIndexRight);
     PageInfo info=PageInfo.parsePageInfo(infoSubstring);
     if (info != null) {
-      return new PageInfoExtraction(url.substring(0,lastIndexLeft - 1),info);
+      return new PageInfoExtraction(url.substring(0,lastIndexLeft),info);
     }
   }
   return new PageInfoExtraction(url,null);
