@@ -19,7 +19,7 @@
     return new BookmarkableListenerInterfaceRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName());
   }
  else   if (pageId == null) {
-    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount);
+    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,isRedirectOnBookmarkableRequest());
   }
  else {
     Page page=Session.get().getPage(pageMapName,"" + pageId,pageVersion != null ? pageVersion.intValue() : 0);
@@ -29,7 +29,7 @@
       return new PageRequestTarget(page);
     }
  else {
-      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount);
+      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,isRedirectOnBookmarkableRequest());
     }
   }
 }
