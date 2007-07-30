@@ -5,7 +5,7 @@
     final WebResponse currentResponse=getWebResponse();
     try {
       if (getWebRequest() instanceof ServletWebRequest) {
-        ((ServletWebRequest)getWebRequest()).setWicketRedirectUrl(page.urlFor(IRedirectListener.INTERFACE).toString().replaceAll("../",""));
+        ((ServletWebRequest)getWebRequest()).setWicketRedirectUrl(Strings.replaceAll(page.urlFor(IRedirectListener.INTERFACE).toString(),"../","").toString());
       }
       final BufferedHttpServletResponse servletResponse=new BufferedHttpServletResponse(currentResponse.getHttpServletResponse());
       final WebResponse redirectResponse=new WebResponse(servletResponse){
