@@ -1,11 +1,11 @@
 {
-  int lastIndexRight=url.lastIndexOf(getEndSeparator());
-  int lastIndexLeft=url.lastIndexOf(getBeginSeparator(),lastIndexRight - 1);
-  if (lastIndexLeft != -1 && lastIndexRight != -1 && lastIndexRight - lastIndexLeft > 0 && lastIndexRight == url.length() - 1) {
-    String infoSubstring=url.substring(lastIndexLeft + 1,lastIndexRight);
-    PageInfo info=PageInfo.parsePageInfo(infoSubstring);
-    if (info != null) {
-      return new PageInfoExtraction(url.substring(0,lastIndexLeft),info);
+  int begin=url.lastIndexOf(getBeginSeparator());
+  if (begin != -1) {
+    String substring=url.substring(begin);
+    if (substring.length() > getBeginSeparator().length() + getEndSeparator().length() && substring.startsWith(getBeginSeparator()) && substring.endsWith(getEndSeparator())) {
+      String pageInfoString=substring.substring(getBeginSeparator().length(),substring.length() - getEndSeparator().length());
+      PageInfo info=PageInfo.parsePageInfo(pageInfoString);
+      return new PageInfoExtraction(url.substring(0,url.length() - substring.length()),info);
     }
   }
   return new PageInfoExtraction(url,null);
