@@ -21,16 +21,20 @@
     }
     final WebRequest request=webApplication.newWebRequest(servletRequest);
     if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
-      String queryString=servletRequest.getQueryString();
-      if (!Strings.isEmpty(queryString)) {
-        ISessionStore sessionStore=webApplication.getSessionStore();
-        String sessionId=sessionStore.getSessionId(request,false);
-        if (sessionId != null) {
-          BufferedHttpServletResponse bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
-          if (bufferedResponse != null) {
-            bufferedResponse.writeTo(servletResponse);
-            return;
-          }
+      ISessionStore sessionStore=webApplication.getSessionStore();
+      String sessionId=sessionStore.getSessionId(request,false);
+      if (sessionId != null) {
+        BufferedHttpServletResponse bufferedResponse=null;
+        String queryString=servletRequest.getQueryString();
+        if (!Strings.isEmpty(queryString)) {
+          bufferedResponse=webApplication.popBufferedResponse(sessionId,queryString);
+        }
+ else {
+          bufferedResponse=webApplication.popBufferedResponse(sessionId,relativePath);
+        }
+        if (bufferedResponse != null) {
+          bufferedResponse.writeTo(servletResponse);
+          return;
         }
       }
     }
