@@ -12,7 +12,7 @@
   variables.put("fireChangeEvent",Boolean.valueOf(notifyComponentOnDateSelected()));
   variables.put("alignWithIcon",Boolean.valueOf(alignWithIcon()));
   Properties p=new Properties();
-  configureWidgetProperties(p);
+  configure(p);
   StringBuffer calendarInit=new StringBuffer();
   for (Iterator i=p.entrySet().iterator(); i.hasNext(); ) {
     Entry entry=(Entry)i.next();
@@ -20,7 +20,7 @@
     Object value=entry.getValue();
     if (value instanceof CharSequence) {
       calendarInit.append(":\"");
-      calendarInit.append(value);
+      calendarInit.append(Strings.toEscapedUnicode(value.toString()));
       calendarInit.append("\"");
     }
  else     if (value instanceof CharSequence[]) {
@@ -28,18 +28,20 @@
       CharSequence[] valueArray=(CharSequence[])value;
       for (int j=0; j < valueArray.length; j++) {
         CharSequence tmpValue=valueArray[j];
-        calendarInit.append("\"");
-        calendarInit.append(tmpValue);
-        calendarInit.append("\"");
-        if (j < valueArray.length - 1) {
+        if (j > 0) {
           calendarInit.append(",");
+        }
+        if (tmpValue != null) {
+          calendarInit.append("\"");
+          calendarInit.append(Strings.toEscapedUnicode(tmpValue.toString()));
+          calendarInit.append("\"");
         }
       }
       calendarInit.append("]");
     }
  else {
       calendarInit.append(":");
-      calendarInit.append(value);
+      calendarInit.append(Strings.toEscapedUnicode(String.valueOf(value)));
     }
     if (i.hasNext()) {
       calendarInit.append(",");
