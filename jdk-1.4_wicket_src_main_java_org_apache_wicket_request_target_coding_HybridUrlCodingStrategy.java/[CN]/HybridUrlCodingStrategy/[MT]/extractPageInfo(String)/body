@@ -1,12 +1,15 @@
 {
   int begin=url.lastIndexOf(getBeginSeparator());
-  if (begin != -1) {
-    String substring=url.substring(begin);
-    if (substring.length() > getBeginSeparator().length() + getEndSeparator().length() && substring.startsWith(getBeginSeparator()) && substring.endsWith(getEndSeparator())) {
-      String pageInfoString=substring.substring(getBeginSeparator().length(),substring.length() - getEndSeparator().length());
+  PageInfo last=null;
+  String lastSubstring="";
+  while (begin != -1) {
+    lastSubstring=url.substring(begin);
+    if (lastSubstring.length() > getBeginSeparator().length() + getEndSeparator().length() && lastSubstring.startsWith(getBeginSeparator()) && lastSubstring.endsWith(getEndSeparator())) {
+      String pageInfoString=lastSubstring.substring(getBeginSeparator().length(),lastSubstring.length() - getEndSeparator().length());
       PageInfo info=PageInfo.parsePageInfo(pageInfoString);
-      return new PageInfoExtraction(url.substring(0,url.length() - substring.length()),info);
+      last=info;
     }
+    begin=url.lastIndexOf(getBeginSeparator(),begin - 1);
   }
-  return new PageInfoExtraction(url,null);
+  return new PageInfoExtraction(url.substring(0,url.length() - lastSubstring.length()),last);
 }

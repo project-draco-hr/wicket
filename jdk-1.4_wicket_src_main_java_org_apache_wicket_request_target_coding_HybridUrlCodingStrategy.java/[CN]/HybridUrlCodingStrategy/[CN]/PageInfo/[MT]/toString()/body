@@ -2,21 +2,21 @@
   AppendingStringBuffer buffer=new AppendingStringBuffer(5);
   if (pageMapName != null) {
     if (versionNumber == null && pageId == null) {
-      buffer.append(":");
+      buffer.append(getPageInfoSeparator());
     }
     buffer.append(pageMapName);
     if (pageId != null) {
-      buffer.append(":");
+      buffer.append(getPageInfoSeparator());
     }
   }
   if (pageId != null) {
     buffer.append(pageId);
   }
   if (pageId != null && (versionNumber == null || versionNumber.intValue() == 0) && pageMapName != null) {
-    buffer.append(":");
+    buffer.append(getPageInfoSeparator());
   }
   if (versionNumber != null && versionNumber.intValue() != 0) {
-    buffer.append(":");
+    buffer.append(getPageInfoSeparator());
     buffer.append(versionNumber);
   }
   return buffer.toString();
