@@ -2,13 +2,13 @@
   headerRendering=true;
   if (header == null) {
     header=new AjaxHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID,this);
-  }
-  Component oldHeader=component.getPage().get(HtmlHeaderSectionHandler.HEADER_ID);
-  if (oldHeader != null) {
-    component.getPage().replace(header);
-  }
+    oldHeader=component.getPage().get(HtmlHeaderSectionHandler.HEADER_ID);
+    if (oldHeader != null) {
+      component.getPage().replace(header);
+    }
  else {
-    component.getPage().add(header);
+      component.getPage().add(header);
+    }
   }
   Response oldResponse=RequestCycle.get().setResponse(encodingHeaderResponse);
   encodingHeaderResponse.reset();
@@ -41,10 +41,4 @@
     response.write("</header-contribution>");
   }
   headerRendering=false;
-  if (oldHeader == null) {
-    component.getPage().remove(header);
-  }
- else {
-    component.getPage().replace(oldHeader);
-  }
 }
