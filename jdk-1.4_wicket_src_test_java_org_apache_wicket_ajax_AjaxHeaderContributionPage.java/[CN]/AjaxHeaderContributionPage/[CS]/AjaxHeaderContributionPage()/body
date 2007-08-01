@@ -1,0 +1,19 @@
+{
+  final Component test1=new AjaxHeaderContribution("test1").setOutputMarkupId(true);
+  add(test1);
+  final Component test2=new AjaxHeaderContribution("test2").setOutputMarkupId(true);
+  add(test2);
+  final Component test3=new AjaxHeaderContribution("test3").setOutputMarkupId(true);
+  add(test3);
+  add(new AjaxFallbackLink("link"){
+    private static final long serialVersionUID=1L;
+    public void onClick(    AjaxRequestTarget target){
+      target.prependJavascript("prepend();");
+      target.addComponent(test1);
+      target.addComponent(test2);
+      target.addComponent(test3);
+      target.appendJavascript("append();");
+    }
+  }
+);
+}
