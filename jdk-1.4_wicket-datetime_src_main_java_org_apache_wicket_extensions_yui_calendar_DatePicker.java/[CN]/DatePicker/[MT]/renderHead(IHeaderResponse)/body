@@ -6,7 +6,8 @@
   response.renderCSSReference(new CompressedResourceReference(DatePicker.class,"assets/calendar.css"));
   response.renderJavascriptReference(new JavascriptResourceReference(DatePicker.class,"wicket-date.js"));
   Map variables=new HashMap();
-  String widgetId=getComponentMarkupId();
+  String widgetId=getEscapedComponentMarkupId();
+  variables.put("componentId",getComponentMarkupId());
   variables.put("widgetId",widgetId);
   variables.put("datePattern",getDatePattern());
   variables.put("fireChangeEvent",Boolean.valueOf(notifyComponentOnDateSelected()));
