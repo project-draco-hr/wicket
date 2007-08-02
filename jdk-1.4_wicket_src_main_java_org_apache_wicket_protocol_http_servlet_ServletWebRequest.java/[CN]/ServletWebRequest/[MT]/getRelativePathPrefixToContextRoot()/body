@@ -4,7 +4,13 @@
   }
   String tmp=getRelativePathPrefixToWicketHandler();
   PrependingStringBuffer prepender=new PrependingStringBuffer(tmp);
-  String path=Strings.replaceAll(getPath(),"%3A",":").toString();
+  String path;
+  try {
+    path=URLDecoder.decode(Strings.replaceAll(getPath(),"%3A",":").toString(),"UTF-8");
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new WicketRuntimeException(e);
+  }
   if (path == null || path.length() == 0) {
     path="";
   }
