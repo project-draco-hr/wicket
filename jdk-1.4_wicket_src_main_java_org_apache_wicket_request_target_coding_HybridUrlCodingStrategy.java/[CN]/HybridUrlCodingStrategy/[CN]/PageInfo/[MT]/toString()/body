@@ -1,21 +1,31 @@
 {
   AppendingStringBuffer buffer=new AppendingStringBuffer(5);
-  if (pageMapName != null) {
-    if (versionNumber == null && pageId == null) {
-      buffer.append(getPageInfoSeparator());
-    }
-    buffer.append(pageMapName);
-    if (pageId != null) {
-      buffer.append(getPageInfoSeparator());
-    }
-  }
-  if (pageId != null) {
+  final boolean pmEmpty=Strings.isEmpty(pageMapName);
+  final boolean pmStartsWithCharacter=!pmEmpty && Character.isLetter(pageMapName.charAt(0));
+  if (pageId != null && pmEmpty && versionNumber.intValue() == 0) {
     buffer.append(pageId);
   }
-  if (pageId != null && (versionNumber == null || versionNumber.intValue() == 0) && pageMapName != null) {
+ else   if (pageId != null && pmEmpty && versionNumber.intValue() != 0) {
+    buffer.append(pageId);
     buffer.append(getPageInfoSeparator());
+    buffer.append(versionNumber);
   }
-  if (versionNumber != null && versionNumber.intValue() != 0) {
+ else   if (pageId == null && pmStartsWithCharacter) {
+    buffer.append(pageMapName);
+  }
+ else   if (pageId == null && !pmEmpty && !pmStartsWithCharacter) {
+    buffer.append(getPageInfoSeparator());
+    buffer.append(pageMapName);
+  }
+ else   if (pmStartsWithCharacter && pageId != null && versionNumber.intValue() == 0) {
+    buffer.append(pageMapName);
+    buffer.append(getPageInfoSeparator());
+    buffer.append(pageId);
+  }
+ else   if (!pmEmpty && pageId != null) {
+    buffer.append(pageMapName);
+    buffer.append(getPageInfoSeparator());
+    buffer.append(pageId);
     buffer.append(getPageInfoSeparator());
     buffer.append(versionNumber);
   }
