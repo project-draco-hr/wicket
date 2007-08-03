@@ -1,5 +1,4 @@
 {
-  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"yahoo/yahoo-min.js"));
   response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"yuiloader-beta.js"));
   Map variables=new HashMap();
   String widgetId=getEscapedComponentMarkupId();
@@ -47,5 +46,7 @@
     }
   }
   variables.put("calendarInit",calendarInit.toString());
-  TextTemplateHeaderContributor.forJavaScript(DatePicker.class,"DatePicker.js",Model.valueOf(variables)).renderHead(response);
+  TextTemplate datePickerJs=new PackagedTextTemplate(DatePicker.class,"DatePicker.js");
+  datePickerJs.interpolate(variables);
+  response.renderOnDomReadyJavascript(datePickerJs.asString());
 }
