@@ -1,10 +1,5 @@
 {
-  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"yahoo.js"));
-  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"event.js"));
-  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"dom.js"));
-  response.renderJavascriptReference(new JavascriptResourceReference(DatePicker.class,"calendar.js"));
-  response.renderCSSReference(new CompressedResourceReference(DatePicker.class,"assets/calendar.css"));
-  response.renderJavascriptReference(new JavascriptResourceReference(DatePicker.class,"wicket-date.js"));
+  response.renderJavascriptReference(new JavascriptResourceReference(YuiLib.class,"yuiloader-beta.js"));
   Map variables=new HashMap();
   String widgetId=getEscapedComponentMarkupId();
   variables.put("componentId",getComponentMarkupId());
@@ -12,6 +7,8 @@
   variables.put("datePattern",getDatePattern());
   variables.put("fireChangeEvent",Boolean.valueOf(notifyComponentOnDateSelected()));
   variables.put("alignWithIcon",Boolean.valueOf(alignWithIcon()));
+  variables.put("pathToWicketDate",RequestCycle.get().urlFor(new JavascriptResourceReference(DatePicker.class,"wicket-date.js")));
+  variables.put("basePath",RequestCycle.get().urlFor(new JavascriptResourceReference(YuiLib.class,"")));
   Properties p=new Properties();
   configure(p);
   StringBuffer calendarInit=new StringBuffer();
@@ -50,9 +47,4 @@
   }
   variables.put("calendarInit",calendarInit.toString());
   TextTemplateHeaderContributor.forJavaScript(DatePicker.class,"DatePicker.js",Model.valueOf(variables)).renderHead(response);
-  StringBuffer initBuffer=new StringBuffer();
-  initBuffer.append("init");
-  initBuffer.append(widgetId + "DpJs");
-  initBuffer.append("();");
-  response.renderOnDomReadyJavascript(initBuffer.toString());
 }
