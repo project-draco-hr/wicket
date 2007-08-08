@@ -1,5 +1,8 @@
 {
   super(id);
+  if (columns == null || columns.length < 1) {
+    throw new IllegalArgumentException("Argument `columns` cannot be null or empty");
+  }
   this.columns=columns;
   datagrid=new DataGridView("rows",columns,dataProvider){
     private static final long serialVersionUID=1L;
