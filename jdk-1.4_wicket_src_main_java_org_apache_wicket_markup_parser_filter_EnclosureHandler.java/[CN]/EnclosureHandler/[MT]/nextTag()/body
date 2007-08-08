@@ -7,23 +7,23 @@
   final boolean isEnclosureTag=isWicketTag && ((WicketTag)tag).isEnclosureTag();
   if (isEnclosureTag) {
     if (tag.isOpen()) {
-      if (this.stack == null) {
-        this.stack=new Stack();
+      if (stack == null) {
+        stack=new Stack();
       }
-      this.stack.push(tag);
+      stack.push(tag);
     }
  else     if (tag.isClose()) {
-      if (this.stack == null) {
+      if (stack == null) {
         throw new ParseException("Missing open tag for Enclosure: " + tag.toString(),tag.getPos());
       }
-      ComponentTag lastEnclosure=(ComponentTag)this.stack.pop();
-      if (this.childId != null) {
-        lastEnclosure.put(CHILD_ATTRIBUTE,this.childId);
+      ComponentTag lastEnclosure=(ComponentTag)stack.pop();
+      if (childId != null) {
+        lastEnclosure.put(CHILD_ATTRIBUTE,childId);
         lastEnclosure.setModified(true);
-        this.childId=null;
+        childId=null;
       }
-      if (this.stack.size() == 0) {
-        this.stack=null;
+      if (stack.size() == 0) {
+        stack=null;
       }
     }
  else {
@@ -31,12 +31,12 @@
     }
   }
  else   if ((tag.getId() != null) && (isWicketTag == false) && (stack != null)) {
-    ComponentTag lastEnclosure=(ComponentTag)this.stack.lastElement();
+    ComponentTag lastEnclosure=(ComponentTag)stack.lastElement();
     if (lastEnclosure.getString(CHILD_ATTRIBUTE) == null) {
-      if (this.childId != null) {
+      if (childId != null) {
         throw new ParseException("Use <wicket:enclosure child='xxx'> to name the child component",tag.getPos());
       }
-      this.childId=tag.getId();
+      childId=tag.getId();
     }
   }
   return tag;

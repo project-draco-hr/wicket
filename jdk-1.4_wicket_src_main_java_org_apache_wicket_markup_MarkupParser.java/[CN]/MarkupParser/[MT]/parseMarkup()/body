@@ -1,8 +1,8 @@
 {
-  final boolean stripComments=this.markupSettings.getStripComments();
-  final boolean compressWhitespace=this.markupSettings.getCompressWhitespace();
+  final boolean stripComments=markupSettings.getStripComments();
+  final boolean compressWhitespace=markupSettings.getCompressWhitespace();
   try {
-    int size=this.markup.size();
+    int size=markup.size();
     ComponentTag tag;
     while (null != (tag=getNextTag())) {
       boolean add=(tag.getId() != null);
@@ -19,30 +19,30 @@
           if (compressWhitespace) {
             rawMarkup=compressWhitespace(rawMarkup);
           }
-          this.markup.addMarkupElement(size,new RawMarkup(rawMarkup));
+          markup.addMarkupElement(size,new RawMarkup(rawMarkup));
         }
         if (add) {
           if (tag.isIgnore() == false) {
-            this.markup.addMarkupElement(tag);
+            markup.addMarkupElement(tag);
           }
         }
  else         if (tag.isModified()) {
-          this.markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
+          markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
         }
         xmlParser.setPositionMarker();
       }
-      size=this.markup.size();
+      size=markup.size();
     }
   }
  catch (  final ParseException ex) {
     final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
     if (text.length() > 0) {
-      this.markup.addMarkupElement(new RawMarkup(text));
+      markup.addMarkupElement(new RawMarkup(text));
     }
-    this.markup.getMarkupResourceData().setEncoding(xmlParser.getEncoding());
-    this.markup.getMarkupResourceData().setXmlDeclaration(xmlParser.getXmlDeclaration());
-    final MarkupStream markupStream=new MarkupStream(this.markup);
-    markupStream.setCurrentIndex(this.markup.size() - 1);
+    markup.getMarkupResourceData().setEncoding(xmlParser.getEncoding());
+    markup.getMarkupResourceData().setXmlDeclaration(xmlParser.getXmlDeclaration());
+    final MarkupStream markupStream=new MarkupStream(markup);
+    markupStream.setCurrentIndex(markup.size() - 1);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }
   final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
@@ -54,7 +54,7 @@
     if (compressWhitespace) {
       rawMarkup=compressWhitespace(rawMarkup);
     }
-    this.markup.addMarkupElement(new RawMarkup(rawMarkup));
+    markup.addMarkupElement(new RawMarkup(rawMarkup));
   }
-  this.markup.makeImmutable();
+  markup.makeImmutable();
 }
