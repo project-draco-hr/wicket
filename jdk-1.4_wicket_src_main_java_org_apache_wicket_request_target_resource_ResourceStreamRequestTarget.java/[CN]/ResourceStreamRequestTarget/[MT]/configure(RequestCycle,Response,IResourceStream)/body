@@ -11,8 +11,9 @@
       response.detectContentType(requestCycle,requestCycle.getRequest().getURL());
     }
   }
-  if (resourceStream.length() >= 0) {
-    response.setContentLength(resourceStream.length());
+  long len=resourceStream.length();
+  if (len >= 0) {
+    response.setContentLength(len);
   }
   String file=getFileName();
   if (file != null && (response instanceof WebResponse)) {
