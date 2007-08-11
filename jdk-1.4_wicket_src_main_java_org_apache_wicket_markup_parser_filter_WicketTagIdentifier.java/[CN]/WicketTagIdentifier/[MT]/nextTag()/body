@@ -3,11 +3,13 @@
   if (xmlTag == null) {
     return xmlTag;
   }
-  final String namespace=this.markup.getWicketNamespace();
+  final String namespace=markup.getWicketNamespace();
   ComponentTag tag;
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new WicketTag(xmlTag);
     tag.setId("_" + tag.getName());
+    tag.setAutoComponentTag(true);
+    tag.setModified(true);
     if (!isWellKnown(xmlTag)) {
       throw new ParseException("Unknown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag.getPos());
     }
