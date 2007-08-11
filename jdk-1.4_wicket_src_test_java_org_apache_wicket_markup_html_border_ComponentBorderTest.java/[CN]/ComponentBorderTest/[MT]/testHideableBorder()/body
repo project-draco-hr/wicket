@@ -1,0 +1,12 @@
+{
+  executeTest(HideableBorderPage.class,"HideableBorderPage_ExpectedResult.html");
+  Page page=tester.getLastRenderedPage();
+  Border border=(Border)page.get("hideable");
+  assertNotNull(border);
+  AjaxLink link=(AjaxLink)border.get("hideLink");
+  assertNotNull(link);
+  tester.clickLink("hideable:hideLink");
+  tester.assertComponentOnAjaxResponse(border.getBodyContainer());
+  tester.clickLink("hideable:hideLink");
+  tester.assertComponentOnAjaxResponse(border.getBodyContainer());
+}
