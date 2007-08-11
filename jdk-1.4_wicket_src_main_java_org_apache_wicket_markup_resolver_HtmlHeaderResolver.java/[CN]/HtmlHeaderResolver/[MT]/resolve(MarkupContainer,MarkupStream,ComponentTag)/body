@@ -1,12 +1,12 @@
 {
   if (tag.getId().equals(HtmlHeaderSectionHandler.HEADER_ID)) {
-    final WebMarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
+    final WebMarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
     container.autoAdd(header,markupStream);
     return true;
   }
  else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
     if (container instanceof WebPage) {
-      final MarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID);
+      final MarkupContainer header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
       final WebMarkupContainer header2=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         public boolean isTransparentResolver(){
