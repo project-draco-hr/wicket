@@ -2,8 +2,17 @@
   super.onComponentTag(tag);
   checkComponentTag(tag,"form");
   if (isRootForm()) {
-    tag.put("method",getMethod());
-    tag.put("action",Strings.replaceAll(urlFor(IFormSubmitListener.INTERFACE),"&","&amp;"));
+    String method=getMethod().toLowerCase();
+    tag.put("method",method);
+    String url=urlFor(IFormSubmitListener.INTERFACE).toString();
+    if (method.equals("get")) {
+      int i=url.indexOf('?');
+      String action=(i > -1) ? url.substring(0,i) : "";
+      tag.put("action",action);
+    }
+ else {
+      tag.put("action",Strings.replaceAll(url,"&","&amp;"));
+    }
     if (multiPart) {
       tag.put("enctype","multipart/form-data");
     }

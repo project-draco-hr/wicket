@@ -1,7 +1,18 @@
 {
   if (isRootForm()) {
     String nameAndId=getHiddenFieldId();
-    AppendingStringBuffer buffer=new AppendingStringBuffer("<div style=\"display:none\"><input type=\"hidden\" name=\"").append(nameAndId).append("\" id=\"").append(nameAndId).append("\" /></div>");
+    AppendingStringBuffer buffer=new AppendingStringBuffer("<div style=\"display:none\"><input type=\"hidden\" name=\"").append(nameAndId).append("\" id=\"").append(nameAndId).append("\" />");
+    String method=getMethod().toLowerCase();
+    if (method.equals("get")) {
+      String url=urlFor(IFormSubmitListener.INTERFACE).toString();
+      int i=url.indexOf('?');
+      String[] params=((i > -1) ? url.substring(i + 1) : url).split("&");
+      for (int j=0; j < params.length; j++) {
+        String[] pair=params[j].split("=");
+        buffer.append("<input type=\"hidden\" name=\"").append(pair[0]).append("\" value=\"").append(pair.length > 1 ? pair[1] : "").append("\" />");
+      }
+    }
+    buffer.append("</div>");
     getResponse().write(buffer);
     if (defaultButton != null && defaultButton.isVisibleInHierarchy() && defaultButton.isEnabled()) {
       appendDefaultButtonField(markupStream,openTag);
