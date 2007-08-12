@@ -5,6 +5,7 @@
       public void onChange(){
         log.info("A properties files has changed. Remove all entries " + "from the cache. Resource: " + resourceStream);
         clearCache();
+        Application.get().getResourceSettings().getLocalizer().clearCache();
         Iterator iter=afterReloadListeners.iterator();
         while (iter.hasNext()) {
           IPropertiesChangeListener listener=(IPropertiesChangeListener)iter.next();

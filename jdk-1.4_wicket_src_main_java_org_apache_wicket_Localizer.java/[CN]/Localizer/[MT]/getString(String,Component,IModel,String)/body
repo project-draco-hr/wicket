@@ -1,13 +1,20 @@
 {
-  String string=null;
   final IResourceSettings resourceSettings=Application.get().getResourceSettings();
-  Iterator iter=resourceSettings.getStringResourceLoaders().iterator();
-  while (iter.hasNext()) {
-    IStringResourceLoader loader=(IStringResourceLoader)iter.next();
-    string=loader.loadStringResource(component,key);
-    if (string != null) {
-      break;
+  String cacheKey=getCacheKey(key,component);
+  String string=null;
+  if (cache.containsKey(cacheKey)) {
+    string=getFromCache(cacheKey);
+  }
+ else {
+    Iterator iter=resourceSettings.getStringResourceLoaders().iterator();
+    while (iter.hasNext()) {
+      IStringResourceLoader loader=(IStringResourceLoader)iter.next();
+      string=loader.loadStringResource(component,key);
+      if (string != null) {
+        break;
+      }
     }
+    putIntoCache(cacheKey,string);
   }
   if ((string == null) && (defaultValue != null)) {
     if (resourceSettings.getUseDefaultOnMissingResource()) {
