@@ -1,7 +1,23 @@
 {
-  while (current instanceof RawMarkup) {
-    if (next() == null) {
-      break;
+  while (true) {
+    if (current instanceof RawMarkup) {
+      if (next() != null) {
+        continue;
+      }
     }
+ else     if ((current instanceof ComponentTag) && !(current instanceof WicketTag)) {
+      ComponentTag tag=(ComponentTag)current;
+      if (tag.isAutoComponentTag()) {
+        if (next() != null) {
+          continue;
+        }
+      }
+ else       if (tag.isClose() && tag.getOpenTag().isAutoComponentTag()) {
+        if (next() != null) {
+          continue;
+        }
+      }
+    }
+    break;
   }
 }
