@@ -1,7 +1,10 @@
 {
-  final String input=getInput();
-  if (input == null && !isInputNullable()) {
-    return true;
+  if (isRequired()) {
+    final String input=getInput();
+    if (input == null && !isInputNullable()) {
+      return true;
+    }
+    return !Strings.isEmpty(input);
   }
-  return !Strings.isEmpty(input);
+  return true;
 }
