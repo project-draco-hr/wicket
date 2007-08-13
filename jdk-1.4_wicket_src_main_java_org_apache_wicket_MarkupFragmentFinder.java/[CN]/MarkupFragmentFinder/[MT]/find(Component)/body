@@ -24,6 +24,10 @@
       markupStream.setCurrentIndex(index);
       return markupStream;
     }
+    if (parentWithAssociatedMarkup instanceof Fragment) {
+      markupStream=((Fragment)parentWithAssociatedMarkup).findComponentIndex(component.getId());
+      return markupStream;
+    }
     if (parentWithAssociatedMarkup instanceof Border) {
       parentWithAssociatedMarkup=parentWithAssociatedMarkup.findParentWithAssociatedMarkup();
     }

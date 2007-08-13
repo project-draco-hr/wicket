@@ -1,0 +1,9 @@
+{
+  MarkupStream markupStream=getAssociatedMarkupStream(true);
+  int index=markupStream.findComponentIndex(markupId,path);
+  if (index == -1) {
+    throw new MarkupException("Markup of component class `" + markupStream.getContainerClass().getName() + "` does not contain a fragment with wicket:id `"+ markupId+ "`. Context: "+ toString());
+  }
+  markupStream.setCurrentIndex(index);
+  return markupStream;
+}
