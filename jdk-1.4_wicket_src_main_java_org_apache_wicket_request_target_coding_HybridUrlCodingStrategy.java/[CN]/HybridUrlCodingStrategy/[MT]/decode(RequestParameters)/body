@@ -14,22 +14,32 @@
   }
   final String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
   int originalUrlTrailingSlashesCount=getTrailingSlashesCount(extraction.getUrlAfterExtraction());
+  boolean redirect=isRedirectOnBookmarkableRequest();
+  if (Strings.isEmpty(pageMapName) != true && alwaysRedirectWhenPageMapIsSpecified()) {
+    redirect=true;
+  }
   if (interfaceParameter != null) {
     WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
     return new BookmarkableListenerInterfaceRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName());
   }
  else   if (pageId == null) {
-    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,isRedirectOnBookmarkableRequest());
+    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,redirect);
   }
  else {
-    Page page=Session.get().getPage(pageMapName,"" + pageId,pageVersion != null ? pageVersion.intValue() : 0);
+    Page page;
+    if (Strings.isEmpty(pageMapName) && Application.exists() && Application.get().getSessionSettings().isPageIdUniquePerSession()) {
+      page=Session.get().getPage(pageId.intValue(),pageVersion != null ? pageVersion.intValue() : 0);
+    }
+ else {
+      page=Session.get().getPage(pageMapName,"" + pageId,pageVersion != null ? pageVersion.intValue() : 0);
+    }
     if (page != null && page.getClass().equals(pageClassRef.get())) {
       requestParameters.setInterfaceName(IRedirectListener.INTERFACE.getName());
       RequestCycle.get().getRequest().setPage(page);
       return new PageRequestTarget(page);
     }
  else {
-      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,isRedirectOnBookmarkableRequest());
+      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,redirect);
     }
   }
 }

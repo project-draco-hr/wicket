@@ -1,0 +1,14 @@
+{
+  List list=getPageVersions(sessionId,pageMapName,false);
+  if (list != null) {
+synchronized (list) {
+      for (Iterator i=list.iterator(); i.hasNext(); ) {
+        PageVersions v=(PageVersions)i.next();
+        if (v.pageid == pageId && v.versionid == pageVersion) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
