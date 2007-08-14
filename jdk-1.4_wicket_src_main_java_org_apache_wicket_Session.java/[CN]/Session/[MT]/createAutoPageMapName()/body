@@ -1,9 +1,9 @@
 {
-  String name=getAutoPageMapNamePrefix() + autoCreatePageMapCounter + getAutoPageMapNameSuffix();
+  String name=getAutoPageMapNamePrefix() + currentCreateAutoPageMapCounter() + getAutoPageMapNameSuffix();
   IPageMap pm=pageMapForName(name,false);
   while (pm != null) {
-    autoCreatePageMapCounter++;
-    name=getAutoPageMapNamePrefix() + autoCreatePageMapCounter + getAutoPageMapNameSuffix();
+    incrementCreateAutoPageMapCounter();
+    name=getAutoPageMapNamePrefix() + currentCreateAutoPageMapCounter() + getAutoPageMapNameSuffix();
     pm=pageMapForName(name,false);
   }
   return name;
