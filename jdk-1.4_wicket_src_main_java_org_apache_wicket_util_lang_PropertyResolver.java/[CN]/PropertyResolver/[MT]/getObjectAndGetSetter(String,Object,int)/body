@@ -22,22 +22,30 @@
         break;
       }
     }
-    Object newValue=getAndSetter.getValue(value);
+    Object newValue=null;
+    if (value != null) {
+      newValue=getAndSetter.getValue(value);
+    }
     if (newValue == null) {
-      if (tryToCreateNull) {
+      if (tryToCreateNull == CREATE_NEW_VALUE) {
         newValue=getAndSetter.newValue(value);
         if (newValue == null) {
           return null;
         }
+      }
+ else       if (tryToCreateNull == RESOLVE_CLASS) {
+        clz=getAndSetter.getTargetClass();
       }
  else {
         return null;
       }
     }
     value=newValue;
+    if (value != null) {
+      clz=value.getClass();
+    }
     lastIndex=index + 1;
     index=expressionBracketsSeperated.indexOf('.',lastIndex);
-    clz=value.getClass();
     if (index == -1) {
       exp=expressionBracketsSeperated.substring(lastIndex);
       break;
