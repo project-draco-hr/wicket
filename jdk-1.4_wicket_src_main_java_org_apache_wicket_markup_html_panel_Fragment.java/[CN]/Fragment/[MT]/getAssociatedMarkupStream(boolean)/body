@@ -4,7 +4,13 @@
     stream=markupProvider.getAssociatedMarkupStream(false);
   }
   if (stream == null) {
-    stream=super.getAssociatedMarkupStream(throwException);
+    stream=super.getAssociatedMarkupStream(false);
+  }
+  if (stream == null && getParent() != null) {
+    stream=getParent().getAssociatedMarkupStream(false);
+  }
+  if (stream == null && throwException) {
+    super.getAssociatedMarkupStream(true);
   }
   return stream;
 }
