@@ -1,5 +1,8 @@
 {
   YuiLib.load(response);
+  if (enableMonthYearSelection()) {
+    response.renderCSSReference(new CompressedResourceReference(DatePicker.class,"assets/wicket-calendar.css"));
+  }
   Map variables=new HashMap();
   String widgetId=getEscapedComponentMarkupId();
   variables.put("componentId",getComponentMarkupId());
@@ -9,6 +12,7 @@
   variables.put("alignWithIcon",Boolean.valueOf(alignWithIcon()));
   variables.put("pathToWicketDate",RequestCycle.get().urlFor(new JavascriptResourceReference(DatePicker.class,"wicket-date.js")));
   variables.put("basePath",RequestCycle.get().urlFor(new JavascriptResourceReference(YuiLib.class,"")));
+  variables.put("enableMonthYearSelection",Boolean.valueOf(enableMonthYearSelection()));
   Properties p=new Properties();
   configure(p);
   StringBuffer calendarInit=new StringBuffer();

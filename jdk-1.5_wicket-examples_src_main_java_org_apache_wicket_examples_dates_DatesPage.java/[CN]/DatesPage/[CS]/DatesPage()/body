@@ -13,8 +13,20 @@
     }
   }
 );
-  Form form=new Form("form");
+  Form form=new Form("form"){
+    @Override protected void onSubmit(){
+      info("set date to " + date);
+    }
+  }
+;
   add(form);
   form.add(dateTextField);
-  dateTextField.add(new DatePicker());
+  dateTextField.add(new DatePicker(){
+    @Override protected boolean enableMonthYearSelection(){
+      return false;
+    }
+  }
+);
+  dateTextField.add(DateValidator.minimum(new Date()));
+  add(new FeedbackPanel("feedback"));
 }
