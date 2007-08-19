@@ -1,5 +1,4 @@
 {
-  Object convertedInput=null;
   Object dateFieldInput=dateField.getConvertedInput();
   if (dateFieldInput != null) {
     MutableDateTime date=new MutableDateTime(dateFieldInput);
@@ -21,12 +20,14 @@
  else {
         date.set(DateTimeFieldType.halfdayOfDay(),0);
       }
-      convertedInput=date.toDate();
+      setConvertedInput(date.toDate());
     }
  catch (    RuntimeException e) {
       DateTimeField.this.error(e.getMessage());
       invalid();
     }
   }
-  setConvertedInput(convertedInput);
+ else {
+    setConvertedInput(null);
+  }
 }
