@@ -15,6 +15,7 @@
   assertEquals("Mock value",domainObject.getText());
   FileUpload fileUpload=page.getFileUpload();
   assertNotNull(fileUpload);
+  assertTrue("setFile failed, no upload content detected.",fileUpload.getBytes().length > 0);
   assertEquals("pom.xml",fileUpload.getClientFileName());
   assertEquals("text/xml",fileUpload.getContentType());
 }
