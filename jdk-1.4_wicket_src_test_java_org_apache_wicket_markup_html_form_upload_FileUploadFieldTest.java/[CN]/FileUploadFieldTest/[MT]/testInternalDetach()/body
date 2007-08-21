@@ -1,7 +1,5 @@
 {
   final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
-  FileUploadField field=new FileUploadField("upload");
-  page.getForm().add(field);
   tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
     public Page getTestPage(){
@@ -9,11 +7,6 @@
     }
   }
 );
-  RequestCycle requestCycle=tester.createRequestCycle();
-  MockHttpServletRequest servletRequest=tester.getServletRequest();
-  servletRequest.setMethod("POST");
-  servletRequest.setParameter("form2:hf:fs","");
-  servletRequest.setParameter("wicketState","");
   File tmp=null;
   try {
     tmp=new File(java.io.File.createTempFile(this.getClass().getName(),".txt"));
@@ -22,17 +15,17 @@
       os.write("test test test test test\n".getBytes());
     }
     os.close();
-    servletRequest.addFile("upload",tmp,"text/plain");
-    requestCycle.setRequest(new MultipartServletWebRequest(servletRequest,Bytes.MAX));
-    field.attach();
-    FileUpload fileUpload=field.getFileUpload();
+    FormTester formtester=tester.newFormTester("form");
+    formtester.setFile("upload",tmp,"text/plain");
+    formtester.submit();
+    FileUpload fileUpload=page.getFileUpload();
     assertNotNull(fileUpload);
     InputStream is=fileUpload.getInputStream();
     assertTrue(is.read() != -1);
-    field.detach();
+    fileUpload.closeStreams();
     try {
       is.read();
-      fail();
+      fail("The input stream should be closed so we shouldn't be able to read any more bytes");
     }
  catch (    IOException e) {
     }
