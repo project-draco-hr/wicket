@@ -1,0 +1,21 @@
+{
+  tester.startPage(MockFormFileUploadPage.class);
+  MockFormFileUploadPage page=(MockFormFileUploadPage)tester.getLastRenderedPage();
+  MockDomainObjectFileUpload domainObject=page.getDomainObject();
+  tester.createRequestCycle();
+  assertNull(page.getFileUpload());
+  assertNotNull(domainObject);
+  assertNull(domainObject.getText());
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setFile("file",new File("src/test/java/org/apache/wicket/util/tester/bg.jpg"),"image/jpeg");
+  formTester.setValue("text","Mock value");
+  formTester.submit();
+  assertNotNull(domainObject);
+  assertNotNull(domainObject.getText());
+  assertEquals("Mock value",domainObject.getText());
+  FileUpload fileUpload=page.getFileUpload();
+  assertNotNull(fileUpload);
+  assertTrue("uploaded content does not have the right size, expected 428, got " + fileUpload.getBytes().length,fileUpload.getBytes().length == 428);
+  assertEquals("bg.jpg",fileUpload.getClientFileName());
+  assertEquals("image/jpeg",fileUpload.getContentType());
+}
