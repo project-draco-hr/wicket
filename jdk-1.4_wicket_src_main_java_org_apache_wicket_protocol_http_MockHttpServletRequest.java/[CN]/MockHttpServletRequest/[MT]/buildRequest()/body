@@ -1,37 +1,44 @@
 {
-  StringBuffer issb=new StringBuffer();
-  String crlf="\r\n";
-  String boundary="--abcdefgABCDEFG";
-  for (Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
-    final String name=(String)iterator.next();
-    issb.append(boundary).append(crlf);
-    issb.append("Content-Disposition: form-data; name=\"").append(name).append("\"").append(crlf).append(crlf);
-    issb.append(parameters.get(name)).append(crlf);
-  }
   try {
+    ByteArrayOutputStream out=new ByteArrayOutputStream();
+    for (Iterator iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
+      final String name=(String)iterator.next();
+      newAttachment(out);
+      out.write("; name=\"".getBytes());
+      out.write(name.getBytes());
+      out.write("\"".getBytes());
+      out.write(crlf.getBytes());
+      out.write(crlf.getBytes());
+      out.write(parameters.get(name).toString().getBytes());
+      out.write(crlf.getBytes());
+    }
     if (uploadedFiles != null) {
       for (Iterator iterator=uploadedFiles.keySet().iterator(); iterator.hasNext(); ) {
         String fieldName=(String)iterator.next();
         UploadedFile uf=(UploadedFile)uploadedFiles.get(fieldName);
-        issb.append(boundary).append(crlf);
-        issb.append("Content-Disposition: form-data; name=\"").append(fieldName).append("\"; filename=\"").append(uf.getFile().getName()).append("\"").append(crlf);
-        issb.append("Content-Type: ").append(uf.getContentType()).append(crlf).append(crlf);
+        newAttachment(out);
+        out.write("; name=\"".getBytes());
+        out.write(fieldName.getBytes());
+        out.write("\"; filename=\"".getBytes());
+        out.write(uf.getFile().getName().getBytes());
+        out.write("\"".getBytes());
+        out.write(crlf.getBytes());
+        out.write("Content-Type: ".getBytes());
+        out.write(uf.getContentType().getBytes());
+        out.write(crlf.getBytes());
+        out.write(crlf.getBytes());
         FileInputStream fis=new FileInputStream(uf.getFile());
-        StringWriter sw=new StringWriter();
-        byte[] data=new byte[1024];
-        int read=0;
-        while ((read=fis.read(data)) > 0) {
-          sw.write(new String(data,0,read));
-        }
+        IOUtils.copy(fis,out);
         fis.close();
-        issb.append(sw.getBuffer()).append(crlf);
-        sw.close();
+        out.write(crlf.getBytes());
       }
     }
+    out.write(boundary.getBytes());
+    out.write("--".getBytes());
+    out.write(crlf.getBytes());
+    return out.toByteArray();
   }
  catch (  IOException e) {
     throw new WicketRuntimeException(e);
   }
-  issb.append(boundary).append("--").append(crlf);
-  return issb.toString();
 }
