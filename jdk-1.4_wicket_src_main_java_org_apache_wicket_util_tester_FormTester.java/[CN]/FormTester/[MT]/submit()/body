@@ -4,15 +4,10 @@
     MockHttpServletRequest servletRequest=baseWicketTester.getServletRequest();
     WebRequestCycle requestCycle=baseWicketTester.createRequestCycle();
     servletRequest.setRequestToComponent(workingForm);
-    if (servletRequest.hasUploadedFiles()) {
-      requestCycle.setRequest(new MultipartServletWebRequest(servletRequest,workingForm.getMaxSize()));
-    }
+    servletRequest.setUseMultiPartContentType(isMultiPart());
     baseWicketTester.processRequestCycle(requestCycle);
   }
- catch (  FileUploadException e) {
-    throw new WicketRuntimeException(e);
-  }
- finally {
+  finally {
     closed=true;
   }
 }
