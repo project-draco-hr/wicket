@@ -1,6 +1,7 @@
 {
   reloadingClassLoader.setListener(new IChangeListener(){
     public void onChange(){
+      reloadingClassLoader.destroy();
       reloadingClassLoader=new ReloadingClassLoader(getClass().getClassLoader());
       try {
         init(filterConfig);
