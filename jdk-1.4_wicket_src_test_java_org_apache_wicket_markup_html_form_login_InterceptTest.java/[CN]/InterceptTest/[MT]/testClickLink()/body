@@ -7,9 +7,4 @@
   application.getServletRequest().setRequestToComponent(loginPage.getForm());
   application.getServletRequest().setParameter(loginPage.getTextField().getInputName(),"admin");
   application.processRequestCycle();
-  assertEquals(application.getApplication().getHomePage(),application.getLastRenderedPage().getClass());
-  application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToComponent(application.getLastRenderedPage().get("link"));
-  application.processRequestCycle();
-  assertEquals(PageA.class,application.getLastRenderedPage().getClass());
 }

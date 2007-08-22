@@ -1,5 +1,10 @@
 {
   parameters.clear();
-  final String queryString=redirect.substring(redirect.indexOf('?') + 1);
-  RequestUtils.decodeParameters(queryString,parameters);
+  int queryStringPos=redirect.indexOf('?');
+  if (queryStringPos != -1) {
+    final String queryString=redirect.substring(queryStringPos + 1);
+    RequestUtils.decodeParameters(queryString,parameters);
+  }
+  url=getContextPath() + getServletPath() + "/"+ redirect;
+  log.debug("Redirecting to " + url);
 }
