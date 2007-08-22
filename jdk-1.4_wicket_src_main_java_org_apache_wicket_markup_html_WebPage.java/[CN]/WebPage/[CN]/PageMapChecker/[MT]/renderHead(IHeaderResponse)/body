@@ -2,6 +2,9 @@
   Response response=headResponse.getResponse();
   final WebRequestCycle cycle=(WebRequestCycle)RequestCycle.get();
   final IRequestTarget target=cycle.getRequestTarget();
+  if (webPage.getStatelessHint()) {
+    return;
+  }
   IPageMap pageMap=webPage.getPageMap();
   String name=pageMap.getName();
   if (name == null) {
