@@ -1,6 +1,15 @@
 {
   RequestParameters requestParameters=new RequestParameters();
   requestParameters.setResourceKey(resourceReference.getSharedResourceKey());
+  if (getApplication().getResourceSettings().getAddLastModifiedTimeToResourceReferenceUrl()) {
+    Time time=resourceReference.lastModifiedTime();
+    if (time != null) {
+      if (parameters == null) {
+        parameters=new ValueMap();
+        parameters.put("wicket:lm",new Long(time.getMilliseconds()));
+      }
+    }
+  }
   requestParameters.setParameters(parameters);
   CharSequence url=getProcessor().getRequestCodingStrategy().encode(this,new SharedResourceRequestTarget(requestParameters));
   return url;

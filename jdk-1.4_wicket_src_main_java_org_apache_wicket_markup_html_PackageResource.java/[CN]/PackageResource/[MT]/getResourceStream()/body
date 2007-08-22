@@ -10,6 +10,10 @@
       throw new AbortException();
     }
   }
-  this.locale=resourceStream.getLocale();
+  locale=resourceStream.getLocale();
+  if (resourceStream != null) {
+    lastModifiedTime=resourceStream.lastModifiedTime();
+    lastModifiedTimeUpdate=System.currentTimeMillis();
+  }
   return resourceStream;
 }
