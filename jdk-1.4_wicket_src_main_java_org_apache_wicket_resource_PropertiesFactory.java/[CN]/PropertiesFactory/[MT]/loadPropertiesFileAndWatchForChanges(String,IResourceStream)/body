@@ -1,11 +1,11 @@
 {
-  final ModificationWatcher watcher=resourceSettings.getResourceWatcher(true);
+  final ModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(true);
   if (watcher != null) {
     watcher.add(resourceStream,new IChangeListener(){
       public void onChange(){
-        log.info("A properties files has changed. Remove all entries " + "from the cache. Resource: " + resourceStream);
+        log.info("A properties files has changed. Removing all entries " + "from the cache. Resource: " + resourceStream);
         clearCache();
-        Application.get().getResourceSettings().getLocalizer().clearCache();
+        application.getResourceSettings().getLocalizer().clearCache();
         Iterator iter=afterReloadListeners.iterator();
         while (iter.hasNext()) {
           IPropertiesChangeListener listener=(IPropertiesChangeListener)iter.next();
