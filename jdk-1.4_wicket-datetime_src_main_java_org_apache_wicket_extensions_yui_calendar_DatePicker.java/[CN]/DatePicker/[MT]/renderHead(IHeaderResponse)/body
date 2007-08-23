@@ -1,7 +1,9 @@
 {
   YuiLib.load(response);
   if (enableMonthYearSelection()) {
-    response.renderCSSReference(new CompressedResourceReference(DatePicker.class,"assets/wicket-calendar.css"));
+    response.renderCSSReference(new ResourceReference(YuiLib.class,"calendar/assets/wicket-calendar.css"));
+    String idSelector="#" + getEscapedComponentMarkupId() + "DpJs";
+    new StringHeaderContributor("<style>" + idSelector + ".yui-calendar .calnavleft, "+ idSelector+ ".yui-calendar .calnavright {display: none;}</style>").renderHead(response);
   }
   Map variables=new HashMap();
   String widgetId=getEscapedComponentMarkupId();
