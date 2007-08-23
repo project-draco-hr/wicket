@@ -6,11 +6,6 @@
     RequestUtils.decodeParameters(queryString,parameters);
   }
   url=getContextPath() + getServletPath() + "/"+ redirect;
-  try {
-    url=new File(url).getCanonicalPath();
-  }
- catch (  IOException e) {
-    throw new RuntimeException(e);
-  }
+  url=RequestUtils.removeDoubleDots(url);
   log.info("Redirecting to " + url);
 }
