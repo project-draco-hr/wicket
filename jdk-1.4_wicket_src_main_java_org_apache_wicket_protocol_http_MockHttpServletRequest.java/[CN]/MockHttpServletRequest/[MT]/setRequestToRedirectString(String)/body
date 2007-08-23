@@ -6,5 +6,11 @@
     RequestUtils.decodeParameters(queryString,parameters);
   }
   url=getContextPath() + getServletPath() + "/"+ redirect;
-  log.debug("Redirecting to " + url);
+  try {
+    url=new File(url).getCanonicalPath();
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+  log.info("Redirecting to " + url);
 }
