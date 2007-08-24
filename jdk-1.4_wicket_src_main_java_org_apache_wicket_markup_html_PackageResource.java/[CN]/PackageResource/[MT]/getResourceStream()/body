@@ -1,6 +1,9 @@
 {
   IResourceStream resourceStream=Application.get().getResourceSettings().getResourceStreamLocator().locate(getScope(),absolutePath,style,locale,null);
   if (resourceStream == null) {
+    if (probingOnly) {
+      return null;
+    }
     String msg="Unable to find package resource [path = " + absolutePath + ", style = "+ style+ ", locale = "+ locale+ "]";
     log.warn(msg);
     if (RequestCycle.get() instanceof WebRequestCycle) {
