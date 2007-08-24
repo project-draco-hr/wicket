@@ -1,0 +1,22 @@
+{
+  IResourceStream resourceStream=Application.get().getResourceSettings().getResourceStreamLocator().locate(getScope(),absolutePath,style,locale,null);
+  if (resourceStream == null) {
+    if (!failOnError) {
+      return null;
+    }
+    String msg="Unable to find package resource [path = " + absolutePath + ", style = "+ style+ ", locale = "+ locale+ "]";
+    log.warn(msg);
+    if (RequestCycle.get() instanceof WebRequestCycle) {
+      throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_NOT_FOUND,msg);
+    }
+ else {
+      throw new AbortException();
+    }
+  }
+  locale=resourceStream.getLocale();
+  if (resourceStream != null) {
+    lastModifiedTime=resourceStream.lastModifiedTime();
+    lastModifiedTimeUpdate=System.currentTimeMillis();
+  }
+  return resourceStream;
+}
