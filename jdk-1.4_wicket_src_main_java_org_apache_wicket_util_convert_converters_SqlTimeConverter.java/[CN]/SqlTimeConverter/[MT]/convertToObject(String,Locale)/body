@@ -1,3 +1,12 @@
 {
-  return new Time(((Date)super.convertToObject(value,locale)).getTime());
+  if (value == null)   return null;
+  if (locale == null)   locale=Locale.getDefault();
+  DateFormat format=DateFormat.getTimeInstance(DateFormat.SHORT,locale);
+  try {
+    Date date=format.parse(value);
+    return new Time(date.getTime());
+  }
+ catch (  ParseException e) {
+    throw new ConversionException("Cannot parse '" + value + "' using format "+ format).setSourceValue(value).setTargetType(getTargetType()).setConverter(this).setLocale(locale);
+  }
 }
