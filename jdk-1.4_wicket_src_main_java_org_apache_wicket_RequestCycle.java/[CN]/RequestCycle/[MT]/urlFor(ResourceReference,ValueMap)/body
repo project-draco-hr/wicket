@@ -1,7 +1,7 @@
 {
   RequestParameters requestParameters=new RequestParameters();
   requestParameters.setResourceKey(resourceReference.getSharedResourceKey());
-  if (getApplication().getResourceSettings().getAddLastModifiedTimeToResourceReferenceUrl()) {
+  if (getApplication().getResourceSettings().getAddLastModifiedTimeToResourceReferenceUrl() && !Strings.isEmpty(resourceReference.getName())) {
     Time time=resourceReference.lastModifiedTime();
     if (time != null) {
       if (parameters == null) {
