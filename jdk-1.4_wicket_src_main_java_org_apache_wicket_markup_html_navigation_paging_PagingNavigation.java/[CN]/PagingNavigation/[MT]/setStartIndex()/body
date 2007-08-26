@@ -1,5 +1,5 @@
 {
-  int firstListItem=this.startIndex;
+  int firstListItem=startIndex;
   int viewSize=Math.min(getViewSize(),pageable.getPageCount());
   int margin=getMargin();
   int currentPage=pageable.getCurrentPage();
@@ -15,12 +15,12 @@
   if (firstListItem < 0) {
     firstListItem=0;
   }
-  if ((viewSize != getIterations()) || (this.startIndex != firstListItem)) {
-    this.modelChanging();
-    addStateChange(new StartIndexChange(this.startIndex));
-    this.startIndex=firstListItem;
-    this.setIterations(Math.min(viewSize,pageable.getPageCount()));
-    this.modelChanged();
+  if ((viewSize != getIterations()) || (startIndex != firstListItem)) {
+    modelChanging();
+    addStateChange(new StartIndexChange(startIndex));
+    startIndex=firstListItem;
+    setIterations(Math.min(viewSize,pageable.getPageCount()));
+    modelChanged();
     removeAll();
   }
 }
