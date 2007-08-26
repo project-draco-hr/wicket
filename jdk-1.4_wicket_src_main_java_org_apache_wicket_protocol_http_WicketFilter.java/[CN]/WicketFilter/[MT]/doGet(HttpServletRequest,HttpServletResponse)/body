@@ -2,7 +2,7 @@
   String relativePath=getRelativePath(servletRequest);
   if (relativePath.length() == 0 && !Strings.stripJSessionId(servletRequest.getRequestURI()).endsWith("/")) {
     final String redirectUrl=servletRequest.getRequestURI() + "/";
-    servletResponse.sendRedirect(redirectUrl);
+    servletResponse.sendRedirect(servletResponse.encodeRedirectURL(redirectUrl));
     return;
   }
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();

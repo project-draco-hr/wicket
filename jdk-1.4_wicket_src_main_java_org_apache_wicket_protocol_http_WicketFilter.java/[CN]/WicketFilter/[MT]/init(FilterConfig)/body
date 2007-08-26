@@ -28,15 +28,15 @@ catch (        SecurityException e) {
       }
     }
     IWebApplicationFactory factory=getApplicationFactory();
-    this.webApplication=factory.createApplication(this);
-    this.webApplication.setWicketFilter(this);
+    webApplication=factory.createApplication(this);
+    webApplication.setWicketFilter(this);
     String contextKey="wicket:" + filterConfig.getFilterName();
-    filterConfig.getServletContext().setAttribute(contextKey,this.webApplication);
+    filterConfig.getServletContext().setAttribute(contextKey,webApplication);
     Application.set(webApplication);
-    this.webApplication.internalInit();
-    this.webApplication.init();
-    this.webApplication.initializeComponents();
-    this.webApplication.logStarted();
+    webApplication.internalInit();
+    webApplication.init();
+    webApplication.initializeComponents();
+    webApplication.logStarted();
   }
   finally {
     Application.unset();
