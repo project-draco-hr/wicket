@@ -17,6 +17,9 @@
         httpServletResponse.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
       }
     }
+    if (RequestCycle.get() != null) {
+      RequestCycle.get().detach();
+    }
   }
  else {
     chain.doFilter(request,response);
