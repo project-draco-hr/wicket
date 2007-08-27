@@ -15,7 +15,13 @@
     path="";
   }
   String wicketPath="";
-  String servletPath=Strings.replaceAll(getServletPath(),"%3A",":").toString();
+  String servletPath;
+  try {
+    servletPath=URLDecoder.decode(Strings.replaceAll(getServletPath(),"%3A",":").toString(),"UTF-8");
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new WicketRuntimeException(e);
+  }
   if (servletPath.endsWith(path)) {
     int len=servletPath.length() - path.length() - 1;
     if (len < 0) {
