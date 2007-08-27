@@ -34,12 +34,17 @@ default :
 throw e;
 }
 catch (RuntimeException e) {
-currentStep=HANDLE_EXCEPTION;
+if (!handlingException) {
+handlingException=true;
 if (!(e instanceof PageExpiredException)) {
 logRuntimeException(e);
 }
 if (processor != null) {
 processor.respond(e,this);
+}
+}
+ else {
+log.error("unexpected exception when handling another exception",e);
 }
 }
 }
