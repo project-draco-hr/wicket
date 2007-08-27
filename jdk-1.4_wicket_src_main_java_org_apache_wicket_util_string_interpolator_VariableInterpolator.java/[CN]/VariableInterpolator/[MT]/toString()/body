@@ -2,8 +2,13 @@
   final StringBuffer buffer=new StringBuffer();
   int start;
   int pos=0;
-  while ((start=string.indexOf("${",pos)) != -1) {
+  while ((start=lowerPositive(string.indexOf("$$",pos),string.indexOf("${",pos))) != -1) {
     buffer.append(string.substring(pos,start));
+    if (string.charAt(start + 1) == '$') {
+      buffer.append("$");
+      pos=start + 2;
+      continue;
+    }
     pos=start;
     final int startVariableName=start + 2;
     final int endVariableName=string.indexOf('}',startVariableName);
