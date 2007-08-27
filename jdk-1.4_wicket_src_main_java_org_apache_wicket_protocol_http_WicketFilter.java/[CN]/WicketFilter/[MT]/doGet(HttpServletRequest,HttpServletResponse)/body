@@ -19,7 +19,8 @@
         throw new WicketRuntimeException(ex.getMessage());
       }
     }
-    final WebRequest request=webApplication.newWebRequest(servletRequest);
+    final RequestCycle existingRequestCycle=RequestCycle.get();
+    final WebRequest request=existingRequestCycle != null ? (WebRequest)existingRequestCycle.getRequest() : webApplication.newWebRequest(servletRequest);
     if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
       ISessionStore sessionStore=webApplication.getSessionStore();
       String sessionId=sessionStore.getSessionId(request,false);
@@ -39,11 +40,11 @@
       }
     }
     Application.set(webApplication);
-    final WebResponse response=webApplication.newWebResponse(servletResponse);
+    final WebResponse response=existingRequestCycle != null ? (WebResponse)existingRequestCycle.getResponse() : webApplication.newWebResponse(servletResponse);
     response.setAjax(request.isAjax());
     response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
     try {
-      RequestCycle cycle=webApplication.newRequestCycle(request,response);
+      RequestCycle cycle=existingRequestCycle != null ? existingRequestCycle : webApplication.newRequestCycle(request,response);
       try {
         cycle.request();
       }
