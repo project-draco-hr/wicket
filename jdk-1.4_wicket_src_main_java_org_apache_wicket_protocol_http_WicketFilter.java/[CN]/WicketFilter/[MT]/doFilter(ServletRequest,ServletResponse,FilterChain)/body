@@ -2,23 +2,34 @@
   HttpServletRequest httpServletRequest=(HttpServletRequest)request;
   String relativePath=getRelativePath(httpServletRequest);
   if (isWicketRequest(relativePath)) {
-    HttpServletResponse httpServletResponse=(HttpServletResponse)response;
-    long lastModified=getLastModified(httpServletRequest,httpServletResponse);
-    if (lastModified == -1) {
-      doGet(httpServletRequest,httpServletResponse);
-    }
- else {
-      long ifModifiedSince=httpServletRequest.getDateHeader("If-Modified-Since");
-      if (ifModifiedSince < (lastModified / 1000 * 1000)) {
-        maybeSetLastModified(httpServletResponse,lastModified);
+    Application.set(webApplication);
+    try {
+      HttpServletResponse httpServletResponse=(HttpServletResponse)response;
+      long lastModified=getLastModified(httpServletRequest,httpServletResponse);
+      if (lastModified == -1) {
         doGet(httpServletRequest,httpServletResponse);
       }
  else {
-        httpServletResponse.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+        long ifModifiedSince=httpServletRequest.getDateHeader("If-Modified-Since");
+        if (ifModifiedSince < (lastModified / 1000 * 1000)) {
+          maybeSetLastModified(httpServletResponse,lastModified);
+          doGet(httpServletRequest,httpServletResponse);
+        }
+ else {
+          httpServletResponse.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+        }
       }
     }
-    if (RequestCycle.get() != null) {
-      RequestCycle.get().detach();
+  finally {
+      if (RequestCycle.get() != null) {
+        try {
+          RequestCycle.get().detach();
+        }
+ catch (        RuntimeException e) {
+          log.error("error detaching request cycle " + RequestCycle.get() + ": "+ e.getMessage(),e);
+        }
+      }
+      Application.unset();
     }
   }
  else {

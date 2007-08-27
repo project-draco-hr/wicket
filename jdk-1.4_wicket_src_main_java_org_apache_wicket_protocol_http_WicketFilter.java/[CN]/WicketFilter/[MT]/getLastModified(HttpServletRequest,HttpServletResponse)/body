@@ -2,13 +2,13 @@
   final String pathInfo=getRelativePath(servletRequest);
   if (pathInfo.startsWith(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX)) {
     final String resourceReferenceKey=pathInfo.substring(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX.length());
-    final WebRequest request=webApplication.newWebRequest(servletRequest);
-    final WebResponse response=webApplication.newWebResponse(servletResponse);
-    RequestCycle cycle=webApplication.newRequestCycle(request,response);
-    Resource resource=webApplication.getSharedResources().get(resourceReferenceKey);
-    if ((resource != null) && resource.isCacheable()) {
-      try {
-        Application.set(webApplication);
+    Resource resource=null;
+    try {
+      final WebRequest request=webApplication.newWebRequest(servletRequest);
+      final WebResponse response=webApplication.newWebResponse(servletResponse);
+      RequestCycle cycle=webApplication.newRequestCycle(request,response);
+      resource=webApplication.getSharedResources().get(resourceReferenceKey);
+      if ((resource != null) && resource.isCacheable()) {
         resource.setParameters(request.getParameterMap());
         IResourceStream stream=resource.getResourceStream();
         Time time=stream.lastModifiedTime();
@@ -19,12 +19,13 @@
         }
         return time != null ? time.getMilliseconds() : -1;
       }
- catch (      AbortException e) {
-        return -1;
-      }
+    }
+ catch (    AbortException e) {
+      return -1;
+    }
  finally {
+      if (resource != null) {
         resource.setParameters(null);
-        Application.unset();
       }
     }
   }
