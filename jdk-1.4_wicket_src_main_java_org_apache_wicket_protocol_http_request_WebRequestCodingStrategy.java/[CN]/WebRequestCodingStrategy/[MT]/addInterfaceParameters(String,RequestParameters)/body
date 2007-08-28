@@ -18,7 +18,13 @@
   final String pageMapName=pathComponents[0];
   parameters.setPageMapName(pageMapName.length() == 0 ? PageMap.DEFAULT_NAME : pageMapName);
   final String urlDepthString=pathComponents[pathComponents.length - 1];
-  final int urlDepth=Strings.isEmpty(urlDepthString) ? -1 : Integer.parseInt(urlDepthString);
+  final int urlDepth;
+  try {
+    urlDepth=Strings.isEmpty(urlDepthString) ? -1 : Integer.parseInt(urlDepthString);
+  }
+ catch (  NumberFormatException e) {
+    throw new WicketRuntimeException("Internal error parsing " + INTERFACE_PARAMETER_NAME + " = "+ interfaceParameter+ "; wrong format for url depth argument. Expected a number but was '"+ urlDepthString+ "'",e);
+  }
   parameters.setUrlDepth(urlDepth);
   final String behaviourId=pathComponents[pathComponents.length - 2];
   parameters.setBehaviorId(behaviourId.length() != 0 ? behaviourId : null);
