@@ -3,7 +3,8 @@
     Session session=getSession();
     if (session.getMetaData(BROWSER_WAS_POLLED_KEY) == null) {
       session.setMetaData(BROWSER_WAS_POLLED_KEY,Boolean.TRUE);
-      throw new RestartResponseAtInterceptPageException(new BrowserInfoPage(getRequest().getRelativePathPrefixToContextRoot() + getRequest().getURL()));
+      String url="/" + getRequest().getURL();
+      throw new RestartResponseException(new BrowserInfoPage(url));
     }
     session.setMetaData(BROWSER_WAS_POLLED_KEY,(Boolean)null);
   }

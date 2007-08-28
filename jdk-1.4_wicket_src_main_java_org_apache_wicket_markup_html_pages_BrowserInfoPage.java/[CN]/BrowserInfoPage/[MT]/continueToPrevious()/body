@@ -1,7 +1,3 @@
 {
-  RequestCycle requestCycle=getRequestCycle();
-  requestCycle.setRedirect(false);
-  Response response=requestCycle.getResponse();
-  response.reset();
-  response.redirect(requestCycle.getRequest().getRelativePathPrefixToWicketHandler() + continueTo);
+  RequestCycle.get().setRequestTarget(new RedirectRequestTarget(continueTo));
 }
