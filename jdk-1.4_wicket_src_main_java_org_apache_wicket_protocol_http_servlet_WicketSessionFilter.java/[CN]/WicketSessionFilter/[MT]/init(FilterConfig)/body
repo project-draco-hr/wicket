@@ -1,16 +1,13 @@
 {
   this.filterConfig=filterConfig;
-  servletPath=filterConfig.getInitParameter("servletPath");
-  if (servletPath == null) {
-    throw new ServletException("you must provide init parameter servlet-path if you want to use " + getClass().getName());
-  }
-  if (servletPath.charAt(0) != '/') {
-    servletPath='/' + servletPath;
+  filterName=filterConfig.getInitParameter("filterName");
+  if (filterName == null) {
+    throw new ServletException("you must provide init parameter 'filterName if you want to use " + getClass().getName());
   }
   if (log.isDebugEnabled()) {
-    log.debug("servlet path set to " + servletPath);
+    log.debug("filterName/ application key set to " + filterName);
   }
-  sessionKey="wicket:" + servletPath + ":"+ Session.SESSION_ATTRIBUTE_NAME;
+  sessionKey="wicket:" + filterName + ":"+ Session.SESSION_ATTRIBUTE_NAME;
   if (log.isDebugEnabled()) {
     log.debug("will use " + sessionKey + " as the session key to get the Wicket session");
   }
