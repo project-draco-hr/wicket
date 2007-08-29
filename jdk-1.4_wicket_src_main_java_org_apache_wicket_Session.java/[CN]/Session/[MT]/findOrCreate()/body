@@ -3,12 +3,7 @@
   if (requestCycle == null) {
     throw new IllegalStateException("you can only locate or create sessions in the context of a request cycle");
   }
-  Application application=Application.get();
-  ISessionStore sessionStore=application.getSessionStore();
-  Session session=sessionStore.lookup(requestCycle.getRequest());
-  if (session == null) {
-    session=application.newSession(requestCycle.getRequest(),requestCycle.getResponse());
-  }
-  set(session);
-  return session;
+  Response response=requestCycle.getResponse();
+  Request request=requestCycle.getRequest();
+  return findOrCreate(request,response);
 }

@@ -1,0 +1,10 @@
+{
+  Application application=Application.get();
+  ISessionStore sessionStore=application.getSessionStore();
+  Session session=sessionStore.lookup(request);
+  if (session == null) {
+    session=application.newSession(request,response);
+  }
+  set(session);
+  return session;
+}
