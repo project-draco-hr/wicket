@@ -2,10 +2,10 @@
   HttpServletRequest httpServletRequest=(HttpServletRequest)request;
   String relativePath=getRelativePath(httpServletRequest);
   if (isWicketRequest(relativePath)) {
-    Application.set(webApplication);
     try {
+      Application.set(webApplication);
       HttpServletResponse httpServletResponse=(HttpServletResponse)response;
-      long lastModified=getLastModified(httpServletRequest,httpServletResponse);
+      long lastModified=getLastModified(httpServletRequest);
       if (lastModified == -1) {
         doGet(httpServletRequest,httpServletResponse);
       }

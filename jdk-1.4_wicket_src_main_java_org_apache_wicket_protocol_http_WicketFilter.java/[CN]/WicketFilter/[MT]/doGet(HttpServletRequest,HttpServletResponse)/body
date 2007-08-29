@@ -1,8 +1,4 @@
 {
-  boolean externalCall=!Application.exists();
-  if (externalCall) {
-    Application.set(webApplication);
-  }
   String relativePath=getRelativePath(servletRequest);
   if (relativePath.length() == 0 && !Strings.stripJSessionId(servletRequest.getRequestURI()).endsWith("/")) {
     final String redirectUrl=servletRequest.getRequestURI() + "/";
@@ -43,11 +39,23 @@
         }
       }
     }
-    final WebResponse response=existingRequestCycle != null ? (WebResponse)existingRequestCycle.getResponse() : webApplication.newWebResponse(servletResponse);
-    response.setAjax(request.isAjax());
-    response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+    WebResponse response=null;
+    boolean externalCall=!Application.exists();
     try {
-      RequestCycle cycle=existingRequestCycle != null ? existingRequestCycle : webApplication.newRequestCycle(request,response);
+      if (externalCall) {
+        Application.set(webApplication);
+      }
+      response=webApplication.newWebResponse(servletResponse);
+      response.setAjax(request.isAjax());
+      response.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
+      RequestCycle cycle=null;
+      if (existingRequestCycle != null) {
+        existingRequestCycle.setResponse(response);
+        cycle=existingRequestCycle;
+      }
+ else {
+        cycle=webApplication.newRequestCycle(request,response);
+      }
       try {
         cycle.request();
       }
@@ -55,7 +63,7 @@
       }
     }
   finally {
-      response.close();
+      if (response != null)       response.close();
       Session.unset();
       if (externalCall) {
         Application.unset();

@@ -3,11 +3,15 @@
   if (pathInfo.startsWith(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX)) {
     final String resourceReferenceKey=pathInfo.substring(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX.length());
     Resource resource=null;
+    boolean externalCall=!Application.exists();
     try {
+      if (externalCall) {
+        Application.set(webApplication);
+      }
       resource=webApplication.getSharedResources().get(resourceReferenceKey);
       if ((resource != null) && resource.isCacheable()) {
         final WebRequest request=webApplication.newWebRequest(servletRequest);
-        final WebResponse response=new WebResponse(servletResponse);
+        final WebResponse response=new WebResponse();
         RequestCycle cycle=webApplication.newRequestCycle(request,response);
         resource.setParameters(request.getParameterMap());
         IResourceStream stream=resource.getResourceStream();
@@ -26,6 +30,9 @@
  finally {
       if (resource != null) {
         resource.setParameters(null);
+      }
+      if (externalCall) {
+        Application.unset();
       }
     }
   }
