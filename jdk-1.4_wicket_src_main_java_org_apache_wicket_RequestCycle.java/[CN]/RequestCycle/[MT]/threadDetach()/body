@@ -1,6 +1,11 @@
 {
   if (sessionExists()) {
-    getSession().detach();
+    try {
+      getSession().detach();
+    }
+ catch (    RuntimeException re) {
+      log.error("there was an error detaching the session",re);
+    }
   }
   if (isRedirect()) {
     setRedirect(false);
