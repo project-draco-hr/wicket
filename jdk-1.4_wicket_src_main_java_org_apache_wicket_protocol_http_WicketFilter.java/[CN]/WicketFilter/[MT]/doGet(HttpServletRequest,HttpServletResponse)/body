@@ -1,4 +1,8 @@
 {
+  boolean externalCall=!Application.exists();
+  if (externalCall) {
+    Application.set(webApplication);
+  }
   String relativePath=getRelativePath(servletRequest);
   if (relativePath.length() == 0 && !Strings.stripJSessionId(servletRequest.getRequestURI()).endsWith("/")) {
     final String redirectUrl=servletRequest.getRequestURI() + "/";
@@ -53,7 +57,9 @@
   finally {
       response.close();
       Session.unset();
-      Application.unset();
+      if (externalCall) {
+        Application.unset();
+      }
     }
   }
   finally {
