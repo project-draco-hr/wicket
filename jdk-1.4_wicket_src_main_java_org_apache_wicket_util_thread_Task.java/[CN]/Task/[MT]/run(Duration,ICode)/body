@@ -6,8 +6,8 @@
         final Logger log=getLog();
         while (!stop) {
           final Time startOfPeriod=Time.now();
-          if (log.isDebugEnabled()) {
-            log.debug("Run the job: " + code.toString());
+          if (log.isTraceEnabled()) {
+            log.trace("Run the job: " + code.toString());
           }
           try {
             code.run(getLog());
@@ -15,17 +15,17 @@
  catch (          Exception e) {
             log.error("Unhandled exception thrown by user code in task " + name,e);
           }
-          if (log.isDebugEnabled()) {
-            log.debug("Finished with job: " + code.toString());
+          if (log.isTraceEnabled()) {
+            log.trace("Finished with job: " + code.toString());
           }
           startOfPeriod.add(frequency).fromNow().sleep();
         }
       }
     }
 ;
-    this.thread=new Thread(runnable,name + " Task");
-    this.thread.setDaemon(isDaemon);
-    this.thread.start();
+    thread=new Thread(runnable,name + " Task");
+    thread.setDaemon(isDaemon);
+    thread.start();
     isStarted=true;
   }
  else {
