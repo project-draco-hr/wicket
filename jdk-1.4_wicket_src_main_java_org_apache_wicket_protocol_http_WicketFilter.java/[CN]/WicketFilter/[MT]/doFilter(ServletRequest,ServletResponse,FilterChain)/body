@@ -21,14 +21,6 @@
       }
     }
   finally {
-      if (RequestCycle.get() != null) {
-        try {
-          RequestCycle.get().detach();
-        }
- catch (        RuntimeException e) {
-          log.error("error detaching request cycle " + RequestCycle.get() + ": "+ e.getMessage(),e);
-        }
-      }
       Application.unset();
     }
   }

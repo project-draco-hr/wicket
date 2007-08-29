@@ -11,8 +11,7 @@
       resource=webApplication.getSharedResources().get(resourceReferenceKey);
       if ((resource != null) && resource.isCacheable()) {
         final WebRequest request=webApplication.newWebRequest(servletRequest);
-        final WebResponse response=new WebResponse();
-        RequestCycle cycle=webApplication.newRequestCycle(request,response);
+        Session.findOrCreate(request,new WebResponse());
         resource.setParameters(request.getParameterMap());
         IResourceStream stream=resource.getResourceStream();
         Time time=stream.lastModifiedTime();
