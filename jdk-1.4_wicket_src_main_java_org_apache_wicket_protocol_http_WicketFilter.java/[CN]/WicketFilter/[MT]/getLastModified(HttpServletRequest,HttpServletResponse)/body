@@ -4,11 +4,11 @@
     final String resourceReferenceKey=pathInfo.substring(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX.length());
     Resource resource=null;
     try {
-      final WebRequest request=webApplication.newWebRequest(servletRequest);
-      final WebResponse response=webApplication.newWebResponse(servletResponse);
-      RequestCycle cycle=webApplication.newRequestCycle(request,response);
       resource=webApplication.getSharedResources().get(resourceReferenceKey);
       if ((resource != null) && resource.isCacheable()) {
+        final WebRequest request=webApplication.newWebRequest(servletRequest);
+        final WebResponse response=new WebResponse(servletResponse);
+        RequestCycle cycle=webApplication.newRequestCycle(request,response);
         resource.setParameters(request.getParameterMap());
         IResourceStream stream=resource.getResourceStream();
         Time time=stream.lastModifiedTime();
