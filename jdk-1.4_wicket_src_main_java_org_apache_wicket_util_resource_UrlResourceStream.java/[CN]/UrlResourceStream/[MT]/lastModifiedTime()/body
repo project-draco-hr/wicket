@@ -3,7 +3,7 @@
     long lastModified=file.lastModified();
     if (lastModified != this.lastModified) {
       this.lastModified=lastModified;
-      this.contentLength=(int)file.length();
+      contentLength=(int)file.length();
     }
   }
  else {
@@ -30,11 +30,18 @@
       if (lastModified != this.lastModified) {
         this.lastModified=lastModified;
         close=true;
-        this.contentLength=urlConnection.getContentLength();
+        contentLength=urlConnection.getContentLength();
       }
     }
  catch (    IOException e) {
-      log.error("getLastModified for " + url + " failed: "+ e.getMessage());
+      if (url.toString().contains(".jar!")) {
+        if (log.isDebugEnabled()) {
+          log.debug("getLastModified for " + url + " failed: "+ e.getMessage());
+        }
+      }
+ else {
+        log.error("getLastModified for " + url + " failed: "+ e.getMessage());
+      }
     }
  finally {
       if (urlConnection != null) {
