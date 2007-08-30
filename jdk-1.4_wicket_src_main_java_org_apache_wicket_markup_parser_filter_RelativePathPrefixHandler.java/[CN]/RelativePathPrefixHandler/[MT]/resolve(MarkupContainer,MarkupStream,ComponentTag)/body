@@ -6,7 +6,13 @@
       wc=new WebComponent(id);
     }
  else {
-      wc=new WebMarkupContainer(id);
+      wc=new WebMarkupContainer(id){
+        private static final long serialVersionUID=1L;
+        public boolean isTransparentResolver(){
+          return true;
+        }
+      }
+;
     }
     container.autoAdd(wc,markupStream);
     return true;
