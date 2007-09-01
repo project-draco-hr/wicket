@@ -1,14 +1,14 @@
 {
   int pos1=rawMarkup.indexOf("<!--");
-  while (pos1 >= 0) {
+  while (pos1 != -1) {
     final int pos2=rawMarkup.indexOf("-->",pos1 + 4);
     final AppendingStringBuffer buf=new AppendingStringBuffer(rawMarkup.length());
-    if ((pos2 >= 0) && (pos1 > 0)) {
+    if (pos2 != -1) {
       final String comment=rawMarkup.substring(pos1 + 4,pos2);
       if (CONDITIONAL_COMMENT.matcher(comment).matches() == false) {
         buf.append(rawMarkup.substring(0,pos1));
-        if (rawMarkup.length() >= pos2 + 4) {
-          buf.append(rawMarkup.substring(pos2 + 4));
+        if (rawMarkup.length() >= pos2 + 3) {
+          buf.append(rawMarkup.substring(pos2 + 3));
         }
         rawMarkup=buf.toString();
       }
