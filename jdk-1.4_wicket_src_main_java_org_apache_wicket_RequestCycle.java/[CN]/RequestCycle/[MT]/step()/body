@@ -36,7 +36,9 @@ throw e;
 catch (RuntimeException e) {
 if (!handlingException) {
 handlingException=true;
-onRuntimeException(e);
+if (e instanceof PageExpiredException) {
+logRuntimeException(e);
+}
 if (processor != null) {
 processor.respond(e,this);
 }
