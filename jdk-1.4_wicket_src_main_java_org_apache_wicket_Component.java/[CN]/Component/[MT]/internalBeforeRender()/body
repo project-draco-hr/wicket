@@ -1,0 +1,10 @@
+{
+  if (isVisible() && !getFlag(FLAG_RENDERING) && !getFlag(FLAG_PREPARED_FOR_RENDER)) {
+    setFlag(FLAG_BEFORE_RENDERING_SUPER_CALL_VERIFIED,false);
+    onBeforeRender();
+    getApplication().notifyComponentOnBeforeRenderListeners(this);
+    if (!getFlag(FLAG_BEFORE_RENDERING_SUPER_CALL_VERIFIED)) {
+      throw new IllegalStateException(Component.class.getName() + " has not been properly rendered. Something in the hierarchy of " + getClass().getName()+ " has not called super.onBeforeRender() in the override of onBeforeRender() method");
+    }
+  }
+}

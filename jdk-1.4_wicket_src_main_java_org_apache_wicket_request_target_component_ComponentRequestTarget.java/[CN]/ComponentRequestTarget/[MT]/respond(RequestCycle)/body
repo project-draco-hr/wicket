@@ -8,19 +8,6 @@
   }
  else {
     try {
-      if (component instanceof MarkupContainer) {
-        MarkupContainer container=(MarkupContainer)component;
-        container.visitChildren(IFeedback.class,new IVisitor(){
-          public Object component(          Component component){
-            ((IFeedback)component).updateFeedback();
-            return IVisitor.CONTINUE_TRAVERSAL;
-          }
-        }
-);
-      }
-      if (component instanceof IFeedback) {
-        ((IFeedback)component).updateFeedback();
-      }
       component.attach();
       component.renderComponent();
     }

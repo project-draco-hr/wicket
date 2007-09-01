@@ -1,4 +1,12 @@
 {
   beforeRender();
+  List feedbacks=(List)getRequestCycle().getMetaData(FEEDBACK_LIST);
+  if (feedbacks != null) {
+    for (Iterator i=feedbacks.iterator(); i.hasNext(); ) {
+      Component feedback=(Component)i.next();
+      feedback.internalBeforeRender();
+    }
+  }
+  getRequestCycle().setMetaData(FEEDBACK_LIST,null);
   markRendering();
 }
