@@ -8,6 +8,7 @@
     Method method=MockWebApplication.class.getDeclaredMethod("generateLastRenderedPage",new Class[]{WebRequestCycle.class});
     method.setAccessible(true);
     Page page=(Page)method.invoke(tester,new Object[]{cycle});
+    assertTrue("Page is not an ExceptionErrorPage",page instanceof ExceptionErrorPage);
     WebRequestCycle cycle2=tester.createRequestCycle();
     cycle2.setResponse(new StringResponse());
     page.render();
