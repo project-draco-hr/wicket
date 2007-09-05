@@ -12,16 +12,7 @@
         error.addMessageKey("ConversionError." + Classes.simpleName(e.getTargetType()));
       }
       error.addMessageKey("ConversionError");
-      final Locale locale=e.getLocale();
-      if (locale != null) {
-        error.setVariable("locale",locale);
-      }
-      error.setVariable("exception",e);
-      Format format=e.getFormat();
-      if (format instanceof SimpleDateFormat) {
-        error.setVariable("format",((SimpleDateFormat)format).toLocalizedPattern());
-      }
-      error((IValidationError)error);
+      reportValidationError(e,error);
     }
   }
  else {
@@ -38,16 +29,7 @@
       error.addMessageKey("IConverter." + simpleName);
       error.addMessageKey("IConverter");
       error.setVariable("type",simpleName);
-      final Locale locale=e.getLocale();
-      if (locale != null) {
-        error.setVariable("locale",locale);
-      }
-      error.setVariable("exception",e);
-      Format format=e.getFormat();
-      if (format instanceof SimpleDateFormat) {
-        error.setVariable("format",((SimpleDateFormat)format).toLocalizedPattern());
-      }
-      error((IValidationError)error);
+      reportValidationError(e,error);
     }
   }
 }
