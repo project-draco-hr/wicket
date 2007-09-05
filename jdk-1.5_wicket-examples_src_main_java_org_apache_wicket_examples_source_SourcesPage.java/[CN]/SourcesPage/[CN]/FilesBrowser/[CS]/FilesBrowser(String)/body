@@ -5,8 +5,10 @@
       AjaxFallbackLink link=new AjaxFallbackLink("link",item.getModel()){
         public void onClick(        AjaxRequestTarget target){
           setName(getModelObjectAsString());
-          target.addComponent(codePanel);
-          target.addComponent(filename);
+          if (target != null) {
+            target.addComponent(codePanel);
+            target.addComponent(filename);
+          }
         }
       }
 ;
