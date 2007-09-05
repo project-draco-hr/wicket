@@ -7,17 +7,17 @@
       dispatchEvent(getPage(),url);
     }
  else {
-      final IFormSubmittingComponent submittingButton=findSubmittingButton();
-      if (submittingButton != null && !submittingButton.getDefaultFormProcessing()) {
-        submittingButton.onSubmit();
+      final IFormSubmittingComponent submittingComponent=findSubmittingButton();
+      if (submittingComponent != null && !submittingComponent.getDefaultFormProcessing()) {
+        submittingComponent.onSubmit();
       }
  else {
         Form formToProcess=this;
-        if (submittingButton != null) {
-          formToProcess=submittingButton.getForm();
+        if (submittingComponent != null) {
+          formToProcess=submittingComponent.getForm();
         }
         if (formToProcess.process()) {
-          delegateSubmit(submittingButton);
+          delegateSubmit(submittingComponent);
         }
       }
     }

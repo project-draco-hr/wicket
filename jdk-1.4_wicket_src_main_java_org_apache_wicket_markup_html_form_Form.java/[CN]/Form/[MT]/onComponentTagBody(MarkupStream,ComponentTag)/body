@@ -14,8 +14,11 @@
     }
     buffer.append("</div>");
     getResponse().write(buffer);
-    if (defaultButton != null && defaultButton.isVisibleInHierarchy() && defaultButton.isEnabled()) {
-      appendDefaultButtonField(markupStream,openTag);
+    if (defaultSubmittingComponent instanceof Component) {
+      final Component submittingComponent=(Component)defaultSubmittingComponent;
+      if (submittingComponent.isVisibleInHierarchy() && submittingComponent.isEnabled()) {
+        appendDefaultButtonField(markupStream,openTag);
+      }
     }
   }
   super.onComponentTagBody(markupStream,openTag);
