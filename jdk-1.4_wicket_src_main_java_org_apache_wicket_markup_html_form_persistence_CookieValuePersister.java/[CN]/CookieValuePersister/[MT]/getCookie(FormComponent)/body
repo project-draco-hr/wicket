@@ -1,21 +1,16 @@
 {
   final String name=getName(component);
-  Cookie[] cookies=getCookies();
-  if (cookies != null) {
-    for (int i=0; i < cookies.length; i++) {
-      Cookie cookie=cookies[i];
-      if (cookie.getName().equals(name)) {
-        if (cookie.getValue() != null && cookie.getValue().length() > 0) {
-          if (log.isDebugEnabled()) {
-            log.debug("Got cookie: " + cookieToDebugString(cookie));
-          }
-          return cookie;
-        }
+  Cookie cookie=getCookie(name);
+  if (cookie != null) {
+    if (cookie.getValue() != null && cookie.getValue().length() > 0) {
+      if (log.isDebugEnabled()) {
+        log.debug("Got cookie: " + cookieToDebugString(cookie));
+      }
+      return cookie;
+    }
  else {
-          if (log.isDebugEnabled()) {
-            log.debug("Got cookie " + name + ", but it had no value; returning null");
-          }
-        }
+      if (log.isDebugEnabled()) {
+        log.debug("Got cookie " + name + ", but it had no value; returning null");
       }
     }
   }
