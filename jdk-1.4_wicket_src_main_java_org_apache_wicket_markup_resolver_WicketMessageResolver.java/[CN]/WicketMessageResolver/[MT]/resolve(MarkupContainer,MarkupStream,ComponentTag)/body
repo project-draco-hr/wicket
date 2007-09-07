@@ -6,19 +6,10 @@
       if ((messageKey == null) || (messageKey.trim().length() == 0)) {
         throw new MarkupException("Wrong format of <wicket:message key='xxx'>: attribute 'key' is missing");
       }
-      final String defaultValue="DEFAULT_WICKET_MESSAGE_RESOLVER_VALUE";
-      final String value=container.getApplication().getResourceSettings().getLocalizer().getString(messageKey,container,defaultValue);
       final String id="_message_" + container.getPage().getAutoIndex();
-      Component component=null;
-      if (value != null && !defaultValue.equals(value)) {
-        component=new MyLabel(id,value.trim());
-      }
- else {
-        log.info("No value found for message key: " + messageKey);
-        component=new WebMarkupContainer(id);
-      }
-      component.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
-      container.autoAdd(component,markupStream);
+      MessageLabel label=new MessageLabel(id,messageKey);
+      label.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
+      container.autoAdd(label,markupStream);
       return true;
     }
   }
