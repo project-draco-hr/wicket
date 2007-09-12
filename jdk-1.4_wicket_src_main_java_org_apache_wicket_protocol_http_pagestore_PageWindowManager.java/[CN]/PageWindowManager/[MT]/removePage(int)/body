@@ -3,8 +3,13 @@
     rebuildIndices();
   }
   List indices=(List)idToWindowIndices.get(pageId);
-  for (Iterator i=indices.iterator(); i.hasNext(); ) {
-    PageWindowInternal window=(PageWindowInternal)i.next();
-    removePage(window.pageId,window.versionNumber,window.ajaxVersionNumber);
+  if (indices != null) {
+    for (Iterator i=indices.iterator(); i.hasNext(); ) {
+      int index=((Integer)i.next()).intValue();
+      PageWindowInternal window=(PageWindowInternal)windows.get(index);
+      if (window.pageId == pageId) {
+        removePage(window.pageId,window.versionNumber,window.ajaxVersionNumber);
+      }
+    }
   }
 }
