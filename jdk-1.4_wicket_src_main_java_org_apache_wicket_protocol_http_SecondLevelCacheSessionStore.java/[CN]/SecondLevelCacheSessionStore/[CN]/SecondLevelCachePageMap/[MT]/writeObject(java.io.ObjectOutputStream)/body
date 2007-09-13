@@ -6,6 +6,11 @@
     if (page != null && store instanceof ISerializationAwarePageStore) {
       page=((ISerializationAwarePageStore)store).prepareForSerialization(lastPage);
     }
-    s.writeObject(page);
+    try {
+      s.writeObject(page);
+    }
+ catch (    Exception e) {
+      throw new WicketRuntimeException("Failed to serialize " + page.toString(),e);
+    }
   }
 }
