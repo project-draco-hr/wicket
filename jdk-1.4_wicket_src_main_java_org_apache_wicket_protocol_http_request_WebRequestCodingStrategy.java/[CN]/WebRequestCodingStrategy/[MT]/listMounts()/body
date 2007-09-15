@@ -1,3 +1,5 @@
 {
-  return (IRequestTargetUrlCodingStrategy[])mountsOnPath.strategies().toArray(new IRequestTargetUrlCodingStrategy[mountsOnPath.size()]);
+synchronized (mountsOnPath) {
+    return (IRequestTargetUrlCodingStrategy[])mountsOnPath.strategies().toArray(new IRequestTargetUrlCodingStrategy[mountsOnPath.size()]);
+  }
 }

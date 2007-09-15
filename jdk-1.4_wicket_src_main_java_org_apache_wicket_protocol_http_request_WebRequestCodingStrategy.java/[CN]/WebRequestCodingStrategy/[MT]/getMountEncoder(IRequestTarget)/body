@@ -1,8 +1,10 @@
 {
-  for (Iterator i=mountsOnPath.strategies().iterator(); i.hasNext(); ) {
-    IRequestTargetUrlCodingStrategy encoder=(IRequestTargetUrlCodingStrategy)i.next();
-    if (encoder.matches(requestTarget)) {
-      return encoder;
+synchronized (mountsOnPath) {
+    for (Iterator i=mountsOnPath.strategies().iterator(); i.hasNext(); ) {
+      IRequestTargetUrlCodingStrategy encoder=(IRequestTargetUrlCodingStrategy)i.next();
+      if (encoder.matches(requestTarget)) {
+        return encoder;
+      }
     }
   }
   return null;

@@ -12,8 +12,10 @@
   if (path.startsWith("/")) {
     path=path.substring(1);
   }
-  if (mountsOnPath.strategyForMount(path) != null) {
-    throw new WicketRuntimeException(path + " is already mounted for " + mountsOnPath.strategyForMount(path));
+synchronized (mountsOnPath) {
+    if (mountsOnPath.strategyForMount(path) != null) {
+      throw new WicketRuntimeException(path + " is already mounted for " + mountsOnPath.strategyForMount(path));
+    }
+    mountsOnPath.mount(path,encoder);
   }
-  mountsOnPath.mount(path,encoder);
 }

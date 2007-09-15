@@ -5,5 +5,7 @@
   if (path.startsWith("/")) {
     path=path.substring(1);
   }
-  mountsOnPath.unmount(path);
+synchronized (mountsOnPath) {
+    mountsOnPath.unmount(path);
+  }
 }

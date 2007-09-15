@@ -1,11 +1,13 @@
 {
-  if (path == null) {
-    return mountsOnPath.strategyForMount(null);
-  }
+synchronized (mountsOnPath) {
+    if (path == null) {
+      return mountsOnPath.strategyForMount(null);
+    }
  else {
-    IRequestTargetUrlCodingStrategy strategy=mountsOnPath.strategyForPath(path);
-    if (strategy != null) {
-      return strategy;
+      IRequestTargetUrlCodingStrategy strategy=mountsOnPath.strategyForPath(path);
+      if (strategy != null) {
+        return strategy;
+      }
     }
   }
   return null;
