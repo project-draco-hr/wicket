@@ -14,16 +14,16 @@
         Class pageClass=pageClassRequestTarget.getPageClass();
         PageParameters parameters=pageClassRequestTarget.getPageParameters();
         if (parameters == null || parameters.size() == 0) {
-          newLastRenderedPage=new DefaultPageFactory().newPage(pageClass);
+          newLastRenderedPage=application.getSessionSettings().getPageFactory().newPage(pageClass);
         }
  else {
-          newLastRenderedPage=new DefaultPageFactory().newPage(pageClass,parameters);
+          newLastRenderedPage=application.getSessionSettings().getPageFactory().newPage(pageClass,parameters);
         }
       }
     }
   }
   if (newLastRenderedPage == null) {
-    newLastRenderedPage=this.lastRenderedPage;
+    newLastRenderedPage=lastRenderedPage;
   }
   return newLastRenderedPage;
 }

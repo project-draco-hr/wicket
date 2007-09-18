@@ -1,6 +1,6 @@
 {
   this.application=application;
-  this.context=newServletContext(path);
+  context=newServletContext(path);
   filter=new WicketFilter(){
     protected IWebApplicationFactory getApplicationFactory(){
       return new IWebApplicationFactory(){
@@ -36,11 +36,11 @@
     throw new RuntimeException(e);
   }
   Application.set(this.application);
-  this.servletSession=new MockHttpSession(this.context);
-  this.servletRequest=new MockHttpServletRequest(this.application,this.servletSession,this.context);
-  this.servletResponse=new MockHttpServletResponse();
-  this.wicketRequest=this.application.newWebRequest(this.servletRequest);
-  this.wicketResponse=this.application.newWebResponse(this.servletResponse);
+  servletSession=new MockHttpSession(context);
+  servletRequest=new MockHttpServletRequest(this.application,servletSession,context);
+  servletResponse=new MockHttpServletResponse();
+  wicketRequest=this.application.newWebRequest(servletRequest);
+  wicketResponse=this.application.newWebResponse(servletResponse);
   createRequestCycle();
   this.application.getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.ONE_PASS_RENDER);
   this.application.getResourceSettings().setResourceFinder(new WebApplicationPath(context));

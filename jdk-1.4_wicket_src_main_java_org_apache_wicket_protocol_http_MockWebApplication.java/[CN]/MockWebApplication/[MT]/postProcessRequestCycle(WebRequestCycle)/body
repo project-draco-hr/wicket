@@ -3,15 +3,15 @@
   if (cycle.getResponse() instanceof WebResponse) {
     final MockHttpServletResponse httpResponse=(MockHttpServletResponse)cycle.getWebResponse().getHttpServletResponse();
     if (httpResponse.isRedirect()) {
-      this.lastRenderedPage=generateLastRenderedPage(cycle);
-      MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(this.application,servletSession,this.application.getServletContext());
+      lastRenderedPage=generateLastRenderedPage(cycle);
+      MockHttpServletRequest newHttpRequest=new MockHttpServletRequest(application,servletSession,application.getServletContext());
       newHttpRequest.setRequestToRedirectString(httpResponse.getRedirectLocation());
-      wicketRequest=this.application.newWebRequest(newHttpRequest);
+      wicketRequest=application.newWebRequest(newHttpRequest);
       cycle=createRequestCycle();
       cycle.request();
     }
   }
-  this.lastRenderedPage=generateLastRenderedPage(cycle);
+  lastRenderedPage=generateLastRenderedPage(cycle);
   Session.set(getWicketSession());
   if (getLastRenderedPage() instanceof ExceptionErrorPage) {
     throw (RuntimeException)((ExceptionErrorPage)getLastRenderedPage()).getThrowable();
