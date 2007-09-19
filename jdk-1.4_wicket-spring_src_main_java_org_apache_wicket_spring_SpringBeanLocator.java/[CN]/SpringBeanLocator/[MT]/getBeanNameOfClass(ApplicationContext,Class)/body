@@ -4,7 +4,14 @@
     throw new IllegalStateException("bean of type [" + clazz.getName() + "] not found");
   }
   if (names.length > 1) {
-    throw new IllegalStateException("more then one bean of type [" + clazz.getName() + "] found, you have to specify the name of the bean (@SpringBean(name=\"foo\")) in order to resolve this conflict");
+    StringBuilder msg=new StringBuilder();
+    msg.append("more then one bean of type [");
+    msg.append(clazz.getName());
+    msg.append("] found, you have to specify the name of the bean ");
+    msg.append("(@SpringBean(name=\"foo\")) in order to resolve this conflict. ");
+    msg.append("Matched beans: ");
+    msg.append(Strings.join(",",names));
+    throw new IllegalStateException(msg.toString());
   }
   return names[0];
 }
