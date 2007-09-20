@@ -13,6 +13,22 @@
     }
   }
 ));
+  final ClickCount count2=new ClickCount();
+  Link linkWithStateChange=new Link("linkWithStateChange"){
+    public void onClick(){
+      final int count=count1.clicks;
+      count2.clicks++;
+      addStateChange(new Change(){
+        @Override public void undo(){
+          count2.clicks=count;
+        }
+      }
+);
+    }
+  }
+;
+  add(linkWithStateChange);
+  linkWithStateChange.add(new Label("label",new PropertyModel(count2,"clicks")));
 class CustomLink extends Link {
     final ClickCount count2;
     /** 
