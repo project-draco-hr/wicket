@@ -1,20 +1,3 @@
 {
-  int len=crumbs.size() - 1;
-  int i=len;
-  while (i > -1) {
-    IBreadCrumbParticipant temp=(IBreadCrumbParticipant)crumbs.get(i);
-    if (breadCrumbParticipant.equals(temp)) {
-      int j=len;
-      while (j > i) {
-        IBreadCrumbParticipant removed=(IBreadCrumbParticipant)crumbs.remove(j--);
-        listenerSupport.fireBreadCrumbRemoved(removed);
-      }
-      activate(breadCrumbParticipant);
-      return;
-    }
-    i--;
-  }
-  crumbs.add(breadCrumbParticipant);
-  listenerSupport.fireBreadCrumbAdded(breadCrumbParticipant);
-  activate(breadCrumbParticipant);
+  decorated.setActive(breadCrumbParticipant);
 }
