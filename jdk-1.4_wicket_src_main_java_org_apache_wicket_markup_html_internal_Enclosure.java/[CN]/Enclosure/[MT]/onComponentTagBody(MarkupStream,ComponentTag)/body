@@ -12,6 +12,13 @@
     super.onComponentTagBody(markupStream,openTag);
   }
  else {
-    markupStream.skipUntil(openTag.getName());
+    Response response=getResponse();
+    getRequestCycle().setResponse(NullResponse.getInstance());
+    try {
+      super.onComponentTagBody(markupStream,openTag);
+    }
+  finally {
+      getRequestCycle().setResponse(response);
+    }
   }
 }
