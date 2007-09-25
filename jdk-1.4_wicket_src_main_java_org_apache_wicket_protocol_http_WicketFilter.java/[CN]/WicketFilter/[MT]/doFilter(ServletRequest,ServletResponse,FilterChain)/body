@@ -1,10 +1,25 @@
 {
-  HttpServletRequest httpServletRequest=(HttpServletRequest)request;
+  HttpServletRequest httpServletRequest;
+  HttpServletResponse httpServletResponse;
+  boolean inPortletContext=false;
+  if (filterPortletContext != null) {
+    FilterRequestContext filterRequestContext=new FilterRequestContext((HttpServletRequest)request,(HttpServletResponse)response);
+    inPortletContext=filterPortletContext.setupFilter(getFilterConfig(),filterRequestContext,getFilterPath((HttpServletRequest)request));
+    httpServletRequest=filterRequestContext.getRequest();
+    httpServletResponse=filterRequestContext.getResponse();
+  }
+ else {
+    httpServletRequest=(HttpServletRequest)request;
+    httpServletResponse=(HttpServletResponse)response;
+  }
+  if (portletOnlyFilter && !inPortletContext) {
+    chain.doFilter(request,response);
+    return;
+  }
   String relativePath=getRelativePath(httpServletRequest);
   if (isWicketRequest(relativePath)) {
     try {
       Application.set(webApplication);
-      HttpServletResponse httpServletResponse=(HttpServletResponse)response;
       long lastModified=getLastModified(httpServletRequest);
       if (lastModified == -1) {
         doGet(httpServletRequest,httpServletResponse);

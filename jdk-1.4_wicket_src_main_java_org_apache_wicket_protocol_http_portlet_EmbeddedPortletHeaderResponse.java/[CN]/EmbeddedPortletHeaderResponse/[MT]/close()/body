@@ -1,0 +1,30 @@
+{
+  super.close();
+  CharSequence output=bufferedResponse.getBuffer();
+  if (output.length() > 0) {
+    if (output.charAt(0) == '\r') {
+      for (int i=2; i < output.length(); i+=2) {
+        char ch=output.charAt(i);
+        if (ch != '\r') {
+          output=output.subSequence(i - 2,output.length());
+          break;
+        }
+      }
+    }
+ else     if (output.charAt(0) == '\n') {
+      for (int i=1; i < output.length(); i++) {
+        char ch=output.charAt(i);
+        if (ch != '\n') {
+          output=output.subSequence(i - 1,output.length());
+          break;
+        }
+      }
+    }
+  }
+  if (output.length() > 0) {
+    realResponse.write("<span id=\"" + RequestContext.get().getNamespace() + "_embedded_head\" style=\"display:none\">");
+    realResponse.write(output);
+    realResponse.write("</span>");
+  }
+  bufferedResponse.reset();
+}

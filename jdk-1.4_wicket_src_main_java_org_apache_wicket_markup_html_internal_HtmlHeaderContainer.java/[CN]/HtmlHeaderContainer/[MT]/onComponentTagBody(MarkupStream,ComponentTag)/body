@@ -3,8 +3,13 @@
   try {
     final StringResponse response=new StringResponse();
     this.getRequestCycle().setResponse(response);
+    IHeaderResponse headerResponse=getHeaderResponse();
+    if (!response.equals(headerResponse.getResponse())) {
+      this.getRequestCycle().setResponse(headerResponse.getResponse());
+    }
     super.onComponentTagBody(markupStream,openTag);
     renderHeaderSections(getPage(),this);
+    getHeaderResponse().close();
     CharSequence output=response.getBuffer();
     if (output.length() > 0) {
       if (output.charAt(0) == '\r') {

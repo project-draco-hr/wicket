@@ -1,7 +1,9 @@
 {
-  List token=Arrays.asList(new Object[]{javascript.toString(),id});
-  if (wasRendered(token) == false) {
-    JavascriptUtils.writeJavascript(getResponse(),javascript,id);
-    markRendered(token);
+  if (!closed) {
+    List token=Arrays.asList(new Object[]{javascript.toString(),id});
+    if (wasRendered(token) == false) {
+      JavascriptUtils.writeJavascript(getResponse(),javascript,id);
+      markRendered(token);
+    }
   }
 }

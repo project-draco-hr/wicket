@@ -16,13 +16,17 @@
     }
   }
   if (wantOnSelectionChangedNotifications()) {
-    final CharSequence url=urlFor(IOnChangeListener.INTERFACE);
+    CharSequence url=urlFor(IOnChangeListener.INTERFACE);
     Form form=(Form)findParent(Form.class);
     if (form != null) {
+      RequestContext rc=RequestContext.get();
+      if (rc.isPortletRequest()) {
+        url=((PortletRequestContext)rc).getLastEncodedPath();
+      }
       tag.put("onclick",form.getJsForInterfaceUrl(url));
     }
  else {
-      tag.put("onclick","window.location.href='" + url + "&amp;"+ getInputName()+ "=' + this.checked;");
+      tag.put("onclick","window.location.href='" + url + (url.toString().indexOf('?') > -1 ? "&amp;" : "?")+ getInputName()+ "=' + this.checked;");
     }
   }
   super.onComponentTag(tag);

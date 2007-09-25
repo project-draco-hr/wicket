@@ -1,15 +1,17 @@
 {
-  List token=Arrays.asList(new Object[]{"css",url,media});
-  if (wasRendered(token) == false) {
-    getResponse().write("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
-    getResponse().write(url);
-    getResponse().write("\"");
-    if (media != null) {
-      getResponse().write(" media=\"");
-      getResponse().write(media);
+  if (!closed) {
+    List token=Arrays.asList(new Object[]{"css",url,media});
+    if (wasRendered(token) == false) {
+      getResponse().write("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
+      getResponse().write(url);
       getResponse().write("\"");
+      if (media != null) {
+        getResponse().write(" media=\"");
+        getResponse().write(media);
+        getResponse().write("\"");
+      }
+      getResponse().println(" />");
+      markRendered(token);
     }
-    getResponse().println(" />");
-    markRendered(token);
   }
 }

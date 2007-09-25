@@ -1,8 +1,12 @@
 {
-  return new HeaderResponse(){
-    public Response getResponse(){
-      return HtmlHeaderContainer.this.getResponse();
+  IHeaderResponse headerResponse=RequestContext.get().getHeaderResponse();
+  if (headerResponse == null) {
+    headerResponse=new HeaderResponse(){
+      protected Response getRealResponse(){
+        return HtmlHeaderContainer.this.getResponse();
+      }
     }
-  }
 ;
+  }
+  return headerResponse;
 }

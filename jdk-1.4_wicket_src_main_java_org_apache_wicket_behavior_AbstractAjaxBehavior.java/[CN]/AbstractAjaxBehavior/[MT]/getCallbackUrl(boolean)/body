@@ -3,10 +3,11 @@
     throw new IllegalArgumentException("Behavior must be bound to a component to create the URL");
   }
   final RequestListenerInterface rli;
-  rli=IBehaviorListener.INTERFACE;
-  AppendingStringBuffer url=new AppendingStringBuffer(getComponent().urlFor(this,rli));
   if (onlyTargetActivePage) {
-    url.append("&amp;").append(WebRequestCodingStrategy.IGNORE_IF_NOT_ACTIVE_PARAMETER_NAME).append("=true");
+    rli=IActivePageBehaviorListener.INTERFACE;
   }
-  return url;
+ else {
+    rli=IBehaviorListener.INTERFACE;
+  }
+  return getComponent().urlFor(this,rli);
 }

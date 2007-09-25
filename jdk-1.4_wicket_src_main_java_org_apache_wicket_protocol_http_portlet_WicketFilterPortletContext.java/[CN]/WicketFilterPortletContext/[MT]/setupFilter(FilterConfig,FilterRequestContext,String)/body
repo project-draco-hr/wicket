@@ -1,0 +1,27 @@
+{
+  boolean inPortletContext=false;
+  PortletConfig portletConfig=(PortletConfig)filterRequestContext.getRequest().getAttribute("javax.portlet.config");
+  if (portletConfig != null) {
+    inPortletContext=true;
+    WicketResponseState responseState=(WicketResponseState)filterRequestContext.getRequest().getAttribute(WicketPortlet.RESPONSE_STATE_ATTR);
+    filterRequestContext.setRequest(new PortletServletRequestWrapper(config.getServletContext(),filterRequestContext.getRequest(),ServletPortletSessionProxy.createProxy(filterRequestContext.getRequest()),filterPath));
+    if (WicketPortlet.ACTION_REQUEST.equals(filterRequestContext.getRequest().getAttribute(WicketPortlet.REQUEST_TYPE_ATTR))) {
+      filterRequestContext.setResponse(new PortletActionServletResponseWrapper(filterRequestContext.getResponse(),responseState));
+    }
+ else {
+      filterRequestContext.setResponse(new PortletRenderServletResponseWrapper(filterRequestContext.getResponse(),(RenderResponse)filterRequestContext.getRequest().getAttribute("javax.portlet.response"),responseState));
+    }
+  }
+ else {
+    ServletContext context=config.getServletContext();
+    HttpServletRequest request=filterRequestContext.getRequest();
+    String pathInfo=request.getRequestURI().substring(request.getContextPath().length() + filterPath.length());
+    String portletWindowId=decodePortletWindowId(pathInfo);
+    if (portletWindowId != null) {
+      HttpSession proxiedSession=ServletPortletSessionProxy.createProxy(request,portletWindowId);
+      pathInfo=stripWindowIdFromPathInfo(pathInfo);
+      filterRequestContext.setRequest(new PortletServletRequestWrapper(context,request,proxiedSession,filterPath,pathInfo));
+    }
+  }
+  return inPortletContext;
+}

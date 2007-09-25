@@ -1,9 +1,11 @@
 {
-  List token1=Arrays.asList(new Object[]{"javascript",url});
-  List token2=Arrays.asList(new Object[]{"javascript",id});
-  if (wasRendered(token1) == false && wasRendered(token2)) {
-    JavascriptUtils.writeJavascriptUrl(getResponse(),url,id);
-    markRendered(token1);
-    markRendered(token2);
+  if (!closed) {
+    List token1=Arrays.asList(new Object[]{"javascript",url});
+    List token2=Arrays.asList(new Object[]{"javascript",id});
+    if (wasRendered(token1) == false && wasRendered(token2)) {
+      JavascriptUtils.writeJavascriptUrl(getResponse(),url,id);
+      markRendered(token1);
+      markRendered(token2);
+    }
   }
 }

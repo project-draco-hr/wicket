@@ -1,7 +1,9 @@
 {
-  String token=string.toString();
-  if (wasRendered(token) == false) {
-    getResponse().write(string);
-    markRendered(token);
+  if (!closed) {
+    String token=string.toString();
+    if (wasRendered(token) == false) {
+      getResponse().write(string);
+      markRendered(token);
+    }
   }
 }

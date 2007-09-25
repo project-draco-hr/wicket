@@ -1,0 +1,14 @@
+{
+  if ((!forceActionURL && resourceRequest) || RequestCycle.get().isUrlForNewWindowEncoding()) {
+    return encodeResourceURL(path);
+  }
+  if (path != null) {
+    path=getQualifiedPath(path);
+    if (renderResponse != null) {
+      PortletURL url=renderResponse.createActionURL();
+      url.setParameter(wicketUrlPortletParameter,path.toString());
+      path=saveLastEncodedUrl(url.toString(),path.toString());
+    }
+  }
+  return path;
+}

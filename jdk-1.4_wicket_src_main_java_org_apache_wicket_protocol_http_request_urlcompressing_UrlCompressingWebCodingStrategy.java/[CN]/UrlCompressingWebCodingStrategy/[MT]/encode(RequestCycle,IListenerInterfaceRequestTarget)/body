@@ -42,5 +42,8 @@
   if (params != null && params.getUrlDepth() != 0) {
     url.append(params.getUrlDepth());
   }
+  if (IActivePageBehaviorListener.INTERFACE.getName().equals(listenerName)) {
+    url.append(url.indexOf("?") > -1 ? "&amp;" : "?").append(IGNORE_IF_NOT_ACTIVE_PARAMETER_NAME).append("=true");
+  }
   return requestCycle.getOriginalResponse().encodeURL(url);
 }

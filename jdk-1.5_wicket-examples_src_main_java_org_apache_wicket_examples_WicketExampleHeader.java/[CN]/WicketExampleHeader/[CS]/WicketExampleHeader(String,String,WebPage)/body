@@ -1,5 +1,14 @@
 {
   super(id);
+  add(new WebMarkupContainer("hideInPortlet"){
+    /** 
+ * @see org.apache.wicket.Component#isVisible()
+ */
+    @Override public boolean isVisible(){
+      return !RequestContext.get().isPortletRequest();
+    }
+  }
+);
   add(new InspectorBug("inspector",page));
   add(new Label("exampleTitle",exampleTitle));
   Link link=new Link("sources"){

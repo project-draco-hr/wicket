@@ -1,8 +1,10 @@
 {
-  List token=Arrays.asList(new Object[]{"javascript-event",target,event,javascript});
-  if (wasRendered(token) == false) {
-    renderJavascriptReference(WicketEventReference.INSTANCE);
-    JavascriptUtils.writeJavascript(getResponse(),"Wicket.Event.add(" + target + ", \""+ event+ "\", function() { "+ javascript+ ";});");
-    markRendered(token);
+  if (!closed) {
+    List token=Arrays.asList(new Object[]{"javascript-event",target,event,javascript});
+    if (wasRendered(token) == false) {
+      renderJavascriptReference(WicketEventReference.INSTANCE);
+      JavascriptUtils.writeJavascript(getResponse(),"Wicket.Event.add(" + target + ", \""+ event+ "\", function() { "+ javascript+ ";});");
+      markRendered(token);
+    }
   }
 }

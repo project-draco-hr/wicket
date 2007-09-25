@@ -2,6 +2,9 @@
   if (relativePathPrefixToContextRoot != null) {
     return relativePathPrefixToContextRoot;
   }
+  if (RequestContext.get().isPortletRequest()) {
+    return relativePathPrefixToContextRoot=getHttpServletRequest().getContextPath() + "/";
+  }
   String tmp=getRelativePathPrefixToWicketHandler();
   PrependingStringBuffer prepender=new PrependingStringBuffer(tmp);
   String path=RequestUtils.decode(getPath());

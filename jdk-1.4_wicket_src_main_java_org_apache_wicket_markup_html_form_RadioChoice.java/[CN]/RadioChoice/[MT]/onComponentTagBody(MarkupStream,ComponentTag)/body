@@ -13,13 +13,17 @@
       final String idAttr=getInputName() + "_" + id;
       buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((isEnabled() ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"");
       if (wantOnSelectionChangedNotifications()) {
-        final CharSequence url=urlFor(IOnChangeListener.INTERFACE);
+        CharSequence url=urlFor(IOnChangeListener.INTERFACE);
         Form form=(Form)findParent(Form.class);
         if (form != null) {
+          RequestContext rc=RequestContext.get();
+          if (rc.isPortletRequest()) {
+            url=((PortletRequestContext)rc).getLastEncodedPath();
+          }
           buffer.append(" onclick=\"").append(form.getJsForInterfaceUrl(url)).append(";\"");
         }
  else {
-          buffer.append(" onclick=\"window.location.href='").append(url).append("&amp;" + getInputName()).append("=").append(id).append("';\"");
+          buffer.append(" onclick=\"window.location.href='").append(url).append((url.toString().indexOf('?') > -1 ? "&amp;" : "?") + getInputName()).append("=").append(id).append("';\"");
         }
       }
       buffer.append("/>");

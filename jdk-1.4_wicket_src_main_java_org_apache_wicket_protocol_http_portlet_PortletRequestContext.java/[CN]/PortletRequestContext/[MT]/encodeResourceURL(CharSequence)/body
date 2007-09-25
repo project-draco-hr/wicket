@@ -1,0 +1,17 @@
+{
+  if (path != null) {
+    path=getQualifiedPath(path);
+    if (renderResponse != null) {
+      try {
+        HashMap parameters=new HashMap(2);
+        parameters.put(wicketUrlPortletParameter + portletRequest.getPortletMode().toString(),new String[]{path.toString()});
+        parameters.put(WicketPortlet.PORTLET_RESOURCE_URL_PARAMETER,new String[]{"true"});
+        path=saveLastEncodedUrl(resourceURLFactory.createResourceURL(portletConfig,(RenderRequest)portletRequest,renderResponse,parameters),path.toString());
+      }
+ catch (      PortletException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+  return path;
+}
