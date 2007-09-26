@@ -1,8 +1,14 @@
 {
-  Application app=Application.get();
-  Map result=(Map)applicationToClassesToGetAndSetters.get(Application.get());
+  Object key=null;
+  if (Application.exists()) {
+    key=Application.get();
+  }
+ else {
+    key=PropertyResolver.class;
+  }
+  Map result=(Map)applicationToClassesToGetAndSetters.get(key);
   if (result == null) {
-    applicationToClassesToGetAndSetters.put(app,result=new ConcurrentHashMap(64));
+    applicationToClassesToGetAndSetters.put(key,result=new ConcurrentHashMap(64));
   }
   return result;
 }
