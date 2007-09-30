@@ -1,0 +1,11 @@
+{
+  super.setRenderAllowed();
+  visitChildren(new IVisitor(){
+    public Object component(    final Component component){
+      final boolean renderAllowed=component.isActionAuthorized(RENDER);
+      component.setRenderAllowed(renderAllowed);
+      return IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

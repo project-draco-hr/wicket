@@ -9,18 +9,6 @@
     try {
       parent.setMarkupStream(markupStream);
       prepareForRender();
-      setRenderAllowed(isActionAuthorized(RENDER));
-      if (this instanceof MarkupContainer) {
-        MarkupContainer container=(MarkupContainer)this;
-        container.visitChildren(new IVisitor(){
-          public Object component(          final Component component){
-            final boolean renderAllowed=component.isActionAuthorized(RENDER);
-            component.setRenderAllowed(renderAllowed);
-            return IVisitor.CONTINUE_TRAVERSAL;
-          }
-        }
-);
-      }
       render(markupStream);
     }
   finally {
