@@ -18,6 +18,9 @@
   variables.put("hideOnSelect",Boolean.valueOf(hideOnSelect()));
   Properties p=new Properties();
   configure(p);
+  if (enableMonthYearSelection() && p.containsKey("pages") && Objects.longValue(p.get("pages")) > 1) {
+    throw new IllegalStateException("You cannot use a CalendarGroup with month/year selection!");
+  }
   StringBuffer calendarInit=new StringBuffer();
   for (Iterator i=p.entrySet().iterator(); i.hasNext(); ) {
     Entry entry=(Entry)i.next();
