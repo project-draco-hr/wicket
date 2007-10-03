@@ -3,9 +3,6 @@
     throw new IllegalArgumentException("argument component may not be null");
   }
   component.setAuto(true);
-  if (get(component.getId()) != null) {
-    this.remove(component);
-  }
   add(component);
   component.prepareForRender();
   if (markupStream == null) {
@@ -14,5 +11,6 @@
  else {
     component.render(markupStream);
   }
+  remove(component);
   return true;
 }
