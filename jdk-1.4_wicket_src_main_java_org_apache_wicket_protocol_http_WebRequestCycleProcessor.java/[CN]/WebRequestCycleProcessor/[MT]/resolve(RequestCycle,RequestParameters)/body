@@ -54,6 +54,9 @@ synchronized (requestCycle.getSession()) {
   }
   if (target == null) {
     target=requestCodingStrategy.targetForRequest(requestParameters);
+    if (target == null && requestParameters.getComponentPath() != null) {
+      throw new PageExpiredException("Cannot find the rendered page in session [pagemap=" + requestParameters.getPageMapName() + ",componentPath="+ requestParameters.getComponentPath()+ ",versionNumber="+ requestParameters.getVersionNumber()+ "]");
+    }
   }
  else {
     if (Application.get().getSecuritySettings().getEnforceMounts() && requestCodingStrategy.pathForTarget(target) != null) {

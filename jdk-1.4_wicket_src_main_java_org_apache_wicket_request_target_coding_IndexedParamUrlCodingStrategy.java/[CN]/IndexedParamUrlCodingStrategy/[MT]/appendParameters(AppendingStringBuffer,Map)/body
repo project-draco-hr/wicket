@@ -17,6 +17,14 @@
     }
     url.append(WebRequestCodingStrategy.PAGEMAP).append("/").append(urlEncode(pageMap)).append("/");
   }
+  String intface=(String)parameters.get(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+  if (intface != null) {
+    i++;
+    if (!url.endsWith("/")) {
+      url.append("/");
+    }
+    url.append(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME).append("/").append(urlEncode(intface)).append("/");
+  }
   if (i != parameters.size()) {
     throw new WicketRuntimeException("Not all parameters were encoded. Make sure all parameter names are integers in consecutive order starting with zero. Current parameter names are: " + parameters.keySet().toString());
   }
