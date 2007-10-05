@@ -1,0 +1,8 @@
+{
+  if (Application.get().getRequestCycleSettings().getRenderStrategy() != IRequestCycleSettings.REDIRECT_TO_RENDER || ((WebRequest)RequestCycle.get().getRequest()).isAjax() || (!RequestCycle.get().isRedirect())) {
+    if (getFeedbackMessages().clear(RENDERED_SESSION_SCOPED_MESSAGES) > 0) {
+      dirty();
+    }
+    getFeedbackMessages().clear(WebSession.MESSAGES_FOR_COMPONENTS);
+  }
+}
