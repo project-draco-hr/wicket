@@ -63,4 +63,8 @@
   TextTemplate datePickerJs=new PackagedTextTemplate(DatePicker.class,"DatePicker.js");
   datePickerJs.interpolate(variables);
   response.renderOnDomReadyJavascript(datePickerJs.asString());
+  if (AjaxRequestTarget.get() != null) {
+    final String javascript="var e = Wicket.$('" + getEscapedComponentMarkupId() + "Dp"+ "'); if (e != null && typeof(e.parentNode) != 'undefined' && "+ "typeof(e.parentNode.parentNode != 'undefined')) "+ "e.parentNode.parentNode.removeChild(e.parentNode);";
+    response.renderJavascript(javascript,null);
+  }
 }
