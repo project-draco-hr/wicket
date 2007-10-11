@@ -1,19 +1,24 @@
 {
-  if (children instanceof Component) {
-    final Component component=(Component)children;
-    if (component.getId().equals(id)) {
-      return component;
+  Component component=null;
+  if (children != null && children instanceof Object[] == false && getId(children).equals(id)) {
+    component=(Component)postprocess(children,true,this,0);
+    if (children != component) {
+      children=component;
     }
   }
- else {
-    if (children != null) {
-      final Component[] components=(Component[])children;
-      for (int i=0; i < components.length; i++) {
-        if (components[i].getId().equals(id)) {
-          return components[i];
+ else   if (children instanceof Object[]) {
+    final Object[] children=(Object[])this.children;
+{
+      for (int i=0; i < children.length; i++) {
+        if (getId(children[i]).equals(id)) {
+          component=(Component)postprocess(children[i],true,this,i);
+          if (children[i] != component) {
+            children[i]=component;
+          }
+          break;
         }
       }
     }
   }
-  return null;
+  return component;
 }

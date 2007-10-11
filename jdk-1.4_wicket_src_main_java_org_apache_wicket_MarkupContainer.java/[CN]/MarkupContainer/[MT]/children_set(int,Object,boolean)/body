@@ -1,0 +1,18 @@
+{
+  Object replaced;
+  if (index < children_size()) {
+    if (children == null || children instanceof Component || children instanceof ComponentSourceEntry) {
+      replaced=children;
+      children=child;
+    }
+ else {
+      final Object[] children=(Object[])this.children;
+      replaced=children[index];
+      children[index]=child;
+    }
+  }
+ else {
+    throw new IndexOutOfBoundsException();
+  }
+  return postprocess(replaced,reconstruct,null,-1);
+}

@@ -1,7 +1,7 @@
 {
-  if (children instanceof Component) {
+  if (children instanceof Component || children instanceof ComponentSourceEntry) {
     if (index == 0) {
-      final Component removed=(Component)children;
+      final Component removed=(Component)postprocess(children,true,null,-1);
       children=null;
       return removed;
     }
@@ -10,8 +10,8 @@
     }
   }
  else {
-    Component[] c=((Component[])children);
-    final Component removed=c[index];
+    Object[] c=((Object[])children);
+    final Object removed=c[index];
     if (c.length == 2) {
       if (index == 0) {
         children=c[1];
@@ -24,7 +24,7 @@
       }
     }
  else {
-      Component[] newChildren=new Component[c.length - 1];
+      Object[] newChildren=new Object[c.length - 1];
       int j=0;
       for (int i=0; i < c.length; i++) {
         if (i != index) {
@@ -33,6 +33,6 @@
       }
       children=newChildren;
     }
-    return removed;
+    return (Component)postprocess(removed,true,null,-1);
   }
 }

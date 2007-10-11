@@ -1,8 +1,13 @@
 {
-  final Iterator iter=iterator();
-  while (iter.hasNext()) {
-    final Component child=(Component)iter.next();
-    child.detach();
-  }
   super.detachChildren();
+  for (int i=0; i < children_size(); ++i) {
+    Object child=children_get(i,false);
+    if (child instanceof Component) {
+      ((Component)child).detach();
+      if (child instanceof IComponentSourceProvider) {
+        ComponentSourceEntry entry=new ComponentSourceEntry(this,(Component)child,((IComponentSourceProvider)child).getComponentSource());
+        children_set(i,entry,false);
+      }
+    }
+  }
 }

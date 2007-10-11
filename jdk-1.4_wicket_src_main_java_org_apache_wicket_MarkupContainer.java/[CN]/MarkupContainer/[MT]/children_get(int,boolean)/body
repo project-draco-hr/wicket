@@ -1,0 +1,17 @@
+{
+  Object component=null;
+  if (index == 0 && children != null && children instanceof Object[] == false) {
+    component=postprocess(children,reconstruct,this,0);
+    if (children != component) {
+      children=component;
+    }
+  }
+ else {
+    Object[] children=(Object[])this.children;
+    component=postprocess(children[index],reconstruct,this,index);
+    if (children[index] != component) {
+      children[index]=component;
+    }
+  }
+  return component;
+}
