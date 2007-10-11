@@ -1,0 +1,29 @@
+{
+  checkId("Component id",component.getId());
+  buffer.append(component.getId());
+  buffer.append(' ');
+  if (component.hasMarkupIdMetaData()) {
+    checkId("Component markup id",component.getMarkupId());
+    if (component.getMarkupId().startsWith(component.getId())) {
+      buffer.append('*');
+      buffer.append(component.getMarkupId().substring(component.getId().length()));
+    }
+ else {
+      buffer.append(component.getMarkupId());
+    }
+    buffer.append(' ');
+  }
+  buffer.append(component.markupIndex);
+  if (component instanceof MarkupContainer && ((MarkupContainer)component).iterator().hasNext()) {
+    buffer.append('(');
+    Iterator i=((MarkupContainer)component).iterator();
+    while (i.hasNext()) {
+      Component child=(Component)i.next();
+      appendComponent(buffer,child);
+      if (i.hasNext()) {
+        buffer.append(',');
+      }
+    }
+    buffer.append(')');
+  }
+}
