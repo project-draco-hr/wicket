@@ -3,12 +3,12 @@
   try {
     Response response=requestCycle.getResponse();
     CharSequence output=transform(component,response.toString());
-    this.webResponse.write(output);
+    webResponse.write(output);
   }
  catch (  Exception ex) {
     throw new WicketRuntimeException("Error while transforming the output: " + this,ex);
   }
  finally {
-    requestCycle.setResponse(this.webResponse);
+    requestCycle.setResponse(webResponse);
   }
 }

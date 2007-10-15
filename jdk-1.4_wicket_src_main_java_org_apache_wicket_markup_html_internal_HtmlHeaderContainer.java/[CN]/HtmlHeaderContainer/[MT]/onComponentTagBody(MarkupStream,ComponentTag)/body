@@ -1,11 +1,11 @@
 {
-  final Response webResponse=this.getResponse();
+  final Response webResponse=getResponse();
   try {
     final StringResponse response=new StringResponse();
-    this.getRequestCycle().setResponse(response);
+    getRequestCycle().setResponse(response);
     IHeaderResponse headerResponse=getHeaderResponse();
     if (!response.equals(headerResponse.getResponse())) {
-      this.getRequestCycle().setResponse(headerResponse.getResponse());
+      getRequestCycle().setResponse(headerResponse.getResponse());
     }
     super.onComponentTagBody(markupStream,openTag);
     renderHeaderSections(getPage(),this);
@@ -38,6 +38,6 @@
     }
   }
   finally {
-    this.getRequestCycle().setResponse(webResponse);
+    getRequestCycle().setResponse(webResponse);
   }
 }

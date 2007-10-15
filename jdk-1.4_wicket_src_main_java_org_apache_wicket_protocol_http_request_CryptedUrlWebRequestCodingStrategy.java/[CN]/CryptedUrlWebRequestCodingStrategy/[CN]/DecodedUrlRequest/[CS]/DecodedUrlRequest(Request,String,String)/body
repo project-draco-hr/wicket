@@ -1,7 +1,7 @@
 {
   this.request=request;
-  this.parameterMap=this.request.getParameterMap();
-  this.parameterMap.remove("x");
+  parameterMap=this.request.getParameterMap();
+  parameterMap.remove("x");
   String decodedParamReplacement=encodedParamReplacement;
   try {
     decodedParamReplacement=URLDecoder.decode(encodedParamReplacement,Application.get().getRequestCycleSettings().getResponseRequestEncoding());
@@ -11,7 +11,7 @@
   }
   ValueMap params=new ValueMap();
   RequestUtils.decodeParameters(decodedParamReplacement,params);
-  this.parameterMap.putAll(params);
+  parameterMap.putAll(params);
   int pos1=url.indexOf("?x=");
   if (pos1 == -1) {
     throw new WicketRuntimeException("Programming error: we should come here");

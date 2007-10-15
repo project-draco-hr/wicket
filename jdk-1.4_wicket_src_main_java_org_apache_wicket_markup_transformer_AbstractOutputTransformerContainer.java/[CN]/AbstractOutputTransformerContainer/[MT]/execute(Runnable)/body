@@ -1,11 +1,11 @@
 {
-  final Response webResponse=this.getResponse();
+  final Response webResponse=getResponse();
   try {
     final Response response=newResponse();
     if (response == null) {
       throw new IllegalStateException("newResponse() must not return null");
     }
-    this.getRequestCycle().setResponse(response);
+    getRequestCycle().setResponse(response);
     code.run();
     try {
       CharSequence output=transform(this,response.toString());
@@ -16,6 +16,6 @@
     }
   }
   finally {
-    this.getRequestCycle().setResponse(webResponse);
+    getRequestCycle().setResponse(webResponse);
   }
 }

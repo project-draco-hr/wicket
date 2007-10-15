@@ -1,23 +1,23 @@
 {
   if (tagText.startsWith("!--")) {
-    int pos=this.input.find("-->",openBracketIndex + 1);
+    int pos=input.find("-->",openBracketIndex + 1);
     if (pos == -1) {
       throw new ParseException("Unclosed comment beginning at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),openBracketIndex);
     }
     pos+=3;
-    this.lastText=this.input.getSubstring(openBracketIndex,pos);
-    this.lastType=COMMENT;
-    if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && this.lastText.toString().endsWith("<![endif]-->")) {
-      this.input.setPosition(closeBracketIndex + 1);
+    lastText=input.getSubstring(openBracketIndex,pos);
+    lastType=COMMENT;
+    if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && lastText.toString().endsWith("<![endif]-->")) {
+      input.setPosition(closeBracketIndex + 1);
     }
  else {
-      this.input.setPosition(pos);
+      input.setPosition(pos);
     }
     return;
   }
   if (tagText.equals("![endif]--")) {
-    this.lastType=COMMENT;
-    this.input.setPosition(closeBracketIndex + 1);
+    lastType=COMMENT;
+    input.setPosition(closeBracketIndex + 1);
     return;
   }
   if (tagText.startsWith("![")) {
@@ -27,23 +27,23 @@
       do {
         closeBracketIndex=findChar('>',pos1);
         if (closeBracketIndex == -1) {
-          throw new ParseException("No matching close bracket at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),this.input.getPosition());
+          throw new ParseException("No matching close bracket at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),input.getPosition());
         }
-        tagText=this.input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
+        tagText=input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
         pos1=closeBracketIndex + 1;
       }
  while (tagText.endsWith("]]") == false);
-      this.input.setPosition(closeBracketIndex + 1);
-      this.lastText=tagText;
-      this.lastType=CDATA;
+      input.setPosition(closeBracketIndex + 1);
+      lastText=tagText;
+      lastType=CDATA;
       return;
     }
   }
   if (tagText.charAt(0) == '?') {
-    this.lastType=PROCESSING_INSTRUCTION;
-    this.input.setPosition(closeBracketIndex + 1);
+    lastType=PROCESSING_INSTRUCTION;
+    input.setPosition(closeBracketIndex + 1);
     return;
   }
-  this.lastType=SPECIAL_TAG;
-  this.input.setPosition(closeBracketIndex + 1);
+  lastType=SPECIAL_TAG;
+  input.setPosition(closeBracketIndex + 1);
 }

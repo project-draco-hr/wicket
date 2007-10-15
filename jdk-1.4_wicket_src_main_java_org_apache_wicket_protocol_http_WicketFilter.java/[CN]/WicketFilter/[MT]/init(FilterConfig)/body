@@ -37,7 +37,7 @@ catch (        SecurityException e) {
     webApplication.init();
     webApplication.initializeComponents();
     webApplication.logStarted();
-    this.portletOnlyFilter=Boolean.valueOf(filterConfig.getInitParameter(PORTLET_ONLY_FILTER)).booleanValue();
+    portletOnlyFilter=Boolean.valueOf(filterConfig.getInitParameter(PORTLET_ONLY_FILTER)).booleanValue();
     if (portletContextAvailable == null) {
       try {
         Class portletClass=Class.forName("javax.portlet.PortletContext");
@@ -49,7 +49,7 @@ catch (        SecurityException e) {
       }
     }
     if (filterPortletContext != null) {
-      filterPortletContext.initFilter(filterConfig,this.webApplication);
+      filterPortletContext.initFilter(filterConfig,webApplication);
     }
   }
   finally {

@@ -2,9 +2,9 @@
   final ComponentTag tag=(ComponentTag)getParent().nextTag();
   if (tag != null) {
     if (tag instanceof WicketTag && ((WicketTag)tag).isHeadTag()) {
-      this.inHead=tag.isOpen();
+      inHead=tag.isOpen();
     }
- else     if (this.inHead == true) {
+ else     if (inHead == true) {
       if ((tag instanceof WicketTag == false) && (tag.getId() == null) && (tag.isOpen() || tag.isOpenClose())&& needId(tag)) {
         if (tag.getAttributes().get("id") == null) {
           tag.getAttributes().put("id",headElementIdPrefix + nextValue());
