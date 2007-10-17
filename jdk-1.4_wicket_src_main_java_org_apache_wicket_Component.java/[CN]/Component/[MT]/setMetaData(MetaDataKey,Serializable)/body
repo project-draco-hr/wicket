@@ -1,3 +1,69 @@
 {
-  metaData=key.set(metaData,object);
+  MetaDataEntry[] metaData=key.set(getMetaData(),object);
+  if (data == null || data instanceof MetaDataEntry[]) {
+    data=metaData;
+  }
+ else   if (data instanceof Object[]) {
+    Object[] tmp=(Object[])data;
+    boolean modelSet=getFlag(FLAG_MODEL_SET);
+    if (modelSet) {
+      if (tmp[1] instanceof MetaDataEntry[]) {
+        if (metaData == null) {
+          if (tmp.length == 2) {
+            data=tmp[0];
+          }
+ else {
+            Object[] array=new Object[tmp.length - 1];
+            array[0]=tmp[0];
+            System.arraycopy(tmp,2,array,1,tmp.length - 2);
+            data=array;
+          }
+        }
+ else {
+          tmp[1]=metaData;
+        }
+      }
+ else       if (metaData != null) {
+        Object[] array=new Object[tmp.length + 1];
+        array[0]=tmp[0];
+        array[1]=metaData;
+        System.arraycopy(tmp,1,array,2,tmp.length - 1);
+        data=array;
+      }
+    }
+ else     if (tmp[0] instanceof MetaDataEntry[]) {
+      if (metaData == null) {
+        if (tmp.length == 2) {
+          data=tmp[1];
+        }
+ else {
+          Object[] array=new Object[tmp.length - 1];
+          System.arraycopy(tmp,1,array,0,tmp.length - 1);
+          data=array;
+        }
+      }
+ else {
+        tmp[0]=metaData;
+      }
+    }
+ else     if (metaData != null) {
+      Object[] array=new Object[tmp.length + 1];
+      array[0]=metaData;
+      System.arraycopy(tmp,0,array,1,tmp.length);
+      data=array;
+    }
+  }
+ else   if (metaData != null) {
+    Object[] array=new Object[2];
+    boolean modelSet=getFlag(FLAG_MODEL_SET);
+    if (modelSet) {
+      array[0]=data;
+      array[1]=metaData;
+    }
+ else {
+      array[0]=metaData;
+      array[1]=data;
+    }
+    data=array;
+  }
 }

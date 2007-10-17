@@ -1,0 +1,24 @@
+{
+  if (data != null) {
+    boolean modelSet=getFlag(FLAG_MODEL_SET);
+    if (data instanceof Object[]) {
+      Object[] tmp=(Object[])data;
+      int i=0;
+      if (modelSet)       i++;
+      if (!(tmp[i] instanceof IBehavior))       i++;
+      if (i < tmp.length) {
+        ArrayList al=new ArrayList(tmp.length - i);
+        for (int j=i; j < tmp.length; j++) {
+          al.add(tmp[j]);
+        }
+        return al;
+      }
+    }
+ else     if (!modelSet && data instanceof IBehavior) {
+      ArrayList al=new ArrayList();
+      al.add(data);
+      return al;
+    }
+  }
+  return null;
+}

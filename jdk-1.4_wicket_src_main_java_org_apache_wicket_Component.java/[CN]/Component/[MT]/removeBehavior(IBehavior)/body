@@ -1,0 +1,32 @@
+{
+  if (behavior.equals(data)) {
+    data=null;
+    return true;
+  }
+ else   if (data instanceof Object[]) {
+    Object[] array=(Object[])data;
+    for (int i=0; i < array.length; i++) {
+      if (array[i].equals(behavior)) {
+        if (array.length == 2) {
+          if (i == 0) {
+            data=array[1];
+          }
+ else {
+            data=array[0];
+          }
+        }
+ else {
+          Object[] tmp=new Object[array.length - 1];
+          System.arraycopy(array,0,tmp,0,i);
+          i++;
+          if (i != array.length) {
+            System.arraycopy(array,i,tmp,i - 1,array.length - i);
+          }
+          data=array;
+        }
+        return true;
+      }
+    }
+  }
+  return false;
+}
