@@ -1,7 +1,7 @@
 {
   final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
   if (!(tag instanceof WicketTag) || !stripWicketTags) {
-    List behaviors=getBehaviorsIntern();
+    List behaviors=getBehaviorsImpl();
     if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       tag=tag.mutable();
       for (Iterator i=behaviors.iterator(); i.hasNext(); ) {

@@ -1,19 +1,19 @@
 {
-  String markupId=(String)getMetaData(MARKUP_ID_KEY);
-  if (markupId == null) {
-    Page page=findPage();
-    if (page == null) {
-      throw new WicketRuntimeException("This component is not (yet) coupled to a page. It has to be able " + "to find the page it is supposed to operate in before you can call " + "this method (Component#getMarkupId)");
-    }
-    markupId=RequestContext.get().encodeMarkupId(getId() + page.getAutoIndex());
-    char c=markupId.charAt(0);
-    if (!Character.isLetter(c)) {
-      markupId="id" + markupId;
-    }
-    markupId=Strings.replaceAll(markupId,"_","__").toString();
-    markupId=markupId.replace('.','_');
-    markupId=markupId.replace('-','_');
-    setMetaData(MARKUP_ID_KEY,markupId);
+  Object storedMarkupId=getMarkupIdImpl();
+  if (storedMarkupId instanceof String) {
+    return (String)storedMarkupId;
   }
+  final int generatedMarkupId=storedMarkupId instanceof Integer ? ((Integer)storedMarkupId).intValue() : nextAutoIndex();
+  if (storedMarkupId == null) {
+    setMarkupIdImpl(new Integer(generatedMarkupId));
+  }
+  String markupId=RequestContext.get().encodeMarkupId(getId() + generatedMarkupId);
+  char c=markupId.charAt(0);
+  if (!Character.isLetter(c)) {
+    markupId="id" + markupId;
+  }
+  markupId=Strings.replaceAll(markupId,"_","__").toString();
+  markupId=markupId.replace('.','_');
+  markupId=markupId.replace('-','_');
   return markupId;
 }

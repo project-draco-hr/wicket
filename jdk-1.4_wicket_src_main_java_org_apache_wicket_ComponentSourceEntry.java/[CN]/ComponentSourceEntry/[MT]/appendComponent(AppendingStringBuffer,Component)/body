@@ -2,15 +2,15 @@
   checkId("Component id",component.getId());
   buffer.append(component.getId());
   buffer.append(' ');
-  if (component.hasMarkupIdMetaData()) {
-    checkId("Component markup id",component.getMarkupId());
-    if (component.getMarkupId().startsWith(component.getId())) {
+  Object markupId=component.getMarkupIdImpl();
+  if (markupId != null) {
+    if (markupId instanceof String) {
+      checkId("Component markup id",(String)markupId);
+    }
+    if (markupId instanceof Integer) {
       buffer.append('*');
-      buffer.append(component.getMarkupId().substring(component.getId().length()));
     }
- else {
-      buffer.append(component.getMarkupId());
-    }
+    buffer.append(markupId);
     buffer.append(' ');
   }
   buffer.append(component.markupIndex);

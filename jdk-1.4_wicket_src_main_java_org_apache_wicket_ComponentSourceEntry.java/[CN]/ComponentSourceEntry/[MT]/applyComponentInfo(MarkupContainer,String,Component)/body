@@ -4,7 +4,7 @@
   }
   String parts[]=info.split(" ");
   final String id=parts[0];
-  final String markupId;
+  final Object markupId;
   final int markupIndex;
   if (parts.length == 2) {
     markupId=null;
@@ -12,7 +12,7 @@
   }
  else   if (parts.length == 3) {
     if (parts[1] != null && parts[1].startsWith("*")) {
-      markupId=id + parts[1].substring(1);
+      markupId=Integer.valueOf(parts[1].substring(1));
     }
  else {
       markupId=parts[1];
@@ -30,9 +30,9 @@
   }
  else {
     if (markupId != null) {
-      component.setMarkupId(markupId);
+      component.setMarkupIdImpl(markupId);
     }
-    component.markupIndex=markupIndex;
+    component.markupIndex=(short)markupIndex;
   }
   return component instanceof MarkupContainer ? (MarkupContainer)component : null;
 }

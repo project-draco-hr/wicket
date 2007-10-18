@@ -1,0 +1,12 @@
+{
+  if (markupId != null && !(markupId instanceof String) && !(markupId instanceof Integer)) {
+    throw new IllegalArgumentException("markupId must be String or Integer");
+  }
+  if (markupId instanceof Integer) {
+    generatedMarkupId=((Integer)markupId).intValue();
+    setMetaData(MARKUP_ID_KEY,null);
+    return;
+  }
+  generatedMarkupId=-1;
+  setMetaData(MARKUP_ID_KEY,(Serializable)markupId);
+}
