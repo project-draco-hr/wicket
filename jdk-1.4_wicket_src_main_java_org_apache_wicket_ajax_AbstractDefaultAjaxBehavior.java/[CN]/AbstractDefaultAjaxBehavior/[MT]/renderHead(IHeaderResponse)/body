@@ -7,4 +7,8 @@
     response.renderJavascriptReference(JAVASCRIPT_DEBUG);
     response.renderJavascript("wicketAjaxDebugEnable=true;","wicket-ajax-debug-enable");
   }
+  RequestContext context=RequestContext.get();
+  if (context.isPortletRequest()) {
+    response.renderJavascript("Wicket.portlet=true","wicket-ajax-portlet-flag");
+  }
 }
