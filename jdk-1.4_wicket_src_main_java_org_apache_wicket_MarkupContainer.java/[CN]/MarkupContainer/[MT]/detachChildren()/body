@@ -1,12 +1,16 @@
 {
   super.detachChildren();
-  for (int i=0; i < children_size(); ++i) {
+  for (int i=children_size(); i-- > 0; ) {
     Object child=children_get(i,false);
     if (child instanceof Component) {
-      ((Component)child).detach();
+      Component component=(Component)child;
+      component.detach();
       if (child instanceof IComponentSourceProvider) {
-        ComponentSourceEntry entry=new ComponentSourceEntry(this,(Component)child,((IComponentSourceProvider)child).getComponentSource());
+        ComponentSourceEntry entry=new ComponentSourceEntry(this,component,((IComponentSourceProvider)child).getComponentSource());
         children_set(i,entry,false);
+      }
+ else       if (component.isAuto()) {
+        children_remove(i);
       }
     }
   }
