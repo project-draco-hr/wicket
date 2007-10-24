@@ -38,15 +38,8 @@ catch (        SecurityException e) {
     webApplication.initializeComponents();
     webApplication.logStarted();
     portletOnlyFilter=Boolean.valueOf(filterConfig.getInitParameter(PORTLET_ONLY_FILTER)).booleanValue();
-    if (portletContextAvailable == null) {
-      try {
-        Class portletClass=Class.forName("javax.portlet.PortletContext");
-        portletContextAvailable=Boolean.TRUE;
-        filterPortletContext=newWicketFilterPortletContext();
-      }
- catch (      ClassNotFoundException e) {
-        portletContextAvailable=Boolean.FALSE;
-      }
+    if (isPortletContextAvailable(filterConfig)) {
+      filterPortletContext=newWicketFilterPortletContext();
     }
     if (filterPortletContext != null) {
       filterPortletContext.initFilter(filterConfig,webApplication);
