@@ -1,11 +1,10 @@
 {
   for (Component current=getParent(); current != null; current=current.getParent()) {
     IModel model=current.getModelImpl();
-    if (model instanceof IWrapModel) {
+    if (model instanceof IWrapModel && !(model instanceof IComponentInheritedModel)) {
       model=((IWrapModel)model).getWrappedModel();
     }
     if (model instanceof IComponentInheritedModel) {
-      setVersioned(false);
       model=((IComponentInheritedModel)model).wrapOnInheritance(this);
       setFlag(FLAG_INHERITABLE_MODEL,true);
       return model;
