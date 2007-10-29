@@ -1,7 +1,7 @@
 {
   if (isCacheable()) {
-    response.setDateHeader("Expires",System.currentTimeMillis() + (3600 * 1000));
-    response.setHeader("Cache-Control","max-age=" + 3600);
+    response.setDateHeader("Expires",System.currentTimeMillis() + (getCacheDuration() * 1000));
+    response.setHeader("Cache-Control","max-age=" + getCacheDuration());
   }
  else {
     response.setHeader("Cache-Control","no-cache, must-revalidate");
