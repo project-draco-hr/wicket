@@ -1,5 +1,11 @@
 {
-  Page page=getPage(requestCycle);
+  Page page=getPage();
+  if (page == null) {
+    page=Session.get().getPage(getPageMapName(),componentPath,-1);
+    if (page == null) {
+      page=getPage(requestCycle);
+    }
+  }
   final String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
   Component component=page.get(pageRelativeComponentPath);
   if (component == null) {
