@@ -6,7 +6,13 @@
     final Object choice=choices.get(index);
     Object displayValue=getChoiceRenderer().getDisplayValue(choice);
     Class objectClass=displayValue == null ? null : displayValue.getClass();
-    final String label=getConverter(objectClass).convertToString(displayValue,getLocale());
+    String label="";
+    if (objectClass != null && objectClass != String.class) {
+      label=getConverter(objectClass).convertToString(displayValue,getLocale());
+    }
+ else     if (displayValue != null) {
+      label=displayValue.toString();
+    }
     if (label != null) {
       buffer.append(getPrefix());
       String id=getChoiceRenderer().getIdValue(choice,index);
