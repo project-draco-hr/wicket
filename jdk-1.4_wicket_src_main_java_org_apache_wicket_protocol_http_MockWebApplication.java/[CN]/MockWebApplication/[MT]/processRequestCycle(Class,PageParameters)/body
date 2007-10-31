@@ -1,0 +1,11 @@
+{
+  setupRequestAndResponse();
+  final WebRequestCycle cycle=createRequestCycle();
+  try {
+    cycle.request(new BookmarkablePageRequestTarget(pageClass,params));
+  }
+  finally {
+    cycle.getResponse().close();
+  }
+  postProcessRequestCycle(cycle);
+}
