@@ -1,18 +1,14 @@
 {
   final IDebugSettings debugSettings=Application.get().getDebugSettings();
   if (debugSettings.getComponentUseCheck() && !getResponse().isRedirect()) {
-    final Count unrenderedComponents=new Count();
-    final List unrenderedAutoComponents=new ArrayList();
+    final List unrenderedComponents=new ArrayList();
     final StringBuffer buffer=new StringBuffer();
     renderedContainer.visitChildren(new IVisitor(){
       public Object component(      final Component component){
         if (renderedComponents == null || !renderedComponents.contains(component)) {
-          if (component.isAuto()) {
-            unrenderedAutoComponents.add(component);
-          }
- else           if (component.isVisibleInHierarchy()) {
-            unrenderedComponents.increment();
-            buffer.append(Integer.toString(unrenderedComponents.getCount()) + ". " + component+ "\n");
+          if (!component.isAuto() && component.isVisibleInHierarchy()) {
+            unrenderedComponents.add(component);
+            buffer.append(Integer.toString(unrenderedComponents.size()) + ". " + component+ "\n");
             String metadata=(String)component.getMetaData(Component.CONSTRUCTED_AT_KEY);
             if (metadata != null) {
               buffer.append(metadata);
@@ -30,12 +26,24 @@
       }
     }
 );
-    for (int i=0; i < unrenderedAutoComponents.size(); i++) {
-      ((Component)unrenderedAutoComponents.get(i)).remove();
-    }
-    if (unrenderedComponents.getCount() > 0) {
+    if (unrenderedComponents.size() > 0) {
       renderedComponents=null;
-      throw new WicketRuntimeException("The component(s) below failed to render. A common problem is that you have added a component in code but forgot to reference it in the markup (thus the component will never be rendered).\n\n" + buffer.toString());
+      Iterator iterator=unrenderedComponents.iterator();
+      while (iterator.hasNext()) {
+        Component component=(Component)iterator.next();
+        Iterator iterator2=component.getParent().iterator();
+        while (iterator2.hasNext()) {
+          Component sibling=(Component)iterator2.next();
+          if (!sibling.isVisible() && sibling instanceof MarkupContainer && ((MarkupContainer)sibling).isTransparentResolver()) {
+            log.warn("Component " + component + " wasn't rendered but most likely it has a transparent parent: "+ sibling);
+            iterator.remove();
+            break;
+          }
+        }
+      }
+      if (unrenderedComponents.size() > 0) {
+        throw new WicketRuntimeException("The component(s) below failed to render. A common problem is that you have added a component in code but forgot to reference it in the markup (thus the component will never be rendered).\n\n" + buffer.toString());
+      }
     }
   }
   renderedComponents=null;
