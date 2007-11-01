@@ -2,11 +2,24 @@
   add(new Label("message",new SessionModel()));
   add(new BookmarkablePageLink("indexLink",Index.class));
   final Link actionLink=new Link("actionLink"){
-    public void onClick(){
+    @Override public void onClick(){
       linkClickCount++;
     }
   }
 ;
   add(actionLink);
   actionLink.add(new Label("linkClickCount",new PropertyModel(this,"linkClickCount")));
+  final TextField field=new TextField("textfield",new Model());
+  StatelessForm statelessForm=new StatelessForm("statelessform"){
+    /** 
+ * @see org.apache.wicket.markup.html.form.Form#onSubmit()
+ */
+    @Override protected void onSubmit(){
+      info("Submitted text: " + field.getModelObject() + ", link click count: "+ linkClickCount);
+    }
+  }
+;
+  statelessForm.add(field);
+  add(statelessForm);
+  add(new FeedbackPanel("feedback"));
 }
