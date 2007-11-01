@@ -6,7 +6,7 @@
     throw new WicketRuntimeException("Programming error: childComponent == enclose component; endless loop");
   }
  else   if (childComponent != null) {
-    setVisible(childComponent.isVisible());
+    setVisible(childComponent.isVisible() && childComponent.isRenderAllowed());
   }
   if (isVisible() == true) {
     super.onComponentTagBody(markupStream,openTag);
