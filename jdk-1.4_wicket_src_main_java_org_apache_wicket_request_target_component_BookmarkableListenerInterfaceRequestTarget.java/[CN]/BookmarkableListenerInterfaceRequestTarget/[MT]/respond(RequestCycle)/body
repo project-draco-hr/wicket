@@ -1,3 +1,9 @@
 {
-  getPage(requestCycle).renderPage();
+  Page page=getPage(requestCycle);
+  if (requestCycle.isRedirect() && !page.isPageStateless()) {
+    requestCycle.redirectTo(page);
+  }
+ else {
+    page.renderPage();
+  }
 }
