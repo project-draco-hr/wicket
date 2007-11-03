@@ -12,6 +12,8 @@
   }
  else   if (e instanceof PageExpiredException) {
     Class pageExpiredErrorPageClass=application.getApplicationSettings().getPageExpiredErrorPage();
+    boolean mounted=isPageMounted(pageExpiredErrorPageClass);
+    RequestCycle.get().setRedirect(mounted);
     throw new RestartResponseException(pageExpiredErrorPageClass);
   }
  else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
