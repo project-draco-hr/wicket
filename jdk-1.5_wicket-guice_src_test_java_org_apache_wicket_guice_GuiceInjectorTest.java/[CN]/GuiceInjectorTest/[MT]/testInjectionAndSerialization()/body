@@ -5,7 +5,7 @@
     @Override public Class<WebPage> getHomePage(){
       return null;
     }
-    protected ISessionStore newSessionStore(){
+    @Override protected ISessionStore newSessionStore(){
       return new HttpSessionStore(this);
     }
   }
@@ -18,6 +18,16 @@
         binder.bind(ITestService.class).to(TestService.class);
         binder.bind(ITestService.class).annotatedWith(Red.class).to(TestServiceRed.class);
         binder.bind(ITestService.class).annotatedWith(Blue.class).to(TestServiceBlue.class);
+        binder.bind(new TypeLiteral<Map<String,String>>(){
+        }
+).toProvider(new Provider<Map<String,String>>(){
+          public Map<String,String> get(){
+            Map<String,String> strings=new HashMap<String,String>();
+            strings.put(ITestService.RESULT,ITestService.RESULT);
+            return strings;
+          }
+        }
+);
       }
     }
 );
