@@ -1,6 +1,6 @@
 {
   final String expressionBracketsSeperated=Strings.replaceAll(expression,"[",".[").toString();
-  int index=expressionBracketsSeperated.indexOf('.');
+  int index=getNextDotIndex(expressionBracketsSeperated,0);
   int lastIndex=0;
   Object value=object;
   Class clz=value.getClass();
@@ -12,7 +12,7 @@
       getAndSetter=getGetAndSetter(exp,clz);
     }
  catch (    WicketRuntimeException ex) {
-      index=expressionBracketsSeperated.indexOf('.',index + 1);
+      index=getNextDotIndex(expressionBracketsSeperated,index + 1);
       if (index != -1) {
         String indexExpression=expressionBracketsSeperated.substring(lastIndex,index);
         getAndSetter=getGetAndSetter(indexExpression,clz);
@@ -45,7 +45,7 @@
       clz=value.getClass();
     }
     lastIndex=index + 1;
-    index=expressionBracketsSeperated.indexOf('.',lastIndex);
+    index=getNextDotIndex(expressionBracketsSeperated,lastIndex);
     if (index == -1) {
       exp=expressionBracketsSeperated.substring(lastIndex);
       break;
