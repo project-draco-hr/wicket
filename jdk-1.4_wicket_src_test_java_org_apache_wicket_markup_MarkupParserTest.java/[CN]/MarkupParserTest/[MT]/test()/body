@@ -1,5 +1,5 @@
 {
-  final MarkupParser parser=new MarkupParser("This is a test <a componentName:id=9> <b>bold</b> <b componentName:id=10/></a> of the emergency broadcasting system");
+  final MarkupParser parser=new MarkupParser("This is a test <a componentName:id=9> <b>bold</b> <b componentName:id=10></b></a> of the emergency broadcasting system");
   parser.setWicketNamespace("componentName");
   final Markup tokens=parser.parse();
   log.info("tok(0)=" + tokens.get(0));
@@ -14,7 +14,7 @@
   Assert.assertTrue(tokens.get(2).equals(" <b>bold</b> "));
   final ComponentTag b=(ComponentTag)tokens.get(3);
   Assert.assertEquals(10,b.getAttributes().getInt("componentName:id"));
-  final ComponentTag closeA=(ComponentTag)tokens.get(4);
+  final ComponentTag closeA=(ComponentTag)tokens.get(5);
   Assert.assertEquals("a",closeA.getName());
-  Assert.assertTrue(tokens.get(5).equals(" of the emergency broadcasting system"));
+  Assert.assertTrue(tokens.get(6).equals(" of the emergency broadcasting system"));
 }
