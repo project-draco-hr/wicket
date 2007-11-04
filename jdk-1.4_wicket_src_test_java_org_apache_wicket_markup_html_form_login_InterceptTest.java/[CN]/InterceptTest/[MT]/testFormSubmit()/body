@@ -1,0 +1,16 @@
+{
+  application=new WicketTester(new MyMockWebApplication(){
+    protected WebResponse newWebResponse(    HttpServletResponse response){
+      return new BufferedWebResponse(response);
+    }
+  }
+);
+  application.setupRequestAndResponse();
+  application.processRequestCycle();
+  MockLoginPage loginPage=(MockLoginPage)application.getLastRenderedPage();
+  assertEquals(((MyMockWebApplication)application.getApplication()).getLoginPage(),loginPage.getClass());
+  FormTester form=application.newFormTester("form");
+  form.setValue("username","admin");
+  form.submit();
+  assertEquals(application.getApplication().getHomePage(),application.getLastRenderedPage().getClass());
+}
