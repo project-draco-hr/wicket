@@ -1,7 +1,8 @@
 {
   if (!page.isPageStateless()) {
-    String sessionId=getSession().getId();
-    if (sessionId != null) {
+    Session session=getSession();
+    String sessionId=session.getId();
+    if (sessionId != null && !session.isSessionInvalidated()) {
       getStore().storePage(sessionId,page);
       setLastPage(page);
       dirty();
