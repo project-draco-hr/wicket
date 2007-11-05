@@ -2,5 +2,8 @@
   if (resourceReference != null) {
     resourceReference.bind(component.getApplication());
     resource=resourceReference.getResource();
+    if (resource instanceof PackageResource) {
+      resourceReference.setLocale(((PackageResource)resource).getLocale());
+    }
   }
 }
