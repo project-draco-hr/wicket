@@ -1,0 +1,35 @@
+{
+  Injector injector;
+  String injectorContextAttribute=filter.getFilterConfig().getInitParameter("injectorContextAttribute");
+  if (injectorContextAttribute != null) {
+    ServletContext sc=filter.getFilterConfig().getServletContext();
+    injector=(Injector)sc.getAttribute(injectorContextAttribute);
+    if (injector == null) {
+      throw new RuntimeException("Could not find Guice Injector in the ServletContext under attribute: " + injectorContextAttribute);
+    }
+  }
+ else   if (filter.getFilterConfig().getInitParameter("module") != null) {
+    String moduleName=filter.getFilterConfig().getInitParameter("module");
+    try {
+      Class<?> moduleClazz=Class.forName(moduleName);
+      Object moduleObject=moduleClazz.newInstance();
+      Module module=(Module)moduleObject;
+      injector=Guice.createInjector(module);
+    }
+ catch (    InstantiationException e) {
+      throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+    }
+catch (    ClassNotFoundException e) {
+      throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+    }
+catch (    IllegalAccessException e) {
+      throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+    }
+  }
+ else {
+    throw new RuntimeException("To use GuiceWebApplicationFactory, you must specify either an 'injectorContextAttribute' or a 'module' init-param.");
+  }
+  WebApplication result=injector.getInstance(WebApplication.class);
+  result.addComponentInstantiationListener(new GuiceComponentInjector(result,injector));
+  return result;
+}
