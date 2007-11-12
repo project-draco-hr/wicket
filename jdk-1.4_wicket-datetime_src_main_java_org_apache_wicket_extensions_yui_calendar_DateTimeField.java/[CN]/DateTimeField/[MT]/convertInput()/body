@@ -10,15 +10,13 @@
       if (zone != null) {
         date.setZone(DateTimeZone.forTimeZone(zone));
       }
+      boolean use12HourFormat=use12HourFormat();
       if (hours != null) {
-        date.set(DateTimeFieldType.hourOfHalfday(),hours.intValue() % 12);
+        date.set(DateTimeFieldType.hourOfDay(),hours.intValue() % getMaximumHours(use12HourFormat));
         date.setMinuteOfHour((minutes != null) ? minutes.intValue() : 0);
       }
-      if (amOrPm == AM_PM.PM) {
-        date.set(DateTimeFieldType.halfdayOfDay(),1);
-      }
- else {
-        date.set(DateTimeFieldType.halfdayOfDay(),0);
+      if (use12HourFormat) {
+        date.set(DateTimeFieldType.halfdayOfDay(),amOrPm == AM_PM.PM ? 1 : 0);
       }
       setConvertedInput(date.toDate());
     }
