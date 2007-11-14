@@ -11,6 +11,7 @@
     requestCycle.setRequestTarget(target);
     link.onClick(target);
     target.respond(requestCycle);
+    requestCycle.detach();
   }
  else   if (linkComponent instanceof AjaxFallbackLink && isAjax) {
     AjaxFallbackLink link=(AjaxFallbackLink)linkComponent;
@@ -20,6 +21,7 @@
     requestCycle.setRequestTarget(target);
     link.onClick(target);
     target.respond(requestCycle);
+    requestCycle.detach();
   }
  else   if (linkComponent instanceof AjaxSubmitLink) {
     if (isAjax == false) {
@@ -42,6 +44,7 @@
     submitAjaxFormSubmitBehavior(ajaxFormSubmitBehavior);
     ajaxFormSubmitBehavior.onRequest();
     requestCycle.getRequestTarget().respond(requestCycle);
+    requestCycle.detach();
   }
  else   if (linkComponent instanceof AbstractLink) {
     AbstractLink link=(AbstractLink)linkComponent;
