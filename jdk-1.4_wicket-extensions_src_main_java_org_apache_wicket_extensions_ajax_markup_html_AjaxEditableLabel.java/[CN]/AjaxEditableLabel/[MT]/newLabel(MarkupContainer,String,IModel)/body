@@ -2,7 +2,8 @@
   Label label=new Label(componentId,model){
     private static final long serialVersionUID=1L;
     protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
-      if (getModelObject() == null) {
+      Object modelObject=getModelObject();
+      if (modelObject == null || "".equals(modelObject)) {
         replaceComponentTagBody(markupStream,openTag,defaultNullLabel());
       }
  else {
