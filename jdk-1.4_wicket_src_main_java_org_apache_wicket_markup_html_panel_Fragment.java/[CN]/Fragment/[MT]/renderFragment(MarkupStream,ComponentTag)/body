@@ -7,8 +7,10 @@
   providerMarkupStream.setCurrentIndex(index);
   try {
     ComponentTag fragmentOpenTag=providerMarkupStream.getTag();
-    providerMarkupStream.next();
-    super.onComponentTagBody(providerMarkupStream,fragmentOpenTag);
+    if (!fragmentOpenTag.isOpenClose()) {
+      providerMarkupStream.next();
+      super.onComponentTagBody(providerMarkupStream,fragmentOpenTag);
+    }
   }
   finally {
     providerMarkupStream.setCurrentIndex(currentIndex);
