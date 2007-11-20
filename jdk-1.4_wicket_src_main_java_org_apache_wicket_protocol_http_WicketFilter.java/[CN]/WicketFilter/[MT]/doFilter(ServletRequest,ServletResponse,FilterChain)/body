@@ -25,7 +25,14 @@
         doGet(httpServletRequest,httpServletResponse);
       }
  else {
-        long ifModifiedSince=httpServletRequest.getDateHeader("If-Modified-Since");
+        long ifModifiedSince;
+        try {
+          ifModifiedSince=httpServletRequest.getDateHeader("If-Modified-Since");
+        }
+ catch (        IllegalArgumentException e) {
+          log.warn("Invalid If-Modified-Since header",e);
+          ifModifiedSince=-1;
+        }
         if (ifModifiedSince < (lastModified / 1000 * 1000)) {
           maybeSetLastModified(httpServletResponse,lastModified);
           doGet(httpServletRequest,httpServletResponse);
