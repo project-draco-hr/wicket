@@ -1,5 +1,6 @@
 {
-  final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
+  final boolean ajaxRequest=getRequest() instanceof WebRequest && ((WebRequest)getRequest()).isAjax();
+  final boolean stripWicketTags=ajaxRequest || Application.get().getMarkupSettings().getStripWicketTags();
   if (!(tag instanceof WicketTag) || !stripWicketTags) {
     List behaviors=getBehaviorsImpl();
     if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {

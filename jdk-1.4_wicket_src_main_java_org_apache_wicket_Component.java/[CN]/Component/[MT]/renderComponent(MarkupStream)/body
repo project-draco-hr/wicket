@@ -23,7 +23,8 @@
       }
  else {
         if (getRenderBodyOnly() == false) {
-          final boolean stripWicketTags=Application.get().getMarkupSettings().getStripWicketTags();
+          final boolean ajaxRequest=getRequest() instanceof WebRequest && ((WebRequest)getRequest()).isAjax();
+          final boolean stripWicketTags=ajaxRequest || Application.get().getMarkupSettings().getStripWicketTags();
           if (!(openTag instanceof WicketTag) || !stripWicketTags) {
             getResponse().write(openTag.syntheticCloseTagString());
           }
