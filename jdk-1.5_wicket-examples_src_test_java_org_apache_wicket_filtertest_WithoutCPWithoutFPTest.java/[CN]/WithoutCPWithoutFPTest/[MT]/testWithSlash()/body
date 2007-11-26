@@ -1,6 +1,5 @@
 {
-  beginAt("/hello/message/Test%2FWith%20a%20Slash");
-  dumpHtml();
-  assertTitleEquals("Wicket Examples - helloworld");
-  assertTextInElement("message","Message is: 'Test/With a Slash'");
+  WebResponse response=beginAt("/hello/message/Test%2FWith%20a%20Slash");
+  assertEquals("Wicket Examples - helloworld",response.getTitle());
+  assertEquals("Message is: 'Test/With a Slash'",response.getElementWithID("message").getText());
 }

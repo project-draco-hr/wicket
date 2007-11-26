@@ -1,6 +1,5 @@
 {
-  beginAt("/hello/message/Test");
-  dumpHtml();
-  assertTitleEquals("Wicket Examples - helloworld");
-  assertTextInElement("message","Message is: 'Test'");
+  WebResponse response=beginAt("/hello/message/Test");
+  assertEquals("Wicket Examples - helloworld",response.getTitle());
+  assertEquals("Message is: 'Test'",response.getElementWithID("message").getText());
 }

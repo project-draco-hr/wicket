@@ -1,10 +1,13 @@
 {
-  beginAt("/library");
-  assertTitleEquals("Wicket Examples - library");
-  assertTextPresent("Username and password are both");
-  this.setFormElement("username","wicket");
-  this.setFormElement("password","wicket");
-  this.submit("submit");
-  assertTitleEquals("Wicket Examples - library");
-  assertTextPresent("Effective Java (Joshua Bloch)");
+  WicketTester tester=new WicketTester(new LibraryApplication());
+  tester.startPage(SignIn.class);
+  tester.assertContains("Wicket Examples - library");
+  tester.assertContains("Username and password are both");
+  FormTester formTester=tester.newFormTester("signInPanel:signInForm");
+  formTester.setValue("username","wicket");
+  formTester.setValue("password","wicket");
+  formTester.submit();
+  tester.assertRenderedPage(Home.class);
+  tester.assertContains("Wicket Examples - library");
+  tester.assertLabel("books:0:author","Effective Java (Joshua Bloch)");
 }
