@@ -1,22 +1,17 @@
 {
-  getTestContext().setBaseUrl("http://localhost:8098/wicket-examples");
-  beginAt("/hangman/?word=hangman");
-  assertTitleEquals("Wicket Examples - hangman");
-  assertLinkPresent("start");
-  clickLink("start");
-  assertTitleEquals("Wicket Examples - hangman");
-  assertTextPresent("guesses remaining");
-  assertElementPresent("guessesRemaining");
-  assertTextInElement("guessesRemaining","5");
-  clickLink("letter_f");
-  assertElementPresent("guessesRemaining");
-  assertTextInElement("guessesRemaining","4");
-  clickLink("letter_h");
-  assertElementPresent("guessesRemaining");
-  assertTextInElement("guessesRemaining","4");
-  clickLink("letter_a");
-  clickLink("letter_n");
-  clickLink("letter_g");
-  clickLink("letter_m");
-  assertTextPresent("Congratulations! You guessed that the word was ");
+  WicketTester tester=new WicketTester(new HangmanApplication());
+  tester.startPage(Home.class,new PageParameters("word=hangman"));
+  tester.assertComponent("start",Link.class);
+  tester.assertContains("Wicket Examples - hangman");
+  tester.clickLink("start");
+  tester.assertLabel("guessesRemaining","5");
+  clickLetter(tester,'f');
+  tester.assertLabel("guessesRemaining","4");
+  clickLetter(tester,'h');
+  tester.assertLabel("guessesRemaining","4");
+  clickLetter(tester,'a');
+  clickLetter(tester,'n');
+  clickLetter(tester,'g');
+  clickLetter(tester,'m');
+  tester.assertRenderedPage(Win.class);
 }
