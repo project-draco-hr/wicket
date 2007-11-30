@@ -11,6 +11,11 @@
         public void visitItem(        TreeItem item){
           markupStream.setCurrentIndex(index);
           item.onRender(markupStream);
+          List behaviors=item.getBehaviors();
+          for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
+            IBehavior behavior=(IBehavior)i.next();
+            behavior.afterRender(item);
+          }
         }
       }
 );
