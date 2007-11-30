@@ -34,10 +34,14 @@
         Iterator iterator2=component.getParent().iterator();
         while (iterator2.hasNext()) {
           Component sibling=(Component)iterator2.next();
-          if (!sibling.isVisible() && sibling instanceof MarkupContainer && ((MarkupContainer)sibling).isTransparentResolver()) {
-            log.warn("Component " + component + " wasn't rendered but most likely it has a transparent parent: "+ sibling);
-            iterator.remove();
-            break;
+          if (!sibling.isVisible()) {
+            boolean isTransparentMarkupContainer=sibling instanceof MarkupContainer && ((MarkupContainer)sibling).isTransparentResolver();
+            boolean isComponentResolver=sibling instanceof IComponentResolver;
+            if (isTransparentMarkupContainer || isComponentResolver) {
+              log.warn("Component " + component + " wasn't rendered but most likely it has a transparent parent: "+ sibling);
+              iterator.remove();
+              break;
+            }
           }
         }
       }

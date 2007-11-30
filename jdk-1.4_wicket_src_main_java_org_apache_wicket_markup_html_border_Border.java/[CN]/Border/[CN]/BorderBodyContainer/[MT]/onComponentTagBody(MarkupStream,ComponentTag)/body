@@ -2,5 +2,8 @@
   if (wasOpenCloseTag == false) {
     markupStream.skipRawMarkup();
   }
+  if (beginOfBodyIndex != originalMarkupStream.getCurrentIndex()) {
+    originalMarkupStream.setCurrentIndex(beginOfBodyIndex);
+  }
   super.onComponentTagBody(originalMarkupStream,Border.this.openTag);
 }
