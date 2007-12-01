@@ -2,6 +2,9 @@
   MarkupStream stream=null;
   if (markupProvider != null) {
     stream=markupProvider.getAssociatedMarkupStream(false);
+    if (stream == null) {
+      stream=markupProvider.getMarkupStream();
+    }
   }
   if (stream == null) {
     stream=super.getAssociatedMarkupStream(false);
