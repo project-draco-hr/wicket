@@ -4,9 +4,10 @@
   Border border=(Border)page.get("hideable");
   assertNotNull(border);
   AjaxLink link=(AjaxLink)border.get("hideLink");
+  WebMarkupContainer wrapper=(WebMarkupContainer)border.get("wrapper");
   assertNotNull(link);
   tester.clickLink("hideable:hideLink");
-  tester.assertComponentOnAjaxResponse(border.getBodyContainer());
+  tester.assertComponentOnAjaxResponse(wrapper);
   tester.clickLink("hideable:hideLink");
-  tester.assertComponentOnAjaxResponse(border.getBodyContainer());
+  tester.assertComponentOnAjaxResponse(wrapper);
 }

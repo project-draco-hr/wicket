@@ -1,13 +1,16 @@
 {
   super(name);
+  final WebMarkupContainer containerWrapper=new WebMarkupContainer("wrapper");
+  add(containerWrapper);
+  containerWrapper.add(getBodyContainer());
   add(new AjaxLink("hideLink"){
     private static final long serialVersionUID=1L;
     public void onClick(    AjaxRequestTarget target){
       hidden=!hidden;
-      getBodyContainer().setVisible(!hidden);
-      target.addComponent(getBodyContainer());
+      containerWrapper.setVisible(!hidden);
+      target.addComponent(containerWrapper);
     }
   }
 );
-  getBodyContainer().setOutputMarkupPlaceholderTag(true);
+  containerWrapper.setOutputMarkupPlaceholderTag(true);
 }
