@@ -1,12 +1,3 @@
 {
-  servletRequest.initialize();
-  servletResponse.initialize();
-  servletRequest.setParameters(parametersForNextRequest);
-  parametersForNextRequest.clear();
-  wicketRequest=application.newWebRequest(servletRequest);
-  wicketResponse=application.newWebResponse(servletResponse);
-  WebRequestCycle requestCycle=createRequestCycle();
-  application.getSessionStore().bind(wicketRequest,wicketSession);
-  wicketResponse.setAjax(wicketRequest.isAjax());
-  return requestCycle;
+  return setupRequestAndResponse(false);
 }

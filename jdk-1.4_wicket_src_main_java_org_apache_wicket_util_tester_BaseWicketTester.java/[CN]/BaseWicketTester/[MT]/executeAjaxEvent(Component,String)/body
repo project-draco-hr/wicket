@@ -18,10 +18,16 @@
   notNull(failMessage,ajaxEventBehavior);
   WebRequestCycle requestCycle;
   if (RequestCycle.get() == null) {
-    requestCycle=setupRequestAndResponse();
+    requestCycle=setupRequestAndResponse(true);
   }
  else {
     requestCycle=(WebRequestCycle)RequestCycle.get();
+  }
+  if (!requestCycle.getWebRequest().isAjax()) {
+    HttpServletRequest req=requestCycle.getWebRequest().getHttpServletRequest();
+    if (req instanceof MockHttpServletRequest) {
+      ((MockHttpServletRequest)req).addHeader("Wicket-Ajax","Yes");
+    }
   }
   if (ajaxEventBehavior instanceof AjaxFormSubmitBehavior) {
     AjaxFormSubmitBehavior ajaxFormSubmitBehavior=(AjaxFormSubmitBehavior)ajaxEventBehavior;
