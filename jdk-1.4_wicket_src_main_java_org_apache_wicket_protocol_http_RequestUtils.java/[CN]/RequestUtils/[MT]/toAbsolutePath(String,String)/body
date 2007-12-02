@@ -1,0 +1,22 @@
+{
+  final StringBuffer result;
+  if (requestPath.endsWith("/")) {
+    result=new StringBuffer(requestPath);
+  }
+ else {
+    result=new StringBuffer(requestPath.substring(0,requestPath.lastIndexOf('/') + 1));
+  }
+  if (relativePagePath.startsWith("../")) {
+    StringBuffer tempRelative=new StringBuffer(relativePagePath);
+    while (tempRelative.indexOf("../") == 0) {
+      tempRelative.delete(0,3);
+      result.setLength(result.length() - 1);
+      result.delete(result.lastIndexOf("/") + 1,result.length());
+    }
+    result.append(tempRelative);
+  }
+ else {
+    result.append(relativePagePath);
+  }
+  return result.toString();
+}
