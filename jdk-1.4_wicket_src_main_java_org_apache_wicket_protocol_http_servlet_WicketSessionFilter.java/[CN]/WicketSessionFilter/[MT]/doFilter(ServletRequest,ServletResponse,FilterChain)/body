@@ -20,5 +20,10 @@
       log.debug("could not set Wicket session: no http session was created yet for " + httpServletRequest.getContextPath() + ","+ httpServletRequest.getServerName());
     }
   }
-  chain.doFilter(request,response);
+  try {
+    chain.doFilter(request,response);
+  }
+  finally {
+    Session.unset();
+  }
 }
