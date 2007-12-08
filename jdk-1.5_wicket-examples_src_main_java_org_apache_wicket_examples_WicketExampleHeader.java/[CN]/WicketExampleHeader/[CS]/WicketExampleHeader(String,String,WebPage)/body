@@ -1,6 +1,6 @@
 {
   super(id);
-  add(new WebMarkupContainer("hideInPortlet"){
+  WebMarkupContainer hideInPortlet=new WebMarkupContainer("hideInPortlet"){
     /** 
  * @see org.apache.wicket.Component#isVisible()
  */
@@ -8,11 +8,12 @@
       return !RequestContext.get().isPortletRequest();
     }
   }
-);
-  add(new InspectorBug("inspector",page));
+;
+  add(hideInPortlet);
+  hideInPortlet.add(new InspectorBug("inspector",page));
   add(new Label("exampleTitle",exampleTitle));
   Link link=new Link("sources"){
-    public void onClick(){
+    @Override public void onClick(){
       setResponsePage(new SourcesPage(getPage().getClass()));
     }
   }
