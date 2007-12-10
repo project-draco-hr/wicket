@@ -1,9 +1,15 @@
 {
   Duration dur=Duration.seconds(20);
   final MyAjaxSelfUpdatingTimerBehavior timer=new MyAjaxSelfUpdatingTimerBehavior(dur);
-  final MockPageWithOneComponent page=new MockPageWithOneComponent();
-  Label label=new Label(MockPageWithOneComponent.COMPONENT_ID,"Hello");
+  final MockPageWithLinkAndComponent page=new MockPageWithLinkAndComponent();
+  Label label=new Label(MockPageWithLinkAndComponent.COMPONENT_ID,"Hello");
   page.add(label);
+  page.add(new Link(MockPageWithLinkAndComponent.LINK_ID){
+    private static final long serialVersionUID=1L;
+    public void onClick(){
+    }
+  }
+);
   label.setOutputMarkupId(true);
   label.add(timer);
   tester.startPage(new ITestPageSource(){
@@ -13,5 +19,7 @@
     }
   }
 );
+  validate(timer,true);
+  tester.clickLink(MockPageWithLinkAndComponent.LINK_ID);
   validate(timer,true);
 }
