@@ -1,0 +1,8 @@
+{
+  HttpServletRequest httpServletReq=requestCycle.getWebRequest().getHttpServletRequest();
+  String remoteAddr=httpServletReq.getHeader("X-Forwarded-For");
+  if (remoteAddr == null) {
+    remoteAddr=httpServletReq.getRemoteAddr();
+  }
+  return remoteAddr;
+}
