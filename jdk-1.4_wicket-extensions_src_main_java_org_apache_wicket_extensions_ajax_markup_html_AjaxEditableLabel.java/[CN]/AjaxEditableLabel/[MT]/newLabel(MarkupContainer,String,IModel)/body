@@ -1,6 +1,10 @@
 {
   Label label=new Label(componentId,model){
     private static final long serialVersionUID=1L;
+    public IConverter getConverter(    Class type){
+      IConverter c=AjaxEditableLabel.this.getConverter(type);
+      return c != null ? c : super.getConverter(type);
+    }
     protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
       Object modelObject=getModelObject();
       if (modelObject == null || "".equals(modelObject)) {

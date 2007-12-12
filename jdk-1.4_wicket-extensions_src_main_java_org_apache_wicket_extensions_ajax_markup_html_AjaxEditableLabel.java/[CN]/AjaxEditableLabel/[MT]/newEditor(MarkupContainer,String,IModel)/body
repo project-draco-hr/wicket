@@ -1,6 +1,10 @@
 {
   TextField editor=new TextField(componentId,model){
     private static final long serialVersionUID=1L;
+    public IConverter getConverter(    Class type){
+      IConverter c=AjaxEditableLabel.this.getConverter(type);
+      return c != null ? c : super.getConverter(type);
+    }
     protected void onModelChanged(){
       super.onModelChanged();
       AjaxEditableLabel.this.onModelChanged();
