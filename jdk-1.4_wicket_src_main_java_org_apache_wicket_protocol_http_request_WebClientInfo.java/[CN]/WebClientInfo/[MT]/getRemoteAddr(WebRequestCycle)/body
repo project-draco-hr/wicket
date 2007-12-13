@@ -4,5 +4,10 @@
   if (remoteAddr == null) {
     remoteAddr=httpServletReq.getRemoteAddr();
   }
+ else {
+    if (remoteAddr.indexOf(",") != -1) {
+      remoteAddr=remoteAddr.split(",")[0].trim();
+    }
+  }
   return remoteAddr;
 }
