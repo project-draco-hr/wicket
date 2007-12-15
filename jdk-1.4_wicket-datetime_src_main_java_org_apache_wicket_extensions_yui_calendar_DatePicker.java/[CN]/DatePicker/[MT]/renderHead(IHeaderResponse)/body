@@ -7,8 +7,8 @@
   variables.put("datePattern",getDatePattern());
   variables.put("fireChangeEvent",Boolean.valueOf(notifyComponentOnDateSelected()));
   variables.put("alignWithIcon",Boolean.valueOf(alignWithIcon()));
-  variables.put("basePath",RequestCycle.get().urlFor(new JavascriptResourceReference(YuiLib.class,"")));
-  variables.put("wicketDatePath",RequestCycle.get().urlFor(new JavascriptResourceReference(DatePicker.class,"wicket-date.js")));
+  variables.put("basePath",Strings.stripJSessionId(RequestCycle.get().urlFor(YUI)));
+  variables.put("wicketDatePath",Strings.stripJSessionId(RequestCycle.get().urlFor(WICKET_DATE)));
   variables.put("hideOnSelect",Boolean.valueOf(hideOnSelect()));
   String script=getAdditionalJavascript();
   if (script != null) {
