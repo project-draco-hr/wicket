@@ -4,21 +4,29 @@
       public void run(){
         startTime.fromNow().sleep();
         final Logger log=getLog();
-        while (!stop) {
-          final Time startOfPeriod=Time.now();
-          if (log.isTraceEnabled()) {
-            log.trace("Run the job: " + code.toString());
+        try {
+          while (!stop) {
+            final Time startOfPeriod=Time.now();
+            if (log.isTraceEnabled()) {
+              log.trace("Run the job: " + code.toString());
+            }
+            try {
+              code.run(getLog());
+            }
+ catch (            Exception e) {
+              log.error("Unhandled exception thrown by user code in task " + name,e);
+            }
+            if (log.isTraceEnabled()) {
+              log.trace("Finished with job: " + code.toString());
+            }
+            startOfPeriod.add(frequency).fromNow().sleep();
           }
-          try {
-            code.run(getLog());
-          }
- catch (          Exception e) {
-            log.error("Unhandled exception thrown by user code in task " + name,e);
-          }
-          if (log.isTraceEnabled()) {
-            log.trace("Finished with job: " + code.toString());
-          }
-          startOfPeriod.add(frequency).fromNow().sleep();
+        }
+ catch (        Throwable t) {
+          log.error("Task " + name + " terminated",t);
+        }
+ finally {
+          isStarted=false;
         }
       }
     }
