@@ -1,9 +1,9 @@
 {
   StringBuffer header=new StringBuffer();
-  FileReader fileReader=null;
+  LineNumberReader lineNumberReader=null;
   try {
-    fileReader=new FileReader(file);
-    LineNumberReader lineNumberReader=new LineNumberReader(fileReader);
+    FileReader fileReader=new FileReader(file);
+    lineNumberReader=new LineNumberReader(fileReader);
     for (int i=start; i < length; i++) {
       header.append(lineNumberReader.readLine());
       header.append(LINE_ENDING);
@@ -13,9 +13,9 @@
     Assert.fail(e.getMessage());
   }
  finally {
-    if (fileReader != null) {
+    if (lineNumberReader != null) {
       try {
-        fileReader.close();
+        lineNumberReader.close();
       }
  catch (      IOException e) {
         Assert.fail(e.getMessage());
