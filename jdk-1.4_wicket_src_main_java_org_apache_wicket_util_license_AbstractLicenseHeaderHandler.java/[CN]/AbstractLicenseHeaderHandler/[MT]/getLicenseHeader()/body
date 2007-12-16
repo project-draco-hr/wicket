@@ -1,6 +1,5 @@
 {
   if (Strings.isEmpty(licenseHeader)) {
-    String header="";
     LineNumberReader lineNumberReader=null;
     InputStream inputStream=null;
     InputStreamReader inputStreamReader=null;
@@ -8,12 +7,14 @@
       inputStream=ApacheLicenseHeaderTestCase.class.getResourceAsStream(getLicenseHeaderFilename());
       inputStreamReader=new InputStreamReader(inputStream);
       lineNumberReader=new LineNumberReader(inputStreamReader);
+      StringBuffer header=new StringBuffer();
       String line=lineNumberReader.readLine();
       while (line != null) {
-        header+=line + LINE_ENDING;
+        header.append(line);
+        header.append(LINE_ENDING);
         line=lineNumberReader.readLine();
       }
-      licenseHeader=header.trim();
+      licenseHeader=header.toString().trim();
     }
  catch (    Exception e) {
       Assert.fail(e.getMessage());
@@ -26,7 +27,6 @@
  catch (        Exception e) {
         }
       }
-      ;
       if (inputStream != null) {
         try {
           inputStream.close();
@@ -34,7 +34,6 @@
  catch (        Exception e) {
         }
       }
-      ;
       if (inputStreamReader != null) {
         try {
           inputStreamReader.close();
@@ -42,7 +41,6 @@
  catch (        Exception e) {
         }
       }
-      ;
     }
   }
   return licenseHeader;

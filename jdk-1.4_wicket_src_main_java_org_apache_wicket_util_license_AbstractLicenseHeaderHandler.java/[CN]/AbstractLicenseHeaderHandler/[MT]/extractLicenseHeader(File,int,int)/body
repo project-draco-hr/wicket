@@ -1,11 +1,12 @@
 {
-  String header="";
+  StringBuffer header=new StringBuffer();
   FileReader fileReader=null;
   try {
     fileReader=new FileReader(file);
     LineNumberReader lineNumberReader=new LineNumberReader(fileReader);
     for (int i=start; i < length; i++) {
-      header+=lineNumberReader.readLine() + LINE_ENDING;
+      header.append(lineNumberReader.readLine());
+      header.append(LINE_ENDING);
     }
   }
  catch (  Exception e) {
@@ -21,5 +22,5 @@
       }
     }
   }
-  return header.trim();
+  return header.toString().trim();
 }
