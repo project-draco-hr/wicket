@@ -37,6 +37,7 @@
             headers=parseHeaders(multi.readHeaders(maxHeaderBytes));
             if (getFileName(headers) != null) {
               FileItem item=createItem(headers,false);
+              items.add(item);
               OutputStream os=item.getOutputStream();
               try {
                 multi.readBodyData(os);
@@ -44,7 +45,6 @@
   finally {
                 os.close();
               }
-              items.add(item);
             }
  else {
               multi.discardBodyData();
@@ -55,6 +55,7 @@
         }
  else {
           FileItem item=createItem(headers,getFileName(headers) == null);
+          items.add(item);
           OutputStream os=item.getOutputStream();
           try {
             multi.readBodyData(os);
@@ -62,7 +63,6 @@
   finally {
             os.close();
           }
-          items.add(item);
         }
       }
  else {
@@ -72,6 +72,10 @@
     }
   }
  catch (  IOException e) {
+    for (int i=0; i < items.size(); i++) {
+      FileItem item=(FileItem)items.get(i);
+      item.delete();
+    }
     throw new FileUploadException("Processing of " + MULTIPART_FORM_DATA + " request failed. "+ e.getMessage(),e);
   }
   return items;
