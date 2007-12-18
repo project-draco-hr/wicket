@@ -1,0 +1,15 @@
+{
+  NumberValidator range=NumberValidator.maximum(1.8);
+  Validatable validatable=new Validatable(new Double(-100.8));
+  range.validate(validatable);
+  assertEquals(0,validatable.getErrors().size());
+  validatable=new Validatable(new Double(1));
+  range.validate(validatable);
+  assertEquals(0,validatable.getErrors().size());
+  validatable=new Validatable(new Double(1.8));
+  range.validate(validatable);
+  assertEquals(0,validatable.getErrors().size());
+  validatable=new Validatable(new Double(2));
+  range.validate(validatable);
+  assertEquals(1,validatable.getErrors().size());
+}
