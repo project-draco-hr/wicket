@@ -25,7 +25,7 @@
         tag.put("onclick",popupScript);
       }
  else {
-        tag.put("onclick","window.location.href='" + url + "';return false;");
+        tag.put("onclick","var win = this.ownerDocument.defaultView || this.ownerDocument.parentWindow; if (win == window) { window.location.href='" + url + "'; } ;return false");
       }
     }
     final CharSequence onClickJavaScript=getOnClickScript(url);
