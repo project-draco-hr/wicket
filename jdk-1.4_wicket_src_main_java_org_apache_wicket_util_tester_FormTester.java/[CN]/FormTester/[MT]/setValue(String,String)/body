@@ -1,5 +1,10 @@
 {
   checkClosed();
-  FormComponent formComponent=(FormComponent)workingForm.get(formComponentId);
-  setFormComponentValue(formComponent,value);
+  Component component=workingForm.get(formComponentId);
+  if (component instanceof IFormSubmittingComponent) {
+    setFormSubmittingComponentValue((IFormSubmittingComponent)component,value);
+  }
+ else   if (component instanceof FormComponent) {
+    setFormComponentValue((FormComponent)component,value);
+  }
 }
