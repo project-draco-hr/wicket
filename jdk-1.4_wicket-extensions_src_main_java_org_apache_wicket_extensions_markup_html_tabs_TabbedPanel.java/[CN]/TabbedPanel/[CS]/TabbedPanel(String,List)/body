@@ -30,25 +30,7 @@
       item.add(titleLink);
     }
     protected LoopItem newItem(    int iteration){
-      return new LoopItem(iteration){
-        private static final long serialVersionUID=1L;
-        protected void onComponentTag(        ComponentTag tag){
-          super.onComponentTag(tag);
-          String cssClass=(String)tag.getString("class");
-          if (cssClass == null) {
-            cssClass=" ";
-          }
-          cssClass+=" tab" + getIteration();
-          if (getIteration() == getSelectedTab()) {
-            cssClass+=" selected";
-          }
-          if (getIteration() == getIterations() - 1) {
-            cssClass+=" last";
-          }
-          tag.put("class",cssClass.trim());
-        }
-      }
-;
+      return newTabContainer(iteration);
     }
   }
 );
