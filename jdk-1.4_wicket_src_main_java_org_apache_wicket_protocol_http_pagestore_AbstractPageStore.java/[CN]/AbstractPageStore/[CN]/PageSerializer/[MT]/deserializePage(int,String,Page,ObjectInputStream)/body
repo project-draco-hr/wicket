@@ -9,13 +9,13 @@
     pages=new IntHashMap();
     pageMaps.put(pageMapName,pages);
   }
-  pages.put(id,page);
   boolean b=stream.readBoolean();
   if (b == false) {
     stream.defaultReadObject();
-    return page;
   }
  else {
-    return (Page)stream.readObject();
+    page=(Page)stream.readObject();
   }
+  pages.put(id,page);
+  return page;
 }
