@@ -4,10 +4,10 @@
     PageWindow window=entry.manager.createPageWindow(page.getPageId(),page.getVersionNumber(),page.getAjaxVersionNumber(),page.getData().length);
     pageMapEntryList.remove(entry);
     pageMapEntryList.add(entry);
-    while (getTotalSize() > getMaxSizePerSession() && pageMapEntryList.size() > 1) {
+    while (getTotalSize() > diskPageStore.getMaxSizePerSession() && pageMapEntryList.size() > 1) {
       removePageMapEntry((PageMapEntry)pageMapEntryList.get(0));
     }
-    FileChannel channel=fileChannelPool.getFileChannel(entry.fileName,true);
+    FileChannel channel=diskPageStore.fileChannelPool.getFileChannel(entry.fileName,true);
     try {
       channel.write(ByteBuffer.wrap(page.getData()),window.getFilePartOffset());
     }
@@ -15,7 +15,7 @@
       log.error("Error writing to a channel " + channel,e);
     }
  finally {
-      fileChannelPool.returnFileChannel(channel);
+      diskPageStore.fileChannelPool.returnFileChannel(channel);
     }
   }
 }

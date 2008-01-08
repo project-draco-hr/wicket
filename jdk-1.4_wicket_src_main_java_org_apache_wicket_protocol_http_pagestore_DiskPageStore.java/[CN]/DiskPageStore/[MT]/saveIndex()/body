@@ -1,0 +1,16 @@
+{
+  File storeFolder=getStoreFolder();
+  if (storeFolder.exists()) {
+    File index=new File(storeFolder,"DiskPageStoreIndex");
+    index.delete();
+    try {
+      OutputStream stream=new FileOutputStream(index);
+      ObjectOutputStream oos=new ObjectOutputStream(stream);
+      oos.writeObject(sessionIdToEntryMap);
+      stream.close();
+    }
+ catch (    Exception e) {
+      log.error("Couldn't write DiskPageStore index to file " + index + ".",e);
+    }
+  }
+}

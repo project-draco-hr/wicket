@@ -1,4 +1,17 @@
 {
+  if (!isSynchronous()) {
+synchronized (pagesToSaveAll) {
+      for (Iterator i=pagesToSaveAll.entrySet().iterator(); i.hasNext(); ) {
+        Entry entry=(Entry)i.next();
+        String sessionId=(String)entry.getKey();
+        List pages=(List)entry.getValue();
+synchronized (pages) {
+          flushPagesToSaveList(sessionId,pages);
+        }
+      }
+    }
+  }
+  saveIndex();
   fileChannelPool.destroy();
   if (pageSavingThread != null) {
     pageSavingThread.stop();
