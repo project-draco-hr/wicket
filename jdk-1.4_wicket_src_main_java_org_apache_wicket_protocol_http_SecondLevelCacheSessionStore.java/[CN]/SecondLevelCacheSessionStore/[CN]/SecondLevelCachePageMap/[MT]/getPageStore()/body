@@ -1,12 +1,8 @@
 {
-  if (sessionStore == null) {
-    Application app=Application.exists() ? Application.get() : null;
-    if (app != null) {
-      sessionStore=(SecondLevelCacheSessionStore)app.getSessionStore();
-    }
-  }
-  if (sessionStore != null) {
-    return sessionStore.getStore();
+  Application application=Application.get(applicationKey);
+  if (application != null) {
+    SecondLevelCacheSessionStore store=(SecondLevelCacheSessionStore)application.getSessionStore();
+    return store.getStore();
   }
  else {
     return null;

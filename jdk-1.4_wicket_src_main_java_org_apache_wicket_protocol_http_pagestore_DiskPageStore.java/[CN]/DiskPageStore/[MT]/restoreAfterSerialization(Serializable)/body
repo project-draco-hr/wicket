@@ -1,13 +1,19 @@
 {
-  if (serializable instanceof Page) {
-    return (Page)serializable;
+  if (!storeAfterSessionReplication() || serializable instanceof Page) {
+    return serializable;
   }
  else   if (serializable instanceof SerializedPageWithSession) {
     SerializedPageWithSession page=(SerializedPageWithSession)serializable;
-    storeSerializedPages(page.sessionId,page.pages);
-    return getPage(page.sessionId,page.pageMapName,page.pageId,page.versionNumber,page.ajaxVersionNumber);
+    if (page.page == null || page.page.get() != SerializedPageWithSession.NO_PAGE) {
+      storeSerializedPages(page.sessionId,page.pages);
+      return stripSerializedPage(page);
+    }
+ else {
+      return page;
+    }
   }
  else {
-    throw new IllegalArgumentException("Unknown object type");
+    String type=serializable != null ? serializable.getClass().getName() : null;
+    throw new IllegalArgumentException("Unknown object type " + type);
   }
 }

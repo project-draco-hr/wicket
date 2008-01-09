@@ -1,9 +1,11 @@
 {
   s.defaultReadObject();
-  if (serializeLastPage) {
-    Serializable page=(Serializable)s.readObject();
-    if (page != null) {
-      lastPageDeserialized=page;
+  IPageStore store=getPageStore();
+  if (sessionId != null && store instanceof IClusteredPageStore == false) {
+    Object lastPage=s.readObject();
+    if (store instanceof ISerializationAwarePageStore) {
+      lastPage=((ISerializationAwarePageStore)store).restoreAfterSerialization((Serializable)lastPage);
     }
+    this.lastPage=lastPage;
   }
 }

@@ -1,0 +1,13 @@
+{
+  if (size > 0) {
+synchronized (cache) {
+      for (Iterator i=cache.iterator(); i.hasNext(); ) {
+        SerializedPageWithSession entry=(SerializedPageWithSession)i.next();
+        if (entry.sessionId.equals(sessionId) && entry.pageId == pageId && entry.pageMapName.equals(pageMapName) && entry.versionNumber == version && entry.ajaxVersionNumber == ajaxVersion) {
+          return entry;
+        }
+      }
+    }
+  }
+  return null;
+}

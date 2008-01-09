@@ -1,10 +1,10 @@
 {
   s.defaultWriteObject();
-  if (serializeLastPage) {
-    Serializable page=lastPage;
-    IPageStore store=getPageStore();
-    if (page != null && store instanceof ISerializationAwarePageStore) {
-      page=((ISerializationAwarePageStore)store).prepareForSerialization(lastPage);
+  IPageStore store=getPageStore();
+  if (sessionId != null && store instanceof IClusteredPageStore == false) {
+    Object page=lastPage;
+    if (store instanceof ISerializationAwarePageStore) {
+      page=((ISerializationAwarePageStore)store).prepareForSerialization(sessionId,page);
     }
     try {
       s.writeObject(page);
