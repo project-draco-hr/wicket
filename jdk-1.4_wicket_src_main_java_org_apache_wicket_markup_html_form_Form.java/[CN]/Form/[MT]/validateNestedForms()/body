@@ -1,0 +1,14 @@
+{
+  visitChildren(Form.class,new IVisitor(){
+    public Object component(    Component component){
+      final Form form=(Form)component;
+      if (form.isEnabled() && form.isEnableAllowed() && form.isVisibleInHierarchy()) {
+        form.validateComponents();
+        form.validateFormValidators();
+        return CONTINUE_TRAVERSAL;
+      }
+      return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+    }
+  }
+);
+}

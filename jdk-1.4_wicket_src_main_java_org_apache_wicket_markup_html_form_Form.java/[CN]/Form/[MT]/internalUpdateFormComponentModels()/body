@@ -1,0 +1,11 @@
+{
+  visitFormComponentsPostOrder(new ValidationVisitor(){
+    public void validate(    FormComponent formComponent){
+      Form form=formComponent.getForm();
+      if (form == Form.this) {
+        formComponent.updateModel();
+      }
+    }
+  }
+);
+}

@@ -1,0 +1,12 @@
+{
+  if (getParent() instanceof Border) {
+    MarkupContainer border=getParent();
+    Iterator iter=border.iterator();
+    while (iter.hasNext()) {
+      Component child=(Component)iter.next();
+      if (child instanceof FormComponent) {
+        visitor.formComponent((FormComponent)child);
+      }
+    }
+  }
+}

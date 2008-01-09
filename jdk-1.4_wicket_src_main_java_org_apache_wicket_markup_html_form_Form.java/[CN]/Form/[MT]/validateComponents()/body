@@ -1,7 +1,10 @@
 {
-  visitFormComponentsPostOrder(new ValidationVisitor(){
+  visitFormComponents(new ValidationVisitor(){
     public void validate(    final FormComponent formComponent){
-      formComponent.validate();
+      final Form form=formComponent.getForm();
+      if (form == Form.this && form.isEnabled() && form.isEnableAllowed() && form.isVisibleInHierarchy()) {
+        formComponent.validate();
+      }
     }
   }
 );

@@ -1,8 +1,11 @@
 {
+  if (!isEnabled() || !isEnableAllowed() || !isVisibleInHierarchy()) {
+    return false;
+  }
   validate();
   if (hasError()) {
     markFormComponentsInvalid();
-    onError();
+    callOnError();
     return false;
   }
  else {

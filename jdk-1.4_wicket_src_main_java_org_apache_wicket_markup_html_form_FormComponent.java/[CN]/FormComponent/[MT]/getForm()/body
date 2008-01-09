@@ -1,7 +1,22 @@
 {
-  final Form form=(Form)findParent(Form.class);
+class FindFormVisitor implements Component.IVisitor {
+    Form form=null;
+    public Object component(    Component component){
+      form=(Form)component;
+      return Component.IVisitor.STOP_TRAVERSAL;
+    }
+  }
+  Form form=(Form)findParent(Form.class);
   if (form == null) {
-    throw new WicketRuntimeException("Could not find Form parent for " + this);
+    final Border border=(Border)findParent(Border.class);
+    if (border != null) {
+      FindFormVisitor formVisitor=new FindFormVisitor();
+      border.visitChildren(Form.class,formVisitor);
+      form=formVisitor.form;
+    }
+    if (form == null) {
+      throw new WicketRuntimeException("Could not find Form parent for " + this);
+    }
   }
   return form;
 }
