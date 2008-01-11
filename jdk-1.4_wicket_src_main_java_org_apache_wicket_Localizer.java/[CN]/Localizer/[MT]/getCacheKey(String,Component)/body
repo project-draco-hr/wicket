@@ -1,12 +1,15 @@
 {
   String cacheKey=key;
   if (component != null) {
-    cacheKey+='-' + component.getPageRelativePath();
-    Page page=component.findPage();
-    if (page != null) {
-      cacheKey+='-' + page.getClass().getName();
+    AppendingStringBuffer buffer=new AppendingStringBuffer(key);
+    Component cursor=component;
+    while (cursor != null) {
+      buffer.append("-").append(cursor.getClass().getName());
+      buffer.append(":").append(cursor.getId());
+      cursor=cursor.getParent();
     }
-    cacheKey+="-" + component.getLocale();
+    buffer.append("-").append(component.getLocale());
+    cacheKey=buffer.toString();
   }
   return cacheKey;
 }
