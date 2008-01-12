@@ -2,6 +2,6 @@
   if (component != null && component.getOutputMarkupId() == false) {
     throw new IllegalArgumentException("cannot update component that does not have setOutputMarkupId property set to true. Component: " + component.toString());
   }
-  final String id=component != null ? component.getMarkupId() : null;
-  appendJavascript("Wicket.Focus.setFocusOnId('" + id + "');");
+  final String id=component != null ? ("'" + component.getMarkupId() + "'") : "null";
+  appendJavascript("Wicket.Focus.setFocusOnId(" + id + ");");
 }
