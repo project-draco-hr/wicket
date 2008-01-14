@@ -1,0 +1,22 @@
+{
+  Object storedMarkupId=getMarkupIdImpl();
+  if (storedMarkupId instanceof String) {
+    return (String)storedMarkupId;
+  }
+  if (storedMarkupId == null && createIfDoesNotExist == false) {
+    return null;
+  }
+  final int generatedMarkupId=storedMarkupId instanceof Integer ? ((Integer)storedMarkupId).intValue() : nextAutoIndex();
+  if (storedMarkupId == null) {
+    setMarkupIdImpl(new Integer(generatedMarkupId));
+  }
+  String markupId=RequestContext.get().encodeMarkupId(getId() + generatedMarkupId);
+  char c=markupId.charAt(0);
+  if (!Character.isLetter(c)) {
+    markupId="id" + markupId;
+  }
+  markupId=Strings.replaceAll(markupId,"_","__").toString();
+  markupId=markupId.replace('.','_');
+  markupId=markupId.replace('-','_');
+  return markupId;
+}
