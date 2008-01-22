@@ -39,6 +39,9 @@
       return new PageRequestTarget(page);
     }
  else {
+      if (requestParameters.getInterface() != null) {
+        throw new PageExpiredException("Request cannot be processed. The target page does not exist anymore.");
+      }
       return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,redirect);
     }
   }
