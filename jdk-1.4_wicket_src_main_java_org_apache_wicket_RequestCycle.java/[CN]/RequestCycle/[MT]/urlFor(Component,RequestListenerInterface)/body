@@ -1,18 +1,3 @@
 {
-  final Page page=component.getPage();
-  final IRequestTarget target;
-  if (listener != IRedirectListener.INTERFACE && component.isStateless() && page.isBookmarkable()) {
-    PageParameters pageParameters=page.getPageParameters();
-    if (pageParameters == null)     pageParameters=new PageParameters();
-    target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMapName(),page.getClass(),pageParameters,component,listener);
-  }
- else {
-    page.setPageStateless(Boolean.FALSE);
-    final Session session=getSession();
-    if (session.isTemporary()) {
-      session.bind();
-    }
-    target=new ListenerInterfaceRequestTarget(page,component,listener);
-  }
-  return encodeUrlFor(target);
+  return urlFor(component,listener,null);
 }
