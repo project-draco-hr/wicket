@@ -6,10 +6,6 @@
     Integer minutes=(Integer)minutesField.getConvertedInput();
     AM_PM amOrPm=(AM_PM)amOrPmChoice.getConvertedInput();
     try {
-      TimeZone zone=getClientTimeZone();
-      if (zone != null) {
-        date.setZone(DateTimeZone.forTimeZone(zone));
-      }
       boolean use12HourFormat=use12HourFormat();
       if (hours != null) {
         date.set(DateTimeFieldType.hourOfDay(),hours.intValue() % getMaximumHours(use12HourFormat));
@@ -17,6 +13,10 @@
       }
       if (use12HourFormat) {
         date.set(DateTimeFieldType.halfdayOfDay(),amOrPm == AM_PM.PM ? 1 : 0);
+      }
+      TimeZone zone=getClientTimeZone();
+      if (zone != null) {
+        date.setMillis(DateTimeZone.getDefault().getMillisKeepLocal(DateTimeZone.forTimeZone(zone),date.getMillis()));
       }
       setConvertedInput(date.toDate());
     }
