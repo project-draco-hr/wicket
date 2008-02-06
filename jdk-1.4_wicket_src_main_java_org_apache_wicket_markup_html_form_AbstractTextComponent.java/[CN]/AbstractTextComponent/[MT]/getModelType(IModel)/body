@@ -1,6 +1,10 @@
 {
   if (model instanceof IObjectClassAwareModel) {
-    return ((IObjectClassAwareModel)model).getObjectClass();
+    Class objectClass=((IObjectClassAwareModel)model).getObjectClass();
+    if (objectClass == null) {
+      log.warn("Couldn't resolve model type of " + model + " for "+ this+ ", please set the type yourself.");
+    }
+    return objectClass;
   }
  else {
     return null;
