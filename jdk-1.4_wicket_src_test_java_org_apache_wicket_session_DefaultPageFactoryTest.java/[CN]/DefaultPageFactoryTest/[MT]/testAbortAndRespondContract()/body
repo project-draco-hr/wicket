@@ -31,4 +31,16 @@
   }
  catch (  AbstractRestartResponseException e) {
   }
+  try {
+    pageFactory.newPage(PageThrowingCheckedException.class);
+    fail();
+  }
+ catch (  WicketRuntimeException e) {
+    assertNotNull(e.getCause());
+    assertNotNull(e.getCause().getCause());
+    assertEquals(PageThrowingCheckedException.EXCEPTION,e.getCause().getCause());
+  }
+catch (  Exception e) {
+    fail();
+  }
 }
