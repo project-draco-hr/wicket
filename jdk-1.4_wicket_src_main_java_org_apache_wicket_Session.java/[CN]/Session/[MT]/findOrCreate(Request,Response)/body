@@ -4,6 +4,8 @@
   Session session=sessionStore.lookup(request);
   if (session == null) {
     session=application.newSession(request,response);
+    dirtyObjects.set(null);
+    touchedPages.set(null);
   }
   set(session);
   return session;
