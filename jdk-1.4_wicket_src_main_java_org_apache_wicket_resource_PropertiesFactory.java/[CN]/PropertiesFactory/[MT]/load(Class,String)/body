@@ -1,19 +1,19 @@
 {
   Properties properties=(Properties)propertiesCache.get(path);
-  if (properties != null) {
-    if (properties == Properties.EMPTY_PROPERTIES) {
-      properties=null;
+  if (properties == null) {
+    IResourceStream stream=application.getResourceSettings().getResourceStreamLocator().locate(clazz,path);
+    if (stream != null) {
+      properties=loadPropertiesFileAndWatchForChanges(path,stream);
     }
-    return properties;
-  }
-  IResourceStream stream=application.getResourceSettings().getResourceStreamLocator().locate(clazz,path);
-  if (stream != null) {
-    properties=loadPropertiesFileAndWatchForChanges(path,stream);
-    if (properties != null) {
+    if (properties == null) {
+      propertiesCache.put(path,Properties.EMPTY_PROPERTIES);
+    }
+ else {
       propertiesCache.put(path,properties);
-      return properties;
     }
   }
-  propertiesCache.put(path,Properties.EMPTY_PROPERTIES);
-  return null;
+  if (properties == Properties.EMPTY_PROPERTIES) {
+    properties=null;
+  }
+  return properties;
 }
