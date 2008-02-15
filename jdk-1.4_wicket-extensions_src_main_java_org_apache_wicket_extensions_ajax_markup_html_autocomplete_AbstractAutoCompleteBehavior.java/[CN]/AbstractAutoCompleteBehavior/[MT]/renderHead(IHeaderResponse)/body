@@ -1,4 +1,6 @@
 {
   super.renderHead(response);
   response.renderJavascriptReference(AUTOCOMPLETE_JS);
+  final String id=getComponent().getMarkupId();
+  response.renderOnDomReadyJavascript("new Wicket.AutoComplete('" + id + "','"+ getCallbackUrl()+ "',"+ preselect+ ");");
 }
