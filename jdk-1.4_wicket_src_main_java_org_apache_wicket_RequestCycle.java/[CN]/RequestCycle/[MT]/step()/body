@@ -10,7 +10,8 @@ case RESOLVE_TARGET:
 {
       final IRequestTarget target=processor.resolve(this,request.getRequestParameters());
       if (target == null) {
-        throw new WicketRuntimeException("the processor did not resolve to any request target");
+        this.handled=false;
+        currentStep=DONE;
       }
       requestTargets.add(0,target);
       break;

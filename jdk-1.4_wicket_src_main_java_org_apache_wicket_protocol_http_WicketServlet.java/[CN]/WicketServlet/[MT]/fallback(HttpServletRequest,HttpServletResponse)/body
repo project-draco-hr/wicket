@@ -1,0 +1,14 @@
+{
+  ServletWebRequest req=new ServletWebRequest(request);
+  String url=req.getURL();
+  if ((url.length() > 0 && url.charAt(0) != '/') || url.length() == 0) {
+    url='/' + url;
+  }
+  InputStream stream=getServletContext().getResourceAsStream(url);
+  if (stream == null) {
+    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+  }
+ else {
+    Streams.copy(stream,response.getOutputStream());
+  }
+}

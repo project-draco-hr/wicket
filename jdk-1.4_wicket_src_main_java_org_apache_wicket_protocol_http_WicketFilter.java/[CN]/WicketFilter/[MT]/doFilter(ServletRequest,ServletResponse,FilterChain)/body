@@ -22,7 +22,9 @@
       Application.set(webApplication);
       long lastModified=getLastModified(httpServletRequest);
       if (lastModified == -1) {
-        doGet(httpServletRequest,httpServletResponse);
+        if (doGet(httpServletRequest,httpServletResponse) == false) {
+          chain.doFilter(request,response);
+        }
       }
  else {
         long ifModifiedSince;

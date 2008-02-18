@@ -3,7 +3,7 @@
   if (relativePath.length() == 0 && !Strings.stripJSessionId(servletRequest.getRequestURI()).endsWith("/")) {
     final String redirectUrl=servletRequest.getRequestURI() + "/";
     servletResponse.sendRedirect(servletResponse.encodeRedirectURL(redirectUrl));
-    return;
+    return true;
   }
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   final ClassLoader newClassLoader=getClassLoader();
@@ -34,7 +34,7 @@
         }
         if (bufferedResponse != null) {
           bufferedResponse.writeTo(servletResponse);
-          return;
+          return true;
         }
       }
     }
@@ -51,6 +51,7 @@
       final RequestCycle cycle=webApplication.newRequestCycle(request,response);
       try {
         cycle.request();
+        return cycle.wasHandled();
       }
  catch (      AbortException e) {
       }
@@ -69,4 +70,5 @@
       Thread.currentThread().setContextClassLoader(previousClassLoader);
     }
   }
+  return true;
 }
