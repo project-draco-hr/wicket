@@ -1,9 +1,10 @@
 {
   SerializedPageWithSession entry=new SerializedPageWithSession(sessionId,page,pagesList);
+  SoftReference ref=new SoftReference(entry);
   if (size > 0) {
 synchronized (cache) {
       removePage(page);
-      cache.add(entry);
+      cache.add(ref);
       if (cache.size() > size) {
         cache.remove(0);
       }

@@ -2,8 +2,9 @@
   if (size > 0) {
 synchronized (cache) {
       for (Iterator i=cache.iterator(); i.hasNext(); ) {
-        SerializedPageWithSession entry=(SerializedPageWithSession)i.next();
-        if (entry.sessionId.equals(sessionId) && entry.pageId == pageId && entry.pageMapName.equals(pageMapName) && entry.versionNumber == version && entry.ajaxVersionNumber == ajaxVersion) {
+        SoftReference ref=(SoftReference)i.next();
+        SerializedPageWithSession entry=(SerializedPageWithSession)ref.get();
+        if (entry != null && entry.sessionId.equals(sessionId) && entry.pageId == pageId && entry.pageMapName.equals(pageMapName) && entry.versionNumber == version && entry.ajaxVersionNumber == ajaxVersion) {
           return entry;
         }
       }
