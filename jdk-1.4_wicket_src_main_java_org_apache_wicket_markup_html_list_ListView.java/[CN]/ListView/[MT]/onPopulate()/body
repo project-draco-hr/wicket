@@ -16,9 +16,11 @@
  else {
       removeAll();
     }
+    boolean hasChildren=size() != 0;
     for (int i=0; i < size; i++) {
       final int index=firstIndex + i;
-      ListItem item=(ListItem)get(Integer.toString(index));
+      ListItem item=null;
+      if (hasChildren)       item=(ListItem)get(Integer.toString(index));
       if (item == null) {
         item=newItem(index);
         add(item);

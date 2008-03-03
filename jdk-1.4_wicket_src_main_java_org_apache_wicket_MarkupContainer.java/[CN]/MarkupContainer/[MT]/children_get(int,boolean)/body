@@ -1,16 +1,25 @@
 {
   Object component=null;
-  if (index == 0 && children != null && children instanceof Object[] == false) {
-    component=postprocess(children,reconstruct,this,0);
-    if (children != component) {
-      children=component;
+  if (children != null) {
+    if (children instanceof Object[] == false && children instanceof ChildList == false) {
+      if (index != 0)       throw new ArrayIndexOutOfBoundsException("index " + index + " is greater then 0");
+      component=postprocess(children,reconstruct,this,0);
+      if (children != component) {
+        children=component;
+      }
     }
-  }
  else {
-    Object[] children=(Object[])this.children;
-    component=postprocess(children[index],reconstruct,this,index);
-    if (children[index] != component) {
-      children[index]=component;
+      Object[] children=null;
+      if (this.children instanceof ChildList) {
+        children=((ChildList)this.children).childs;
+      }
+ else {
+        children=(Object[])this.children;
+      }
+      component=postprocess(children[index],reconstruct,this,index);
+      if (children[index] != component) {
+        children[index]=component;
+      }
     }
   }
   return component;

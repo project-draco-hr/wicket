@@ -3,12 +3,9 @@
     children=child;
   }
  else {
-    final int size=children_size();
-    final Object[] children=new Object[size + 1];
-    for (int i=0; i < size; i++) {
-      children[i]=children_get(i,false);
+    if (!(children instanceof ChildList)) {
+      children=new ChildList(children);
     }
-    children[size]=child;
-    this.children=children;
+    ((ChildList)children).add(child);
   }
 }
