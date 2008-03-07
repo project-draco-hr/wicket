@@ -1,5 +1,10 @@
 {
   final Map map=super.variablesMap(validatable);
-  map.put("maximum",new Double(maximum));
+  if (Math.abs(maximum) == Double.MIN_VALUE) {
+    map.put("maximum",new Integer(0));
+  }
+ else {
+    map.put("maximum",new Double(maximum));
+  }
   return map;
 }
