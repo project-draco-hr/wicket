@@ -5,9 +5,10 @@
   if (log.isDebugEnabled()) {
     log.debug("Remove from cache: cacheKey=" + cacheKey);
   }
-  Markup markup=(Markup)markupCache.get(cacheKey);
+  String locationString=(String)markupKeyCache.get(cacheKey);
+  Markup markup=(Markup)markupCache.get(locationString);
   if (markup != null) {
-    markupCache.remove(cacheKey);
+    markupCache.remove(locationString);
     int count;
     do {
       count=0;
@@ -17,7 +18,8 @@
         MarkupResourceData resourceData=cacheMarkup.getMarkupResourceData().getBaseMarkupResourceData();
         if (resourceData != null) {
           String baseCacheKey=resourceData.getResource().getCacheKey();
-          if (markupCache.get(baseCacheKey) == null) {
+          String baseLocationString=(String)markupKeyCache.get(baseCacheKey);
+          if (baseLocationString != null && markupCache.get(baseLocationString) == null) {
             if (log.isDebugEnabled()) {
               log.debug("Remove from cache: cacheKey=" + cacheMarkup.getMarkupResourceData().getResource().getCacheKey());
             }
@@ -36,7 +38,8 @@
         if (modifiable instanceof MarkupResourceStream) {
           MarkupResourceStream resourceStream=(MarkupResourceStream)modifiable;
           String resourceCacheKey=resourceStream.getCacheKey();
-          if (markupCache.containsKey(resourceCacheKey) == false) {
+          String resouceLocationString=(String)markupKeyCache.get(resourceCacheKey);
+          if (resouceLocationString != null && markupCache.containsKey(resouceLocationString) == false) {
             iter.remove();
           }
         }

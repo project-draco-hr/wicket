@@ -1,8 +1,13 @@
 {
   String cacheKey=markupResourceStream.getCacheKey();
+  String locationString=markupResourceStream.locationAsString();
+  if (locationString == null) {
+    locationString=cacheKey;
+  }
   try {
     Markup markup=getMarkupLoader().loadMarkup(container,markupResourceStream,null,enforceReload);
-    return putIntoCache(cacheKey,markup);
+    markupKeyCache.put(cacheKey,locationString);
+    return putIntoCache(locationString,markup);
   }
  catch (  ResourceStreamNotFoundException e) {
     log.error("Unable to find markup from " + markupResourceStream,e);
