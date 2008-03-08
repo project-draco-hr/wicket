@@ -3,7 +3,12 @@
   if (session.isTemporary()) {
     session.bind();
   }
-  interceptContinuationURL="/" + cycle.getRequest().getURL();
+  if (cycle.getRequest() instanceof WebRequest && ((WebRequest)cycle.getRequest()).isAjax()) {
+    interceptContinuationURL=cycle.urlFor(cycle.getRequest().getPage()).toString();
+  }
+ else {
+    interceptContinuationURL="/" + cycle.getRequest().getURL();
+  }
   dirty();
   cycle.setRedirect(true);
 }
