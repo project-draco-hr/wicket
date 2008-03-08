@@ -5,6 +5,11 @@
     contentType=URLConnection.getFileNameMap().getContentTypeFor(uri);
   }
   if (contentType != null) {
-    setContentType(contentType + "; charset=" + getCharacterEncoding());
+    if (contentType.toLowerCase().indexOf("text") != -1) {
+      setContentType(contentType + "; charset=" + getCharacterEncoding());
+    }
+ else {
+      setContentType(contentType);
+    }
   }
 }
