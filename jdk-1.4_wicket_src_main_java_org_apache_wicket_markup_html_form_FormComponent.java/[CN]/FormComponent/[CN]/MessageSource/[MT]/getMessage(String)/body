@@ -6,17 +6,17 @@
   }
   final Localizer localizer=formComponent.getLocalizer();
   String resource=prefix + getId() + "."+ key;
-  String message=localizer.getString(resource,formComponent.getParent(),"");
+  String message=getString(localizer,resource,formComponent.getParent());
   if (Strings.isEmpty(message)) {
     resource=prefix + key;
-    message=localizer.getString(resource,formComponent.getParent(),"");
+    message=getString(localizer,resource,formComponent.getParent());
   }
   if (Strings.isEmpty(message)) {
     resource=prefix + getId() + "."+ key;
-    message=localizer.getString(resource,formComponent,"");
+    message=getString(localizer,resource,formComponent);
     if (Strings.isEmpty(message)) {
       resource=prefix + key;
-      message=localizer.getString(resource,formComponent,"");
+      message=getString(localizer,resource,formComponent);
     }
   }
   if (Strings.isEmpty(message)) {
