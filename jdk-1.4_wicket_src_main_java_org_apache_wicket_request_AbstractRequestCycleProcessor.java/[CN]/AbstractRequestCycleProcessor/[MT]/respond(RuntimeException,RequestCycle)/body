@@ -30,4 +30,7 @@
       throw new WicketRuntimeException("Internal Error: Could not render error page " + internalErrorPageClass,e);
     }
   }
+ else   if (requestCycle.getResponse() instanceof WebResponse) {
+    ((WebResponse)requestCycle.getResponse()).getHttpServletResponse().setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+  }
 }
