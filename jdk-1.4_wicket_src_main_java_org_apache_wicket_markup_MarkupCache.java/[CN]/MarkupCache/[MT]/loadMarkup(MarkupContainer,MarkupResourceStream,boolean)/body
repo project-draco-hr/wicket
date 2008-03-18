@@ -6,7 +6,9 @@
   }
   try {
     Markup markup=getMarkupLoader().loadMarkup(container,markupResourceStream,null,enforceReload);
-    markupKeyCache.put(cacheKey,locationString);
+    if (cacheKey != null) {
+      markupKeyCache.put(cacheKey,locationString);
+    }
     return putIntoCache(locationString,markup);
   }
  catch (  ResourceStreamNotFoundException e) {
