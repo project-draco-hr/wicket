@@ -47,6 +47,12 @@
     requestCycle.getRequestTarget().respond(requestCycle);
     requestCycle.detach();
   }
+ else   if (linkComponent instanceof SubmitLink) {
+    SubmitLink submitLink=(SubmitLink)linkComponent;
+    String pageRelativePath=submitLink.getInputName();
+    getParametersForNextRequest().put(pageRelativePath,"x");
+    submitForm(submitLink.getForm().getPageRelativePath());
+  }
  else   if (linkComponent instanceof AbstractLink) {
     AbstractLink link=(AbstractLink)linkComponent;
     if (link instanceof BookmarkablePageLink) {
