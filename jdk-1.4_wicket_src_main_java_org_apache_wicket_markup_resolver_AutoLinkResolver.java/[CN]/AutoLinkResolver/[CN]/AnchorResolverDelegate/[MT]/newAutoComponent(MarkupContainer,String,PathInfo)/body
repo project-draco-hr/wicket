@@ -1,14 +1,11 @@
 {
   if ((pathInfo.extension != null) && supportedPageExtensions.contains(pathInfo.extension)) {
-    String infoPath=Strings.replaceAll(pathInfo.path,"/",".").toString();
     Page page=container.getPage();
     final IClassResolver defaultClassResolver=page.getApplication().getApplicationSettings().getClassResolver();
-    String className;
-    if (!infoPath.startsWith(".")) {
-      className=Packages.extractPackageName(page.getClass()) + "." + infoPath;
-    }
- else {
-      className=infoPath.substring(1);
+    String className=Packages.absolutePath(page.getClass(),pathInfo.path);
+    className=Strings.replaceAll(className,"/",".").toString();
+    if (className.startsWith(".")) {
+      className=className.substring(1);
     }
     try {
       final Class clazz=defaultClassResolver.resolveClass(className);
@@ -21,10 +18,10 @@
     if (container.getParent() != null) {
       parentWithContainer=container.findParentWithAssociatedMarkup();
     }
-    if ((parentWithContainer instanceof Page) && !infoPath.startsWith(".") && page.getMarkupStream().isMergedMarkup()) {
+    if ((parentWithContainer instanceof Page) && !pathInfo.path.startsWith("/") && page.getMarkupStream().isMergedMarkup()) {
       Class clazz=container.getMarkupStream().getTag().getMarkupClass();
       if (clazz != null) {
-        className=Packages.extractPackageName(clazz) + "." + infoPath;
+        className=Packages.absolutePath(clazz,pathInfo.path);
         try {
           clazz=defaultClassResolver.resolveClass(className);
           return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters(),pathInfo.anchor);
