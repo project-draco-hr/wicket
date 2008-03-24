@@ -9,7 +9,7 @@
   wicketRequest=application.newWebRequest(servletRequest);
   wicketResponse=application.newWebResponse(servletResponse);
   WebRequestCycle requestCycle=createRequestCycle();
-  application.getSessionStore().bind(wicketRequest,wicketSession);
+  if (!initializeHttpSessionAsTemporary())   application.getSessionStore().bind(wicketRequest,wicketSession);
   wicketResponse.setAjax(wicketRequest.isAjax());
   return requestCycle;
 }
