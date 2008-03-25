@@ -1,10 +1,15 @@
 {
   try {
     final ByteArrayOutputStream out=new ByteArrayOutputStream();
+    ObjectOutputStream oos=null;
     try {
-      objectStreamFactory.newObjectOutputStream(out).writeObject(object);
+      oos=objectStreamFactory.newObjectOutputStream(out);
+      oos.writeObject(object);
     }
   finally {
+      if (oos != null) {
+        oos.close();
+      }
       out.close();
     }
     return out.toByteArray();
