@@ -1,43 +1,16 @@
 {
+  currentMarkupStream=markupStream;
+  currentOpenTag=openTag;
   final Reader templateReader=getTemplateReader();
   if (templateReader != null) {
-    final Map map=(Map)getModelObject();
-    final VelocityContext ctx=new VelocityContext(map);
-    StringWriter writer=new StringWriter();
-    final String logTag=getId();
-    try {
-      Velocity.evaluate(ctx,writer,logTag,templateReader);
-      String result=writer.toString();
-      if (escapeHtml()) {
-        result=Strings.escapeMarkup(result).toString();
-      }
-      if (!parseGeneratedMarkup()) {
-        replaceComponentTagBody(markupStream,openTag,result);
-      }
+    String result=evaluateVelocityTemplate(templateReader);
+    if (!parseGeneratedMarkup()) {
+      replaceComponentTagBody(markupStream,openTag,result);
+    }
  else {
-        Markup markup;
-        try {
-          MarkupParser parser=getApplication().getMarkupSettings().getMarkupParserFactory().newMarkupParser(new MarkupResourceStream(new StringResourceStream(result)));
-          markup=parser.parse();
-        }
- catch (        ResourceStreamNotFoundException e) {
-          throw new RuntimeException("Could not parse resulting markup",e);
-        }
-        markupStream.skipRawMarkup();
-        renderAll(new MarkupStream(markup));
-      }
-    }
- catch (    ParseErrorException e) {
-      onException(e,markupStream,openTag);
-    }
-catch (    MethodInvocationException e) {
-      onException(e,markupStream,openTag);
-    }
-catch (    ResourceNotFoundException e) {
-      onException(e,markupStream,openTag);
-    }
-catch (    IOException e) {
-      onException(e,markupStream,openTag);
+      Markup markup=getMarkup(result);
+      markupStream.skipRawMarkup();
+      renderAll(new MarkupStream(markup));
     }
   }
  else {

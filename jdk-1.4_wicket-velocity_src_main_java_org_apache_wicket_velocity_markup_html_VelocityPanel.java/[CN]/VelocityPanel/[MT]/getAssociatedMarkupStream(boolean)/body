@@ -1,0 +1,8 @@
+{
+  Reader reader=getTemplateReader();
+  if (reader == null) {
+    throw new WicketRuntimeException("could not find velocity template for panel: " + this);
+  }
+  String result=evaluateVelocityTemplate(reader);
+  return new MarkupStream(getMarkup(result));
+}

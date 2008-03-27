@@ -1,0 +1,33 @@
+{
+  if (evaluatedTemplate == null) {
+    final Map map=(Map)getModelObject();
+    final VelocityContext ctx=new VelocityContext(map);
+    StringWriter writer=new StringWriter();
+    final String logTag=getId();
+    try {
+      Velocity.evaluate(ctx,writer,logTag,templateReader);
+      String result=writer.toString();
+      if (escapeHtml()) {
+        result=Strings.escapeMarkup(result).toString();
+      }
+      evaluatedTemplate=result;
+      return evaluatedTemplate;
+    }
+ catch (    IOException e) {
+      onException(e,currentMarkupStream,currentOpenTag);
+    }
+catch (    ParseErrorException e) {
+      onException(e,currentMarkupStream,currentOpenTag);
+    }
+catch (    MethodInvocationException e) {
+      onException(e,currentMarkupStream,currentOpenTag);
+    }
+catch (    ResourceNotFoundException e) {
+      onException(e,currentMarkupStream,currentOpenTag);
+    }
+    return "";
+  }
+ else {
+    return evaluatedTemplate;
+  }
+}
