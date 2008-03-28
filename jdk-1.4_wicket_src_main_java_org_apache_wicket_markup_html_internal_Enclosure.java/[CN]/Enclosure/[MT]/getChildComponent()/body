@@ -1,0 +1,28 @@
+{
+  if (childComponent == null) {
+    MarkupContainer parent=getParent();
+    while (parent != null) {
+      if (parent.isTransparentResolver()) {
+        parent=parent.getParent();
+      }
+ else       if (parent instanceof BorderBodyContainer) {
+        parent=((BorderBodyContainer)parent).findParent(Border.class);
+      }
+ else {
+        break;
+      }
+    }
+    if (parent == null) {
+      throw new WicketRuntimeException("Unable to find parent component which is not a transparent resolver");
+    }
+    if (childId == null) {
+      throw new MarkupException("You most likely forgot to register the EnclosureHandler with the MarkupParserFactory");
+    }
+    final Component child=parent.get(childId.toString());
+    if (child == null) {
+      throw new MarkupException("Didn't find child component of <wicket:enclosure> with id='" + childId + "'. Component: "+ this.toString());
+    }
+    childComponent=child;
+  }
+  return childComponent;
+}
