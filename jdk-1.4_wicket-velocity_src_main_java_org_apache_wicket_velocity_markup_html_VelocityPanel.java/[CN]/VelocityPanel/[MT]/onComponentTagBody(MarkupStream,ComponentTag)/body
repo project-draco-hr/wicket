@@ -3,7 +3,10 @@
     replaceComponentTagBody(markupStream,openTag,Strings.toMultilineMarkup(stackTraceAsString));
   }
  else   if (!parseGeneratedMarkup()) {
-    replaceComponentTagBody(markupStream,openTag,evaluateVelocityTemplate(getTemplateReader()));
+    if (evaluatedTemplate == null) {
+      getMarkupResourceStream(null,null);
+    }
+    replaceComponentTagBody(markupStream,openTag,evaluatedTemplate);
   }
  else {
     super.onComponentTagBody(markupStream,openTag);
