@@ -1,19 +1,11 @@
 {
-  currentMarkupStream=markupStream;
-  currentOpenTag=openTag;
-  final Reader templateReader=getTemplateReader();
-  if (templateReader != null) {
-    String result=evaluateVelocityTemplate(templateReader);
-    if (!parseGeneratedMarkup()) {
-      replaceComponentTagBody(markupStream,openTag,result);
-    }
- else {
-      Markup markup=getMarkup(result);
-      markupStream.skipRawMarkup();
-      renderAll(new MarkupStream(markup));
-    }
+  if (!Strings.isEmpty(stackTraceAsString)) {
+    replaceComponentTagBody(markupStream,openTag,Strings.toMultilineMarkup(stackTraceAsString));
+  }
+ else   if (!parseGeneratedMarkup()) {
+    replaceComponentTagBody(markupStream,openTag,evaluateVelocityTemplate(getTemplateReader()));
   }
  else {
-    replaceComponentTagBody(markupStream,openTag,"");
+    super.onComponentTagBody(markupStream,openTag);
   }
 }

@@ -6,28 +6,25 @@
     final String logTag=getId();
     try {
       Velocity.evaluate(ctx,writer,logTag,templateReader);
-      String result=writer.toString();
+      evaluatedTemplate=writer.toString();
       if (escapeHtml()) {
-        result=Strings.escapeMarkup(result).toString();
+        evaluatedTemplate=Strings.escapeMarkup(evaluatedTemplate).toString();
       }
-      evaluatedTemplate=result;
       return evaluatedTemplate;
     }
  catch (    IOException e) {
-      onException(e,currentMarkupStream,currentOpenTag);
+      onException(e);
     }
 catch (    ParseErrorException e) {
-      onException(e,currentMarkupStream,currentOpenTag);
+      onException(e);
     }
 catch (    MethodInvocationException e) {
-      onException(e,currentMarkupStream,currentOpenTag);
+      onException(e);
     }
 catch (    ResourceNotFoundException e) {
-      onException(e,currentMarkupStream,currentOpenTag);
+      onException(e);
     }
-    return "";
+    return null;
   }
- else {
-    return evaluatedTemplate;
-  }
+  return evaluatedTemplate;
 }
