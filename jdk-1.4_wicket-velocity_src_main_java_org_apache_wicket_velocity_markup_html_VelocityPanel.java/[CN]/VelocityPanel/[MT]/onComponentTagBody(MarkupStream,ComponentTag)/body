@@ -3,6 +3,9 @@
     replaceComponentTagBody(markupStream,openTag,Strings.toMultilineMarkup(stackTraceAsString));
   }
  else   if (!parseGeneratedMarkup()) {
+    if (size() > 0) {
+      throw new WicketRuntimeException("Components cannot be added if the generated markup should not be parsed.");
+    }
     if (evaluatedTemplate == null) {
       getMarkupResourceStream(null,null);
     }
