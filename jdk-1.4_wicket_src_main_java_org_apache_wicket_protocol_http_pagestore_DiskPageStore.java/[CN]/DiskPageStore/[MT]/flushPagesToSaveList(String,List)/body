@@ -1,8 +1,13 @@
 {
   if (list != null) {
     for (Iterator i=list.iterator(); i.hasNext(); ) {
-      SerializedPage page=(SerializedPage)i.next();
-      getSessionEntry(sessionId,true).savePage(page);
+      try {
+        SerializedPage page=(SerializedPage)i.next();
+        getSessionEntry(sessionId,true).savePage(page);
+      }
+ catch (      Exception e) {
+        log.error("Error flushing page",e);
+      }
     }
     list.clear();
   }
