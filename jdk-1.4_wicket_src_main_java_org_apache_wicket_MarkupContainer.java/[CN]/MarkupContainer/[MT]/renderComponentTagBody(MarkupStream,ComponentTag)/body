@@ -1,4 +1,10 @@
 {
+  if ((markupStream != null) && (markupStream.getCurrentIndex() > 0)) {
+    ComponentTag origOpenTag=(ComponentTag)markupStream.get(markupStream.getCurrentIndex() - 1);
+    if (origOpenTag.isOpenClose()) {
+      return;
+    }
+  }
   boolean render=openTag.requiresCloseTag();
   if (render == false) {
     render=!openTag.hasNoCloseTag();
