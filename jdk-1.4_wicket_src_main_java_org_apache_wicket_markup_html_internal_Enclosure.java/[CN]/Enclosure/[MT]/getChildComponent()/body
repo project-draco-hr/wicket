@@ -1,20 +1,6 @@
 {
   if (childComponent == null) {
-    MarkupContainer parent=getParent();
-    while (parent != null) {
-      if (parent.isTransparentResolver()) {
-        parent=parent.getParent();
-      }
- else       if (parent instanceof BorderBodyContainer) {
-        parent=((BorderBodyContainer)parent).findParent(Border.class);
-      }
- else {
-        break;
-      }
-    }
-    if (parent == null) {
-      throw new WicketRuntimeException("Unable to find parent component which is not a transparent resolver");
-    }
+    MarkupContainer parent=getEnclosureParent();
     if (childId == null) {
       throw new MarkupException("You most likely forgot to register the EnclosureHandler with the MarkupParserFactory");
     }
