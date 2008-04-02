@@ -1,5 +1,6 @@
 {
   boolean wicketHeadProcessed=false;
+  boolean foundHeadTag=false;
   WicketTag childTag=null;
   int baseIndex=0;
   for (; baseIndex < baseMarkup.size(); baseIndex++) {
@@ -32,7 +33,7 @@
         }
       }
       if (wicketHeadProcessed == false) {
-        if (wtag.isClose() && wtag.isHeadTag()) {
+        if (wtag.isClose() && wtag.isHeadTag() && (foundHeadTag == false)) {
           wicketHeadProcessed=true;
           addMarkupElement(wtag);
           copyWicketHead(markup,extendIndex);
@@ -45,6 +46,9 @@
       }
     }
     if (wicketHeadProcessed == false) {
+      if (tag.isOpen() && TagUtils.isHeadTag(tag)) {
+        foundHeadTag=true;
+      }
       if ((tag.isClose() && TagUtils.isHeadTag(tag)) || (tag.isOpen() && TagUtils.isBodyTag(tag))) {
         wicketHeadProcessed=true;
         copyWicketHead(markup,extendIndex);
