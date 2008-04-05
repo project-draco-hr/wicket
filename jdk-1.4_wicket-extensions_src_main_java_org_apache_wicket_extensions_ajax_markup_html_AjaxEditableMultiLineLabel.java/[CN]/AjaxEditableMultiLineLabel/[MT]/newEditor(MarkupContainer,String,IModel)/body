@@ -1,5 +1,14 @@
 {
-  TextArea editor=new TextArea(componentId,model);
+  TextArea editor=new TextArea(componentId,model){
+    private static final long serialVersionUID=1L;
+    protected void onModelChanged(){
+      AjaxEditableMultiLineLabel.this.onModelChanged();
+    }
+    protected void onModelChanging(){
+      AjaxEditableMultiLineLabel.this.onModelChanging();
+    }
+  }
+;
   editor.add(new AttributeModifier("rows",new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
     public Object getObject(){

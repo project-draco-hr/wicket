@@ -1,11 +1,21 @@
 {
-  DropDownChoice editor=new DropDownChoice(componentId,model,new AbstractReadOnlyModel(){
+  IModel choiceModel=new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
     public Object getObject(){
       return choices.getObject();
     }
   }
-,renderer);
+;
+  DropDownChoice editor=new DropDownChoice(componentId,model,choiceModel,renderer){
+    private static final long serialVersionUID=1L;
+    protected void onModelChanged(){
+      AjaxEditableChoiceLabel.this.onModelChanged();
+    }
+    protected void onModelChanging(){
+      AjaxEditableChoiceLabel.this.onModelChanging();
+    }
+  }
+;
   editor.setOutputMarkupId(true);
   editor.setVisible(false);
   editor.add(new EditorAjaxBehavior(){
