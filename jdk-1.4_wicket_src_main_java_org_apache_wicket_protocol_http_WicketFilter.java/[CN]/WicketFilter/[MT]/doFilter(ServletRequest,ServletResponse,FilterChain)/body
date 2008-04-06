@@ -18,6 +18,10 @@
   }
   String relativePath=getRelativePath(httpServletRequest);
   if (isWicketRequest(relativePath)) {
+    Application previous=null;
+    if (Application.exists()) {
+      previous=Application.get();
+    }
     try {
       Application.set(webApplication);
       long lastModified=getLastModified(httpServletRequest);
@@ -45,8 +49,13 @@
       }
     }
   finally {
-      Application.unset();
-      RequestContext.unset();
+      if (previous == null) {
+        Application.unset();
+        RequestContext.unset();
+      }
+ else {
+        Application.set(previous);
+      }
     }
   }
  else {
