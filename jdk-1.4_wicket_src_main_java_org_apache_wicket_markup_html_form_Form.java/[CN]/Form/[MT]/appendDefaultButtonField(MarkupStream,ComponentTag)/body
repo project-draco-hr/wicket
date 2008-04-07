@@ -4,12 +4,7 @@
   buffer.append("<input type=\"text\" autocomplete=\"false\"/>");
   final Component submittingComponent=(Component)defaultSubmittingComponent;
   buffer.append("<input type=\"submit\" name=\"");
-  if (submittingComponent instanceof FormComponent) {
-    buffer.append(((FormComponent)submittingComponent).getInputName());
-  }
- else {
-    buffer.append(submittingComponent.getPath());
-  }
+  buffer.append(defaultSubmittingComponent.getInputName());
   buffer.append("\" onclick=\" var b=Wicket.$('");
   buffer.append(submittingComponent.getMarkupId());
   buffer.append("'); if (typeof(b.onclick) != 'undefined') {  var r = b.onclick.bind(b)(); if (r != false) b.click(); } else { b.click(); };  return false;\" ");
