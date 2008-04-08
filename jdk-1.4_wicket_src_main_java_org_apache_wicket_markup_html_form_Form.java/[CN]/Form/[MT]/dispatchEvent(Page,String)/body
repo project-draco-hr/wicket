@@ -3,8 +3,8 @@
   IRequestCycleProcessor processor=rc.getProcessor();
   final RequestParameters requestParameters=processor.getRequestCodingStrategy().decode(new FormDispatchRequest(rc.getRequest(),url));
   IRequestTarget rt=processor.resolve(rc,requestParameters);
-  if (rt instanceof ListenerInterfaceRequestTarget) {
-    ListenerInterfaceRequestTarget interfaceTarget=((ListenerInterfaceRequestTarget)rt);
+  if (rt instanceof IListenerInterfaceRequestTarget) {
+    IListenerInterfaceRequestTarget interfaceTarget=((ListenerInterfaceRequestTarget)rt);
     interfaceTarget.getRequestListenerInterface().invoke(page,interfaceTarget.getTarget());
   }
  else {
