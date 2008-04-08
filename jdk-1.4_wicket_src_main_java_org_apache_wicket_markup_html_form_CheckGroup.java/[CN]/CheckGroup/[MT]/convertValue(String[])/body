@@ -4,8 +4,8 @@
     for (int i=0; i < values.length; i++) {
       final String value=values[i];
       if (value != null) {
-        Check<T> checkbox=(Check<T>)visitChildren(Check.class,new Component.IVisitor<Check>(){
-          public Object component(          Check check){
+        Check<T> checkbox=(Check<T>)visitChildren(Check.class,new Component.IVisitor<Check<T>>(){
+          public Object component(          Check<T> check){
             if (String.valueOf(check.getValue()).equals(value)) {
               return check;
             }
