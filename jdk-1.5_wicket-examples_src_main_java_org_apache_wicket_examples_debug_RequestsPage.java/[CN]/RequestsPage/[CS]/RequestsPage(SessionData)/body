@@ -20,27 +20,27 @@
     add(new Label("size",new Model(Bytes.bytes(sessionData.getSessionSize()))));
     add(new WebMarkupContainer("sessionid").setVisible(false));
   }
-  IModel requestsModel=new Model(){
+  IModel<ArrayList<RequestData>> requestsModel=new Model<ArrayList<RequestData>>(){
     private static final long serialVersionUID=1L;
-    public Object getObject(){
-      List requests=getRequestLogger().getRequests();
+    @Override public ArrayList<RequestData> getObject(){
+      List<RequestData> requests=getRequestLogger().getRequests();
       if (sessionData != null) {
-        List returnValues=new ArrayList();
+        ArrayList<RequestData> returnValues=new ArrayList<RequestData>();
         for (int i=0; i < requests.size(); i++) {
-          RequestData data=(RequestData)requests.get(i);
+          RequestData data=requests.get(i);
           if (sessionData.getSessionId().equals(data.getSessionId())) {
             returnValues.add(data);
           }
         }
         return returnValues;
       }
-      return requests;
+      return new ArrayList<RequestData>(requests);
     }
   }
 ;
   PageableListView listView=new PageableListView("requests",requestsModel,50){
     private static final long serialVersionUID=1L;
-    protected void populateItem(    ListItem item){
+    @Override protected void populateItem(    ListItem item){
       RequestData rd=(RequestData)item.getModelObject();
       item.add(new Label("id",new Model(rd.getSessionId())).setVisible(sessionData == null));
       item.add(new Label("startDate",new Model(sdf.format(rd.getStartDate()))));

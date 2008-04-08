@@ -1,21 +1,21 @@
 {
   final ClickCount count1=new ClickCount();
   Link link1=new Link("link1"){
-    public void onClick(){
+    @Override public void onClick(){
       count1.clicks++;
     }
   }
 ;
   add(link1);
-  link1.add(new Label("label1",new Model(){
-    public Object getObject(){
+  link1.add(new Label("label1",new Model<String>(){
+    @Override public String getObject(){
       return Integer.toString(count1.clicks);
     }
   }
 ));
   final ClickCount count2=new ClickCount();
   Link linkWithStateChange=new Link("linkWithStateChange"){
-    public void onClick(){
+    @Override public void onClick(){
       final int count=count1.clicks;
       count2.clicks++;
       addStateChange(new Change(){
@@ -40,7 +40,7 @@ class CustomLink extends Link {
       count2=new ClickCount();
       add(new ClickCountLabel("label2",count2));
     }
-    public void onClick(){
+    @Override public void onClick(){
       count2.clicks++;
     }
   }
@@ -54,14 +54,14 @@ class ButtonLink extends Link {
     public ButtonLink(    String id){
       super(id);
       count3=new ClickCount();
-      add(new AttributeModifier("value",new Model(){
-        public Object getObject(){
+      add(new AttributeModifier("value",new Model<String>(){
+        @Override public String getObject(){
           return "this button is clicked " + count3.clicks + " times";
         }
       }
 ));
     }
-    public void onClick(){
+    @Override public void onClick(){
       count3.clicks++;
     }
   }

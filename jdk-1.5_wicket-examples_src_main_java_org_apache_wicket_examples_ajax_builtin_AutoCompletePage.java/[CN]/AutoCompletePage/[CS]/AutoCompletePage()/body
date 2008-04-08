@@ -1,12 +1,13 @@
 {
   Form form=new Form("form");
   add(form);
-  final AutoCompleteTextField field=new AutoCompleteTextField("ac",new Model("")){
-    protected Iterator getChoices(    String input){
+  final AutoCompleteTextField<String> field=new AutoCompleteTextField<String>("ac",new Model<String>("")){
+    @Override protected Iterator<String> getChoices(    String input){
       if (Strings.isEmpty(input)) {
-        return Collections.EMPTY_LIST.iterator();
+        List<String> emptyList=Collections.emptyList();
+        return emptyList.iterator();
       }
-      List choices=new ArrayList(10);
+      List<String> choices=new ArrayList<String>(10);
       Locale[] locales=Locale.getAvailableLocales();
       for (int i=0; i < locales.length; i++) {
         final Locale locale=locales[i];
@@ -27,7 +28,7 @@
   label.setOutputMarkupId(true);
   form.add(label);
   field.add(new AjaxFormSubmitBehavior(form,"onchange"){
-    protected void onSubmit(    AjaxRequestTarget target){
+    @Override protected void onSubmit(    AjaxRequestTarget target){
       target.addComponent(label);
     }
     @Override protected void onError(    AjaxRequestTarget target){

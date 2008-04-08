@@ -1,7 +1,7 @@
 {
   super(id);
-  setChoices(new AbstractReadOnlyModel(){
-    @Override public Object getObject(){
+  setChoices(new AbstractReadOnlyModel<List<Locale>>(){
+    @Override public List<Locale> getObject(){
       getSelectedLocale();
       List<Locale> locales=new ArrayList<Locale>(LOCALES);
       Collections.sort(locales,new Comparator<Locale>(){
@@ -15,5 +15,5 @@
   }
 );
   setChoiceRenderer(new LocaleChoiceRenderer());
-  setModel(new PropertyModel(DatesPage.this,"selectedLocale"));
+  setModel(new PropertyModel<Locale>(DatesPage.this,"selectedLocale"));
 }
