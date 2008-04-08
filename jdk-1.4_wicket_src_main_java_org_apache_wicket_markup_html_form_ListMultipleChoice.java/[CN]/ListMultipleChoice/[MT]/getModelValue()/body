@@ -3,12 +3,12 @@
   if (modelObject != null && !(modelObject instanceof Collection)) {
     throw new WicketRuntimeException("Model object for a ListMultipleChoice must be a Collection (found " + modelObject.getClass() + ")");
   }
-  final Collection selectedValues=(Collection)modelObject;
+  final Collection<T> selectedValues=(Collection)modelObject;
   final AppendingStringBuffer buffer=new AppendingStringBuffer();
   if (selectedValues != null) {
-    final List choices=getChoices();
-    for (final Iterator iterator=selectedValues.iterator(); iterator.hasNext(); ) {
-      final Object object=iterator.next();
+    final List<T> choices=getChoices();
+    for (final Iterator<T> iterator=selectedValues.iterator(); iterator.hasNext(); ) {
+      final T object=iterator.next();
       int index=choices.indexOf(object);
       buffer.append(getChoiceRenderer().getIdValue(object,index));
       buffer.append(VALUE_SEPARATOR);

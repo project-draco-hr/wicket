@@ -3,11 +3,11 @@
     if (this instanceof IHeaderContributor) {
       ((IHeaderContributor)this).renderHead(container.getHeaderResponse());
     }
-    List behaviors=getBehaviorsImpl();
+    List<IBehavior> behaviors=getBehaviorsImpl();
     if (behaviors != null) {
-      final Iterator iter=behaviors.iterator();
+      final Iterator<IBehavior> iter=behaviors.iterator();
       while (iter.hasNext()) {
-        IBehavior behavior=(IBehavior)iter.next();
+        IBehavior behavior=iter.next();
         if (behavior instanceof IHeaderContributor && isBehaviorAccepted(behavior)) {
           ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
         }

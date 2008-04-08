@@ -1,10 +1,10 @@
 {
   try {
-    final Enumeration resources=Thread.currentThread().getContextClassLoader().getResources("wicket.properties");
-    while (resources.hasMoreElements()) {
+    final Iterator resources=getApplicationSettings().getClassResolver().getResources("wicket.properties");
+    while (resources.hasNext()) {
       InputStream in=null;
       try {
-        final URL url=(URL)resources.nextElement();
+        final URL url=(URL)resources.next();
         final Properties properties=new Properties();
         in=url.openStream();
         properties.load(in);

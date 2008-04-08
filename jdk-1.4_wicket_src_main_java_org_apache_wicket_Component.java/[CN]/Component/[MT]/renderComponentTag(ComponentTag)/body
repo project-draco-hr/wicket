@@ -2,20 +2,20 @@
   final boolean ajaxRequest=getRequest() instanceof WebRequest && ((WebRequest)getRequest()).isAjax();
   final boolean stripWicketTags=ajaxRequest || Application.get().getMarkupSettings().getStripWicketTags();
   if (!(tag instanceof WicketTag) || !stripWicketTags) {
-    List behaviors=getBehaviorsImpl();
+    List<IBehavior> behaviors=getBehaviorsImpl();
     if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       tag=tag.mutable();
-      for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
-        IBehavior behavior=(IBehavior)i.next();
+      for (Iterator<IBehavior> i=behaviors.iterator(); i.hasNext(); ) {
+        IBehavior behavior=i.next();
         if (isBehaviorAccepted(behavior)) {
           behavior.onComponentTag(this,tag);
         }
       }
     }
     if (tag.hasBehaviors()) {
-      Iterator tagBehaviors=tag.getBehaviors();
+      Iterator<IBehavior> tagBehaviors=tag.getBehaviors();
       while (tagBehaviors.hasNext()) {
-        final IBehavior behavior=(IBehavior)tagBehaviors.next();
+        final IBehavior behavior=tagBehaviors.next();
         behavior.onComponentTag(this,tag);
       }
     }

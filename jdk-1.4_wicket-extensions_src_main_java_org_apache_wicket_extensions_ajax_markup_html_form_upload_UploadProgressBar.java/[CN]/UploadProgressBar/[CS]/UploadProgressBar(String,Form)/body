@@ -17,9 +17,9 @@
   if (!(RequestCycle.get().getRequest() instanceof UploadWebRequest)) {
     log.warn("UploadProgressBar will not work without an UploadWebRequest. See the javadoc for details.");
   }
-  form.add(new AttributeModifier("onsubmit",true,new Model(){
+  form.add(new AttributeModifier("onsubmit",true,new Model<String>(){
     private static final long serialVersionUID=1L;
-    public Object getObject(){
+    @Override public String getObject(){
       ResourceReference ref=new ResourceReference(RESOURCE_NAME);
       return "var def=new Wicket.WUPB.Def('" + form.getMarkupId() + "', '"+ statusDiv.getMarkupId()+ "', '"+ barDiv.getMarkupId()+ "', '"+ getPage().urlFor(ref)+ "'); Wicket.WUPB.start(def);";
     }

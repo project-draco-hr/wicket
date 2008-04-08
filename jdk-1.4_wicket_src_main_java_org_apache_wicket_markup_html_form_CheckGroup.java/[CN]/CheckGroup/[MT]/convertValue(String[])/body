@@ -1,16 +1,13 @@
 {
-  List collection=new ArrayList();
+  List<T> collection=new ArrayList<T>();
   if (values != null && values.length > 0) {
     for (int i=0; i < values.length; i++) {
       final String value=values[i];
       if (value != null) {
-        Check checkbox=(Check)visitChildren(new Component.IVisitor(){
-          public Object component(          Component component){
-            if (component instanceof Check) {
-              final Check check=(Check)component;
-              if (String.valueOf(check.getValue()).equals(value)) {
-                return check;
-              }
+        Check<T> checkbox=(Check<T>)visitChildren(Check.class,new Component.IVisitor<Check>(){
+          public Object component(          Check check){
+            if (String.valueOf(check.getValue()).equals(value)) {
+              return check;
             }
             return CONTINUE_TRAVERSAL;
           }

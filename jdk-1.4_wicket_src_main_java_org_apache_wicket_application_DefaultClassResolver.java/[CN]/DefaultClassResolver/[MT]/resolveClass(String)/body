@@ -1,6 +1,6 @@
 {
   Class clazz=null;
-  WeakReference ref=(WeakReference)classes.get(classname);
+  WeakReference ref=classes.get(classname);
   if (ref != null) {
     clazz=(Class)ref.get();
   }
@@ -37,7 +37,7 @@ synchronized (classes) {
         }
         clazz=loader.loadClass(classname);
       }
-      classes.put(classname,new WeakReference(clazz));
+      classes.put(classname,new WeakReference<Class>(clazz));
     }
   }
   return clazz;

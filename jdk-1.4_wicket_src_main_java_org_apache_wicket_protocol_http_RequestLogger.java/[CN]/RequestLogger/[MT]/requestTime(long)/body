@@ -1,5 +1,5 @@
 {
-  RequestData rd=(RequestData)currentRequest.get();
+  RequestData rd=currentRequest.get();
   if (rd != null) {
 synchronized (this) {
       if (active > 0) {
@@ -25,10 +25,10 @@ synchronized (this) {
     requests.add(0,rd);
     currentRequest.set(null);
     if (sessionId != null) {
-      SessionData sd=(SessionData)liveSessions.get(sessionId);
+      SessionData sd=liveSessions.get(sessionId);
       if (sd == null) {
         sessionCreated(sessionId);
-        sd=(SessionData)liveSessions.get(sessionId);
+        sd=liveSessions.get(sessionId);
       }
       if (sd != null) {
         sd.setSessionInfo(sessionInfo);

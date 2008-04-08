@@ -22,10 +22,10 @@
       rendered();
     }
  catch (    RuntimeException ex) {
-      List behaviors=getBehaviorsImpl();
+      List<IBehavior> behaviors=getBehaviorsImpl();
       if (behaviors != null) {
-        for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
-          IBehavior behavior=(IBehavior)i.next();
+        for (Iterator<IBehavior> i=behaviors.iterator(); i.hasNext(); ) {
+          IBehavior behavior=i.next();
           if (isBehaviorAccepted(behavior)) {
             try {
               behavior.exception(this,ex);

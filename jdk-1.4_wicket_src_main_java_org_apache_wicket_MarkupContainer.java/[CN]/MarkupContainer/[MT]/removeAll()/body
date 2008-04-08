@@ -3,10 +3,10 @@
     addStateChange(new Change(){
       private static final long serialVersionUID=1L;
       final Object removedChildren=children;
-      public String toString(){
+      @Override public String toString(){
         return "RemoveAllChange[component: " + getPath() + ", removed Children: "+ removedChildren+ "]";
       }
-      public void undo(){
+      @Override public void undo(){
         children=removedChildren;
         int size=children_size();
         for (int i=0; i < size; i++) {

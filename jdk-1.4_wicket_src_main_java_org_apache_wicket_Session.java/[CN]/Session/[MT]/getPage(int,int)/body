@@ -2,8 +2,8 @@
   if (Application.get().getSessionSettings().isPageIdUniquePerSession() == false) {
     throw new IllegalStateException("To call this method ISessionSettings.setPageIdUniquePerSession must be set to true");
   }
-  List pageMaps=getPageMaps();
-  for (Iterator i=pageMaps.iterator(); i.hasNext(); ) {
+  List<Object> pageMaps=getPageMaps();
+  for (Iterator<Object> i=pageMaps.iterator(); i.hasNext(); ) {
     IPageMap pm=(IPageMap)i.next();
     if (pm.containsPage(pageId,versionNumber)) {
       return getPage(pm.getName(),"" + pageId,versionNumber);

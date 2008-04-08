@@ -1,0 +1,15 @@
+{
+  HashSet<URL> loadedFiles=new HashSet<URL>();
+  try {
+    Enumeration resources=Application.class.getClassLoader().getResources("wicket.properties");
+    loadResources(resources,loadedFiles);
+    resources=Application.get().getClass().getClassLoader().getResources("wicket.properties");
+    loadResources(resources,loadedFiles);
+    resources=Thread.currentThread().getContextClassLoader().getResources("wicket.properties");
+    loadResources(resources,loadedFiles);
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
+  return loadedFiles.iterator();
+}

@@ -1,0 +1,17 @@
+{
+  MultiLineLabel<T> label=new MultiLineLabel<T>(componentId,model){
+    private static final long serialVersionUID=1L;
+    @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+      if (getModelObject() == null) {
+        replaceComponentTagBody(markupStream,openTag,defaultNullLabel());
+      }
+ else {
+        super.onComponentTagBody(markupStream,openTag);
+      }
+    }
+  }
+;
+  label.setOutputMarkupId(true);
+  label.add(new LabelAjaxBehavior(getLabelAjaxEvent()));
+  return label;
+}

@@ -12,7 +12,7 @@
     int count;
     do {
       count=0;
-      Iterator iter=markupCache.getKeys().iterator();
+      Iterator<CharSequence> iter=markupCache.getKeys().iterator();
       while (iter.hasNext()) {
         Markup cacheMarkup=(Markup)markupCache.get(iter.next());
         MarkupResourceData resourceData=cacheMarkup.getMarkupResourceData().getBaseMarkupResourceData();
@@ -32,9 +32,9 @@
  while (count > 0);
     final ModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(true);
     if (watcher != null) {
-      Iterator iter=watcher.getEntries().iterator();
+      Iterator<IModifiable> iter=watcher.getEntries().iterator();
       while (iter.hasNext()) {
-        IModifiable modifiable=(IModifiable)iter.next();
+        IModifiable modifiable=iter.next();
         if (modifiable instanceof MarkupResourceStream) {
           MarkupResourceStream resourceStream=(MarkupResourceStream)modifiable;
           String resourceCacheKey=resourceStream.getCacheKey();

@@ -4,7 +4,7 @@
   hidden=new HiddenField("focus-tracker",new Model());
   hidden.add(new AbstractBehavior(){
     private static final long serialVersionUID=1L;
-    public void onComponentTag(    Component component,    ComponentTag tag){
+    @Override public void onComponentTag(    Component component,    ComponentTag tag){
       tag.put("id",getFocusTrackerFieldCssId());
       super.onComponentTag(component,tag);
     }
@@ -13,7 +13,7 @@
   add(hidden);
   add(new WebMarkupContainer("focus-restore"){
     private static final long serialVersionUID=1L;
-    protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+    @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
       AppendingStringBuffer script=new AppendingStringBuffer("<script>_filter_focus_restore('").append(getFocusTrackerFieldCssId()).append("');</script>");
       replaceComponentTagBody(markupStream,openTag,script);
     }

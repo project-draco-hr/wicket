@@ -1,11 +1,11 @@
 {
-  String templateName=Packages.absolutePath(this.getClass(),"testTemplate.vm");
+  String templateName=Packages.absolutePath(getClass(),"testTemplate.vm");
   String id="000001";
   String javascript="msg1: Stoopid test 1\nmsg2: Stooopid test 2";
   JavascriptUtils.writeJavascript(getResponse(),javascript,id);
   IModel model=new Model(){
-    public Object getObject(){
-      Map map=new MiniMap(2);
+    public Serializable getObject(){
+      MiniMap map=new MiniMap(2);
       map.put("msg1",MSG1);
       map.put("msg2","Stooopid test 2");
       return map;

@@ -1,11 +1,11 @@
 {
-  Map classesToGetAndSetters=getClassesToGetAndSetters();
-  Map getAndSetters=(Map)classesToGetAndSetters.get(clz);
+  Map<Class,Map> classesToGetAndSetters=getClassesToGetAndSetters();
+  Map<String,IGetAndSet> getAndSetters=classesToGetAndSetters.get(clz);
   if (getAndSetters == null) {
-    getAndSetters=new ConcurrentHashMap(8);
+    getAndSetters=new ConcurrentHashMap<String,IGetAndSet>(8);
     classesToGetAndSetters.put(clz,getAndSetters);
   }
-  IGetAndSet getAndSetter=(IGetAndSet)getAndSetters.get(exp);
+  IGetAndSet getAndSetter=getAndSetters.get(exp);
   if (getAndSetter == null) {
     Method method=null;
     Field field=null;

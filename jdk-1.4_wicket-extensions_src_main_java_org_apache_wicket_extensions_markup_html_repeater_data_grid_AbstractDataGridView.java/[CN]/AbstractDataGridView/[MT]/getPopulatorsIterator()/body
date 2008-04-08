@@ -1,8 +1,8 @@
 {
   if (populatorsIteratorCache == null) {
-    populatorsIteratorCache=new ArrayIteratorAdapter(internalGetPopulators()){
-      protected IModel model(      Object object){
-        return new Model((Serializable)object);
+    populatorsIteratorCache=new ArrayIteratorAdapter<ICellPopulator<T>>(internalGetPopulators()){
+      @Override protected IModel<ICellPopulator<T>> model(      ICellPopulator<T> object){
+        return new Model<ICellPopulator<T>>(object);
       }
     }
 ;

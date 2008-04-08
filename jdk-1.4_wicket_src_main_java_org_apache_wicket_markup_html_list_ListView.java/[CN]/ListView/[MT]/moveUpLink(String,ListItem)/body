@@ -4,13 +4,13 @@
     /** 
  * @see org.apache.wicket.markup.html.link.Link#onClick()
  */
-    public void onClick(){
+    @Override public void onClick(){
       final int index=getList().indexOf(item.getModelObject());
       if (index != -1) {
         addStateChange(new Change(){
           private static final long serialVersionUID=1L;
           final int oldIndex=index;
-          public void undo(){
+          @Override public void undo(){
             Collections.swap(getList(),oldIndex - 1,oldIndex);
           }
         }
@@ -22,7 +22,7 @@
     /** 
  * @see org.apache.wicket.Component#onBeforeRender()
  */
-    protected void onBeforeRender(){
+    @Override protected void onBeforeRender(){
       super.onBeforeRender();
       setAutoEnable(false);
       if (getList().indexOf(item.getModelObject()) == 0) {

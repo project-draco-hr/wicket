@@ -6,13 +6,13 @@
   if (pageMap != null) {
 synchronized (usedPageMaps) {
       if (pageMapsUsedInRequest == null) {
-        pageMapsUsedInRequest=new HashMap(3);
+        pageMapsUsedInRequest=new HashMap<IPageMap,PageMapsUsedInRequestEntry>(3);
       }
     }
 synchronized (pageMapsUsedInRequest) {
       long startTime=System.currentTimeMillis();
       Duration timeout=Application.get().getRequestCycleSettings().getTimeout();
-      PageMapsUsedInRequestEntry entry=(PageMapsUsedInRequestEntry)pageMapsUsedInRequest.get(pageMap);
+      PageMapsUsedInRequestEntry entry=pageMapsUsedInRequest.get(pageMap);
       Thread t=entry != null ? entry.thread : null;
       while (t != null && t != Thread.currentThread()) {
         if (isCurrentRequestValid(entry.requestCycle) == false) {
@@ -24,7 +24,7 @@ synchronized (pageMapsUsedInRequest) {
  catch (        InterruptedException ex) {
           throw new WicketRuntimeException(ex);
         }
-        entry=(PageMapsUsedInRequestEntry)pageMapsUsedInRequest.get(pageMap);
+        entry=pageMapsUsedInRequest.get(pageMap);
         t=entry != null ? entry.thread : null;
         if (t != null && t != Thread.currentThread() && (startTime + timeout.getMilliseconds()) < System.currentTimeMillis()) {
           throw new WicketRuntimeException("After " + timeout + " the Pagemap "+ pageMapName+ " is still locked by: "+ t+ ", giving up trying to get the page for path: "+ path);

@@ -1,5 +1,5 @@
 {
-  List touchedPages=(List)Session.touchedPages.get();
+  List touchedPages=Session.touchedPages.get();
   Session.touchedPages.set(null);
   if (touchedPages != null) {
     for (int i=0; i < touchedPages.size(); i++) {
@@ -16,9 +16,9 @@
       log.debug("update: Session not dirty.");
     }
   }
-  List dirtyObjects=(List)Session.dirtyObjects.get();
+  List dirtyObjects=Session.dirtyObjects.get();
   Session.dirtyObjects.set(null);
-  Map tempMap=new HashMap();
+  Map<String,Object> tempMap=new HashMap<String,Object>();
   if (dirtyObjects != null) {
     for (final Iterator iterator=dirtyObjects.iterator(); iterator.hasNext(); ) {
       String attribute=null;
