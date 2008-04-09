@@ -1,0 +1,47 @@
+{
+  final Map<String,CharSequence> childTags=findAndRenderChildWicketTags(markupStream,openTag);
+  final Map<String,Object> variablesReplaced=new HashMap<String,Object>();
+  String text=new MapVariableInterpolator(value,childTags){
+    /** 
+ * @see org.apache.wicket.util.string.interpolator.MapVariableInterpolator#getValue(java.lang.String)
+ */
+    @Override protected String getValue(    final String variableName){
+      String value=super.getValue(variableName);
+      if (value != null) {
+        variablesReplaced.put(variableName,null);
+      }
+      if (value == null) {
+        value=Strings.toString(PropertyResolver.getValue(variableName,getParent().getModelObject()));
+      }
+      if (value == null) {
+        value=Strings.toString(PropertyResolver.getValue(variableName,getParent()));
+      }
+      if (value == null) {
+        String msg="The localized text for <wicket:message key=\"" + key + "\"> has a variable ${"+ variableName+ "}. However the wicket:message element does not have a child "+ "element with a wicket:id=\""+ variableName+ "\".";
+        if (isThrowExceptionIfPropertyNotFound() == true) {
+          markupStream.throwMarkupException(msg);
+        }
+ else {
+          log.warn(msg);
+          value="### VARIABLE NOT FOUND: " + variableName + " ###";
+        }
+      }
+      return value;
+    }
+  }
+.toString();
+  getResponse().write(text);
+  Iterator<String> iter=childTags.keySet().iterator();
+  while (iter.hasNext()) {
+    String id=iter.next();
+    if (variablesReplaced.containsKey(id) == false) {
+      String msg="The <wicket:message key=\"" + key + "\"> has a child element with wicket:id=\""+ id+ "\". You must add the variable ${"+ id+ "} to the localized text for the wicket:message.";
+      if (isThrowExceptionIfPropertyNotFound() == true) {
+        markupStream.throwMarkupException(msg);
+      }
+ else {
+        log.warn(msg);
+      }
+    }
+  }
+}

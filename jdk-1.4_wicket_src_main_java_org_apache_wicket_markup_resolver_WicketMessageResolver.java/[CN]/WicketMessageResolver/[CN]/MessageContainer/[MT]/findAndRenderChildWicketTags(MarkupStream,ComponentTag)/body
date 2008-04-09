@@ -1,0 +1,31 @@
+{
+  Map<String,CharSequence> childTags=new HashMap<String,CharSequence>();
+  markupStream.setCurrentIndex(markupStream.getCurrentIndex() - 1);
+  ComponentTag tag=markupStream.getTag();
+  markupStream.next();
+  if (!tag.isOpenClose()) {
+    while (markupStream.hasMore() && !markupStream.get().closes(openTag)) {
+      MarkupElement element=markupStream.get();
+      if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
+        String id=((ComponentTag)element).getId();
+        final Response webResponse=getResponse();
+        try {
+          final StringResponse response=new StringResponse();
+          getRequestCycle().setResponse(response);
+          Component<?> component=getParent().get(id);
+          if (component != null) {
+            component.render(markupStream);
+          }
+          childTags.put(id,response.getBuffer());
+        }
+  finally {
+          getRequestCycle().setResponse(webResponse);
+        }
+      }
+ else {
+        markupStream.next();
+      }
+    }
+  }
+  return childTags;
+}
