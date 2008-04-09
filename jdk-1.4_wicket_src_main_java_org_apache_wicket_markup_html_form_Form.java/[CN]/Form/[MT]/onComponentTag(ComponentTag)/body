@@ -5,7 +5,7 @@
     String method=getMethod().toLowerCase();
     tag.put("method",method);
     String url=urlFor(IFormSubmitListener.INTERFACE).toString();
-    if (method.equals("get")) {
+    if (encodeUrlInHiddenFields()) {
       int i=url.indexOf('?');
       String action=(i > -1) ? url.substring(0,i) : "";
       tag.put("action",action);
