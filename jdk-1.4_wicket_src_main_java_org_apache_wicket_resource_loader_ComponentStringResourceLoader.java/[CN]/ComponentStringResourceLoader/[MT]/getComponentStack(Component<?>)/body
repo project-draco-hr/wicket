@@ -1,0 +1,15 @@
+{
+  final List<Class<?>> searchStack=new ArrayList<Class<?>>();
+  searchStack.add(component.getClass());
+  if (!(component instanceof Page)) {
+    MarkupContainer<?> container=component.getParent();
+    while (container != null) {
+      searchStack.add(container.getClass());
+      if (container instanceof Page) {
+        break;
+      }
+      container=container.getParent();
+    }
+  }
+  return searchStack;
+}

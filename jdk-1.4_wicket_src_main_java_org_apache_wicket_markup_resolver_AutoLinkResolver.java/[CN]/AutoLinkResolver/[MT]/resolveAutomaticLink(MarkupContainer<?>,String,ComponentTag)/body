@@ -1,0 +1,24 @@
+{
+  final Page page=container.getPage();
+  final String autoId=id + Integer.toString(page.getAutoIndex());
+  final String tagName=tag.getName();
+  if (tag.getId() == null) {
+    tag.setId(autoId);
+    tag.setAutoComponentTag(true);
+  }
+  ITagReferenceResolver referenceResolver=tagNameToTagReferenceResolvers.get(tagName);
+  if (referenceResolver == null) {
+    referenceResolver=DEFAULT_ATTRIBUTE_RESOLVER;
+  }
+  String reference=referenceResolver.getReference(tag);
+  PathInfo pathInfo=new PathInfo(reference);
+  IAutolinkResolverDelegate autolinkResolverDelegate=tagNameToAutolinkResolverDelegates.get(tagName);
+  Component<?> autoComponent=null;
+  if (autolinkResolverDelegate != null) {
+    autoComponent=autolinkResolverDelegate.newAutoComponent(container,autoId,pathInfo);
+  }
+  if (autoComponent == null) {
+    autoComponent=new AutolinkExternalLink(autoId,pathInfo.reference);
+  }
+  return autoComponent;
+}

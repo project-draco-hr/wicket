@@ -10,11 +10,11 @@
   if (method == null) {
     throw new MarkupException("Unable to initialize Component. Method with name " + methodName + " not found");
   }
-  final Class[] parameterClasses=method.getParameterTypes();
+  final Class<?>[] parameterClasses=method.getParameterTypes();
   if (parameterClasses.length != 1) {
     throw new MarkupException("Unable to initialize Component. Method with name " + methodName + " must have one and only one parameter");
   }
-  final Class paramClass=parameterClasses[0];
+  final Class<?> paramClass=parameterClasses[0];
   try {
     final IConverter converter=Application.get().getConverterLocator().getConverter(paramClass);
     final Object param=converter.convertToObject(value,locale);

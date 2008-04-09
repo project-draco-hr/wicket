@@ -1,0 +1,43 @@
+{
+  if (tag.getId().equals(HtmlHeaderSectionHandler.HEADER_ID)) {
+    final WebMarkupContainer<?> header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
+    container.autoAdd(header,markupStream);
+    return true;
+  }
+ else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
+    if (container instanceof WebPage) {
+      final MarkupContainer<?> header=new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
+      final WebMarkupContainer<?> header2=new WebMarkupContainer<Object>(HtmlHeaderSectionHandler.HEADER_ID){
+        private static final long serialVersionUID=1L;
+        @Override public boolean isTransparentResolver(){
+          return true;
+        }
+      }
+;
+      header2.setRenderBodyOnly(true);
+      header.add(header2);
+      container.autoAdd(header,markupStream);
+    }
+ else     if (container instanceof HtmlHeaderContainer) {
+      final WebMarkupContainer<?> header=new WebMarkupContainer<Object>(HtmlHeaderSectionHandler.HEADER_ID){
+        private static final long serialVersionUID=1L;
+        @Override public boolean isTransparentResolver(){
+          return true;
+        }
+      }
+;
+      header.setRenderBodyOnly(true);
+      try {
+        container.autoAdd(header,markupStream);
+      }
+ catch (      IllegalArgumentException ex) {
+        throw new WicketRuntimeException("If the root exception says something like " + "\"A child with id '_header' already exists\" " + "then you most likely forgot to override autoAdd() "+ "in your bordered page component.",ex);
+      }
+    }
+ else {
+      throw new MarkupException("Mis-placed <wicket:head>. <wicket:head> must be outside of <wicket:panel> and <wicket:border>");
+    }
+    return true;
+  }
+  return false;
+}

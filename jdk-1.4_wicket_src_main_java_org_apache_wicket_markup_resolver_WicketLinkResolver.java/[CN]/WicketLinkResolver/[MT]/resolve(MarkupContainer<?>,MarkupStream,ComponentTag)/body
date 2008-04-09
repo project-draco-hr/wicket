@@ -1,0 +1,21 @@
+{
+  if (tag instanceof WicketTag) {
+    WicketTag wtag=(WicketTag)tag;
+    if (wtag.isLinkTag() && (wtag.getNamespace() != null)) {
+      final String id=tag.getId() + container.getPage().getAutoIndex();
+      final Component<?> component=new WebMarkupContainer<Object>(id){
+        private static final long serialVersionUID=1L;
+        /** 
+ * @see org.apache.wicket.MarkupContainer#isTransparentResolver()
+ */
+        @Override public boolean isTransparentResolver(){
+          return true;
+        }
+      }
+;
+      container.autoAdd(component,markupStream);
+      return true;
+    }
+  }
+  return false;
+}
