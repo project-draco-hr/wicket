@@ -1,17 +1,17 @@
 {
   IModel choiceModel=new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
-    public Object getObject(){
+    @Override public Object getObject(){
       return choices.getObject();
     }
   }
 ;
   DropDownChoice editor=new DropDownChoice(componentId,model,choiceModel,renderer){
     private static final long serialVersionUID=1L;
-    protected void onModelChanged(){
+    @Override protected void onModelChanged(){
       AjaxEditableChoiceLabel.this.onModelChanged();
     }
-    protected void onModelChanging(){
+    @Override protected void onModelChanging(){
       AjaxEditableChoiceLabel.this.onModelChanging();
     }
   }
@@ -20,7 +20,7 @@
   editor.setVisible(false);
   editor.add(new EditorAjaxBehavior(){
     private static final long serialVersionUID=1L;
-    protected void onComponentTag(    ComponentTag tag){
+    @Override protected void onComponentTag(    ComponentTag tag){
       super.onComponentTag(tag);
       final String saveCall="{wicketAjaxGet('" + getCallbackUrl() + "&save=true&'+this.name+'='+wicketEncode(this.value)); return true;}";
       final String cancelCall="{wicketAjaxGet('" + getCallbackUrl() + "&save=false'); return false;}";
