@@ -1,29 +1,29 @@
 {
-  if (this.extenstionsIterator != null) {
-    if (this.extenstionsIterator.hasNext() == true) {
+  if (extenstionsIterator != null) {
+    if (extenstionsIterator.hasNext() == true) {
       return true;
     }
     extenstionsIterator=null;
   }
-  if (this.localeIterator != null) {
-    while (this.localeIterator.hasNext()) {
-      String newPath=(String)this.localeIterator.next();
-      this.currentLocale=this.localeIterator.getLocale();
-      this.extenstionsIterator=new ExtensionResourceNameIterator(newPath,this.extensions);
-      if (this.extenstionsIterator.hasNext() == true) {
+  if (localeIterator != null) {
+    while (localeIterator.hasNext()) {
+      String newPath=(String)localeIterator.next();
+      currentLocale=localeIterator.getLocale();
+      extenstionsIterator=new ExtensionResourceNameIterator(newPath,extensions);
+      if (extenstionsIterator.hasNext() == true) {
         return true;
       }
     }
-    this.localeIterator=null;
+    localeIterator=null;
   }
-  while (this.styleIterator.hasNext()) {
-    String newPath=(String)this.styleIterator.next();
-    this.localeIterator=new LocaleResourceNameIterator(newPath,this.locale);
-    while (this.localeIterator.hasNext()) {
-      newPath=(String)this.localeIterator.next();
-      this.currentLocale=this.localeIterator.getLocale();
-      this.extenstionsIterator=new ExtensionResourceNameIterator(newPath,this.extensions);
-      if (this.extenstionsIterator.hasNext() == true) {
+  while (styleIterator.hasNext()) {
+    String newPath=(String)styleIterator.next();
+    localeIterator=new LocaleResourceNameIterator(newPath,locale);
+    while (localeIterator.hasNext()) {
+      newPath=(String)localeIterator.next();
+      currentLocale=localeIterator.getLocale();
+      extenstionsIterator=new ExtensionResourceNameIterator(newPath,extensions);
+      if (extenstionsIterator.hasNext() == true) {
         return true;
       }
     }

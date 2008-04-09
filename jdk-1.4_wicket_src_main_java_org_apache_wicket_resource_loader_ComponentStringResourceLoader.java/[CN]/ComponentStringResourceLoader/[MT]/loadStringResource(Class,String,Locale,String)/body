@@ -5,7 +5,7 @@
   IPropertiesFactory propertiesFactory=Application.get().getResourceSettings().getPropertiesFactory();
   while (true) {
     String path=clazz.getName().replace('.','/');
-    ResourceNameIterator iter=new ResourceNameIterator(path,style,locale,"properties,xml");
+    ResourceNameIterator iter=new ResourceNameIterator(path,style,locale,null);
     while (iter.hasNext()) {
       String newPath=(String)iter.next();
       final Properties props=propertiesFactory.load(clazz,newPath);
