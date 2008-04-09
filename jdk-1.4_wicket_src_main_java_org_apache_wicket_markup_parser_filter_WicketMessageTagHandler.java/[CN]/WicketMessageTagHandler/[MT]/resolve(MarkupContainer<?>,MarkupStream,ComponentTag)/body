@@ -1,0 +1,14 @@
+{
+  if (WICKET_MESSAGE_CONTAINER_ID.equals(tag.getId())) {
+    Component<Object> wc=null;
+    if (tag.isOpenClose()) {
+      wc=new WebComponent<Object>(WICKET_MESSAGE_CONTAINER_ID + container.getPage().getAutoIndex());
+    }
+ else {
+      wc=new WebMarkupContainer<Object>(WICKET_MESSAGE_CONTAINER_ID + container.getPage().getAutoIndex());
+    }
+    container.autoAdd(wc,markupStream);
+    return true;
+  }
+  return false;
+}

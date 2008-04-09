@@ -1,9 +1,9 @@
 {
   final IValueMap attributes=tag.getAttributes();
-  final Iterator it=attributes.entrySet().iterator();
+  final Iterator<Map.Entry<String,Object>> it=attributes.entrySet().iterator();
   while (it.hasNext()) {
-    final Map.Entry entry=(Map.Entry)it.next();
-    final String attributeName=(String)entry.getKey();
+    final Map.Entry<String,Object> entry=it.next();
+    final String attributeName=entry.getKey();
     if (attributeName.startsWith(XMLNS)) {
       final String xmlnsUrl=(String)entry.getValue();
       if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.startsWith(WICKET_URI)) {
