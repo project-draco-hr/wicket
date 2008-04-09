@@ -61,7 +61,14 @@
       }
     }
   finally {
-      if (response != null)       response.close();
+      if (response != null) {
+        try {
+          response.close();
+        }
+ catch (        Exception e) {
+          log.error("closing the buffer error",e);
+        }
+      }
       Session.unset();
       if (externalCall) {
         Application.unset();
