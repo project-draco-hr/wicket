@@ -18,9 +18,9 @@
     string=getFromCache(cacheKey);
   }
  else {
-    Iterator iter=resourceSettings.getStringResourceLoaders().iterator();
+    Iterator<IStringResourceLoader> iter=resourceSettings.getStringResourceLoaders().iterator();
     while (iter.hasNext()) {
-      IStringResourceLoader loader=(IStringResourceLoader)iter.next();
+      IStringResourceLoader loader=iter.next();
       string=loader.loadStringResource(component,key);
       if (string != null) {
         break;
