@@ -8,8 +8,9 @@
     Markup markup=getMarkupLoader().loadMarkup(container,markupResourceStream,null,enforceReload);
     if (cacheKey != null) {
       markupKeyCache.put(cacheKey,locationString);
+      return putIntoCache(locationString,markup);
     }
-    return putIntoCache(locationString,markup);
+    return markup;
   }
  catch (  ResourceStreamNotFoundException e) {
     log.error("Unable to find markup from " + markupResourceStream,e);
