@@ -1,12 +1,12 @@
 {
-  final IModel previous=getModelImpl();
+  final IModel<?> previous=getModelImpl();
   super.setModel(model);
   if (previous instanceof IComponentInheritedModel) {
-    visitChildren(new IVisitor(){
-      public Object component(      Component component){
-        IModel compModel=component.getModel();
+    visitChildren(new IVisitor<Component<?>>(){
+      public Object component(      Component<?> component){
+        IModel<?> compModel=component.getModel();
         if (compModel instanceof IWrapModel) {
-          compModel=((IWrapModel)compModel).getWrappedModel();
+          compModel=((IWrapModel<?>)compModel).getWrappedModel();
         }
         if (compModel == previous) {
           component.setModel(null);

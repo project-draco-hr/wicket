@@ -3,12 +3,12 @@
   if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
     final ComponentTag tag=(ComponentTag)element;
     final String id=tag.getId();
-    final Component component=get(id);
+    final Component<?> component=get(id);
     if (component != null) {
       component.render(markupStream);
     }
  else {
-      MarkupContainer container=this;
+      MarkupContainer<?> container=this;
       while (container != null) {
         if (container instanceof IComponentResolver) {
           if (((IComponentResolver)container).resolve(this,markupStream,tag)) {
@@ -17,10 +17,10 @@
         }
         container=container.findParent(MarkupContainer.class);
       }
-      final List componentResolvers=getApplication().getPageSettings().getComponentResolvers();
-      final Iterator iterator=componentResolvers.iterator();
+      final List<IComponentResolver> componentResolvers=getApplication().getPageSettings().getComponentResolvers();
+      final Iterator<IComponentResolver> iterator=componentResolvers.iterator();
       while (iterator.hasNext()) {
-        final IComponentResolver resolver=(IComponentResolver)iterator.next();
+        final IComponentResolver resolver=iterator.next();
         if (resolver.resolve(this,markupStream,tag)) {
           return;
         }

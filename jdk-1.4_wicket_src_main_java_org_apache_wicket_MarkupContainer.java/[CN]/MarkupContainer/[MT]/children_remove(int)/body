@@ -2,7 +2,7 @@
   if (children == null)   return null;
   if (children instanceof Component || children instanceof ComponentSourceEntry) {
     if (index == 0) {
-      final Component removed=(Component)postprocess(children,true,null,-1);
+      final Component<?> removed=(Component<?>)postprocess(children,true,null,-1);
       children=null;
       return removed;
     }
@@ -24,7 +24,7 @@
  else {
           throw new IndexOutOfBoundsException();
         }
-        return (Component)postprocess(removed,true,null,-1);
+        return (Component<?>)postprocess(removed,true,null,-1);
       }
       children=new ChildList(children);
     }
@@ -33,6 +33,6 @@
     if (lst.size == 1) {
       children=lst.get(0);
     }
-    return (Component)postprocess(removed,true,null,-1);
+    return (Component<?>)postprocess(removed,true,null,-1);
   }
 }

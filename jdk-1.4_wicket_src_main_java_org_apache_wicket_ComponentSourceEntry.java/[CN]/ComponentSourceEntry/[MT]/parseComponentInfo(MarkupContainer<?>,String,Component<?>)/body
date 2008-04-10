@@ -1,0 +1,28 @@
+{
+  final String substring=getComponentSubString(info);
+  int len=substring.length();
+  boolean hasChildren=false;
+  if (len < info.length() && info.charAt(len) == '(') {
+    hasChildren=true;
+    ++len;
+  }
+  final MarkupContainer<?> child=applyComponentInfo(parent,substring,component);
+  if (hasChildren) {
+    int i=0;
+    String children=info.substring(len);
+    while (i < children.length()) {
+      if (children.charAt(i) == ',') {
+        ++i;
+      }
+      i+=parseComponentInfo(child,children.substring(i),null);
+      if (children.charAt(i) == ')') {
+        ++i;
+        break;
+      }
+    }
+    return len + i;
+  }
+ else {
+    return len;
+  }
+}
