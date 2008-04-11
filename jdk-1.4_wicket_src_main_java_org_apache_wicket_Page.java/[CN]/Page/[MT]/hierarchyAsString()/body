@@ -1,10 +1,10 @@
 {
   final StringBuffer buffer=new StringBuffer();
   buffer.append("Page " + getId() + " (version "+ getCurrentVersionNumber()+ ")");
-  visitChildren(new IVisitor(){
-    public Object component(    Component component){
+  visitChildren(new IVisitor<Component<?>>(){
+    public Object component(    Component<?> component){
       int levels=0;
-      for (Component current=component; current != null; current=current.getParent()) {
+      for (Component<?> current=component; current != null; current=current.getParent()) {
         levels++;
       }
       buffer.append(StringValue.repeat(levels,"	") + component.getPageRelativePath() + ":"+ Classes.simpleName(component.getClass()));

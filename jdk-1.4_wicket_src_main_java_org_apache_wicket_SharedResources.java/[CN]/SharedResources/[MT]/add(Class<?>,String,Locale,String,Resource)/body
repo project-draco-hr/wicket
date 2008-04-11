@@ -1,0 +1,12 @@
+{
+  final String key=resourceKey(scope,name,locale,style);
+synchronized (resourceMap) {
+    Resource value=resourceMap.get(key);
+    if (value == null) {
+      resourceMap.put(key,resource);
+      if (log.isDebugEnabled()) {
+        log.debug("added shared resource " + key);
+      }
+    }
+  }
+}

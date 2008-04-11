@@ -1,8 +1,8 @@
 {
-  super(id,new CompoundPropertyModel(new ValueMap()));
-  add(new TextField("username").setPersistent(rememberMe));
+  super(id,new CompoundPropertyModel<IValueMap>(new ValueMap()));
+  add(new TextField<String>("username").setPersistent(rememberMe));
   add(new PasswordTextField("password"));
-  WebMarkupContainer rememberMeRow=new WebMarkupContainer("rememberMeRow");
+  WebMarkupContainer<Boolean> rememberMeRow=new WebMarkupContainer<Boolean>("rememberMeRow");
   add(rememberMeRow);
-  rememberMeRow.add(new CheckBox("rememberMe",new PropertyModel(this,"rememberMe")));
+  rememberMeRow.add(new CheckBox("rememberMe",new PropertyModel<Boolean>(this,"rememberMe")));
 }

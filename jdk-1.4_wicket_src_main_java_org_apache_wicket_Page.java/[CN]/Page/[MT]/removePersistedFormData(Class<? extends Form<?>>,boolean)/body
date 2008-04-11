@@ -1,0 +1,14 @@
+{
+  if (!Form.class.isAssignableFrom(formClass)) {
+    throw new WicketRuntimeException("Form class " + formClass.getName() + " is not a subclass of Form");
+  }
+  visitChildren(formClass,new IVisitor<Component<?>>(){
+    public Object component(    final Component<?> component){
+      if (component instanceof Form) {
+        ((Form<?>)component).removePersistentFormComponentValues(disablePersistence);
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}
