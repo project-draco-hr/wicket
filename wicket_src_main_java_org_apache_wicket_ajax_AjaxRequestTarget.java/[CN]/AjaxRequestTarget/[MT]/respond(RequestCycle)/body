@@ -12,21 +12,21 @@
   response.write("\"?>");
   response.write("<ajax-response>");
   fireOnBeforeRespondListeners();
-  Iterator it=prependJavascripts.iterator();
+  Iterator<String> it=prependJavascripts.iterator();
   while (it.hasNext()) {
-    String js=(String)it.next();
+    String js=it.next();
     respondInvocation(response,js);
   }
   respondComponents(response);
   fireOnAfterRespondListeners(response);
   it=domReadyJavascripts.iterator();
   while (it.hasNext()) {
-    String js=(String)it.next();
+    String js=it.next();
     respondInvocation(response,js);
   }
   it=appendJavascripts.iterator();
   while (it.hasNext()) {
-    String js=(String)it.next();
+    String js=it.next();
     respondInvocation(response,js);
   }
   response.write("</ajax-response>");
