@@ -1,0 +1,19 @@
+{
+  final int index=findKey(key);
+  if (index != -1) {
+    final V oldValue=values[index];
+    values[index]=value;
+    return oldValue;
+  }
+  if (size < keys.length) {
+    final int nullIndex=nextNullKey(lastSearchIndex);
+    lastSearchIndex=nextIndex(nullIndex);
+    keys[nullIndex]=key;
+    values[nullIndex]=value;
+    size++;
+    return null;
+  }
+ else {
+    throw new IllegalStateException("Map full");
+  }
+}
