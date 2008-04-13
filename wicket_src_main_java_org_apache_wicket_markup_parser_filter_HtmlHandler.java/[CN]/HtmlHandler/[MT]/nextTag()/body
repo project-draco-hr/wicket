@@ -26,6 +26,9 @@
         top.setHasNoCloseTag(true);
         while (mismatch && !requiresCloseTag(top.getName())) {
           top.setHasNoCloseTag(true);
+          if (stack.isEmpty()) {
+            break;
+          }
           top=(ComponentTag)stack.pop();
           mismatch=!top.hasEqualTagName(tag);
         }
