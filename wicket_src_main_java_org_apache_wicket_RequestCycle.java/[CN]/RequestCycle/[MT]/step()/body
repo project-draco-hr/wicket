@@ -35,6 +35,13 @@ default :
 throw e;
 }
 catch (RuntimeException e) {
+Throwable cause=e.getCause();
+while (cause != null) {
+if (cause instanceof AbortException) {
+throw ((AbortException)cause);
+}
+cause=cause.getCause();
+}
 if (!handlingException) {
 handlingException=true;
 if (!(e instanceof PageExpiredException)) {
