@@ -1,7 +1,7 @@
 {
   final FilteringResourceStream filteringStream=new FilteringResourceStream(){
     private static final long serialVersionUID=1L;
-    protected byte[] filterContent(    byte[] input){
+    @Override protected byte[] filterContent(    byte[] input){
       try {
         if (Application.get().getResourceSettings().getStripJavascriptCommentsAndWhitespace()) {
           String s=new String(input,"UTF-8");
@@ -16,14 +16,14 @@
         return input;
       }
     }
-    protected IResourceStream getOriginalResourceStream(){
+    @Override protected IResourceStream getOriginalResourceStream(){
       return getPackageResourceStream();
     }
   }
 ;
   return new CompressingResourceStream(){
     private static final long serialVersionUID=1L;
-    protected IResourceStream getOriginalResourceStream(){
+    @Override protected IResourceStream getOriginalResourceStream(){
       return filteringStream;
     }
   }

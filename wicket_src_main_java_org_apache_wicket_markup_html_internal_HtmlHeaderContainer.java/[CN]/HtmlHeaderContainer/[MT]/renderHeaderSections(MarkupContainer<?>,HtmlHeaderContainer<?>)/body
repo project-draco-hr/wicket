@@ -1,0 +1,18 @@
+{
+  page.renderHead(container);
+  page.visitChildren(new IVisitor<Component<?>>(){
+    /** 
+ * @see org.apache.wicket.Component.IVisitor#component(org.apache.wicket.Component)
+ */
+    public Object component(    Component<?> component){
+      if (component.isVisible()) {
+        component.renderHead(container);
+        return IVisitor.CONTINUE_TRAVERSAL;
+      }
+ else {
+        return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+      }
+    }
+  }
+);
+}

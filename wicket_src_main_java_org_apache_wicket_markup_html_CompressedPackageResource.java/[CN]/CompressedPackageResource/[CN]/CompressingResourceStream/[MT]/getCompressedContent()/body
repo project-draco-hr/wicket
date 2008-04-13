@@ -1,7 +1,7 @@
 {
   IResourceStream stream=getOriginalResourceStream();
   try {
-    byte ret[]=(byte[])cache.get();
+    byte ret[]=cache.get();
     if (ret != null && timeStamp != null) {
       if (timeStamp.equals(stream.lastModifiedTime())) {
         return ret;
@@ -14,7 +14,7 @@
     stream.close();
     ret=out.toByteArray();
     timeStamp=stream.lastModifiedTime();
-    cache=new SoftReference(ret);
+    cache=new SoftReference<byte[]>(ret);
     return ret;
   }
  catch (  IOException e) {

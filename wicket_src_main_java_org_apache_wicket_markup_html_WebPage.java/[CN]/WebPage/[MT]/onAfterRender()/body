@@ -1,8 +1,8 @@
 {
   super.onAfterRender();
   if (getApplication().getConfigurationType() == Application.DEVELOPMENT) {
-    HtmlHeaderContainer header=(HtmlHeaderContainer)visitChildren(new IVisitor(){
-      public Object component(      Component component){
+    HtmlHeaderContainer header=(HtmlHeaderContainer)visitChildren(new IVisitor<Component<?>>(){
+      public Object component(      Component<?> component){
         if (component instanceof HtmlHeaderContainer) {
           return component;
         }
@@ -19,11 +19,11 @@
         getRequestCycle().setResponse(response);
         renderHead(header);
         final HtmlHeaderContainer finalHeader=header;
-        visitChildren(new IVisitor(){
+        visitChildren(new IVisitor<Component<?>>(){
           /** 
  * @see org.apache.wicket.Component.IVisitor#component(org.apache.wicket.Component)
  */
-          public Object component(          Component component){
+          public Object component(          Component<?> component){
             component.renderHead(finalHeader);
             return CONTINUE_TRAVERSAL;
           }
