@@ -2,14 +2,15 @@
   if (value == null) {
     return null;
   }
+  Class<T> theType=type.get();
   if ("".equals(value)) {
-    if (((Class)type.get()) == String.class) {
-      return "";
+    if (theType.equals(String.class)) {
+      return theType.cast("");
     }
     return null;
   }
   try {
-    return Objects.convertValue(value,(Class)type.get());
+    return Objects.convertValue(value,theType);
   }
  catch (  Exception e) {
     throw new ConversionException(e.getMessage(),e).setSourceValue(value);
