@@ -5,7 +5,7 @@
     pageMapEntryList.remove(entry);
     pageMapEntryList.add(entry);
     while (getTotalSize() > diskPageStore.getMaxSizePerSession() && pageMapEntryList.size() > 1) {
-      removePageMapEntry((PageMapEntry)pageMapEntryList.get(0));
+      removePageMapEntry(pageMapEntryList.get(0));
     }
     FileChannel channel=diskPageStore.fileChannelPool.getFileChannel(entry.fileName,true);
     try {

@@ -5,8 +5,9 @@
   for (int i=0; i < children_size(); i++) {
     final Component<?> child=children_get(i);
     Object value=null;
+    IVisitor vis=visitor;
     if (clazz == null || clazz.isInstance(child)) {
-      value=visitor.component(child);
+      value=vis.component(child);
       if ((value != IVisitor.CONTINUE_TRAVERSAL) && (value != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
         return value;
       }

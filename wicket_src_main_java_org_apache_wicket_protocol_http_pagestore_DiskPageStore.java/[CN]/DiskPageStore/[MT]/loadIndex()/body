@@ -6,7 +6,7 @@
       InputStream stream=new FileInputStream(index);
       ObjectInputStream ois=new ObjectInputStream(stream);
       Map map=(Map)ois.readObject();
-      sessionIdToEntryMap=new ConcurrentHashMap(map);
+      sessionIdToEntryMap=new ConcurrentHashMap<String,SessionEntry>(map);
       for (Iterator entries=sessionIdToEntryMap.entrySet().iterator(); entries.hasNext(); ) {
         Entry entry=(Entry)entries.next();
         SessionEntry sessionEntry=(SessionEntry)entry.getValue();
