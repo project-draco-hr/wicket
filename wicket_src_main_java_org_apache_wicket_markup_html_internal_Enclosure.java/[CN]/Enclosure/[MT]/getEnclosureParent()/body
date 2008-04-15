@@ -1,11 +1,11 @@
 {
-  MarkupContainer parent=getParent();
+  MarkupContainer<?> parent=getParent();
   while (parent != null) {
     if (parent.isTransparentResolver()) {
       parent=parent.getParent();
     }
  else     if (parent instanceof BorderBodyContainer) {
-      parent=((BorderBodyContainer)parent).findParent(Border.class);
+      parent=((Border<?>.BorderBodyContainer)parent).findParent(Border.class);
     }
  else {
       break;
