@@ -2,7 +2,7 @@
   super.onComponentTag(tag);
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","checkbox");
-  CheckGroup<T> group=(CheckGroup)findParent(CheckGroup.class);
+  CheckGroup<T> group=(CheckGroup<T>)findParent(CheckGroup.class);
   if (group == null) {
     throw new WicketRuntimeException("Check component [" + getPath() + "] cannot find its parent CheckGroup");
   }
@@ -28,7 +28,7 @@
   }
   if (group.wantOnSelectionChangedNotifications()) {
     CharSequence url=group.urlFor(IOnChangeListener.INTERFACE);
-    Form form=(Form)group.findParent(Form.class);
+    Form<?> form=(Form<?>)group.findParent(Form.class);
     if (form != null) {
       RequestContext rc=RequestContext.get();
       if (rc.isPortletRequest()) {

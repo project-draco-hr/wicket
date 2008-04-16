@@ -1,7 +1,7 @@
 {
-  visitChildren(Form.class,new IVisitor(){
-    public Object component(    Component component){
-      Form form=(Form)component;
+  visitChildren(Form.class,new IVisitor<Form<?>>(){
+    public Object component(    Form<?> component){
+      Form<?> form=component;
       if (form.isEnableAllowed() && form.isEnabled() && form.isVisibleInHierarchy()) {
         form.internalMarkFormComponentsValid();
         return CONTINUE_TRAVERSAL;

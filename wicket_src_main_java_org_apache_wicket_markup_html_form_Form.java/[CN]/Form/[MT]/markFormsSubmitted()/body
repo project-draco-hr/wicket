@@ -1,8 +1,8 @@
 {
   setFlag(FLAG_SUBMITTED,true);
-  visitChildren(Form.class,new IVisitor(){
-    public Object component(    Component component){
-      Form form=(Form)component;
+  visitChildren(Form.class,new IVisitor<Component<?>>(){
+    public Object component(    Component<?> component){
+      Form<?> form=(Form<?>)component;
       if (form.isEnabled() && form.isEnableAllowed() && isVisibleInHierarchy()) {
         form.setFlag(FLAG_SUBMITTED,true);
         return IVisitor.CONTINUE_TRAVERSAL;

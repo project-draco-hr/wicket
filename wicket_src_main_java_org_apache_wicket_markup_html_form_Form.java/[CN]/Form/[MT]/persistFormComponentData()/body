@@ -2,7 +2,7 @@
   if (getRequestCycle() instanceof WebRequestCycle) {
     final IValuePersister persister=getValuePersister();
     visitFormComponentsPostOrder(new FormComponent.AbstractVisitor(){
-      @Override public void onFormComponent(      final FormComponent formComponent){
+      @Override public void onFormComponent(      final FormComponent<?> formComponent){
         if (formComponent.isVisibleInHierarchy()) {
           if (formComponent.isPersistent()) {
             persister.save(formComponent);
