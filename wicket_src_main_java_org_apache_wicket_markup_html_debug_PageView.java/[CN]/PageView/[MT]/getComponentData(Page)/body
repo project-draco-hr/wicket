@@ -1,7 +1,7 @@
 {
-  final List data=new ArrayList();
-  page.visitChildren(new IVisitor(){
-    public Object component(    final Component component){
+  final List<ComponentData> data=new ArrayList<ComponentData>();
+  page.visitChildren(new IVisitor<Component<?>>(){
+    public Object component(    final Component<?> component){
       if (!component.getPath().startsWith(PageView.this.getPath())) {
         final ComponentData componentData;
         String name=component.getClass().getName();

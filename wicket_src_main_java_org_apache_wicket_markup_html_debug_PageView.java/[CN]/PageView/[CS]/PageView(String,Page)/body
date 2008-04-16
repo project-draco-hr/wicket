@@ -1,29 +1,29 @@
 {
   super(id);
-  final List data=new ArrayList();
-  add(new Label("info",page == null ? "[Stateless Page]" : page.toString()));
+  final List<ComponentData> data=new ArrayList<ComponentData>();
+  add(new Label<String>("info",page == null ? "[Stateless Page]" : page.toString()));
   data.clear();
   if (page != null) {
     data.addAll(getComponentData(page));
   }
-  Collections.sort(data,new Comparator(){
-    public int compare(    Object o1,    Object o2){
-      return ((ComponentData)o1).path.compareTo(((ComponentData)o2).path);
+  Collections.sort(data,new Comparator<ComponentData>(){
+    public int compare(    ComponentData o1,    ComponentData o2){
+      return (o1).path.compareTo((o2).path);
     }
   }
 );
-  add(new ListView("components",data){
+  add(new ListView<ComponentData>("components",data){
     private static final long serialVersionUID=1L;
     /** 
  * Populate the table with Wicket elements
  */
-    protected void populateItem(    final ListItem listItem){
-      final ComponentData componentData=(ComponentData)listItem.getModelObject();
-      listItem.add(new Label("row",Integer.toString(listItem.getIndex() + 1)));
-      listItem.add(new Label("path",componentData.path));
-      listItem.add(new Label("size",Bytes.bytes(componentData.size).toString()));
-      listItem.add(new Label("type",componentData.type));
-      listItem.add(new Label("model",componentData.value));
+    @Override protected void populateItem(    final ListItem<ComponentData> listItem){
+      final ComponentData componentData=listItem.getModelObject();
+      listItem.add(new Label<String>("row",Integer.toString(listItem.getIndex() + 1)));
+      listItem.add(new Label<String>("path",componentData.path));
+      listItem.add(new Label<String>("size",Bytes.bytes(componentData.size).toString()));
+      listItem.add(new Label<String>("type",componentData.type));
+      listItem.add(new Label<String>("model",componentData.value));
     }
   }
 );
