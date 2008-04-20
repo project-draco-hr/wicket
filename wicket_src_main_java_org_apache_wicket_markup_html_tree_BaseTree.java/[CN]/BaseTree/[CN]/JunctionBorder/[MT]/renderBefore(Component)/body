@@ -1,6 +1,6 @@
 {
   Response response=RequestCycle.get().getResponse();
-  TreeNode parent=node.getParent();
+  Object parent=getParentNode(node);
   CharSequence classes[]=new CharSequence[level];
   for (int i=0; i < level; ++i) {
     if (parent == null || isNodeLast(parent)) {
@@ -9,7 +9,7 @@
  else {
       classes[i]="line";
     }
-    parent=parent.getParent();
+    parent=getParentNode(parent);
   }
   for (int i=level - 1; i >= 0; --i) {
     response.write("<td class=\"" + classes[i] + "\"><span></span></td>");

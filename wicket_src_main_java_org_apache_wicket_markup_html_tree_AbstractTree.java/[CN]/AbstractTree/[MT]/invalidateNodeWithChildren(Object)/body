@@ -1,0 +1,17 @@
+{
+  if (dirtyAll == false) {
+    TreeItem item=(TreeItem)nodeToItemMap.get(node);
+    if (item != null) {
+      visitItemChildren(item,new IItemCallback(){
+        public void visitItem(        TreeItem item){
+          removeItem(item);
+        }
+      }
+);
+      item.setChildren(null);
+      if (!dirtyItems.contains(item)) {
+        dirtyItems.add(item);
+      }
+    }
+  }
+}

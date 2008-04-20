@@ -1,5 +1,5 @@
 {
-  TreeNode node=(TreeNode)item.getModelObject();
+  Object node=item.getModelObject();
   Component junctionLink=newJunctionLink(item,JUNCTION_LINK_ID,node);
   junctionLink.setComponentBorder(new JunctionBorder(node,level));
   item.add(junctionLink);
@@ -7,8 +7,8 @@
   item.add(nodeComponent);
   item.add(new AbstractBehavior(){
     private static final long serialVersionUID=1L;
-    public void onComponentTag(    Component component,    ComponentTag tag){
-      TreeNode node=(TreeNode)component.getModelObject();
+    @Override public void onComponentTag(    Component component,    ComponentTag tag){
+      Object node=component.getModelObject();
       if (getTreeState().isNodeSelected(node)) {
         CharSequence oldClass=tag.getString("class");
         if (Strings.isEmpty(oldClass)) {
