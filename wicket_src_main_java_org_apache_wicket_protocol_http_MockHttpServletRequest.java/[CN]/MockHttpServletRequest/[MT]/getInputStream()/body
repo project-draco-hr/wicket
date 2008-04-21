@@ -3,7 +3,7 @@
     byte[] request=buildRequest();
     final ByteArrayInputStream bais=new ByteArrayInputStream(request);
     return new ServletInputStream(){
-      public int read(){
+      @Override public int read(){
         return bais.read();
       }
     }
@@ -11,7 +11,7 @@
   }
  else {
     return new ServletInputStream(){
-      public int read(){
+      @Override public int read(){
         return -1;
       }
     }
