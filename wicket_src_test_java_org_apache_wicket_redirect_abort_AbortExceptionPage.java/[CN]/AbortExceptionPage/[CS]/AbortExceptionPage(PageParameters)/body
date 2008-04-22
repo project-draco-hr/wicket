@@ -1,17 +1,17 @@
 {
   final boolean triggerError=parameters.getBoolean("trigger");
   if (!triggerError)   throw new AbortWithWebErrorCodeException(1234,"this error will be rendered");
-  IModel model=new LoadableDetachableModel(){
+  IModel<List<Object>> model=new LoadableDetachableModel<List<Object>>(){
     private static final long serialVersionUID=-1285116295157071919L;
-    protected Object load(){
+    @Override protected List<Object> load(){
       if (triggerError)       throw new AbortWithWebErrorCodeException(1234,"this error will NOT be rendered");
- else       return Collections.EMPTY_LIST;
+ else       return Collections.emptyList();
     }
   }
 ;
   add(new ListView("test",model){
     private static final long serialVersionUID=-4176346513350288174L;
-    protected void populateItem(    final ListItem item){
+    @Override protected void populateItem(    final ListItem item){
     }
   }
 );
