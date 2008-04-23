@@ -1,6 +1,6 @@
 {
   if (throwable != null) {
-    ArrayList al=new ArrayList();
+    List<Throwable> al=new ArrayList<Throwable>();
     Throwable cause=throwable;
     al.add(cause);
     while (cause.getCause() != null && cause != cause.getCause()) {
@@ -9,7 +9,7 @@
     }
     AppendingStringBuffer sb=new AppendingStringBuffer(256);
     int length=al.size() - 1;
-    cause=(Throwable)al.get(length);
+    cause=al.get(length);
     if (throwable instanceof WicketRuntimeException) {
       sb.append("WicketMessage: ");
       sb.append(throwable.getMessage());
@@ -20,7 +20,7 @@
     if (length > 0) {
       sb.append("\n\nComplete stack:\n\n");
       for (int i=0; i < length; i++) {
-        outputThrowable((Throwable)al.get(i),sb,true);
+        outputThrowable(al.get(i),sb,true);
         sb.append("\n");
       }
     }

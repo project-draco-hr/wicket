@@ -4,9 +4,9 @@
   if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT)) {
     ParameterParser parser=new ParameterParser();
     parser.setLowerCaseNames(true);
-    Map params=parser.parse(cd,';');
+    Map<String,String> params=parser.parse(cd,';');
     if (params.containsKey("filename")) {
-      fileName=(String)params.get("filename");
+      fileName=params.get("filename");
       if (fileName != null) {
         fileName=fileName.trim();
         int index=fileName.lastIndexOf('\\');
