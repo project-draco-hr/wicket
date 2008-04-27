@@ -1,18 +1,18 @@
 {
-  final Map modelToItem=new HashMap();
+  final Map<IModel<T>,Item<T>> modelToItem=Generics.newHashMap();
   while (existingItems.hasNext()) {
-    final Item item=(Item)existingItems.next();
+    final Item<T> item=existingItems.next();
     modelToItem.put(item.getModel(),item);
   }
-  return new Iterator(){
+  return new Iterator<Item<T>>(){
     private int index=0;
     public boolean hasNext(){
       return newModels.hasNext();
     }
-    public Object next(){
-      final IModel model=(IModel)newModels.next();
-      final Item oldItem=(Item)modelToItem.get(model);
-      final Item item;
+    public Item<T> next(){
+      final IModel<T> model=newModels.next();
+      final Item<T> oldItem=modelToItem.get(model);
+      final Item<T> item;
       if (oldItem == null) {
         item=factory.newItem(index,model);
       }
