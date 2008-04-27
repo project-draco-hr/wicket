@@ -3,14 +3,14 @@
     final int cols=getColumns();
     int row=0;
     do {
-      Item rowItem=newRowItem(newChildId(),row);
-      RepeatingView rowView=new RepeatingView("cols");
+      Item<?> rowItem=newRowItem(newChildId(),row);
+      RepeatingView<?> rowView=new RepeatingView<Void>("cols");
       rowItem.add(rowView);
       add(rowItem);
       for (int index=0; index < cols; index++) {
-        final Item cellItem;
+        final Item<T> cellItem;
         if (items.hasNext()) {
-          cellItem=(Item)items.next();
+          cellItem=items.next();
         }
  else {
           cellItem=newEmptyItem(newChildId(),index);
