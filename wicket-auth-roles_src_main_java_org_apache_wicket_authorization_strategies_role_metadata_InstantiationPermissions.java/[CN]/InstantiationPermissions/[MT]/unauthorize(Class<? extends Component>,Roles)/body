@@ -5,9 +5,13 @@
   if (rolesToRemove == null) {
     throw new IllegalArgumentException("Argument rolesToRemove cannot be null");
   }
-  final Roles roles=rolesForComponentClass.get(componentClass);
+  Roles roles=rolesForComponentClass.get(componentClass);
   if (roles != null) {
     roles.removeAll(rolesToRemove);
+  }
+ else {
+    roles=new Roles();
+    rolesForComponentClass.put(componentClass,roles);
   }
   if (roles.size() == 0) {
     roles.add(MetaDataRoleAuthorizationStrategy.NO_ROLE);
