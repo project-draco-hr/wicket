@@ -1,15 +1,15 @@
 {
-  final File file=(File)getModelObject();
+  final File file=getModelObject();
   if (file == null) {
     throw new IllegalStateException(getClass().getName() + " failed to retrieve a File object from model");
   }
   final String fn=(fileName != null) ? fileName : file.getName();
   IResourceStream resourceStream=new FileResourceStream(new org.apache.wicket.util.file.File(file));
   getRequestCycle().setRequestTarget(new ResourceStreamRequestTarget(resourceStream){
-    public String getFileName(){
+    @Override public String getFileName(){
       return fn;
     }
-    public void respond(    RequestCycle requestCycle){
+    @Override public void respond(    RequestCycle requestCycle){
       super.respond(requestCycle);
       if (deleteAfter)       file.delete();
     }

@@ -1,11 +1,11 @@
 {
-  FormComponent[] formComponents=getDependentFormComponents();
+  FormComponent<?>[] formComponents=getDependentFormComponents();
   if (formComponents != null && formComponents.length > 0) {
-    Map args=new HashMap(formComponents.length * 3);
+    Map<String,Object> args=new HashMap<String,Object>(formComponents.length * 3);
     for (int i=0; i < formComponents.length; i++) {
-      final FormComponent formComponent=formComponents[i];
+      final FormComponent<?> formComponent=formComponents[i];
       String arg="label" + i;
-      IModel label=formComponent.getLabel();
+      IModel<?> label=formComponent.getLabel();
       if (label != null) {
         args.put(arg,label.getObject());
       }
@@ -18,6 +18,6 @@
     return args;
   }
  else {
-    return new HashMap(2);
+    return new HashMap<String,Object>(2);
   }
 }

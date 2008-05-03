@@ -1,0 +1,20 @@
+{
+  this(id,pageMap,new IPageLink(){
+    private static final long serialVersionUID=1L;
+    public Page<?> getPage(){
+      if (params == null) {
+        return Session.get().getPageFactory().newPage(c);
+      }
+ else {
+        return Session.get().getPageFactory().newPage(c,params);
+      }
+    }
+    public Class<?> getPageIdentity(){
+      return c;
+    }
+  }
+);
+  if (!Page.class.isAssignableFrom(c)) {
+    throw new IllegalArgumentException("Class " + c + " is not a subclass of Page");
+  }
+}
