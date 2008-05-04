@@ -4,9 +4,9 @@
   }
   try {
     if (Application.exists()) {
-      return Application.get().getApplicationSettings().getClassResolver().resolveClass(className);
+      return (Class<T>)Application.get().getApplicationSettings().getClassResolver().resolveClass(className);
     }
-    return Class.forName(className);
+    return (Class<T>)Class.forName(className);
   }
  catch (  ClassNotFoundException e) {
     log.warn("Could not resolve class: " + className);

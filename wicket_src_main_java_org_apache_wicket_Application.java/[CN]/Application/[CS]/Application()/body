@@ -6,7 +6,8 @@
  * @see org.apache.wicket.application.IComponentInstantiationListener#onInstantiation(org.apache.wicket.Component)
  */
     public void onInstantiation(    final Component<?> component){
-      if (!Session.get().getAuthorizationStrategy().isInstantiationAuthorized(component.getClass())) {
+      final Class<? extends Component<?>> cl=(Class<? extends Component<?>>)component.getClass();
+      if (!Session.get().getAuthorizationStrategy().isInstantiationAuthorized(cl)) {
         getSecuritySettings().getUnauthorizedComponentInstantiationListener().onUnauthorizedInstantiation(component);
       }
     }

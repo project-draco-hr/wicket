@@ -35,7 +35,7 @@ synchronized (pageMapsUsedInRequest) {
       newEntry.requestCycle=RequestCycle.get();
       pageMapsUsedInRequest.put(pageMap,newEntry);
       final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
-      Page page=pageMap.get(Integer.parseInt(id),versionNumber);
+      Page<?> page=pageMap.get(Integer.parseInt(id),versionNumber);
       if (page == null) {
         pageMapsUsedInRequest.remove(pageMap);
         pageMapsUsedInRequest.notifyAll();
