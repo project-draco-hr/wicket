@@ -1,6 +1,8 @@
 {
   if (modelObject != null) {
-    final IConverter<T> converter=getConverter((Class<T>)modelObject.getClass());
+    final Class<T> objectClass=(Class<T>)modelObject.getClass();
+    final IConverter<T> converter=getConverter(objectClass);
+    if (!converter.getClass().isAssignableFrom(objectClass))     throw new IllegalArgumentException("converter can not convert " + objectClass.getName() + " to string");
     final String modelString=converter.convertToString(modelObject,getLocale());
     if (modelString != null) {
       if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {

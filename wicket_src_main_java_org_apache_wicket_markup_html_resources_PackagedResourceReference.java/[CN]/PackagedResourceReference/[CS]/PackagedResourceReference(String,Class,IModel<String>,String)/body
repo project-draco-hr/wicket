@@ -1,0 +1,30 @@
+{
+  super(id);
+  if (referer == null) {
+    throw new IllegalArgumentException("Referer may not be null");
+  }
+  if (file == null) {
+    throw new IllegalArgumentException("File may not be null");
+  }
+  if (attributeToReplace == null) {
+    throw new IllegalArgumentException("AttributeToReplace may not be null");
+  }
+  IModel<String> srcReplacement=new Model<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      String str=file.getObject();
+      if (str == null) {
+        throw new IllegalArgumentException("The model must provide a non-null object");
+      }
+      if (!(str instanceof String)) {
+        throw new IllegalArgumentException("The model must provide a string");
+      }
+      String f=getConverter(String.class).convertToString(str,getLocale());
+      ResourceReference ref=new ResourceReference(referer,f,getLocale(),getStyle());
+      CharSequence url=urlFor(ref);
+      return url != null ? url.toString() : null;
+    }
+  }
+;
+  add(new AttributeModifier(attributeToReplace,true,srcReplacement));
+}
