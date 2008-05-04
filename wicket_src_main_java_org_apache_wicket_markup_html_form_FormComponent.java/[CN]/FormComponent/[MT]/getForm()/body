@@ -6,9 +6,9 @@ class FindFormVisitor implements Component.IVisitor {
       return Component.IVisitor.STOP_TRAVERSAL;
     }
   }
-  Form form=(Form)findParent(Form.class);
+  Form form=findParent(Form.class);
   if (form == null) {
-    final Border border=(Border)findParent(Border.class);
+    final Border border=findParent(Border.class);
     if (border != null) {
       FindFormVisitor formVisitor=new FindFormVisitor();
       border.visitChildren(Form.class,formVisitor);

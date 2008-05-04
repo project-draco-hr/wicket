@@ -4,12 +4,11 @@
   final String selected=getValue();
   for (int index=0; index < choices.size(); index++) {
     final T choice=choices.get(index);
-    Collection<T> displayValue=(Collection<T>)getChoiceRenderer().getDisplayValue(choice);
-    Class<?> objectClass=(displayValue == null ? null : displayValue.getClass());
+    Object displayValue=getChoiceRenderer().getDisplayValue(choice);
+    Class objectClass=displayValue == null ? null : displayValue.getClass();
     String label="";
     if (objectClass != null && objectClass != String.class) {
-      final IConverter<Collection<T>> converter=getConverter((Class<Collection<T>>)objectClass);
-      if (!converter.getClass().isAssignableFrom(objectClass))       throw new IllegalArgumentException("converter can not convert class " + converter.getClass().getName() + " to string");
+      IConverter converter=getConverter(objectClass);
       label=converter.convertToString(displayValue,getLocale());
     }
  else     if (displayValue != null) {
