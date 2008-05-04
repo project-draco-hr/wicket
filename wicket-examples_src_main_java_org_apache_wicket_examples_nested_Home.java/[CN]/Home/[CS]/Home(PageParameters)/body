@@ -15,7 +15,7 @@
   add(new RecursivePanel("panels",l1));
   TreeModel treeModel=convertToTreeModel(l1);
   final Tree tree=new Tree("tree",treeModel){
-    protected String renderNode(    TreeNode node){
+    @Override protected String renderNode(    TreeNode node){
       DefaultMutableTreeNode treeNode=(DefaultMutableTreeNode)node;
       Object userObject=treeNode.getUserObject();
       return (userObject instanceof List) ? "<subtree>" : String.valueOf(treeNode.getUserObject());
@@ -25,13 +25,13 @@
   tree.setLinkType(LinkType.REGULAR);
   add(tree);
   add(new Link("expandAll"){
-    public void onClick(){
+    @Override public void onClick(){
       tree.getTreeState().expandAll();
     }
   }
 );
   add(new Link("collapseAll"){
-    public void onClick(){
+    @Override public void onClick(){
       tree.getTreeState().collapseAll();
     }
   }

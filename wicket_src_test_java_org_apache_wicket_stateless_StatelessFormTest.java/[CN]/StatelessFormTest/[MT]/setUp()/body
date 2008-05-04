@@ -1,11 +1,11 @@
 {
   mock=new WicketTester(application=new WebApplication(){
-    public Class<? extends Page> getHomePage(){
+    @Override public Class<? extends Page<?>> getHomePage(){
       return StatelessFormTest.this.getHomePage();
     }
-    protected void outputDevelopmentModeWarning(){
+    @Override protected void outputDevelopmentModeWarning(){
     }
-    protected ISessionStore newSessionStore(){
+    @Override protected ISessionStore newSessionStore(){
       return new HttpSessionStore(this);
     }
   }
