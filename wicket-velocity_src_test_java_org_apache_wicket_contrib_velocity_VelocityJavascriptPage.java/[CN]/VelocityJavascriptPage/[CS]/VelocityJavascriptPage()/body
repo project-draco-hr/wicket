@@ -3,9 +3,9 @@
   String id="000001";
   String javascript="msg1: Stoopid test 1\nmsg2: Stooopid test 2";
   JavascriptUtils.writeJavascript(getResponse(),javascript,id);
-  IModel model=new Model(){
-    public Serializable getObject(){
-      MiniMap map=new MiniMap(2);
+  IModel<MiniMap<String,String>> model=new Model<MiniMap<String,String>>(){
+    @Override public MiniMap<String,String> getObject(){
+      MiniMap<String,String> map=new MiniMap<String,String>(2);
       map.put("msg1",MSG1);
       map.put("msg2","Stooopid test 2");
       return map;
