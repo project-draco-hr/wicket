@@ -15,11 +15,13 @@
           scope=resolver.resolveClass(className);
         }
         String path=resourceKey.substring(ix + 1);
-        PackageResource packageResource=PackageResource.get(scope,path);
-        if (sharedResources.get(resourceKey) == null) {
-          sharedResources.add(scope,path,null,null,packageResource);
+        if (PackageResource.exists(scope,path,null,null)) {
+          PackageResource packageResource=PackageResource.get(scope,path);
+          if (sharedResources.get(resourceKey) == null) {
+            sharedResources.add(scope,path,null,null,packageResource);
+          }
+          resource=packageResource;
         }
-        resource=packageResource;
       }
  catch (      Exception e) {
         log.error("unable to lazily register shared resource " + resourceKey,e);

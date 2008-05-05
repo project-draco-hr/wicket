@@ -61,18 +61,20 @@
       }
     }
   finally {
-      if (response != null) {
-        try {
+      try {
+        if (response != null) {
           response.close();
         }
- catch (        Exception e) {
-          log.error("closing the buffer error",e);
-        }
       }
-      Session.unset();
-      if (externalCall) {
-        Application.unset();
-        RequestContext.unset();
+ catch (      Exception e) {
+        log.error("closing the buffer error",e);
+      }
+ finally {
+        Session.unset();
+        if (externalCall) {
+          Application.unset();
+          RequestContext.unset();
+        }
       }
     }
   }

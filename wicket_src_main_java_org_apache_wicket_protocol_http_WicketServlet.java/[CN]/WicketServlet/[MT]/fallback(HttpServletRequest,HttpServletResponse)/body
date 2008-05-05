@@ -5,10 +5,12 @@
     url='/' + url;
   }
   InputStream stream=getServletContext().getResourceAsStream(url);
+  String mimeType=getServletContext().getMimeType(url);
   if (stream == null) {
     response.sendError(HttpServletResponse.SC_NOT_FOUND);
   }
  else {
+    if (mimeType != null)     response.setContentType(mimeType);
     Streams.copy(stream,response.getOutputStream());
   }
 }
