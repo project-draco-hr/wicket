@@ -1,7 +1,7 @@
 {
   boolean valid=true;
   if (expectedElements.hasNext()) {
-    DocumentElement e=(DocumentElement)expectedElements.next();
+    DocumentElement e=expectedElements.next();
     if (e instanceof Tag) {
       workingTag=(Tag)e;
       if (!workingTag.getTag().equals(parser.getTag())) {
@@ -9,17 +9,17 @@
         valid=false;
       }
  else {
-        Map actualAttributes=parser.getAttributes();
-        Map expectedAttributes=workingTag.getExpectedAttributes();
-        for (Iterator it=expectedAttributes.entrySet().iterator(); it.hasNext(); ) {
-          Map.Entry entry=(Map.Entry)it.next();
-          String name=(String)entry.getKey();
-          String pattern=(String)entry.getValue();
+        Map<String,String> actualAttributes=parser.getAttributes();
+        Map<String,String> expectedAttributes=workingTag.getExpectedAttributes();
+        for (Iterator<Map.Entry<String,String>> it=expectedAttributes.entrySet().iterator(); it.hasNext(); ) {
+          Map.Entry<String,String> entry=it.next();
+          String name=entry.getKey();
+          String pattern=entry.getValue();
           if (!actualAttributes.containsKey(name)) {
             log.error("Tag <" + workingTag.getTag() + "> was expected to have a '"+ name+ "' attribute "+ "but this was not present");
             valid=false;
           }
-          String value=(String)actualAttributes.get(name);
+          String value=actualAttributes.get(name);
           if (value == null) {
             log.error("Attribute " + name + " was expected but not found");
             valid=false;
@@ -31,8 +31,8 @@
             }
           }
         }
-        for (Iterator it=workingTag.getIllegalAttributes().iterator(); it.hasNext(); ) {
-          String name=(String)it.next();
+        for (Iterator<String> it=workingTag.getIllegalAttributes().iterator(); it.hasNext(); ) {
+          String name=it.next();
           if (actualAttributes.containsKey(name)) {
             log.error("Tag <" + workingTag.getTag() + "> should not have an attributed named '"+ name+ "'");
             valid=false;

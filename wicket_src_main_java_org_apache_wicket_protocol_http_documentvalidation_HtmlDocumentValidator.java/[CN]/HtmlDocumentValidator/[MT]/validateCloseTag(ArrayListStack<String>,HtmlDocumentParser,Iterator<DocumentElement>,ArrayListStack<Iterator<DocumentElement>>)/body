@@ -4,14 +4,14 @@
     expectedElements=null;
   }
  else {
-    String expectedTag=(String)tagNameStack.pop();
+    String expectedTag=tagNameStack.pop();
     if (!expectedTag.equals(parser.getTag())) {
       log.error("Found closing tag </" + parser.getTag() + "> when we expecting "+ "the closing tag </"+ expectedTag+ "> instead");
       expectedElements=null;
     }
  else {
       if (expectedElements.hasNext()) {
-        DocumentElement e=(DocumentElement)expectedElements.next();
+        DocumentElement e=expectedElements.next();
         log.error("Found closing tag </" + parser.getTag() + "> but we were "+ "expecting to find another child element: "+ e.toString());
         expectedElements=null;
       }
@@ -21,7 +21,7 @@
           expectedElements=null;
         }
  else {
-          expectedElements=(Iterator)iteratorStack.pop();
+          expectedElements=iteratorStack.pop();
         }
       }
     }
