@@ -1,17 +1,15 @@
 {
   if (files.size() > 0) {
     StringBuffer failString=new StringBuffer();
-    for (Iterator iter=files.entrySet().iterator(); iter.hasNext(); ) {
-      Map.Entry entry=(Map.Entry)iter.next();
-      ILicenseHeaderHandler licenseHeaderHandler=(ILicenseHeaderHandler)entry.getKey();
-      List fileList=(List)entry.getValue();
+    for (    Entry<ILicenseHeaderHandler,List<File>> entry : files.entrySet()) {
+      ILicenseHeaderHandler licenseHeaderHandler=entry.getKey();
+      List<File> fileList=entry.getValue();
       failString.append("\n");
       failString.append(licenseHeaderHandler.getClass().getName());
       failString.append(" failed. The following files(");
       failString.append(fileList.size());
       failString.append(") didn't have correct license header:\n");
-      for (Iterator iterator=fileList.iterator(); iterator.hasNext(); ) {
-        File file=(File)iterator.next();
+      for (      File file : fileList) {
         String filename=file.getAbsolutePath();
         String licenseType=licenseHeaderHandler.getLicenseType(file);
         if (licenseType == null) {

@@ -4,31 +4,31 @@
     return path;
   }
   if (state == 0) {
-    this.state++;
-    this.currentLocale=locale;
-    this.currentPath=path + '_' + locale.toString();
-    return this.currentPath;
+    state++;
+    currentLocale=locale;
+    currentPath=path + '_' + locale.toString();
+    return currentPath;
   }
   final String language=locale.getLanguage();
   final String country=locale.getCountry();
   if (state == 1) {
-    this.state++;
+    state++;
     if (!Strings.isEmpty(language) && !Strings.isEmpty(country)) {
-      this.currentLocale=new Locale(language,country);
+      currentLocale=new Locale(language,country);
       String newPath=path + '_' + language+ '_'+ country;
-      if (this.currentPath.equals(newPath) == false) {
+      if (currentPath.equals(newPath) == false) {
         return newPath;
       }
     }
   }
   if (state == 2) {
-    this.state++;
+    state++;
     if (!Strings.isEmpty(language)) {
-      this.currentLocale=new Locale(language);
+      currentLocale=new Locale(language);
       return path + '_' + language;
     }
   }
-  this.state++;
-  this.currentLocale=null;
+  state++;
+  currentLocale=null;
   return path;
 }
