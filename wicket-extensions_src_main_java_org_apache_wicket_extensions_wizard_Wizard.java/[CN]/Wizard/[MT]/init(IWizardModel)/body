@@ -5,16 +5,16 @@
   this.wizardModel=wizardModel;
   form=newForm(FORM_ID);
   addOrReplace(form);
-  form.addOrReplace(new WebMarkupContainer(HEADER_ID));
+  form.addOrReplace(new WebMarkupContainer<Void>(HEADER_ID));
   form.addOrReplace(newFeedbackPanel(FEEDBACK_ID));
-  form.addOrReplace(new WebMarkupContainer(VIEW_ID));
+  form.addOrReplace(new WebMarkupContainer<Void>(VIEW_ID));
   form.addOrReplace(newButtonBar(BUTTONS_ID));
   form.addOrReplace(newOverviewBar(OVERVIEW_ID));
   wizardModel.addListener(this);
-  Iterator stepsIterator=wizardModel.stepIterator();
+  Iterator<IWizardStep> stepsIterator=wizardModel.stepIterator();
   if (stepsIterator != null) {
     while (stepsIterator.hasNext()) {
-      ((IWizardStep)stepsIterator.next()).init(wizardModel);
+      (stepsIterator.next()).init(wizardModel);
     }
   }
   wizardModel.reset();

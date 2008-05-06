@@ -1,16 +1,16 @@
 {
   super(id);
-  setModel(new CompoundPropertyModel(wizard));
-  add(new Label("title",new AbstractReadOnlyModel(){
+  setModel(new CompoundPropertyModel<IWizard>(wizard));
+  add(new Label<String>("title",new AbstractReadOnlyModel<String>(){
     private static final long serialVersionUID=1L;
-    public Object getObject(){
+    @Override public String getObject(){
       return getTitle();
     }
   }
 ).setEscapeModelStrings(false));
-  add(new Label("summary",new AbstractReadOnlyModel(){
+  add(new Label<String>("summary",new AbstractReadOnlyModel<String>(){
     private static final long serialVersionUID=1L;
-    public Object getObject(){
+    @Override public String getObject(){
       return getSummary();
     }
   }

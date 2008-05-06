@@ -1,9 +1,8 @@
 {
   if (isActiveStep()) {
-    Set components=new HashSet();
-    for (Iterator i=validators.iterator(); i.hasNext(); ) {
-      IFormValidator v=(IFormValidator)i.next();
-      FormComponent[] dependentComponents=v.getDependentFormComponents();
+    Set<Component<?>> components=new HashSet<Component<?>>();
+    for (    IFormValidator v : validators) {
+      FormComponent<?>[] dependentComponents=v.getDependentFormComponents();
       if (dependentComponents != null) {
         int len=dependentComponents.length;
         for (int j=0; j < len; j++) {
@@ -11,7 +10,7 @@
         }
       }
     }
-    return (FormComponent[])components.toArray(new FormComponent[components.size()]);
+    return components.toArray(new FormComponent[components.size()]);
   }
   return null;
 }
