@@ -1,7 +1,7 @@
 {
   super(name,new CompoundPropertyModel<FormInputModel>(new FormInputModel()));
   add(new LocaleDropDownChoice("localeSelect"));
-  add(new Link("defaultLocaleLink"){
+  add(new Link<Void>("defaultLocaleLink"){
     @Override public void onClick(){
       WebRequest request=(WebRequest)getRequest();
       setLocale(request.getLocale());
@@ -17,38 +17,38 @@
   add(new RequiredTextField<Integer>("integerInRangeProperty").add(NumberValidator.range(0,100)));
   add(new CheckBox("booleanProperty"));
   add(new Multiply("multiply"));
-  Label multiplyLabel=new Label("multiplyLabel",new PropertyModel(getModel(),"multiply"));
+  Label<Integer> multiplyLabel=new Label<Integer>("multiplyLabel",new PropertyModel<Integer>(getModel(),"multiply"));
   multiplyLabel.setComponentBorder(new BeforeAndAfterBorder());
   add(multiplyLabel);
-  RadioChoice rc=new RadioChoice("numberRadioChoice",NUMBERS).setSuffix("");
-  rc.setLabel(new Model("number"));
+  RadioChoice<String> rc=new RadioChoice<String>("numberRadioChoice",NUMBERS).setSuffix("");
+  rc.setLabel(new Model<String>("number"));
   rc.setRequired(true);
   add(rc);
-  RadioGroup group=new RadioGroup("numbersGroup");
+  RadioGroup<String> group=new RadioGroup<String>("numbersGroup");
   add(group);
-  ListView persons=new ListView("numbers",NUMBERS){
-    @Override protected void populateItem(    ListItem item){
-      item.add(new Radio("radio",item.getModel()));
-      item.add(new Label("number",item.getModelObjectAsString()));
+  ListView<String> persons=new ListView<String>("numbers",NUMBERS){
+    @Override protected void populateItem(    ListItem<String> item){
+      item.add(new Radio<String>("radio",item.getModel()));
+      item.add(new Label<String>("number",item.getModelObjectAsString()));
     }
   }
 .setReuseItems(true);
   group.add(persons);
-  CheckGroup checks=new CheckGroup("numbersCheckGroup");
+  CheckGroup<String> checks=new CheckGroup<String>("numbersCheckGroup");
   add(checks);
-  ListView checksList=new ListView("numbers",NUMBERS){
-    @Override protected void populateItem(    ListItem item){
-      item.add(new Check("check",item.getModel()));
-      item.add(new Label("number",item.getModelObjectAsString()));
+  ListView<String> checksList=new ListView<String>("numbers",NUMBERS){
+    @Override protected void populateItem(    ListItem<String> item){
+      item.add(new Check<String>("check",item.getModel()));
+      item.add(new Label<String>("number",item.getModelObjectAsString()));
     }
   }
 .setReuseItems(true);
   checks.add(checksList);
-  add(new ListMultipleChoice("siteSelection",SITES));
-  add(new TextField("urlProperty",URL.class){
-    @Override public IConverter getConverter(    final Class type){
-      return new IConverter(){
-        public Object convertToObject(        String value,        Locale locale){
+  add(new ListMultipleChoice<String>("siteSelection",SITES));
+  add(new TextField<URL>("urlProperty",URL.class){
+    @Override public IConverter<URL> getConverter(    final Class<URL> type){
+      return new IConverter<URL>(){
+        public URL convertToObject(        String value,        Locale locale){
           try {
             return new URL(value.toString());
           }
@@ -56,7 +56,7 @@
             throw new ConversionException("'" + value + "' is not a valid URL");
           }
         }
-        public String convertToString(        Object value,        Locale locale){
+        public String convertToString(        URL value,        Locale locale){
           return value != null ? value.toString() : null;
         }
       }
@@ -64,15 +64,15 @@
     }
   }
 );
-  add(new TextField("phoneNumberUS",UsPhoneNumber.class){
-    @Override public IConverter getConverter(    final Class type){
-      return new MaskConverter("(###) ###-####",UsPhoneNumber.class);
+  add(new TextField<UsPhoneNumber>("phoneNumberUS",UsPhoneNumber.class){
+    @Override public IConverter<UsPhoneNumber> getConverter(    final Class<UsPhoneNumber> type){
+      return new MaskConverter<UsPhoneNumber>("(###) ###-####",UsPhoneNumber.class);
     }
   }
 );
   add(new LinesListView("lines"));
-  add(new Button("saveButton"));
-  add(new Button("resetButton"){
+  add(new Button<Void>("saveButton"));
+  add(new Button<Void>("resetButton"){
     @Override public void onSubmit(){
       setResponsePage(FormInput.class);
     }
