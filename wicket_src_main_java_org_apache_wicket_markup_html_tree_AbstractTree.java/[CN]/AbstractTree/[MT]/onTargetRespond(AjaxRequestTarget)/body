@@ -1,0 +1,44 @@
+{
+  checkModel();
+  if (dirtyAll) {
+    addComponent(target,this);
+  }
+ else {
+    if (deleteIds.length() != 0) {
+      String js=getElementsDeleteJavascript();
+      target.prependJavascript(js);
+    }
+    while (dirtyItemsCreateDOM.isEmpty() == false) {
+      for (Iterator i=dirtyItemsCreateDOM.iterator(); i.hasNext(); ) {
+        TreeItem item=(TreeItem)i.next();
+        TreeItem parent=item.getParentItem();
+        int index=parent.getChildren().indexOf(item);
+        TreeItem previous;
+        if (index == 0) {
+          previous=parent;
+        }
+ else {
+          previous=(TreeItem)parent.getChildren().get(index - 1);
+          while (previous.getChildren() != null && previous.getChildren().size() > 0) {
+            previous=(TreeItem)previous.getChildren().get(previous.getChildren().size() - 1);
+          }
+        }
+        if (dirtyItemsCreateDOM.contains(previous) == false) {
+          target.prependJavascript("Wicket.Tree.createElement(\"" + item.getMarkupId() + "\","+ "\""+ previous.getMarkupId()+ "\")");
+          i.remove();
+        }
+ else {
+        }
+      }
+    }
+    for (Iterator i=dirtyItems.iterator(); i.hasNext(); ) {
+      TreeItem item=(TreeItem)i.next();
+      if (item.getChildren() == null) {
+        buildItemChildren(item);
+        item.setRenderChildren(true);
+      }
+      addComponent(target,item);
+    }
+    updated();
+  }
+}
