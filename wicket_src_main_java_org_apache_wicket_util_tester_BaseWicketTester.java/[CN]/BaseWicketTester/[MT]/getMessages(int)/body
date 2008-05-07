@@ -1,6 +1,6 @@
 {
   FeedbackMessages feedbackMessages=Session.get().getFeedbackMessages();
-  List allMessages=feedbackMessages.messages(new IFeedbackMessageFilter(){
+  List<FeedbackMessage> allMessages=feedbackMessages.messages(new IFeedbackMessageFilter(){
     private static final long serialVersionUID=1L;
     public boolean accept(    FeedbackMessage message){
       return message.getLevel() == level;
@@ -8,8 +8,8 @@
   }
 );
   List<Serializable> actualMessages=new ArrayList<Serializable>();
-  for (Iterator iter=allMessages.iterator(); iter.hasNext(); ) {
-    actualMessages.add(((FeedbackMessage)iter.next()).getMessage());
+  for (  FeedbackMessage message : allMessages) {
+    actualMessages.add(message.getMessage());
   }
   return actualMessages;
 }

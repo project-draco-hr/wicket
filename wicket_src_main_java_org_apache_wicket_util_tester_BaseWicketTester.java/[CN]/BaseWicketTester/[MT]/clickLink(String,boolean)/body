@@ -1,10 +1,10 @@
 {
-  Component linkComponent=getComponentFromLastRenderedPage(path);
+  Component<?> linkComponent=getComponentFromLastRenderedPage(path);
   if (linkComponent instanceof AjaxLink) {
     if (isAjax == false) {
       fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
     }
-    AjaxLink link=(AjaxLink)linkComponent;
+    AjaxLink<?> link=(AjaxLink<?>)linkComponent;
     setupRequestAndResponse(true);
     RequestCycle requestCycle=createRequestCycle();
     callOnBeginRequest(requestCycle);
@@ -15,7 +15,7 @@
     requestCycle.detach();
   }
  else   if (linkComponent instanceof AjaxFallbackLink && isAjax) {
-    AjaxFallbackLink link=(AjaxFallbackLink)linkComponent;
+    AjaxFallbackLink<?> link=(AjaxFallbackLink<?>)linkComponent;
     setupRequestAndResponse(true);
     RequestCycle requestCycle=createRequestCycle();
     AjaxRequestTarget target=new AjaxRequestTarget(link.getPage());
@@ -28,11 +28,10 @@
     if (isAjax == false) {
       fail("Link " + path + "is an AjaxSubmitLink and "+ "will not be invoked when AJAX (javascript) is disabled.");
     }
-    AjaxSubmitLink link=(AjaxSubmitLink)linkComponent;
-    List behaviors=link.getBehaviors();
+    AjaxSubmitLink<?> link=(AjaxSubmitLink<?>)linkComponent;
+    List<IBehavior> behaviors=link.getBehaviors();
     AjaxFormSubmitBehavior ajaxFormSubmitBehavior=null;
-    for (Iterator iter=behaviors.iterator(); iter.hasNext(); ) {
-      Object behavior=iter.next();
+    for (    IBehavior behavior : behaviors) {
       if (behavior instanceof AjaxFormSubmitBehavior) {
         AjaxFormSubmitBehavior submitBehavior=(AjaxFormSubmitBehavior)behavior;
         ajaxFormSubmitBehavior=submitBehavior;
@@ -48,20 +47,20 @@
     requestCycle.detach();
   }
  else   if (linkComponent instanceof SubmitLink) {
-    SubmitLink<?> submitLink=(SubmitLink)linkComponent;
+    SubmitLink<?> submitLink=(SubmitLink<?>)linkComponent;
     String pageRelativePath=submitLink.getInputName();
     getParametersForNextRequest().put(pageRelativePath,"x");
     submitForm(submitLink.getForm().getPageRelativePath());
   }
  else   if (linkComponent instanceof AbstractLink) {
-    AbstractLink<?> link=(AbstractLink)linkComponent;
+    AbstractLink<?> link=(AbstractLink<?>)linkComponent;
     if (link instanceof BookmarkablePageLink) {
       BookmarkablePageLink bookmarkablePageLink=(BookmarkablePageLink)link;
       try {
         Field parametersField=BookmarkablePageLink.class.getDeclaredField("parameters");
         Method getParametersMethod=BookmarkablePageLink.class.getDeclaredMethod("getPageParameters",(Class[])null);
         getParametersMethod.setAccessible(true);
-        PageParameters parameters=(PageParameters)getParametersMethod.invoke(bookmarkablePageLink,(Class[])null);
+        PageParameters parameters=(PageParameters)getParametersMethod.invoke(bookmarkablePageLink,(Object[])null);
         setParametersForNextRequest(parameters);
       }
  catch (      Exception e) {
