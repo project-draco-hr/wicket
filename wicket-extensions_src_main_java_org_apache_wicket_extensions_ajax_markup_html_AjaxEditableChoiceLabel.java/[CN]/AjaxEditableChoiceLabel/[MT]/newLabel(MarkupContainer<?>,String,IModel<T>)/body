@@ -1,15 +1,30 @@
 {
-  IModel<T> wrapper=new AbstractReadOnlyModel<T>(){
+  Label<T> label=new Label<T>(componentId,model){
     private static final long serialVersionUID=1L;
-    @Override @SuppressWarnings("unchecked") public T getObject(){
+    @Override public IConverter<T> getConverter(    Class<T> type){
+      IConverter<T> c=AjaxEditableChoiceLabel.this.getConverter(type);
+      return c != null ? c : super.getConverter(type);
+    }
+    @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+      String displayValue=getModelObjectAsString();
       if (renderer != null) {
-        return (T)renderer.getDisplayValue(model.getObject());
+        Object displayObject=renderer.getDisplayValue(getModelObject());
+        Class<?> objectClass=(displayObject == null ? null : displayObject.getClass());
+        if (objectClass != null && objectClass != String.class) {
+          final IConverter converter=Application.get().getConverterLocator().getConverter(objectClass);
+          displayValue=converter.convertToString(displayObject,getLocale());
+        }
+      }
+      if (displayValue == null || "".equals(displayValue)) {
+        replaceComponentTagBody(markupStream,openTag,defaultNullLabel());
       }
  else {
-        return model.getObject();
+        replaceComponentTagBody(markupStream,openTag,displayValue);
       }
     }
   }
 ;
-  return super.newLabel(parent,componentId,wrapper);
+  label.setOutputMarkupId(true);
+  label.add(new LabelAjaxBehavior(getLabelAjaxEvent()));
+  return label;
 }
