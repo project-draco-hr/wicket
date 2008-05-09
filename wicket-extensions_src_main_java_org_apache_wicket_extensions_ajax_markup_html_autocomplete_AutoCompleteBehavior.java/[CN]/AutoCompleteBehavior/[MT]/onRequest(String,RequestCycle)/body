@@ -8,10 +8,10 @@
       r.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
       r.setHeader("Cache-Control","no-cache, must-revalidate");
       r.setHeader("Pragma","no-cache");
-      Iterator comps=getChoices(val);
+      Iterator<T> comps=getChoices(val);
       renderer.renderHeader(r);
       while (comps.hasNext()) {
-        final Object comp=comps.next();
+        final T comp=comps.next();
         renderer.render(comp,r,val);
       }
       renderer.renderFooter(r);
