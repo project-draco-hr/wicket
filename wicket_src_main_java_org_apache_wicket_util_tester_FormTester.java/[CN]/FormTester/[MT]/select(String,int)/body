@@ -1,6 +1,6 @@
 {
   checkClosed();
-  FormComponent component=(FormComponent)workingForm.get(formComponentId);
+  FormComponent<?> component=(FormComponent<?>)workingForm.get(formComponentId);
   ChoiceSelector choiceSelector=choiceSelectorFactory.create(component);
   choiceSelector.doSelect(index);
   if (component instanceof DropDownChoice) {
@@ -9,7 +9,7 @@
       wantOnSelectionChangedNotificationsMethod.setAccessible(true);
       boolean wantOnSelectionChangedNotifications=((Boolean)wantOnSelectionChangedNotificationsMethod.invoke(component,new Object[0])).booleanValue();
       if (wantOnSelectionChangedNotifications) {
-        ((DropDownChoice)component).onSelectionChanged();
+        ((DropDownChoice<?>)component).onSelectionChanged();
       }
     }
  catch (    Exception e) {

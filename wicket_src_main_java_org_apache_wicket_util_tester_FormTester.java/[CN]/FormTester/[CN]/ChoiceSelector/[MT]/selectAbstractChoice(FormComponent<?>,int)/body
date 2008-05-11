@@ -1,0 +1,23 @@
+{
+  try {
+    Method getChoicesMethod=formComponent.getClass().getMethod("getChoices",(Class[])null);
+    getChoicesMethod.setAccessible(true);
+    List<Object> choices=(List<Object>)getChoicesMethod.invoke(formComponent,(Object[])null);
+    Method getChoiceRendererMethod=formComponent.getClass().getMethod("getChoiceRenderer",(Class[])null);
+    getChoiceRendererMethod.setAccessible(true);
+    IChoiceRenderer<Object> choiceRenderer=(IChoiceRenderer<Object>)getChoiceRendererMethod.invoke(formComponent,(Object[])null);
+    return choiceRenderer.getIdValue(choices.get(index),index);
+  }
+ catch (  SecurityException e) {
+    throw new WicketRuntimeException("unexpect select failure",e);
+  }
+catch (  NoSuchMethodException e) {
+    return null;
+  }
+catch (  IllegalAccessException e) {
+    throw new WicketRuntimeException("unexpect select failure",e);
+  }
+catch (  InvocationTargetException e) {
+    throw new WicketRuntimeException("unexpect select failure",e);
+  }
+}

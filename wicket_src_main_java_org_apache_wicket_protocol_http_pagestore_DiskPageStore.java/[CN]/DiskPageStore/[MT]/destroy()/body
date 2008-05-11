@@ -1,10 +1,9 @@
 {
   if (!isSynchronous()) {
 synchronized (pagesToSaveAll) {
-      for (Iterator i=pagesToSaveAll.entrySet().iterator(); i.hasNext(); ) {
-        Entry entry=(Entry)i.next();
-        String sessionId=(String)entry.getKey();
-        List pages=(List)entry.getValue();
+      for (      Entry<String,List<SerializedPage>> entry : pagesToSaveAll.entrySet()) {
+        String sessionId=entry.getKey();
+        List<SerializedPage> pages=entry.getValue();
 synchronized (pages) {
           flushPagesToSaveList(sessionId,pages);
         }

@@ -1,14 +1,5 @@
 {
-  HashMap pageMaps=(HashMap)usedPages.get();
-  if (pageMaps == null) {
-    pageMaps=new HashMap();
-    usedPages.set(pageMaps);
-  }
-  IntHashMap pages=(IntHashMap)pageMaps.get(getName());
-  if (pages == null) {
-    pages=new IntHashMap();
-    pageMaps.put(getName(),pages);
-  }
+  IntHashMap<Page<?>> pages=getUsedPages(getName());
   Page page=(Page)pages.get(id);
   if (page != null) {
     return page;

@@ -1,14 +1,5 @@
 {
-  HashMap pageMaps=(HashMap)SecondLevelCacheSessionStore.getUsedPages().get();
-  if (pageMaps == null) {
-    pageMaps=new HashMap();
-    SecondLevelCacheSessionStore.getUsedPages().set(pageMaps);
-  }
-  IntHashMap pages=(IntHashMap)pageMaps.get(pageMapName);
-  if (pages == null) {
-    pages=new IntHashMap();
-    pageMaps.put(pageMapName,pages);
-  }
+  IntHashMap<Page<?>> pages=SecondLevelCacheSessionStore.getUsedPages(pageMapName);
   pages.put(id,page);
   stream.defaultReadObject();
 }
