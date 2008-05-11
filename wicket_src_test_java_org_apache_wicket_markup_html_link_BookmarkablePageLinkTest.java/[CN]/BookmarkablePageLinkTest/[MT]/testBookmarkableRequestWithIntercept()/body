@@ -1,14 +1,6 @@
 {
-  tester.setupRequestAndResponse();
-  WebRequestCycle cycle=tester.createRequestCycle();
-  String url=cycle.urlFor(new BookmarkablePageRequestTarget(BookmarkableThrowsInterceptPage.class,null)).toString();
-  String url2=cycle.urlFor(new BookmarkablePageRequestTarget(BookmarkableContinueToPage.class,null)).toString();
-  tester.setupRequestAndResponse();
-  tester.getServletRequest().setURL("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/" + url);
-  tester.processRequestCycle();
+  tester.startPage(BookmarkableThrowsInterceptPage.class);
   assertEquals(tester.getLastRenderedPage().getClass(),BookmarkableSetSecurityPage.class);
-  tester.setupRequestAndResponse();
-  tester.getServletRequest().setURL("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/" + url2);
-  tester.processRequestCycle();
+  tester.startPage(BookmarkableContinueToPage.class);
   assertEquals(tester.getLastRenderedPage().getClass(),BookmarkableThrowsInterceptPage.class);
 }
