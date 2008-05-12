@@ -13,6 +13,12 @@
           if ((id != null) && id.equals(component.getId())) {
             return markupStream;
           }
+ else {
+            Component<?> parent=component.getParent();
+            if (parent instanceof AbstractRepeater && id != null && id.equals(parent.getId())) {
+              return markupStream;
+            }
+          }
         }
       }
  catch (      IndexOutOfBoundsException ex) {
