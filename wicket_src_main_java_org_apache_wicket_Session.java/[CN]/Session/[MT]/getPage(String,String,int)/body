@@ -27,7 +27,20 @@ synchronized (pageMapsUsedInRequest) {
         entry=pageMapsUsedInRequest.get(pageMap);
         t=entry != null ? entry.thread : null;
         if (t != null && t != Thread.currentThread() && (startTime + timeout.getMilliseconds()) < System.currentTimeMillis()) {
-          throw new WicketRuntimeException("After " + timeout + " the Pagemap "+ pageMapName+ " is still locked by: "+ t+ ", giving up trying to get the page for path: "+ path);
+          AppendingStringBuffer asb=new AppendingStringBuffer(100);
+          asb.append("After " + timeout + " the Pagemap "+ pageMapName+ " is still locked by: "+ t+ ", giving up trying to get the page for path: "+ path);
+          try {
+            StackTraceElement[] stackTrace=t.getStackTrace();
+            asb.append("\n\tBegin of stack trace of " + t);
+            for (            StackTraceElement stackTraceElement : stackTrace) {
+              asb.append("\n\t");
+              asb.append(stackTraceElement);
+            }
+            asb.append("\n\tEnd of stack trace of " + t);
+          }
+ catch (          Exception e) {
+          }
+          throw new WicketRuntimeException(asb.toString());
         }
       }
       PageMapsUsedInRequestEntry newEntry=new PageMapsUsedInRequestEntry();
