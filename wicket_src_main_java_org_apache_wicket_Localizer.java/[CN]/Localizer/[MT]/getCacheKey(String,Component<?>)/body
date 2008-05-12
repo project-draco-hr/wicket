@@ -1,12 +1,14 @@
 {
   String cacheKey=key;
   if (component != null) {
-    AppendingStringBuffer buffer=new AppendingStringBuffer(key);
+    AppendingStringBuffer buffer=new AppendingStringBuffer(200);
+    buffer.append(key);
     Component<?> cursor=component;
     while (cursor != null) {
       buffer.append("-").append(cursor.getClass().getName());
       buffer.append(":").append(cursor.getId());
       cursor=cursor.getParent();
+      if (cursor instanceof Page)       break;
     }
     buffer.append("-").append(component.getLocale());
     buffer.append("-").append(component.getStyle());
