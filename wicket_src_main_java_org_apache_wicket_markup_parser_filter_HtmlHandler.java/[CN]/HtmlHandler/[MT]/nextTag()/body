@@ -2,7 +2,7 @@
   final ComponentTag tag=(ComponentTag)getParent().nextTag();
   if (tag == null) {
     while (stack.size() > 0) {
-      final ComponentTag top=(ComponentTag)stack.peek();
+      final ComponentTag top=stack.peek();
       if (!requiresCloseTag(top.getName())) {
         stack.pop();
       }
@@ -20,7 +20,7 @@
   }
  else   if (tag.isClose()) {
     if (stack.size() > 0) {
-      ComponentTag top=(ComponentTag)stack.pop();
+      ComponentTag top=stack.pop();
       boolean mismatch=!top.hasEqualTagName(tag);
       if (mismatch) {
         top.setHasNoCloseTag(true);
@@ -29,7 +29,7 @@
           if (stack.isEmpty()) {
             break;
           }
-          top=(ComponentTag)stack.pop();
+          top=stack.pop();
           mismatch=!top.hasEqualTagName(tag);
         }
         if (mismatch) {
