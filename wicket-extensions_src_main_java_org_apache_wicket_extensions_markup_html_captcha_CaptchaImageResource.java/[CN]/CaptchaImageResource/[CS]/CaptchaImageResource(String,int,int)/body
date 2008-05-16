@@ -1,17 +1,17 @@
 {
   this.challengeId=challengeId;
-  this.fontStyle=1;
+  fontStyle=1;
   this.fontSize=fontSize;
   this.margin=margin;
-  this.width=this.margin * 2;
-  this.height=this.margin * 2;
+  width=this.margin * 2;
+  height=this.margin * 2;
   char[] chars=challengeId.toCharArray();
-  charAttsList=new ArrayList();
+  charAttsList=new ArrayList<CharAttributes>();
   TextLayout text;
   AffineTransform textAt;
   Shape shape;
   for (int i=0; i < chars.length; i++) {
-    String fontName=(String)fontNames.get(randomInt(0,fontNames.size()));
+    String fontName=fontNames.get(randomInt(0,fontNames.size()));
     double rotation=Math.toRadians(randomInt(-35,35));
     int rise=randomInt(margin / 2,margin);
     Random ran=new Random();
@@ -24,9 +24,9 @@
     textAt.rotate(rotation);
     textAt.shear(shearX,shearY);
     shape=text.getOutline(textAt);
-    this.width+=(int)shape.getBounds2D().getWidth();
-    if (this.height < (int)shape.getBounds2D().getHeight() + rise) {
-      this.height=(int)shape.getBounds2D().getHeight() + rise;
+    width+=(int)shape.getBounds2D().getWidth();
+    if (height < (int)shape.getBounds2D().getHeight() + rise) {
+      height=(int)shape.getBounds2D().getHeight() + rise;
     }
   }
 }
