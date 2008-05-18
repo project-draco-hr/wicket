@@ -1,0 +1,10 @@
+{
+  setLastModifiedTime(Time.now());
+  final WebResponse response=(WebResponse)WebRequestCycle.get().getResponse();
+  response.setHeader("Cache-Control","no-cache, must-revalidate, max-age=0, no-store");
+  if (data == null || data.get() == null) {
+    final BufferedImage composedImage=animals.createImage();
+    data=new SoftReference<byte[]>(toImageData(composedImage));
+  }
+  return data.get();
+}

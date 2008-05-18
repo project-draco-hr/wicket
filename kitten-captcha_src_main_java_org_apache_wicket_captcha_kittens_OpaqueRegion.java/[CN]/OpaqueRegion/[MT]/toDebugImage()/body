@@ -1,0 +1,16 @@
+{
+  final int dx=width();
+  final int dy=height();
+  final BufferedImage image=new BufferedImage(dx,dy,BufferedImage.TYPE_INT_ARGB);
+  for (int y=0; y < dy; y++) {
+    for (int x=0; x < dx; x++) {
+      image.setRGB(x,y,0);
+    }
+  }
+  for (  final Rectangle rectangle : rectangles) {
+    for (int x=rectangle.x; x < rectangle.x + rectangle.width; x++) {
+      image.setRGB(x,rectangle.y,0xff00ff00);
+    }
+  }
+  return image;
+}
