@@ -4,7 +4,7 @@
   tostring.append(" message=[").append(message);
   tostring.append("], keys=[");
   if (keys != null) {
-    Iterator i=keys.iterator();
+    Iterator<String> i=keys.iterator();
     while (i.hasNext()) {
       tostring.append(i.next());
       if (i.hasNext()) {
@@ -17,9 +17,9 @@
   }
   tostring.append("], variables=[");
   if (vars != null) {
-    Iterator i=vars.entrySet().iterator();
+    Iterator<Entry<String,Object>> i=vars.entrySet().iterator();
     while (i.hasNext()) {
-      final Map.Entry e=(Entry)i.next();
+      final Entry<String,Object> e=i.next();
       tostring.append("[").append(e.getKey()).append("=").append(e.getValue()).append("]");
       if (i.hasNext()) {
         tostring.append(",");
