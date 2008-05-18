@@ -1,5 +1,5 @@
 {
-  Page newLastRenderedPage=cycle.getResponsePage();
+  Page<?> newLastRenderedPage=cycle.getResponsePage();
   if (newLastRenderedPage == null) {
     Class responseClass=cycle.getResponsePageClass();
     if (responseClass != null) {
@@ -11,7 +11,7 @@
  else       if (target instanceof IBookmarkablePageRequestTarget) {
         createRequestCycle();
         IBookmarkablePageRequestTarget pageClassRequestTarget=(IBookmarkablePageRequestTarget)target;
-        Class<? extends Page> pageClass=pageClassRequestTarget.getPageClass();
+        Class<? extends Page<?>> pageClass=pageClassRequestTarget.getPageClass();
         PageParameters parameters=pageClassRequestTarget.getPageParameters();
         if (parameters == null || parameters.size() == 0) {
           newLastRenderedPage=application.getSessionSettings().getPageFactory().newPage(pageClass);

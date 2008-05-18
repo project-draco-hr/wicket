@@ -1,0 +1,32 @@
+{
+  if (component == null) {
+    throw new IllegalArgumentException("argument component must be not null");
+  }
+  this.component=component;
+  final IModel<T> model=component.getModel();
+  if (model != null) {
+    boolean cloneModel=true;
+    if (model instanceof CompoundPropertyModel) {
+      if (component instanceof FormComponent) {
+        if (((FormComponent<T>)component).getForm().getModel() == model) {
+          cloneModel=false;
+        }
+      }
+ else {
+        if (component.getPage().getModel() == model) {
+          cloneModel=false;
+        }
+      }
+    }
+    if (cloneModel) {
+      model.detach();
+      originalModel=(IModel<T>)Objects.cloneModel(model);
+    }
+ else {
+      originalModel=model;
+    }
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("RECORD MODEL CHANGE: changed model of " + " (" + Classes.simpleName(component.getClass()) + "@"+ component.hashCode()+ ")");
+  }
+}
