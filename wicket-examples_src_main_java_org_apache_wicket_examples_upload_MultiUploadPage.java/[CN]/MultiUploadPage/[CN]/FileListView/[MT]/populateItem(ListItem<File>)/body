@@ -1,0 +1,11 @@
+{
+  final File file=listItem.getModelObject();
+  listItem.add(new Label<String>("file",file.getName()));
+  listItem.add(new Link<Void>("delete"){
+    @Override public void onClick(){
+      Files.remove(file);
+      info("Deleted " + file);
+    }
+  }
+);
+}

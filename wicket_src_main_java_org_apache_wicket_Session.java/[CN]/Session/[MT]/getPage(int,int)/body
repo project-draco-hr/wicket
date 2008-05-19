@@ -2,11 +2,10 @@
   if (Application.get().getSessionSettings().isPageIdUniquePerSession() == false) {
     throw new IllegalStateException("To call this method ISessionSettings.setPageIdUniquePerSession must be set to true");
   }
-  List<Object> pageMaps=getPageMaps();
-  for (Iterator<Object> i=pageMaps.iterator(); i.hasNext(); ) {
-    IPageMap pm=(IPageMap)i.next();
-    if (pm.containsPage(pageId,versionNumber)) {
-      return getPage(pm.getName(),"" + pageId,versionNumber);
+  List<IPageMap> pageMaps=getPageMaps();
+  for (  IPageMap pageMap : pageMaps) {
+    if (pageMap.containsPage(pageId,versionNumber)) {
+      return getPage(pageMap.getName(),"" + pageId,versionNumber);
     }
   }
   return null;

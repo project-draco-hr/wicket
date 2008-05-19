@@ -1,22 +1,19 @@
 {
   final Input input=new Input();
-  setModel(new CompoundPropertyModel(input));
+  setModel(new CompoundPropertyModel<Input>(input));
   FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
   add(feedbackPanel);
-  Form form=new Form("form"){
-    protected void onSubmit(){
+  Form<?> form=new Form<Void>("form"){
+    @Override protected void onSubmit(){
       info("input: " + input);
     }
   }
 ;
   add(form);
-  ListMultipleChoice listChoice=new ListMultipleChoice("sites",SITES);
+  ListMultipleChoice<String> listChoice=new ListMultipleChoice<String>("sites",SITES);
   form.add(listChoice);
-  listChoice=new ListMultipleChoice("choices",MANY_CHOICES){
-    /** 
- * @see org.apache.wicket.markup.html.form.AbstractChoice#isDisabled(java.lang.Object,int,java.lang.String)
- */
-    @Override protected boolean isDisabled(    Object object,    int index,    String selected){
+  listChoice=new ListMultipleChoice<String>("choices",MANY_CHOICES){
+    @Override protected boolean isDisabled(    String object,    int index,    String selected){
       if (index == 1)       return true;
       return super.isDisabled(object,index,selected);
     }

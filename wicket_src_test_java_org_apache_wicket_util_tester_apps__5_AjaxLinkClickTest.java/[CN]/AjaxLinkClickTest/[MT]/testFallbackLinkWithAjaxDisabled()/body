@@ -1,8 +1,8 @@
 {
-  final Page page=new MockPageWithLink();
-  page.add(new AjaxFallbackLink("ajaxLink"){
+  final Page<?> page=new MockPageWithLink();
+  page.add(new AjaxFallbackLink<Void>("ajaxLink"){
     private static final long serialVersionUID=1L;
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       linkClicked=true;
       ajaxRequestTarget=target;
     }
@@ -12,7 +12,7 @@
     /** 
  */
     private static final long serialVersionUID=1L;
-    public Page getTestPage(){
+    public Page<?> getTestPage(){
       return page;
     }
   }

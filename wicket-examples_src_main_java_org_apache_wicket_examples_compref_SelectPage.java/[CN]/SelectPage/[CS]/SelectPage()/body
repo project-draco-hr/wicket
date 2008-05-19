@@ -1,10 +1,10 @@
 {
   final Input input=new Input();
-  setModel(new CompoundPropertyModel(input));
+  setModel(new CompoundPropertyModel<Input>(input));
   FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
   add(feedbackPanel);
-  Form form=new Form("form"){
-    protected void onSubmit(){
+  Form<?> form=new Form<Void>("form"){
+    @Override protected void onSubmit(){
       info("input: " + input);
     }
   }
@@ -12,18 +12,18 @@
   add(form);
   Select site=new Select("site");
   form.add(site);
-  site.add(new SelectOption("site1",new Model("tss")));
-  site.add(new SelectOption("site2",new Model("jl")));
-  site.add(new SelectOption("site3",new Model("sd")));
-  site.add(new SelectOption("site4",new Model("bn")));
+  site.add(new SelectOption<String>("site1",new Model<String>("tss")));
+  site.add(new SelectOption<String>("site2",new Model<String>("jl")));
+  site.add(new SelectOption<String>("site3",new Model<String>("sd")));
+  site.add(new SelectOption<String>("site4",new Model<String>("bn")));
   Select choices=new Select("choices");
   form.add(choices);
   IOptionRenderer renderer=new IOptionRenderer(){
     public String getDisplayValue(    Object object){
       return object.toString();
     }
-    public IModel getModel(    Object value){
-      return new Model((Serializable)value);
+    public IModel<Serializable> getModel(    Object value){
+      return new Model<Serializable>((Serializable)value);
     }
   }
 ;

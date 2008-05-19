@@ -1,0 +1,15 @@
+{
+  final Class<? extends Component<?>> componentClass=(Class<? extends Component<?>>)component.getClass();
+  if (!check(action,componentClass.getAnnotation(AuthorizeAction.class))) {
+    return false;
+  }
+  final AuthorizeActions authorizeActionsAnnotation=componentClass.getAnnotation(AuthorizeActions.class);
+  if (authorizeActionsAnnotation != null) {
+    for (    final AuthorizeAction authorizeActionAnnotation : authorizeActionsAnnotation.actions()) {
+      if (!check(action,authorizeActionAnnotation)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}

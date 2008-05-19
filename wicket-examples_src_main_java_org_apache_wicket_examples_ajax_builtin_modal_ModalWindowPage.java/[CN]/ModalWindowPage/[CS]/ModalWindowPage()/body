@@ -1,13 +1,13 @@
 {
-  final Label result;
-  add(result=new Label("result",new PropertyModel(this,"result")));
+  final Label<String> result;
+  add(result=new Label<String>("result",new PropertyModel<String>(this,"result")));
   result.setOutputMarkupId(true);
   final ModalWindow modal1;
   add(modal1=new ModalWindow("modal1"));
   modal1.setPageMapName("modal-1");
   modal1.setCookieName("modal-1");
   modal1.setPageCreator(new ModalWindow.PageCreator(){
-    public Page createPage(){
+    public Page<?> createPage(){
       return new ModalContent1Page(ModalWindowPage.this,modal1);
     }
   }
@@ -25,8 +25,8 @@
     }
   }
 );
-  add(new AjaxLink("showModal1"){
-    public void onClick(    AjaxRequestTarget target){
+  add(new AjaxLink<Void>("showModal1"){
+    @Override public void onClick(    AjaxRequestTarget target){
       modal1.show(target);
     }
   }
@@ -49,8 +49,8 @@
     }
   }
 );
-  add(new AjaxLink("showModal2"){
-    public void onClick(    AjaxRequestTarget target){
+  add(new AjaxLink<Void>("showModal2"){
+    @Override public void onClick(    AjaxRequestTarget target){
       modal2.show(target);
     }
   }

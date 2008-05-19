@@ -7,7 +7,7 @@
   nodeLink.add(newNodeIcon(nodeLink,"icon",node));
   nodeLink.add(new Label("label",new AbstractReadOnlyModel(){
     private static final long serialVersionUID=1L;
-    public Object getObject(){
+    @Override public Object getObject(){
       return renderNode(node);
     }
   }
@@ -17,7 +17,7 @@
     /** 
  * @see org.apache.wicket.behavior.AbstractBehavior#onComponentTag(org.apache.wicket.Component,org.apache.wicket.markup.ComponentTag)
  */
-    public void onComponentTag(    Component component,    ComponentTag tag){
+    @Override public void onComponentTag(    Component component,    ComponentTag tag){
       super.onComponentTag(component,tag);
       if (getTreeState().isNodeSelected(node)) {
         tag.put("class","row-selected");

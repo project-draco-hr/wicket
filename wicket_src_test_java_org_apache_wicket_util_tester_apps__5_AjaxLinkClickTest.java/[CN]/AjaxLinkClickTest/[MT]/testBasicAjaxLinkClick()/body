@@ -1,7 +1,7 @@
 {
-  final AjaxLink ajaxLink=new AjaxLink("ajaxLink"){
+  final AjaxLink<?> ajaxLink=new AjaxLink<Void>("ajaxLink"){
     private static final long serialVersionUID=1L;
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       linkClicked=true;
       ajaxRequestTarget=target;
     }
@@ -11,8 +11,8 @@
     /** 
  */
     private static final long serialVersionUID=1L;
-    public Page getTestPage(){
-      Page page=new MockPageWithLink();
+    public Page<?> getTestPage(){
+      Page<?> page=new MockPageWithLink();
       page.add(ajaxLink);
       return page;
     }

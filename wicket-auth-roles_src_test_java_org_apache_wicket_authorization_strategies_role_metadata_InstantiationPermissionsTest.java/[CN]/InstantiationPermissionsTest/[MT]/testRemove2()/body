@@ -8,7 +8,7 @@
   }
 );
   tester.getApplication().setMetaData(MetaDataRoleAuthorizationStrategy.INSTANTIATION_PERMISSIONS,new InstantiationPermissions());
-  MetaDataRoleAuthorizationStrategy.unauthorize(Page.class,"martijn");
+  MetaDataRoleAuthorizationStrategy.unauthorize((Class<? extends Component<?>>)Page.class,"martijn");
   assertFalse(strategy.isInstantiationAuthorized(Page.class));
   tester.processRequestCycle();
   tester.destroy();

@@ -3,7 +3,7 @@
   tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new RoleAuthorizationStrategy(new UserRolesAuthorizer("USER")));
 final class Listener implements IUnauthorizedComponentInstantiationListener {
     private boolean eventReceived=false;
-    public void onUnauthorizedInstantiation(    Component component){
+    public void onUnauthorizedInstantiation(    Component<?> component){
       eventReceived=true;
     }
   }
@@ -12,7 +12,7 @@ final class Listener implements IUnauthorizedComponentInstantiationListener {
   try {
     tester.startPage(new ITestPageSource(){
       private static final long serialVersionUID=1L;
-      public Page getTestPage(){
+      public Page<?> getTestPage(){
         return new AdminPage();
       }
     }

@@ -3,13 +3,13 @@
     servletResponse.setStatus(status);
   }
   if (headers != null) {
-    Iterator it=headers.entrySet().iterator();
+    Iterator<Entry<String,Object>> it=headers.entrySet().iterator();
     while (it.hasNext()) {
-      Map.Entry entry=(Map.Entry)it.next();
-      String name=(String)entry.getKey();
+      Entry<String,Object> entry=it.next();
+      String name=entry.getKey();
       Object value=entry.getValue();
       if (value instanceof List) {
-        List lst=(List)value;
+        List<Object> lst=(List<Object>)value;
         for (int i=0; i < lst.size(); i++) {
           addHeader(name,lst.get(i),servletResponse);
         }
@@ -21,7 +21,7 @@
   }
   if (cookies != null) {
     for (int i=0; i < cookies.size(); i++) {
-      Cookie cookie=(Cookie)cookies.get(i);
+      Cookie cookie=cookies.get(i);
       servletResponse.addCookie(cookie);
     }
   }

@@ -1,15 +1,14 @@
 {
-  add(new Label("title",book.getTitle()));
-  add(new Label("author",book.getAuthor()));
-  add(new Label("fiction",Boolean.toString(book.getFiction())));
+  add(new Label<String>("title",book.getTitle()));
+  add(new Label<String>("author",book.getAuthor()));
+  add(new Label<String>("fiction",Boolean.toString(book.getFiction())));
   add(BookDetails.link("companion",book.getCompanionBook(),getLocalizer().getString("noBookTitle",this)));
   add(BookDetails.link("related",book.getRelatedBook(),getLocalizer().getString("noBookTitle",this)));
   String writingStyles;
   final boolean hasStyles=(book.getWritingStyles() != null) && (book.getWritingStyles().size() > 0);
   if (hasStyles) {
     StringList styles=new StringList();
-    for (Iterator iterator=book.getWritingStyles().iterator(); iterator.hasNext(); ) {
-      Book.WritingStyle style=(Book.WritingStyle)iterator.next();
+    for (    WritingStyle style : book.getWritingStyles()) {
       styles.add(getLocalizer().getString(style.toString(),this));
     }
     writingStyles=styles.toString();
@@ -17,8 +16,8 @@
  else {
     writingStyles=getLocalizer().getString("noWritingStyles",this);
   }
-  Label writingStylesLabel=new Label("writingStyles",writingStyles);
-  final AttributeModifier italic=new AttributeModifier("class",new Model("italic"));
+  Label<String> writingStylesLabel=new Label<String>("writingStyles",writingStyles);
+  final AttributeModifier italic=new AttributeModifier("class",new Model<String>("italic"));
   italic.setEnabled(!hasStyles);
   add(writingStylesLabel.add(italic));
   add(EditBook.link("edit",book.getId()));

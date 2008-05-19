@@ -1,13 +1,13 @@
 {
-  add(new AjaxLink("closeOK"){
-    public void onClick(    AjaxRequestTarget target){
+  add(new AjaxLink<Void>("closeOK"){
+    @Override public void onClick(    AjaxRequestTarget target){
       if (modalWindowPage != null)       modalWindowPage.setResult("Modal window 1 - close link OK");
       window.close(target);
     }
   }
 );
-  add(new AjaxLink("closeCancel"){
-    public void onClick(    AjaxRequestTarget target){
+  add(new AjaxLink<Void>("closeCancel"){
+    @Override public void onClick(    AjaxRequestTarget target){
       if (modalWindowPage != null)       modalWindowPage.setResult("Modal window 1 - close link Cancel");
       window.close(target);
     }
@@ -25,7 +25,7 @@
   modal.setHeightUnit("em");
   modal.setCssClassName(ModalWindow.CSS_CLASS_GRAY);
   modal.setPageCreator(new ModalWindow.PageCreator(){
-    public Page createPage(){
+    public Page<?> createPage(){
       return new ModalContent2Page(modal);
     }
   }
@@ -37,8 +37,8 @@
     }
   }
 );
-  add(new AjaxLink("open"){
-    public void onClick(    AjaxRequestTarget target){
+  add(new AjaxLink<Void>("open"){
+    @Override public void onClick(    AjaxRequestTarget target){
       modal.show(target);
     }
   }

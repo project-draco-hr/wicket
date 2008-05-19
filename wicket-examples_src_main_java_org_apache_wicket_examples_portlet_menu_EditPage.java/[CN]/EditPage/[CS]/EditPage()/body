@@ -1,10 +1,10 @@
 {
-  Form form=new Form("form"){
+  Form<?> form=new Form<Void>("form"){
     /** 
  * @see org.apache.wicket.markup.html.form.Form#onSubmit()
  */
     @Override protected void onSubmit(){
-      ExampleApplication selected=(ExampleApplication)ddc.getModelObject();
+      ExampleApplication selected=ddc.getModelObject();
       PortletRequestContext prc=(PortletRequestContext)RequestContext.get();
       PortletPreferences prefs=prc.getPortletRequest().getPreferences();
       prc.getPortletRequest().getPortletSession().setAttribute(WicketExamplesMenuPortlet.EXAMPLE_APPLICATION_ATTR,selected);
@@ -19,22 +19,22 @@
     }
   }
 ;
-  List examples=WicketExamplesMenuApplication.getExamples();
-  ddc=new DropDownChoice("examples",examples,exampleChoiceRenderer);
+  List<ExampleApplication> examples=WicketExamplesMenuApplication.getExamples();
+  ddc=new DropDownChoice<ExampleApplication>("examples",examples,exampleChoiceRenderer);
   ddc.setNullValid(false);
   PortletRequestContext prc=(PortletRequestContext)RequestContext.get();
   String eaFilterPath=prc.getPortletRequest().getPreferences().getValue(WicketExamplesMenuPortlet.EXAMPLE_APPLICATION_PREF,null);
-  Model selected=new Model((ExampleApplication)examples.get(0));
+  Model<ExampleApplication> selected=new Model<ExampleApplication>(examples.get(0));
   if (eaFilterPath != null) {
     for (int i=0, size=examples.size(); i < size; i++) {
-      if (((ExampleApplication)examples.get(i)).getFilterPath().equals(eaFilterPath)) {
-        selected.setObject((ExampleApplication)examples.get(i));
+      if ((examples.get(i)).getFilterPath().equals(eaFilterPath)) {
+        selected.setObject(examples.get(i));
         break;
       }
     }
   }
   ddc.setModel(selected);
   form.add(ddc);
-  form.add(new Button("setButton"));
+  form.add(new Button<Void>("setButton"));
   add(form);
 }

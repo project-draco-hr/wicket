@@ -4,9 +4,9 @@
   add(uploadFeedback);
   final FileUploadForm simpleUploadForm=new FileUploadForm("simpleUpload");
   add(simpleUploadForm);
-  add(new Label("dir",uploadFolder.getAbsolutePath()));
-  fileListView=new FileListView("fileList",new LoadableDetachableModel(){
-    protected Object load(){
+  add(new Label<String>("dir",uploadFolder.getAbsolutePath()));
+  fileListView=new FileListView("fileList",new LoadableDetachableModel<List<File>>(){
+    @Override protected List<File> load(){
       return Arrays.asList(getUploadFolder().listFiles());
     }
   }

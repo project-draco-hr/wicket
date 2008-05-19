@@ -11,9 +11,8 @@
         public void visitItem(        TreeItem item){
           markupStream.setCurrentIndex(index);
           item.onRender(markupStream);
-          List behaviors=item.getBehaviors();
-          for (Iterator i=behaviors.iterator(); i.hasNext(); ) {
-            IBehavior behavior=(IBehavior)i.next();
+          List<IBehavior> behaviors=item.getBehaviors();
+          for (          IBehavior behavior : behaviors) {
             behavior.afterRender(item);
           }
         }

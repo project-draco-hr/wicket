@@ -1,9 +1,9 @@
 {
-  List persons=ComponentReferenceApplication.getPersons();
-  IChoiceRenderer renderer=new ChoiceRenderer("fullName","fullName");
-  final Palette palette=new Palette("palette",new Model(new ArrayList()),new Model((Serializable)persons),renderer,10,true);
-  Form form=new Form("form"){
-    protected void onSubmit(){
+  List<Person> persons=ComponentReferenceApplication.getPersons();
+  IChoiceRenderer<Person> renderer=new ChoiceRenderer<Person>("fullName","fullName");
+  final Palette<Person> palette=new Palette<Person>("palette",Model.valueOf(new ArrayList<Person>()),Model.valueOf(persons),renderer,10,true);
+  Form<?> form=new Form<Void>("form"){
+    @Override protected void onSubmit(){
       info("selected person(s): " + palette.getModelObjectAsString());
     }
   }

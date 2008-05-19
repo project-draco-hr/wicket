@@ -1,15 +1,15 @@
 {
-  add(new AjaxLink("ajax"){
+  add(new AjaxLink<Void>("ajax"){
     private static final long serialVersionUID=1L;
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       getSession().bind();
       target.addComponent(this);
     }
   }
 .setOutputMarkupId(true));
-  add(new Link("link"){
+  add(new Link<Void>("link"){
     private static final long serialVersionUID=1L;
-    public void onClick(){
+    @Override public void onClick(){
       getSession().invalidate();
     }
   }

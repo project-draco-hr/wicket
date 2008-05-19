@@ -1,15 +1,15 @@
 {
   final Input input=new Input();
-  setModel(new CompoundPropertyModel(input));
+  setModel(new CompoundPropertyModel<Input>(input));
   FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
   add(feedbackPanel);
-  Form form=new Form("form"){
-    protected void onSubmit(){
+  Form<?> form=new Form<Void>("form"){
+    @Override protected void onSubmit(){
       info("input: " + input);
     }
   }
 ;
   add(form);
-  form.add(new TextField("text"));
-  form.add(new TextField("integer",Integer.class));
+  form.add(new TextField<String>("text"));
+  form.add(new TextField<Integer>("integer",Integer.class));
 }

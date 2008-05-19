@@ -1,12 +1,12 @@
 {
-  IDataProvider dataProvider=new ContactDataProvider();
-  GridView gridView=new GridView("rows",dataProvider){
-    protected void populateItem(    Item item){
-      final Contact contact=(Contact)item.getModelObject();
-      item.add(new Label("firstName",contact.getFirstName() + " " + contact.getLastName()));
+  IDataProvider<Contact> dataProvider=new ContactDataProvider();
+  GridView<Contact> gridView=new GridView<Contact>("rows",dataProvider){
+    @Override protected void populateItem(    Item<Contact> item){
+      final Contact contact=item.getModelObject();
+      item.add(new Label<String>("firstName",contact.getFirstName() + " " + contact.getLastName()));
     }
-    protected void populateEmptyItem(    Item item){
-      item.add(new Label("firstName","*empty*"));
+    @Override protected void populateEmptyItem(    Item<Contact> item){
+      item.add(new Label<String>("firstName","*empty*"));
     }
   }
 ;

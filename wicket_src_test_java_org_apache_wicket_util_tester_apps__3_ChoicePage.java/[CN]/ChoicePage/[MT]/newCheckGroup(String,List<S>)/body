@@ -1,0 +1,12 @@
+{
+  CheckGroup<S> checkGroupComponent=new CheckGroup<S>(id);
+  ListView<S> listView=new ListView<S>("loop",candidateChoices){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    ListItem<S> item){
+      item.add(new Check<S>("check",new Model<S>(item.getModelObject())));
+    }
+  }
+;
+  checkGroupComponent.add(listView);
+  return checkGroupComponent;
+}

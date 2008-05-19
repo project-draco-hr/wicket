@@ -4,9 +4,9 @@
   if (ea == null) {
     String eaFilterPath=request.getPreferences().getValue(EXAMPLE_APPLICATION_PREF,null);
     if (eaFilterPath != null) {
-      Iterator iter=examples.iterator();
+      Iterator<ExampleApplication> iter=examples.iterator();
       while (iter.hasNext()) {
-        ea=(ExampleApplication)iter.next();
+        ea=iter.next();
         if (ea.getFilterPath().equals(eaFilterPath)) {
           break;
         }
@@ -14,7 +14,7 @@
       }
     }
     if (ea == null && examples.size() > 0) {
-      ea=(ExampleApplication)examples.get(0);
+      ea=examples.get(0);
     }
     session.setAttribute(EXAMPLE_APPLICATION_ATTR,ea);
   }

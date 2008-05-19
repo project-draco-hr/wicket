@@ -8,7 +8,7 @@
       className=className.substring(1);
     }
     try {
-      final Class<? extends Page> clazz=(Class<? extends Page>)defaultClassResolver.resolveClass(className);
+      final Class<? extends Page<?>> clazz=(Class<? extends Page<?>>)defaultClassResolver.resolveClass(className);
       return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.pageParameters,pathInfo.anchor);
     }
  catch (    ClassNotFoundException ex) {
@@ -19,11 +19,11 @@
       parentWithContainer=container.findParentWithAssociatedMarkup();
     }
     if ((parentWithContainer instanceof Page) && !pathInfo.path.startsWith("/") && page.getMarkupStream().isMergedMarkup()) {
-      Class clazz=container.getMarkupStream().getTag().getMarkupClass();
+      Class<? extends Page<?>> clazz=(Class<? extends Page<?>>)container.getMarkupStream().getTag().getMarkupClass();
       if (clazz != null) {
         className=Packages.absolutePath(clazz,pathInfo.path);
         try {
-          clazz=defaultClassResolver.resolveClass(className);
+          clazz=(Class<? extends Page<?>>)defaultClassResolver.resolveClass(className);
           return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters(),pathInfo.anchor);
         }
  catch (        ClassNotFoundException ex) {

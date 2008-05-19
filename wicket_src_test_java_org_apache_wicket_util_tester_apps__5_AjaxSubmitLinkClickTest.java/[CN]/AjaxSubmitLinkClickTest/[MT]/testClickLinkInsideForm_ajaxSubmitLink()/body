@@ -2,9 +2,9 @@
   MockPojo mockPojo=new MockPageWithFormAndLink.MockPojo();
   mockPojo.setName("Mock name");
   final MockPageWithFormAndContainedLink page=new MockPageWithFormAndContainedLink(mockPojo);
-  page.addLink(new AjaxSubmitLink("link"){
+  page.addLink(new AjaxSubmitLink<Void>("link"){
     private static final long serialVersionUID=1L;
-    protected void onSubmit(    AjaxRequestTarget target,    Form form){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       assertNotNull(form);
       linkClicked=true;
     }
@@ -12,7 +12,7 @@
 );
   tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
-    public Page getTestPage(){
+    public Page<?> getTestPage(){
       return page;
     }
   }

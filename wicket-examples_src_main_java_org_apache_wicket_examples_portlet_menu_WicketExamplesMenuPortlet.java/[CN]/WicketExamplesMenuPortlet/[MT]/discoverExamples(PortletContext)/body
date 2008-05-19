@@ -1,5 +1,5 @@
 {
-  ArrayList examples=new ArrayList();
+  ArrayList<ExampleApplication> examples=new ArrayList<ExampleApplication>();
   InputStream is=portletContext.getResourceAsStream("/WEB-INF/portlet.xml");
   if (is != null) {
     try {
@@ -20,7 +20,7 @@
         String filterPath=null;
         String filterQuery=null;
         String displayName=null;
-        HashMap initParameters=new HashMap();
+        HashMap<String,String> initParameters=new HashMap<String,String>();
         level=0;
         do {
           elem=(XmlTag)parser.nextTag();
@@ -67,7 +67,7 @@
           }
         }
  while (level > -1);
-        filterPath=buildWicketFilterPath((String)initParameters.get(WICKET_FILTER_PATH_PARAM));
+        filterPath=buildWicketFilterPath(initParameters.get(WICKET_FILTER_PATH_PARAM));
         if (displayName != null && filterPath != null && description != null) {
           filterQuery=buildWicketFilterQuery(filterPath);
           validateDefaultPages(initParameters,filterPath,filterQuery);

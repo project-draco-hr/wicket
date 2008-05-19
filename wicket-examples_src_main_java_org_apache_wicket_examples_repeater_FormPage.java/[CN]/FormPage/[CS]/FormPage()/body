@@ -1,27 +1,27 @@
 {
-  form=new Form("form");
+  form=new Form<Void>("form");
   add(form);
-  RefreshingView refreshingView=new RefreshingView("simple"){
-    protected Iterator getItemModels(){
-      Iterator contacts=DatabaseLocator.getDatabase().find(0,10,"firstName",true).iterator();
-      return new ModelIteratorAdapter(contacts){
-        protected IModel model(        Object object){
-          return new DetachableContactModel((Contact)object);
+  RefreshingView<Contact> refreshingView=new RefreshingView<Contact>("simple"){
+    @Override protected Iterator<IModel<Contact>> getItemModels(){
+      Iterator<Contact> contacts=DatabaseLocator.getDatabase().find(0,10,"firstName",true).iterator();
+      return new ModelIteratorAdapter<Contact>(contacts){
+        @Override protected IModel<Contact> model(        Contact object){
+          return new CompoundPropertyModel<Contact>(new DetachableContactModel(object));
         }
       }
 ;
     }
-    protected void populateItem(    final Item item){
-      IModel contact=item.getModel();
+    @Override protected void populateItem(    final Item<Contact> item){
+      IModel<Contact> contact=item.getModel();
       item.add(new ActionPanel("actions",contact));
-      item.add(new TextField("id",new PropertyModel(contact,"id")));
-      item.add(new TextField("firstName",new PropertyModel(contact,"firstName")));
-      item.add(new TextField("lastName",new PropertyModel(contact,"lastName")));
-      item.add(new TextField("homePhone",new PropertyModel(contact,"homePhone")));
-      item.add(new TextField("cellPhone",new PropertyModel(contact,"cellPhone")));
+      item.add(new TextField<Long>("id"));
+      item.add(new TextField<String>("firstName"));
+      item.add(new TextField<String>("lastName"));
+      item.add(new TextField<String>("homePhone"));
+      item.add(new TextField<String>("cellPhone"));
     }
-    protected Item newItem(    String id,    int index,    IModel model){
-      return new OddEvenItem(id,index,model);
+    @Override protected Item<Contact> newItem(    String id,    int index,    IModel<Contact> model){
+      return new OddEvenItem<Contact>(id,index,model);
     }
   }
 ;

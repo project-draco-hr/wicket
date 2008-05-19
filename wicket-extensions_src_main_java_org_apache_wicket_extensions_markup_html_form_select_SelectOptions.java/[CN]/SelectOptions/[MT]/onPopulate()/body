@@ -1,19 +1,19 @@
 {
   if (size() == 0 || recreateChoices) {
     removeAll();
-    Object modelObject=getModelObject();
+    Collection<? extends T> modelObject=getModelObject();
     if (modelObject != null) {
       if (!(modelObject instanceof Collection)) {
         throw new WicketRuntimeException("Model object " + modelObject + " not a collection");
       }
-      Iterator it=((Collection)modelObject).iterator();
+      Iterator<? extends T> it=modelObject.iterator();
       while (it.hasNext()) {
-        WebMarkupContainer row=new WebMarkupContainer(newChildId());
+        WebMarkupContainer<?> row=new WebMarkupContainer<Void>(newChildId());
         row.setRenderBodyOnly(true);
         add(row);
         Object value=it.next();
         String text=renderer.getDisplayValue(value);
-        IModel model=renderer.getModel(value);
+        IModel<T> model=renderer.getModel(value);
         row.add(newOption(text,model));
       }
     }

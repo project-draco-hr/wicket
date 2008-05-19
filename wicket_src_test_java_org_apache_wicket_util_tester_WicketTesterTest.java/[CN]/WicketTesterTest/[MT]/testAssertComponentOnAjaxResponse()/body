@@ -1,11 +1,11 @@
 {
-  final Page page=new MockPageWithLink();
-  AjaxLink ajaxLink=new AjaxLink(MockPageWithLink.LINK_ID){
+  final Page<?> page=new MockPageWithLink();
+  AjaxLink<?> ajaxLink=new AjaxLink<Void>(MockPageWithLink.LINK_ID){
     private static final long serialVersionUID=1L;
-    public void onClick(    AjaxRequestTarget target){
-      Link link=new Link(MockPageWithLink.LINK_ID){
+    @Override public void onClick(    AjaxRequestTarget target){
+      Link<?> link=new Link<Void>(MockPageWithLink.LINK_ID){
         private static final long serialVersionUID=1L;
-        public void onClick(){
+        @Override public void onClick(){
         }
       }
 ;
@@ -19,13 +19,13 @@
   page.add(ajaxLink);
   tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
-    public Page getTestPage(){
+    public Page<?> getTestPage(){
       return page;
     }
   }
 );
   tester.clickLink(MockPageWithLink.LINK_ID);
   tester.assertComponent(MockPageWithLink.LINK_ID,Link.class);
-  Component component=tester.getComponentFromLastRenderedPage(MockPageWithLink.LINK_ID);
+  Component<?> component=tester.getComponentFromLastRenderedPage(MockPageWithLink.LINK_ID);
   tester.assertComponentOnAjaxResponse(component);
 }

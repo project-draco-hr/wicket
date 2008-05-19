@@ -1,18 +1,18 @@
 {
-  final RadioGroup group=new RadioGroup("group",new Model());
-  Form form=new Form("form"){
-    protected void onSubmit(){
+  final RadioGroup<Person> group=new RadioGroup<Person>("group",new Model<Person>());
+  Form<?> form=new Form<Void>("form"){
+    @Override protected void onSubmit(){
       info("selected person: " + group.getModelObjectAsString());
     }
   }
 ;
   add(form);
   form.add(group);
-  ListView persons=new ListView("persons",ComponentReferenceApplication.getPersons()){
-    protected void populateItem(    ListItem item){
-      item.add(new Radio("radio",item.getModel()));
-      item.add(new Label("name",new PropertyModel(item.getModel(),"name")));
-      item.add(new Label("lastName",new PropertyModel(item.getModel(),"lastName")));
+  ListView<Person> persons=new ListView<Person>("persons",ComponentReferenceApplication.getPersons()){
+    @Override protected void populateItem(    ListItem<Person> item){
+      item.add(new Radio<Person>("radio",item.getModel()));
+      item.add(new Label<String>("name",new PropertyModel<String>(item.getModel(),"name")));
+      item.add(new Label<String>("lastName",new PropertyModel<String>(item.getModel(),"lastName")));
     }
   }
 ;

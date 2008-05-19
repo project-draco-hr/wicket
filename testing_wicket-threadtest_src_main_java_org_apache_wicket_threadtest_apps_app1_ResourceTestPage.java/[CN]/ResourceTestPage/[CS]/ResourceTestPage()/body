@@ -1,7 +1,8 @@
 {
-  List list=Arrays.asList(new Object[IMAGES_PER_PAGE]);
-  add(new ListView("listView",list){
-    @Override protected void populateItem(    ListItem item){
+  List<Object> list=Arrays.asList(new Object[IMAGES_PER_PAGE]);
+  add(new ListView<Object>("listView",list){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    ListItem<Object> item){
       final Random random=new Random();
       BufferedImage image=new BufferedImage(16,16,BufferedImage.TYPE_INT_RGB);
       Graphics gfx=image.getGraphics();
@@ -17,9 +18,11 @@
         throw new WicketRuntimeException(e);
       }
       final byte[] imageData=baos.toByteArray();
-      item.add(new Image("image",new WebResource(){
+      item.add(new Image<Void>("image",new WebResource(){
+        private static final long serialVersionUID=1L;
         @Override public IResourceStream getResourceStream(){
           return new IResourceStream(){
+            private static final long serialVersionUID=1L;
             public Time lastModifiedTime(){
               return Time.now();
             }

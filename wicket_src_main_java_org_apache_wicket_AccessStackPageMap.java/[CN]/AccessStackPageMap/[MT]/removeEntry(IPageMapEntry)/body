@@ -6,9 +6,9 @@
   Session session=getSession();
 synchronized (session) {
     session.removeAttribute(attributeForId(entry.getNumericId()));
-    final Iterator stack=accessStack.iterator();
+    final Iterator<Access> stack=accessStack.iterator();
     while (stack.hasNext()) {
-      final Access access=(Access)stack.next();
+      final Access access=stack.next();
       if (access.id == entry.getNumericId()) {
         stack.remove();
       }

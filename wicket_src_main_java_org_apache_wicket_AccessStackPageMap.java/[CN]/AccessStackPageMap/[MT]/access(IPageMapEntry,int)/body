@@ -2,14 +2,14 @@
   boolean add=true;
   int id=entry.getNumericId();
   for (int i=accessStack.size() - 1; i >= 0; i--) {
-    final Access access=(Access)accessStack.get(i);
+    final Access access=accessStack.get(i);
     if (access.id == id && access.version == version) {
       add=false;
       while (i < accessStack.size() - 1) {
         final Access topAccess=popAccess();
         final IPageMapEntry top=getEntry(topAccess.getId());
         if (top instanceof Page) {
-          Page topPage=(Page)top;
+          Page<?> topPage=(Page<?>)top;
           if (topPage.getVersions() > 1) {
             topPage.getVersion(topAccess.getVersion() - 1);
           }

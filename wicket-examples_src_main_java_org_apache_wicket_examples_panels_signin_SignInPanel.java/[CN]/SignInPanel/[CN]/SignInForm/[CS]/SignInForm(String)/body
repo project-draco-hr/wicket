@@ -1,10 +1,12 @@
 {
   super(id);
-  add(username=new TextField("username",new PropertyModel(properties,"username")));
-  add(password=new PasswordTextField("password",new PropertyModel(properties,"password")));
-  WebMarkupContainer rememberMeRow=new WebMarkupContainer("rememberMeRow");
+  add(username=new TextField<String>("username",new PropertyModel<String>(properties,"username")));
+  add(password=new PasswordTextField("password",new PropertyModel<String>(properties,"password")));
+  username.setType(String.class);
+  password.setType(String.class);
+  WebMarkupContainer<?> rememberMeRow=new WebMarkupContainer<Void>("rememberMeRow");
   add(rememberMeRow);
-  rememberMeRow.add(new CheckBox("rememberMe",new PropertyModel(SignInPanel.this,"rememberMe")));
+  rememberMeRow.add(new CheckBox("rememberMe",new PropertyModel<Boolean>(SignInPanel.this,"rememberMe")));
   setPersistent(rememberMe);
   rememberMeRow.setVisible(includeRememberMe);
 }

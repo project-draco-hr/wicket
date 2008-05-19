@@ -1,0 +1,14 @@
+{
+  Enumeration<JarEntry> enumeration=jf.entries();
+  while (enumeration.hasMoreElements()) {
+    JarEntry je=enumeration.nextElement();
+    String name=je.getName();
+    if (name.startsWith(packageRef)) {
+      name=name.substring(packageRef.length() + 1);
+      String extension=Strings.afterLast(name,'.');
+      if (!name.endsWith("class")) {
+        resources.add(name);
+      }
+    }
+  }
+}

@@ -42,18 +42,17 @@
     }
   }
   if (tempMap.isEmpty() == false) {
-    for (Iterator i=tempMap.entrySet().iterator(); i.hasNext(); ) {
-      Map.Entry entry=(Map.Entry)i.next();
-      setAttribute((String)entry.getKey(),entry.getValue());
+    for (    Entry<String,Object> entry : tempMap.entrySet()) {
+      setAttribute(entry.getKey(),entry.getValue());
     }
   }
   if (pageMapsUsedInRequest != null) {
 synchronized (pageMapsUsedInRequest) {
       Thread t=Thread.currentThread();
-      Iterator it=pageMapsUsedInRequest.entrySet().iterator();
+      Iterator<Entry<IPageMap,PageMapsUsedInRequestEntry>> it=pageMapsUsedInRequest.entrySet().iterator();
       while (it.hasNext()) {
-        Entry entry=(Entry)it.next();
-        if (((PageMapsUsedInRequestEntry)entry.getValue()).thread == t) {
+        Entry<IPageMap,PageMapsUsedInRequestEntry> entry=it.next();
+        if ((entry.getValue()).thread == t) {
           it.remove();
         }
       }

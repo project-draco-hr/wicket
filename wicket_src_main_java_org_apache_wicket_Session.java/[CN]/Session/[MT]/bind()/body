@@ -6,8 +6,7 @@
     id=store.getSessionId(request,true);
     store.bind(request,this);
     if (temporarySessionAttributes != null) {
-      for (Iterator i=temporarySessionAttributes.entrySet().iterator(); i.hasNext(); ) {
-        Entry entry=(Entry)i.next();
+      for (      Entry<String,Object> entry : temporarySessionAttributes.entrySet()) {
         store.setAttribute(request,String.valueOf(entry.getKey()),entry.getValue());
       }
       temporarySessionAttributes=null;

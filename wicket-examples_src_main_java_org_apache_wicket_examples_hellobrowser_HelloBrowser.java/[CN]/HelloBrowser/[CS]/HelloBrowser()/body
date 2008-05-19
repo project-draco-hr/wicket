@@ -1,11 +1,11 @@
 {
   final ClientProperties properties=((WebClientInfo)getRequestCycle().getClientInfo()).getProperties();
-  add(new MultiLineLabel("clientinfo",properties.toString()));
-  IModel clientTimeModel=new AbstractReadOnlyModel(){
+  add(new MultiLineLabel<String>("clientinfo",properties.toString()));
+  IModel<String> clientTimeModel=new AbstractReadOnlyModel<String>(){
     /** 
  * @see org.apache.wicket.model.AbstractReadOnlyModel#getObject()
  */
-    @Override public Object getObject(){
+    @Override public String getObject(){
       TimeZone timeZone=properties.getTimeZone();
       if (timeZone != null) {
         Calendar cal=Calendar.getInstance(timeZone);
@@ -23,5 +23,5 @@
     }
   }
 ;
-  add(new Label("clienttime",clientTimeModel));
+  add(new Label<String>("clienttime",clientTimeModel));
 }

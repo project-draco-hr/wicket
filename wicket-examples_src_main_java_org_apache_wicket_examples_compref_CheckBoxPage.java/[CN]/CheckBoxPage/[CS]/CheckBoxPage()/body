@@ -1,10 +1,10 @@
 {
   final Input input=new Input();
-  setModel(new CompoundPropertyModel(input));
+  setModel(new CompoundPropertyModel<Input>(input));
   FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
   add(feedbackPanel);
-  Form form=new Form("form"){
-    protected void onSubmit(){
+  Form<?> form=new Form<Void>("form"){
+    @Override protected void onSubmit(){
       if (input.bool.booleanValue()) {
         info("Ok, ok... we'll check it");
       }

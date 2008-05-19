@@ -1,11 +1,11 @@
 {
-  add(new AjaxLink("link"){
+  add(new AjaxLink<Void>("link"){
     private static final long serialVersionUID=1L;
-    public void onClick(    AjaxRequestTarget target){
+    @Override public void onClick(    AjaxRequestTarget target){
       clicked=true;
       target.addComponent(this);
     }
-    protected void onAfterRender(){
+    @Override protected void onAfterRender(){
       super.onAfterRender();
       if (clicked) {
         throw new IllegalStateException("Intentional error");

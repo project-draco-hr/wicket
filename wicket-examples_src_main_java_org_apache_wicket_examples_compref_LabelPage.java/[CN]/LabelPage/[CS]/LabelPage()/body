@@ -1,14 +1,14 @@
 {
-  add(new Label("staticLabel","static text"));
-  add(new Label("dynamicLabel",new Model<Date>(){
+  add(new Label<String>("staticLabel","static text"));
+  add(new Label<Date>("dynamicLabel",new Model<Date>(){
     @Override public Date getObject(){
       return new Date();
     }
   }
 ));
   StringResourceModel stringResourceModel=new StringResourceModel("label.current.locale",this,null,new Object[]{getLocale()});
-  add(new Label("resourceLabel",stringResourceModel));
-  Label markupLabel=new Label("markupLabel","now <i>that</i> is a pretty <b>bold</b> statement!");
+  add(new Label<String>("resourceLabel",stringResourceModel));
+  Label<String> markupLabel=new Label<String>("markupLabel","now <i>that</i> is a pretty <b>bold</b> statement!");
   markupLabel.setEscapeModelStrings(false);
   add(markupLabel);
 }

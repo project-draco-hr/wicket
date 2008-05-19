@@ -1,28 +1,28 @@
 {
   YuiLib.load(response);
-  Map variables=new HashMap();
+  Map<String,Object> variables=new HashMap<String,Object>();
   String widgetId=getEscapedComponentMarkupId();
   variables.put("componentId",getComponentMarkupId());
   variables.put("widgetId",widgetId);
   variables.put("datePattern",getDatePattern());
-  variables.put("fireChangeEvent",Boolean.valueOf(notifyComponentOnDateSelected()));
-  variables.put("alignWithIcon",Boolean.valueOf(alignWithIcon()));
-  variables.put("hideOnSelect",Boolean.valueOf(hideOnSelect()));
+  variables.put("fireChangeEvent",notifyComponentOnDateSelected());
+  variables.put("alignWithIcon",alignWithIcon());
+  variables.put("hideOnSelect",hideOnSelect());
   variables.put("basePath",Strings.stripJSessionId(RequestCycle.get().urlFor(YUI)));
   variables.put("wicketDatePath",Strings.stripJSessionId(RequestCycle.get().urlFor(WICKET_DATE)));
   if (Application.DEVELOPMENT.equals(Application.get().getConfigurationType())) {
     variables.put("filter","filter: \"RAW\",");
-    variables.put("allowRollup",Boolean.FALSE);
+    variables.put("allowRollup",false);
   }
  else {
     variables.put("filter","");
-    variables.put("allowRollup",Boolean.TRUE);
+    variables.put("allowRollup",true);
   }
   String script=getAdditionalJavascript();
   if (script != null) {
     variables.put("additionalJavascript",Strings.replaceAll(script,"${calendar}","YAHOO.wicket." + widgetId + "DpJs"));
   }
-  Properties p=new Properties();
+  Map<String,Object> p=new HashMap<String,Object>();
   configure(p);
   if (!p.containsKey("navigator") && enableMonthYearSelection()) {
     p.put("navigator",Boolean.TRUE);
@@ -31,8 +31,8 @@
     throw new IllegalStateException("You cannot use a CalendarGroup with month/year selection!");
   }
   StringBuffer calendarInit=new StringBuffer();
-  for (Iterator i=p.entrySet().iterator(); i.hasNext(); ) {
-    Entry entry=(Entry)i.next();
+  for (Iterator<Entry<String,Object>> i=p.entrySet().iterator(); i.hasNext(); ) {
+    Entry<String,Object> entry=i.next();
     calendarInit.append(entry.getKey());
     Object value=entry.getValue();
     if (value instanceof CharSequence) {

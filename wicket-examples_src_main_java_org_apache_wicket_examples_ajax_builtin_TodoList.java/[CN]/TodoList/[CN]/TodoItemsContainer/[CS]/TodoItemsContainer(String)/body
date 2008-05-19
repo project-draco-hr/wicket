@@ -1,14 +1,14 @@
 {
   super(id);
   setOutputMarkupId(true);
-  add(new ListView("item",items){
-    protected void populateItem(    ListItem item){
-      item.add(new AjaxCheckBox("check",new PropertyModel(item.getModel(),"checked")){
-        protected void onUpdate(        AjaxRequestTarget target){
+  add(new ListView<TodoItem>("item",items){
+    @Override protected void populateItem(    ListItem<TodoItem> item){
+      item.add(new AjaxCheckBox("check",new PropertyModel<Boolean>(item.getModel(),"checked")){
+        @Override protected void onUpdate(        AjaxRequestTarget target){
         }
       }
 );
-      item.add(new Label("text",new PropertyModel(item.getModel(),"text")));
+      item.add(new Label<String>("text",new PropertyModel<String>(item.getModel(),"text")));
     }
   }
 );
