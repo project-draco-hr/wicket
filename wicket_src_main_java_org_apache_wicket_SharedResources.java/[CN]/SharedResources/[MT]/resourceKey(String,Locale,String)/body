@@ -1,6 +1,7 @@
 {
+  final CharSequence parentEscape=Application.get().getResourceSettings().getParentFolderPlaceholder();
   final String extension=Files.extension(path);
-  final String basePath=Files.basePath(path,extension);
+  final String basePath=Files.basePath(path,extension).replace("../",parentEscape + "/");
   final AppendingStringBuffer buffer=new AppendingStringBuffer(basePath.length() + 16);
   buffer.append(basePath);
   if (style != null) {

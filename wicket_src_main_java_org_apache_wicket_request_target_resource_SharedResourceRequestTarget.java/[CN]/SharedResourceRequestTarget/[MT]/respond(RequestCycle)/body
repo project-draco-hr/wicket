@@ -14,7 +14,8 @@
         if (scope == null) {
           scope=resolver.resolveClass(className);
         }
-        String path=resourceKey.substring(ix + 1);
+        final CharSequence escapeString=application.getResourceSettings().getParentFolderPlaceholder();
+        String path=resourceKey.substring(ix + 1).replace(escapeString,"..");
         if (PackageResource.exists(scope,path,null,null)) {
           PackageResource packageResource=PackageResource.get(scope,path);
           if (sharedResources.get(resourceKey) == null) {
