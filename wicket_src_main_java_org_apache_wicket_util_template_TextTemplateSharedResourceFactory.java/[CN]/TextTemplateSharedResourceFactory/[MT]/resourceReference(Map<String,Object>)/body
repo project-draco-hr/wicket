@@ -1,0 +1,29 @@
+{
+  final String uniqueName=sharedResourceName(variables);
+  final String templateValue=template.asString(variables);
+  final SharedResources sharedResources=Application.get().getSharedResources();
+  final Resource resource=sharedResources.get(uniqueName);
+  if (resource == null) {
+    final Resource newResource=new Resource(){
+      private static final long serialVersionUID=1L;
+      /** 
+ * @see org.apache.wicket.Resource#getResourceStream()
+ */
+      @Override public IResourceStream getResourceStream(){
+        return new AbstractStringResourceStream(){
+          private static final long serialVersionUID=1L;
+          @Override protected String getString(){
+            return templateValue;
+          }
+          @Override public long length(){
+            return templateValue.length();
+          }
+        }
+;
+      }
+    }
+;
+    sharedResources.add(uniqueName,newResource);
+  }
+  return new ResourceReference(scopeRef.get(),uniqueName);
+}

@@ -8,7 +8,7 @@
       ObjectOutputStream oos=new ObjectOutputStream(out);
       oos.writeObject(object);
       ObjectInputStream ois=new ObjectInputStream(new ByteArrayInputStream(out.toByteArray())){
-        @Override protected Class resolveClass(        ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+        @Override protected Class<?> resolveClass(        ObjectStreamClass desc) throws IOException, ClassNotFoundException {
           String className=desc.getName();
           try {
             return Class.forName(className,true,object.getClass().getClassLoader());
@@ -19,7 +19,7 @@
           Application application=Application.get();
           IApplicationSettings applicationSettings=application.getApplicationSettings();
           IClassResolver classResolver=applicationSettings.getClassResolver();
-          Class candidate=null;
+          Class<?> candidate=null;
           try {
             candidate=classResolver.resolveClass(className);
             if (candidate == null) {
