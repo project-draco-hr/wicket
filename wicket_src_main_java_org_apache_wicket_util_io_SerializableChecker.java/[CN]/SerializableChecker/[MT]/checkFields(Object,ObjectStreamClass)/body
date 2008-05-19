@@ -1,7 +1,7 @@
 {
   int numFields;
   try {
-    numFields=((Integer)GET_NUM_OBJ_FIELDS_METHOD.invoke(desc,null)).intValue();
+    numFields=((Integer)GET_NUM_OBJ_FIELDS_METHOD.invoke(desc,(Object[])null)).intValue();
   }
  catch (  IllegalAccessException e) {
     throw new RuntimeException(e);
@@ -33,7 +33,7 @@ catch (    InvocationTargetException e) {
       ObjectStreamField fieldDesc=fields[numPrimFields + i];
       Field field;
       try {
-        field=(Field)GET_FIELD_METHOD.invoke(fieldDesc,null);
+        field=(Field)GET_FIELD_METHOD.invoke(fieldDesc,(Object[])null);
       }
  catch (      IllegalAccessException e) {
         throw new RuntimeException(e);
