@@ -11,7 +11,7 @@
  else {
         secureParam=url.substring(startIndex,endIndex);
       }
-      secureParam=URLDecoder.decode(secureParam,Application.get().getRequestCycleSettings().getResponseRequestEncoding());
+      secureParam=WicketURLDecoder.QUERY_INSTANCE.decode(secureParam);
       final ICrypt urlCrypt=Application.get().getSecuritySettings().getCryptFactory().newCrypt();
       String queryString=urlCrypt.decryptUrlSafe(secureParam);
       queryString=rebuildUrl(queryString);

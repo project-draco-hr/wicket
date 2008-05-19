@@ -8,12 +8,7 @@
       if (!queryString.startsWith("x=")) {
         queryString=shortenUrl(queryString).toString();
         String encryptedQueryString=urlCrypt.encryptUrlSafe(queryString);
-        try {
-          encryptedQueryString=URLEncoder.encode(encryptedQueryString,Application.get().getRequestCycleSettings().getResponseRequestEncoding());
-        }
- catch (        UnsupportedEncodingException ex) {
-          throw new WicketRuntimeException(ex);
-        }
+        encryptedQueryString=WicketURLEncoder.QUERY_INSTANCE.encode(encryptedQueryString);
         return new AppendingStringBuffer(urlPrefix).append("?x=").append(encryptedQueryString);
       }
     }

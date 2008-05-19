@@ -1,10 +1,4 @@
 {
-  String escapedValue=value;
-  try {
-    escapedValue=URLEncoder.encode(escapedValue,application.getRequestCycleSettings().getResponseRequestEncoding());
-  }
- catch (  UnsupportedEncodingException ex) {
-  }
   if (!firstParameter) {
     url.append('&');
   }
@@ -12,7 +6,7 @@
     firstParameter=false;
     url.append('?');
   }
-  url.append(key);
+  url.append(WicketURLEncoder.QUERY_INSTANCE.encode(key));
   url.append('=');
-  url.append(escapedValue);
+  url.append(WicketURLEncoder.QUERY_INSTANCE.encode(value));
 }

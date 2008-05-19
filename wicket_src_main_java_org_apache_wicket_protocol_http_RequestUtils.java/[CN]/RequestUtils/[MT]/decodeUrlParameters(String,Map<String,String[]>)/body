@@ -5,23 +5,19 @@
     final String[] bits=paramTuples[t].split("=");
     final String key;
     final String value;
-    try {
-      key=URLDecoder.decode(bits[0],"UTF-8");
-      if (bits.length == 2) {
-        value=URLDecoder.decode(bits[1],"UTF-8");
-      }
+    key=WicketURLDecoder.QUERY_INSTANCE.decode(bits[0]);
+    if (bits.length == 2) {
+      value=WicketURLDecoder.QUERY_INSTANCE.decode(bits[1]);
+    }
  else {
-        value="";
-      }
-      List<String> l=temp.get(key);
-      if (l == null) {
-        l=new ArrayList<String>();
-        temp.put(key,l);
-      }
-      l.add(value);
+      value="";
     }
- catch (    UnsupportedEncodingException e) {
+    List<String> l=temp.get(key);
+    if (l == null) {
+      l=new ArrayList<String>();
+      temp.put(key,l);
     }
+    l.add(value);
   }
   for (  Map.Entry<String,List<String>> entry : temp.entrySet()) {
     String s[]=new String[entry.getValue().size()];

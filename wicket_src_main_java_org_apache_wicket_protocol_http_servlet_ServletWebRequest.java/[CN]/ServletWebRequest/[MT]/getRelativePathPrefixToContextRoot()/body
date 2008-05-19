@@ -7,12 +7,12 @@
   }
   String tmp=getRelativePathPrefixToWicketHandler();
   PrependingStringBuffer prepender=new PrependingStringBuffer(tmp);
-  String path=RequestUtils.decode(getPath());
+  String path=WicketURLDecoder.PATH_INSTANCE.decode(getPath());
   if (path == null || path.length() == 0) {
     path="";
   }
   String wicketPath="";
-  String servletPath=RequestUtils.decode(getServletPath());
+  String servletPath=getServletPath();
   if (servletPath.endsWith(path)) {
     int len=servletPath.length() - path.length() - 1;
     if (len < 0) {

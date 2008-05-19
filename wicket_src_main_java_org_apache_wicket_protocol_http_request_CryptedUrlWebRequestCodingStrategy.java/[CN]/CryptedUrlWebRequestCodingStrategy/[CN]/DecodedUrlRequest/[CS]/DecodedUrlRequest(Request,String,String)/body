@@ -3,12 +3,7 @@
   parameterMap=this.request.getParameterMap();
   parameterMap.remove("x");
   String decodedParamReplacement=encodedParamReplacement;
-  try {
-    decodedParamReplacement=URLDecoder.decode(encodedParamReplacement,Application.get().getRequestCycleSettings().getResponseRequestEncoding());
-  }
- catch (  UnsupportedEncodingException ex) {
-    log.error("error decoding url: " + encodedParamReplacement,ex);
-  }
+  decodedParamReplacement=WicketURLDecoder.QUERY_INSTANCE.decode(encodedParamReplacement);
   ValueMap params=new ValueMap();
   RequestUtils.decodeParameters(decodedParamReplacement,params);
   parameterMap.putAll(params);

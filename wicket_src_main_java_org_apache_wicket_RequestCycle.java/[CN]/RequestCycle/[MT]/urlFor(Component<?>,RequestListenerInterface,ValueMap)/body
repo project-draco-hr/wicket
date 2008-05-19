@@ -12,7 +12,7 @@
         final Map.Entry entry=it.next();
         final String key=entry.getKey().toString();
         final String value=entry.getValue().toString();
-        pageParameters.add(encode(key),encode(value));
+        pageParameters.add(key,value);
       }
     }
     target=new BookmarkableListenerInterfaceRequestTarget(page.getPageMapName(),page.getClass(),pageParameters,component,listener);
@@ -34,9 +34,9 @@
         final String key=entry.getKey().toString();
         final String value=entry.getValue().toString();
         buff.append("&");
-        buff.append(encode(key));
+        buff.append(encodeQueryStringItem(key));
         buff.append("=");
-        buff.append(encode(value));
+        buff.append(encodeQueryStringItem(value));
       }
       url=buff;
     }
