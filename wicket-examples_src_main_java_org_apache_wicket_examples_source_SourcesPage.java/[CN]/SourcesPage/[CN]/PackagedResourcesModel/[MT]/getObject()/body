@@ -1,19 +1,6 @@
 {
   if (resources.isEmpty()) {
     get(page);
-    PackageName name=PackageName.forClass(page);
-    ClassLoader loader=page.getClassLoader();
-    String path=Strings.replaceAll(name.getName(),".","/").toString();
-    try {
-      Enumeration<URL> urls=loader.getResources(path);
-      while (urls.hasMoreElements()) {
-        URL url=urls.nextElement();
-        getPackageContents(url);
-      }
-    }
- catch (    IOException e) {
-      log.error("Unable to read resource for: " + path,e);
-    }
   }
   return resources;
 }
