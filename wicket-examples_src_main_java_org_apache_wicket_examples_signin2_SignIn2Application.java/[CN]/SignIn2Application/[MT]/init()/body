@@ -4,7 +4,7 @@
     public boolean isActionAuthorized(    Component<?> component,    Action action){
       return true;
     }
-    public boolean isInstantiationAuthorized(    Class<? extends Component<?>> componentClass){
+    public <T extends Component<?>>boolean isInstantiationAuthorized(    Class<T> componentClass){
       if (AuthenticatedWebPage.class.isAssignableFrom(componentClass)) {
         if (((SignIn2Session)Session.get()).isSignedIn()) {
           return true;

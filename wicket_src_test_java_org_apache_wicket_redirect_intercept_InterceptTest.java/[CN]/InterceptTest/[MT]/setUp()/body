@@ -6,7 +6,7 @@
         public boolean isActionAuthorized(        Component<?> component,        Action action){
           return true;
         }
-        public boolean isInstantiationAuthorized(        Class<? extends Component<?>> componentClass){
+        public <T extends Component<?>>boolean isInstantiationAuthorized(        Class<T> componentClass){
           if (block && (componentClass == TargetPage.class || componentClass == HomePage.class)) {
             block=false;
             throw new RestartResponseAtInterceptPageException(InterceptPage.class);
