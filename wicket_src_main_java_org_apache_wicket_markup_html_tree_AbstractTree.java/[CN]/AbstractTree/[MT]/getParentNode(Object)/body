@@ -1,11 +1,10 @@
 {
-  if (getModelObject() instanceof ExtendedTreeModel) {
-    return ((ExtendedTreeModel)getModelObject()).getParent(node);
-  }
- else   if (node instanceof TreeNode) {
-    return ((TreeNode)node).getParent();
+  TreeItem item=nodeToItemMap.get(node);
+  if (item == null) {
+    return null;
   }
  else {
-    throw new IllegalStateException("Couldn't determine node parent. Either the tree model must implement ParentTreeModel or Node must implement TreeNode.");
+    TreeItem parent=item.getParentItem();
+    return parent == null ? null : parent.getModelObject();
   }
 }
