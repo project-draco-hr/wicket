@@ -1,0 +1,87 @@
+{
+  classId=classCounter++;
+  clz=cls;
+  if (cls.isPrimitive()) {
+    fields=null;
+    cons=null;
+    writeObjectMethods=null;
+    readObjectMethods=null;
+    writeReplaceMethod=null;
+    readResolveMethod=null;
+    if (clz == boolean.class) {
+      primitiveArray=new BooleanPrimitiveArray();
+    }
+ else     if (clz == byte.class) {
+      primitiveArray=new BytePrimitiveArray();
+    }
+ else     if (clz == short.class) {
+      primitiveArray=new ShortPrimitiveArray();
+    }
+ else     if (clz == char.class) {
+      primitiveArray=new CharPrimitiveArray();
+    }
+ else     if (clz == int.class) {
+      primitiveArray=new IntPrimitiveArray();
+    }
+ else     if (clz == long.class) {
+      primitiveArray=new LongPrimitiveArray();
+    }
+ else     if (clz == float.class) {
+      primitiveArray=new FloatPrimitiveArray();
+    }
+ else     if (clz == double.class) {
+      primitiveArray=new DoublePrimitiveArray();
+    }
+ else {
+      throw new RuntimeException("Unsupported primitive " + cls);
+    }
+  }
+ else   if (cls.isInterface()) {
+    fields=null;
+    cons=null;
+    writeObjectMethods=null;
+    readObjectMethods=null;
+    writeReplaceMethod=null;
+    readResolveMethod=null;
+    primitiveArray=null;
+  }
+ else   if (Proxy.isProxyClass(clz)) {
+    fields=null;
+    cons=null;
+    writeObjectMethods=null;
+    writeReplaceMethod=null;
+    readResolveMethod=null;
+    readObjectMethods=null;
+    primitiveArray=null;
+  }
+ else {
+    fields=Generics.newArrayList();
+    primitiveArray=null;
+    writeObjectMethods=Generics.newArrayList(2);
+    readObjectMethods=Generics.newArrayList(2);
+    writeReplaceMethod=getInheritableMethod(clz,"writeReplace",null,Object.class);
+    readResolveMethod=getInheritableMethod(clz,"readResolve",null,Object.class);
+    if (readResolveMethod == null) {
+      cons=getSerializableConstructor(clz);
+      if (cons == null) {
+        throw new WicketSerializeableException("No Serializable constructor found for " + cls);
+      }
+    }
+ else {
+      cons=getSerializableConstructor(clz);
+    }
+    Class<?> parent=cls;
+    while (parent != Object.class) {
+      Method method=getPrivateMethod(parent,"writeObject",new Class[]{ObjectOutputStream.class},Void.TYPE);
+      if (method != null) {
+        writeObjectMethods.add(method);
+      }
+      method=getPrivateMethod(parent,"readObject",new Class[]{ObjectInputStream.class},Void.TYPE);
+      if (method != null) {
+        readObjectMethods.add(method);
+      }
+      parent=parent.getSuperclass();
+    }
+    fillFields(cls);
+  }
+}

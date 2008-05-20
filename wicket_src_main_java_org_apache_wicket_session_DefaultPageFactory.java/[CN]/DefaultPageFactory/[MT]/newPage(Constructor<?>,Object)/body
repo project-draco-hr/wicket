@@ -1,0 +1,18 @@
+{
+  try {
+    if (argument != null)     return (Page<?>)constructor.newInstance(new Object[]{argument});
+ else     return (Page<?>)constructor.newInstance(new Object[]{});
+  }
+ catch (  InstantiationException e) {
+    throw new WicketRuntimeException(createDescription(constructor,argument),e);
+  }
+catch (  IllegalAccessException e) {
+    throw new WicketRuntimeException(createDescription(constructor,argument),e);
+  }
+catch (  InvocationTargetException e) {
+    if (e.getTargetException() instanceof AbortException || e.getTargetException() instanceof AuthorizationException || e.getTargetException() instanceof MarkupException) {
+      throw (RuntimeException)e.getTargetException();
+    }
+    throw new WicketRuntimeException(createDescription(constructor,argument),e);
+  }
+}
