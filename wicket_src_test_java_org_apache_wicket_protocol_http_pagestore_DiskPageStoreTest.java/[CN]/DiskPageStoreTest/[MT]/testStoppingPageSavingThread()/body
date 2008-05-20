@@ -1,7 +1,7 @@
 {
   new WicketTester();
   DiskPageStore store=new DiskPageStore(){
-    protected boolean isSynchronous(){
+    @Override protected boolean isSynchronous(){
       return false;
     }
   }
@@ -9,5 +9,13 @@
   int activeThreadsBefore=Thread.activeCount();
   store.destroy();
   int activeThreadsAfter=Thread.activeCount();
+  if (activeThreadsAfter != (activeThreadsBefore - 1)) {
+    try {
+      Thread.sleep(2000);
+    }
+ catch (    InterruptedException e) {
+    }
+    activeThreadsAfter=Thread.activeCount();
+  }
   assertEquals(activeThreadsBefore - 1,activeThreadsAfter);
 }
