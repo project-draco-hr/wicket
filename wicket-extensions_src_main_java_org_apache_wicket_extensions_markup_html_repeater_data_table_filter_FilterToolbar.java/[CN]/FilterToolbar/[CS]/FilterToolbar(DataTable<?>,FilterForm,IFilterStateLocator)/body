@@ -1,0 +1,33 @@
+{
+  super(table);
+  if (table == null) {
+    throw new IllegalArgumentException("argument [table] cannot be null");
+  }
+  if (stateLocator == null) {
+    throw new IllegalArgumentException("argument [stateLocator] cannot be null");
+  }
+  RepeatingView<?> filters=new RepeatingView<Void>("filters");
+  filters.setRenderBodyOnly(true);
+  add(filters);
+  IColumn<?>[] cols=table.getColumns();
+  for (int i=0; i < cols.length; i++) {
+    WebMarkupContainer<?> item=new WebMarkupContainer<Void>(filters.newChildId());
+    item.setRenderBodyOnly(true);
+    IColumn<?> col=cols[i];
+    Component<?> filter=null;
+    if (col instanceof IFilteredColumn) {
+      IFilteredColumn<?> filteredCol=(IFilteredColumn<?>)col;
+      filter=filteredCol.getFilter(FILTER_COMPONENT_ID,form);
+    }
+    if (filter == null) {
+      filter=new NoFilter(FILTER_COMPONENT_ID);
+    }
+ else {
+      if (!filter.getId().equals(FILTER_COMPONENT_ID)) {
+        throw new IllegalStateException("filter component returned  with an invalid component id. invalid component id [" + filter.getId() + "] required component id ["+ FILTER_COMPONENT_ID+ "] generating column ["+ col.toString()+ "] ");
+      }
+    }
+    item.add(filter);
+    filters.add(item);
+  }
+}

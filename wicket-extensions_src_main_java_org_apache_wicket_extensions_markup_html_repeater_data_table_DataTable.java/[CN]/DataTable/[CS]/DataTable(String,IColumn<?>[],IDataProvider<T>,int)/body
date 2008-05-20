@@ -1,0 +1,46 @@
+{
+  super(id);
+  if (columns == null || columns.length < 1) {
+    throw new IllegalArgumentException("Argument `columns` cannot be null or empty");
+  }
+  this.columns=columns;
+  datagrid=new DataGridView<T>("rows",columns,dataProvider){
+    private static final long serialVersionUID=1L;
+    @Override protected Item newCellItem(    String id,    int index,    IModel model){
+      Item item=DataTable.this.newCellItem(id,index,model);
+      final IColumn<?> column=DataTable.this.columns[index];
+      if (column instanceof IStyledColumn) {
+        item.add(new DataTable.CssAttributeBehavior(){
+          private static final long serialVersionUID=1L;
+          @Override protected String getCssClass(){
+            return ((IStyledColumn<?>)column).getCssClass();
+          }
+        }
+);
+      }
+      return item;
+    }
+    @Override protected Item<T> newRowItem(    String id,    int index,    IModel<T> model){
+      return DataTable.this.newRowItem(id,index,model);
+    }
+  }
+;
+  datagrid.setRowsPerPage(rowsPerPage);
+  add(datagrid);
+  topToolbars=new RepeatingView<Void>("topToolbars"){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isVisible(){
+      return size() > 0;
+    }
+  }
+;
+  bottomToolbars=new RepeatingView<Void>("bottomToolbars"){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isVisible(){
+      return size() > 0;
+    }
+  }
+;
+  add(topToolbars);
+  add(bottomToolbars);
+}
