@@ -5,11 +5,10 @@
   if (caseSensitiveMounts == false) {
     path=path.toLowerCase();
   }
-  for (final Iterator it=map.entrySet().iterator(); it.hasNext(); ) {
-    final Map.Entry entry=(Entry)it.next();
-    final String key=(String)entry.getKey();
+  for (  Entry<String,IRequestTargetUrlCodingStrategy> entry : map.entrySet()) {
+    final String key=entry.getKey();
     if (path.startsWith(key)) {
-      IRequestTargetUrlCodingStrategy strategy=(IRequestTargetUrlCodingStrategy)entry.getValue();
+      IRequestTargetUrlCodingStrategy strategy=entry.getValue();
       if (strategy.matches(path)) {
         return strategy;
       }

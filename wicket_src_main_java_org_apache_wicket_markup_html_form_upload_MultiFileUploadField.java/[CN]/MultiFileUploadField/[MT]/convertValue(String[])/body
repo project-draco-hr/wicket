@@ -1,9 +1,9 @@
 {
-  Collection uploads=null;
+  Collection<FileUpload> uploads=null;
   final String[] filenames=getInputAsArray();
   if (filenames != null) {
     final IMultipartWebRequest request=(IMultipartWebRequest)getRequest();
-    uploads=new ArrayList(filenames.length);
+    uploads=new ArrayList<FileUpload>(filenames.length);
     for (int i=0; i < filenames.length; i++) {
       uploads.add(new FileUpload(request.getFile(filenames[i])));
     }

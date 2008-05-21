@@ -3,7 +3,7 @@
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","radio");
   final String value=getValue();
-  RadioGroup group=(RadioGroup)findParent(RadioGroup.class);
+  RadioGroup<?> group=findParent(RadioGroup.class);
   if (group == null) {
     throw new WicketRuntimeException("Radio component [" + getPath() + "] cannot find its parent RadioGroup. All Radio components must be a child of or below in the hierarchy of a RadioGroup component.");
   }
@@ -20,7 +20,7 @@
   }
   if (group.wantOnSelectionChangedNotifications()) {
     CharSequence url=group.urlFor(IOnChangeListener.INTERFACE);
-    Form form=(Form)group.findParent(Form.class);
+    Form<?> form=group.findParent(Form.class);
     if (form != null) {
       RequestContext rc=RequestContext.get();
       if (rc.isPortletRequest()) {
