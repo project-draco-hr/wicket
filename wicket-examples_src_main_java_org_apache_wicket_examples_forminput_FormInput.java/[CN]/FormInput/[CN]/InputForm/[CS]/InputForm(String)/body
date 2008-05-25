@@ -46,27 +46,37 @@
   checks.add(checksList);
   add(new ListMultipleChoice<String>("siteSelection",SITES));
   add(new TextField<URL>("urlProperty",URL.class){
-    @Override public IConverter<URL> getConverter(    final Class<URL> type){
-      return new IConverter<URL>(){
-        public URL convertToObject(        String value,        Locale locale){
-          try {
-            return new URL(value.toString());
+    @SuppressWarnings("unchecked") @Override public <X>IConverter<X> getConverter(    final Class<X> type){
+      if (URL.class.isAssignableFrom(type)) {
+        return (IConverter<X>)new IConverter<URL>(){
+          public URL convertToObject(          String value,          Locale locale){
+            try {
+              return new URL(value.toString());
+            }
+ catch (            MalformedURLException e) {
+              throw new ConversionException("'" + value + "' is not a valid URL");
+            }
           }
- catch (          MalformedURLException e) {
-            throw new ConversionException("'" + value + "' is not a valid URL");
+          public String convertToString(          URL value,          Locale locale){
+            return value != null ? value.toString() : null;
           }
         }
-        public String convertToString(        URL value,        Locale locale){
-          return value != null ? value.toString() : null;
-        }
-      }
 ;
+      }
+ else {
+        return super.getConverter(type);
+      }
     }
   }
 );
   add(new TextField<UsPhoneNumber>("phoneNumberUS",UsPhoneNumber.class){
-    @Override public IConverter<UsPhoneNumber> getConverter(    final Class<UsPhoneNumber> type){
-      return new MaskConverter<UsPhoneNumber>("(###) ###-####",UsPhoneNumber.class);
+    @SuppressWarnings("unchecked") @Override public <X>IConverter<X> getConverter(    final Class<X> type){
+      if (UsPhoneNumber.class.isAssignableFrom(type)) {
+        return (IConverter<X>)new MaskConverter<UsPhoneNumber>("(###) ###-####",UsPhoneNumber.class);
+      }
+ else {
+        return super.getConverter(type);
+      }
     }
   }
 );

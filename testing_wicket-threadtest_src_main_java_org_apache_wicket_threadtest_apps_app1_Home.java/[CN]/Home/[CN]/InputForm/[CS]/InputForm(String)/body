@@ -49,8 +49,8 @@
   add(new ListMultipleChoice<String>("siteSelection",SITES));
   add(new TextField<URL>("urlProperty",URL.class){
     private static final long serialVersionUID=1L;
-    @Override public IConverter<URL> getConverter(    Class<URL> clazz){
-      return new IConverter<URL>(){
+    @Override public <X>IConverter<X> getConverter(    Class<X> clazz){
+      return (IConverter<X>)new IConverter<URL>(){
         private static final long serialVersionUID=1L;
         /** 
  * @see org.apache.wicket.util.convert.IConverter#convertToObject(java.lang.String,java.util.Locale)
@@ -76,8 +76,8 @@
 );
   add(new TextField<UsPhoneNumber>("phoneNumberUS",UsPhoneNumber.class){
     private static final long serialVersionUID=1L;
-    @Override public IConverter<UsPhoneNumber> getConverter(    Class<UsPhoneNumber> clazz){
-      return new MaskConverter<UsPhoneNumber>("(###) ###-####",UsPhoneNumber.class);
+    @Override public <X>IConverter<X> getConverter(    Class<X> clazz){
+      return (IConverter<X>)new MaskConverter<UsPhoneNumber>("(###) ###-####",UsPhoneNumber.class);
     }
   }
 );
