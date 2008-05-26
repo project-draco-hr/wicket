@@ -13,4 +13,42 @@
     }
   }
 );
+  add(new AjaxLink<Void>("ajaxLinkWithSetResponsePageClass"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      getRequestCycle().setResponsePage(ResultPage.class);
+    }
+  }
+);
+  add(new AjaxLink<Void>("ajaxLinkWithSetResponsePage"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      getRequestCycle().setResponsePage(new ResultPage("A special label"));
+    }
+  }
+);
+  add(new AjaxFallbackLink<Void>("ajaxFallbackLinkWithSetResponsePageClass"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      getRequestCycle().setResponsePage(ResultPage.class);
+    }
+  }
+);
+  add(new AjaxFallbackLink<Void>("ajaxFallbackLinkWithSetResponsePage"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      getRequestCycle().setResponsePage(new ResultPage("A special label"));
+    }
+  }
+);
+  final Form<Void> form=new Form<Void>("form");
+  add(form);
+  final AjaxSubmitLink<Void> submit=new AjaxSubmitLink<Void>("submit"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(    final AjaxRequestTarget target,    final Form<?> form){
+      getRequestCycle().setResponsePage(new ResultPage("A form label"));
+    }
+  }
+;
+  form.add(submit);
 }
