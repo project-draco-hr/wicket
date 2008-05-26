@@ -3,6 +3,8 @@
     return getString(RESOURCE_UNLIMITED);
   }
  else {
-    return getString(RESOURCE_LIMITED,Model.valueOf(Collections.singletonMap("max",new Integer(max))));
+    HashMap<String,Object> vars=new HashMap<String,Object>(1);
+    vars.put("max",max);
+    return getString(RESOURCE_LIMITED,Model.of(vars));
   }
 }

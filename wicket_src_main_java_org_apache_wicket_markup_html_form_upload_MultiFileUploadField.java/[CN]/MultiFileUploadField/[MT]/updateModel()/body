@@ -1,19 +1,13 @@
 {
-  final Object object=getModelObject();
-  if (object == null) {
+  final Collection<FileUpload> collection=getModelObject();
+  if (collection == null) {
     setModelObject(getConvertedInput());
   }
  else {
-    if (!(object instanceof Collection)) {
-      throw new IllegalStateException("Model object of " + getClass().getName() + " component must be of type `"+ Collection.class.getName()+ "<"+ FileUpload.class.getName()+ ">` but is of type `"+ object.getClass().getName()+ "`");
+    collection.clear();
+    if (getConvertedInput() != null) {
+      collection.addAll(getConvertedInput());
     }
- else {
-      Collection<FileUpload> collection=(Collection<FileUpload>)object;
-      collection.clear();
-      if (getConvertedInput() != null) {
-        collection.addAll((Collection<FileUpload>)getConvertedInput());
-      }
-      setModelObject(collection);
-    }
+    setModelObject(collection);
   }
 }

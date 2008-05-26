@@ -1,5 +1,5 @@
 {
-  Collection<FileUpload> uploads=(Collection<FileUpload>)getConvertedInput();
+  Collection<FileUpload> uploads=getConvertedInput();
   if (uploads != null) {
     Iterator<FileUpload> it=uploads.iterator();
     while (it.hasNext()) {
@@ -8,9 +8,9 @@
     }
   }
   inputArrayCache=null;
-  Object modelObject=getModelObject();
-  if (modelObject != null && (modelObject instanceof Collection)) {
-    ((Collection<FileUpload>)modelObject).clear();
+  Collection<FileUpload> modelObject=getModelObject();
+  if (modelObject != null) {
+    modelObject.clear();
   }
   super.onDetach();
 }
