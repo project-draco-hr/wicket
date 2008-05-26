@@ -1,14 +1,14 @@
 {
-class FindFormVisitor implements Component.IVisitor {
-    Form form=null;
-    public Object component(    Component component){
-      form=(Form)component;
+class FindFormVisitor implements Component.IVisitor<Form<?>> {
+    Form<?> form=null;
+    public Object component(    Form<?> component){
+      form=component;
       return Component.IVisitor.STOP_TRAVERSAL;
     }
   }
-  Form form=findParent(Form.class);
+  Form<?> form=findParent(Form.class);
   if (form == null) {
-    final Border border=findParent(Border.class);
+    final Border<?> border=findParent(Border.class);
     if (border != null) {
       FindFormVisitor formVisitor=new FindFormVisitor();
       border.visitChildren(Form.class,formVisitor);
