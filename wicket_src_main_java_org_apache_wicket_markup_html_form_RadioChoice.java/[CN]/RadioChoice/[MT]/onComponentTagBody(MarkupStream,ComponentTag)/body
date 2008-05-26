@@ -4,12 +4,14 @@
   final String selected=getValue();
   for (int index=0; index < choices.size(); index++) {
     final T choice=choices.get(index);
-    T displayValue=(T)getChoiceRenderer().getDisplayValue(choice);
-    Class<T> objectClass=(Class<T>)(displayValue == null ? null : displayValue.getClass());
+    Object displayValue=getChoiceRenderer().getDisplayValue(choice);
+    Class<?> objectClass=(displayValue == null ? null : displayValue.getClass());
     String label="";
     if (objectClass != null && objectClass != String.class) {
-      final IConverter<T> converter=getConverter(objectClass);
-      if (!converter.getClass().isAssignableFrom(objectClass))       throw new IllegalArgumentException("converter can not convert " + objectClass.getName() + " to string");
+      final IConverter<Object> converter=(IConverter<Object>)getConverter(objectClass);
+      if (!converter.getClass().isAssignableFrom(objectClass)) {
+        throw new IllegalArgumentException("converter can not convert " + objectClass.getName() + " to string");
+      }
       label=converter.convertToString(displayValue,getLocale());
     }
  else     if (displayValue != null) {
@@ -22,7 +24,7 @@
       buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((isEnabled() ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"");
       if (wantOnSelectionChangedNotifications()) {
         CharSequence url=urlFor(IOnChangeListener.INTERFACE);
-        Form form=(Form)findParent(Form.class);
+        Form<?> form=findParent(Form.class);
         if (form != null) {
           RequestContext rc=RequestContext.get();
           if (rc.isPortletRequest()) {
