@@ -4,7 +4,21 @@
     return pageFactory.newPage(pageClass);
   }
  else {
-    requestCycle.getRequest().getParameterMap().putAll(pageParameters);
+    final Map<String,String[]> requestMap=requestCycle.getRequest().getParameterMap();
+    for (    Entry<String,Object> entry : pageParameters.entrySet()) {
+      final Object value=entry.getValue();
+      if (value.getClass().isArray()) {
+        final Object[] objects=(Object[])value;
+        final String[] strings=new String[objects.length];
+        for (int i=0; i < objects.length; i++) {
+          strings[i]=objects[i].toString();
+        }
+        requestMap.put(entry.getKey(),strings);
+      }
+ else {
+        requestMap.put(entry.getKey(),new String[]{value.toString()});
+      }
+    }
     return pageFactory.newPage(pageClass,pageParameters);
   }
 }

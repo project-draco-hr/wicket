@@ -7,10 +7,10 @@
       pageParameters=new PageParameters();
     }
     if (params != null) {
-      Iterator<Map.Entry> it=params.entrySet().iterator();
+      Iterator<Map.Entry<String,Object>> it=params.entrySet().iterator();
       while (it.hasNext()) {
-        final Map.Entry entry=it.next();
-        final String key=entry.getKey().toString();
+        final Map.Entry<String,Object> entry=it.next();
+        final String key=entry.getKey();
         final String value=entry.getValue().toString();
         pageParameters.add(key,value);
       }
@@ -28,10 +28,10 @@
     CharSequence url=encodeUrlFor(target);
     if (params != null) {
       AppendingStringBuffer buff=new AppendingStringBuffer(url);
-      Iterator<Map.Entry> it=params.entrySet().iterator();
+      Iterator<Map.Entry<String,Object>> it=params.entrySet().iterator();
       while (it.hasNext()) {
-        final Map.Entry entry=it.next();
-        final String key=entry.getKey().toString();
+        final Map.Entry<String,Object> entry=it.next();
+        final String key=entry.getKey();
         final String value=entry.getValue().toString();
         buff.append("&");
         buff.append(encodeQueryStringItem(key));
