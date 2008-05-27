@@ -1,0 +1,11 @@
+{
+  return new IItemFactory<T>(){
+    public Item<T> newItem(    int index,    IModel<T> model){
+      String id=RefreshingView.this.newChildId();
+      Item<T> item=RefreshingView.this.newItem(id,index,model);
+      RefreshingView.this.populateItem(item);
+      return item;
+    }
+  }
+;
+}
