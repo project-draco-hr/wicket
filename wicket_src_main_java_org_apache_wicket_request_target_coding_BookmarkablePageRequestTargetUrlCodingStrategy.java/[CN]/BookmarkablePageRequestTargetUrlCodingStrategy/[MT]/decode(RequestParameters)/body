@@ -10,9 +10,9 @@
     WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
   }
   if (requestParameters.getInterfaceName() != null) {
-    return new BookmarkableListenerInterfaceRequestTarget(requestParameters.getPageMapName(),(Class)bookmarkablePageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName(),requestParameters.getVersionNumber());
+    return new BookmarkableListenerInterfaceRequestTarget(requestParameters.getPageMapName(),bookmarkablePageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName(),requestParameters.getVersionNumber());
   }
  else {
-    return new BookmarkablePageRequestTarget(requestParameters.getPageMapName(),(Class)bookmarkablePageClassRef.get(),parameters);
+    return new BookmarkablePageRequestTarget(requestParameters.getPageMapName(),(Class<? extends Page<?>>)bookmarkablePageClassRef.get(),parameters);
   }
 }
