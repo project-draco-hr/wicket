@@ -1,11 +1,11 @@
 {
   return new LinkIconPanel(id,model,LinkTree.this){
     private static final long serialVersionUID=1L;
-    protected void onNodeLinkClicked(    TreeNode node,    BaseTree tree,    AjaxRequestTarget target){
+    @Override protected void onNodeLinkClicked(    Object node,    BaseTree tree,    AjaxRequestTarget target){
       super.onNodeLinkClicked(node,tree,target);
       LinkTree.this.onNodeLinkClicked(node,tree,target);
     }
-    protected Component newContentComponent(    String componentId,    BaseTree tree,    IModel model){
+    @Override protected Component newContentComponent(    String componentId,    BaseTree tree,    IModel model){
       return new Label(componentId,getNodeTextModel(model));
     }
   }
