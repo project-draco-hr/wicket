@@ -46,7 +46,7 @@
  else   if (linkComponent instanceof SubmitLink) {
     SubmitLink<?> submitLink=(SubmitLink<?>)linkComponent;
     String pageRelativePath=submitLink.getInputName();
-    getParametersForNextRequest().put(pageRelativePath,"x");
+    getParametersForNextRequest().put(pageRelativePath,new String[]{"x"});
     submitForm(submitLink.getForm().getPageRelativePath());
   }
  else   if (linkComponent instanceof AbstractLink) {
@@ -58,7 +58,7 @@
         Method getParametersMethod=BookmarkablePageLink.class.getDeclaredMethod("getPageParameters",(Class[])null);
         getParametersMethod.setAccessible(true);
         PageParameters parameters=(PageParameters)getParametersMethod.invoke(bookmarkablePageLink,(Object[])null);
-        setParametersForNextRequest(parameters);
+        setParametersForNextRequest(parameters.toRequestParameters());
       }
  catch (      Exception e) {
         fail("Internal error in WicketTester. " + "Please report this in Wickets Issue Tracker.");

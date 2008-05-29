@@ -14,7 +14,7 @@ catch (  UnsupportedCharsetException e) {
     throw new WicketRuntimeException(new UnsupportedEncodingException(enc));
   }
   for (int i=0; i < s.length(); ) {
-    int c=(int)s.charAt(i);
+    int c=s.charAt(i);
     if (dontNeedEncoding.get(c)) {
       if (c == ' ') {
         c='+';
@@ -28,7 +28,7 @@ catch (  UnsupportedCharsetException e) {
         charArrayWriter.write(c);
         if (c >= 0xD800 && c <= 0xDBFF) {
           if ((i + 1) < s.length()) {
-            int d=(int)s.charAt(i + 1);
+            int d=s.charAt(i + 1);
             if (d >= 0xDC00 && d <= 0xDFFF) {
               charArrayWriter.write(d);
               i++;
@@ -37,7 +37,7 @@ catch (  UnsupportedCharsetException e) {
         }
         i++;
       }
- while (i < s.length() && !dontNeedEncoding.get((c=(int)s.charAt(i))));
+ while (i < s.length() && !dontNeedEncoding.get((c=s.charAt(i))));
       charArrayWriter.flush();
       String str=new String(charArrayWriter.toCharArray());
       byte[] ba=new byte[0];

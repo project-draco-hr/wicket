@@ -1,8 +1,8 @@
 {
-  List newcomponents=new ArrayList(Arrays.asList(path.split("/")));
+  List<String> newcomponents=new ArrayList<String>(Arrays.asList(path.split("/")));
   for (int i=0; i < newcomponents.size(); i++) {
     if (i < newcomponents.size() - 1) {
-      if (((String)newcomponents.get(i)).length() > 0 && newcomponents.get(i + 1).equals("..")) {
+      if ((newcomponents.get(i)).length() > 0 && newcomponents.get(i + 1).equals("..")) {
         newcomponents.remove(i);
         newcomponents.remove(i);
         i=i - 2;
@@ -10,7 +10,7 @@
       }
     }
   }
-  String newpath=Strings.join("/",(String[])newcomponents.toArray(new String[0]));
+  String newpath=Strings.join("/",newcomponents.toArray(new String[0]));
   if (path.endsWith("/"))   return newpath + "/";
   return newpath;
 }

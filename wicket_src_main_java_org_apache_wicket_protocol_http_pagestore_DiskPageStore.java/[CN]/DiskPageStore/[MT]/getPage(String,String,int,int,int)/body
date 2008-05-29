@@ -13,7 +13,8 @@ synchronized (pages) {
       }
     }
     if (data != null) {
-      return deserializePage(data,versionNumber);
+      @SuppressWarnings("unchecked") final Page<T> ret=deserializePage(data,versionNumber);
+      return ret;
     }
   }
   return null;

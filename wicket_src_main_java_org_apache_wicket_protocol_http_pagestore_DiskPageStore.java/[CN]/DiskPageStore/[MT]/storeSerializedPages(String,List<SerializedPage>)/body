@@ -1,0 +1,12 @@
+{
+  SessionEntry entry=getSessionEntry(sessionId,true);
+  if (isSynchronous()) {
+    for (Iterator<SerializedPage> i=pages.iterator(); i.hasNext(); ) {
+      SerializedPage serializedPage=i.next();
+      entry.savePage(serializedPage);
+    }
+  }
+ else {
+    schedulePagesSave(sessionId,pages);
+  }
+}

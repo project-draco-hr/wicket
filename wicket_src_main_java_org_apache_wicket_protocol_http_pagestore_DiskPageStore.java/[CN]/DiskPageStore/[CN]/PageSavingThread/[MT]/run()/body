@@ -7,10 +7,10 @@
  catch (      InterruptedException ignore) {
       }
     }
-    for (Iterator i=pagesToSaveActive.entrySet().iterator(); i.hasNext(); ) {
-      Map.Entry entry=(Map.Entry)i.next();
-      String sessionId=(String)entry.getKey();
-      List<SerializedPage> pages=(List<SerializedPage>)entry.getValue();
+    for (Iterator<Entry<String,List<SerializedPage>>> i=pagesToSaveActive.entrySet().iterator(); i.hasNext(); ) {
+      Entry<String,List<SerializedPage>> entry=i.next();
+      String sessionId=entry.getKey();
+      List<SerializedPage> pages=entry.getValue();
 synchronized (pages) {
         try {
           flushPagesToSaveList(sessionId,pages);

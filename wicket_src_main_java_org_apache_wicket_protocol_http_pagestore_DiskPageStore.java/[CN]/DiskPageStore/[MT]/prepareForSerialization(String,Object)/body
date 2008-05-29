@@ -1,10 +1,10 @@
 {
   SerializedPageWithSession result=null;
   if (page instanceof Page) {
-    result=serializedPagesCache.getPage((Page)page);
+    result=serializedPagesCache.getPage((Page<?>)page);
     if (result == null) {
-      List serialized=serializePage((Page)page);
-      result=serializedPagesCache.storePage(sessionId,(Page)page,serialized);
+      List<SerializedPage> serialized=serializePage((Page<?>)page);
+      result=serializedPagesCache.storePage(sessionId,(Page<?>)page,serialized);
     }
   }
  else   if (page instanceof SerializedPageWithSession) {

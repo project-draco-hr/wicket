@@ -3,7 +3,7 @@
   String mapping=prefix + "-mapping";
   String name=prefix + "-name";
   try {
-    ArrayList urlPatterns=new ArrayList();
+    ArrayList<String> urlPatterns=new ArrayList<String>();
     XmlPullParser parser=new XmlPullParser();
     parser.parse(is);
     while (true) {
@@ -37,7 +37,7 @@
     if (urlPatterns.size() == 0) {
       throw new IllegalArgumentException("Error initializing Wicket" + prefixUppered + " - you have no <"+ mapping+ "> element with a url-pattern that uses "+ prefix+ ": "+ filterName);
     }
-    String urlPattern=(String)urlPatterns.get(0);
+    String urlPattern=urlPatterns.get(0);
     if (!urlPattern.startsWith("/") || !urlPattern.endsWith("*")) {
       throw new IllegalArgumentException("<" + mapping + "> for Wicket"+ prefixUppered+ " \""+ filterName+ "\" must start with '/' and end with '*'.");
     }
