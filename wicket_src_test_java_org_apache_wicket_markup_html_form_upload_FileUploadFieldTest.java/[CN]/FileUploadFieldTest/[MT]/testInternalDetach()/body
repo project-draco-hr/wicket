@@ -9,12 +9,7 @@
 );
   File tmp=null;
   try {
-    tmp=new File(java.io.File.createTempFile(this.getClass().getName(),".txt"));
-    OutputStream os=new BufferedOutputStream(new FileOutputStream(tmp));
-    for (int i=0; i < 1000; i++) {
-      os.write("test test test test test\n".getBytes());
-    }
-    os.close();
+    tmp=writeTestFile(1000);
     FormTester formtester=tester.newFormTester("form");
     formtester.setFile("upload",tmp,"text/plain");
     formtester.submit();
