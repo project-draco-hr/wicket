@@ -1,10 +1,13 @@
 {
   IResourceStream stream=getOriginalResourceStream();
   try {
-    byte ret[]=cache.get();
-    if (ret != null && timeStamp != null) {
-      if (timeStamp.equals(stream.lastModifiedTime())) {
-        return ret;
+    byte ret[];
+    if (cache != null) {
+      ret=cache.get();
+      if (ret != null && timeStamp != null) {
+        if (timeStamp.equals(stream.lastModifiedTime())) {
+          return ret;
+        }
       }
     }
     ByteArrayOutputStream out=new ByteArrayOutputStream();
