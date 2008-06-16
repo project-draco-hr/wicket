@@ -5,10 +5,14 @@
     buffer.append(key);
     Component<?> cursor=component;
     while (cursor != null) {
-      buffer.append("-").append(cursor.getClass().getName());
-      buffer.append(":").append(cursor.getId());
+      buffer.append("-").append(metaDatabase.id(cursor.getClass()));
+      if (cursor instanceof Page) {
+        break;
+      }
+      if (cursor.getParent() != null && !(cursor.getParent() instanceof AbstractRepeater)) {
+        buffer.append(":").append(cursor.getId());
+      }
       cursor=cursor.getParent();
-      if (cursor instanceof Page)       break;
     }
     buffer.append("-").append(component.getLocale());
     buffer.append("-").append(component.getStyle());

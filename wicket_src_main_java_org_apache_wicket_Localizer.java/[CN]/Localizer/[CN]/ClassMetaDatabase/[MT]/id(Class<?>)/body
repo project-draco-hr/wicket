@@ -1,0 +1,24 @@
+{
+  final String name=clazz.getName();
+  nameToIdLock.readLock().lock();
+  try {
+    Long id=nameToId.get(name);
+    if (id == null) {
+      nameToIdLock.readLock().unlock();
+      nameToIdLock.writeLock().lock();
+      try {
+        nameToId.put(name,nameCounter);
+        id=nameCounter;
+        nameCounter++;
+      }
+  finally {
+        nameToIdLock.readLock().lock();
+        nameToIdLock.writeLock().unlock();
+      }
+    }
+    return id;
+  }
+  finally {
+    nameToIdLock.readLock().unlock();
+  }
+}
