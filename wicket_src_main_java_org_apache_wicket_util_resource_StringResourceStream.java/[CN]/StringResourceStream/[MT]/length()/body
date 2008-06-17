@@ -1,3 +1,13 @@
 {
-  return string.toString().getBytes().length;
+  if (getCharset() != null) {
+    try {
+      return getString().getBytes(getCharset().name()).length;
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new WicketRuntimeException("StringResourceStream created with unsupported charset: " + getCharset().name());
+    }
+  }
+ else {
+    return getString().getBytes().length;
+  }
 }
