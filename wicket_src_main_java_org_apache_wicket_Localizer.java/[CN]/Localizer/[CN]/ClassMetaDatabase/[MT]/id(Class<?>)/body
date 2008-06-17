@@ -1,24 +1,12 @@
 {
   final String name=clazz.getName();
-  nameToIdLock.readLock().lock();
-  try {
-    Long id=nameToId.get(name);
-    if (id == null) {
-      nameToIdLock.readLock().unlock();
-      nameToIdLock.writeLock().lock();
-      try {
-        nameToId.put(name,nameCounter);
-        id=nameCounter;
-        nameCounter++;
-      }
-  finally {
-        nameToIdLock.readLock().lock();
-        nameToIdLock.writeLock().unlock();
-      }
+  Long id=nameToId.get(name);
+  if (id == null) {
+    id=nameCounter.incrementAndGet();
+    Long previousId=nameToId.putIfAbsent(name,id);
+    if (previousId != null) {
+      id=previousId;
     }
-    return id;
   }
-  finally {
-    nameToIdLock.readLock().unlock();
-  }
+  return id;
 }
