@@ -1,16 +1,16 @@
 {
-  if (!hasBeenRendered() && getSelectedTab() == -1) {
-    List<ITab> tabs=getTabs();
-    for (int i=0; i < tabs.size(); ++i) {
-      ITab tab=tabs.get(i);
-      if (tab.isVisible()) {
-        setSelectedTab(i);
+  if (getSelectedTab() == -1 || isTabVisible(getSelectedTab()) == false) {
+    int selected=0;
+    for (int i=0; i < tabs.size(); i++) {
+      if (isTabVisible(i)) {
+        selected=i;
         break;
       }
     }
-    if (tabs.size() == 0) {
-      add(new WebMarkupContainer<Void>(TAB_PANEL_ID)).setVisible(false);
+    if (selected == tabs.size()) {
+      selected=0;
     }
+    setSelectedTab(selected);
   }
   super.onBeforeRender();
 }

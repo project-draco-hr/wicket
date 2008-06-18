@@ -1,22 +1,21 @@
 {
-  if (index < 0 || index >= tabs.size()) {
+  if (index < 0 || (index >= tabs.size() && index > 0)) {
     throw new IndexOutOfBoundsException();
   }
   setModelObject(new Integer(index));
-  ITab tab=tabs.get(index);
   final Component<?> component;
-  if (tab.isVisible())   component=tab.getPanel(TAB_PANEL_ID);
- else   component=new WebMarkupContainer<Void>(TAB_PANEL_ID);
-  if (component == null) {
-    throw new WicketRuntimeException("ITab.getPanel() returned null. TabbedPanel [" + getPath() + "] ITab index ["+ index+ "]");
+  if (tabs.size() == 0 || !isTabVisible(index)) {
+    component=new WebMarkupContainer<Void>(TAB_PANEL_ID);
+  }
+ else {
+    ITab tab=tabs.get(index);
+    component=tab.getPanel(TAB_PANEL_ID);
+    if (component == null) {
+      throw new WicketRuntimeException("ITab.getPanel() returned null. TabbedPanel [" + getPath() + "] ITab index ["+ index+ "]");
+    }
   }
   if (!component.getId().equals(TAB_PANEL_ID)) {
     throw new WicketRuntimeException("ITab.getPanel() returned a panel with invalid id [" + component.getId() + "]. You must always return a panel with id equal to the provided panelId parameter. TabbedPanel ["+ getPath()+ "] ITab index ["+ index+ "]");
   }
-  if (get(TAB_PANEL_ID) == null) {
-    add(component);
-  }
- else {
-    replace(component);
-  }
+  addOrReplace(component);
 }
