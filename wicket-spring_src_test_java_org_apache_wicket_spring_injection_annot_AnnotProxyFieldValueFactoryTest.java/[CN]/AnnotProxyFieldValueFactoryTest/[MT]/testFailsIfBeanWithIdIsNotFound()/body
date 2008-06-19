@@ -2,7 +2,8 @@
   InjectableWithReferenceToNonexistingBean obj=new InjectableWithReferenceToNonexistingBean();
   Field field=obj.getClass().getDeclaredField("nonExisting");
   try {
-    factory.getFieldValue(field,obj);
+    final Bean bean=(Bean)factory.getFieldValue(field,obj);
+    bean.method();
     fail();
   }
  catch (  RuntimeException e) {
