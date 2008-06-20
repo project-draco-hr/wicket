@@ -1,9 +1,6 @@
 {
   if (locale == null) {
-    locale=Session.get().getLocale();
-    if (locale == null) {
-      locale=Locale.getDefault();
-    }
+    locale=Session.exists() ? Session.get().getLocale() : Locale.getDefault();
   }
   try {
     final ResourceBundle bundle=ResourceBundle.getBundle(bundleName,locale);
