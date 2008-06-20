@@ -1,6 +1,14 @@
 {
   Injector injector;
   String injectorContextAttribute=filter.getFilterConfig().getInitParameter("injectorContextAttribute");
+  Stage stage=null;
+  String stageContextAttribute=filter.getFilterConfig().getInitParameter(STAGE_PARAMETER);
+  if (stageContextAttribute == null) {
+    stageContextAttribute=filter.getFilterConfig().getServletContext().getInitParameter(STAGE_PARAMETER);
+  }
+  if (stageContextAttribute != null) {
+    stage=Stage.valueOf(stageContextAttribute.trim());
+  }
   if (injectorContextAttribute != null) {
     ServletContext sc=filter.getFilterConfig().getServletContext();
     injector=(Injector)sc.getAttribute(injectorContextAttribute);
@@ -9,21 +17,31 @@
     }
   }
  else   if (filter.getFilterConfig().getInitParameter("module") != null) {
-    String moduleName=filter.getFilterConfig().getInitParameter("module");
-    try {
-      Class<?> moduleClazz=Class.forName(moduleName);
-      Object moduleObject=moduleClazz.newInstance();
-      Module module=(Module)moduleObject;
-      injector=Guice.createInjector(module);
+    String paramValue=filter.getFilterConfig().getInitParameter("module");
+    String moduleNames[]=paramValue.split(",");
+    Module modules[]=new Module[moduleNames.length];
+    for (int i=0; i < moduleNames.length; i++) {
+      String moduleName=moduleNames[i].trim();
+      try {
+        Class<?> moduleClazz=Class.forName(moduleName);
+        Object moduleObject=moduleClazz.newInstance();
+        modules[i]=(Module)moduleObject;
+      }
+ catch (      InstantiationException e) {
+        throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+      }
+catch (      ClassNotFoundException e) {
+        throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+      }
+catch (      IllegalAccessException e) {
+        throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+      }
     }
- catch (    InstantiationException e) {
-      throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+    if (stage != null) {
+      injector=Guice.createInjector(stage,modules);
     }
-catch (    ClassNotFoundException e) {
-      throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
-    }
-catch (    IllegalAccessException e) {
-      throw new RuntimeException("Could not create new instance of Guice Module class " + moduleName,e);
+ else {
+      injector=Guice.createInjector(modules);
     }
   }
  else {
