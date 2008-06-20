@@ -3,7 +3,7 @@
   do {
     Field[] currentFields=current.getDeclaredFields();
     for (    final Field field : currentFields) {
-      if (field.getAnnotation(Inject.class) != null) {
+      if (!Modifier.isStatic(field.getModifiers()) && field.getAnnotation(Inject.class) != null) {
         try {
           Annotation bindingAnnotation=findBindingAnnotation(field.getAnnotations());
           Object proxy=LazyInitProxyFactory.createProxy(field.getType(),new GuiceProxyTargetLocator(field.getGenericType(),bindingAnnotation));
@@ -22,7 +22,7 @@ catch (        MoreThanOneBindingException e) {
     }
     Method[] currentMethods=current.getDeclaredMethods();
     for (    final Method method : currentMethods) {
-      if (method.getAnnotation(Inject.class) != null) {
+      if (!Modifier.isStatic(method.getModifiers()) && method.getAnnotation(Inject.class) != null) {
         Annotation[][] paramAnnotations=method.getParameterAnnotations();
         Class<?>[] paramTypes=method.getParameterTypes();
         Type[] genericParamTypes=method.getGenericParameterTypes();
