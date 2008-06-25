@@ -3,7 +3,8 @@
   String path=Packages.absolutePath(clazz,fileName);
   Application app=Application.get();
   TextTemplateCache cache=app.getMetaData(TEXT_TEMPLATE_CACHE_KEY);
-  IResourceStream stream=streamLocator.locate(clazz,path);
+  IResourceStream stream=new ResourceStreamLocator().locate(clazz,path);
+  stream=Application.get().getResourceSettings().getResourceStreamLocator().locate(clazz,path);
   if (stream == null) {
     throw new IllegalArgumentException("resource " + fileName + " not found for scope "+ clazz+ " (path = "+ path+ ")");
   }
