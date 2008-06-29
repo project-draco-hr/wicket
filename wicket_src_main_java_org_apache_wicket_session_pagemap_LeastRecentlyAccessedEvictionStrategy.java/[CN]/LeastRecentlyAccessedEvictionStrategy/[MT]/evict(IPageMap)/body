@@ -6,7 +6,7 @@ synchronized (Session.get()) {
         final AccessStackPageMap.Access oldestAccess=(Access)accessPM.getAccessStack().remove(0);
         final IPageMapEntry oldestEntry=pageMap.getEntry(oldestAccess.getId());
         if (oldestEntry instanceof Page) {
-          Page<?> page=(Page<?>)oldestEntry;
+          Page page=(Page)oldestEntry;
           if (page.getVersions() > 1) {
             page.expireOldestVersion();
           }

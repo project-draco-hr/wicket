@@ -13,9 +13,9 @@
           XmlTag xmlTag=(XmlTag)elm;
           if (openTag == null) {
             IValueMap attributeMap=xmlTag.getAttributes();
-            for (Iterator iter=attributeMap.entrySet().iterator(); iter.hasNext(); ) {
-              Map.Entry entry=(Map.Entry)iter.next();
-              String attr=(String)entry.getKey();
+            for (Iterator<Map.Entry<String,Object>> iter=attributeMap.entrySet().iterator(); iter.hasNext(); ) {
+              Map.Entry<String,Object> entry=iter.next();
+              String attr=entry.getKey();
               if (attr.equals(attribute) && value.equals(entry.getValue())) {
                 if (xmlTag.isOpen()) {
                   openTag=xmlTag;

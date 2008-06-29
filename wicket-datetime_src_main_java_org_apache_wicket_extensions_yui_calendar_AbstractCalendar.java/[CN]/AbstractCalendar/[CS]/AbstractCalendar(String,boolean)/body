@@ -4,9 +4,9 @@
   if (contributeDependencies) {
     contributeDependencies();
   }
-  add(new StringHeaderContributor(new LoadableDetachableModel(){
+  add(new StringHeaderContributor(new LoadableDetachableModel<CharSequence>(){
     private static final long serialVersionUID=1L;
-    @Override protected Object load(){
+    @Override protected CharSequence load(){
       String markupId=AbstractCalendar.this.getMarkupId();
       String javascriptId=getJavascriptId();
       String javascriptWidgetId=getJavascriptWidgetId();
@@ -24,8 +24,8 @@
       Properties p=new Properties();
       configureWidgetProperties(p);
       b.append("\", { ");
-      for (Iterator i=p.entrySet().iterator(); i.hasNext(); ) {
-        Entry entry=(Entry)i.next();
+      for (Iterator<Entry<Object,Object>> i=p.entrySet().iterator(); i.hasNext(); ) {
+        Entry<Object,Object> entry=i.next();
         b.append(entry.getKey());
         Object value=entry.getValue();
         if (value instanceof CharSequence) {

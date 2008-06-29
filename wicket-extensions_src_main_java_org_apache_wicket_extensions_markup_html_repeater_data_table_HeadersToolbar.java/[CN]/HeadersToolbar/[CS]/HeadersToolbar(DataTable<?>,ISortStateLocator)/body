@@ -1,17 +1,17 @@
 {
   super(table);
-  RepeatingView<?> headers=new RepeatingView<Void>("headers");
+  RepeatingView headers=new RepeatingView("headers");
   add(headers);
   final IColumn<?>[] columns=table.getColumns();
   for (  final IColumn<?> column : columns) {
-    WebMarkupContainer<?> item=new WebMarkupContainer<Void>(headers.newChildId());
+    WebMarkupContainer item=new WebMarkupContainer(headers.newChildId());
     headers.add(item);
-    WebMarkupContainer<?> header=null;
+    WebMarkupContainer header=null;
     if (column.isSortable()) {
       header=newSortableHeader("header",column.getSortProperty(),stateLocator);
     }
  else {
-      header=new WebMarkupContainer<Void>("header");
+      header=new WebMarkupContainer("header");
     }
     if (column instanceof IStyledColumn) {
       header.add(new DataTable.CssAttributeBehavior(){

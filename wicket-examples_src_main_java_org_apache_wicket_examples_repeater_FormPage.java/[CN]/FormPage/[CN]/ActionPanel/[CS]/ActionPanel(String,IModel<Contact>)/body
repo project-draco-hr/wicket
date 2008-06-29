@@ -1,14 +1,14 @@
 {
   super(id,model);
-  add(new Link<Void>("select"){
+  add(new Link("select"){
     @Override public void onClick(){
-      setSelected(ActionPanel.this.getModelObject());
+      setSelected((Contact)ActionPanel.this.getDefaultModelObject());
     }
   }
 );
-  SubmitLink<?> removeLink=new SubmitLink<Void>("remove",form){
+  SubmitLink removeLink=new SubmitLink("remove",form){
     @Override public void onSubmit(){
-      Contact contact=ActionPanel.this.getModelObject();
+      Contact contact=(Contact)ActionPanel.this.getDefaultModelObject();
       info("Removed contact " + contact);
       DatabaseLocator.getDatabase().delete(contact);
     }

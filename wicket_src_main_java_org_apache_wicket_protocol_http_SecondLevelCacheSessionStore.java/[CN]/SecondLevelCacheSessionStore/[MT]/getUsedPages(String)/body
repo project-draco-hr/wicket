@@ -1,12 +1,12 @@
 {
-  Map<String,IntHashMap<Page<?>>> usedPages=RequestCycle.get().getMetaData(USED_PAGES);
+  Map<String,IntHashMap<Page>> usedPages=RequestCycle.get().getMetaData(USED_PAGES);
   if (usedPages == null) {
-    usedPages=new HashMap<String,IntHashMap<Page<?>>>();
+    usedPages=new HashMap<String,IntHashMap<Page>>();
     RequestCycle.get().setMetaData(USED_PAGES,usedPages);
   }
-  IntHashMap<Page<?>> intHashMap=usedPages.get(pageMapName);
+  IntHashMap<Page> intHashMap=usedPages.get(pageMapName);
   if (intHashMap == null) {
-    intHashMap=new IntHashMap<Page<?>>();
+    intHashMap=new IntHashMap<Page>();
     usedPages.put(pageMapName,intHashMap);
   }
   return intHashMap;

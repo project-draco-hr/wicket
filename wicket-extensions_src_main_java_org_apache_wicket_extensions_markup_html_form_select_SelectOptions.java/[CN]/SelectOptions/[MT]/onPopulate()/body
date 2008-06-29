@@ -1,14 +1,14 @@
 {
   if (size() == 0 || recreateChoices) {
     removeAll();
-    Collection<? extends T> modelObject=getModelObject();
+    Collection<? extends T> modelObject=(Collection<? extends T>)getDefaultModelObject();
     if (modelObject != null) {
       if (!(modelObject instanceof Collection)) {
         throw new WicketRuntimeException("Model object " + modelObject + " not a collection");
       }
       Iterator<? extends T> it=modelObject.iterator();
       while (it.hasNext()) {
-        WebMarkupContainer<?> row=new WebMarkupContainer<Void>(newChildId());
+        WebMarkupContainer row=new WebMarkupContainer(newChildId());
         row.setRenderBodyOnly(true);
         add(row);
         Object value=it.next();

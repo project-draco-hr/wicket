@@ -1,12 +1,12 @@
 {
-  return (Panel<?>)startPage(new ITestPageSource(){
+  return (Panel)startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
-    public Page<?> getTestPage(){
+    public Page getTestPage(){
       return new DummyPanelPage(new TestPanelSource(){
         private static final long serialVersionUID=1L;
-        public Panel<?> getTestPanel(        String panelId){
+        public Panel getTestPanel(        String panelId){
           try {
-            Constructor<? extends Panel<?>> c=panelClass.getConstructor(new Class[]{String.class});
+            Constructor<? extends Panel> c=panelClass.getConstructor(new Class[]{String.class});
             return c.newInstance(new Object[]{panelId});
           }
  catch (          SecurityException e) {

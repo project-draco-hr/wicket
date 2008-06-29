@@ -7,7 +7,7 @@
         parent.replace(component);
       }
  else {
-        Component c=(Component)parent.visitChildren(new IVisitor(){
+        Component c=(Component)parent.visitChildren(new IVisitor<Component>(){
           public Object component(          Component component){
             if (component.getId().equals(thisId)) {
               return component;
@@ -17,7 +17,7 @@
         }
 );
         if (c == null) {
-          c=(Component)parent.visitParents(Component.class,new IVisitor(){
+          c=(Component)parent.visitParents(Component.class,new IVisitor<Component>(){
             public Object component(            Component component){
               if (component.getId().equals(thisId)) {
                 return component;

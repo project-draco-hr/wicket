@@ -1,5 +1,5 @@
 {
-  Object object=getModelObject();
+  Object object=getDefaultModelObject();
   boolean supportsMultiple=object instanceof Collection;
   Object converted=getConvertedInput();
   if (supportsMultiple) {
@@ -10,9 +10,9 @@
       modelCollection.addAll((Collection)converted);
     }
     modelChanged();
-    getModel().setObject(modelCollection);
+    setDefaultModelObject(modelCollection);
   }
  else {
-    setModelObject(converted);
+    setDefaultModelObject(converted);
   }
 }

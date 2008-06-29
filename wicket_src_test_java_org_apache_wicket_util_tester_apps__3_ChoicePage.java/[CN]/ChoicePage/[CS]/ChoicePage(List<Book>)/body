@@ -2,7 +2,7 @@
   ChoiceRenderer<Book> bookChoiceRenderer=new ChoiceRenderer<Book>("name","id");
   Form<ChoicePage> form=new Form<ChoicePage>("choiceForm");
   add(form);
-  form.setModel(new CompoundPropertyModel<ChoicePage>(this));
+  form.setDefaultModel(new CompoundPropertyModel<ChoicePage>(this));
   dropDownChoice=candidateChoices.get(1);
   listChoice=candidateChoices.get(3);
   radioChoice=candidateChoices.get(2);
@@ -24,7 +24,7 @@
   form.add(new ListMultipleChoice<Book>("listMultipleChoice",candidateChoices,bookChoiceRenderer).setMaxRows(4));
   form.add(new CheckBoxMultipleChoice<Book>("checkBoxMultipleChoice",candidateChoices,bookChoiceRenderer));
   form.add(newCheckGroup("checkGroup",candidateChoices));
-  form.add(new Button<Void>("anotherButton"){
+  form.add(new Button("anotherButton"){
     private static final long serialVersionUID=1L;
     @Override public void onSubmit(){
       anotherButtonPressed=true;

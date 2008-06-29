@@ -4,7 +4,7 @@
   }
   securePageSuperTypeRef=new WeakReference<Class<?>>(securePageSuperType);
   Application.get().getSecuritySettings().setUnauthorizedComponentInstantiationListener(new IUnauthorizedComponentInstantiationListener(){
-    public void onUnauthorizedInstantiation(    final Component<?> component){
+    public void onUnauthorizedInstantiation(    final Component component){
       if (component instanceof Page) {
         throw new RestartResponseAtInterceptPageException(signInPageClass);
       }

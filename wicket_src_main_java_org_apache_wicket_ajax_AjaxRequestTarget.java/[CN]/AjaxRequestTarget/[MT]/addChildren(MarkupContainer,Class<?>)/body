@@ -1,0 +1,15 @@
+{
+  if (parent == null) {
+    throw new IllegalArgumentException("Argument `parent` cannot be null");
+  }
+  if (childCriteria == null) {
+    throw new IllegalArgumentException("Argument `childCriteria` cannot be null. If you want to traverse all components use `" + Component.class.getName() + ".class` as the value for this argument");
+  }
+  parent.visitChildren(childCriteria,new Component.IVisitor<Component>(){
+    public Object component(    Component component){
+      addComponent(component);
+      return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+    }
+  }
+);
+}

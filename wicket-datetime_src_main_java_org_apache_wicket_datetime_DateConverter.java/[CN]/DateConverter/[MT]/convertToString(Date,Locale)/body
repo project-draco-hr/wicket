@@ -1,0 +1,11 @@
+{
+  DateTime dt=new DateTime((value).getTime(),getTimeZone());
+  DateTimeFormatter format=getFormat();
+  if (applyTimeZoneDifference) {
+    TimeZone zone=getClientTimeZone();
+    if (zone != null) {
+      format=format.withZone(DateTimeZone.forTimeZone(zone));
+    }
+  }
+  return format.print(dt);
+}

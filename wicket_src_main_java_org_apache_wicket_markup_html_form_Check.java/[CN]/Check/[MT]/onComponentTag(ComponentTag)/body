@@ -9,7 +9,7 @@
   final String uuid=getValue();
   tag.put("name",group.getInputName());
   tag.put("value",uuid);
-  Collection<?> collection=group.getModelObject();
+  Collection<?> collection=(Collection<?>)group.getDefaultModelObject();
   if (collection == null) {
     throw new WicketRuntimeException("CheckGroup [" + group.getPath() + "] contains a null model object, must be an object of type java.util.Collection");
   }
@@ -23,7 +23,7 @@
       }
     }
   }
- else   if (collection.contains(getModelObject())) {
+ else   if (collection.contains(getDefaultModelObject())) {
     tag.put("checked","checked");
   }
   if (group.wantOnSelectionChangedNotifications()) {

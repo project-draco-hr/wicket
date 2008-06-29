@@ -13,10 +13,10 @@
   }
 ;
   labelModel.setObject("Label 1");
-  final Label<String> label=new Label<String>(MockPageWithLinkAndLabel.LABEL_ID,labelModel);
+  final Label label=new Label(MockPageWithLinkAndLabel.LABEL_ID,labelModel);
   label.setOutputMarkupId(true);
-  final Page<?> page=new MockPageWithLinkAndLabel();
-  AjaxLink<?> ajaxLink=new AjaxLink<Void>(MockPageWithLinkAndLabel.LINK_ID){
+  final Page page=new MockPageWithLinkAndLabel();
+  AjaxLink ajaxLink=new AjaxLink(MockPageWithLinkAndLabel.LINK_ID){
     private static final long serialVersionUID=1L;
     @Override public void onClick(    AjaxRequestTarget target){
       labelModel.setObject("Label which needs encoding: [] ][");
@@ -29,7 +29,7 @@
   ajaxLink.add(label);
   tester.startPage(new ITestPageSource(){
     private static final long serialVersionUID=1L;
-    public Page<?> getTestPage(){
+    public Page getTestPage(){
       return page;
     }
   }

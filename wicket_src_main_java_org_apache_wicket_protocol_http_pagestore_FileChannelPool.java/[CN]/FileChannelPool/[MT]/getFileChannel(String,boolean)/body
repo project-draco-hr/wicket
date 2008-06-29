@@ -1,5 +1,5 @@
 {
-  FileChannel channel=(FileChannel)nameToChannel.get(fileName);
+  FileChannel channel=nameToChannel.get(fileName);
   if (channel == null) {
     channel=newFileChannel(fileName,createIfDoesNotExist);
     if (channel != null) {
@@ -11,7 +11,7 @@
     }
   }
   if (channel != null) {
-    Integer count=(Integer)channelToUseCount.get(channel);
+    Integer count=channelToUseCount.get(channel);
     if (count == null || count.intValue() == 0) {
       channelToUseCount.put(channel,new Integer(1));
       idleChannels.remove(channel);

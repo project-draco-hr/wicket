@@ -1,12 +1,12 @@
 {
   super(id);
-  setModel(new CompoundPropertyModel<NestableForm>(this));
+  setDefaultModel(new CompoundPropertyModel<NestableForm>(this));
   TextField<String> firstField=new RequiredTextField<String>("first");
   TextField<String> secondField=new TextField<String>("second");
   add(firstField);
   add(secondField);
   add(new EqualInputValidator(firstField,secondField));
-  add(new AjaxSubmitLink<Void>("ajaxSubmit",this){
+  add(new AjaxSubmitLink("ajaxSubmit",this){
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       target.addComponent(feedback);
@@ -17,5 +17,5 @@
   }
 );
   add(new ToggleLink("toggle",this));
-  add(new SubmitLink<Void>("submit"));
+  add(new SubmitLink("submit"));
 }

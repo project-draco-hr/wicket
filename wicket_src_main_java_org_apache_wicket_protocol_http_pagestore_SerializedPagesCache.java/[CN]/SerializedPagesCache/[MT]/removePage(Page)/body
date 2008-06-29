@@ -1,9 +1,9 @@
 {
   if (size > 0) {
 synchronized (cache) {
-      for (Iterator i=cache.iterator(); i.hasNext(); ) {
-        SoftReference ref=(SoftReference)i.next();
-        SerializedPageWithSession entry=(SerializedPageWithSession)ref.get();
+      for (Iterator<SoftReference<SerializedPageWithSession>> i=cache.iterator(); i.hasNext(); ) {
+        SoftReference<SerializedPageWithSession> ref=i.next();
+        SerializedPageWithSession entry=ref.get();
         if (entry != null && entry.page.get() == page) {
           i.remove();
           return entry;

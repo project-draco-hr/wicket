@@ -1,7 +1,7 @@
 {
   super(name,new CompoundPropertyModel<FormInputModel>(new FormInputModel()));
   add(new LocaleDropDownChoice("localeSelect"));
-  add(new Link<Void>("defaultLocaleLink"){
+  add(new Link("defaultLocaleLink"){
     private static final long serialVersionUID=1L;
     @Override public void onClick(){
       WebRequest request=(WebRequest)getRequest();
@@ -15,7 +15,7 @@
   TextField<Integer> integerTextField=new TextField<Integer>("integerProperty",Integer.class);
   add(integerTextField.add(NumberValidator.POSITIVE));
   add(new TextField<Double>("doubleProperty",Double.class));
-  WebMarkupContainer<?> dateLabel=new WebMarkupContainer<Void>("dateLabel");
+  WebMarkupContainer dateLabel=new WebMarkupContainer("dateLabel");
   add(dateLabel);
   TextField<Date> datePropertyTextField=new TextField<Date>("dateProperty",Date.class);
   add(datePropertyTextField);
@@ -30,7 +30,7 @@
     private static final long serialVersionUID=1L;
     @Override protected void populateItem(    ListItem<String> item){
       item.add(new Radio<String>("radio",item.getModel()));
-      item.add(new Label<String>("number",item.getModelObjectAsString()));
+      item.add(new Label("number",item.getDefaultModelObjectAsString()));
     }
   }
 ;
@@ -41,7 +41,7 @@
     private static final long serialVersionUID=1L;
     @Override protected void populateItem(    ListItem<String> item){
       item.add(new Check<String>("check",item.getModel()));
-      item.add(new Label<String>("number",item.getModelObjectAsString()));
+      item.add(new Label("number",item.getDefaultModelObjectAsString()));
     }
   }
 ;
@@ -76,18 +76,18 @@
 );
   add(new TextField<UsPhoneNumber>("phoneNumberUS",UsPhoneNumber.class){
     private static final long serialVersionUID=1L;
-    @Override public <X>IConverter<X> getConverter(    Class<X> clazz){
+    @SuppressWarnings("unchecked") @Override public <X>IConverter<X> getConverter(    Class<X> clazz){
       return (IConverter<X>)new MaskConverter<UsPhoneNumber>("(###) ###-####",UsPhoneNumber.class);
     }
   }
 );
   add(new LinesListView("lines"));
-  add(new ImageButton<Void>("saveButton"));
-  add(new Link<Void>("resetButtonLink"){
+  add(new ImageButton("saveButton"));
+  add(new Link("resetButtonLink"){
     private static final long serialVersionUID=1L;
     @Override public void onClick(){
       InputForm.this.modelChanged();
     }
   }
-.add(new Image<Void>("resetButtonImage")));
+.add(new Image("resetButtonImage")));
 }

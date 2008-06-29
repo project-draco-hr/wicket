@@ -2,9 +2,9 @@
   super(id);
   ListView<String> lv=new ListView<String>("file",new PackagedResourcesModel()){
     @Override protected void populateItem(    ListItem<String> item){
-      AjaxFallbackLink<String> link=new AjaxFallbackLink<String>("link",item.getModel()){
+      AjaxFallbackLink link=new AjaxFallbackLink("link",item.getModel()){
         @Override public void onClick(        AjaxRequestTarget target){
-          setName(getModelObjectAsString());
+          setName(getDefaultModelObjectAsString());
           if (target != null) {
             target.addComponent(codePanel);
             target.addComponent(filename);
@@ -12,7 +12,7 @@
         }
       }
 ;
-      link.add(new Label<String>("name",item.getModelObjectAsString()));
+      link.add(new Label("name",item.getDefaultModelObjectAsString()));
       item.add(link);
     }
   }

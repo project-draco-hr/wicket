@@ -1,6 +1,6 @@
 {
-  add(new Label<Integer>("guessesRemaining",new PropertyModel<Integer>(getGame(),"guessesRemaining")));
-  add(new Label<String>("word",new Model<String>(){
+  add(new Label("guessesRemaining",new PropertyModel<Integer>(getGame(),"guessesRemaining")));
+  add(new Label("word",new Model<String>(){
     @Override public String getObject(){
       return getGame().getWord().asString(true);
     }
@@ -9,7 +9,7 @@
   add(new ListView<Letter>("letters",getGame().getLetters()){
     @Override protected void populateItem(    final ListItem<Letter> listItem){
       final Letter letter=listItem.getModelObject();
-      final Link<?> link=new Link<Void>("letter"){
+      final Link link=new Link("letter"){
         @Override protected void onBeforeRender(){
           super.onBeforeRender();
           setAutoEnable(false);
@@ -28,7 +28,7 @@
         }
       }
 ;
-      link.add(new Image<Void>("image",letter.getSharedImageResource()));
+      link.add(new Image("image",letter.getSharedImageResource()));
       listItem.add(link);
       link.add(new SimpleAttributeModifier("id","letter_" + letter.asString()));
     }

@@ -1,0 +1,14 @@
+{
+  if (modelObject != null) {
+    final Class<?> objectClass=modelObject.getClass();
+    final IConverter<Object> converter=(IConverter<Object>)getConverter(objectClass);
+    final String modelString=converter.convertToString(modelObject,getLocale());
+    if (modelString != null) {
+      if (getFlag(FLAG_ESCAPE_MODEL_STRINGS)) {
+        return Strings.escapeMarkup(modelString,false,false).toString();
+      }
+      return modelString;
+    }
+  }
+  return "";
+}

@@ -3,7 +3,7 @@
     throw new IllegalArgumentException("argument visitor may not be null");
   }
   for (int i=0; i < children_size(); i++) {
-    final Component<?> child=children_get(i);
+    final Component child=children_get(i);
     Object value=null;
     if (clazz == null || clazz.isInstance(child)) {
       @SuppressWarnings("unchecked") S s=(S)child;
@@ -13,7 +13,7 @@
       }
     }
     if ((child instanceof MarkupContainer) && (value != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
-      value=((MarkupContainer<?>)child).visitChildren(clazz,visitor);
+      value=((MarkupContainer)child).visitChildren(clazz,visitor);
       if ((value != IVisitor.CONTINUE_TRAVERSAL) && (value != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
         return value;
       }

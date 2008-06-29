@@ -1,0 +1,20 @@
+{
+  checkHierarchyChange(child);
+  if (child == null) {
+    throw new IllegalArgumentException("argument child must be not null");
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Replacing " + child.getId() + " in "+ this);
+  }
+  if (child.getParent() != this) {
+    final Component replaced=put(child);
+    if (replaced == null) {
+      throw new WicketRuntimeException(exceptionMessage("Cannot replace a component which has not been added: id='" + child.getId() + "', component="+ child));
+    }
+    removedComponent(replaced);
+    addedComponent(child);
+    child.markupIndex=replaced.markupIndex;
+    child.setMarkupIdImpl(replaced.getMarkupIdImpl());
+  }
+  return this;
+}

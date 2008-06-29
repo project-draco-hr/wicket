@@ -6,15 +6,15 @@
   if (stateLocator == null) {
     throw new IllegalArgumentException("argument [stateLocator] cannot be null");
   }
-  RepeatingView<?> filters=new RepeatingView<Void>("filters");
+  RepeatingView filters=new RepeatingView("filters");
   filters.setRenderBodyOnly(true);
   add(filters);
   IColumn<?>[] cols=table.getColumns();
   for (int i=0; i < cols.length; i++) {
-    WebMarkupContainer<?> item=new WebMarkupContainer<Void>(filters.newChildId());
+    WebMarkupContainer item=new WebMarkupContainer(filters.newChildId());
     item.setRenderBodyOnly(true);
     IColumn<?> col=cols[i];
-    Component<?> filter=null;
+    Component filter=null;
     if (col instanceof IFilteredColumn) {
       IFilteredColumn<?> filteredCol=(IFilteredColumn<?>)col;
       filter=filteredCol.getFilter(FILTER_COMPONENT_ID,form);

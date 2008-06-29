@@ -1,24 +1,24 @@
 {
-  setModel(new Model<String>("tabpanel"));
+  setDefaultModel(new Model<String>("tabpanel"));
   addCssSwitchingLinks();
   List<ITab> tabs=new ArrayList<ITab>();
   tabs.add(new AbstractTab(new Model<String>("first tab")){
-    @Override public Panel<Void> getPanel(    String panelId){
+    @Override public Panel getPanel(    String panelId){
       return new TabPanel1(panelId);
     }
   }
 );
   tabs.add(new AbstractTab(new Model<String>("second tab")){
-    @Override public Panel<Void> getPanel(    String panelId){
+    @Override public Panel getPanel(    String panelId){
       return new TabPanel2(panelId);
     }
   }
 );
   tabs.add(new AbstractTab(new Model<String>("third tab")){
-    @Override public Panel<Void> getPanel(    String panelId){
+    @Override public Panel getPanel(    String panelId){
       return new TabPanel3(panelId);
     }
   }
 );
-  add(new TabbedPanel("tabs",tabs).add(new AttributeModifier("class",true,TabbedPanelPage.this.getModel())));
+  add(new TabbedPanel("tabs",tabs).add(new AttributeModifier("class",true,TabbedPanelPage.this.getDefaultModel())));
 }

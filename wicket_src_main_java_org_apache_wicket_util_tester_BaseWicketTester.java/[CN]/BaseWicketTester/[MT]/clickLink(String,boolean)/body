@@ -1,10 +1,10 @@
 {
-  Component<?> linkComponent=getComponentFromLastRenderedPage(path);
+  Component linkComponent=getComponentFromLastRenderedPage(path);
   if (linkComponent instanceof AjaxLink) {
     if (isAjax == false) {
       fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
     }
-    AjaxLink<?> link=(AjaxLink<?>)linkComponent;
+    AjaxLink link=(AjaxLink)linkComponent;
     setupRequestAndResponse(true);
     WebRequestCycle requestCycle=createRequestCycle();
     callOnBeginRequest(requestCycle);
@@ -14,7 +14,7 @@
     processRequestCycle(requestCycle);
   }
  else   if (linkComponent instanceof AjaxFallbackLink && isAjax) {
-    AjaxFallbackLink<?> link=(AjaxFallbackLink<?>)linkComponent;
+    AjaxFallbackLink link=(AjaxFallbackLink)linkComponent;
     setupRequestAndResponse(true);
     WebRequestCycle requestCycle=createRequestCycle();
     AjaxRequestTarget target=new AjaxRequestTarget(link.getPage());
@@ -26,7 +26,7 @@
     if (isAjax == false) {
       fail("Link " + path + "is an AjaxSubmitLink and "+ "will not be invoked when AJAX (javascript) is disabled.");
     }
-    AjaxSubmitLink<?> link=(AjaxSubmitLink<?>)linkComponent;
+    AjaxSubmitLink link=(AjaxSubmitLink)linkComponent;
     List<IBehavior> behaviors=link.getBehaviors();
     AjaxFormSubmitBehavior ajaxFormSubmitBehavior=null;
     for (    IBehavior behavior : behaviors) {
@@ -44,13 +44,13 @@
     processRequestCycle(requestCycle);
   }
  else   if (linkComponent instanceof SubmitLink) {
-    SubmitLink<?> submitLink=(SubmitLink<?>)linkComponent;
+    SubmitLink submitLink=(SubmitLink)linkComponent;
     String pageRelativePath=submitLink.getInputName();
     getParametersForNextRequest().put(pageRelativePath,new String[]{"x"});
     submitForm(submitLink.getForm().getPageRelativePath());
   }
  else   if (linkComponent instanceof AbstractLink) {
-    AbstractLink<?> link=(AbstractLink<?>)linkComponent;
+    AbstractLink link=(AbstractLink)linkComponent;
     if (link instanceof BookmarkablePageLink) {
       BookmarkablePageLink bookmarkablePageLink=(BookmarkablePageLink)link;
       try {

@@ -1,9 +1,9 @@
 {
   if (size > 0) {
 synchronized (cache) {
-      for (Iterator i=cache.iterator(); i.hasNext(); ) {
-        SoftReference ref=(SoftReference)i.next();
-        SerializedPageWithSession entry=(SerializedPageWithSession)ref.get();
+      for (Iterator<SoftReference<SerializedPageWithSession>> i=cache.iterator(); i.hasNext(); ) {
+        SoftReference<SerializedPageWithSession> ref=i.next();
+        SerializedPageWithSession entry=ref.get();
         if (entry != null && entry.sessionId.equals(sessionId) && entry.pageId == pageId && entry.pageMapName.equals(pageMapName) && entry.versionNumber == version && entry.ajaxVersionNumber == ajaxVersion) {
           return entry;
         }

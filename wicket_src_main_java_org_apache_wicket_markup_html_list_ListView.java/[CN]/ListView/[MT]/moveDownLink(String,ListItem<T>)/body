@@ -1,11 +1,11 @@
 {
-  return new Link<S>(id){
+  return new Link(id){
     private static final long serialVersionUID=1L;
     /** 
  * @see org.apache.wicket.markup.html.link.Link#onClick()
  */
     @Override public void onClick(){
-      final int index=getList().indexOf(item.getModelObject());
+      final int index=getList().indexOf(item.getDefaultModelObject());
       if (index != -1) {
         addStateChange(new Change(){
           private static final long serialVersionUID=1L;
@@ -25,7 +25,7 @@
     @Override protected void onBeforeRender(){
       super.onBeforeRender();
       setAutoEnable(false);
-      if (getList().indexOf(item.getModelObject()) == (getList().size() - 1)) {
+      if (getList().indexOf(item.getDefaultModelObject()) == (getList().size() - 1)) {
         setEnabled(false);
       }
     }

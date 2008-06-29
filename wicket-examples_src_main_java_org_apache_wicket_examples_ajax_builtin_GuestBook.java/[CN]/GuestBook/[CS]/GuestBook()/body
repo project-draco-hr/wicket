@@ -1,13 +1,13 @@
 {
   CommentForm commentForm=new CommentForm("commentForm");
   add(commentForm);
-  comments=new WebMarkupContainer<Void>("comments");
+  comments=new WebMarkupContainer("comments");
   add(comments.setOutputMarkupId(true));
   comments.add(commentListView=new ListView<Comment>("comments",new PropertyModel<List<Comment>>(this,"commentList")){
     @Override public void populateItem(    final ListItem<Comment> listItem){
       final Comment comment=listItem.getModelObject();
-      listItem.add(new Label<Date>("date",new Model<Date>(comment.getDate())));
-      listItem.add(new MultiLineLabel<String>("text",comment.getText()));
+      listItem.add(new Label("date",new Model<Date>(comment.getDate())));
+      listItem.add(new MultiLineLabel("text",comment.getText()));
     }
   }
 );

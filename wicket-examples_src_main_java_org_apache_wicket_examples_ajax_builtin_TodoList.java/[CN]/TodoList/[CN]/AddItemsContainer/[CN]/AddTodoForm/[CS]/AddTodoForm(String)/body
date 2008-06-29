@@ -2,14 +2,14 @@
   super(id,new CompoundPropertyModel<TodoItem>(new TodoItem()));
   setOutputMarkupId(true);
   add(new TextField<String>("text"));
-  add(new AjaxButton<Void>("add",this){
+  add(new AjaxButton("add",this){
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      TodoItem item=(TodoItem)getParent().getModelObject();
+      TodoItem item=(TodoItem)getParent().getDefaultModelObject();
       onAdd(item,target);
     }
   }
 );
-  add(new AjaxButton<Void>("cancel",this){
+  add(new AjaxButton("cancel",this){
     @Override public void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       onCancelTodo(target);
     }

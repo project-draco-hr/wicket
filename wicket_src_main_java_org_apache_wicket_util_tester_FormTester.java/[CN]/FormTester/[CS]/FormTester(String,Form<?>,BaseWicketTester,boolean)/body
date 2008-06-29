@@ -4,7 +4,7 @@
   baseWicketTester=wicketTester;
   baseWicketTester.setupRequestAndResponse();
   workingForm.visitFormComponents(new FormComponent.AbstractVisitor(){
-    @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent<?> formComponent){
+    @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent formComponent){
       if (!formComponent.isVisibleInHierarchy()) {
         return;
       }
@@ -28,10 +28,10 @@
         }
       }
  else       if (formComponent instanceof CheckGroup) {
-        final Collection<?> checkGroupValues=(Collection<?>)formComponent.getModelObject();
-        formComponent.visitChildren(Check.class,new IVisitor<Component<?>>(){
-          public Object component(          Component<?> component){
-            if (checkGroupValues.contains(component.getModelObject())) {
+        final Collection<?> checkGroupValues=(Collection<?>)formComponent.getDefaultModelObject();
+        formComponent.visitChildren(Check.class,new IVisitor<Component>(){
+          public Object component(          Component component){
+            if (checkGroupValues.contains(component.getDefaultModelObject())) {
               addFormComponentValue(formComponent,((Check<?>)component).getValue());
             }
             return CONTINUE_TRAVERSAL;
@@ -40,11 +40,11 @@
 );
       }
  else       if (formComponent instanceof RadioGroup) {
-        final Object value=formComponent.getModelObject();
+        final Object value=formComponent.getDefaultModelObject();
         if (value != null) {
-          formComponent.visitChildren(Radio.class,new IVisitor<Component<?>>(){
-            public Object component(            Component<?> component){
-              if (value.equals(component.getModelObject())) {
+          formComponent.visitChildren(Radio.class,new IVisitor<Component>(){
+            public Object component(            Component component){
+              if (value.equals(component.getDefaultModelObject())) {
                 addFormComponentValue(formComponent,((Radio<?>)component).getValue());
                 return STOP_TRAVERSAL;
               }
