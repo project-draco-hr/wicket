@@ -12,7 +12,7 @@
   final String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
   Component component=page.get(pageRelativeComponentPath);
   if (component == null) {
-    page.beforeRender();
+    page.prepareForRender(false);
     component=page.get(pageRelativeComponentPath);
     if (component == null) {
       throw new WicketRuntimeException("unable to find component with path " + pageRelativeComponentPath + " on stateless page "+ page+ " it could be that the component is inside a repeater make your component return false in getStatelessHint()");
