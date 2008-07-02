@@ -1,6 +1,7 @@
 {
   if (this == rootItem && isRootLess() == true) {
-    getResponse().write("<div style=\"display:none\" id=\"" + getMarkupId() + "\"></div>");
+    String tagName=((ComponentTag)markupStream.get()).getName();
+    getResponse().write("<" + tagName + " style=\"display:none\" id=\""+ getMarkupId()+ "\"></"+ tagName+ ">");
     markupStream.skipComponent();
   }
  else {
