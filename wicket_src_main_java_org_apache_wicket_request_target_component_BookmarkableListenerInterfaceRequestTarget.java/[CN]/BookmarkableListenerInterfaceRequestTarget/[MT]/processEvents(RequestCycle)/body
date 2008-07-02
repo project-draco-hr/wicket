@@ -9,6 +9,9 @@
       page=getPage(requestCycle);
     }
   }
+  if (page == null) {
+    throw new PageExpiredException("Request cannot be processed. The target page does not exist anymore.");
+  }
   final String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
   Component component=page.get(pageRelativeComponentPath);
   if (component == null) {
