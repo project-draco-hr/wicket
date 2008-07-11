@@ -2,7 +2,7 @@
   Object parent=e.getTreePath().getLastPathComponent();
   TreeItem parentItem=nodeToItemMap.get(parent);
   if (parentItem != null && isNodeVisible(parent) && isNodeExpanded(parent)) {
-    boolean nonEmpty=!parentItem.getChildren().isEmpty();
+    boolean nonEmpty=parentItem.getChildren() != null && !parentItem.getChildren().isEmpty();
     for (int i=0; i < e.getChildren().length; ++i) {
       Object node=e.getChildren()[i];
       TreeItem item=nodeToItemMap.get(node);
@@ -15,9 +15,9 @@
           }
         }
 );
-        getTreeState().selectNode(item.getDefaultModelObject(),false);
         parentItem.getChildren().remove(item);
         removeItem(item);
+        getTreeState().selectNode(item.getDefaultModelObject(),false);
       }
     }
     if (nonEmpty && parentItem.getChildren().isEmpty()) {
