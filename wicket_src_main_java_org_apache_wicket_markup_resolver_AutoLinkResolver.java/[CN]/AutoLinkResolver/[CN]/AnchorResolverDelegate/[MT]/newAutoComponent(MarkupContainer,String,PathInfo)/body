@@ -22,6 +22,10 @@
       Class<? extends Page> clazz=(Class<? extends Page>)container.getMarkupStream().getTag().getMarkupClass();
       if (clazz != null) {
         className=Packages.absolutePath(clazz,pathInfo.path);
+        className=Strings.replaceAll(className,"/",".").toString();
+        if (className.startsWith(".")) {
+          className=className.substring(1);
+        }
         try {
           clazz=(Class<? extends Page>)defaultClassResolver.resolveClass(className);
           return new AutolinkBookmarkablePageLink(autoId,clazz,pathInfo.getPageParameters(),pathInfo.anchor);
