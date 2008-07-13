@@ -1,0 +1,16 @@
+{
+  if (string == null) {
+    throw new NullPointerException("Argument `string` cannot be null");
+  }
+  if (charset != null) {
+    try {
+      return string.getBytes(charset.name()).length;
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new WicketRuntimeException("StringResourceStream created with unsupported charset: " + charset.name());
+    }
+  }
+ else {
+    return string.getBytes().length;
+  }
+}
