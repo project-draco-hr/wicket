@@ -1,9 +1,12 @@
 {
+  if (dirtyAll) {
+    return;
+  }
   Object parent=e.getTreePath().getLastPathComponent();
   if (isNodeVisible(parent) && isNodeExpanded(parent)) {
     TreeItem parentItem=nodeToItemMap.get(parent);
     if (parentItem != null) {
-      if (parentItem.getChildren().isEmpty()) {
+      if (parentItem.getChildren() == null || parentItem.getChildren().isEmpty()) {
         invalidateNode(parent,true);
       }
       for (int i=0; i < e.getChildren().length; ++i) {
