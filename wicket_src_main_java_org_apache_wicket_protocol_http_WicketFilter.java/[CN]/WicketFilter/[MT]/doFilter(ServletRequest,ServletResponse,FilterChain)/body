@@ -16,7 +16,16 @@
     chain.doFilter(request,response);
     return;
   }
-  String relativePath=getRelativePath(httpServletRequest);
+  final String relativePath=getRelativePath(httpServletRequest);
+  if (ignorePaths.size() > 0 && relativePath.length() > 0) {
+    for (    String path : ignorePaths) {
+      if (relativePath.startsWith(path)) {
+        log.debug("Ignoring request {}",httpServletRequest.getRequestURL());
+        chain.doFilter(request,response);
+        return;
+      }
+    }
+  }
   if (isWicketRequest(relativePath)) {
     Application previous=null;
     if (Application.exists()) {
