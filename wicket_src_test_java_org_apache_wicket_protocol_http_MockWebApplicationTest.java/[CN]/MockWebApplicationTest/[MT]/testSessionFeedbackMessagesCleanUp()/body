@@ -3,12 +3,12 @@
   session.info("Message");
   session.info("Not rendered");
   FeedbackMessages feedbackMessages=session.getFeedbackMessages();
-  Iterator iterator=feedbackMessages.iterator();
-  FeedbackMessage message=(FeedbackMessage)iterator.next();
+  Iterator<FeedbackMessage> iterator=feedbackMessages.iterator();
+  FeedbackMessage message=iterator.next();
   message.markRendered();
   feedbackMessages.clear(RENDERED_MESSAGES);
   assertEquals(1,feedbackMessages.size());
-  message=(FeedbackMessage)iterator.next();
+  message=iterator.next();
   message.markRendered();
   feedbackMessages.clear(RENDERED_MESSAGES);
   assertEquals(0,feedbackMessages.size());
