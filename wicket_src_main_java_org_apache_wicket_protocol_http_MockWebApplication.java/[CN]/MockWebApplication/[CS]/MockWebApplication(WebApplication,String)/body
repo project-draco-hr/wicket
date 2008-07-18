@@ -45,7 +45,9 @@
   createRequestCycle();
   this.application.getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.ONE_PASS_RENDER);
   this.application.getRequestCycleSettings().setBufferResponse(false);
-  this.application.getResourceSettings().setResourceFinder(new WebApplicationPath(context));
+  if (this.application.getResourceFinder() == null) {
+    this.application.getResourceSettings().setResourceFinder(new WebApplicationPath(context));
+  }
   this.application.getPageSettings().setAutomaticMultiWindowSupport(false);
   this.application.getResourceSettings().setResourcePollFrequency(null);
 }
