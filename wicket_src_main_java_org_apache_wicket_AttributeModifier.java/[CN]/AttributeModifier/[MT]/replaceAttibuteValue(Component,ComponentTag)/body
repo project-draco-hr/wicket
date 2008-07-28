@@ -1,29 +1,3 @@
 {
-  if (isEnabled(component)) {
-    final IValueMap attributes=tag.getAttributes();
-    final Object replacementValue=getReplacementOrNull(component);
-    if (VALUELESS_ATTRIBUTE_ADD.equals(replacementValue)) {
-      attributes.put(attribute,null);
-    }
- else     if (VALUELESS_ATTRIBUTE_REMOVE.equals(replacementValue)) {
-      attributes.remove(attribute);
-    }
- else {
-      if (attributes.containsKey(attribute)) {
-        final String value=toStringOrNull(attributes.get(attribute));
-        if (pattern == null || value.matches(pattern)) {
-          final String newValue=newValue(value,toStringOrNull(replacementValue));
-          if (newValue != null) {
-            attributes.put(attribute,getContextRelativeValue(newValue));
-          }
-        }
-      }
- else       if (addAttributeIfNotPresent) {
-        final String newValue=newValue(null,toStringOrNull(replacementValue));
-        if (newValue != null) {
-          attributes.put(attribute,getContextRelativeValue(newValue));
-        }
-      }
-    }
-  }
+  replaceAttributeValue(component,tag);
 }
