@@ -1,9 +1,10 @@
 {
-  RfcCompliantEmailAddressValidator validator=RfcCompliantEmailAddressValidator.getInstance();
-  String[] inValidEmails=new String[]{"whatever","dont.end.in.a.dot.@gmail.com",".dot.in.the.beginning.is.not.good@wicketframework.org"};
+  IValidator validator=RfcCompliantEmailAddressValidator.getInstance();
+  String[] inValidEmails=new String[]{"whatever","dont.end.in.a.dot.@gmail.com",".dot.in.the.beginning.is.not.good@wicketframework.org"," space@front.com","space@back.com ","\ttab@front.com","tab@back.com\t"};
   for (int i=0; i < inValidEmails.length; i++) {
     String emailAddress=inValidEmails[i];
-    Matcher matcher=validator.getPattern().matcher(emailAddress);
-    assertFalse(emailAddress + " was valid but shouldn't be",matcher.matches());
+    Validatable validatable=new Validatable(emailAddress);
+    validator.validate(validatable);
+    assertFalse(emailAddress + " was valid but shouldn't be",validatable.isValid());
   }
 }
