@@ -6,9 +6,15 @@
   response.setContentType("text/" + getMarkupType() + "; charset="+ encoding);
   final MarkupStream markupStream=findMarkupStream();
   if ((markupStream != null) && (markupStream.getXmlDeclaration() != null) && (application.getMarkupSettings().getStripXmlDeclarationFromOutput() == false)) {
-    response.write("<?xml version='1.0' encoding='");
+    final String quoteChar=(markupStream.getXmlDeclaration().indexOf('\"') == -1) ? "'" : "\"";
+    response.write("<?xml version=");
+    response.write(quoteChar);
+    response.write("1.0");
+    response.write(quoteChar);
+    response.write(" encoding=");
+    response.write(quoteChar);
     response.write(encoding);
-    response.write("'?>");
+    response.write(quoteChar + "?>");
   }
   response.setLocale(getSession().getLocale());
 }
