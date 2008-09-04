@@ -1,6 +1,12 @@
 {
   final String path=contextRelativePath.getObject();
   final String prefix=component.getRequest().getRelativePathPrefixToContextRoot();
-  final String contextRelativePath=Strings.join("/",prefix,path);
+  final String contextRelativePath;
+  if (!Strings.isEmpty(prefix)) {
+    contextRelativePath=Strings.join("/",prefix,path);
+  }
+ else {
+    contextRelativePath=path;
+  }
   tag.put("src",contextRelativePath);
 }
