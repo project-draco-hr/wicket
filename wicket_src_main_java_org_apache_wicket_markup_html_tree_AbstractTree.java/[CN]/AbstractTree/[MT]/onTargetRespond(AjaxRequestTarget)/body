@@ -9,8 +9,8 @@
       target.prependJavascript(js);
     }
     while (dirtyItemsCreateDOM.isEmpty() == false) {
-      for (Iterator i=dirtyItemsCreateDOM.iterator(); i.hasNext(); ) {
-        TreeItem item=(TreeItem)i.next();
+      for (Iterator<TreeItem> i=dirtyItemsCreateDOM.iterator(); i.hasNext(); ) {
+        TreeItem item=i.next();
         TreeItem parent=item.getParentItem();
         int index=parent.getChildren().indexOf(item);
         TreeItem previous;
@@ -31,8 +31,8 @@
         }
       }
     }
-    for (Iterator i=dirtyItems.iterator(); i.hasNext(); ) {
-      TreeItem item=(TreeItem)i.next();
+    for (Iterator<TreeItem> i=dirtyItems.iterator(); i.hasNext(); ) {
+      TreeItem item=i.next();
       if (item.getChildren() == null) {
         buildItemChildren(item);
         item.setRenderChildren(true);
