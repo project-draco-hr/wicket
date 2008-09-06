@@ -1,8 +1,8 @@
 {
   domainObject=new MockDomainObjectFileUpload();
-  Form form=new Form("form",new CompoundPropertyModel(domainObject)){
+  Form<MockDomainObjectFileUpload> form=new Form<MockDomainObjectFileUpload>("form",new CompoundPropertyModel<MockDomainObjectFileUpload>(domainObject)){
     private static final long serialVersionUID=1L;
-    protected void onSubmit(){
+    @Override protected void onSubmit(){
       fileUpload=fileUploadField.getFileUpload();
     }
   }
@@ -10,8 +10,8 @@
   add(form);
   form.setMultiPart(true);
   form.setMaxSize(Bytes.kilobytes(100));
-  form.add(new TextField("text"));
-  fileUploadField=new FileUploadField("file");
+  form.add(new TextField<String>("text"));
+  fileUploadField=new FileUploadField("file",new Model<FileUpload>());
   fileUploadField.setRequired(true);
   form.add(fileUploadField);
 }
