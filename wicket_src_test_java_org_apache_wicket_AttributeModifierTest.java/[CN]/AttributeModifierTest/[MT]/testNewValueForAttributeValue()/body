@@ -1,7 +1,7 @@
 {
   AttributeModifier modifier=new AttributeModifier("test",null){
     private static final long serialVersionUID=1L;
-    protected String newValue(    String currentValue,    String replacementValue){
+    @Override protected String newValue(    String currentValue,    String replacementValue){
       return currentValue + " two";
     }
   }
@@ -10,9 +10,9 @@
   ComponentTag tag=new ComponentTag(xmlTag);
   tag.setId("test");
   tag.setName("id");
-  Map attributes=tag.getAttributes();
+  Map<String,Object> attributes=tag.getAttributes();
   attributes.put("test","one");
-  modifier.replaceAttibuteValue(null,tag);
+  modifier.replaceAttributeValue(null,tag);
   String replacement=(String)attributes.get("test");
   assertNotNull(replacement);
   assertEquals("one two",replacement);

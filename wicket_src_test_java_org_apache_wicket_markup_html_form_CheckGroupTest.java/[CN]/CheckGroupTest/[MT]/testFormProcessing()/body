@@ -3,25 +3,25 @@
   final String check2="check2-selection";
   MockModelObject modelObject=new MockModelObject();
   modelObject.setProp2(check2);
-  List list=new ArrayList();
-  Model model=new Model((Serializable)list);
-  final CheckGroup group2=new CheckGroup("group2",model);
+  List<Object> list=new ArrayList<Object>();
+  CollectionModel<Object> model=new CollectionModel<Object>(list);
+  final CheckGroup<Object> group2=new CheckGroup<Object>("group2",model);
   assertTrue(group2.getDefaultModelObject() == list);
-  final CheckGroup group3=new CheckGroup("group3",list);
+  final CheckGroup<Object> group3=new CheckGroup<Object>("group3",list);
   assertTrue(group3.getDefaultModelObject() == list);
-  RequestCycle cycle=tester.createRequestCycle();
+  tester.createRequestCycle();
   MockPage page=new MockPage();
-  final Form form=new Form("form",new CompoundPropertyModel(modelObject)){
+  final Form<MockModelObject> form=new Form<MockModelObject>("form",new CompoundPropertyModel<MockModelObject>(modelObject)){
     private static final long serialVersionUID=1L;
-    public String getMarkupId(){
+    @Override public String getMarkupId(){
       return "foo";
     }
   }
 ;
-  final CheckGroup group=new CheckGroup("prop1");
+  final CheckGroup<Object> group=new CheckGroup<Object>("prop1");
   final WebMarkupContainer container=new WebMarkupContainer("container");
-  final Check choice1=new Check("check1",new Model(check1));
-  final Check choice2=new Check("prop2");
+  final Check<Serializable> choice1=new Check<Serializable>("check1",new Model<Serializable>(check1));
+  final Check<String> choice2=new Check<String>("prop2");
   page.add(form);
   form.add(group);
   group.add(container);
