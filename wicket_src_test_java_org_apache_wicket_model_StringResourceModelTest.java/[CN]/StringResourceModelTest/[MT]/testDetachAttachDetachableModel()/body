@@ -1,14 +1,14 @@
 {
-  IModel wsDetachModel=new LoadableDetachableModel(){
+  IModel<WeatherStation> wsDetachModel=new LoadableDetachableModel<WeatherStation>(){
     private static final long serialVersionUID=1L;
-    protected Object load(){
+    @Override protected WeatherStation load(){
       return new WeatherStation();
     }
   }
 ;
   StringResourceModel model=new StringResourceModel("simple.text",page,wsDetachModel);
   tester.setupRequestAndResponse();
-  RequestCycle cycle=new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
+  new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
   model.getObject();
   Assert.assertNotNull(model.getLocalizer());
   model.detach();

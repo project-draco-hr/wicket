@@ -1,22 +1,22 @@
 {
   final String radio1="radio1-selection";
   MockModelObject modelObject=new MockModelObject();
-  Model model=new Model();
-  RequestCycle cycle=tester.createRequestCycle();
+  Model<String> model=new Model<String>();
+  tester.createRequestCycle();
   MockPage page=new MockPage();
-  final Form form=new Form("form",new CompoundPropertyModel(modelObject)){
+  final Form<MockModelObject> form=new Form<MockModelObject>("form",new CompoundPropertyModel<MockModelObject>(modelObject)){
     private static final long serialVersionUID=1L;
-    public String getMarkupId(){
+    @Override public String getMarkupId(){
       return "foo";
     }
   }
 ;
-  final RadioGroup group=new RadioGroup("prop1");
+  final RadioGroup<String> group=new RadioGroup<String>("prop1");
   final WebMarkupContainer container=new WebMarkupContainer("container");
-  final Radio choice1=new Radio("radio1",new Model(radio1));
-  final Radio choice2=new Radio("prop2");
-  final RadioGroup group2=new RadioGroup("group2",model);
-  final Radio choice3=new Radio("radio3",new Model(radio1));
+  final Radio<String> choice1=new Radio<String>("radio1",new Model<String>(radio1));
+  final Radio<String> choice2=new Radio<String>("prop2");
+  final RadioGroup<String> group2=new RadioGroup<String>("group2",model);
+  final Radio<String> choice3=new Radio<String>("radio3",new Model<String>(radio1));
   page.add(form);
   form.add(group);
   group.add(container);

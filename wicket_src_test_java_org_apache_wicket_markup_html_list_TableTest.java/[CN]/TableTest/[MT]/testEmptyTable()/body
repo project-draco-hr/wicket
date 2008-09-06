@@ -1,12 +1,12 @@
 {
-  PageableListView table=createTable(0,4);
+  PageableListView<?> table=createTable(0,4);
   assertEquals(4,table.getRowsPerPage());
   assertEquals(0,table.getCurrentPage());
   assertEquals(0,table.getPageCount());
   assertEquals(0,table.getViewSize());
-  table=new PageableListView("table",new Model(null),10){
+  table=new PageableListView<Void>("table",new ListModel<Void>(),10){
     private static final long serialVersionUID=1L;
-    protected void populateItem(    final ListItem listItem){
+    @Override protected void populateItem(    final ListItem<Void> listItem){
     }
   }
 ;

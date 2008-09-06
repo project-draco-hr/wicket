@@ -1,11 +1,11 @@
 {
   WicketTester tester=new WicketTester();
-  ListView lv=createListView(0);
+  ListView<?> lv=createListView(0);
   assertEquals(0,lv.getStartIndex());
   assertEquals(0,lv.getViewSize());
-  lv=new ListView("listView",new Model(null)){
+  lv=new ListView<Void>("listView",new ListModel<Void>()){
     private static final long serialVersionUID=1L;
-    protected void populateItem(    final ListItem listItem){
+    @Override protected void populateItem(    final ListItem<Void> listItem){
     }
   }
 ;
