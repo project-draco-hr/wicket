@@ -1,0 +1,21 @@
+{
+  if (multiPart) {
+    return true;
+  }
+ else {
+    final boolean[] anyEmbeddedMultipart=new boolean[]{false};
+    visitChildren(Form.class,new IVisitor<Form<?>>(){
+      public Object component(      Form<?> form){
+        if (form.multiPart) {
+          anyEmbeddedMultipart[0]=true;
+          return STOP_TRAVERSAL;
+        }
+ else {
+          return CONTINUE_TRAVERSAL;
+        }
+      }
+    }
+);
+    return anyEmbeddedMultipart[0];
+  }
+}
