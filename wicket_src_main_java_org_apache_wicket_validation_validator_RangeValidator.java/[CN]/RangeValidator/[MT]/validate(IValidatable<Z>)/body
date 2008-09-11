@@ -1,0 +1,10 @@
+{
+  Z value=validatable.getValue();
+  if (value.compareTo(minimum) < 0 || value.compareTo(maximum) > 0) {
+    ValidationError error=new ValidationError();
+    error.addMessageKey("RangeValidator");
+    error.setVariable("minimum",minimum);
+    error.setVariable("maximum",maximum);
+    validatable.error(error);
+  }
+}

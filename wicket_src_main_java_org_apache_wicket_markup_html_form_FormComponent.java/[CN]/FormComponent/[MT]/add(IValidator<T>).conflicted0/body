@@ -1,0 +1,10 @@
+{
+  if (validator == null) {
+    throw new IllegalArgumentException("validator argument cannot be null");
+  }
+  validators_add(validator);
+  if (validator instanceof IValidatorAddListener) {
+    ((IValidatorAddListener)validator).onAdded(this);
+  }
+  return this;
+}

@@ -1,0 +1,18 @@
+{
+  IValidator<Integer> validator=new RangeValidator<Integer>(1,8);
+  Validatable<Integer> validatable=new Validatable<Integer>(new Integer(0));
+  validator.validate(validatable);
+  assertEquals(1,validatable.getErrors().size());
+  validatable=new Validatable<Integer>(new Integer(1));
+  validator.validate(validatable);
+  assertEquals(0,validatable.getErrors().size());
+  validatable=new Validatable<Integer>(new Integer(5));
+  validator.validate(validatable);
+  assertEquals(0,validatable.getErrors().size());
+  validatable=new Validatable<Integer>(new Integer(8));
+  validator.validate(validatable);
+  assertEquals(0,validatable.getErrors().size());
+  validatable=new Validatable<Integer>(new Integer(9));
+  validator.validate(validatable);
+  assertEquals(1,validatable.getErrors().size());
+}
