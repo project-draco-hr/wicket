@@ -9,10 +9,10 @@
   if (request.getParameter(IGNORE_IF_NOT_ACTIVE_PARAMETER_NAME) != null) {
     parameters.setOnlyProcessIfPathActive(true);
   }
-  Map map=request.getParameterMap();
-  Iterator iterator=map.keySet().iterator();
+  Map<String,String[]> map=request.getParameterMap();
+  Iterator<String> iterator=map.keySet().iterator();
   while (iterator.hasNext()) {
-    String key=(String)iterator.next();
+    String key=iterator.next();
     if (key.startsWith(NAME_SPACE)) {
       iterator.remove();
     }

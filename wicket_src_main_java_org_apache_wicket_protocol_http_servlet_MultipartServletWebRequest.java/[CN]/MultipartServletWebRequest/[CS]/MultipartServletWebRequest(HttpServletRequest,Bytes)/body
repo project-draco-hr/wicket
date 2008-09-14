@@ -14,10 +14,10 @@
     upload.setHeaderEncoding(encoding);
   }
   upload.setSizeMax(maxSize.bytes());
-  final List items;
+  final List<FileItem> items;
   if (wantUploadProgressUpdates()) {
     ServletRequestContext ctx=new ServletRequestContext(request){
-      public InputStream getInputStream() throws IOException {
+      @Override public InputStream getInputStream() throws IOException {
         return new CountingInputStream(super.getInputStream());
       }
     }
@@ -30,8 +30,8 @@
  else {
     items=upload.parseRequest(request);
   }
-  for (Iterator i=items.iterator(); i.hasNext(); ) {
-    final FileItem item=(FileItem)i.next();
+  for (Iterator<FileItem> i=items.iterator(); i.hasNext(); ) {
+    final FileItem item=i.next();
     if (item.isFormField()) {
       final String value;
       if (encoding != null) {

@@ -5,11 +5,11 @@
   }
   s.defaultWriteObject();
   s.writeInt(directComponentRefs.size());
-  Iterator it=directComponentRefs.entrySet().iterator();
+  Iterator<IntHashMap.Entry<ComponentAndInterface>> it=directComponentRefs.entrySet().iterator();
   while (it.hasNext()) {
-    IntHashMap.Entry entry=(Entry)it.next();
+    IntHashMap.Entry<ComponentAndInterface> entry=it.next();
     s.writeInt(entry.getKey());
-    ComponentAndInterface cai=(ComponentAndInterface)entry.getValue();
+    ComponentAndInterface cai=entry.getValue();
     s.writeObject(cai.getComponent());
     s.writeUTF(cai.getInterfaceName());
   }

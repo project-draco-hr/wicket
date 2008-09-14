@@ -4,7 +4,7 @@
     if (isAjax == false) {
       fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
     }
-    AjaxLink link=(AjaxLink)linkComponent;
+    AjaxLink<?> link=(AjaxLink<?>)linkComponent;
     setupRequestAndResponse(true);
     WebRequestCycle requestCycle=createRequestCycle();
     callOnBeginRequest(requestCycle);
@@ -14,7 +14,7 @@
     processRequestCycle(requestCycle);
   }
  else   if (linkComponent instanceof AjaxFallbackLink && isAjax) {
-    AjaxFallbackLink link=(AjaxFallbackLink)linkComponent;
+    AjaxFallbackLink<?> link=(AjaxFallbackLink<?>)linkComponent;
     setupRequestAndResponse(true);
     WebRequestCycle requestCycle=createRequestCycle();
     AjaxRequestTarget target=new AjaxRequestTarget(link.getPage());
@@ -52,7 +52,7 @@
  else   if (linkComponent instanceof AbstractLink) {
     AbstractLink link=(AbstractLink)linkComponent;
     if (link instanceof BookmarkablePageLink) {
-      BookmarkablePageLink bookmarkablePageLink=(BookmarkablePageLink)link;
+      BookmarkablePageLink<?> bookmarkablePageLink=(BookmarkablePageLink<?>)link;
       try {
         Field parametersField=BookmarkablePageLink.class.getDeclaredField("parameters");
         Method getParametersMethod=BookmarkablePageLink.class.getDeclaredMethod("getPageParameters",(Class[])null);

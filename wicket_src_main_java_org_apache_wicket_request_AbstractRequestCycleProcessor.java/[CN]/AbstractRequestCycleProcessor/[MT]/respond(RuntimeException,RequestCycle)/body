@@ -7,19 +7,19 @@
     throw new RestartResponseException(override);
   }
  else   if (e instanceof AuthorizationException) {
-    Class accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
+    Class<? extends Page> accessDeniedPageClass=application.getApplicationSettings().getAccessDeniedPage();
     throw new RestartResponseAtInterceptPageException(accessDeniedPageClass);
   }
  else   if (e instanceof PageExpiredException) {
-    Class pageExpiredErrorPageClass=application.getApplicationSettings().getPageExpiredErrorPage();
+    Class<? extends Page> pageExpiredErrorPageClass=application.getApplicationSettings().getPageExpiredErrorPage();
     boolean mounted=isPageMounted(pageExpiredErrorPageClass);
     RequestCycle.get().setRedirect(mounted);
     throw new RestartResponseException(pageExpiredErrorPageClass);
   }
  else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
     requestCycle.setRedirect(false);
-    Class internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
-    Class responseClass=responsePage != null ? responsePage.getClass() : null;
+    Class<? extends Page> internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
+    Class<? extends Page> responseClass=responsePage != null ? responsePage.getClass() : null;
     if (responseClass != internalErrorPageClass && settings.getUnexpectedExceptionDisplay() == IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE) {
       throw new RestartResponseException(internalErrorPageClass);
     }
