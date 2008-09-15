@@ -1,7 +1,7 @@
 {
   super(name,new CompoundPropertyModel<FormInputModel>(new FormInputModel()));
   add(new LocaleDropDownChoice("localeSelect"));
-  add(new Link("defaultLocaleLink"){
+  add(new Link<Void>("defaultLocaleLink"){
     @Override public void onClick(){
       WebRequest request=(WebRequest)getRequest();
       setLocale(request.getLocale());
@@ -46,10 +46,10 @@
   checks.add(checksList);
   add(new ListMultipleChoice<String>("siteSelection",SITES));
   add(new TextField<URL>("urlProperty",URL.class){
-    @SuppressWarnings("unchecked") @Override public <X>IConverter<X> getConverter(    final Class<X> type){
+    @Override public IConverter getConverter(    final Class<?> type){
       if (URL.class.isAssignableFrom(type)) {
-        return (IConverter<X>)new IConverter<URL>(){
-          public URL convertToObject(          String value,          Locale locale){
+        return new IConverter(){
+          public Object convertToObject(          String value,          Locale locale){
             try {
               return new URL(value.toString());
             }
@@ -57,7 +57,7 @@
               throw new ConversionException("'" + value + "' is not a valid URL");
             }
           }
-          public String convertToString(          URL value,          Locale locale){
+          public String convertToString(          Object value,          Locale locale){
             return value != null ? value.toString() : null;
           }
         }
@@ -70,9 +70,9 @@
   }
 );
   add(new TextField<UsPhoneNumber>("phoneNumberUS",UsPhoneNumber.class){
-    @SuppressWarnings("unchecked") @Override public <X>IConverter<X> getConverter(    final Class<X> type){
+    @Override public IConverter getConverter(    final Class<?> type){
       if (UsPhoneNumber.class.isAssignableFrom(type)) {
-        return (IConverter<X>)new MaskConverter<UsPhoneNumber>("(###) ###-####",UsPhoneNumber.class);
+        return new MaskConverter("(###) ###-####",UsPhoneNumber.class);
       }
  else {
         return super.getConverter(type);
