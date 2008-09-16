@@ -2,7 +2,8 @@
   final MarkupStream stream=getMarkupStream(component);
   final Response response=component.getResponse();
   while (stream.hasMore()) {
-    MarkupElement e=stream.next();
+    MarkupElement e=stream.get();
+    stream.next();
     if (e instanceof WicketTag) {
       WicketTag wt=(WicketTag)e;
       if (wt.isBorderTag() && wt.isClose()) {
