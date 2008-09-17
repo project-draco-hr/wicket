@@ -6,8 +6,10 @@
     }
  else {
       List<SerializedPage> pages=getPagesToSaveList(sessionId);
+      if (pages != null) {
 synchronized (pages) {
-        flushPagesToSaveList(sessionId,pages);
+          pages.clear();
+        }
         entry.unbind();
       }
       pagesToSaveAll.remove(sessionId);
