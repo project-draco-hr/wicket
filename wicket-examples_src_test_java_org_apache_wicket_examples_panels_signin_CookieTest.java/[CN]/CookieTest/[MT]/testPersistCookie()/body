@@ -6,7 +6,7 @@
   for (  Cookie cooky : cookies) {
     String pathOfStoredComponent=cooky.getName().replaceAll("\\.",":");
     Assert.assertNotNull(page.get(pathOfStoredComponent));
-    if (page.get(pathOfStoredComponent).getDefaultModelObjectAsString() != "") {
+    if (!page.get(pathOfStoredComponent).getDefaultModelObjectAsString().equals("")) {
       Assert.assertEquals(cooky.getValue(),page.get(pathOfStoredComponent).getDefaultModelObjectAsString());
     }
   }
