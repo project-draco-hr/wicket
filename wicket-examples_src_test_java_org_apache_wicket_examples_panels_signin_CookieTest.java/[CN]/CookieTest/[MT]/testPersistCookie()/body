@@ -4,9 +4,10 @@
   Collection<Cookie> cookies=tester.getServletResponse().getCookies();
   Assert.assertEquals(2,cookies.size());
   for (  Cookie cooky : cookies) {
-    Assert.assertNotNull(page.get(cooky.getName()));
-    if (page.get(cooky.getName()).getDefaultModelObjectAsString() != "") {
-      Assert.assertEquals(cooky.getValue(),page.get(cooky.getName()).getDefaultModelObjectAsString());
+    String pathOfStoredComponent=cooky.getName().replaceAll("\\.",":");
+    Assert.assertNotNull(page.get(pathOfStoredComponent));
+    if (page.get(pathOfStoredComponent).getDefaultModelObjectAsString() != "") {
+      Assert.assertEquals(cooky.getValue(),page.get(pathOfStoredComponent).getDefaultModelObjectAsString());
     }
   }
 }
