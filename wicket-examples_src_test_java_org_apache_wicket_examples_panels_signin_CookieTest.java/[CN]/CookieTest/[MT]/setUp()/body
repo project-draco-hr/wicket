@@ -4,23 +4,23 @@
   tester.setupRequestAndResponse();
   final ISecuritySettings settings=tester.getApplication().getSecuritySettings();
   settings.setCryptFactory(new NoCryptFactory());
-  this.panel=new SignInPanel("panel"){
-    public boolean signIn(    final String username,    final String password){
+  panel=new SignInPanel("panel"){
+    @Override public boolean signIn(    final String username,    final String password){
       return true;
     }
   }
 ;
-  this.panel.setPersistent(true);
-  this.form=(Form)panel.get("signInForm");
+  panel.setPersistent(true);
+  form=(Form<?>)panel.get("signInForm");
   final ICrypt crypt=tester.getApplication().getSecuritySettings().getCryptFactory().newCrypt();
   final String encryptedPassword=crypt.encryptUrlSafe("test");
   assertNotNull(encryptedPassword);
-  this.cookieUsername=new Cookie("panel:signInForm:username","juergen");
-  this.cookiePassword=new Cookie("panel:signInForm:password",encryptedPassword);
-  this.cookies=new Cookie[]{cookieUsername,cookiePassword};
+  cookieUsername=new Cookie("panel:signInForm:username","juergen");
+  Cookie cookiePassword=new Cookie("panel:signInForm:password",encryptedPassword);
+  Cookie[] cookies=new Cookie[]{cookieUsername,cookiePassword};
   tester.getServletRequest().setCookies(cookies);
-  cycle=new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
-  this.page=new MockPage(null);
-  page.add(this.panel);
-  WebRequestCycle cycle=new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
+  new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
+  page=new MockPage(null);
+  page.add(panel);
+  new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
 }

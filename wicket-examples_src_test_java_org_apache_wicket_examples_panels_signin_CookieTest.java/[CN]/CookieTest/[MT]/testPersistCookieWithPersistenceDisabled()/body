@@ -1,9 +1,8 @@
 {
-  this.panel.setPersistent(false);
-  this.form.onFormSubmitted();
-  Collection cookies=tester.getServletResponse().getCookies();
-  Iterator iter=cookies.iterator();
-  while (iter.hasNext()) {
-    Assert.assertEquals(0,((Cookie)iter.next()).getMaxAge());
+  panel.setPersistent(false);
+  form.onFormSubmitted();
+  Collection<Cookie> cookies=tester.getServletResponse().getCookies();
+  for (  Cookie cooky : cookies) {
+    Assert.assertEquals(0,(cooky).getMaxAge());
   }
 }

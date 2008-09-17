@@ -1,14 +1,12 @@
 {
   panel.setPersistent(true);
-  this.form.onFormSubmitted();
-  Collection cookies=tester.getServletResponse().getCookies();
+  form.onFormSubmitted();
+  Collection<Cookie> cookies=tester.getServletResponse().getCookies();
   Assert.assertEquals(2,cookies.size());
-  Iterator iter=cookies.iterator();
-  while (iter.hasNext()) {
-    Cookie cookie=(Cookie)iter.next();
-    Assert.assertNotNull(page.get(cookie.getName()));
-    if (page.get(cookie.getName()).getDefaultModelObjectAsString() != "") {
-      Assert.assertEquals(cookie.getValue(),page.get(cookie.getName()).getDefaultModelObjectAsString());
+  for (  Cookie cooky : cookies) {
+    Assert.assertNotNull(page.get(cooky.getName()));
+    if (page.get(cooky.getName()).getDefaultModelObjectAsString() != "") {
+      Assert.assertEquals(cooky.getValue(),page.get(cooky.getName()).getDefaultModelObjectAsString());
     }
   }
 }

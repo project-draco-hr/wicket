@@ -1,7 +1,7 @@
 {
   panel.setPersistent(true);
   page.removePersistedFormData(SignInPanel.SignInForm.class,true);
-  Collection cookieCollection=tester.getServletResponse().getCookies();
+  Collection<Cookie> cookieCollection=tester.getServletResponse().getCookies();
   Assert.assertEquals(2,cookieCollection.size());
   final Cookie cookieUsername=new Cookie("panel:signInForm:username","juergen");
   final Cookie cookiePassword=new Cookie("panel:signInForm:password","test");
@@ -10,9 +10,7 @@
   page.removePersistedFormData(SignInPanel.SignInForm.class,true);
   cookieCollection=tester.getServletResponse().getCookies();
   Assert.assertEquals(4,cookieCollection.size());
-  Iterator iter=cookieCollection.iterator();
-  while (iter.hasNext()) {
-    Cookie cookie=(Cookie)iter.next();
+  for (  Cookie cookie : cookieCollection) {
     Assert.assertNotNull(page.get(cookie.getName()));
     Assert.assertEquals(cookie.getMaxAge(),0);
   }
