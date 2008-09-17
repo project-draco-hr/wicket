@@ -1,29 +1,29 @@
 {
-  add(new RatingPanel("rating1",new PropertyModel(rating1,"rating"),5,new PropertyModel(rating1,"nrOfVotes"),true){
-    protected boolean onIsStarActive(    int star){
+  add(new RatingPanel("rating1",new PropertyModel<Integer>(rating1,"rating"),5,new PropertyModel<Integer>(rating1,"nrOfVotes"),true){
+    @Override protected boolean onIsStarActive(    int star){
       return RatingsPage.rating1.isActive(star);
     }
-    protected void onRated(    int rating,    AjaxRequestTarget target){
+    @Override protected void onRated(    int rating,    AjaxRequestTarget target){
       RatingsPage.rating1.addRating(rating);
     }
   }
 );
-  add(new RatingPanel("rating2",new PropertyModel(rating2,"rating"),new Model(5),new PropertyModel(rating2,"nrOfVotes"),new PropertyModel(this,"hasVoted"),true){
-    protected String getActiveStarUrl(    int iteration){
+  add(new RatingPanel("rating2",new PropertyModel<Integer>(rating2,"rating"),new Model<Integer>(5),new PropertyModel<Integer>(rating2,"nrOfVotes"),new PropertyModel<Boolean>(this,"hasVoted"),true){
+    @Override protected String getActiveStarUrl(    int iteration){
       return getRequestCycle().urlFor(WICKETSTAR1).toString();
     }
-    protected String getInactiveStarUrl(    int iteration){
+    @Override protected String getInactiveStarUrl(    int iteration){
       return getRequestCycle().urlFor(WICKETSTAR0).toString();
     }
-    protected boolean onIsStarActive(    int star){
+    @Override protected boolean onIsStarActive(    int star){
       return RatingsPage.rating2.isActive(star);
     }
-    protected void onRated(    int rating,    AjaxRequestTarget target){
+    @Override protected void onRated(    int rating,    AjaxRequestTarget target){
       hasVoted=Boolean.TRUE;
       RatingsPage.rating2.addRating(rating);
     }
   }
 );
-  add(new ResetRatingLink("reset1",new Model(rating1)));
-  add(new ResetRatingLink("reset2",new Model(rating2)));
+  add(new ResetRatingLink("reset1",new Model<RatingModel>(rating1)));
+  add(new ResetRatingLink("reset2",new Model<RatingModel>(rating2)));
 }
