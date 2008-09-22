@@ -1,0 +1,24 @@
+{
+  int size=children_size();
+  if (idx1 < 0 || idx1 >= size) {
+    throw new IndexOutOfBoundsException("Argument idx is out of bounds: " + idx1 + "<>[0,"+ size+ ")");
+  }
+  if (idx2 < 0 || idx2 >= size) {
+    throw new IndexOutOfBoundsException("Argument idx is out of bounds: " + idx2 + "<>[0,"+ size+ ")");
+  }
+  if (idx1 == idx2) {
+    return;
+  }
+  if (children instanceof Object[]) {
+    final Object[] array=(Object[])children;
+    Object tmp=array[idx1];
+    array[idx1]=array[idx2];
+    array[idx2]=tmp;
+  }
+ else {
+    ChildList list=(ChildList)children;
+    Object tmp=list.childs[idx1];
+    list.childs[idx1]=list.childs[idx2];
+    list.childs[idx2]=tmp;
+  }
+}
