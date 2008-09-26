@@ -1,12 +1,5 @@
 {
   final String path=contextRelativePath.getObject();
-  final String prefix=component.getRequest().getRelativePathPrefixToContextRoot();
-  final String contextRelativePath;
-  if (!Strings.isEmpty(prefix)) {
-    contextRelativePath=Strings.join("/",prefix,path);
-  }
- else {
-    contextRelativePath=path;
-  }
-  tag.put("src",contextRelativePath);
+  final String rewritten=component.getRequestCycle().getProcessor().getRequestCodingStrategy().rewriteStaticRelativeUrl(path);
+  tag.put("src",rewritten);
 }

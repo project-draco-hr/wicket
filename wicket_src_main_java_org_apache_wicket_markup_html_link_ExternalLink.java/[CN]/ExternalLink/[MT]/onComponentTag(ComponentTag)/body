@@ -11,7 +11,7 @@
         if (url.length() > 0 && url.charAt(0) == '/') {
           url=url.substring(1);
         }
-        url=RequestCycle.get().getRequest().getRelativePathPrefixToContextRoot() + url;
+        url=RequestCycle.get().getProcessor().getRequestCodingStrategy().rewriteStaticRelativeUrl(url);
       }
       if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
         tag.put("href",Strings.replaceAll(url,"&","&amp;"));

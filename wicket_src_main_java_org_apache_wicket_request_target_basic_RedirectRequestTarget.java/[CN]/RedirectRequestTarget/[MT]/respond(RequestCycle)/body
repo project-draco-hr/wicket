@@ -8,7 +8,7 @@
       response.redirect(redirectUrl);
     }
  else {
-      String location=RequestCycle.get().getRequest().getRelativePathPrefixToContextRoot() + this.redirectUrl.substring(1);
+      String location=RequestCycle.get().getProcessor().getRequestCodingStrategy().rewriteStaticRelativeUrl(redirectUrl.substring(1));
       if (location.startsWith("./")) {
         location=location.substring(2);
       }
