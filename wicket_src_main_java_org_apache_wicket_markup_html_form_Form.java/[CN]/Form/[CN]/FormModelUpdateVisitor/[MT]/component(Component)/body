@@ -1,0 +1,15 @@
+{
+  if (component instanceof IFormModelUpdateListener) {
+    final Form<?> form=Form.findForm(component);
+    if (form != null) {
+      if (this.formFilter == null || this.formFilter == form) {
+        if (form.isEnabled() && form.isEnableAllowed()) {
+          if (component.isEnabled() && component.isEnableAllowed() && component.isVisibleInHierarchy()) {
+            ((IFormModelUpdateListener)component).updateModel();
+          }
+        }
+      }
+    }
+  }
+  return Component.IVisitor.CONTINUE_TRAVERSAL;
+}
