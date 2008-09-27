@@ -10,7 +10,8 @@
   }
   final String[] pairs=urlFragment.split("/");
   if (pairs.length % 2 != 0) {
-    throw new IllegalStateException("URL fragment has unmatched key/value " + "pair: " + urlFragment);
+    log.warn("URL fragment has unmatched key/value pairs, responding with 404. Fragment: " + urlFragment);
+    throw new AbortWithWebErrorCodeException(404);
   }
   ValueMap parameters=new ValueMap();
   for (int i=0; i < pairs.length; i+=2) {
