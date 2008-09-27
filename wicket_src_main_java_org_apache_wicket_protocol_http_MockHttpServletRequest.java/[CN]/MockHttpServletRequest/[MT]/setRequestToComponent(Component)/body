@@ -27,6 +27,21 @@
       throw new IllegalArgumentException("The component class doesn't seem to implement any of the known *Listener interfaces: " + component.getClass());
     }
     parameters.put(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME,pageMapName + ':' + component.getPath()+ ':'+ (version == 0 ? "" : "" + version)+ ':'+ Classes.simpleName(clazz)+ "::");
+    try {
+      RequestListenerInterface rli=(RequestListenerInterface)clazz.getField("INTERFACE").get(clazz);
+      String auto=component.getRequestCycle().urlFor(component,rli).toString();
+      int idx=auto.indexOf(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+      if (idx >= 0) {
+        auto=auto.substring(idx + WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME.length() + 1);
+      }
+      idx=auto.indexOf("&");
+      if (idx >= 0) {
+        auto=auto.substring(0,idx);
+      }
+      parameters.put(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME,auto);
+    }
+ catch (    Exception e) {
+    }
     if (component.isStateless() && component.getPage().isBookmarkable()) {
       parameters.put(WebRequestCodingStrategy.BOOKMARKABLE_PAGE_PARAMETER_NAME,pageMapName + ':' + component.getPage().getClass().getName());
     }
