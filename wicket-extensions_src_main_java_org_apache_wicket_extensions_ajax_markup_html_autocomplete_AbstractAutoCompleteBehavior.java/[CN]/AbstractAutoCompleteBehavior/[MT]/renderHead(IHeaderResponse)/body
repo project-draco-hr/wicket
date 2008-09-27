@@ -2,6 +2,13 @@
   super.renderHead(response);
   response.renderJavascriptReference(AUTOCOMPLETE_JS);
   final String id=getComponent().getMarkupId();
-  String initJS=String.format("new Wicket.AutoComplete('%s','%s',%s);",id,getCallbackUrl(),constructSettingsJS());
+  String indicatorId=findIndicatorId();
+  if (Strings.isEmpty(indicatorId)) {
+    indicatorId="null";
+  }
+ else {
+    indicatorId="'" + indicatorId + "'";
+  }
+  String initJS=String.format("new Wicket.AutoComplete('%s','%s',%s,%s);",id,getCallbackUrl(),constructSettingsJS(),indicatorId);
   response.renderOnDomReadyJavascript(initJS);
 }
