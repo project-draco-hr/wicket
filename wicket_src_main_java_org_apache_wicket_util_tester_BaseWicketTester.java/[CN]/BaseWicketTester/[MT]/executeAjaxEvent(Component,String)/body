@@ -15,13 +15,7 @@
   }
   failMessage="No AjaxEventBehavior found on component: " + component.getId() + " which matches the event: "+ event;
   notNull(failMessage,ajaxEventBehavior);
-  WebRequestCycle requestCycle;
-  if (RequestCycle.get() == null) {
-    requestCycle=setupRequestAndResponse(true);
-  }
- else {
-    requestCycle=(WebRequestCycle)RequestCycle.get();
-  }
+  WebRequestCycle requestCycle=resolveRequestCycle();
   if (!requestCycle.getWebRequest().isAjax()) {
     HttpServletRequest req=requestCycle.getWebRequest().getHttpServletRequest();
     if (req instanceof MockHttpServletRequest) {
