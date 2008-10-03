@@ -1,32 +1,3 @@
 {
-  this.challengeId=challengeId;
-  fontStyle=1;
-  this.fontSize=fontSize;
-  this.margin=margin;
-  width=this.margin * 2;
-  height=this.margin * 2;
-  char[] chars=challengeId.toCharArray();
-  charAttsList=new ArrayList<CharAttributes>();
-  TextLayout text;
-  AffineTransform textAt;
-  Shape shape;
-  for (int i=0; i < chars.length; i++) {
-    String fontName=fontNames.get(randomInt(0,fontNames.size()));
-    double rotation=Math.toRadians(randomInt(-35,35));
-    int rise=randomInt(margin / 2,margin);
-    Random ran=new Random();
-    double shearX=ran.nextDouble() * 0.2;
-    double shearY=ran.nextDouble() * 0.2;
-    CharAttributes cf=new CharAttributes(chars[i],fontName,rotation,rise,shearX,shearY);
-    charAttsList.add(cf);
-    text=new TextLayout(chars[i] + "",getFont(fontName),new FontRenderContext(null,false,false));
-    textAt=new AffineTransform();
-    textAt.rotate(rotation);
-    textAt.shear(shearX,shearY);
-    shape=text.getOutline(textAt);
-    width+=(int)shape.getBounds2D().getWidth();
-    if (height < (int)shape.getBounds2D().getHeight() + rise) {
-      height=(int)shape.getBounds2D().getHeight() + rise;
-    }
-  }
+  this(new Model<String>(challengeId),fontSize,margin);
 }
