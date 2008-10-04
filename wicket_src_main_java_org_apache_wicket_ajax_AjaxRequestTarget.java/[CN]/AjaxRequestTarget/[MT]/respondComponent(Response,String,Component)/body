@@ -12,8 +12,18 @@
     return;
   }
   page.startComponentRender(component);
-  component.prepareForRender();
-  respondHeaderContribution(response,component);
+  try {
+    component.prepareForRender();
+    respondHeaderContribution(response,component);
+  }
+ catch (  RuntimeException e) {
+    try {
+      component.afterRender();
+    }
+ catch (    RuntimeException e2) {
+    }
+    throw e;
+  }
   component.renderComponent();
   page.endComponentRender(component);
   RequestCycle.get().setResponse(originalResponse);
