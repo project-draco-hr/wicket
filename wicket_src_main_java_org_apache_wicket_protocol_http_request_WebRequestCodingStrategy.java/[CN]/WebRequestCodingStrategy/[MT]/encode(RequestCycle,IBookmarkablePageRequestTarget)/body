@@ -25,13 +25,7 @@
   }
   final PageParameters parameters=requestTarget.getPageParameters();
   if (parameters != null) {
-    final Iterator<String> iterator;
-    if (UnitTestSettings.getSortUrlParameters()) {
-      iterator=new TreeSet<String>(parameters.keySet()).iterator();
-    }
- else {
-      iterator=parameters.keySet().iterator();
-    }
+    final Iterator<String> iterator=parameters.keySet().iterator();
     while (iterator.hasNext()) {
       final String key=iterator.next();
       final String values[]=parameters.getStringArray(key);

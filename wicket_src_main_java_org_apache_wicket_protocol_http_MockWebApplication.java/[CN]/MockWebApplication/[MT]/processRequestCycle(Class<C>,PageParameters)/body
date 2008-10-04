@@ -24,13 +24,7 @@
       WebRequestEncoder encoder=new WebRequestEncoder(buffer);
       encoder.addValue(WebRequestCodingStrategy.BOOKMARKABLE_PAGE_PARAMETER_NAME,pageMapName + Component.PATH_SEPARATOR + pageClass.getName());
       if (params != null) {
-        final Iterator<String> iterator;
-        if (UnitTestSettings.getSortUrlParameters()) {
-          iterator=new TreeSet<String>(params.keySet()).iterator();
-        }
- else {
-          iterator=params.keySet().iterator();
-        }
+        final Iterator<String> iterator=params.keySet().iterator();
         while (iterator.hasNext()) {
           final String key=iterator.next();
           final String values[]=params.getStringArray(key);
