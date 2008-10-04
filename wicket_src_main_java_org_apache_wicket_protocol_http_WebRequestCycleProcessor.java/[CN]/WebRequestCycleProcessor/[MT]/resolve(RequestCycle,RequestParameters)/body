@@ -43,7 +43,13 @@ synchronized (requestCycle.getSession()) {
       }
     }
  else {
-      throw new PageExpiredException("Request cannot be processed");
+      Request request=requestCycle.getRequest();
+      if (request instanceof WebRequest && ((WebRequest)request).isAjax()) {
+        target=EmptyAjaxRequestTarget.getInstance();
+      }
+ else {
+        throw new PageExpiredException("Request cannot be processed");
+      }
     }
   }
  else   if (requestParameters.getResourceKey() != null) {
