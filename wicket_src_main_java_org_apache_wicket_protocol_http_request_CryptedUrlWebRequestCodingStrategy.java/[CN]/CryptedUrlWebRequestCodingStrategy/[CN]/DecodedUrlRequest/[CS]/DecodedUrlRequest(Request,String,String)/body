@@ -2,8 +2,8 @@
   this.request=request;
   parameterMap=this.request.getParameterMap();
   parameterMap.remove("x");
-  String decodedParamReplacement=encodedParamReplacement;
-  decodedParamReplacement=WicketURLDecoder.QUERY_INSTANCE.decode(encodedParamReplacement);
+  String decodedParamReplacement=Strings.replaceAll(encodedParamReplacement,"&amp;","&").toString();
+  decodedParamReplacement=WicketURLDecoder.QUERY_INSTANCE.decode(decodedParamReplacement);
   ValueMap params=new ValueMap();
   RequestUtils.decodeParameters(decodedParamReplacement,params);
   parameterMap.putAll(params);
