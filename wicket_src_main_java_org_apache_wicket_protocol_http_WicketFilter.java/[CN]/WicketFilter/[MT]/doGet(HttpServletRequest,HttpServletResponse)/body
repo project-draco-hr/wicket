@@ -15,20 +15,7 @@
     if (previousClassLoader != newClassLoader) {
       Thread.currentThread().setContextClassLoader(newClassLoader);
     }
-    if (servletRequest.getCharacterEncoding() == null) {
-      try {
-        String wicketAjaxHeader=servletRequest.getHeader("wicket-ajax");
-        if (wicketAjaxHeader != null && wicketAjaxHeader.equals("true")) {
-          servletRequest.setCharacterEncoding("UTF-8");
-        }
- else {
-          servletRequest.setCharacterEncoding(webApplication.getRequestCycleSettings().getResponseRequestEncoding());
-        }
-      }
- catch (      UnsupportedEncodingException ex) {
-        throw new WicketRuntimeException(ex.getMessage());
-      }
-    }
+    checkCharacterEncoding(servletRequest);
     final WebRequest request=webApplication.newWebRequest(servletRequest);
     if (webApplication.getRequestCycleSettings().getRenderStrategy() == IRequestCycleSettings.REDIRECT_TO_BUFFER) {
       ISessionStore sessionStore=webApplication.getSessionStore();

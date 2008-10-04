@@ -10,6 +10,7 @@
       }
       resource=webApplication.getSharedResources().get(resourceReferenceKey);
       if ((resource != null) && resource.isCacheable()) {
+        checkCharacterEncoding(servletRequest);
         final WebRequest request=webApplication.newWebRequest(servletRequest);
         Session.findOrCreate(request,new WebResponse());
         resource.setParameters(request.getParameterMap());
