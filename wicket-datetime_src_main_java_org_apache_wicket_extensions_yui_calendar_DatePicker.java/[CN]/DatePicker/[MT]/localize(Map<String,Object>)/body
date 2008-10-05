@@ -1,5 +1,15 @@
 {
-  DateFormatSymbols dfSymbols=new DateFormatSymbols(getLocale());
+  DateFormatSymbols dfSymbols=null;
+  if (GETINSTANCEMETHOD != null) {
+    try {
+      dfSymbols=(DateFormatSymbols)GETINSTANCEMETHOD.invoke(null,new Object[]{getLocale()});
+    }
+ catch (    Exception e) {
+    }
+  }
+  if (dfSymbols == null) {
+    dfSymbols=new DateFormatSymbols(getLocale());
+  }
   if (Locale.SIMPLIFIED_CHINESE.equals(getLocale())) {
     dfSymbols.setShortWeekdays(new String[]{"","\u65E5","\u4E00","\u4E8C","\u4E09","\u56DB","\u4E94","\u516D"});
   }
