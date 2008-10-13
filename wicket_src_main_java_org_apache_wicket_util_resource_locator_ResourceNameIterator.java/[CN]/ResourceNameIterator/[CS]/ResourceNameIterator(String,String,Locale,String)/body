@@ -1,11 +1,50 @@
 {
   this.locale=locale;
-  if ((extensions == null) && (path.indexOf('.') != -1)) {
+  if (extensions == null) {
     this.extensions=Strings.afterLast(path,'.');
     path=Strings.beforeLast(path,'.');
   }
  else {
     this.extensions=extensions;
+  }
+  Matcher matcher=LOCALE_PATTERN.matcher(path);
+  if (matcher.find()) {
+    String language=null;
+    String country=null;
+    String variant=null;
+    int firstValidLocalePatternFragment=-1;
+    do {
+      String s=matcher.group().substring(1,3);
+      if (Character.isLowerCase(s.charAt(0))) {
+        if (isoLanguages.contains(s)) {
+          language=s;
+          firstValidLocalePatternFragment=matcher.start();
+          break;
+        }
+      }
+    }
+ while (matcher.find());
+    if (language != null) {
+      if (matcher.find()) {
+        do {
+          String s=matcher.group().substring(1,3);
+          if (Character.isUpperCase(s.charAt(0))) {
+            if (isoCountries.contains(s)) {
+              country=s;
+              break;
+            }
+          }
+        }
+ while (matcher.find());
+      }
+      if (country != null) {
+        if (matcher.find()) {
+          variant=path.substring(matcher.start());
+        }
+      }
+      path=path.substring(0,firstValidLocalePatternFragment);
+      localeIterator=new LocaleResourceNameIterator(path,new Locale(language,country != null ? country : "",variant != null ? variant : ""));
+    }
   }
   styleIterator=new StyleAndVariationResourceNameIterator(path,style,null);
 }
