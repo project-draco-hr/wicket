@@ -1,0 +1,27 @@
+{
+  final CheckGroup<Person> group=new CheckGroup<Person>("group",new ArrayList<Person>());
+  final CheckGroup<Person> group2=new CheckGroup<Person>("group2",new ArrayList<Person>());
+  Form<?> form=new Form<Void>("form"){
+    @Override protected void onSubmit(){
+      info("selection 1 person(s): " + group.getDefaultModelObjectAsString());
+      info("selection 2 person(s): " + group2.getDefaultModelObjectAsString());
+    }
+  }
+;
+  add(form);
+  form.add(group);
+  group.add(group2);
+  group2.add(new CheckGroupSelector("groupselector",group));
+  group2.add(new CheckGroupSelector("groupselector2",group2));
+  ListView<Person> persons=new ListView<Person>("persons",ComponentReferenceApplication.getPersons()){
+    @Override protected void populateItem(    ListItem<Person> item){
+      item.add(new Check<Person>("checkbox",item.getModel(),group));
+      item.add(new Check<Person>("checkbox2",item.getModel(),group2));
+      item.add(new Label("name",new PropertyModel<String>(item.getDefaultModel(),"name")));
+      item.add(new Label("lastName",new PropertyModel<String>(item.getDefaultModel(),"lastName")));
+    }
+  }
+;
+  group2.add(persons);
+  add(new FeedbackPanel("feedback"));
+}
