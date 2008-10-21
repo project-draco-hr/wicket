@@ -1,14 +1,14 @@
 {
   this.filterContext=filterContext;
   HttpServletRequest servletRequest=request.getHttpServletRequest();
-  this.portletConfig=(PortletConfig)servletRequest.getAttribute("javax.portlet.config");
-  this.portletRequest=(PortletRequest)servletRequest.getAttribute("javax.portlet.request");
-  this.portletResponse=(PortletResponse)servletRequest.getAttribute("javax.portlet.response");
-  this.renderResponse=(portletResponse instanceof RenderResponse) ? (RenderResponse)portletResponse : null;
-  this.resourceURLFactory=(PortletResourceURLFactory)portletRequest.getAttribute(WicketPortlet.RESOURCE_URL_FACTORY_ATTR);
-  this.wicketUrlPortletParameter=(String)portletRequest.getAttribute(WicketPortlet.WICKET_URL_PORTLET_PARAMETER_ATTR);
-  this.ajax=request.isAjax();
-  this.resourceRequest="true".equals(servletRequest.getAttribute(WicketPortlet.PORTLET_RESOURCE_URL_ATTR));
-  this.embedded=!(ajax || resourceRequest);
-  this.headerResponse=embedded ? newPortletHeaderResponse(response) : null;
+  portletConfig=(PortletConfig)servletRequest.getAttribute("javax.portlet.config");
+  portletRequest=(PortletRequest)servletRequest.getAttribute("javax.portlet.request");
+  portletResponse=(PortletResponse)servletRequest.getAttribute("javax.portlet.response");
+  renderResponse=(portletResponse instanceof RenderResponse) ? (RenderResponse)portletResponse : null;
+  resourceURLFactory=(PortletResourceURLFactory)portletRequest.getAttribute(WicketPortlet.RESOURCE_URL_FACTORY_ATTR);
+  wicketUrlPortletParameter=(String)portletRequest.getAttribute(WicketPortlet.WICKET_URL_PORTLET_PARAMETER_ATTR);
+  ajax=request.isAjax();
+  resourceRequest="true".equals(servletRequest.getAttribute(WicketPortlet.PORTLET_RESOURCE_URL_ATTR));
+  embedded=!(ajax || resourceRequest);
+  headerResponse=embedded ? newPortletHeaderResponse(response) : null;
 }

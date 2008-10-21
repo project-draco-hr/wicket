@@ -1,21 +1,21 @@
 {
   super(request);
-  this.session=proxiedSession;
+  session=proxiedSession;
   if (proxiedSession == null) {
-    this.session=request.getSession(false);
+    session=request.getSession(false);
   }
-  this.servletPath=makeServletPath(filterPath);
-  if ((this.contextPath=(String)request.getAttribute("javax.servlet.include.context_path")) != null) {
-    this.requestURI=(String)request.getAttribute("javax.servlet.include.request_uri");
-    this.queryString=(String)request.getAttribute("javax.servlet.include.query_string");
+  servletPath=makeServletPath(filterPath);
+  if ((contextPath=(String)request.getAttribute("javax.servlet.include.context_path")) != null) {
+    requestURI=(String)request.getAttribute("javax.servlet.include.request_uri");
+    queryString=(String)request.getAttribute("javax.servlet.include.query_string");
   }
- else   if ((this.contextPath=(String)request.getAttribute("javax.servlet.forward.context_path")) != null) {
-    this.requestURI=(String)request.getAttribute("javax.servlet.forward.request_uri");
-    this.queryString=(String)request.getAttribute("javax.servlet.forward.query_string");
+ else   if ((contextPath=(String)request.getAttribute("javax.servlet.forward.context_path")) != null) {
+    requestURI=(String)request.getAttribute("javax.servlet.forward.request_uri");
+    queryString=(String)request.getAttribute("javax.servlet.forward.query_string");
   }
  else {
-    this.contextPath=request.getContextPath();
-    this.requestURI=request.getRequestURI();
-    this.queryString=request.getQueryString();
+    contextPath=request.getContextPath();
+    requestURI=request.getRequestURI();
+    queryString=request.getQueryString();
   }
 }

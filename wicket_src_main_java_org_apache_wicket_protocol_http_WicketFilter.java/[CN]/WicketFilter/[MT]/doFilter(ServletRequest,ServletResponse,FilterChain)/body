@@ -12,7 +12,8 @@
     httpServletRequest=(HttpServletRequest)request;
     httpServletResponse=(HttpServletResponse)response;
   }
-  if (portletOnlyFilter && !inPortletContext) {
+  boolean passToNextFilter=portletOnlyFilter && !inPortletContext;
+  if (passToNextFilter) {
     chain.doFilter(request,response);
     return;
   }
