@@ -12,6 +12,9 @@
     url=requestContext.encodeSharedResourceURL(url == null ? encode(requestCycle,(ISharedResourceRequestTarget)requestTarget) : url);
     sharedResourceURL=true;
   }
+ else   if (requestTarget instanceof PageIdRequestTarget) {
+    url=encode(requestCycle,(PageIdRequestTarget)requestTarget);
+  }
  else   if (requestTarget instanceof IListenerInterfaceRequestTarget) {
     if (url == null) {
       url=encode(requestCycle,(IListenerInterfaceRequestTarget)requestTarget);

@@ -1,0 +1,18 @@
+{
+  final PageId id=requestTarget.getPageId();
+  final AppendingStringBuffer url=new AppendingStringBuffer(64);
+  url.append('?');
+  url.append(INTERFACE_PARAMETER_NAME);
+  url.append('=');
+  if (!Objects.equal(PageMap.DEFAULT_NAME,id.getPageMapName())) {
+    url.append(id.getPageMapName());
+  }
+  url.append(Component.PATH_SEPARATOR);
+  url.append(id.getPageNumber());
+  url.append(Component.PATH_SEPARATOR);
+  url.append(id.getPageVersion());
+  url.append(Component.PATH_SEPARATOR);
+  url.append(Component.PATH_SEPARATOR);
+  url.append(Component.PATH_SEPARATOR);
+  return url;
+}
