@@ -2,18 +2,13 @@
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","checkbox");
   final String value=getValue();
-  if (value != null) {
-    try {
-      if (Strings.isTrue(value)) {
-        tag.put("checked","checked");
-      }
+  final IConverter converter=getConverter(Boolean.class);
+  final Boolean checked=(Boolean)converter.convertToObject(value,getLocale());
+  if (Boolean.TRUE.equals(checked)) {
+    tag.put("checked","checked");
+  }
  else {
-        tag.remove("checked");
-      }
-    }
- catch (    StringValueConversionException e) {
-      throw new WicketRuntimeException("Invalid boolean value \"" + value + "\"",e);
-    }
+    tag.remove("checked");
   }
   if (wantOnSelectionChangedNotifications()) {
     CharSequence url=urlFor(IOnChangeListener.INTERFACE);
