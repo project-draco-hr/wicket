@@ -3,7 +3,7 @@
   if (file == null) {
     throw new IllegalStateException(getClass().getName() + " failed to retrieve a File object from model");
   }
-  final String fn=(fileName != null) ? fileName : file.getName();
+  final String fn=WicketURLEncoder.QUERY_INSTANCE.encode((fileName != null) ? fileName : file.getName());
   IResourceStream resourceStream=new FileResourceStream(new org.apache.wicket.util.file.File(file));
   getRequestCycle().setRequestTarget(new ResourceStreamRequestTarget(resourceStream){
     @Override public String getFileName(){
