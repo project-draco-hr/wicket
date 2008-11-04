@@ -11,15 +11,21 @@
     setIgnoreAttributeModifier(true);
     renderComponentTag(associatedMarkupOpenTag);
     associatedMarkupStream.next();
+    String className=null;
     if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
+      Class<?> klass=getClass();
+      while (klass.isAnonymousClass()) {
+        klass=klass.getSuperclass();
+      }
+      className=klass.getName();
       getResponse().write("<!-- MARKUP FOR ");
-      getResponse().write(getClass().getName());
+      getResponse().write(className);
       getResponse().write(" BEGIN -->");
     }
     renderComponentTagBody(associatedMarkupStream,associatedMarkupOpenTag);
     if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
       getResponse().write("<!-- MARKUP FOR ");
-      getResponse().write(getClass().getName());
+      getResponse().write(className);
       getResponse().write(" END -->");
     }
     renderClosingComponentTag(associatedMarkupStream,associatedMarkupOpenTag,false);
