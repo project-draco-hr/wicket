@@ -1,12 +1,14 @@
 {
-  boolean ajax=false;
-  String ajaxHeader=httpServletRequest.getHeader("Wicket-Ajax");
-  if (Strings.isEmpty(ajaxHeader) == false) {
-    try {
-      ajax=Strings.isTrue(ajaxHeader);
-    }
- catch (    StringValueConversionException e) {
-      log.debug("Couldn't convert the Wicket-Ajax header: " + ajaxHeader);
+  if (ajax == null) {
+    ajax=false;
+    String ajaxHeader=httpServletRequest.getHeader("Wicket-Ajax");
+    if (Strings.isEmpty(ajaxHeader) == false) {
+      try {
+        ajax=Strings.isTrue(ajaxHeader);
+      }
+ catch (      StringValueConversionException e) {
+        log.debug("Couldn't convert the Wicket-Ajax header: " + ajaxHeader);
+      }
     }
   }
   return ajax;
