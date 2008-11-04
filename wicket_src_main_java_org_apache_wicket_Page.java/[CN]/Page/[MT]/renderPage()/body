@@ -1,4 +1,13 @@
 {
+  if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
+    Class<?> klass=getClass();
+    while (klass.isAnonymousClass()) {
+      klass=klass.getSuperclass();
+    }
+    getResponse().write("<!-- Page Class ");
+    getResponse().write(klass.getName());
+    getResponse().write(" -->\n");
+  }
   if (!isActionAuthorized(RENDER)) {
     if (log.isDebugEnabled()) {
       log.debug("Page not allowed to render: " + this);
