@@ -1,3 +1,9 @@
 {
-  return new PagingNavigationIncrementLink<Void>(id,pageable,increment);
+  return new PagingNavigationIncrementLink<Void>(id,pageable,increment){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isEnabled(){
+      return PagingNavigator.this.isEnabled() && PagingNavigator.this.isEnableAllowed();
+    }
+  }
+;
 }
