@@ -18,7 +18,7 @@
       buffer.append(getPrefix());
       String id=getChoiceRenderer().getIdValue(choice,index);
       final String idAttr=getMarkupId() + "_" + id;
-      boolean enabled=isEnabled() && isEnableAllowed() && !isDisabled(choice,index,selected);
+      boolean enabled=isEnabledInHierarchy() && !isDisabled(choice,index,selected);
       buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((enabled ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"");
       if (wantOnSelectionChangedNotifications()) {
         CharSequence url=urlFor(IOnChangeListener.INTERFACE);

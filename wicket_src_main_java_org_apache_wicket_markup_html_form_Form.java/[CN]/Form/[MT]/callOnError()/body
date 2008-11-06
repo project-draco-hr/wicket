@@ -3,7 +3,7 @@
   visitChildren(Form.class,new IVisitor<Component>(){
     public Object component(    Component component){
       final Form<?> form=(Form<?>)component;
-      if (!form.isEnabled() || !form.isEnableAllowed() || !form.isVisibleInHierarchy()) {
+      if (!form.isEnabledInHierarchy() || !form.isVisibleInHierarchy()) {
         return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
       }
       if (form.hasError()) {

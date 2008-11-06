@@ -3,8 +3,8 @@
     final Form<?> form=Form.findForm(component);
     if (form != null) {
       if (this.formFilter == null || this.formFilter == form) {
-        if (form.isEnabled() && form.isEnableAllowed()) {
-          if (component.isEnabled() && component.isEnableAllowed() && component.isVisibleInHierarchy()) {
+        if (form.isEnabledInHierarchy()) {
+          if (component.isEnabledInHierarchy() && component.isVisibleInHierarchy()) {
             ((IFormModelUpdateListener)component).updateModel();
           }
         }

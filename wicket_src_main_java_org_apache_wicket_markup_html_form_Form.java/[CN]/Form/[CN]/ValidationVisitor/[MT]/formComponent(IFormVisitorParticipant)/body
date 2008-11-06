@@ -2,10 +2,10 @@
   if (component instanceof FormComponent) {
     FormComponent<?> formComponent=(FormComponent<?>)component;
     Form<?> form=formComponent.getForm();
-    if (!form.isEnabled() || !form.isEnableAllowed() || !form.isVisibleInHierarchy()) {
+    if (!form.isEnabledInHierarchy() || !form.isVisibleInHierarchy()) {
       return Component.IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
     }
-    if (formComponent.isVisibleInHierarchy() && formComponent.isValid() && formComponent.isEnabled()&& formComponent.isEnableAllowed()) {
+    if (formComponent.isVisibleInHierarchy() && formComponent.isValid() && formComponent.isEnabledInHierarchy()) {
       validate(formComponent);
     }
   }
