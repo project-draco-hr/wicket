@@ -1,7 +1,14 @@
 {
   int i=0;
   while (parameters.containsKey(String.valueOf(i))) {
-    String value=(String)parameters.get(String.valueOf(i));
+    String value=null;
+    Object parameter=parameters.get(String.valueOf(i));
+    if (parameter instanceof String[] && ((String[])parameter).length > 0) {
+      value=((String[])parameter)[0];
+    }
+ else {
+      value=parameter.toString();
+    }
     if (!url.endsWith("/")) {
       url.append("/");
     }
