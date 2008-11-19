@@ -4,7 +4,12 @@
   if (sessionId != null && store instanceof IClusteredPageStore == false) {
     Object page=lastPage;
     if (store instanceof ISerializationAwarePageStore) {
-      page=((ISerializationAwarePageStore)store).prepareForSerialization(sessionId,page);
+      if (page != null) {
+        page=((ISerializationAwarePageStore)store).prepareForSerialization(sessionId,page);
+        if (page == null) {
+          log.warn("PageStore prepared non-null page as null for serialization");
+        }
+      }
     }
     try {
       s.writeObject(page);
