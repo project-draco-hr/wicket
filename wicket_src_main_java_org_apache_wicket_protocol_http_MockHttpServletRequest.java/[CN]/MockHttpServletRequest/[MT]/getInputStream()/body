@@ -1,20 +1,10 @@
 {
-  if (uploadedFiles != null && uploadedFiles.size() > 0) {
-    byte[] request=buildRequest();
-    final ByteArrayInputStream bais=new ByteArrayInputStream(request);
-    return new ServletInputStream(){
-      @Override public int read(){
-        return bais.read();
-      }
+  byte[] request=buildRequest();
+  final ByteArrayInputStream bais=new ByteArrayInputStream(request);
+  return new ServletInputStream(){
+    @Override public int read(){
+      return bais.read();
     }
-;
   }
- else {
-    return new ServletInputStream(){
-      @Override public int read(){
-        return -1;
-      }
-    }
 ;
-  }
 }

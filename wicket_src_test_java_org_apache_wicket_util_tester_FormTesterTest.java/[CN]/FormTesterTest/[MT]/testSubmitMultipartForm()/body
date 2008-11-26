@@ -1,0 +1,12 @@
+{
+  tester.startPage(MockFormFileUploadPage.class,new PageParameters("required=false"));
+  MockFormFileUploadPage page=(MockFormFileUploadPage)tester.getLastRenderedPage();
+  MockDomainObjectFileUpload domainObject=page.getDomainObject();
+  Session.get().setLocale(Locale.US);
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setValue("text","Mock Value");
+  formTester.submit();
+  assertFalse(formTester.getForm().hasError());
+  assertNull(page.getFileUpload());
+  assertEquals("Mock Value",domainObject.getText());
+}
