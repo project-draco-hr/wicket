@@ -35,7 +35,11 @@
       }
     }
  else {
-      throw new MarkupException("Mis-placed <wicket:head>. <wicket:head> must be outside of <wicket:panel>, <wicket:border>, and <wicket:extend>");
+      final Page page=container.getPage();
+      final String pageClassName=(page != null) ? page.getClass().getName() : "unknown";
+      final IResourceStream stream=markupStream.getResource();
+      final String streamName=(stream != null) ? stream.toString() : "unknown";
+      throw new MarkupException("Mis-placed <wicket:head>. <wicket:head> must be outside of <wicket:panel>, <wicket:border>, and <wicket:extend>. Error occured while rendering page: " + pageClassName + " using markup stream: "+ streamName);
     }
     return true;
   }
