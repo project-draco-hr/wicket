@@ -1,6 +1,6 @@
 {
   if (log.isDebugEnabled()) {
-    log.debug("Getting page [path = " + path + ", versionNumber = "+ versionNumber+ "]");
+    log.debug("Getting page [path = " + componentPath + ", versionNumber = "+ versionNumber+ "]");
   }
   IPageMap pageMap=pageMapForName(pageMapName,pageMapName == PageMap.DEFAULT_NAME);
   if (pageMap != null) {
@@ -28,7 +28,7 @@ synchronized (pageMapsUsedInRequest) {
         t=entry != null ? entry.thread : null;
         if (t != null && t != Thread.currentThread() && (startTime + timeout.getMilliseconds()) < System.currentTimeMillis()) {
           AppendingStringBuffer asb=new AppendingStringBuffer(100);
-          asb.append("After " + timeout + " the Pagemap "+ pageMapName+ " is still locked by: "+ t+ ", giving up trying to get the page for path: "+ path);
+          asb.append("After " + timeout + " the Pagemap "+ pageMapName+ " is still locked by: "+ t+ ", giving up trying to get the page for path: "+ componentPath);
           try {
             StackTraceElement[] stackTrace=t.getStackTrace();
             asb.append("\n\tBegin of stack trace of " + t);
@@ -47,7 +47,7 @@ synchronized (pageMapsUsedInRequest) {
       newEntry.thread=Thread.currentThread();
       newEntry.requestCycle=RequestCycle.get();
       pageMapsUsedInRequest.put(pageMap,newEntry);
-      final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
+      final String id=Strings.firstPathComponent(componentPath,Component.PATH_SEPARATOR);
       Page page=pageMap.get(Integer.parseInt(id),versionNumber);
       if (page == null) {
         pageMapsUsedInRequest.remove(pageMap);

@@ -1,10 +1,12 @@
 {
   String wicketURL=null;
+  String wicketUrlParameterName=(String)request.getAttribute(WicketPortlet.WICKET_URL_PORTLET_PARAMETER_ATTR);
   if (request instanceof ActionRequest) {
-    wicketURL=request.getParameter((String)request.getAttribute(WicketPortlet.WICKET_URL_PORTLET_PARAMETER_ATTR));
+    wicketURL=request.getParameter(wicketUrlParameterName);
   }
  else {
-    wicketURL=request.getParameter((String)request.getAttribute(WicketPortlet.WICKET_URL_PORTLET_PARAMETER_ATTR) + request.getPortletMode().toString());
+    String parameterName=wicketUrlParameterName + request.getPortletMode().toString();
+    wicketURL=request.getParameter(parameterName);
   }
   if (wicketURL == null) {
     wicketURL=getWicketConfigParameter(request,CONFIG_PARAM_PREFIX + pageType,defaultPage);

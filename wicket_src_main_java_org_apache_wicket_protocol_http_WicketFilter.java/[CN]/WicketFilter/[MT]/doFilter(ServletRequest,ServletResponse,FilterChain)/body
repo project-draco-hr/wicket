@@ -36,7 +36,8 @@
       Application.set(webApplication);
       long lastModified=getLastModified(httpServletRequest);
       if (lastModified == -1) {
-        if (doGet(httpServletRequest,httpServletResponse) == false) {
+        boolean requestHandledByWicket=doGet(httpServletRequest,httpServletResponse);
+        if (requestHandledByWicket == false) {
           chain.doFilter(request,response);
         }
       }
