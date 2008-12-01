@@ -4,7 +4,7 @@
   baseWicketTester=wicketTester;
   baseWicketTester.setupRequestAndResponse();
   workingForm.visitFormComponents(new FormComponent.AbstractVisitor(){
-    @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent formComponent){
+    @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent<?> formComponent){
       if (!formComponent.isVisibleInHierarchy()) {
         return;
       }
@@ -23,8 +23,8 @@
       }
  else       if (formComponent instanceof ListMultipleChoice) {
         final String[] modelValues=formComponent.getValue().split(FormComponent.VALUE_SEPARATOR);
-        for (int i=0; i < modelValues.length; i++) {
-          addFormComponentValue(formComponent,modelValues[i]);
+        for (        String modelValue : modelValues) {
+          addFormComponentValue(formComponent,modelValue);
         }
       }
  else       if (formComponent instanceof CheckGroup) {
