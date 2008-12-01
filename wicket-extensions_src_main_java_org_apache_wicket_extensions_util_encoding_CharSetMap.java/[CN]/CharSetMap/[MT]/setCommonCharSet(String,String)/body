@@ -1,6 +1,7 @@
 {
-  final HashMap mapper=(HashMap)((HashMap)mappers[MAP_COM]).clone();
+  HashMap<String,String> map=(HashMap<String,String>)mappers.get(MAP_COM);
+  final HashMap<String,String> mapper=(HashMap<String,String>)map.clone();
   mapper.put(key,charset);
-  mappers[MAP_COM]=mapper;
-  mappers[MAP_CACHE].clear();
+  mappers.add(MAP_COM,mapper);
+  mappers.get(MAP_CACHE).clear();
 }

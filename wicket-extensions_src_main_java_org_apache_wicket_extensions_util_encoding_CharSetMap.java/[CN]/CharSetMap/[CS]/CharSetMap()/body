@@ -4,18 +4,18 @@
     path=System.getProperty("user.home");
     if (path != null) {
       path=path + File.separator + CHARSET_RESOURCE;
-      mappers[MAP_HOME]=loadPath(path);
+      mappers.add(MAP_HOME,loadPath(path));
     }
   }
  catch (  Exception ex) {
   }
   try {
     path=System.getProperty("java.home") + File.separator + "lib"+ File.separator+ CHARSET_RESOURCE;
-    mappers[MAP_SYS]=loadPath(path);
+    mappers.add(MAP_SYS,loadPath(path));
   }
  catch (  Exception ex) {
   }
-  mappers[MAP_JAR]=loadResource("/META-INF/" + CHARSET_RESOURCE);
-  mappers[MAP_COM]=commonMapper;
-  mappers[MAP_CACHE]=new Hashtable();
+  mappers.add(MAP_JAR,loadResource("/META-INF/" + CHARSET_RESOURCE));
+  mappers.add(MAP_COM,commonMapper);
+  mappers.add(MAP_CACHE,new Hashtable<String,String>());
 }

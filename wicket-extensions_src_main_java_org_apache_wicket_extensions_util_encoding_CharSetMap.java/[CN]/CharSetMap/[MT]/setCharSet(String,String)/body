@@ -1,7 +1,12 @@
 {
-  HashMap mapper=(HashMap)mappers[MAP_PROG];
-  mapper=(mapper != null ? (HashMap)mapper.clone() : new HashMap());
+  HashMap<String,String> mapper=(HashMap<String,String>)mappers.get(MAP_PROG);
+  if (mapper != null) {
+    mapper=(HashMap<String,String>)mapper.clone();
+  }
+ else {
+    mapper=new HashMap<String,String>();
+  }
   mapper.put(key,charset);
-  mappers[MAP_PROG]=mapper;
-  mappers[MAP_CACHE].clear();
+  mappers.add(MAP_PROG,mapper);
+  mappers.get(MAP_CACHE).clear();
 }
