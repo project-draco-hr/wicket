@@ -6,8 +6,8 @@
         private static final long serialVersionUID=1L;
         public Panel getTestPanel(        String panelId){
           try {
-            Constructor<? extends Panel> c=panelClass.getConstructor(new Class[]{String.class});
-            return c.newInstance(new Object[]{panelId});
+            Constructor<? extends Panel> c=panelClass.getConstructor(String.class);
+            return c.newInstance(panelId);
           }
  catch (          SecurityException e) {
             throw convertoUnexpect(e);

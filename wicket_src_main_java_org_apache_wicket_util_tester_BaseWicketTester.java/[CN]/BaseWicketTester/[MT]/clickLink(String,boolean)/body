@@ -55,7 +55,7 @@
       BookmarkablePageLink<?> bookmarkablePageLink=(BookmarkablePageLink<?>)link;
       try {
         Field parametersField=BookmarkablePageLink.class.getDeclaredField("parameters");
-        Method getParametersMethod=BookmarkablePageLink.class.getDeclaredMethod("getPageParameters",(Class[])null);
+        Method getParametersMethod=BookmarkablePageLink.class.getDeclaredMethod("getPageParameters",(Class<?>[])null);
         getParametersMethod.setAccessible(true);
         PageParameters parameters=(PageParameters)getParametersMethod.invoke(bookmarkablePageLink,(Object[])null);
         setParametersForNextRequest(parameters.toRequestParameters());
