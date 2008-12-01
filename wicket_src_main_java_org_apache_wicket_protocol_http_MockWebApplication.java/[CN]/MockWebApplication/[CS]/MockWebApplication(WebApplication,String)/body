@@ -39,7 +39,13 @@
   servletSession=new MockHttpSession(context);
   servletSession.setTemporary(initializeHttpSessionAsTemporary());
   servletRequest=new MockHttpServletRequest(this.application,servletSession,context);
-  servletResponse=new MockHttpServletResponse(servletRequest);
+  servletResponse=new MockHttpServletResponse(servletRequest){
+    @Override public void addCookie(    Cookie cookie){
+      super.addCookie(cookie);
+      cookiesOfThisSession.add(cookie);
+    }
+  }
+;
   wicketRequest=this.application.newWebRequest(servletRequest);
   wicketResponse=this.application.newWebResponse(servletResponse);
   createRequestCycle();
