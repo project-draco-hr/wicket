@@ -1,12 +1,12 @@
 {
   super(id,model,Date.class);
   this.datePattern=datePattern;
-  this.converter=new DateConverter(){
+  converter=new DateConverter(){
     private static final long serialVersionUID=1L;
     /** 
  * @see org.apache.wicket.util.convert.converters.DateConverter#getDateFormat(java.util.Locale)
  */
-    public DateFormat getDateFormat(    Locale locale){
+    @Override public DateFormat getDateFormat(    Locale locale){
       return new SimpleDateFormat(DateTextField.this.datePattern);
     }
   }
