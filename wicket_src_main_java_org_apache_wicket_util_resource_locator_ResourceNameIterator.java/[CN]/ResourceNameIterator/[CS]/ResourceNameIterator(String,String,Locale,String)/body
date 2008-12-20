@@ -7,42 +7,27 @@
  else {
     this.extensions=extensions;
   }
-  Matcher matcher=LOCALE_PATTERN.matcher(path);
+  String filename=Strings.lastPathComponent(path,'/');
+  Matcher matcher=LOCALE_PATTERN.matcher(filename);
   if (matcher.find()) {
-    String language=null;
-    String country=null;
-    String variant=null;
-    int firstValidLocalePatternFragment=-1;
-    do {
-      String s=matcher.group().substring(1,3);
-      if (Character.isLowerCase(s.charAt(0))) {
-        if (isoLanguages.contains(s)) {
-          language=s;
-          firstValidLocalePatternFragment=matcher.start();
-          break;
-        }
+    String language=matcher.group(1);
+    String country=matcher.group(3);
+    String variant=matcher.group(5);
+    if (language != null) {
+      if (isoLanguages.contains(language) == false) {
+        language=null;
+        country=null;
+        variant=null;
       }
     }
- while (matcher.find());
+    if ((language != null) && (country != null)) {
+      if (isoCountries.contains(country) == false) {
+        country=null;
+        variant=null;
+      }
+    }
     if (language != null) {
-      if (matcher.find()) {
-        do {
-          String s=matcher.group().substring(1,3);
-          if (Character.isUpperCase(s.charAt(0))) {
-            if (isoCountries.contains(s)) {
-              country=s;
-              break;
-            }
-          }
-        }
- while (matcher.find());
-      }
-      if (country != null) {
-        if (matcher.find()) {
-          variant=path.substring(matcher.start());
-        }
-      }
-      path=path.substring(0,firstValidLocalePatternFragment);
+      path=path.substring(0,path.length() - filename.length() + matcher.start());
       localeIterator=new LocaleResourceNameIterator(path,new Locale(language,country != null ? country : "",variant != null ? variant : ""));
     }
   }
