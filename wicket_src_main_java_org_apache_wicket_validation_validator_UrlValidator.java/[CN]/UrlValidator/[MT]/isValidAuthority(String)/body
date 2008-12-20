@@ -52,16 +52,15 @@
         segmentCount++;
       }
     }
-    String topLevel=domainSegment[segmentCount - 1];
-    if (topLevel.length() < 2 || topLevel.length() > 4) {
-      return false;
-    }
-    Matcher alphaMatcher=Pattern.compile(ALPHA_PATTERN).matcher(topLevel.substring(0,1));
-    if (!alphaMatcher.matches()) {
-      return false;
-    }
-    if (segmentCount < 2) {
-      return false;
+    if (segmentCount > 1) {
+      String topLevel=domainSegment[segmentCount - 1];
+      if (topLevel.length() < 2 || topLevel.length() > 4) {
+        return false;
+      }
+      Matcher alphaMatcher=Pattern.compile(ALPHA_PATTERN).matcher(topLevel.substring(0,1));
+      if (!alphaMatcher.matches()) {
+        return false;
+      }
     }
   }
   if (!hostname && !ipV4Address) {
