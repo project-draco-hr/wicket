@@ -1,0 +1,28 @@
+{
+  MyMockPage page=new MyMockPage();
+  tester.getApplication().getResourceSettings().setThrowExceptionOnMissingResource(false);
+  tester.getApplication().getResourceSettings().setUseDefaultOnMissingResource(false);
+  String option=localizer.getStringIgnoreSettings("dummy.null",page.drop1,null,"default");
+  assertEquals(option,"default");
+  option=localizer.getStringIgnoreSettings("dummy.null",page.drop1,null,null);
+  assertNull(option);
+  if (Strings.isEmpty(option)) {
+    option=localizer.getString("null",page.drop1,"CHOOSE_ONE");
+  }
+  assertEquals(option,"value 1");
+  tester.getApplication().getResourceSettings().setThrowExceptionOnMissingResource(false);
+  tester.getApplication().getResourceSettings().setUseDefaultOnMissingResource(false);
+  option=localizer.getString("dummy.null",page.drop1,null,"default");
+  assertEquals(option,"[Warning: Property for 'dummy.null' not found]");
+  tester.getApplication().getResourceSettings().setThrowExceptionOnMissingResource(true);
+  tester.getApplication().getResourceSettings().setUseDefaultOnMissingResource(true);
+  option=localizer.getString("dummy.null",page.drop1,null,"default");
+  assertEquals(option,"default");
+  try {
+    localizer.getString("dummy.null",page.drop1,null,null);
+    assertTrue("Expected an exception to happen",false);
+  }
+ catch (  MissingResourceException ex) {
+    assertEquals(ex.getMessage(),"Unable to find property: 'dummy.null' for component: form:drop1 [class=org.apache.wicket.markup.html.form.DropDownChoice]");
+  }
+}
