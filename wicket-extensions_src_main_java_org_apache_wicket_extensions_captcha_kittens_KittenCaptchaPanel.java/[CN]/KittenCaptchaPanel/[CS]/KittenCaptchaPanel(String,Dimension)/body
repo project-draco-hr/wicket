@@ -1,0 +1,45 @@
+{
+  super(id);
+  this.imageSize=imageSize;
+  animals=new PlacedAnimalList();
+  setOutputMarkupId(true);
+  animalSelectionLabel=new Label("animalSelectionLabel",new AbstractReadOnlyModel(){
+    private static final long serialVersionUID=6792322972316712326L;
+    @Override public Object getObject(){
+      return imageResource.selectString();
+    }
+  }
+);
+  animalSelectionLabel.setOutputMarkupId(true);
+  add(animalSelectionLabel);
+  image=new NonCachingImage("image",imageResource=new CaptchaImageResource(animals));
+  image.add(new AjaxEventBehavior("onclick"){
+    private static final long serialVersionUID=7480352029955897654L;
+    @Override protected CharSequence getCallbackScript(    boolean onlyTargetActivePage){
+      return generateCallbackScript("showLoadingIndicator(); wicketAjaxGet('" + getCallbackUrl(onlyTargetActivePage) + "&amp;x=' + getEventX(this, event) + '&amp;y=' + getEventY(this, event)");
+    }
+    @SuppressWarnings("unchecked") @Override protected void onEvent(    final AjaxRequestTarget target){
+      final WebRequest request=(WebRequest)RequestCycle.get().getRequest();
+      final Map<String,String[]> parameters=request.getParameterMap();
+      final int x=Integer.parseInt(parameters.get("x")[0]);
+      final int y=Integer.parseInt(parameters.get("y")[0]);
+      imageResource.clearData();
+      final PlacedAnimal animal=animals.atLocation(new Point(x,y));
+      if (animal != null) {
+        animal.isHighlighted=!animal.isHighlighted;
+        final StringBuilder javascript=new StringBuilder();
+        javascript.append("Wicket.$('" + image.getMarkupId() + "').src = '");
+        javascript.append(image.urlFor(IResourceListener.INTERFACE));
+        javascript.append("&rand=" + Math.random());
+        javascript.append("'");
+        target.appendJavascript(javascript.toString());
+      }
+ else {
+        target.appendJavascript(" hideLoadingIndicator();");
+      }
+      target.addComponent(animalSelectionLabel);
+    }
+  }
+);
+  add(image);
+}
