@@ -6,10 +6,9 @@
  else {
     key=PropertyResolver.class;
   }
-  Map<Class<?>,Map<String,IGetAndSet>> result=applicationToClassesToGetAndSetters.get(key);
+  IClassCache result=applicationToClassesToGetAndSetters.get(key);
   if (result == null) {
-    result=Generics.newConcurrentHashMap(64);
-    applicationToClassesToGetAndSetters.put(key,result);
+    applicationToClassesToGetAndSetters.put(key,result=new DefaultClassCache());
   }
   return result;
 }
