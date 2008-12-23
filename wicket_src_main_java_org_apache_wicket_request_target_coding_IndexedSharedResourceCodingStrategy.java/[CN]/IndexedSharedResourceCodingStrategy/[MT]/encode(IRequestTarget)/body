@@ -1,0 +1,44 @@
+{
+  if (!(requestTarget instanceof ISharedResourceRequestTarget)) {
+    throw new IllegalArgumentException("This encoder can only be used with instances of " + ISharedResourceRequestTarget.class.getName());
+  }
+  final ISharedResourceRequestTarget target=(ISharedResourceRequestTarget)requestTarget;
+  final AppendingStringBuffer url=new AppendingStringBuffer();
+  url.append(getMountPath());
+  final RequestParameters requestParameters=target.getRequestParameters();
+  @SuppressWarnings("unchecked") Map<String,Object> params=requestParameters.getParameters();
+  if (params != null) {
+    params=new HashMap<String,Object>(params);
+    int index=0;
+    while (!params.isEmpty()) {
+      final String key=Integer.toString(index++);
+      final Object value=params.get(key);
+      if (value == null) {
+        break;
+      }
+      if (value instanceof String[]) {
+        throw new IllegalArgumentException("indexed parameter value must not be an array");
+      }
+      params.remove(key);
+      url.append('/').append(urlEncodePathComponent(value.toString()));
+    }
+    if (!params.isEmpty()) {
+      boolean first=true;
+      for (      Map.Entry<String,Object> arg : params.entrySet()) {
+        final String key=urlEncodeQueryComponent(arg.getKey());
+        final Object obj=arg.getValue();
+        if (obj instanceof String[]) {
+          for (          String value : (String[])obj) {
+            appendToQueryString(url,first,key,value);
+            first=false;
+          }
+        }
+ else {
+          appendToQueryString(url,first,key,obj.toString());
+          first=false;
+        }
+      }
+    }
+  }
+  return url;
+}
