@@ -16,7 +16,7 @@
   if (date != null) {
     TimeZone zone=getClientTimeZone();
     if (zone != null) {
-      date.setZone(DateTimeZone.forTimeZone(zone));
+      date.setMillis(getMillis(TimeZone.getDefault(),zone,date.getMillis()));
     }
     if (use12HourFormat) {
       int hourOfHalfDay=date.get(DateTimeFieldType.hourOfHalfday());
