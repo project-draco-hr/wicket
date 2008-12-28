@@ -1,0 +1,18 @@
+{
+  SecurePackageResourceGuard guard=new SecurePackageResourceGuard();
+  guard.addPattern("+mydir/**/xxx/**/*.gif");
+  assertFalse(guard.acceptAbsolutePath("test.gif"));
+  assertFalse(guard.acceptAbsolutePath("mydir/test.gif"));
+  assertTrue(guard.acceptAbsolutePath("mydir/xxx/test.gif"));
+  assertTrue(guard.acceptAbsolutePath("mydir/dir2/xxx/test.gif"));
+  assertTrue(guard.acceptAbsolutePath("mydir/dir2/xxx/yyy/test.gif"));
+  assertTrue(guard.acceptAbsolutePath("mydir/dir1/xxx/test.gif"));
+  assertTrue(guard.acceptAbsolutePath("mydir/dir1/dir2/xxx/test.gif"));
+  assertTrue(guard.acceptAbsolutePath("mydir/dir1/xxx/dir3/xxx.gif"));
+  assertFalse(guard.acceptAbsolutePath("mydir/dir2/aaa/test.gif"));
+  assertFalse(guard.acceptAbsolutePath("mydir/dir2/aaa/yyy/test.gif"));
+  assertFalse(guard.acceptAbsolutePath("mydir/dir1/aaa/test.gif"));
+  assertFalse(guard.acceptAbsolutePath("mydir/dir1/dir2/aaa/test.gif"));
+  assertFalse(guard.acceptAbsolutePath("mydir/dir1/aaa/dir3/test.gif"));
+  assertFalse(guard.acceptAbsolutePath("/mydir/test.gif"));
+}

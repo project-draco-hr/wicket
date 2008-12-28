@@ -1,8 +1,7 @@
 {
   absolutePath=Packages.absolutePath(scope,path);
-  IPackageResourceGuard guard=Application.get().getResourceSettings().getPackageResourceGuard();
-  if (!guard.accept(scope,path)) {
-    throw new PackageResourceBlockedException("package resource " + absolutePath + " may not be accessed");
+  if (!accept(scope,path)) {
+    throw new PackageResourceBlockedException("Access denied to (static) package resource " + absolutePath + ". See IPackageResourceGuard");
   }
   scopeName=scope.getName();
   this.path=path;

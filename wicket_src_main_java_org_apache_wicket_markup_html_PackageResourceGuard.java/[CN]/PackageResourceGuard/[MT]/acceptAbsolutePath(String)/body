@@ -8,8 +8,24 @@
  else {
     ext=path.substring(ixExtension + 1).toLowerCase();
   }
-  if ("html".equals(ext) && getClass().getClassLoader().getResource(path.replaceAll(".html",".class")) != null) {
+  if ("html".equals(ext) && getClass().getClassLoader().getResource(path.replaceAll("\\.html",".class")) != null) {
+    log.warn("Access denied to shared (static) resource because it is a Wicket markup file: " + path);
     return false;
   }
-  return acceptExtension(ext);
+  if (acceptExtension(ext) == false) {
+    log.warn("Access denied to shared (static) resource because of the file extension: " + path);
+    return false;
+  }
+  String filename=Strings.lastPathComponent(path,'/');
+  if (acceptFile(filename) == false) {
+    log.warn("Access denied to shared (static) resource because of the file name: " + path);
+    return false;
+  }
+  if (Strings.isEmpty(Application.get().getResourceSettings().getParentFolderPlaceholder())) {
+    if (path.contains("..")) {
+      log.warn("Access to parent directories via '..' is by default disabled for shared resources: " + path);
+      return false;
+    }
+  }
+  return true;
 }

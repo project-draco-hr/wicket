@@ -1,7 +1,15 @@
 {
   final CharSequence parentEscape=Application.get().getResourceSettings().getParentFolderPlaceholder();
   final String extension=Files.extension(path);
-  final String basePath=Files.basePath(path,extension).replace("../",parentEscape + "/");
+  String basePath=Files.basePath(path,extension);
+  if (Strings.isEmpty(parentEscape) && (Application.get().getConfigurationType() == Application.DEVELOPMENT) && basePath.contains("../")) {
+    log.error("----------------------------------------------------------------------------------------");
+    log.error("Your path looks like: " + path);
+    log.error("For security reasons moving up '../' is disabled by default. Please see");
+    log.error("IResourceSettings.getParentFolderPlaceholder() and PackageResourceGuard for more details");
+    log.error("----------------------------------------------------------------------------------------");
+  }
+  basePath=basePath.replace("../",parentEscape + "/");
   final AppendingStringBuffer buffer=new AppendingStringBuffer(basePath.length() + 16);
   buffer.append(basePath);
   if (style != null) {
