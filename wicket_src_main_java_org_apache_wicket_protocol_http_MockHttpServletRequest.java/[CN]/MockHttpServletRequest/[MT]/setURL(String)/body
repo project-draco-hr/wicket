@@ -17,6 +17,8 @@
  else {
     path=url.substring(0,index);
     String queryString=url.substring(index + 1);
-    RequestUtils.decodeParameters(queryString,parameters);
+    Map<String,String[]> params=new HashMap<String,String[]>();
+    RequestUtils.decodeUrlParameters(queryString,params);
+    parameters.putAll(params);
   }
 }
