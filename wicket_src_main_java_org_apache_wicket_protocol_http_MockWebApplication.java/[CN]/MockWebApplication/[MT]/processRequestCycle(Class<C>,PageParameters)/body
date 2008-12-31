@@ -1,6 +1,5 @@
 {
-  setupRequestAndResponse();
-  final WebRequestCycle cycle=createRequestCycle();
+  final WebRequestCycle cycle=setupRequestAndResponse();
   try {
     BaseWicketTester.callOnBeginRequest(cycle);
     BookmarkablePageRequestTarget requestTarget=new BookmarkablePageRequestTarget(pageClass,params);
@@ -48,7 +47,9 @@
       path="/" + path + "/"+ path+ "/";
       getServletRequest().setURL(path + url);
     }
- else     log.warn("The application does not have a HomePage, this might cause problems or unexpected behavior");
+ else {
+      log.warn("The application does not have a HomePage, this might cause problems or unexpected behavior");
+    }
     cycle.request(requestTarget);
   }
   finally {

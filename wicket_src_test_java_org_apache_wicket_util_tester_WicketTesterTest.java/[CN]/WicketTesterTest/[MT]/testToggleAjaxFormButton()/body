@@ -3,14 +3,14 @@
   Button submit=getSubmitButton();
   assertFalse(submit.isEnabled());
   FormTester form=tester.newFormTester("form");
-  tester.setupRequestAndResponse();
+  tester.setupRequestAndResponse(true);
   form.setValue("text","XX");
   setTextFieldAndAssertSubmit(false);
   Session.get().cleanupFeedbackMessages();
-  tester.setupRequestAndResponse();
+  tester.setupRequestAndResponse(true);
   form.setValue("text","XXXYYYXXX");
   setTextFieldAndAssertSubmit(true);
-  tester.setupRequestAndResponse();
+  tester.setupRequestAndResponse(true);
   form.setValue("text","");
   setTextFieldAndAssertSubmit(false);
 }

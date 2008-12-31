@@ -1,10 +1,13 @@
 {
   WebRequestCycle requestCycle;
   if (RequestCycle.get() == null) {
-    requestCycle=setupRequestAndResponse(true);
+    requestCycle=setupRequestAndResponse();
   }
  else {
     requestCycle=(WebRequestCycle)RequestCycle.get();
+    if ((requestCycle.getWebRequest().isAjax() == false) && (isCreateAjaxRequest() == true)) {
+      requestCycle=setupRequestAndResponse();
+    }
   }
   return requestCycle;
 }

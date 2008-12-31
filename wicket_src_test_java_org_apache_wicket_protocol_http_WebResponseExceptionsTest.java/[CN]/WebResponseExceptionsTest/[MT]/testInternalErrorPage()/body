@@ -1,13 +1,20 @@
 {
   tester.startPage(TestErrorPage.class);
   AjaxLink link=(AjaxLink)tester.getComponentFromLastRenderedPage("link");
-  tester.createRequestCycle();
-  String callbackUrl=((AjaxEventBehavior)link.getBehaviors().get(0)).getCallbackUrl().toString().replaceAll("&amp;","&");
-  tester.setupRequestAndResponse();
-  (tester.getServletRequest()).addHeader("Wicket-Ajax","Yes");
-  tester.getWicketResponse().setAjax(tester.getWicketRequest().isAjax());
-  tester.getServletRequest().setURL(callbackUrl);
-  WebRequestCycle cycle=tester.createRequestCycle();
-  cycle.request();
-  tester.assertAjaxLocation();
+  try {
+    tester.executeAjaxEvent(link,"onclick");
+    assertTrue("Excepted an error message to be thrown",false);
+  }
+ catch (  IllegalStateException ex) {
+    tester.assertAjaxLocation();
+  }
+  tester.startPage(TestErrorPage.class);
+  link=(AjaxLink)tester.getComponentFromLastRenderedPage("link");
+  try {
+    tester.clickLink("link");
+    assertTrue("Excepted an error message to be thrown",false);
+  }
+ catch (  IllegalStateException ex) {
+    tester.assertAjaxLocation();
+  }
 }
