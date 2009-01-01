@@ -2,7 +2,10 @@
   if (clazz == null) {
     return null;
   }
-  IPropertiesFactory propertiesFactory=Application.get().getResourceSettings().getPropertiesFactory();
+  if (log.isDebugEnabled()) {
+    log.debug("key: '" + key + "'; class: '"+ clazz.getName()+ "'; locale: '"+ locale+ "'; Style: '"+ style+ "'");
+  }
+  IPropertiesFactory propertiesFactory=getPropertiesFactory();
   while (true) {
     String path=clazz.getName().replace('.','/');
     ResourceNameIterator iter=new ResourceNameIterator(path,style,locale,null);
@@ -13,9 +16,18 @@
         String value=props.getString(key);
         if (value != null) {
           if (log.isDebugEnabled()) {
-            log.debug("Found resource from: " + props + "; key: "+ key);
+            log.debug("Found property '" + key + "' in: '"+ props+ "'"+ "; value: '"+ value+ "'");
           }
           return value;
+        }
+ else {
+          if (log.isDebugEnabled()) {
+            log.debug("Found properties file: '" + newPath + "' but it doesn't contain the property");
+          }
+        }
+      }
+ else {
+        if (log.isDebugEnabled()) {
         }
       }
     }
