@@ -1,0 +1,24 @@
+{
+  if (page == null) {
+    try {
+      String pageParam=getPageParam();
+      if (pageParam == null) {
+        if (log.isErrorEnabled()) {
+          log.error("key: " + PAGE_CLASS + " is null.");
+        }
+        throw new AbortWithWebErrorCodeException(404,"Could not find sources for the page you requested");
+      }
+      if (!pageParam.startsWith("org.apache.wicket.examples")) {
+        if (log.isErrorEnabled()) {
+          log.error("user is trying to access class: " + pageParam + " which is not in the scope of org.apache.wicket.examples");
+        }
+        throw new UnauthorizedInstantiationException(getClass());
+      }
+      page=(Class<? extends Page>)Class.forName(getPageParam());
+    }
+ catch (    ClassNotFoundException e) {
+      throw new AbortWithWebErrorCodeException(404,"Could not find sources for the page you requested");
+    }
+  }
+  return page;
+}

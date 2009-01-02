@@ -1,31 +1,33 @@
 {
-  if (Strings.isEmpty(name)) {
+  if (Strings.isEmpty(name) && Strings.isEmpty(getPage().getRequest().getParameter(SOURCE))) {
     return "";
   }
   BufferedReader br=null;
+  String source=null;
   try {
     StringBuffer sb=new StringBuffer();
-    InputStream resourceAsStream=page.getResourceAsStream(name);
+    source=(name != null) ? name : getPage().getRequest().getParameter(SOURCE);
+    InputStream resourceAsStream=getPageTargetClass().getResourceAsStream(source);
     if (resourceAsStream == null) {
-      return "Unable to read the source for " + name;
+      return "Unable to read the source for " + source;
     }
     br=new BufferedReader(new InputStreamReader(resourceAsStream));
     while (br.ready()) {
       sb.append(br.readLine());
       sb.append("\n");
     }
-    int lastDot=name.lastIndexOf('.');
+    int lastDot=source.lastIndexOf('.');
     if (lastDot != -1) {
-      String type=name.substring(lastDot + 1);
+      String type=source.substring(lastDot + 1);
       Renderer renderer=XhtmlRendererFactory.getRenderer(type);
       if (renderer != null) {
-        return renderer.highlight(name,sb.toString(),"UTF-8",true);
+        return renderer.highlight(source,sb.toString(),"UTF-8",true);
       }
     }
     return Strings.escapeMarkup(sb.toString(),false,true).toString().replaceAll("\n","<br />");
   }
  catch (  IOException e) {
-    log.error("Unable to read resource stream for: " + name + "; Page="+ page.toString(),e);
+    log.error("Unable to read resource stream for: " + source + "; Page="+ page.toString(),e);
     return "";
   }
  finally {

@@ -1,7 +1,7 @@
 {
   super(id);
   ListView<String> lv=new ListView<String>("file",new PackagedResourcesModel()){
-    @Override protected void populateItem(    ListItem<String> item){
+    @Override protected void populateItem(    final ListItem<String> item){
       AjaxFallbackLink<String> link=new AjaxFallbackLink<String>("link",item.getModel()){
         @Override public void onClick(        AjaxRequestTarget target){
           setName(getDefaultModelObjectAsString());
@@ -9,6 +9,32 @@
             target.addComponent(codePanel);
             target.addComponent(filename);
           }
+        }
+        @Override protected CharSequence getURL(){
+          CharSequence url=urlFor(SourcesPage.class,SourcesPage.generatePageParameters(getPageTargetClass(),item.getModel().getObject()));
+          return url;
+        }
+        @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
+          return new IAjaxCallDecorator(){
+            public CharSequence decorateOnFailureScript(            CharSequence script){
+              return "window.location=this.href;";
+            }
+            public CharSequence decorateOnSuccessScript(            CharSequence script){
+              if (script == null) {
+                return "";
+              }
+              return script;
+            }
+            public CharSequence decorateScript(            CharSequence script){
+              int index=script.toString().indexOf('?');
+              if (index >= 0) {
+                String test=script.subSequence(0,index + 1) + PAGE_CLASS + "=1"+ "&"+ script.subSequence(index + 1,script.length());
+                return test;
+              }
+              return script;
+            }
+          }
+;
         }
       }
 ;

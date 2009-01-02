@@ -1,0 +1,13 @@
+{
+  final Throwable cause;
+  if (e.getCause() != null) {
+    cause=e.getCause();
+  }
+ else {
+    cause=e;
+  }
+  if (cause instanceof PageExpiredException) {
+    handlePageExpiredException((PageExpiredException)cause);
+  }
+  return super.onRuntimeException(page,e);
+}
