@@ -10,6 +10,9 @@
   form.add(group);
   group.add(new CheckGroupSelector("groupselector"));
   ListView<Person> persons=new ListView<Person>("persons",ComponentReferenceApplication.getPersons()){
+    /** 
+ * @see org.apache.wicket.markup.html.list.ListView#populateItem(org.apache.wicket.markup.html.list.ListItem)
+ */
     @Override protected void populateItem(    ListItem<Person> item){
       item.add(new Check<Person>("checkbox",item.getModel()));
       item.add(new Label("name",new PropertyModel<String>(item.getDefaultModel(),"name")));
@@ -17,6 +20,7 @@
     }
   }
 ;
+  persons.setReuseItems(true);
   group.add(persons);
   add(new FeedbackPanel("feedback"));
 }
