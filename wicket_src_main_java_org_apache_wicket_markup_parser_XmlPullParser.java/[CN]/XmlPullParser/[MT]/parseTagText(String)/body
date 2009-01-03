@@ -21,7 +21,7 @@
       }
       value=value.trim();
       final String key=attributeParser.getKey();
-      if (null != tag.put(key,value)) {
+      if (null != ((TagAttributes)tag.getAttributes()).putInternal(key,value)) {
         throw new ParseException("Same attribute found twice: " + key,input.getPosition());
       }
       if (pos == tagTextLength) {
