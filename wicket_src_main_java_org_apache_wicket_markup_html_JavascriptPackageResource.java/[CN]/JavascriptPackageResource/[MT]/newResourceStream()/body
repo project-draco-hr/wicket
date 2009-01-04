@@ -7,9 +7,12 @@
           String s=new String(input,"UTF-8");
           return JavascriptStripper.stripCommentsAndWhitespace(s).getBytes("UTF-8");
         }
- else {
-          return input;
+        IJavascriptCompressor compressor=Application.get().getResourceSettings().getJavascriptCompressor();
+        if (compressor != null) {
+          String s=new String(input,"UTF-8");
+          return compressor.compress(s).getBytes("UTF-8");
         }
+        return input;
       }
  catch (      Exception e) {
         log.error("Error while filtering content",e);
