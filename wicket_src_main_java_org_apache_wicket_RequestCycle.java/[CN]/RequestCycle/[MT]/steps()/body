@@ -12,6 +12,10 @@
  catch (      AbstractRestartResponseException e) {
         response.reset();
         currentStep=RESPOND;
+        if (getSession().isSessionInvalidated()) {
+          session=null;
+          Session.unset();
+        }
       }
     }
   }
