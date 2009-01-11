@@ -2,11 +2,15 @@
   IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)getPage().visitChildren(IFormSubmittingComponent.class,new IVisitor<Component>(){
     public Object component(    final Component component){
       final IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)component;
-      if (submittingComponent.getForm() != null && submittingComponent.getForm().getRootForm() == Form.this && (getRequest().getParameter(submittingComponent.getInputName()) != null || getRequest().getParameter(submittingComponent.getInputName() + ".x") != null)) {
-        if (!component.isVisible()) {
-          throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not visible");
+      Form<?> form=Form.findForm((Component)submittingComponent);
+      if ((form != null) && (form.getRootForm() == Form.this)) {
+        String name=submittingComponent.getInputName();
+        if ((getRequest().getParameter(name) != null) || (getRequest().getParameter(name + ".x") != null)) {
+          if (!component.isVisible()) {
+            throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not visible");
+          }
+          return submittingComponent;
         }
-        return submittingComponent;
       }
       return CONTINUE_TRAVERSAL;
     }
