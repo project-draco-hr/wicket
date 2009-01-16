@@ -16,7 +16,10 @@
       Iterator<? extends IBehavior> tagBehaviors=tag.getBehaviors();
       while (tagBehaviors.hasNext()) {
         final IBehavior behavior=tagBehaviors.next();
-        behavior.onComponentTag(this,tag);
+        if (behavior.isEnabled(this)) {
+          behavior.onComponentTag(this,tag);
+          behavior.detach(this);
+        }
       }
     }
     tag.writeOutput(getResponse(),stripWicketTags,findMarkupStream().getWicketNamespace());
