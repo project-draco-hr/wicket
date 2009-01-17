@@ -11,12 +11,16 @@
     if (domain != null) {
       cookie.setDomain(domain);
     }
-    cookie.setPath(getWebRequest().getHttpServletRequest().getContextPath());
+    String path=getWebRequest().getHttpServletRequest().getContextPath();
+    if (Strings.isEmpty(path)) {
+      path="/";
+    }
+    cookie.setPath(path);
     cookie.setVersion(getSettings().getVersion());
     cookie.setSecure(getSettings().getSecure());
     getWebResponse().addCookie(cookie);
     if (log.isDebugEnabled()) {
-      log.debug("saved: " + cookieToDebugString(cookie));
+      log.debug("Cookie saved: " + cookieToDebugString(cookie) + "; request URI="+ getWebRequest().getHttpServletRequest().getRequestURI());
     }
     return cookie;
   }
