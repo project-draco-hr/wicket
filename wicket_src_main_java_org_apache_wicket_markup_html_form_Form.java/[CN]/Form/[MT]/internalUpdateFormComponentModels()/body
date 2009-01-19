@@ -2,13 +2,6 @@
   FormComponent.visitComponentsPostOrder(this,new FormModelUpdateVisitor(this));
   MarkupContainer border=findParent(Border.class);
   if (border != null) {
-    Iterator<? extends Component> iter=border.iterator();
-    Component.IVisitor<Component> visitor=new FormModelUpdateVisitor(null);
-    while (iter.hasNext()) {
-      Component child=iter.next();
-      if (child instanceof IFormModelUpdateListener) {
-        visitor.component(child);
-      }
-    }
+    FormComponent.visitComponentsPostOrder(border,new FormModelUpdateVisitor(null));
   }
 }

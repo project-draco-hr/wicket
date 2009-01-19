@@ -1,4 +1,6 @@
 {
   FormComponent.visitFormComponentsPostOrder(this,visitor);
-  visitChildrenInContainingBorder(visitor);
+  if (getParent() instanceof Border) {
+    FormComponent.visitFormComponentsPostOrder(getParent(),visitor);
+  }
 }
