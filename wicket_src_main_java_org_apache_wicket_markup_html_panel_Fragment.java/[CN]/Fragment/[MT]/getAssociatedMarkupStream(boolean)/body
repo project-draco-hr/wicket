@@ -9,8 +9,15 @@
   if (stream == null) {
     stream=super.getAssociatedMarkupStream(false);
   }
-  if ((stream == null) && (getParent() != null)) {
-    stream=getParent().getAssociatedMarkupStream(false);
+  if (stream == null) {
+    MarkupContainer container=getParent();
+    while (container != null) {
+      if (container.hasAssociatedMarkup()) {
+        stream=container.getAssociatedMarkupStream(false);
+        break;
+      }
+      container=container.getParent();
+    }
   }
   if ((stream == null) && throwException) {
     super.getAssociatedMarkupStream(true);
