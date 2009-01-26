@@ -1,4 +1,8 @@
 {
+  final IDetachListener detachListener=getFrameworkSettings().getDetachListener();
+  if (detachListener != null) {
+    detachListener.onDestroyListener();
+  }
   PropertyResolver.destroy(this);
   getMarkupSettings().getMarkupCache().shutdown();
   onDestroy();
