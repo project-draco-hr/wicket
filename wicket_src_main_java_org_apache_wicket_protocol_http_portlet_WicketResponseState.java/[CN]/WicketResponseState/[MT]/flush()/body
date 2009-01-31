@@ -1,0 +1,89 @@
+{
+  if (flushed) {
+    throw new IllegalStateException("Already flushed");
+  }
+  flushed=true;
+  if (cookies != null) {
+    for (    Cookie cookie : cookies) {
+      response.addProperty(cookie);
+    }
+    cookies=null;
+  }
+  if (isMimeResponse) {
+    MimeResponse mimeResponse=(MimeResponse)response;
+    RenderResponse renderResponse=isRenderResponse ? (RenderResponse)response : null;
+    ResourceResponse resourceResponse=isResourceResponse ? (ResourceResponse)response : null;
+    if (locale != null) {
+      try {
+        resourceResponse.setLocale(locale);
+      }
+ catch (      UnsupportedOperationException usoe) {
+      }
+    }
+    if (contentType != null) {
+      if (characterEncoding != null) {
+        if (setContentTypeAfterEncoding) {
+          resourceResponse.setCharacterEncoding(characterEncoding);
+          resourceResponse.setContentType(contentType);
+        }
+ else {
+          resourceResponse.setContentType(contentType);
+          resourceResponse.setCharacterEncoding(characterEncoding);
+        }
+      }
+ else {
+        mimeResponse.setContentType(contentType);
+      }
+    }
+ else     if (characterEncoding != null) {
+      resourceResponse.setCharacterEncoding(characterEncoding);
+    }
+    if (headers != null) {
+      for (      Map.Entry<String,ArrayList<String>> entry : headers.entrySet()) {
+        for (        String value : entry.getValue()) {
+          mimeResponse.addProperty(entry.getKey(),value);
+        }
+      }
+      headers=null;
+    }
+    if (isResourceResponse && hasStatus) {
+      resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE,Integer.toString(statusCode));
+    }
+    if (isResourceResponse && contentLength > -1) {
+      try {
+        resourceResponse.setContentLength(contentLength);
+      }
+ catch (      UnsupportedOperationException usoe) {
+      }
+    }
+    if (!hasError && redirectLocation == null) {
+      if (outputStream != null) {
+        if (!closed) {
+          outputStream.flush();
+        }
+        OutputStream realOutputStream=mimeResponse.getPortletOutputStream();
+        int len=byteOutputBuffer.size();
+        if (contentLength > -1 && contentLength < len) {
+          len=contentLength;
+        }
+        if (len > 0) {
+          realOutputStream.write(byteOutputBuffer.toByteArray(),0,len);
+        }
+        outputStream.close();
+        outputStream=null;
+        byteOutputBuffer=null;
+      }
+ else       if (printWriter != null) {
+        if (!closed) {
+          printWriter.flush();
+          if (charOutputBuffer.getCount() > 0) {
+            mimeResponse.getWriter().write(charOutputBuffer.getBuffer(),0,charOutputBuffer.getCount());
+          }
+          printWriter.close();
+          printWriter=null;
+          charOutputBuffer=null;
+        }
+      }
+    }
+  }
+}

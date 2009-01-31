@@ -3,14 +3,10 @@
   PortletConfig portletConfig=(PortletConfig)filterRequestContext.getRequest().getAttribute("javax.portlet.config");
   if (portletConfig != null) {
     inPortletContext=true;
+    PortletRequest portletRequest=(PortletRequest)filterRequestContext.getRequest().getAttribute("javax.portlet.request");
     WicketResponseState responseState=(WicketResponseState)filterRequestContext.getRequest().getAttribute(WicketPortlet.RESPONSE_STATE_ATTR);
-    filterRequestContext.setRequest(new PortletServletRequestWrapper(config.getServletContext(),filterRequestContext.getRequest(),ServletPortletSessionProxy.createProxy(filterRequestContext.getRequest()),filterPath));
-    if (WicketPortlet.ACTION_REQUEST.equals(filterRequestContext.getRequest().getAttribute(WicketPortlet.REQUEST_TYPE_ATTR))) {
-      filterRequestContext.setResponse(new PortletActionServletResponseWrapper(filterRequestContext.getResponse(),responseState));
-    }
- else {
-      filterRequestContext.setResponse(new PortletRenderServletResponseWrapper(filterRequestContext.getResponse(),(RenderResponse)filterRequestContext.getRequest().getAttribute("javax.portlet.response"),responseState));
-    }
+    filterRequestContext.setRequest(new PortletServletRequestWrapper(config.getServletContext(),filterRequestContext.getRequest(),ServletPortletSessionProxy.createProxy(filterRequestContext.getRequest(),portletRequest.getWindowID()),filterPath));
+    filterRequestContext.setResponse(new PortletServletResponseWrapper(filterRequestContext.getResponse(),responseState));
   }
  else {
     ServletContext context=config.getServletContext();

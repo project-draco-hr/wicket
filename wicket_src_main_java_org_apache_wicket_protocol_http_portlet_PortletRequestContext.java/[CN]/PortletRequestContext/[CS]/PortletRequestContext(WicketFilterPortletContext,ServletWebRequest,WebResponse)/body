@@ -4,11 +4,10 @@
   portletConfig=(PortletConfig)servletRequest.getAttribute("javax.portlet.config");
   portletRequest=(PortletRequest)servletRequest.getAttribute("javax.portlet.request");
   portletResponse=(PortletResponse)servletRequest.getAttribute("javax.portlet.response");
-  renderResponse=(portletResponse instanceof RenderResponse) ? (RenderResponse)portletResponse : null;
-  resourceURLFactory=(PortletResourceURLFactory)portletRequest.getAttribute(WicketPortlet.RESOURCE_URL_FACTORY_ATTR);
   wicketUrlPortletParameter=(String)portletRequest.getAttribute(WicketPortlet.WICKET_URL_PORTLET_PARAMETER_ATTR);
   ajax=request.isAjax();
-  resourceRequest="true".equals(servletRequest.getAttribute(WicketPortlet.PORTLET_RESOURCE_URL_ATTR));
+  resourceRequest=portletRequest.getAttribute(PortletRequest.LIFECYCLE_PHASE).equals(PortletRequest.RESOURCE_PHASE);
+  mimeResponse=resourceRequest || portletRequest.getAttribute(PortletRequest.LIFECYCLE_PHASE).equals(PortletRequest.RENDER_PHASE) ? (MimeResponse)portletResponse : null;
   embedded=!(ajax || resourceRequest);
   headerResponse=embedded ? newPortletHeaderResponse(response) : null;
 }

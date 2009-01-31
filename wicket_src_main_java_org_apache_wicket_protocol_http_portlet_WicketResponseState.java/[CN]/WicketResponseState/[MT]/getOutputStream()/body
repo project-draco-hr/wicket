@@ -1,0 +1,24 @@
+{
+  if (isStateAwareResponse) {
+    return null;
+  }
+  if (outputStream == null) {
+    if (printWriter != null) {
+      throw new IllegalStateException("getWriter() has already been called on this response");
+    }
+    byteOutputBuffer=new ByteArrayOutputStream();
+    outputStream=new ServletOutputStream(){
+      @Override public void write(      int b) throws IOException {
+        if (!closed) {
+          byteOutputBuffer.write(b);
+          if (contentLength > -1 && byteOutputBuffer.size() >= contentLength) {
+            committed=true;
+            closed=true;
+          }
+        }
+      }
+    }
+;
+  }
+  return outputStream;
+}

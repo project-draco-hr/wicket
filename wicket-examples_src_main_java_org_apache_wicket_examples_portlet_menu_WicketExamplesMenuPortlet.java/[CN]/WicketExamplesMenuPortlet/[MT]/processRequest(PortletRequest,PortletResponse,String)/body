@@ -1,0 +1,50 @@
+{
+  PortletSession session=request.getPortletSession();
+  ExampleApplication ea=(ExampleApplication)session.getAttribute(EXAMPLE_APPLICATION_ATTR);
+  if (ea == null) {
+    String eaFilterPath=request.getPreferences().getValue(EXAMPLE_APPLICATION_PREF,null);
+    if (eaFilterPath != null) {
+      Iterator<ExampleApplication> iter=examples.iterator();
+      while (iter.hasNext()) {
+        ea=iter.next();
+        if (ea.getFilterPath().equals(eaFilterPath)) {
+          break;
+        }
+        ea=null;
+      }
+    }
+    if (ea == null && examples.size() > 0) {
+      ea=examples.get(0);
+    }
+    session.setAttribute(EXAMPLE_APPLICATION_ATTR,ea);
+  }
+  if (ea == null || ea.getFilterPath().equals(getWicketFilterPath()) || !PortletMode.VIEW.equals(request.getPortletMode())) {
+    request.setAttribute(PROCESS_MENU_APPLICATION,Boolean.TRUE);
+    request.setAttribute(EXAMPLE_APPLICATION_ATTR,examples.get(0));
+    super.processRequest(request,response,pageType);
+  }
+ else {
+    String lifecyclePhase=(String)request.getAttribute(PortletRequest.LIFECYCLE_PHASE);
+    if (PortletRequest.ACTION_PHASE.equals(lifecyclePhase) || PortletRequest.RESOURCE_PHASE.equals(lifecyclePhase)) {
+      if (request.getParameter(MENU_APPLICATION_URL_PORTLET_PARAMETER) != null) {
+        request.setAttribute(PROCESS_MENU_APPLICATION,Boolean.TRUE);
+        request.setAttribute(EXAMPLE_APPLICATION_ATTR,examples.get(0));
+        super.processRequest(request,response,pageType);
+      }
+ else {
+        request.setAttribute(EXAMPLE_APPLICATION_ATTR,ea);
+        super.processRequest(request,response,pageType);
+      }
+    }
+ else {
+      request.setAttribute(PROCESS_MENU_APPLICATION,Boolean.TRUE);
+      request.setAttribute(PROCESS_HEADER_PAGE,Boolean.TRUE);
+      request.setAttribute(EXAMPLE_APPLICATION_ATTR,examples.get(0));
+      super.processRequest(request,response,pageType);
+      request.removeAttribute(PROCESS_MENU_APPLICATION);
+      request.removeAttribute(PROCESS_HEADER_PAGE);
+      request.setAttribute(EXAMPLE_APPLICATION_ATTR,ea);
+      super.processRequest(request,response,pageType);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (isStateAwareResponse) {
+    return null;
+  }
+  if (printWriter == null) {
+    if (outputStream != null) {
+      throw new IllegalStateException("getOutputStream() has already been called on this response");
+    }
+    charOutputBuffer=new CharArrayWriterBuffer();
+    printWriter=new PrintWriter(charOutputBuffer);
+  }
+  return printWriter;
+}

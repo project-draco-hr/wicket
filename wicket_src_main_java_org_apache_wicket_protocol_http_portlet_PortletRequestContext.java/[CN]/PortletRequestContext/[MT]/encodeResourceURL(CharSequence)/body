@@ -1,14 +1,14 @@
 {
   if (path != null) {
     path=getQualifiedPath(path);
-    if (renderResponse != null) {
+    if (mimeResponse != null) {
       try {
-        HashMap parameters=new HashMap(2);
-        parameters.put(wicketUrlPortletParameter + portletRequest.getPortletMode().toString(),new String[]{path.toString()});
-        parameters.put(WicketPortlet.PORTLET_RESOURCE_URL_PARAMETER,new String[]{"true"});
-        path=saveLastEncodedUrl(resourceURLFactory.createResourceURL(portletConfig,(RenderRequest)portletRequest,renderResponse,parameters),path.toString());
+        ResourceURL url=mimeResponse.createResourceURL();
+        String resourceID=path.toString();
+        url.setResourceID(resourceID);
+        path=saveLastEncodedUrl(url.toString(),resourceID);
       }
- catch (      PortletException e) {
+ catch (      Exception e) {
         throw new RuntimeException(e);
       }
     }

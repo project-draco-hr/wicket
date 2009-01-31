@@ -17,7 +17,9 @@
     throw new RestartResponseException(pageExpiredErrorPageClass);
   }
  else   if (settings.getUnexpectedExceptionDisplay() != IExceptionSettings.SHOW_NO_EXCEPTION_PAGE) {
-    requestCycle.setRedirect(false);
+    if (!RequestContext.get().isPortletRequest()) {
+      requestCycle.setRedirect(false);
+    }
     Class<? extends Page> internalErrorPageClass=application.getApplicationSettings().getInternalErrorPage();
     Class<? extends Page> responseClass=responsePage != null ? responsePage.getClass() : null;
     if (responseClass != internalErrorPageClass && settings.getUnexpectedExceptionDisplay() == IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE) {

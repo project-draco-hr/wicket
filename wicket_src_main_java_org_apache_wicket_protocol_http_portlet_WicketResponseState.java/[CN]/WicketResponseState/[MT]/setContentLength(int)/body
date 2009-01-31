@@ -1,0 +1,16 @@
+{
+  if (isResourceResponse && !committed && printWriter == null && len > 0) {
+    contentLength=len;
+    if (outputStream != null) {
+      try {
+        outputStream.flush();
+      }
+ catch (      Exception e) {
+      }
+    }
+    if (!closed && byteOutputBuffer != null && byteOutputBuffer.size() >= len) {
+      committed=true;
+      closed=true;
+    }
+  }
+}
