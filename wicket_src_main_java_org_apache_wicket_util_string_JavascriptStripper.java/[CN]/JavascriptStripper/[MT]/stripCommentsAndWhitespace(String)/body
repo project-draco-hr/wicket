@@ -1,11 +1,16 @@
 {
   AppendingStringBuffer result=new AppendingStringBuffer(original.length() / 2);
   int state=REGULAR_TEXT;
+  boolean wasNewLineInWhitespace=false;
   for (int i=0; i < original.length(); ++i) {
     char c=original.charAt(i);
     char next=(i < original.length() - 1) ? original.charAt(i + 1) : 0;
     char prev=(i > 0) ? original.charAt(i - 1) : 0;
     if (state == WHITE_SPACE) {
+      if (c == '\n' && !wasNewLineInWhitespace) {
+        result.append("\n");
+        wasNewLineInWhitespace=true;
+      }
       if (Character.isWhitespace(next) == false) {
         state=REGULAR_TEXT;
       }
@@ -29,7 +34,7 @@
             idx--;
             continue;
           }
-          if (tmp == '=' || tmp == '(' || tmp == '{' || tmp == ':' || tmp == ',' || tmp == '[') {
+          if (tmp == '=' || tmp == '(' || tmp == '{' || tmp == ':' || tmp == ',' || tmp == '[' || tmp == ';') {
             state=REG_EXP;
             break;
           }
@@ -37,8 +42,14 @@
         }
       }
  else       if (Character.isWhitespace(c) && Character.isWhitespace(next)) {
+        if (c == '\n' || next == '\n') {
+          c='\n';
+          wasNewLineInWhitespace=true;
+        }
+ else {
+          c=' ';
+        }
         state=WHITE_SPACE;
-        c='\n';
       }
  else       if (c == '\'') {
         state=STRING_SINGLE_QUOTE;
