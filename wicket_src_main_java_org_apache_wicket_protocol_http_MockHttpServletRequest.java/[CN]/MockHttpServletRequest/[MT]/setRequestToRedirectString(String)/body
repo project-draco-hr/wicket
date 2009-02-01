@@ -5,7 +5,10 @@
     final String queryString=redirect.substring(queryStringPos + 1);
     RequestUtils.decodeParameters(queryString,parameters);
   }
-  url=getContextPath() + getServletPath() + "/"+ redirect;
+  url=redirect;
+  if (url.charAt(0) != '/') {
+    url=getContextPath() + getServletPath() + "/"+ redirect;
+  }
   url=RequestUtils.removeDoubleDots(url);
   log.info("Redirecting to " + url);
 }
