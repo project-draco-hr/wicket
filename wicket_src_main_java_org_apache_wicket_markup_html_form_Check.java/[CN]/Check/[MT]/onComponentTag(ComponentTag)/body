@@ -2,13 +2,7 @@
   super.onComponentTag(tag);
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","checkbox");
-  CheckGroup<?> group=this.group;
-  if (group == null) {
-    group=findParent(CheckGroup.class);
-    if (group == null) {
-      throw new WicketRuntimeException("Check component [" + getPath() + "] cannot find its parent CheckGroup");
-    }
-  }
+  CheckGroup<?> group=getGroup();
   final String uuid=getValue();
   tag.put("name",group.getInputName());
   tag.put("value",uuid);
