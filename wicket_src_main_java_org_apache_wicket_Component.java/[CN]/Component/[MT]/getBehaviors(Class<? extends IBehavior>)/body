@@ -1,12 +1,12 @@
 {
-  List<IBehavior> behaviors=getBehaviorsImpl();
+  List<IBehavior> behaviors=getBehaviorsRawList();
   if (behaviors == null) {
     return Collections.emptyList();
   }
   List<IBehavior> subset=new ArrayList<IBehavior>(behaviors.size());
   for (Iterator<IBehavior> i=behaviors.iterator(); i.hasNext(); ) {
     Object behavior=i.next();
-    if (type == null || type.isAssignableFrom(behavior.getClass())) {
+    if (behavior != null && (type == null || type.isAssignableFrom(behavior.getClass()))) {
       subset.add((IBehavior)behavior);
     }
   }

@@ -1,9 +1,29 @@
 {
   final int start=getFlag(FLAG_MODEL_SET) ? 1 : 0;
-  for (int i=start; i < data_length(); ++i) {
+  final int len=data_length();
+  for (int i=start; i < len; ++i) {
     Object o=data_get(i);
-    if (o.equals(behavior)) {
-      data_remove(i);
+    if (o != null && o.equals(behavior)) {
+      boolean listenersAfter=false;
+      for (int j=i + 1; j < len; j++) {
+        if (data_get(j) instanceof IBehaviorListener) {
+          listenersAfter=true;
+          break;
+        }
+      }
+      if (listenersAfter) {
+        data_set(i,null);
+      }
+ else {
+        data_remove(i);
+        if (o instanceof IBehaviorListener) {
+          for (int j=i - 1; j >= start; j--) {
+            if (data_get(j) == null) {
+              data_remove(j);
+            }
+          }
+        }
+      }
       return true;
     }
   }
