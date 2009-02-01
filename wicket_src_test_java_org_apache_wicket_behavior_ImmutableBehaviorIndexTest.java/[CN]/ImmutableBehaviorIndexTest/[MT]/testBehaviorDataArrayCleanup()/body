@@ -1,0 +1,31 @@
+{
+  IBehavior border=new SimpleAttributeModifier("class","border");
+  IBehavior border2=new SimpleAttributeModifier("class2","border");
+  IBehavior auto=new SimpleAttributeModifier("autocomplete","off");
+  IBehavior auto2=new SimpleAttributeModifier("autocomplete2","off");
+  IBehavior link=new LinkBehavior("href");
+  IBehavior link2=new LinkBehavior("onclick");
+  MyPage page=new MyPage();
+  page.getContainer().add(border,auto,link,border2,link2,auto2);
+  List<IBehavior> behaviors=page.getContainer().getBehaviorsRawList();
+  assertEquals(6,behaviors.size());
+  page.getContainer().remove(border);
+  behaviors=page.getContainer().getBehaviorsRawList();
+  assertEquals(6,behaviors.size());
+  assertNull(behaviors.get(0));
+  page.getContainer().remove(link);
+  behaviors=page.getContainer().getBehaviorsRawList();
+  assertEquals(6,behaviors.size());
+  assertNull(behaviors.get(0));
+  assertNull(behaviors.get(2));
+  page.getContainer().remove(auto2);
+  behaviors=page.getContainer().getBehaviorsRawList();
+  assertEquals(5,behaviors.size());
+  assertNull(behaviors.get(0));
+  assertNull(behaviors.get(2));
+  page.getContainer().remove(link2);
+  behaviors=page.getContainer().getBehaviorsRawList();
+  assertEquals(2,behaviors.size());
+  assertSame(auto,behaviors.get(0));
+  assertSame(border2,behaviors.get(1));
+}
