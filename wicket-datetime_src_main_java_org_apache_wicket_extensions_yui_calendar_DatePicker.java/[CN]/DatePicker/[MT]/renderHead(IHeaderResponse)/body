@@ -56,6 +56,11 @@
       }
       calendarInit.append("]");
     }
+ else     if (value instanceof Map) {
+      calendarInit.append(":");
+      @SuppressWarnings("unchecked") Map<String,Object> map=(Map<String,Object>)value;
+      appendMapping(map,calendarInit);
+    }
  else {
       calendarInit.append(":");
       calendarInit.append(Strings.toEscapedUnicode(String.valueOf(value)));
