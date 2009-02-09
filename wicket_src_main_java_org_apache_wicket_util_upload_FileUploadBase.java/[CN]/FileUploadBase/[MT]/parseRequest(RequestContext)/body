@@ -8,7 +8,7 @@
     throw new InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or "+ MULTIPART_MIXED+ " stream, content type header is "+ contentType);
   }
   int requestSize=ctx.getContentLength();
-  if (requestSize == -1) {
+  if (requestSize == -1 && getSizeMax() != Long.MAX_VALUE) {
     throw new UnknownSizeException("the request was rejected because its size is unknown");
   }
   if (sizeMax >= 0 && requestSize > sizeMax) {
