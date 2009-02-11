@@ -1,4 +1,8 @@
 {
-  final FeedbackMessage message=messageForComponent(component);
-  return message != null && message.isLevel(level);
+  for (  FeedbackMessage message : messages) {
+    if (message.getReporter() == component && message.isLevel(level)) {
+      return true;
+    }
+  }
+  return false;
 }
