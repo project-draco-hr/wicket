@@ -1,7 +1,11 @@
 {
   try {
-    if (argument != null)     return (Page)constructor.newInstance(new Object[]{argument});
- else     return (Page)constructor.newInstance(new Object[]{});
+    if (argument != null) {
+      return constructor.newInstance(new Object[]{argument});
+    }
+ else {
+      return constructor.newInstance();
+    }
   }
  catch (  InstantiationException e) {
     throw new WicketRuntimeException(createDescription(constructor,argument),e);
