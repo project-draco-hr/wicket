@@ -1,7 +1,7 @@
 {
   boolean addedToPage=false;
   if (component != null) {
-    if ((component instanceof Page) || null != component.findParent(Page.class)) {
+    if ((component instanceof Page) || (null != component.findParent(Page.class))) {
       addedToPage=true;
     }
     if (!addedToPage) {
@@ -10,7 +10,7 @@
   }
   String cacheKey=null;
   String value=null;
-  if ((cache != null) && addedToPage) {
+  if ((cache != null) && ((component == null) || addedToPage)) {
     cacheKey=getCacheKey(key,component);
   }
   if ((cacheKey != null) && cache.containsKey(cacheKey)) {
