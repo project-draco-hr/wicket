@@ -3,7 +3,9 @@
   StringBuffer out=new StringBuffer(s.length());
   Charset charset;
   CharArrayWriter charArrayWriter=new CharArrayWriter();
-  if (enc == null)   throw new NullPointerException("charsetName");
+  if (enc == null) {
+    throw new NullPointerException("charsetName");
+  }
   try {
     charset=Charset.forName(enc);
   }
@@ -13,9 +15,13 @@
 catch (  UnsupportedCharsetException e) {
     throw new WicketRuntimeException(new UnsupportedEncodingException(enc));
   }
+  boolean stopEncoding=false;
   for (int i=0; i < s.length(); ) {
     int c=s.charAt(i);
-    if (dontNeedEncoding.get(c)) {
+    if ((stopEncoding == false) && (c == stopChar)) {
+      stopEncoding=true;
+    }
+    if ((stopEncoding == true) || dontNeedEncoding.get(c)) {
       if (c == ' ') {
         c='+';
         needToChange=true;
