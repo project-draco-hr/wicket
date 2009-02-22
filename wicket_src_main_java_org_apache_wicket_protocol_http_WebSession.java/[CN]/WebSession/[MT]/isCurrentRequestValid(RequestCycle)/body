@@ -3,6 +3,9 @@
   if (lockedRequest.isAjax() == true) {
     return true;
   }
+  if (IResourceListener.INTERFACE.equals(lockedRequest.getRequestParameters().getInterface())) {
+    return true;
+  }
   RequestCycle currentRequestCycle=RequestCycle.get();
   WebRequest currentRequest=(WebRequest)currentRequestCycle.getRequest();
   if (currentRequest.isAjax() == false) {
