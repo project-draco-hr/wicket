@@ -1,0 +1,14 @@
+{
+  addComponentInstantiationListener(new IComponentInstantiationListener(){
+    /** 
+ * @see org.apache.wicket.application.IComponentInstantiationListener#onInstantiation(org.apache.wicket.Component)
+ */
+    public void onInstantiation(    final Component component){
+      final Class<? extends Component> cl=component.getClass();
+      if (!Session.get().getAuthorizationStrategy().isInstantiationAuthorized(cl)) {
+        getSecuritySettings().getUnauthorizedComponentInstantiationListener().onUnauthorizedInstantiation(component);
+      }
+    }
+  }
+);
+}
