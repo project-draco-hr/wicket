@@ -13,7 +13,7 @@
   form.visitFormComponents(new FormComponent.AbstractVisitor(){
     @Override public void onFormComponent(    FormComponent<?> formComponent){
       if (formComponent.isVisible()) {
-        if (!(formComponent instanceof RadioGroup) && !(formComponent instanceof CheckGroup)) {
+        if (!(formComponent instanceof RadioGroup) && !(formComponent instanceof CheckGroup) && !(formComponent.getClass().isAssignableFrom(Button.class))) {
           String name=formComponent.getInputName();
           String value=formComponent.getValue();
           if (getServletRequest().getParameterMap().get(name) == null) {

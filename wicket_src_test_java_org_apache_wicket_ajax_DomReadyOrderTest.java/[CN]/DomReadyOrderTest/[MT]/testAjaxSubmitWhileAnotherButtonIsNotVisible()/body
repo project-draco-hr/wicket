@@ -1,0 +1,12 @@
+{
+  tester.startPage(HomePage.class);
+  tester.assertRenderedPage(HomePage.class);
+  tester.assertLabel("message","If you see this message wicket is properly configured and running");
+  tester.assertLabel("form:listViewContainer:listView:0:label","0");
+  tester.executeAjaxEvent("form:addButton","onclick");
+  tester.assertRenderedPage(HomePage.class);
+  String doc=tester.getServletResponse().getDocument();
+  log.error("'" + doc + "'");
+  tester.assertLabel("form:listViewContainer:listView:0:label","0");
+  tester.assertLabel("form:listViewContainer:listView:1:label","1");
+}
