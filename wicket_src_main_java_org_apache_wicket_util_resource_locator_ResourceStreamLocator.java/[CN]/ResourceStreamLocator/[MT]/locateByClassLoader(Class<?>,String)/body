@@ -1,20 +1,18 @@
 {
-  ClassLoader classLoader=null;
+  IResourceStream resourceStream=null;
   if (clazz != null) {
-    classLoader=clazz.getClassLoader();
+    resourceStream=getResourceStream(clazz.getClassLoader(),path);
+    if (resourceStream != null) {
+      return resourceStream;
+    }
   }
-  if (classLoader == null) {
-    classLoader=Thread.currentThread().getContextClassLoader();
+  resourceStream=getResourceStream(Thread.currentThread().getContextClassLoader(),path);
+  if (resourceStream != null) {
+    return resourceStream;
   }
-  if (classLoader == null) {
-    classLoader=getClass().getClassLoader();
-  }
-  if (log.isDebugEnabled()) {
-    log.debug("Attempting to locate resource '" + path + "' using classloader "+ classLoader);
-  }
-  final URL url=classLoader.getResource(path);
-  if (url != null) {
-    return new UrlResourceStream(url);
+  resourceStream=getResourceStream(getClass().getClassLoader(),path);
+  if (resourceStream != null) {
+    return resourceStream;
   }
   return null;
 }
