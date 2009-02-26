@@ -4,6 +4,9 @@
   }
   markRendering(true);
   setMarkupStream(markupStream);
+  if (markupStream != null) {
+    markupStream.getTag().onBeforeRender(this,markupStream);
+  }
   if (determineVisibility()) {
     setFlag(FLAG_HAS_BEEN_RENDERED,true);
     if (log.isDebugEnabled()) {
