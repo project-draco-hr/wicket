@@ -3,6 +3,7 @@
   if (pathInfo.startsWith(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX)) {
     final String resourceReferenceKey=pathInfo.substring(WebRequestCodingStrategy.RESOURCES_PATH_PREFIX.length());
     Resource resource=null;
+    WebRequestCycle requestCycle=null;
     boolean externalCall=!Application.exists();
     try {
       if (externalCall) {
@@ -12,8 +13,13 @@
       if ((resource != null) && resource.isCacheable()) {
         checkCharacterEncoding(servletRequest);
         final WebRequest request=webApplication.newWebRequest(servletRequest);
-        Session.findOrCreate(request,new WebResponse());
-        resource.setParameters(request.getParameterMap());
+        WebResponse response=new WebResponse();
+        if (RequestCycle.get() == null) {
+          requestCycle=(WebRequestCycle)webApplication.newRequestCycle(request,response);
+        }
+        Session.findOrCreate(request,response);
+        RequestParameters rp=RequestCycle.get().getProcessor().getRequestCodingStrategy().decode(request);
+        resource.setParameters(rp.getParameters());
         IResourceStream stream=resource.getResourceStream();
         Time time=stream.lastModifiedTime();
         try {
@@ -37,6 +43,9 @@
       }
       if (Session.exists()) {
         Session.unset();
+      }
+      if (requestCycle != null) {
+        requestCycle.unset();
       }
     }
   }
