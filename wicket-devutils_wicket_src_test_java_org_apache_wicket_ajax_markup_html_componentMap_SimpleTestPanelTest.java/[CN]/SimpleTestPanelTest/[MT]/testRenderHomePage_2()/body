@@ -1,8 +1,0 @@
-{
-  tester.setupRequestAndResponse(true);
-  executeTest(SimpleTestPage.class,"SimpleTestPageExpectedResult.html");
-  Page page=tester.getLastRenderedPage();
-  tester.executeBehavior(((SimpleTestPanel)page.get("testPanel")).getTimeBehavior());
-  String document=tester.getServletResponse().getDocument();
-  DiffUtil.validatePage(document,SimpleTestPage.class,"SimpleTestPageExpectedResult-1.html",true);
-}
