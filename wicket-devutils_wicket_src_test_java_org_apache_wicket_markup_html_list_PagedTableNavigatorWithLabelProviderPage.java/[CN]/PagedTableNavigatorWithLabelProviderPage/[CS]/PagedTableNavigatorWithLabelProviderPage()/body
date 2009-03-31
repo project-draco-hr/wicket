@@ -1,0 +1,43 @@
+{
+  super();
+  List list=new ArrayList();
+  list.add("one");
+  list.add("two");
+  list.add("three");
+  list.add("four");
+  list.add("five");
+  list.add("six");
+  list.add("seven");
+  list.add("eight");
+  list.add("nine");
+  list.add("ten");
+  list.add("eleven");
+  list.add("twelve");
+  list.add("thirteen");
+  list.add("fourteen");
+  final int pageSize=2;
+  final PageableListView listview=new PageableListView("table",list,pageSize){
+    private static final long serialVersionUID=1L;
+    protected void populateItem(    ListItem listItem){
+      String txt=(String)listItem.getDefaultModelObject();
+      listItem.add(new Label("txt",txt));
+    }
+  }
+;
+  IPagingLabelProvider labelProvider=new IPagingLabelProvider(){
+    private static final long serialVersionUID=1L;
+    public String getPageLabel(    int page){
+      int size=listview.getList().size();
+      int current=page * pageSize;
+      int end=current + pageSize;
+      if (end > size) {
+        end=size;
+      }
+      current++;
+      return current + "-" + end;
+    }
+  }
+;
+  add(listview);
+  add(new PagingNavigator("navigator",listview,labelProvider));
+}

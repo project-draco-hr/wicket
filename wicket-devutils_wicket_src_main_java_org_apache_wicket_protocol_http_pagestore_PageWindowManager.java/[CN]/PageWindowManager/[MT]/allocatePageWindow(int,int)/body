@@ -1,0 +1,17 @@
+{
+  final PageWindowInternal window;
+  if (index == windows.size()) {
+    window=new PageWindowInternal();
+    window.filePartOffset=getWindowFileOffset(index);
+    totalSize+=size;
+    window.filePartSize=size;
+    windows.add(window);
+  }
+ else {
+    window=windows.get(index);
+    if (window.filePartSize != size) {
+      adjustWindowSize(index,size);
+    }
+  }
+  return window;
+}

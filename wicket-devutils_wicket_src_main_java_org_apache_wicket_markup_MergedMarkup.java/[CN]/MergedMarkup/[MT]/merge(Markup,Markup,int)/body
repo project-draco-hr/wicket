@@ -1,0 +1,147 @@
+{
+  boolean wicketHeadProcessed=false;
+  boolean foundHeadTag=false;
+  WicketTag childTag=null;
+  int baseIndex=0;
+  for (; baseIndex < baseMarkup.size(); baseIndex++) {
+    MarkupElement element=baseMarkup.get(baseIndex);
+    if (element instanceof RawMarkup) {
+      addMarkupElement(element);
+      continue;
+    }
+    final ComponentTag tag=(ComponentTag)element;
+    if ((baseMarkup.getMarkupResourceData().getResource() != null) && (tag.getMarkupClass() == null)) {
+      tag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
+    }
+    if (element instanceof WicketTag) {
+      WicketTag wtag=(WicketTag)element;
+      if (wtag.isChildTag() && (tag.getMarkupClass() == baseMarkup.getMarkupResourceData().getResource().getMarkupClass())) {
+        if (wtag.isOpenClose()) {
+          childTag=wtag;
+          WicketTag childOpenTag=(WicketTag)wtag.mutable();
+          childOpenTag.getXmlTag().setType(XmlTag.OPEN);
+          childOpenTag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
+          addMarkupElement(childOpenTag);
+          break;
+        }
+ else         if (wtag.isOpen()) {
+          addMarkupElement(wtag);
+          break;
+        }
+ else {
+          throw new WicketRuntimeException("Did not expect a </wicket:child> tag in " + baseMarkup.toString());
+        }
+      }
+      if (wicketHeadProcessed == false) {
+        if (wtag.isClose() && wtag.isHeadTag() && (foundHeadTag == false)) {
+          wicketHeadProcessed=true;
+          addMarkupElement(wtag);
+          copyWicketHead(markup,extendIndex);
+          continue;
+        }
+        if (wtag.isOpen() && wtag.isMajorWicketComponentTag()) {
+          wicketHeadProcessed=true;
+          copyWicketHead(markup,extendIndex);
+        }
+      }
+    }
+    if (wicketHeadProcessed == false) {
+      if (tag.isOpen() && TagUtils.isHeadTag(tag)) {
+        foundHeadTag=true;
+      }
+      if ((tag.isClose() && TagUtils.isHeadTag(tag)) || (tag.isOpen() && TagUtils.isBodyTag(tag))) {
+        wicketHeadProcessed=true;
+        copyWicketHead(markup,extendIndex);
+      }
+    }
+    addMarkupElement(element);
+  }
+  if (baseIndex == baseMarkup.size()) {
+    throw new WicketRuntimeException("Expected to find <wicket:child/> in base markup: " + baseMarkup.toString());
+  }
+  for (; extendIndex < markup.size(); extendIndex++) {
+    MarkupElement element=markup.get(extendIndex);
+    addMarkupElement(element);
+    if (element instanceof WicketTag) {
+      WicketTag wtag=(WicketTag)element;
+      if (wtag.isExtendTag() && wtag.isClose()) {
+        break;
+      }
+    }
+  }
+  if (extendIndex == markup.size()) {
+    throw new WicketRuntimeException("Missing close tag </wicket:extend> in derived markup: " + markup.toString());
+  }
+  if (((ComponentTag)baseMarkup.get(baseIndex)).isOpen()) {
+    for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
+      MarkupElement element=baseMarkup.get(baseIndex);
+      if (element instanceof WicketTag) {
+        WicketTag tag=(WicketTag)element;
+        if (tag.isChildTag() && tag.isClose()) {
+          tag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
+          addMarkupElement(tag);
+          break;
+        }
+ else {
+          throw new WicketRuntimeException("Wicket tags like <wicket:xxx> are not allowed in between <wicket:child> and </wicket:child> tags: " + markup.toString());
+        }
+      }
+ else       if (element instanceof ComponentTag) {
+        throw new WicketRuntimeException("Wicket tags identified by wicket:id are not allowed in between <wicket:child> and </wicket:child> tags: " + markup.toString());
+      }
+    }
+    if (baseIndex == baseMarkup.size()) {
+      throw new WicketRuntimeException("Expected to find </wicket:child> in base markup: " + baseMarkup.toString());
+    }
+  }
+ else {
+    WicketTag childCloseTag=(WicketTag)childTag.mutable();
+    childCloseTag.getXmlTag().setType(XmlTag.CLOSE);
+    childCloseTag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
+    addMarkupElement(childCloseTag);
+  }
+  for (baseIndex++; baseIndex < baseMarkup.size(); baseIndex++) {
+    MarkupElement element=baseMarkup.get(baseIndex);
+    addMarkupElement(element);
+    if ((element instanceof ComponentTag) && (baseMarkup.getMarkupResourceData().getResource() != null)) {
+      ComponentTag tag=(ComponentTag)element;
+      tag.setMarkupClass(baseMarkup.getMarkupResourceData().getResource().getMarkupClass());
+    }
+  }
+  if (Page.class.isAssignableFrom(markup.getMarkupResourceData().getResource().getMarkupClass())) {
+    int hasOpenWicketHead=-1;
+    int hasCloseWicketHead=-1;
+    int hasHead=-1;
+    for (int i=0; i < size(); i++) {
+      MarkupElement element=get(i);
+      if ((hasOpenWicketHead == -1) && (element instanceof WicketTag) && ((WicketTag)element).isHeadTag()) {
+        hasOpenWicketHead=i;
+      }
+ else       if ((element instanceof WicketTag) && ((WicketTag)element).isHeadTag() && ((WicketTag)element).isClose()) {
+        hasCloseWicketHead=i;
+      }
+ else       if ((hasHead == -1) && (element instanceof ComponentTag) && TagUtils.isHeadTag((ComponentTag)element)) {
+        hasHead=i;
+      }
+ else       if ((hasHead != -1) && (hasOpenWicketHead != -1)) {
+        break;
+      }
+    }
+    if ((hasOpenWicketHead != -1) && (hasHead == -1)) {
+      final XmlTag headOpenTag=new XmlTag();
+      headOpenTag.setName("head");
+      headOpenTag.setType(XmlTag.OPEN);
+      final ComponentTag openTag=new ComponentTag(headOpenTag);
+      openTag.setId(HtmlHeaderSectionHandler.HEADER_ID);
+      openTag.setAutoComponentTag(true);
+      final XmlTag headCloseTag=new XmlTag();
+      headCloseTag.setName(headOpenTag.getName());
+      headCloseTag.setType(XmlTag.CLOSE);
+      final ComponentTag closeTag=new ComponentTag(headCloseTag);
+      closeTag.setOpenTag(openTag);
+      closeTag.setId(HtmlHeaderSectionHandler.HEADER_ID);
+      addMarkupElement(hasOpenWicketHead,openTag);
+      addMarkupElement(hasCloseWicketHead + 2,closeTag);
+    }
+  }
+}

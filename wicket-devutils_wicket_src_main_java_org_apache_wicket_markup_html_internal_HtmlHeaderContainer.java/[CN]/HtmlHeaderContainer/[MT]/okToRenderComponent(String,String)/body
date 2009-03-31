@@ -1,0 +1,15 @@
+{
+  if (renderedComponentsPerScope == null) {
+    renderedComponentsPerScope=new HashMap<String,List<String>>();
+  }
+  List<String> componentScope=renderedComponentsPerScope.get(scope);
+  if (componentScope == null) {
+    componentScope=new ArrayList<String>();
+    renderedComponentsPerScope.put(scope,componentScope);
+  }
+  if (componentScope.contains(id)) {
+    return false;
+  }
+  componentScope.add(id);
+  return true;
+}

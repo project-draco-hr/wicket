@@ -1,0 +1,12 @@
+{
+  if (javascript == null) {
+    throw new IllegalArgumentException("javascript cannot be null");
+  }
+  if (!closed) {
+    List<Object> token=Arrays.asList(new Object[]{javascript.toString(),id});
+    if (wasRendered(token) == false) {
+      JavascriptUtils.writeJavascript(getResponse(),javascript,id);
+      markRendered(token);
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  if (!component.isEnabled() || !component.isVisibleInHierarchy()) {
+    log.info("component not enabled or visible; ignoring call. Component: " + component);
+    return;
+  }
+  page.beforeCallComponent(component,this);
+  try {
+    method.invoke(component,new Object[]{});
+  }
+ catch (  InvocationTargetException e) {
+    if (e.getTargetException() instanceof AbstractRestartResponseException || e.getTargetException() instanceof AuthorizationException || e.getTargetException() instanceof WicketRuntimeException) {
+      throw (RuntimeException)e.getTargetException();
+    }
+    throw new WicketRuntimeException("Method " + method.getName() + " of "+ method.getDeclaringClass()+ " targeted at component "+ component+ " threw an exception",e);
+  }
+catch (  Exception e) {
+    throw new WicketRuntimeException("Method " + method.getName() + " of "+ method.getDeclaringClass()+ " targeted at component "+ component+ " threw an exception",e);
+  }
+ finally {
+    page.afterCallComponent(component,this);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  ModificationWatcher resourceWatcher=getResourceSettings().getResourceWatcher(false);
+  if (resourceWatcher != null) {
+    resourceWatcher.destroy();
+  }
+  super.internalDestroy();
+  bufferedResponses.clear();
+  getSessionStore().destroy();
+  FileCleaner.destroy();
+}

@@ -1,0 +1,23 @@
+{
+  boolean inPortletContext=false;
+  PortletConfig portletConfig=(PortletConfig)filterRequestContext.getRequest().getAttribute("javax.portlet.config");
+  if (portletConfig != null) {
+    inPortletContext=true;
+    PortletRequest portletRequest=(PortletRequest)filterRequestContext.getRequest().getAttribute("javax.portlet.request");
+    WicketResponseState responseState=(WicketResponseState)filterRequestContext.getRequest().getAttribute(WicketPortlet.RESPONSE_STATE_ATTR);
+    filterRequestContext.setRequest(new PortletServletRequestWrapper(config.getServletContext(),filterRequestContext.getRequest(),ServletPortletSessionProxy.createProxy(filterRequestContext.getRequest(),portletRequest.getWindowID()),filterPath));
+    filterRequestContext.setResponse(new PortletServletResponseWrapper(filterRequestContext.getResponse(),responseState));
+  }
+ else {
+    ServletContext context=config.getServletContext();
+    HttpServletRequest request=filterRequestContext.getRequest();
+    String pathInfo=request.getRequestURI().substring(request.getContextPath().length() + filterPath.length());
+    String portletWindowId=decodePortletWindowId(pathInfo);
+    if (portletWindowId != null) {
+      HttpSession proxiedSession=ServletPortletSessionProxy.createProxy(request,portletWindowId);
+      pathInfo=stripWindowIdFromPathInfo(pathInfo);
+      filterRequestContext.setRequest(new PortletServletRequestWrapper(context,request,proxiedSession,filterPath,pathInfo));
+    }
+  }
+  return inPortletContext;
+}

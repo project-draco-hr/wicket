@@ -1,0 +1,16 @@
+{
+class IsValidVisitor implements IVisitor {
+    boolean valid=true;
+    public Object formComponent(    IFormVisitorParticipant formComponent){
+      final FormComponent<?> fc=(FormComponent<?>)formComponent;
+      if (fc.hasErrorMessage()) {
+        valid=false;
+        return Component.IVisitor.STOP_TRAVERSAL;
+      }
+      return Component.IVisitor.CONTINUE_TRAVERSAL;
+    }
+  }
+  IsValidVisitor tmp=new IsValidVisitor();
+  visitFormComponentsPostOrder(this,tmp);
+  return tmp.valid;
+}

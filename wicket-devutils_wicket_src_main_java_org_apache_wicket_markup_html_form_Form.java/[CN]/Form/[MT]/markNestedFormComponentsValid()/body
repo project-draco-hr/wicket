@@ -1,0 +1,13 @@
+{
+  visitChildren(Form.class,new IVisitor<Form<?>>(){
+    public Object component(    Form<?> component){
+      Form<?> form=component;
+      if (form.isEnabledInHierarchy() && form.isVisibleInHierarchy()) {
+        form.internalMarkFormComponentsValid();
+        return CONTINUE_TRAVERSAL;
+      }
+      return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+    }
+  }
+);
+}

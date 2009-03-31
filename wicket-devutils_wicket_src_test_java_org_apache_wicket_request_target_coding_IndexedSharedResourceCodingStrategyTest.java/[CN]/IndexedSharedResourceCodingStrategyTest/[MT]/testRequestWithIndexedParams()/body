@@ -1,0 +1,13 @@
+{
+  final WebRequestCycle cycle=tester.setupRequestAndResponse();
+  final ValueMap params=new ValueMap();
+  params.add("0","foo");
+  params.add("1","bar");
+  final String url=cycle.urlFor(new ResourceReference(RESOURCE_NAME),params).toString();
+  assertEquals("test/foo/bar",url);
+  tester.getServletRequest().setURL(URL_PREFIX + url);
+  tester.processRequestCycle(cycle);
+  assertEquals(2,resource.params.size());
+  assertEquals("foo",resource.params.getString("0"));
+  assertEquals("bar",resource.params.getString("1"));
+}

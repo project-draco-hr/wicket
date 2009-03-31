@@ -1,0 +1,35 @@
+{
+  if (typeName == null) {
+    try {
+      convertedInput=convertValue(getInputAsArray());
+    }
+ catch (    ConversionException e) {
+      ValidationError error=new ValidationError();
+      if (e.getResourceKey() != null) {
+        error.addMessageKey(e.getResourceKey());
+      }
+      if (e.getTargetType() != null) {
+        error.addMessageKey("ConversionError." + Classes.simpleName(e.getTargetType()));
+      }
+      error.addMessageKey("ConversionError");
+      reportValidationError(e,error);
+    }
+  }
+ else {
+    final IConverter converter=getConverter(getType());
+    try {
+      convertedInput=(T)converter.convertToObject(getInput(),getLocale());
+    }
+ catch (    ConversionException e) {
+      ValidationError error=new ValidationError();
+      if (e.getResourceKey() != null) {
+        error.addMessageKey(e.getResourceKey());
+      }
+      String simpleName=Classes.simpleName(getType());
+      error.addMessageKey("IConverter." + simpleName);
+      error.addMessageKey("IConverter");
+      error.setVariable("type",simpleName);
+      reportValidationError(e,error);
+    }
+  }
+}

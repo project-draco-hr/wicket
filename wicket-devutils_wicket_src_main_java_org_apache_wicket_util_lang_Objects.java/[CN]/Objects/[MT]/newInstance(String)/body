@@ -1,0 +1,21 @@
+{
+  if (!Strings.isEmpty(className)) {
+    try {
+      Class<?> c=Classes.resolveClass(className);
+      if (c == null) {
+        throw new WicketRuntimeException("Unable to create " + className);
+      }
+      return c.newInstance();
+    }
+ catch (    ClassCastException e) {
+      throw new WicketRuntimeException("Unable to create " + className,e);
+    }
+catch (    InstantiationException e) {
+      throw new WicketRuntimeException("Unable to create " + className,e);
+    }
+catch (    IllegalAccessException e) {
+      throw new WicketRuntimeException("Unable to create " + className,e);
+    }
+  }
+  return null;
+}

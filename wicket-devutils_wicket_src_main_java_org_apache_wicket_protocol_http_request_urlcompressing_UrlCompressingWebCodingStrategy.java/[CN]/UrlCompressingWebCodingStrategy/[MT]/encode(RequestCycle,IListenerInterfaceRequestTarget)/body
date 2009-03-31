@@ -1,0 +1,49 @@
+{
+  final RequestListenerInterface rli=requestTarget.getRequestListenerInterface();
+  final AppendingStringBuffer url=new AppendingStringBuffer(64);
+  url.append('?');
+  url.append(INTERFACE_PARAMETER_NAME);
+  url.append('=');
+  final Component component=requestTarget.getTarget();
+  final Page page=component.getPage();
+  final IPageMap pageMap=page.getPageMap();
+  if (!pageMap.isDefault()) {
+    url.append(pageMap.getName());
+  }
+  url.append(Component.PATH_SEPARATOR);
+  String listenerName=rli.getName();
+  if (page instanceof WebPage && !"IResourceListener".equals(listenerName)) {
+    url.append(page.getId());
+    url.append(Component.PATH_SEPARATOR);
+    url.append(((WebPage)page).getUrlCompressor().getUIDForComponentAndInterface(component,listenerName));
+    listenerName=null;
+  }
+ else {
+    url.append(component.getPath());
+  }
+  url.append(Component.PATH_SEPARATOR);
+  final int versionNumber=component.getPage().getCurrentVersionNumber();
+  if (!rli.getRecordsPageVersion()) {
+    url.append(Page.LATEST_VERSION);
+  }
+ else   if (versionNumber > 0) {
+    url.append(versionNumber);
+  }
+  url.append(Component.PATH_SEPARATOR);
+  if (listenerName != null && !IRedirectListener.INTERFACE.getName().equals(listenerName)) {
+    url.append(listenerName);
+  }
+  url.append(Component.PATH_SEPARATOR);
+  RequestParameters params=requestTarget.getRequestParameters();
+  if (params != null && params.getBehaviorId() != null) {
+    url.append(params.getBehaviorId());
+  }
+  url.append(Component.PATH_SEPARATOR);
+  if (params != null && params.getUrlDepth() != 0) {
+    url.append(params.getUrlDepth());
+  }
+  if (IActivePageBehaviorListener.INTERFACE.getName().equals(rli.getName())) {
+    url.append(url.indexOf("?") > -1 ? "&" : "?").append(IGNORE_IF_NOT_ACTIVE_PARAMETER_NAME).append("=true");
+  }
+  return requestCycle.getOriginalResponse().encodeURL(url);
+}

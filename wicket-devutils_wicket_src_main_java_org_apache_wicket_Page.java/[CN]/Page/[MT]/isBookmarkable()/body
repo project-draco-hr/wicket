@@ -1,0 +1,24 @@
+{
+  Boolean bookmarkable=pageClassToBookmarkableCache.get(getClass().getName());
+  if (bookmarkable == null) {
+    try {
+      if (getClass().getConstructor(new Class[]{}) != null) {
+        bookmarkable=Boolean.TRUE;
+      }
+    }
+ catch (    Exception ignore) {
+      try {
+        if (getClass().getConstructor(new Class[]{PageParameters.class}) != null) {
+          bookmarkable=Boolean.TRUE;
+        }
+      }
+ catch (      Exception ignore2) {
+      }
+    }
+    if (bookmarkable == null) {
+      bookmarkable=Boolean.FALSE;
+    }
+    pageClassToBookmarkableCache.put(getClass().getName(),bookmarkable);
+  }
+  return bookmarkable.booleanValue();
+}

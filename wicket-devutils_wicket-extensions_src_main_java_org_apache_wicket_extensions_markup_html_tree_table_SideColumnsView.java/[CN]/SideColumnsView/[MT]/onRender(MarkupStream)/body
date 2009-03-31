@@ -1,0 +1,34 @@
+{
+  final int markupStart=markupStream.getCurrentIndex();
+  Response response=RequestCycle.get().getResponse();
+  boolean firstLeft=true;
+  boolean rendered=false;
+  for (int i=0; i < columns.size(); ++i) {
+    IColumn column=columns.get(i);
+    Component component=components.get(i);
+    IRenderable renderable=renderables.get(i);
+    response.write("<span class=\"b_\" style=\"" + renderColumnStyle(column) + "\">");
+    if (column.getLocation().getAlignment() == Alignment.LEFT && firstLeft == true) {
+      response.write("<span class=\"d_\">");
+      firstLeft=false;
+    }
+ else {
+      response.write("<span class=\"c_\">");
+    }
+    if (component != null) {
+      markupStream.setCurrentIndex(markupStart);
+      component.render(markupStream);
+      rendered=true;
+    }
+ else     if (renderable != null) {
+      renderable.render(node,response);
+    }
+ else {
+      throw new IllegalStateException("Either renderable or cell component must be created for this node");
+    }
+    response.write("</span></span>\n");
+  }
+  if (rendered == false) {
+    markupStream.skipComponent();
+  }
+}

@@ -1,0 +1,16 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.setupRequestAndResponse();
+  MetaDataRoleAuthorizationStrategy strategy=new MetaDataRoleAuthorizationStrategy(new IRoleCheckingStrategy(){
+    public boolean hasAnyRole(    Roles roles){
+      return false;
+    }
+  }
+);
+  tester.getApplication().setMetaData(MetaDataRoleAuthorizationStrategy.INSTANTIATION_PERMISSIONS,new InstantiationPermissions());
+  MetaDataRoleAuthorizationStrategy.authorize(Page.class,"martijn");
+  MetaDataRoleAuthorizationStrategy.unauthorize(Page.class,"martijn");
+  assertFalse(strategy.isInstantiationAuthorized(Page.class));
+  tester.processRequestCycle();
+  tester.destroy();
+}

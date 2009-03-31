@@ -1,0 +1,82 @@
+{
+  if (ctx == null) {
+    throw new IllegalArgumentException("ctx parameter cannot be null");
+  }
+  List<FileItem> items=new ArrayList<FileItem>();
+  String contentType=ctx.getContentType();
+  if ((null == contentType) || (!contentType.toLowerCase().startsWith(MULTIPART))) {
+    throw new InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or "+ MULTIPART_MIXED+ " stream, content type header is "+ contentType);
+  }
+  int requestSize=ctx.getContentLength();
+  if (requestSize == -1 && getSizeMax() != Long.MAX_VALUE) {
+    throw new UnknownSizeException("the request was rejected because its size is unknown");
+  }
+  if (sizeMax >= 0 && requestSize > sizeMax) {
+    throw new SizeLimitExceededException("the request was rejected because " + "its size exceeds allowed range");
+  }
+  try {
+    byte[] boundary=getBoundary(contentType);
+    if (boundary == null) {
+      throw new FileUploadException("the request was rejected because " + "no multipart boundary was found");
+    }
+    InputStream input=ctx.getInputStream();
+    MultipartFormInputStream multi=new MultipartFormInputStream(input,boundary);
+    multi.setHeaderEncoding(headerEncoding);
+    boolean nextPart=multi.skipPreamble();
+    final int maxHeaderBytes=65536;
+    while (nextPart) {
+      Map<String,String> headers=parseHeaders(multi.readHeaders(maxHeaderBytes));
+      String fieldName=getFieldName(headers);
+      if (fieldName != null) {
+        String subContentType=getHeader(headers,CONTENT_TYPE);
+        if (subContentType != null && subContentType.toLowerCase().startsWith(MULTIPART_MIXED)) {
+          byte[] subBoundary=getBoundary(subContentType);
+          multi.setBoundary(subBoundary);
+          boolean nextSubPart=multi.skipPreamble();
+          while (nextSubPart) {
+            headers=parseHeaders(multi.readHeaders(maxHeaderBytes));
+            if (getFileName(headers) != null) {
+              FileItem item=createItem(headers,false);
+              items.add(item);
+              OutputStream os=item.getOutputStream();
+              try {
+                multi.readBodyData(os);
+              }
+  finally {
+                os.close();
+              }
+            }
+ else {
+              multi.discardBodyData();
+            }
+            nextSubPart=multi.readBoundary();
+          }
+          multi.setBoundary(boundary);
+        }
+ else {
+          FileItem item=createItem(headers,getFileName(headers) == null);
+          items.add(item);
+          OutputStream os=item.getOutputStream();
+          try {
+            multi.readBodyData(os);
+          }
+  finally {
+            os.close();
+          }
+        }
+      }
+ else {
+        multi.discardBodyData();
+      }
+      nextPart=multi.readBoundary();
+    }
+  }
+ catch (  IOException e) {
+    for (int i=0; i < items.size(); i++) {
+      FileItem item=items.get(i);
+      item.delete();
+    }
+    throw new FileUploadException("Processing of " + MULTIPART_FORM_DATA + " request failed. "+ e.getMessage(),e);
+  }
+  return items;
+}

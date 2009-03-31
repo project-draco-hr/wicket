@@ -1,0 +1,14 @@
+{
+  WebRequestCycle requestCycle;
+  if (RequestCycle.get() == null) {
+    requestCycle=setupRequestAndResponse();
+  }
+ else {
+    requestCycle=(WebRequestCycle)RequestCycle.get();
+    if ((requestCycle.getWebRequest().isAjax() == false) && (isCreateAjaxRequest() == true)) {
+      setParametersForNextRequest(requestCycle.getWebRequest().getParameterMap());
+      requestCycle=setupRequestAndResponse();
+    }
+  }
+  return requestCycle;
+}

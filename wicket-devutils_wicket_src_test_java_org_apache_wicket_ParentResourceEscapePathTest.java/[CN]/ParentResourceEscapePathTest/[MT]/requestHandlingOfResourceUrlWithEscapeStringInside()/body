@@ -1,0 +1,9 @@
+{
+  final WebRequestCycle cycle=tester.setupRequestAndResponse();
+  final MockHttpServletRequest request=tester.getServletRequest();
+  request.setMethod("GET");
+  request.setURL("http://localhost/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/" + expectedResourceUrl());
+  tester.processRequestCycle(cycle);
+  tester.assertNoErrorMessage();
+  assertEquals("// ParentResourceTest.js",tester.getServletResponse().getDocument());
+}

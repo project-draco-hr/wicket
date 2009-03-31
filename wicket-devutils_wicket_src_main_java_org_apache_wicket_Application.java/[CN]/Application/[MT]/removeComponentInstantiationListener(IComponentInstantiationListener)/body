@@ -1,0 +1,18 @@
+{
+  final IComponentInstantiationListener[] listeners=componentInstantiationListeners;
+  final int len=listeners.length;
+  if (listener != null && len > 0) {
+    int pos=0;
+    for (pos=0; pos < len; pos++) {
+      if (listener == listeners[pos]) {
+        break;
+      }
+    }
+    if (pos < len) {
+      listeners[pos]=listeners[len - 1];
+      final IComponentInstantiationListener[] newListeners=new IComponentInstantiationListener[len - 1];
+      System.arraycopy(listeners,0,newListeners,0,newListeners.length);
+      componentInstantiationListeners=newListeners;
+    }
+  }
+}

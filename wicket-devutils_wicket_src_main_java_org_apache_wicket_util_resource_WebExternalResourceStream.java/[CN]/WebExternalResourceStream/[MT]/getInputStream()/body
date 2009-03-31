@@ -1,0 +1,8 @@
+{
+  final ServletContext context=((WebApplication)RequestCycle.get().getApplication()).getServletContext();
+  in=context.getResourceAsStream(url);
+  if (in == null) {
+    throw new ResourceStreamNotFoundException("The requested resource was not found: " + url);
+  }
+  return in;
+}

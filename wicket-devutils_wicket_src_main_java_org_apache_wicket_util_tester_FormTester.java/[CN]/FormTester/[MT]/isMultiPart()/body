@@ -1,0 +1,16 @@
+{
+  try {
+    Field multiPart=Form.class.getDeclaredField("multiPart");
+    multiPart.setAccessible(true);
+    return multiPart.getBoolean(workingForm);
+  }
+ catch (  SecurityException e) {
+    throw new RuntimeException(e);
+  }
+catch (  NoSuchFieldException e) {
+    throw new RuntimeException(e);
+  }
+catch (  IllegalAccessException e) {
+    throw new RuntimeException(e);
+  }
+}

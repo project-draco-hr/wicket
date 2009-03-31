@@ -1,0 +1,23 @@
+{
+  if (pageCreator == null) {
+    return null;
+  }
+ else {
+    RequestParameters parameters=RequestCycle.get().getRequest().getRequestParameters();
+    String oldPageMapName=parameters.getPageMapName();
+    if (getPageMapName() != null) {
+      Session session=Session.get();
+      if (session.pageMapForName(getPageMapName(),false) == null) {
+        deletePageMap=true;
+      }
+      parameters.setPageMapName(getPageMapName());
+    }
+    try {
+      Page page=pageCreator.createPage();
+      return page;
+    }
+  finally {
+      parameters.setPageMapName(oldPageMapName);
+    }
+  }
+}

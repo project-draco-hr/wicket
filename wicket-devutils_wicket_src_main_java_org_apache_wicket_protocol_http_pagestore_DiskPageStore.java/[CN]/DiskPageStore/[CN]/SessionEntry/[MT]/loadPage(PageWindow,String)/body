@@ -1,0 +1,20 @@
+{
+  byte[] result=null;
+  FileChannel channel=diskPageStore.fileChannelPool.getFileChannel(pageMapFileName,false);
+  if (channel != null) {
+    ByteBuffer buffer=ByteBuffer.allocate(window.getFilePartSize());
+    try {
+      channel.read(buffer,window.getFilePartOffset());
+      if (buffer.hasArray()) {
+        result=buffer.array();
+      }
+    }
+ catch (    IOException e) {
+      log.error("Error reading from file channel " + channel,e);
+    }
+ finally {
+      diskPageStore.fileChannelPool.returnFileChannel(channel);
+    }
+  }
+  return result;
+}

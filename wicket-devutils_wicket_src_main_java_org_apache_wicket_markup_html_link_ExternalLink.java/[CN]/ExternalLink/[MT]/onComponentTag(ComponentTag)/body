@@ -1,0 +1,40 @@
+{
+  super.onComponentTag(tag);
+  if (isLinkEnabled() == false) {
+    disableLink(tag);
+  }
+ else   if (getDefaultModel() != null) {
+    Object hrefValue=getDefaultModelObject();
+    if (hrefValue != null) {
+      String url=hrefValue.toString();
+      if (contextRelative) {
+        if (url.length() > 0 && url.charAt(0) == '/') {
+          url=url.substring(1);
+        }
+        url=RequestCycle.get().getProcessor().getRequestCodingStrategy().rewriteStaticRelativeUrl(url);
+      }
+      if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
+        tag.put("href",Strings.replaceAll(url,"&","&amp;"));
+        if (popupSettings != null) {
+          tag.put("onclick",popupSettings.getPopupJavaScript());
+        }
+      }
+ else {
+        if (popupSettings != null) {
+          popupSettings.setTarget("'" + url + "'");
+          String popupScript=popupSettings.getPopupJavaScript();
+          tag.put("onclick",popupScript);
+        }
+ else {
+          tag.put("onclick","window.location.href='" + url + "';return false;");
+        }
+      }
+    }
+    if (popupSettings != null) {
+      IPageMap popupPageMap=popupSettings.getPageMap(this);
+      if (popupPageMap != null && popupPageMap.getName() != null) {
+        tag.put("target",popupPageMap.getName());
+      }
+    }
+  }
+}

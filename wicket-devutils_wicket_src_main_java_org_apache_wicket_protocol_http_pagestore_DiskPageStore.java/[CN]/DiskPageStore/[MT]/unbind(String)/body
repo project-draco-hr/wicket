@@ -1,0 +1,18 @@
+{
+  SessionEntry entry=sessionIdToEntryMap.remove(sessionId);
+  if (entry != null) {
+    if (isSynchronous()) {
+      entry.unbind();
+    }
+ else {
+      List<SerializedPage> pages=getPagesToSaveList(sessionId);
+      if (pages != null) {
+synchronized (pages) {
+          pages.clear();
+        }
+        entry.unbind();
+      }
+      pagesToSaveAll.remove(sessionId);
+    }
+  }
+}

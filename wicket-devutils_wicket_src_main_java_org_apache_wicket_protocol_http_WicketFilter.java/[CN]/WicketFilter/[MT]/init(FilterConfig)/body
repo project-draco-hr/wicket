@@ -1,0 +1,55 @@
+{
+  initIgnorePaths(filterConfig);
+  this.filterConfig=filterConfig;
+  String filterMapping=filterConfig.getInitParameter(WicketFilter.FILTER_MAPPING_PARAM);
+  if (SERVLET_PATH_HOLDER.equals(filterMapping)) {
+    servletMode=true;
+  }
+  final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
+  final ClassLoader newClassLoader=getClassLoader();
+  try {
+    if (previousClassLoader != newClassLoader) {
+      Thread.currentThread().setContextClassLoader(newClassLoader);
+    }
+    if (filterMapping == null) {
+      InputStream is=filterConfig.getServletContext().getResourceAsStream("/WEB-INF/web.xml");
+      if (is != null) {
+        try {
+          filterPath=getFilterPath(filterConfig.getFilterName(),is);
+        }
+ catch (        ServletException e) {
+          log.error("Error reading servlet/filter path from web.xml",e);
+        }
+catch (        SecurityException e) {
+          log.info("Couldn't read web.xml to automatically pick up servlet/filter path: " + e.getMessage());
+        }
+        if (filterPath == null) {
+          log.info("Unable to parse filter mapping web.xml for " + filterConfig.getFilterName() + ". "+ "Configure with init-param "+ FILTER_MAPPING_PARAM+ " if it is not \"/*\".");
+        }
+      }
+    }
+    IWebApplicationFactory factory=getApplicationFactory();
+    webApplication=factory.createApplication(this);
+    webApplication.setWicketFilter(this);
+    String contextKey="wicket:" + filterConfig.getFilterName();
+    filterConfig.getServletContext().setAttribute(contextKey,webApplication);
+    Application.set(webApplication);
+    webApplication.internalInit();
+    webApplication.init();
+    webApplication.initializeComponents();
+    webApplication.logStarted();
+    portletOnlyFilter=Boolean.valueOf(filterConfig.getInitParameter(PORTLET_ONLY_FILTER)).booleanValue();
+    if (isPortletContextAvailable(filterConfig)) {
+      filterPortletContext=newWicketFilterPortletContext();
+    }
+    if (filterPortletContext != null) {
+      filterPortletContext.initFilter(filterConfig,webApplication);
+    }
+  }
+  finally {
+    Application.unset();
+    if (newClassLoader != previousClassLoader) {
+      Thread.currentThread().setContextClassLoader(previousClassLoader);
+    }
+  }
+}

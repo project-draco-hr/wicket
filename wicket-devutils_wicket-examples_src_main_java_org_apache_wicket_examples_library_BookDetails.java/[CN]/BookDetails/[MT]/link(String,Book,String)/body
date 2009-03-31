@@ -1,0 +1,12 @@
+{
+  final BookmarkablePageLink<Void> link=new BookmarkablePageLink<Void>(name,BookDetails.class);
+  if (book != null) {
+    link.setParameter("id",book.getId());
+    link.add(new Label("title",new Model<Book>(book)));
+  }
+ else {
+    link.add(new Label("title",noBookTitle));
+    link.setEnabled(false);
+  }
+  return link;
+}

@@ -1,0 +1,32 @@
+{
+  StringBuffer b=new StringBuffer();
+  Field[] fields=ClientProperties.class.getDeclaredFields();
+  for (int i=0; i < fields.length; i++) {
+    Field field=fields[i];
+    if (field.getName().equals("serialVersionUID") == false && field.getName().startsWith("class$") == false && field.getName().startsWith("timeZone") == false) {
+      field.setAccessible(true);
+      Object value=null;
+      try {
+        value=field.get(this);
+      }
+ catch (      IllegalArgumentException e) {
+        throw new RuntimeException(e);
+      }
+catch (      IllegalAccessException e) {
+        throw new RuntimeException(e);
+      }
+      if (field.getType().equals(Integer.TYPE)) {
+        if (((Integer)value).intValue() == -1) {
+          value=null;
+        }
+      }
+      if (value != null) {
+        b.append(field.getName());
+        b.append("=");
+        b.append(value);
+        b.append("\n");
+      }
+    }
+  }
+  return b.toString();
+}

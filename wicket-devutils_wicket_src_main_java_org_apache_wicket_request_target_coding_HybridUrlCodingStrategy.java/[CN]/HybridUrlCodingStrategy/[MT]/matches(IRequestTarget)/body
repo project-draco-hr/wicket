@@ -1,0 +1,11 @@
+{
+  if (requestTarget instanceof BookmarkablePageRequestTarget) {
+    BookmarkablePageRequestTarget target=(BookmarkablePageRequestTarget)requestTarget;
+    return target.getPageClass().equals(pageClassRef.get());
+  }
+ else   if (requestTarget instanceof ListenerInterfaceRequestTarget) {
+    ListenerInterfaceRequestTarget target=(ListenerInterfaceRequestTarget)requestTarget;
+    return target.getPage().getClass().equals(pageClassRef.get()) && target.getRequestListenerInterface().equals(IRedirectListener.INTERFACE);
+  }
+  return false;
+}

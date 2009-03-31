@@ -1,0 +1,20 @@
+{
+  SessionEntry entry=getSessionEntry(sessionId,false);
+  if (entry != null) {
+    byte[] data;
+    if (isSynchronous()) {
+      data=entry.loadPage(pageMapName,pageId,versionNumber,ajaxVersionNumber);
+    }
+ else {
+      List<SerializedPage> pages=getPagesToSaveList(sessionId);
+synchronized (pages) {
+        flushPagesToSaveList(sessionId,pages);
+        data=entry.loadPage(pageMapName,pageId,versionNumber,ajaxVersionNumber);
+      }
+    }
+    return data;
+  }
+ else {
+    return null;
+  }
+}

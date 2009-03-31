@@ -1,0 +1,22 @@
+{
+  Label label=new Label(componentId,model){
+    private static final long serialVersionUID=1L;
+    @Override public IConverter getConverter(    Class<?> type){
+      IConverter c=AjaxEditableLabel.this.getConverter(type);
+      return c != null ? c : super.getConverter(type);
+    }
+    @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+      Object modelObject=getDefaultModelObject();
+      if (modelObject == null || "".equals(modelObject)) {
+        replaceComponentTagBody(markupStream,openTag,defaultNullLabel());
+      }
+ else {
+        super.onComponentTagBody(markupStream,openTag);
+      }
+    }
+  }
+;
+  label.setOutputMarkupId(true);
+  label.add(new LabelAjaxBehavior(getLabelAjaxEvent()));
+  return label;
+}

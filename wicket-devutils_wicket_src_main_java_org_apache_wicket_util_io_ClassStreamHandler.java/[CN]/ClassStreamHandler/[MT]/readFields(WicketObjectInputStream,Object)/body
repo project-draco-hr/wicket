@@ -1,0 +1,16 @@
+{
+  FieldAndIndex fai=null;
+  try {
+    for (int i=0; i < fields.size(); i++) {
+      fai=fields.get(i);
+      fai.readField(object,wois);
+    }
+  }
+ catch (  WicketSerializeableException wse) {
+    wse.addTrace(fai.field.getName());
+    throw wse;
+  }
+catch (  Exception ex) {
+    throw new WicketSerializeableException("Error reading field: " + fai.field.getName() + " for object class: "+ object.getClass(),ex);
+  }
+}

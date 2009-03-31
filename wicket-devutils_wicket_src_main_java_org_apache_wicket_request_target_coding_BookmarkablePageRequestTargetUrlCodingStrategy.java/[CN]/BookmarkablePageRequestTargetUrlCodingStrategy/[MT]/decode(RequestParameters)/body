@@ -1,0 +1,18 @@
+{
+  final String parametersFragment=requestParameters.getPath().substring(getMountPath().length());
+  final PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
+  String pageMapNameEncoded=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
+  if (requestParameters.getPageMapName() == null) {
+    requestParameters.setPageMapName(pageMapNameEncoded);
+  }
+  String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+  if (requestParameters.getInterfaceName() == null) {
+    WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
+  }
+  if (requestParameters.getInterfaceName() != null) {
+    return new BookmarkableListenerInterfaceRequestTarget(requestParameters.getPageMapName(),bookmarkablePageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName(),requestParameters.getVersionNumber());
+  }
+ else {
+    return new BookmarkablePageRequestTarget(requestParameters.getPageMapName(),(Class<? extends Page>)bookmarkablePageClassRef.get(),parameters);
+  }
+}

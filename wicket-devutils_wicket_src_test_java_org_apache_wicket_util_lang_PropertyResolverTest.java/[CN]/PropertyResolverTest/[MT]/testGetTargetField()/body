@@ -1,0 +1,15 @@
+{
+  Address address=new Address();
+  Field field=PropertyResolver.getPropertyField("number",address);
+  assertEquals(field.getName(),"number");
+  assertEquals(field.getType(),int.class);
+  Person person=new Person();
+  person.setAddress(new Address());
+  field=PropertyResolver.getPropertyField("address.number",person);
+  assertEquals(field.getName(),"number");
+  assertEquals(field.getType(),int.class);
+  person.setAddressArray(new Address[]{new Address(),new Address()});
+  field=PropertyResolver.getPropertyField("addressArray[0].number",person);
+  assertEquals(field.getName(),"number");
+  assertEquals(field.getType(),int.class);
+}

@@ -1,0 +1,8 @@
+{
+  List<SerializedPage> pages=new ArrayList<SerializedPage>(page.pages.size());
+  for (Iterator<SerializedPage> i=page.pages.iterator(); i.hasNext(); ) {
+    SerializedPage sp=i.next();
+    pages.add(new SerializedPage(sp.getPageId(),sp.getPageMapName(),sp.getVersionNumber(),sp.getAjaxVersionNumber(),null));
+  }
+  return new SerializedPageWithSession(page.sessionId,page.pageId,page.pageMapName,page.versionNumber,page.ajaxVersionNumber,pages);
+}

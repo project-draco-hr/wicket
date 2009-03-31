@@ -1,0 +1,7 @@
+{
+  getPage().startComponentRender(getTarget());
+  final Application application=requestCycle.getApplication();
+  IRequestCycleSettings.RenderStrategy strategy=application.getRequestCycleSettings().getRenderStrategy();
+  boolean issueRedirect=(strategy == IRequestCycleSettings.REDIRECT_TO_RENDER || strategy == IRequestCycleSettings.REDIRECT_TO_BUFFER);
+  requestCycle.setRedirect(issueRedirect);
+}

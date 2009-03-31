@@ -1,0 +1,30 @@
+{
+  if (formValidators instanceof IFormValidator) {
+    if (index == 0) {
+      final IFormValidator removed=(IFormValidator)formValidators;
+      formValidators=null;
+      return removed;
+    }
+ else {
+      throw new IndexOutOfBoundsException();
+    }
+  }
+ else {
+    final IFormValidator[] validators=(IFormValidator[])formValidators;
+    final IFormValidator removed=validators[index];
+    if (validators.length == 2) {
+      formValidators=validators[1 - index];
+    }
+ else {
+      IFormValidator[] newValidators=new IFormValidator[validators.length - 1];
+      int j=0;
+      for (int i=0; i < validators.length; i++) {
+        if (i != index) {
+          newValidators[j++]=validators[i];
+        }
+      }
+      formValidators=newValidators;
+    }
+    return removed;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  String[] parameterNames=new String[]{"a","b","c"};
+  MixedParamUrlCodingStrategy npucs=new MixedParamUrlCodingStrategy("mnt",TestPage.class,parameterNames);
+  Map urlMap=new HashMap();
+  urlMap.put("c","XXXXXXX");
+  urlMap.put("d","4");
+  urlMap.put("e","5");
+  ValueMap parameterMap=npucs.decodeParameters("/1//3",urlMap);
+  assertEquals(5,parameterMap.size());
+  assertContains(parameterMap,"a","1");
+  assertContains(parameterMap,"b","");
+  assertContains(parameterMap,"c","3");
+  assertContains(parameterMap,"d","4");
+  assertContains(parameterMap,"e","5");
+}

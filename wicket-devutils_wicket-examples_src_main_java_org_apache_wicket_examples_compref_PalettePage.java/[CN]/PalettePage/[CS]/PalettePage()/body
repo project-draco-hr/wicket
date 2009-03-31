@@ -1,0 +1,14 @@
+{
+  List<Person> persons=ComponentReferenceApplication.getPersons();
+  IChoiceRenderer<Person> renderer=new ChoiceRenderer<Person>("fullName","fullName");
+  final Palette<Person> palette=new Palette<Person>("palette",new ListModel<Person>(new ArrayList<Person>()),new CollectionModel<Person>(persons),renderer,10,true);
+  Form<?> form=new Form("form"){
+    @Override protected void onSubmit(){
+      info("selected person(s): " + palette.getDefaultModelObjectAsString());
+    }
+  }
+;
+  add(form);
+  form.add(palette);
+  add(new FeedbackPanel("feedback"));
+}

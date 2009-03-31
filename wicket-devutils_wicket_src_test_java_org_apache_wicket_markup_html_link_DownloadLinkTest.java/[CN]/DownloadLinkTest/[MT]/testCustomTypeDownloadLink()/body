@@ -1,0 +1,7 @@
+{
+  tester.startPage(DownloadPage.class);
+  ((MockServletContext)tester.getApplication().getServletContext()).addMimeType("custom",APPLICATION_X_CUSTOM);
+  tester.clickLink(DownloadPage.CUSTOM_DOWNLOAD_LINK);
+  log.debug("Content-Type: " + tester.getContentTypeFromResponseHeader());
+  assertTrue(tester.getContentTypeFromResponseHeader().startsWith(APPLICATION_X_CUSTOM));
+}

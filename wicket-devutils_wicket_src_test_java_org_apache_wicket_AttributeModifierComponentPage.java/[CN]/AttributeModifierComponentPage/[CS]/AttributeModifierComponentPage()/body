@@ -1,0 +1,17 @@
+{
+  Label label1=new Label("label1",new Model<String>("Label 1"));
+  add(label1);
+  Label label2=new Label("label2",new Model<String>("Label 2"));
+  label2.add(new AttributeModifier("class",new Model<String>("overrideLabel")));
+  label2.add(new AttributeModifier("unknown",new Model<String>("invalid")));
+  add(label2);
+  Label label3=new Label("label3",new Model<String>("Label 3"));
+  label3.add(new AttributeModifier("class",true,new LoadableDetachableModel(){
+    private static final long serialVersionUID=1L;
+    @Override protected Object load(){
+      return "insertLabel";
+    }
+  }
+));
+  add(label3);
+}

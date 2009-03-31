@@ -1,0 +1,26 @@
+{
+  MockPojo mockPojo=new MockPageWithFormAndLink.MockPojo();
+  mockPojo.setName("Mock name");
+  final MockPageWithFormAndLink page=new MockPageWithFormAndLink(mockPojo);
+  AjaxSubmitLink link=new AjaxSubmitLink("link",page.getForm()){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      assertNotNull(form);
+      linkClicked=true;
+    }
+  }
+;
+  page.add(link);
+  tester.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  tester.assertRenderedPage(MockPageWithFormAndLink.class);
+  page.getNameField().setModelValue(new String[]{"new mock value"});
+  tester.clickLink("link");
+  assertTrue(linkClicked);
+  assertEquals("new mock value",mockPojo.getName());
+}

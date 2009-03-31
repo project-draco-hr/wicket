@@ -1,0 +1,24 @@
+{
+  String result=null;
+  try {
+    result=System.getProperty("wicket." + Application.CONFIGURATION);
+  }
+ catch (  SecurityException e) {
+  }
+  if (result == null) {
+    result=getInitParameter("wicket." + Application.CONFIGURATION);
+  }
+  if (result == null) {
+    result=getServletContext().getInitParameter("wicket." + Application.CONFIGURATION);
+  }
+  if (result == null) {
+    result=getInitParameter(Application.CONFIGURATION);
+  }
+  if (result == null) {
+    result=getServletContext().getInitParameter(Application.CONFIGURATION);
+  }
+  if (result != null) {
+    return result;
+  }
+  return Application.DEVELOPMENT;
+}

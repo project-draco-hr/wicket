@@ -1,0 +1,27 @@
+{
+  try {
+    final int maxSteps=100;
+    for (int totalSteps=0; currentStep < DONE; totalSteps++) {
+      if (totalSteps >= maxSteps) {
+        throw new IllegalStateException("Request processing executed " + maxSteps + " steps, which means it is probably in an infinite loop.");
+      }
+      try {
+        step();
+        currentStep++;
+      }
+ catch (      AbstractRestartResponseException e) {
+        response.reset();
+        currentStep=RESPOND;
+        if (getSession().isSessionInvalidated()) {
+          session=null;
+          Session.unset();
+        }
+      }
+    }
+  }
+  finally {
+    currentStep=DETACH_REQUEST;
+    detach();
+    currentStep=DONE;
+  }
+}

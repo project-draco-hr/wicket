@@ -1,0 +1,14 @@
+{
+  if (requestParameters == null) {
+    throw new IllegalArgumentException("request parameters must not be null");
+  }
+  String path=requestParameters.getPath().substring(getMountPath().length());
+  int startOfQueryString=path.indexOf("?");
+  if (startOfQueryString != -1) {
+    path=path.substring(0,startOfQueryString);
+  }
+  final ValueMap parameters=decodeParameters(path,requestParameters.getParameters());
+  requestParameters.setParameters(parameters);
+  requestParameters.setResourceKey(resourceKey);
+  return new SharedResourceRequestTarget(requestParameters);
+}

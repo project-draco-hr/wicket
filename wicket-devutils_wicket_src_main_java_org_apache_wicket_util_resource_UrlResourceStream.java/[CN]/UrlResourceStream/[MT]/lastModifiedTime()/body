@@ -1,0 +1,62 @@
+{
+  if (file != null) {
+    long lastModified=file.lastModified();
+    if (lastModified != this.lastModified) {
+      this.lastModified=lastModified;
+      contentLength=(int)file.length();
+    }
+  }
+ else {
+    URLConnection urlConnection=null;
+    boolean close=false;
+    try {
+      urlConnection=url.openConnection();
+      long lastModified=this.lastModified;
+      if (urlConnection instanceof JarURLConnection) {
+        JarURLConnection jarUrlConnection=(JarURLConnection)urlConnection;
+        URL jarFileUrl=jarUrlConnection.getJarFileURL();
+        URLConnection jarFileConnection=jarFileUrl.openConnection();
+        try {
+          lastModified=jarFileConnection.getLastModified();
+        }
+  finally {
+          jarFileConnection.getInputStream().close();
+        }
+      }
+ else {
+        close=true;
+        lastModified=urlConnection.getLastModified();
+      }
+      if (lastModified != this.lastModified) {
+        this.lastModified=lastModified;
+        close=true;
+        contentLength=urlConnection.getContentLength();
+      }
+    }
+ catch (    IOException e) {
+      if (url.toString().indexOf(".jar!") >= 0) {
+        if (log.isDebugEnabled()) {
+          log.debug("getLastModified for " + url + " failed: "+ e.getMessage());
+        }
+      }
+ else {
+        log.error("getLastModified for " + url + " failed: "+ e.getMessage());
+      }
+    }
+ finally {
+      if (urlConnection != null) {
+        if (urlConnection instanceof HttpURLConnection) {
+          ((HttpURLConnection)urlConnection).disconnect();
+        }
+ else         if (close) {
+          try {
+            urlConnection.getInputStream().close();
+          }
+ catch (          Exception ex) {
+          }
+        }
+      }
+    }
+  }
+  return Time.milliseconds(lastModified);
+}

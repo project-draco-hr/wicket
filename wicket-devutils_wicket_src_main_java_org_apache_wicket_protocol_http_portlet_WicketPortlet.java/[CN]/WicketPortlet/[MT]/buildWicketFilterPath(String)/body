@@ -1,0 +1,17 @@
+{
+  if (filterPath == null || filterPath.length() == 0) {
+    filterPath="/";
+  }
+ else {
+    if (!filterPath.startsWith("/")) {
+      filterPath="/" + filterPath;
+    }
+    if (filterPath.endsWith("*")) {
+      filterPath=filterPath.substring(0,filterPath.length() - 1);
+    }
+    if (!filterPath.endsWith("/")) {
+      filterPath+="/";
+    }
+  }
+  return filterPath;
+}

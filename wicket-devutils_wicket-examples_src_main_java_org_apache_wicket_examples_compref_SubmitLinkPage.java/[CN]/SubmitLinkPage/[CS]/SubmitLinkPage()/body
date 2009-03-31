@@ -1,0 +1,20 @@
+{
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form<?> form=new Form("form");
+  add(form);
+  SubmitLink internal=new SubmitLink("internal"){
+    @Override public void onSubmit(){
+      info("internal onsubmit");
+    }
+  }
+;
+  form.add(internal);
+  SubmitLink external=new SubmitLink("external",form){
+    @Override public void onSubmit(){
+      info("external onsubmit");
+    }
+  }
+;
+  add(external);
+}

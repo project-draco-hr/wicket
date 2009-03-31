@@ -1,0 +1,34 @@
+{
+  if (locale == null) {
+    state=999;
+    return path;
+  }
+  if (state == 0) {
+    state++;
+    currentLocale=locale;
+    currentPath=path + '_' + locale.toString();
+    return currentPath;
+  }
+  final String language=locale.getLanguage();
+  final String country=locale.getCountry();
+  if (state == 1) {
+    state++;
+    if (!Strings.isEmpty(language) && !Strings.isEmpty(country)) {
+      currentLocale=new Locale(language,country);
+      String newPath=path + '_' + language+ '_'+ country;
+      if (currentPath.equals(newPath) == false) {
+        return newPath;
+      }
+    }
+  }
+  if (state == 2) {
+    state++;
+    if (!Strings.isEmpty(language)) {
+      currentLocale=new Locale(language);
+      return path + '_' + language;
+    }
+  }
+  state++;
+  currentLocale=null;
+  return path;
+}

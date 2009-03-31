@@ -1,0 +1,10 @@
+{
+  if (cryptClass == null) {
+    throw new IllegalArgumentException("cryptClass cannot be null");
+  }
+  if (!ICrypt.class.isAssignableFrom(cryptClass)) {
+    throw new IllegalArgumentException("cryptClass must implement ICrypt interface");
+  }
+  this.cryptClass=new WeakReference<Class<?>>(cryptClass);
+  this.encryptionKey=encryptionKey;
+}

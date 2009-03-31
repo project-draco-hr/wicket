@@ -1,0 +1,19 @@
+{
+  List<PageWindow> result=new ArrayList<PageWindow>();
+  int currentIndex=indexPointer;
+  do {
+    if (currentIndex == -1) {
+      break;
+    }
+    PageWindowInternal window=windows.get(currentIndex);
+    if (window.pageId != -1) {
+      result.add(new PageWindow(window));
+    }
+    --currentIndex;
+    if (currentIndex == -1) {
+      currentIndex=result.size() - 1;
+    }
+  }
+ while (result.size() < count && currentIndex != indexPointer);
+  return result;
+}

@@ -1,0 +1,19 @@
+{
+  responseState.flush();
+  String redirectLocationUrl=responseState.getRedirectLocation();
+  if (log.isDebugEnabled()) {
+    log.debug("redirectURL after include:" + redirectLocationUrl);
+  }
+  if (redirectLocationUrl != null) {
+    wicketURL=fixWicketUrl(redirectLocationUrl,wicketFilterPath,wicketFilterQuery);
+    if (wicketURL.startsWith(wicketFilterPath)) {
+      String portletMode=request.getPortletMode().toString();
+      String wicketUrlPrefix=(String)request.getAttribute(WicketPortlet.WICKET_URL_PORTLET_PARAMETER_ATTR);
+      String redirectUrlKey=wicketUrlPrefix + portletMode;
+      response.setRenderParameter(redirectUrlKey,wicketURL);
+    }
+ else {
+      response.sendRedirect(redirectLocationUrl);
+    }
+  }
+}

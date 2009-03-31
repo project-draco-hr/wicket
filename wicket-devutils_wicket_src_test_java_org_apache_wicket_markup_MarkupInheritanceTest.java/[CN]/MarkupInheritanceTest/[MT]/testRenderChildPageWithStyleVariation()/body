@@ -1,0 +1,15 @@
+{
+  executeTest(MarkupInheritanceExtension_1.class,"MarkupInheritanceExpectedResult_1.html");
+  tester.setupRequestAndResponse();
+  WebRequestCycle cycle=tester.createRequestCycle();
+  cycle.getSession().setStyle("style1");
+  tester.startPage(MarkupInheritanceExtension_1.class);
+  tester.assertRenderedPage(MarkupInheritanceExtension_1.class);
+  tester.assertResultPage(getClass(),"MarkupInheritanceExpectedResult_1_style1.html");
+  tester.setupRequestAndResponse();
+  cycle=tester.createRequestCycle();
+  cycle.getSession().setStyle("style2");
+  tester.startPage(MarkupInheritanceExtension_1.class);
+  tester.assertRenderedPage(MarkupInheritanceExtension_1.class);
+  tester.assertResultPage(getClass(),"MarkupInheritanceExpectedResult_1_style2.html");
+}

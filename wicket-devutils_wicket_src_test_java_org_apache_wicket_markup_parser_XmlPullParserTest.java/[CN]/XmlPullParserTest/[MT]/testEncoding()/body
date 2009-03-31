@@ -1,0 +1,37 @@
+{
+  final XmlPullParser parser=new XmlPullParser();
+  parser.parse(new StringResourceStream("<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>").getInputStream(),null);
+  assertEquals("iso-8859-1",parser.getEncoding());
+  XmlTag tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+  parser.parse(new StringResourceStream("<?xml version=\"1.0\" encoding='iso-8859-1' ?> test test").getInputStream(),null);
+  assertEquals("iso-8859-1",parser.getEncoding());
+  tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+  parser.parse(new StringResourceStream("   <?xml encoding='iso-8859-1'version=\"1.0\"?> test test").getInputStream(),null);
+  assertEquals("iso-8859-1",parser.getEncoding());
+  tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+  parser.parse(new StringResourceStream("<?xml encoding=iso-8859-1 ?> test test").getInputStream(),null);
+  assertEquals("iso-8859-1",parser.getEncoding());
+  Exception ex=null;
+  try {
+    parser.parse(new StringResourceStream("<?xml encoding='XXX' ?>").getInputStream(),null);
+  }
+ catch (  UnsupportedEncodingException e) {
+    ex=e;
+  }
+  assertNotNull(ex);
+  parser.parse(new StringResourceStream("xxxx <?xml encoding='iso-8859-1' ?>").getInputStream(),null);
+  assertNull(parser.getEncoding());
+  tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+  parser.parse(new StringResourceStream("<!-- Comment --> <?xml encoding='iso-8859-1' ?>").getInputStream(),null);
+  assertNull(parser.getEncoding());
+  tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+  parser.parse(new StringResourceStream("<?xml test='123' >").getInputStream(),null);
+  assertNull(parser.getEncoding());
+  tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+}

@@ -1,0 +1,43 @@
+{
+  if (clazz == null) {
+    return null;
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("key: '" + key + "'; class: '"+ clazz.getName()+ "'; locale: '"+ locale+ "'; Style: '"+ style+ "'");
+  }
+  IPropertiesFactory propertiesFactory=getPropertiesFactory();
+  while (true) {
+    String path=clazz.getName().replace('.','/');
+    ResourceNameIterator iter=new ResourceNameIterator(path,style,locale,null);
+    while (iter.hasNext()) {
+      String newPath=iter.next();
+      final Properties props=propertiesFactory.load(clazz,newPath);
+      if (props != null) {
+        String value=props.getString(key);
+        if (value != null) {
+          if (log.isDebugEnabled()) {
+            log.debug("Found property '" + key + "' in: '"+ props+ "'"+ "; value: '"+ value+ "'");
+          }
+          return value;
+        }
+ else {
+          if (log.isDebugEnabled()) {
+            log.debug("Found properties file: '" + newPath + "' but it doesn't contain the property");
+          }
+        }
+      }
+ else {
+        if (log.isDebugEnabled()) {
+        }
+      }
+    }
+    if (isStopResourceSearch(clazz)) {
+      break;
+    }
+    clazz=clazz.getSuperclass();
+    if (clazz == null) {
+      break;
+    }
+  }
+  return null;
+}

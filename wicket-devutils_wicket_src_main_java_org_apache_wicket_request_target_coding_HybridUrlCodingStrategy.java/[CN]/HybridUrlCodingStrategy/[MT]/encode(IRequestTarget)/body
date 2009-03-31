@@ -1,0 +1,17 @@
+{
+  if (matches(requestTarget) == false) {
+    throw new IllegalArgumentException("Unsupported request target type.");
+  }
+  PageParameters parameters=getPageParameters(requestTarget);
+  PageInfo pageInfo=getPageInfo(requestTarget);
+  final AppendingStringBuffer url=new AppendingStringBuffer(40);
+  url.append(getMountPath());
+  if (parameters != null) {
+    appendParameters(url,parameters);
+  }
+  Integer trailingSlashesCount=getOriginalOriginalTrailingSlashesCount(requestTarget);
+  if (trailingSlashesCount != null) {
+    fixTrailingSlashes(url,trailingSlashesCount.intValue());
+  }
+  return addPageInfo(url.toString(),pageInfo);
+}

@@ -1,0 +1,17 @@
+{
+  executeTest(SimpleTablePage_2.class,"SimpleTablePageExpectedResult_2.html");
+  ListView view=(ListView)tester.getLastRenderedPage().get("table");
+  assertNotNull(view);
+  tester.processRequestCycle(view);
+  String document=tester.getServletResponse().getDocument();
+  assertNotNull(document);
+  assertFalse("".equals(document));
+  assertEquals("<li wicket:id=\"table\"><span wicket:id=\"txt\">one</span></li><li wicket:id=\"table\"><span wicket:id=\"txt\">two</span></li><li wicket:id=\"table\"><span wicket:id=\"txt\">three</span></li>",document);
+  view=(ListView)tester.getLastRenderedPage().get("table");
+  assertNotNull(view);
+  tester.processRequestCycle(view);
+  document=tester.getServletResponse().getDocument();
+  assertNotNull(document);
+  assertFalse("".equals(document));
+  assertEquals("<li wicket:id=\"table\"><span wicket:id=\"txt\">one</span></li><li wicket:id=\"table\"><span wicket:id=\"txt\">two</span></li><li wicket:id=\"table\"><span wicket:id=\"txt\">three</span></li>",document);
+}

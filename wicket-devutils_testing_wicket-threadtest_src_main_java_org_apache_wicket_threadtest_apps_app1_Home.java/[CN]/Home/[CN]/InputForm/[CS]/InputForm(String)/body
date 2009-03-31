@@ -1,0 +1,93 @@
+{
+  super(name,new CompoundPropertyModel<FormInputModel>(new FormInputModel()));
+  add(new LocaleDropDownChoice("localeSelect"));
+  add(new Link("defaultLocaleLink"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      WebRequest request=(WebRequest)getRequest();
+      setLocale(request.getLocale());
+    }
+  }
+);
+  TextField<String> stringTextField=new TextField<String>("stringProperty");
+  stringTextField.setLabel(new Model<String>("String"));
+  add(stringTextField);
+  TextField<Integer> integerTextField=new TextField<Integer>("integerProperty",Integer.class);
+  add(integerTextField.add(NumberValidator.POSITIVE));
+  add(new TextField<Double>("doubleProperty",Double.class));
+  WebMarkupContainer dateLabel=new WebMarkupContainer("dateLabel");
+  add(dateLabel);
+  TextField<Date> datePropertyTextField=new TextField<Date>("dateProperty",Date.class);
+  add(datePropertyTextField);
+  add(new TextField<Integer>("integerInRangeProperty",Integer.class).add(NumberValidator.range(0,100)));
+  add(new CheckBox("booleanProperty"));
+  RadioChoice<String> rc=new RadioChoice<String>("numberRadioChoice",NUMBERS).setSuffix("");
+  rc.setLabel(new Model<String>("number"));
+  add(rc);
+  RadioGroup<String> group=new RadioGroup<String>("numbersGroup");
+  add(group);
+  ListView<String> numbers=new ListView<String>("numbers",NUMBERS){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    ListItem<String> item){
+      item.add(new Radio<String>("radio",item.getModel()));
+      item.add(new Label("number",item.getDefaultModelObjectAsString()));
+    }
+  }
+;
+  group.add(numbers);
+  CheckGroup<String> checks=new CheckGroup<String>("numbersCheckGroup");
+  add(checks);
+  ListView<String> checksList=new ListView<String>("numbers",NUMBERS){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    ListItem<String> item){
+      item.add(new Check<String>("check",item.getModel()));
+      item.add(new Label("number",item.getDefaultModelObjectAsString()));
+    }
+  }
+;
+  checks.add(checksList);
+  add(new ListMultipleChoice<String>("siteSelection",SITES));
+  add(new TextField<URL>("urlProperty",URL.class){
+    private static final long serialVersionUID=1L;
+    @Override public IConverter getConverter(    Class<?> clazz){
+      return new IConverter(){
+        private static final long serialVersionUID=1L;
+        /** 
+ * @see org.apache.wicket.util.convert.IConverter#convertToObject(java.lang.String,java.util.Locale)
+ */
+        public URL convertToObject(        String value,        Locale locale){
+          try {
+            return new URL(value.toString());
+          }
+ catch (          MalformedURLException e) {
+            throw new ConversionException("'" + value + "' is not a valid URL");
+          }
+        }
+        /** 
+ * @see org.apache.wicket.util.convert.IConverter#convertToString(java.lang.Object,java.util.Locale)
+ */
+        public String convertToString(        Object value,        Locale locale){
+          return value != null ? value.toString() : null;
+        }
+      }
+;
+    }
+  }
+);
+  add(new TextField<UsPhoneNumber>("phoneNumberUS",UsPhoneNumber.class){
+    private static final long serialVersionUID=1L;
+    @Override public IConverter getConverter(    Class<?> clazz){
+      return new MaskConverter("(###) ###-####",UsPhoneNumber.class);
+    }
+  }
+);
+  add(new LinesListView("lines"));
+  add(new ImageButton("saveButton"));
+  add(new Link("resetButtonLink"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      InputForm.this.modelChanged();
+    }
+  }
+.add(new Image("resetButtonImage")));
+}

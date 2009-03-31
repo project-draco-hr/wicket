@@ -1,0 +1,29 @@
+{
+  if (isFinalizeMethod(method)) {
+    return null;
+  }
+ else   if (isEqualsMethod(method)) {
+    return (equals(args[0])) ? Boolean.TRUE : Boolean.FALSE;
+  }
+ else   if (isHashCodeMethod(method)) {
+    return new Integer(hashCode());
+  }
+ else   if (isToStringMethod(method)) {
+    return toString();
+  }
+ else   if (method.getDeclaringClass().equals(ILazyInitProxy.class)) {
+    return getObjectLocator();
+  }
+ else   if (isWriteReplaceMethod(method)) {
+    return writeReplace();
+  }
+  if (target == null) {
+    target=locator.locateProxyTarget();
+  }
+  try {
+    return method.invoke(target,args);
+  }
+ catch (  InvocationTargetException e) {
+    throw e.getTargetException();
+  }
+}

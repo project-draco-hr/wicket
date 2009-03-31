@@ -1,0 +1,84 @@
+{
+  add(new Image("bug"));
+  add(new ApplicationView("application",Application.get()));
+  Link<Void> link=new Link<Void>("togglelink"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      WebApplication webApplication=(WebApplication)Application.get();
+      webApplication.getRequestLoggerSettings().setRequestsWindowSize(500);
+      boolean enabled=webApplication.getRequestLoggerSettings().isRequestLoggerEnabled();
+      webApplication.getRequestLoggerSettings().setRequestLoggerEnabled(!enabled);
+    }
+  }
+;
+  link.add(new Label("toggletext",new Model<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      WebApplication webApplication=(WebApplication)Application.get();
+      IRequestLogger requestLogger=webApplication.getRequestLogger();
+      if (requestLogger == null) {
+        return "Enable request recording";
+      }
+ else {
+        return "Disable request recording";
+      }
+    }
+  }
+));
+  add(link);
+  add(new Label("totalSessions",new Model<Integer>(){
+    private static final long serialVersionUID=1L;
+    @Override public Integer getObject(){
+      return getRequestLogger().getTotalCreatedSessions();
+    }
+  }
+));
+  add(new Label("peakSessions",new Model<Integer>(){
+    private static final long serialVersionUID=1L;
+    @Override public Integer getObject(){
+      return getRequestLogger().getPeakSessions();
+    }
+  }
+));
+  add(new Label("liveSessions",new Model<Integer>(){
+    private static final long serialVersionUID=1L;
+    @Override public Integer getObject(){
+      return getRequestLogger().getPeakSessions();
+    }
+  }
+));
+  IModel<List<SessionData>> sessionModel=new AbstractReadOnlyModel<List<SessionData>>(){
+    private static final long serialVersionUID=1L;
+    @Override public List<SessionData> getObject(){
+      return new ArrayList<SessionData>(Arrays.asList(getRequestLogger().getLiveSessions()));
+    }
+  }
+;
+  PageableListView<SessionData> listView=new PageableListView<SessionData>("sessions",sessionModel,50){
+    private static final long serialVersionUID=1L;
+    private final SimpleDateFormat sdf=new SimpleDateFormat("dd MMM hh:mm:ss.SSS");
+    @Override protected void populateItem(    ListItem<SessionData> item){
+      final SessionData sd=item.getModelObject();
+      Link<Void> link=new Link<Void>("id"){
+        private static final long serialVersionUID=1L;
+        /** 
+ * @see org.apache.wicket.markup.html.link.Link#onClick()
+ */
+        @Override public void onClick(){
+          setResponsePage(new RequestsPage(sd));
+        }
+      }
+;
+      link.add(new Label("id",new Model<String>(sd.getSessionId())));
+      item.add(link);
+      item.add(new Label("lastRequestTime",new Model<String>(sdf.format(sd.getLastActive()))));
+      item.add(new Label("requestCount",new Model<Long>(sd.getNumberOfRequests())));
+      item.add(new Label("requestsTime",new Model<Long>(sd.getTotalTimeTaken())));
+      item.add(new Label("sessionSize",new Model<Bytes>(Bytes.bytes(sd.getSessionSize()))));
+    }
+  }
+;
+  add(listView);
+  PagingNavigator navigator=new PagingNavigator("navigator",listView);
+  add(navigator);
+}

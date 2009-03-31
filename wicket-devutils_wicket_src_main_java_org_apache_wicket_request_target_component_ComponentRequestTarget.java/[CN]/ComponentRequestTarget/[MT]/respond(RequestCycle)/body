@@ -1,0 +1,24 @@
+{
+  Page page=component.getPage();
+  if (page != null) {
+    page.startComponentRender(component);
+  }
+  try {
+    if (component instanceof Page) {
+      new PageRequestTarget((Page)component).respond(requestCycle);
+    }
+ else {
+      component.renderComponent();
+    }
+  }
+  finally {
+    if (page != null) {
+      try {
+        page.endComponentRender(component);
+      }
+  finally {
+        page.detach();
+      }
+    }
+  }
+}

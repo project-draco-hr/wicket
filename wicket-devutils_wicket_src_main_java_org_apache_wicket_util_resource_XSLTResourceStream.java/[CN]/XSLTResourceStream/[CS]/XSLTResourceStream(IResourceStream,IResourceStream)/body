@@ -1,0 +1,30 @@
+{
+  try {
+    javax.xml.transform.Source xmlSource=new javax.xml.transform.stream.StreamSource(xmlResource.getInputStream());
+    javax.xml.transform.Source xsltSource=new javax.xml.transform.stream.StreamSource(xsltResource.getInputStream());
+    out=new ByteArrayOutputStream();
+    javax.xml.transform.Result result=new javax.xml.transform.stream.StreamResult(out);
+    javax.xml.transform.TransformerFactory transFact=javax.xml.transform.TransformerFactory.newInstance();
+    javax.xml.transform.Transformer trans=transFact.newTransformer(xsltSource);
+    Map<Object,Object> parameters=getParameters();
+    if (parameters != null) {
+      Iterator<Entry<Object,Object>> it=parameters.entrySet().iterator();
+      while (it.hasNext()) {
+        Entry<Object,Object> e=it.next();
+        trans.setParameter(e.getKey().toString(),e.getValue().toString());
+      }
+    }
+    trans.transform(xmlSource,result);
+  }
+ catch (  Exception e) {
+    throw new WicketRuntimeException(e);
+  }
+ finally {
+    try {
+      xmlResource.close();
+      xsltResource.close();
+    }
+ catch (    IOException e) {
+    }
+  }
+}

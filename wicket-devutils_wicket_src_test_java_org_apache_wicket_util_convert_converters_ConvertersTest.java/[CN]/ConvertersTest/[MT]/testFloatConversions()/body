@@ -1,0 +1,17 @@
+{
+  FloatConverter converter=new FloatConverter();
+  assertEquals(new Float(1.1),converter.convertToObject("1.1",Locale.US));
+  assertEquals("1.1",converter.convertToString(new Float(1.1),Locale.US));
+  try {
+    converter.convertToObject("whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    converter.convertToObject("1.1whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

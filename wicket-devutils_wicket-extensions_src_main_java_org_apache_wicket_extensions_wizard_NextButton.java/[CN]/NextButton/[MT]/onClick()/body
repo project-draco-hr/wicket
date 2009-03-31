@@ -1,0 +1,11 @@
+{
+  IWizardModel wizardModel=getWizardModel();
+  IWizardStep step=wizardModel.getActiveStep();
+  step.applyState();
+  if (step.isComplete()) {
+    wizardModel.next();
+  }
+ else {
+    error(getLocalizer().getString("org.apache.wicket.extensions.wizard.NextButton.step.did.not.complete",this));
+  }
+}

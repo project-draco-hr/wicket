@@ -1,0 +1,42 @@
+{
+  Locale l=component.getLocale();
+  String s=component.getStyle();
+  if (resourceKind == null && (!Objects.equal(locale,l) || !Objects.equal(style,s))) {
+    locale=l;
+    style=s;
+    resourceReference=null;
+    resource=null;
+  }
+ else {
+  }
+  Object modelObject=component.getDefaultModelObject();
+  if (modelObject instanceof ResourceReference) {
+    resourceReference=(ResourceReference)modelObject;
+  }
+ else   if (modelObject instanceof Resource) {
+    resource=(Resource)modelObject;
+  }
+  if (resource == null && resourceReference == null) {
+    final CharSequence src=tag.getString("src");
+    if (src != null) {
+      loadStaticImage(src.toString());
+    }
+ else {
+      final CharSequence value=tag.getString("value");
+      if (value != null) {
+        newImage(value);
+      }
+ else {
+        loadStaticImage(component.getDefaultModelObjectAsString());
+      }
+    }
+  }
+  final CharSequence url;
+  if (resourceReference != null) {
+    url=RequestCycle.get().urlFor(resourceReference,resourceParameters);
+  }
+ else {
+    url=component.urlFor(IResourceListener.INTERFACE);
+  }
+  tag.put("src",RequestCycle.get().getOriginalResponse().encodeURL(Strings.replaceAll(url,"&","&amp;")));
+}

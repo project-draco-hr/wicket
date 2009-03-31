@@ -1,0 +1,35 @@
+{
+  final AppendingStringBuffer buffer=new AppendingStringBuffer();
+  buffer.append('<');
+  if (type == CLOSE) {
+    buffer.append('/');
+  }
+  if (namespace != null) {
+    buffer.append(namespace);
+    buffer.append(':');
+  }
+  buffer.append(name);
+  final IValueMap attributes=getAttributes();
+  if (attributes.size() > 0) {
+    final Iterator<String> iterator=attributes.keySet().iterator();
+    for (; iterator.hasNext(); ) {
+      final String key=iterator.next();
+      if ((key != null) && ((attributeToBeIgnored == null) || !key.equalsIgnoreCase(attributeToBeIgnored))) {
+        buffer.append(" ");
+        buffer.append(key);
+        CharSequence value=getString(key);
+        if (value != null) {
+          buffer.append("=\"");
+          value=Strings.replaceAll(value,"\"","\\\"");
+          buffer.append(value);
+          buffer.append("\"");
+        }
+      }
+    }
+  }
+  if (type == OPEN_CLOSE) {
+    buffer.append('/');
+  }
+  buffer.append('>');
+  return buffer;
+}

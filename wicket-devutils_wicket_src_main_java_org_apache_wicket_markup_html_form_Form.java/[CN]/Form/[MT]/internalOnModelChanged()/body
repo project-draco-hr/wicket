@@ -1,0 +1,10 @@
+{
+  visitFormComponentsPostOrder(new FormComponent.AbstractVisitor(){
+    @Override public void onFormComponent(    final FormComponent<?> formComponent){
+      if (formComponent.sameInnermostModel(Form.this)) {
+        formComponent.modelChanged();
+      }
+    }
+  }
+);
+}

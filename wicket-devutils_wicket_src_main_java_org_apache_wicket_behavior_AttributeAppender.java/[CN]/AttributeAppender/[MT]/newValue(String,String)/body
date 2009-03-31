@@ -1,0 +1,18 @@
+{
+  final int appendValueLen=(appendValue == null) ? 0 : appendValue.length();
+  final AppendingStringBuffer sb;
+  if (currentValue == null) {
+    sb=new AppendingStringBuffer(appendValueLen + separator.length());
+  }
+ else {
+    sb=new AppendingStringBuffer(currentValue.length() + appendValueLen + separator.length());
+    sb.append(currentValue);
+  }
+  if (!Strings.isEmpty(currentValue) && !Strings.isEmpty(appendValue)) {
+    sb.append(separator);
+  }
+  if (!Strings.isEmpty(appendValue)) {
+    sb.append(appendValue);
+  }
+  return sb.toString();
+}

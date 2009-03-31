@@ -1,0 +1,20 @@
+{
+  Label enabled=new Label("enabled","this label is ajax enabled");
+  enabled.add(new AjaxEventBehavior("onclick"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onEvent(    AjaxRequestTarget target){
+      Assert.assertNotNull(target);
+    }
+  }
+);
+  add(enabled);
+  Label disabled=new Label("disabled","this label is not ajax enabled");
+  disabled.add(new AjaxEventBehavior("onclick"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onEvent(    AjaxRequestTarget target){
+      Assert.fail("should never get here with disabled ajax");
+    }
+  }
+);
+  add(disabled);
+}

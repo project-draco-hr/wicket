@@ -1,0 +1,14 @@
+{
+  Injector injector=new Injector(){
+    @Override protected boolean isBoundaryClass(    Class<?> clazz){
+      return clazz.equals(InternalTestObject.class);
+    }
+  }
+;
+  TestObject testObject=new TestObject();
+  injector.inject(testObject,factory);
+  assertTrue(testObject.getDependency1() == null);
+  assertEquals(testObject.getDependency2().getMessage(),"dont-inject");
+  assertEquals(testObject.getDependency3().getMessage(),"dont-inject");
+  assertEquals(testObject.getDependency4().getMessage(),"inject");
+}

@@ -1,0 +1,12 @@
+{
+  if (replacement == null) {
+    throw new IllegalArgumentException("Argument [[replacement]] cannot be null.");
+  }
+  if (!getId().equals(replacement.getId())) {
+    throw new IllegalArgumentException("Replacement component must have the same id as the component it will replace. Replacement id [[" + replacement.getId() + "]], replaced id [["+ getId()+ "]].");
+  }
+  if (parent == null) {
+    throw new IllegalStateException("This method can only be called on a component that has already been added to its parent.");
+  }
+  parent.replace(replacement);
+}

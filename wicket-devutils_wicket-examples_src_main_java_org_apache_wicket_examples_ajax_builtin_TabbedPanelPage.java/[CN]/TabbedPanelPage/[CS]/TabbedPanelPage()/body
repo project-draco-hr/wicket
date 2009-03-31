@@ -1,0 +1,22 @@
+{
+  List<ITab> tabs=new ArrayList<ITab>();
+  tabs.add(new AbstractTab(new Model<String>("first tab")){
+    @Override public Panel getPanel(    String panelId){
+      return new TabPanel1(panelId);
+    }
+  }
+);
+  tabs.add(new AbstractTab(new Model<String>("second tab")){
+    @Override public Panel getPanel(    String panelId){
+      return new TabPanel2(panelId);
+    }
+  }
+);
+  tabs.add(new AbstractTab(new Model<String>("third tab")){
+    @Override public Panel getPanel(    String panelId){
+      return new TabPanel3(panelId);
+    }
+  }
+);
+  add(new AjaxTabbedPanel("tabs",tabs));
+}

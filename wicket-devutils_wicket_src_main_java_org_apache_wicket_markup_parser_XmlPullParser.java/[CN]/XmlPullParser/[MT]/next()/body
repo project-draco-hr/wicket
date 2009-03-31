@@ -1,0 +1,73 @@
+{
+  if (input.getPosition() >= input.size()) {
+    return false;
+  }
+  if (skipUntilText != null) {
+    skipUntil();
+    return true;
+  }
+  final int openBracketIndex=input.find('<');
+  if (input.charAt(input.getPosition()) != '<') {
+    if (openBracketIndex == -1) {
+      lastText=input.getSubstring(-1);
+      input.setPosition(input.size());
+      lastType=BODY;
+      return true;
+    }
+    lastText=input.getSubstring(openBracketIndex);
+    input.setPosition(openBracketIndex);
+    lastType=BODY;
+    return true;
+  }
+  input.countLinesTo(openBracketIndex);
+  int closeBracketIndex=input.find('>',openBracketIndex + 1);
+  if (closeBracketIndex == -1) {
+    throw new ParseException("No matching close bracket at position " + openBracketIndex,input.getPosition());
+  }
+  lastText=input.getSubstring(openBracketIndex,closeBracketIndex + 1);
+  String tagText=lastText.subSequence(1,lastText.length() - 1).toString();
+  if (tagText.length() == 0) {
+    throw new ParseException("Found empty tag: '<>' at position " + openBracketIndex,input.getPosition());
+  }
+  final char firstChar=tagText.charAt(0);
+  if ((firstChar == '!') || (firstChar == '?')) {
+    specialTagHandling(tagText,openBracketIndex,closeBracketIndex);
+    return true;
+  }
+  final XmlTag.Type type;
+  if (tagText.endsWith("/")) {
+    type=XmlTag.OPEN_CLOSE;
+    tagText=tagText.substring(0,tagText.length() - 1);
+  }
+ else   if (tagText.startsWith("/")) {
+    type=XmlTag.CLOSE;
+    tagText=tagText.substring(1);
+  }
+ else {
+    type=XmlTag.OPEN;
+    if ((tagText.length() > 5) && ((tagText.charAt(0) == 's') || (tagText.charAt(0) == 'S'))) {
+      final String lowerCase=tagText.substring(0,6).toLowerCase();
+      if (lowerCase.startsWith("script")) {
+        skipUntilText="script";
+      }
+ else       if (lowerCase.startsWith("style")) {
+        skipUntilText="style";
+      }
+    }
+  }
+  lastTag=parseTagText(tagText);
+  if (lastTag != null) {
+    lastTag.type=type;
+    lastTag.pos=openBracketIndex;
+    lastTag.length=lastText.length();
+    lastTag.text=lastText;
+    lastTag.lineNumber=input.getLineNumber();
+    lastTag.columnNumber=input.getColumnNumber();
+    input.setPosition(closeBracketIndex + 1);
+    lastType=TAG;
+    return true;
+  }
+ else {
+    throw new ParseException("Malformed tag (line " + input.getLineNumber() + ", column "+ input.getColumnNumber()+ ")",openBracketIndex);
+  }
+}

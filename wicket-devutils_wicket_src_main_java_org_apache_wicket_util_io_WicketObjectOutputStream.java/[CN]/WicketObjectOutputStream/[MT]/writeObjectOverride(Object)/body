@@ -1,0 +1,106 @@
+{
+  if (obj == null) {
+    out.write(ClassStreamHandler.NULL);
+    return;
+  }
+  int handle=handledObjects.lookup(obj);
+  if (handle != -1) {
+    out.write(ClassStreamHandler.HANDLE);
+    out.writeShort(handle);
+  }
+ else {
+    if (obj instanceof Class) {
+      ClassStreamHandler classHandler=ClassStreamHandler.lookup((Class<?>)obj);
+      out.write(ClassStreamHandler.CLASS);
+      out.writeShort(classHandler.getClassId());
+    }
+ else {
+      Class<?> cls=obj.getClass();
+      handledObjects.assign(obj);
+      if (cls.isArray()) {
+        Class<?> componentType=cls.getComponentType();
+        ClassStreamHandler classHandler=ClassStreamHandler.lookup(componentType);
+        if (componentType.isPrimitive()) {
+          try {
+            out.write(ClassStreamHandler.PRIMITIVE_ARRAY);
+            out.writeShort(classHandler.getClassId());
+            classHandler.writeArray(obj,this);
+          }
+ catch (          WicketSerializeableException wse) {
+            wse.addTrace(componentType.getName() + "[" + Array.getLength(obj)+ "]");
+            throw wse;
+          }
+catch (          Exception e) {
+            throw new WicketSerializeableException("Error writing primitive array of " + componentType.getName() + "["+ Array.getLength(obj)+ "]",e);
+          }
+        }
+ else {
+          int length=Array.getLength(obj);
+          try {
+            out.write(ClassStreamHandler.ARRAY);
+            out.writeShort(classHandler.getClassId());
+            out.writeInt(length);
+            for (int i=0; i < length; i++) {
+              writeObjectOverride(Array.get(obj,i));
+            }
+          }
+ catch (          WicketSerializeableException wse) {
+            wse.addTrace(componentType.getName() + "[" + length+ "]");
+            throw wse;
+          }
+catch (          Exception e) {
+            throw new WicketSerializeableException("Error writing array of " + componentType.getName() + "["+ length+ "]",e);
+          }
+        }
+        return;
+      }
+ else {
+        Class<?> realClz=cls;
+        classHandler=ClassStreamHandler.lookup(realClz);
+        Object object=classHandler.writeReplace(obj);
+        if (object != null) {
+          obj=object;
+          realClz=obj.getClass();
+          classHandler=ClassStreamHandler.lookup(realClz);
+        }
+        out.write(ClassStreamHandler.CLASS_DEF);
+        out.writeShort(classHandler.getClassId());
+        if (obj instanceof String) {
+          out.writeUTF((String)obj);
+        }
+ else {
+          PutField old=curPut;
+          Object oldObject=curObject;
+          curPut=null;
+          curObject=obj;
+          try {
+            if (!classHandler.invokeWriteMethod(this,obj)) {
+              classHandler.writeFields(this,obj);
+            }
+          }
+ catch (          WicketSerializeableException wse) {
+            if (realClz != cls) {
+              wse.addTrace(realClz.getName() + "(ReplaceOf:" + cls.getName()+ ")");
+            }
+ else {
+              wse.addTrace(realClz.getName());
+            }
+            throw wse;
+          }
+catch (          Exception e) {
+            if (realClz != cls) {
+              throw new WicketSerializeableException("Error writing fields for " + realClz.getName() + "(ReplaceOf:"+ cls.getName()+ ")",e);
+            }
+ else {
+              throw new WicketSerializeableException("Error writing fields for " + realClz.getName(),e);
+            }
+          }
+ finally {
+            curObject=oldObject;
+            curPut=old;
+          }
+        }
+      }
+    }
+  }
+}

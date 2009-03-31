@@ -1,0 +1,24 @@
+{
+  try {
+    final Iterator<URL> resources=getApplicationSettings().getClassResolver().getResources("wicket.properties");
+    while (resources.hasNext()) {
+      InputStream in=null;
+      try {
+        final URL url=resources.next();
+        final Properties properties=new Properties();
+        in=url.openStream();
+        properties.load(in);
+        load(properties);
+      }
+  finally {
+        if (in != null) {
+          in.close();
+        }
+      }
+    }
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("Unable to load initializers file",e);
+  }
+  callInitializers();
+}

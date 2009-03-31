@@ -1,0 +1,10 @@
+{
+  String pageMapName=requestParameters.getPageMapName();
+  final PageParameters parameters=new PageParameters(requestParameters.getParameters());
+  if (requestParameters.getInterfaceName() != null) {
+    return new BookmarkableListenerInterfaceRequestTarget(pageMapName,bookmarkablePageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName(),requestParameters.getVersionNumber());
+  }
+ else {
+    return new BookmarkablePageRequestTarget(pageMapName,(Class)bookmarkablePageClassRef.get(),parameters);
+  }
+}

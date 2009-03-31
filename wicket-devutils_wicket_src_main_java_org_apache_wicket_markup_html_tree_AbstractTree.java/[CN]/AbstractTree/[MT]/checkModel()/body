@@ -1,0 +1,13 @@
+{
+  TreeModel model=getModelObject();
+  if (model != previousModel) {
+    if (previousModel != null) {
+      previousModel.removeTreeModelListener(this);
+    }
+    previousModel=model;
+    if (model != null) {
+      model.addTreeModelListener(this);
+    }
+    invalidateAll();
+  }
+}

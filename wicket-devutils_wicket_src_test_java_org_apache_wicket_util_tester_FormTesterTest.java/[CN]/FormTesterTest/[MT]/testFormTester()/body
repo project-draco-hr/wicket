@@ -1,0 +1,18 @@
+{
+  tester.startPage(MockFormPage.class);
+  MockFormPage page=(MockFormPage)tester.getLastRenderedPage();
+  MockDomainObject domainObject=page.getDomainObject();
+  assertNotNull(domainObject);
+  assertNull(domainObject.getText());
+  assertNull(domainObject.getTextarea());
+  assertFalse(domainObject.isCheckbox());
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setValue("text","Mock text value");
+  formTester.setValue("textarea","Mock textarea value");
+  formTester.setValue("checkbox","true");
+  formTester.submit();
+  assertNotNull(domainObject);
+  assertNotNull(domainObject.getText());
+  assertNotNull(domainObject.getTextarea());
+  assertTrue(domainObject.isCheckbox());
+}

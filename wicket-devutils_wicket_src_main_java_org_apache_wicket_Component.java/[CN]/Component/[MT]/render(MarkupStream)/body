@@ -1,0 +1,56 @@
+{
+  if (markupStream != null) {
+    markupIndex=markupStream.getCurrentIndex();
+  }
+  markRendering(true);
+  setMarkupStream(markupStream);
+  if (markupStream != null) {
+    markupStream.getTag().onBeforeRender(this,markupStream);
+  }
+  if (determineVisibility()) {
+    setFlag(FLAG_HAS_BEEN_RENDERED,true);
+    if (log.isDebugEnabled()) {
+      log.debug("Begin render " + this);
+    }
+    try {
+      final IComponentBorder border=getComponentBorder();
+      if (border != null) {
+        border.renderBefore(this);
+      }
+      notifyBehaviorsComponentBeforeRender();
+      onRender(markupStream);
+      notifyBehaviorsComponentRendered();
+      if (border != null) {
+        border.renderAfter(this);
+      }
+      rendered();
+    }
+ catch (    RuntimeException ex) {
+      List<IBehavior> behaviors=getBehaviors();
+      if (behaviors != null) {
+        for (Iterator<IBehavior> i=behaviors.iterator(); i.hasNext(); ) {
+          IBehavior behavior=i.next();
+          if (isBehaviorAccepted(behavior)) {
+            try {
+              behavior.exception(this,ex);
+            }
+ catch (            Throwable ex2) {
+              log.error("Error while cleaning up after exception",ex2);
+            }
+          }
+        }
+      }
+      throw ex;
+    }
+    if (log.isDebugEnabled()) {
+      log.debug("End render " + this);
+    }
+  }
+ else   if (markupStream != null) {
+    if (getFlag(FLAG_PLACEHOLDER)) {
+      final ComponentTag tag=markupStream.getTag();
+      renderPlaceholderTag(tag,getResponse());
+    }
+    markupStream.skipComponent();
+  }
+}

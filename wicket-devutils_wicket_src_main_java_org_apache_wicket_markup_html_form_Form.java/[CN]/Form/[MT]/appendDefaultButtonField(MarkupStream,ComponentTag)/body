@@ -1,0 +1,14 @@
+{
+  AppendingStringBuffer buffer=new AppendingStringBuffer();
+  buffer.append("<div style=\"width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden\">");
+  buffer.append("<input type=\"text\" autocomplete=\"false\"/>");
+  final Component submittingComponent=(Component)defaultSubmittingComponent;
+  buffer.append("<input type=\"submit\" name=\"");
+  buffer.append(defaultSubmittingComponent.getInputName());
+  buffer.append("\" onclick=\" var b=document.getElementById('");
+  buffer.append(submittingComponent.getMarkupId());
+  buffer.append("'); if (b!=null&&b.onclick!=null&&typeof(b.onclick) != 'undefined') {  var r = b.onclick.bind(b)(); if (r != false) b.click(); } else { b.click(); };  return false;\" ");
+  buffer.append(" />");
+  buffer.append("</div>");
+  getResponse().write(buffer);
+}

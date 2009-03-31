@@ -1,0 +1,16 @@
+{
+  if (value == null) {
+    return 0L;
+  }
+  Class<?> c=value.getClass();
+  if (c.getSuperclass() == Number.class) {
+    return ((Number)value).longValue();
+  }
+  if (c == Boolean.class) {
+    return ((Boolean)value).booleanValue() ? 1 : 0;
+  }
+  if (c == Character.class) {
+    return ((Character)value).charValue();
+  }
+  return Long.parseLong(stringValue(value,true));
+}

@@ -1,0 +1,14 @@
+{
+  if (contentType == null || contentType.indexOf("unknown") != -1) {
+    Application application=Application.get();
+    if (application instanceof WebApplication) {
+      contentType=((WebApplication)application).getServletContext().getMimeType(url.getFile());
+      if (contentType == null) {
+        contentType=URLConnection.getFileNameMap().getContentTypeFor(url.getFile());
+      }
+    }
+ else {
+      contentType=URLConnection.getFileNameMap().getContentTypeFor(url.getFile());
+    }
+  }
+}

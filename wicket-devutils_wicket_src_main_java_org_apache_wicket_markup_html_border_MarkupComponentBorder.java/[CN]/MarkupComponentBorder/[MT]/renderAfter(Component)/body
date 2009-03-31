@@ -1,0 +1,18 @@
+{
+  final MarkupStream stream=getMarkupStream(component);
+  final Response response=component.getResponse();
+  while (stream.hasMore()) {
+    MarkupElement e=stream.get();
+    stream.next();
+    if (e instanceof WicketTag) {
+      WicketTag wt=(WicketTag)e;
+      if (wt.isBorderTag() && wt.isClose()) {
+        break;
+      }
+ else {
+        throw new WicketRuntimeException("Unexpected tag encountered in markup of component border " + getClass().getName() + ". Tag: "+ wt.toString()+ ", expected tag: </wicket:border>");
+      }
+    }
+    response.write(e.toCharSequence());
+  }
+}

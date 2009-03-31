@@ -1,0 +1,19 @@
+{
+  componentChanged(component,parent);
+  if (component.isAuto() || (parent == null && !component.isVersioned()) || (parent != null && !parent.isVersioned())) {
+    return false;
+  }
+ else {
+    if (getFlag(FLAG_TRACK_CHANGES)) {
+      if (!getFlag(FLAG_NEW_VERSION)) {
+        if (versionManager == null) {
+          versionManager=getSession().getSessionStore().newVersionManager(this);
+        }
+        versionManager.beginVersion(getRequest().mergeVersion());
+        setFlag(FLAG_NEW_VERSION,true);
+      }
+      return true;
+    }
+    return false;
+  }
+}

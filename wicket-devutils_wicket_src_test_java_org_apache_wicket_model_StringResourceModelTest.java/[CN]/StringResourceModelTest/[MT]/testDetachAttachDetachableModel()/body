@@ -1,0 +1,15 @@
+{
+  IModel<WeatherStation> wsDetachModel=new LoadableDetachableModel<WeatherStation>(){
+    private static final long serialVersionUID=1L;
+    @Override protected WeatherStation load(){
+      return new WeatherStation();
+    }
+  }
+;
+  StringResourceModel model=new StringResourceModel("simple.text",page,wsDetachModel);
+  tester.setupRequestAndResponse();
+  new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
+  model.getObject();
+  Assert.assertNotNull(model.getLocalizer());
+  model.detach();
+}

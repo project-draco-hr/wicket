@@ -1,0 +1,37 @@
+{
+  super(id,new Model<Integer>(new Integer(-1)));
+  if (tabs == null) {
+    throw new IllegalArgumentException("argument [tabs] cannot be null");
+  }
+  this.tabs=tabs;
+  final IModel<Integer> tabCount=new AbstractReadOnlyModel<Integer>(){
+    private static final long serialVersionUID=1L;
+    @Override public Integer getObject(){
+      return TabbedPanel.this.tabs.size();
+    }
+  }
+;
+  WebMarkupContainer tabsContainer=new WebMarkupContainer("tabs-container"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onComponentTag(    ComponentTag tag){
+      super.onComponentTag(tag);
+      tag.put("class",getTabContainerCssClass());
+    }
+  }
+;
+  add(tabsContainer);
+  tabsContainer.add(new Loop("tabs",tabCount){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    LoopItem item){
+      final int index=item.getIteration();
+      final ITab tab=(TabbedPanel.this.tabs.get(index));
+      final WebMarkupContainer titleLink=newLink("link",index);
+      titleLink.add(newTitle("title",tab.getTitle(),index));
+      item.add(titleLink);
+    }
+    @Override protected LoopItem newItem(    int iteration){
+      return newTabContainer(iteration);
+    }
+  }
+);
+}

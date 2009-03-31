@@ -1,0 +1,45 @@
+{
+  MarkupContainer parentWithAssociatedMarkup=component.findParentWithAssociatedMarkup();
+  MarkupStream markupStream=null;
+  while (true) {
+    markupStream=parentWithAssociatedMarkup.getAssociatedMarkupStream(true);
+    if (component.markupIndex != -1) {
+      try {
+        markupStream.setCurrentIndex(component.markupIndex);
+        MarkupElement elem=markupStream.get();
+        if (elem instanceof ComponentTag) {
+          ComponentTag tag=(ComponentTag)elem;
+          String id=tag.getId();
+          if ((id != null) && id.equals(component.getId())) {
+            return markupStream;
+          }
+ else {
+            Component parent=component.getParent();
+            if (id != null && id.equals(parent.getId())) {
+              return markupStream;
+            }
+          }
+        }
+      }
+ catch (      IndexOutOfBoundsException ex) {
+      }
+    }
+    String relativePath=getComponentRelativePath(component,parentWithAssociatedMarkup);
+    int index=markupStream.findComponentIndex(relativePath,component.getId());
+    if (index != -1) {
+      markupStream.setCurrentIndex(index);
+      return markupStream;
+    }
+    if (parentWithAssociatedMarkup instanceof Fragment) {
+      markupStream=((Fragment)parentWithAssociatedMarkup).findComponentIndex(component.getId());
+      return markupStream;
+    }
+    if (parentWithAssociatedMarkup instanceof Border) {
+      parentWithAssociatedMarkup=parentWithAssociatedMarkup.findParentWithAssociatedMarkup();
+    }
+ else {
+      throw new WicketRuntimeException("Unable to find the markup for the component. That may be due to transparent containers or components implementing IComponentResolver: " + component.toString());
+    }
+    markupStream=null;
+  }
+}

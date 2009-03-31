@@ -1,0 +1,17 @@
+{
+  SerializedPage calling=new SerializedPage(callingPage);
+  if (calling.equals(current)) {
+    completed.add(calling);
+    return callingPage;
+  }
+ else {
+    if (completed.contains(calling) == false) {
+      SerializedPage prev=current;
+      current=calling;
+      current.data=Objects.objectToByteArray(callingPage);
+      onPageSerialized(current);
+      current=prev;
+    }
+    return new PageHolder(callingPage);
+  }
+}

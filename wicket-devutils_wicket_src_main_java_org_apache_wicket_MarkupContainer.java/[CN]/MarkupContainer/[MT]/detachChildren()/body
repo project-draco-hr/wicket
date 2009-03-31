@@ -1,0 +1,19 @@
+{
+  super.detachChildren();
+  for (int i=children_size(); i-- > 0; ) {
+    Object child=children_get(i,false);
+    if (child instanceof Component) {
+      Component component=(Component)child;
+      component.detach();
+      if (component.isAuto()) {
+        children_remove(i);
+      }
+    }
+  }
+  if (children instanceof ChildList) {
+    ChildList lst=(ChildList)children;
+    Object[] tmp=new Object[lst.size];
+    System.arraycopy(lst.childs,0,tmp,0,lst.size);
+    children=tmp;
+  }
+}

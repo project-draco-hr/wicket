@@ -1,0 +1,29 @@
+{
+  setCreateAjaxRequest(true);
+  String failMessage="Can't execute event on a component which is null.";
+  notNull(failMessage,component);
+  failMessage="event must not be null";
+  notNull(failMessage,event);
+  AjaxEventBehavior ajaxEventBehavior=null;
+  List<IBehavior> behaviors=component.getBehaviors();
+  for (  IBehavior behavior : behaviors) {
+    if (behavior instanceof AjaxEventBehavior) {
+      AjaxEventBehavior tmp=(AjaxEventBehavior)behavior;
+      if (event.equals(tmp.getEvent())) {
+        ajaxEventBehavior=tmp;
+      }
+    }
+  }
+  failMessage="No AjaxEventBehavior found on component: " + component.getId() + " which matches the event: "+ event;
+  notNull(failMessage,ajaxEventBehavior);
+  WebRequestCycle requestCycle=resolveRequestCycle();
+  if (!requestCycle.getWebRequest().isAjax()) {
+    throw new IllegalStateException("The ServletWebRequest was created without wicket-ajax header. Please use tester.setCreateAjaxRequest(true)");
+  }
+  if (ajaxEventBehavior instanceof AjaxFormSubmitBehavior) {
+    AjaxFormSubmitBehavior ajaxFormSubmitBehavior=(AjaxFormSubmitBehavior)ajaxEventBehavior;
+    submitAjaxFormSubmitBehavior(ajaxFormSubmitBehavior);
+  }
+  ajaxEventBehavior.onRequest();
+  processRequestCycle(requestCycle);
+}

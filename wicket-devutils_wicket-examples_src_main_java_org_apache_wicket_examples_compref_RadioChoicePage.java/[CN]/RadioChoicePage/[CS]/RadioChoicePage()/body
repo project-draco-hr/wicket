@@ -1,0 +1,14 @@
+{
+  final Input input=new Input();
+  setDefaultModel(new CompoundPropertyModel<Input>(input));
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form<?> form=new Form("form"){
+    @Override protected void onSubmit(){
+      info("input: " + input);
+    }
+  }
+;
+  add(form);
+  form.add(new RadioChoice<String>("site",SITES));
+}

@@ -1,0 +1,23 @@
+{
+  final ComponentTag tag=(ComponentTag)getParent().nextTag();
+  if (tag == null) {
+    return tag;
+  }
+  if ("img".equals(tag.getName()) && (tag.isOpen() || tag.isOpenClose())) {
+    String src=tag.getAttributes().getString("src");
+    if ((src != null) && (src.trim().length() == 0)) {
+      escalateWarning("Attribute 'src' should not be empty. Location: ",tag);
+    }
+  }
+  Iterator<String> iter=tag.getAttributes().keySet().iterator();
+  while (iter.hasNext()) {
+    String key=iter.next();
+    if (key != null) {
+      key=key.toLowerCase();
+      if (key.startsWith("wicket.")) {
+        escalateWarning("You probably want 'wicket:xxx' rather than 'wicket.xxx'. Location: ",tag);
+      }
+    }
+  }
+  return tag;
+}

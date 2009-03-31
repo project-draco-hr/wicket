@@ -1,0 +1,12 @@
+{
+  if (!map.isDefault()) {
+synchronized (usedPageMaps) {
+      usedPageMaps.remove(map);
+      usedPageMaps.addLast(map);
+    }
+  }
+  List<IClusterable> dirtyObjects=getDirtyObjectsList();
+  if (!dirtyObjects.contains(map)) {
+    dirtyObjects.add(map);
+  }
+}

@@ -1,0 +1,26 @@
+{
+  super.setUp();
+  tester=new WicketTester(MockPage.class);
+  tester.setupRequestAndResponse();
+  final ISecuritySettings settings=tester.getApplication().getSecuritySettings();
+  settings.setCryptFactory(new NoCryptFactory());
+  panel=new SignInPanel("panel"){
+    @Override public boolean signIn(    final String username,    final String password){
+      return true;
+    }
+  }
+;
+  panel.setPersistent(true);
+  form=(Form<?>)panel.get("signInForm");
+  final ICrypt crypt=tester.getApplication().getSecuritySettings().getCryptFactory().newCrypt();
+  final String encryptedPassword=crypt.encryptUrlSafe("test");
+  assertNotNull(encryptedPassword);
+  cookieUsername=new Cookie("panel.signInForm.username","juergen");
+  Cookie cookiePassword=new Cookie("panel.signInForm.password",encryptedPassword);
+  Cookie[] cookies=new Cookie[]{cookieUsername,cookiePassword};
+  tester.getServletRequest().setCookies(cookies);
+  new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
+  page=new MockPage(null);
+  page.add(panel);
+  new WebRequestCycle(tester.getApplication(),tester.getWicketRequest(),tester.getWicketResponse());
+}

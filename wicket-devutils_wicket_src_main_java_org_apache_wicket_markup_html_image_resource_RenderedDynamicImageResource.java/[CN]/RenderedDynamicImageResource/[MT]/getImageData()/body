@@ -1,0 +1,12 @@
+{
+  byte[] data=null;
+  if (imageData != null) {
+    data=imageData.get();
+  }
+  if (data == null) {
+    data=render();
+    imageData=new SoftReference<byte[]>(data);
+    setLastModifiedTime(Time.now());
+  }
+  return data;
+}

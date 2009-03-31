@@ -1,0 +1,32 @@
+{
+  super.onComponentTag(tag);
+  checkComponentTag(tag,"form");
+  if (isRootForm()) {
+    String method=getMethod().toLowerCase();
+    tag.put("method",method);
+    String url=urlFor(IFormSubmitListener.INTERFACE).toString();
+    if (encodeUrlInHiddenFields()) {
+      int i=url.indexOf('?');
+      String action=(i > -1) ? url.substring(0,i) : "";
+      tag.put("action",action);
+    }
+ else {
+      tag.put("action",Strings.escapeMarkup(url));
+    }
+    if (isMultiPart()) {
+      tag.put("enctype","multipart/form-data");
+    }
+ else {
+      String enctype=(String)tag.getAttributes().get("enctype");
+      if ("multipart/form-data".equalsIgnoreCase(enctype)) {
+        setMultiPart(true);
+      }
+    }
+  }
+ else {
+    tag.setName("div");
+    tag.remove("method");
+    tag.remove("action");
+    tag.remove("enctype");
+  }
+}

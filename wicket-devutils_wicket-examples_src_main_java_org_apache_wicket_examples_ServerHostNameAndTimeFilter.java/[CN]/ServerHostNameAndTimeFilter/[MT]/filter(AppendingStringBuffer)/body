@@ -1,0 +1,19 @@
+{
+  int index=responseBuffer.indexOf("<head>");
+  long timeTaken=System.currentTimeMillis() - RequestCycle.get().getStartTime();
+  if (index != -1) {
+    AppendingStringBuffer script=new AppendingStringBuffer(75);
+    script.append("\n");
+    script.append(JavascriptUtils.SCRIPT_OPEN_TAG);
+    script.append("\n\twindow.defaultStatus='");
+    script.append("Host: ");
+    script.append(host);
+    script.append(", handled in: ");
+    script.append(Duration.milliseconds(timeTaken));
+    script.append("';\n");
+    script.append(JavascriptUtils.SCRIPT_CLOSE_TAG);
+    script.append("\n");
+    responseBuffer.insert(index + 6,script);
+  }
+  return responseBuffer;
+}

@@ -1,0 +1,18 @@
+{
+  final String name=getName(component);
+  Cookie cookie=getCookie(name);
+  if (cookie != null) {
+    if (cookie.getValue() != null && cookie.getValue().length() > 0) {
+      if (log.isDebugEnabled()) {
+        log.debug("Found cookie: " + cookieToDebugString(cookie) + "; request URI="+ getWebRequest().getHttpServletRequest().getRequestURI());
+      }
+      return cookie;
+    }
+ else {
+      if (log.isDebugEnabled()) {
+        log.debug("Found cookie " + name + ", but it had no value; returning null");
+      }
+    }
+  }
+  return null;
+}

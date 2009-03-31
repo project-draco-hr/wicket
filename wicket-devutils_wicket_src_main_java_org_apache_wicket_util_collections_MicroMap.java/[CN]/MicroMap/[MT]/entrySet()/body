@@ -1,0 +1,40 @@
+{
+  return new AbstractSet<Entry<K,V>>(){
+    @Override public Iterator<Entry<K,V>> iterator(){
+      return new Iterator<Entry<K,V>>(){
+        public boolean hasNext(){
+          return index < MicroMap.this.size();
+        }
+        public Entry<K,V> next(){
+          if (!hasNext()) {
+            throw new NoSuchElementException();
+          }
+          index++;
+          return new Map.Entry<K,V>(){
+            public K getKey(){
+              return key;
+            }
+            public V getValue(){
+              return value;
+            }
+            public V setValue(            final V value){
+              final V oldValue=MicroMap.this.value;
+              MicroMap.this.value=value;
+              return oldValue;
+            }
+          }
+;
+        }
+        public void remove(){
+          clear();
+        }
+        int index=0;
+      }
+;
+    }
+    @Override public int size(){
+      return MicroMap.this.size();
+    }
+  }
+;
+}

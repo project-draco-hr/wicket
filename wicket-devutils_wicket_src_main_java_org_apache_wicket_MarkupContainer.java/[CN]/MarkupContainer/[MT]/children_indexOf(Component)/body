@@ -1,0 +1,28 @@
+{
+  if (children == null) {
+    return -1;
+  }
+  if (children instanceof Object[] == false && children instanceof ChildList == false) {
+    if (getId(children).equals(child.getId())) {
+      return 0;
+    }
+  }
+ else {
+    int size=0;
+    Object[] children;
+    if (this.children instanceof Object[]) {
+      children=(Object[])this.children;
+      size=children.length;
+    }
+ else {
+      children=((ChildList)this.children).childs;
+      size=((ChildList)this.children).size;
+    }
+    for (int i=0; i < size; i++) {
+      if (getId(children[i]).equals(child.getId())) {
+        return i;
+      }
+    }
+  }
+  return -1;
+}

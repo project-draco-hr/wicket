@@ -1,0 +1,14 @@
+{
+  if (childComponent == null) {
+    MarkupContainer parent=getEnclosureParent();
+    if (childId == null) {
+      throw new MarkupException("You most likely forgot to register the EnclosureHandler with the MarkupParserFactory");
+    }
+    final Component child=parent.get(childId.toString());
+    if (child == null) {
+      throw new MarkupException("Didn't find child component of <wicket:enclosure> with id='" + childId + "'. Component: "+ this.toString());
+    }
+    childComponent=child;
+  }
+  return childComponent;
+}

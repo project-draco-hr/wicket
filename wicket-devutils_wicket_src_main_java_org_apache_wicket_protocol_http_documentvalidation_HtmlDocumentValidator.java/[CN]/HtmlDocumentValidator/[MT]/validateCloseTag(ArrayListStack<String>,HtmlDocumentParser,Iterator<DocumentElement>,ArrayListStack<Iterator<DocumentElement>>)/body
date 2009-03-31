@@ -1,0 +1,30 @@
+{
+  if (tagNameStack.isEmpty()) {
+    log.error("Found closing tag </" + parser.getTag() + "> when there are no "+ "tags currently open");
+    expectedElements=null;
+  }
+ else {
+    String expectedTag=tagNameStack.pop();
+    if (!expectedTag.equals(parser.getTag())) {
+      log.error("Found closing tag </" + parser.getTag() + "> when we expecting "+ "the closing tag </"+ expectedTag+ "> instead");
+      expectedElements=null;
+    }
+ else {
+      if (expectedElements.hasNext()) {
+        DocumentElement e=expectedElements.next();
+        log.error("Found closing tag </" + parser.getTag() + "> but we were "+ "expecting to find another child element: "+ e.toString());
+        expectedElements=null;
+      }
+ else {
+        if (iteratorStack.isEmpty()) {
+          log.error("Unexpected parsing error");
+          expectedElements=null;
+        }
+ else {
+          expectedElements=iteratorStack.pop();
+        }
+      }
+    }
+  }
+  return expectedElements;
+}

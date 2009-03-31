@@ -1,0 +1,15 @@
+{
+  if (!(requestTarget instanceof IBookmarkablePageRequestTarget)) {
+    throw new IllegalArgumentException("this encoder can only be used with instances of " + IBookmarkablePageRequestTarget.class.getName());
+  }
+  AppendingStringBuffer url=new AppendingStringBuffer(40);
+  url.append(getMountPath());
+  IBookmarkablePageRequestTarget target=(IBookmarkablePageRequestTarget)requestTarget;
+  url.append("/").append(Classes.simpleName(target.getPageClass()));
+  PageParameters pageParameters=target.getPageParameters();
+  if (target.getPageMapName() != null) {
+    pageParameters.put(WebRequestCodingStrategy.PAGEMAP,WebRequestCodingStrategy.encodePageMapName(target.getPageMapName()));
+  }
+  appendParameters(url,pageParameters);
+  return url;
+}

@@ -1,0 +1,28 @@
+{
+  if (error == null) {
+    throw new IllegalArgumentException("Argument [[error]] cannot be null");
+  }
+  MessageSource source=new MessageSource();
+  String message=error.getErrorMessage(source);
+  if (message == null) {
+    StringBuffer buffer=new StringBuffer();
+    buffer.append("Could not locate error message for component: ");
+    buffer.append(Classes.simpleName(getClass()));
+    buffer.append("@");
+    buffer.append(getPageRelativePath());
+    buffer.append(" and error: ");
+    buffer.append(error.toString());
+    buffer.append(". Tried keys: ");
+    Iterator<String> keys=source.triedKeys.iterator();
+    while (keys.hasNext()) {
+      buffer.append(keys.next());
+      if (keys.hasNext()) {
+        buffer.append(", ");
+      }
+    }
+    buffer.append(".");
+    message=buffer.toString();
+    logger.warn(message);
+  }
+  error(new ValidationErrorFeedback(error,message));
+}

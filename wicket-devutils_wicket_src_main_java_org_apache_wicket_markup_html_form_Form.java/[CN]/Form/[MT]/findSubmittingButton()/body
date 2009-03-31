@@ -1,0 +1,20 @@
+{
+  IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)getPage().visitChildren(IFormSubmittingComponent.class,new IVisitor<Component>(){
+    public Object component(    final Component component){
+      final IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)component;
+      final Form<?> form=submittingComponent.getForm();
+      if ((form != null) && (form.getRootForm() == Form.this)) {
+        String name=submittingComponent.getInputName();
+        if ((getRequest().getParameter(name) != null) || (getRequest().getParameter(name + ".x") != null)) {
+          if (!component.isVisible()) {
+            throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not visible");
+          }
+          return submittingComponent;
+        }
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+  return submittingComponent;
+}

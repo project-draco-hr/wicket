@@ -1,0 +1,35 @@
+{
+  this.locale=locale;
+  if ((extensions == null) && (path.indexOf('.') != -1)) {
+    this.extensions=Strings.afterLast(path,'.');
+    path=Strings.beforeLast(path,'.');
+  }
+ else {
+    this.extensions=extensions;
+  }
+  String filename=Strings.lastPathComponent(path,'/');
+  Matcher matcher=LOCALE_PATTERN.matcher(filename);
+  if (matcher.find()) {
+    String language=matcher.group(1);
+    String country=matcher.group(3);
+    String variant=matcher.group(5);
+    if (language != null) {
+      if (isoLanguages.contains(language) == false) {
+        language=null;
+        country=null;
+        variant=null;
+      }
+    }
+    if ((language != null) && (country != null)) {
+      if (isoCountries.contains(country) == false) {
+        country=null;
+        variant=null;
+      }
+    }
+    if (language != null) {
+      path=path.substring(0,path.length() - filename.length() + matcher.start());
+      localeIterator=new LocaleResourceNameIterator(path,new Locale(language,country != null ? country : "",variant != null ? variant : ""));
+    }
+  }
+  styleIterator=new StyleAndVariationResourceNameIterator(path,style,null);
+}

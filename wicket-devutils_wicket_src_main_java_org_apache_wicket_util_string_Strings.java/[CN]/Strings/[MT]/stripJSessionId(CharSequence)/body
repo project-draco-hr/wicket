@@ -1,0 +1,20 @@
+{
+  if (url == null) {
+    return null;
+  }
+  StringBuffer path=new StringBuffer(url.toString());
+  int ixSemiColon=path.indexOf(";");
+  if (ixSemiColon != -1) {
+    int ixEnd=path.indexOf("?");
+    if (ixEnd == -1)     ixEnd=path.length();
+    if (ixEnd == -1)     ixEnd=path.length();
+    if (ixEnd <= ixSemiColon) {
+      return url.toString();
+    }
+    if (ixEnd == -1) {
+      ixEnd=path.length();
+    }
+    path.delete(ixSemiColon,ixEnd);
+  }
+  return path.toString();
+}

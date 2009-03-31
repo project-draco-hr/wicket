@@ -1,0 +1,17 @@
+{
+  pojo=new Pojo("Mock name");
+  Form<Pojo> form=new Form<Pojo>("form",new CompoundPropertyModel<Pojo>(pojo));
+  add(form);
+  form.add(new TextField<String>("name"));
+  WebComponent eventComponent=new WebComponent(EVENT_COMPONENT);
+  add(eventComponent);
+  eventComponent.add(new AjaxFormSubmitBehavior(form,"onclick"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(    AjaxRequestTarget target){
+      executed=true;
+    }
+    @Override protected void onError(    AjaxRequestTarget target){
+    }
+  }
+);
+}

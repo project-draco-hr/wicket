@@ -1,0 +1,19 @@
+{
+  if (mergeVersion && !ignoreMerge) {
+    if (changeListStack.size() > 0) {
+      ChangeList previous=changeListStack.peek();
+      previous.add(changeList);
+    }
+  }
+ else {
+    ignoreMerge=false;
+    changeListStack.push(changeList);
+    if (getVersions() > maxVersions) {
+      expireOldestVersion();
+    }
+    changeListStack.trimToSize();
+    if (log.isDebugEnabled()) {
+      log.debug("Version " + currentVersionNumber + " for page "+ page+ " stored");
+    }
+  }
+}

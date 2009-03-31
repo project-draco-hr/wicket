@@ -1,0 +1,17 @@
+{
+  WebApplication app=new WebApplication(){
+    @Override public Class<? extends Page> getHomePage(){
+      return null;
+    }
+    @Override protected ISessionStore newSessionStore(){
+      return new HttpSessionStore(this);
+    }
+  }
+;
+  try {
+    woos.writeObject(app);
+    assertFalse("webapplication is not serializeable",false);
+  }
+ catch (  Exception e) {
+  }
+}

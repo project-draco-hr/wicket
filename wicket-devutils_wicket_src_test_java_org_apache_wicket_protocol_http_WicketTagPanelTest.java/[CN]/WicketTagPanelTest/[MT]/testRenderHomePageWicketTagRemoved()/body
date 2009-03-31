@@ -1,0 +1,7 @@
+{
+  application.getApplication().getMarkupSettings().setStripWicketTags(true);
+  application.startPage(WicketPanelPage.class);
+  String document=application.getServletResponse().getDocument();
+  log.info(document);
+  assertTrue("Document with Wicket tags stripped did not match",validatePage2(document));
+}

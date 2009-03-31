@@ -1,0 +1,13 @@
+{
+  checkComponentTag(tag,"input");
+  checkComponentTagAttribute(tag,"type","checkbox");
+  CheckGroup<?> group=this.group;
+  if (group == null) {
+    group=findParent(CheckGroup.class);
+    if (group == null) {
+      throw new WicketRuntimeException("CheckGroupSelector component [" + getPath() + "] cannot find its parent CheckGroup. All CheckGroupSelector components must be a child of or below in the hierarchy of a CheckGroup component.");
+    }
+  }
+  tag.put("onclick","var cb=this.form['" + group.getInputName() + "']; if (cb!=null) { if (!isNaN(cb.length)) { for(var i=0;i<cb.length;i++) { cb[i].checked=this.checked; } } else { cb.checked=this.checked; } }");
+  super.onComponentTag(tag);
+}

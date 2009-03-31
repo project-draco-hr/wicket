@@ -1,0 +1,10 @@
+{
+  Locale locale=Session.get().getLocale();
+  if (locale != null) {
+    DateFormat format=DateFormat.getDateInstance(DateFormat.SHORT,locale);
+    if (format instanceof SimpleDateFormat) {
+      return ((SimpleDateFormat)format).toPattern();
+    }
+  }
+  return DEFAULT_PATTERN;
+}

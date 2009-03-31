@@ -1,0 +1,11 @@
+{
+  assertNotNull("Did not find resource: " + name,resource);
+  String filename=Strings.replaceAll(this.getClass().getName(),".","/").toString();
+  filename+=name + ".txt";
+  String resourcePath=getPath(resource);
+  if (!resourcePath.endsWith(filename)) {
+    filename=Strings.afterLast(filename,'/');
+    resourcePath=Strings.afterLast(resourcePath,'/');
+    assertEquals("Did not find resource",filename,resourcePath);
+  }
+}

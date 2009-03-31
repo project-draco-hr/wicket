@@ -1,0 +1,31 @@
+{
+  Object dateFieldInput=dateField.getConvertedInput();
+  if (dateFieldInput != null) {
+    MutableDateTime date=new MutableDateTime(dateFieldInput);
+    Integer hours=hoursField.getConvertedInput();
+    Integer minutes=minutesField.getConvertedInput();
+    AM_PM amOrPm=amOrPmChoice.getConvertedInput();
+    try {
+      boolean use12HourFormat=use12HourFormat();
+      if (hours != null) {
+        date.set(DateTimeFieldType.hourOfDay(),hours.intValue() % getMaximumHours(use12HourFormat));
+        date.setMinuteOfHour((minutes != null) ? minutes.intValue() : 0);
+      }
+      if (use12HourFormat) {
+        date.set(DateTimeFieldType.halfdayOfDay(),amOrPm == AM_PM.PM ? 1 : 0);
+      }
+      TimeZone zone=getClientTimeZone();
+      if (zone != null) {
+        date.setMillis(getMillis(zone,TimeZone.getDefault(),date.getMillis()));
+      }
+      setConvertedInput(date.toDate());
+    }
+ catch (    RuntimeException e) {
+      DateTimeField.this.error(e.getMessage());
+      invalid();
+    }
+  }
+ else {
+    setConvertedInput(null);
+  }
+}

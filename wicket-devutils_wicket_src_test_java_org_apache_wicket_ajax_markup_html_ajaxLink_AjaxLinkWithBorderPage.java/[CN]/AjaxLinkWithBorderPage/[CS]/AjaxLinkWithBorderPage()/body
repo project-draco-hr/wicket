@@ -1,0 +1,14 @@
+{
+  add(new AjaxTestBorder("border").setTransparentResolver(true));
+  final Label label=new Label("ajaxLabel",new PropertyModel<String>(this,"labelText"));
+  label.setOutputMarkupId(true);
+  add(label);
+  add(new AjaxLink("ajaxLink"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      labelText="Updated!";
+      target.addComponent(label);
+    }
+  }
+);
+}

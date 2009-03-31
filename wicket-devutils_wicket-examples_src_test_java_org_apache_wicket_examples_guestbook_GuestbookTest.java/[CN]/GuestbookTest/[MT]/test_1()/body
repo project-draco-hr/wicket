@@ -1,0 +1,24 @@
+{
+  GuestBookApplication book=new GuestBookApplication();
+  WicketTester tester=new WicketTester(book);
+  tester.startPage(GuestBook.class);
+  tester.assertContains("Wicket Examples - guestbook");
+  tester.assertListView("comments",new ArrayList<Comment>());
+  tester.assertComponent("commentForm",Form.class);
+  FormTester formTester=tester.newFormTester("commentForm");
+  formTester.setValue("text","test-1");
+  formTester.submit();
+  tester.assertModelValue("comments:0:text","test-1");
+  formTester=tester.newFormTester("commentForm");
+  formTester.setValue("text","test-2");
+  formTester.submit();
+  tester.assertModelValue("comments:0:text","test-2");
+  tester.assertModelValue("comments:1:text","test-1");
+  formTester=tester.newFormTester("commentForm");
+  formTester.setValue("text","test-3");
+  formTester.setValue("comment","test-3");
+  formTester.submit();
+  tester.assertModelValue("comments:0:text","test-2");
+  tester.assertModelValue("comments:1:text","test-1");
+  tester.assertErrorMessages(new String[]{"Caught a spammer!!!"});
+}

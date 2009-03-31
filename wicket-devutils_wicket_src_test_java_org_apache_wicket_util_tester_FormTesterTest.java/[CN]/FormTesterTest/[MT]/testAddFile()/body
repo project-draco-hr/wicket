@@ -1,0 +1,21 @@
+{
+  tester.startPage(MockFormFileUploadPage.class);
+  MockFormFileUploadPage page=(MockFormFileUploadPage)tester.getLastRenderedPage();
+  MockDomainObjectFileUpload domainObject=page.getDomainObject();
+  tester.createRequestCycle();
+  assertNull(page.getFileUpload());
+  assertNotNull(domainObject);
+  assertNull(domainObject.getText());
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setFile("file",new File("pom.xml"),"text/xml");
+  formTester.setValue("text","Mock value");
+  formTester.submit();
+  assertNotNull(domainObject);
+  assertNotNull(domainObject.getText());
+  assertEquals("Mock value",domainObject.getText());
+  FileUpload fileUpload=page.getFileUpload();
+  assertNotNull(fileUpload);
+  assertTrue("setFile failed, no upload content detected.",fileUpload.getBytes().length > 0);
+  assertEquals("pom.xml",fileUpload.getClientFileName());
+  assertEquals("text/xml",fileUpload.getContentType());
+}

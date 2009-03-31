@@ -1,0 +1,23 @@
+{
+  if (cols < 1) {
+    throw new IllegalArgumentException();
+  }
+  if (columns != cols) {
+    if (isVersioned()) {
+      addStateChange(new Change(){
+        private static final long serialVersionUID=1L;
+        final int old=columns;
+        @Override public void undo(){
+          columns=old;
+        }
+        @Override public String toString(){
+          return "GridViewColumnsChange[component: " + getPath() + ", removed columns: "+ old+ "]";
+        }
+      }
+);
+    }
+    columns=cols;
+  }
+  updateItemsPerPage();
+  return this;
+}

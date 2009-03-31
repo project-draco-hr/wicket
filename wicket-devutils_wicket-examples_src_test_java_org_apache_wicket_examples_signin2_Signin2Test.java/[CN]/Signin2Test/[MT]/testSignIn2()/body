@@ -1,0 +1,21 @@
+{
+  WicketTester tester=new WicketTester(new SignIn2Application());
+  tester.startPage(Home.class);
+  tester.assertRenderedPage(SignIn2.class);
+  FormTester formTester=tester.newFormTester("signInPanel:signInForm");
+  formTester.setValue("username","wicket");
+  formTester.setValue("password","wicket");
+  formTester.setValue("rememberMeRow:rememberMe","true");
+  formTester.submit();
+  tester.assertRenderedPage(Home.class);
+  Collection<Cookie> cookies=tester.getServletResponse().getCookies();
+  for (  Cookie cookie : cookies) {
+    if ("signInPanel.signInForm.username".equals(cookie.getName())) {
+      assertEquals("wicket",cookie.getValue());
+    }
+  }
+  tester.startPage(SignOut.class);
+  tester.assertRenderedPage(SignOut.class);
+  tester.startPage(Home.class);
+  tester.assertRenderedPage(SignIn2.class);
+}

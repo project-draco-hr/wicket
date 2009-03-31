@@ -1,0 +1,11 @@
+{
+  tester.startPage(HomePage.class);
+  tester.assertRenderedPage(HomePage.class);
+  HomePage home=(HomePage)tester.getLastRenderedPage();
+  tester.setParameterForNextRequest("form:text","Hello");
+  tester.getParametersForNextRequest().put("link",new String[]{""});
+  tester.submitForm("form");
+  assertEquals("Hello",home.getText());
+  assertTrue("Form.onSubmit() has not been called!",home.isSubmitted());
+  assertTrue("SubmitLink.onSubmit() has not been called!",home.isSubmittedViaLink());
+}

@@ -1,0 +1,14 @@
+{
+  if (obj == null) {
+    return 0;
+  }
+  try {
+    SizeRecodingOuputStream recorder=new SizeRecodingOuputStream();
+    recorder.writeObject(obj);
+    return recorder.getTotalSize();
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+    return -1;
+  }
+}

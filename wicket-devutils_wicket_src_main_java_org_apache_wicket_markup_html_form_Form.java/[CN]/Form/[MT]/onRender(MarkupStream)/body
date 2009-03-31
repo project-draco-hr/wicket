@@ -1,0 +1,11 @@
+{
+  visitFormComponents(new FormComponent.AbstractVisitor(){
+    @Override public void onFormComponent(    FormComponent<?> formComponent){
+      if (formComponent.isVisible() && formComponent.isMultiPart()) {
+        setMultiPart(true);
+      }
+    }
+  }
+);
+  super.onRender(markupStream);
+}

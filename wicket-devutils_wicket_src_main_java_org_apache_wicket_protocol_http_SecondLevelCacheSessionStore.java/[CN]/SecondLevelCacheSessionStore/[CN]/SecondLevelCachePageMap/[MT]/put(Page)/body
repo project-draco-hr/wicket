@@ -1,0 +1,12 @@
+{
+  if (!page.isPageStateless()) {
+    Session session=getSession();
+    String sessionId=session.getId();
+    if (sessionId != null && !session.isSessionInvalidated()) {
+      this.sessionId=sessionId;
+      getStore().storePage(sessionId,page);
+      setLastPage(page);
+      dirty();
+    }
+  }
+}

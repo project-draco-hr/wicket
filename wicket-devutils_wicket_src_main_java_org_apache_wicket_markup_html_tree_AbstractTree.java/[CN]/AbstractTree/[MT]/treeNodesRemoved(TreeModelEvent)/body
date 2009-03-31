@@ -1,0 +1,30 @@
+{
+  if (dirtyAll) {
+    return;
+  }
+  Object parent=e.getTreePath().getLastPathComponent();
+  TreeItem parentItem=nodeToItemMap.get(parent);
+  if (parentItem != null && isNodeVisible(parent) && isNodeExpanded(parent)) {
+    boolean nonEmpty=parentItem.getChildren() != null && !parentItem.getChildren().isEmpty();
+    for (int i=0; i < e.getChildren().length; ++i) {
+      Object node=e.getChildren()[i];
+      TreeItem item=nodeToItemMap.get(node);
+      if (item != null) {
+        markTheLastButOneChildDirty(parentItem,item);
+        visitItemChildren(item,new IItemCallback(){
+          public void visitItem(          TreeItem item){
+            removeItem(item);
+            getTreeState().selectNode(item.getModelObject(),false);
+          }
+        }
+);
+        parentItem.getChildren().remove(item);
+        removeItem(item);
+        getTreeState().selectNode(item.getModelObject(),false);
+      }
+    }
+    if (nonEmpty && parentItem.getChildren().isEmpty()) {
+      invalidateNode(parent,true);
+    }
+  }
+}

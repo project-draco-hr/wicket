@@ -1,0 +1,17 @@
+{
+  ParameterParser parser=new ParameterParser();
+  parser.setLowerCaseNames(true);
+  Map<String,String> params=parser.parse(contentType,';');
+  String boundaryStr=params.get("boundary");
+  if (boundaryStr == null) {
+    return null;
+  }
+  byte[] boundary;
+  try {
+    boundary=boundaryStr.getBytes("ISO-8859-1");
+  }
+ catch (  UnsupportedEncodingException e) {
+    boundary=boundaryStr.getBytes();
+  }
+  return boundary;
+}

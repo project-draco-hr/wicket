@@ -1,0 +1,13 @@
+{
+  List<SerializedPage> list=pagesToSaveAll.get(sessionId);
+  if (list == null) {
+synchronized (pagesToSaveAll) {
+      list=pagesToSaveAll.get(sessionId);
+      if (list == null) {
+        list=new ArrayList<SerializedPage>();
+        pagesToSaveAll.put(sessionId,list);
+      }
+    }
+  }
+  return list;
+}

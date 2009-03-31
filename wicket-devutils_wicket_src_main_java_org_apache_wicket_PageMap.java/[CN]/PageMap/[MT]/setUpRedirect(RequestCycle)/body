@@ -1,0 +1,15 @@
+{
+  Session session=Session.get();
+  if (session.isTemporary()) {
+    session.bind();
+  }
+  if (cycle.getRequest() instanceof WebRequest && ((WebRequest)cycle.getRequest()).isAjax()) {
+    interceptContinuationURL=cycle.urlFor(cycle.getRequest().getPage()).toString();
+  }
+ else {
+    interceptContinuationURL="/" + cycle.getRequest().getURL();
+    interceptContinuationURL=WicketURLEncoder.FULL_PATH_INSTANCE.encode(interceptContinuationURL);
+  }
+  dirty();
+  cycle.setRedirect(true);
+}

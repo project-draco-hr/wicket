@@ -1,0 +1,19 @@
+{
+  return new IRenderable(){
+    private static final long serialVersionUID=1L;
+    public void render(    TreeNode node,    Response response){
+      String content=getNodeValue(node);
+      if (isEscapeContent()) {
+        content=Strings.escapeMarkup(content).toString();
+      }
+      response.write("<span");
+      if (isContentAsTooltip()) {
+        response.write(" title=\"" + content + "\"");
+      }
+      response.write(">");
+      response.write(content);
+      response.write("</span>");
+    }
+  }
+;
+}

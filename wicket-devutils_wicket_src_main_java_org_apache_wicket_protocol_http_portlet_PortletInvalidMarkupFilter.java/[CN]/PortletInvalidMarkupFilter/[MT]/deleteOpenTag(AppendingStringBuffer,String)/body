@@ -1,0 +1,14 @@
+{
+  int startIndex, endIndex;
+  if ((startIndex=responseBuffer.indexOf("<" + tagName)) > -1) {
+    if ((endIndex=responseBuffer.indexOf(">",startIndex)) > -1) {
+      responseBuffer.delete(startIndex,endIndex + 1);
+    }
+ else {
+      throw new MarkupException("Cannot find end of element tag named: " + tagName);
+    }
+    if ((startIndex=responseBuffer.indexOf("</" + tagName + ">")) > -1) {
+      responseBuffer.delete(startIndex,startIndex + tagName.length() + 3);
+    }
+  }
+}

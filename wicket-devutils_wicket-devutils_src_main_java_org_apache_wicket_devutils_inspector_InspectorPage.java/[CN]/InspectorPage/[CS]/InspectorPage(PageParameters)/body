@@ -1,0 +1,14 @@
+{
+  add(new ApplicationView("application",Application.get()));
+  add(new SessionView("session",Session.get()));
+  IPageMapEntry entry=null;
+  try {
+    entry=getPageMap().getEntry(parameters.getInt("pageId"));
+  }
+ catch (  StringValueConversionException e) {
+  }
+  add(new PageView("page",entry == null ? null : entry.getPage()));
+  add(new Image("bug"));
+  add(new BookmarkablePageLink<Void>("allsessions",LiveSessionsPage.class));
+  add(new Label("wicketVersion",getApplication().getFrameworkSettings().getVersion()));
+}

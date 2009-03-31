@@ -1,0 +1,36 @@
+{
+  String wicketURL=null;
+  String wicketFilterPath=null;
+  String wicketFilterQuery=null;
+  request.setAttribute(WICKET_URL_PORTLET_PARAMETER_ATTR,getWicketUrlPortletParameter(request));
+  wicketURL=getWicketURL(request,pageType,getDefaultPage(pageType));
+  if (log.isDebugEnabled()) {
+    log.debug("Portlet \"" + request.getAttribute(PortletRequest.LIFECYCLE_PHASE) + "\" for wicket url:"+ wicketURL);
+  }
+  wicketFilterPath=getWicketConfigParameter(request,WICKET_FILTER_PATH,this.wicketFilterPath);
+  wicketFilterQuery=getWicketConfigParameter(request,WICKET_FILTER_QUERY,this.wicketFilterQuery);
+  WicketResponseState responseState=new WicketResponseState(request,response);
+  request.setAttribute(RESPONSE_STATE_ATTR,responseState);
+  if (responseState.isActionResponse()) {
+    PortletRequestDispatcher rd=getPortletContext().getRequestDispatcher(wicketURL);
+    if (rd != null) {
+      rd.include(request,response);
+      if (log.isDebugEnabled()) {
+        log.debug("wicket filter inclusion complete");
+      }
+      processActionResponseState(wicketURL,wicketFilterPath,wicketFilterQuery,request,(ActionResponse)response,responseState);
+    }
+ else {
+    }
+  }
+ else   if (responseState.isMimeResponse()) {
+    processMimeResponseRequest(request,(MimeResponse)response,wicketURL,wicketFilterPath,wicketFilterQuery,responseState);
+  }
+ else {
+    log.warn("Unsupported Portlet lifecycle: " + request.getAttribute(PortletRequest.LIFECYCLE_PHASE));
+  }
+  if (log.isDebugEnabled()) {
+    wicketURL=getWicketURL(request,pageType,getDefaultPage(pageType));
+    log.debug("end of request, wicket url:" + wicketURL);
+  }
+}

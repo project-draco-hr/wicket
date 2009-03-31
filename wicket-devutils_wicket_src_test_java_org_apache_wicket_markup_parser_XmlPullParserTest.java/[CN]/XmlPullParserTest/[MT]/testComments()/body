@@ -1,0 +1,19 @@
+{
+  final XmlPullParser parser=new XmlPullParser();
+  parser.parse("<!-- test --><tag>");
+  XmlTag tag=(XmlTag)parser.nextTag();
+  parser.parse("<!-- test --><tag> aaa <!-- test 1 --> bbb <tag> <!-- test --> </tag>");
+  tag=(XmlTag)parser.nextTag();
+  tag=(XmlTag)parser.nextTag();
+  tag=(XmlTag)parser.nextTag();
+  assertTrue(tag.isClose());
+  tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+  parser.parse("<!-- test --><tag> aaa <?tag test 1 ?> bbb <tag> <!DOCTYPE test > </tag>");
+  tag=(XmlTag)parser.nextTag();
+  tag=(XmlTag)parser.nextTag();
+  tag=(XmlTag)parser.nextTag();
+  assertTrue(tag.isClose());
+  tag=(XmlTag)parser.nextTag();
+  assertNull(tag);
+}

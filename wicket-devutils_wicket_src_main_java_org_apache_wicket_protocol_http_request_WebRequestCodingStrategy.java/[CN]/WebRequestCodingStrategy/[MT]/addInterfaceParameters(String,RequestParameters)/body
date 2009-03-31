@@ -1,0 +1,37 @@
+{
+  if (interfaceParameter == null) {
+    return;
+  }
+  String[] pathComponents=Strings.split(interfaceParameter,Component.PATH_SEPARATOR);
+  if (pathComponents.length < 6) {
+    throw new WicketRuntimeException("Internal error parsing " + INTERFACE_PARAMETER_NAME + " = "+ interfaceParameter);
+  }
+  String versionNumberString=null;
+  try {
+    versionNumberString=pathComponents[pathComponents.length - 4];
+    final int versionNumber=Strings.isEmpty(versionNumberString) ? 0 : Integer.parseInt(versionNumberString);
+    parameters.setVersionNumber(versionNumber);
+  }
+ catch (  NumberFormatException e) {
+    throw new WicketRuntimeException("Internal error parsing " + INTERFACE_PARAMETER_NAME + " = "+ interfaceParameter+ "; wrong format for page version argument. Expected a number but was '"+ versionNumberString+ "'",e);
+  }
+  final String pageMapName=pathComponents[0];
+  parameters.setPageMapName(pageMapName.length() == 0 ? PageMap.DEFAULT_NAME : pageMapName);
+  final String urlDepthString=pathComponents[pathComponents.length - 1];
+  final int urlDepth;
+  try {
+    urlDepth=Strings.isEmpty(urlDepthString) ? -1 : Integer.parseInt(urlDepthString);
+  }
+ catch (  NumberFormatException e) {
+    throw new WicketRuntimeException("Internal error parsing " + INTERFACE_PARAMETER_NAME + " = "+ interfaceParameter+ "; wrong format for url depth argument. Expected a number but was '"+ urlDepthString+ "'",e);
+  }
+  parameters.setUrlDepth(urlDepth);
+  final String behaviourId=pathComponents[pathComponents.length - 2];
+  parameters.setBehaviorId(behaviourId.length() != 0 ? behaviourId : null);
+  final String interfaceName=pathComponents[pathComponents.length - 3];
+  parameters.setInterfaceName(interfaceName.length() != 0 ? interfaceName : IRedirectListener.INTERFACE.getName());
+  final int start=pageMapName.length() + 1;
+  final int end=interfaceParameter.length() - behaviourId.length() - interfaceName.length()- versionNumberString.length()- urlDepthString.length()- 4;
+  final String componentPath=interfaceParameter.substring(start,end);
+  parameters.setComponentPath(componentPath);
+}

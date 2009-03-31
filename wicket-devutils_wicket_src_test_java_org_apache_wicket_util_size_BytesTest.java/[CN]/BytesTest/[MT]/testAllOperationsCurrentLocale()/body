@@ -1,0 +1,10 @@
+{
+  Assert.assertTrue(Bytes.bytes(1024).equals(Bytes.kilobytes(1)));
+  Assert.assertTrue(Bytes.bytes(1024 * 1024).equals(Bytes.megabytes(1)));
+  Assert.assertTrue("1G".equals(Bytes.gigabytes(1).toString()));
+  final Bytes b=Bytes.kilobytes(7.3);
+  Assert.assertTrue(b.equals(Bytes.kilobytes(7.3)));
+  Assert.assertTrue(b.greaterThan(Bytes.kilobytes(7.25)));
+  Assert.assertTrue(b.lessThan(Bytes.kilobytes(7.9)));
+  Assert.assertTrue(Bytes.valueOf(b.toString()).equals(b));
+}

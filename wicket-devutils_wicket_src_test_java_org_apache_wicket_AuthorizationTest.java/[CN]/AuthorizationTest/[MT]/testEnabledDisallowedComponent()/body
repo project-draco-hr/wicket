@@ -1,0 +1,24 @@
+{
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
+    /** 
+ * @see org.apache.wicket.authorization.IAuthorizationStrategy#isActionAuthorized(org.apache.wicket.Component,org.apache.wicket.authorization.Action)
+ */
+    @Override public boolean isActionAuthorized(    Component c,    Action action){
+      if (action == Component.ENABLE && c instanceof TextField && c.getId().equals("stringInput")) {
+        return false;
+      }
+      return true;
+    }
+  }
+);
+  tester.startPage(AuthTestPage1.class);
+  tester.assertRenderedPage(AuthTestPage1.class);
+  tester.setParameterForNextRequest("form:stringInput","test");
+  try {
+    tester.submitForm("form");
+    Component component=tester.getComponentFromLastRenderedPage("form:stringInput");
+    assertEquals("",component.getDefaultModelObjectAsString());
+  }
+ catch (  WicketRuntimeException e) {
+  }
+}

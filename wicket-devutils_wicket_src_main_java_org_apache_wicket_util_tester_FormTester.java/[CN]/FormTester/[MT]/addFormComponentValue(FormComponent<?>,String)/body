@@ -1,0 +1,13 @@
+{
+  if (parameterExist(formComponent)) {
+    String[] values=baseWicketTester.getServletRequest().getParameterValues(formComponent.getInputName());
+    HashSet<String> all=new HashSet<String>(Arrays.asList(values));
+    all.add(value);
+    Map<String,String[]> newParameters=new HashMap<String,String[]>();
+    newParameters.put(formComponent.getInputName(),all.toArray(new String[all.size()]));
+    baseWicketTester.getServletRequest().setParameters(newParameters);
+  }
+ else {
+    setFormComponentValue(formComponent,value);
+  }
+}

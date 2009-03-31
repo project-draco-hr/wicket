@@ -1,0 +1,14 @@
+{
+  super();
+  final StringList pairs=StringList.tokenize(keyValuePairs,delimiter);
+  for (IStringIterator iterator=pairs.iterator(); iterator.hasNext(); ) {
+    final String pair=iterator.next();
+    final VariableAssignmentParser parser=new VariableAssignmentParser(pair,valuePattern);
+    if (parser.matches()) {
+      put(parser.getKey(),parser.getValue());
+    }
+ else {
+      throw new IllegalArgumentException("Invalid key value list: '" + keyValuePairs + '\'');
+    }
+  }
+}

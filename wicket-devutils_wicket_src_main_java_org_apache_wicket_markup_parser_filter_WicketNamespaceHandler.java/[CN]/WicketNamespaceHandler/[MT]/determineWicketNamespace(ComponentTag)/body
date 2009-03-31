@@ -1,0 +1,20 @@
+{
+  final IValueMap attributes=tag.getAttributes();
+  final Iterator<Map.Entry<String,Object>> it=attributes.entrySet().iterator();
+  while (it.hasNext()) {
+    final Map.Entry<String,Object> entry=it.next();
+    final String attributeName=entry.getKey();
+    if (attributeName.startsWith(XMLNS)) {
+      final String xmlnsUrl=(String)entry.getValue();
+      if ((xmlnsUrl == null) || (xmlnsUrl.trim().length() == 0) || xmlnsUrl.startsWith(WICKET_URI)) {
+        final String namespace=attributeName.substring(XMLNS.length());
+        if (Application.get().getMarkupSettings().getStripWicketTags()) {
+          attributes.remove(attributeName);
+          tag.setModified(true);
+        }
+        return namespace;
+      }
+    }
+  }
+  return null;
+}

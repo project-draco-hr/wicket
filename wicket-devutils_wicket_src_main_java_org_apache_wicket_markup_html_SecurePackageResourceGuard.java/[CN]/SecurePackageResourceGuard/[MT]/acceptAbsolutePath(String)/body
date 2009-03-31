@@ -1,0 +1,26 @@
+{
+  if (cache != null) {
+    Boolean rtn=cache.get(path);
+    if (rtn != null) {
+      return rtn.booleanValue();
+    }
+  }
+  if (super.acceptAbsolutePath(path) == false) {
+    return false;
+  }
+  boolean hit=false;
+  for (  SearchPattern pattern : this.pattern) {
+    if ((pattern != null) && pattern.isActive()) {
+      if (pattern.matches(path)) {
+        hit=pattern.isInclude();
+      }
+    }
+  }
+  if (cache != null) {
+    cache.put(path,(hit ? Boolean.TRUE : Boolean.FALSE));
+  }
+  if (hit == false) {
+    log.warn("Access denied to shared (static) resource: " + path);
+  }
+  return hit;
+}

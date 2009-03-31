@@ -1,0 +1,35 @@
+{
+  final Set<IValidatable> validatedComponents=new HashSet<IValidatable>();
+  final File tmpFile=writeTestFile(1);
+  tmpFile.deleteOnExit();
+  final IValidator testValidator=new IValidator(){
+    private static final long serialVersionUID=1L;
+    public void validate(    IValidatable validatable){
+      validatedComponents.add(validatable);
+      assertEquals(FileUpload.class,validatable.getValue().getClass());
+      FileUpload upload=(FileUpload)validatable.getValue();
+      assertEquals(tmpFile.getName(),upload.getClientFileName());
+      assertEquals(new String(read(tmpFile)),new String(upload.getBytes()));
+    }
+  }
+;
+  final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
+  page.getForm().visitChildren(FileUploadField.class,new IVisitor<FileUploadField>(){
+    public Object component(    FileUploadField uploadField){
+      uploadField.add(testValidator);
+      return STOP_TRAVERSAL;
+    }
+  }
+);
+  tester.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  FormTester formtester=tester.newFormTester("form");
+  formtester.setFile("upload",tmpFile,"text/plain");
+  formtester.submit();
+  assertEquals(validatedComponents.size(),1);
+}

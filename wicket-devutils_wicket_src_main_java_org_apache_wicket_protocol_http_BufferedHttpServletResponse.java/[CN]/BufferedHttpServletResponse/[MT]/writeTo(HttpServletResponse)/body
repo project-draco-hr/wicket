@@ -1,0 +1,33 @@
+{
+  if (status != -1) {
+    servletResponse.setStatus(status);
+  }
+  if (headers != null) {
+    for (    Entry<String,Object> stringObjectEntry : headers.entrySet()) {
+      String name=stringObjectEntry.getKey();
+      Object value=stringObjectEntry.getValue();
+      if (value instanceof List) {
+        List<?> lst=(List<?>)value;
+        for (        Object aLst : lst) {
+          addHeader(name,aLst,servletResponse);
+        }
+      }
+ else {
+        setHeader(name,value,servletResponse);
+      }
+    }
+  }
+  if (cookies != null) {
+    for (    Cookie cookie : cookies) {
+      servletResponse.addCookie(cookie);
+    }
+  }
+  if (locale != null) {
+    servletResponse.setLocale(locale);
+  }
+  servletResponse.setContentLength(byteBuffer.length);
+  servletResponse.setContentType(contentType);
+  final OutputStream out=servletResponse.getOutputStream();
+  out.write(byteBuffer);
+  out.close();
+}

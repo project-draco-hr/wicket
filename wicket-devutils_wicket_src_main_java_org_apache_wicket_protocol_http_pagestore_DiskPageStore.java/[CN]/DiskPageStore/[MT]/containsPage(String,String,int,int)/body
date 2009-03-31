@@ -1,0 +1,19 @@
+{
+  SessionEntry entry=getSessionEntry(sessionId,false);
+  if (entry != null) {
+    byte[] data;
+    if (isSynchronous()) {
+      return entry.exists(pageMapName,pageId,pageVersion);
+    }
+ else {
+      List<SerializedPage> pages=getPagesToSaveList(sessionId);
+synchronized (pages) {
+        flushPagesToSaveList(sessionId,pages);
+        return entry.exists(pageMapName,pageId,pageVersion);
+      }
+    }
+  }
+ else {
+    return false;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  List<String> newcomponents=new ArrayList<String>(Arrays.asList(path.split("/")));
+  for (int i=0; i < newcomponents.size(); i++) {
+    if (i < newcomponents.size() - 1) {
+      if ((newcomponents.get(i)).length() > 0 && newcomponents.get(i + 1).equals("..")) {
+        newcomponents.remove(i);
+        newcomponents.remove(i);
+        i=i - 2;
+        if (i < -1)         i=-1;
+      }
+    }
+  }
+  String newpath=Strings.join("/",newcomponents.toArray(new String[0]));
+  if (path.endsWith("/"))   return newpath + "/";
+  return newpath;
+}

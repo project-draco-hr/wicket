@@ -1,0 +1,21 @@
+{
+  if (page != 0 && (page < 0 || (page >= getPageCount() && getPageCount() > 0))) {
+    throw new IndexOutOfBoundsException("argument [page]=" + page + ", must be 0<=page<"+ getPageCount());
+  }
+  if (currentPage != page) {
+    if (isVersioned()) {
+      addStateChange(new Change(){
+        private static final long serialVersionUID=1L;
+        private final int old=currentPage;
+        @Override public void undo(){
+          currentPage=old;
+        }
+        @Override public String toString(){
+          return "CurrentPageChange[component: " + getPath() + ", currentPage: "+ old+ "]";
+        }
+      }
+);
+    }
+  }
+  currentPage=page;
+}

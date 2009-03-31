@@ -1,0 +1,69 @@
+{
+  final ClickCount count1=new ClickCount();
+  Link link1=new Link("link1"){
+    @Override public void onClick(){
+      count1.clicks++;
+    }
+  }
+;
+  add(link1);
+  link1.add(new Label("label1",new Model<String>(){
+    @Override public String getObject(){
+      return Integer.toString(count1.clicks);
+    }
+  }
+));
+  final ClickCount count2=new ClickCount();
+  Link linkWithStateChange=new Link("linkWithStateChange"){
+    @Override public void onClick(){
+      final int count=count1.clicks;
+      count2.clicks++;
+      addStateChange(new Change(){
+        @Override public void undo(){
+          count2.clicks=count;
+        }
+      }
+);
+    }
+  }
+;
+  add(linkWithStateChange);
+  linkWithStateChange.add(new Label("label",new PropertyModel<Integer>(count2,"clicks")));
+class CustomLink extends Link {
+    final ClickCount count2;
+    /** 
+ * Construct.
+ * @param id
+ */
+    public CustomLink(    String id){
+      super(id);
+      count2=new ClickCount();
+      add(new ClickCountLabel("label2",count2));
+    }
+    @Override public void onClick(){
+      count2.clicks++;
+    }
+  }
+  add(new CustomLink("link2"));
+class ButtonLink extends Link {
+    final ClickCount count3;
+    /** 
+ * Construct.
+ * @param id
+ */
+    public ButtonLink(    String id){
+      super(id);
+      count3=new ClickCount();
+      add(new AttributeModifier("value",new Model<String>(){
+        @Override public String getObject(){
+          return "this button is clicked " + count3.clicks + " times";
+        }
+      }
+));
+    }
+    @Override public void onClick(){
+      count3.clicks++;
+    }
+  }
+  add(new ButtonLink("link3"));
+}

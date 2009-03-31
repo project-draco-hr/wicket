@@ -1,0 +1,19 @@
+{
+  if (input != null && input.length > 0) {
+    final String value=input[0];
+    Radio<T> choice=(Radio<T>)visitChildren(Radio.class,new Component.IVisitor<Radio<T>>(){
+      public Object component(      Radio<T> radio){
+        if (radio.getValue().equals(value)) {
+          return radio;
+        }
+        return CONTINUE_TRAVERSAL;
+      }
+    }
+);
+    if (choice == null) {
+      throw new WicketRuntimeException("submitted http post value [" + value + "] for RadioGroup component ["+ getPath()+ "] is illegal because it does not contain relative path to a Radio componnet. "+ "Due to this the RadioGroup component cannot resolve the selected Radio component pointed to by the illegal value. A possible reason is that componment hierarchy changed between rendering and form submission.");
+    }
+    return choice.getModelObject();
+  }
+  return null;
+}

@@ -1,0 +1,17 @@
+{
+  if ((offset < 0) || (offset > count)) {
+    throw new StringIndexOutOfBoundsException();
+  }
+  if (str == null) {
+    str=String.valueOf(str);
+  }
+  int len=str.length();
+  int newcount=count + len;
+  if (newcount > value.length) {
+    expandCapacity(newcount);
+  }
+  System.arraycopy(value,offset,value,offset + len,count - offset);
+  str.getChars(0,len,value,offset);
+  count=newcount;
+  return this;
+}

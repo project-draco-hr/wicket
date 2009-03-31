@@ -1,0 +1,13 @@
+{
+  File file=new File(fileName);
+  if (file.exists() == false && createIfDoesNotExist == false) {
+    return null;
+  }
+  try {
+    FileChannel channel=new RandomAccessFile(file,"rw").getChannel();
+    return channel;
+  }
+ catch (  FileNotFoundException e) {
+    throw new RuntimeException(e);
+  }
+}

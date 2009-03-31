@@ -1,0 +1,15 @@
+{
+  componentMap=null;
+  if (markupElements != null) {
+    StringBuffer componentPath=null;
+    for (int i=0; i < size(); i++) {
+      MarkupElement elem=get(i);
+      if (elem instanceof ComponentTag) {
+        ComponentTag tag=(ComponentTag)elem;
+        componentPath=setComponentPathForTag(componentPath,tag);
+        addToCache(i,tag);
+      }
+    }
+  }
+  currentPath=null;
+}

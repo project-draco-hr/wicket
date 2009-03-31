@@ -1,0 +1,12 @@
+{
+  if (Strings.isEmpty(script)) {
+    throw new IllegalArgumentException("script cannot be empty");
+  }
+  if (Strings.isEmpty(throttleId)) {
+    throw new IllegalArgumentException("throttleId cannot be empty");
+  }
+  if (throttleDelay == null) {
+    throw new IllegalArgumentException("throttleDelay cannot be null");
+  }
+  return new AppendingStringBuffer("wicketThrottler.throttle( '").append(throttleId).append("', ").append(throttleDelay.getMilliseconds()).append(", function() { ").append(script).append("});");
+}

@@ -1,0 +1,14 @@
+{
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy(){
+    @Override public <T extends Component>boolean isInstantiationAuthorized(    Class<T> componentClass){
+      return false;
+    }
+  }
+);
+  try {
+    new WebComponent("test");
+    fail("authorization check failed to throw an exception");
+  }
+ catch (  AuthorizationException e) {
+  }
+}

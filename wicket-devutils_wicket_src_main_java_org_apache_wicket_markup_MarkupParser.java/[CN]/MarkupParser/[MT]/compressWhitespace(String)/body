@@ -1,0 +1,29 @@
+{
+  Pattern preBlock=Pattern.compile("<pre>.*?</pre>",Pattern.DOTALL | Pattern.MULTILINE);
+  Matcher m=preBlock.matcher(rawMarkup);
+  int lastend=0;
+  StringBuffer sb=null;
+  while (true) {
+    boolean matched=m.find();
+    String nonPre=matched ? rawMarkup.substring(lastend,m.start()) : rawMarkup.substring(lastend);
+    nonPre=nonPre.replaceAll("[ \\t]+"," ");
+    nonPre=nonPre.replaceAll("( ?[\\r\\n] ?)+","\n");
+    if (lastend == 0) {
+      if (matched) {
+        sb=new StringBuffer(rawMarkup.length());
+      }
+ else {
+        return nonPre;
+      }
+    }
+    sb.append(nonPre);
+    if (matched) {
+      sb.append(m.group());
+      lastend=m.end();
+    }
+ else {
+      break;
+    }
+  }
+  return sb.toString();
+}

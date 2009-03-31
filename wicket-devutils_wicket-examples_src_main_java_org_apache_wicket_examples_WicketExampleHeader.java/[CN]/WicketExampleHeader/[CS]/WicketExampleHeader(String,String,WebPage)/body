@@ -1,0 +1,23 @@
+{
+  super(id);
+  WebMarkupContainer hideInPortlet=new WebMarkupContainer("hideInPortlet"){
+    /** 
+ * @see org.apache.wicket.Component#isVisible()
+ */
+    @Override public boolean isVisible(){
+      return !RequestContext.get().isPortletRequest();
+    }
+  }
+;
+  add(hideInPortlet);
+  hideInPortlet.add(new InspectorBug("inspector",page));
+  hideInPortlet.add(new WicketDebugBar("debug"));
+  add(new Label("exampleTitle",exampleTitle));
+  BookmarkablePageLink<Void> link=new BookmarkablePageLink<Void>("sources",SourcesPage.class,SourcesPage.generatePageParameters(page));
+  add(link);
+  PopupSettings settings=new PopupSettings(PageMap.forName("sources"),PopupSettings.RESIZABLE);
+  settings.setWidth(800);
+  settings.setHeight(600);
+  settings.setWindowName("sources");
+  link.setPopupSettings(settings);
+}

@@ -1,0 +1,29 @@
+{
+  checkComponentTag(tag,"input");
+  checkComponentTagAttribute(tag,"type","checkbox");
+  final String value=getValue();
+  final IConverter converter=getConverter(Boolean.class);
+  final Boolean checked=(Boolean)converter.convertToObject(value,getLocale());
+  if (Boolean.TRUE.equals(checked)) {
+    tag.put("checked","checked");
+  }
+ else {
+    tag.remove("checked");
+  }
+  tag.remove("value");
+  if (wantOnSelectionChangedNotifications()) {
+    CharSequence url=urlFor(IOnChangeListener.INTERFACE);
+    Form<?> form=findParent(Form.class);
+    if (form != null) {
+      RequestContext rc=RequestContext.get();
+      if (rc.isPortletRequest()) {
+        url=((PortletRequestContext)rc).getLastEncodedPath();
+      }
+      tag.put("onclick",form.getJsForInterfaceUrl(url));
+    }
+ else {
+      tag.put("onclick","window.location.href='" + url + (url.toString().indexOf('?') > -1 ? "&amp;" : "?")+ getInputName()+ "=' + this.checked;");
+    }
+  }
+  super.onComponentTag(tag);
+}

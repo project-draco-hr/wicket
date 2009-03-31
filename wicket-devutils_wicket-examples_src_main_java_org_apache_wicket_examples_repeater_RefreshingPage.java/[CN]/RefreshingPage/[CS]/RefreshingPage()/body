@@ -1,0 +1,39 @@
+{
+  final List<IModel<Contact>> contacts=new ArrayList<IModel<Contact>>(10);
+  ContactDataProvider dp=new ContactDataProvider();
+  Iterator<Contact> it=dp.iterator(0,10);
+  while (it.hasNext()) {
+    contacts.add(dp.model(it.next()));
+  }
+  RefreshingView<Contact> view=new RefreshingView<Contact>("view"){
+    /** 
+ * Return an iterator over models for items in the view
+ */
+    @Override protected Iterator<IModel<Contact>> getItemModels(){
+      return contacts.iterator();
+    }
+    @Override protected void populateItem(    final Item<Contact> item){
+      Contact contact=item.getModelObject();
+      item.add(new Label("itemid",item.getId()));
+      item.add(new ActionPanel("actions",item.getModel()));
+      item.add(new Label("contactid",String.valueOf(contact.getId())));
+      item.add(new Label("firstname",contact.getFirstName()));
+      item.add(new Label("lastname",contact.getLastName()));
+      item.add(new Label("homephone",contact.getHomePhone()));
+      item.add(new Label("cellphone",contact.getCellPhone()));
+      item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel<String>(){
+        @Override public String getObject(){
+          return (item.getIndex() % 2 == 1) ? "even" : "odd";
+        }
+      }
+));
+    }
+  }
+;
+  add(view);
+  add(new Link("refreshLink"){
+    @Override public void onClick(){
+    }
+  }
+);
+}

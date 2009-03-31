@@ -1,0 +1,20 @@
+{
+  super(new CompoundPropertyModel<ValueMap>(new ValueMap("txt1=foo,txt2=bar")));
+  Form<?> form=new Form("form"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(){
+      formSubmitted=formSubmitted | FORM;
+    }
+  }
+;
+  add(form);
+  form.add(new TextField<String>("txt1"));
+  form.add(new TextField<String>("txt2"));
+  form.add(new AjaxFallbackButton("submit",form){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      formSubmitted=formSubmitted | BUTTON;
+    }
+  }
+.setDefaultFormProcessing(false));
+}

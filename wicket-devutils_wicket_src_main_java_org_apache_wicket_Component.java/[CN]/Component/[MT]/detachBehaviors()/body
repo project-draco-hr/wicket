@@ -1,0 +1,12 @@
+{
+  List<IBehavior> behaviors=getBehaviors();
+  if (behaviors != null) {
+    for (Iterator<IBehavior> i=behaviors.iterator(); i.hasNext(); ) {
+      IBehavior behavior=i.next();
+      behavior.detach(this);
+      if (behavior.isTemporary()) {
+        removeBehavior(behavior);
+      }
+    }
+  }
+}

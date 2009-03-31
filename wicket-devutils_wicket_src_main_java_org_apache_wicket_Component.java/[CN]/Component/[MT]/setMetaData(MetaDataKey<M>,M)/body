@@ -1,0 +1,18 @@
+{
+  MetaDataEntry<?>[] old=getMetaData();
+  Object metaData=null;
+  MetaDataEntry<?>[] metaDataArray=key.set(getMetaData(),object);
+  if (metaDataArray != null && metaDataArray.length > 0) {
+    metaData=(metaDataArray.length > 1) ? (Object)metaDataArray : metaDataArray[0];
+  }
+  int index=getFlag(FLAG_MODEL_SET) ? 1 : 0;
+  if (old == null && metaData != null) {
+    data_insert(index,metaData);
+  }
+ else   if (old != null && metaData != null) {
+    data_set(index,metaData);
+  }
+ else   if (old != null && metaData == null) {
+    data_remove(index);
+  }
+}

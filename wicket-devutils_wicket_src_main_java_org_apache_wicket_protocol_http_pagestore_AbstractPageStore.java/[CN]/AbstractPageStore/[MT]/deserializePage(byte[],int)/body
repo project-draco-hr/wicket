@@ -1,0 +1,22 @@
+{
+  boolean set=Page.serializer.get() == null;
+  Page page=null;
+  try {
+    if (set) {
+      Page.serializer.set(new PageSerializer(null));
+    }
+    IPageMapEntry entry=(IPageMapEntry)Objects.byteArrayToObject(data);
+    if (entry != null) {
+      page=entry.getPage();
+      if (versionNumber != -1) {
+        page=page.getVersion(versionNumber);
+      }
+    }
+  }
+  finally {
+    if (set) {
+      Page.serializer.set(null);
+    }
+  }
+  return page;
+}

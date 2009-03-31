@@ -1,0 +1,18 @@
+{
+  if (!isEnabledInHierarchy() || !isVisibleInHierarchy()) {
+    return false;
+  }
+  validate();
+  if (hasError()) {
+    markFormComponentsInvalid();
+    callOnError();
+    return false;
+  }
+ else {
+    markFormComponentsValid();
+    beforeUpdateFormComponentModels();
+    updateFormComponentModels();
+    persistFormComponentData();
+    return true;
+  }
+}

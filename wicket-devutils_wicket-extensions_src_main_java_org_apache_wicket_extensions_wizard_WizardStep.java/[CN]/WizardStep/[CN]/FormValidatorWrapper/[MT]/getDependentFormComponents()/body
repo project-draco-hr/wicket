@@ -1,0 +1,16 @@
+{
+  if (isActiveStep()) {
+    Set<Component> components=new HashSet<Component>();
+    for (    IFormValidator v : validators) {
+      FormComponent<?>[] dependentComponents=v.getDependentFormComponents();
+      if (dependentComponents != null) {
+        int len=dependentComponents.length;
+        for (int j=0; j < len; j++) {
+          components.add(dependentComponents[j]);
+        }
+      }
+    }
+    return components.toArray(new FormComponent[components.size()]);
+  }
+  return null;
+}

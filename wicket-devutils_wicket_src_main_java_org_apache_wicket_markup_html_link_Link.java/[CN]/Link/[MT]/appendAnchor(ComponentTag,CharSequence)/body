@@ -1,0 +1,33 @@
+{
+  if (url != null) {
+    Component anchor=getAnchor();
+    if (anchor != null) {
+      if (url.toString().indexOf('#') == -1) {
+        String id;
+        if (anchor.getOutputMarkupId()) {
+          id=anchor.getMarkupId();
+        }
+ else {
+          id=anchor.getMarkupAttributes().getString("id");
+        }
+        if (id != null) {
+          url=url + "#" + anchor.getMarkupId();
+        }
+ else {
+          throw new WicketRuntimeException("an achor component was set on " + this + " but it neither has outputMarkupId set to true "+ "nor has a id set explicitly");
+        }
+      }
+    }
+ else {
+      if (tag.getName().equalsIgnoreCase("a")) {
+        if (url.toString().indexOf('#') == -1) {
+          String href=tag.getAttributes().getString("href");
+          if (href != null && href.length() > 1 && href.charAt(0) == '#') {
+            url=url + href;
+          }
+        }
+      }
+    }
+  }
+  return url;
+}

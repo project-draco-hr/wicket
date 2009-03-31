@@ -1,0 +1,23 @@
+{
+  final AppendingStringBuffer buffer=new AppendingStringBuffer(128);
+  Iterator<T> options=getOptionsIterator();
+  IChoiceRenderer<T> renderer=getPalette().getChoiceRenderer();
+  while (options.hasNext()) {
+    final T choice=options.next();
+    String id=renderer.getIdValue(choice,0);
+    Object displayValue=renderer.getDisplayValue(choice);
+    Class<?> displayClass=displayValue == null ? null : displayValue.getClass();
+    String value=getConverter(displayClass).convertToString(displayValue,getLocale());
+    value=getLocalizer().getString(value,this,value);
+    buffer.append("\n<option value=\"").append(id).append("\"");
+    Map<String,String> additionalAttributesMap=getAdditionalAttributes(choice);
+    if (additionalAttributesMap != null) {
+      for (      String s : additionalAttributesMap.keySet()) {
+        buffer.append(" " + s + "=\""+ additionalAttributesMap.get(s)+ "\"");
+      }
+    }
+    buffer.append(">").append(value).append("</option>");
+  }
+  buffer.append("\n");
+  replaceComponentTagBody(markupStream,openTag,buffer);
+}

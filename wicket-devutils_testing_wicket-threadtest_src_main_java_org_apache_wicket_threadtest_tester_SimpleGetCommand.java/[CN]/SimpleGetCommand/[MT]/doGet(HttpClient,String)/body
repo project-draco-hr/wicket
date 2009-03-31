@@ -1,0 +1,20 @@
+{
+  GetMethod method=new GetMethod(url);
+  method.setFollowRedirects(true);
+  try {
+    if (url.contains("bookmarkable")) {
+      log.info(url);
+    }
+    int code=client.executeMethod(method);
+    if (code != 200) {
+      log.error("ERROR! code: " + code);
+      log.error(url);
+    }
+    if (getPrintResponse()) {
+      log.info("\n" + Streams.readString(method.getResponseBodyAsStream()));
+    }
+  }
+  finally {
+    method.releaseConnection();
+  }
+}

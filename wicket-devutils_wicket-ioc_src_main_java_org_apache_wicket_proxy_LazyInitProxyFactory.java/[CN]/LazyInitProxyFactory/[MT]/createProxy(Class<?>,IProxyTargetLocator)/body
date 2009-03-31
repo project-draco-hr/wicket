@@ -1,0 +1,28 @@
+{
+  if (PRIMITIVES.contains(type)) {
+    return locator.locateProxyTarget();
+  }
+ else   if (type.isInterface()) {
+    JdkHandler handler=new JdkHandler(type,locator);
+    try {
+      return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+    }
+ catch (    IllegalArgumentException e) {
+      return Proxy.newProxyInstance(LazyInitProxyFactory.class.getClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+    }
+  }
+ else {
+    CGLibInterceptor handler=new CGLibInterceptor(type,locator);
+    Enhancer e=new Enhancer();
+    e.setInterfaces(new Class[]{Serializable.class,ILazyInitProxy.class,IWriteReplace.class});
+    e.setSuperclass(type);
+    e.setCallback(handler);
+    e.setNamingPolicy(new DefaultNamingPolicy(){
+      @Override public String getClassName(      final String prefix,      final String source,      final Object key,      final Predicate names){
+        return super.getClassName("WICKET_" + prefix,source,key,names);
+      }
+    }
+);
+    return e.create();
+  }
+}

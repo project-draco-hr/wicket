@@ -1,0 +1,10 @@
+{
+  if (validator == null) {
+    throw new IllegalArgumentException("Argument `validator` cannot be null");
+  }
+  IFormValidator removed=formValidators_remove(validator);
+  if (removed == null) {
+    throw new IllegalStateException("Tried to remove form validator that was not previously added. " + "Make sure your validator's equals() implementation is sufficient");
+  }
+  addStateChange(new FormValidatorRemovedChange(removed));
+}

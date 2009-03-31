@@ -1,0 +1,21 @@
+{
+  if (windowId != null && windowId.length() > 0) {
+    if (windowId.indexOf('/') > -1) {
+      boolean replaced=false;
+      for (      char replacer : slashReplacers) {
+        if (windowId.indexOf(replacer) == -1) {
+          windowId=":" + replacer + windowId.replace('/',replacer);
+          replaced=true;
+          break;
+        }
+      }
+      if (!replaced) {
+        throw new RuntimeException("PortletRequest.getWindowId() contains a '/' character for which no valid and unique replacer could be determined: " + windowId);
+      }
+    }
+ else     if (windowId.charAt(0) == ':') {
+      windowId="::" + windowId;
+    }
+  }
+  return (getServletResourceUrlPortletWindowIdPrefix().substring(1) + windowId + "/"+ path);
+}

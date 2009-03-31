@@ -1,0 +1,14 @@
+{
+  Object key=null;
+  if (Application.exists()) {
+    key=Application.get();
+  }
+ else {
+    key=PropertyResolver.class;
+  }
+  IClassCache result=applicationToClassesToGetAndSetters.get(key);
+  if (result == null) {
+    applicationToClassesToGetAndSetters.put(key,result=new DefaultClassCache());
+  }
+  return result;
+}

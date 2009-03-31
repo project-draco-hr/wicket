@@ -1,0 +1,13 @@
+{
+  if (component == null) {
+    throw new IllegalArgumentException("argument component has to be not null");
+  }
+  if (action == null) {
+    throw new IllegalArgumentException("argument action has to be not null");
+  }
+  final Roles roles=rolesAuthorizedToPerformAction(component,action);
+  if (roles != null) {
+    return hasAny(roles);
+  }
+  return true;
+}

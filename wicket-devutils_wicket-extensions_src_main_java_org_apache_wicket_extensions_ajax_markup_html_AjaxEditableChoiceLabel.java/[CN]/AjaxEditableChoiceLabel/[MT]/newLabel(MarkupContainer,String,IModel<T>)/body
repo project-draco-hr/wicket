@@ -1,0 +1,30 @@
+{
+  Label label=new Label(componentId,model){
+    private static final long serialVersionUID=1L;
+    @Override public IConverter getConverter(    Class<?> type){
+      IConverter c=AjaxEditableChoiceLabel.this.getConverter(type);
+      return c != null ? c : super.getConverter(type);
+    }
+    @SuppressWarnings("unchecked") @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+      String displayValue=getDefaultModelObjectAsString();
+      if (renderer != null) {
+        Object displayObject=renderer.getDisplayValue((T)getDefaultModelObject());
+        Class<?> objectClass=(displayObject == null ? null : displayObject.getClass());
+        if (objectClass != null && objectClass != String.class) {
+          final IConverter converter=Application.get().getConverterLocator().getConverter(objectClass);
+          displayValue=converter.convertToString(displayObject,getLocale());
+        }
+      }
+      if (Strings.isEmpty(displayValue)) {
+        replaceComponentTagBody(markupStream,openTag,defaultNullLabel());
+      }
+ else {
+        replaceComponentTagBody(markupStream,openTag,displayValue);
+      }
+    }
+  }
+;
+  label.setOutputMarkupId(true);
+  label.add(new LabelAjaxBehavior(getLabelAjaxEvent()));
+  return label;
+}

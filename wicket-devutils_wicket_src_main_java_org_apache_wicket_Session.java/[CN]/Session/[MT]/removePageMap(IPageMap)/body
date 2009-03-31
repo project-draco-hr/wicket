@@ -1,0 +1,11 @@
+{
+  PageMapAccessMetaData pagemapMetaData=getMetaData(PAGEMAP_ACCESS_MDK);
+  if (pagemapMetaData != null) {
+    pagemapMetaData.pageMapNames.remove(pageMap.getName());
+  }
+synchronized (usedPageMaps) {
+    usedPageMaps.remove(pageMap);
+  }
+  removeAttribute(attributeForPageMapName(pageMap.getName()));
+  dirty();
+}

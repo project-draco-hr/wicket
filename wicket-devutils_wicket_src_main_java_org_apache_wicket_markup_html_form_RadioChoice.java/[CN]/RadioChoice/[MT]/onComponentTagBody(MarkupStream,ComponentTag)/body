@@ -1,0 +1,54 @@
+{
+  final List<? extends T> choices=getChoices();
+  final AppendingStringBuffer buffer=new AppendingStringBuffer((choices.size() + 1) * 70);
+  final String selected=getValue();
+  for (int index=0; index < choices.size(); index++) {
+    final T choice=choices.get(index);
+    Object displayValue=getChoiceRenderer().getDisplayValue(choice);
+    Class<?> objectClass=(displayValue == null ? null : displayValue.getClass());
+    String label="";
+    if (objectClass != null && objectClass != String.class) {
+      final IConverter converter=getConverter(objectClass);
+      label=converter.convertToString(displayValue,getLocale());
+    }
+ else     if (displayValue != null) {
+      label=displayValue.toString();
+    }
+    if (label != null) {
+      buffer.append(getPrefix());
+      String id=getChoiceRenderer().getIdValue(choice,index);
+      final String idAttr=getMarkupId() + "-" + id;
+      boolean enabled=isEnabledInHierarchy() && !isDisabled(choice,index,selected);
+      buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((enabled ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"");
+      if (wantOnSelectionChangedNotifications()) {
+        CharSequence url=urlFor(IOnChangeListener.INTERFACE);
+        Form<?> form=findParent(Form.class);
+        if (form != null) {
+          RequestContext rc=RequestContext.get();
+          if (rc.isPortletRequest()) {
+            url=((PortletRequestContext)rc).getLastEncodedPath();
+          }
+          buffer.append(" onclick=\"").append(form.getJsForInterfaceUrl(url)).append(";\"");
+        }
+ else {
+          buffer.append(" onclick=\"window.location.href='").append(url).append((url.toString().indexOf('?') > -1 ? "&amp;" : "?") + getInputName()).append("=").append(id).append("';\"");
+        }
+      }
+      buffer.append("/>");
+      String display=label;
+      if (localizeDisplayValues()) {
+        display=getLocalizer().getString(label,this,label);
+      }
+      final CharSequence escaped;
+      if (getEscapeModelStrings()) {
+        escaped=Strings.escapeMarkup(display,false,true);
+      }
+ else {
+        escaped=display;
+      }
+      buffer.append("<label for=\"").append(idAttr).append("\">").append(escaped).append("</label>");
+      buffer.append(getSuffix());
+    }
+  }
+  replaceComponentTagBody(markupStream,openTag,buffer);
+}

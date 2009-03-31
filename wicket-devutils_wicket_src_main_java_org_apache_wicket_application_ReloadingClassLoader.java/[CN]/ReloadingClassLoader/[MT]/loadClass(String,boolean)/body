@@ -1,0 +1,29 @@
+{
+  Class<?> clazz=findLoadedClass(name);
+  if (clazz == null) {
+    final ClassLoader parent=getParent();
+    if (tryClassHere(name)) {
+      try {
+        clazz=findClass(name);
+        watchForModifications(clazz);
+      }
+ catch (      ClassNotFoundException cnfe) {
+        if (parent == null) {
+          throw cnfe;
+        }
+      }
+    }
+    if (clazz == null) {
+      if (parent == null) {
+        throw new ClassNotFoundException(name);
+      }
+ else {
+        clazz=parent.loadClass(name);
+      }
+    }
+  }
+  if (resolve) {
+    resolveClass(clazz);
+  }
+  return clazz;
+}

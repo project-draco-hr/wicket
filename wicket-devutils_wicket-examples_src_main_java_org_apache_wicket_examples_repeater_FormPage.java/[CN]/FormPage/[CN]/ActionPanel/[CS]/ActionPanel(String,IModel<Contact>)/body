@@ -1,0 +1,19 @@
+{
+  super(id,model);
+  add(new Link("select"){
+    @Override public void onClick(){
+      setSelected((Contact)ActionPanel.this.getDefaultModelObject());
+    }
+  }
+);
+  SubmitLink removeLink=new SubmitLink("remove",form){
+    @Override public void onSubmit(){
+      Contact contact=(Contact)ActionPanel.this.getDefaultModelObject();
+      info("Removed contact " + contact);
+      DatabaseLocator.getDatabase().delete(contact);
+    }
+  }
+;
+  removeLink.setDefaultFormProcessing(false);
+  add(removeLink);
+}

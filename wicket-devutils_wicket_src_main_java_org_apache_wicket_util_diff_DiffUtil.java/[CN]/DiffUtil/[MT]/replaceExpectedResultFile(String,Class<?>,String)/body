@@ -1,0 +1,11 @@
+{
+  String filename=clazz.getPackage().getName();
+  filename=filename.replace('.','/');
+  filename+="/" + file;
+  final URL url=clazz.getClassLoader().getResource(filename);
+  filename=url.getFile();
+  filename=filename.replaceAll("/target/test-classes/","/src/test/java/");
+  PrintWriter out=new PrintWriter(new FileOutputStream(filename));
+  out.print(document);
+  out.close();
+}

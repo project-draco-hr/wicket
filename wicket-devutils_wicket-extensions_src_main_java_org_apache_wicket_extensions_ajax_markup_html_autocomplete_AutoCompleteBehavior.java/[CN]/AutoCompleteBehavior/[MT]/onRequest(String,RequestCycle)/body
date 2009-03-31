@@ -1,0 +1,24 @@
+{
+  IRequestTarget target=new IRequestTarget(){
+    public void respond(    RequestCycle requestCycle){
+      WebResponse r=(WebResponse)requestCycle.getResponse();
+      final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
+      r.setCharacterEncoding(encoding);
+      r.setContentType("text/xml; charset=" + encoding);
+      r.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
+      r.setHeader("Cache-Control","no-cache, must-revalidate");
+      r.setHeader("Pragma","no-cache");
+      Iterator<T> comps=getChoices(val);
+      renderer.renderHeader(r);
+      while (comps.hasNext()) {
+        final T comp=comps.next();
+        renderer.render(comp,r,val);
+      }
+      renderer.renderFooter(r);
+    }
+    public void detach(    RequestCycle requestCycle){
+    }
+  }
+;
+  requestCycle.setRequestTarget(target);
+}

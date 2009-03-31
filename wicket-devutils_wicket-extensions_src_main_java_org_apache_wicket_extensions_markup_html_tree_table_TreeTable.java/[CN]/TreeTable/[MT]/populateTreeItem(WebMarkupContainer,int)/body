@@ -1,0 +1,50 @@
+{
+  final TreeNode node=(TreeNode)item.getDefaultModelObject();
+  SideColumnsView sideColumns=new SideColumnsView("sideColumns",node);
+  item.add(sideColumns);
+  if (columns != null)   for (int i=0; i < columns.length; i++) {
+    IColumn column=columns[i];
+    if (column.getLocation().getAlignment() == Alignment.LEFT || column.getLocation().getAlignment() == Alignment.RIGHT) {
+      Component component;
+      IRenderable renderable=column.newCell(node,level);
+      if (renderable == null) {
+        component=column.newCell(sideColumns,"" + i,node,level);
+        sideColumns.add(component);
+      }
+ else {
+        component=null;
+      }
+      sideColumns.addColumn(column,component,renderable);
+    }
+  }
+  MiddleColumnsView middleColumns=new MiddleColumnsView("middleColumns",node,hasLeftColumn());
+  if (columns != null)   for (int i=0; i < columns.length; i++) {
+    IColumn column=columns[i];
+    if (column.getLocation().getAlignment() == Alignment.MIDDLE) {
+      Component component;
+      IRenderable renderable=column.newCell(node,level);
+      if (renderable == null) {
+        component=column.newCell(middleColumns,"" + i,node,level);
+        middleColumns.add(component);
+      }
+ else {
+        component=null;
+      }
+      middleColumns.addColumn(column,component,renderable);
+    }
+  }
+  item.add(middleColumns);
+  item.add(new AbstractBehavior(){
+    private static final long serialVersionUID=1L;
+    @Override public void onComponentTag(    Component component,    ComponentTag tag){
+      super.onComponentTag(component,tag);
+      if (getTreeState().isNodeSelected(node)) {
+        tag.put("class","row-selected");
+      }
+ else {
+        tag.put("class","row");
+      }
+    }
+  }
+);
+}

@@ -1,0 +1,32 @@
+{
+  CommentForm commentForm=new CommentForm("commentForm");
+  add(commentForm);
+  comments=new WebMarkupContainer("comments");
+  add(comments.setOutputMarkupId(true));
+  comments.add(commentListView=new ListView<Comment>("comments",new PropertyModel<List<Comment>>(this,"commentList")){
+    @Override public void populateItem(    final ListItem<Comment> listItem){
+      final Comment comment=listItem.getModelObject();
+      listItem.add(new Label("date",new Model<Date>(comment.getDate())));
+      listItem.add(new MultiLineLabel("text",comment.getText()));
+    }
+  }
+);
+  commentForm.add(new AjaxFormSubmitBehavior(commentForm,"onsubmit"){
+    @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
+      return new AjaxCallDecorator(){
+        @Override public CharSequence decorateScript(        CharSequence script){
+          return script + "return false;";
+        }
+      }
+;
+    }
+    @Override protected void onSubmit(    AjaxRequestTarget target){
+      target.addComponent(comments);
+      target.addComponent(text);
+      target.appendJavascript("document.getElementById('" + text.getMarkupId() + "').focus();");
+    }
+    @Override protected void onError(    AjaxRequestTarget target){
+    }
+  }
+);
+}

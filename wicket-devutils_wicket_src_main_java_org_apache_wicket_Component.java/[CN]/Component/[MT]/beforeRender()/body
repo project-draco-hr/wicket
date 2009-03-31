@@ -1,0 +1,13 @@
+{
+  if (!(this instanceof IFeedback)) {
+    internalBeforeRender();
+  }
+ else {
+    List<Component> feedbacks=getRequestCycle().getMetaData(FEEDBACK_LIST);
+    if (feedbacks == null) {
+      feedbacks=new ArrayList<Component>();
+      getRequestCycle().setMetaData(FEEDBACK_LIST,feedbacks);
+    }
+    feedbacks.add(this);
+  }
+}

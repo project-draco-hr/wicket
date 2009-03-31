@@ -1,0 +1,26 @@
+{
+  int begin=url.lastIndexOf(getBeginSeparator());
+  PageInfo last=null;
+  String lastSubstring="";
+  while (begin != -1) {
+    String substring=url.substring(begin);
+    if (substring.length() > getBeginSeparator().length() + getEndSeparator().length() && substring.startsWith(getBeginSeparator()) && substring.endsWith(getEndSeparator())) {
+      String pageInfoString=substring.substring(getBeginSeparator().length(),substring.length() - getEndSeparator().length());
+      PageInfo info=PageInfo.parsePageInfo(pageInfoString);
+      if (info != null) {
+        last=info;
+        lastSubstring=substring;
+      }
+ else {
+        break;
+      }
+    }
+    begin=url.lastIndexOf(getBeginSeparator(),begin - 1);
+  }
+  if (last != null) {
+    return new PageInfoExtraction(url.substring(0,url.length() - lastSubstring.length()),last);
+  }
+ else {
+    return new PageInfoExtraction(url,null);
+  }
+}

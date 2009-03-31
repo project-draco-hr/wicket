@@ -1,0 +1,12 @@
+{
+  final String name=clazz.getName();
+  Long id=nameToId.get(name);
+  if (id == null) {
+    id=nameCounter.incrementAndGet();
+    Long previousId=nameToId.putIfAbsent(name,id);
+    if (previousId != null) {
+      id=previousId;
+    }
+  }
+  return id;
+}

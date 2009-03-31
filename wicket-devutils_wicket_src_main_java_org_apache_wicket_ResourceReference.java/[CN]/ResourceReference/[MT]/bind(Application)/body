@@ -1,0 +1,17 @@
+{
+  if (resource == null) {
+    SharedResources sharedResources=application.getSharedResources();
+    resource=sharedResources.get(getScope(),name,locale,style,true);
+    if (resource == null) {
+      resource=newResource();
+      if (resource == null) {
+        resource=sharedResources.get(getScope(),name,locale,style,false);
+        if (resource == null) {
+          PackageResource packageResource=PackageResource.get(getScope(),name);
+          sharedResources.add(name,packageResource);
+        }
+      }
+      sharedResources.add(getScope(),name,locale,style,resource);
+    }
+  }
+}

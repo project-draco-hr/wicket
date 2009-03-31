@@ -1,0 +1,9 @@
+{
+  final MarkupParser parser=new MarkupParser("<html wicket:id=\"test\"><script language=\"JavaScript\">... <x a> ...</script></html>");
+  Markup markup=parser.parse();
+  assertEquals(3,markup.size());
+  assertEquals("html",((ComponentTag)markup.get(0)).getName());
+  assertEquals("html",((ComponentTag)markup.get(2)).getName());
+  assertEquals(true,markup.get(1) instanceof RawMarkup);
+  assertEquals("<script language=\"JavaScript\">... <x a> ...</script>",((RawMarkup)markup.get(1)).toString());
+}

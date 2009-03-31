@@ -1,0 +1,25 @@
+{
+  if (name != null && (name.startsWith("java.") || name.startsWith("javax.servlet"))) {
+    return false;
+  }
+  boolean tryHere;
+  if (patterns == null || patterns.size() == 0) {
+    tryHere=true;
+  }
+ else {
+    tryHere=false;
+    Iterator<String> includesIterator=patterns.iterator();
+    while (includesIterator.hasNext()) {
+      String rawpattern=includesIterator.next();
+      if (rawpattern.length() <= 1) {
+        continue;
+      }
+      boolean isInclude=rawpattern.substring(0,1).equals("+");
+      String pattern=rawpattern.substring(1);
+      if (WildcardMatcherHelper.match(pattern,name) != null) {
+        tryHere=isInclude;
+      }
+    }
+  }
+  return tryHere;
+}

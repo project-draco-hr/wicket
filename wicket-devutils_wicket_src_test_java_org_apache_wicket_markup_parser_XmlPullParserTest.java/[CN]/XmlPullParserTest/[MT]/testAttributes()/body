@@ -1,0 +1,49 @@
+{
+  final XmlPullParser parser=new XmlPullParser();
+  parser.parse("<tag>");
+  XmlTag tag=(XmlTag)parser.nextTag();
+  assertEquals(0,tag.getAttributes().size());
+  assertFalse(tag.getAttributes().containsKey("attr"));
+  assertNull(tag.getAttributes().getString("attr"));
+  parser.parse("<tag attr='1234'>");
+  tag=(XmlTag)parser.nextTag();
+  assertEquals(1,tag.getAttributes().size());
+  assertTrue(tag.getAttributes().containsKey("attr"));
+  assertEquals("1234",tag.getAttributes().getString("attr"));
+  parser.parse("<tag attr=1234>");
+  tag=(XmlTag)parser.nextTag();
+  assertEquals(1,tag.getAttributes().size());
+  assertTrue(tag.getAttributes().containsKey("attr"));
+  assertEquals("1234",tag.getAttributes().getString("attr"));
+  parser.parse("<tag attr=1234 >");
+  tag=(XmlTag)parser.nextTag();
+  assertEquals(1,tag.getAttributes().size());
+  assertTrue(tag.getAttributes().containsKey("attr"));
+  assertEquals("1234",tag.getAttributes().getString("attr"));
+  parser.parse("<tag attr-withHypen=1234 >");
+  tag=(XmlTag)parser.nextTag();
+  assertEquals(1,tag.getAttributes().size());
+  assertTrue(tag.getAttributes().containsKey("attr-withHypen"));
+  assertEquals("1234",tag.getAttributes().getString("attr-withHypen"));
+  parser.parse("<tag attr=\"1234\">");
+  tag=(XmlTag)parser.nextTag();
+  assertEquals(1,tag.getAttributes().size());
+  assertTrue(tag.getAttributes().containsKey("attr"));
+  assertEquals("1234",tag.getAttributes().getString("attr"));
+  parser.parse("<tag attr='1234' test='23'>");
+  tag=(XmlTag)parser.nextTag();
+  assertEquals(2,tag.getAttributes().size());
+  assertTrue(tag.getAttributes().containsKey("attr"));
+  assertEquals("1234",tag.getAttributes().getString("attr"));
+  assertTrue(tag.getAttributes().containsKey("test"));
+  assertEquals("23",tag.getAttributes().getString("test"));
+  parser.parse("<tag attr='1234' attr='23'>");
+  Exception ex=null;
+  try {
+    tag=(XmlTag)parser.nextTag();
+  }
+ catch (  ParseException e) {
+    ex=e;
+  }
+  assertNotNull(ex);
+}

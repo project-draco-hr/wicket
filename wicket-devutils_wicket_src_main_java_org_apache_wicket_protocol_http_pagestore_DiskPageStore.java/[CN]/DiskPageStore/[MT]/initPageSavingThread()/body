@@ -1,0 +1,9 @@
+{
+  if (isSynchronous() == false) {
+    pageSavingThread=new PageSavingThread();
+    Thread t=new Thread(pageSavingThread,"PageSavingThread-" + appName);
+    t.setDaemon(true);
+    t.setPriority(Thread.MAX_PRIORITY);
+    t.start();
+  }
+}

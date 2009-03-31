@@ -1,0 +1,19 @@
+{
+  Form<?> formToProcess=this;
+  if (submittingComponent != null) {
+    formToProcess=submittingComponent.getForm();
+    submittingComponent.onSubmit();
+  }
+  formToProcess.onSubmit();
+  formToProcess.visitChildren(Form.class,new IVisitor<Form<?>>(){
+    public Object component(    Form<?> component){
+      Form<?> form=component;
+      if (form.isEnabledInHierarchy() && form.isVisibleInHierarchy()) {
+        form.onSubmit();
+        return IVisitor.CONTINUE_TRAVERSAL;
+      }
+      return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+    }
+  }
+);
+}

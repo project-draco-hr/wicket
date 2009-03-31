@@ -1,0 +1,40 @@
+{
+  String remainder=requestParameters.getPath().substring(getMountPath().length());
+  final String parametersFragment;
+  int ix=remainder.indexOf('/',1);
+  if (ix == -1) {
+    ix=remainder.length();
+    parametersFragment="";
+  }
+ else {
+    parametersFragment=remainder.substring(ix);
+  }
+  if (remainder.startsWith("/")) {
+    remainder=remainder.substring(1);
+    ix--;
+  }
+ else {
+    return null;
+  }
+  final String bookmarkablePageClassName=packageName + "." + remainder.substring(0,ix);
+  Class bookmarkablePageClass;
+  try {
+    bookmarkablePageClass=Session.get().getClassResolver().resolveClass(bookmarkablePageClassName);
+  }
+ catch (  Exception e) {
+    log.debug(e.getMessage());
+    return null;
+  }
+  PageParameters parameters=new PageParameters(decodeParameters(parametersFragment,requestParameters.getParameters()));
+  String pageMapName=(String)parameters.remove(WebRequestCodingStrategy.PAGEMAP);
+  pageMapName=WebRequestCodingStrategy.decodePageMapName(pageMapName);
+  requestParameters.setPageMapName(pageMapName);
+  final String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+  if (interfaceParameter != null) {
+    WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
+    return new BookmarkableListenerInterfaceRequestTarget(pageMapName,bookmarkablePageClass,parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName(),requestParameters.getVersionNumber());
+  }
+ else {
+    return new BookmarkablePageRequestTarget(pageMapName,bookmarkablePageClass,parameters);
+  }
+}

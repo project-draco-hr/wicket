@@ -1,0 +1,21 @@
+{
+  if ((beforeFilter == null) || (markupFilterChain == null)) {
+    filter.setParent(markupFilterChain);
+    markupFilterChain=filter;
+  }
+ else {
+    IMarkupFilter current=markupFilterChain;
+    while (current != null) {
+      if (current.getClass() == beforeFilter) {
+        filter.setParent(current.getParent());
+        current.setParent(filter);
+        break;
+      }
+      current=current.getParent();
+    }
+    if (current == null) {
+      filter.setParent(markupFilterChain);
+      markupFilterChain=filter;
+    }
+  }
+}

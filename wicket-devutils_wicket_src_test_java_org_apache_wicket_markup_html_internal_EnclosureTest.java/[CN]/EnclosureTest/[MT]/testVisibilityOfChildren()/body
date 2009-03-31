@@ -1,0 +1,14 @@
+{
+  tester.startPage(EnclosurePage_6.class);
+  String doc=tester.getServletResponse().getDocument();
+  assertTrue(doc.contains("content1"));
+  assertTrue(doc.contains("content2"));
+  tester.clickLink("link");
+  doc=tester.getServletResponse().getDocument();
+  assertFalse(doc.contains("content1"));
+  assertFalse(doc.contains("content2"));
+  tester.clickLink("link");
+  doc=tester.getServletResponse().getDocument();
+  assertTrue(doc.contains("content1"));
+  assertTrue(doc.contains("content2"));
+}

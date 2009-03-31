@@ -1,0 +1,13 @@
+{
+  final RequestCycle cycle=RequestCycle.get();
+  final Page requestPage=cycle.getRequest().getPage();
+  final IPageMap pageMap;
+  if (requestPage != null) {
+    pageMap=requestPage.getPageMap();
+  }
+ else {
+    RequestParameters parameters=cycle.getRequest().getRequestParameters();
+    pageMap=PageMap.forName(parameters.getPageMapName());
+  }
+  pageMap.redirectToInterceptPage(interceptPageClass);
+}

@@ -1,0 +1,12 @@
+{
+  WebApplication application=new WicketTester.DummyWebApplication(){
+    @Override public String getConfigurationType(){
+      return Application.DEPLOYMENT;
+    }
+  }
+;
+  WicketTester tester=new WicketTester(application);
+  cache=new MarkupCache(application);
+  component=new MarkupCachingAssumingComponent("panel");
+  tester.startComponent(component);
+}

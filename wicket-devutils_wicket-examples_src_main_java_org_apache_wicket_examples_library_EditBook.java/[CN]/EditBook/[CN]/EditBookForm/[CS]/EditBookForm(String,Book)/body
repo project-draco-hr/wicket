@@ -1,0 +1,22 @@
+{
+  super(id,new CompoundPropertyModel<Book>(book));
+  final TextField<String> title=new TextField<String>("title");
+  title.setRequired(true);
+  title.add(StringValidator.maximumLength(30));
+  final FormComponentFeedbackBorder titleFeedback=new FormComponentFeedbackBorder("titleFeedback");
+  add(titleFeedback);
+  titleFeedback.add(title);
+  final TextField<String> author=new TextField<String>("author");
+  author.setRequired(true);
+  final FormComponentFeedbackBorder authorFeedback=new FormComponentFeedbackBorder("authorFeedback");
+  add(authorFeedback);
+  authorFeedback.add(author);
+  add(new CheckBox("fiction"));
+  List<Book> books=new ArrayList<Book>();
+  books.addAll(Book.getBooks());
+  books.remove(otherBook);
+  add(new DropDownChoice<Book>("companionBook",books));
+  final RadioChoice<Book> relatedBook=new RadioChoice<Book>("relatedBook",books);
+  add(relatedBook);
+  add(new ListMultipleChoice<EnumeratedType>("writingStyles",EnumeratedType.getValues(Book.WritingStyle.class)));
+}

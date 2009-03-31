@@ -1,0 +1,17 @@
+{
+  String document=tester.getServletResponse().getDocument();
+  String updateScript=timer.getUpdateScript();
+  if (inBodyOnLoad) {
+    String bodyOnLoadUpdateScript="Wicket.Event.add(window, \"load\", function(event) { " + updateScript + ";});";
+    validateTimerScript(document,bodyOnLoadUpdateScript);
+  }
+ else {
+    validateTimerScript(document,updateScript);
+  }
+  tester.executeBehavior(timer);
+  if (inBodyOnLoad) {
+    updateScript=timer.getUpdateScript();
+  }
+  document=tester.getServletResponse().getDocument();
+  validateTimerScript(document,updateScript);
+}

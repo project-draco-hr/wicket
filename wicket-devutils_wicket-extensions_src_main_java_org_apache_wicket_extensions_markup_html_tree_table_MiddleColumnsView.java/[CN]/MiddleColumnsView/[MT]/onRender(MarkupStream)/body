@@ -1,0 +1,45 @@
+{
+  final int markupStart=markupStream.getCurrentIndex();
+  Response response=RequestCycle.get().getResponse();
+  double widths[]=computeColumnWidths();
+  boolean rendered=false;
+  NumberFormat nf=NumberFormat.getNumberInstance(Locale.ENGLISH);
+  nf.setMaximumFractionDigits(0);
+  nf.setMaximumFractionDigits(2);
+  for (int i=0; i < columns.size(); ++i) {
+    Component component=components.get(i);
+    IRenderable renderable=renderables.get(i);
+    IColumn column=columns.get(i);
+    response.write("<span class=\"b_\" style=\"width:" + nf.format(widths[i]) + "%\">");
+    if (!treeHasLeftColumn && i == 0)     response.write("<span class=\"d_\">");
+ else     response.write("<span class=\"c_\">");
+    if (component != null) {
+      markupStream.setCurrentIndex(markupStart);
+      component.render(markupStream);
+      rendered=true;
+    }
+ else     if (renderable != null) {
+      renderable.render(node,response);
+    }
+ else {
+      throw new IllegalStateException("Either renderable or cell component must be created for this noode");
+    }
+    response.write("</span></span>\n");
+    int span=column.getSpan(node);
+    if (span > 1) {
+      for (int j=1; j < span && i < components.size(); ++j) {
+        ++i;
+        if (components.get(i) != null) {
+          Response old=RequestCycle.get().setResponse(NullResponse.getInstance());
+          markupStream.setCurrentIndex(markupStart);
+          (components.get(i)).render(markupStream);
+          RequestCycle.get().setResponse(old);
+          rendered=true;
+        }
+      }
+    }
+  }
+  if (rendered == false) {
+    markupStream.skipComponent();
+  }
+}

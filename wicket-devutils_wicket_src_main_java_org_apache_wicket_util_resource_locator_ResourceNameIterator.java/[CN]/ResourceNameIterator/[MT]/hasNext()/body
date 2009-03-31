@@ -1,0 +1,32 @@
+{
+  if (extenstionsIterator != null) {
+    if (extenstionsIterator.hasNext() == true) {
+      return true;
+    }
+    extenstionsIterator=null;
+  }
+  if (localeIterator != null) {
+    while (localeIterator.hasNext()) {
+      String newPath=localeIterator.next();
+      currentLocale=localeIterator.getLocale();
+      extenstionsIterator=new ExtensionResourceNameIterator(newPath,extensions);
+      if (extenstionsIterator.hasNext() == true) {
+        return true;
+      }
+    }
+    localeIterator=null;
+  }
+  while (styleIterator.hasNext()) {
+    String newPath=styleIterator.next();
+    localeIterator=new LocaleResourceNameIterator(newPath,locale);
+    while (localeIterator.hasNext()) {
+      newPath=localeIterator.next();
+      currentLocale=localeIterator.getLocale();
+      extenstionsIterator=new ExtensionResourceNameIterator(newPath,extensions);
+      if (extenstionsIterator.hasNext() == true) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

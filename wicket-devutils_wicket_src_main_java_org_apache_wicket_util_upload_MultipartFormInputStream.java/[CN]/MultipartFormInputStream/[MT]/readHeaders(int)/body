@@ -1,0 +1,41 @@
+{
+  int i=0;
+  byte[] b=new byte[1];
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  int sizeMax=HEADER_PART_SIZE_MAX;
+  int size=0;
+  while (i < 4) {
+    try {
+      b[0]=readByte();
+    }
+ catch (    IOException e) {
+      throw new MalformedStreamException("Stream ended unexpectedly");
+    }
+    size++;
+    if (size > maxSize) {
+      throw new MalformedStreamException("Stream exceeded maximum of " + maxSize + " bytes");
+    }
+    if (b[0] == HEADER_SEPARATOR[i]) {
+      i++;
+    }
+ else {
+      i=0;
+    }
+    if (size <= sizeMax) {
+      baos.write(b[0]);
+    }
+  }
+  String headers=null;
+  if (headerEncoding != null) {
+    try {
+      headers=baos.toString(headerEncoding);
+    }
+ catch (    UnsupportedEncodingException e) {
+      headers=baos.toString();
+    }
+  }
+ else {
+    headers=baos.toString();
+  }
+  return headers;
+}

@@ -1,0 +1,26 @@
+{
+  final int width=getWidth();
+  final int height=getHeight();
+  graphics.setFont(getFont());
+  final FontMetrics fontMetrics=graphics.getFontMetrics();
+  final int dxText=fontMetrics.stringWidth(label);
+  final int dxMargin=10;
+  if (dxText > width - dxMargin) {
+    setWidth(dxText + dxMargin);
+    return false;
+  }
+ else {
+    graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+    Color bgColor=getBackgroundColor();
+    graphics.setColor(bgColor);
+    graphics.fillRect(0,0,width,height);
+    graphics.setColor(getColor());
+    graphics.setBackground(bgColor);
+    graphics.fillRoundRect(0,0,width,height,arcWidth,arcHeight);
+    graphics.setColor(getTextColor());
+    final int x=(width - dxText) / 2;
+    final int y=(getHeight() - fontMetrics.getHeight()) / 2;
+    graphics.drawString(label,x,y + fontMetrics.getAscent());
+    return true;
+  }
+}

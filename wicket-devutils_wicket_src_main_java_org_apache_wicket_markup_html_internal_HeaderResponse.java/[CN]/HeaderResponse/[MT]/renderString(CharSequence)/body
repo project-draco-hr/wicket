@@ -1,0 +1,12 @@
+{
+  if (string == null) {
+    throw new IllegalArgumentException("string cannot be null");
+  }
+  if (!closed) {
+    String token=string.toString();
+    if (wasRendered(token) == false) {
+      getResponse().write(string);
+      markRendered(token);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  AttributeModifier modifier=new AttributeModifier("test",new Model<String>("Ellioth Smith Rocks"));
+  XmlTag xmlTag=new XmlTag();
+  ComponentTag tag=new ComponentTag(xmlTag);
+  tag.setId("test");
+  tag.setName("id");
+  Map<String,Object> attributes=tag.getAttributes();
+  attributes.put("test","My mother rocks");
+  modifier.replaceAttributeValue(null,tag);
+  String replacement=(String)attributes.get("test");
+  assertNotNull(replacement);
+  assertEquals("Ellioth Smith Rocks",replacement);
+}

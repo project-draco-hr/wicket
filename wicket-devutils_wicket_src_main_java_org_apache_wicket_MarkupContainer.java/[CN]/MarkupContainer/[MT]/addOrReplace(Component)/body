@@ -1,0 +1,15 @@
+{
+  for (  Component child : childs) {
+    if (child == null) {
+      throw new IllegalArgumentException("argument child must be not null");
+    }
+    checkHierarchyChange(child);
+    if (get(child.getId()) == null) {
+      add(child);
+    }
+ else {
+      replace(child);
+    }
+  }
+  return this;
+}

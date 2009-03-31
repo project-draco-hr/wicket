@@ -1,0 +1,9 @@
+{
+  GregorianCalendar gc=new GregorianCalendar(2005,10,10);
+  woos.writeObject(gc);
+  woos.close();
+  ByteArrayInputStream bais=new ByteArrayInputStream(baos.toByteArray());
+  WicketObjectInputStream wois=new WicketObjectInputStream(bais);
+  GregorianCalendar gc2=(GregorianCalendar)wois.readObject();
+  Assert.assertEquals(gc,gc2);
+}

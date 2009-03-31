@@ -1,0 +1,18 @@
+{
+  if (!isSynchronous()) {
+synchronized (pagesToSaveAll) {
+      for (      Entry<String,List<SerializedPage>> entry : pagesToSaveAll.entrySet()) {
+        String sessionId=entry.getKey();
+        List<SerializedPage> pages=entry.getValue();
+synchronized (pages) {
+          flushPagesToSaveList(sessionId,pages);
+        }
+      }
+    }
+  }
+  saveIndex();
+  fileChannelPool.destroy();
+  if (pageSavingThread != null) {
+    pageSavingThread.stop();
+  }
+}

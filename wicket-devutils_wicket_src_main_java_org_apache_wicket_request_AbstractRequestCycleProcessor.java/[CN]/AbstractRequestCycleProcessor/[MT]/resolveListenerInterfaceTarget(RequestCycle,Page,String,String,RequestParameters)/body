@@ -1,0 +1,35 @@
+{
+  if (page == null) {
+    throw new IllegalArgumentException("page must not be null");
+  }
+  if (interfaceName == null) {
+    throw new IllegalArgumentException("interfaceName must not be null");
+  }
+  if (interfaceName.equals(IRedirectListener.INTERFACE.getName())) {
+    return new RedirectPageRequestTarget(page);
+  }
+ else   if (interfaceName.equals(INewBrowserWindowListener.INTERFACE.getName())) {
+    return INewBrowserWindowListener.INTERFACE.newRequestTarget(page,page,INewBrowserWindowListener.INTERFACE,requestParameters);
+  }
+ else {
+    final RequestListenerInterface listener=RequestListenerInterface.forName(interfaceName);
+    if (listener == null) {
+      throw new WicketRuntimeException("Attempt to access unknown request listener interface " + interfaceName);
+    }
+    Component component;
+    final String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
+    if (Strings.isEmpty(pageRelativeComponentPath)) {
+      component=page;
+    }
+ else {
+      component=page.get(pageRelativeComponentPath);
+    }
+    if (component == null) {
+      throw new WicketRuntimeException("component " + pageRelativeComponentPath + " not found on page "+ page.getClass().getName()+ "[id = "+ page.getNumericId()+ "], listener interface = "+ listener);
+    }
+    if (!component.isEnableAllowed()) {
+      throw new UnauthorizedActionException(component,Component.ENABLE);
+    }
+    return listener.newRequestTarget(page,component,listener,requestParameters);
+  }
+}

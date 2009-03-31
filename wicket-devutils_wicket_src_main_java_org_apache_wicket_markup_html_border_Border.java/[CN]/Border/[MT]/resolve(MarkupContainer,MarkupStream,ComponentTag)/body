@@ -1,0 +1,21 @@
+{
+  MarkupContainer border=container.getParent();
+  while ((border != null) && !(border instanceof Border)) {
+    border=border.getParent();
+  }
+  if ((border == null) || (this == border)) {
+    return false;
+  }
+  if (!(border instanceof Border)) {
+    return false;
+  }
+  if (!(tag instanceof WicketTag)) {
+    return false;
+  }
+  final WicketTag wtag=(WicketTag)tag;
+  if (!wtag.isBodyTag()) {
+    return false;
+  }
+  body.render(markupStream);
+  return true;
+}

@@ -1,0 +1,13 @@
+{
+  if (name == null) {
+    throw new IllegalArgumentException("argument name may not be null");
+  }
+  if (exists(scope,name,locale,style)) {
+    PackageResource packageResource=get(scope,name,locale,style);
+    SharedResources sharedResources=Application.get().getSharedResources();
+    sharedResources.add(scope,name,locale,style,packageResource);
+  }
+ else {
+    throw new IllegalArgumentException("no package resource was found for scope " + scope + ", name "+ name+ ", locale "+ locale+ ", style "+ style);
+  }
+}

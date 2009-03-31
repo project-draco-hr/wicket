@@ -1,0 +1,16 @@
+{
+  String script=getScript(element);
+  if (script != null) {
+    try {
+      _updateElements=false;
+      String language=NodeUtils.getNodeAttribute(element,"language",null);
+      if (!getResponse().getScriptableObject().supportsScript(language)) {
+        _enableNoScriptNodes=true;
+      }
+      getResponse().getScriptableObject().runScript(language,script);
+    }
+  finally {
+      setRootNode(_rootNode);
+    }
+  }
+}

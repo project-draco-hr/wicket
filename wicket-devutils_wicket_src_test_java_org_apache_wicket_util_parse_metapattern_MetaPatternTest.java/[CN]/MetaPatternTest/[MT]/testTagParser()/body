@@ -1,0 +1,18 @@
+{
+  String tag="name";
+  TagNameParser parser=new TagNameParser(tag);
+  assertEquals(true,parser.matcher().matches());
+  assertEquals("name",parser.getName());
+  assertNull(parser.getNamespace());
+  tag="namespace:name";
+  parser=new TagNameParser(tag);
+  assertEquals(true,parser.matcher().matches());
+  assertEquals("name",parser.getName());
+  assertEquals("namespace",parser.getNamespace());
+  tag="namespace:";
+  parser=new TagNameParser(tag);
+  assertEquals(false,parser.matcher().matches());
+  tag=":names";
+  parser=new TagNameParser(tag);
+  assertEquals(false,parser.matcher().matches());
+}

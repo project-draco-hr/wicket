@@ -1,0 +1,74 @@
+{
+  Object value=null;
+  int token=in.read();
+  if (token == ClassStreamHandler.NULL) {
+    return null;
+  }
+ else   if (token == ClassStreamHandler.HANDLE) {
+    short handle=in.readShort();
+    value=handledObjects.get(handle);
+    if (value == null) {
+      throw new RuntimeException("Expected to find a handle for " + handle);
+    }
+  }
+ else   if (token == ClassStreamHandler.CLASS_DEF) {
+    short classDef=in.readShort();
+    ClassStreamHandler oldStreamHandler=currentStreamHandler;
+    currentStreamHandler=ClassStreamHandler.lookup(classDef);
+    if (currentStreamHandler.getStreamClass() == String.class) {
+      value=in.readUTF();
+      handledObjects.put(handleCounter++,value);
+    }
+ else {
+      try {
+        value=currentStreamHandler.createObject();
+        handledObjects.put(handleCounter++,value);
+        stack.push(value);
+        if (!currentStreamHandler.invokeReadMethod(this,value)) {
+          currentStreamHandler.readFields(this,value);
+        }
+        value=currentStreamHandler.readResolve(value);
+        stack.pop();
+      }
+ catch (      IllegalArgumentException ex) {
+        throw new RuntimeException(ex);
+      }
+catch (      InstantiationException ex) {
+        throw new RuntimeException(ex);
+      }
+catch (      IllegalAccessException ex) {
+        throw new RuntimeException(ex);
+      }
+catch (      InvocationTargetException ex) {
+        throw new RuntimeException(ex);
+      }
+    }
+    currentStreamHandler=oldStreamHandler;
+  }
+ else   if (token == ClassStreamHandler.CLASS) {
+    short classDef=in.readShort();
+    ClassStreamHandler lookup=ClassStreamHandler.lookup(classDef);
+    value=lookup.getStreamClass();
+  }
+ else   if (token == ClassStreamHandler.ARRAY) {
+    short classDef=in.readShort();
+    ClassStreamHandler lookup=ClassStreamHandler.lookup(classDef);
+    int length=in.readInt();
+    Object[] array=(Object[])Array.newInstance(lookup.getStreamClass(),length);
+    handledObjects.put(handleCounter++,array);
+    for (int i=0; i < array.length; i++) {
+      array[i]=readObjectOverride();
+    }
+    value=array;
+  }
+ else   if (token == ClassStreamHandler.PRIMITIVE_ARRAY) {
+    short classDef=in.readShort();
+    ClassStreamHandler lookup=ClassStreamHandler.lookup(classDef);
+    value=lookup.readArray(this);
+    handledObjects.put(handleCounter++,value);
+  }
+ else {
+    throw new RuntimeException("not a valid token found: " + token);
+  }
+  return value;
+}

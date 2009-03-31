@@ -1,0 +1,38 @@
+{
+  int i=0;
+  while (parameters.containsKey(String.valueOf(i))) {
+    String value=null;
+    Object parameter=parameters.get(String.valueOf(i));
+    if (parameter instanceof String[] && ((String[])parameter).length > 0) {
+      value=((String[])parameter)[0];
+    }
+ else {
+      value=parameter.toString();
+    }
+    if (!url.endsWith("/")) {
+      url.append("/");
+    }
+    url.append(urlEncodePathComponent(value));
+    i++;
+  }
+  String pageMap=(String)parameters.get(WebRequestCodingStrategy.PAGEMAP);
+  if (pageMap != null) {
+    i++;
+    pageMap=WebRequestCodingStrategy.encodePageMapName(pageMap);
+    if (!url.endsWith("/")) {
+      url.append("/");
+    }
+    url.append(WebRequestCodingStrategy.PAGEMAP).append("/").append(urlEncodePathComponent(pageMap));
+  }
+  String intface=(String)parameters.get(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
+  if (intface != null) {
+    i++;
+    if (!url.endsWith("/")) {
+      url.append("/");
+    }
+    url.append(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME).append("/").append(urlEncodePathComponent(intface));
+  }
+  if (i != parameters.size()) {
+    throw new WicketRuntimeException("Not all parameters were encoded. Make sure all parameter names are integers in consecutive order starting with zero. Current parameter names are: " + parameters.keySet().toString());
+  }
+}

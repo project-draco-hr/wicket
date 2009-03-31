@@ -1,0 +1,10 @@
+{
+  String name=getAutoPageMapNamePrefix() + currentCreateAutoPageMapCounter() + getAutoPageMapNameSuffix();
+  IPageMap pm=pageMapForName(name,false);
+  while (pm != null) {
+    incrementCreateAutoPageMapCounter();
+    name=getAutoPageMapNamePrefix() + currentCreateAutoPageMapCounter() + getAutoPageMapNameSuffix();
+    pm=pageMapForName(name,false);
+  }
+  return name;
+}

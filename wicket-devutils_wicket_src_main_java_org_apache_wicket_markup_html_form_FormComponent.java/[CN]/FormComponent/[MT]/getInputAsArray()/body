@@ -1,0 +1,9 @@
+{
+  String[] values=getRequest().getParameters(getInputName());
+  if (!isInputNullable()) {
+    if (values != null && values.length == 1 && values[0] == null) {
+      return EMPTY_STRING_ARRAY;
+    }
+  }
+  return values;
+}

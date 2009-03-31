@@ -1,0 +1,17 @@
+{
+  PageMapEntry result=null;
+  for (Iterator<PageMapEntry> i=pageMapEntryList.iterator(); i.hasNext(); ) {
+    PageMapEntry entry=i.next();
+    if (entry.pageMapName == pageMapName || (entry.pageMapName != null && entry.pageMapName.equals(pageMapName))) {
+      result=entry;
+    }
+  }
+  if (result == null && create) {
+    result=new PageMapEntry();
+    result.pageMapName=pageMapName;
+    result.fileName=diskPageStore.getPageMapFileName(sessionId,pageMapName,true);
+    result.manager=new PageWindowManager(diskPageStore.getMaxSizePerPageMap());
+    pageMapEntryList.add(result);
+  }
+  return result;
+}

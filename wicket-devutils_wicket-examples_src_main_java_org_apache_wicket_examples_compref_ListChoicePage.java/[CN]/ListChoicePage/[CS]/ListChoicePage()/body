@@ -1,0 +1,16 @@
+{
+  final Input input=new Input();
+  setDefaultModel(new CompoundPropertyModel<Input>(input));
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form<?> form=new Form("form"){
+    @Override protected void onSubmit(){
+      info("input: " + input);
+    }
+  }
+;
+  add(form);
+  ListChoice<String> listChoice=new ListChoice<String>("site",SITES);
+  listChoice.setMaxRows(4);
+  form.add(listChoice);
+}

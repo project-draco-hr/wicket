@@ -1,0 +1,24 @@
+{
+  int channelsToReduce=nameToChannel.size() - capacity + 1;
+  while (channelsToReduce > 0 && idleChannels.isEmpty() == false) {
+    FileChannel channel=idleChannels.getFirst();
+    String channelName=channelToName.get(channel);
+    idleChannels.removeFirst();
+    nameToChannel.remove(channelName);
+    channelToName.remove(channel);
+    if (channelToUseCount.get(channel) != null) {
+      log.warn("Channel " + channelName + " is both idle and in use at the same time!");
+      channelToUseCount.remove(channel);
+    }
+    try {
+      channel.close();
+    }
+ catch (    IOException e) {
+      log.error("Error closing file channel",e);
+    }
+    --channelsToReduce;
+  }
+  if (channelsToReduce > 0) {
+    log.warn("Unable to reduce enough channels, no idle channels left to remove.");
+  }
+}

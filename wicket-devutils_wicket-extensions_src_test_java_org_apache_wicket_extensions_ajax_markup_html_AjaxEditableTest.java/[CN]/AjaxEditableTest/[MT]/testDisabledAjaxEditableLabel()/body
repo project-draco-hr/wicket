@@ -1,0 +1,14 @@
+{
+  Page page=tester.getLastRenderedPage();
+  AjaxEditableLabel<String> ajaxLabel=(AjaxEditableLabel<String>)page.get("ajaxLabel");
+  AjaxLink<Void> toggle=(AjaxLink<Void>)page.get("toggle");
+  AbstractAjaxBehavior toggleBehavior=(AbstractAjaxBehavior)toggle.getBehaviors().get(0);
+  tester.assertInvisible("ajaxLabel:editor");
+  tester.assertVisible("ajaxLabel:label");
+  tester.executeBehavior(toggleBehavior);
+  String markup=tester.getTagById(ajaxLabel.getMarkupId()).getMarkup();
+  assertFalse(markup.matches(".*onclick=\"var wcall=wicketAjaxGet.*"));
+  tester.executeBehavior(toggleBehavior);
+  markup=tester.getTagById(ajaxLabel.getMarkupId()).getMarkup();
+  assertTrue(markup.matches(".*onclick=\"var wcall=wicketAjaxGet.*"));
+}

@@ -1,0 +1,18 @@
+{
+  IModel<?> prevModel=getModelImpl();
+  if (prevModel != null) {
+    prevModel.detach();
+  }
+  IModel<?> wrappedModel=prevModel;
+  if (prevModel instanceof IWrapModel) {
+    wrappedModel=((IWrapModel<?>)prevModel).getWrappedModel();
+  }
+  if (wrappedModel != model) {
+    if (wrappedModel != null) {
+      addStateChange(new ComponentModelChange(wrappedModel));
+    }
+    setModelImpl(wrap(model));
+  }
+  modelChanged();
+  return this;
+}

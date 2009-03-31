@@ -1,0 +1,25 @@
+{
+  setStatelessHint(true);
+  add(new Label("message",new SessionModel()));
+  add(new BookmarkablePageLink("linkToStatelessPage",StatelessPage.class));
+  add(new BookmarkablePageLink("linkToStatelessPage1",StatelessPage1.class));
+  add(new BookmarkablePageLink("linkToStatelessPage2",StatelessPage2.class));
+  add(new BookmarkablePageLink("linkToStatelessPage3",StatelessPage3.class));
+  add(new StatelessLink("linkToStatefulPage"){
+    /** 
+ * @see org.apache.wicket.markup.html.link.Link#onClick()
+ */
+    @Override public void onClick(){
+      setResponsePage(StatefulPage.class);
+    }
+  }
+);
+  add(new StatelessLink("invalidatesession"){
+    @Override public void onClick(){
+      Session.get().invalidate();
+      setResponsePage(Index.class);
+      setRedirect(true);
+    }
+  }
+);
+}

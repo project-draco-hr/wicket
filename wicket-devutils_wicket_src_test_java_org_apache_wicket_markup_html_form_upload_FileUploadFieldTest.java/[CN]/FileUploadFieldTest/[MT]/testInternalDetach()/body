@@ -1,0 +1,36 @@
+{
+  final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
+  tester.startPage(new ITestPageSource(){
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  File tmp=null;
+  try {
+    tmp=writeTestFile(1000);
+    FormTester formtester=tester.newFormTester("form");
+    formtester.setFile("upload",tmp,"text/plain");
+    formtester.submit();
+    FileUpload fileUpload=page.getFileUpload();
+    assertNotNull(fileUpload);
+    InputStream is=fileUpload.getInputStream();
+    assertTrue(is.read() != -1);
+    fileUpload.closeStreams();
+    try {
+      is.read();
+      fail("The input stream should be closed so we shouldn't be able to read any more bytes");
+    }
+ catch (    IOException e) {
+    }
+catch (    Exception e) {
+      fail();
+    }
+  }
+  finally {
+    if (tmp != null && tmp.exists()) {
+      tmp.delete();
+    }
+  }
+}

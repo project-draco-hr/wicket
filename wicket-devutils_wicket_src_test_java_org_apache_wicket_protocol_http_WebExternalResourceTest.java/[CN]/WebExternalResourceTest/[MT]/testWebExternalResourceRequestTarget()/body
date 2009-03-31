@@ -1,0 +1,8 @@
+{
+  WebExternalResourceRequestTarget rt=new WebExternalResourceRequestTarget("/index.html");
+  WebRequestCycle cycle=tester.createRequestCycle();
+  cycle.setRequestTarget(rt);
+  tester.processRequestCycle(cycle);
+  assertTrue(tester.getContentTypeFromResponseHeader().startsWith("text/html"));
+  tester.assertResultPage(WebExternalResourceTest.class,"index.html");
+}

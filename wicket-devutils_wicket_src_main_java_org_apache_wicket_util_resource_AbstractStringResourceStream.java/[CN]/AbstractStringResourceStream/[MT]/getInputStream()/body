@@ -1,0 +1,15 @@
+{
+  final byte[] bytes;
+  if (getCharset() != null) {
+    try {
+      bytes=getString().getBytes(getCharset().name());
+    }
+ catch (    UnsupportedEncodingException e) {
+      throw new ResourceStreamNotFoundException("Could not encode resource",e);
+    }
+  }
+ else {
+    bytes=getString().getBytes();
+  }
+  return new ByteArrayInputStream(bytes);
+}

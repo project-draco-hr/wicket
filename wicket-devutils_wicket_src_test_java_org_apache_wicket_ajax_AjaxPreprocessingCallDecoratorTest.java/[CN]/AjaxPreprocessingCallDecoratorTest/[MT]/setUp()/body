@@ -1,0 +1,29 @@
+{
+  super.setUp();
+  delegate=new IAjaxCallDecorator(){
+    private static final long serialVersionUID=1L;
+    public CharSequence decorateScript(    CharSequence script){
+      return "^" + script;
+    }
+    public CharSequence decorateOnSuccessScript(    CharSequence script){
+      return "^s" + script;
+    }
+    public CharSequence decorateOnFailureScript(    CharSequence script){
+      return "^f" + script;
+    }
+  }
+;
+  decorator=new AjaxPreprocessingCallDecorator(delegate){
+    private static final long serialVersionUID=1L;
+    @Override public CharSequence preDecorateScript(    CharSequence script){
+      return "-" + super.preDecorateScript(script);
+    }
+    @Override public CharSequence preDecorateOnSuccessScript(    CharSequence script){
+      return "-s" + super.preDecorateOnSuccessScript(script);
+    }
+    @Override public CharSequence preDecorateOnFailureScript(    CharSequence script){
+      return "-f" + super.preDecorateOnFailureScript(script);
+    }
+  }
+;
+}

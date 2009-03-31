@@ -1,0 +1,24 @@
+{
+  final FormComponent<?> formComponent=getFormComponent();
+  if (getEvent().toLowerCase().equals("onblur") && disableFocusOnBlur()) {
+    target.focusComponent(null);
+  }
+  try {
+    formComponent.inputChanged();
+    formComponent.validate();
+    if (formComponent.hasErrorMessage()) {
+      formComponent.invalid();
+      onError(target,null);
+    }
+ else {
+      formComponent.valid();
+      if (getUpdateModel()) {
+        formComponent.updateModel();
+      }
+      onUpdate(target);
+    }
+  }
+ catch (  RuntimeException e) {
+    onError(target,e);
+  }
+}

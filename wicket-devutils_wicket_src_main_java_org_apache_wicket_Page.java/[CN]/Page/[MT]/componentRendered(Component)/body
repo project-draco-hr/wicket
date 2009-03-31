@@ -1,0 +1,13 @@
+{
+  if (Application.get().getDebugSettings().getComponentUseCheck()) {
+    if (renderedComponents == null) {
+      renderedComponents=new HashSet<Component>();
+    }
+    if (renderedComponents.add(component) == false) {
+      throw new MarkupException("The component " + component + " has the same wicket:id as another component already added at the same level");
+    }
+    if (log.isDebugEnabled()) {
+      log.debug("Rendered " + component);
+    }
+  }
+}

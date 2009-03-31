@@ -1,0 +1,13 @@
+{
+  form.visitChildren(FormComponent.class,new IVisitor<Component>(){
+    public Object component(    Component component){
+      AjaxFormValidatingBehavior behavior=new AjaxFormValidatingBehavior(form,event);
+      if (throttleDelay != null) {
+        behavior.setThrottleDelay(throttleDelay);
+      }
+      component.add(behavior);
+      return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+    }
+  }
+);
+}

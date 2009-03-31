@@ -1,0 +1,32 @@
+{
+  if (dirtyAll == false) {
+    TreeItem item=nodeToItemMap.get(node);
+    if (item != null) {
+      boolean createDOM=false;
+      if (forceRebuild) {
+        int level=item.getLevel();
+        List<TreeItem> children=item.getChildren();
+        String id=item.getId();
+        TreeItem parent=item.getParentItem();
+        int index=parent != null ? parent.getChildren().indexOf(item) : -1;
+        createDOM=dirtyItemsCreateDOM.contains(item);
+        dirtyItems.remove(item);
+        dirtyItemsCreateDOM.remove(item);
+        item.remove();
+        item=newTreeItem(parent,node,level,id);
+        itemContainer.add(item);
+        item.setChildren(children);
+        if (parent == null) {
+          rootItem=item;
+        }
+ else {
+          parent.getChildren().set(index,item);
+        }
+      }
+      if (!dirtyItems.contains(item))       dirtyItems.add(item);
+      if (createDOM && !dirtyItemsCreateDOM.contains(item)) {
+        dirtyItemsCreateDOM.add(item);
+      }
+    }
+  }
+}

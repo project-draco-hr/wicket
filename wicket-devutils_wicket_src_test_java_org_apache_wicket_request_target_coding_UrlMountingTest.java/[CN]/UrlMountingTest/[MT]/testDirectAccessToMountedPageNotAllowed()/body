@@ -1,0 +1,13 @@
+{
+  tester.getApplication().getSecuritySettings().setEnforceMounts(true);
+  tester.setupRequestAndResponse();
+  tester.getServletRequest().setURL("?wicket:bookmarkablePage=:" + TestPage.class.getName() + "");
+  try {
+    WebRequestCycle requestCycle=tester.createRequestCycle();
+    tester.processRequestCycle(requestCycle);
+    assertEquals(HttpServletResponse.SC_FORBIDDEN,getErrorCode(requestCycle));
+  }
+  finally {
+    tester.getApplication().getSecuritySettings().setEnforceMounts(false);
+  }
+}

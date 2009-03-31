@@ -1,0 +1,22 @@
+{
+  if (items < 1) {
+    throw new IllegalArgumentException("Argument [itemsPerPage] cannot be less than 1");
+  }
+  if (itemsPerPage != items) {
+    if (isVersioned()) {
+      addStateChange(new Change(){
+        private static final long serialVersionUID=1L;
+        final int old=itemsPerPage;
+        @Override public void undo(){
+          itemsPerPage=old;
+        }
+        @Override public String toString(){
+          return "ItemsPerPageChange[component: " + getPath() + ", itemsPerPage: "+ old+ "]";
+        }
+      }
+);
+    }
+  }
+  itemsPerPage=items;
+  setCurrentPage(0);
+}

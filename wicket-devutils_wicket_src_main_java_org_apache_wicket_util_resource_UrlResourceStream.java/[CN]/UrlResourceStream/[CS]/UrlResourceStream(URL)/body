@@ -1,0 +1,38 @@
+{
+  this.url=url;
+  URLConnection connection=null;
+  try {
+    connection=url.openConnection();
+    contentLength=connection.getContentLength();
+    contentType=connection.getContentType();
+    lastModified=connection.getLastModified();
+    try {
+      file=new File(new URI(url.toExternalForm()));
+    }
+ catch (    Exception ex) {
+      log.debug("cannot convert url: " + url + " to file ("+ ex.getMessage()+ "), falling back to the inputstream for polling");
+    }
+    if (file != null && !file.exists()) {
+      file=null;
+    }
+  }
+ catch (  IOException ex) {
+    final IllegalArgumentException illegalArgumentException=new IllegalArgumentException("Invalid URL parameter " + url);
+    illegalArgumentException.initCause(ex);
+    throw illegalArgumentException;
+  }
+ finally {
+    if (connection != null) {
+      if (connection instanceof HttpURLConnection) {
+        ((HttpURLConnection)connection).disconnect();
+      }
+ else {
+        try {
+          connection.getInputStream().close();
+        }
+ catch (        Exception ex) {
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  final Input input=new Input();
+  setDefaultModel(new CompoundPropertyModel<Input>(input));
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form<?> form=new Form("form"){
+    @Override protected void onSubmit(){
+      if (input.bool.booleanValue()) {
+        info("Ok, ok... we'll check it");
+      }
+ else {
+        info("So you don't want it checked huh?");
+      }
+    }
+  }
+;
+  add(form);
+  form.add(new CheckBox("bool"));
+}

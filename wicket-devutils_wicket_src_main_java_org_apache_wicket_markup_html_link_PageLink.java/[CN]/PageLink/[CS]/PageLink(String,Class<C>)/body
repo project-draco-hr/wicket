@@ -1,0 +1,16 @@
+{
+  super(id);
+  if (!Page.class.isAssignableFrom(c)) {
+    throw new IllegalArgumentException("Class " + c + " is not a subclass of Page");
+  }
+  pageLink=new IPageLink(){
+    private static final long serialVersionUID=1L;
+    public Page getPage(){
+      return getSession().getPageFactory().newPage(c);
+    }
+    public Class<? extends Page> getPageIdentity(){
+      return c;
+    }
+  }
+;
+}

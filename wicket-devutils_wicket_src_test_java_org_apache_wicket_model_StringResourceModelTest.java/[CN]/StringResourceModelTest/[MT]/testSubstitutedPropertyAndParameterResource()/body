@@ -1,0 +1,10 @@
+{
+  StringResourceModel model=new StringResourceModel("weather.mixed",page,wsModel,new Object[]{new PropertyModel<Double>(wsModel,"currentTemperature"),new PropertyModel<String>(wsModel,"units")});
+  MessageFormat format=new MessageFormat("Weather station \"Europe''s main weather station\" reports that the temperature is {0} {1}");
+  ws.setCurrentTemperature(25.7);
+  String expected=format.format(new Object[]{25.7,"\u00B0C"});
+  Assert.assertEquals("Text should be as expected",expected,model.getString());
+  ws.setCurrentTemperature(11.5);
+  expected=format.format(new Object[]{11.5,"\u00B0C"});
+  Assert.assertEquals("Text should be as expected",expected,model.getString());
+}

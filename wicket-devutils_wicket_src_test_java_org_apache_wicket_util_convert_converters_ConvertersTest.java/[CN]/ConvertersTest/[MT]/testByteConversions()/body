@@ -1,0 +1,23 @@
+{
+  ByteConverter converter=new ByteConverter();
+  assertEquals(new Byte((byte)10),converter.convertToObject("10",Locale.US));
+  assertEquals("10",converter.convertToString(new Byte((byte)10),Locale.US));
+  try {
+    converter.convertToObject("whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    converter.convertToObject("10whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    converter.convertToObject("256",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

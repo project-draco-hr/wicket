@@ -1,0 +1,11 @@
+{
+  if (path == null) {
+    throw new IllegalArgumentException("Argument path must be not-null");
+  }
+  if (path.startsWith("/")) {
+    path=path.substring(1);
+  }
+synchronized (mountsOnPath) {
+    mountsOnPath.unmount(path);
+  }
+}

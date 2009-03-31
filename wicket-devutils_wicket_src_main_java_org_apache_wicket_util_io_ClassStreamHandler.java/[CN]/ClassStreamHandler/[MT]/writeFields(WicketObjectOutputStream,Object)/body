@@ -1,0 +1,18 @@
+{
+  FieldAndIndex fai=null;
+  try {
+    for (int i=0; fields != null && i < fields.size(); i++) {
+      fai=fields.get(i);
+      fai.writeField(obj,woos);
+    }
+  }
+ catch (  WicketSerializeableException wse) {
+    wse.addTrace(fai.field.getName());
+    throw wse;
+  }
+catch (  Exception ex) {
+    String field=fai == null || fai.field == null ? "" : fai.field.getName();
+    String msg="Error writing field: " + field + " for object class: "+ obj.getClass();
+    throw new WicketSerializeableException(msg,ex);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  final Collection<T> selectedValues=getModelObject();
+  final AppendingStringBuffer buffer=new AppendingStringBuffer();
+  if (selectedValues != null) {
+    final List<? extends T> choices=getChoices();
+    for (    T object : selectedValues) {
+      int index=choices.indexOf(object);
+      buffer.append(getChoiceRenderer().getIdValue(object,index));
+      buffer.append(VALUE_SEPARATOR);
+    }
+  }
+  return buffer.toString();
+}

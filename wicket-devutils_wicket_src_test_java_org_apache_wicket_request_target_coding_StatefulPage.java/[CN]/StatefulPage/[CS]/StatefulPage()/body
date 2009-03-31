@@ -1,0 +1,26 @@
+{
+  add(new BookmarkablePageLink("indexLink",Index.class));
+  final Link<Void> actionLink=new Link<Void>("actionLink"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      linkClickCount++;
+    }
+  }
+;
+  add(actionLink);
+  actionLink.add(new Label("linkClickCount",new PropertyModel<Integer>(this,"linkClickCount")));
+  final TextField<String> field=new TextField<String>("textfield",new Model<String>());
+  StatelessForm<Void> statelessForm=new StatelessForm<Void>("statelessform"){
+    private static final long serialVersionUID=1L;
+    /** 
+ * @see org.apache.wicket.markup.html.form.Form#onSubmit()
+ */
+    @Override protected void onSubmit(){
+      info("Submitted text: " + field.getDefaultModelObject() + ", link click count: "+ linkClickCount);
+    }
+  }
+;
+  statelessForm.add(field);
+  add(statelessForm);
+  add(new FeedbackPanel("feedback"));
+}

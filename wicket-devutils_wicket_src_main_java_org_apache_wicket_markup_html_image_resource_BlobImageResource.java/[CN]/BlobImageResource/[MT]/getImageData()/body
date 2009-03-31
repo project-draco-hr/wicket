@@ -1,0 +1,18 @@
+{
+  try {
+    Blob blob=getBlob();
+    if (blob != null) {
+      InputStream in=blob.getBinaryStream();
+      ByteArrayOutputStream out=new ByteArrayOutputStream();
+      Streams.copy(in,out);
+      return out.toByteArray();
+    }
+    return new byte[0];
+  }
+ catch (  SQLException e) {
+    throw new WicketRuntimeException("Error while reading image data",e);
+  }
+catch (  IOException e) {
+    throw new WicketRuntimeException("Error while reading image data",e);
+  }
+}

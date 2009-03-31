@@ -1,0 +1,39 @@
+{
+  response.write("<");
+  if (getType() == XmlTag.CLOSE) {
+    response.write("/");
+  }
+  if (getNamespace() != null) {
+    response.write(getNamespace());
+    response.write(":");
+  }
+  response.write(getName());
+  String namespacePrefix=null;
+  if (stripWicketAttributes == true) {
+    namespacePrefix=namespace + ":";
+  }
+  if (getAttributes().size() > 0) {
+    final Iterator<String> iterator=getAttributes().keySet().iterator();
+    while (iterator.hasNext()) {
+      final String key=iterator.next();
+      if (key == null) {
+        continue;
+      }
+      if ((namespacePrefix == null) || (key.startsWith(namespacePrefix) == false)) {
+        response.write(" ");
+        response.write(key);
+        CharSequence value=getString(key);
+        if (value != null) {
+          response.write("=\"");
+          value=Strings.replaceAll(value,"\"","&#34;");
+          response.write(value);
+          response.write("\"");
+        }
+      }
+    }
+  }
+  if (getType() == XmlTag.OPEN_CLOSE) {
+    response.write("/");
+  }
+  response.write(">");
+}

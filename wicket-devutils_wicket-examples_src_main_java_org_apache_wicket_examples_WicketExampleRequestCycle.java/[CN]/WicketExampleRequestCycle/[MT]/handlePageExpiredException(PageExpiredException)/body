@@ -1,0 +1,10 @@
+{
+  Response response=getOriginalResponse();
+  if (response instanceof BufferedWebResponse) {
+    BufferedWebResponse bufferedWebResponse=(BufferedWebResponse)response;
+    Request request=getRequest();
+    if (bufferedWebResponse.isAjax() && request.getParameter(SourcesPage.PAGE_CLASS) != null) {
+      throw new AbortWithWebErrorCodeException(404);
+    }
+  }
+}

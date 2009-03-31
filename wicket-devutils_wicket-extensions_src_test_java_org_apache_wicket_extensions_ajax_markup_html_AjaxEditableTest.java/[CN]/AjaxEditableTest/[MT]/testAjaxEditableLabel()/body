@@ -1,0 +1,12 @@
+{
+  Page page=tester.getLastRenderedPage();
+  AjaxEditableLabel<String> ajaxLabel=(AjaxEditableLabel<String>)page.get("ajaxLabel");
+  AbstractAjaxBehavior labelBehavior=(AbstractAjaxBehavior)ajaxLabel.get("label").getBehaviors().get(0);
+  AbstractAjaxBehavior editorBehavior=(AbstractAjaxBehavior)ajaxLabel.get("editor").getBehaviors().get(0);
+  tester.executeBehavior(labelBehavior);
+  tester.assertVisible("ajaxLabel:editor");
+  tester.assertInvisible("ajaxLabel:label");
+  tester.executeBehavior(editorBehavior);
+  tester.assertInvisible("ajaxLabel:editor");
+  tester.assertVisible("ajaxLabel:label");
+}

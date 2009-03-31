@@ -1,0 +1,49 @@
+{
+  final ComponentTag tag=(ComponentTag)getParent().nextTag();
+  if (tag == null) {
+    while (stack.size() > 0) {
+      final ComponentTag top=stack.peek();
+      if (!requiresCloseTag(top.getName())) {
+        stack.pop();
+      }
+ else {
+        throw new ParseException("Tag " + top + " at "+ top.getPos()+ " did not have a close tag",top.getPos());
+      }
+    }
+    return tag;
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("tag: " + tag.toUserDebugString() + ", stack: "+ stack);
+  }
+  if (tag.isOpen()) {
+    stack.push(tag);
+  }
+ else   if (tag.isClose()) {
+    if (stack.size() > 0) {
+      ComponentTag top=stack.pop();
+      boolean mismatch=!top.hasEqualTagName(tag);
+      if (mismatch) {
+        top.setHasNoCloseTag(true);
+        while (mismatch && !requiresCloseTag(top.getName())) {
+          top.setHasNoCloseTag(true);
+          if (stack.isEmpty()) {
+            break;
+          }
+          top=stack.pop();
+          mismatch=!top.hasEqualTagName(tag);
+        }
+        if (mismatch) {
+          throw new ParseException("Tag " + top.toUserDebugString() + " has a mismatched close tag at "+ tag.toUserDebugString(),top.getPos());
+        }
+      }
+      tag.setOpenTag(top);
+    }
+ else {
+      throw new ParseException("Tag " + tag.toUserDebugString() + " does not have a matching open tag",tag.getPos());
+    }
+  }
+ else   if (tag.isOpenClose()) {
+    tag.setOpenTag(tag);
+  }
+  return tag;
+}

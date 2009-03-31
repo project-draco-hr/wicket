@@ -1,0 +1,15 @@
+{
+  final ServletContext context=((WebApplication)requestCycle.getApplication()).getServletContext();
+  String contentType=context.getMimeType(uri);
+  if (contentType == null) {
+    contentType=URLConnection.getFileNameMap().getContentTypeFor(uri);
+  }
+  if (contentType != null) {
+    if (contentType.toLowerCase().indexOf("text") != -1) {
+      setContentType(contentType + "; charset=" + getCharacterEncoding());
+    }
+ else {
+      setContentType(contentType);
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  int uid=0;
+  Iterator<IntHashMap.Entry<ComponentAndInterface>> it=directComponentRefs.entrySet().iterator();
+  while (it.hasNext()) {
+    IntHashMap.Entry<ComponentAndInterface> entry=it.next();
+    ComponentAndInterface cai=entry.getValue();
+    if (cai.getInterfaceName().equals(interfaceName) && cai.getComponent() == component) {
+      uid=entry.getKey();
+      break;
+    }
+  }
+  if (uid == 0) {
+    uid=getNewUID();
+    IntKeyWeakReference ref=new IntKeyWeakReference(uid,component,queue);
+    directComponentRefs.put(uid,new ComponentAndInterface(ref,interfaceName));
+  }
+  return uid;
+}

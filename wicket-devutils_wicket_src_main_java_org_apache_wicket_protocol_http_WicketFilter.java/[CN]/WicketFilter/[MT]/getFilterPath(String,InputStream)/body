@@ -1,0 +1,55 @@
+{
+  String prefix=servletMode ? "servlet" : "filter";
+  String mapping=prefix + "-mapping";
+  String name=prefix + "-name";
+  try {
+    ArrayList<String> urlPatterns=new ArrayList<String>();
+    XmlPullParser parser=new XmlPullParser();
+    parser.parse(is);
+    while (true) {
+      XmlTag elem;
+      do {
+        elem=(XmlTag)parser.nextTag();
+      }
+ while (elem != null && (!(elem.getName().equals(mapping) && elem.isOpen())));
+      if (elem == null) {
+        break;
+      }
+      String encounteredFilterName=null, urlPattern=null;
+      do {
+        elem=(XmlTag)parser.nextTag();
+        if (elem.isOpen()) {
+          parser.setPositionMarker();
+        }
+ else         if (elem.isClose() && elem.getName().equals(name)) {
+          encounteredFilterName=parser.getInputFromPositionMarker(elem.getPos()).toString().trim();
+        }
+ else         if (elem.isClose() && elem.getName().equals("url-pattern")) {
+          urlPattern=parser.getInputFromPositionMarker(elem.getPos()).toString().trim();
+        }
+      }
+ while (urlPattern == null || encounteredFilterName == null);
+      if (filterName.equals(encounteredFilterName)) {
+        urlPatterns.add(urlPattern);
+      }
+    }
+    String prefixUppered=Character.toUpperCase(prefix.charAt(0)) + prefix.substring(1);
+    if (urlPatterns.size() == 0) {
+      throw new IllegalArgumentException("Error initializing Wicket" + prefixUppered + " - you have no <"+ mapping+ "> element with a url-pattern that uses "+ prefix+ ": "+ filterName);
+    }
+    String urlPattern=urlPatterns.get(0);
+    if (!urlPattern.startsWith("/") || !urlPattern.endsWith("*")) {
+      throw new IllegalArgumentException("<" + mapping + "> for Wicket"+ prefixUppered+ " \""+ filterName+ "\" must start with '/' and end with '*'.");
+    }
+    return stripWildcard(urlPattern);
+  }
+ catch (  IOException e) {
+    throw new ServletException("Error finding <" + prefix + "> "+ filterName+ " in web.xml",e);
+  }
+catch (  ParseException e) {
+    throw new ServletException("Error finding <" + prefix + "> "+ filterName+ " in web.xml",e);
+  }
+catch (  ResourceStreamNotFoundException e) {
+    throw new ServletException("Error finding <" + prefix + "> "+ filterName+ " in web.xml",e);
+  }
+}

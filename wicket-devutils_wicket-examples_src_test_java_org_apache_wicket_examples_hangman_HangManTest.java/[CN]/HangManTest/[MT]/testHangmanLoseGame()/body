@@ -1,0 +1,15 @@
+{
+  Game hangman=new Game();
+  hangman.newGame(2,new WordGenerator(new String[]{"foo"}));
+  Assert.assertEquals(2,hangman.getGuessesRemaining());
+  Assert.assertFalse(hangman.isWon());
+  Assert.assertFalse(hangman.isLost());
+  doGuessTest(hangman,'z',false);
+  Assert.assertEquals(1,hangman.getGuessesRemaining());
+  Assert.assertFalse(hangman.isWon());
+  Assert.assertFalse(hangman.isLost());
+  doGuessTest(hangman,'v',false);
+  Assert.assertEquals(0,hangman.getGuessesRemaining());
+  Assert.assertFalse(hangman.isWon());
+  Assert.assertTrue(hangman.isLost());
+}

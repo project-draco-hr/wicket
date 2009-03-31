@@ -1,0 +1,15 @@
+{
+  tester.startPage(TestExpirePage.class);
+  String document=tester.getServletResponse().getDocument();
+  assertTrue(document.contains("Click me to get an error"));
+  AjaxLink link=(AjaxLink)tester.getComponentFromLastRenderedPage("link");
+  WebRequestCycle cycle=tester.setupRequestAndResponse(true);
+  tester.getWicketSession().invalidateNow();
+  tester.getWicketSession().invalidateNow();
+  String callbackUrl=((AjaxEventBehavior)link.getBehaviors().get(0)).getCallbackUrl().toString();
+  tester.getServletRequest().setURL(callbackUrl);
+  cycle.request();
+  document=tester.getServletResponse().getDocument();
+  assertTrue(document.equals("-"));
+  tester.assertAjaxLocation();
+}

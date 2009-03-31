@@ -1,0 +1,41 @@
+{
+  if (!_updateElements) {
+    return;
+  }
+  NodeUtils.NodeAction action=new NodeUtils.NodeAction(){
+    public boolean processElement(    NodeUtils.PreOrderTraversal pot,    Element element){
+      HTMLElementFactory factory=getHTMLElementFactory(element.getNodeName().toLowerCase());
+      if (factory == null || !factory.isRecognized(getClientProperties())) {
+        return true;
+      }
+      if (pot.getClosestContext(ContentConcealer.class) != null) {
+        return true;
+      }
+      if (!_elements.containsKey(element)) {
+        factory.recordElement(pot,element,ParsedHTML.this);
+      }
+      if (factory.addToContext()) {
+        pot.pushContext(_elements.get(element));
+      }
+      return true;
+    }
+    public void processTextNode(    NodeUtils.PreOrderTraversal pot,    Node textNode){
+      if (textNode.getNodeValue().trim().length() == 0) {
+        return;
+      }
+      Node parent=textNode.getParentNode();
+      if (!parent.getNodeName().equalsIgnoreCase("body")) {
+        return;
+      }
+      if (pot.getClosestContext(ContentConcealer.class) != null) {
+        return;
+      }
+      new HtmlElementRecorder().recordHtmlElement(pot,textNode,newTextBlock(textNode));
+    }
+  }
+;
+  NodeUtils.PreOrderTraversal nt=new NodeUtils.PreOrderTraversal(getRootNode());
+  nt.pushBaseContext(this);
+  nt.perform(action);
+  _updateElements=false;
+}

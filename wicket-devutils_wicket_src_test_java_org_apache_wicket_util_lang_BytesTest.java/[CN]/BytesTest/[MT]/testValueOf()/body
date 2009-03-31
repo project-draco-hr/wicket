@@ -1,0 +1,32 @@
+{
+  assertEquals(Bytes.valueOf("1024GB"),Bytes.valueOf("1TB"));
+  assertEquals(Bytes.valueOf("1024MB"),Bytes.valueOf("1GB"));
+  assertEquals(Bytes.valueOf("1024KB"),Bytes.valueOf("1MB"));
+  assertEquals(Bytes.valueOf("1024B"),Bytes.valueOf("1KB"));
+  assertEquals(Bytes.valueOf("2048GB"),Bytes.valueOf("2TB"));
+  assertEquals(Bytes.valueOf("2048MB"),Bytes.valueOf("2GB"));
+  assertEquals(Bytes.valueOf("2048KB"),Bytes.valueOf("2MB"));
+  assertEquals(Bytes.valueOf("2048B"),Bytes.valueOf("2KB"));
+  assertEquals(Bytes.valueOf("1024GB",Locale.GERMAN),Bytes.valueOf("1TB"));
+  assertEquals(Bytes.valueOf("1024MB",Locale.GERMAN),Bytes.valueOf("1GB"));
+  assertEquals(Bytes.valueOf("1024KB",Locale.GERMAN),Bytes.valueOf("1MB"));
+  assertEquals(Bytes.valueOf("1024B",Locale.GERMAN),Bytes.valueOf("1KB"));
+  assertEquals(Bytes.valueOf("2048GB",Locale.GERMAN),Bytes.valueOf("2TB"));
+  assertEquals(Bytes.valueOf("2048MB",Locale.GERMAN),Bytes.valueOf("2GB"));
+  assertEquals(Bytes.valueOf("2048KB",Locale.GERMAN),Bytes.valueOf("2MB"));
+  assertEquals(Bytes.valueOf("2048B",Locale.GERMAN),Bytes.valueOf("2KB"));
+  try {
+    Bytes.valueOf("1PB");
+    fail("Exception expected");
+  }
+ catch (  StringValueConversionException e) {
+    assertTrue(true);
+  }
+  try {
+    Bytes.valueOf("baPB");
+    fail("Exception expected");
+  }
+ catch (  StringValueConversionException e) {
+    assertTrue(true);
+  }
+}

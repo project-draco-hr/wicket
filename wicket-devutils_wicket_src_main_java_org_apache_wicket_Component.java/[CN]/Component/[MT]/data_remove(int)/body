@@ -1,0 +1,34 @@
+{
+  int currentLength=data_length();
+  if (position > currentLength - 1) {
+    throw new IndexOutOfBoundsException();
+  }
+ else   if (currentLength == 1) {
+    Object old=data;
+    data=null;
+    return old;
+  }
+ else   if (currentLength == 2) {
+    Object[] current=(Object[])data;
+    if (position == 0) {
+      data=current[1];
+      return current[0];
+    }
+ else {
+      data=current[0];
+      return current[1];
+    }
+  }
+ else {
+    Object[] current=(Object[])data;
+    data=new Object[currentLength - 1];
+    if (position > 0) {
+      System.arraycopy(current,0,data,0,position);
+    }
+    if (position != currentLength - 1) {
+      final int left=currentLength - position - 1;
+      System.arraycopy(current,position + 1,data,position,left);
+    }
+    return current[position];
+  }
+}

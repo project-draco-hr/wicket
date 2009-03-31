@@ -1,0 +1,35 @@
+{
+  int result;
+  if (v1 == v2) {
+    result=0;
+  }
+ else {
+    int t1=getNumericType(v1), t2=getNumericType(v2), type=getNumericType(t1,t2,true);
+switch (type) {
+case BIGINT:
+      result=bigIntValue(v1).compareTo(bigIntValue(v2));
+    break;
+case BIGDEC:
+  result=bigDecValue(v1).compareTo(bigDecValue(v2));
+break;
+case NONNUMERIC:
+if ((t1 == NONNUMERIC) && (t2 == NONNUMERIC)) {
+if ((v1 instanceof Comparable) && v1.getClass().isAssignableFrom(v2.getClass())) {
+  result=((Comparable)v1).compareTo(v2);
+  break;
+}
+ else {
+  throw new IllegalArgumentException("invalid comparison: " + v1.getClass().getName() + " and "+ v2.getClass().getName());
+}
+}
+case FLOAT:
+case DOUBLE:
+double dv1=doubleValue(v1), dv2=doubleValue(v2);
+return (dv1 == dv2) ? 0 : ((dv1 < dv2) ? -1 : 1);
+default :
+long lv1=longValue(v1), lv2=longValue(v2);
+return (lv1 == lv2) ? 0 : ((lv1 < lv2) ? -1 : 1);
+}
+}
+return result;
+}

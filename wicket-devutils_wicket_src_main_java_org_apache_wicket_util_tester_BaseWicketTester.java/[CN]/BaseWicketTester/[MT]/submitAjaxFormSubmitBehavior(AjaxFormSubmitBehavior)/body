@@ -1,0 +1,27 @@
+{
+  Form<?> form=null;
+  try {
+    Field formField=AjaxFormSubmitBehavior.class.getDeclaredField("form");
+    formField.setAccessible(true);
+    form=(Form<?>)formField.get(behavior);
+  }
+ catch (  Exception e) {
+    fail(e.getMessage());
+  }
+  String failMessage="No form attached to the submitlink.";
+  notNull(failMessage,form);
+  form.visitFormComponents(new FormComponent.AbstractVisitor(){
+    @Override public void onFormComponent(    FormComponent<?> formComponent){
+      if (formComponent.isVisible()) {
+        if (!(formComponent instanceof RadioGroup) && !(formComponent instanceof CheckGroup) && !(formComponent.getClass().isAssignableFrom(Button.class))) {
+          String name=formComponent.getInputName();
+          String value=formComponent.getValue();
+          if (getServletRequest().getParameterMap().get(name) == null) {
+            getServletRequest().setParameter(name,value);
+          }
+        }
+      }
+    }
+  }
+);
+}

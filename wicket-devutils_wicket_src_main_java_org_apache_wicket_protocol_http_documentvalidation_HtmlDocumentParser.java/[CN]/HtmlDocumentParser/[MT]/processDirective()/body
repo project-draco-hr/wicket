@@ -1,0 +1,44 @@
+{
+  String part=document.substring(pos);
+  if (part.matches("<!--.*-->.*")) {
+    comment=part.substring(4,part.indexOf("-->")).trim();
+    pos+=part.indexOf("-->") + 3;
+    return COMMENT;
+  }
+ else   if (part.matches("</.*>.*")) {
+    tag=part.substring(2,part.indexOf('>')).trim().toLowerCase();
+    pos+=part.indexOf(">") + 1;
+    return CLOSE_TAG;
+  }
+ else   if (part.matches("<[^/]+[^>]*/>.*")) {
+    if (part.matches("<([a-zA-Z]+:)?[a-zA-Z]+/>.*")) {
+      tag=part.substring(1,part.indexOf("/>")).toLowerCase();
+      attributes=new HashMap<String,String>();
+    }
+ else {
+      tag=part.substring(1,part.indexOf(' ')).toLowerCase();
+      String attributeString=part.substring(part.indexOf(' '),part.indexOf("/>"));
+      attributes=extractAttributes(attributeString);
+    }
+    pos+=part.indexOf("/>") + 2;
+    return OPENCLOSE_TAG;
+  }
+ else   if (part.matches("<[^/>]+.*>.*")) {
+    if (part.matches("<([a-zA-Z]+:)?[a-zA-Z]*>.*")) {
+      tag=part.substring(1,part.indexOf('>')).toLowerCase();
+      attributes=new HashMap<String,String>();
+    }
+ else {
+      tag=part.substring(1,part.indexOf(' ')).toLowerCase();
+      String attributeString=part.substring(part.indexOf(' '),part.indexOf('>'));
+      attributes=extractAttributes(attributeString);
+    }
+    pos+=part.indexOf(">") + 1;
+    return OPEN_TAG;
+  }
+ else {
+    int size=(part.length() > 30) ? 30 : part.length();
+    log.error("Unexpected markup found: " + part.substring(0,size) + "...");
+    return UNKNOWN;
+  }
+}

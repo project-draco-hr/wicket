@@ -1,0 +1,16 @@
+{
+  if (!rememberMe) {
+    getPage().removePersistedFormData(SignInForm.class,true);
+  }
+  ValueMap values=(ValueMap)getDefaultModelObject();
+  String username=values.getString("username");
+  String password=values.getString("password");
+  if (panel.signIn(username,password)) {
+    if (!getPage().continueToOriginalDestination()) {
+      setResponsePage(Application.get().getHomePage());
+    }
+  }
+ else {
+    error(getLocalizer().getString("exception.login",this,"Illegal username password combo"));
+  }
+}

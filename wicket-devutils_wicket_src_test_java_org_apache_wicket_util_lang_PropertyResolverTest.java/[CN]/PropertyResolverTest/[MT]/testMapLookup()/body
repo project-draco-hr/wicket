@@ -1,0 +1,8 @@
+{
+  Address address=new Address();
+  PropertyResolver.setValue("addressMap",person,new HashMap(),CONVERTER);
+  PropertyResolver.setValue("addressMap.address",person,address,CONVERTER);
+  PropertyResolver.setValue("addressMap.address.street",person,"wicket-street",CONVERTER);
+  String street=(String)PropertyResolver.getValue("addressMap.address.street",person);
+  assertEquals(street,"wicket-street");
+}

@@ -1,0 +1,15 @@
+{
+  final IBreadCrumbParticipant active=breadCrumbModel.getActive();
+  if (active == null) {
+    throw new IllegalStateException("The model has no active bread crumb. Before using " + this + ", you have to have at least one bread crumb in the model");
+  }
+  final IBreadCrumbParticipant participant=getParticipant(active.getComponent().getId());
+  addStateChange(new Change(){
+    private static final long serialVersionUID=1L;
+    @Override public void undo(){
+      breadCrumbModel.setActive(active);
+    }
+  }
+);
+  breadCrumbModel.setActive(participant);
+}

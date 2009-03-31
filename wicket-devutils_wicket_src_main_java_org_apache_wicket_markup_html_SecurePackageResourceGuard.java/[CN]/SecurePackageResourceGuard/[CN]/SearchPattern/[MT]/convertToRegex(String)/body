@@ -1,0 +1,11 @@
+{
+  String regex=Strings.replaceAll(pattern,".","#dot#").toString();
+  regex=regex.replaceAll("^\\*" + PATH_SEPARATOR,"[^" + PATH_SEPARATOR + "]+"+ PATH_SEPARATOR);
+  regex=regex.replaceAll("^[\\*]{2,}" + PATH_SEPARATOR,"([^" + PATH_SEPARATOR + "].#star#"+ PATH_SEPARATOR+ ")?");
+  regex=regex.replaceAll(PATH_SEPARATOR + "\\*" + PATH_SEPARATOR,PATH_SEPARATOR + "[^" + PATH_SEPARATOR+ "]+"+ PATH_SEPARATOR);
+  regex=regex.replaceAll(PATH_SEPARATOR + "[\\*]{2,}" + PATH_SEPARATOR,"(" + PATH_SEPARATOR + "|"+ PATH_SEPARATOR+ ".+"+ PATH_SEPARATOR+ ")");
+  regex=regex.replaceAll("\\*+","[^" + PATH_SEPARATOR + "]*");
+  regex=Strings.replaceAll(regex,"#dot#","\\.").toString();
+  regex=Strings.replaceAll(regex,"#star#","*").toString();
+  return Pattern.compile(regex);
+}

@@ -1,0 +1,15 @@
+{
+  final IResourceStreamLocator locator=Application.get().getResourceSettings().getResourceStreamLocator();
+  String style=container.getStyle();
+  Locale locale=container.getLocale();
+  String ext=container.getMarkupType();
+  while (containerClass != MarkupContainer.class) {
+    String path=containerClass.getName().replace('.','/');
+    IResourceStream resourceStream=locator.locate(container.getClass(),path,style,locale,ext);
+    if (resourceStream != null) {
+      return new MarkupResourceStream(resourceStream,new ContainerInfo(container),containerClass);
+    }
+    containerClass=containerClass.getSuperclass();
+  }
+  return null;
+}

@@ -1,0 +1,14 @@
+{
+  final TextField<Serializable> tf=new TextField<Serializable>("input",new Model<Serializable>());
+  final FormComponentFeedbackIndicator feedback=new FormComponentFeedbackIndicator("feedback");
+  Form<Void> form=new Form<Void>("form"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(){
+      tf.error("an error");
+    }
+  }
+;
+  form.add(feedback);
+  form.add(tf);
+  add(form);
+}

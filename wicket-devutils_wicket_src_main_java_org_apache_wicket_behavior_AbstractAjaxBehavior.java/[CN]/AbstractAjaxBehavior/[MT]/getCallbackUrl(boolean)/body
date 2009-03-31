@@ -1,0 +1,13 @@
+{
+  if (getComponent() == null) {
+    throw new IllegalArgumentException("Behavior must be bound to a component to create the URL");
+  }
+  final RequestListenerInterface rli;
+  if (onlyTargetActivePage) {
+    rli=IActivePageBehaviorListener.INTERFACE;
+  }
+ else {
+    rli=IBehaviorListener.INTERFACE;
+  }
+  return getComponent().urlFor(this,rli);
+}

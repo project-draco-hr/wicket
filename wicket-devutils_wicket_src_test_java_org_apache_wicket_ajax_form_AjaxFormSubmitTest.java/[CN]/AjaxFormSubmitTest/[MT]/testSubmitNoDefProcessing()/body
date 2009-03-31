@@ -1,0 +1,15 @@
+{
+  Class<? extends Page> pageClass=AjaxFormSubmitTestPage.class;
+  System.out.println("=== " + pageClass.getName() + " ===");
+  tester.startPage(pageClass);
+  tester.assertRenderedPage(pageClass);
+  FormTester form=tester.newFormTester("form");
+  form.setValue("txt1","txt1");
+  form.setValue("txt2","txt2");
+  tester.executeAjaxEvent("form:submit","onclick");
+  AjaxFormSubmitTestPage page=(AjaxFormSubmitTestPage)tester.getLastRenderedPage();
+  assertFalse((page.getFormSubmitted() & AjaxFormSubmitTestPage.FORM) == AjaxFormSubmitTestPage.FORM);
+  assertTrue((page.getFormSubmitted() & AjaxFormSubmitTestPage.BUTTON) == AjaxFormSubmitTestPage.BUTTON);
+  assertEquals("foo",tester.getComponentFromLastRenderedPage("form:txt1").getDefaultModelObject());
+  assertEquals("bar",tester.getComponentFromLastRenderedPage("form:txt2").getDefaultModelObject());
+}

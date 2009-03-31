@@ -1,0 +1,16 @@
+{
+  reloadingClassLoader.setListener(new IChangeListener(){
+    public void onChange(){
+      reloadingClassLoader.destroy();
+      reloadingClassLoader=new ReloadingClassLoader(getClass().getClassLoader());
+      try {
+        init(filterConfig);
+      }
+ catch (      ServletException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+);
+  super.init(filterConfig);
+}

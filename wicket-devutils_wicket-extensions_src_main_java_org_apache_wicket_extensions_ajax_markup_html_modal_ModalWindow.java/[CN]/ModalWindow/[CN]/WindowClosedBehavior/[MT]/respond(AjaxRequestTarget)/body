@@ -1,0 +1,14 @@
+{
+  shown=false;
+  if (deletePageMap == true) {
+    Session session=Session.get();
+    IPageMap pageMap=session.pageMapForName(getPageMapName(),false);
+    if (pageMap != null) {
+      session.removePageMap(pageMap);
+      deletePageMap=false;
+    }
+  }
+  if (windowClosedCallback != null) {
+    windowClosedCallback.onClose(target);
+  }
+}

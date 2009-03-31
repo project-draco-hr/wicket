@@ -1,0 +1,14 @@
+{
+  if (populatorsIteratorCache == null) {
+    populatorsIteratorCache=new ArrayIteratorAdapter<ICellPopulator<T>>(internalGetPopulators()){
+      @Override protected IModel<ICellPopulator<T>> model(      ICellPopulator<T> object){
+        return new Model<ICellPopulator<T>>(object);
+      }
+    }
+;
+  }
+ else {
+    populatorsIteratorCache.reset();
+  }
+  return populatorsIteratorCache;
+}

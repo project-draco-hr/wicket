@@ -1,0 +1,44 @@
+{
+  AppendingStringBuffer sb=new AppendingStringBuffer(128);
+  if (target instanceof IListenerInterfaceRequestTarget) {
+    IListenerInterfaceRequestTarget listener=(IListenerInterfaceRequestTarget)target;
+    sb.append("Interface[target:");
+    sb.append(Classes.simpleName(listener.getTarget().getClass()));
+    sb.append("(");
+    sb.append(listener.getTarget().getPageRelativePath());
+    sb.append("), page: ");
+    sb.append(listener.getPage().getClass().getName());
+    sb.append("(");
+    sb.append(listener.getPage().getId());
+    sb.append("), interface: ");
+    sb.append(listener.getRequestListenerInterface().getName());
+    sb.append(".");
+    sb.append(listener.getRequestListenerInterface().getMethod().getName());
+    sb.append("]");
+  }
+ else   if (target instanceof IPageRequestTarget) {
+    IPageRequestTarget pageRequestTarget=(IPageRequestTarget)target;
+    sb.append("PageRequest[");
+    sb.append(pageRequestTarget.getPage().getClass().getName());
+    sb.append("(");
+    sb.append(pageRequestTarget.getPage().getId());
+    sb.append(")]");
+  }
+ else   if (target instanceof IBookmarkablePageRequestTarget) {
+    IBookmarkablePageRequestTarget pageRequestTarget=(IBookmarkablePageRequestTarget)target;
+    sb.append("BookmarkablePage[");
+    sb.append(pageRequestTarget.getPageClass().getName());
+    sb.append("(").append(pageRequestTarget.getPageParameters()).append(")");
+    sb.append("]");
+  }
+ else   if (target instanceof ISharedResourceRequestTarget) {
+    ISharedResourceRequestTarget sharedResourceTarget=(ISharedResourceRequestTarget)target;
+    sb.append("SharedResource[");
+    sb.append(sharedResourceTarget.getResourceKey());
+    sb.append("]");
+  }
+ else {
+    sb.append(target.toString());
+  }
+  return sb.toString();
+}

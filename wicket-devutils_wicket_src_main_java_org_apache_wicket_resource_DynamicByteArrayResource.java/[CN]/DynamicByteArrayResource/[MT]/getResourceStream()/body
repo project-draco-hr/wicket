@@ -1,0 +1,76 @@
+{
+  return new IResourceStream(){
+    private static final long serialVersionUID=1L;
+    private Locale locale=DynamicByteArrayResource.this.locale;
+    /** 
+ * Transient input stream to resource 
+ */
+    private transient InputStream inputStream=null;
+    /** 
+ * Transient ResourceState of the resources, will always be deleted in the close
+ */
+    private transient ResourceState data=null;
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#close()
+ */
+    public void close() throws IOException {
+      if (inputStream != null) {
+        inputStream.close();
+        inputStream=null;
+      }
+      data=null;
+    }
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#getContentType()
+ */
+    public String getContentType(){
+      checkLoadData();
+      return data.getContentType();
+    }
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#getInputStream()
+ */
+    public InputStream getInputStream() throws ResourceStreamNotFoundException {
+      checkLoadData();
+      if (inputStream == null) {
+        inputStream=new ByteArrayInputStream(data.getData());
+      }
+      return inputStream;
+    }
+    /** 
+ * @see org.apache.wicket.util.watch.IModifiable#lastModifiedTime()
+ */
+    public Time lastModifiedTime(){
+      checkLoadData();
+      return data.lastModifiedTime();
+    }
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#length()
+ */
+    public long length(){
+      checkLoadData();
+      return (data != null) ? data.getLength() : 0;
+    }
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#getLocale()
+ */
+    public Locale getLocale(){
+      return locale;
+    }
+    /** 
+ * @see org.apache.wicket.util.resource.IResourceStream#setLocale(java.util.Locale)
+ */
+    public void setLocale(    Locale loc){
+      locale=loc;
+    }
+    /** 
+ * Check whether the data was loaded yet. If not, load it now.
+ */
+    private void checkLoadData(){
+      if (data == null) {
+        data=getResourceState();
+      }
+    }
+  }
+;
+}

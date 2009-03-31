@@ -1,0 +1,16 @@
+{
+  if ((tag instanceof WicketTag) && ((WicketTag)tag).isEnclosureTag()) {
+    CharSequence wicketId=tag.getString("wicket:id");
+    String id=null;
+    if (wicketId != null) {
+      id=wicketId.toString();
+    }
+    if (id == null) {
+      id="enclosure-" + container.getPage().getAutoIndex();
+    }
+    final Enclosure enclosure=new Enclosure(id,tag.getString(EnclosureHandler.CHILD_ATTRIBUTE));
+    container.autoAdd(enclosure,markupStream);
+    return true;
+  }
+  return false;
+}

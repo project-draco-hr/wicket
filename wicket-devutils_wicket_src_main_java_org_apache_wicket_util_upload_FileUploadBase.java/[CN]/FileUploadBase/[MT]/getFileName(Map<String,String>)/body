@@ -1,0 +1,26 @@
+{
+  String fileName=null;
+  String cd=getHeader(headers,CONTENT_DISPOSITION);
+  if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT)) {
+    ParameterParser parser=new ParameterParser();
+    parser.setLowerCaseNames(true);
+    Map<String,String> params=parser.parse(cd,';');
+    if (params.containsKey("filename")) {
+      fileName=params.get("filename");
+      if (fileName != null) {
+        fileName=fileName.trim();
+        int index=fileName.lastIndexOf('\\');
+        if (index == -1) {
+          index=fileName.lastIndexOf('/');
+        }
+        if (index != -1) {
+          fileName=fileName.substring(index + 1);
+        }
+      }
+ else {
+        fileName="";
+      }
+    }
+  }
+  return fileName;
+}

@@ -1,0 +1,12 @@
+{
+  Bean bean=new Bean();
+  ctx.putBean("somebean",bean);
+  ctx.putBean("somebean2",bean);
+  SpringBeanLocator locator=new SpringBeanLocator(Bean.class,ctxLocator);
+  try {
+    locator.locateProxyTarget();
+    fail();
+  }
+ catch (  IllegalStateException e) {
+  }
+}

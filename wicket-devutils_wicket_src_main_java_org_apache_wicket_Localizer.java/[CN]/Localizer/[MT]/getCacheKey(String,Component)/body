@@ -1,0 +1,25 @@
+{
+  String cacheKey=key;
+  if (component != null) {
+    AppendingStringBuffer buffer=new AppendingStringBuffer(200);
+    buffer.append(key);
+    Component cursor=component;
+    while (cursor != null) {
+      buffer.append("-").append(metaDatabase.id(cursor.getClass()));
+      if (cursor instanceof Page) {
+        break;
+      }
+      if (cursor.getParent() != null && !(cursor.getParent() instanceof AbstractRepeater)) {
+        buffer.append(":").append(cursor.getId());
+      }
+      cursor=cursor.getParent();
+    }
+    buffer.append("-").append(component.getLocale());
+    buffer.append("-").append(component.getStyle());
+    cacheKey=buffer.toString();
+  }
+ else {
+    cacheKey+="-" + Session.get().getLocale().toString();
+  }
+  return cacheKey;
+}

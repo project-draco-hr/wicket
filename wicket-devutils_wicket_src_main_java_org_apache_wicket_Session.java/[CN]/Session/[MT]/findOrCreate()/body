@@ -1,0 +1,9 @@
+{
+  RequestCycle requestCycle=RequestCycle.get();
+  if (requestCycle == null) {
+    throw new IllegalStateException("you can only locate or create sessions in the context of a request cycle");
+  }
+  Response response=requestCycle.getResponse();
+  Request request=requestCycle.getRequest();
+  return findOrCreate(request,response);
+}

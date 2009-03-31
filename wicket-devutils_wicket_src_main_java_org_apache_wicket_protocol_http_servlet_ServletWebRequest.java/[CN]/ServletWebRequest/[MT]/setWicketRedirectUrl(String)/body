@@ -1,0 +1,14 @@
+{
+  this.wicketRedirectUrl=wicketRedirectUrl;
+  depthRelativeToWicketHandler=-1;
+  relativePathPrefixToContextRoot=null;
+  relativePathPrefixToWicketHandler=null;
+  if (wicketRedirectUrl != null) {
+    previousUrlDepth=getRequestParameters().getUrlDepth();
+    getRequestParameters().setUrlDepth(getDepthRelativeToWicketHandler());
+  }
+ else {
+    getRequestParameters().setUrlDepth(previousUrlDepth);
+    getDepthRelativeToWicketHandler();
+  }
+}

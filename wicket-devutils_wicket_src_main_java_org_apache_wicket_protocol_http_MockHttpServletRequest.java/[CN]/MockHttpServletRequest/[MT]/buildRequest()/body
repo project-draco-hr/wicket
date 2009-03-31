@@ -1,0 +1,44 @@
+{
+  try {
+    ByteArrayOutputStream out=new ByteArrayOutputStream();
+    for (Iterator<String> iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
+      final String name=iterator.next();
+      newAttachment(out);
+      out.write("; name=\"".getBytes());
+      out.write(name.getBytes());
+      out.write("\"".getBytes());
+      out.write(crlf.getBytes());
+      out.write(crlf.getBytes());
+      out.write(parameters.get(name).toString().getBytes());
+      out.write(crlf.getBytes());
+    }
+    if (uploadedFiles != null) {
+      for (Iterator<String> iterator=uploadedFiles.keySet().iterator(); iterator.hasNext(); ) {
+        String fieldName=iterator.next();
+        UploadedFile uf=uploadedFiles.get(fieldName);
+        newAttachment(out);
+        out.write("; name=\"".getBytes());
+        out.write(fieldName.getBytes());
+        out.write("\"; filename=\"".getBytes());
+        out.write(uf.getFile().getName().getBytes());
+        out.write("\"".getBytes());
+        out.write(crlf.getBytes());
+        out.write("Content-Type: ".getBytes());
+        out.write(uf.getContentType().getBytes());
+        out.write(crlf.getBytes());
+        out.write(crlf.getBytes());
+        FileInputStream fis=new FileInputStream(uf.getFile());
+        IOUtils.copy(fis,out);
+        fis.close();
+        out.write(crlf.getBytes());
+      }
+    }
+    out.write(boundary.getBytes());
+    out.write("--".getBytes());
+    out.write(crlf.getBytes());
+    return out.toByteArray();
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
+}

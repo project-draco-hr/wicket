@@ -1,0 +1,58 @@
+{
+  final IDebugSettings debugSettings=Application.get().getDebugSettings();
+  if (debugSettings.getComponentUseCheck() && !getResponse().isRedirect()) {
+    final List<Component> unrenderedComponents=new ArrayList<Component>();
+    final StringBuffer buffer=new StringBuffer();
+    renderedContainer.visitChildren(new IVisitor<Component>(){
+      public Object component(      final Component component){
+        if (renderedComponents == null || !renderedComponents.contains(component)) {
+          if (!component.isAuto() && component.isVisibleInHierarchy()) {
+            unrenderedComponents.add(component);
+            buffer.append(Integer.toString(unrenderedComponents.size()) + ". " + component+ "\n");
+            String metadata=component.getMetaData(Component.CONSTRUCTED_AT_KEY);
+            if (metadata != null) {
+              buffer.append(metadata);
+            }
+            metadata=component.getMetaData(Component.ADDED_AT_KEY);
+            if (metadata != null) {
+              buffer.append(metadata);
+            }
+          }
+ else {
+            return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+          }
+        }
+        return CONTINUE_TRAVERSAL;
+      }
+    }
+);
+    if (unrenderedComponents.size() > 0) {
+      renderedComponents=null;
+      Iterator<Component> iterator=unrenderedComponents.iterator();
+      while (iterator.hasNext()) {
+        Component component=iterator.next();
+        Iterator<? extends Component> iterator2=component.getParent().iterator();
+        while (iterator2.hasNext()) {
+          Component sibling=iterator2.next();
+          if (!sibling.isVisible()) {
+            boolean isTransparentMarkupContainer=sibling instanceof MarkupContainer && ((MarkupContainer)sibling).isTransparentResolver();
+            boolean isComponentResolver=sibling instanceof IComponentResolver;
+            if (isTransparentMarkupContainer || isComponentResolver) {
+              log.debug("Component {} wasn't rendered but most likely it has a transparent parent: {}",component,sibling);
+              iterator.remove();
+              break;
+            }
+          }
+        }
+        Border border=component.findParent(Border.class);
+        if (border != null && !border.getBodyContainer().isVisibleInHierarchy()) {
+          iterator.remove();
+        }
+      }
+      if (unrenderedComponents.size() > 0) {
+        throw new WicketRuntimeException("The component(s) below failed to render. A common problem is that you have added a component in code but forgot to reference it in the markup (thus the component will never be rendered).\n\n" + buffer.toString());
+      }
+    }
+  }
+  renderedComponents=null;
+}

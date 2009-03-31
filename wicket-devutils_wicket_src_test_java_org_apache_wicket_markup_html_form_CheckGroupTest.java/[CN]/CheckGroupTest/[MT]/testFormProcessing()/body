@@ -1,0 +1,49 @@
+{
+  final String check1="check1-selection";
+  final String check2="check2-selection";
+  MockModelObject modelObject=new MockModelObject();
+  modelObject.setProp2(check2);
+  List<Object> list=new ArrayList<Object>();
+  CollectionModel<Object> model=new CollectionModel<Object>(list);
+  final CheckGroup<Object> group2=new CheckGroup<Object>("group2",model);
+  assertTrue(group2.getDefaultModelObject() == list);
+  final CheckGroup<Object> group3=new CheckGroup<Object>("group3",list);
+  assertTrue(group3.getDefaultModelObject() == list);
+  tester.createRequestCycle();
+  MockPage page=new MockPage();
+  final Form<MockModelObject> form=new Form<MockModelObject>("form",new CompoundPropertyModel<MockModelObject>(modelObject)){
+    private static final long serialVersionUID=1L;
+    @Override public String getMarkupId(){
+      return "foo";
+    }
+  }
+;
+  final CheckGroup<Object> group=new CheckGroup<Object>("prop1");
+  final WebMarkupContainer container=new WebMarkupContainer("container");
+  final Check<Serializable> choice1=new Check<Serializable>("check1",new Model<Serializable>(check1));
+  final Check<String> choice2=new Check<String>("prop2");
+  page.add(form);
+  form.add(group);
+  group.add(container);
+  container.add(choice1);
+  group.add(choice2);
+  modelObject.getProp1().add(check1);
+  form.onFormSubmitted();
+  assertTrue("running with nothing selected - model must be empty",modelObject.getProp1().size() == 0);
+  tester.getServletRequest().setParameter(group.getInputName(),String.valueOf(choice1.getValue()));
+  form.onFormSubmitted();
+  assertTrue("running with choice1 selected - model must only contain value of check1",modelObject.getProp1().size() == 1 && modelObject.getProp1().contains(check1));
+  tester.getServletRequest().setParameter(group.getInputName(),String.valueOf(choice2.getValue()));
+  form.onFormSubmitted();
+  assertTrue("running with choice2 selected - model must only contain value of check2",modelObject.getProp1().size() == 1 && modelObject.getProp1().contains(check2));
+  tester.getServletRequest().getParameterMap().put(group.getInputName(),new String[]{null,String.valueOf(choice1.getValue()),null,String.valueOf(choice2.getValue())});
+  form.onFormSubmitted();
+  assertTrue("running with choice1 and choice2 selected - model must only contain values of check1 and check2",modelObject.getProp1().size() == 2 && modelObject.getProp1().contains(check2) && modelObject.getProp1().contains(check1));
+  tester.getServletRequest().getParameterMap().put(group.getInputName(),new String[]{"some weird choice uuid to test error"});
+  try {
+    form.onFormSubmitted();
+    fail("running with an invalid choice value in the request param, should fail");
+  }
+ catch (  WicketRuntimeException e) {
+  }
+}

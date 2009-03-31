@@ -1,0 +1,13 @@
+{
+  Map<String,List<Person>> map=new HashMap<String,List<Person>>();
+  map.put("persons",VelocityTemplateApplication.getPersons());
+  templateContext=Model.valueOf(map);
+  add(new TemplateForm("templateForm"));
+  add(new VelocityPanel("templatePanel",templateContext){
+    @Override protected IStringResourceStream getTemplateResource(){
+      return template;
+    }
+  }
+);
+  add(new FeedbackPanel("feedback"));
+}

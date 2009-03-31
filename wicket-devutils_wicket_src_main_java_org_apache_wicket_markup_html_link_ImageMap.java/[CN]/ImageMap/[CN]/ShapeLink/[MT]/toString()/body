@@ -1,0 +1,10 @@
+{
+  final String popupJavaScript;
+  if (link.getPopupSettings() != null) {
+    popupJavaScript=link.getPopupSettings().getPopupJavaScript();
+  }
+ else {
+    popupJavaScript=null;
+  }
+  return "<area shape=\"" + getType() + "\""+ " coords=\""+ getCoordinates()+ "\""+ " href=\""+ link.getURL()+ "\""+ (link.getOutputMarkupId() ? " id=\"" + link.getMarkupId() + "\"" : "")+ ((popupJavaScript == null) ? "" : (" onClick = \"" + popupJavaScript + "\""))+ ">";
+}

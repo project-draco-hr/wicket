@@ -1,0 +1,19 @@
+{
+  final java.io.File[] files=listFiles(new java.io.FileFilter(){
+    /** 
+ * @see java.io.FileFilter#accept(java.io.File)
+ */
+    public boolean accept(    java.io.File file){
+      return file.isDirectory() && filter.accept(new Folder(file.getPath()));
+    }
+  }
+);
+  if (files != null) {
+    final Folder[] wicketFolders=new Folder[files.length];
+    for (int i=0; i < files.length; i++) {
+      wicketFolders[i]=new Folder(files[i]);
+    }
+    return wicketFolders;
+  }
+  return new Folder[0];
+}

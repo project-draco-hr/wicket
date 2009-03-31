@@ -1,0 +1,39 @@
+{
+  String pageRelativeComponentPath=Strings.afterFirstPathComponent(componentPath,Component.PATH_SEPARATOR);
+  Component component=null;
+  if (page instanceof WebPage && !"IResourceListener".equals(interfaceName)) {
+    ComponentAndInterface cai=((WebPage)page).getUrlCompressor().getComponentAndInterfaceForUID(pageRelativeComponentPath);
+    if (cai != null) {
+      interfaceName=cai.getInterfaceName();
+      component=cai.getComponent();
+    }
+  }
+  requestParameters.setInterfaceName(interfaceName);
+  if (interfaceName.equals(IRedirectListener.INTERFACE.getName())) {
+    return new RedirectPageRequestTarget(page);
+  }
+ else   if (interfaceName.equals(INewBrowserWindowListener.INTERFACE.getName())) {
+    return INewBrowserWindowListener.INTERFACE.newRequestTarget(page,page,INewBrowserWindowListener.INTERFACE,requestParameters);
+  }
+ else {
+    final RequestListenerInterface listener=RequestListenerInterface.forName(interfaceName);
+    if (listener == null) {
+      throw new WicketRuntimeException("Attempt to access unknown request listener interface " + interfaceName);
+    }
+    if (component == null) {
+      if (Strings.isEmpty(pageRelativeComponentPath)) {
+        component=page;
+      }
+ else {
+        component=page.get(pageRelativeComponentPath);
+      }
+    }
+    if (component == null) {
+      throw new WicketRuntimeException("cannot resolve component with path '" + pageRelativeComponentPath + "', listener "+ listener+ " on page "+ page);
+    }
+    if (!component.isEnableAllowed()) {
+      throw new UnauthorizedActionException(component,Component.ENABLE);
+    }
+    return listener.newRequestTarget(page,component,listener,requestParameters);
+  }
+}

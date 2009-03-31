@@ -1,0 +1,15 @@
+{
+  ValueMap data1=new ValueMap();
+  data1.put("label","foo");
+  ValueMap data2=new ValueMap();
+  data2.put("label","bar");
+  WebMarkupContainer parent=new WebMarkupContainer("foo");
+  Label label=new Label("label");
+  parent.add(label);
+  parent.setDefaultModel(new CompoundPropertyModel(data1));
+  assertEquals("foo",label.getDefaultModelObject());
+  parent.setDefaultModel(new CompoundPropertyModel(data2));
+  assertEquals("bar",label.getDefaultModelObject());
+  data2.put("label","foo");
+  assertEquals("foo",label.getDefaultModelObject());
+}

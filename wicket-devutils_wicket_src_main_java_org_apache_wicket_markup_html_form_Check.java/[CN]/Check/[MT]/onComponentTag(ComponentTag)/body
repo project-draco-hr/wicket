@@ -1,0 +1,43 @@
+{
+  super.onComponentTag(tag);
+  checkComponentTag(tag,"input");
+  checkComponentTagAttribute(tag,"type","checkbox");
+  CheckGroup<?> group=getGroup();
+  final String uuid=getValue();
+  tag.put("name",group.getInputName());
+  tag.put("value",uuid);
+  Collection<?> collection=(Collection<?>)group.getDefaultModelObject();
+  if (collection == null) {
+    throw new WicketRuntimeException("CheckGroup [" + group.getPath() + "] contains a null model object, must be an object of type java.util.Collection");
+  }
+  if (group.hasRawInput()) {
+    final String[] input=group.getInputAsArray();
+    if (input != null) {
+      for (int i=0; i < input.length; i++) {
+        if (uuid.equals(input[i])) {
+          tag.put("checked","checked");
+        }
+      }
+    }
+  }
+ else   if (collection.contains(getDefaultModelObject())) {
+    tag.put("checked","checked");
+  }
+  if (group.wantOnSelectionChangedNotifications()) {
+    CharSequence url=group.urlFor(IOnChangeListener.INTERFACE);
+    Form<?> form=group.findParent(Form.class);
+    if (form != null) {
+      RequestContext rc=RequestContext.get();
+      if (rc.isPortletRequest()) {
+        url=((PortletRequestContext)rc).getLastEncodedPath();
+      }
+      tag.put("onclick",form.getJsForInterfaceUrl(url));
+    }
+ else {
+      tag.put("onclick","window.location.href='" + url + (url.toString().indexOf('?') > -1 ? "&amp;" : "?")+ group.getInputName()+ "=' + this.value;");
+    }
+  }
+  if (!isActionAuthorized(ENABLE) || !isEnabled() || !group.isEnabled()) {
+    tag.put(ATTR_DISABLED,ATTR_DISABLED);
+  }
+}

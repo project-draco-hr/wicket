@@ -1,0 +1,17 @@
+{
+  try {
+    Cookie cookie=getWebRequest().getCookie(name);
+    if (log.isDebugEnabled()) {
+      if (cookie != null) {
+        log.debug("Found Cookie with name=" + name + " and request URI="+ getWebRequest().getHttpServletRequest().getRequestURI());
+      }
+ else {
+        log.debug("Unable to find Cookie with name=" + name + " and request URI="+ getWebRequest().getHttpServletRequest().getRequestURI());
+      }
+    }
+    return cookie;
+  }
+ catch (  NullPointerException ex) {
+  }
+  return null;
+}

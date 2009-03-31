@@ -1,0 +1,13 @@
+{
+  Object ret=null;
+  try {
+    ret=getMethod.invoke(object,new Object[]{index});
+  }
+ catch (  InvocationTargetException ex) {
+    throw new WicketRuntimeException("Error calling index property method: " + getMethod + " on object: "+ object,ex.getCause());
+  }
+catch (  Exception ex) {
+    throw new WicketRuntimeException("Error calling index property method: " + getMethod + " on object: "+ object,ex);
+  }
+  return ret;
+}

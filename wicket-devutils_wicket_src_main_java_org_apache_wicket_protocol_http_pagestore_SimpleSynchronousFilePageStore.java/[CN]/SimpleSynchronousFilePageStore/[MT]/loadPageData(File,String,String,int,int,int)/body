@@ -1,0 +1,36 @@
+{
+  File sessionDir=new File(workDir,sessionId);
+  byte[] pageData=null;
+  if (sessionDir.exists()) {
+    File pageFile=getPageFile(sessionDir,pageMapName,pageId,versionNumber,ajaxVersionNumber);
+    if (pageFile.exists()) {
+      FileInputStream fis=null;
+      try {
+        fis=new FileInputStream(pageFile);
+        int length=(int)pageFile.length();
+        ByteBuffer bb=ByteBuffer.allocate(length);
+        fis.getChannel().read(bb);
+        if (bb.hasArray()) {
+          pageData=bb.array();
+        }
+ else {
+          pageData=new byte[length];
+          bb.get(pageData);
+        }
+      }
+ catch (      Exception e) {
+        log.debug("Error loading page " + pageId + ","+ versionNumber+ " for the sessionid "+ sessionId+ " from disk",e);
+      }
+ finally {
+        try {
+          if (fis != null) {
+            fis.close();
+          }
+        }
+ catch (        IOException ex) {
+        }
+      }
+    }
+  }
+  return pageData;
+}

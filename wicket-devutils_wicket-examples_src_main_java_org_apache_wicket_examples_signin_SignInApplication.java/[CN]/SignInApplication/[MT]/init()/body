@@ -1,0 +1,17 @@
+{
+  getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy(){
+    public boolean isActionAuthorized(    Component component,    Action action){
+      return true;
+    }
+    public <T extends Component>boolean isInstantiationAuthorized(    Class<T> componentClass){
+      if (AuthenticatedWebPage.class.isAssignableFrom(componentClass)) {
+        if (((SignInSession)Session.get()).isSignedIn()) {
+          return true;
+        }
+        throw new RestartResponseAtInterceptPageException(SignIn.class);
+      }
+      return true;
+    }
+  }
+);
+}

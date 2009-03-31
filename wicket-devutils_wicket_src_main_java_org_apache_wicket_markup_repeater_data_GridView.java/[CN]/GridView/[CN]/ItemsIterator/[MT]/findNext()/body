@@ -1,0 +1,18 @@
+{
+  next=null;
+  if (cells != null && cells.hasNext()) {
+    next=cells.next();
+  }
+ else {
+    while (rows.hasNext()) {
+      MarkupContainer row=rows.next();
+      final Iterator<? extends Component> rawCells;
+      rawCells=((MarkupContainer)row.iterator().next()).iterator();
+      cells=Generics.iterator(rawCells);
+      if (cells.hasNext()) {
+        next=cells.next();
+        break;
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  try {
+    final ByteArrayOutputStream out=new ByteArrayOutputStream();
+    ObjectOutputStream oos=null;
+    try {
+      oos=objectStreamFactory.newObjectOutputStream(out);
+      if (Application.exists()) {
+        oos.writeObject(Application.get().getApplicationKey());
+      }
+ else {
+        oos.writeObject(null);
+      }
+      oos.writeObject(object);
+    }
+  finally {
+      if (oos != null) {
+        oos.close();
+      }
+      out.close();
+    }
+    return out.toByteArray();
+  }
+ catch (  Exception e) {
+    log.error("Error serializing object " + object.getClass() + " [object="+ object+ "]",e);
+  }
+  return null;
+}

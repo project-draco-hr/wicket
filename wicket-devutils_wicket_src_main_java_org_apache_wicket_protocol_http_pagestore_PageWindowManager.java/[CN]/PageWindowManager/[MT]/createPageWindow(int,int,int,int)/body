@@ -1,0 +1,16 @@
+{
+  int index=getWindowIndex(pageId,versionNumber,ajaxVersionNumber);
+  if (index != -1) {
+    removeWindowIndex(pageId,index);
+    (windows.get(index)).pageId=-1;
+  }
+  if (index == -1 || index != indexPointer) {
+    index=incrementIndexPointer();
+  }
+  PageWindowInternal window=allocatePageWindow(index,size);
+  window.pageId=pageId;
+  window.versionNumber=(short)versionNumber;
+  window.ajaxVersionNumber=(short)ajaxVersionNumber;
+  putWindowIndex(pageId,index);
+  return new PageWindow(window);
+}

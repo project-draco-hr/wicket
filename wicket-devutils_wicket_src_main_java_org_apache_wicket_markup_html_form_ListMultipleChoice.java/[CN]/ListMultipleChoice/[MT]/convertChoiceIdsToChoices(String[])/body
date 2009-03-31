@@ -1,0 +1,16 @@
+{
+  ArrayList<T> selectedValues=new ArrayList<T>();
+  if (ids != null && ids.length > 0 && !Strings.isEmpty(ids[0])) {
+    final List<? extends T> choices=getChoices();
+    for (int i=0; i < ids.length; i++) {
+      for (int index=0; index < choices.size(); index++) {
+        final T choice=choices.get(index);
+        if (getChoiceRenderer().getIdValue(choice,index).equals(ids[i])) {
+          selectedValues.add(choice);
+          break;
+        }
+      }
+    }
+  }
+  return selectedValues;
+}

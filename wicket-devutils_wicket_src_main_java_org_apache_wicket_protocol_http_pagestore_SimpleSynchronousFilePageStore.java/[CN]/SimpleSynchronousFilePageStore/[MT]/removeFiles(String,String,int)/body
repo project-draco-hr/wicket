@@ -1,0 +1,21 @@
+{
+  File sessionDir=new File(defaultWorkDir,sessionId);
+  if (sessionDir.exists()) {
+    final String filepart;
+    if (id != -1) {
+      filepart=appName + "-pm-" + pageMap+ "-p-"+ id;
+    }
+ else {
+      filepart=appName + "-pm-" + pageMap;
+    }
+    File[] listFiles=sessionDir.listFiles(new FilenameFilter(){
+      public boolean accept(      File dir,      String name){
+        return name.startsWith(filepart);
+      }
+    }
+);
+    for (int i=0; i < listFiles.length; i++) {
+      listFiles[i].delete();
+    }
+  }
+}

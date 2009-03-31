@@ -1,0 +1,31 @@
+{
+  if (associatedMarkupStream == null) {
+    return -1;
+  }
+  MarkupElement elem=associatedMarkupStream.get();
+  while (elem != null) {
+    if (elem instanceof WicketTag) {
+      WicketTag tag=(WicketTag)elem;
+      if (tag.isOpen() && tag.isHeadTag()) {
+        if (noMoreWicketHeadTagsAllowed == true) {
+          throw new MarkupException("<wicket:head> tags are only allowed before <body>, </head>, <wicket:panel> etc. tag");
+        }
+        return associatedMarkupStream.getCurrentIndex();
+      }
+ else       if (tag.isOpen() && (tag.isPanelTag() || tag.isBorderTag() || tag.isExtendTag())) {
+        noMoreWicketHeadTagsAllowed=true;
+      }
+    }
+ else     if (elem instanceof ComponentTag) {
+      ComponentTag tag=(ComponentTag)elem;
+      if (tag.isClose() && TagUtils.isHeadTag(tag)) {
+        noMoreWicketHeadTagsAllowed=true;
+      }
+ else       if (tag.isOpen() && TagUtils.isBodyTag(tag)) {
+        noMoreWicketHeadTagsAllowed=true;
+      }
+    }
+    elem=associatedMarkupStream.next();
+  }
+  return -1;
+}

@@ -1,0 +1,17 @@
+{
+  if (securePageSuperType == null) {
+    throw new IllegalArgumentException("Secure page super type must not be null");
+  }
+  securePageSuperTypeRef=new WeakReference<Class<?>>(securePageSuperType);
+  Application.get().getSecuritySettings().setUnauthorizedComponentInstantiationListener(new IUnauthorizedComponentInstantiationListener(){
+    public void onUnauthorizedInstantiation(    final Component component){
+      if (component instanceof Page) {
+        throw new RestartResponseAtInterceptPageException(signInPageClass);
+      }
+ else {
+        throw new UnauthorizedInstantiationException(component.getClass());
+      }
+    }
+  }
+);
+}

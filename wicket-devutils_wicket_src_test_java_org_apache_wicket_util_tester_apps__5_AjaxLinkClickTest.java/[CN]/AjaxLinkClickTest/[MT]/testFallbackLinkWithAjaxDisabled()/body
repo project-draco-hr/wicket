@@ -1,0 +1,23 @@
+{
+  final Page page=new MockPageWithLink();
+  page.add(new AjaxFallbackLink<Void>("ajaxLink"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      linkClicked=true;
+      ajaxRequestTarget=target;
+    }
+  }
+);
+  tester.startPage(new ITestPageSource(){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    public Page getTestPage(){
+      return page;
+    }
+  }
+);
+  tester.clickLink("ajaxLink",false);
+  assertTrue(linkClicked);
+  assertNull(ajaxRequestTarget);
+}

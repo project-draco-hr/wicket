@@ -1,0 +1,16 @@
+{
+  if (getComponent() instanceof IAjaxIndicatorAware) {
+    return ((IAjaxIndicatorAware)getComponent()).getAjaxIndicatorMarkupId();
+  }
+  if (this instanceof IAjaxIndicatorAware) {
+    return ((IAjaxIndicatorAware)this).getAjaxIndicatorMarkupId();
+  }
+  Component parent=getComponent().getParent();
+  while (parent != null) {
+    if (parent instanceof IAjaxIndicatorAware) {
+      return ((IAjaxIndicatorAware)parent).getAjaxIndicatorMarkupId();
+    }
+    parent=parent.getParent();
+  }
+  return null;
+}

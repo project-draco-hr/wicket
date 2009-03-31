@@ -1,0 +1,24 @@
+{
+  final Input input=new Input();
+  setDefaultModel(new CompoundPropertyModel<Input>(input));
+  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  add(feedbackPanel);
+  Form<?> form=new Form("form"){
+    @Override protected void onSubmit(){
+      info("input: " + input);
+    }
+  }
+;
+  add(form);
+  ListMultipleChoice<String> listChoice=new ListMultipleChoice<String>("sites",SITES);
+  form.add(listChoice);
+  listChoice=new ListMultipleChoice<String>("choices",MANY_CHOICES){
+    @Override protected boolean isDisabled(    String object,    int index,    String selected){
+      if (index == 1)       return true;
+      return super.isDisabled(object,index,selected);
+    }
+  }
+;
+  listChoice.setMaxRows(5);
+  form.add(listChoice);
+}

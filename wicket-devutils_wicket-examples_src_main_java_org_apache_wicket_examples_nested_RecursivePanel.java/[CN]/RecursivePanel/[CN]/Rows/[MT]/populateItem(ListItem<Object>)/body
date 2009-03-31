@@ -1,0 +1,19 @@
+{
+  Object modelObject=listItem.getDefaultModelObject();
+  if (modelObject instanceof List) {
+    RecursivePanel nested=new RecursivePanel("nested",(List<Object>)modelObject);
+    listItem.add(nested);
+    WebMarkupContainer row=new WebMarkupContainer("row");
+    row.setVisible(false);
+    row.add(new WebMarkupContainer("label"));
+    listItem.add(row);
+  }
+ else {
+    RecursivePanel nested=new RecursivePanel("nested",null);
+    nested.setVisible(false);
+    listItem.add(nested);
+    WebMarkupContainer row=new WebMarkupContainer("row");
+    row.add(new Label("label",modelObject.toString()));
+    listItem.add(row);
+  }
+}

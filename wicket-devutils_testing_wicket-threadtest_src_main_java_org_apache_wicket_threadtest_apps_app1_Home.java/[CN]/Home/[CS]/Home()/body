@@ -1,0 +1,40 @@
+{
+  add(new Link("link"){
+    private static final long serialVersionUID=1L;
+    int i=0;
+    @Override public void onClick(){
+      i++;
+      addStateChange(new Change(){
+        private static final long serialVersionUID=1L;
+        @Override public void undo(){
+        }
+      }
+);
+    }
+  }
+);
+  add(new Label("selectedLabel",new PropertyModel<Contact>(this,"selectedContactLabel")));
+  add(new DataView<Contact>("simple",new ContactDataProvider()){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    final Item<Contact> item){
+      Contact contact=item.getModelObject();
+      item.add(new ActionPanel("actions",item.getModel()));
+      item.add(new Label("contactid",String.valueOf(contact.getId())));
+      item.add(new Label("firstname",contact.getFirstName()));
+      item.add(new Label("lastname",contact.getLastName()));
+      item.add(new Label("homephone",contact.getHomePhone()));
+      item.add(new Label("cellphone",contact.getCellPhone()));
+      item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel<String>(){
+        private static final long serialVersionUID=1L;
+        @Override public String getObject(){
+          return (item.getIndex() % 2 == 1) ? "even" : "odd";
+        }
+      }
+));
+    }
+  }
+);
+  final FeedbackPanel feedback=new FeedbackPanel("feedback");
+  add(feedback);
+  add(new InputForm("inputForm"));
+}

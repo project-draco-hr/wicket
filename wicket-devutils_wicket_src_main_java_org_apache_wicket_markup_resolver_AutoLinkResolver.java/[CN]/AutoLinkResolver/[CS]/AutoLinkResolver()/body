@@ -1,0 +1,17 @@
+{
+  TagReferenceResolver hrefTagReferenceResolver=new TagReferenceResolver("href");
+  TagReferenceResolver srcTagReferenceResolver=new TagReferenceResolver("src");
+  tagNameToTagReferenceResolvers.put("a",hrefTagReferenceResolver);
+  tagNameToTagReferenceResolvers.put("link",hrefTagReferenceResolver);
+  tagNameToTagReferenceResolvers.put("script",srcTagReferenceResolver);
+  tagNameToTagReferenceResolvers.put("img",srcTagReferenceResolver);
+  tagNameToTagReferenceResolvers.put("input",srcTagReferenceResolver);
+  tagNameToTagReferenceResolvers.put("embed",srcTagReferenceResolver);
+  tagNameToAutolinkResolverDelegates.put("a",new AnchorResolverDelegate());
+  tagNameToAutolinkResolverDelegates.put("link",new ResourceReferenceResolverDelegate("href"));
+  ResourceReferenceResolverDelegate srcResRefResolver=new ResourceReferenceResolverDelegate("src");
+  tagNameToAutolinkResolverDelegates.put("script",srcResRefResolver);
+  tagNameToAutolinkResolverDelegates.put("img",srcResRefResolver);
+  tagNameToAutolinkResolverDelegates.put("input",srcResRefResolver);
+  tagNameToAutolinkResolverDelegates.put("embed",srcResRefResolver);
+}

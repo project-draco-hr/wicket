@@ -1,0 +1,12 @@
+{
+  final String formId=getForm().getMarkupId();
+  final CharSequence url=getCallbackUrl();
+  AppendingStringBuffer call=new AppendingStringBuffer("wicketSubmitFormById('").append(formId).append("', '").append(url).append("', ");
+  if (getComponent() instanceof IFormSubmittingComponent) {
+    call.append("'").append(((IFormSubmittingComponent)getComponent()).getInputName()).append("' ");
+  }
+ else {
+    call.append("null");
+  }
+  return generateCallbackScript(call) + ";";
+}

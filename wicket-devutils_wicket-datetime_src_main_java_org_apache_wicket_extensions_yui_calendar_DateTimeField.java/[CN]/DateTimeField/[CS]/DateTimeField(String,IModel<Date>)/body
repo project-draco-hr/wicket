@@ -1,0 +1,27 @@
+{
+  super(id,model);
+  setType(Date.class);
+  PropertyModel<Date> dateFieldModel=new PropertyModel<Date>(this,"date");
+  add(dateField=newDateTextField("date",dateFieldModel));
+  dateField.add(new DatePicker(){
+    private static final long serialVersionUID=1L;
+    @Override protected void configure(    Map<String,Object> widgetProperties){
+      super.configure(widgetProperties);
+      DateTimeField.this.configure(widgetProperties);
+    }
+  }
+);
+  add(hoursField=new TextField<Integer>("hours",new PropertyModel<Integer>(this,"hours"),Integer.class));
+  hoursField.add(new HoursValidator());
+  hoursField.setLabel(new Model<String>("hours"));
+  add(minutesField=new TextField<Integer>("minutes",new PropertyModel<Integer>(this,"minutes"),Integer.class){
+    private static final long serialVersionUID=1L;
+    @SuppressWarnings("unchecked") @Override public IConverter getConverter(    Class type){
+      return MINUTES_CONVERTER;
+    }
+  }
+);
+  minutesField.add(new RangeValidator<Integer>(0,59));
+  minutesField.setLabel(new Model<String>("minutes"));
+  add(amOrPmChoice=new DropDownChoice<AM_PM>("amOrPmChoice",new PropertyModel<AM_PM>(this,"amOrPm"),Arrays.asList(AM_PM.values())));
+}

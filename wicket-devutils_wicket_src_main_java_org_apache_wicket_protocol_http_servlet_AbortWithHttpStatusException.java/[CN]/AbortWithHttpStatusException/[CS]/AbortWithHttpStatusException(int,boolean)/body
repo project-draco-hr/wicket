@@ -1,0 +1,18 @@
+{
+  this.status=status;
+  RequestCycle rc=RequestCycle.get();
+  if (rc == null) {
+    if (!statusCodeOptional) {
+      throw new IllegalStateException("This exception can only be thrown from within request processing cycle");
+    }
+  }
+ else {
+    Response r=rc.getResponse();
+    if (!(r instanceof WebResponse)) {
+      throw new IllegalStateException("This exception can only be thrown when wicket is processing an http request");
+    }
+    WebResponse wr=(WebResponse)r;
+    wr.getHttpServletResponse().setStatus(status);
+    rc.setRequestTarget(EmptyRequestTarget.getInstance());
+  }
+}

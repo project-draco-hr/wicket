@@ -1,0 +1,20 @@
+{
+  if (charSetMap == null) {
+    final ServletContext context=application.getServletContext();
+    final InputStream inputStream=context.getResourceAsStream("/WEB-INF/" + CharSetMap.CHARSET_RESOURCE);
+    if (inputStream == null) {
+      charSetMap=new CharSetMap();
+      if (log.isDebugEnabled()) {
+        log.debug("File '" + CharSetMap.CHARSET_RESOURCE + "' not found");
+      }
+    }
+ else {
+      try {
+        charSetMap=new CharSetMap(inputStream);
+      }
+ catch (      IOException ex) {
+        throw new WicketRuntimeException("Error while reading CharSetMap",ex);
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  int currentIndex=providerMarkupStream.getCurrentIndex();
+  int index=providerMarkupStream.findComponentIndex(null,markupId);
+  if (index == -1) {
+    throw new MarkupException("Markup of component class `" + providerMarkupStream.getContainerClass().getName() + "` does not contain a fragment with wicket:id `"+ markupId+ "`. Context: "+ toString());
+  }
+  providerMarkupStream.setCurrentIndex(index);
+  try {
+    ComponentTag fragmentOpenTag=providerMarkupStream.getTag();
+    if (!fragmentOpenTag.isOpenClose()) {
+      providerMarkupStream.next();
+      super.onComponentTagBody(providerMarkupStream,fragmentOpenTag);
+    }
+  }
+  finally {
+    providerMarkupStream.setCurrentIndex(currentIndex);
+  }
+}

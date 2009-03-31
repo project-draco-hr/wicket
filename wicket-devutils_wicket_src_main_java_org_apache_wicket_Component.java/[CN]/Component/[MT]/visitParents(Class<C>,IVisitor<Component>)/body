@@ -1,0 +1,13 @@
+{
+  Component current=getParent();
+  while (current != null) {
+    if (c.isInstance(current)) {
+      final Object object=visitor.component(current);
+      if (object != IVisitor.CONTINUE_TRAVERSAL) {
+        return object;
+      }
+    }
+    current=current.getParent();
+  }
+  return null;
+}

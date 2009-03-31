@@ -1,0 +1,38 @@
+{
+  if (children == null)   return null;
+  if (children instanceof Component || children instanceof ComponentSourceEntry) {
+    if (index == 0) {
+      final Component removed=(Component)postprocess(children,true,null,-1);
+      children=null;
+      return removed;
+    }
+ else {
+      throw new IndexOutOfBoundsException();
+    }
+  }
+ else {
+    if (children instanceof Object[]) {
+      Object[] c=((Object[])children);
+      final Object removed=c[index];
+      if (c.length == 2) {
+        if (index == 0) {
+          children=c[1];
+        }
+ else         if (index == 1) {
+          children=c[0];
+        }
+ else {
+          throw new IndexOutOfBoundsException();
+        }
+        return (Component)postprocess(removed,true,null,-1);
+      }
+      children=new ChildList(children);
+    }
+    ChildList lst=(ChildList)children;
+    Object removed=lst.remove(index);
+    if (lst.size == 1) {
+      children=lst.get(0);
+    }
+    return (Component)postprocess(removed,true,null,-1);
+  }
+}

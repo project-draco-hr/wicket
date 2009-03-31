@@ -1,0 +1,12 @@
+{
+  Entry<V>[] oldTable=table;
+  int oldCapacity=oldTable.length;
+  if (oldCapacity == MAXIMUM_CAPACITY) {
+    threshold=Integer.MAX_VALUE;
+    return;
+  }
+  Entry<V>[] newTable=new Entry[newCapacity];
+  transfer(newTable);
+  table=newTable;
+  threshold=(int)(newCapacity * loadFactor);
+}

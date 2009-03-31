@@ -1,0 +1,12 @@
+{
+  final Session session=Session.get();
+  final List<String> attributes=session.getAttributeNames();
+  final List<IPageMapEntry> list=new ArrayList<IPageMapEntry>();
+  for (final Iterator<String> iterator=attributes.iterator(); iterator.hasNext(); ) {
+    final String attribute=iterator.next();
+    if (attribute.startsWith(attributePrefix())) {
+      list.add((IPageMapEntry)session.getAttribute(attribute));
+    }
+  }
+  return list;
+}

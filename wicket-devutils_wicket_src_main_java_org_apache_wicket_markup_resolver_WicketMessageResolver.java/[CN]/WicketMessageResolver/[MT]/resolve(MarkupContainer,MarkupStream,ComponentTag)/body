@@ -1,0 +1,17 @@
+{
+  if (tag instanceof WicketTag) {
+    WicketTag wtag=(WicketTag)tag;
+    if (wtag.isMessageTag()) {
+      String messageKey=wtag.getAttributes().getString("key");
+      if ((messageKey == null) || (messageKey.trim().length() == 0)) {
+        throw new MarkupException("Wrong format of <wicket:message key='xxx'>: attribute 'key' is missing");
+      }
+      final String id="_message_" + container.getPage().getAutoIndex();
+      MessageContainer label=new MessageContainer(id,messageKey);
+      label.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
+      container.autoAdd(label,markupStream);
+      return true;
+    }
+  }
+  return false;
+}

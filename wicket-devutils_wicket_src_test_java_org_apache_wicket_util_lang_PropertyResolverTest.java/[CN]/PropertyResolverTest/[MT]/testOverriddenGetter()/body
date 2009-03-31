@@ -1,0 +1,9 @@
+{
+  Person2 person=new Person2();
+  person.setName("foo");
+  String name=(String)PropertyResolver.getValue("name",person);
+  assertEquals("foo",name);
+  PropertyResolver.setValue("name",person,"bar",CONVERTER);
+  name=(String)PropertyResolver.getValue("name",person);
+  assertEquals("bar",name);
+}

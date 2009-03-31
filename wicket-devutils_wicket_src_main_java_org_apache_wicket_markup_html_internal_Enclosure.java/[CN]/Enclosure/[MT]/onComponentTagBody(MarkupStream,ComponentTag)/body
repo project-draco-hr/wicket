@@ -1,0 +1,25 @@
+{
+  final Component controller=getChildComponent();
+  if (controller == this) {
+    throw new WicketRuntimeException("Programming error: childComponent == enclose component; endless loop");
+  }
+  setVisible(controller.determineVisibility());
+  originalVisibilityStatus=new HashMap<Component,Boolean>();
+  DirectChildTagIterator it=new DirectChildTagIterator(markupStream,openTag);
+  MarkupContainer controllerParent=getEnclosureParent();
+  while (it.hasNext()) {
+    ComponentTag t=it.next();
+    Component child=controllerParent.get(t.getId());
+    if (child != null) {
+      originalVisibilityStatus.put(child,child.isVisibilityAllowed());
+      child.setVisibilityAllowed(isVisible());
+    }
+  }
+  it.rewind();
+  if (isVisible() == true) {
+    super.onComponentTagBody(markupStream,openTag);
+  }
+ else {
+    markupStream.skipToMatchingCloseTag(openTag);
+  }
+}

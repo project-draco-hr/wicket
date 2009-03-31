@@ -1,0 +1,60 @@
+{
+  Class<?> current=object.getClass();
+  do {
+    Field[] currentFields=current.getDeclaredFields();
+    for (    final Field field : currentFields) {
+      if (!Modifier.isStatic(field.getModifiers()) && field.getAnnotation(Inject.class) != null) {
+        try {
+          Annotation bindingAnnotation=findBindingAnnotation(field.getAnnotations());
+          Object proxy=LazyInitProxyFactory.createProxy(field.getType(),new GuiceProxyTargetLocator(field,bindingAnnotation));
+          if (!field.isAccessible()) {
+            field.setAccessible(true);
+          }
+          field.set(object,proxy);
+        }
+ catch (        IllegalAccessException e) {
+          throw new WicketRuntimeException("Error Guice-injecting field " + field.getName() + " in "+ object,e);
+        }
+catch (        MoreThanOneBindingException e) {
+          throw new RuntimeException("Can't have more than one BindingAnnotation on field " + field.getName() + " of class "+ object.getClass().getName());
+        }
+      }
+    }
+    Method[] currentMethods=current.getDeclaredMethods();
+    for (    final Method method : currentMethods) {
+      if (!Modifier.isStatic(method.getModifiers()) && method.getAnnotation(Inject.class) != null) {
+        Annotation[][] paramAnnotations=method.getParameterAnnotations();
+        Class<?>[] paramTypes=method.getParameterTypes();
+        Type[] genericParamTypes=method.getGenericParameterTypes();
+        Object[] args=new Object[paramTypes.length];
+        for (int i=0; i < paramTypes.length; i++) {
+          Type paramType;
+          if (genericParamTypes[i] instanceof ParameterizedType) {
+            paramType=((ParameterizedType)genericParamTypes[i]).getRawType();
+          }
+ else {
+            paramType=paramTypes[i];
+          }
+          try {
+            Annotation bindingAnnotation=findBindingAnnotation(paramAnnotations[i]);
+            args[i]=LazyInitProxyFactory.createProxy(paramTypes[i],new GuiceProxyTargetLocator(method,i,bindingAnnotation));
+          }
+ catch (          MoreThanOneBindingException e) {
+            throw new RuntimeException("Can't have more than one BindingAnnotation on parameter " + i + "("+ paramType+ ") of method "+ method.getName()+ " of class "+ object.getClass().getName());
+          }
+        }
+        try {
+          method.invoke(object,args);
+        }
+ catch (        IllegalAccessException e) {
+          throw new WicketRuntimeException(e);
+        }
+catch (        InvocationTargetException e) {
+          throw new WicketRuntimeException(e);
+        }
+      }
+    }
+    current=current.getSuperclass();
+  }
+ while (current != null && current != Object.class);
+}

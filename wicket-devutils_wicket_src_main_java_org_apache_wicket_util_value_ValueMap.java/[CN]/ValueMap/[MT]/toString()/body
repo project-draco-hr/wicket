@@ -1,0 +1,23 @@
+{
+  final StringBuffer buffer=new StringBuffer();
+  for (final Iterator iterator=entrySet().iterator(); iterator.hasNext(); ) {
+    final Map.Entry entry=(Map.Entry)iterator.next();
+    buffer.append(entry.getKey());
+    buffer.append(" = \"");
+    final Object value=entry.getValue();
+    if (value == null) {
+      buffer.append("null");
+    }
+ else     if (value.getClass().isArray()) {
+      buffer.append(Arrays.asList((Object[])value));
+    }
+ else {
+      buffer.append(value);
+    }
+    buffer.append('\"');
+    if (iterator.hasNext()) {
+      buffer.append(' ');
+    }
+  }
+  return buffer.toString();
+}

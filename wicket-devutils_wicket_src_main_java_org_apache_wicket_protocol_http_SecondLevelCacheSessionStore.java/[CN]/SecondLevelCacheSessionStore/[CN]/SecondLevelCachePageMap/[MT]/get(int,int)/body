@@ -1,0 +1,23 @@
+{
+  IntHashMap<Page> pages=getUsedPages(getName());
+  Page page=(Page)pages.get(id);
+  if (page != null) {
+    return page;
+  }
+  String sessionId=getSession().getId();
+  if (getLastPage() != null && getLastPage().getNumericId() == id) {
+    page=versionNumber != -1 ? getLastPage().getVersion(versionNumber) : getLastPage();
+    if (page != null) {
+      getStore().pageAccessed(sessionId,page);
+      pages.put(id,page);
+      return page;
+    }
+  }
+  if (sessionId != null) {
+    setLastPage(null);
+    page=getStore().getPage(sessionId,getName(),id,versionNumber,-1);
+    pages.put(id,page);
+    return page;
+  }
+  return null;
+}

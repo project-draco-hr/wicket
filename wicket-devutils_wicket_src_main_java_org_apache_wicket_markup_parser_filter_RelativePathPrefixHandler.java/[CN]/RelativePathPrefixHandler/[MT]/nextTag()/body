@@ -1,0 +1,23 @@
+{
+  final ComponentTag tag=(ComponentTag)getParent().nextTag();
+  if ((tag == null) || tag.isClose()) {
+    return tag;
+  }
+  if ((tag instanceof WicketTag) || (tag.isAutolinkEnabled() == true) || (tag.getAttributes().get("wicket:id") != null)) {
+    return tag;
+  }
+  for (int i=0; i < attributeNames.length; i++) {
+    String attrName=attributeNames[i];
+    String attrValue=tag.getAttributes().getString(attrName);
+    if ((attrValue != null) && (attrValue.startsWith("/") == false) && (attrValue.indexOf(":") < 0)&& !(attrValue.startsWith("#"))) {
+      if (tag.getId() == null) {
+        tag.setId(WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID);
+        tag.setAutoComponentTag(true);
+      }
+      tag.addBehavior(RELATIVE_PATH_BEHAVIOR);
+      tag.setModified(true);
+      break;
+    }
+  }
+  return tag;
+}

@@ -1,0 +1,8 @@
+{
+  PageParameters pp=new PageParameters();
+  pp.put("test","test");
+  tester.startPage(BookmarkableThrowsInterceptPage.class,pp);
+  assertEquals(tester.getLastRenderedPage().getClass(),BookmarkableSetSecurityPage.class);
+  tester.startPage(BookmarkableContinueToPage.class);
+  assertEquals(tester.getLastRenderedPage().getClass(),BookmarkableThrowsInterceptPage.class);
+}

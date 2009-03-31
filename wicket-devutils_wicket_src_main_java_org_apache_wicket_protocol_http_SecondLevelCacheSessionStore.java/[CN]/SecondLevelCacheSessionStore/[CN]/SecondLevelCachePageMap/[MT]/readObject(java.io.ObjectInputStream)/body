@@ -1,0 +1,14 @@
+{
+  s.defaultReadObject();
+  IPageStore store=getPageStore();
+  if (sessionId != null && store instanceof IClusteredPageStore == false) {
+    Object lastPage=s.readObject();
+    if (lastPage == null) {
+      log.warn("PageMap deserialization - got nulll lastPage");
+    }
+ else     if (store instanceof ISerializationAwarePageStore) {
+      lastPage=((ISerializationAwarePageStore)store).restoreAfterSerialization((Serializable)lastPage);
+    }
+    this.lastPage=lastPage;
+  }
+}

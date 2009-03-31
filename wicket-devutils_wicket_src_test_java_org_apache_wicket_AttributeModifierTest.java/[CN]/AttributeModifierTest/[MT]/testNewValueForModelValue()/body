@@ -1,0 +1,19 @@
+{
+  AttributeModifier modifier=new AttributeModifier("test",true,new Model<String>("happy")){
+    private static final long serialVersionUID=1L;
+    @Override protected String newValue(    String currentValue,    String replacementValue){
+      return replacementValue + " together";
+    }
+  }
+;
+  XmlTag xmlTag=new XmlTag();
+  ComponentTag tag=new ComponentTag(xmlTag);
+  tag.setId("test");
+  tag.setName("id");
+  modifier.replaceAttributeValue(null,tag);
+  Map<String,Object> attributes=tag.getAttributes();
+  assertTrue(!attributes.isEmpty());
+  String replacement=(String)attributes.get("test");
+  assertNotNull(replacement);
+  assertEquals("happy together",replacement);
+}

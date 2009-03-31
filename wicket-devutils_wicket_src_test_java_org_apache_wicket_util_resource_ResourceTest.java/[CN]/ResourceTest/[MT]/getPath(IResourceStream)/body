@@ -1,0 +1,11 @@
+{
+  try {
+    URL url=((UrlResourceStream)resource).getURL();
+    CharSequence path=new File(new URI(url.toString())).getPath();
+    path=Strings.replaceAll(path,"\\","/");
+    return path.toString();
+  }
+ catch (  URISyntaxException e) {
+    throw new RuntimeException(e);
+  }
+}

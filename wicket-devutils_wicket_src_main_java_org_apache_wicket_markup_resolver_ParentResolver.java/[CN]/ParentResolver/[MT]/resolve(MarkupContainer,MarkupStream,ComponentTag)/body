@@ -1,0 +1,21 @@
+{
+  if ((tag instanceof WicketTag) || tag.isAutoComponentTag()) {
+    return false;
+  }
+  MarkupContainer parent=container;
+  while ((parent != null) && (parent.isTransparentResolver())) {
+    parent=parent.getParent();
+    if (parent != null) {
+      Component component=parent.get(tag.getId());
+      if (component != null) {
+        component.render(markupStream);
+        return true;
+      }
+    }
+  }
+  parent=container.getParent();
+  if (parent instanceof IComponentResolver) {
+    return ((IComponentResolver)parent).resolve(container,markupStream,tag);
+  }
+  return false;
+}

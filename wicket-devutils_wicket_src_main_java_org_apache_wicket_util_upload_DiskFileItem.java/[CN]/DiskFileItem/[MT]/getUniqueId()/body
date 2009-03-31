@@ -1,0 +1,11 @@
+{
+  int current;
+synchronized (DiskFileItem.class) {
+    current=counter++;
+  }
+  String id=Integer.toString(current);
+  if (current < 100000000) {
+    id=("00000000" + id).substring(id.length());
+  }
+  return id;
+}

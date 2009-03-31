@@ -1,0 +1,15 @@
+{
+  if (formComponent == null) {
+    fail("Trying to select on null component.");
+  }
+  if (formComponent instanceof RadioGroup || formComponent instanceof DropDownChoice || formComponent instanceof RadioChoice) {
+    return new SingleChoiceSelector(formComponent);
+  }
+ else   if (allowMultipleChoice(formComponent)) {
+    return new MultipleChoiceSelector(formComponent);
+  }
+ else {
+    fail("Selecting on the component:'" + formComponent.getPath() + "' is not supported.");
+    return null;
+  }
+}

@@ -1,0 +1,47 @@
+{
+  if (object == null) {
+    return null;
+  }
+ else {
+    try {
+      final ByteArrayOutputStream out=new ByteArrayOutputStream(256);
+      ObjectOutputStream oos=new ObjectOutputStream(out);
+      oos.writeObject(object);
+      ObjectInputStream ois=new ObjectInputStream(new ByteArrayInputStream(out.toByteArray())){
+        @Override protected Class<?> resolveClass(        ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+          String className=desc.getName();
+          try {
+            return Class.forName(className,true,object.getClass().getClassLoader());
+          }
+ catch (          ClassNotFoundException ex1) {
+            log.debug("Class not found by using objects own classloader, trying the IClassResolver");
+          }
+          Application application=Application.get();
+          IApplicationSettings applicationSettings=application.getApplicationSettings();
+          IClassResolver classResolver=applicationSettings.getClassResolver();
+          Class<?> candidate=null;
+          try {
+            candidate=classResolver.resolveClass(className);
+            if (candidate == null) {
+              candidate=super.resolveClass(desc);
+            }
+          }
+ catch (          WicketRuntimeException ex) {
+            if (ex.getCause() instanceof ClassNotFoundException) {
+              throw (ClassNotFoundException)ex.getCause();
+            }
+          }
+          return candidate;
+        }
+      }
+;
+      return ois.readObject();
+    }
+ catch (    ClassNotFoundException e) {
+      throw new WicketRuntimeException("Internal error cloning object",e);
+    }
+catch (    IOException e) {
+      throw new WicketRuntimeException("Internal error cloning object",e);
+    }
+  }
+}

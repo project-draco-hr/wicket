@@ -1,0 +1,22 @@
+{
+  while (hasMore()) {
+    final MarkupElement thisElement=this.get();
+    final MarkupElement thatElement=that.get();
+    if (thisElement != null && thatElement != null) {
+      if (!thisElement.equalTo(thatElement)) {
+        return false;
+      }
+    }
+ else {
+      if (!(thisElement == null && thatElement == null)) {
+        return false;
+      }
+    }
+    next();
+    that.next();
+  }
+  if (!that.hasMore()) {
+    return true;
+  }
+  return false;
+}

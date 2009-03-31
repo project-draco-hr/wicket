@@ -1,0 +1,13 @@
+{
+  super.init(config);
+  if (examples == null) {
+    examples=discoverExamples(config.getPortletContext());
+    if (examples == null) {
+      examples=Collections.emptyList();
+    }
+ else {
+      examples=Collections.unmodifiableList(examples);
+    }
+    config.getPortletContext().setAttribute(EXAMPLES,examples);
+  }
+}

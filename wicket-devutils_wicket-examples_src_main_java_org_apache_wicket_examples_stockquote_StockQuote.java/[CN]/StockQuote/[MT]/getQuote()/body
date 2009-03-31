@@ -1,0 +1,10 @@
+{
+  final String response=getSOAPQuote(symbol);
+  int start=response.indexOf("&lt;Last&gt;") + "&lt;Last&gt;".length();
+  int end=response.indexOf("&lt;/Last&gt;");
+  if (start < "&lt;Last&gt;".length()) {
+    return "(unknown)";
+  }
+  String result=response.substring(start,end);
+  return result.equals("0.00") ? "(unknown)" : result;
+}

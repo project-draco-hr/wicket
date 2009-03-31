@@ -1,0 +1,27 @@
+{
+  String responseType=resourceStream.getContentType();
+  if (responseType != null) {
+    if (responseType.toLowerCase().indexOf("text") != -1) {
+      response.setContentType(responseType + "; charset=" + response.getCharacterEncoding());
+    }
+ else {
+      response.setContentType(responseType);
+    }
+  }
+ else {
+    if (getFileName() != null) {
+      response.detectContentType(requestCycle,getFileName());
+    }
+ else {
+      response.detectContentType(requestCycle,requestCycle.getRequest().getURL());
+    }
+  }
+  long len=resourceStream.length();
+  if (len >= 0) {
+    response.setContentLength(len);
+  }
+  String file=getFileName();
+  if (file != null && (response instanceof WebResponse)) {
+    ((WebResponse)response).setAttachmentHeader(file);
+  }
+}

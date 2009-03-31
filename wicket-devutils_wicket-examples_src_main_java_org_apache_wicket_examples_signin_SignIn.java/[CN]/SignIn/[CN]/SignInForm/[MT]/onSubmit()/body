@@ -1,0 +1,12 @@
+{
+  SignInSession session=(SignInSession)getSession();
+  if (session.authenticate(properties.getString("username"),properties.getString("password"))) {
+    if (!continueToOriginalDestination()) {
+      setResponsePage(getApplication().getHomePage());
+    }
+  }
+ else {
+    final String errmsg=getLocalizer().getString("loginError",this,"Unable to sign you in");
+    error(errmsg);
+  }
+}

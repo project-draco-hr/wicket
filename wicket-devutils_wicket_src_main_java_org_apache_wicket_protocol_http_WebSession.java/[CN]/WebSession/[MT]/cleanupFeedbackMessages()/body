@@ -1,0 +1,16 @@
+{
+  if (Application.get().getRequestCycleSettings().getRenderStrategy() != IRequestCycleSettings.REDIRECT_TO_RENDER || ((WebRequest)RequestCycle.get().getRequest()).isAjax() || (!RequestCycle.get().isRedirect())) {
+    if (getFeedbackMessages().clear(RENDERED_SESSION_SCOPED_MESSAGES) > 0) {
+      dirty();
+    }
+    if (Application.DEVELOPMENT.equals(getApplication().getConfigurationType())) {
+      List<FeedbackMessage> messages=getFeedbackMessages().messages(WebSession.MESSAGES_FOR_COMPONENTS);
+      for (      FeedbackMessage message : messages) {
+        if (!message.isRendered()) {
+          logger.warn("Component-targetted feedback message was left unrendered. This could be because you are missing a FeedbackPanel on the page.  Message: {}",message);
+        }
+      }
+    }
+    getFeedbackMessages().clear(WebSession.MESSAGES_FOR_COMPONENTS);
+  }
+}

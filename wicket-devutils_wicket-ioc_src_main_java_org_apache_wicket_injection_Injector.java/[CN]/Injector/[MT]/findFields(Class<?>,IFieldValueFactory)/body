@@ -1,0 +1,14 @@
+{
+  List<Field> matched=new ArrayList<Field>();
+  while (clazz != null && !isBoundaryClass(clazz)) {
+    Field[] fields=clazz.getDeclaredFields();
+    for (int i=0; i < fields.length; i++) {
+      final Field field=fields[i];
+      if (factory.supportsField(field)) {
+        matched.add(field);
+      }
+    }
+    clazz=clazz.getSuperclass();
+  }
+  return matched.toArray(new Field[matched.size()]);
+}

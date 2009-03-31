@@ -1,0 +1,24 @@
+{
+  boolean added=false;
+  try {
+    String fileContent=new org.apache.wicket.util.file.File(file).readString();
+    Matcher mat=javaHeaderPattern.matcher(fileContent);
+    if (mat.matches()) {
+      String header=mat.group(1);
+      if (header.equals(getLicenseHeader()) == false) {
+        String newContent=Strings.replaceAll(fileContent,header,"").toString();
+        newContent=getLicenseHeader().trim() + LINE_ENDING + newContent;
+        new org.apache.wicket.util.file.File(file).write(newContent);
+        added=true;
+      }
+    }
+ else {
+      Assert.fail();
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    Assert.fail(e.getMessage());
+  }
+  return added;
+}

@@ -1,0 +1,9 @@
+{
+  XmlReader reader=new XmlReader(this.getClass().getResourceAsStream("test_6.html"),null);
+  assertEquals("<?xml version=\"1.0\" encoding='UTF-8'?>",reader.getXmlDeclaration());
+  assertEquals("UTF-8",reader.getEncoding());
+  BufferedReader bufReader=new BufferedReader(reader);
+  assertEquals("",bufReader.readLine().trim());
+  assertEquals("<html>",bufReader.readLine());
+  assertNull(bufReader.readLine());
+}

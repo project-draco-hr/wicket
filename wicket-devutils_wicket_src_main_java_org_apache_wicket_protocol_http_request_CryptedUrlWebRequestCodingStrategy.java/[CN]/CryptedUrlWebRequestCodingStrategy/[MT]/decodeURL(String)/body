@@ -1,0 +1,25 @@
+{
+  int startIndex=url.indexOf("?x=");
+  if (startIndex != -1) {
+    try {
+      startIndex=startIndex + 3;
+      final int endIndex=url.indexOf("&",startIndex);
+      String secureParam;
+      if (endIndex == -1) {
+        secureParam=url.substring(startIndex);
+      }
+ else {
+        secureParam=url.substring(startIndex,endIndex);
+      }
+      secureParam=WicketURLDecoder.QUERY_INSTANCE.decode(secureParam);
+      final ICrypt urlCrypt=Application.get().getSecuritySettings().getCryptFactory().newCrypt();
+      String queryString=urlCrypt.decryptUrlSafe(secureParam);
+      queryString=rebuildUrl(queryString);
+      return queryString;
+    }
+ catch (    Exception ex) {
+      return onError(ex,url);
+    }
+  }
+  return null;
+}

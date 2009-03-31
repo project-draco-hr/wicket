@@ -1,0 +1,53 @@
+{
+  boolean valid=true;
+  if (expectedElements.hasNext()) {
+    DocumentElement e=expectedElements.next();
+    if (e instanceof Tag) {
+      workingTag=(Tag)e;
+      if (!workingTag.getTag().equals(parser.getTag())) {
+        log.error("Found tag <" + parser.getTag() + "> does not match "+ "expected tag <"+ workingTag.getTag()+ ">");
+        valid=false;
+      }
+ else {
+        Map<String,String> actualAttributes=parser.getAttributes();
+        Map<String,String> expectedAttributes=workingTag.getExpectedAttributes();
+        for (Iterator<Map.Entry<String,String>> it=expectedAttributes.entrySet().iterator(); it.hasNext(); ) {
+          Map.Entry<String,String> entry=it.next();
+          String name=entry.getKey();
+          String pattern=entry.getValue();
+          if (!actualAttributes.containsKey(name)) {
+            log.error("Tag <" + workingTag.getTag() + "> was expected to have a '"+ name+ "' attribute "+ "but this was not present");
+            valid=false;
+          }
+          String value=actualAttributes.get(name);
+          if (value == null) {
+            log.error("Attribute " + name + " was expected but not found");
+            valid=false;
+          }
+ else {
+            if (!value.matches(pattern)) {
+              log.error("The value '" + value + "' of attribute '"+ name+ "' of tag <"+ workingTag.getTag()+ "> was expected to match the pattern '"+ pattern+ "' but it does not");
+              valid=false;
+            }
+          }
+        }
+        for (Iterator<String> it=workingTag.getIllegalAttributes().iterator(); it.hasNext(); ) {
+          String name=it.next();
+          if (actualAttributes.containsKey(name)) {
+            log.error("Tag <" + workingTag.getTag() + "> should not have an attributed named '"+ name+ "'");
+            valid=false;
+          }
+        }
+      }
+    }
+ else {
+      log.error("Found tag <" + parser.getTag() + "> was not expected. "+ "We were expecting: "+ e.toString());
+      valid=false;
+    }
+  }
+ else {
+    log.error("Found tag <" + parser.getTag() + "> was not expected. "+ "We were not expecting any more elements within the current tag");
+    valid=false;
+  }
+  return valid;
+}

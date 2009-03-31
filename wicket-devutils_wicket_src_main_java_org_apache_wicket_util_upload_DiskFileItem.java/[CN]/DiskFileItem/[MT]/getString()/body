@@ -1,0 +1,13 @@
+{
+  byte[] rawdata=get();
+  String charset=getCharSet();
+  if (charset == null) {
+    charset=DEFAULT_CHARSET;
+  }
+  try {
+    return new String(rawdata,charset);
+  }
+ catch (  UnsupportedEncodingException e) {
+    return new String(rawdata);
+  }
+}

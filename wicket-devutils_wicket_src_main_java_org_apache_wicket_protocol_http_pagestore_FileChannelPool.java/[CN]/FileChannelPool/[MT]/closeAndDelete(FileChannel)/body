@@ -1,0 +1,15 @@
+{
+  channelsToDeleteOnReturn.remove(channel);
+  String name=channelToName.get(channel);
+  channelToName.remove(channel);
+  channelToUseCount.remove(channel);
+  idleChannels.remove(channel);
+  try {
+    channel.close();
+  }
+ catch (  IOException e) {
+    log.error("Error closing file channel",e);
+  }
+  File file=new File(name);
+  file.delete();
+}

@@ -1,0 +1,86 @@
+{
+  scanLiteralPrefix();
+  if (ipat >= lpat && istr >= lstr) {
+    return true;
+  }
+  if (ipat < lpat && istr >= lstr) {
+    while (ipat < lpat && apat[ipat] == STAR) {
+      ipat++;
+    }
+    if (ipat >= lpat) {
+      add("");
+      return true;
+    }
+ else {
+      return false;
+    }
+  }
+  if (ipat >= lpat && istr < lstr) {
+    return false;
+  }
+  if (apat[ipat] != STAR) {
+    return false;
+  }
+  if (ipat < lpat - 1 && apat[ipat + 1] == STAR) {
+    while (++ipat < lpat && apat[ipat] == STAR) {
+      ;
+    }
+    if (ipat >= lpat) {
+      add(new String(astr,istr,lstr - istr));
+      return true;
+    }
+    final int sipat=ipat;
+    while (ipat < lpat && (apat[ipat] != STAR || (ipat > 0 && apat[ipat - 1] == ESC))) {
+      ipat++;
+    }
+    if (ipat >= lpat) {
+      return checkEnds(sipat,false);
+    }
+    final int l=ipat - sipat;
+    int eistr=lstr - l;
+    while (istr < eistr && !strncmp(apat,sipat,astr,eistr,l)) {
+      eistr--;
+    }
+    if (istr >= eistr) {
+      return false;
+    }
+    add(new String(astr,istr,eistr - istr));
+    istr=eistr + l;
+  }
+ else {
+    ++ipat;
+    if (ipat >= lpat) {
+      final int sistr=istr;
+      while (istr < lstr && (astr[istr] != PATHSEP)) {
+        istr++;
+      }
+      if (istr >= lstr) {
+        add(new String(astr,sistr,lstr - sistr));
+        return true;
+      }
+      return false;
+    }
+    final int sipat=ipat;
+    while (ipat < lpat && apat[ipat] != STAR && (apat[ipat] != ESC || ipat < lpat - 1 && apat[ipat + 1] != STAR) && apat[ipat] != PATHSEP) {
+      ipat++;
+    }
+    if (ipat >= lpat) {
+      return checkEnds(sipat,true);
+    }
+    if (apat[ipat] == STAR) {
+      ipat--;
+    }
+    final int l=ipat - sipat + 1;
+    final int sistr=istr;
+    while (istr < lstr && !strncmp(apat,sipat,astr,istr,l)) {
+      istr++;
+    }
+    if (istr >= lstr) {
+      return false;
+    }
+    add(new String(astr,sistr,istr - sistr));
+    ipat++;
+    istr+=l;
+  }
+  return match();
+}

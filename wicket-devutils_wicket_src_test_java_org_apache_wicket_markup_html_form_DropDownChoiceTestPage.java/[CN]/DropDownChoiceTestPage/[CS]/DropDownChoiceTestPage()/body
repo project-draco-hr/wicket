@@ -1,0 +1,23 @@
+{
+  Form<String> form=new MyForm("form");
+  add(form);
+  DocumentType[] docTypes=new DocumentType[3];
+  docTypes[0]=new DocumentType("a",true);
+  docTypes[1]=new DocumentType("b",false);
+  docTypes[2]=new DocumentType("c",true);
+  List<DocumentType> docTypes2=new ArrayList<DocumentType>();
+  docTypes2.add(new DocumentType("a",true));
+  docTypes2.add(new DocumentType("b",false));
+  docTypes2.add(new DocumentType("c",true));
+  List<MyEnum> allDocumentTypes=Arrays.asList(MyEnum.values());
+  final DropDownChoice ddc=new DropDownChoice("dropdown",new PropertyModel(this,"dtype"),allDocumentTypes,new ChoiceRenderer("name"));
+  TextField expiryDate=new TextField("text",new PropertyModel(this,"myDate"),Date.class){
+    @Override public boolean isRequired(){
+      DocumentType dt=(DocumentType)ddc.getConvertedInput();
+      return dt != null && dt.getHasExpiryDate();
+    }
+  }
+;
+  form.add(ddc);
+  form.add(expiryDate);
+}

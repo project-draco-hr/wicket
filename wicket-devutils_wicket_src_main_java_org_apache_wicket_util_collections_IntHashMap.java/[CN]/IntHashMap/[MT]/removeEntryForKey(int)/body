@@ -1,0 +1,22 @@
+{
+  int i=indexFor(key,table.length);
+  Entry<V> prev=table[i];
+  Entry<V> e=prev;
+  while (e != null) {
+    Entry<V> next=e.next;
+    if (key == e.key) {
+      modCount++;
+      size--;
+      if (prev == e) {
+        table[i]=next;
+      }
+ else {
+        prev.next=next;
+      }
+      return e;
+    }
+    prev=e;
+    e=next;
+  }
+  return e;
+}

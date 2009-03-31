@@ -1,0 +1,7 @@
+{
+  ActionPermissions permissions=new ActionPermissions();
+  Action mambo=new Action("mambo");
+  assertEquals(null,permissions.rolesFor(mambo));
+  permissions.unauthorize(mambo,new Roles("maurice"));
+  assertEquals(new Roles(MetaDataRoleAuthorizationStrategy.NO_ROLE),permissions.rolesFor(mambo));
+}

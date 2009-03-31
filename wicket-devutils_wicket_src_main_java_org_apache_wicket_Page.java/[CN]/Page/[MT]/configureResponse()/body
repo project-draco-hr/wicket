@@ -1,0 +1,21 @@
+{
+  final RequestCycle cycle=getRequestCycle();
+  final Application application=cycle.getApplication();
+  final Response response=cycle.getResponse();
+  final String encoding=application.getRequestCycleSettings().getResponseRequestEncoding();
+  response.setContentType("text/" + getMarkupType() + "; charset="+ encoding);
+  final MarkupStream markupStream=findMarkupStream();
+  if ((markupStream != null) && (markupStream.getXmlDeclaration() != null) && (application.getMarkupSettings().getStripXmlDeclarationFromOutput() == false)) {
+    final String quoteChar=(markupStream.getXmlDeclaration().indexOf('\"') == -1) ? "'" : "\"";
+    response.write("<?xml version=");
+    response.write(quoteChar);
+    response.write("1.0");
+    response.write(quoteChar);
+    response.write(" encoding=");
+    response.write(quoteChar);
+    response.write(encoding);
+    response.write(quoteChar);
+    response.write("?>");
+  }
+  response.setLocale(getSession().getLocale());
+}

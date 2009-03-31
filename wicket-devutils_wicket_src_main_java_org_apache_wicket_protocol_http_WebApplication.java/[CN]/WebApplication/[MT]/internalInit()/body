@@ -1,0 +1,13 @@
+{
+  super.internalInit();
+  getApplicationSettings().setPageExpiredErrorPage(PageExpiredErrorPage.class);
+  getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
+  getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
+  getPageSettings().addComponentResolver(new AutoLinkResolver());
+  getResourceSettings().setResourceFinder(getResourceFinder());
+  String resourceFolder=getInitParameter("sourceFolder");
+  if (resourceFolder != null) {
+    getResourceSettings().addResourceFolder(resourceFolder);
+  }
+  configure();
+}

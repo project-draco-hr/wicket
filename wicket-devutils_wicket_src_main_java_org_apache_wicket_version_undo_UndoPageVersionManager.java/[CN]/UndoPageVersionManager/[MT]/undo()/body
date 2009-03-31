@@ -1,0 +1,15 @@
+{
+  if (log.isDebugEnabled()) {
+    log.debug("UNDO: rollback " + page + " to version "+ currentVersionNumber);
+  }
+  if (changeListStack.isEmpty()) {
+    return false;
+  }
+  final ChangeList changeList=changeListStack.pop();
+  if (changeList == null) {
+    return false;
+  }
+  changeList.undo();
+  currentVersionNumber--;
+  return true;
+}

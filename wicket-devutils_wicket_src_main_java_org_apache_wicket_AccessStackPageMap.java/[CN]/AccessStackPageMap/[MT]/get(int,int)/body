@@ -1,0 +1,23 @@
+{
+  final IPageMapEntry entry=(IPageMapEntry)getSession().getAttribute(attributeForId(id));
+  if (entry != null) {
+    Page page=entry.getPage();
+    page.dirty();
+    access(entry,versionNumber);
+    final Page version=page.getVersion(versionNumber);
+    if (version != null) {
+      if (version != page) {
+        page=version;
+        page.getPageMap().put(page);
+      }
+    }
+ else {
+      if (log.isInfoEnabled()) {
+        log.info("Unable to get version " + versionNumber + " of page "+ page);
+      }
+      return null;
+    }
+    return page;
+  }
+  return null;
+}

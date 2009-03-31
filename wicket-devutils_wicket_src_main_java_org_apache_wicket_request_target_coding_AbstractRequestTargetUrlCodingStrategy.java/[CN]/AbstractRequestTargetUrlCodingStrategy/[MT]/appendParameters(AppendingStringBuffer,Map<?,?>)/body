@@ -1,0 +1,18 @@
+{
+  if (parameters != null && parameters.size() > 0) {
+    for (    Entry<?,?> entry1 : parameters.entrySet()) {
+      Object value=((Entry<?,?>)entry1).getValue();
+      if (value != null) {
+        if (value instanceof String[]) {
+          String[] values=(String[])value;
+          for (          String value1 : values) {
+            appendValue(url,((Entry<?,?>)entry1).getKey().toString(),value1);
+          }
+        }
+ else {
+          appendValue(url,((Entry<?,?>)entry1).getKey().toString(),value.toString());
+        }
+      }
+    }
+  }
+}
