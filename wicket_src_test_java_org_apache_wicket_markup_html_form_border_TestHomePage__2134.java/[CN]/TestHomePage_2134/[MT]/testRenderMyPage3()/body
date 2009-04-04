@@ -1,0 +1,11 @@
+{
+  tester.startPage(CommonModelPage.class);
+  tester.assertRenderedPage(CommonModelPage.class);
+  FormTester formTester=tester.newFormTester("border:form2");
+  formTester.setValue("quantity1","123");
+  formTester.setValue("quantity2","44");
+  formTester.submit();
+  CommonModelPage page=(CommonModelPage)tester.getLastRenderedPage();
+  assertEquals(0,page.quantity1);
+  assertEquals(44,page.quantity2);
+}
