@@ -1,0 +1,11 @@
+{
+  formTester.setValue(textFieldId,FileUploadError.THIS_VALUE_SHOULD_THROW_EXCEPTION);
+  try {
+    formTester.submit();
+    fail("Value not succesfully submitted.");
+  }
+ catch (  WicketRuntimeException rex) {
+    Throwable ex=rex.getCause().getCause();
+    assertEquals("Special value: " + FileUploadError.THIS_VALUE_SHOULD_THROW_EXCEPTION,ex.getMessage());
+  }
+}

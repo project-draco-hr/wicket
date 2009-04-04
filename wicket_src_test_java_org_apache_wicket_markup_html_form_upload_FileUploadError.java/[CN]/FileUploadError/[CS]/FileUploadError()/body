@@ -1,0 +1,27 @@
+{
+  add(new Label("message","If you see this message wicket is properly configured and running."));
+  Form<?> form=new Form<Object>("form"){
+    private static final long serialVersionUID=1L;
+    @Override public void onSubmit(){
+      super.onSubmit();
+      setResponsePage(FileUploadError.class);
+    }
+  }
+;
+  add(form);
+  TextField<String> inputField=new TextField<String>("textField",new Model<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public void setObject(    String value){
+      if (THIS_VALUE_SHOULD_THROW_EXCEPTION.equals(value)) {
+        throw new RuntimeException("Special value: " + THIS_VALUE_SHOULD_THROW_EXCEPTION);
+      }
+      super.setObject(value);
+    }
+  }
+);
+  inputField.add(StringValidator.lengthBetween(3,10));
+  inputField.setRequired(true);
+  form.add(inputField);
+  form.add(new FileUploadField("fileUpload",new Model<FileUpload>()));
+  form.add(new FeedbackPanel("feedback"));
+}
