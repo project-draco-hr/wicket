@@ -1,0 +1,16 @@
+{
+  form=new Form("form"){
+    @Override protected void onSubmit(){
+      formSubmitted=true;
+    }
+  }
+;
+  add(form);
+  form.add(new TextField("field",new PropertyModel(this,"somevalue")));
+  add(new SubmitLink("link",form){
+    @Override public void onSubmit(){
+      submitLinkSubmitted=true;
+    }
+  }
+);
+}

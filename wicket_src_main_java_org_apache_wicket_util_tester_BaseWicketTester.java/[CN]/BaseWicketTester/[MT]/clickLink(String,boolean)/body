@@ -46,6 +46,17 @@
     SubmitLink submitLink=(SubmitLink)linkComponent;
     String pageRelativePath=submitLink.getInputName();
     getParametersForNextRequest().put(pageRelativePath,new String[]{"x"});
+    Form<?> form=submitLink.getForm();
+    form.visitFormComponents(new FormComponent.IVisitor(){
+      public Object formComponent(      IFormVisitorParticipant formComponent){
+        FormComponent<?> component=(FormComponent<?>)formComponent;
+        if (getParametersForNextRequest().containsKey(component.getInputName()) == false) {
+          getParametersForNextRequest().put(component.getInputName(),new String[]{component.getDefaultModelObjectAsString()});
+        }
+        return IVisitor.CONTINUE_TRAVERSAL;
+      }
+    }
+);
     submitForm(submitLink.getForm().getPageRelativePath());
   }
  else   if (linkComponent instanceof AbstractLink) {

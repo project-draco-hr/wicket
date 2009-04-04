@@ -1,0 +1,12 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.startPage(FormPage.class);
+  FormPage page=(FormPage)tester.getLastRenderedPage();
+  Assert.assertFalse(page.isSubmitLinkSubmitted());
+  Assert.assertFalse(page.isFormSubmitted());
+  FormTester formTester=tester.newFormTester("form");
+  formTester.submitLink("link",true);
+  page=(FormPage)tester.getLastRenderedPage();
+  Assert.assertTrue(page.isFormSubmitted());
+  Assert.assertTrue(page.isSubmitLinkSubmitted());
+}
