@@ -21,7 +21,14 @@
   add(new ListView<IDebugBarContributor>("contributors",contributors){
     private static final long serialVersionUID=1L;
     @Override protected void populateItem(    ListItem<IDebugBarContributor> item){
-      item.add(item.getModelObject().createComponent("contrib",DebugBar.this));
+      IDebugBarContributor contrib=item.getModelObject();
+      Component comp=contrib.createComponent("contrib",DebugBar.this);
+      if (comp == null) {
+        item.setVisibilityAllowed(false);
+      }
+ else {
+        item.add(comp);
+      }
     }
   }
 );
