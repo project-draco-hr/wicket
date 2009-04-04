@@ -1,0 +1,6 @@
+{
+  tester.executeAjaxEvent("border:form2:submit","onclick");
+  assertEquals("Expected one error message",tester.getMessages(FeedbackMessage.ERROR).size(),2);
+  assertTrue(((MyBorder)tester.getLastRenderedPage().get("border")).hitOnError);
+  assertFalse(((MyBorder)tester.getLastRenderedPage().get("border")).hitOnSubmit);
+}

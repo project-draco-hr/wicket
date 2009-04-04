@@ -1,0 +1,8 @@
+{
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setValue("textfield1","testxxx");
+  tester.executeAjaxEvent("form:submit","onclick");
+  tester.assertNoErrorMessage();
+  assertFalse(((HomePage)tester.getLastRenderedPage()).hitOnError);
+  assertTrue(((HomePage)tester.getLastRenderedPage()).hitOnSubmit);
+}

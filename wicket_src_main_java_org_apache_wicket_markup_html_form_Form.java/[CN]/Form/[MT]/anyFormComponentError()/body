@@ -1,8 +1,8 @@
 {
   final boolean[] error=new boolean[]{false};
-  final FormComponent.IVisitor visitor=new FormComponent.IVisitor(){
-    public Object formComponent(    IFormVisitorParticipant formComponent){
-      if (formComponent instanceof Component && ((Component)formComponent).hasErrorMessage()) {
+  final IVisitor<Component> visitor=new IVisitor<Component>(){
+    public Object component(    final Component component){
+      if (component.hasErrorMessage()) {
         error[0]=true;
         return Component.IVisitor.STOP_TRAVERSAL;
       }
@@ -12,12 +12,24 @@
 ;
   visitChildren(FormComponent.class,new IVisitor<Component>(){
     public Object component(    final Component component){
-      return visitor.formComponent((FormComponent<?>)component);
+      return visitor.component(component);
     }
   }
 );
   if (!error[0]) {
-    visitChildrenInContainingBorder(visitor);
+    if (getParent() instanceof Border) {
+      MarkupContainer border=getParent();
+      Iterator<? extends Component> iter=border.iterator();
+      while (iter.hasNext()) {
+        Component child=iter.next();
+        if ((child != this) && (child instanceof FormComponent)) {
+          visitor.component(child);
+          if (error[0]) {
+            break;
+          }
+        }
+      }
+    }
   }
   return error[0];
 }

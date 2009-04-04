@@ -12,10 +12,12 @@
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       info("onSubmit");
+      hitOnSubmit=true;
       target.addComponent(form);
     }
     @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
       error("onError");
+      hitOnError=true;
       target.addComponent(form);
     }
   }
@@ -26,4 +28,23 @@
   border.add(new Label("lbltextfield1",new PropertyModel<String>(this,"textfield1")));
   border.add(new TextField<String>("textfield2",new PropertyModel<String>(this,"textfield2")));
   border.add(new Label("lbltextfield2",new PropertyModel<String>(this,"textfield2")));
+  Form<Void> form3=new Form<Void>("form3");
+  MyPanel panel=new MyPanel("panel");
+  form3.add(panel);
+  form3.add(new AjaxSubmitLink("submit"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form form){
+      formSubmitted=formSubmitted | AJAX;
+      target.addComponent(form);
+    }
+  }
+);
+  form3.add(new SubmitLink("submit2"){
+    private static final long serialVersionUID=1L;
+    @Override public void onSubmit(){
+      formSubmitted=formSubmitted | NORMAL;
+    }
+  }
+);
+  add(form3);
 }
