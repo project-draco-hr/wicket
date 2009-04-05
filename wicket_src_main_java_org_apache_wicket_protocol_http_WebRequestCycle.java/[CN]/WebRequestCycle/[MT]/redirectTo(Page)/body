@@ -38,8 +38,12 @@
     }
  catch (    RuntimeException ex) {
       setResponse(currentResponse);
-      if (ex instanceof AbortException) {
-        throw ex;
+      Throwable cause=ex;
+      while (cause != null) {
+        if (cause instanceof AbortException) {
+          throw ((AbortException)cause);
+        }
+        cause=cause.getCause();
       }
       if (!(ex instanceof PageExpiredException)) {
         logRuntimeException(ex);
