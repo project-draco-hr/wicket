@@ -1,4 +1,7 @@
 {
-  setMarkupId(getGroup().getMarkupId() + "-" + getMarkupId());
+  final String prefix=getGroup().getMarkupId() + "-";
+  if (!getMarkupId().startsWith(prefix)) {
+    setMarkupId(prefix + getMarkupId());
+  }
   super.onBeforeRender();
 }
