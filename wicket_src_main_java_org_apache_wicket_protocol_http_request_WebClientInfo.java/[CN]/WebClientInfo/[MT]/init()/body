@@ -25,11 +25,9 @@
   }
  else   if (browserInternetExplorer) {
     properties.setBrowserInternetExplorer(true);
-    if (userAgent.indexOf("msie 6.") != -1) {
-      majorVersion=6;
-    }
- else     if (userAgent.indexOf("msie 7.") != -1) {
-      majorVersion=7;
+    Matcher matcher=Pattern.compile("msie (\\d+)").matcher(userAgent);
+    if (matcher.find()) {
+      majorVersion=Integer.parseInt(matcher.group(1));
     }
   }
   if (majorVersion != -1) {
