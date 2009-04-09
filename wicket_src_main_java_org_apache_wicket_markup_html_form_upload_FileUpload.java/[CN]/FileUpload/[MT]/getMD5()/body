@@ -1,0 +1,35 @@
+{
+  MessageDigest digest;
+  try {
+    digest=java.security.MessageDigest.getInstance("MD5");
+  }
+ catch (  NoSuchAlgorithmException ex) {
+    throw new WicketRuntimeException("Your java runtime does not support MD5 digests. Please see java.security.MessageDigest.getInstance(\"MD5\"",ex);
+  }
+  if (item.isInMemory()) {
+    digest.update(getBytes());
+    return digest.digest();
+  }
+  InputStream in=null;
+  try {
+    in=item.getInputStream();
+    byte[] buf=new byte[Math.min((int)item.getSize(),4096 * 10)];
+    int len;
+    while (-1 != (len=in.read(buf))) {
+      digest.update(buf,0,len);
+    }
+    return digest.digest();
+  }
+ catch (  IOException ex) {
+    throw new WicketRuntimeException("Error while reading input data for MD5 checksum",ex);
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ex) {
+      }
+    }
+  }
+}
