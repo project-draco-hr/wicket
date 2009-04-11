@@ -2,10 +2,11 @@
   task=new Task("ModificationWatcher");
   task.run(pollFrequency,new ICode(){
     public void run(    final Logger log){
-      for (final Iterator<Entry> iterator=new ArrayList<Entry>(modifiableToEntry.values()).iterator(); iterator.hasNext(); ) {
-        final Entry entry=iterator.next();
+      Iterator<Entry> iter=new ArrayList<Entry>(modifiableToEntry.values()).iterator();
+      while (iter.hasNext()) {
+        final Entry entry=iter.next();
         final Time modifiableLastModified=entry.modifiable.lastModifiedTime();
-        if (modifiableLastModified.after(entry.lastModifiedTime)) {
+        if ((modifiableLastModified != null) && modifiableLastModified.after(entry.lastModifiedTime)) {
           entry.listeners.notifyListeners();
           entry.lastModifiedTime=modifiableLastModified;
         }

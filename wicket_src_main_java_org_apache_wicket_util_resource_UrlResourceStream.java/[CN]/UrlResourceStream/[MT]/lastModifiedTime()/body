@@ -1,5 +1,8 @@
 {
   if (file != null) {
+    if (file.exists() == false) {
+      return null;
+    }
     long lastModified=file.lastModified();
     if (lastModified != this.lastModified) {
       this.lastModified=lastModified;
@@ -40,8 +43,9 @@
         }
       }
  else {
-        log.error("getLastModified for " + url + " failed: "+ e.getMessage());
+        log.warn("getLastModified for " + url + " failed: "+ e.getMessage());
       }
+      return null;
     }
  finally {
       if (urlConnection != null) {
