@@ -4,18 +4,21 @@
     next=null;
     return tmp;
   }
- else {
-    ComponentTag tag=nextComponentTag();
-    if (tag != null && tag.isOpenClose() && replaceForTags.contains(tag.getName().toLowerCase())) {
+  ComponentTag tag=nextComponentTag();
+  if (tag == null) {
+    return tag;
+  }
+  if (tag.isOpenClose()) {
+    String name=tag.getName();
+    if (tag.getNamespace() != null) {
+      name=tag.getNamespace() + ":" + tag.getName();
+    }
+    if (replaceForTags.contains(name.toLowerCase())) {
       tag.setType(XmlTag.OPEN);
-      if (tag.getId() == null) {
-        tag.setId(WicketMessageTagHandler.WICKET_MESSAGE_CONTAINER_ID);
-        tag.setAutoComponentTag(true);
-      }
       next=new ComponentTag(tag.getName(),XmlTag.CLOSE);
       next.setNamespace(tag.getNamespace());
       next.setOpenTag(tag);
     }
-    return tag;
   }
+  return tag;
 }
