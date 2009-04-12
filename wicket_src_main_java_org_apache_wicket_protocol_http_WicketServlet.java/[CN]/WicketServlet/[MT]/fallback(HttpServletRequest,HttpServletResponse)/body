@@ -1,6 +1,9 @@
 {
   ServletWebRequest req=new ServletWebRequest(request);
   String url=req.getURL();
+  if (url.indexOf('?') != -1) {
+    url=Strings.beforeFirst(url,'?');
+  }
   if ((url.length() > 0 && url.charAt(0) != '/') || url.length() == 0) {
     url='/' + url;
   }
@@ -10,7 +13,9 @@
     response.sendError(HttpServletResponse.SC_NOT_FOUND);
   }
  else {
-    if (mimeType != null)     response.setContentType(mimeType);
+    if (mimeType != null) {
+      response.setContentType(mimeType);
+    }
     Streams.copy(stream,response.getOutputStream());
   }
 }
