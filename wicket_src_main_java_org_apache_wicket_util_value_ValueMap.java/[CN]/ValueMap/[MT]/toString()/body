@@ -1,7 +1,11 @@
 {
   final StringBuffer buffer=new StringBuffer();
-  for (final Iterator iterator=entrySet().iterator(); iterator.hasNext(); ) {
-    final Map.Entry entry=(Map.Entry)iterator.next();
+  boolean first=true;
+  for (  Map.Entry<String,Object> entry : entrySet()) {
+    if (first == false) {
+      buffer.append(' ');
+    }
+    first=false;
     buffer.append(entry.getKey());
     buffer.append(" = \"");
     final Object value=entry.getValue();
@@ -15,9 +19,6 @@
       buffer.append(value);
     }
     buffer.append('\"');
-    if (iterator.hasNext()) {
-      buffer.append(' ');
-    }
   }
   return buffer.toString();
 }
