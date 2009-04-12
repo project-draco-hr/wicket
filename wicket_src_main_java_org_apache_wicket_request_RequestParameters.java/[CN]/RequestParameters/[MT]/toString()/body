@@ -14,8 +14,12 @@
   }
   if (getParameters() != null) {
     b.append(" parameters={");
-    for (Iterator i=getParameters().entrySet().iterator(); i.hasNext(); ) {
-      Entry entry=(Entry)i.next();
+    boolean first=true;
+    for (    Map.Entry<String,?> entry : getParameters().entrySet()) {
+      if (first == false) {
+        b.append(",");
+      }
+      first=false;
       Object value=entry.getValue();
       b.append(entry.getKey()).append("=");
       if (value != null && value instanceof Object[]) {
@@ -36,9 +40,6 @@
       }
  else {
         b.append(value);
-      }
-      if (i.hasNext()) {
-        b.append(",");
       }
     }
     b.append("}");
