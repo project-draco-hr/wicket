@@ -1,10 +1,11 @@
 {
   if (component.getId().equals(getContentId()) == false) {
-    throw new WicketRuntimeException("Modal window content id is wrong.");
+    throw new WicketRuntimeException("Modal window content id is wrong. Component ID:" + component.getId() + "; content ID: "+ getContentId());
   }
   component.setOutputMarkupPlaceholderTag(true);
   component.setVisible(false);
   replace(component);
   shown=false;
   pageCreator=null;
+  return this;
 }
