@@ -1,6 +1,7 @@
 {
-  if (Application.get().getResourceSettings().getStripJavascriptCommentsAndWhitespace()) {
-    return JavascriptStripper.stripCommentsAndWhitespace(buffer.toString());
+  IJavascriptCompressor compressor=Application.get().getResourceSettings().getJavascriptCompressor();
+  if (compressor != null) {
+    return compressor.compress(buffer.toString());
   }
  else {
     return buffer.toString();
