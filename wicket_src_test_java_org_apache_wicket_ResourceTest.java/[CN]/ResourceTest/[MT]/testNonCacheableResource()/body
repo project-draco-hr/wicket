@@ -1,5 +1,4 @@
 {
-  String testFileLastModified;
   final File testFile;
   try {
     testFile=File.createTempFile(ResourceTest.class.getName(),null);
@@ -10,14 +9,14 @@
  catch (  IOException e) {
     throw new RuntimeException(e);
   }
-  testFileLastModified=MockHttpServletResponse.formatDate(testFile.lastModified());
+  MockHttpServletResponse.formatDate(testFile.lastModified());
   tester.setupRequestAndResponse();
   WebRequestCycle cycle=tester.createRequestCycle();
   Resource resource=new Resource(){
     /** 
  */
     private static final long serialVersionUID=1L;
-    public IResourceStream getResourceStream(){
+    @Override public IResourceStream getResourceStream(){
       return new FileResourceStream(new org.apache.wicket.util.file.File(testFile));
     }
   }

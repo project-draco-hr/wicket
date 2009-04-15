@@ -2,7 +2,7 @@
   return new ResourceState(){
     private byte[] imageData;
     private final String contentType="image/" + format;
-    public Time lastModifiedTime(){
+    @Override public Time lastModifiedTime(){
       if (lastModifiedTime == null) {
         lastModifiedTime=DynamicImageResource.this.lastModifiedTime;
         if (lastModifiedTime == null) {
@@ -11,13 +11,13 @@
       }
       return lastModifiedTime;
     }
-    public byte[] getData(){
+    @Override public byte[] getData(){
       if (imageData == null) {
         imageData=getImageData();
       }
       return imageData;
     }
-    public String getContentType(){
+    @Override public String getContentType(){
       return contentType;
     }
   }

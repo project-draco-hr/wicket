@@ -10,7 +10,7 @@
   text.add(StringValidator.minimumLength(4));
   text.add(new AjaxFormValidatingBehavior(form,"onkeyup"){
     private static final long serialVersionUID=1L;
-    protected void onEvent(    AjaxRequestTarget target){
+    @Override protected void onEvent(    AjaxRequestTarget target){
       text.validate();
       submit.setEnabled(text.isValid());
       target.addComponent(submit);

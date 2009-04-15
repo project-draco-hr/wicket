@@ -1,11 +1,17 @@
 {
   final boolean triggerError=parameters.getBoolean("trigger");
-  if (!triggerError)   throw new AbortWithWebErrorCodeException(1234,"this error will be rendered");
+  if (!triggerError) {
+    throw new AbortWithWebErrorCodeException(1234,"this error will be rendered");
+  }
   IModel<List<Object>> model=new LoadableDetachableModel<List<Object>>(){
     private static final long serialVersionUID=-1285116295157071919L;
     @Override protected List<Object> load(){
-      if (triggerError)       throw new AbortWithWebErrorCodeException(1234,"this error will NOT be rendered");
- else       return Collections.emptyList();
+      if (triggerError) {
+        throw new AbortWithWebErrorCodeException(1234,"this error will NOT be rendered");
+      }
+ else {
+        return Collections.emptyList();
+      }
     }
   }
 ;

@@ -12,15 +12,15 @@
   persister.save(textField);
   assertNull(getRequestCookies(cycle));
   assertEquals(1,getResponseCookies(cycle).size());
-  assertEquals("test",((Cookie)getResponseCookies(cycle).get(0)).getValue());
-  assertEquals("form.input",((Cookie)getResponseCookies(cycle).get(0)).getName());
-  assertEquals("/WicketTester$DummyWebApplication",((Cookie)getResponseCookies(cycle).get(0)).getPath());
+  assertEquals("test",(getResponseCookies(cycle).get(0)).getValue());
+  assertEquals("form.input",(getResponseCookies(cycle).get(0)).getName());
+  assertEquals("/WicketTester$DummyWebApplication",(getResponseCookies(cycle).get(0)).getPath());
   persister.clear(textField);
   assertNull(getRequestCookies(cycle));
   assertEquals(1,getResponseCookies(cycle).size());
-  assertEquals("test",((Cookie)getResponseCookies(cycle).get(0)).getValue());
-  assertEquals("form.input",((Cookie)getResponseCookies(cycle).get(0)).getName());
-  assertEquals("/WicketTester$DummyWebApplication",((Cookie)getResponseCookies(cycle).get(0)).getPath());
+  assertEquals("test",(getResponseCookies(cycle).get(0)).getValue());
+  assertEquals("form.input",(getResponseCookies(cycle).get(0)).getName());
+  assertEquals("/WicketTester$DummyWebApplication",(getResponseCookies(cycle).get(0)).getPath());
   persister.load(textField);
   assertEquals("test",textField.getDefaultModelObjectAsString());
   assertEquals("test",textField.getDefaultModelObjectAsString());
@@ -36,6 +36,6 @@
   persister.clear(textField);
   assertEquals(1,getRequestCookies(cycle).length);
   assertEquals(2,getResponseCookies(cycle).size());
-  assertEquals("form.input",((Cookie)getResponseCookies(cycle).get(1)).getName());
-  assertEquals(0,((Cookie)getResponseCookies(cycle).get(1)).getMaxAge());
+  assertEquals("form.input",(getResponseCookies(cycle).get(1)).getName());
+  assertEquals(0,(getResponseCookies(cycle).get(1)).getMaxAge());
 }

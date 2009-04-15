@@ -4,15 +4,15 @@
  * For serialization 
  */
     private static final long serialVersionUID=1L;
-    protected void onDetach(){
+    @Override protected void onDetach(){
       nrComponentOnDetachCalls++;
       super.onDetach();
     }
-    protected void detachModel(){
+    @Override protected void detachModel(){
       nrComponentDetachModelCalls++;
       super.detachModel();
     }
-    public void detachModels(){
+    @Override public void detachModels(){
       nrComponentDetachModelsCalls++;
       super.detachModels();
     }
@@ -24,11 +24,11 @@
  * for serialization. 
  */
     private static final long serialVersionUID=1L;
-    public void detach(    Component component){
+    @Override public void detach(    Component component){
       nrAjaxBehaviorDetachModelCalls++;
       super.detach(component);
     }
-    protected void onEvent(    AjaxRequestTarget target){
+    @Override protected void onEvent(    AjaxRequestTarget target){
       target.addComponent(label);
     }
   }
