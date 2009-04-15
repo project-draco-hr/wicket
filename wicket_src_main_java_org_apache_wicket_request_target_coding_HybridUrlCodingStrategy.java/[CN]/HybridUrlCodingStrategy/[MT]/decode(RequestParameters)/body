@@ -15,15 +15,15 @@
   final String interfaceParameter=(String)parameters.remove(WebRequestCodingStrategy.INTERFACE_PARAMETER_NAME);
   int originalUrlTrailingSlashesCount=getTrailingSlashesCount(extraction.getUrlAfterExtraction());
   boolean redirect=isRedirectOnBookmarkableRequest();
-  if (Strings.isEmpty(pageMapName) != true && alwaysRedirectWhenPageMapIsSpecified()) {
+  if ((Strings.isEmpty(pageMapName) != true) && alwaysRedirectWhenPageMapIsSpecified()) {
     redirect=true;
   }
   if (interfaceParameter != null) {
     WebRequestCodingStrategy.addInterfaceParameters(interfaceParameter,requestParameters);
-    return new BookmarkableListenerInterfaceRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName(),requestParameters.getVersionNumber());
+    return new BookmarkableListenerInterfaceRequestTarget(pageMapName,pageClassRef.get(),parameters,requestParameters.getComponentPath(),requestParameters.getInterfaceName(),requestParameters.getVersionNumber());
   }
  else   if (pageId == null) {
-    return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,redirect);
+    return new HybridBookmarkablePageRequestTarget(pageMapName,pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,redirect);
   }
  else {
     Page page;
@@ -33,16 +33,16 @@
  else {
       page=Session.get().getPage(pageMapName,"" + pageId,pageVersion != null ? pageVersion.intValue() : 0);
     }
-    if (page != null && page.getClass().equals(pageClassRef.get())) {
+    if ((page != null) && page.getClass().equals(pageClassRef.get())) {
       requestParameters.setInterfaceName(IRedirectListener.INTERFACE.getName());
       RequestCycle.get().getRequest().setPage(page);
       return new PageRequestTarget(page);
     }
  else {
       if (requestParameters.getInterface() != null) {
-        handleExpiredPage(pageMapName,(Class)pageClassRef.get(),originalUrlTrailingSlashesCount,redirect);
+        handleExpiredPage(pageMapName,pageClassRef.get(),originalUrlTrailingSlashesCount,redirect);
       }
-      return new HybridBookmarkablePageRequestTarget(pageMapName,(Class)pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,redirect);
+      return new HybridBookmarkablePageRequestTarget(pageMapName,pageClassRef.get(),parameters,originalUrlTrailingSlashesCount,redirect);
     }
   }
 }
