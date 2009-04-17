@@ -1,0 +1,11 @@
+{
+  RequestCycle requestCycle=RequestCycle.get();
+  WebRequest webRequest=(WebRequest)requestCycle.getRequest();
+  HttpServletRequest request=webRequest.getHttpServletRequest();
+  if (protocol == null || protocol == Protocol.PRESERVE_CURRENT || request.getScheme().equals(protocol.toString().toLowerCase())) {
+    return null;
+  }
+ else {
+    return new SwitchProtocolRequestTarget(protocol);
+  }
+}

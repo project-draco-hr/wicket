@@ -1,0 +1,19 @@
+{
+  WebRequest webRequest=(WebRequest)requestCycle.getRequest();
+  HttpServletRequest request=webRequest.getHttpServletRequest();
+  HttpsRequestCycleProcessor processor=(HttpsRequestCycleProcessor)requestCycle.getProcessor();
+  Integer port=null;
+  if (protocol == Protocol.HTTP) {
+    if (processor.getConfig().getHttpPort() != 80) {
+      port=processor.getConfig().getHttpPort();
+    }
+  }
+ else   if (protocol == Protocol.HTTPS) {
+    if (processor.getConfig().getHttpsPort() != 443) {
+      port=processor.getConfig().getHttpsPort();
+    }
+  }
+  String url=getUrl(protocol.toString().toLowerCase(),port,request);
+  WebResponse response=(WebResponse)requestCycle.getResponse();
+  response.redirect(url);
+}
