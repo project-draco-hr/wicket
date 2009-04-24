@@ -1,0 +1,33 @@
+{
+  if (!dir.isDirectory()) {
+    throw new IllegalArgumentException("Not a directory: " + dir);
+  }
+  String[] files=dir.list();
+  int BUFFER=2048;
+  BufferedInputStream origin=null;
+  byte data[]=new byte[BUFFER];
+  for (int i=0; i < files.length; i++) {
+    if (log.isDebugEnabled()) {
+      log.debug("Adding: " + files[i]);
+    }
+    File f=new File(dir,files[i]);
+    if (f.isDirectory()) {
+      if (recursive == true) {
+        zipDir(f,out,path + f.getName() + "/",recursive);
+      }
+    }
+ else {
+      out.putNextEntry(new ZipEntry(path.toString() + f.getName()));
+      FileInputStream fi=new FileInputStream(f);
+      origin=new BufferedInputStream(fi,BUFFER);
+      int count;
+      while ((count=origin.read(data,0,BUFFER)) != -1) {
+        out.write(data,0,count);
+      }
+      origin.close();
+    }
+  }
+  if (path.equals("")) {
+    out.close();
+  }
+}
