@@ -8,11 +8,12 @@
   do {
     Field[] currentFields=current.getDeclaredFields();
     for (    final Field field : currentFields) {
-      if (field.getAnnotation(Inject.class) != null) {
+      Inject injectAnnotation=field.getAnnotation(Inject.class);
+      if (injectAnnotation != null) {
         actualDoInject=true;
         try {
           Annotation bindingAnnotation=findBindingAnnotation(field.getAnnotations());
-          Object proxy=LazyInitProxyFactory.createProxy(field.getType(),new GuiceProxyTargetLocator(field,bindingAnnotation));
+          Object proxy=LazyInitProxyFactory.createProxy(field.getType(),new GuiceProxyTargetLocator(field,bindingAnnotation,injectAnnotation.optional()));
           if (!field.isAccessible()) {
             field.setAccessible(true);
           }
@@ -28,7 +29,8 @@ catch (        MoreThanOneBindingException e) {
     }
     Method[] currentMethods=current.getDeclaredMethods();
     for (    final Method method : currentMethods) {
-      if (method.getAnnotation(Inject.class) != null) {
+      Inject injectAnnotation=method.getAnnotation(Inject.class);
+      if (injectAnnotation != null) {
         actualDoInject=true;
         Annotation[][] paramAnnotations=method.getParameterAnnotations();
         Class<?>[] paramTypes=method.getParameterTypes();
@@ -44,7 +46,7 @@ catch (        MoreThanOneBindingException e) {
           }
           try {
             Annotation bindingAnnotation=findBindingAnnotation(paramAnnotations[i]);
-            args[i]=LazyInitProxyFactory.createProxy(paramTypes[i],new GuiceProxyTargetLocator(method,i,bindingAnnotation));
+            args[i]=LazyInitProxyFactory.createProxy(paramTypes[i],new GuiceProxyTargetLocator(method,i,bindingAnnotation,injectAnnotation.optional()));
           }
  catch (          MoreThanOneBindingException e) {
             throw new RuntimeException("Can't have more than one BindingAnnotation on parameter " + i + "("+ paramType+ ") of method "+ method.getName()+ " of class "+ object.getClass().getName());
