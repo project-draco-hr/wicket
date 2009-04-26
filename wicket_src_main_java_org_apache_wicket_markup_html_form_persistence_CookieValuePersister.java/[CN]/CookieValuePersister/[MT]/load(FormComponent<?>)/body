@@ -1,12 +1,6 @@
 {
-  final Cookie cookie=getCookie(component);
-  if (cookie != null) {
-    final String value=cookie.getValue();
-    if (value != null) {
-      component.setModelValue(value.split(FormComponent.VALUE_SEPARATOR));
-      if (log.isDebugEnabled()) {
-        log.debug("Cookie value successfully transferred into Component: " + component);
-      }
-    }
+  String value=load(formComponent.getPageRelativePath());
+  if (value != null) {
+    formComponent.setModelValue(value.split(FormComponent.VALUE_SEPARATOR));
   }
 }
