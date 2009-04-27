@@ -27,8 +27,15 @@
     key=Key.get(TypeLiteral.get(type),bindingAnnotation);
   }
   Injector injector=holder.getInjector();
-  if (optional && injector.getBinding(key) == null) {
-    return null;
+  if (optional) {
+    try {
+      if (injector.getBinding(key) == null) {
+        return null;
+      }
+    }
+ catch (    RuntimeException e) {
+      return null;
+    }
   }
   return injector.getInstance(key);
 }
