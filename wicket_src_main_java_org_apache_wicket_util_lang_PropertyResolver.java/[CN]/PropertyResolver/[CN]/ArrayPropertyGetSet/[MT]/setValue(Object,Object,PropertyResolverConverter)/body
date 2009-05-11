@@ -3,6 +3,7 @@
     setMethod=findSetter(getMethod,object.getClass());
   }
   if (setMethod != null) {
+    setMethod.setAccessible(true);
     Object converted=converter.convert(value,getMethod.getReturnType());
     if (converted == null && value != null) {
       throw new ConversionException("Can't convert value: " + value + " to class: "+ getMethod.getReturnType()+ " for setting it on "+ object);
