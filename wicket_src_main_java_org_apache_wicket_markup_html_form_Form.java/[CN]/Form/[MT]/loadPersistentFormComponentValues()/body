@@ -1,7 +1,7 @@
 {
   visitFormComponentsPostOrder(new FormComponent.AbstractVisitor(){
     @Override public void onFormComponent(    final FormComponent<?> formComponent){
-      if (formComponent.isVisibleInHierarchy() && formComponent.isPersistent()) {
+      if (formComponent.isPersistent() && formComponent.isVisibleInHierarchy()) {
         final IValuePersister persister=getValuePersister();
         persister.load(formComponent);
       }
