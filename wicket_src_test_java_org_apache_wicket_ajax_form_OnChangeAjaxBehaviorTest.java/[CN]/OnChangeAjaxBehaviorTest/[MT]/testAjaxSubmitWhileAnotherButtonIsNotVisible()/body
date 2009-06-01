@@ -1,0 +1,9 @@
+{
+  tester.startPage(HomePage.class);
+  tester.assertRenderedPage(HomePage.class);
+  tester.assertLabel("message","If you see this message wicket is properly configured and running");
+  tester.executeAjaxEvent("form:select","onchange");
+  tester.assertRenderedPage(ThirdPage.class);
+  tester.assertLabel("label","Hello world.");
+  tester.assertContains("And just plain text");
+}

@@ -1,0 +1,13 @@
+{
+  add(new Label("message","If you see this message wicket is properly configured and running"));
+  Form<Void> form=new Form<Void>("form");
+  add(form);
+  DropDownChoice<Void> select;
+  form.add(select=new DropDownChoice<Void>("select",new Model(),Collections.EMPTY_LIST));
+  select.add(new OnChangeAjaxBehavior(){
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      setResponsePage(SecondPage.class);
+    }
+  }
+);
+}
