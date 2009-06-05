@@ -1,3 +1,12 @@
 {
-  requestCycle.getResponse().write("<ajax-response></ajax-response>");
+  WebResponse response=(WebResponse)requestCycle.getResponse();
+  final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
+  response.setCharacterEncoding(encoding);
+  response.setContentType("text/xml; charset=" + encoding);
+  response.setDateHeader("Expires",System.currentTimeMillis());
+  response.setHeader("Cache-Control","no-cache, must-revalidate");
+  response.setHeader("Pragma","no-cache");
+  response.write("<?xml version=\"1.0\" encoding=\"");
+  response.write(encoding);
+  response.write("\"?><ajax-response></ajax-response>");
 }
