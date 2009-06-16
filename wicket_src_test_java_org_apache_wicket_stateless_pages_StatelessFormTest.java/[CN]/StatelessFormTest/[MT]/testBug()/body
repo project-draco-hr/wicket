@@ -1,0 +1,20 @@
+{
+{
+    final WebRequestCycle cycle=tester.setupRequestAndResponse(false);
+    tester.getServletRequest().setURL("page2");
+    tester.processRequestCycle(cycle);
+    tester.assertRenderedPage(Page2.class);
+  }
+{
+    final WebRequestCycle cycle=tester.setupRequestAndResponse(false);
+    tester.getServletRequest().setURL("page1");
+    tester.processRequestCycle(cycle);
+    tester.assertRenderedPage(Page1.class);
+  }
+{
+    final WebRequestCycle cycle=tester.setupRequestAndResponse(false);
+    tester.getServletRequest().setURL("page1/wicket:interface/:0:form::IFormSubmitListener::");
+    tester.processRequestCycle(cycle);
+    tester.assertRenderedPage(Page1.class);
+  }
+}
