@@ -1,0 +1,36 @@
+{
+  _1=new MarkupContainer(COMPONENT){
+    private static final long serialVersionUID=1L;
+    @Override protected void onRemove(){
+      componentOnRemovalFromHierarchyCalls++;
+      super.onRemove();
+    }
+  }
+;
+  _1.add(new Link(LINK){
+    private static final long serialVersionUID=1L;
+    @Override protected void onRemove(){
+      linkOnRemovalFromHierarchyCalls++;
+      super.onRemove();
+    }
+    @Override public void onClick(){
+      _1.replaceWith(_2);
+    }
+  }
+);
+  _2=new MarkupContainer(COMPONENT){
+    private static final long serialVersionUID=1L;
+  }
+;
+  _2.add(new Link(LINK){
+    private static final long serialVersionUID=1L;
+    @Override protected void onRemove(){
+      linkOnRemovalFromHierarchyCalls++;
+    }
+    @Override public void onClick(){
+      _2.replaceWith(_1);
+    }
+  }
+);
+  add(_1);
+}
