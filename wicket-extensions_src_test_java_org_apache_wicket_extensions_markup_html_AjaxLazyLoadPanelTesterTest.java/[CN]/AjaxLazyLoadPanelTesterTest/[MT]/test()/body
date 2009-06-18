@@ -1,0 +1,23 @@
+{
+  WicketTester wt=new WicketTester();
+  final Page dummyPanelPage=new DummyPanelPage(new TestPanelSource(){
+    private static final long serialVersionUID=1L;
+    public Panel getTestPanel(    String panelId){
+      AjaxLazyLoadPanel ajaxLazyLoadPanel1=new AjaxLazyLoadPanel(panelId){
+        private static final long serialVersionUID=1L;
+        @Override public Component getLazyLoadComponent(        String markupId){
+          return new Label(markupId,"lazy panel test");
+        }
+      }
+;
+      ajaxLazyLoadPanel=ajaxLazyLoadPanel1;
+      return (Panel)ajaxLazyLoadPanel;
+    }
+  }
+);
+  wt.startPage(dummyPanelPage);
+  wt.assertLabel("panel:content","<img src=\"resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif\"/>");
+  AjaxLazyLoadPanelTester.executeAjaxLazyLoadPanel(wt,dummyPanelPage);
+  wt.debugComponentTrees();
+  wt.assertLabel("panel:content","lazy panel test");
+}

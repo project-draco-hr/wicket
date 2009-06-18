@@ -1,0 +1,19 @@
+{
+  container.visitChildren(AjaxLazyLoadPanel.class,new IVisitor<AjaxLazyLoadPanel>(){
+    public Object component(    AjaxLazyLoadPanel component){
+      List<IBehavior> behaviors=BehaviorsUtil.getBehaviors(component,AbstractAjaxBehavior.class);
+      if (behaviors.size() == 0) {
+        logger.warn("AjaxLazyLoadPanel child found, but no attached AbstractAjaxBehaviors found. A curious situation...");
+      }
+      for (      IBehavior b : behaviors) {
+        if (b instanceof AbstractAjaxBehavior && !(b instanceof AjaxSelfUpdatingTimerBehavior)) {
+          logger.debug("Triggering lazy panel: " + component.getClassRelativePath());
+          AbstractAjaxBehavior abstractAjaxBehaviour=(AbstractAjaxBehavior)b;
+          wt.executeBehavior(abstractAjaxBehaviour);
+        }
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}

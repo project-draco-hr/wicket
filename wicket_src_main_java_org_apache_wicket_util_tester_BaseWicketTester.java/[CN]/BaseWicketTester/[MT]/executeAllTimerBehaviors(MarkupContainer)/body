@@ -1,0 +1,16 @@
+{
+  container.visitChildren(MarkupContainer.class,new IVisitor<MarkupContainer>(){
+    public Object component(    MarkupContainer component){
+      List<IBehavior> behaviors=BehaviorsUtil.getBehaviors(component,AjaxSelfUpdatingTimerBehavior.class);
+      for (      IBehavior b : behaviors) {
+        if (b instanceof AjaxSelfUpdatingTimerBehavior) {
+          log.debug("Triggering AjaxSelfUpdatingTimerBehavior: " + component.getClassRelativePath());
+          AjaxSelfUpdatingTimerBehavior abstractAjaxBehaviour=(AjaxSelfUpdatingTimerBehavior)b;
+          executeBehavior(abstractAjaxBehaviour);
+        }
+      }
+      return CONTINUE_TRAVERSAL;
+    }
+  }
+);
+}
