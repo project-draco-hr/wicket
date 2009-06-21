@@ -1,11 +1,11 @@
 {
   super(id,rating);
-  this.nrOfStars=nrOfStars;
-  this.nrOfVotes=nrOfVotes;
-  this.hasVoted=hasVoted;
+  this.nrOfStars=wrap(nrOfStars);
+  this.nrOfVotes=wrap(nrOfVotes);
+  this.hasVoted=wrap(hasVoted);
   WebMarkupContainer rater=new WebMarkupContainer("rater");
-  rater.add(newRatingStarBar("element",nrOfStars));
-  rater.add(ratingLabel=newRatingLabel("rating",rating,nrOfVotes));
+  rater.add(newRatingStarBar("element",this.nrOfStars));
+  rater.add(ratingLabel=newRatingLabel("rating",wrap(rating),this.nrOfVotes));
   rater.setOutputMarkupId(true);
   add(rater);
   setRenderBodyOnly(true);
