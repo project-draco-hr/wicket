@@ -1,0 +1,31 @@
+{
+  selectedLocale=Session.get().getLocale();
+  Form<?> localeForm=new Form<Void>("localeForm");
+  localeForm.add(new LocaleDropDownChoice("localeSelect"));
+  localeForm.add(new Link<Void>("localeUSLink"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      selectedLocale=LOCALE_EN;
+    }
+  }
+);
+  add(localeForm);
+  DateTextField dateTextField=new DateTextField("dateTextField",new PropertyModel<Date>(this,"date"),new StyleDateConverter("S-",true)){
+    private static final long serialVersionUID=1L;
+    @Override public Locale getLocale(){
+      return selectedLocale;
+    }
+  }
+;
+  Form<?> form=new Form<Void>("form"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(){
+      info("set date to " + date);
+    }
+  }
+;
+  add(form);
+  form.add(dateTextField);
+  dateTextField.add(new DatePicker());
+  add(new FeedbackPanel("feedback"));
+}
