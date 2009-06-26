@@ -3,7 +3,11 @@
   final MarkupStream associatedMarkupStream=getAssociatedMarkupStream(true);
   associatedMarkupStream.skipUntil(openTagName);
   setMarkupStream(associatedMarkupStream);
-  final ComponentTag associatedMarkupOpenTag=associatedMarkupStream.getTag();
+  MarkupElement elem=associatedMarkupStream.get();
+  if ((elem instanceof ComponentTag) == false) {
+    associatedMarkupStream.throwMarkupException("Expected the open tag. " + exceptionMessage);
+  }
+  ComponentTag associatedMarkupOpenTag=(ComponentTag)elem;
   if (!((associatedMarkupOpenTag != null) && associatedMarkupOpenTag.isOpen() && (associatedMarkupOpenTag instanceof WicketTag))) {
     associatedMarkupStream.throwMarkupException(exceptionMessage);
   }
