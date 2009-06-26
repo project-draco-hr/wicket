@@ -3,14 +3,9 @@
     if (this instanceof IHeaderContributor) {
       ((IHeaderContributor)this).renderHead(container.getHeaderResponse());
     }
-    List<IBehavior> behaviors=getBehaviors();
-    if (behaviors != null) {
-      final Iterator<IBehavior> iter=behaviors.iterator();
-      while (iter.hasNext()) {
-        IBehavior behavior=iter.next();
-        if (behavior instanceof IHeaderContributor && isBehaviorAccepted(behavior)) {
-          ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
-        }
+    for (    IBehavior behavior : getBehaviors()) {
+      if (behavior instanceof IHeaderContributor && isBehaviorAccepted(behavior)) {
+        ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
       }
     }
   }
