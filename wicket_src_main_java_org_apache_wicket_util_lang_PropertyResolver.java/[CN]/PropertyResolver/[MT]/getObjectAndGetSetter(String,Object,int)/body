@@ -7,6 +7,10 @@
   String exp=expressionBracketsSeperated;
   while (index != -1) {
     exp=expressionBracketsSeperated.substring(lastIndex,index);
+    if (exp.length() == 0) {
+      exp=expressionBracketsSeperated.substring(index + 1);
+      break;
+    }
     IGetAndSet getAndSetter=null;
     try {
       getAndSetter=getGetAndSetter(exp,clz);
