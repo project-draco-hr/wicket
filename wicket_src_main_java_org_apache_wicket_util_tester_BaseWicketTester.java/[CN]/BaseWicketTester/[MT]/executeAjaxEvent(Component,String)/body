@@ -4,6 +4,9 @@
   notNull(failMessage,component);
   failMessage="event must not be null";
   notNull(failMessage,event);
+  if (component.isVisibleInHierarchy() == false) {
+    fail("The component is currently not visible in the hierarchy and thus you can not fire events on it." + " Component: " + component + "; Event: "+ event);
+  }
   AjaxEventBehavior ajaxEventBehavior=null;
   List<IBehavior> behaviors=component.getBehaviors();
   for (  IBehavior behavior : behaviors) {

@@ -1,14 +1,5 @@
 {
-  Form<?> form=null;
-  try {
-    Field formField=AjaxFormSubmitBehavior.class.getDeclaredField("__form");
-    formField.setAccessible(true);
-    form=(Form<?>)formField.get(behavior);
-  }
- catch (  Exception e) {
-    e.printStackTrace();
-    fail(e.getMessage());
-  }
+  Form<?> form=behavior.getForm();
   String failMessage="No form attached to the submitlink.";
   notNull(failMessage,form);
   form.visitFormComponents(new FormComponent.AbstractVisitor(){
