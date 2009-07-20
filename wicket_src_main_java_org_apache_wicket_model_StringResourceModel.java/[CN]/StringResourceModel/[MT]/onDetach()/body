@@ -2,6 +2,13 @@
   if (model != null) {
     model.detach();
   }
+  if (parameters != null) {
+    for (    Object parameter : parameters) {
+      if (parameter instanceof IModel<?>) {
+        ((IModel<?>)parameter).detach();
+      }
+    }
+  }
   localizer=null;
   locale=null;
 }
