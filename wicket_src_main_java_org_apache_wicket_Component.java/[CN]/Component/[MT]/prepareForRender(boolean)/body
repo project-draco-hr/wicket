@@ -1,12 +1,14 @@
 {
   beforeRender();
-  List<Component> feedbacks=getRequestCycle().getMetaData(FEEDBACK_LIST);
-  if (feedbacks != null) {
-    for (    Component feedback : feedbacks) {
-      feedback.internalBeforeRender();
+  if (setRenderingFlag) {
+    List<Component> feedbacks=getRequestCycle().getMetaData(FEEDBACK_LIST);
+    if (feedbacks != null) {
+      for (      Component feedback : feedbacks) {
+        feedback.internalBeforeRender();
+      }
     }
+    getRequestCycle().setMetaData(FEEDBACK_LIST,null);
   }
-  getRequestCycle().setMetaData(FEEDBACK_LIST,null);
   markRendering(setRenderingFlag);
   setRenderAllowed();
 }
