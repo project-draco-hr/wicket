@@ -3,8 +3,10 @@
     return 0;
   }
   List<FeedbackMessage> toDelete=messages(filter);
-  int count=toDelete.size();
+  for (  FeedbackMessage message : toDelete) {
+    message.detach();
+  }
   messages.removeAll(toDelete);
   trimToSize();
-  return count;
+  return toDelete.size();
 }
