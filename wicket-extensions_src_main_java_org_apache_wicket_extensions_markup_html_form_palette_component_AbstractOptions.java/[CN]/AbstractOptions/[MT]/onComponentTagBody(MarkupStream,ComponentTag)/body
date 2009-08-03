@@ -4,11 +4,29 @@
   IChoiceRenderer<T> renderer=getPalette().getChoiceRenderer();
   while (options.hasNext()) {
     final T choice=options.next();
-    String id=renderer.getIdValue(choice,0);
-    Object displayValue=renderer.getDisplayValue(choice);
-    Class<?> displayClass=displayValue == null ? null : displayValue.getClass();
-    String value=getConverter(displayClass).convertToString(displayValue,getLocale());
-    value=getLocalizer().getString(value,this,value);
+    final CharSequence id;
+{
+      String value=renderer.getIdValue(choice,0);
+      if (getEscapeModelStrings()) {
+        id=Strings.escapeMarkup(value);
+      }
+ else {
+        id=value;
+      }
+    }
+    final CharSequence value;
+{
+      Object displayValue=renderer.getDisplayValue(choice);
+      Class<?> displayClass=displayValue == null ? null : displayValue.getClass();
+      String displayString=getConverter(displayClass).convertToString(displayValue,getLocale());
+      displayString=getLocalizer().getString(displayString,this,displayString);
+      if (getEscapeModelStrings()) {
+        value=Strings.escapeMarkup(displayString);
+      }
+ else {
+        value=displayString;
+      }
+    }
     buffer.append("\n<option value=\"").append(id).append("\"");
     Map<String,String> additionalAttributesMap=getAdditionalAttributes(choice);
     if (additionalAttributesMap != null) {
