@@ -1,0 +1,31 @@
+{
+  final Component feedback=new FeedbackPanel("feedback").setOutputMarkupPlaceholderTag(true);
+  add(feedback);
+  Form<?> form=new Form<Void>("form"){
+    /** 
+ * @see org.apache.wicket.markup.html.form.Form#onSubmit()
+ */
+    @Override protected void onSubmit(){
+      info("Text: " + text.getModelObject());
+      FileUpload upload=file.getFileUpload();
+      if (upload == null) {
+        info("No file uploaded");
+      }
+ else {
+        info("File-Name: " + upload.getClientFileName() + " File-Size: "+ Bytes.bytes(upload.getSize()).toString());
+      }
+    }
+  }
+;
+  form.setMaxSize(Bytes.megabytes(1));
+  add(form);
+  form.add(text=new TextField<String>("text",new Model<String>()));
+  form.add(file=new FileUploadField("file"));
+  form.add(new AjaxButton("ajaxSubmit"){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      info("This request was processed using AJAX");
+      target.addComponent(feedback);
+    }
+  }
+);
+}
