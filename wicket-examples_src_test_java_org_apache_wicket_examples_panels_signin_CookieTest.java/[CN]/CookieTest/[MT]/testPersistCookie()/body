@@ -1,13 +1,19 @@
 {
   panel.setPersistent(true);
+  tester.getServletRequest().setParameter("username","johndoe");
+  tester.getServletRequest().setParameter("password","secret");
+  tester.getServletRequest().setParameter("rememberMeRow:rememberMe","on");
   form.onFormSubmitted();
   Collection<Cookie> cookies=tester.getServletResponse().getCookies();
   Assert.assertEquals(2,cookies.size());
   for (  Cookie cooky : cookies) {
     String pathOfStoredComponent=cooky.getName().replaceAll("\\.",":");
+    if (!pathOfStoredComponent.equals("panel:signInForm:username")) {
+      continue;
+    }
     Assert.assertNotNull(page.get(pathOfStoredComponent));
     if (!page.get(pathOfStoredComponent).getDefaultModelObjectAsString().equals("")) {
-      Assert.assertEquals(cooky.getValue(),page.get(pathOfStoredComponent).getDefaultModelObjectAsString());
+      Assert.assertEquals(cooky.getValue(),"johndoe");
     }
   }
 }
