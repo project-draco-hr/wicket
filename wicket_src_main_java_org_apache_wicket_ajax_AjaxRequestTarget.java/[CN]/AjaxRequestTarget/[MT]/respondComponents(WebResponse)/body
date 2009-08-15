@@ -4,6 +4,8 @@
     final Map.Entry<String,Component> entry=it.next();
     final Component component=entry.getValue();
     final String markupId=entry.getKey();
-    respondComponent(response,markupId,component);
+    if (!containsAncestorFor(component)) {
+      respondComponent(response,markupId,component);
+    }
   }
 }
