@@ -1,17 +1,26 @@
 {
-  String[] names=BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx,clazz);
-  if (names.length == 0) {
+  List<String> names=new ArrayList<String>(Arrays.asList(BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx,clazz)));
+  Iterator<String> it=names.iterator();
+  while (it.hasNext()) {
+    final String possibility=it.next();
+    if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.")) {
+      it.remove();
+    }
+  }
+  if (names.isEmpty()) {
     throw new IllegalStateException("bean of type [" + clazz.getName() + "] not found");
   }
-  if (names.length > 1) {
-    StringBuffer msg=new StringBuffer();
+ else   if (names.size() > 1) {
+    StringBuilder msg=new StringBuilder();
     msg.append("more then one bean of type [");
     msg.append(clazz.getName());
     msg.append("] found, you have to specify the name of the bean ");
     msg.append("(@SpringBean(name=\"foo\")) in order to resolve this conflict. ");
     msg.append("Matched beans: ");
-    msg.append(Strings.join(",",names));
+    msg.append(Strings.join(",",names.toArray(new String[0])));
     throw new IllegalStateException(msg.toString());
   }
-  return names[0];
+ else {
+    return names.get(0);
+  }
 }
