@@ -1,0 +1,20 @@
+{
+  Reader reader=new InputStreamReader(is,"UTF-8");
+  StringBuilder builder=new StringBuilder(BUFFER_SIZE);
+  char[] buffer=new char[BUFFER_SIZE];
+  while (true) {
+    int length=reader.read(buffer);
+    if (length < 0)     break;
+    for (int i=0; i < length; i++) {
+      char ch=buffer[i];
+      if (ch <= '\u007f') {
+        builder.append(ch);
+        continue;
+      }
+      builder.append(String.format("\\u%04x",(int)ch));
+    }
+  }
+  reader.close();
+  byte[] resourceContent=builder.toString().getBytes();
+  return new ByteArrayInputStream(resourceContent);
+}
