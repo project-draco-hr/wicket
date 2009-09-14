@@ -1,0 +1,18 @@
+{
+  final String comment=settings.getComment();
+  if (comment != null) {
+    cookie.setComment(comment);
+  }
+  final String domain=settings.getDomain();
+  if (domain != null) {
+    cookie.setDomain(domain);
+  }
+  HttpServletRequest request=getWebRequest().getHttpServletRequest();
+  String path=request.getContextPath() + request.getServletPath();
+  if (Strings.isEmpty(path)) {
+    path="/";
+  }
+  cookie.setPath(path);
+  cookie.setVersion(settings.getVersion());
+  cookie.setSecure(settings.getSecure());
+}

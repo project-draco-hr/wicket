@@ -1,0 +1,18 @@
+{
+  String key=getSaveKey(name);
+  try {
+    Cookie cookie=getWebRequest().getCookie(key);
+    if (log.isDebugEnabled()) {
+      if (cookie != null) {
+        log.debug("Found Cookie with name=" + key + " and request URI="+ getWebRequest().getHttpServletRequest().getRequestURI());
+      }
+ else {
+        log.debug("Unable to find Cookie with name=" + key + " and request URI="+ getWebRequest().getHttpServletRequest().getRequestURI());
+      }
+    }
+    return cookie;
+  }
+ catch (  NullPointerException ex) {
+  }
+  return null;
+}

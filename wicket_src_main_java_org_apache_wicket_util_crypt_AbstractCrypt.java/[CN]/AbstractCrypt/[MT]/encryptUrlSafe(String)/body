@@ -1,9 +1,13 @@
 {
   try {
-    byte[] cipherText=encryptStringToByteArray(plainText);
-    return new String(Base64UrlSafe.encodeBase64(cipherText));
+    byte[] encrypted=encryptStringToByteArray(plainText);
+    return new String(new Base64(-1,null,true).encode(encrypted),CHARACTER_ENCODING);
   }
  catch (  GeneralSecurityException e) {
+    log.error("Unable to encrypt text '" + plainText + "'",e);
+    return null;
+  }
+catch (  UnsupportedEncodingException e) {
     log.error("Unable to encrypt text '" + plainText + "'",e);
     return null;
   }

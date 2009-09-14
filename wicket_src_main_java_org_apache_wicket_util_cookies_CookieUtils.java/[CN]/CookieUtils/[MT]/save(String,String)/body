@@ -1,0 +1,14 @@
+{
+  key=getSaveKey(key);
+  String value=joinValues(values);
+  Cookie cookie=getCookie(key);
+  if (cookie == null) {
+    cookie=new Cookie(key,value);
+  }
+ else {
+    cookie.setValue(value);
+  }
+  cookie.setSecure(false);
+  cookie.setMaxAge(settings.getMaxAge());
+  save(cookie);
+}

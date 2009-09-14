@@ -1,0 +1,15 @@
+{
+  if (isSignedIn() == false) {
+    String[] data=getApplication().getSecuritySettings().getAuthenticationStrategy().load();
+    if ((data != null) && (data.length > 1)) {
+      if (signIn(data[0],data[1])) {
+        username=data[0];
+        password=data[1];
+        if (!continueToOriginalDestination()) {
+          throw new RestartResponseException(getApplication().getSessionSettings().getPageFactory().newPage(getApplication().getHomePage()));
+        }
+      }
+    }
+  }
+  super.onBeforeRender();
+}

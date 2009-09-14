@@ -1,11 +1,11 @@
 {
-  return new PageLink(name,new IPageLink(){
-    public Page getPage(){
-      return new EditBook(Book.get(id));
-    }
-    public Class<? extends Page> getPageIdentity(){
-      return EditBook.class;
+  return new Link<Void>(name){
+    /** 
+ * @see org.apache.wicket.markup.html.link.Link#onClick()
+ */
+    @Override public void onClick(){
+      setResponsePage(new EditBook(Book.get(id)));
     }
   }
-);
+;
 }

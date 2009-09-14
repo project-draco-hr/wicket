@@ -1,0 +1,19 @@
+{
+  String value=getCookieUtils().load(cookieKey);
+  if (Strings.isEmpty(value) == false) {
+    value=getCrypt().decryptUrlSafe(value);
+    if (Strings.isEmpty(value) == false) {
+      String username=null;
+      String password=null;
+      String[] values=value.split(VALUE_SEPARATOR);
+      if ((values.length > 0) && (Strings.isEmpty(values[0]) == false)) {
+        username=values[0];
+      }
+      if ((values.length > 1) && (Strings.isEmpty(values[1]) == false)) {
+        password=values[1];
+      }
+      return new String[]{username,password};
+    }
+  }
+  return null;
+}

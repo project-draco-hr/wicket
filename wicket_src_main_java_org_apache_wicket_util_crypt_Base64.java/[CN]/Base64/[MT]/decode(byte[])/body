@@ -1,3 +1,14 @@
 {
-  return decodeBase64(pArray);
+  reset();
+  if (pArray == null || pArray.length == 0) {
+    return pArray;
+  }
+  long len=Math.max(1,(pArray.length * 3) / 4);
+  byte[] buf=new byte[(int)len];
+  setInitialBuffer(buf,0,buf.length);
+  decode(pArray,0,pArray.length);
+  decode(pArray,0,-1);
+  byte[] result=new byte[pos];
+  readResults(result,0,result.length);
+  return result;
 }

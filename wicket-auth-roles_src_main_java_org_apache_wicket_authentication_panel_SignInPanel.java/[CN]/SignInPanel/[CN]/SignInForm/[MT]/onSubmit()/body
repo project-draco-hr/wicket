@@ -1,8 +1,16 @@
 {
+  IAuthenticationStrategy strategy=getApplication().getSecuritySettings().getAuthenticationStrategy();
   if (signIn(getUsername(),getPassword())) {
     onSignInSucceeded();
+    if (rememberMe == true) {
+      strategy.save(username,password);
+    }
+ else {
+      strategy.remove();
+    }
   }
  else {
     onSignInFailed();
+    strategy.remove();
   }
 }

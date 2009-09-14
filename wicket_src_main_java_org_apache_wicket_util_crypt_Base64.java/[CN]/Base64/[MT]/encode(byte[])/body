@@ -1,3 +1,20 @@
 {
-  return encodeBase64(pArray,false);
+  reset();
+  if (pArray == null || pArray.length == 0) {
+    return pArray;
+  }
+  long len=getEncodeLength(pArray,lineLength,lineSeparator);
+  byte[] buf=new byte[(int)len];
+  setInitialBuffer(buf,0,buf.length);
+  encode(pArray,0,pArray.length);
+  encode(pArray,0,-1);
+  if (buffer != buf) {
+    readResults(buf,0,buf.length);
+  }
+  if (isUrlSafe() && pos < buf.length) {
+    byte[] smallerBuf=new byte[pos];
+    System.arraycopy(buf,0,smallerBuf,0,pos);
+    buf=smallerBuf;
+  }
+  return buf;
 }

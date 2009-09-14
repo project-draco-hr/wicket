@@ -1,9 +1,10 @@
 {
   try {
-    byte[] encrypted=Base64UrlSafe.decodeBase64(text.getBytes());
-    return new String(decryptByteArray(encrypted),CHARACTER_ENCODING);
+    byte[] decoded=new Base64(true).decode(text);
+    return new String(decryptByteArray(decoded),CHARACTER_ENCODING);
   }
- catch (  UnsupportedEncodingException ex) {
-    throw new WicketRuntimeException("Error decoding text: " + text,ex);
+ catch (  Exception ex) {
+    log.error("Error decoding text: " + text,ex);
   }
+  return null;
 }
