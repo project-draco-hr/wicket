@@ -18,7 +18,7 @@
     @Override protected CharSequence getCallbackScript(    boolean onlyTargetActivePage){
       return generateCallbackScript("showLoadingIndicator(); wicketAjaxGet('" + getCallbackUrl(onlyTargetActivePage) + "&x=' + getEventX(this, event) + '&y=' + getEventY(this, event)");
     }
-    @SuppressWarnings("unchecked") @Override protected void onEvent(    final AjaxRequestTarget target){
+    @Override protected void onEvent(    final AjaxRequestTarget target){
       final WebRequest request=(WebRequest)RequestCycle.get().getRequest();
       final Map<String,String[]> parameters=request.getParameterMap();
       final int x=Integer.parseInt(parameters.get("x")[0]);
