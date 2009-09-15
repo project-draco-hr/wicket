@@ -1,3 +1,11 @@
 {
-  return putIntoCache(locationString,markup);
+  if (locationString != null) {
+    if (markupCache.containsKey(locationString) == false) {
+      markupCache.put(locationString,markup);
+    }
+ else {
+      markup=markupCache.get(locationString);
+    }
+  }
+  return markup;
 }
