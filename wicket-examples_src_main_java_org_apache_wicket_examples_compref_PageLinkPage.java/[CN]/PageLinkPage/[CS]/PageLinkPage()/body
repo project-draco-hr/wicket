@@ -1,11 +1,8 @@
 {
-  add(new PageLink("pageLink",new IPageLink(){
-    public Page getPage(){
-      return new NonBookmarkablePage(PageLinkPage.this);
-    }
-    public Class<? extends Page> getPageIdentity(){
-      return NonBookmarkablePage.class;
+  add(new Link<Void>("pageLink"){
+    @Override public void onClick(){
+      setResponsePage(new NonBookmarkablePage(PageLinkPage.this));
     }
   }
-));
+);
 }

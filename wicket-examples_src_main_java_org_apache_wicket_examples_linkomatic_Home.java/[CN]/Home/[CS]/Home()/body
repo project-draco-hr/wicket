@@ -17,24 +17,18 @@
   add(new Label("onClickLinkClickCount",new PropertyModel<Integer>(this,"onClickLinkClickCount")));
   add(new BookmarkablePageLink("page1Link",Page1.class));
   add(new BookmarkablePageLink("page3Link",Page3.class).setParameter("bookmarkparameter","3++2 & 5 ??? >< space + ???"));
-  add(new PageLink("bookDetailsLink",new IPageLink(){
-    public Page getPage(){
-      return new BookDetails(new Book("The Hobbit"));
-    }
-    public Class<? extends Page> getPageIdentity(){
-      return BookDetails.class;
+  add(new Link<Void>("bookDetailsLink"){
+    @Override public void onClick(){
+      setResponsePage(new BookDetails(new Book("The Hobbit")));
     }
   }
-));
-  add(new PageLink("bookDetailsLink2",new IPageLink(){
-    public Page getPage(){
-      return new BookDetails(new Book("Inside The Matrix"));
-    }
-    public Class<? extends Page> getPageIdentity(){
-      return BookDetails.class;
+);
+  add(new Link<Void>("bookDetailsLink2"){
+    @Override public void onClick(){
+      setResponsePage(new BookDetails(new Book("Inside The Matrix")));
     }
   }
-));
+);
   add(new ImageMap("imageMap").addRectangleLink(0,0,100,100,new BookmarkablePageLink("page1",Page1.class)).addCircleLink(160,50,35,new BookmarkablePageLink("page2",Page2.class)).addPolygonLink(new int[]{212,79,241,4,279,54,212,79},new BookmarkablePageLink("page3",Page3.class)).add(RelativePathPrefixHandler.RELATIVE_PATH_BEHAVIOR));
   PopupSettings popupSettings=new PopupSettings(PageMap.forName("popuppagemap")).setHeight(500).setWidth(500);
   add(new BookmarkablePageLink("popupLink",Popup.class).setPopupSettings(popupSettings));
