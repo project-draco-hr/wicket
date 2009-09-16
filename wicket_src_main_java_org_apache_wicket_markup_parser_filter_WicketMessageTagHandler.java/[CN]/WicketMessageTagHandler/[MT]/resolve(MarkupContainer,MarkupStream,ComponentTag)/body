@@ -1,11 +1,13 @@
 {
-  if (WICKET_MESSAGE_CONTAINER_ID.equals(tag.getId())) {
+  if ((tag != null) && (tag.getId().startsWith(WICKET_MESSAGE_CONTAINER_ID))) {
     Component wc=null;
+    String id=WICKET_MESSAGE_CONTAINER_ID + container.getPage().getAutoIndex();
+    tag.setId(id);
     if (tag.isOpenClose()) {
-      wc=new WebComponent(WICKET_MESSAGE_CONTAINER_ID + container.getPage().getAutoIndex());
+      wc=new WebComponent(id);
     }
  else {
-      wc=new TransparentContainer(WICKET_MESSAGE_CONTAINER_ID + container.getPage().getAutoIndex());
+      wc=new TransparentContainer(id);
     }
     container.autoAdd(wc,markupStream);
     return true;

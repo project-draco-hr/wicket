@@ -1,4 +1,10 @@
 {
+  if (getApplication().getMarkupFragmentEnabled()) {
+    IMarkupFragment markup=getMarkup();
+    if (!(this instanceof Page) && (markup == null)) {
+      throw new IllegalArgumentException("jdo: Markup not found: " + toString());
+    }
+  }
   if (markupStream != null) {
     markupIndex=markupStream.getCurrentIndex();
   }

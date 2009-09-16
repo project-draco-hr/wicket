@@ -1,0 +1,27 @@
+{
+  MarkupContainer parent=getParent();
+  IMarkupFragment markup=parent.getMarkup();
+  if ((markup != null) && (markup instanceof MarkupFragment)) {
+    markup=((MarkupFragment)markup).getRootMarkup();
+  }
+  markup=findEnclosureMarkup(markup);
+  if (markup != null) {
+    return markup;
+  }
+  markup=parent.getMarkup(null);
+  if ((markup != null) && (markup instanceof MarkupFragment)) {
+    markup=((MarkupFragment)markup).getRootMarkup();
+  }
+  markup=findEnclosureMarkup(markup);
+  if (markup != null) {
+    return markup;
+  }
+  if (parent instanceof BorderBodyContainer) {
+    while (((parent instanceof Border) == false) && (parent != null)) {
+      parent=parent.getParent();
+    }
+    markup=parent.getMarkup();
+    return findEnclosureMarkup(markup);
+  }
+  return null;
+}

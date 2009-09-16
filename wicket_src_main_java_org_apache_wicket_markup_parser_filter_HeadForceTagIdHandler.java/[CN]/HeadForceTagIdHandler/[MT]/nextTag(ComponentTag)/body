@@ -1,0 +1,14 @@
+{
+  if (tag instanceof WicketTag && ((WicketTag)tag).isHeadTag()) {
+    inHead=tag.isOpen();
+  }
+ else   if (inHead == true) {
+    if ((tag instanceof WicketTag == false) && (tag.getId() == null) && (tag.isOpen() || tag.isOpenClose())&& needId(tag)) {
+      if (tag.getAttributes().get("id") == null) {
+        ((TagAttributes)tag.getAttributes()).putInternal("id",headElementIdPrefix + nextValue());
+        tag.setModified(true);
+      }
+    }
+  }
+  return tag;
+}

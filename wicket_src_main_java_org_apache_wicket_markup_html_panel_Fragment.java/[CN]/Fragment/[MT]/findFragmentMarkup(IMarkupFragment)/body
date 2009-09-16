@@ -1,0 +1,12 @@
+{
+  for (int i=0; i < markup.size(); i++) {
+    MarkupElement elem=markup.get(i);
+    if (elem instanceof WicketTag) {
+      WicketTag tag=(WicketTag)elem;
+      if (tag.isFragementTag() && tag.getId().equals(markupId)) {
+        return new MarkupFragment(markup,i);
+      }
+    }
+  }
+  return null;
+}

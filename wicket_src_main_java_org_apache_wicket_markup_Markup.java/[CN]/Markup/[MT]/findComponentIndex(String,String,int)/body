@@ -1,0 +1,25 @@
+{
+  if ((id == null) || (id.length() == 0)) {
+    throw new IllegalArgumentException("Parameter 'id' must not be null");
+  }
+  String completePath=(path == null || path.length() == 0 ? id : path + ":" + id);
+  Pattern re=Pattern.compile(":\\d+");
+  Matcher matcher=re.matcher(completePath);
+  completePath=matcher.replaceAll("");
+  if (componentMap != null) {
+    final Integer value=componentMap.get(completePath);
+    if (value != null) {
+      return value.intValue();
+    }
+  }
+  for (int i=Math.max(0,startIndex); i < size(); i++) {
+    MarkupElement elem=get(i);
+    if (elem instanceof ComponentTag) {
+      ComponentTag tag=(ComponentTag)elem;
+      if (tag.isAutoComponentTag() && (tag.getId() != null) && tag.getId().startsWith(id)) {
+        return i;
+      }
+    }
+  }
+  return -1;
+}

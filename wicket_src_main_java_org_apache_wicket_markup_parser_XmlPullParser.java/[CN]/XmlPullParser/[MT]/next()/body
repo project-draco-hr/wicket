@@ -1,10 +1,10 @@
 {
   if (input.getPosition() >= input.size()) {
-    return false;
+    return NOT_INITIALIZED;
   }
   if (skipUntilText != null) {
     skipUntil();
-    return true;
+    return lastType;
   }
   final int openBracketIndex=input.find('<');
   if (input.charAt(input.getPosition()) != '<') {
@@ -12,12 +12,12 @@
       lastText=input.getSubstring(-1);
       input.setPosition(input.size());
       lastType=BODY;
-      return true;
+      return lastType;
     }
     lastText=input.getSubstring(openBracketIndex);
     input.setPosition(openBracketIndex);
     lastType=BODY;
-    return true;
+    return lastType;
   }
   input.countLinesTo(openBracketIndex);
   int closeBracketIndex=input.find('>',openBracketIndex + 1);
@@ -32,7 +32,7 @@
   final char firstChar=tagText.charAt(0);
   if ((firstChar == '!') || (firstChar == '?')) {
     specialTagHandling(tagText,openBracketIndex,closeBracketIndex);
-    return true;
+    return lastType;
   }
   final XmlTag.Type type;
   if (tagText.endsWith("/")) {
@@ -65,7 +65,7 @@
     lastTag.columnNumber=input.getColumnNumber();
     input.setPosition(closeBracketIndex + 1);
     lastType=TAG;
-    return true;
+    return lastType;
   }
  else {
     throw new ParseException("Malformed tag (line " + input.getLineNumber() + ", column "+ input.getColumnNumber()+ ")",openBracketIndex);

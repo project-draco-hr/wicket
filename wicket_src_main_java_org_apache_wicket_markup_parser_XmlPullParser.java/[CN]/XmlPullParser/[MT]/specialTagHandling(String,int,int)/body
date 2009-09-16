@@ -8,6 +8,7 @@
     lastText=input.getSubstring(openBracketIndex,pos);
     lastType=COMMENT;
     if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && lastText.toString().endsWith("<![endif]-->")) {
+      lastType=CONDITIONAL_COMMENT;
       input.setPosition(closeBracketIndex + 1);
     }
  else {
@@ -16,7 +17,7 @@
     return;
   }
   if (tagText.equals("![endif]--")) {
-    lastType=COMMENT;
+    lastType=CONDITIONAL_COMMENT;
     input.setPosition(closeBracketIndex + 1);
     return;
   }

@@ -1,0 +1,58 @@
+{
+  if (markup == null) {
+    throw new IllegalArgumentException("Parameter 'markup' must not be null");
+  }
+  if (startIndex < 0) {
+    throw new IllegalArgumentException("Parameter 'startIndex' must not be < 0");
+  }
+  if (startIndex >= markup.size()) {
+    throw new IllegalArgumentException("Parameter 'startIndex' must not be >= markup.size()");
+  }
+  this.markup=markup;
+  this.startIndex=startIndex;
+  MarkupElement startElem=markup.get(startIndex);
+  if ((startElem instanceof ComponentTag) == false) {
+    throw new IllegalArgumentException("Parameter 'index' does not point to a Wicket open tag");
+  }
+  int endIndex;
+  ComponentTag startTag=(ComponentTag)startElem;
+  if (startTag.isOpenClose()) {
+    endIndex=startIndex;
+  }
+ else   if (startTag.hasNoCloseTag()) {
+    for (endIndex=startIndex + 1; endIndex < markup.size(); endIndex++) {
+      MarkupElement elem=markup.get(endIndex);
+      if (elem instanceof ComponentTag) {
+        endIndex--;
+        break;
+      }
+    }
+  }
+ else {
+    for (endIndex=startIndex + 1; endIndex < markup.size(); endIndex++) {
+      MarkupElement elem=markup.get(endIndex);
+      if (elem instanceof ComponentTag) {
+        ComponentTag tag=(ComponentTag)elem;
+        if (tag.closes(startTag)) {
+          break;
+        }
+      }
+    }
+  }
+  if (endIndex >= markup.size()) {
+    throw new MarkupException("Unable to find close tag for: '" + startTag.toString() + "' in "+ getRootMarkup().getMarkupResourceStream().toString());
+  }
+  size=endIndex - startIndex + 1;
+  if (startTag instanceof WicketTag) {
+    WicketTag tag=(WicketTag)startTag;
+    if (tag.isFragementTag() || tag.isContainerTag()) {
+      rootPath=startTag.getId();
+    }
+ else {
+      rootPath=null;
+    }
+  }
+ else {
+    rootPath=startTag.getId();
+  }
+}

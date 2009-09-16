@@ -1,0 +1,12 @@
+{
+  IMarkupFragment markup=getParent().getMarkup(null);
+  if (markup == null) {
+    throw new MarkupException("Unable to find Markup for Component: " + getParent().toString());
+  }
+  if (getId().startsWith("_child")) {
+    return markup.find(null,"_child",0);
+  }
+ else {
+    return markup.find(null,"_extend",0);
+  }
+}

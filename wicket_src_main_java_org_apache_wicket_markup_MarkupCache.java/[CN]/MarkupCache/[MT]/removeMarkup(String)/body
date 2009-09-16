@@ -6,7 +6,7 @@
     log.debug("Remove from cache: cacheKey=" + cacheKey);
   }
   String locationString=(String)markupKeyCache.get(cacheKey);
-  Markup markup=markupCache.get(locationString);
+  IMarkupFragment markup=markupCache.get(locationString);
   if (markup != null) {
     markupCache.remove(locationString);
     int count;
@@ -15,13 +15,13 @@
       Iterator<CharSequence> iter=markupCache.getKeys().iterator();
       while (iter.hasNext()) {
         Markup cacheMarkup=markupCache.get(iter.next());
-        MarkupResourceData resourceData=cacheMarkup.getMarkupResourceData().getBaseMarkupResourceData();
+        MarkupResourceStream resourceData=cacheMarkup.getMarkupResourceStream().getBaseMarkupResourceStream();
         if (resourceData != null) {
-          String baseCacheKey=resourceData.getResource().getCacheKey();
+          String baseCacheKey=resourceData.getCacheKey();
           String baseLocationString=(String)markupKeyCache.get(baseCacheKey);
           if (baseLocationString != null && markupCache.get(baseLocationString) == null) {
             if (log.isDebugEnabled()) {
-              log.debug("Remove from cache: cacheKey=" + cacheMarkup.getMarkupResourceData().getResource().getCacheKey());
+              log.debug("Remove from cache: cacheKey=" + cacheMarkup.getMarkupResourceStream().getCacheKey());
             }
             iter.remove();
             count++;

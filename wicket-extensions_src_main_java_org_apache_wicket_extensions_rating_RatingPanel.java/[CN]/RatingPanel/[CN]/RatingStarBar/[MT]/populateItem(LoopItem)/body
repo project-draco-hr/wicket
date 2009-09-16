@@ -3,7 +3,7 @@
     private static final long serialVersionUID=1L;
     @Override public void onClick(    AjaxRequestTarget target){
       LoopItem item=(LoopItem)getParent();
-      onRated(item.getIteration() + 1,target);
+      onRated(item.getIndex() + 1,target);
       if (target != null) {
         target.addComponent(RatingPanel.this.get("rater"));
       }
@@ -13,7 +13,7 @@
     }
   }
 ;
-  int iteration=item.getIteration();
+  int iteration=item.getIndex();
   link.add(new WebMarkupContainer("star").add(new SimpleAttributeModifier("src",(onIsStarActive(iteration) ? getActiveStarUrl(iteration) : getInactiveStarUrl(iteration)))));
   item.add(link);
 }

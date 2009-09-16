@@ -1,0 +1,46 @@
+{
+  IMarkupFragment markup=getMarkup();
+  if (markup == null) {
+    throw new MarkupException("Unable to determine Markup for Component: " + toString());
+  }
+ else   if (child == null) {
+    return markup;
+  }
+  markup=markup.find(null,child.getId(),0);
+  if (markup != null) {
+    return markup;
+  }
+  markup=(IMarkupFragment)visitChildren(new IVisitor<Component>(){
+    public Object component(    final Component component){
+      if (component instanceof MarkupContainer) {
+        MarkupContainer container=(MarkupContainer)component;
+        if (container.isTransparentResolver()) {
+          IMarkupFragment markup=container.getMarkup(child);
+          if (markup != null) {
+            return markup;
+          }
+          return CONTINUE_TRAVERSAL;
+        }
+      }
+      return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+    }
+  }
+);
+  if (Character.isDigit(child.getId().charAt(0))) {
+    String id=child.getId();
+    boolean miss=false;
+    for (int i=1; i < id.length(); i++) {
+      if (Character.isDigit(id.charAt(i)) == false) {
+        miss=true;
+        break;
+      }
+    }
+    if (miss == false) {
+      markup=getMarkup();
+      if (log.isWarnEnabled()) {
+        log.warn("1.4 to 1.5 migration issue: your item component should be derived from AbstractItem. Item=" + child.toString());
+      }
+    }
+  }
+  return markup;
+}

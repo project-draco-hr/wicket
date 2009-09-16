@@ -1,0 +1,14 @@
+{
+  IMarkupFragment markup=null;
+  MarkupContainer provider=getMarkupProvider();
+  if (provider != null) {
+    markup=findFragmentMarkup(provider);
+  }
+  if ((markup == null) && (getParent() != null)) {
+    markup=findFragmentMarkup(getParent());
+  }
+  if (markup == null) {
+    markup=findFragmentMarkup(this);
+  }
+  return markup;
+}

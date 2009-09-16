@@ -1,21 +1,32 @@
 {
-  if (component == this) {
+  if (child == this) {
     throw new IllegalArgumentException("Component can't be added to itself");
   }
-  MarkupContainer parent=component.getParent();
+  MarkupContainer parent=child.getParent();
   if (parent != null) {
-    parent.remove(component);
+    parent.remove(child);
   }
-  component.setParent(this);
+  child.setParent(this);
   final Page page=findPage();
   final IDebugSettings debugSettings=Application.get().getDebugSettings();
   if (debugSettings.isLinePreciseReportingOnAddComponentEnabled()) {
-    component.setMetaData(ADDED_AT_KEY,Strings.toString(component,new MarkupException("added")));
+    child.setMetaData(ADDED_AT_KEY,Strings.toString(child,new MarkupException("added")));
   }
   if (page != null) {
-    page.componentAdded(component);
+    child.onConnectedToPage();
+    if (child instanceof MarkupContainer) {
+      MarkupContainer container=(MarkupContainer)child;
+      container.visitChildren(new IVisitor<Component>(){
+        public Object component(        final Component component){
+          component.onConnectedToPage();
+          return CONTINUE_TRAVERSAL;
+        }
+      }
+);
+    }
+    page.componentAdded(child);
   }
   if (isPreparedForRender()) {
-    component.beforeRender();
+    child.beforeRender();
   }
 }

@@ -1,0 +1,29 @@
+{
+  if (ignoreTheRest == true) {
+    return tag;
+  }
+  if (HEAD.equalsIgnoreCase(tag.getName())) {
+    if (tag.getNamespace() == null) {
+      if (tag.isClose()) {
+        foundHead=true;
+      }
+ else       if (tag.getId() == null) {
+        tag.setId(HEADER_ID);
+        tag.setAutoComponentTag(true);
+        tag.setModified(true);
+      }
+      return tag;
+    }
+ else {
+      foundHead=true;
+    }
+  }
+ else   if (BODY.equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
+    if (foundHead == false) {
+      insertHeadTag();
+    }
+    ignoreTheRest=true;
+    return tag;
+  }
+  return tag;
+}

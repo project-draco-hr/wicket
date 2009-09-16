@@ -1,14 +1,10 @@
 {
-  try {
-    return getApplication().getMarkupSettings().getMarkupCache().getMarkupStream(this,false,throwException);
+  IMarkupFragment markup=getAssociatedMarkup();
+  if (markup != null) {
+    return new MarkupStream(markup);
   }
- catch (  MarkupException ex) {
-    throw ex;
+  if (throwException == true) {
+    throw new MarkupNotFoundException("Markup of type '" + getMarkupType() + "' for component '"+ getClass().getName()+ "' not found."+ " Enable debug messages for org.apache.wicket.util.resource to get a list of all filenames tried.: "+ toString());
   }
-catch (  MarkupNotFoundException ex) {
-    throw ex;
-  }
-catch (  WicketRuntimeException ex) {
-    throw new MarkupNotFoundException(exceptionMessage("Markup of type '" + getMarkupType() + "' for component '"+ getClass().getName()+ "' not found."+ " Enable debug messages for org.apache.wicket.util.resource to get a list of all filenames tried"),ex);
-  }
+  return null;
 }

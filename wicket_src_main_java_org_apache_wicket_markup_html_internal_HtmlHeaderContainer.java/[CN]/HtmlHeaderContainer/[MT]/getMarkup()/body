@@ -1,0 +1,16 @@
+{
+  IMarkupFragment markup=getPage().getMarkup();
+  if (markup == null) {
+    throw new MarkupException("Unable to get page markup: " + getPage().toString());
+  }
+  int index1=markup.findComponentIndex(null,"_header_",0);
+  int index2=markup.findComponentIndex(null,"_head",0);
+  if (((ComponentTag)markup.get(index2)).getMarkupClass() != null) {
+    index2=-1;
+  }
+  int index=(index1 == -1 ? index2 : (index2 == -1) ? index1 : Math.min(index1,index2));
+  if (index >= 0) {
+    return new MarkupFragment(markup,index);
+  }
+  return null;
+}

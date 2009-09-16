@@ -1,6 +1,4 @@
 {
-  final boolean stripComments=markupSettings.getStripComments();
-  final boolean compressWhitespace=markupSettings.getCompressWhitespace();
   try {
     int size=markup.size();
     ComponentTag tag;
@@ -10,16 +8,10 @@
         add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
       }
       if (add || tag.isModified() || (markup.size() != size)) {
-        final CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
+        CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
         if (text.length() > 0) {
-          String rawMarkup=text.toString();
-          if (stripComments) {
-            rawMarkup=removeComment(rawMarkup);
-          }
-          if (compressWhitespace) {
-            rawMarkup=compressWhitespace(rawMarkup);
-          }
-          markup.addMarkupElement(size,new RawMarkup(rawMarkup));
+          text=handleRawText(text.toString());
+          markup.addMarkupElement(size,new RawMarkup(text));
         }
         xmlParser.setPositionMarker();
         if (add) {
@@ -42,22 +34,16 @@
     if (text.length() > 0) {
       markup.addMarkupElement(new RawMarkup(text));
     }
-    markup.getMarkupResourceData().setEncoding(xmlParser.getEncoding());
-    markup.getMarkupResourceData().setXmlDeclaration(xmlParser.getXmlDeclaration());
+    markup.getMarkupResourceStream().setEncoding(xmlParser.getEncoding());
+    markup.getMarkupResourceStream().setXmlDeclaration(xmlParser.getXmlDeclaration());
     final MarkupStream markupStream=new MarkupStream(markup);
     markupStream.setCurrentIndex(markup.size() - 1);
     throw new MarkupException(markupStream,ex.getMessage(),ex);
   }
-  final CharSequence text=xmlParser.getInputFromPositionMarker(-1);
+  CharSequence text=xmlParser.getInputFromPositionMarker(-1);
   if (text.length() > 0) {
-    String rawMarkup=text.toString();
-    if (stripComments) {
-      rawMarkup=removeComment(rawMarkup);
-    }
-    if (compressWhitespace) {
-      rawMarkup=compressWhitespace(rawMarkup);
-    }
-    markup.addMarkupElement(new RawMarkup(rawMarkup));
+    text=handleRawText(text.toString());
+    markup.addMarkupElement(new RawMarkup(text));
   }
   markup.makeImmutable();
 }
