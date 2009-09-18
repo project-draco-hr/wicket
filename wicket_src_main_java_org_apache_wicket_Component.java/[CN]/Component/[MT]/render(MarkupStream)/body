@@ -19,16 +19,9 @@
       log.debug("Begin render " + this);
     }
     try {
-      final IComponentBorder border=getComponentBorder();
-      if (border != null) {
-        border.renderBefore(this);
-      }
       notifyBehaviorsComponentBeforeRender();
       onRender(markupStream);
       notifyBehaviorsComponentRendered();
-      if (border != null) {
-        border.renderAfter(this);
-      }
       rendered();
     }
  catch (    RuntimeException ex) {
