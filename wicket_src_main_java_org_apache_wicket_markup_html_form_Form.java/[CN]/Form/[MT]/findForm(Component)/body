@@ -8,11 +8,14 @@ class FindFormVisitor implements Component.IVisitor<Form<?>> {
   }
   Form<?> form=component.findParent(Form.class);
   if (form == null) {
-    final Border border=component.findParent(Border.class);
-    if (border != null) {
+    Border border=component.findParent(Border.class);
+    while ((form == null) && (border != null)) {
       FindFormVisitor formVisitor=new FindFormVisitor();
       border.visitChildren(Form.class,formVisitor);
       form=formVisitor.form;
+      if (form == null) {
+        border=border.findParent(Border.class);
+      }
     }
   }
   return form;
