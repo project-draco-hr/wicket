@@ -7,12 +7,11 @@
     return;
   }
   this.date=new MutableDateTime(date);
-  setDefaultModelObject(date);
   Integer hours=getHours();
-  Integer minutes=getMinutes();
-  boolean use12HourFormat=use12HourFormat();
   if (hours != null) {
+    boolean use12HourFormat=use12HourFormat();
     this.date.set(DateTimeFieldType.hourOfDay(),hours.intValue() % (use12HourFormat ? 12 : 24));
+    Integer minutes=getMinutes();
     this.date.setMinuteOfHour((minutes != null) ? minutes.intValue() : 0);
   }
   setDefaultModelObject(this.date.toDate());

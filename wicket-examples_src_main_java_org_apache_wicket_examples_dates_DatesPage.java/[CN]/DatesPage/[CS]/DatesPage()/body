@@ -1,6 +1,6 @@
 {
   selectedLocale=Session.get().getLocale();
-  Form<?> localeForm=new Form("localeForm");
+  Form<?> localeForm=new Form<Void>("localeForm");
   localeForm.add(new LocaleDropDownChoice("localeSelect"));
   localeForm.add(new Link("localeUSLink"){
     @Override public void onClick(){
@@ -15,7 +15,7 @@
     }
   }
 ;
-  Form<?> form=new Form("form"){
+  Form<?> form=new Form<Void>("form"){
     @Override protected void onSubmit(){
       info("set date to " + date);
     }
@@ -25,4 +25,12 @@
   form.add(dateTextField);
   dateTextField.add(new DatePicker());
   add(new FeedbackPanel("feedback"));
+  Form<?> form2=new Form<Void>("form2"){
+    @Override protected void onSubmit(){
+      info("set date2 to " + date2);
+    }
+  }
+;
+  add(form2);
+  form2.add(new DateTimeField("dateTimeField",new PropertyModel<Date>(this,"date2")));
 }
