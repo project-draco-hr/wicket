@@ -1,13 +1,7 @@
 {
-  String variation=getVariation();
-  String style=getSession().getStyle();
-  if (variation != null && !"".equals(variation)) {
-    if (style != null && !"".equals(style)) {
-      style=variation + "_" + style;
-    }
- else {
-      style=variation;
-    }
+  Session session=getSession();
+  if (session == null) {
+    throw new WicketRuntimeException("Wicket Session object not avaiable");
   }
-  return style;
+  return session.getStyle();
 }

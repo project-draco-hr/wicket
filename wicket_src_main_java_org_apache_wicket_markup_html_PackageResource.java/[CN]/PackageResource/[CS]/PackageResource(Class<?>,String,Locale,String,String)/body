@@ -1,0 +1,15 @@
+{
+  absolutePath=Packages.absolutePath(scope,path);
+  if (!accept(scope,path)) {
+    throw new PackageResourceBlockedException("Access denied to (static) package resource " + absolutePath + ". See IPackageResourceGuard");
+  }
+  scopeName=scope.getName();
+  this.path=path;
+  this.locale=locale;
+  this.style=style;
+  this.variation=variation;
+  if (locale != null) {
+    getResourceStream(false);
+    invalidate();
+  }
+}

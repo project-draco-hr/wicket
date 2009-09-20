@@ -23,9 +23,7 @@
     if (log.isDebugEnabled()) {
       log.debug("Locate property: key: '" + key + "'; Component: '"+ (component != null ? component.toString(false) : null)+ "'");
     }
-    Iterator<IStringResourceLoader> iter=getStringResourceLoaders();
-    while (iter.hasNext()) {
-      IStringResourceLoader loader=iter.next();
+    for (    IStringResourceLoader loader : getStringResourceLoaders()) {
       value=loader.loadStringResource(component,key);
       if (value != null) {
         break;

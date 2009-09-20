@@ -1,0 +1,17 @@
+{
+  if (exact) {
+    final String resourceKey=resourceKey(scope,name,locale,style,variation);
+    return get(resourceKey);
+  }
+  for (int i=7; i >= 0; i--) {
+    boolean testLocale=(i & 4) != 0;
+    boolean testStyle=(i & 2) != 0;
+    boolean testVariation=(i & 1) != 0;
+    String resourceKey=resourceKey(scope,name,(testLocale ? locale : null),(testStyle ? style : null),(testVariation ? variation : null));
+    Resource resource=get(resourceKey);
+    if (resource != null) {
+      return resource;
+    }
+  }
+  return null;
+}

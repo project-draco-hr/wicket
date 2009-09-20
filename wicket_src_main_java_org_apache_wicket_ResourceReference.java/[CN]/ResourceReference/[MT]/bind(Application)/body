@@ -1,17 +1,17 @@
 {
   if (resource == null) {
     SharedResources sharedResources=application.getSharedResources();
-    resource=sharedResources.get(getScope(),name,locale,style,true);
+    resource=sharedResources.get(getScope(),name,locale,style,variation,true);
     if (resource == null) {
       resource=newResource();
       if (resource == null) {
-        resource=sharedResources.get(getScope(),name,locale,style,false);
+        resource=sharedResources.get(getScope(),name,locale,style,variation,false);
         if (resource == null) {
           resource=PackageResource.get(getScope(),name);
           sharedResources.add(name,resource);
         }
       }
-      sharedResources.add(getScope(),name,locale,style,resource);
+      sharedResources.add(getScope(),name,locale,style,variation,resource);
     }
   }
 }

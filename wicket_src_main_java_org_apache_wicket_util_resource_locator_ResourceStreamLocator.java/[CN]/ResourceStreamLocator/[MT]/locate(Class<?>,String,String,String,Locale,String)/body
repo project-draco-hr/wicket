@@ -1,0 +1,12 @@
+{
+  ResourceNameIterator iter=new ResourceNameIterator(path,style,variation,locale,extension);
+  while (iter.hasNext()) {
+    String newPath=iter.next();
+    IResourceStream stream=locate(clazz,newPath);
+    if (stream != null) {
+      stream.setLocale(iter.getLocale());
+      return stream;
+    }
+  }
+  return null;
+}
