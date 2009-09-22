@@ -2,10 +2,15 @@
   if (tabsVisibilityCache == null) {
     tabsVisibilityCache=new Boolean[tabs.size()];
   }
-  Boolean visible=tabsVisibilityCache[tabIndex];
-  if (visible == null) {
-    visible=tabs.get(tabIndex).isVisible();
-    tabsVisibilityCache[tabIndex]=visible;
+  if (tabsVisibilityCache.length > 0) {
+    Boolean visible=tabsVisibilityCache[tabIndex];
+    if (visible == null) {
+      visible=tabs.get(tabIndex).isVisible();
+      tabsVisibilityCache[tabIndex]=visible;
+    }
+    return visible;
   }
-  return visible;
+ else {
+    return false;
+  }
 }
