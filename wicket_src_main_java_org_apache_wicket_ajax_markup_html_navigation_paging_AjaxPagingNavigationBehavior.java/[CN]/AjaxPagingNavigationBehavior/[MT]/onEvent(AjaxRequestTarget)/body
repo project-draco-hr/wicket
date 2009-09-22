@@ -1,8 +1,7 @@
 {
   owner.onClick(target);
   AjaxPagingNavigator navigator=((Component)owner).findParent(AjaxPagingNavigator.class);
-  if (navigator == null) {
-    throw new WicketRuntimeException("Unable to find AjaxPagingNavigator component in hierarchy starting from " + owner);
+  if (navigator != null) {
+    navigator.onAjaxEvent(target);
   }
-  navigator.onAjaxEvent(target);
 }
