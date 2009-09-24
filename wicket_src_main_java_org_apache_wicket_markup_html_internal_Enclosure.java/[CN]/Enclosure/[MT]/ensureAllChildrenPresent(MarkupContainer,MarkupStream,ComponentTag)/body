@@ -1,0 +1,24 @@
+{
+  DirectChildTagIterator it=new DirectChildTagIterator(markupStream,enclosureOpenTag);
+  while (it.hasNext()) {
+    final ComponentTag tag=it.next();
+    Component child=container.get(tag.getId());
+    if (child == null) {
+      final int tagIndex=it.getCurrentIndex();
+      CharSequence buffer=new ResponseBufferZone(getRequestCycle(),markupStream){
+        @Override protected void executeInsideBufferedZone(){
+          markupStream.setCurrentIndex(tagIndex);
+          ComponentResolvers.resolve(getApplication(),container,markupStream,tag);
+        }
+      }
+.execute();
+      child=container.get(tag.getId());
+      checkChildComponent(child);
+      if (buffer.length() > 0) {
+        final Component stub=new AutoMarkupLabel(child.getId(),buffer);
+        container.replace(stub);
+      }
+    }
+  }
+  it.rewind();
+}

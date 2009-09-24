@@ -8,22 +8,8 @@
       component.render(markupStream);
     }
  else {
-      MarkupContainer container=this;
-      while (container != null) {
-        if (container instanceof IComponentResolver) {
-          if (((IComponentResolver)container).resolve(this,markupStream,tag)) {
-            return;
-          }
-        }
-        container=container.findParent(MarkupContainer.class);
-      }
-      final List<IComponentResolver> componentResolvers=getApplication().getPageSettings().getComponentResolvers();
-      final Iterator<IComponentResolver> iterator=componentResolvers.iterator();
-      while (iterator.hasNext()) {
-        final IComponentResolver resolver=iterator.next();
-        if (resolver.resolve(this,markupStream,tag)) {
-          return;
-        }
+      if (ComponentResolvers.resolve(getApplication(),this,markupStream,tag)) {
+        return;
       }
       if (tag instanceof WicketTag) {
         if (((WicketTag)tag).isChildTag()) {
