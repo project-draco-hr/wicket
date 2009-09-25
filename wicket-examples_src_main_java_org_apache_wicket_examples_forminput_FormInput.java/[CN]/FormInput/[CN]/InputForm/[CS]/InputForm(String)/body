@@ -8,13 +8,10 @@
     }
   }
 );
-  RequiredTextField<String> stringTextField=new RequiredTextField<String>("stringProperty");
-  stringTextField.setLabel(new Model<String>("String"));
-  add(stringTextField);
-  RequiredTextField<Integer> integerTextField=new RequiredTextField<Integer>("integerProperty");
-  add(integerTextField.add(new MinimumValidator<Integer>(0)));
-  add(new RequiredTextField<Double>("doubleProperty"));
-  add(new RequiredTextField<Integer>("integerInRangeProperty").add(new RangeValidator<Integer>(0,100)));
+  add(new TextField<String>("stringProperty").setRequired(true).setLabel(new Model<String>("String")));
+  add(new TextField<Integer>("integerProperty",Integer.class).setRequired(true).add(new RangeValidator<Integer>(1,Integer.MAX_VALUE)));
+  add(new TextField<Double>("doubleProperty",Double.class).setRequired(true));
+  add(new TextField<Integer>("integerInRangeProperty").setRequired(true).add(new RangeValidator<Integer>(0,100)));
   add(new CheckBox("booleanProperty"));
   add(new Multiply("multiply"));
   Label multiplyLabel=new Label("multiplyLabel",new PropertyModel<Integer>(getDefaultModel(),"multiply"));
