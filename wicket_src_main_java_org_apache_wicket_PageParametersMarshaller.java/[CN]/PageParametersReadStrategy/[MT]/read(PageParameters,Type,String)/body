@@ -1,0 +1,52 @@
+{
+switch (type) {
+case BOOLEAN:
+    return Boolean.valueOf(p.getAsBoolean(name,false));
+case INT:
+  return new Integer(p.getInt(name,-1));
+case STRING:
+return p.getString(name,null);
+case LONG:
+return new Long(p.getLong(name,-1));
+case DOUBLE:
+return new Double(p.getDouble(name,-1));
+case FLOAT:
+return new Float(p.getAsDouble(name,-1));
+case BYTE:
+return new Byte((byte)p.getInt(name,-1));
+case SHORT:
+return new Short((short)p.getInt(name,-1));
+case CHAR:
+String s=p.getString(name);
+if (s == null || s.length() == 0) {
+return -1;
+}
+return s.charAt(0);
+case BYTE_ARRAY:
+String hex=p.getString(name);
+return stringToBytes(hex);
+case SERIALIZABLE:
+byte[] data=(byte[])read(p,Type.BYTE_ARRAY,name);
+if (data != null && data.length > 0) {
+try {
+ObjectInputStream in=new ObjectInputStream(new ByteArrayInputStream(data));
+try {
+return in.readObject();
+}
+ catch (ClassNotFoundException ex) {
+log.error("Error converting serialized data stream into an Object",ex);
+}
+ finally {
+in.close();
+}
+}
+ catch (IOException ex) {
+log.error("Error reading serialized data",ex);
+}
+}
+break;
+default :
+throw new AssertionError();
+}
+return null;
+}
