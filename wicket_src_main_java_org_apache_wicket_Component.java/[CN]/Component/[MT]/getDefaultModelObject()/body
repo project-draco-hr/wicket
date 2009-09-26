@@ -1,7 +1,13 @@
 {
   final IModel<?> model=getDefaultModel();
   if (model != null) {
-    return model.getObject();
+    try {
+      return model.getObject();
+    }
+ catch (    RuntimeException ex) {
+      log.error("Error while getting default model object for Component: " + this.toString(true));
+      throw ex;
+    }
   }
   return null;
 }
