@@ -1,0 +1,14 @@
+{
+  Page page=new MyPage();
+  Panel panel=new MyPanel("panel");
+  page.add(panel);
+  IMarkupFragment markup=panel.getAssociatedMarkup();
+  compareWithFile(markup,"MyPanel_ExpectedResult.html");
+  assertNull(panel.getMarkup());
+  page=new MyPanelPage();
+  panel=(Panel)page.get("panel");
+  markup=panel.getMarkup();
+  compare(markup,"<span wicket:id=\"panel\">test</span>");
+  markup=panel.getMarkup(null);
+  compare(markup,"<wicket:panel>  <span wicket:id=\"label\">text</span></wicket:panel>");
+}

@@ -1,0 +1,10 @@
+{
+  Page page=new InlinePanelPage_1();
+  Fragment fragment=(Fragment)page.get("myPanel1");
+  IMarkupFragment markup=fragment.getAssociatedMarkup();
+  assertNull(markup);
+  markup=fragment.getMarkup();
+  compare(markup,"<span wicket:id=\"myPanel1\">panel</span>");
+  markup=fragment.getMarkup(null);
+  compare(markup,"<wicket:fragment wicket:id=\"frag1\">panel 1</wicket:fragment>");
+}

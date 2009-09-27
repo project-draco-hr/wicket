@@ -1,0 +1,26 @@
+{
+  next=null;
+  currentStack=new Stack<ComponentTag>();
+  currentStack.addAll(nextStack);
+  for (nextIndex=nextIndex + 1; nextIndex < markup.size(); nextIndex++) {
+    final MarkupElement elem=markup.get(nextIndex);
+    if (elem instanceof ComponentTag) {
+      ComponentTag tag=(ComponentTag)elem;
+      if (tag.isOpen()) {
+        nextStack.push(tag);
+      }
+ else       if (tag.isClose()) {
+        nextStack.pop();
+      }
+      if ((openOnly == false) || (tag.isClose() == false)) {
+        if ((noSubChilds == false) || (nextStack.size() != 1)) {
+          if ((wicketTagsOnly == false) || (tag instanceof WicketTag)) {
+            next=tag;
+            break;
+          }
+        }
+      }
+    }
+  }
+  return next != null;
+}

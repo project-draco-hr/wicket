@@ -1,0 +1,21 @@
+{
+  IMarkupFragment markup=null;
+  MarkupContainer provider=getMarkupProvider();
+  if (provider == null) {
+    provider=getParent();
+  }
+  if (provider.hasAssociatedMarkup()) {
+    markup=provider.getAssociatedMarkup();
+  }
+ else {
+    markup=getParent().getMarkup();
+  }
+  if (markup == null) {
+    return null;
+  }
+  markup=markup.find(null,markupId,0);
+  if (child == null) {
+    return markup;
+  }
+  return markup.find(null,child.getId(),0);
+}

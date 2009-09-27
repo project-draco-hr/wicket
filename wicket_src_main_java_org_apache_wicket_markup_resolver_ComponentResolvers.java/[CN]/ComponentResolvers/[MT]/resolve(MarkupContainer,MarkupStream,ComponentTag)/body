@@ -1,0 +1,17 @@
+{
+  Component cursor=container;
+  while (cursor != null) {
+    if (cursor instanceof IComponentResolver) {
+      if (((IComponentResolver)cursor).resolve(container,markupStream,tag)) {
+        return true;
+      }
+    }
+    cursor=cursor.getParent();
+  }
+  for (  final IComponentResolver resolver : Application.get().getPageSettings().getComponentResolvers()) {
+    if (resolver.resolve(container,markupStream,tag)) {
+      return true;
+    }
+  }
+  return false;
+}
