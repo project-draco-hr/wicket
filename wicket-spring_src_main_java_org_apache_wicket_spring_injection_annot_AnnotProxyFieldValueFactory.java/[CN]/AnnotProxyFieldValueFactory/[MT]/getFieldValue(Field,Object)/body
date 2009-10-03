@@ -2,8 +2,9 @@
   if (field.isAnnotationPresent(SpringBean.class)) {
     SpringBean annot=field.getAnnotation(SpringBean.class);
     SpringBeanLocator locator=new SpringBeanLocator(annot.name(),field.getType(),contextLocator);
-    if (locator.isSingletonBean() && cache.containsKey(locator)) {
-      return cache.get(locator);
+    Object cachedValue=cache.get(locator);
+    if (cachedValue != null) {
+      return cachedValue;
     }
     Object proxy=LazyInitProxyFactory.createProxy(field.getType(),locator);
     if (locator.isSingletonBean()) {
@@ -11,7 +12,5 @@
     }
     return proxy;
   }
- else {
-    return null;
-  }
+  return null;
 }
