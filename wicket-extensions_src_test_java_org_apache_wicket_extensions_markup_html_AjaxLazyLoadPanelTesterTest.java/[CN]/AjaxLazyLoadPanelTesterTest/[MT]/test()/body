@@ -6,7 +6,7 @@
       AjaxLazyLoadPanel ajaxLazyLoadPanel1=new AjaxLazyLoadPanel(panelId){
         private static final long serialVersionUID=1L;
         @Override public Component getLazyLoadComponent(        String markupId){
-          return new Label(markupId,"lazy panel test");
+          return new Label(markupId,"lazy panel test").setRenderBodyOnly(true);
         }
       }
 ;
@@ -20,4 +20,6 @@
   AjaxLazyLoadPanelTester.executeAjaxLazyLoadPanel(wt,dummyPanelPage);
   wt.debugComponentTrees();
   wt.assertLabel("panel:content","lazy panel test");
+  String doc=wt.getServletResponse().getDocument();
+  assertNotNull(doc);
 }
