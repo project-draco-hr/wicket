@@ -1,14 +1,4 @@
 {
-  if ((child != null) && (BODY_ID.equals(child.getId()) == false)) {
-    IMarkupFragment markup=getMarkup();
-    if (markup == null) {
-      return null;
-    }
-    markup=markup.find(null,child.getId(),0);
-    if (markup != null) {
-      return markup;
-    }
-  }
   IMarkupFragment markup=getAssociatedMarkup();
   if (markup == null) {
     throw new MarkupException("Unable to find associated markup file for Border: " + this.toString());
@@ -26,12 +16,8 @@
   if (child == null) {
     return new MarkupFragment(markup,i);
   }
-  if (BODY_ID.equals(child.getId())) {
-    int index=markup.findComponentIndex(null,child.getId(),i);
-    if (index == -1) {
-      throw new MarkupException("Unable to find <wicket:body> tag. Border: " + this.toString() + ". Associated Markup: "+ markup.toString());
-    }
-    return new MarkupFragment(markup,index);
+  if (child == body) {
+    return markup.find(null,BODY_ID,i);
   }
   return markup.find(null,child.getId(),i);
 }

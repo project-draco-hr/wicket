@@ -19,20 +19,5 @@
     }
   }
 );
-  if (!error[0]) {
-    if (getParent() instanceof Border) {
-      MarkupContainer border=getParent();
-      Iterator<? extends Component> iter=border.iterator();
-      while (iter.hasNext()) {
-        Component child=iter.next();
-        if ((child != this) && (child instanceof FormComponent)) {
-          visitor.component(child);
-          if (error[0]) {
-            break;
-          }
-        }
-      }
-    }
-  }
   return error[0];
 }

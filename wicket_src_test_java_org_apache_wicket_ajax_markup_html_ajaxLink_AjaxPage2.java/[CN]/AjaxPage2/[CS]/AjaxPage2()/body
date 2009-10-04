@@ -1,12 +1,11 @@
 {
   super();
   myBorder=new BoxBorder("pageLayout");
-  myBorder.setTransparentResolver(true);
   add(myBorder);
   ajaxLabel=new Label("ajaxLabel","AAAAAAA");
   ajaxLabel.setOutputMarkupId(true);
-  add(ajaxLabel);
-  add(new AjaxLink("ajaxLink"){
+  myBorder.addToBorderBody(ajaxLabel);
+  myBorder.addToBorderBody(new AjaxLink("ajaxLink"){
     private static final long serialVersionUID=1L;
     @Override public void onClick(    final AjaxRequestTarget target){
       Label ajaxLabel2=new Label("ajaxLabel","BBBBBBB");

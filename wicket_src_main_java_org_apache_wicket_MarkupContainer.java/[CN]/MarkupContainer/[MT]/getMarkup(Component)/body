@@ -10,22 +10,6 @@
   if (markup != null) {
     return markup;
   }
-  markup=(IMarkupFragment)visitChildren(new IVisitor<Component>(){
-    public Object component(    final Component component){
-      if (component instanceof MarkupContainer) {
-        MarkupContainer container=(MarkupContainer)component;
-        if (container.isTransparentResolver()) {
-          IMarkupFragment markup=container.getMarkup(child);
-          if (markup != null) {
-            return markup;
-          }
-          return CONTINUE_TRAVERSAL;
-        }
-      }
-      return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
-    }
-  }
-);
   if (Character.isDigit(child.getId().charAt(0))) {
     String id=child.getId();
     boolean miss=false;
