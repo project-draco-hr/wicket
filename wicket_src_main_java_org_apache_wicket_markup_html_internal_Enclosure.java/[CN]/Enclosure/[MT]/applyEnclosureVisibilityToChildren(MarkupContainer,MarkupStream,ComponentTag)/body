@@ -2,9 +2,11 @@
   DirectChildTagIterator it=new DirectChildTagIterator(markupStream,enclosureOpenTag);
   while (it.hasNext()) {
     final ComponentTag tag=it.next();
-    final Component child=container.get(tag.getId());
-    changes.put(child,child.isVisibilityAllowed());
-    child.setVisibilityAllowed(isVisible());
+    if (tag.isAutoComponentTag() == false) {
+      final Component child=container.get(tag.getId());
+      changes.put(child,child.isVisibilityAllowed());
+      child.setVisibilityAllowed(isVisible());
+    }
   }
   it.rewind();
 }
