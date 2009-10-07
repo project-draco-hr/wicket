@@ -2,6 +2,9 @@
   if (resource == null) {
     SharedResources sharedResources=application.getSharedResources();
     resource=sharedResources.get(getScope(),name,locale,style,variation,true);
+    if ((resource != null) && (resource instanceof PackageResource)) {
+      locale=((PackageResource)resource).getLocale();
+    }
     if (resource == null) {
       resource=newResource();
       if (resource == null) {
