@@ -4,6 +4,11 @@
     if (!(this instanceof Page) && (markup == null)) {
       throw new IllegalArgumentException("jdo: Markup not found: " + toString());
     }
+    if (markupStream != null) {
+      MarkupStream ms=new MarkupStream(markup);
+      markupStream.skipComponent();
+      markupStream=ms;
+    }
   }
   if (markupStream != null) {
     markupIndex=markupStream.getCurrentIndex();

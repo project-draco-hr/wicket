@@ -1,15 +1,3 @@
 {
-  String key=getDefaultModelObjectAsString();
-  if (Strings.isEmpty(key)) {
-    throw new WicketRuntimeException("Expected the model object to contain the message key. But the model object was null");
-  }
-  IMarkupFragment markup=getParent().getMarkup(null);
-  MarkupTagIterator iter=new MarkupTagIterator(markup).setWicketTagsOnly(true).setOpenTagOnly(true);
-  while (iter.hasNext()) {
-    WicketTag tag=iter.nextWicketTag();
-    if (tag.isMessageTag() && key.equals(tag.getAttribute("key"))) {
-      return iter.getMarkupFragment();
-    }
-  }
-  return null;
+  return markupFragment;
 }

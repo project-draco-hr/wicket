@@ -6,11 +6,15 @@
   }
  else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
     if (container instanceof WebPage) {
+      final IMarkupFragment markup=markupStream.getMarkupFragment();
       final MarkupContainer header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
       final WebMarkupContainer header2=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         @Override public boolean isTransparentResolver(){
           return true;
+        }
+        @Override public IMarkupFragment getMarkup(){
+          return markup;
         }
       }
 ;
@@ -19,10 +23,14 @@
       container.autoAdd(header,markupStream);
     }
  else     if (container instanceof HtmlHeaderContainer) {
+      final IMarkupFragment markup=markupStream.getMarkupFragment();
       final WebMarkupContainer header=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         @Override public boolean isTransparentResolver(){
           return true;
+        }
+        @Override public IMarkupFragment getMarkup(){
+          return markup;
         }
       }
 ;

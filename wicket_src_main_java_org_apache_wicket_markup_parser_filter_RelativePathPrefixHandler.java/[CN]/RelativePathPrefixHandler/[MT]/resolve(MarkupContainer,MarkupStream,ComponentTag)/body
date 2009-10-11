@@ -1,14 +1,14 @@
 {
   if ((tag != null) && (tag.getId().startsWith(WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID))) {
-    final Component wc;
     String id=WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID + container.getPage().getAutoIndex();
-    wc=new WebMarkupContainer(id){
+    final IMarkupFragment markup=markupStream.getMarkupFragment();
+    final Component wc=new WebMarkupContainer(id){
       private static final long serialVersionUID=1L;
       /** 
  * @see org.apache.wicket.Component#getMarkup()
  */
       @Override public IMarkupFragment getMarkup(){
-        return getParent().getMarkup(new WebComponent(WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID));
+        return markup;
       }
       @Override public boolean isTransparentResolver(){
         return tag.isOpenClose() == false;
