@@ -1,0 +1,11 @@
+{
+  RequestHandler handler;
+  PageAndComponentProvider provider=new PageAndComponentProvider(getPage(),this);
+  if (isBookmarkable()) {
+    handler=new BookmarkableListenerInterfaceRequestHandler(provider,IFormSubmitListener.INTERFACE);
+  }
+ else {
+    handler=new ListenerInterfaceRequestHandler(provider,IFormSubmitListener.INTERFACE);
+  }
+  return RequestCycle.get().renderUrlFor(handler);
+}

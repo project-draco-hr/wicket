@@ -1,0 +1,10 @@
+{
+  MockPage page=new MockPage(15);
+  page.setBookmarkable(true);
+  page.setCreatedBookmarkable(true);
+  page.setPageStateless(true);
+  PageProvider provider=new PageProvider(page);
+  RequestHandler handler=new RenderPageRequestHandler(provider);
+  Url url=encoder.mapHandler(handler);
+  assertEquals("wicket/bookmarkable/" + PAGE_CLASS_NAME,url.toString());
+}

@@ -1,0 +1,11 @@
+{
+  if (isTemporary()) {
+    if (temporarySessionAttributes == null) {
+      temporarySessionAttributes=new HashMap<String,Serializable>();
+      temporarySessionAttributes.put(name,value);
+    }
+  }
+ else {
+    getSessionStore().setAttribute(getRequest(),name,value);
+  }
+}

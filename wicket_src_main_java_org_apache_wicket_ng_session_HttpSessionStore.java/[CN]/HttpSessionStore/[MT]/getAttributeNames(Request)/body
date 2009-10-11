@@ -1,0 +1,15 @@
+{
+  Set<String> list=new HashSet<String>();
+  HttpSession httpSession=getHttpSession(request,false);
+  if (httpSession != null) {
+    @SuppressWarnings("unchecked") final Enumeration<String> names=httpSession.getAttributeNames();
+    final String prefix=getSessionAttributePrefix(request);
+    while (names.hasMoreElements()) {
+      final String name=names.nextElement();
+      if (name.startsWith(prefix)) {
+        list.add(name.substring(prefix.length()));
+      }
+    }
+  }
+  return list;
+}

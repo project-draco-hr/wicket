@@ -1,0 +1,22 @@
+{
+  Url url=request.getUrl();
+  if (redirectFromHomePage() && checkHomePage(url)) {
+    UrlInfo info=new UrlInfo(null,getContext().getHomePageClass(),newPageParameters());
+    return info;
+  }
+ else   if (url.getSegments().size() >= mountSegments.length && urlStartsWith(url,mountSegments)) {
+    PageComponentInfo info=getPageComponentInfo(url);
+    Class<? extends RequestablePage> pageClass=this.pageClass.get();
+    PageParameters pageParameters=extractPageParameters(request,mountSegments.length,pageParametersEncoder);
+    for (int i=0; i < mountSegments.length; ++i) {
+      String placeholder=getPlaceholder(mountSegments[i]);
+      if (placeholder != null) {
+        pageParameters.addNamedParameter(placeholder,url.getSegments().get(i));
+      }
+    }
+    return new UrlInfo(info,pageClass,pageParameters);
+  }
+ else {
+    return null;
+  }
+}

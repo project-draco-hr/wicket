@@ -1,0 +1,11 @@
+{
+  if (pageSource != null) {
+    return pageSource;
+  }
+  if (Application.exists()) {
+    return Application.get().getEncoderContext();
+  }
+ else {
+    throw new IllegalStateException("No application is bound to current thread. Call setPageSource() to manually assign pageSource to this provider.");
+  }
+}

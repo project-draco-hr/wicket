@@ -1,0 +1,18 @@
+{
+  if (!component.canCallListenerInterface()) {
+    log.info("component not enabled or visible; ignoring call. Component: " + component);
+    return;
+  }
+  try {
+    method.invoke(behavior,new Object[]{});
+  }
+ catch (  InvocationTargetException e) {
+    if (e.getTargetException() instanceof WicketRuntimeException) {
+      throw (RuntimeException)e.getTargetException();
+    }
+    throw new WicketRuntimeException("Method " + method.getName() + " of "+ method.getDeclaringClass()+ " targeted at behavior "+ behavior+ " on component "+ component+ " threw an exception",e);
+  }
+catch (  Exception e) {
+    throw new WicketRuntimeException("Method " + method.getName() + " of "+ method.getDeclaringClass()+ " targeted at behavior "+ behavior+ " on component "+ component+ " threw an exception",e);
+  }
+}

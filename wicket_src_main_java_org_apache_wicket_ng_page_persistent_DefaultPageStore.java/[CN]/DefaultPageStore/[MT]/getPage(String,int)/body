@@ -1,0 +1,15 @@
+{
+  SerializedPage fromCache=serializedPagesCache.getPage(sessionId,id);
+  if (fromCache != null) {
+    return deserializePage(fromCache.data);
+  }
+ else {
+    byte[] data=getPageData(sessionId,id);
+    if (data != null) {
+      return deserializePage(data);
+    }
+ else {
+      return null;
+    }
+  }
+}

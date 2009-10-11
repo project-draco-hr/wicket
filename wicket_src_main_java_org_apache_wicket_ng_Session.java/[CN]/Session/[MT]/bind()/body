@@ -1,0 +1,12 @@
+{
+  if (isTemporary()) {
+    getSessionStore().getSessionId(getRequest(),true);
+    getSessionStore().bind(getRequest(),this);
+    if (temporarySessionAttributes != null) {
+      for (      Map.Entry<String,Serializable> entry : temporarySessionAttributes.entrySet()) {
+        getSessionStore().setAttribute(getRequest(),entry.getKey(),entry.getValue());
+      }
+      temporarySessionAttributes=null;
+    }
+  }
+}

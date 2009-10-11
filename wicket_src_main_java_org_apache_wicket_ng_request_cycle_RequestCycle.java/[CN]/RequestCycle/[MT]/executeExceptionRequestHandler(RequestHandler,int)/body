@@ -1,0 +1,15 @@
+{
+  try {
+    executeRequestHandler(handler);
+  }
+ catch (  Exception e) {
+    if (retryCount > 0) {
+      RequestHandler next=handleException(e);
+      if (handler != null) {
+        executeExceptionRequestHandler(next,retryCount - 1);
+        return;
+      }
+    }
+    log.error("Error during processing error message",e);
+  }
+}

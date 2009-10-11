@@ -1,0 +1,18 @@
+{
+  UrlInfo urlInfo=parseRequest(request);
+  if (urlInfo != null) {
+    PageComponentInfo info=urlInfo.getPageComponentInfo();
+    Class<? extends RequestablePage> pageClass=urlInfo.getPageClass();
+    PageParameters pageParameters=urlInfo.getPageParameters();
+    if (info == null || info.getPageInfo().getPageId() == null) {
+      return processBookmarkable(pageClass,pageParameters);
+    }
+ else     if (info.getPageInfo().getPageId() != null && info.getComponentInfo() == null) {
+      return processHybrid(info.getPageInfo(),pageClass,pageParameters,null);
+    }
+ else     if (info.getComponentInfo() != null) {
+      return processListener(info,pageClass,pageParameters);
+    }
+  }
+  return null;
+}

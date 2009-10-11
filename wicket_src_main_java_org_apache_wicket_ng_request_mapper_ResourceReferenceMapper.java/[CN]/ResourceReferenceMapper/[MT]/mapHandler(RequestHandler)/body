@@ -1,0 +1,23 @@
+{
+  if (requestHandler instanceof ResourceReferenceRequestHandler) {
+    ResourceReferenceRequestHandler referenceRequestHandler=(ResourceReferenceRequestHandler)requestHandler;
+    ResourceReference reference=referenceRequestHandler.getResourceReference();
+    Url url=new Url();
+    url.getSegments().add(getContext().getNamespace());
+    url.getSegments().add(getContext().getResourceIdentifier());
+    url.getSegments().add(getClassName(reference.getScope()));
+    String nameParts[]=reference.getName().split("/");
+    for (    String name : nameParts) {
+      url.getSegments().add(name);
+    }
+    encodeResourceReferenceAttributes(url,reference);
+    PageParameters parameters=referenceRequestHandler.getPageParameters();
+    if (parameters != null) {
+      parameters=new PageParameters(parameters);
+      parameters.clearIndexedParameters();
+      url=encodePageParameters(url,parameters,pageParametersEncoder);
+    }
+    return url;
+  }
+  return null;
+}

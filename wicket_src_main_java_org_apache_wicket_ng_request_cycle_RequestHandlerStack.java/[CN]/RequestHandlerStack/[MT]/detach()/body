@@ -1,0 +1,15 @@
+{
+  if (!requestHandlers.isEmpty()) {
+    log.warn("Some of the request handlers are still active.");
+    inactiveRequestHandlers.addAll(requestHandlers);
+    requestHandlers.clear();
+  }
+  for (  RequestHandler handler : inactiveRequestHandlers) {
+    try {
+      handler.detach(getRequestCycle());
+    }
+ catch (    Throwable exception) {
+      log.error("Error detaching RequestHandler",exception);
+    }
+  }
+}

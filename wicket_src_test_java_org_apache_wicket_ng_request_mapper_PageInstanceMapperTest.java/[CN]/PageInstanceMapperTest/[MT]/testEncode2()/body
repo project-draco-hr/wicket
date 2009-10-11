@@ -1,0 +1,9 @@
+{
+  MockPage page=new MockPage(15);
+  page.setRenderCount(5);
+  RequestableComponent c=page.get("a:b:c");
+  PageAndComponentProvider provider=new PageAndComponentProvider(page,c);
+  RequestHandler handler=new ListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
+  Url url=encoder.mapHandler(handler);
+  assertEquals("wicket/page?15-5.ILinkListener-a-b-c",url.toString());
+}

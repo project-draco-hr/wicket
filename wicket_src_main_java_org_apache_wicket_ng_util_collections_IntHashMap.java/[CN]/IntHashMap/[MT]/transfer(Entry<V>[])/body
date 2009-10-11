@@ -1,0 +1,18 @@
+{
+  Entry<V>[] src=table;
+  int newCapacity=newTable.length;
+  for (int j=0; j < src.length; j++) {
+    Entry<V> e=src[j];
+    if (e != null) {
+      src[j]=null;
+      do {
+        Entry<V> next=e.next;
+        int i=indexFor(e.key,newCapacity);
+        e.next=newTable[i];
+        newTable[i]=e;
+        e=next;
+      }
+ while (e != null);
+    }
+  }
+}

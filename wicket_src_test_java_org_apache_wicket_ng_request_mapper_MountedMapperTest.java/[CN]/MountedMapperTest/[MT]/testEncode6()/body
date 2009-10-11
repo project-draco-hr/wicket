@@ -1,0 +1,14 @@
+{
+  MockPage page=new MockPage(15);
+  page.getPageParameters().setIndexedParameter(0,"i1");
+  page.getPageParameters().setIndexedParameter(1,"i2");
+  page.getPageParameters().setNamedParameter("a","b");
+  page.getPageParameters().setNamedParameter("b","c");
+  page.setRenderCount(4);
+  page.setCreatedBookmarkable(false);
+  RequestableComponent c=page.get("foo:bar");
+  PageAndComponentProvider provider=new PageAndComponentProvider(page,c);
+  RequestHandler handler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
+  Url url=encoder.mapHandler(handler);
+  assertEquals("some/mount/path/i1/i2?15-4.ILinkListener-foo-bar&a=b&b=c",url.toString());
+}

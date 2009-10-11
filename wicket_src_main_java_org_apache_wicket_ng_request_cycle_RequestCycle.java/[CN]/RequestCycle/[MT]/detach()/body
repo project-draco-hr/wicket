@@ -1,0 +1,18 @@
+{
+  set(this);
+  try {
+    super.detach();
+  }
+  finally {
+    for (    DetachCallback c : detachCallbacks) {
+      try {
+        c.onDetach(this);
+      }
+ catch (      Exception e) {
+        log.error("Error detaching DetachCallback",e);
+      }
+      ;
+    }
+    set(null);
+  }
+}

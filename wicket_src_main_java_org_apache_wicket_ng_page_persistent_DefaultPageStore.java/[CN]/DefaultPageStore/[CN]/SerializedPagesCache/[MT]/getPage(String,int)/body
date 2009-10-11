@@ -1,0 +1,21 @@
+{
+  Check.argumentNotNull(sessionId,"sessionId");
+  SerializedPage result=null;
+  if (size > 0) {
+synchronized (cache) {
+      for (Iterator<SoftReference<SerializedPage>> i=cache.iterator(); i.hasNext(); ) {
+        SoftReference<SerializedPage> ref=i.next();
+        SerializedPage entry=ref.get();
+        if (entry != null && entry.getPageId() == id && entry.getSessionId().equals(sessionId)) {
+          i.remove();
+          result=entry;
+          break;
+        }
+      }
+      if (result != null) {
+        cache.add(new SoftReference<SerializedPage>(result));
+      }
+    }
+  }
+  return result;
+}

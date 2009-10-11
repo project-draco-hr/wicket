@@ -1,0 +1,12 @@
+{
+  List<StringValue> values=null;
+  for (  QueryParameter parameter : url.getQueryParameters()) {
+    if (Objects.equal(name,parameter.getName())) {
+      if (values == null) {
+        values=new ArrayList<StringValue>();
+      }
+      values.add(StringValue.valueOf(parameter.getValue()));
+    }
+  }
+  return values != null ? Collections.unmodifiableList(values) : null;
+}

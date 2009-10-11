@@ -1,0 +1,17 @@
+{
+  if (url != null) {
+    if (url.length() > 0 && url.charAt(0) == '?') {
+      String encoded=httpServletResponse.encodeURL("./" + url.toString());
+      if (encoded.startsWith("./")) {
+        return encoded.substring(2);
+      }
+ else {
+        return encoded;
+      }
+    }
+ else {
+      return httpServletResponse.encodeURL(url.toString());
+    }
+  }
+  return httpServletResponse.encodeURL(url);
+}

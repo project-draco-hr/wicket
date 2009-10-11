@@ -1,0 +1,19 @@
+{
+  String foundUrlPattern=null;
+  String foundFilterName=null;
+  for (int i=0; i < node.getChildNodes().getLength(); ++i) {
+    Node n=node.getChildNodes().item(i);
+    if (name.equals(n.getNodeName())) {
+      foundFilterName=n.getTextContent();
+    }
+ else     if ("url-pattern".equals(n.getNodeName())) {
+      foundUrlPattern=n.getTextContent();
+    }
+  }
+  if (filterName.equals(foundFilterName)) {
+    return foundUrlPattern;
+  }
+ else {
+    return null;
+  }
+}

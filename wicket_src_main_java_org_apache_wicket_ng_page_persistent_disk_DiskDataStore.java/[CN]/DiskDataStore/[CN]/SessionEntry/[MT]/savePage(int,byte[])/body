@@ -1,0 +1,18 @@
+{
+  if (unbound) {
+    return;
+  }
+  if (data != null) {
+    PageWindow window=getManager().createPageWindow(pageId,data.length);
+    FileChannel channel=diskDataStore.fileChannelPool.getFileChannel(getFileName(),true);
+    try {
+      channel.write(ByteBuffer.wrap(data),window.getFilePartOffset());
+    }
+ catch (    IOException e) {
+      log.error("Error writing to a channel " + channel,e);
+    }
+ finally {
+      diskDataStore.fileChannelPool.returnFileChannel(channel);
+    }
+  }
+}

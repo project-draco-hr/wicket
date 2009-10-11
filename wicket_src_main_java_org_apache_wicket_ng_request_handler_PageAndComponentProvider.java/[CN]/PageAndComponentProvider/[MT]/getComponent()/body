@@ -1,0 +1,10 @@
+{
+  if (component == null) {
+    RequestablePage page=getPageInstance();
+    component=page.get(componentPath);
+  }
+  if (component == null) {
+    throw new ComponentNotFoundException("Could not find component '" + componentPath + "' on page '"+ getPageClass());
+  }
+  return component;
+}

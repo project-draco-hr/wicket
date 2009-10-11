@@ -1,0 +1,13 @@
+{
+  int i=indexFor(key,table.length);
+  for (Entry<V> e=table[i]; e != null; e=e.next) {
+    if (key == e.key) {
+      V oldValue=e.value;
+      e.value=value;
+      return oldValue;
+    }
+  }
+  modCount++;
+  addEntry(key,value,i);
+  return null;
+}

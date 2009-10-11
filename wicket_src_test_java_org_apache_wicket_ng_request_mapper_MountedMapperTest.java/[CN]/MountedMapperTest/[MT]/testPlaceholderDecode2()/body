@@ -1,0 +1,14 @@
+{
+  Url url=Url.parse("some/p1/path/p2/indexed1?a=b&b=c");
+  RequestHandler handler=placeholderEncoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof RenderPageRequestHandler);
+  RequestablePage page=((RenderPageRequestHandler)handler).getPage();
+  PageParameters p=page.getPageParameters();
+  assertEquals(1,p.getIndexedParamsCount());
+  assertEquals("indexed1",p.getIndexedParameter(0).toString());
+  assertEquals(4,p.getNamedParameterKeys().size());
+  assertEquals("b",p.getNamedParameter("a").toString());
+  assertEquals("c",p.getNamedParameter("b").toString());
+  assertEquals("p1",page.getPageParameters().getNamedParameter("param1").toString());
+  assertEquals("p2",page.getPageParameters().getNamedParameter("param2").toString());
+}

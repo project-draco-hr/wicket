@@ -1,0 +1,14 @@
+{
+  List<EncoderWithSegmentsCount> list=new ArrayList<EncoderWithSegmentsCount>(mappers.size());
+  for (  RequestMapper encoder : mappers) {
+    list.add(new EncoderWithSegmentsCount(encoder,encoder.getCompatibilityScore(request)));
+  }
+  Collections.sort(list);
+  for (  EncoderWithSegmentsCount encoder : list) {
+    RequestHandler handler=encoder.getMapper().mapRequest(request);
+    if (handler != null) {
+      return handler;
+    }
+  }
+  return null;
+}

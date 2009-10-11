@@ -1,0 +1,14 @@
+{
+  final Url url=request.getUrl();
+  if (url.getSegments().size() >= mountSegments.length && urlStartsWith(url,mountSegments)) {
+    MountParameters params=new MountParameters();
+    for (int i=0; i < mountSegments.length; i++) {
+      String placeholder=getPlaceholder(mountSegments[i]);
+      if (placeholder != null) {
+        params.setValue(placeholder,StringValue.valueOf(url.getSegments().get(i)));
+      }
+    }
+    return mapper.mapRequest(dismountRequest(request),params);
+  }
+  return null;
+}

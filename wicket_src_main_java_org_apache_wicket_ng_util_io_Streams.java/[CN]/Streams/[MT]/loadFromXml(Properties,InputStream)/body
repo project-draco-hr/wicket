@@ -1,0 +1,56 @@
+{
+  Check.argumentNotNull(properties,"properties");
+  Check.argumentNotNull(inputStream,"inputStream");
+  DocumentBuilderFactory documentBuilderFactory=DocumentBuilderFactory.newInstance();
+  documentBuilderFactory.setIgnoringElementContentWhitespace(true);
+  documentBuilderFactory.setValidating(true);
+  documentBuilderFactory.setCoalescing(true);
+  documentBuilderFactory.setIgnoringComments(true);
+  try {
+    DocumentBuilder db=documentBuilderFactory.newDocumentBuilder();
+    db.setEntityResolver(new EntityResolver(){
+      public InputSource resolveEntity(      String publicId,      String systemId) throws SAXException {
+        if (systemId.equals("http://java.sun.com/dtd/properties.dtd")) {
+          InputSource inputSource;
+          inputSource=new InputSource(new StringReader(XML_PROPERTIES_DTD));
+          inputSource.setSystemId("http://java.sun.com/dtd/properties.dtd");
+          return inputSource;
+        }
+ else {
+          throw new SAXException("Invalid system identifier: " + systemId);
+        }
+      }
+    }
+);
+    db.setErrorHandler(new ErrorHandler(){
+      public void error(      SAXParseException e) throws SAXException {
+        throw e;
+      }
+      public void fatalError(      SAXParseException e) throws SAXException {
+        throw e;
+      }
+      public void warning(      SAXParseException e) throws SAXException {
+        throw e;
+      }
+    }
+);
+    InputSource is=new InputSource(inputStream);
+    Document doc=db.parse(is);
+    NodeList entries=((Element)doc.getChildNodes().item(1)).getChildNodes();
+    int len=entries.getLength();
+    for (int i=(len > 0 && entries.item(0).getNodeName().equals("comment")) ? 1 : 0; i < len; i++) {
+      Element entry=(Element)entries.item(i);
+      if (entry.hasAttribute("key")) {
+        Node node=entry.getFirstChild();
+        String val=(node == null) ? "" : node.getNodeValue();
+        properties.setProperty(entry.getAttribute("key"),val);
+      }
+    }
+  }
+ catch (  ParserConfigurationException e) {
+    throw new WicketRuntimeException(e);
+  }
+catch (  SAXException e) {
+    throw new WicketRuntimeException("invalid XML properties format",e);
+  }
+}

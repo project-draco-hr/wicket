@@ -1,0 +1,15 @@
+{
+  this.filterConfig=filterConfig;
+  IWebApplicationFactory factory=getApplicationFactory();
+  webApplication=factory.createApplication(this);
+  webApplication.setName(filterConfig.getFilterName());
+  webApplication.setWicketFilter(this);
+  initFilterPath();
+  webApplication.set();
+  try {
+    webApplication.initApplication();
+  }
+  finally {
+    ThreadContext.detach();
+  }
+}

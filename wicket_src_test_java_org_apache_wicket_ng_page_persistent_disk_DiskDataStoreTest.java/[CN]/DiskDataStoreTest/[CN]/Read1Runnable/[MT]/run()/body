@@ -1,0 +1,21 @@
+{
+  File file;
+  while ((file=filesToRead1.poll()) != null || !saveDone.get()) {
+    if (file != null) {
+      byte bytes[]=dataStore.getData(file.getSessionId(),file.getId());
+      if (file.checkData(bytes) == false) {
+        failures.incrementAndGet();
+      }
+      filesToRead2.add(file);
+      read1Count.incrementAndGet();
+      bytesRead.addAndGet(bytes.length);
+    }
+    try {
+      Thread.sleep(random.nextInt(SLEEP_MAX));
+    }
+ catch (    InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+  read1Done.set(true);
+}

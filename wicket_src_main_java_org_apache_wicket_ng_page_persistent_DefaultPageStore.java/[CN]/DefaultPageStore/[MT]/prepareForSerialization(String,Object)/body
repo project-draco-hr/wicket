@@ -1,0 +1,29 @@
+{
+  if (pageDataStore.isReplicated()) {
+    return null;
+  }
+  SerializedPage result=null;
+  if (object instanceof ManageablePage) {
+    ManageablePage page=(ManageablePage)object;
+    result=serializedPagesCache.getPage(sessionId,page.getPageId());
+    if (result == null) {
+      result=serializePage(sessionId,page);
+      serializedPagesCache.storePage(result);
+    }
+  }
+ else   if (object instanceof SerializedPage) {
+    SerializedPage page=(SerializedPage)object;
+    if (page.getData() == null) {
+      result=restoreStrippedSerializedPage(page);
+    }
+ else {
+      result=page;
+    }
+  }
+  if (result != null) {
+    return result;
+  }
+ else {
+    return (Serializable)object;
+  }
+}

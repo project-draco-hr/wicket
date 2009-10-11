@@ -1,0 +1,11 @@
+{
+synchronized (WRITE_LOCK) {
+    String key=getKey(id,sessionId);
+    Entry entry=entryMap.get(key);
+    if (entry != null) {
+      entryMap.remove(key);
+      entries.remove(entry);
+    }
+  }
+  dataStore.removeData(sessionId,id);
+}

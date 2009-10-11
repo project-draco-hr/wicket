@@ -1,0 +1,19 @@
+{
+  if (!IRequestListener.class.isAssignableFrom(listenerInterfaceClass)) {
+    throw new IllegalArgumentException("Class " + listenerInterfaceClass + " must extend IRequestListener");
+  }
+  final Method[] methods=listenerInterfaceClass.getMethods();
+  if (methods.length == 1) {
+    if (methods[0].getParameterTypes().length == 0) {
+      method=methods[0];
+    }
+ else {
+      throw new IllegalArgumentException("Method " + methods[0] + " in interface "+ listenerInterfaceClass+ " cannot take any arguments");
+    }
+  }
+ else {
+    throw new IllegalArgumentException("Interface " + listenerInterfaceClass + " can have only one method");
+  }
+  name=listenerInterfaceClass.getSimpleName();
+  register();
+}

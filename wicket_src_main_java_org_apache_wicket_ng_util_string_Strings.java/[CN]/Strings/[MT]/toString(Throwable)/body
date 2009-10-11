@@ -1,0 +1,32 @@
+{
+  if (throwable != null) {
+    List<Throwable> al=new ArrayList<Throwable>();
+    Throwable cause=throwable;
+    al.add(cause);
+    while (cause.getCause() != null && cause != cause.getCause()) {
+      cause=cause.getCause();
+      al.add(cause);
+    }
+    AppendingStringBuffer sb=new AppendingStringBuffer(256);
+    int length=al.size() - 1;
+    cause=al.get(length);
+    if (throwable instanceof WicketRuntimeException) {
+      sb.append("WicketMessage: ");
+      sb.append(throwable.getMessage());
+      sb.append("\n\n");
+    }
+    sb.append("Root cause:\n\n");
+    outputThrowable(cause,sb,false);
+    if (length > 0) {
+      sb.append("\n\nComplete stack:\n\n");
+      for (int i=0; i < length; i++) {
+        outputThrowable(al.get(i),sb,true);
+        sb.append("\n");
+      }
+    }
+    return sb.toString();
+  }
+ else {
+    return "<Null Throwable>";
+  }
+}

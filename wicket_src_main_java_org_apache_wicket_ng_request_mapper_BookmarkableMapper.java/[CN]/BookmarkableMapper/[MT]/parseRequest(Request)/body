@@ -1,0 +1,11 @@
+{
+  Url url=request.getUrl();
+  if (url.getSegments().size() >= 3 && urlStartsWith(url,getContext().getNamespace(),getContext().getBookmarkableIdentifier())) {
+    PageComponentInfo info=getPageComponentInfo(url);
+    String className=url.getSegments().get(2);
+    Class<? extends RequestablePage> pageClass=getPageClass(className);
+    PageParameters pageParameters=extractPageParameters(request,3,pageParametersEncoder);
+    return new UrlInfo(info,pageClass,pageParameters);
+  }
+  return null;
+}

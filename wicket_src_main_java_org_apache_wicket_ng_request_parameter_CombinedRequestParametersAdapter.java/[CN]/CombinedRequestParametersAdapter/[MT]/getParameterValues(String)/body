@@ -1,0 +1,19 @@
+{
+  List<StringValue> result=new ArrayList<StringValue>();
+  for (  RequestParameters p : parameters) {
+    List<StringValue> values=p.getParameterValues(name);
+    if (values != null) {
+      for (      StringValue v : values) {
+        if (!result.contains(v)) {
+          result.add(v);
+        }
+      }
+    }
+  }
+  if (result.isEmpty()) {
+    return null;
+  }
+ else {
+    return Collections.unmodifiableList(result);
+  }
+}

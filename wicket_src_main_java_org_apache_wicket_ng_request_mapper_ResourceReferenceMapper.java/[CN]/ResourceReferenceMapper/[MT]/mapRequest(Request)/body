@@ -1,0 +1,27 @@
+{
+  Url url=request.getUrl();
+  if (url.getSegments().size() >= 4 && urlStartsWith(url,getContext().getNamespace(),getContext().getResourceIdentifier())) {
+    String className=url.getSegments().get(2);
+    StringBuilder name=new StringBuilder();
+    for (int i=3; i < url.getSegments().size(); ++i) {
+      if (name.length() > 0) {
+        name.append("/");
+      }
+      name.append(url.getSegments().get(i));
+    }
+    ResourceReferenceAttributes attributes=getResourceReferenceAttributes(url);
+    PageParameters pageParameters=extractPageParameters(request,url.getSegments().size(),pageParametersEncoder);
+    Class<?> scope=resolveClass(className);
+    if (scope != null) {
+      ResourceReference res=getContext().getResourceReferenceRegistry().getResourceReference(scope,name.toString(),attributes.locale,attributes.style,false);
+      if (res != null) {
+        Resource resource=res.getResource();
+        if (resource != null) {
+          ResourceRequestHandler handler=new ResourceRequestHandler(resource,attributes.locale,attributes.style,pageParameters);
+          return handler;
+        }
+      }
+    }
+  }
+  return null;
+}

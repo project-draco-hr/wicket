@@ -1,0 +1,13 @@
+{
+  Url url=Url.parse("wicket/bookmarkable/" + PAGE_CLASS_NAME + "/indexed1?a=b&b=c");
+  RequestHandler handler=encoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof RenderPageRequestHandler);
+  RequestablePage page=((RenderPageRequestHandler)handler).getPage();
+  assertEquals(PAGE_CLASS_NAME,page.getClass().getName());
+  PageParameters p=page.getPageParameters();
+  assertEquals(1,p.getIndexedParamsCount());
+  assertEquals("indexed1",p.getIndexedParameter(0).toString());
+  assertEquals(2,p.getNamedParameterKeys().size());
+  assertEquals("b",p.getNamedParameter("a").toString());
+  assertEquals("c",p.getNamedParameter("b").toString());
+}

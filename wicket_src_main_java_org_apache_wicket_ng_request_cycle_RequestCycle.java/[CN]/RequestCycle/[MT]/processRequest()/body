@@ -1,0 +1,23 @@
+{
+  try {
+    set(this);
+    RequestHandler handler=resolveRequestHandler();
+    if (handler != null) {
+      executeRequestHandler(handler);
+      return true;
+    }
+  }
+ catch (  Exception e) {
+    RequestHandler handler=handleException(e);
+    if (handler != null) {
+      executeExceptionRequestHandler(handler,getExceptionRetryCount());
+    }
+ else {
+      log.error("Error during request processing",e);
+    }
+  }
+ finally {
+    set(null);
+  }
+  return false;
+}

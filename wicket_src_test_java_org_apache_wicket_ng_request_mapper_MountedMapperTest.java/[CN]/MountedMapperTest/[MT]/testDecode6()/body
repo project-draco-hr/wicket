@@ -1,0 +1,17 @@
+{
+  Url url=Url.parse("some/mount/path/i1/i2?15-ILinkListener-foo-bar&a=b&b=c");
+  RequestHandler handler=encoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof ListenerInterfaceRequestHandler);
+  ListenerInterfaceRequestHandler h=(ListenerInterfaceRequestHandler)handler;
+  RequestablePage page=h.getPage();
+  checkPage(page,15);
+  assertEquals(ILinkListener.INTERFACE,h.getListenerInterface());
+  assertEquals("foo:bar",h.getComponent().getPath());
+  PageParameters p=page.getPageParameters();
+  assertEquals(2,p.getIndexedParamsCount());
+  assertEquals("i1",p.getIndexedParameter(0).toString());
+  assertEquals("i2",p.getIndexedParameter(1).toString());
+  assertEquals(2,p.getNamedParameterKeys().size());
+  assertEquals("b",p.getNamedParameter("a").toString());
+  assertEquals("c",p.getNamedParameter("b").toString());
+}

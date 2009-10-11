@@ -1,0 +1,11 @@
+{
+  Url url=Url.parse("wicket/bookmarkable/" + PAGE_CLASS_NAME + "/i1/i2?15-5.ILinkListener-foo-bar&a=b&b=c");
+  context.setNextPageRenderCount(6);
+  try {
+    RequestHandler handler=encoder.mapRequest(getRequest(url));
+    ((PageRequestHandler)handler).getPage();
+    assertFalse(true);
+  }
+ catch (  StalePageException e) {
+  }
+}

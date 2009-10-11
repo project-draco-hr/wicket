@@ -1,0 +1,15 @@
+{
+  PageInfo pageInfo=pageComponentInfo.getPageInfo();
+  ComponentInfo componentInfo=pageComponentInfo.getComponentInfo();
+  Integer renderCount=componentInfo != null ? componentInfo.getRenderCount() : null;
+  RequestListenerInterface listenerInterface=requestListenerInterfaceFromString(componentInfo.getListenerInterface());
+  if (listenerInterface != null) {
+    PageAndComponentProvider provider=new PageAndComponentProvider(pageInfo.getPageId(),pageClass,pageParameters,renderCount,componentInfo.getComponentPath());
+    provider.setPageSource(getContext());
+    return new ListenerInterfaceRequestHandler(provider,listenerInterface,componentInfo.getBehaviorIndex());
+  }
+ else {
+    logger.warn("Unknown listener interface '" + componentInfo.getListenerInterface() + "'");
+    return null;
+  }
+}

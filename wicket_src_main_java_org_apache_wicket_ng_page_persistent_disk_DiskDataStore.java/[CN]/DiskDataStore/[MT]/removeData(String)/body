@@ -1,0 +1,9 @@
+{
+  SessionEntry sessionEntry=getSessionEntry(sessionId,false);
+  if (sessionEntry != null) {
+synchronized (sessionEntry) {
+      sessionEntryMap.remove(sessionEntry.sessionId);
+      sessionEntry.unbind();
+    }
+  }
+}

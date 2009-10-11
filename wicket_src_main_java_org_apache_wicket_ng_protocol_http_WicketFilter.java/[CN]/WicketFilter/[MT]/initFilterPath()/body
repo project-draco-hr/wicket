@@ -1,0 +1,17 @@
+{
+  InputStream is=filterConfig.getServletContext().getResourceAsStream("/WEB-INF/web.xml");
+  if (is != null) {
+    try {
+      filterPath=getFilterPath(filterConfig.getFilterName(),is);
+    }
+ catch (    ServletException e) {
+      log.error("Error reading servlet/filter path from web.xml",e);
+    }
+catch (    SecurityException e) {
+      log.info("Couldn't read web.xml to automatically pick up servlet/filter path: " + e.getMessage());
+    }
+    if (filterPath == null) {
+      log.info("Unable to parse filter mapping web.xml for " + filterConfig.getFilterName() + ". "+ "Configure with init-param "+ FILTER_MAPPING_PARAM+ " if it is not \"/*\".");
+    }
+  }
+}

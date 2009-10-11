@@ -1,0 +1,9 @@
+{
+  Url url=Url.parse("some/mount/path?15-5.ILinkListener.4-foo-bar");
+  context.setNextPageRenderCount(5);
+  RequestHandler handler=encoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof ListenerInterfaceRequestHandler);
+  ListenerInterfaceRequestHandler h=(ListenerInterfaceRequestHandler)handler;
+  RequestablePage page=h.getPage();
+  assertEquals(5,page.getRenderCount());
+}

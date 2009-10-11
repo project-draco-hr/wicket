@@ -1,0 +1,15 @@
+{
+  destroy.set(true);
+synchronized (entries) {
+    entries.notify();
+  }
+  try {
+synchronized (destroy) {
+      destroy.wait();
+    }
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+  }
+  dataStore.destroy();
+}

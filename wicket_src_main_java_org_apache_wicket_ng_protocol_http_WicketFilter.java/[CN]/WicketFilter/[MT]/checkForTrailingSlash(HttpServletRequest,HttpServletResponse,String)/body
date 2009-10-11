@@ -1,0 +1,21 @@
+{
+  String uri=Strings.stripJSessionId(request.getRequestURI());
+  String homePageUri=request.getContextPath() + "/" + filterPath;
+  if (homePageUri.endsWith("/")) {
+    homePageUri=homePageUri.substring(0,homePageUri.length() - 1);
+  }
+  if (uri.equals(homePageUri)) {
+    String redirect=uri + "/";
+    if (!Strings.isEmpty(request.getQueryString())) {
+      redirect+="?" + request.getQueryString();
+    }
+    try {
+      response.sendRedirect(response.encodeRedirectURL(redirect));
+    }
+ catch (    IOException e) {
+      throw new RuntimeException(e);
+    }
+    return false;
+  }
+  return true;
+}

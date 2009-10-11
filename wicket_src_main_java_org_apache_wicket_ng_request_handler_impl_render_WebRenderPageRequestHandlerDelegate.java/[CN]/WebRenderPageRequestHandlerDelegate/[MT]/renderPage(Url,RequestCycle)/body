@@ -1,0 +1,19 @@
+{
+  final Response originalResponse=requestCycle.getResponse();
+  BufferedWebResponse response=new BufferedWebResponse(){
+    @Override public String encodeURL(    String url){
+      return originalResponse.encodeURL(url);
+    }
+  }
+;
+  Url originalBaseUrl=requestCycle.getUrlRenderer().setBaseUrl(targetUrl);
+  try {
+    requestCycle.setResponse(response);
+    getPage().renderPage();
+    return response;
+  }
+  finally {
+    requestCycle.setResponse(originalResponse);
+    requestCycle.getUrlRenderer().setBaseUrl(originalBaseUrl);
+  }
+}

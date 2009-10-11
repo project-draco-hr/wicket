@@ -1,0 +1,20 @@
+{
+  if (Strings.isEmpty(s)) {
+    return null;
+  }
+  final PageInfo pageInfo;
+  final ComponentInfo componentInfo;
+  int i=s.indexOf(SEPARATOR);
+  if (i == -1) {
+    pageInfo=PageInfo.parse(s);
+    componentInfo=null;
+  }
+ else {
+    pageInfo=PageInfo.parse(s.substring(0,i));
+    componentInfo=ComponentInfo.parse(s.substring(i + 1));
+  }
+  if (pageInfo == null) {
+    return null;
+  }
+  return new PageComponentInfo(pageInfo,componentInfo);
+}

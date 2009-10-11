@@ -1,0 +1,17 @@
+{
+  File dir=null;
+  if (Application.exists()) {
+    dir=(File)((WebApplication)Application.get()).getServletContext().getAttribute("javax.servlet.context.tempdir");
+  }
+  if (dir != null) {
+    return dir;
+  }
+ else {
+    try {
+      return File.createTempFile("file-prefix",null).getParentFile();
+    }
+ catch (    IOException e) {
+      throw new WicketRuntimeException(e);
+    }
+  }
+}

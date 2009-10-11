@@ -1,0 +1,14 @@
+{
+  Check.argumentNotNull(request,"request");
+  Check.argumentNotNull(encoder,"encoder");
+  Url urlCopy=new Url(request.getUrl());
+  while (segmentsToSkip > 0 && urlCopy.getSegments().isEmpty() == false) {
+    urlCopy.getSegments().remove(0);
+    --segmentsToSkip;
+  }
+  if (!urlCopy.getQueryParameters().isEmpty() && Strings.isEmpty(urlCopy.getQueryParameters().get(0).getValue())) {
+    urlCopy.getQueryParameters().remove(0);
+  }
+  PageParameters decoded=encoder.decodePageParameters(request.requestWithUrl(urlCopy));
+  return decoded != null ? decoded : new PageParameters();
+}

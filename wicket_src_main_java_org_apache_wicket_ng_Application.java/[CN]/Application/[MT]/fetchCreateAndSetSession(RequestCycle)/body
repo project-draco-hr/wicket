@@ -1,0 +1,13 @@
+{
+  Check.argumentNotNull(requestCycle,"requestCycle");
+  Session session=getSessionStore().lookup(requestCycle.getRequest());
+  if (session == null) {
+    session=newSession(requestCycle);
+    ThreadContext.setSession(session);
+    getPageManager().newSessionCreated();
+  }
+ else {
+    ThreadContext.setSession(session);
+  }
+  return session;
+}

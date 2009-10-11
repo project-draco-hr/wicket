@@ -1,0 +1,14 @@
+{
+  int index=getWindowIndex(pageId);
+  if (index != -1) {
+    removeWindowIndex(pageId);
+    (windows.get(index)).pageId=-1;
+  }
+  if (index == -1 || index != indexPointer) {
+    index=incrementIndexPointer();
+  }
+  PageWindowInternal window=allocatePageWindow(index,size);
+  window.pageId=pageId;
+  putWindowIndex(pageId,index);
+  return new PageWindow(window);
+}

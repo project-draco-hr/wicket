@@ -1,0 +1,23 @@
+{
+  ThreadContext context=ThreadContext.getAndClean();
+  MockApplication app=new MockApplication();
+  app.setName("TestApplication1");
+  app.set();
+  app.initApplication();
+  app.registerEncoder(new MountedMapper("first-test-page",Page1.class));
+  Request request=new MockRequest(Url.parse("first-test-page"));
+  Response response=new StringResponse();
+  MockRequestCycle cycle=(MockRequestCycle)app.createRequestCycle(request,response);
+  cycle.processRequestAndDetach();
+  System.out.println("Rendered:");
+  System.out.println(response);
+  request=new MockRequest(Url.parse("wicket/page?0-1.ILinkListener-link"));
+  response=new StringResponse();
+  cycle=(MockRequestCycle)app.createRequestCycle(request,response);
+  cycle.processRequestAndDetach();
+  cycle=(MockRequestCycle)app.createRequestCycle(request,response);
+  cycle.forceRequestHandler(new ListenerInterfaceRequestHandler(new PageAndComponentProvider(0,null,"link"),ILinkListener.INTERFACE));
+  cycle.processRequestAndDetach();
+  app.destroy();
+  ThreadContext.restore(context);
+}

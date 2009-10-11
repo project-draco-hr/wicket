@@ -1,0 +1,13 @@
+{
+  for (int i=0; i < SESSION_COUNT; ++i) {
+    sessionCounter.put(UUID.randomUUID().toString(),new AtomicInteger(0));
+  }
+  for (int i=0; i < FILES_COUNT; ++i) {
+    String session=randomSessionId();
+    File file=new File(session,nextSessionId(session));
+    long now=System.nanoTime();
+    filesToSave.add(file);
+    long duration=System.nanoTime() - now;
+    saveTime.addAndGet((int)duration);
+  }
+}

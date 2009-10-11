@@ -1,0 +1,22 @@
+{
+  Url url=request.getUrl();
+  if (urlStartsWith(url,getContext().getNamespace(),getContext().getPageIdentifier())) {
+    PageComponentInfo info=getPageComponentInfo(url);
+    if (info != null && info.getPageInfo().getPageId() != null) {
+      Integer renderCount=info.getComponentInfo() != null ? info.getComponentInfo().getRenderCount() : null;
+      if (info.getComponentInfo() == null) {
+        PageProvider provider=new PageProvider(info.getPageInfo().getPageId(),renderCount);
+        provider.setPageSource(getContext());
+        return new RenderPageRequestHandler(provider);
+      }
+ else {
+        ComponentInfo componentInfo=info.getComponentInfo();
+        PageAndComponentProvider provider=new PageAndComponentProvider(info.getPageInfo().getPageId(),renderCount,componentInfo.getComponentPath());
+        provider.setPageSource(getContext());
+        RequestListenerInterface listenerInterface=requestListenerInterfaceFromString(componentInfo.getListenerInterface());
+        return new ListenerInterfaceRequestHandler(provider,listenerInterface,componentInfo.getBehaviorIndex());
+      }
+    }
+  }
+  return null;
+}

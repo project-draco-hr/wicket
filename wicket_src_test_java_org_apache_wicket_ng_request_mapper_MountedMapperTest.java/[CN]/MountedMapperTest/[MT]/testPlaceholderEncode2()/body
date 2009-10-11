@@ -1,0 +1,14 @@
+{
+  PageParameters parameters=new PageParameters();
+  parameters.setIndexedParameter(0,"i1");
+  parameters.setIndexedParameter(1,"i2");
+  parameters.setNamedParameter("a","b");
+  parameters.setNamedParameter("b","c");
+  parameters.setNamedParameter("param1","p1");
+  parameters.setNamedParameter("param2","p2");
+  PageProvider provider=new PageProvider(MockPage.class,parameters);
+  provider.setPageSource(context);
+  RequestHandler handler=new BookmarkablePageRequestHandler(provider);
+  Url url=placeholderEncoder.mapHandler(handler);
+  assertEquals("some/p1/path/p2/i1/i2?a=b&b=c",url.toString());
+}

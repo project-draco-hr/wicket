@@ -1,0 +1,17 @@
+{
+  for (  ManageablePage page : pages) {
+    try {
+      page.detach();
+    }
+ catch (    Exception e) {
+      AbstractPageManager.logger.error("Error detaching page",e);
+    }
+  }
+  List<ManageablePage> statefulPages=new ArrayList<ManageablePage>(touchedPages.size());
+  for (  ManageablePage page : touchedPages) {
+    if (!page.isPageStateless()) {
+      statefulPages.add(page);
+    }
+  }
+  storeTouchedPages(statefulPages);
+}

@@ -1,0 +1,48 @@
+{
+  initFlags();
+  final Response originalResponse=newResponse();
+  final RequestHandlerStack stack=newStack(originalResponse);
+  final RequestHandler handler3=new RequestHandler(){
+    public void respond(    RequestCycle requestCycle){
+      testFlag3=false;
+    }
+    public void detach(    RequestCycle requestCycle){
+      detachedFlag3=true;
+    }
+  }
+;
+  final RequestHandler handler2=new RequestHandler(){
+    public void respond(    RequestCycle requestCycle){
+      testFlag2=false;
+      stack.replaceCurrentRequestHandler(handler3);
+      testFlag2=true;
+    }
+    public void detach(    RequestCycle requestCycle){
+      detachedFlag2=true;
+    }
+  }
+;
+  final RequestHandler handler1=new RequestHandler(){
+    public void respond(    RequestCycle requestCycle){
+      testFlag1=false;
+      Response resp=newResponse();
+      stack.setResponse(resp);
+      stack.executeRequestHandler(handler2);
+      assertEquals(stack.getResponse(),resp);
+      testFlag1=true;
+    }
+    public void detach(    RequestCycle requestCycle){
+      detachedFlag1=true;
+    }
+  }
+;
+  stack.executeRequestHandler(handler1);
+  assertEquals(stack.getResponse(),originalResponse);
+  stack.detach();
+  assertTrue(testFlag1);
+  assertFalse(testFlag2);
+  assertFalse(testFlag3);
+  assertTrue(detachedFlag1);
+  assertTrue(detachedFlag2);
+  assertTrue(detachedFlag3);
+}

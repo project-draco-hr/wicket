@@ -1,0 +1,35 @@
+{
+  Url currentUrl=requestCycle.getRequest().getUrl();
+  Url targetUrl=requestCycle.urlFor(getRenderPageRequestHandler());
+  BufferedWebResponse bufferedResponse=getAndRemoveBufferedResponse(currentUrl);
+  if (bufferedResponse != null) {
+    logger.warn("The Buffered response should be handled by BufferedResponseRequestHandler");
+    bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
+  }
+ else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender() && getPage().isPageStateless())) {
+    renderPage();
+  }
+ else   if (!targetUrl.equals(currentUrl) && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender())) {
+    redirectTo(targetUrl,requestCycle);
+  }
+ else   if (!targetUrl.equals(currentUrl) && isSessionTemporary() && getPage().isPageStateless()) {
+    redirectTo(targetUrl,requestCycle);
+  }
+ else   if (isRedirectToBuffer()) {
+    BufferedWebResponse response=renderPage(targetUrl,requestCycle);
+    Url targetUrl2=requestCycle.urlFor(this.getRenderPageRequestHandler());
+    if (targetUrl.getSegments().equals(targetUrl2.getSegments()) == false) {
+      response=renderPage(targetUrl2,requestCycle);
+    }
+    if (getPage().isPageStateless() && !enableRedirectForStatelessPage()) {
+      response.writeTo((WebResponse)requestCycle.getResponse());
+    }
+ else {
+      storeBufferedResponse(targetUrl2,response);
+      redirectTo(targetUrl2,requestCycle);
+    }
+  }
+ else {
+    throw new IllegalStateException("Unknown RenderStrategy.");
+  }
+}

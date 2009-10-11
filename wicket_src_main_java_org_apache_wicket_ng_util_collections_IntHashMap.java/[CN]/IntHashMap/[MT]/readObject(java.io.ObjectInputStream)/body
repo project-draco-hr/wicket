@@ -1,0 +1,12 @@
+{
+  s.defaultReadObject();
+  int numBuckets=s.readInt();
+  table=new Entry[numBuckets];
+  init();
+  int size=s.readInt();
+  for (int i=0; i < size; i++) {
+    int key=s.readInt();
+    V value=(V)s.readObject();
+    putForCreate(key,value);
+  }
+}

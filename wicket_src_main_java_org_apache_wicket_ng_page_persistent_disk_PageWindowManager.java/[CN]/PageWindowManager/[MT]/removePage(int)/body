@@ -1,0 +1,17 @@
+{
+  int index=getWindowIndex(pageId);
+  if (index != -1) {
+    PageWindowInternal window=windows.get(index);
+    removeWindowIndex(pageId);
+    if (index == windows.size() - 1) {
+      windows.remove(index);
+      totalSize-=window.filePartSize;
+      if (indexPointer == index) {
+        --indexPointer;
+      }
+    }
+ else {
+      window.pageId=-1;
+    }
+  }
+}

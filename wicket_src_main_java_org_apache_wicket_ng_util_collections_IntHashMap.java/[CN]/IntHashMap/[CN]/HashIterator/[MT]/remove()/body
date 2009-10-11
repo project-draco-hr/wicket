@@ -1,0 +1,12 @@
+{
+  if (current == null) {
+    throw new IllegalStateException();
+  }
+  if (modCount != expectedModCount) {
+    throw new ConcurrentModificationException();
+  }
+  int k=current.key;
+  current=null;
+  removeEntryForKey(k);
+  expectedModCount=modCount;
+}
