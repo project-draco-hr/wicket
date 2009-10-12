@@ -1,0 +1,13 @@
+{
+  ++renderCount;
+  System.out.println("Rendering");
+  Response response=RequestCycle.get().getResponse();
+  response.write("<html>\n");
+  response.write("<body>\n");
+  response.write("<p>This is a " + getClass().getName() + "</p>\n");
+  for (  Component2 c : getChildren()) {
+    c.renderComponent();
+  }
+  response.write("</body>\n");
+  response.write("</html>\n");
+}
