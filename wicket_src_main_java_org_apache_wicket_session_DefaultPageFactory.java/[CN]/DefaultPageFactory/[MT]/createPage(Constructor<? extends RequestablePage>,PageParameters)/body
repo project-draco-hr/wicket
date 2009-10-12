@@ -1,11 +1,17 @@
 {
+  final RequestablePage instance;
   try {
     if (argument != null) {
-      return constructor.newInstance(new Object[]{argument});
+      instance=constructor.newInstance(new Object[]{argument});
     }
  else {
-      return constructor.newInstance();
+      instance=constructor.newInstance();
     }
+    if (argument != null && instance.getPageParameters() != argument) {
+      instance.getPageParameters().assign(argument);
+    }
+    instance.setWasCreatedBookmarkable(true);
+    return instance;
   }
  catch (  InstantiationException e) {
     throw new WicketRuntimeException(createDescription(constructor,argument),e);
