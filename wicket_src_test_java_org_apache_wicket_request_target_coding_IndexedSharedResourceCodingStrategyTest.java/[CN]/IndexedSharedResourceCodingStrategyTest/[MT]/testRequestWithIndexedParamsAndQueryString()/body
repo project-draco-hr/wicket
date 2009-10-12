@@ -5,7 +5,7 @@
   params.add("1","param1");
   params.put("test",new String[]{"testval1","testval2"});
   params.add("foo","fooval");
-  final String url=cycle.urlFor(new ResourceReference(RESOURCE_NAME),params).toString();
+  final String url=cycle.urlFor(new ResourceReference(RESOURCE_NAME),params.toValueMap()).toString();
   assertEquals("test/param0/param1?test=testval1&test=testval2&foo=fooval",url);
   tester.getServletRequest().setURL(URL_PREFIX + url);
   tester.processRequestCycle(cycle);

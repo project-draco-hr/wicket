@@ -1,0 +1,12 @@
+{
+  final String[] paramTuples=queryString.split("&");
+  for (int t=0; t < paramTuples.length; t++) {
+    final String[] bits=paramTuples[t].split("=");
+    if (bits.length == 2) {
+      params.add(WicketURLDecoder.QUERY_INSTANCE.decode(bits[0]),WicketURLDecoder.QUERY_INSTANCE.decode(bits[1]));
+    }
+ else {
+      params.add(WicketURLDecoder.QUERY_INSTANCE.decode(bits[0]),"");
+    }
+  }
+}
