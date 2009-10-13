@@ -15,6 +15,13 @@
   getResourceSettings().addResourceFactory("buttonFactory",new DefaultButtonImageResourceFactory());
   String applicationKey=getApplicationKey();
   applicationKeyToApplication.put(applicationKey,this);
-  sessionStore=newSessionStore();
   converterLocator=newConverterLocator();
+  sessionStore=newSessionStore();
+  sessionStore.registerUnboundListener(this);
+  pageManager=newPageManager();
+  pageManager.setContext(getPageManagerContext());
+  rootRequestMapper=newRequestHandlerEncoderRegistry();
+  resourceReferenceRegistry=newResourceReferenceRegistry();
+  pageFactory=newPageFactory();
+  registerDefaultEncoders();
 }
