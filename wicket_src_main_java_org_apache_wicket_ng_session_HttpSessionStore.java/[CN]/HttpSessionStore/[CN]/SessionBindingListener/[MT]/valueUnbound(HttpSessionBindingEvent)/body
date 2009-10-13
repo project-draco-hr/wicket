@@ -1,0 +1,8 @@
+{
+  log.debug("Session unbound: " + sessionId);
+  Application application=Application.get(applicationKey);
+  HttpSessionStore sessionStore=(HttpSessionStore)application.getSessionStore();
+  for (  UnboundListener listener : sessionStore.unboundListeners) {
+    listener.sessionUnbound(sessionId);
+  }
+}

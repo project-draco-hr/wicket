@@ -3,11 +3,7 @@
     unbound=true;
     Application application=Application.get(applicationKey);
     if (application != null) {
-      ISessionStore sessionStore=application.getSessionStore();
-      sessionStore.unbind(sessionId);
-      for (      UnboundListener listener : sessionStore.getUnboundListeners()) {
-        listener.sessionUnbound(sessionId);
-      }
+      application.getSessionStore().unbind(sessionId);
     }
   }
 }

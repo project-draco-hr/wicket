@@ -20,11 +20,11 @@
   }
   List<IClusterable> dirtyObjects=Session.dirtyObjects.get();
   Session.dirtyObjects.set(null);
-  Map<String,Serializable> tempMap=new HashMap<String,Serializable>();
+  Map<String,Object> tempMap=new HashMap<String,Object>();
   if (dirtyObjects != null) {
     for (final Iterator<IClusterable> iterator=dirtyObjects.iterator(); iterator.hasNext(); ) {
       String attribute=null;
-      IClusterable object=iterator.next();
+      Object object=iterator.next();
       if (object instanceof Page) {
         final Page page=(Page)object;
         if (page.isPageStateless()) {
@@ -43,7 +43,7 @@
     }
   }
   if (tempMap.isEmpty() == false) {
-    for (    Entry<String,Serializable> entry : tempMap.entrySet()) {
+    for (    Entry<String,Object> entry : tempMap.entrySet()) {
       setAttribute(entry.getKey(),entry.getValue());
     }
   }

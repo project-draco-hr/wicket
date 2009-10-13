@@ -1,0 +1,11 @@
+{
+  Checks.argumentNotEmpty(name,"name");
+  if (this.name != null) {
+    throw new IllegalStateException("Application name can only be set once.");
+  }
+  if (applications.get(name) != null) {
+    throw new IllegalStateException("Application with name '" + name + "' already exists.'");
+  }
+  this.name=name;
+  applications.put(name,this);
+}

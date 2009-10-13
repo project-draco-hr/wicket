@@ -1,11 +1,11 @@
 {
   IPageFactory pageFactory=requestCycle.getApplication().getSessionSettings().getPageFactory();
   if (pageParameters == null || pageParameters.size() == 0) {
-    return (Page)pageFactory.newPage(pageClass);
+    return pageFactory.newPage(pageClass);
   }
  else {
     final Map<String,String[]> requestMap=requestCycle.getRequest().getParameterMap();
     requestMap.putAll(pageParameters.toRequestParameters());
-    return (Page)pageFactory.newPage(pageClass,pageParameters);
+    return pageFactory.newPage(pageClass,pageParameters);
   }
 }

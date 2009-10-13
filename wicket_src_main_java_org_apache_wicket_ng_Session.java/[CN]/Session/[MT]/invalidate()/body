@@ -1,0 +1,11 @@
+{
+  if (!invalidated) {
+    RequestCycle.get().register(new RequestCycle.DetachCallback(){
+      public void onDetach(      RequestCycle requestCycle){
+        getSessionStore().invalidate(getRequest());
+      }
+    }
+);
+  }
+  invalidated=true;
+}

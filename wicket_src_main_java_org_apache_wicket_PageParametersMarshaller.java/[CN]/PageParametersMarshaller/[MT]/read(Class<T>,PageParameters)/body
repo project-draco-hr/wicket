@@ -1,0 +1,6 @@
+{
+  if (!returnType.isInterface()) {
+    throw new IllegalArgumentException("Must be an interface: returnType=" + returnType.getName());
+  }
+  return (T)Proxy.newProxyInstance(returnType.getClassLoader(),new Class[]{returnType},new MyInvocationHandler(data));
+}
