@@ -7,14 +7,7 @@
     @Override public void onClick(){
       final int index=getList().indexOf(item.getModelObject());
       if (index != -1) {
-        addStateChange(new Change(){
-          private static final long serialVersionUID=1L;
-          final int oldIndex=index;
-          @Override public void undo(){
-            Collections.swap(getList(),oldIndex - 1,oldIndex);
-          }
-        }
-);
+        addStateChange();
         Collections.swap(getList(),index,index - 1);
         ListView.this.removeAll();
       }

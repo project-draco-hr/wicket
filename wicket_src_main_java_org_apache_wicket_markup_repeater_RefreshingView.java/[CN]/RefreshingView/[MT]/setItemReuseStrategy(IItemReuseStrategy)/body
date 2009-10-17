@@ -4,17 +4,7 @@
   }
   if (!strategy.equals(itemReuseStrategy)) {
     if (isVersioned()) {
-      addStateChange(new Change(){
-        private static final long serialVersionUID=1L;
-        private final IItemReuseStrategy old=itemReuseStrategy;
-        @Override public void undo(){
-          itemReuseStrategy=old;
-        }
-        @Override public String toString(){
-          return "ItemsReuseStrategyChange[component: " + getPath() + ", reuse: "+ old+ "]";
-        }
-      }
-);
+      addStateChange();
     }
     itemReuseStrategy=strategy;
   }

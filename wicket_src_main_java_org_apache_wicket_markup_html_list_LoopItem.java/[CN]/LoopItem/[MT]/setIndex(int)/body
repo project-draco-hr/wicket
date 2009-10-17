@@ -1,17 +1,7 @@
 {
   if (this.index != index) {
     if (isVersioned()) {
-      addStateChange(new Change(){
-        final int oldIndex=LoopItem.this.index;
-        private static final long serialVersionUID=1L;
-        @Override public void undo(){
-          LoopItem.this.index=oldIndex;
-        }
-        @Override public String toString(){
-          return "IndexChange[component: " + getPath() + ", index: "+ oldIndex+ "]";
-        }
-      }
-);
+      addStateChange();
     }
     this.index=index;
   }

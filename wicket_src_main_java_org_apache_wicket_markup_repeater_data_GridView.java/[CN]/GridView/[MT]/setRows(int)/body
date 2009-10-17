@@ -4,17 +4,7 @@
   }
   if (this.rows != rows) {
     if (isVersioned()) {
-      addStateChange(new Change(){
-        private static final long serialVersionUID=1L;
-        final int old=GridView.this.rows;
-        @Override public void undo(){
-          GridView.this.rows=old;
-        }
-        @Override public String toString(){
-          return "GridViewRowsChange[component: " + getPath() + ", removed rows: "+ old+ "]";
-        }
-      }
-);
+      addStateChange();
     }
     this.rows=rows;
   }

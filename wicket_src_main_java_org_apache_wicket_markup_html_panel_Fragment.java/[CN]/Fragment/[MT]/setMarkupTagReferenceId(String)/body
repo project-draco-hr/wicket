@@ -3,14 +3,7 @@
     throw new IllegalArgumentException("markupId cannot be null");
   }
   if (!Objects.equal(this.markupId,markupId)) {
-    addStateChange(new Change(){
-      private static final long serialVersionUID=1L;
-      private final String oldMarkupId=Fragment.this.markupId;
-      @Override public void undo(){
-        Fragment.this.markupId=oldMarkupId;
-      }
-    }
-);
+    addStateChange();
   }
   this.markupId=markupId;
 }

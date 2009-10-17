@@ -5,15 +5,7 @@
  * @see org.apache.wicket.markup.html.link.Link#onClick()
  */
     @Override public void onClick(){
-      addStateChange(new Change(){
-        private static final long serialVersionUID=1L;
-        final int oldIndex=getList().indexOf(item.getModelObject());
-        final T removedObject=item.getModelObject();
-        @SuppressWarnings("unchecked") @Override public void undo(){
-          ((List<T>)getList()).add(oldIndex,removedObject);
-        }
-      }
-);
+      addStateChange();
       item.modelChanging();
       getList().remove(item.getModelObject());
       ListView.this.modelChanged();
