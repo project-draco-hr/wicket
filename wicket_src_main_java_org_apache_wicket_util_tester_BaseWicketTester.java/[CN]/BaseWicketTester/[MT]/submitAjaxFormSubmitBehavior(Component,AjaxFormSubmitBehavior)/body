@@ -5,7 +5,7 @@
   form.visitFormComponents(new FormComponent.AbstractVisitor(){
     @Override public void onFormComponent(    FormComponent<?> formComponent){
       if (!(formComponent instanceof RadioGroup) && !(formComponent instanceof CheckGroup) && !formComponent.getClass().isAssignableFrom(Button.class)&& formComponent.isVisible()) {
-        if (!((formComponent instanceof Button) && (component instanceof Button)) || (component == formComponent)) {
+        if (!((formComponent instanceof IFormSubmittingComponent) && (component instanceof IFormSubmittingComponent)) || (component == formComponent)) {
           String name=formComponent.getInputName();
           String value=formComponent.getValue();
           if (getServletRequest().getParameterMap().get(name) == null) {
