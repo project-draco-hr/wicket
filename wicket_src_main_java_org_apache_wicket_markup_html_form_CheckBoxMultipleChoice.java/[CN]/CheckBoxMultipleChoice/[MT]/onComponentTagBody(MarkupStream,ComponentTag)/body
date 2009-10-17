@@ -4,37 +4,7 @@
   final String selected=getValue();
   for (int index=0; index < choices.size(); index++) {
     final T choice=choices.get(index);
-    Object displayValue=getChoiceRenderer().getDisplayValue(choice);
-    Class<?> objectClass=displayValue == null ? null : displayValue.getClass();
-    String label="";
-    if (objectClass != null && objectClass != String.class) {
-      IConverter converter=getConverter(objectClass);
-      label=converter.convertToString(displayValue,getLocale());
-    }
- else     if (displayValue != null) {
-      label=displayValue.toString();
-    }
-    if (label != null) {
-      buffer.append(getPrefix());
-      String id=getChoiceRenderer().getIdValue(choice,index);
-      final String idAttr=getMarkupId() + "-" + getInputName()+ "_"+ id;
-      buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"checkbox\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((isEnabled() ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"/>");
-      String display=label;
-      if (localizeDisplayValues()) {
-        display=getLocalizer().getString(label,this,label);
-      }
-      CharSequence escaped;
-      if (getEscapeModelStrings()) {
-        escaped=Strings.escapeMarkup(display,false,true);
-      }
- else {
-        escaped=display;
-      }
-      buffer.append("<label for=\"");
-      buffer.append(idAttr);
-      buffer.append("\">").append(escaped).append("</label>");
-      buffer.append(getSuffix());
-    }
+    appendOptionHtml(buffer,choice,index,selected);
   }
   replaceComponentTagBody(markupStream,openTag,buffer);
 }
