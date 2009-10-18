@@ -1,20 +1,14 @@
 {
   if ((tag != null) && (tag.getId().startsWith(WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID))) {
     String id=WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID + container.getPage().getAutoIndex();
-    final IMarkupFragment markup=markupStream.getMarkupFragment();
     final Component wc=new WebMarkupContainer(id){
       private static final long serialVersionUID=1L;
-      /** 
- * @see org.apache.wicket.Component#getMarkup()
- */
-      @Override public IMarkupFragment getMarkup(){
-        return markup;
-      }
       @Override public boolean isTransparentResolver(){
         return tag.isOpenClose() == false;
       }
     }
 ;
+    wc.setMarkup(markupStream.getMarkupFragment());
     container.autoAdd(wc,markupStream);
     return true;
   }

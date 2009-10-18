@@ -3,11 +3,11 @@
     final WicketTag wicketTag=(WicketTag)tag;
     final String id=wicketTag.getId() + container.getPage().getAutoIndex();
     if (wicketTag.isExtendTag()) {
-      container.autoAdd(new TransparentWebMarkupContainer(id),markupStream);
+      container.autoAdd(new MarkupInheritanceContainer(id),markupStream);
       return true;
     }
     if (wicketTag.isChildTag()) {
-      container.autoAdd(new TransparentWebMarkupContainer(id),markupStream);
+      container.autoAdd(new MarkupInheritanceContainer(id),markupStream);
       return true;
     }
   }

@@ -1,6 +1,8 @@
 {
   if (tag.isAutolinkEnabled()) {
     final Component link=resolveAutomaticLink(container,WicketLinkTagHandler.AUTOLINK_ID,tag);
+    IMarkupFragment markup=markupStream.getMarkupFragment();
+    link.setMarkup(markup);
     container.autoAdd(link,markupStream);
     if (log.isDebugEnabled()) {
       log.debug("Added autolink " + link);

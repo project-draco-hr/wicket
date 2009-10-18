@@ -1,9 +1,10 @@
 {
-  if (!isLinkEnabled() && getBeforeDisabledLink() != null) {
+  boolean beforeAfter=(!isLinkEnabled() && getBeforeDisabledLink() != null);
+  if (beforeAfter) {
     getResponse().write(getBeforeDisabledLink());
   }
   renderComponentTagBody(markupStream,openTag);
-  if (!isLinkEnabled() && getAfterDisabledLink() != null) {
+  if (beforeAfter) {
     getResponse().write(getAfterDisabledLink());
   }
 }

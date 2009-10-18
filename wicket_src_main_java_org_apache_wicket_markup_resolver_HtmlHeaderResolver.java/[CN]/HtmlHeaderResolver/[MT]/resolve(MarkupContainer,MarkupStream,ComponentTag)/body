@@ -1,39 +1,34 @@
 {
   if (tag.getId().equals(HtmlHeaderSectionHandler.HEADER_ID)) {
-    final WebMarkupContainer header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
+    WebMarkupContainer header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
+    header.setMarkup(markupStream.getMarkupFragment());
     container.autoAdd(header,markupStream);
     return true;
   }
  else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
     if (container instanceof WebPage) {
-      final IMarkupFragment markup=markupStream.getMarkupFragment();
-      final MarkupContainer header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
+      MarkupContainer header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + container.getPage().getAutoIndex());
       final WebMarkupContainer header2=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         @Override public boolean isTransparentResolver(){
           return true;
         }
-        @Override public IMarkupFragment getMarkup(){
-          return markup;
-        }
       }
 ;
+      header2.setMarkup(markupStream.getMarkupFragment());
       header2.setRenderBodyOnly(true);
       header.add(header2);
       container.autoAdd(header,markupStream);
     }
  else     if (container instanceof HtmlHeaderContainer) {
-      final IMarkupFragment markup=markupStream.getMarkupFragment();
       final WebMarkupContainer header=new WebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID){
         private static final long serialVersionUID=1L;
         @Override public boolean isTransparentResolver(){
           return true;
         }
-        @Override public IMarkupFragment getMarkup(){
-          return markup;
-        }
       }
 ;
+      header.setMarkup(markupStream.getMarkupFragment());
       header.setRenderBodyOnly(true);
       try {
         container.autoAdd(header,markupStream);

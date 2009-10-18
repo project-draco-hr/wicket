@@ -8,17 +8,9 @@
     children_remove(index);
   }
   add(component);
-  component.prepareForRender();
-  try {
-    if (markupStream == null) {
-      if (component.getParent() != null) {
-        markupStream=component.findMarkupStream();
-      }
-    }
-    component.render(markupStream);
-  }
-  finally {
-    component.afterRender();
+  component.render();
+  if (markupStream != null) {
+    markupStream.skipComponent();
   }
   return true;
 }
