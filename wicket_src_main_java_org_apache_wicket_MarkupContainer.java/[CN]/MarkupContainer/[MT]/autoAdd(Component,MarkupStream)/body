@@ -11,11 +11,11 @@
   component.prepareForRender();
   try {
     if (markupStream == null) {
-      component.render();
+      if (component.getParent() != null) {
+        markupStream=component.findMarkupStream();
+      }
     }
- else {
-      component.render(markupStream);
-    }
+    component.render(markupStream);
   }
   finally {
     component.afterRender();

@@ -2,11 +2,13 @@
   if (getApplication().getMarkupFragmentEnabled()) {
     IMarkupFragment markup=getMarkup();
     if (!(this instanceof Page) && (markup == null)) {
-      throw new IllegalArgumentException("jdo: Markup not found: " + toString());
+      throw new IllegalArgumentException("MarkupFragment not found: " + toString() + ". Please see Application.getMarkupFragmentEnabled() as well.");
     }
-    if (markupStream != null) {
+    if ((markupStream != null) || !(this instanceof Page)) {
       MarkupStream ms=new MarkupStream(markup);
-      markupStream.skipComponent();
+      if (markupStream != null) {
+        markupStream.skipComponent();
+      }
       markupStream=ms;
     }
   }

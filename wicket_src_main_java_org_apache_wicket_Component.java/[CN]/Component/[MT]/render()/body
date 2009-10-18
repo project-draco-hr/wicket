@@ -1,7 +1,26 @@
 {
-  MarkupStream markupStream=null;
-  if (getParent() != null) {
-    markupStream=findMarkupStream();
+  RuntimeException exception=null;
+  try {
+    MarkupContainer parent=getParent();
+    if ((parent == null) || (parent.getFlag(FLAG_RENDERING) == false)) {
+      prepareForRender();
+    }
+    render(null);
   }
-  render(markupStream);
+ catch (  final RuntimeException ex) {
+    exception=ex;
+  }
+ finally {
+    try {
+      afterRender();
+    }
+ catch (    RuntimeException ex2) {
+      if (exception == null) {
+        exception=ex2;
+      }
+    }
+  }
+  if (exception != null) {
+    throw exception;
+  }
 }

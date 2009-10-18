@@ -1,31 +1,5 @@
 {
-  if (!isActionAuthorized(RENDER)) {
-    if (log.isDebugEnabled()) {
-      log.debug("Page not allowed to render: " + this);
-    }
-    throw new UnauthorizedActionException(this,Component.RENDER);
-  }
-  renderedComponents=null;
-  if (Boolean.TRUE.equals(stateless)) {
-    stateless=null;
-  }
-  try {
-    prepareForRender();
-  }
- catch (  RuntimeException e) {
-    try {
-      afterRender();
-    }
- catch (    RuntimeException e2) {
-    }
-    throw e;
-  }
-  try {
-    render(null);
-  }
-  finally {
-    afterRender();
-  }
+  super.onAfterRender();
   checkRendering(this);
   if (Application.get().getDebugSettings().getComponentUseCheck()) {
     visitChildren(new IVisitor<Component>(){
