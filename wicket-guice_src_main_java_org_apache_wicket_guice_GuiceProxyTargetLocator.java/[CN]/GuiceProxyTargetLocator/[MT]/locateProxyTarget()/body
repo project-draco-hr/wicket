@@ -2,7 +2,7 @@
   final GuiceInjectorHolder holder=Application.get().getMetaData(GuiceInjectorHolder.INJECTOR_KEY);
   final Type type;
   try {
-    Class<?> clazz=Class.forName(data[0]);
+    Class<?> clazz=Classes.resolveClass(data[0]);
     if (argIndex < 0) {
       final Field field=clazz.getDeclaredField(data[1]);
       type=field.getGenericType();
@@ -10,7 +10,7 @@
  else {
       Class<?>[] paramTypes=new Class[data.length - 2];
       for (int i=2; i < data.length; i++) {
-        paramTypes[i - 2]=Class.forName(data[i]);
+        paramTypes[i - 2]=Classes.resolveClass(data[i]);
       }
       final Method method=clazz.getDeclaredMethod(data[1],paramTypes);
       type=method.getGenericParameterTypes()[argIndex];
