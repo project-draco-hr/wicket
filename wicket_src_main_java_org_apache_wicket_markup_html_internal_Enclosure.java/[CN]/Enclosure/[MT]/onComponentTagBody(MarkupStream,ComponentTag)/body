@@ -1,15 +1,20 @@
 {
-  changes=new HashMap<Component,Boolean>();
-  final MarkupContainer container=getEnclosureParent();
-  ensureAllChildrenPresent(container,markupStream,enclosureOpenTag);
+  MarkupContainer container=getEnclosureParent();
   Component controller=container.get(childId.toString());
   checkChildComponent(controller);
-  setVisible(controller.determineVisibility());
-  applyEnclosureVisibilityToChildren(container,markupStream,enclosureOpenTag);
-  if (isVisible() == true) {
-    super.onComponentTagBody(markupStream,enclosureOpenTag);
+  boolean visible=controller.determineVisibility();
+  if (visible) {
+    super.onComponentTagBody(markupStream,openTag);
   }
  else {
-    markupStream.skipToMatchingCloseTag(enclosureOpenTag);
+    RequestCycle cycle=getRequestCycle();
+    Response response=cycle.getResponse();
+    try {
+      cycle.setResponse(NullResponse.getInstance());
+      super.onComponentTagBody(markupStream,openTag);
+    }
+  finally {
+      cycle.setResponse(response);
+    }
   }
 }
