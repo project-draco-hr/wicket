@@ -1,12 +1,8 @@
 {
   if (tag instanceof WicketTag) {
     final WicketTag wicketTag=(WicketTag)tag;
-    final String id=wicketTag.getId() + container.getPage().getAutoIndex();
-    if (wicketTag.isExtendTag()) {
-      container.autoAdd(new MarkupInheritanceContainer(id),markupStream);
-      return true;
-    }
-    if (wicketTag.isChildTag()) {
+    if (wicketTag.isExtendTag() || wicketTag.isChildTag()) {
+      String id=wicketTag.getId() + container.getPage().getAutoIndex();
       container.autoAdd(new MarkupInheritanceContainer(id),markupStream);
       return true;
     }

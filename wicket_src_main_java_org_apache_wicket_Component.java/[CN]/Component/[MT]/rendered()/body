@@ -1,3 +1,9 @@
 {
-  getPage().componentRendered(this);
+  Page page=findPage();
+  if (page != null) {
+    page.componentRendered(this);
+  }
+ else {
+    log.error("Component is not connected to a Page. Cannot register the component as being rendered. Component: " + toString());
+  }
 }
