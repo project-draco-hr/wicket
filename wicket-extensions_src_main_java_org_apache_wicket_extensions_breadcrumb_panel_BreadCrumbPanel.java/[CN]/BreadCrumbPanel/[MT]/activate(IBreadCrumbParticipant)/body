@@ -3,12 +3,6 @@
   if (active == null) {
     throw new IllegalStateException("The model has no active bread crumb. Before using " + this + ", you have to have at least one bread crumb in the model");
   }
-  addStateChange(new Change(){
-    private static final long serialVersionUID=1L;
-    @Override public void undo(){
-      breadCrumbModel.setActive(active);
-    }
-  }
-);
+  addStateChange();
   breadCrumbModel.setActive(participant);
 }
