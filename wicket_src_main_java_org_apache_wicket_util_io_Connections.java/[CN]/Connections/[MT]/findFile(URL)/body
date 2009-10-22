@@ -1,0 +1,19 @@
+{
+  File file=null;
+  URL fileUrl=url;
+  URLConnection connection=null;
+  try {
+    connection=url.openConnection();
+    if (connection instanceof JarURLConnection) {
+      fileUrl=((JarURLConnection)connection).getJarFileURL();
+    }
+    file=new File(new URI(fileUrl.toExternalForm()));
+    if (file != null && !file.exists()) {
+      file=null;
+    }
+    return file;
+  }
+  finally {
+    close(connection);
+  }
+}

@@ -1,0 +1,22 @@
+{
+  URLConnection connection=url.openConnection();
+  try {
+    if (connection instanceof JarURLConnection) {
+      JarURLConnection jarUrlConnection=(JarURLConnection)connection;
+      URL jarFileUrl=jarUrlConnection.getJarFileURL();
+      URLConnection jarFileConnection=jarFileUrl.openConnection();
+      try {
+        return jarFileConnection.getLastModified();
+      }
+  finally {
+        close(jarFileConnection);
+      }
+    }
+ else {
+      return connection.getLastModified();
+    }
+  }
+  finally {
+    close(connection);
+  }
+}

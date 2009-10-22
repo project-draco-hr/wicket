@@ -10,30 +10,13 @@
     }
   }
  else {
-    URLConnection urlConnection=null;
-    boolean close=false;
     try {
-      urlConnection=url.openConnection();
-      long lastModified=this.lastModified;
-      if (urlConnection instanceof JarURLConnection) {
-        JarURLConnection jarUrlConnection=(JarURLConnection)urlConnection;
-        URL jarFileUrl=jarUrlConnection.getJarFileURL();
-        URLConnection jarFileConnection=jarFileUrl.openConnection();
-        try {
-          lastModified=jarFileConnection.getLastModified();
-        }
-  finally {
-          jarFileConnection.getInputStream().close();
-        }
-      }
- else {
-        close=true;
-        lastModified=urlConnection.getLastModified();
-      }
+      long lastModified=Connections.getLastModified(url);
       if (lastModified != this.lastModified) {
         this.lastModified=lastModified;
-        close=true;
-        contentLength=urlConnection.getContentLength();
+        URLConnection connection=url.openConnection();
+        contentLength=connection.getContentLength();
+        Connections.close(connection);
       }
     }
  catch (    IOException e) {
@@ -46,20 +29,6 @@
         log.warn("getLastModified for " + url + " failed: "+ e.getMessage());
       }
       return null;
-    }
- finally {
-      if (urlConnection != null) {
-        if (urlConnection instanceof HttpURLConnection) {
-          ((HttpURLConnection)urlConnection).disconnect();
-        }
- else         if (close) {
-          try {
-            urlConnection.getInputStream().close();
-          }
- catch (          Exception ex) {
-          }
-        }
-      }
     }
   }
   return Time.milliseconds(lastModified);
