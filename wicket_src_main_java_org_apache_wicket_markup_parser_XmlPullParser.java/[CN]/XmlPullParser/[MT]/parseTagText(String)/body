@@ -22,7 +22,7 @@
       value=value.trim();
       final String key=attributeParser.getKey();
       if (null != ((TagAttributes)tag.getAttributes()).putInternal(key,value)) {
-        throw new ParseException("Same attribute found twice: " + key,input.getPosition());
+        throw new ParseException("Same attribute found twice: " + key + getLineAndColumnText(),input.getPosition());
       }
       if (pos == tagTextLength) {
         return tag;

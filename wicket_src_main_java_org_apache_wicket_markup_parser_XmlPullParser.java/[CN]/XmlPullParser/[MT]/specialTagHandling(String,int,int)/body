@@ -2,7 +2,7 @@
   if (tagText.startsWith("!--")) {
     int pos=input.find("-->",openBracketIndex + 1);
     if (pos == -1) {
-      throw new ParseException("Unclosed comment beginning at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),openBracketIndex);
+      throw new ParseException("Unclosed comment beginning at" + getLineAndColumnText(),openBracketIndex);
     }
     pos+=3;
     lastText=input.getSubstring(openBracketIndex,pos);
@@ -28,7 +28,7 @@
       do {
         closeBracketIndex=findChar('>',pos1);
         if (closeBracketIndex == -1) {
-          throw new ParseException("No matching close bracket at line:" + input.getLineNumber() + " column:"+ input.getColumnNumber(),input.getPosition());
+          throw new ParseException("No matching close bracket at" + getLineAndColumnText(),input.getPosition());
         }
         tagText=input.getSubstring(openBracketIndex + 1,closeBracketIndex).toString();
         pos1=closeBracketIndex + 1;

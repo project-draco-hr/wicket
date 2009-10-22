@@ -7,7 +7,7 @@
   while (!skipUntilText.equalsIgnoreCase(endTagText)) {
     pos=input.find("</",pos + 1);
     if ((pos == -1) || ((pos + (tagNameLen + 2)) >= input.size())) {
-      throw new ParseException(skipUntilText + " tag not closed (line " + input.getLineNumber()+ ", column "+ input.getColumnNumber()+ ")",startIndex);
+      throw new ParseException(skipUntilText + " tag not closed" + getLineAndColumnText(),startIndex);
     }
     lastPos=pos + 2;
     endTagText=input.getSubstring(lastPos,lastPos + tagNameLen).toString();
@@ -17,7 +17,7 @@
   lastType=BODY;
   lastPos=input.find('>',lastPos + tagNameLen);
   if (lastPos == -1) {
-    throw new ParseException("Script tag not closed (line " + input.getLineNumber() + ", column "+ input.getColumnNumber()+ ")",startIndex);
+    throw new ParseException("Script tag not closed" + getLineAndColumnText(),startIndex);
   }
   skipUntilText=null;
 }

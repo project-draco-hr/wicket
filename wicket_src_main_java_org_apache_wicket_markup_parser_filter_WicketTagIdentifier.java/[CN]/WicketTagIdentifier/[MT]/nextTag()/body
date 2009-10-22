@@ -11,7 +11,7 @@
     tag.setAutoComponentTag(true);
     tag.setModified(true);
     if (!isWellKnown(xmlTag)) {
-      throw new ParseException("Unknown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag.getPos());
+      throw new WicketParseException("Unknown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag);
     }
   }
  else {
@@ -20,7 +20,7 @@
   final String value=tag.getAttributes().getString(namespace + ":id");
   if (value != null) {
     if (value.trim().length() == 0) {
-      throw new ParseException("The wicket:id attribute value must not be empty. May be unmatched quotes?!?",tag.getPos());
+      throw new WicketParseException("The wicket:id attribute value must not be empty. May be unmatched quotes?!?",tag);
     }
     tag.setId(value);
   }

@@ -15,6 +15,7 @@
     assertTrue("Should have thrown an exception",false);
   }
  catch (  MarkupException ex) {
+    assertTrue(ex.getMessage().startsWith("Wicket remove tag must not be an open-close tag: '<wicket:remove/>' (line 1, column 1)"));
   }
   IMarkupFragment markup=new MarkupParser("<wicket:remove>  </wicket:remove>").parse();
   assertEquals(0,markup.size());
@@ -29,6 +30,7 @@
     assertTrue("Should have thrown an exception: remove regions must not contain wicket-components",false);
   }
  catch (  MarkupException ex) {
+    assertTrue(ex.getMessage().startsWith("Markup remove regions must not contain Wicket component tags: '<wicket:remove>' (line 1, column 17)"));
   }
   new MarkupParser("<wicket:component name = \"componentName\" class = \"classname\" param1 = \"value1\"/>").parse();
   new MarkupParser("<wicket:component name = \"componentName\" class = \"classname\" param1 = \"value1\">    </wicket:component>").parse();

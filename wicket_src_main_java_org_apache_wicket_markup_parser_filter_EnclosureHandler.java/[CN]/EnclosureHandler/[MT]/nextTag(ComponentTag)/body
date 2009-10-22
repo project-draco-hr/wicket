@@ -10,7 +10,7 @@
     }
  else     if (tag.isClose()) {
       if (stack == null) {
-        throw new ParseException("Missing open tag for Enclosure: " + tag.toString(),tag.getPos());
+        throw new WicketParseException("Missing open tag for Enclosure:",tag);
       }
       ComponentTag lastEnclosure=stack.pop();
       if (childId != null) {
@@ -23,14 +23,14 @@
       }
     }
  else {
-      throw new ParseException("Open-close tag not allowed for Enclosure: " + tag.toString(),tag.getPos());
+      throw new WicketParseException("Open-close tag not allowed for Enclosure:",tag);
     }
   }
  else   if ((tag.getId() != null) && (isWicketTag == false) && (stack != null)) {
     ComponentTag lastEnclosure=stack.lastElement();
     if (lastEnclosure.getString(CHILD_ATTRIBUTE) == null) {
       if (childId != null) {
-        throw new ParseException("Use <wicket:enclosure child='xxx'> to name the child component",tag.getPos());
+        throw new WicketParseException("Use <wicket:enclosure child='xxx'> to name the child component:",tag);
       }
       childId=tag.getId();
     }

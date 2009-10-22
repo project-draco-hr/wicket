@@ -22,12 +22,12 @@
   input.countLinesTo(openBracketIndex);
   int closeBracketIndex=input.find('>',openBracketIndex + 1);
   if (closeBracketIndex == -1) {
-    throw new ParseException("No matching close bracket at position " + openBracketIndex,input.getPosition());
+    throw new ParseException("No matching close bracket at" + getLineAndColumnText(),input.getPosition());
   }
   lastText=input.getSubstring(openBracketIndex,closeBracketIndex + 1);
   String tagText=lastText.subSequence(1,lastText.length() - 1).toString();
   if (tagText.length() == 0) {
-    throw new ParseException("Found empty tag: '<>' at position " + openBracketIndex,input.getPosition());
+    throw new ParseException("Found empty tag: '<>' at" + getLineAndColumnText(),input.getPosition());
   }
   final char firstChar=tagText.charAt(0);
   if ((firstChar == '!') || (firstChar == '?')) {
@@ -68,6 +68,6 @@
     return lastType;
   }
  else {
-    throw new ParseException("Malformed tag (line " + input.getLineNumber() + ", column "+ input.getColumnNumber()+ ")",openBracketIndex);
+    throw new ParseException("Malformed tag" + getLineAndColumnText(),openBracketIndex);
   }
 }
