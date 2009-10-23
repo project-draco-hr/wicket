@@ -1,8 +1,6 @@
 {
-  final int markupStart=markupStream.getCurrentIndex();
   Response response=RequestCycle.get().getResponse();
   double widths[]=computeColumnWidths();
-  boolean rendered=false;
   NumberFormat nf=NumberFormat.getNumberInstance(Locale.ENGLISH);
   nf.setMaximumFractionDigits(0);
   nf.setMaximumFractionDigits(2);
@@ -14,9 +12,7 @@
     if (!treeHasLeftColumn && i == 0)     response.write("<span class=\"d_\">");
  else     response.write("<span class=\"c_\">");
     if (component != null) {
-      markupStream.setCurrentIndex(markupStart);
-      component.render(markupStream);
-      rendered=true;
+      component.render();
     }
  else     if (renderable != null) {
       renderable.render(node,response);
@@ -31,15 +27,10 @@
         ++i;
         if (components.get(i) != null) {
           Response old=RequestCycle.get().setResponse(NullResponse.getInstance());
-          markupStream.setCurrentIndex(markupStart);
-          (components.get(i)).render(markupStream);
+          (components.get(i)).render();
           RequestCycle.get().setResponse(old);
-          rendered=true;
         }
       }
     }
-  }
-  if (rendered == false) {
-    markupStream.skipComponent();
   }
 }
