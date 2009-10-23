@@ -1,6 +1,15 @@
 {
   final Map<String,Object> map=super.variablesMap(validatable);
-  map.put("minimum",minimum);
-  map.put("maximum",maximum);
+  if (format == null) {
+    map.put("minimum",minimum);
+    map.put("maximum",maximum);
+    map.put("inputdate",validatable.getValue());
+  }
+ else {
+    SimpleDateFormat sdf=new SimpleDateFormat(format);
+    map.put("minimum",sdf.format(minimum));
+    map.put("maximum",sdf.format(maximum));
+    map.put("inputdate",sdf.format(validatable.getValue()));
+  }
   return map;
 }
