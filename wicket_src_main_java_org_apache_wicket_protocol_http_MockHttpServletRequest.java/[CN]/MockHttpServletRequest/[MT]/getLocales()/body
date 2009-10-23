@@ -1,5 +1,17 @@
 {
-  List<Locale> list=new ArrayList<Locale>(1);
-  list.add(getLocale());
+  List<Locale> list=new ArrayList<Locale>();
+  final String header=getHeader("Accept-Language");
+  if (header != null) {
+    final String[] locales=header.split(",");
+    for (    String value : locales) {
+      Locale locale=getLocale(value);
+      if (locale != null) {
+        list.add(locale);
+      }
+    }
+  }
+  if (list.size() == 0) {
+    list.add(Locale.getDefault());
+  }
   return Collections.enumeration(list);
 }
