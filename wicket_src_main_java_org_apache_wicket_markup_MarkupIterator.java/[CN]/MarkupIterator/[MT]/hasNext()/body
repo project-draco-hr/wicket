@@ -1,0 +1,19 @@
+{
+  for (index++; index < markup.size(); index++) {
+    MarkupElement elem=markup.get(index);
+    if ((componentTagOnly && (elem instanceof ComponentTag)) || (wicketTagOnly && (elem instanceof WicketTag))) {
+      if (openTagOnly) {
+        ComponentTag tag=(ComponentTag)elem;
+        if (tag.isOpen()) {
+          return true;
+        }
+ else {
+          continue;
+        }
+      }
+      return true;
+    }
+    return true;
+  }
+  return false;
+}

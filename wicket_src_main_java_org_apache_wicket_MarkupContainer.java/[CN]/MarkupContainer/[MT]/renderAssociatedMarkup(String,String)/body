@@ -1,7 +1,6 @@
 {
   final MarkupStream originalMarkupStream=getMarkupStream();
-  final MarkupStream associatedMarkupStream=getAssociatedMarkupStream(true);
-  associatedMarkupStream.skipUntil(openTagName);
+  final MarkupStream associatedMarkupStream=new MarkupStream(getMarkup(null));
   setMarkupStream(associatedMarkupStream);
   MarkupElement elem=associatedMarkupStream.get();
   if ((elem instanceof ComponentTag) == false) {

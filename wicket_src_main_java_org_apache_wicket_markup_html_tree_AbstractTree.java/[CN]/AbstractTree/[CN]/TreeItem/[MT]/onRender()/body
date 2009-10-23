@@ -1,0 +1,21 @@
+{
+  if (this == rootItem && isRootLess() == true) {
+    String tagName=((ComponentTag)getMarkup().get(0)).getName();
+    getResponse().write("<",tagName," style=\"display:none\" id=\"",getMarkupId(),"\"></",tagName,">");
+  }
+ else {
+    super.onRender();
+    if (isRenderChildren()) {
+      visitItemChildren(this,new IItemCallback(){
+        public void visitItem(        TreeItem item){
+          item.onRender();
+          List<IBehavior> behaviors=item.getBehaviors();
+          for (          IBehavior behavior : behaviors) {
+            behavior.afterRender(item);
+          }
+        }
+      }
+);
+    }
+  }
+}

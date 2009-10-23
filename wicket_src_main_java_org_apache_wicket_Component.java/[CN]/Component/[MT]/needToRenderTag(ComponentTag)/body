@@ -1,0 +1,8 @@
+{
+  boolean renderTag=(openTag == null ? false : !(openTag instanceof WicketTag));
+  if (renderTag == false) {
+    renderTag=!((getRequest() instanceof WebRequest) && ((WebRequest)getRequest()).isAjax());
+    renderTag&=!getApplication().getMarkupSettings().getStripWicketTags();
+  }
+  return renderTag;
+}

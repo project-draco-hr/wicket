@@ -14,7 +14,8 @@
           getRequestCycle().setResponse(response);
           Component component=getParent().get(id);
           if (component != null) {
-            component.render(markupStream);
+            component.render();
+            markupStream.skipComponent();
           }
           childTags.put(id,response.getBuffer());
         }

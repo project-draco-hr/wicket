@@ -1,0 +1,20 @@
+{
+  while (markupStream.hasMore()) {
+    if ((openTag != null) && markupStream.get().closes(openTag)) {
+      break;
+    }
+    final int index=markupStream.getCurrentIndex();
+    renderNext(markupStream);
+    markupStream.setCurrentIndex(index);
+    MarkupElement elem=markupStream.get();
+    if (elem instanceof RawMarkup) {
+      markupStream.next();
+    }
+ else     if (!markupStream.getTag().isClose()) {
+      markupStream.skipComponent();
+    }
+ else {
+      throw new WicketRuntimeException("Ups. This should never happen. " + markupStream.toString());
+    }
+  }
+}

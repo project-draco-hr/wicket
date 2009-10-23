@@ -1,0 +1,36 @@
+{
+  IMarkupFragment markup=getMarkup();
+  if (markup == null) {
+    throw new MarkupNotFoundException("Markup not found for Component: " + toString());
+  }
+  MarkupStream markupStream=new MarkupStream(markup);
+  setMarkupStream(markupStream);
+  markRendering(true);
+  MarkupElement elem=markup.get(0);
+  if (elem instanceof ComponentTag) {
+    ((ComponentTag)elem).onBeforeRender(this,markupStream);
+  }
+  if (determineVisibility()) {
+    setFlag(FLAG_HAS_BEEN_RENDERED,true);
+    if (log.isDebugEnabled()) {
+      log.debug("Begin render " + this);
+    }
+    try {
+      notifyBehaviorsComponentBeforeRender();
+      onRender();
+      notifyBehaviorsComponentRendered();
+      rendered();
+    }
+ catch (    RuntimeException ex) {
+      onException(ex);
+    }
+    if (log.isDebugEnabled()) {
+      log.debug("End render " + this);
+    }
+  }
+ else   if ((elem != null) && (elem instanceof ComponentTag)) {
+    if (getFlag(FLAG_PLACEHOLDER)) {
+      renderPlaceholderTag((ComponentTag)elem,getResponse());
+    }
+  }
+}

@@ -10,12 +10,6 @@
     render=!openTag.hasNoCloseTag();
   }
   if (render == true) {
-    while (markupStream.hasMore() && !markupStream.get().closes(openTag)) {
-      final int index=markupStream.getCurrentIndex();
-      renderNext(markupStream);
-      if (index == markupStream.getCurrentIndex()) {
-        markupStream.throwMarkupException("Markup element at index " + index + " failed to advance the markup stream");
-      }
-    }
+    renderAll(markupStream,openTag);
   }
 }

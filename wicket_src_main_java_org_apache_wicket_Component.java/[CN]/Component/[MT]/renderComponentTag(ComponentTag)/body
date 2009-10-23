@@ -1,7 +1,5 @@
 {
-  final boolean ajaxRequest=getRequest() instanceof WebRequest && ((WebRequest)getRequest()).isAjax();
-  final boolean stripWicketTags=ajaxRequest || Application.get().getMarkupSettings().getStripWicketTags();
-  if (!(tag instanceof WicketTag) || !stripWicketTags) {
+  if (needToRenderTag(tag)) {
     List<IBehavior> behaviors=getBehaviors();
     if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
       tag=tag.mutable();
@@ -21,6 +19,6 @@
         behavior.detach(this);
       }
     }
-    tag.writeOutput(getResponse(),stripWicketTags,findMarkupStream().getWicketNamespace());
+    tag.writeOutput(getResponse(),!needToRenderTag(null),getMarkup().getMarkupResourceStream().getWicketNamespace());
   }
 }

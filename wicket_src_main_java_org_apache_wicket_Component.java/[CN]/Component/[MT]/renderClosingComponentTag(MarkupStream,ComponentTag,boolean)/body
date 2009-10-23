@@ -1,21 +1,18 @@
 {
   if (openTag.isOpen()) {
     if (markupStream.atCloseTag() && markupStream.getTag().closes(openTag)) {
-      ComponentTag closeTag=markupStream.getTag();
-      if (openTag.getNameChanged()) {
-        closeTag=closeTag.mutable();
-        closeTag.setName(openTag.getName());
-        closeTag.setNamespace(openTag.getNamespace());
-      }
-      if (renderTagOnly == false) {
+      if (renderBodyOnly == false) {
+        ComponentTag closeTag=markupStream.getTag();
+        if (openTag.getNameChanged()) {
+          closeTag=closeTag.mutable();
+          closeTag.setName(openTag.getName());
+          closeTag.setNamespace(openTag.getNamespace());
+        }
         renderComponentTag(closeTag);
       }
-      markupStream.next();
     }
- else {
-      if (openTag.requiresCloseTag()) {
-        markupStream.throwMarkupException("Expected close tag for " + openTag);
-      }
+ else     if (openTag.requiresCloseTag()) {
+      markupStream.throwMarkupException("Expected close tag for " + openTag);
     }
   }
 }

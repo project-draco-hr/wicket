@@ -5,7 +5,7 @@
     final String id=tag.getId();
     final Component component=get(id);
     if (component != null) {
-      component.render(markupStream);
+      component.render();
     }
  else {
       if (ComponentResolvers.resolve(this,markupStream,tag)) {
@@ -27,6 +27,5 @@
       log.debug("Rendering raw markup");
     }
     getResponse().write(element.toCharSequence());
-    markupStream.next();
   }
 }

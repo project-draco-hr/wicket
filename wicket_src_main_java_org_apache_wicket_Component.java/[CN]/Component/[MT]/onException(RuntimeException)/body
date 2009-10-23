@@ -1,0 +1,13 @@
+{
+  for (  IBehavior behavior : getBehaviors()) {
+    if (isBehaviorAccepted(behavior)) {
+      try {
+        behavior.exception(this,ex);
+      }
+ catch (      Throwable ex2) {
+        log.error("Error while cleaning up after exception",ex2);
+      }
+    }
+  }
+  throw ex;
+}
