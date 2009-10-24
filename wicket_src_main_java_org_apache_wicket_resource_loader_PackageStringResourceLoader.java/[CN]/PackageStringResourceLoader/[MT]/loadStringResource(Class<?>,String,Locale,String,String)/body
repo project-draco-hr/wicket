@@ -2,26 +2,32 @@
   if (clazz == null) {
     return null;
   }
-  String packageName=clazz.getPackage().getName();
-  packageName=packageName.replace('.','/');
   IPropertiesFactory propertiesFactory=Application.get().getResourceSettings().getPropertiesFactory();
-  while (packageName.length() > 0) {
-    String path=packageName + "/" + filename;
-    ResourceNameIterator iter=new ResourceNameIterator(path,style,variation,locale,null);
-    while (iter.hasNext()) {
-      String newPath=iter.next();
-      final Properties props=propertiesFactory.load(clazz,newPath);
-      if (props != null) {
-        String value=props.getString(key);
-        if (value != null) {
-          if (log.isDebugEnabled()) {
-            log.debug("Found resource from: " + props + "; key: "+ key);
+  while (true) {
+    String packageName=clazz.getPackage().getName();
+    packageName=packageName.replace('.','/');
+    while (packageName.length() > 0) {
+      String path=packageName + "/" + filename;
+      ResourceNameIterator iter=new ResourceNameIterator(path,style,variation,locale,null);
+      while (iter.hasNext()) {
+        String newPath=iter.next();
+        final Properties props=propertiesFactory.load(clazz,newPath);
+        if (props != null) {
+          String value=props.getString(key);
+          if (value != null) {
+            if (log.isDebugEnabled()) {
+              log.debug("Found resource from: " + props + "; key: "+ key);
+            }
+            return value;
           }
-          return value;
         }
       }
+      packageName=Strings.beforeLast(packageName,'/');
     }
-    packageName=Strings.beforeLast(packageName,'/');
+    clazz=clazz.getSuperclass();
+    if (clazz == null) {
+      break;
+    }
   }
   return null;
 }
