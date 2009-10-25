@@ -1,0 +1,43 @@
+{
+  if (log.isInfoEnabled()) {
+    log.info("Loading properties files from " + resourceStream + " with loader "+ loader);
+  }
+  BufferedInputStream in=null;
+  try {
+    in=new BufferedInputStream(resourceStream.getInputStream());
+    ValueMap data=loader.loadWicketProperties(in);
+    if (data == null) {
+      java.util.Properties props=loader.loadJavaProperties(in);
+      if (props != null) {
+        data=new ValueMap();
+        Enumeration<?> enumeration=props.propertyNames();
+        while (enumeration.hasMoreElements()) {
+          String property=(String)enumeration.nextElement();
+          data.put(property,props.getProperty(property));
+        }
+      }
+    }
+    return data;
+  }
+ catch (  ResourceStreamNotFoundException e) {
+    log.warn("Unable to find resource " + resourceStream,e);
+  }
+catch (  IOException e) {
+    log.warn("Unable to find resource " + resourceStream,e);
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ex) {
+      }
+    }
+    try {
+      resourceStream.close();
+    }
+ catch (    IOException ex) {
+    }
+  }
+  return null;
+}

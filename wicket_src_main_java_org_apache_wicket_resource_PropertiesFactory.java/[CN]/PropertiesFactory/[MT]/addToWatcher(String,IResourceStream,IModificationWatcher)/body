@@ -1,0 +1,19 @@
+{
+  watcher.add(resourceStream,new IChangeListener(){
+    public void onChange(){
+      log.info("A properties files has changed. Removing all entries " + "from the cache. Resource: " + resourceStream);
+      clearCache();
+      Iterator<IPropertiesChangeListener> iter=afterReloadListeners.iterator();
+      while (iter.hasNext()) {
+        IPropertiesChangeListener listener=iter.next();
+        try {
+          listener.propertiesChanged(path);
+        }
+ catch (        Throwable ex) {
+          PropertiesFactory.log.error("PropertiesReloadListener has thrown an exception: " + ex.getMessage());
+        }
+      }
+    }
+  }
+);
+}

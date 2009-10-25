@@ -1,10 +1,23 @@
 {
   Properties properties=propertiesCache.get(path);
   if (properties == null) {
+    IResourceSettings resourceSettings=Application.get().getResourceSettings();
     Iterator<IPropertiesLoader> iter=propertiesLoader.iterator();
     while ((properties == null) && iter.hasNext()) {
       IPropertiesLoader loader=iter.next();
-      properties=loader.load(clazz,path);
+      String fullPath=path + loader.getFileExtension();
+      final IResourceStream resourceStream=resourceSettings.getResourceStreamLocator().locate(clazz,fullPath);
+      if (resourceStream == null) {
+        continue;
+      }
+      final IModificationWatcher watcher=resourceSettings.getResourceWatcher(true);
+      if (watcher != null) {
+        addToWatcher(path,resourceStream,watcher);
+      }
+      ValueMap props=loadFromLoader(loader,resourceStream);
+      if (props != null) {
+        properties=new Properties(path,props);
+      }
     }
     if (properties == null) {
       propertiesCache.put(path,Properties.EMPTY_PROPERTIES);
