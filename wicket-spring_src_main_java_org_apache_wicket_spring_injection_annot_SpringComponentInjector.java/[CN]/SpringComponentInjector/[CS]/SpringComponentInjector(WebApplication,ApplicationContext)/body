@@ -6,5 +6,6 @@
     throw new IllegalArgumentException("Argument [[ctx]] cannot be null");
   }
   webapp.setMetaData(CONTEXT_KEY,new ApplicationContextHolder(ctx));
-  InjectorHolder.setInjector(new AnnotSpringInjector(new ContextLocator()));
+  fieldValueFactory=new AnnotProxyFieldValueFactory(new ContextLocator());
+  bind(webapp);
 }
