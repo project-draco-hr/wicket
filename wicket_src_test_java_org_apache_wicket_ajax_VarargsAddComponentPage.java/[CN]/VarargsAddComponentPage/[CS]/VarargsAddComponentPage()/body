@@ -1,0 +1,23 @@
+{
+  for (int i=0; i < NUMBER_OF_LABELS; i++) {
+    final String markupId="label" + i;
+    final String modelObject=String.format(INITIAL_CONTENT,i);
+    final Label label=new Label(markupId,new Model<String>(modelObject));
+    label.setOutputMarkupId(true);
+    add(label);
+  }
+  final AjaxLink<Void> link=new AjaxLink<Void>("link"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      final Label label0=(Label)getPage().get("label0");
+      label0.setDefaultModelObject(label0.getDefaultModelObjectAsString() + AJAX_APPENDED_SUFFIX);
+      final Label label1=(Label)getPage().get("label1");
+      label1.setDefaultModelObject(label1.getDefaultModelObjectAsString() + AJAX_APPENDED_SUFFIX);
+      final Label label2=(Label)getPage().get("label2");
+      label2.setDefaultModelObject(label2.getDefaultModelObjectAsString() + AJAX_APPENDED_SUFFIX);
+      target.addComponent(label0,label2,label1);
+    }
+  }
+;
+  add(link);
+}
