@@ -1,9 +1,15 @@
 {
-  Class<?> clazz=object.getClass();
-  Field[] fields=classToFields.get(clazz);
+  final Class<?> clazz=object.getClass();
+  Field[] fields=null;
+  ConcurrentHashMap<String,Field[]> container=cache.get(clazz.getClassLoader());
+  if (container != null) {
+    fields=container.get(clazz.getName());
+  }
   if (fields == null) {
     fields=findFields(clazz,factory);
-    classToFields.put(clazz,fields);
+    container=new ConcurrentHashMap<String,Field[]>();
+    container.put(clazz.getName(),fields);
+    cache.put(clazz.getClassLoader(),container);
   }
   for (int i=0; i < fields.length; i++) {
     final Field field=fields[i];
