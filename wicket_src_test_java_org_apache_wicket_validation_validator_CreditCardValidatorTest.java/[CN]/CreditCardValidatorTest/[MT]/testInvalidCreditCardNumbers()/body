@@ -1,0 +1,18 @@
+{
+  CreditCardValidator test=new CreditCardValidator();
+  IValidatable<String> validatable=new Validatable(null);
+  test.onValidate(validatable);
+  assertEquals(false,validatable.isValid());
+  validatable=new Validatable("9845");
+  test.onValidate(validatable);
+  assertEquals(false,validatable.isValid());
+  validatable=new Validatable("1234678910111213141516");
+  test.onValidate(validatable);
+  assertEquals(false,validatable.isValid());
+  validatable=new Validatable("3782822X6310005");
+  test.onValidate(validatable);
+  assertEquals(false,validatable.isValid());
+  validatable=new Validatable("840898920205250");
+  test.onValidate(validatable);
+  assertEquals(false,validatable.isValid());
+}
