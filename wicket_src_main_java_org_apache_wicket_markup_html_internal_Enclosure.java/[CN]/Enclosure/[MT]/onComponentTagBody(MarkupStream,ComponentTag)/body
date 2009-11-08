@@ -3,18 +3,25 @@
   Component controller=container.get(childId.toString());
   checkChildComponent(controller);
   boolean visible=controller.determineVisibility();
-  if (visible) {
-    super.onComponentTagBody(markupStream,openTag);
-  }
- else {
-    RequestCycle cycle=getRequestCycle();
-    Response response=cycle.getResponse();
-    try {
-      cycle.setResponse(NullResponse.getInstance());
+  final IComponentOnAfterRenderListener listener=new EnclosureListener(this);
+  try {
+    getApplication().addComponentOnAfterRenderListener(listener);
+    if (visible) {
       super.onComponentTagBody(markupStream,openTag);
     }
+ else {
+      RequestCycle cycle=getRequestCycle();
+      Response response=cycle.getResponse();
+      try {
+        cycle.setResponse(NullResponse.getInstance());
+        super.onComponentTagBody(markupStream,openTag);
+      }
   finally {
-      cycle.setResponse(response);
+        cycle.setResponse(response);
+      }
     }
+  }
+  finally {
+    getApplication().removeComponentOnAfterRenderListener(listener);
   }
 }
