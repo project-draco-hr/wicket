@@ -1,0 +1,11 @@
+{
+  final String value;
+  String key=resourceKey(object);
+  if (resourceSource != null) {
+    value=resourceSource.getString(key);
+  }
+ else {
+    value=Application.get().getResourceSettings().getLocalizer().getString(key,null);
+  }
+  return postprocess(value);
+}
