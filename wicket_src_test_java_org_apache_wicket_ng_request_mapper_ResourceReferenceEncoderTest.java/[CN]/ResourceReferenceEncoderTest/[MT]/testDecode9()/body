@@ -1,12 +1,12 @@
 {
-  Url url=Url.parse("wicket/resource/" + CLASS_NAME + "/reference1?-style&p1=v1&p2=v2");
+  Url url=Url.parse("wicket/resource/" + CLASS_NAME + "/reference5?en--variation&p1=v1&p2=v2");
   RequestHandler handler=encoder.mapRequest(getRequest(url));
   assertTrue(handler instanceof ResourceRequestHandler);
   ResourceRequestHandler h=(ResourceRequestHandler)handler;
-  assertEquals(resource1,h.getResource());
-  assertEquals(null,h.getLocale());
-  assertEquals("style",h.getStyle());
-  assertEquals(null,h.getVariation());
+  assertEquals(resource5,h.getResource());
+  assertEquals(Locale.ENGLISH,h.getLocale());
+  assertEquals("",h.getStyle());
+  assertEquals("variation",h.getVariation());
   assertEquals(0,h.getPageParameters().getIndexedParamsCount());
   assertEquals("v1",h.getPageParameters().getNamedParameter("p1").toString());
   assertEquals("v2",h.getPageParameters().getNamedParameter("p2").toString());
