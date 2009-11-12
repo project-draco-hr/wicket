@@ -6,11 +6,17 @@
     if (cachedValue != null) {
       return cachedValue;
     }
-    Object proxy=LazyInitProxyFactory.createProxy(field.getType(),locator);
-    if (locator.isSingletonBean()) {
-      cache.put(locator,proxy);
+    final Object target;
+    if (wrapInProxies) {
+      target=LazyInitProxyFactory.createProxy(field.getType(),locator);
     }
-    return proxy;
+ else {
+      target=locator.locateProxyTarget();
+    }
+    if (locator.isSingletonBean()) {
+      cache.put(locator,target);
+    }
+    return target;
   }
   return null;
 }
