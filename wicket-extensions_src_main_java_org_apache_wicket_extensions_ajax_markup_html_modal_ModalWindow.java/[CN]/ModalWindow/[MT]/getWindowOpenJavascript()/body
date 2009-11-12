@@ -28,9 +28,6 @@
     }
     RequestCycle.get().setUrlForNewWindowEncoding();
     appendAssignment(buffer,"settings.src",RequestCycle.get().urlFor(page));
-    if (getPageMapName() != null) {
-      appendAssignment(buffer,"settings.iframeName",getPageMapName());
-    }
   }
  else {
     buffer.append("settings.element=element;\n");
@@ -49,7 +46,7 @@
     buffer.append("settings.mask=\"semi-transparent\";\n");
   }
   boolean haveCloseCallback=false;
-  if ((isCustomComponent() == false && deletePageMap) || windowClosedCallback != null) {
+  if (windowClosedCallback != null) {
     WindowClosedBehavior behavior=getBehaviors(WindowClosedBehavior.class).get(0);
     buffer.append("settings.onClose = function() { ");
     buffer.append(behavior.getCallbackScript());

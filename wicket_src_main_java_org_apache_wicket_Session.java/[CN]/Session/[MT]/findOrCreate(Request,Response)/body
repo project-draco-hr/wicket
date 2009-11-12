@@ -2,11 +2,14 @@
   Application application=Application.get();
   ISessionStore sessionStore=application.getSessionStore();
   Session session=sessionStore.lookup(request);
+  boolean created=false;
   if (session == null) {
     session=application.newSession(request,response);
-    dirtyObjects.set(null);
-    touchedPages.set(null);
+    created=true;
   }
   set(session);
+  if (created) {
+    application.getPageManager().newSessionCreated();
+  }
   return session;
 }

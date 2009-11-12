@@ -1,14 +1,4 @@
 {
-  List<Page> touchedPages=Session.touchedPages.get();
-  Session.touchedPages.set(null);
-  if (touchedPages != null) {
-    for (int i=0; i < touchedPages.size(); i++) {
-      Page page=touchedPages.get(i);
-      page.detach();
-      page.getPageMap().put(page);
-      dirty=true;
-    }
-  }
   if (dirty) {
     dirty=false;
     setAttribute(SESSION_ATTRIBUTE_NAME,this);
@@ -16,48 +6,6 @@
  else {
     if (log.isDebugEnabled()) {
       log.debug("update: Session not dirty.");
-    }
-  }
-  List<IClusterable> dirtyObjects=Session.dirtyObjects.get();
-  Session.dirtyObjects.set(null);
-  Map<String,Object> tempMap=new HashMap<String,Object>();
-  if (dirtyObjects != null) {
-    for (final Iterator<IClusterable> iterator=dirtyObjects.iterator(); iterator.hasNext(); ) {
-      String attribute=null;
-      Object object=iterator.next();
-      if (object instanceof Page) {
-        final Page page=(Page)object;
-        if (page.isPageStateless()) {
-          continue;
-        }
-        attribute=page.getPageMap().attributeForId(page.getNumericId());
-        if (getAttribute(attribute) == null) {
-          continue;
-        }
-        object=page.getPageMapEntry();
-      }
- else       if (object instanceof IPageMap) {
-        attribute=attributeForPageMapName(((IPageMap)object).getName());
-      }
-      tempMap.put(attribute,object);
-    }
-  }
-  if (tempMap.isEmpty() == false) {
-    for (    Entry<String,Object> entry : tempMap.entrySet()) {
-      setAttribute(entry.getKey(),(Serializable)entry.getValue());
-    }
-  }
-  if (pageMapsUsedInRequest != null) {
-synchronized (pageMapsUsedInRequest) {
-      Thread t=Thread.currentThread();
-      Iterator<Entry<IPageMap,PageMapsUsedInRequestEntry>> it=pageMapsUsedInRequest.entrySet().iterator();
-      while (it.hasNext()) {
-        Entry<IPageMap,PageMapsUsedInRequestEntry> entry=it.next();
-        if ((entry.getValue()).thread == t) {
-          it.remove();
-        }
-      }
-      pageMapsUsedInRequest.notifyAll();
     }
   }
 }

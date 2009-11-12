@@ -1,7 +1,8 @@
 {
   final String componentPath=requestParameters.getComponentPath();
   final Session session=requestCycle.getSession();
-  final Page page=session.getPage(requestParameters.getPageMapName(),componentPath,requestParameters.getVersionNumber());
+  final String id=Strings.firstPathComponent(componentPath,Component.PATH_SEPARATOR);
+  final Page page=(Page)session.getPageManager().getPage(Integer.valueOf(id));
   if (page != null) {
     requestCycle.getRequest().setPage(page);
     final String interfaceName=requestParameters.getInterfaceName();

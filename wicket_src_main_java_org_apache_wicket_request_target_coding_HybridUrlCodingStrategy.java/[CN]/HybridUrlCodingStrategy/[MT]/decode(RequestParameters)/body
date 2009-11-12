@@ -27,12 +27,7 @@
   }
  else {
     Page page;
-    if (Strings.isEmpty(pageMapName) && Application.exists() && Application.get().getSessionSettings().isPageIdUniquePerSession()) {
-      page=Session.get().getPage(pageId.intValue(),pageVersion != null ? pageVersion.intValue() : 0);
-    }
- else {
-      page=Session.get().getPage(pageMapName,"" + pageId,pageVersion != null ? pageVersion.intValue() : 0);
-    }
+    page=(Page)Session.get().getPageManager().getPage(pageId.intValue());
     if ((page != null) && page.getClass().equals(pageClassRef.get())) {
       requestParameters.setInterfaceName(IRedirectListener.INTERFACE.getName());
       RequestCycle.get().getRequest().setPage(page);

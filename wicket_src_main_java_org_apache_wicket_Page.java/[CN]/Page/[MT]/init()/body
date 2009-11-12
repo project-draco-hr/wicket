@@ -1,10 +1,8 @@
 {
-  final RequestCycle cycle=getRequestCycle();
-  String pageMapName=null;
-  if (cycle != null) {
-    RequestParameters parameters=getRequest().getRequestParameters();
-    pageMapName=parameters.getPageMapName();
+  if (isBookmarkable()) {
+    setStatelessHint(true);
   }
-  final IPageMap pageMap=PageMap.forName(pageMapName);
-  init(pageMap);
+  setNextAvailableId();
+  setVersioned(Application.get().getPageSettings().getVersionPagesByDefault());
+  dirty();
 }
