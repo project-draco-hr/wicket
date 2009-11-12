@@ -1,0 +1,9 @@
+{
+  ConfigurableWebApplicationContext wac=newApplicationContext();
+  wac.setParent(parent);
+  wac.setServletContext(filter.getFilterConfig().getServletContext());
+  wac.setConfigLocation(getContextConfigLocation(filter));
+  postProcessWebApplicationContext(wac,filter);
+  wac.refresh();
+  return wac;
+}
