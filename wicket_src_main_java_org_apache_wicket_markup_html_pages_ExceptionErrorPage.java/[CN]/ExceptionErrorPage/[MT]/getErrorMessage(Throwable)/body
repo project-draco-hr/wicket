@@ -1,0 +1,27 @@
+{
+  if (throwable != null) {
+    List<Throwable> al=convertToList(throwable);
+    AppendingStringBuffer sb=new AppendingStringBuffer(256);
+    int length=al.size() - 1;
+    Throwable cause=al.get(length);
+    if (throwable instanceof WicketRuntimeException) {
+      String msg=throwable.getMessage();
+      if (throwable instanceof MarkupException) {
+        MarkupStream stream=((MarkupException)throwable).getMarkupStream();
+        if (stream != null) {
+          String text="\n" + stream.toString();
+          if (msg.endsWith(text)) {
+            msg=msg.substring(0,msg.length() - text.length());
+          }
+        }
+      }
+      sb.append("WicketMessage: ");
+      sb.append(msg);
+      sb.append("\n\n");
+    }
+    return sb.toString();
+  }
+ else {
+    return "[Unknown]";
+  }
+}

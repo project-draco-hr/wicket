@@ -1,0 +1,21 @@
+{
+  if (throwable != null) {
+    List<Throwable> al=convertToList(throwable);
+    AppendingStringBuffer sb=new AppendingStringBuffer(256);
+    int length=al.size() - 1;
+    Throwable cause=al.get(length);
+    sb.append("Root cause:\n\n");
+    outputThrowable(cause,sb,false);
+    if (length > 0) {
+      sb.append("\n\nComplete stack:\n\n");
+      for (int i=0; i < length; i++) {
+        outputThrowable(al.get(i),sb,true);
+        sb.append("\n");
+      }
+    }
+    return sb.toString();
+  }
+ else {
+    return "<Null Throwable>";
+  }
+}

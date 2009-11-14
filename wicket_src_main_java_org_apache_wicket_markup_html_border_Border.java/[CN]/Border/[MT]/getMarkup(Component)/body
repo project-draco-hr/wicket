@@ -16,8 +16,16 @@
   if (child == null) {
     return new MarkupFragment(markup,i);
   }
+  IMarkupFragment childMarkup=null;
   if (child == body) {
-    return markup.find(null,BODY_ID,i);
+    childMarkup=markup.find(BODY_ID,i);
+    if (childMarkup != null) {
+      return childMarkup;
+    }
   }
-  return markup.find(null,child.getId(),i);
+  childMarkup=markup.find(child.getId(),i);
+  if (childMarkup != null) {
+    return childMarkup;
+  }
+  return findMarkupInAssociatedFileHeader(markup,child);
 }

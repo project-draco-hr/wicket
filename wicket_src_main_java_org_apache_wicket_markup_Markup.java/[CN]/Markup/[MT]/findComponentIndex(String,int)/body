@@ -1,0 +1,23 @@
+{
+  if (Strings.isEmpty(id)) {
+    throw new IllegalArgumentException("Parameter 'id' must not be null or empty");
+  }
+  MarkupStream stream=new MarkupStream(this);
+  stream.setCurrentIndex(Math.max(0,startIndex));
+  while (stream.hasMore()) {
+    MarkupElement elem=stream.get();
+    if (elem instanceof ComponentTag) {
+      ComponentTag tag=stream.getTag();
+      if (tag.isOpen() || tag.isOpenClose()) {
+        if (tag.getId().equals(id)) {
+          return stream.getCurrentIndex();
+        }
+        if (tag.isOpen() && !tag.hasNoCloseTag() && !(tag instanceof WicketTag)&& !"head".equals(tag.getName())&& !tag.isAutoComponentTag()) {
+          stream.skipToMatchingCloseTag(tag);
+        }
+      }
+    }
+    stream.next();
+  }
+  return -1;
+}

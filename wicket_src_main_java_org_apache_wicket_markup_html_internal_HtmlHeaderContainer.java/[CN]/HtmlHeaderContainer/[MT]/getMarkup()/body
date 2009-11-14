@@ -6,14 +6,23 @@
   if (markup == null) {
     throw new MarkupException("Unable to get page markup: " + getPage().toString());
   }
-  int index1=markup.findComponentIndex(null,"_header_",0);
-  int index2=markup.findComponentIndex(null,"_head",0);
-  if (((ComponentTag)markup.get(index2)).getMarkupClass() != null) {
-    index2=-1;
-  }
-  int index=(index1 == -1 ? index2 : (index2 == -1) ? index1 : Math.min(index1,index2));
-  if (index >= 0) {
-    return new MarkupFragment(markup,index);
+  MarkupStream stream=new MarkupStream(markup);
+  while (stream.hasMore()) {
+    MarkupElement elem=stream.get();
+    if (elem instanceof ComponentTag) {
+      ComponentTag tag=stream.getTag();
+      if (tag.isOpen() || tag.isOpenClose()) {
+        if (tag.getId().equals("_header_")) {
+          return stream.getMarkupFragment();
+        }
+        if (tag.getId().equals("_head")) {
+          if (tag.getMarkupClass() == null) {
+            return stream.getMarkupFragment();
+          }
+        }
+      }
+    }
+    stream.next();
   }
   return null;
 }

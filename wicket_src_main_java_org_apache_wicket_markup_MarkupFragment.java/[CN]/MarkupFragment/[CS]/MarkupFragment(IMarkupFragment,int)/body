@@ -43,16 +43,4 @@
     throw new MarkupException("Unable to find close tag for: '" + startTag.toString() + "' in "+ getRootMarkup().getMarkupResourceStream().toString());
   }
   size=endIndex - startIndex + 1;
-  if (startTag instanceof WicketTag) {
-    WicketTag tag=(WicketTag)startTag;
-    if (tag.isFragementTag() || tag.isContainerTag()) {
-      rootPath=startTag.getId();
-    }
- else {
-      rootPath=null;
-    }
-  }
- else {
-    rootPath=startTag.getId();
-  }
 }

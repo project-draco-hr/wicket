@@ -1,0 +1,16 @@
+{
+  IMarkupFragment childMarkup=null;
+  OpenTagIterator iter=new OpenTagIterator(markup);
+  while (iter.hasNext() && (childMarkup == null)) {
+    ComponentTag tag=iter.next();
+    if ((child != null) && "_header_".equals(tag.getId())) {
+      childMarkup=iter.getMarkupFragment().find(child.getId(),0);
+    }
+ else     if ((child != null) && "_head".equals(tag.getId())) {
+      if (tag.getMarkupClass() == null) {
+        childMarkup=iter.getMarkupFragment().find(child.getId(),0);
+      }
+    }
+  }
+  return childMarkup;
+}
