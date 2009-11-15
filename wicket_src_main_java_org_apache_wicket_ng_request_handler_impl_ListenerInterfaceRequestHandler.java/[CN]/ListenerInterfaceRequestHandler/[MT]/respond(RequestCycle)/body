@@ -1,7 +1,7 @@
 {
   if (getComponent().getPage() == getPage()) {
     RedirectPolicy policy=getPage().isPageStateless() ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
-    requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(getPage()),policy));
+    requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new DefaultPageProvider(getPage()),policy));
     if (getBehaviorIndex() == null) {
       listenerInterface.invoke(getComponent());
     }

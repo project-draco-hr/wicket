@@ -5,7 +5,7 @@
   page.getPageParameters().setNamedParameter("a","b");
   page.getPageParameters().setNamedParameter("b","c");
   page.setCreatedBookmarkable(true);
-  PageProvider provider=new PageProvider(page);
+  PageProvider provider=new DefaultPageProvider(page);
   RequestHandler handler=new RenderPageRequestHandler(provider);
   Url url=encoder.mapHandler(handler);
   assertEquals("wicket/bookmarkable/" + PAGE_CLASS_NAME + "/i1/i2?15&a=b&b=c",url.toString());
