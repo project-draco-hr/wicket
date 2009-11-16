@@ -1,8 +1,8 @@
 {
   s.defaultReadObject();
+  afterReadObject=new ArrayList<Object>();
   List<Serializable> l=(List<Serializable>)s.readObject();
   for (  Serializable ser : l) {
     afterReadObject.add(getPageStore().restoreAfterSerialization(ser));
   }
-  afterReadObject=new ArrayList<Object>();
 }
