@@ -61,4 +61,14 @@
 ;
   l5.setLabel("Link 5 - Go to Test Page 3 - Mounted");
   add(l5);
+  Link l6=new Link("l6"){
+    public void onLinkClicked(){
+      PageParameters params=new PageParameters();
+      params.setNamedParameter("color","red");
+      RequestCycle.get().setResponsePage(TestPage4.class,params);
+    }
+  }
+;
+  l6.setLabel("Link 6 - Goto Test Page 4 - stateless, with mounted parameters");
+  add(l6);
 }
