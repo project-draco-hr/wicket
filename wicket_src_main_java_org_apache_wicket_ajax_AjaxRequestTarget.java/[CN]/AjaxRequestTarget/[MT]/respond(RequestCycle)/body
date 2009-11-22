@@ -20,21 +20,21 @@
   response.write("\"?>");
   response.write("<ajax-response>");
   fireOnBeforeRespondListeners();
-  Iterator<String> it=prependJavascripts.iterator();
+  Iterator<CharSequence> it=prependJavascripts.iterator();
   while (it.hasNext()) {
-    String js=it.next();
+    CharSequence js=it.next();
     respondInvocation(response,js);
   }
   respondComponents(response);
   fireOnAfterRespondListeners(response);
   it=domReadyJavascripts.iterator();
   while (it.hasNext()) {
-    String js=it.next();
+    CharSequence js=it.next();
     respondInvocation(response,js);
   }
   it=appendJavascripts.iterator();
   while (it.hasNext()) {
-    String js=it.next();
+    CharSequence js=it.next();
     respondInvocation(response,js);
   }
   response.write("</ajax-response>");
