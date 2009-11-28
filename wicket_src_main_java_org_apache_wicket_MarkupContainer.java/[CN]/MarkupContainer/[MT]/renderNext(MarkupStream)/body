@@ -3,14 +3,14 @@
   if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
     final ComponentTag tag=(ComponentTag)element;
     final String id=tag.getId();
-    final Component component=get(id);
+    Component component=get(id);
+    if (component == null) {
+      component=ComponentResolvers.resolve(this,markupStream,tag);
+    }
     if (component != null) {
       component.render();
     }
  else {
-      if (ComponentResolvers.resolve(this,markupStream,tag)) {
-        return;
-      }
       if (tag instanceof WicketTag) {
         if (((WicketTag)tag).isChildTag()) {
           markupStream.throwMarkupException("Found " + tag.toString() + " but no <wicket:extend>");

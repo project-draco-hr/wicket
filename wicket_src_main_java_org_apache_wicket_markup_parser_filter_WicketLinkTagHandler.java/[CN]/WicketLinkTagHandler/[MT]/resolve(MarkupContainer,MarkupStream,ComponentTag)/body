@@ -4,19 +4,8 @@
     if (wtag.isLinkTag() && (wtag.getNamespace() != null)) {
       final String id=tag.getId() + container.getPage().getAutoIndex();
       tag.setId(id);
-      final Component component=new WebMarkupContainer(id){
-        private static final long serialVersionUID=1L;
-        /** 
- * @see org.apache.wicket.MarkupContainer#isTransparentResolver()
- */
-        @Override public boolean isTransparentResolver(){
-          return true;
-        }
-      }
-;
-      container.autoAdd(component,markupStream);
-      return true;
+      return new TransparentWebMarkupContainer(id);
     }
   }
-  return false;
+  return null;
 }

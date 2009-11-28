@@ -35,10 +35,10 @@
         while (iterator2.hasNext()) {
           Component sibling=iterator2.next();
           if (!sibling.isVisible()) {
-            boolean isTransparentMarkupContainer=sibling instanceof MarkupContainer && ((MarkupContainer)sibling).isTransparentResolver();
-            boolean isComponentResolver=sibling instanceof IComponentResolver;
-            if (isTransparentMarkupContainer || isComponentResolver) {
-              log.debug("Component {} wasn't rendered but most likely it has a transparent parent: {}",component,sibling);
+            if (sibling instanceof IComponentResolver) {
+              if (log.isDebugEnabled()) {
+                log.debug("Component {} wasn't rendered but most likely it has a transparent parent: {}",component,sibling);
+              }
               iterator.remove();
               continue outerWhile;
             }

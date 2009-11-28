@@ -13,12 +13,14 @@
     if (headerPart != null) {
       if (htmlContainer.okToRenderComponent(headerPart.getScope(),headerPart.getId())) {
         htmlContainer.autoAdd(headerPart,null);
+        headerPart.render();
       }
  else {
         Response response=container.getRequestCycle().getResponse();
         try {
           container.getRequestCycle().setResponse(NullResponse.getInstance());
           htmlContainer.autoAdd(headerPart,null);
+          headerPart.render();
         }
   finally {
           container.getRequestCycle().setResponse(response);

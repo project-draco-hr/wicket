@@ -1,18 +1,11 @@
 {
-  if (rendering == false) {
+  if (body.rendering == false) {
     if (tag instanceof WicketTag) {
       WicketTag wtag=(WicketTag)tag;
       if (wtag.isBodyTag()) {
-        rendering=true;
-        try {
-          body.render();
-        }
-  finally {
-          rendering=false;
-        }
-        return true;
+        return body;
       }
     }
   }
-  return false;
+  return null;
 }

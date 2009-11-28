@@ -2,16 +2,23 @@
   Component cursor=container;
   while (cursor != null) {
     if (cursor instanceof IComponentResolver) {
-      if (((IComponentResolver)cursor).resolve(container,markupStream,tag)) {
-        return true;
+      IComponentResolver resolver=(IComponentResolver)cursor;
+      Component component=resolver.resolve(container,markupStream,tag);
+      if (component != null) {
+        if (component.getParent() == null) {
+          container.autoAdd(component,markupStream);
+        }
+        return component;
       }
     }
     cursor=cursor.getParent();
   }
   for (  final IComponentResolver resolver : Application.get().getPageSettings().getComponentResolvers()) {
-    if (resolver.resolve(container,markupStream,tag)) {
-      return true;
+    Component component=resolver.resolve(container,markupStream,tag);
+    if (component != null) {
+      container.autoAdd(component,markupStream);
+      return component;
     }
   }
-  return false;
+  return null;
 }

@@ -1,3 +1,8 @@
 {
-  return false;
+  if (tag instanceof WicketTag) {
+    final WicketTag wTag=(WicketTag)tag;
+    String id=wTag.getId() + container.getPage().getAutoIndex();
+    return new TransparentWebMarkupContainer(id);
+  }
+  return null;
 }

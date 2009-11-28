@@ -1,15 +1,7 @@
 {
   if ((tag != null) && (tag.getId().startsWith(WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID))) {
     String id=WICKET_RELATIVE_PATH_PREFIX_CONTAINER_ID + container.getPage().getAutoIndex();
-    final Component wc=new WebMarkupContainer(id){
-      private static final long serialVersionUID=1L;
-      @Override public boolean isTransparentResolver(){
-        return tag.isOpenClose() == false;
-      }
-    }
-;
-    container.autoAdd(wc,markupStream);
-    return true;
+    return new TransparentWebMarkupContainer(id);
   }
-  return false;
+  return null;
 }

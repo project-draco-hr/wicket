@@ -10,13 +10,8 @@
  else {
           nestedComponents.put(component,container);
         }
-        try {
-          container.autoAdd(component,markupStream);
-        }
-  finally {
-          nestedComponents.remove(component);
-        }
-        return true;
+        nestedComponents.remove(component);
+        return component;
       }
     }
   }
@@ -25,8 +20,7 @@
     while (parent != null) {
       Component component=parent.get(tag.getId());
       if (component != null) {
-        component.render();
-        return true;
+        return component;
       }
       parent=parent.getParent();
       if (nestedComponents.containsKey(parent)) {
@@ -34,5 +28,5 @@
       }
     }
   }
-  return false;
+  return null;
 }

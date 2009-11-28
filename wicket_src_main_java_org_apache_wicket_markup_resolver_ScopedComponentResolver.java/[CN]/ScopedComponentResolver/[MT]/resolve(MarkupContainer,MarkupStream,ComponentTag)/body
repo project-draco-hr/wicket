@@ -4,16 +4,15 @@
   while (!(parent instanceof Page) && !(parent instanceof Panel) && (parent != null)) {
     parent=parent.getParent();
     if (parent == null) {
-      return false;
+      return null;
     }
     final Component component=parent.get(id);
     if ((component != null) && (component instanceof IScopedComponent)) {
       IScopedComponent sc=(IScopedComponent)component;
       if (sc.isRenderableInSubContainers()) {
-        component.render();
-        return true;
+        return component;
       }
     }
   }
-  return false;
+  return null;
 }

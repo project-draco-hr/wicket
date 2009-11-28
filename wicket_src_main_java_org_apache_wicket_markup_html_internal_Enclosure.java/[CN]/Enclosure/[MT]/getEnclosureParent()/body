@@ -1,12 +1,7 @@
 {
   MarkupContainer parent=getParent();
-  while (parent != null) {
-    if (parent.isTransparentResolver()) {
-      parent=parent.getParent();
-    }
- else {
-      break;
-    }
+  while (parent.isAuto()) {
+    parent=parent.getParent();
   }
   if (parent == null) {
     throw new WicketRuntimeException("Unable to find parent component which is not a transparent resolver");
