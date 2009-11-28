@@ -1,9 +1,9 @@
 {
   HttpServletRequest request=((WebRequest)RequestCycle.get().getRequest()).getHttpServletRequest();
-  UploadInfo info=getUploadInfo(request);
+  UploadInfo info=UploadWebRequest.getUploadInfo(request);
   if (info == null) {
     throw new IllegalStateException("could not find UploadInfo object in session which should have been set when uploaded started");
   }
   info.setBytesUploaded(bytesUploaded);
-  setUploadInfo(request,info);
+  UploadWebRequest.setUploadInfo(request,info);
 }
