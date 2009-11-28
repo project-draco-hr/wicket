@@ -3,14 +3,14 @@
   if (markup == null) {
     throw new MarkupNotFoundException("Failed to find markup file associated with panel. Panel: " + this.toString());
   }
-  int index=markup.findComponentIndex("_panel",0);
-  if (index == -1) {
+  IMarkupFragment panelMarkup=markup.find("_panel");
+  if (panelMarkup == null) {
     throw new MarkupNotFoundException("Expected to find <wicket:panel> in associated markup file. Markup: " + markup.toString());
   }
   if (child == null) {
-    return new MarkupFragment(markup,index);
+    return panelMarkup;
   }
-  IMarkupFragment childMarkup=markup.find(child.getId(),index);
+  IMarkupFragment childMarkup=panelMarkup.find(child.getId());
   if (childMarkup != null) {
     return childMarkup;
   }

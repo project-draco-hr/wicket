@@ -3,14 +3,14 @@
     throw new IllegalArgumentException("Parameter 'id' must not be null or empty");
   }
   MarkupStream stream=new MarkupStream(this);
-  stream.setCurrentIndex(Math.max(1,startIndex));
+  stream.setCurrentIndex(1);
   while (stream.hasMore()) {
     MarkupElement elem=stream.get();
     if (elem instanceof ComponentTag) {
       ComponentTag tag=stream.getTag();
       if (tag.isOpen() || tag.isOpenClose()) {
         if (tag.getId().equals(id)) {
-          return stream.getCurrentIndex();
+          return stream.getMarkupFragment();
         }
         if (tag.isOpen() && !tag.hasNoCloseTag() && !(tag instanceof WicketTag)) {
           stream.skipToMatchingCloseTag(tag);
@@ -19,5 +19,5 @@
     }
     stream.next();
   }
-  return -1;
+  return null;
 }

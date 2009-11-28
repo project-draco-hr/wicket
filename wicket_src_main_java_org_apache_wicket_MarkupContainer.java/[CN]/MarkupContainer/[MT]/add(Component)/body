@@ -11,6 +11,22 @@
     if (put(child) != null) {
       throw new IllegalArgumentException(exceptionMessage("A child with id '" + child.getId() + "' already exists"));
     }
+    try {
+      if ((getParent() != null) && (child.getMarkup() != null)) {
+        child.internalOnMarkupAttached();
+        if (child instanceof MarkupContainer) {
+          MarkupContainer container=(MarkupContainer)child;
+          container.visitChildren(new IVisitor<Component>(){
+            public Object component(            final Component component){
+              return component.internalOnMarkupAttached() ? CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER : CONTINUE_TRAVERSAL;
+            }
+          }
+);
+        }
+      }
+    }
+ catch (    WicketRuntimeException exception) {
+    }
   }
   return this;
 }

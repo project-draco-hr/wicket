@@ -3,27 +3,27 @@
   if (markup == null) {
     throw new MarkupException("Unable to find associated markup file for Border: " + this.toString());
   }
-  int i;
-  for (i=0; i < markup.size(); i++) {
+  IMarkupFragment childMarkup=null;
+  for (int i=0; i < markup.size(); i++) {
     MarkupElement elem=markup.get(i);
     if (elem instanceof WicketTag) {
       WicketTag tag=(WicketTag)elem;
       if (tag.isBorderTag()) {
+        childMarkup=new MarkupFragment(markup,i);
         break;
       }
     }
   }
   if (child == null) {
-    return new MarkupFragment(markup,i);
+    return childMarkup;
   }
-  IMarkupFragment childMarkup=null;
   if (child == body) {
-    childMarkup=markup.find(BODY_ID,i);
+    childMarkup=childMarkup.find(BODY_ID);
     if (childMarkup != null) {
       return childMarkup;
     }
   }
-  childMarkup=markup.find(child.getId(),i);
+  childMarkup=childMarkup.find(child.getId());
   if (childMarkup != null) {
     return childMarkup;
   }
