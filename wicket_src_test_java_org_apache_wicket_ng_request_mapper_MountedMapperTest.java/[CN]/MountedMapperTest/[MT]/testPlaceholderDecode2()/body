@@ -3,12 +3,12 @@
   RequestHandler handler=placeholderEncoder.mapRequest(getRequest(url));
   assertTrue(handler instanceof RenderPageRequestHandler);
   RequestablePage page=((RenderPageRequestHandler)handler).getPage();
-  PageParameters p=page.getPageParameters();
+  PageParametersNg p=page.getPageParametersNg();
   assertEquals(1,p.getIndexedParamsCount());
   assertEquals("indexed1",p.getIndexedParameter(0).toString());
   assertEquals(4,p.getNamedParameterKeys().size());
   assertEquals("b",p.getNamedParameter("a").toString());
   assertEquals("c",p.getNamedParameter("b").toString());
-  assertEquals("p1",page.getPageParameters().getNamedParameter("param1").toString());
-  assertEquals("p2",page.getPageParameters().getNamedParameter("param2").toString());
+  assertEquals("p1",page.getPageParametersNg().getNamedParameter("param1").toString());
+  assertEquals("p2",page.getPageParametersNg().getNamedParameter("param2").toString());
 }
