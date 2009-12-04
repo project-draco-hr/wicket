@@ -6,7 +6,7 @@
     webApplication.set();
     if (checkForTrailingSlash(httpServletRequest,httpServletResponse,filterPath)) {
       ServletWebRequest req=new ServletWebRequest(httpServletRequest,filterPath);
-      ServletWebResponse resp=new ServletWebResponse(httpServletResponse);
+      WebResponse resp=new WebResponse(httpServletResponse);
       RequestCycle requestCycle=webApplication.createRequestCycle(req,resp);
       if (!requestCycle.processRequestAndDetach()) {
         chain.doFilter(request,response);
