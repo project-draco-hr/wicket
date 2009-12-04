@@ -1,0 +1,10 @@
+{
+  Url url=Url.parse("foo?color=green&width=50&color=red");
+  Map<String,String[]> params=new HashMap<String,String[]>();
+  url.putQueryParameters(params);
+  assertEquals(2,params.size());
+  assertEquals("50",params.get("width")[0]);
+  assertEquals(2,params.get("color").length);
+  assertEquals("green",params.get("color")[0]);
+  assertEquals("red",params.get("color")[1]);
+}

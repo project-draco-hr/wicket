@@ -1,7 +1,7 @@
 {
-  String url=requestCycle.getRequest().getURL();
-  if ((url.length() > 0 && url.charAt(0) != '/') || url.length() == 0) {
-    url='/' + url;
+  Url url=new Url(requestCycle.getRequest().getUrl());
+  if (!url.isAbsolute()) {
+    url.makeAbsolute();
   }
-  return new WebExternalResourceRequestTarget(url);
+  return new WebExternalResourceRequestTarget(url.toString());
 }
