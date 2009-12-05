@@ -2,14 +2,14 @@
   super.init();
   getDebugSettings().setDevelopmentUtilitiesEnabled(true);
   mount(new URIRequestTargetUrlCodingStrategy("/docs"){
-    @Override public IRequestTarget decode(    RequestParameters requestParameters){
+    @Override public IRequestTarget decode(    ObsoleteRequestParameters requestParameters){
       String path="/staticpages/" + getURI(requestParameters);
       return new WebExternalResourceRequestTarget(path);
     }
   }
 );
   mount(new URIRequestTargetUrlCodingStrategy("/xsldocs"){
-    @Override public IRequestTarget decode(    RequestParameters requestParameters){
+    @Override public IRequestTarget decode(    ObsoleteRequestParameters requestParameters){
       String path="/staticpages/" + getURI(requestParameters);
       IResourceStream xslStream=new PackageResourceStream(Application.class,"layout.xsl");
       IResourceStream docStream=new WebExternalResourceStream(path);
