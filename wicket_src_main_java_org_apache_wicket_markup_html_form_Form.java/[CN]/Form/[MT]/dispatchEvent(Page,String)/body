@@ -1,7 +1,7 @@
 {
   RequestCycle rc=RequestCycle.get();
   IRequestCycleProcessor processor=rc.getProcessor();
-  final RequestParameters requestParameters=processor.getRequestCodingStrategy().decode(new FormDispatchRequest(rc.getRequest(),Url.parse(url)));
+  final ObsoleteRequestParameters requestParameters=processor.getRequestCodingStrategy().decode(new FormDispatchRequest(rc.getRequest(),Url.parse(url)));
   IRequestTarget rt=processor.resolve(rc,requestParameters);
   if (rt instanceof IListenerInterfaceRequestTarget) {
     IListenerInterfaceRequestTarget interfaceTarget=((IListenerInterfaceRequestTarget)rt);

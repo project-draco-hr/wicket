@@ -1,0 +1,16 @@
+{
+  Checks.argumentNotNull(httpServletRequest,"httpServletRequest");
+  url=(filterPrefix != null) ? getUrl(httpServletRequest,filterPrefix) : null;
+  this.httpServletRequest=httpServletRequest;
+  ajax=false;
+  String ajaxHeader=httpServletRequest.getHeader("Wicket-Ajax");
+  if (Strings.isEmpty(ajaxHeader))   ajaxHeader=httpServletRequest.getParameter("wicket:ajax");
+  if (Strings.isEmpty(ajaxHeader) == false) {
+    try {
+      ajax=Strings.isTrue(ajaxHeader);
+    }
+ catch (    StringValueConversionException e) {
+      log.debug("Couldn't convert the Wicket-Ajax header: " + ajaxHeader);
+    }
+  }
+}

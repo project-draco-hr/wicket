@@ -3,7 +3,7 @@
   if (lockedRequest.isAjax() == true) {
     return true;
   }
-  if (IResourceListener.INTERFACE.equals(lockedRequest.getRequestParameters().getInterface())) {
+  if (IResourceListener.INTERFACE.equals(lockedRequest.getObsoleteRequestParameters().getInterface())) {
     return true;
   }
   RequestCycle currentRequestCycle=RequestCycle.get();
@@ -11,10 +11,10 @@
   if (currentRequest.isAjax() == false) {
     return true;
   }
-  String lockedPageId=Strings.firstPathComponent(lockedRequest.getRequestParameters().getComponentPath(),Component.PATH_SEPARATOR);
-  String currentPageId=Strings.firstPathComponent(currentRequestCycle.getRequest().getRequestParameters().getComponentPath(),Component.PATH_SEPARATOR);
-  int lockedVersion=lockedRequest.getRequestParameters().getVersionNumber();
-  int currentVersion=currentRequest.getRequestParameters().getVersionNumber();
+  String lockedPageId=Strings.firstPathComponent(lockedRequest.getObsoleteRequestParameters().getComponentPath(),Component.PATH_SEPARATOR);
+  String currentPageId=Strings.firstPathComponent(currentRequestCycle.getRequest().getObsoleteRequestParameters().getComponentPath(),Component.PATH_SEPARATOR);
+  int lockedVersion=lockedRequest.getObsoleteRequestParameters().getVersionNumber();
+  int currentVersion=currentRequest.getObsoleteRequestParameters().getVersionNumber();
   if (currentPageId.equals(lockedPageId) && currentVersion == lockedVersion) {
     return false;
   }
