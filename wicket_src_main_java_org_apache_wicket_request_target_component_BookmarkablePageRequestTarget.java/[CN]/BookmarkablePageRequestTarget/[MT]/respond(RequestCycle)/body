@@ -3,8 +3,8 @@
     if (requestCycle.isRedirect()) {
       IRequestCycleProcessor processor=requestCycle.getProcessor();
       String redirectUrl=processor.getRequestCodingStrategy().encode(requestCycle,this).toString();
-      if (redirectUrl.startsWith("./") && redirectUrl.length() > 2) {
-        redirectUrl=redirectUrl.substring(2);
+      if (redirectUrl.startsWith("./")) {
+        redirectUrl=redirectUrl.length() == 2 ? "." : redirectUrl.substring(2);
       }
       requestCycle.getResponse().redirect(redirectUrl);
     }

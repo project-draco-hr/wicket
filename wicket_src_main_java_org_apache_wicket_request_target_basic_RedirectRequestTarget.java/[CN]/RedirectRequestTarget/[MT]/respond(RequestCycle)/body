@@ -8,8 +8,8 @@
     }
  else {
       String location=RequestCycle.get().getProcessor().getRequestCodingStrategy().rewriteStaticRelativeUrl(redirectUrl.substring(1));
-      if (location.startsWith("./") && location.length() > 2) {
-        location=location.substring(2);
+      if (location.startsWith("./")) {
+        location=location.length() == 2 ? "." : location.substring(2);
       }
       response.redirect(location);
     }
