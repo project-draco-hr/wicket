@@ -1,28 +1,3 @@
 {
-  super(id);
-  setOutputMarkupId(true);
-  form.setOutputMarkupId(true);
-  setRenderBodyOnly(true);
-  add(JavascriptPackageResource.getHeaderContribution(JS));
-  ResourceReference css=getCss();
-  if (css != null) {
-    add(CSSPackageResource.getHeaderContribution(css));
-  }
-  final WebMarkupContainer barDiv=new WebMarkupContainer("bar");
-  barDiv.setOutputMarkupId(true);
-  add(barDiv);
-  final WebMarkupContainer statusDiv=new WebMarkupContainer("status");
-  statusDiv.setOutputMarkupId(true);
-  add(statusDiv);
-  if (!(RequestCycle.get().getRequest() instanceof UploadWebRequest) && !(RequestCycle.get().getRequest() instanceof MultipartRequest)) {
-    log.warn("UploadProgressBar will not work without an UploadWebRequest. See the javadoc for details.");
-  }
-  form.add(new AttributeModifier("onsubmit",true,new Model<String>(){
-    private static final long serialVersionUID=1L;
-    @Override public String getObject(){
-      ResourceReference ref=new ResourceReference(RESOURCE_NAME);
-      return "var def=new Wicket.WUPB.Def('" + form.getMarkupId() + "', '"+ statusDiv.getMarkupId()+ "', '"+ barDiv.getMarkupId()+ "', '"+ getPage().urlFor(ref)+ "'); Wicket.WUPB.start(def);";
-    }
-  }
-));
+  this(id,form,null);
 }
