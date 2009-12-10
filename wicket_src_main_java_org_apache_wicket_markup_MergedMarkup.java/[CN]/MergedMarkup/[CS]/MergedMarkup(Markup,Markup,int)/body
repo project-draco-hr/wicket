@@ -1,6 +1,10 @@
 {
   super(markup.getMarkupResourceStream());
   getMarkupResourceStream().setBaseMarkup(baseMarkup);
+  MarkupResourceStream baseResourceStream=baseMarkup.getMarkupResourceStream();
+  getMarkupResourceStream().setXmlDeclaration(baseResourceStream.getXmlDeclaration());
+  getMarkupResourceStream().setEncoding(baseResourceStream.getEncoding());
+  getMarkupResourceStream().setWicketNamespace(baseResourceStream.getWicketNamespace());
   if (log.isDebugEnabled()) {
     String derivedResource=Strings.afterLast(markup.getMarkupResourceStream().getResource().toString(),'/');
     String baseResource=Strings.afterLast(baseMarkup.getMarkupResourceStream().getResource().toString(),'/');
