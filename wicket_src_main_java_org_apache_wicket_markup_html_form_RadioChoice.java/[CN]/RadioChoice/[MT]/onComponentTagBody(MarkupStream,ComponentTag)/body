@@ -39,12 +39,9 @@
       if (localizeDisplayValues()) {
         display=getLocalizer().getString(label,this,label);
       }
-      final CharSequence escaped;
+      CharSequence escaped=display;
       if (getEscapeModelStrings()) {
-        escaped=Strings.escapeMarkup(display,false,true);
-      }
- else {
-        escaped=display;
+        escaped=Strings.escapeMarkup(display);
       }
       buffer.append("<label for=\"").append(idAttr).append("\">").append(escaped).append("</label>");
       buffer.append(getSuffix());
