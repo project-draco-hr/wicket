@@ -1,11 +1,18 @@
 {
   if (isVisibleInHierarchy() && isRenderAllowed()) {
+    IHeaderResponse response=container.getHeaderResponse();
     if (this instanceof IHeaderContributor) {
-      ((IHeaderContributor)this).renderHead(container.getHeaderResponse());
+      if (response.wasRendered(this) == false) {
+        ((IHeaderContributor)this).renderHead(container.getHeaderResponse());
+        response.markRendered(this);
+      }
     }
     for (    IBehavior behavior : getBehaviors()) {
-      if (behavior instanceof IHeaderContributor && isBehaviorAccepted(behavior)) {
-        ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
+      if ((behavior instanceof IHeaderContributor) && isBehaviorAccepted(behavior)) {
+        if (response.wasRendered(behavior) == false) {
+          ((IHeaderContributor)behavior).renderHead(container.getHeaderResponse());
+          response.markRendered(behavior);
+        }
       }
     }
   }

@@ -1,0 +1,6 @@
+{
+  if (location.startsWith("http://") || location.startsWith("https://") || location.startsWith("/")) {
+    return location;
+  }
+  return RequestCycle.get().getProcessor().getRequestCodingStrategy().rewriteStaticRelativeUrl(location);
+}
