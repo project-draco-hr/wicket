@@ -3,7 +3,7 @@
   final Application application=cycle.getApplication();
   final Response response=cycle.getResponse();
   final String encoding=application.getRequestCycleSettings().getResponseRequestEncoding();
-  response.setContentType("text/" + getMarkupType() + "; charset="+ encoding);
+  response.setContentType(getMarkupType().getMimeType() + "; charset=" + encoding);
   final IMarkupFragment markup=getMarkup();
   if ((markup != null) && (markup.getMarkupResourceStream().getXmlDeclaration() != null) && (application.getMarkupSettings().getStripXmlDeclarationFromOutput() == false)) {
     final String quoteChar=(markup.getMarkupResourceStream().getXmlDeclaration().indexOf('\"') == -1) ? "'" : "\"";
