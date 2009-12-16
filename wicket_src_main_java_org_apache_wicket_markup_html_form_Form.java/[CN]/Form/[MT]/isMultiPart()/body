@@ -1,12 +1,12 @@
 {
-  if (multiPart) {
+  if (multiPart != 0) {
     return true;
   }
  else {
     final boolean[] anyEmbeddedMultipart=new boolean[]{false};
     visitChildren(Form.class,new IVisitor<Form<?>>(){
       public Object component(      Form<?> form){
-        if (form.multiPart) {
+        if (form.multiPart != 0) {
           anyEmbeddedMultipart[0]=true;
           return STOP_TRAVERSAL;
         }
