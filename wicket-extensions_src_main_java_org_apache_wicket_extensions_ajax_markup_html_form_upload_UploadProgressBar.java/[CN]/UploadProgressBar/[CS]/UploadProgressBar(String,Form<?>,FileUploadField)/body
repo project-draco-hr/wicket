@@ -20,11 +20,11 @@
   if (!(RequestCycle.get().getRequest() instanceof UploadWebRequest) && !(RequestCycle.get().getRequest() instanceof MultipartRequest)) {
     log.warn("UploadProgressBar will not work without an UploadWebRequest. See the javadoc for details.");
   }
+  final String fileUploadFieldMarkupId=fileUploadField == null ? "" : fileUploadField.getMarkupId();
   form.add(new AttributeModifier("onsubmit",true,new Model<String>(){
     private static final long serialVersionUID=1L;
     @Override public String getObject(){
       ResourceReference ref=new ResourceReference(RESOURCE_NAME);
-      String fileUploadFieldMarkupId=fileUploadField == null ? "" : fileUploadField.getMarkupId();
       return "var def=new Wicket.WUPB.Def('" + form.getMarkupId() + "', '"+ statusDiv.getMarkupId()+ "', '"+ barDiv.getMarkupId()+ "', '"+ getPage().urlFor(ref)+ "','"+ fileUploadFieldMarkupId+ "'); Wicket.WUPB.start(def);";
     }
   }
