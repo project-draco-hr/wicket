@@ -1,4 +1,7 @@
 {
-  Application app=Application.get();
-  return (Page)app.getPageManager().getPage(id);
+  Session session=Session.get();
+  if (session == null) {
+    return null;
+  }
+  return (Page)session.getPageManager().getPage(id);
 }

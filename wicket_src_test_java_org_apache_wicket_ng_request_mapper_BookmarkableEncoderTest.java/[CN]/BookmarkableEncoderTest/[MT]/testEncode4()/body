@@ -5,8 +5,8 @@
   page.getPageParametersNg().setNamedParameter("a","b");
   page.getPageParametersNg().setNamedParameter("b","c");
   page.setCreatedBookmarkable(true);
-  PageProvider provider=new DefaultPageProvider(page);
-  RequestHandler handler=new RenderPageRequestHandler(provider);
+  IPageProvider provider=new DefaultPageProvider(page);
+  IRequestHandler handler=new RenderPageRequestHandler(provider);
   Url url=encoder.mapHandler(handler);
   assertEquals("wicket/bookmarkable/" + PAGE_CLASS_NAME + "/i1/i2?15&a=b&b=c",url.toString());
 }

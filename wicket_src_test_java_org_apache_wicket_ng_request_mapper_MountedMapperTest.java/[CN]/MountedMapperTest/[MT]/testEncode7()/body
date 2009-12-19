@@ -6,9 +6,9 @@
   page.getPageParametersNg().setNamedParameter("b","c");
   page.setRenderCount(5);
   page.setCreatedBookmarkable(false);
-  RequestableComponent c=page.get("foo:bar");
+  IRequestableComponent c=page.get("foo:bar");
   PageAndComponentProvider provider=new PageAndComponentProvider(page,c);
-  RequestHandler handler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE,4);
+  IRequestHandler handler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE,4);
   Url url=encoder.mapHandler(handler);
   assertEquals("some/mount/path/i1/i2?15-5.ILinkListener.4-foo-bar&a=b&b=c",url.toString());
 }

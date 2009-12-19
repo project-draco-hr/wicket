@@ -1,8 +1,8 @@
 {
   Url url=Url.parse("some/p1/path/p2/indexed1?a=b&b=c");
-  RequestHandler handler=placeholderEncoder.mapRequest(getRequest(url));
+  IRequestHandler handler=placeholderEncoder.mapRequest(getRequest(url));
   assertTrue(handler instanceof RenderPageRequestHandler);
-  RequestablePage page=((RenderPageRequestHandler)handler).getPage();
+  IRequestablePage page=((RenderPageRequestHandler)handler).getPage();
   PageParametersNg p=page.getPageParametersNg();
   assertEquals(1,p.getIndexedParamsCount());
   assertEquals("indexed1",p.getIndexedParameter(0).toString());

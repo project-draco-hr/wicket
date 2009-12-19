@@ -1,14 +1,14 @@
 {
   try {
     set(this);
-    RequestHandler handler=resolveRequestHandler();
+    IRequestHandler handler=resolveRequestHandler();
     if (handler != null) {
       executeRequestHandler(handler);
       return true;
     }
   }
  catch (  Exception e) {
-    RequestHandler handler=handleException(e);
+    IRequestHandler handler=handleException(e);
     if (handler != null) {
       executeExceptionRequestHandler(handler,getExceptionRetryCount());
     }

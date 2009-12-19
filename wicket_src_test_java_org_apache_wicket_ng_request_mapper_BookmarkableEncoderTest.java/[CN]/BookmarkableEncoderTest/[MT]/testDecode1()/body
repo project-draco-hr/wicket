@@ -1,8 +1,8 @@
 {
   Url url=Url.parse("wicket/bookmarkable/" + PAGE_CLASS_NAME);
-  RequestHandler handler=encoder.mapRequest(getRequest(url));
+  IRequestHandler handler=encoder.mapRequest(getRequest(url));
   assertTrue(handler instanceof RenderPageRequestHandler);
-  RequestablePage page=((RenderPageRequestHandler)handler).getPage();
+  IRequestablePage page=((RenderPageRequestHandler)handler).getPage();
   assertEquals(PAGE_CLASS_NAME,page.getClass().getName());
   assertEquals(0,page.getPageParametersNg().getIndexedParamsCount());
   assertTrue(page.getPageParametersNg().getNamedParameterKeys().isEmpty());

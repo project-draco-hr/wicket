@@ -1,9 +1,9 @@
 {
   Url url=Url.parse("some/mount/path/i1/i2?15-ILinkListener-foo-bar&a=b&b=c");
-  RequestHandler handler=encoder.mapRequest(getRequest(url));
+  IRequestHandler handler=encoder.mapRequest(getRequest(url));
   assertTrue(handler instanceof ListenerInterfaceRequestHandler);
   ListenerInterfaceRequestHandler h=(ListenerInterfaceRequestHandler)handler;
-  RequestablePage page=h.getPage();
+  IRequestablePage page=h.getPage();
   checkPage(page,15);
   assertEquals(ILinkListener.INTERFACE,h.getListenerInterface());
   assertEquals("foo:bar",h.getComponent().getPath());

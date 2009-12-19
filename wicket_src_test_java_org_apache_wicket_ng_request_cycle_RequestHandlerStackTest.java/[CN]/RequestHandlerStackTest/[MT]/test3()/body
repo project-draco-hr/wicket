@@ -2,7 +2,7 @@
   initFlags();
   final Response originalResponse=newResponse();
   final RequestHandlerStack stack=newStack(originalResponse);
-  final RequestHandler handler4=new RequestHandler(){
+  final IRequestHandler handler4=new IRequestHandler(){
     public void respond(    RequestCycle requestCycle){
       testFlag4=true;
       stack.setResponse(newResponse());
@@ -12,7 +12,7 @@
     }
   }
 ;
-  final RequestHandler handler3=new RequestHandler(){
+  final IRequestHandler handler3=new IRequestHandler(){
     public void respond(    RequestCycle requestCycle){
       testFlag3=false;
       stack.scheduleRequestHandlerAfterCurrent(handler4);
@@ -24,7 +24,7 @@
     }
   }
 ;
-  final RequestHandler handler2=new RequestHandler(){
+  final IRequestHandler handler2=new IRequestHandler(){
     public void respond(    RequestCycle requestCycle){
       testFlag2=false;
       stack.executeRequestHandler(handler3);
@@ -35,7 +35,7 @@
     }
   }
 ;
-  RequestHandler handler1=new RequestHandler(){
+  IRequestHandler handler1=new IRequestHandler(){
     public void respond(    RequestCycle requestCycle){
       testFlag1=false;
       stack.executeRequestHandler(handler2);

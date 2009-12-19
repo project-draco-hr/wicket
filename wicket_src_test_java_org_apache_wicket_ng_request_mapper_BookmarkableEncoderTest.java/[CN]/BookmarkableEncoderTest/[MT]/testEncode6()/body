@@ -5,9 +5,9 @@
   page.getPageParametersNg().setNamedParameter("a","b");
   page.getPageParametersNg().setNamedParameter("b","c");
   page.setCreatedBookmarkable(false);
-  RequestableComponent c=page.get("foo:bar");
+  IRequestableComponent c=page.get("foo:bar");
   PageAndComponentProvider provider=new PageAndComponentProvider(page,c);
-  RequestHandler handler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
+  IRequestHandler handler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
   Url url=encoder.mapHandler(handler);
   assertEquals("wicket/bookmarkable/" + PAGE_CLASS_NAME + "/i1/i2?15-0.ILinkListener-foo-bar&a=b&b=c",url.toString());
 }
