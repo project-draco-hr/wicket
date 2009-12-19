@@ -1,0 +1,8 @@
+{
+  if (!create) {
+    return sessionEntryMap.get(sessionId);
+  }
+  SessionEntry entry=new SessionEntry(this,sessionId);
+  SessionEntry existing=sessionEntryMap.putIfAbsent(sessionId,entry);
+  return existing != null ? existing : entry;
+}

@@ -1,0 +1,30 @@
+{
+  while (destroy.get() == false || !entries.isEmpty()) {
+    if (entries.isEmpty()) {
+      try {
+synchronized (entries) {
+          entries.wait();
+        }
+      }
+ catch (      InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+synchronized (WRITE_LOCK) {
+      Entry entry=entries.poll();
+      if (entry != null) {
+        dataStore.storeData(entry.getSessionId(),entry.getPageId(),entry.getData());
+        entryMap.remove(getKey(entry));
+      }
+    }
+  }
+  try {
+    Thread.sleep(10);
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+  }
+synchronized (destroy) {
+    destroy.notify();
+  }
+}

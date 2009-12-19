@@ -1,0 +1,21 @@
+{
+  if (object == null) {
+    return null;
+  }
+ else   if (object instanceof IManageablePage) {
+    return (IManageablePage)object;
+  }
+ else   if (object instanceof SerializedPage) {
+    SerializedPage page=(SerializedPage)object;
+    byte data[]=page.getData();
+    if (data == null) {
+      data=getPageData(page.getSessionId(),page.getPageId());
+    }
+    if (data != null) {
+      return deserializePage(data);
+    }
+    return null;
+  }
+  String type=object != null ? object.getClass().getName() : null;
+  throw new IllegalArgumentException("Unknown object type " + type);
+}

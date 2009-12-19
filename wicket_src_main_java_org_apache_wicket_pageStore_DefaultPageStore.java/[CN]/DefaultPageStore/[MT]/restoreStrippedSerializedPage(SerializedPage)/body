@@ -1,0 +1,8 @@
+{
+  SerializedPage result=serializedPagesCache.getPage(serializedPage.getSessionId(),serializedPage.getPageId());
+  if (result != null) {
+    return result;
+  }
+  byte data[]=getPageData(serializedPage.getSessionId(),serializedPage.getPageId());
+  return new SerializedPage(serializedPage.getSessionId(),serializedPage.getPageId(),data);
+}

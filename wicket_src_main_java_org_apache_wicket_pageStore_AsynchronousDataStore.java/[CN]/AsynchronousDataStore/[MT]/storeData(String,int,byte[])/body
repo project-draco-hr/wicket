@@ -1,0 +1,13 @@
+{
+  if (entryMap.size() > getMaxQueuedEntries()) {
+    dataStore.storeData(sessionId,id,data);
+  }
+ else {
+    Entry entry=new Entry(sessionId,id,data);
+    entryMap.put(getKey(sessionId,id),entry);
+    entries.add(entry);
+synchronized (entries) {
+      entries.notify();
+    }
+  }
+}
