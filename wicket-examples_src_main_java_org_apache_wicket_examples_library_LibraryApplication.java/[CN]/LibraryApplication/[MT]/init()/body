@@ -1,7 +1,7 @@
 {
   super.init();
   getResourceSettings().setThrowExceptionOnMissingResource(false);
-  getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.REDIRECT_TO_RENDER);
+  getRequestCycleSettings().setRenderStrategy(RenderStrategy.REDIRECT_TO_RENDER);
   IAuthorizationStrategy authorizationStrategy=new SimplePageAuthorizationStrategy(AuthenticatedWebPage.class,SignIn.class){
     @Override protected boolean isAuthorized(){
       return (((LibrarySession)Session.get()).isSignedIn());
