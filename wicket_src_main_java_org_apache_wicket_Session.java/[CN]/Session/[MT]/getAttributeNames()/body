@@ -2,12 +2,12 @@
   if (!isTemporary()) {
     RequestCycle cycle=RequestCycle.get();
     if (cycle != null) {
-      return getSessionStore().getAttributeNames(cycle.getRequest());
+      return Collections.unmodifiableList(getSessionStore().getAttributeNames(cycle.getRequest()));
     }
   }
  else {
     if (temporarySessionAttributes != null) {
-      return new ArrayList<String>(temporarySessionAttributes.keySet());
+      return Collections.unmodifiableList(new ArrayList<String>(temporarySessionAttributes.keySet()));
     }
   }
   return Collections.emptyList();
