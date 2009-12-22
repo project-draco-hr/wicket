@@ -44,7 +44,19 @@
   servletResponse=new MockHttpServletResponse(servletRequest){
     @Override public void addCookie(    Cookie cookie){
       super.addCookie(cookie);
-      cookiesOfThisSession.add(cookie);
+      cookiesOfThisSession.remove(cookie);
+      if (cookie.getMaxAge() > 0) {
+        cookiesOfThisSession.add(cookie);
+      }
+ else {
+        Iterator<Cookie> iter=cookiesOfThisSession.iterator();
+        while (iter.hasNext()) {
+          Cookie entry=iter.next();
+          if (cookie.getName().equals(entry.getName())) {
+            iter.remove();
+          }
+        }
+      }
     }
   }
 ;
