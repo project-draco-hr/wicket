@@ -1,0 +1,16 @@
+{
+  String id=null;
+  HttpSession httpSession=getHttpSession(request,false);
+  if (httpSession != null) {
+    id=httpSession.getId();
+  }
+ else   if (create) {
+    httpSession=getHttpSession(request,true);
+    id=httpSession.getId();
+    IRequestLogger logger=Application.get().getRequestLogger();
+    if (logger != null) {
+      logger.sessionCreated(id);
+    }
+  }
+  return id;
+}

@@ -1,0 +1,16 @@
+{
+  if (log.isDebugEnabled()) {
+    log.debug("Session unbound: " + sessionId);
+  }
+  Application application=Application.get(applicationKey);
+  if (application == null) {
+    log.error("Wicket application with name '" + applicationKey + "' not found.");
+    return;
+  }
+  ISessionStore sessionStore=application.getSessionStore();
+  if (sessionStore != null) {
+    for (    UnboundListener listener : sessionStore.getUnboundListener()) {
+      listener.sessionUnbound(sessionId);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  HttpSession httpSession=getHttpSession(request,false);
+  if (httpSession != null) {
+    String attributeName=getSessionAttributePrefix(request) + name;
+    IRequestLogger logger=Application.get().getRequestLogger();
+    if (logger != null) {
+      Object value=httpSession.getAttribute(attributeName);
+      if (value != null) {
+        logger.objectRemoved(value);
+      }
+    }
+    httpSession.removeAttribute(attributeName);
+  }
+}
