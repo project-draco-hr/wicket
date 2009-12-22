@@ -3,14 +3,7 @@
   setType(Date.class);
   PropertyModel<Date> dateFieldModel=new PropertyModel<Date>(this,"date");
   add(dateField=newDateTextField("date",dateFieldModel));
-  dateField.add(new DatePicker(){
-    private static final long serialVersionUID=1L;
-    @Override protected void configure(    Map<String,Object> widgetProperties){
-      super.configure(widgetProperties);
-      DateTimeField.this.configure(widgetProperties);
-    }
-  }
-);
+  dateField.add(newDatePicker());
   add(hoursField=new TextField<Integer>("hours",new PropertyModel<Integer>(this,"hours"),Integer.class));
   hoursField.add(new HoursValidator());
   hoursField.setLabel(new Model<String>("hours"));
