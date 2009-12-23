@@ -9,7 +9,9 @@
     return new ListenerInterfaceRequestHandler(provider,listenerInterface,componentInfo.getBehaviorIndex());
   }
  else {
-    logger.warn("Unknown listener interface '" + componentInfo.getListenerInterface() + "'");
+    if (logger.isWarnEnabled()) {
+      logger.warn("Unknown listener interface '" + componentInfo.getListenerInterface() + "'");
+    }
     return null;
   }
 }
