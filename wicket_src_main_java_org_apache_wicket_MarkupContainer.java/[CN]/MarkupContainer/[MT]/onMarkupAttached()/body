@@ -18,7 +18,10 @@
           if (elem instanceof WicketTag) {
             Component component=ComponentResolvers.resolve(this,stream,tag);
             if ((component != null) && (component.getParent() == null)) {
-              tag.setId(component.getId());
+              if (component.getId().equals(tag.getId()) == false) {
+                tag.setId(component.getId());
+                tag.setModified(true);
+              }
               add(component);
             }
           }
