@@ -5,9 +5,6 @@
       IComponentResolver resolver=(IComponentResolver)cursor;
       Component component=resolver.resolve(container,markupStream,tag);
       if (component != null) {
-        if (component.getParent() == null) {
-          container.autoAdd(component,markupStream);
-        }
         return component;
       }
     }
@@ -16,7 +13,6 @@
   for (  final IComponentResolver resolver : Application.get().getPageSettings().getComponentResolvers()) {
     Component component=resolver.resolve(container,markupStream,tag);
     if (component != null) {
-      container.autoAdd(component,markupStream);
       return component;
     }
   }

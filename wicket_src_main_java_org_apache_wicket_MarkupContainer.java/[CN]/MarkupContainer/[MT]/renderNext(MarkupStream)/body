@@ -6,6 +6,9 @@
     Component component=get(id);
     if (component == null) {
       component=ComponentResolvers.resolve(this,markupStream,tag);
+      if ((component != null) && (component.getParent() == null)) {
+        autoAdd(component,markupStream);
+      }
     }
     if (component != null) {
       component.render();

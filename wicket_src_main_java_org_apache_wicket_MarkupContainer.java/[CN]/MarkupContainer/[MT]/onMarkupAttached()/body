@@ -1,0 +1,32 @@
+{
+  super.onMarkupAttached();
+  IMarkupFragment markup=getMarkup();
+  if ((markup != null) && (markup.size() > 1)) {
+    MarkupStream stream=new MarkupStream(markup);
+    for (; stream.hasMore(); stream.next()) {
+      MarkupElement elem=stream.get();
+      if (elem instanceof ComponentTag) {
+        stream.next();
+        break;
+      }
+    }
+    for (; stream.hasMore(); stream.next()) {
+      MarkupElement elem=stream.get();
+      if (elem instanceof ComponentTag) {
+        ComponentTag tag=(ComponentTag)elem;
+        if (tag.isOpen() || tag.isOpenClose()) {
+          if (elem instanceof WicketTag) {
+            Component component=ComponentResolvers.resolve(this,stream,tag);
+            if ((component != null) && (component.getParent() == null)) {
+              tag.setId(component.getId());
+              add(component);
+            }
+          }
+          if (tag.isOpen()) {
+            stream.skipToMatchingCloseTag(tag);
+          }
+        }
+      }
+    }
+  }
+}
