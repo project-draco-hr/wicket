@@ -1,6 +1,9 @@
 {
-  MarkupStream markupStream=locateMarkupStream();
-  ValueMap attrs=new ValueMap(markupStream.getTag().getAttributes());
-  attrs.makeImmutable();
-  return attrs;
+  ComponentTag tag=getMarkupTag();
+  if (tag != null) {
+    ValueMap attrs=new ValueMap(tag.getAttributes());
+    attrs.makeImmutable();
+    return attrs;
+  }
+  return ValueMap.EMPTY_MAP;
 }
