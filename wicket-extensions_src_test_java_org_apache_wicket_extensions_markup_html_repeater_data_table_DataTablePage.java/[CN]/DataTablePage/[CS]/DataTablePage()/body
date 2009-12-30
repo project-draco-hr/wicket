@@ -1,0 +1,28 @@
+{
+  List<IColumn<?>> columns=new ArrayList<IColumn<?>>();
+  columns.add(new AbstractColumn<Contact>(new Model<String>("Actions")){
+    private static final long serialVersionUID=1L;
+    public void populateItem(    Item<ICellPopulator<Contact>> cellItem,    String componentId,    IModel<Contact> rowModel){
+      cellItem.add(new WebMarkupContainer(componentId,rowModel));
+    }
+  }
+);
+  columns.add(new PropertyColumn<String>(new Model<String>("ID"),"id"){
+    private static final long serialVersionUID=1L;
+    @Override public String getCssClass(){
+      return "numeric";
+    }
+  }
+);
+  columns.add(new PropertyColumn<String>(new Model<String>("First Name"),"firstName","firstName"));
+  columns.add(new PropertyColumn<String>(new Model<String>("Last Name"),"lastName","lastName"){
+    private static final long serialVersionUID=1L;
+    @Override public String getCssClass(){
+      return "last-name";
+    }
+  }
+);
+  columns.add(new PropertyColumn<String>(new Model<String>("Home Phone"),"homePhone"));
+  columns.add(new PropertyColumn<String>(new Model<String>("Cell Phone"),"cellPhone"));
+  add(new DefaultDataTable("table",columns,new SortableContactDataProvider(),8));
+}

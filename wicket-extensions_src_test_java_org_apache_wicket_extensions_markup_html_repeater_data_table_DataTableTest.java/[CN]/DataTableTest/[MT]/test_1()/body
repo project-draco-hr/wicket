@@ -1,0 +1,20 @@
+{
+  WicketTester tester=new WicketTester(new RepeaterApplication());
+  tester.startPage(DataTablePage.class);
+  tester.assertRenderedPage(DataTablePage.class);
+  String document=tester.getServletResponse().getDocument();
+  int index=document.indexOf("<thead");
+  assertTrue("Expected at least on <thead>",index != -1);
+  index=document.indexOf("<thead",index + 1);
+  assertTrue("There must be only one <thead>",index == -1);
+  index=document.indexOf("<tbody");
+  assertTrue("Expected at least on <tbody>",index != -1);
+  index=document.indexOf("<tbody",index + 1);
+  assertTrue("There must be only one <tbody>",index == -1);
+  log.error(document);
+  log.error("==============================================");
+  log.error("==============================================");
+  log.error(removeFillers(document));
+  String doc=removeFillers(document);
+  DiffUtil.validatePage(doc,getClass(),"DataTablePage_ExpectedResult.html",true);
+}
