@@ -4,6 +4,7 @@
     throw new IllegalArgumentException("Argument `columns` cannot be null or empty");
   }
   this.columns=columns;
+  body=newBodyContainer("body");
   datagrid=new DataGridView<T>("rows",columns,dataProvider){
     private static final long serialVersionUID=1L;
     @Override protected Item newCellItem(    String id,    int index,    IModel model){
@@ -26,7 +27,8 @@
   }
 ;
   datagrid.setRowsPerPage(rowsPerPage);
-  add(datagrid);
+  body.add(datagrid);
+  add(body);
   topToolbars=new ToolbarsContainer("topToolbars");
   bottomToolbars=new ToolbarsContainer("bottomToolbars");
   add(topToolbars);
