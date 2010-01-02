@@ -7,22 +7,24 @@
     throw new MarkupException("Unable to get page markup: " + getPage().toString());
   }
   MarkupStream stream=new MarkupStream(markup);
-  while (stream.hasMore()) {
-    MarkupElement elem=stream.get();
-    if (elem instanceof ComponentTag) {
-      ComponentTag tag=stream.getTag();
-      if (tag.isOpen() || tag.isOpenClose()) {
-        if (tag.getId().equals("_header_")) {
-          return stream.getMarkupFragment();
-        }
-        if (tag.getId().equals("_head")) {
+  IMarkupFragment headerMarkup=null;
+  while (stream.skipUntil(ComponentTag.class) && (headerMarkup == null)) {
+    ComponentTag tag=stream.getTag();
+    if (tag.isOpen() || tag.isOpenClose()) {
+      if (tag instanceof WicketTag) {
+        WicketTag wtag=(WicketTag)tag;
+        if (wtag.isHeadTag()) {
           if (tag.getMarkupClass() == null) {
-            return stream.getMarkupFragment();
+            headerMarkup=stream.getMarkupFragment();
           }
         }
+      }
+ else       if (tag.getName().equalsIgnoreCase("head")) {
+        headerMarkup=stream.getMarkupFragment();
       }
     }
     stream.next();
   }
-  return null;
+  setMarkup(headerMarkup);
+  return headerMarkup;
 }

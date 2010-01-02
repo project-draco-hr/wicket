@@ -4,12 +4,15 @@
     return xmlTag;
   }
   final String namespace=markup.getWicketNamespace();
+  final String wicketIdValue=xmlTag.getAttributes().getString(namespace + ":id");
   ComponentTag tag;
   if (namespace.equalsIgnoreCase(xmlTag.getNamespace())) {
     tag=new WicketTag(xmlTag);
-    tag.setId("_" + tag.getName());
-    tag.setAutoComponentTag(true);
-    tag.setModified(true);
+    if (Strings.isEmpty(wicketIdValue)) {
+      tag.setId("_" + tag.getName() + getCount());
+      tag.setAutoComponentTag(true);
+      tag.setModified(true);
+    }
     if (!isWellKnown(xmlTag)) {
       throw new WicketParseException("Unknown tag name with Wicket namespace: '" + xmlTag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag);
     }
@@ -17,12 +20,11 @@
  else {
     tag=new ComponentTag(xmlTag);
   }
-  final String value=tag.getAttributes().getString(namespace + ":id");
-  if (value != null) {
-    if (value.trim().length() == 0) {
+  if (wicketIdValue != null) {
+    if (wicketIdValue.trim().length() == 0) {
       throw new WicketParseException("The wicket:id attribute value must not be empty. May be unmatched quotes?!?",tag);
     }
-    tag.setId(value);
+    tag.setId(wicketIdValue);
   }
   return tag;
 }

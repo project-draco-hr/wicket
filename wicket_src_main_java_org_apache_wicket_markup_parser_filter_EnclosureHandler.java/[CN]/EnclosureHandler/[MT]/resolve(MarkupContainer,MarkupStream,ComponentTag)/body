@@ -1,16 +1,6 @@
 {
   if ((tag instanceof WicketTag) && ((WicketTag)tag).isEnclosureTag()) {
-    CharSequence wicketId=tag.getString("wicket:id");
-    String id=null;
-    if (wicketId != null) {
-      id=wicketId.toString();
-    }
-    if (id == null) {
-      id="enclosure-" + container.getPage().getAutoIndex();
-      tag.setId(id);
-      tag.setModified(true);
-    }
-    return new Enclosure(id,tag.getString(EnclosureHandler.CHILD_ATTRIBUTE));
+    return new Enclosure(tag.getId(),tag.getString(EnclosureHandler.CHILD_ATTRIBUTE));
   }
   return null;
 }

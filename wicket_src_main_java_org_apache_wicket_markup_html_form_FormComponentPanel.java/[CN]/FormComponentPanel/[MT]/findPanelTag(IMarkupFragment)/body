@@ -1,0 +1,19 @@
+{
+  MarkupStream stream=new MarkupStream(markup);
+  while (stream.skipUntil(ComponentTag.class)) {
+    ComponentTag tag=stream.getTag();
+    if (tag.isOpen() || tag.isOpenClose()) {
+      if (tag instanceof WicketTag) {
+        WicketTag wtag=(WicketTag)tag;
+        if (wtag.isPanelTag()) {
+          return stream.getMarkupFragment();
+        }
+      }
+      if (tag.isOpen() && !tag.hasNoCloseTag() && !(tag instanceof WicketTag)) {
+        stream.skipToMatchingCloseTag(tag);
+      }
+    }
+    stream.next();
+  }
+  return null;
+}
