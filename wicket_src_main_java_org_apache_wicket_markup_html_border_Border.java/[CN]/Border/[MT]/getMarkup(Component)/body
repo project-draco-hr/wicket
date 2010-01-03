@@ -1,28 +1,6 @@
 {
-  IMarkupFragment markup=getAssociatedMarkup();
-  if (markup == null) {
-    throw new MarkupException("Unable to find associated markup file for Border: " + this.toString());
-  }
-  IMarkupFragment childMarkup=null;
-  for (int i=0; i < markup.size(); i++) {
-    MarkupElement elem=markup.get(i);
-    if (elem instanceof WicketTag) {
-      WicketTag tag=(WicketTag)elem;
-      if (tag.isBorderTag()) {
-        childMarkup=new MarkupFragment(markup,i);
-        break;
-      }
-    }
-  }
-  if (child == null) {
-    return childMarkup;
-  }
-  if (child == body) {
+  if ((child != null) && (child == body)) {
     return body.getMarkup();
   }
-  childMarkup=childMarkup.find(child.getId());
-  if (childMarkup != null) {
-    return childMarkup;
-  }
-  return findMarkupInAssociatedFileHeader(markup,child);
+  return getMarkup(BORDER,child);
 }
