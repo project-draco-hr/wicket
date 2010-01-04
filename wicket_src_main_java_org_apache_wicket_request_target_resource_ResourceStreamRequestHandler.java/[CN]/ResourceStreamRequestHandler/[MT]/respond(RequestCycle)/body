@@ -1,29 +1,6 @@
 {
-  final WebResponse response=(WebResponse)requestCycle.getResponse();
-  configure(requestCycle,response,resourceStream);
-  try {
-    if (resourceStream instanceof IResourceStreamWriter) {
-      ((IResourceStreamWriter)resourceStream).write(response);
-    }
- else {
-      OutputStream s=new OutputStream(){
-        @Override public void write(        int b) throws IOException {
-          response.write(new byte[]{(byte)b});
-        }
-        @Override public void write(        byte[] b) throws IOException {
-          response.write(b);
-        }
-      }
-;
-      try {
-        Streams.copy(resourceStream.getInputStream(),s);
-      }
- catch (      IOException e) {
-        throw new WicketRuntimeException(e);
-      }
-    }
-  }
- catch (  ResourceStreamNotFoundException e) {
-    requestCycle.scheduleRequestHandlerAfterCurrent(new WebErrorCodeResponseHandler(HttpServletResponse.SC_NOT_FOUND));
-  }
+  Attributes attributes=new Attributes(requestCycle.getRequest(),requestCycle.getResponse());
+  ResourceStreamResource resource=new ResourceStreamResource(resourceStream);
+  resource.setFileName(fileName);
+  resource.respond(attributes);
 }

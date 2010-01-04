@@ -1,0 +1,11 @@
+{
+  WebRequest request=(WebRequest)attributes.getRequest();
+  Date ifModifiedSince=request.getIfModifiedSinceHeader();
+  Date lastModifed=getLastModified();
+  if (ifModifiedSince != null && lastModifed != null && lastModifed.before(ifModifiedSince)) {
+    return true;
+  }
+ else {
+    return false;
+  }
+}
