@@ -1,0 +1,14 @@
+{
+  ServletWebRequest request=(ServletWebRequest)requestCycle.getRequest();
+  HttpServletRequest req=request.getHttpServletRequest();
+  String remoteAddr=request.getHeader("X-Forwarded-For");
+  if (remoteAddr == null) {
+    remoteAddr=req.getRemoteAddr();
+  }
+ else {
+    if (remoteAddr.indexOf(",") != -1) {
+      remoteAddr=remoteAddr.split(",")[0].trim();
+    }
+  }
+  return remoteAddr;
+}

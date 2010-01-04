@@ -1,0 +1,32 @@
+{
+  boolean res=true;
+  final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
+  final ClassLoader newClassLoader=getClassLoader();
+  try {
+    if (previousClassLoader != newClassLoader) {
+      Thread.currentThread().setContextClassLoader(newClassLoader);
+    }
+    HttpServletRequest httpServletRequest=(HttpServletRequest)request;
+    HttpServletResponse httpServletResponse=(HttpServletResponse)response;
+    String filterPath=getFilterPath(httpServletRequest);
+    webApplication.set();
+    if (checkForTrailingSlash(httpServletRequest,httpServletResponse,filterPath)) {
+      ServletWebRequest req=new ServletWebRequest(httpServletRequest,filterPath);
+      WebResponse resp=new ServletWebResponse(httpServletResponse);
+      RequestCycle requestCycle=webApplication.createRequestCycle(req,resp);
+      if (!requestCycle.processRequestAndDetach()) {
+        if (chain != null) {
+          chain.doFilter(request,response);
+        }
+        res=false;
+      }
+    }
+  }
+  finally {
+    ThreadContext.detach();
+    if (newClassLoader != previousClassLoader) {
+      Thread.currentThread().setContextClassLoader(previousClassLoader);
+    }
+  }
+  return res;
+}

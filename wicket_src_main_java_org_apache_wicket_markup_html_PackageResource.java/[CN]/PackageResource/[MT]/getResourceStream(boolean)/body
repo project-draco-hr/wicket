@@ -6,11 +6,11 @@
     }
     String msg="Unable to find package resource [path = " + absolutePath + ", style = "+ style+ ", variation = "+ variation+ ", locale = "+ locale+ "]";
     log.warn(msg);
-    if (RequestCycle.get() instanceof WebRequestCycle) {
-      throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_NOT_FOUND,msg);
+    if (RequestCycle.get().getResponse() instanceof WebResponse) {
+      RequestCycle.get().replaceAllRequestHandlers(new WebErrorCodeResponseHandler(HttpServletResponse.SC_NOT_FOUND,msg));
     }
  else {
-      throw new AbortException();
+      RequestCycle.get().replaceAllRequestHandlers(new AbortRequestHandler());
     }
   }
   locale=resourceStream.getLocale();

@@ -5,7 +5,8 @@
       final Form<?> form=submittingComponent.getForm();
       if ((form != null) && (form.getRootForm() == Form.this)) {
         String name=submittingComponent.getInputName();
-        if ((getRequest().getParameter(name) != null) || (getRequest().getParameter(name + ".x") != null)) {
+        IRequestParameters parameters=getRequest().getRequestParameters();
+        if ((!parameters.getParameterValue(name).isNull()) || !parameters.getParameterValue(name + ".x").isNull()) {
           if (!component.isVisibleInHierarchy()) {
             throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not visible");
           }

@@ -6,9 +6,6 @@
     return filterPath=request.getServletPath();
   }
   String result;
-  if (filterConfig.getInitParameter("filterPath") != null) {
-    throw new WicketRuntimeException("\nThe filterPath init-param for WicketFilter has been removed.\n" + "Please use a param called " + FILTER_MAPPING_PARAM + " with a value that exactly\n"+ "matches that in the <url-pattern> element of your <filter-mapping> (e.g. \"/app/*\").");
-  }
   result=filterConfig.getInitParameter(FILTER_MAPPING_PARAM);
   if (result == null || result.equals("/*")) {
     return "";

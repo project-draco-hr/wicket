@@ -1,34 +1,6 @@
 {
   if (postParameters == null) {
-    postParameters=new HashMap<String,List<StringValue>>();
-    try {
-      BufferedReader reader=getHttpServletRequest().getReader();
-      String value=Streams.readString(reader);
-      if (!Strings.isEmpty(value)) {
-        Url url=Url.parse("?" + value);
-        for (        QueryParameter q : url.getQueryParameters()) {
-          List<StringValue> list=postParameters.get(q.getName());
-          if (list == null) {
-            list=new ArrayList<StringValue>();
-            postParameters.put(q.getName(),list);
-          }
-          list.add(StringValue.valueOf(q.getValue()));
-        }
-      }
-    }
- catch (    IOException e) {
-      log.warn("Error parsing request body for post parameters; Fallback to ServletRequest#getParameters().",e);
-      for (      String name : (List<String>)Collections.list(getHttpServletRequest().getParameterNames())) {
-        List<StringValue> list=postParameters.get(name);
-        if (list == null) {
-          list=new ArrayList<StringValue>();
-          postParameters.put(name,list);
-        }
-        for (        String value : getHttpServletRequest().getParameterValues(name)) {
-          list.add(StringValue.valueOf(value));
-        }
-      }
-    }
+    postParameters=generatePostParameters();
   }
   return postParameters;
 }

@@ -12,7 +12,7 @@
     }
     Session session=(Session)httpSession.getAttribute(sessionKey);
     if (session != null) {
-      Session.set(session);
+      ThreadContext.setSession(session);
       if (log.isDebugEnabled()) {
         log.debug("session " + session + " set as current for "+ httpServletRequest.getContextPath()+ ","+ httpServletRequest.getServerName());
       }
@@ -30,6 +30,6 @@
     chain.doFilter(request,response);
   }
   finally {
-    Session.unset();
+    ThreadContext.detach();
   }
 }

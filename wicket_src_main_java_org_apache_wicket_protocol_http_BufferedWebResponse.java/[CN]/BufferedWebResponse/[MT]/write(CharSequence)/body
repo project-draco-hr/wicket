@@ -1,3 +1,9 @@
 {
-  buffer.append(string);
+  if (stream != null) {
+    throw new IllegalStateException("Can't call write(CharSequence) after write(byte[]) has been called.");
+  }
+  if (builder == null) {
+    builder=new StringBuilder(4096);
+  }
+  builder.append(sequence);
 }

@@ -1,0 +1,57 @@
+{
+  Checks.argumentNotNull(response,"response");
+  for (  CookieEntry e : cookieEntries) {
+    if (e.add) {
+      response.addCookie(e.cookie);
+    }
+ else {
+      response.clearCookie(e.cookie);
+    }
+  }
+  if (contentLength != null) {
+    response.setContentLength(contentLength);
+  }
+  if (contentType != null) {
+    response.setContentType(contentType);
+  }
+  for (  String s : dateHeaders.keySet()) {
+    response.setDateHeader(s,dateHeaders.get(s));
+  }
+  for (  String s : headers.keySet()) {
+    response.setHeader(s,headers.get(s));
+  }
+  if (statusCode != null) {
+    response.setStatus(statusCode);
+  }
+  if (error != null) {
+    response.sendError(error.sc,error.message);
+  }
+  if (redirectUrl != null) {
+    response.sendRedirect(redirectUrl);
+  }
+  if (builder != null) {
+    response.write(builder);
+  }
+ else   if (stream != null) {
+    final boolean copied[]={false};
+    try {
+      stream.writeTo(new OutputStream(){
+        @Override public void write(        int b) throws IOException {
+        }
+        @Override public void write(        byte[] b,        int off,        int len) throws IOException {
+          if (off == 0 && len == b.length) {
+            response.write(b);
+            copied[0]=true;
+          }
+        }
+      }
+);
+    }
+ catch (    IOException e1) {
+      throw new WicketRuntimeException(e1);
+    }
+    if (copied[0] == false) {
+      response.write(stream.toByteArray());
+    }
+  }
+}

@@ -1,3 +1,6 @@
 {
-  return getRequestCycle().urlFor(this,behaviour,listener);
+  PageAndComponentProvider provider=new PageAndComponentProvider(getPage(),this);
+  int index=getBehaviors().indexOf(behaviour);
+  IRequestHandler handler=new ListenerInterfaceRequestHandler(provider,listener,index);
+  return getRequestCycle().renderUrlFor(handler);
 }

@@ -1,11 +1,15 @@
 {
-  Constructor<? extends Page> constructor=constructor(pageClass);
-  if (constructor != null) {
-    return createPage(constructor,null);
+  try {
+    final Constructor<? extends IRequestablePage> constructor=pageClass.getConstructor((Class[])null);
+    return processPage(newPage(constructor,null),null);
   }
-  constructor=constructor(pageClass,PageParameters.class);
-  if (constructor != null) {
-    return createPage(constructor,new PageParameters());
+ catch (  NoSuchMethodException e) {
+    Constructor<?> constructor=constructor(pageClass,PageParameters.class);
+    if (constructor != null) {
+      return newPage(constructor,new PageParameters());
+    }
+ else {
+      throw new WicketRuntimeException("Unable to create page from " + pageClass + ". Class does not have a default contructor",e);
+    }
   }
-  throw new WicketRuntimeException("Unable to create page from " + pageClass + ". Class does neither have a constructor with PageParameter nor a default constructor");
 }

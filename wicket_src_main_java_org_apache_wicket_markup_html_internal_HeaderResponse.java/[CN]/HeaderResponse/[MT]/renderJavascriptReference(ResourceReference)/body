@@ -3,7 +3,8 @@
     throw new IllegalArgumentException("reference cannot be null");
   }
   if (!closed) {
-    CharSequence url=RequestCycle.get().urlFor(reference);
+    IRequestHandler handler=new ResourceReferenceRequestHandler(reference);
+    CharSequence url=RequestCycle.get().renderUrlFor(handler);
     renderJavascriptReference(url.toString());
   }
 }

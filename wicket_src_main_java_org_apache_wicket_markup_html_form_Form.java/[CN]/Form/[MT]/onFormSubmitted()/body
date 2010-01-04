@@ -2,7 +2,7 @@
   markFormsSubmitted();
   if (handleMultiPart()) {
     inputChanged();
-    String url=getRequest().getParameter(getHiddenFieldId());
+    String url=getRequest().getRequestParameters().getParameterValue(getHiddenFieldId()).toString();
     if (!Strings.isEmpty(url)) {
       dispatchEvent(getPage(),url);
     }

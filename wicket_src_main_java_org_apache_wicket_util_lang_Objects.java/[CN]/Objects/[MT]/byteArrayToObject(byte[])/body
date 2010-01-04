@@ -1,24 +1,20 @@
 {
+  ThreadContext old=ThreadContext.get(false);
   try {
     final ByteArrayInputStream in=new ByteArrayInputStream(data);
     ObjectInputStream ois=null;
-    boolean unsetApplication=false;
     try {
       ois=objectStreamFactory.newObjectInputStream(in);
       String applicationName=(String)ois.readObject();
       if (applicationName != null && !Application.exists()) {
         Application app=Application.get(applicationName);
         if (app != null) {
-          Application.set(app);
-          unsetApplication=true;
+          ThreadContext.setApplication(app);
         }
       }
       return ois.readObject();
     }
   finally {
-      if (unsetApplication) {
-        Application.unset();
-      }
       if (ois != null) {
         ois.close();
       }
@@ -30,5 +26,8 @@
   }
 catch (  IOException e) {
     throw new RuntimeException("Could not deserialize object using `" + objectStreamFactory.getClass().getName() + "` object factory",e);
+  }
+ finally {
+    ThreadContext.restore(old);
   }
 }

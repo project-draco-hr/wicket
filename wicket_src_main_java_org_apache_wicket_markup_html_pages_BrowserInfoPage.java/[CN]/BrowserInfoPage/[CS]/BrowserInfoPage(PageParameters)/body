@@ -1,11 +1,11 @@
 {
-  String to=Strings.toString(parameters.get("cto"));
+  String to=parameters.getNamedParameter("cto").toString();
   if (to == null) {
     throw new IllegalArgumentException("parameter cto must be provided!");
   }
   setContinueTo(to);
   initComps();
-  WebRequestCycle requestCycle=(WebRequestCycle)getRequestCycle();
+  RequestCycle requestCycle=getRequestCycle();
   WebSession session=(WebSession)getSession();
   ClientInfo clientInfo=session.getClientInfo();
   if (clientInfo == null) {

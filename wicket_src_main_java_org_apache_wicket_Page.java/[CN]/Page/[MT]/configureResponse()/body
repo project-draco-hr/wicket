@@ -1,7 +1,7 @@
 {
   final RequestCycle cycle=getRequestCycle();
-  final Application application=cycle.getApplication();
-  final Response response=cycle.getResponse();
+  final Application application=Application.get();
+  final WebResponse response=(WebResponse)cycle.getResponse();
   final String encoding=application.getRequestCycleSettings().getResponseRequestEncoding();
   response.setContentType(getMarkupType().getMimeType() + "; charset=" + encoding);
   final IMarkupFragment markup=getMarkup();
@@ -17,5 +17,4 @@
     response.write(quoteChar);
     response.write("?>");
   }
-  response.setLocale(getSession().getLocale());
 }

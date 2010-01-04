@@ -1,0 +1,15 @@
+{
+  String url=httpServletRequest.getServletPath();
+  final String pathInfo=httpServletRequest.getPathInfo();
+  if (pathInfo != null) {
+    url+=pathInfo;
+  }
+  final String queryString=httpServletRequest.getQueryString();
+  if (queryString != null) {
+    url+=("?" + queryString);
+  }
+  if (url.length() > 0 && url.charAt(0) == '/') {
+    url=url.substring(1);
+  }
+  return url;
+}

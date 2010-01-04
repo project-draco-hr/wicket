@@ -8,12 +8,12 @@
     visitFormComponents(new FormComponent.IVisitor(){
       public Object formComponent(      IFormVisitorParticipant formComponent){
         if (formComponent instanceof FormComponent) {
-          parameters.remove(((FormComponent<?>)formComponent).getInputName());
+          parameters.removeNamedParameter(((FormComponent<?>)formComponent).getInputName());
         }
         return Component.IVisitor.CONTINUE_TRAVERSAL;
       }
     }
 );
-    parameters.remove(getHiddenFieldId());
+    parameters.removeNamedParameter(getHiddenFieldId());
   }
 }

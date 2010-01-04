@@ -1,0 +1,29 @@
+{
+  Page newLastRenderedPage=cycle.getResponsePage();
+  if (newLastRenderedPage == null) {
+    Class<? extends Page> responseClass=cycle.getResponsePageClass();
+    if (responseClass != null) {
+      Session.set(cycle.getSession());
+      IRequestHandler target=cycle.getRequestTarget();
+      if (target instanceof IPageRequestTarget) {
+        newLastRenderedPage=((IPageRequestTarget)target).getPage();
+      }
+ else       if (target instanceof IBookmarkablePageRequestTarget) {
+        createRequestCycle();
+        IBookmarkablePageRequestTarget pageClassRequestTarget=(IBookmarkablePageRequestTarget)target;
+        Class<? extends Page> pageClass=pageClassRequestTarget.getPageClass();
+        PageParameters parameters=pageClassRequestTarget.getPageParameters();
+        if (parameters == null || parameters.size() == 0) {
+          newLastRenderedPage=application.getSessionSettings().getPageFactory().newPage(pageClass);
+        }
+ else {
+          newLastRenderedPage=application.getSessionSettings().getPageFactory().newPage(pageClass,parameters);
+        }
+      }
+    }
+  }
+  if (newLastRenderedPage == null) {
+    newLastRenderedPage=lastRenderedPage;
+  }
+  return newLastRenderedPage;
+}

@@ -1,5 +1,5 @@
 {
-  if (Application.get().getRequestCycleSettings().getRenderStrategy() != IRequestCycleSettings.RenderStrategy.REDIRECT_TO_RENDER || ((WebRequest)RequestCycle.get().getRequest()).isAjax() || (!RequestCycle.get().isRedirect())) {
+  if (Application.get().getRequestCycleSettings().getRenderStrategy() != IRequestCycleSettings.RenderStrategy.REDIRECT_TO_RENDER || ((WebRequest)RequestCycle.get().getRequest()).isAjax() || (!((WebResponse)RequestCycle.get().getResponse()).isRedirect())) {
     if (getFeedbackMessages().clear(RENDERED_SESSION_SCOPED_MESSAGES) > 0) {
       dirty();
     }

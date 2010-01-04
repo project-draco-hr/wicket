@@ -15,6 +15,9 @@
   String applicationKey=getApplicationKey();
   applicationKeyToApplication.put(applicationKey,this);
   sessionStore=newSessionStore();
+  sessionStore.registerUnboundListener(this);
   converterLocator=newConverterLocator();
+  pageManager=newPageManager(getPageManagerContext());
+  resourceReferenceRegistry=newResourceReferenceRegistry();
   setRootRequestMapper(new SystemMapper());
 }

@@ -1,0 +1,58 @@
+{
+  try {
+switch (currentStep) {
+case PREPARE_REQUEST:
+{
+        prepare();
+        break;
+      }
+case RESOLVE_TARGET:
+{
+      final IRequestHandler target=processor.resolve(this,request.getObsoleteRequestParameters());
+      if (target == null) {
+        handled=false;
+        currentStep=DONE;
+      }
+      requestTargets.add(0,target);
+      break;
+    }
+case PROCESS_EVENTS:
+{
+    processEventsAndRespond();
+    break;
+  }
+case RESPOND:
+{
+  respond();
+  break;
+}
+default :
+{
+}
+}
+}
+ catch (AbortException e) {
+throw e;
+}
+catch (RuntimeException e) {
+Throwable cause=e.getCause();
+while (cause != null) {
+if (cause instanceof AbortException) {
+throw ((AbortException)cause);
+}
+cause=cause.getCause();
+}
+if (!handlingException) {
+handlingException=true;
+if (!(e instanceof PageExpiredException)) {
+logRuntimeException(e);
+}
+if (processor != null) {
+processor.respond(e,this);
+}
+}
+ else {
+log.error("unexpected exception when handling another exception: " + e.getMessage(),e);
+}
+}
+}

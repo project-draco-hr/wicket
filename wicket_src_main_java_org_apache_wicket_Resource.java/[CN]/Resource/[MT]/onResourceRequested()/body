@@ -2,15 +2,15 @@
   try {
     final RequestCycle cycle=RequestCycle.get();
     IResourceStream resourceStream=init();
-    final Response response=cycle.getResponse();
+    final WebResponse response=(WebResponse)cycle.getResponse();
     if (isCacheable()) {
-      response.setLastModifiedTime(resourceStream.lastModifiedTime());
+      response.setLastModifiedTime(resourceStream.lastModifiedTime().getMilliseconds());
     }
  else {
-      response.setLastModifiedTime(Time.valueOf(-1));
+      response.setLastModifiedTime(-1);
     }
     configureResponse(response);
-    cycle.setRequestTarget(new ResourceStreamRequestTarget(resourceStream));
+    cycle.scheduleRequestHandlerAfterCurrent(new ResourceStreamRequestHandler(resourceStream));
   }
   finally {
     parameters.set(null);
