@@ -7,7 +7,7 @@
     method.invoke(behavior,new Object[]{});
   }
  catch (  InvocationTargetException e) {
-    if (e.getTargetException() instanceof AbstractRestartResponseException || e.getTargetException() instanceof AuthorizationException || e.getTargetException() instanceof WicketRuntimeException) {
+    if (e.getTargetException() instanceof ReplaceHandlerException || e.getTargetException() instanceof AuthorizationException || e.getTargetException() instanceof WicketRuntimeException) {
       throw (RuntimeException)e.getTargetException();
     }
     throw new WicketRuntimeException("Method " + method.getName() + " of "+ method.getDeclaringClass()+ " targeted at behavior "+ behavior+ " on component "+ component+ " threw an exception",e);

@@ -1,6 +1,6 @@
 {
   RequestCycle requestCycle=RequestCycle.get();
-  boolean save=Boolean.valueOf(requestCycle.getRequest().getParameter("save"));
+  boolean save=Boolean.valueOf(requestCycle.getRequest().getRequestParameters().getParameterValue("save").toBoolean(false));
   if (save) {
     editor.processInput();
     if (editor.isValid()) {

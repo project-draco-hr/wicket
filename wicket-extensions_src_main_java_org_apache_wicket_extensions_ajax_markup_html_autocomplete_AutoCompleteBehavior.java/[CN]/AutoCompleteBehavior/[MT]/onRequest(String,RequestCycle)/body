@@ -3,7 +3,6 @@
     public void respond(    RequestCycle requestCycle){
       WebResponse r=(WebResponse)requestCycle.getResponse();
       final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
-      r.setCharacterEncoding(encoding);
       r.setContentType("text/xml; charset=" + encoding);
       r.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
       r.setHeader("Cache-Control","no-cache, must-revalidate");
@@ -20,5 +19,5 @@
     }
   }
 ;
-  requestCycle.setRequestTarget(target);
+  requestCycle.scheduleRequestHandlerAfterCurrent(target);
 }

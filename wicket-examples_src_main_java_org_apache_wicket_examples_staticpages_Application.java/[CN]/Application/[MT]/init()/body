@@ -1,21 +1,4 @@
 {
   super.init();
   getDebugSettings().setDevelopmentUtilitiesEnabled(true);
-  mount(new URIRequestTargetUrlCodingStrategy("/docs"){
-    @Override public IRequestHandler decode(    ObsoleteRequestParameters requestParameters){
-      String path="/staticpages/" + getURI(requestParameters);
-      return new WebExternalResourceRequestTarget(path);
-    }
-  }
-);
-  mount(new URIRequestTargetUrlCodingStrategy("/xsldocs"){
-    @Override public IRequestHandler decode(    ObsoleteRequestParameters requestParameters){
-      String path="/staticpages/" + getURI(requestParameters);
-      IResourceStream xslStream=new PackageResourceStream(Application.class,"layout.xsl");
-      IResourceStream docStream=new WebExternalResourceStream(path);
-      return new ResourceStreamRequestHandler(new XSLTResourceStream(xslStream,docStream));
-    }
-  }
-);
-  mount(new CapturingBookmarkablePageRequestTargetUrlCodingStrategy("/capturedpage",EmailPage.class,Sent.class));
 }

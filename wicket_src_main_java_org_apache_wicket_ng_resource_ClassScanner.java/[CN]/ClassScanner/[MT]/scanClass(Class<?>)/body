@@ -1,0 +1,24 @@
+{
+  String className=klass.getName();
+  if (scannedClasses.contains(className) == false) {
+    scannedClasses.add(className);
+    for (    Field f : klass.getDeclaredFields()) {
+      if ((f.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
+        f.setAccessible(true);
+        try {
+          Object value=f.get(null);
+          if (value instanceof ResourceReference) {
+            foundResourceReference((ResourceReference)value);
+          }
+        }
+ catch (        Exception e) {
+          log.warn("Error accessing object property",e);
+        }
+      }
+    }
+    klass=klass.getSuperclass();
+    if (klass != null) {
+      scanClass(klass);
+    }
+  }
+}

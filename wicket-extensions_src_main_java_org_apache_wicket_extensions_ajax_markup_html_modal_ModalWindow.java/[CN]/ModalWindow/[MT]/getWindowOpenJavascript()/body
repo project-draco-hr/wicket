@@ -26,8 +26,8 @@
     if (page == null) {
       throw new WicketRuntimeException("Error creating page for modal dialog.");
     }
-    RequestCycle.get().setUrlForNewWindowEncoding();
-    appendAssignment(buffer,"settings.src",RequestCycle.get().urlFor(page));
+    IRequestHandler handler=new RenderPageRequestHandler(new DefaultPageProvider(page));
+    appendAssignment(buffer,"settings.src",RequestCycle.get().renderUrlFor(handler));
   }
  else {
     buffer.append("settings.element=element;\n");

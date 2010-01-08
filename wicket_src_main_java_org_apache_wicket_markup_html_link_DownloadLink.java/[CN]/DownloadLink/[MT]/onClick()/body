@@ -5,7 +5,7 @@
   }
   final String fn=WicketURLEncoder.QUERY_INSTANCE.encode((fileName != null) ? fileName : file.getName());
   IResourceStream resourceStream=new FileResourceStream(new org.apache.wicket.util.file.File(file));
-  getRequestCycle().setRequestTarget(new ResourceStreamRequestHandler(resourceStream){
+  getRequestCycle().scheduleRequestHandlerAfterCurrent(new ResourceStreamRequestHandler(resourceStream){
     @Override public String getFileName(){
       return fn;
     }

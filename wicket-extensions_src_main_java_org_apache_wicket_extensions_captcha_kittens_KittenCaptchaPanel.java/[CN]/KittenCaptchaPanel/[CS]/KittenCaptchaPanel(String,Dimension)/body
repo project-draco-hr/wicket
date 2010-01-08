@@ -16,13 +16,12 @@
   image.add(new AjaxEventBehavior("onclick"){
     private static final long serialVersionUID=7480352029955897654L;
     @Override protected CharSequence getCallbackScript(    boolean onlyTargetActivePage){
-      return generateCallbackScript("showLoadingIndicator(); wicketAjaxGet('" + getCallbackUrl(onlyTargetActivePage) + "&x=' + getEventX(this, event) + '&y=' + getEventY(this, event)");
+      return generateCallbackScript("showLoadingIndicator(); wicketAjaxGet('" + getCallbackUrl() + "&x=' + getEventX(this, event) + '&y=' + getEventY(this, event)");
     }
     @Override protected void onEvent(    final AjaxRequestTarget target){
-      final WebRequest request=(WebRequest)RequestCycle.get().getRequest();
-      final Map<String,String[]> parameters=request.getParameterMap();
-      final int x=Integer.parseInt(parameters.get("x")[0]);
-      final int y=Integer.parseInt(parameters.get("y")[0]);
+      final Request request=RequestCycle.get().getRequest();
+      final int x=request.getRequestParameters().getParameterValue("x").toInt(0);
+      final int y=request.getRequestParameters().getParameterValue("y").toInt(0);
       imageResource.clearData();
       final PlacedAnimal animal=animals.atLocation(new Point(x,y));
       if (animal != null) {

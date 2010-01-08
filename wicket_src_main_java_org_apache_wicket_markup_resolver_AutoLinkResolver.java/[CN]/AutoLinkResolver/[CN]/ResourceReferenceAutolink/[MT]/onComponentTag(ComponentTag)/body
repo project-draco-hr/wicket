@@ -1,7 +1,8 @@
 {
   super.onComponentTag(tag);
   if (resourceReference != null) {
-    CharSequence url=getRequestCycle().urlFor(resourceReference);
+    ResourceReferenceRequestHandler handler=new ResourceReferenceRequestHandler(resourceReference);
+    CharSequence url=getRequestCycle().renderUrlFor(handler);
     tag.put(attribute,Strings.replaceAll(url,"&","&amp;"));
   }
 }

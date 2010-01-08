@@ -1,12 +1,12 @@
 {
-  if (Strings.isEmpty(name) && Strings.isEmpty(getPage().getRequest().getParameter(SOURCE))) {
+  if (Strings.isEmpty(name) && Strings.isEmpty(getPage().getRequest().getRequestParameters().getParameterValue(SOURCE).toOptionalString())) {
     return "";
   }
   BufferedReader br=null;
   String source=null;
   try {
     StringBuffer sb=new StringBuffer();
-    source=(name != null) ? name : getPage().getRequest().getParameter(SOURCE);
+    source=(name != null) ? name : getPage().getRequest().getRequestParameters().getParameterValue(SOURCE).toOptionalString();
     InputStream resourceAsStream=getPageTargetClass().getResourceAsStream(source);
     if (resourceAsStream == null) {
       return "Unable to read the source for " + source;
