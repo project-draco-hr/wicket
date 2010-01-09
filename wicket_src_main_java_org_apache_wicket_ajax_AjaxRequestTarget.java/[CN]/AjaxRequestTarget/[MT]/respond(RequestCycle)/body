@@ -1,4 +1,7 @@
 {
+  Url oldBaseURL=requestCycle.getUrlRenderer().getBaseUrl();
+  Url baseURL=Url.parse(((WebRequest)requestCycle.getRequest()).getHeader("Wicket-Ajax-BaseURL"));
+  requestCycle.getUrlRenderer().setBaseUrl(baseURL);
   final WebResponse response=(WebResponse)requestCycle.getResponse();
   if (markupIdToComponent.values().contains(page)) {
     IRequestHandler handler=new RenderPageRequestHandler(new DefaultPageProvider(page));
@@ -38,4 +41,5 @@
     respondInvocation(response,js);
   }
   response.write("</ajax-response>");
+  requestCycle.getUrlRenderer().setBaseUrl(oldBaseURL);
 }
