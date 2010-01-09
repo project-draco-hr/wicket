@@ -1,3 +1,6 @@
 {
-  return null;
+  if (e instanceof StalePageException) {
+    return new RenderPageRequestHandler(new DefaultPageProvider(((StalePageException)e).getPage()));
+  }
+ else   return null;
 }
