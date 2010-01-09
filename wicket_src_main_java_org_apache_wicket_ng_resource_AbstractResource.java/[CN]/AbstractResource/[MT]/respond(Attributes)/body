@@ -2,7 +2,7 @@
   ResourceData data=newResourceData(attributes);
   WebRequest request=(WebRequest)attributes.getRequest();
   WebResponse response=(WebResponse)attributes.getResponse();
-  if (data.notModified(attributes)) {
+  if (!data.dataNeedsToBeWritten(attributes)) {
     response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
     return;
   }
@@ -10,6 +10,9 @@
     response.sendError(data.getErrorCode(),null);
   }
  else {
+    if (data.getWriteCallback() == null) {
+      throw new IllegalStateException("ResourceData#setWriteCallback must be called for AbstractResource.");
+    }
     String fileName=data.getFileName();
     ContentDisposition disposition=data.getContentDisposition();
     String mimeType=data.getContentType();
@@ -36,6 +39,7 @@
     if (lastModified != null) {
       response.setLastModifiedTime(lastModified.getTime());
     }
+    configureCache(request,response,data,attributes);
     if (contentLength != -1) {
       response.setContentLength(contentLength);
     }

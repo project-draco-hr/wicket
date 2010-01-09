@@ -1,7 +1,7 @@
 {
   ResourceData data=new ResourceData();
   data.setLastModified(stream.lastModifiedTime().toDate());
-  if (!data.notModified(attributes)) {
+  if (data.dataNeedsToBeWritten(attributes)) {
     InputStream inputStream=null;
     if (stream instanceof IResourceStreamWriter == false) {
       try {
