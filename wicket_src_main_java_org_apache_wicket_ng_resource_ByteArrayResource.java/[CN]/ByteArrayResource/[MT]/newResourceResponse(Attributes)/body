@@ -1,0 +1,22 @@
+{
+  final ResourceResponse response=new ResourceResponse();
+  response.setContentType(contentType);
+  response.setLastModified(lastModified.toDate());
+  if (response.dataNeedsToBeWritten(attributes)) {
+    if (filename != null) {
+      response.setFileName(filename);
+      response.setContentDisposition(ContentDisposition.ATTACHMENT);
+    }
+ else {
+      response.setContentDisposition(ContentDisposition.INLINE);
+    }
+    response.setWriteCallback(new WriteCallback(){
+      @Override public void writeData(      final Attributes attributes){
+        attributes.getResponse().write(array);
+      }
+    }
+);
+    configureResponse(response,attributes);
+  }
+  return response;
+}

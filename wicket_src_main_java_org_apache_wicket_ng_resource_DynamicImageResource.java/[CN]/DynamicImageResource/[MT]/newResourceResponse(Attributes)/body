@@ -1,0 +1,21 @@
+{
+  final ResourceResponse response=new ResourceResponse();
+  if (lastModifiedTime != null) {
+    response.setLastModified(lastModifiedTime.toDate());
+  }
+ else {
+    response.setLastModified(new Date());
+  }
+  if (response.dataNeedsToBeWritten(attributes)) {
+    response.setContentType("image/" + getFormat());
+    response.setContentDisposition(ContentDisposition.INLINE);
+    response.setWriteCallback(new WriteCallback(){
+      @Override public void writeData(      final Attributes attributes){
+        attributes.getResponse().write(getImageData());
+      }
+    }
+);
+    configureResponse(response,attributes);
+  }
+  return response;
+}

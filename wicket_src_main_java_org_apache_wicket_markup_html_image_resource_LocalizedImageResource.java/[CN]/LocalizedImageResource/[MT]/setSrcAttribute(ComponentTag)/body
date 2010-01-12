@@ -15,27 +15,13 @@
   if (modelObject instanceof ResourceReference) {
     resourceReference=(ResourceReference)modelObject;
   }
- else   if (modelObject instanceof Resource) {
-    resource=(Resource)modelObject;
-  }
-  if (resource == null && resourceReference == null) {
-    final CharSequence src=tag.getString("src");
-    if (src != null) {
-      loadStaticImage(src.toString());
-    }
- else {
-      final CharSequence value=tag.getString("value");
-      if (value != null) {
-        newImage(value);
-      }
- else {
-        loadStaticImage(component.getDefaultModelObjectAsString());
-      }
-    }
+ else   if (modelObject instanceof IResource) {
+    resource=(IResource)modelObject;
   }
   final CharSequence url;
   if (resourceReference != null) {
-    url=RequestCycle.get().urlFor(resourceReference,resourceParameters);
+    IRequestHandler handler=new ResourceReferenceRequestHandler(resourceReference,resourceParameters);
+    url=RequestCycle.get().renderUrlFor(handler);
   }
  else {
     url=component.urlFor(IResourceListener.INTERFACE);
