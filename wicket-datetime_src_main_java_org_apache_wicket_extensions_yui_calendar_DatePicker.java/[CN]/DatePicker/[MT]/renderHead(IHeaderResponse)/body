@@ -10,8 +10,8 @@
   variables.put("fireChangeEvent",notifyComponentOnDateSelected());
   variables.put("alignWithIcon",alignWithIcon());
   variables.put("hideOnSelect",hideOnSelect());
-  variables.put("basePath",Strings.stripJSessionId(RequestCycle.get().urlFor(YUI)));
-  variables.put("wicketDatePath",RequestCycle.get().urlFor(WICKET_DATE));
+  variables.put("basePath",Strings.stripJSessionId(RequestCycle.get().renderUrlFor(new ResourceReferenceRequestHandler(YUI))));
+  variables.put("wicketDatePath",RequestCycle.get().renderUrlFor(new ResourceReferenceRequestHandler(WICKET_DATE)));
   if (Application.DEVELOPMENT.equals(Application.get().getConfigurationType())) {
     variables.put("filter","filter: \"RAW\",");
     variables.put("allowRollup",false);

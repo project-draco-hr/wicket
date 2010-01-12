@@ -1,6 +1,11 @@
 {
   WebApplication app=(WebApplication)getComponent().getApplication();
   AjaxRequestTarget target=app.newAjaxRequestTarget(getComponent().getPage());
-  RequestCycle.get().scheduleRequestHandlerAfterCurrent(target);
+  RequestCycle requestCycle=RequestCycle.get();
+  requestCycle.scheduleRequestHandlerAfterCurrent(target);
+  Url oldBaseURL=requestCycle.getUrlRenderer().getBaseUrl();
+  Url baseURL=Url.parse(((WebRequest)requestCycle.getRequest()).getHeader("Wicket-Ajax-BaseURL"));
+  requestCycle.getUrlRenderer().setBaseUrl(baseURL);
   respond(target);
+  requestCycle.getUrlRenderer().setBaseUrl(oldBaseURL);
 }
