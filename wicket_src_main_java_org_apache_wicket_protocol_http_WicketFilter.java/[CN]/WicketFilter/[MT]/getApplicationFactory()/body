@@ -5,7 +5,7 @@
   }
  else {
     try {
-      final Class<?> factoryClass=Thread.currentThread().getContextClassLoader().loadClass(appFactoryClassName);
+      final Class<?> factoryClass=Class.forName(appFactoryClassName,false,Thread.currentThread().getContextClassLoader());
       return (IWebApplicationFactory)factoryClass.newInstance();
     }
  catch (    ClassCastException e) {
