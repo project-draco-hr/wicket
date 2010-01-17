@@ -28,9 +28,20 @@
 );
     if (unrenderedComponents.size() > 0) {
       renderedComponents=null;
+      List<Component> transparentContainerChildren=new ArrayList<Component>();
       Iterator<Component> iterator=unrenderedComponents.iterator();
       outerWhile:       while (iterator.hasNext()) {
         Component component=iterator.next();
+        for (        Component transparentContainerChild : transparentContainerChildren) {
+          MarkupContainer parent=component.getParent();
+          while (parent != null) {
+            if (parent == transparentContainerChild) {
+              iterator.remove();
+              continue outerWhile;
+            }
+            parent=parent.getParent();
+          }
+        }
         Iterator<? extends Component> iterator2=component.getParent().iterator();
         while (iterator2.hasNext()) {
           Component sibling=iterator2.next();
@@ -39,6 +50,7 @@
               if (log.isDebugEnabled()) {
                 log.debug("Component {} wasn't rendered but most likely it has a transparent parent: {}",component,sibling);
               }
+              transparentContainerChildren.add(component);
               iterator.remove();
               continue outerWhile;
             }
