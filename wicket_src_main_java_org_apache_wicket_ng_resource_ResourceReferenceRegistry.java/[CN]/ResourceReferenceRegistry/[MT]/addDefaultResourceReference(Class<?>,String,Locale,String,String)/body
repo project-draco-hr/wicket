@@ -1,0 +1,11 @@
+{
+  Key key=new Key(scope.getName(),name,locale,style,variation);
+  if (autoAddedQueue.size() > getAutoAddedCapacity()) {
+    Key first=autoAddedQueue.remove();
+    map.remove(first);
+  }
+  autoAddedQueue.add(key);
+  ResourceReference reference=createDefaultResourceReference(scope,name,locale,style,variation);
+  registerResourceReference(reference);
+  return reference;
+}

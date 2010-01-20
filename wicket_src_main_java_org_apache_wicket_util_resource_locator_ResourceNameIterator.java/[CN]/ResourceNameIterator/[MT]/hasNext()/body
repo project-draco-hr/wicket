@@ -18,7 +18,7 @@
   }
   while (styleIterator.hasNext()) {
     String newPath=styleIterator.next();
-    localeIterator=new LocaleResourceNameIterator(newPath,locale);
+    localeIterator=new LocaleResourceNameIterator(newPath,locale,strict);
     while (localeIterator.hasNext()) {
       newPath=localeIterator.next();
       currentLocale=localeIterator.getLocale();
@@ -26,6 +26,9 @@
       if (extenstionsIterator.hasNext() == true) {
         return true;
       }
+    }
+    if (strict) {
+      break;
     }
   }
   return false;

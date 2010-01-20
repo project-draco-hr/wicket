@@ -1,6 +1,11 @@
 {
   Key key=new Key(scope.getName(),name,locale,style,variation);
   ResourceReference res=map.get(key);
+  if (strict) {
+    if (res == null) {
+      res=addDefaultResourceReference(scope,name,locale,style,variation);
+    }
+  }
   if (strict || res != null) {
     return res;
   }
@@ -25,7 +30,7 @@
       res=getResourceReference(scope,name,null,null,null,true,false);
     }
     if (res == null && createIfNotFound) {
-      res=createDefaultResourceReference(scope,name,locale,style,variation);
+      res=addDefaultResourceReference(scope,name,locale,style,variation);
     }
     return res;
   }

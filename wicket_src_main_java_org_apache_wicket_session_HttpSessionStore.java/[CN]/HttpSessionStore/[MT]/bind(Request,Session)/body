@@ -1,9 +1,9 @@
 {
-  if (getAttribute(request,SESSION_ATTRIBUTE_NAME) != newSession) {
+  if (getAttribute(request,getSessionAttribute()) != newSession) {
     onBind(request,newSession);
     HttpSession httpSession=getHttpSession(request,false);
     String applicationKey=Application.get().getName();
     httpSession.setAttribute("Wicket:SessionUnbindingListener-" + applicationKey,new SessionBindingListener(applicationKey,httpSession.getId()));
-    setAttribute(request,SESSION_ATTRIBUTE_NAME,newSession);
+    setAttribute(request,getSessionAttribute(),newSession);
   }
 }

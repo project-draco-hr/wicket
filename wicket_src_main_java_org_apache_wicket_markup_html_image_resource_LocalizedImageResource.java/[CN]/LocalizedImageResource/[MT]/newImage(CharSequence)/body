@@ -6,12 +6,12 @@
     final String factoryName=valueParser.getFactoryName();
     final Application application=component.getApplication();
     if (!Strings.isEmpty(imageReferenceName)) {
-      if (application.getResourceReferenceRegistry().getResourceReference(Application.class,imageReferenceName,locale,style,variation,false) == null) {
+      if (application.getResourceReferenceRegistry().getResourceReference(Application.class,imageReferenceName,locale,style,variation,true) == null) {
         final IResource imageResource=getResourceFactory(application,factoryName).newResource(specification,locale,style,variation);
         ResourceReference ref=new SimpleStaticResourceReference(Application.class,imageReferenceName,locale,style,variation,imageResource);
         application.getResourceReferenceRegistry().registerResourceReference(ref);
       }
-      resourceReference=new ResourceReference(Application.class,imageReferenceName,locale,style,variation);
+      resourceReference=new PackageResourceReference(Application.class,imageReferenceName,locale,style,variation);
     }
  else {
       resource=getResourceFactory(application,factoryName).newResource(specification,locale,style,variation);

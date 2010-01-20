@@ -1,6 +1,6 @@
 {
   return new ResourceReference(Letter.class,asString() + (isGuessed() ? "_enabled" : "_disabled")){
-    protected Resource newResource(){
+    @Override public IResource getResource(){
       final DefaultButtonImageResource buttonResource=new DefaultButtonImageResource(30,30,asString());
       if (!isGuessed()) {
         buttonResource.setColor(Color.GRAY);

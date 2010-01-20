@@ -1,0 +1,16 @@
+{
+  ResourceReference ref=Application.get().getResourceReferenceRegistry().getResourceReference(getScope(),getName(),getLocale(),getStyle(),getVariation(),false);
+  if (ref == null) {
+    return new AbstractResource(){
+      @Override protected ResourceResponse newResourceResponse(      Attributes attributes){
+        ResourceResponse res=new ResourceResponse();
+        res.setErrorCode(HttpServletResponse.SC_NOT_FOUND);
+        return res;
+      }
+    }
+;
+  }
+ else {
+    return ref.getResource();
+  }
+}

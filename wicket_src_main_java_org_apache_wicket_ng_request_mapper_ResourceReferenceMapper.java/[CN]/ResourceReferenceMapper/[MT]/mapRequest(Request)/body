@@ -9,17 +9,13 @@
       }
       name.append(url.getSegments().get(i));
     }
-    ResourceReferenceAttributes attributes=getResourceReferenceAttributes(url);
+    ResourceReference.UrlAttributes attributes=getResourceReferenceAttributes(url);
     PageParameters pageParameters=extractPageParameters(request,url.getSegments().size(),pageParametersEncoder);
     Class<?> scope=resolveClass(className);
     if (scope != null) {
-      ResourceReference res=getContext().getResourceReferenceRegistry().getResourceReference(scope,name.toString(),attributes.locale,attributes.style,attributes.variation,false);
+      ResourceReference res=getContext().getResourceReferenceRegistry().getResourceReference(scope,name.toString(),attributes.getLocale(),attributes.getStyle(),attributes.getVariation(),true);
       if (res != null) {
-        IResource resource=res.getResource();
-        if (resource != null) {
-          ResourceRequestHandler handler=new ResourceRequestHandler(resource,attributes.locale,attributes.style,attributes.variation,pageParameters);
-          return handler;
-        }
+        return new ResourceReferenceRequestHandler(res,pageParameters);
       }
     }
   }
