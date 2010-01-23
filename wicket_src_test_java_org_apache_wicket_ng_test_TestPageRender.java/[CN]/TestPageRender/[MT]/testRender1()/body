@@ -5,7 +5,7 @@
   app.set();
   app.initApplication();
   app.getRequestCycleSettings().setRenderStrategy(RenderStrategy.ONE_PASS_RENDER);
-  app.registerEncoder(new MountedMapper("first-test-page",Page1.class));
+  app.getRootRequestMapper().register(new MountedMapper("first-test-page",Page1.class));
   Request request=new MockWebRequest(Url.parse("first-test-page"));
   MockWebResponse response=new MockWebResponse();
   MockRequestCycle cycle=(MockRequestCycle)app.createRequestCycle(request,response);

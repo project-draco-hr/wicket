@@ -1,0 +1,13 @@
+{
+  MockPage page=new MockPage(15);
+  page.getPageParameters().setIndexedParameter(0,"i1");
+  page.getPageParameters().setIndexedParameter(1,"i2");
+  page.getPageParameters().setNamedParameter("a","b");
+  page.getPageParameters().setNamedParameter("b","c");
+  page.setCreatedBookmarkable(false);
+  IRequestableComponent c=page.get("foo:bar");
+  PageAndComponentProvider provider=new PageAndComponentProvider(page,c);
+  IRequestHandler handler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
+  Url url=encoder.mapHandler(handler);
+  assertEquals("wicket/bookmarkable/" + PAGE_CLASS_NAME + "/i1/i2?15-0.ILinkListener-foo-bar&a=b&b=c",url.toString());
+}

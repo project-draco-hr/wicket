@@ -1,0 +1,13 @@
+{
+  Url url=Url.parse("wicket/resource/" + CLASS_NAME + "/reference3?-style&p1=v1&p2=v2");
+  IRequestHandler handler=encoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof ResourceReferenceRequestHandler);
+  ResourceReferenceRequestHandler h=(ResourceReferenceRequestHandler)handler;
+  assertEquals(resource3,h.getResource());
+  assertEquals(null,h.getLocale());
+  assertEquals("style",h.getStyle());
+  assertEquals(null,h.getVariation());
+  assertEquals(0,h.getPageParameters().getIndexedParamsCount());
+  assertEquals("v1",h.getPageParameters().getNamedParameter("p1").toString());
+  assertEquals("v2",h.getPageParameters().getNamedParameter("p2").toString());
+}

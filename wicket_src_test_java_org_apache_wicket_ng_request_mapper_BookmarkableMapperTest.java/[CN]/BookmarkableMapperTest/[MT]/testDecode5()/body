@@ -1,0 +1,11 @@
+{
+  Url url=Url.parse("wicket/bookmarkable/" + PAGE_CLASS_NAME + "?15-ILinkListener-foo-bar");
+  IRequestHandler handler=encoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof ListenerInterfaceRequestHandler);
+  ListenerInterfaceRequestHandler h=(ListenerInterfaceRequestHandler)handler;
+  IRequestablePage page=h.getPage();
+  checkPage(page,15);
+  assertEquals(ILinkListener.INTERFACE,h.getListenerInterface());
+  assertEquals("foo:bar",h.getComponent().getPageRelativePath());
+  assertNull(h.getBehaviorIndex());
+}
