@@ -1,14 +1,13 @@
 {
   checkComponentTag(tag,"select");
   if (wantOnSelectionChangedNotifications()) {
-    CharSequence url=urlFor(IOnChangeListener.INTERFACE);
+    Url url=getRequestCycle().urlFor(new ListenerInterfaceRequestHandler(new PageAndComponentProvider(getPage(),this),IOnChangeListener.INTERFACE));
     Form<?> form=findParent(Form.class);
     if (form != null) {
       RequestContext rc=RequestContext.get();
       if (rc.isPortletRequest()) {
-        url=((PortletRequestContext)rc).getLastEncodedPath();
       }
-      tag.put("onchange",form.getJsForInterfaceUrl(url));
+      tag.put("onchange",form.getJsForInterfaceUrl(url.toString()));
     }
  else {
       tag.put("onchange","window.location.href='" + url + (url.toString().indexOf('?') > -1 ? "&amp;" : "?")+ getInputName()+ "=' + this.options[this.selectedIndex].value;");
