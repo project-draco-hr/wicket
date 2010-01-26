@@ -4,7 +4,7 @@
   requestCycle.getUrlRenderer().setBaseUrl(baseURL);
   final WebResponse response=(WebResponse)requestCycle.getResponse();
   if (markupIdToComponent.values().contains(page)) {
-    IRequestHandler handler=new RenderPageRequestHandler(new DefaultPageProvider(page));
+    IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
     final String url=requestCycle.renderUrlFor(handler).toString();
     response.sendRedirect(url);
     return;
