@@ -1,13 +1,13 @@
 {
-  SessionEntry entry=(SessionEntry)getSessionAttribute(ATTRIBUTE_NAME);
+  SessionEntry entry=(SessionEntry)getSessionAttribute(getAttributeName());
   if (entry == null && create) {
     bind();
     entry=new SessionEntry(applicationName,getSessionId());
   }
   if (entry != null) {
 synchronized (entry) {
-      setSessionAttribute(ATTRIBUTE_NAME,null);
-      setSessionAttribute(ATTRIBUTE_NAME,entry);
+      setSessionAttribute(getAttributeName(),null);
+      setSessionAttribute(getAttributeName(),entry);
     }
   }
   return entry;

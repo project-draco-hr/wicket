@@ -2,5 +2,8 @@
   super(context);
   this.applicationName=applicationName;
   this.pageStore=pageStore;
+  if (managers.containsKey(applicationName)) {
+    throw new IllegalStateException("Manager for application with key '" + applicationName + "' already exists.");
+  }
   managers.put(applicationName,this);
 }
