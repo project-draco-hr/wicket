@@ -2,6 +2,12 @@
   int pos=responseBuffer.indexOf("src=\"\"");
   if (pos < 0) {
     pos=responseBuffer.indexOf("src=''");
+    if (pos < 0) {
+      pos=responseBuffer.indexOf("src=\"#\"");
+      if (pos < 0) {
+        pos=responseBuffer.indexOf("src='#'");
+      }
+    }
   }
   if (pos >= 0) {
     log.warn("Empty src attribute found in response:");
