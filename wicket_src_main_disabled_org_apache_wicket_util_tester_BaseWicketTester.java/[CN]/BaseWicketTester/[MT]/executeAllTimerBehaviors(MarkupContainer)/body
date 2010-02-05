@@ -6,7 +6,9 @@
         if (b instanceof AjaxSelfUpdatingTimerBehavior) {
           log.debug("Triggering AjaxSelfUpdatingTimerBehavior: " + component.getClassRelativePath());
           AjaxSelfUpdatingTimerBehavior abstractAjaxBehaviour=(AjaxSelfUpdatingTimerBehavior)b;
-          executeBehavior(abstractAjaxBehaviour);
+          if (!abstractAjaxBehavior.isStopped()) {
+            executeBehavior(abstractAjaxBehaviour);
+          }
         }
       }
       return CONTINUE_TRAVERSAL;
