@@ -1,4 +1,7 @@
 {
-  Application dummy=tester.getApplication();
-  Assert.assertNotNull("Localizer should be available",dummy.getResourceSettings().getLocalizer());
+  Application dummy=new MockApplication();
+  dummy.set();
+  dummy.internalInit();
+  Localizer localizer=dummy.getResourceSettings().getLocalizer();
+  Assert.assertNotNull("Localizer should be available",localizer);
 }
