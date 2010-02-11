@@ -1,23 +1,12 @@
 {
-  final boolean[] error=new boolean[]{false};
-  final IVisitor<Component> visitor=new IVisitor<Component>(){
+  Boolean error=(Boolean)visitChildren(Component.class,new IVisitor<Component>(){
     public Object component(    final Component component){
       if (component.hasErrorMessage()) {
-        error[0]=true;
-        return Component.IVisitor.STOP_TRAVERSAL;
-      }
-      return Component.IVisitor.CONTINUE_TRAVERSAL;
-    }
-  }
-;
-  visitChildren(Component.class,new IVisitor<Component>(){
-    public Object component(    final Component component){
-      if ((component instanceof Form) || (component instanceof FormComponent)) {
-        return visitor.component(component);
+        return Boolean.TRUE;
       }
       return Component.IVisitor.CONTINUE_TRAVERSAL;
     }
   }
 );
-  return error[0];
+  return (error != null) && error;
 }
