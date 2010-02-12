@@ -1,18 +1,12 @@
 {
-  MockWebApplication mockApp=new MockWebApplication(new WebApplication(){
-    @Override protected void outputDevelopmentModeWarning(){
-    }
-    @Override public Class<? extends Page> getHomePage(){
-      return null;
-    }
-    @Override protected ISessionStore newSessionStore(){
-      return new HttpSessionStore();
-    }
-  }
-,null);
-  Application app=mockApp.getApplication();
+  MockApplication app=new MockApplication();
   try {
-    Application.set(app);
+    ThreadContext.setApplication(app);
+    app.setName(getClass().getName());
+    app.initApplication();
+    Session session=new WebSession(new MockWebRequest(Url.parse("/")));
+    app.getSessionStore().bind(null,session);
+    ThreadContext.setSession(session);
     GuiceComponentInjector injector=new GuiceComponentInjector(app,new Module(){
       public void configure(      Binder binder){
         binder.bind(ITestService.class).to(TestService.class);
@@ -38,6 +32,7 @@
     doChecksForComponent(clonedComponent);
   }
   finally {
-    Application.unset();
+    app.destroy();
+    ThreadContext.detach();
   }
 }
