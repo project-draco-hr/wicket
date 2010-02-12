@@ -4,8 +4,8 @@
   if (locationString == null) {
     locationString=cacheKey;
   }
-  try {
-    Markup markup=getMarkupLoader().loadMarkup(container,markupResourceStream,null,enforceReload);
+  Markup markup=MarkupFactory.get().loadMarkup(container,markupResourceStream,enforceReload);
+  if (markup != null) {
     if (cacheKey != null) {
       if (markup.locationAsString() != null) {
         locationString=markup.locationAsString();
@@ -14,12 +14,6 @@
       return putIntoCache(locationString,container,markup);
     }
     return markup;
-  }
- catch (  ResourceStreamNotFoundException e) {
-    log.error("Unable to find markup from " + markupResourceStream,e);
-  }
-catch (  IOException e) {
-    log.error("Unable to read markup from " + markupResourceStream,e);
   }
   if (cacheKey != null) {
     removeMarkup(cacheKey);

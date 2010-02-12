@@ -1,0 +1,15 @@
+{
+  if (markupResourceStream == null) {
+    markupResourceStream=getMarkupResourceStream(container,null);
+  }
+  try {
+    return getMarkupLoader().loadMarkup(container,markupResourceStream,null,enforceReload);
+  }
+ catch (  ResourceStreamNotFoundException e) {
+    log.error("Unable to find markup from " + markupResourceStream,e);
+  }
+catch (  IOException e) {
+    log.error("Unable to read markup from " + markupResourceStream,e);
+  }
+  return null;
+}
