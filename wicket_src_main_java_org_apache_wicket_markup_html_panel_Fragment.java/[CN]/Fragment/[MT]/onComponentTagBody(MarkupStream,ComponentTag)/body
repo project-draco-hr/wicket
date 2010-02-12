@@ -1,4 +1,7 @@
 {
+  if (((ComponentTag)markupStream.get(markupStream.getCurrentIndex() - 1)).isOpen()) {
+    markupStream.skipRawMarkup();
+  }
   final MarkupStream providerMarkupStream=chooseMarkupStream(markupStream);
   if (providerMarkupStream == null) {
     throw new MarkupNotFoundException("Fragment: No markup stream found for providing markup container " + markupProvider.toString() + ". Fragment: "+ toString());

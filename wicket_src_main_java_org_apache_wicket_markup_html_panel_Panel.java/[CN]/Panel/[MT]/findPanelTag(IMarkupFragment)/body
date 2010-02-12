@@ -4,7 +4,8 @@
     ComponentTag tag=stream.getTag();
     if (tag.isOpen() || tag.isOpenClose()) {
       if (tag instanceof WicketTag) {
-        if (tag.getName().equalsIgnoreCase(name)) {
+        WicketTag wtag=(WicketTag)tag;
+        if (wtag.isPanelTag()) {
           return stream.getMarkupFragment();
         }
       }
