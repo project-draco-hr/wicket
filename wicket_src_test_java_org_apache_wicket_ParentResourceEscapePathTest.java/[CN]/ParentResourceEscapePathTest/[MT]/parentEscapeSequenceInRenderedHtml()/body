@@ -1,9 +1,8 @@
 {
-  tester.setupRequestAndResponse();
   tester.startPage(ParentResourceEscapePathTestPage.class);
   tester.assertRenderedPage(ParentResourceEscapePathTestPage.class);
   tester.assertNoErrorMessage();
-  String html=tester.getServletResponse().getDocument();
+  String html=tester.getLastResponse().getTextResponse().toString();
   assertContains(html,"<html><head><wicket:link><script ");
   assertContains(html," type=\"text/javascript\"");
   assertContains(html,"src=\"" + expectedResourceUrl() + "\"");

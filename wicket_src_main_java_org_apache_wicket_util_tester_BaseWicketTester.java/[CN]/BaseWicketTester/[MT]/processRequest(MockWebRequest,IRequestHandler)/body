@@ -1,0 +1,35 @@
+{
+  try {
+    if (lastRequest != null) {
+      previousRequests.add(lastRequest);
+    }
+    if (lastResponse != null) {
+      previousResponses.add(lastResponse);
+    }
+    lastRequest=request;
+    lastResponse=new MockWebResponse();
+    MockRequestCycle cycle=(MockRequestCycle)application.createRequestCycle(request,lastResponse);
+    ThreadContext.setRequestCycle(cycle);
+    if (forcedRequestHandler != null) {
+      cycle.forceRequestHandler(forcedRequestHandler);
+    }
+    cycle.processRequestAndDetach();
+    if (followRedirects && lastResponse.isRedirect()) {
+      if (redirectCount == 100) {
+        throw new IllegalStateException("Possible infinite redirect detected. Bailing out.");
+      }
+      ++redirectCount;
+      Url newUrl=Url.parse(lastResponse.getRedirectUrl());
+      if (newUrl.isAbsolute()) {
+        throw new WicketRuntimeException("Can not follow absolute redirect URL.");
+      }
+      Url mergedURL=new Url(request.getUrl().getSegments(),newUrl.getQueryParameters());
+      mergedURL.concatSegments(newUrl.getSegments());
+      processRequest(new MockWebRequest(mergedURL),null);
+      --redirectCount;
+    }
+  }
+  finally {
+    redirectCount=0;
+  }
+}

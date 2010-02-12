@@ -1,0 +1,45 @@
+{
+  Component linkComponent=getComponentFromLastRenderedPage(path);
+  if (linkComponent instanceof AjaxLink) {
+    if (isAjax == false) {
+      fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
+    }
+    executeBehavior(WicketTesterHelper.findAjaxEventBehavior(linkComponent,"onclick"));
+  }
+ else   if (linkComponent instanceof AjaxFallbackLink && isAjax) {
+    executeBehavior(WicketTesterHelper.findAjaxEventBehavior(linkComponent,"onclick"));
+  }
+ else   if (linkComponent instanceof AjaxSubmitLink) {
+    if (isAjax == false) {
+      fail("Link " + path + "is an AjaxSubmitLink and "+ "will not be invoked when AJAX (javascript) is disabled.");
+    }
+    AjaxSubmitLink link=(AjaxSubmitLink)linkComponent;
+    submitAjaxFormSubmitBehavior(link,(AjaxFormSubmitBehavior)WicketTesterHelper.findAjaxEventBehavior(link,"onclick"));
+  }
+ else   if (linkComponent instanceof SubmitLink) {
+    SubmitLink submitLink=(SubmitLink)linkComponent;
+    String pageRelativePath=submitLink.getInputName();
+    getLastRequest().getPostRequestParameters().setParameterValue(pageRelativePath,"x");
+    submitForm(submitLink.getForm().getPageRelativePath());
+  }
+ else   if (linkComponent instanceof AbstractLink) {
+    AbstractLink link=(AbstractLink)linkComponent;
+    if (link instanceof BookmarkablePageLink) {
+      BookmarkablePageLink<?> bookmarkablePageLink=(BookmarkablePageLink<?>)link;
+      try {
+        BookmarkablePageLink.class.getDeclaredField("parameters");
+        Method getParametersMethod=BookmarkablePageLink.class.getDeclaredMethod("getPageParameters",(Class<?>[])null);
+        getParametersMethod.setAccessible(true);
+        PageParameters parameters=(PageParameters)getParametersMethod.invoke(bookmarkablePageLink,(Object[])null);
+        startPage(bookmarkablePageLink.getPageClass(),parameters);
+      }
+ catch (      Exception e) {
+        fail("Internal error in WicketTester. " + "Please report this in Wickets Issue Tracker.");
+      }
+    }
+    executeListener(link,ILinkListener.INTERFACE);
+  }
+ else {
+    fail("Link " + path + " is not a Link, AjaxLink, AjaxFallbackLink or AjaxSubmitLink");
+  }
+}

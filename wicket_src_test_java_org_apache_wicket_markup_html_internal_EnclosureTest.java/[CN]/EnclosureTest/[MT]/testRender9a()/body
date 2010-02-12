@@ -1,11 +1,10 @@
 {
   Class<? extends Page> clazz=EnclosurePage_9.class;
-  tester=new WicketTester(clazz);
   executeTest(clazz,"EnclosurePageExpectedResult_9.html");
   EnclosurePage_9 page=(EnclosurePage_9)tester.getLastRenderedPage();
   page.reset();
   FormTester formTester=tester.newFormTester("form");
-  tester.getServletRequest().setParameter(((CheckBox)page.get("form:input")).getInputName(),"true");
+  tester.getLastRequest().getPostRequestParameters().setParameterValue(((CheckBox)page.get("form:input")).getInputName(),"true");
   page.get("form:label").setVisible(true);
   formTester.submit();
   tester.assertRenderedPage(clazz);
@@ -14,7 +13,7 @@
   assertTrue(page.inputValidate);
   assertTrue(page.labelOnBeforeRender);
   page.reset();
-  tester.getServletRequest().setParameter(((CheckBox)page.get("form:input")).getInputName(),"true");
+  tester.getLastRequest().getPostRequestParameters().setParameterValue(((CheckBox)page.get("form:input")).getInputName(),"true");
   page.get("form:label").setVisible(false);
   tester.submitForm("form");
   tester.assertRenderedPage(clazz);

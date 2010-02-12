@@ -1,0 +1,13 @@
+{
+  if (null != getLastResponse().getHeader("Location")) {
+    throw new AssertionFailedError("Location header should *not* be present when using Ajax");
+  }
+  String ajaxLocation=getLastResponse().getHeader("Ajax-Location");
+  if (null == ajaxLocation) {
+    throw new AssertionFailedError("Ajax-Location header should be present when using Ajax");
+  }
+  int statusCode=getLastResponse().getStatus();
+  if (statusCode != 200) {
+    throw new AssertionFailedError("Expected HTTP status code to be 200 (OK)");
+  }
+}

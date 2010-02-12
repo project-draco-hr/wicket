@@ -1,0 +1,10 @@
+{
+  oldThreadContext=ThreadContext.detach();
+  this.application=new MockApplication();
+  this.application.setName("WicketTesterApplication");
+  this.application.set();
+  this.application.initApplication();
+  session=new WebSession(new MockWebRequest(Url.parse("/")));
+  getApplication().getSessionStore().bind(null,session);
+  ThreadContext.setSession(session);
+}

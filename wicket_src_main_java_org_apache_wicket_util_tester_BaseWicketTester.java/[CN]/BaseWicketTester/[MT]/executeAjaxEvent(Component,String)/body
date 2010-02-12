@@ -1,0 +1,10 @@
+{
+  String failMessage="Can't execute event on a component which is null.";
+  notNull(failMessage,component);
+  failMessage="event must not be null";
+  notNull(failMessage,event);
+  if (component.isVisibleInHierarchy() == false) {
+    fail("The component is currently not visible in the hierarchy and thus you can not fire events on it." + " Component: " + component + "; Event: "+ event);
+  }
+  executeBehavior(WicketTesterHelper.findAjaxEventBehavior(component,event));
+}
