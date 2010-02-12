@@ -1,8 +1,8 @@
 {
-  final Page page=application.getLastRenderedPage();
+  final Page page=tester.getLastRenderedPage();
   final TestForm form=(TestForm)page.get("form");
   final TextField<String> textField=(TextField<String>)form.get("input");
-  final WebRequestCycle cycle=application.createRequestCycle();
+  final WebRequestCycle cycle=tester.createRequestCycle();
   assertNull(getRequestCookies(cycle));
   assertEquals(0,getResponseCookies(cycle).size());
   final CookieUtils persister=new CookieUtils();

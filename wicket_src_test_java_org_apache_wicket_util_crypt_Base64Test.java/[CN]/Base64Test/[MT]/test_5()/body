@@ -1,6 +1,5 @@
 {
   WicketTester tester=new WicketTester();
-  RequestCycle cycle=tester.createRequestCycle();
   ICrypt crypt=tester.getApplication().getSecuritySettings().getCryptFactory().newCrypt();
   String input="wicket-sep-wicket";
   for (int i=input.length(); i >= 0; i--) {
@@ -9,4 +8,5 @@
     String output=crypt.decryptUrlSafe(encrypted);
     assertEquals(in,output);
   }
+  tester.destroy();
 }
