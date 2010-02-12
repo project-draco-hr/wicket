@@ -1,5 +1,4 @@
 {
-  WicketTester wt=new WicketTester();
   final Page dummyPanelPage=new DummyPanelPage(new TestPanelSource(){
     private static final long serialVersionUID=1L;
     public Panel getTestPanel(    String panelId){
@@ -15,11 +14,11 @@
     }
   }
 );
-  wt.startPage(dummyPanelPage);
-  wt.assertLabel("panel:content","<img src=\"resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif\"/>");
-  AjaxLazyLoadPanelTester.executeAjaxLazyLoadPanel(wt,dummyPanelPage);
-  wt.debugComponentTrees();
-  wt.assertLabel("panel:content","lazy panel test");
-  String doc=wt.getServletResponse().getDocument();
+  tester.startPage(dummyPanelPage);
+  tester.assertLabel("panel:content","<img src=\"resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif\"/>");
+  AjaxLazyLoadPanelTester.executeAjaxLazyLoadPanel(tester,dummyPanelPage);
+  tester.debugComponentTrees();
+  tester.assertLabel("panel:content","lazy panel test");
+  String doc=tester.getLastResponseAsString();
   assertNotNull(doc);
 }

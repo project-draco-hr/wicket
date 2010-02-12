@@ -1,8 +1,7 @@
 {
-  WicketTester tester=new WicketTester(new RepeaterApplication());
   tester.startPage(DataTablePage.class);
   tester.assertRenderedPage(DataTablePage.class);
-  String document=tester.getServletResponse().getDocument();
+  String document=tester.getLastResponseAsString();
   int index=document.indexOf("<thead");
   assertTrue("Expected at least on <thead>",index != -1);
   index=document.indexOf("<thead",index + 1);
