@@ -8,7 +8,7 @@
       getRequestCycle().setResponse(headerResponse.getResponse());
     }
     super.onComponentTagBody(markupStream,openTag);
-    renderHeaderSections(getPage(),this);
+    AbstractHeaderRenderStrategy.get().renderHeader(this,getPage());
     getHeaderResponse().close();
     CharSequence output=response.getBuffer();
     if (output.length() > 0) {

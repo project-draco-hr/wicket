@@ -1,0 +1,69 @@
+{
+  Checks.argumentNotNull(rootComponent,"rootComponent");
+  if (rootComponent instanceof MarkupContainer) {
+    final Component[] lastComponent=new Component[1];
+    Object rtn=((MarkupContainer)rootComponent).visitChildren(new Component.IVisitor<Component>(){
+      public Object component(      Component component){
+        if (component.isVisibleInHierarchy()) {
+          if (!(component instanceof MarkupContainer) || ((MarkupContainer)component).size() == 0) {
+            if (lastComponent[0] != null) {
+              MarkupContainer parent=lastComponent[0].getParent();
+              while ((parent != null) && (parent != rootComponent) && isCommonParent(parent,lastComponent[0],component) == false) {
+                Object rtn=component(parent);
+                if ((rtn != IVisitor.CONTINUE_TRAVERSAL) && (rtn != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
+                  return rtn;
+                }
+                parent=parent.getParent();
+              }
+            }
+            Object rtn=component(component);
+            if ((rtn != IVisitor.CONTINUE_TRAVERSAL) && (rtn != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
+              return rtn;
+            }
+            lastComponent[0]=component;
+          }
+          return CONTINUE_TRAVERSAL;
+        }
+ else {
+          lastComponent[0]=component;
+          return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+        }
+      }
+      /** 
+ * @param parent
+ * @param lastComponent
+ * @param currentComponent
+ * @return true, if parent is a common parent of both components
+ */
+      private boolean isCommonParent(      final MarkupContainer parent,      final Component lastComponent,      final Component currentComponent){
+        MarkupContainer p=lastComponent.getParent();
+        while ((p != null) && (p != rootComponent) && (p != parent)) {
+          p=p.getParent();
+        }
+        if (p == parent) {
+          p=currentComponent.getParent();
+          while ((p != null) && (p != rootComponent) && (p != parent)) {
+            p=p.getParent();
+          }
+          if (p == parent) {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+);
+    if (lastComponent[0] != null) {
+      MarkupContainer parent=lastComponent[0].getParent();
+      while ((parent != null) && (parent != rootComponent)) {
+        rtn=component(parent);
+        if ((rtn != IVisitor.CONTINUE_TRAVERSAL) && (rtn != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
+          return rtn;
+        }
+        parent=parent.getParent();
+      }
+    }
+    return rtn;
+  }
+  return null;
+}

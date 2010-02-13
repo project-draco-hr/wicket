@@ -1,0 +1,13 @@
+{
+  log.error("=== PARENT first header render strategy ===");
+  WicketTester tester=new WicketTester();
+  tester.startPage(pageClass);
+  tester.assertRenderedPage(pageClass);
+  tester.assertResultPage(getClass(),filename);
+  log.error("=== CHILD first header render strategy ===");
+  System.setProperty("Wicket_HeaderRenderStrategy",ChildFirstHeaderRenderStrategy.class.getName());
+  tester.startPage(pageClass);
+  tester.assertRenderedPage(pageClass);
+  tester.assertResultPage(getClass(),filename + "_2");
+  System.setProperty("Wicket_HeaderRenderStrategy",null);
+}
