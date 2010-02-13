@@ -1,19 +1,14 @@
 {
   try {
-    if (lastRequest != null) {
-      previousRequests.add(lastRequest);
+    if (request != null) {
+      setRequest(request);
     }
-    if (lastResponse != null) {
-      previousResponses.add(lastResponse);
-    }
-    lastRequest=request;
-    lastResponse=new MockWebResponse();
-    MockRequestCycle cycle=(MockRequestCycle)application.createRequestCycle(request,lastResponse);
-    ThreadContext.setRequestCycle(cycle);
     if (forcedRequestHandler != null) {
-      cycle.forceRequestHandler(forcedRequestHandler);
+      requestCycle.forceRequestHandler(forcedRequestHandler);
     }
-    cycle.processRequestAndDetach();
+    requestCycle.processRequestAndDetach();
+    recordRequestResponse();
+    setupNextRequestCycle();
     if (followRedirects && lastResponse.isRedirect()) {
       if (redirectCount == 100) {
         throw new IllegalStateException("Possible infinite redirect detected. Bailing out.");
@@ -23,9 +18,10 @@
       if (newUrl.isAbsolute()) {
         throw new WicketRuntimeException("Can not follow absolute redirect URL.");
       }
-      Url mergedURL=new Url(request.getUrl().getSegments(),newUrl.getQueryParameters());
+      Url mergedURL=new Url(lastRequest.getUrl().getSegments(),newUrl.getQueryParameters());
       mergedURL.concatSegments(newUrl.getSegments());
-      processRequest(new MockWebRequest(mergedURL),null);
+      this.request.setUrl(mergedURL);
+      processRequest();
       --redirectCount;
     }
   }

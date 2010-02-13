@@ -1,6 +1,6 @@
 {
   if (parameterExist(formComponent)) {
-    List<StringValue> values=baseWicketTester.getLastRequest().getPostRequestParameters().getParameterValues(formComponent.getInputName());
+    List<StringValue> values=tester.getRequest().getPostRequestParameters().getParameterValues(formComponent.getInputName());
     HashSet<String> all=new HashSet<String>();
     for (    StringValue val : values) {
       all.add(val.toString());
@@ -10,7 +10,7 @@
     for (    String val : all) {
       values.add(StringValue.valueOf(val));
     }
-    baseWicketTester.getLastRequest().getPostRequestParameters().setParameterValues(formComponent.getInputName(),values);
+    tester.getRequest().getPostRequestParameters().setParameterValues(formComponent.getInputName(),values);
   }
  else {
     setFormComponentValue(formComponent,value);

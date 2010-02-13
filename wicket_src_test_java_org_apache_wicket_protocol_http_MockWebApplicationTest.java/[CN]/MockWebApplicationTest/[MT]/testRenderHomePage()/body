@@ -1,5 +1,5 @@
 {
-  String document=application.getServletResponse().getDocument();
+  String document=application.getLastResponseAsString();
   DiffUtil.validatePage(document,getClass(),"MockPage_expectedResult.html",true);
   MockPage p=(MockPage)application.getLastRenderedPage();
   Assert.assertEquals("Link should have been clicked 0 times",0,p.getLinkClickCount());
