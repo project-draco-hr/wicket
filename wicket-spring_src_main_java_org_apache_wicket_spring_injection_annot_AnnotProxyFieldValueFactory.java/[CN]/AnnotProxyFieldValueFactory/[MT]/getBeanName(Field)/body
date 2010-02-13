@@ -1,0 +1,12 @@
+{
+  SpringBean annot=field.getAnnotation(SpringBean.class);
+  String name=annot.name();
+  if (Strings.isEmpty(name)) {
+    name=beanNameCache.get(field.getType());
+    if (name == null) {
+      name=getBeanNameOfClass(contextLocator.getSpringContext(),field.getType());
+      beanNameCache.put(field.getType(),name);
+    }
+  }
+  return name;
+}
