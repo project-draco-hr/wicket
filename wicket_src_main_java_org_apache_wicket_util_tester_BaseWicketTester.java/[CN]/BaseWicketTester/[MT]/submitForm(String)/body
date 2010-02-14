@@ -1,6 +1,9 @@
 {
   Form<?> form=(Form<?>)getComponentFromLastRenderedPage(path);
   Url url=Url.parse(form.urlFor(IFormSubmitListener.INTERFACE).toString());
+  while (url.getSegments().size() > 0 && url.getSegments().get(0).equals("..")) {
+    url.getSegments().remove(0);
+  }
   request.setUrl(url);
   processRequest();
 }
