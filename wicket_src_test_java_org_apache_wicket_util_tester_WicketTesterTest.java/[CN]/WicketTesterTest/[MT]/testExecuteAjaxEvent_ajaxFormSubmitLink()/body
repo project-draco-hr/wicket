@@ -3,11 +3,13 @@
   MockPageWithFormAndAjaxFormSubmitBehavior page=(MockPageWithFormAndAjaxFormSubmitBehavior)tester.getLastRenderedPage();
   Pojo pojo=page.getPojo();
   assertEquals("Mock name",pojo.getName());
-  assertEquals("Mock name",((TextField<?>)tester.getComponentFromLastRenderedPage("form" + Component.PATH_SEPARATOR + "name")).getValue());
+  TextField<?> name=(TextField<?>)tester.getComponentFromLastRenderedPage("form:name");
+  assertEquals("Mock name",name.getValue());
   assertFalse(page.isExecuted());
+  tester.getRequest().getPostRequestParameters().setParameterValue(name.getInputName(),"Mock name");
   tester.executeAjaxEvent(MockPageWithFormAndAjaxFormSubmitBehavior.EVENT_COMPONENT,"onclick");
   assertTrue("AjaxFormSubmitBehavior.onSubmit() has not been executed in " + MockPageWithFormAndAjaxFormSubmitBehavior.class,page.isExecuted());
-  assertEquals("Mock name",((TextField<?>)tester.getComponentFromLastRenderedPage("form" + Component.PATH_SEPARATOR + "name")).getValue());
+  assertEquals("Mock name",((TextField<?>)tester.getComponentFromLastRenderedPage("form:name")).getValue());
   assertNotNull("executeAjaxEvent() did not properly submit the form",pojo.getName());
   assertEquals("Mock name",pojo.getName());
 }

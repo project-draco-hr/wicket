@@ -6,6 +6,11 @@
     if (request != null) {
       setRequest(request);
     }
+    if (getLastResponse() != null) {
+      for (      Cookie cookie : getLastResponse().getCookies()) {
+        this.request.addCookie(cookie);
+      }
+    }
     if (forcedRequestHandler != null) {
       requestCycle.forceRequestHandler(forcedRequestHandler);
     }
