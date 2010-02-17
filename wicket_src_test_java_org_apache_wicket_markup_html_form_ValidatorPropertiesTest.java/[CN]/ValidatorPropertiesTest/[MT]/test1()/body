@@ -1,6 +1,5 @@
 {
-  WebRequestCycle cycle=tester.setupRequestAndResponse();
-  cycle.getSession().setLocale(Locale.ENGLISH);
+  tester.getSession().setLocale(Locale.ENGLISH);
   TestPage page=new TestPage();
   Form form=(Form)page.get("form1");
   assertNotNull(form);
@@ -47,7 +46,7 @@
   assertEquals("found text-13 property",page.getText13().getFeedbackMessage().getMessage().toString());
   assertEquals("Default message: text14 required",page.getText14().getFeedbackMessage().getMessage().toString());
   assertEquals("Default message: text8-Label required",page.getText8().getFeedbackMessage().getMessage().toString());
-  cycle.getSession().setLocale(new Locale("nl"));
+  tester.getSession().setLocale(new Locale("nl"));
   page=new TestPage();
   form=(Form)page.get("form1");
   assertNotNull(form);

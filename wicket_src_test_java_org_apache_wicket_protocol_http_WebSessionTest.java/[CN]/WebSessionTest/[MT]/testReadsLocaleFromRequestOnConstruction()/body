@@ -1,11 +1,11 @@
 {
   final Locale locale=Locale.TRADITIONAL_CHINESE;
-  HttpServletRequest request=new MockHttpServletRequest(null,null,null){
+  MockWebRequest request=new MockWebRequest(Url.parse("/")){
     @Override public Locale getLocale(){
       return locale;
     }
   }
 ;
-  WebSession session=new WebSession(new ServletWebRequest(request));
+  WebSession session=new WebSession(request);
   assertEquals(locale,session.getLocale());
 }

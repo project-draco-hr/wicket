@@ -2,7 +2,7 @@
   tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new DummyAuthorizationStrategy());
   tester.startPage(AuthTestPage1.class);
   tester.assertRenderedPage(AuthTestPage1.class);
-  tester.setParameterForNextRequest("form:stringInput","test");
+  tester.getRequest().getPostRequestParameters().setParameterValue("form:stringInput","test");
   tester.submitForm("form");
   tester.assertRenderedPage(AuthTestPage1.class);
   AuthTestPage1 page=(AuthTestPage1)tester.getLastRenderedPage();

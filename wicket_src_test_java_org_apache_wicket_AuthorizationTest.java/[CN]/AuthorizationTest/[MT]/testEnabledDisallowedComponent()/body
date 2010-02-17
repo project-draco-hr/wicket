@@ -13,7 +13,7 @@
 );
   tester.startPage(AuthTestPage1.class);
   tester.assertRenderedPage(AuthTestPage1.class);
-  tester.setParameterForNextRequest("form:stringInput","test");
+  tester.getRequest().getPostRequestParameters().setParameterValue("form:stringInput","test");
   try {
     tester.submitForm("form");
     Component component=tester.getComponentFromLastRenderedPage("form:stringInput");

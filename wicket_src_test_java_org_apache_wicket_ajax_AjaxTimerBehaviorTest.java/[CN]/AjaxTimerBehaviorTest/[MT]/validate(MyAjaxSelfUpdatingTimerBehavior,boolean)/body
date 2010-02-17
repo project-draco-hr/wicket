@@ -1,5 +1,5 @@
 {
-  String document=tester.getServletResponse().getDocument();
+  String document=tester.getLastResponseAsString();
   String updateScript=timer.getUpdateScript();
   if (inBodyOnLoad) {
     String bodyOnLoadUpdateScript="Wicket.Event.add(window, \"load\", function(event) { " + updateScript + ";});";
@@ -12,6 +12,6 @@
   if (inBodyOnLoad) {
     updateScript=timer.getUpdateScript();
   }
-  document=tester.getServletResponse().getDocument();
+  document=tester.getLastResponseAsString();
   validateTimerScript(document,updateScript);
 }
