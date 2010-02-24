@@ -1,0 +1,15 @@
+{
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+ else   if (url.startsWith("/")) {
+    return getAbsolutePrefix() + url;
+  }
+ else {
+    Url current=Url.parse(httpServletRequest.getRequestURI());
+    Url append=Url.parse(url);
+    current.concatSegments(append.getSegments());
+    Url result=new Url(current.getSegments(),append.getQueryParameters());
+    return getAbsolutePrefix() + result.toString();
+  }
+}

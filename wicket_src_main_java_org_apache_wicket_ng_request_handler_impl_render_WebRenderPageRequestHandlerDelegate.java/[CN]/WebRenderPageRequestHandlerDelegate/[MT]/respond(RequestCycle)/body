@@ -9,7 +9,7 @@
  else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender() && getPage().isPageStateless())) {
     renderPage();
   }
- else   if (!targetUrl.equals(currentUrl) && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender())) {
+ else   if (!targetUrl.equals(currentUrl) && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender() || (getPage().isPageStateless() && Session.get().isTemporary()))) {
     redirectTo(targetUrl,requestCycle);
   }
  else   if (!targetUrl.equals(currentUrl) && isSessionTemporary() && getPage().isPageStateless()) {

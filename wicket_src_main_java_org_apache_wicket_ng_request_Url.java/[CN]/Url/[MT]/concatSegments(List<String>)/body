@@ -1,10 +1,14 @@
 {
   boolean checkedLastSegment=false;
+  if (!isAtLeastOnSegmentReal(segments) && !isLastSegmentEmpty(segments)) {
+    segments=new ArrayList<String>(segments);
+    segments.add("");
+  }
   for (  String s : segments) {
     if (".".equals(s)) {
       continue;
     }
- else     if ("..".equals(s) && isLastSegmentReal()) {
+ else     if ("..".equals(s) && !this.segments.isEmpty()) {
       this.segments.remove(this.segments.size() - 1);
     }
  else {
@@ -16,5 +20,8 @@
       }
       this.segments.add(s);
     }
+  }
+  if (this.segments.size() == 1 && this.segments.get(0).length() == 0) {
+    this.segments.clear();
   }
 }

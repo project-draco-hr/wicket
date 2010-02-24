@@ -1,6 +1,12 @@
 {
   PageAndComponentProvider provider=new PageAndComponentProvider(getPage(),this);
   int index=getBehaviors().indexOf(behaviour);
-  IRequestHandler handler=new ListenerInterfaceRequestHandler(provider,listener,index);
+  IRequestHandler handler;
+  if (getPage().isPageStateless()) {
+    handler=new BookmarkableListenerInterfaceRequestHandler(provider,listener,index);
+  }
+ else {
+    handler=new ListenerInterfaceRequestHandler(provider,listener,index);
+  }
   return getRequestCycle().renderUrlFor(handler);
 }

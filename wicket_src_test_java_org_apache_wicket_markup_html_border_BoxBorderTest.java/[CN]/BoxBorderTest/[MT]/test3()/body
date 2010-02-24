@@ -5,7 +5,7 @@
   Form<?> form=(Form<?>)tester.getLastRenderedPage().get("border:myForm");
   TextField<String> input=(TextField<String>)tester.getLastRenderedPage().get("border:myForm:border_body:name");
   assertEquals("",input.getDefaultModelObjectAsString());
-  tester.getRequest().getPostRequestParameters().setParameterValue(input.getInputName(),"jdo");
+  tester.getRequest().getPostParameters().setParameterValue(input.getInputName(),"jdo");
   tester.submitForm(form.getPageRelativePath());
   input=(TextField<String>)tester.getLastRenderedPage().get("border:myForm:border_body:name");
   assertEquals("jdo",input.getDefaultModelObjectAsString());

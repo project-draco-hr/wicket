@@ -10,10 +10,15 @@
   }
  else   if (requestHandler instanceof RenderPageRequestHandler) {
     RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
-    IRequestablePage page=handler.getPage();
-    if (!checkPageClass(page.getClass())) {
+    if (!checkPageClass(handler.getPageClass())) {
       return null;
     }
+    if (handler.getPageProvider().isNewPageInstance()) {
+      PageInfo info=new PageInfo();
+      UrlInfo urlInfo=new UrlInfo(new PageComponentInfo(info,null),handler.getPageClass(),handler.getPageParameters());
+      return buildUrl(urlInfo);
+    }
+    IRequestablePage page=handler.getPage();
     if (!pageMustHaveBeenCreatedBookmarkable() || page.wasCreatedBookmarkable()) {
       PageInfo info=null;
       if (!page.isPageStateless()) {
