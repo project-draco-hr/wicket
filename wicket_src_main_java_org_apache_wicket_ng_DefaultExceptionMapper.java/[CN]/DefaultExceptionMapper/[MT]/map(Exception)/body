@@ -2,5 +2,7 @@
   if (e instanceof StalePageException) {
     return new RenderPageRequestHandler(new PageProvider(((StalePageException)e).getPage()));
   }
- else   return null;
+ else {
+    return new RenderPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getInternalErrorPage()));
+  }
 }
