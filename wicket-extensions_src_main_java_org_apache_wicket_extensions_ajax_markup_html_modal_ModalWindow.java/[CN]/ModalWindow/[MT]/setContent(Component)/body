@@ -2,6 +2,9 @@
   if (component.getId().equals(getContentId()) == false) {
     throw new WicketRuntimeException("Modal window content id is wrong. Component ID:" + component.getId() + "; content ID: "+ getContentId());
   }
+ else   if (component instanceof AbstractRepeater) {
+    throw new WicketRuntimeException("A repeater component cannot be used as the content of a modal window, please use repeater's parent");
+  }
   component.setOutputMarkupPlaceholderTag(true);
   component.setVisible(false);
   replace(component);
