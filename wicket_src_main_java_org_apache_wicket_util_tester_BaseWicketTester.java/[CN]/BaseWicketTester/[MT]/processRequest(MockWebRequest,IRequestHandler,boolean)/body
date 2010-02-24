@@ -14,7 +14,9 @@
     if (forcedRequestHandler != null) {
       requestCycle.forceRequestHandler(forcedRequestHandler);
     }
-    requestCycle.processRequestAndDetach();
+    if (!requestCycle.processRequestAndDetach()) {
+      return false;
+    }
     recordRequestResponse();
     setupNextRequestCycle();
     if (followRedirects && lastResponse.isRedirect()) {
@@ -32,6 +34,7 @@
       processRequest(null,null,true);
       --redirectCount;
     }
+    return true;
   }
   finally {
     redirectCount=0;
