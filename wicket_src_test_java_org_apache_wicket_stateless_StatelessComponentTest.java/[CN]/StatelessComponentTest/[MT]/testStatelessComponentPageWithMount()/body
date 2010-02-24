@@ -1,10 +1,9 @@
 {
   tester.getApplication().mountBookmarkablePage("/stateless",StatelessComponentPage.class);
   executeTest(StatelessComponentPage.class,"StatelessComponentPage_mount_result.html");
-  tester.setupRequestAndResponse();
-  tester.getServletRequest().setURL("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/stateless/wicket:interface/:0:link::ILinkListener::");
+  tester.getRequest().setUrl(Url.parse("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/stateless/wicket:interface/:0:link::ILinkListener::"));
   try {
-    tester.processRequestCycle();
+    tester.processRequest();
     fail("An exception should have been thrown for this request!");
   }
  catch (  Exception e) {

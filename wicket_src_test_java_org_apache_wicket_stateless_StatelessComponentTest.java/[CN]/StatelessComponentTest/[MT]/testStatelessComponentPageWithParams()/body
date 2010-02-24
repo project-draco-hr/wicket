@@ -1,13 +1,12 @@
 {
   PageParameters params=new PageParameters();
-  params.put("testParam1","testValue1");
-  params.put("testParam2","testValue2");
+  params.setNamedParameter("testParam1","testValue1");
+  params.setNamedParameter("testParam2","testValue2");
   executeTest(StatelessComponentPageWithParams.class,params,"StatelessComponentPageWithParams_result.html");
-  tester.setupRequestAndResponse();
-  tester.getServletRequest().setURL("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication?wicket:bookmarkablePage=:org.apache.wicket.stateless.StatelessComponentPageWithParams&testParam1=testValue1&testParam2=testValue2&wicket:interface=:0:link::ILinkListener::");
+  tester.getRequest().setUrl(Url.parse("/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication?wicket:bookmarkablePage=:org.apache.wicket.stateless.StatelessComponentPageWithParams&testParam1=testValue1&testParam2=testValue2&wicket:interface=:0:link::ILinkListener::"));
   try {
-    tester.processRequestCycle();
-    assertTrue(false);
+    tester.processRequest();
+    fail();
   }
  catch (  Exception e) {
     assertEquals("wanted exception",e.getMessage());

@@ -1,15 +1,13 @@
 {
   tester.startPage(LoginPage.class);
-  tester.setupRequestAndResponse();
-  assertTrue(tester.getWicketSession().isTemporary());
-  tester.processRequestCycle(LoginPage.class);
+  assertTrue(tester.getSession().isTemporary());
+  tester.startPage(LoginPage.class);
   FormTester form=tester.newFormTester("signInPanel:signInForm");
   form.setValue("username","test");
   form.setValue("password","test");
-  tester.getWicketSession().bind();
+  tester.getSession().bind();
   form.submit();
   tester.assertRenderedPage(HomePage.class);
-  tester.setupRequestAndResponse();
   assertFalse(Session.get().isTemporary());
-  tester.processRequestCycle(LoginPage.class);
+  tester.startPage(LoginPage.class);
 }

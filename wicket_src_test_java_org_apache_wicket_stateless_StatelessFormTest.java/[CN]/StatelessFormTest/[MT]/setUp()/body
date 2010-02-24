@@ -1,13 +1,8 @@
 {
-  mock=new WicketTester(application=new WebApplication(){
+  mock=new WicketTester(application=new MockApplication(){
     @Override public Class<? extends Page> getHomePage(){
       return StatelessFormTest.this.getHomePage();
     }
-    @Override protected void outputDevelopmentModeWarning(){
-    }
-    @Override protected ISessionStore newSessionStore(){
-      return new HttpSessionStore();
-    }
   }
-,"src/test/java/" + getClass().getPackage().getName().replace('.','/'));
+);
 }
