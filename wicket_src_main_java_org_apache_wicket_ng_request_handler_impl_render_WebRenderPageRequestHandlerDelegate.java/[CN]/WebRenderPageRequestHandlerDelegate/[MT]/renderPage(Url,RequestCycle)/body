@@ -1,11 +1,6 @@
 {
   final Response originalResponse=requestCycle.getResponse();
-  BufferedWebResponse response=new BufferedWebResponse(){
-    @Override public String encodeURL(    CharSequence url){
-      return originalResponse.encodeURL(url).toString();
-    }
-  }
-;
+  BufferedWebResponse response=new BufferedWebResponse((WebResponse)originalResponse);
   Url originalBaseUrl=requestCycle.getUrlRenderer().setBaseUrl(targetUrl);
   try {
     requestCycle.setResponse(response);
