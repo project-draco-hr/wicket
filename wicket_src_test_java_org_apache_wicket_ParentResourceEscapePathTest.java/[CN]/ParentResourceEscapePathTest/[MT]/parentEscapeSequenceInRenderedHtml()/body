@@ -2,7 +2,7 @@
   tester.startPage(ParentResourceEscapePathTestPage.class);
   tester.assertRenderedPage(ParentResourceEscapePathTestPage.class);
   tester.assertNoErrorMessage();
-  String html=tester.getLastResponse().getTextResponse().toString();
+  String html=tester.getLastResponseAsString();
   assertContains(html,"<html><head><wicket:link><script ");
   assertContains(html," type=\"text/javascript\"");
   assertContains(html,"src=\"" + expectedResourceUrl() + "\"");

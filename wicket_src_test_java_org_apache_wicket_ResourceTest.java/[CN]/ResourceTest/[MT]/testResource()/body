@@ -1,0 +1,18 @@
+{
+  final File testFile;
+  try {
+    testFile=File.createTempFile(ResourceTest.class.getName(),null);
+    OutputStream out=new FileOutputStream(testFile);
+    out.write(TEST_STRING.getBytes());
+    out.close();
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+  IResource file=new ResourceStreamResource(new FileResourceStream(new org.apache.wicket.util.file.File(testFile)));
+  tester.getApplication().getSharedResources().add("file",file);
+  tester.getRequest().setUrl(tester.getRequestCycle().urlFor(tester.getApplication().getSharedResources().get(Application.class,"file",null,null,null,true)));
+  tester.processRequest();
+  assertEquals(String.valueOf(testFile.lastModified()),tester.getLastModifiedFromResponseHeader());
+  assertEquals(TEST_STRING.length(),tester.getContentLengthFromResponseHeader());
+}
