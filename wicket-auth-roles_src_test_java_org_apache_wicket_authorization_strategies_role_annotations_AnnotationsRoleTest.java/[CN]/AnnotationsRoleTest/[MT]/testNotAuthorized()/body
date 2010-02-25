@@ -10,13 +10,7 @@ final class Listener implements IUnauthorizedComponentInstantiationListener {
   Listener listener=new Listener();
   tester.getApplication().getSecuritySettings().setUnauthorizedComponentInstantiationListener(listener);
   try {
-    tester.startPage(new ITestPageSource(){
-      private static final long serialVersionUID=1L;
-      public Page getTestPage(){
-        return new AdminPage();
-      }
-    }
-);
+    tester.startPage(AdminPage.class);
     assertTrue("an authorization exception event should have been received",listener.eventReceived);
   }
  catch (  Exception e) {
