@@ -1,8 +1,8 @@
 {
   super.beforeRender(component);
   final RequestCycle requestCycle=RequestCycle.get();
-  webResponse=requestCycle.getResponse();
-  final Response response=newResponse();
+  webResponse=(WebResponse)requestCycle.getResponse();
+  final BufferedWebResponse response=newResponse(webResponse);
   if (response == null) {
     throw new IllegalStateException("newResponse() must not return null");
   }

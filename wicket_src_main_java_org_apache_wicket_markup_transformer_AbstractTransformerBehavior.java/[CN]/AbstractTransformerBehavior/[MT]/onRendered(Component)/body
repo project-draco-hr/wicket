@@ -1,9 +1,10 @@
 {
   final RequestCycle requestCycle=RequestCycle.get();
   try {
-    Response response=requestCycle.getResponse();
-    CharSequence output=transform(component,response.toString());
-    webResponse.write(output);
+    BufferedWebResponse response=(BufferedWebResponse)requestCycle.getResponse();
+    CharSequence output=transform(component,response.getText());
+    response.setText(output);
+    response.writeTo(webResponse);
   }
  catch (  Exception ex) {
     throw new WicketRuntimeException("Error while transforming the output: " + this,ex);
