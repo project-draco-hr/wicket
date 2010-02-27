@@ -1,5 +1,10 @@
 {
   set(this);
+  if (cleanupFeedbackMessagesOnDetach) {
+    if (Session.exists()) {
+      Session.get().cleanupFeedbackMessages();
+    }
+  }
   try {
     super.detach();
   }

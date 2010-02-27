@@ -1,0 +1,14 @@
+{
+  oldThreadContext=ThreadContext.detach();
+  this.application=application;
+  this.application.setName("WicketTesterApplication-" + UUID.randomUUID());
+  this.application.set();
+  application.setServletContext(new MockServletContext(application,""));
+  this.application.initApplication();
+  application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
+  application.setRequestCycleProvider(new TestRequestCycleProvider(application.getRequestCycleProvider()));
+  session=new MockSession(new MockWebRequest(Url.parse("/")));
+  getApplication().getSessionStore().bind(null,session);
+  ThreadContext.setSession(session);
+  setupNextRequestCycle();
+}

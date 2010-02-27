@@ -1,6 +1,6 @@
 {
-  if (wicketFilter != null) {
-    return wicketFilter.getFilterConfig().getServletContext();
+  if (servletContext == null) {
+    throw new IllegalStateException("servletContext is not set yet. Any code in your" + " Application object that uses the wicket filter instance should be put" + " in the init() method instead of your constructor");
   }
-  throw new IllegalStateException("servletContext is not set yet. Any code in your" + " Application object that uses the wicket filter instance should be put" + " in the init() method instead of your constructor");
+  return servletContext;
 }

@@ -1,24 +1,27 @@
 {
+  if (forcedRequest != null) {
+    request=forcedRequest;
+  }
+  forcedHandler=forcedRequestHandler;
+  requestCycle=application.createRequestCycle(request,response);
+  ThreadContext.setRequestCycle(requestCycle);
   try {
     if (!redirect) {
-      session.reset();
-    }
-    if (request != null) {
-      setRequest(request);
+      session.cleanupFeedbackMessages();
     }
     if (getLastResponse() != null) {
       for (      Cookie cookie : getLastResponse().getCookies()) {
-        this.request.addCookie(cookie);
+        request.addCookie(cookie);
       }
-    }
-    if (forcedRequestHandler != null) {
-      requestCycle.forceRequestHandler(forcedRequestHandler);
     }
     if (!requestCycle.processRequestAndDetach()) {
       return false;
     }
     recordRequestResponse();
     setupNextRequestCycle();
+    lastRequestCycle=requestCycle;
+    requestCycle=application.createRequestCycle(request,response);
+    ThreadContext.setRequestCycle(requestCycle);
     if (followRedirects && lastResponse.isRedirect()) {
       if (redirectCount == 100) {
         throw new IllegalStateException("Possible infinite redirect detected. Bailing out.");
@@ -30,7 +33,7 @@
       }
       Url mergedURL=new Url(lastRequest.getUrl().getSegments(),newUrl.getQueryParameters());
       mergedURL.concatSegments(newUrl.getSegments());
-      this.request.setUrl(mergedURL);
+      request.setUrl(mergedURL);
       processRequest(null,null,true);
       --redirectCount;
     }
