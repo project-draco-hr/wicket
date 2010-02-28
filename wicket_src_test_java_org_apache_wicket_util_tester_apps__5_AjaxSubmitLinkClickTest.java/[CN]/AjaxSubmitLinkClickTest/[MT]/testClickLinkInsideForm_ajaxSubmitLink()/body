@@ -12,15 +12,9 @@
     }
   }
 );
-  tester.startPage(new ITestPageSource(){
-    private static final long serialVersionUID=1L;
-    public Page getTestPage(){
-      return page;
-    }
-  }
-);
+  tester.startPage(page);
   tester.assertRenderedPage(MockPageWithFormAndContainedLink.class);
-  page.getNameField().setModelValue(new String[]{"new mock value"});
+  tester.getRequest().getPostParameters().setParameterValue(page.getNameField().getInputName(),"new mock value");
   tester.clickLink("form:link");
   assertTrue(linkClicked);
   assertEquals("new mock value",mockPojo.getName());

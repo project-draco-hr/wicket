@@ -1,12 +1,5 @@
 {
-  application=new WicketTester(new MyMockWebApplication(){
-    @Override protected WebResponse newWebResponse(    HttpServletResponse response){
-      return new BufferedWebResponse(response);
-    }
-  }
-);
-  application.setupRequestAndResponse();
-  application.processRequestCycle();
+  application.startPage(application.getApplication().getHomePage());
   MockLoginPage loginPage=(MockLoginPage)application.getLastRenderedPage();
   assertEquals(((MyMockWebApplication)application.getApplication()).getLoginPage(),loginPage.getClass());
   FormTester form=application.newFormTester("form");

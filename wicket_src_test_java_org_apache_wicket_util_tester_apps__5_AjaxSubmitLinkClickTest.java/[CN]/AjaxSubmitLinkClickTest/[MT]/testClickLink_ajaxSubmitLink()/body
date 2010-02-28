@@ -21,7 +21,7 @@
   }
 );
   tester.assertRenderedPage(MockPageWithFormAndLink.class);
-  page.getNameField().setModelValue(new String[]{"new mock value"});
+  tester.getRequest().getPostParameters().setParameterValue(page.getNameField().getInputName(),"new mock value");
   tester.clickLink("link");
   assertTrue(linkClicked);
   assertEquals("new mock value",mockPojo.getName());

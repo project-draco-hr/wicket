@@ -1,15 +1,11 @@
 {
-  application.setupRequestAndResponse();
-  application.processRequestCycle();
+  application.startPage(application.getApplication().getHomePage());
   MockLoginPage loginPage=(MockLoginPage)application.getLastRenderedPage();
   assertEquals(((MyMockWebApplication)application.getApplication()).getLoginPage(),loginPage.getClass());
-  application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToComponent(loginPage.getForm());
-  application.getServletRequest().setParameter(loginPage.getTextField().getInputName(),"admin");
-  application.processRequestCycle();
+  FormTester form=application.newFormTester("form");
+  form.setValue("username","admin");
+  form.submit();
   assertEquals(application.getApplication().getHomePage(),application.getLastRenderedPage().getClass());
-  application.setupRequestAndResponse();
-  application.getServletRequest().setRequestToComponent(application.getLastRenderedPage().get("link"));
-  application.processRequestCycle();
+  application.clickLink(application.getLastRenderedPage().get("link"));
   assertEquals(PageA.class,application.getLastRenderedPage().getClass());
 }
