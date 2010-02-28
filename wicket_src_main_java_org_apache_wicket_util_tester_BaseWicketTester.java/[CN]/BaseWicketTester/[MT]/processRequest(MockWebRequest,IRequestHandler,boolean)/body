@@ -3,8 +3,6 @@
     request=forcedRequest;
   }
   forcedHandler=forcedRequestHandler;
-  requestCycle=application.createRequestCycle(request,response);
-  ThreadContext.setRequestCycle(requestCycle);
   try {
     if (!redirect) {
       session.cleanupFeedbackMessages();
@@ -14,14 +12,12 @@
         request.addCookie(cookie);
       }
     }
+    requestCycle.setRequest(request);
     if (!requestCycle.processRequestAndDetach()) {
       return false;
     }
     recordRequestResponse();
     setupNextRequestCycle();
-    lastRequestCycle=requestCycle;
-    requestCycle=application.createRequestCycle(request,response);
-    ThreadContext.setRequestCycle(requestCycle);
     if (followRedirects && lastResponse.isRedirect()) {
       if (redirectCount == 100) {
         throw new IllegalStateException("Possible infinite redirect detected. Bailing out.");
