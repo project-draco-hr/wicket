@@ -1,11 +1,11 @@
 {
-  if (!redirect) {
-    lastRenderedPage=null;
-  }
   if (forcedRequest != null) {
     request=forcedRequest;
   }
   forcedHandler=forcedRequestHandler;
+  if (!redirect && getRequest().getHeader("Wicket-Ajax-BaseURL") == null) {
+    lastRenderedPage=null;
+  }
   try {
     if (!redirect) {
       session.cleanupFeedbackMessages();
