@@ -6,9 +6,6 @@
   final String fn=WicketURLEncoder.QUERY_INSTANCE.encode((fileName != null) ? fileName : file.getName());
   IResourceStream resourceStream=new FileResourceStream(new org.apache.wicket.util.file.File(file));
   getRequestCycle().scheduleRequestHandlerAfterCurrent(new ResourceStreamRequestHandler(resourceStream){
-    @Override public String getFileName(){
-      return fn;
-    }
     @Override public void respond(    RequestCycle requestCycle){
       super.respond(requestCycle);
       if (deleteAfter) {
@@ -16,5 +13,5 @@
       }
     }
   }
-);
+.setFileName(fn).setContentDisposition(ContentDisposition.ATTACHMENT));
 }
