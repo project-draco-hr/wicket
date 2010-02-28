@@ -1,6 +1,12 @@
 {
   request=new MockWebRequest(Url.parse("/"));
   response=new MockWebResponse();
+  if (session == null) {
+    session=application.newSession(request,response);
+    application.getSessionStore().bind(null,session);
+    ThreadContext.setSession(session);
+  }
   requestCycle=application.createRequestCycle(request,response);
+  requestCycle.setCleanupFeedbackMessagesOnDetach(false);
   ThreadContext.setRequestCycle(requestCycle);
 }
