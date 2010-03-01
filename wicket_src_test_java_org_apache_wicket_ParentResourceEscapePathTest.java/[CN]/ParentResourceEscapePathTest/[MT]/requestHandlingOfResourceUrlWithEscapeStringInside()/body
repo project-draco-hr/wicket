@@ -1,6 +1,9 @@
 {
-  tester.getRequest().setUrl(Url.parse("wicket/resource/WicketTester$DummyWebApplication/WicketTester$DummyWebApplication/" + expectedResourceUrl()));
+  tester.getRequest().setUrl(Url.parse("wicket/" + expectedResourceUrl()));
+  InputStream i=getClass().getClassLoader().getResourceAsStream("ParentResourceTest.js");
+  i=getClass().getClassLoader().getResourceAsStream("/ParentResourceTest.js");
   tester.processRequest();
   tester.assertNoErrorMessage();
-  assertEquals("// ParentResourceTest.js",tester.getLastResponseAsString());
+  String res=new String(tester.getLastResponse().getBinaryResponse());
+  assertEquals("// ParentResourceTest.js",res);
 }

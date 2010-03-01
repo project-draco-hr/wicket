@@ -2,6 +2,9 @@
   if (e instanceof StalePageException) {
     return new RenderPageRequestHandler(new PageProvider(((StalePageException)e).getPage()));
   }
+ else   if (e instanceof PageExpiredException) {
+    return new RenderPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getPageExpiredErrorPage()));
+  }
  else {
     return new RenderPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getInternalErrorPage()));
   }

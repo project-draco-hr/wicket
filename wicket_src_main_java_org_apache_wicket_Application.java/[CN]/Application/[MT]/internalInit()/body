@@ -14,10 +14,8 @@
   getResourceSettings().addResourceFactory("buttonFactory",new DefaultButtonImageResourceFactory());
   String applicationKey=getApplicationKey();
   applicationKeyToApplication.put(applicationKey,this);
-  sessionStore=newSessionStore();
-  sessionStore.registerUnboundListener(this);
   converterLocator=newConverterLocator();
-  pageManager=newPageManager(getPageManagerContext());
+  setPageManagerProvider(new DefaultPageManagerProvider());
   resourceReferenceRegistry=newResourceReferenceRegistry();
   sharedResources=newSharedResources(resourceReferenceRegistry);
   setRootRequestMapper(new SystemMapper());

@@ -1,3 +1,11 @@
 {
+  if (sessionStore == null) {
+synchronized (this) {
+      if (sessionStore == null) {
+        sessionStore=sessionStoreProvider.get();
+        sessionStore.registerUnboundListener(this);
+      }
+    }
+  }
   return sessionStore;
 }

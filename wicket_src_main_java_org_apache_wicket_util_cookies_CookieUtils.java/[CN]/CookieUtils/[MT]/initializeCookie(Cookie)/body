@@ -7,7 +7,7 @@
   if (domain != null) {
     cookie.setDomain(domain);
   }
-  HttpServletRequest request=getWebRequest().getHttpServletRequest();
+  HttpServletRequest request=((ServletWebRequest)getWebRequest()).getHttpServletRequest();
   String path=request.getContextPath() + request.getServletPath();
   if (Strings.isEmpty(path)) {
     path="/";

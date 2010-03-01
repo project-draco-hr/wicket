@@ -2,11 +2,10 @@
   tester.startPage(TestExpirePage.class);
   String document=tester.getLastResponseAsString();
   assertTrue(document.contains("Click me to get an error"));
-  AjaxLink link=(AjaxLink)tester.getComponentFromLastRenderedPage("link");
+  Link<?> link=(Link<?>)tester.getComponentFromLastRenderedPage("link");
+  String linkUrl=tester.urlFor(link);
   tester.getSession().invalidateNow();
-  tester.getSession().invalidateNow();
-  tester.clickLink(link);
-  document=tester.getLastResponseAsString();
-  assertTrue(document.equals("-"));
-  tester.assertAjaxLocation();
+  tester.setExposeExceptions(false);
+  tester.executeUrl(linkUrl);
+  assertEquals(PageExpiredErrorPage.class,tester.getLastRenderedPage().getClass());
 }

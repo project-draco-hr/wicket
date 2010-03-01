@@ -1,12 +1,11 @@
 {
   RequestCycle rc=RequestCycle.get();
-  HttpServletRequest request=((ServletWebRequest)rc.getRequest()).getHttpServletRequest();
-  HttpSession session=request.getSession(true);
-  final String keyAttr=Application.get().getApplicationKey() + "." + getClass().getName();
-  String key=(String)session.getAttribute(keyAttr);
+  Session session=Session.get();
+  session.bind();
+  String key=session.getMetaData(KEY);
   if (key == null) {
     key=session.getId() + "." + UUID.randomUUID().toString();
-    session.setAttribute(keyAttr,key);
+    session.setMetaData(KEY,key);
   }
   ICrypt crypt=new SunJceCrypt();
   crypt.setKey(key);

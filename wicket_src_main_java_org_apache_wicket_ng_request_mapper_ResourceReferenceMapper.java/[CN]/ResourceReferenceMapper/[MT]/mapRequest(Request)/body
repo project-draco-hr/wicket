@@ -1,5 +1,10 @@
 {
   Url url=request.getUrl();
+  for (int i=0; i < url.getSegments().size(); i++) {
+    if (url.getSegments().get(i).equals(Application.get().getResourceSettings().getParentFolderPlaceholder())) {
+      url.getSegments().set(i,"..");
+    }
+  }
   if (url.getSegments().size() >= 4 && urlStartsWith(url,getContext().getNamespace(),getContext().getResourceIdentifier())) {
     String className=url.getSegments().get(2);
     StringBuilder name=new StringBuilder();
