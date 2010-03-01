@@ -1,7 +1,19 @@
 {
+  if (uploadedFiles == null) {
+    if (post.getParameterNames().size() == 0) {
+      return "".getBytes();
+    }
+    Url url=new Url();
+    for (Iterator<String> iterator=post.getParameterNames().iterator(); iterator.hasNext(); ) {
+      final String name=iterator.next();
+      url.setQueryParameter(name,post.getParameterValue(name.toString()));
+    }
+    String body=url.toString().substring(1);
+    return body.getBytes();
+  }
   try {
     ByteArrayOutputStream out=new ByteArrayOutputStream();
-    for (Iterator<String> iterator=parameters.keySet().iterator(); iterator.hasNext(); ) {
+    for (Iterator<String> iterator=post.getParameterNames().iterator(); iterator.hasNext(); ) {
       final String name=iterator.next();
       newAttachment(out);
       out.write("; name=\"".getBytes());
@@ -9,7 +21,7 @@
       out.write("\"".getBytes());
       out.write(crlf.getBytes());
       out.write(crlf.getBytes());
-      out.write(parameters.get(name).toString().getBytes());
+      out.write(post.getParameterValue(name).toString().getBytes());
       out.write(crlf.getBytes());
     }
     if (uploadedFiles != null) {

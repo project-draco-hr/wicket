@@ -1,7 +1,8 @@
 {
-  request=new MockWebRequest(Url.parse("/"));
+  request=new MockHttpServletRequest(application,hsession,servletContext);
+  request.setURL(request.getContextPath() + request.getServletPath() + "/");
   response=new MockWebResponse();
-  requestCycle=application.createRequestCycle(request,response);
+  requestCycle=application.createRequestCycle(new ServletWebRequest(request,request.getFilterPrefix()),response);
   requestCycle.setCleanupFeedbackMessagesOnDetach(false);
   ThreadContext.setRequestCycle(requestCycle);
   if (session == null) {

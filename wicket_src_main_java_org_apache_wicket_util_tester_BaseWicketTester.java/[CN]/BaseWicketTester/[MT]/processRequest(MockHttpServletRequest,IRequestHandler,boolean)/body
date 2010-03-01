@@ -15,7 +15,7 @@
         request.addCookie(cookie);
       }
     }
-    requestCycle.setRequest(request);
+    requestCycle.setRequest(new ServletWebRequest(request,request.getFilterPrefix()));
     if (!requestCycle.processRequestAndDetach()) {
       return false;
     }

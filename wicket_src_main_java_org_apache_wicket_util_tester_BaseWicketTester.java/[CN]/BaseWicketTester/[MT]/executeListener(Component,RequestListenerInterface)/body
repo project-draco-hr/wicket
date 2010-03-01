@@ -1,5 +1,7 @@
 {
   IRequestHandler handler=new ListenerInterfaceRequestHandler(new PageAndComponentProvider(component.getPage(),component),listener);
   Url url=urlFor(handler);
-  processRequest(new MockWebRequest(url),null);
+  MockHttpServletRequest request=new MockHttpServletRequest(application,hsession,servletContext);
+  request.setUrl(url);
+  processRequest(request,null);
 }
