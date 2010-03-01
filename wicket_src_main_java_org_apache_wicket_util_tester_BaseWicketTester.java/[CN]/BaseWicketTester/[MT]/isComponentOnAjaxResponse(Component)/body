@@ -9,7 +9,7 @@
       return result;
     }
   }
-  String ajaxResponse=getLastResponse().getTextResponse().toString();
+  String ajaxResponse=getLastResponseAsString();
   failMessage="The Previous response was not an AJAX response. " + "You need to execute an AJAX event, using clickLink, before using this assert";
   boolean isAjaxResponse=Pattern.compile("^<\\?xml version=\"1.0\" encoding=\".*?\"\\?><ajax-response>").matcher(ajaxResponse).find();
   result=isTrue(failMessage,isAjaxResponse);

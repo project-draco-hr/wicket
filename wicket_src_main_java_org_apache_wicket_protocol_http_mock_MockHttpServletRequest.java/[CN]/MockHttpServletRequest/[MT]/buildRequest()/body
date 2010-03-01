@@ -6,7 +6,10 @@
     Url url=new Url();
     for (Iterator<String> iterator=post.getParameterNames().iterator(); iterator.hasNext(); ) {
       final String name=iterator.next();
-      url.setQueryParameter(name,post.getParameterValue(name.toString()));
+      List<org.apache.wicket.util.string.StringValue> values=post.getParameterValues(name);
+      for (      org.apache.wicket.util.string.StringValue value : values) {
+        url.addQueryParameter(name,value.toString());
+      }
     }
     String body=url.toString().substring(1);
     return body.getBytes();
