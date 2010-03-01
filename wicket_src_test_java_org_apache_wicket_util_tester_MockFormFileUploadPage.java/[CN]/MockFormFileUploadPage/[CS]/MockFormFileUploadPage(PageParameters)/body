@@ -12,6 +12,8 @@
   form.setMaxSize(Bytes.kilobytes(100));
   form.add(new TextField<String>("text"));
   fileUploadField=new FileUploadField("file",new Model<FileUpload>());
-  fileUploadField.setRequired(param.getNamedParameter("required").toBoolean());
+  StringValue requiredParam=param.getNamedParameter("required");
+  boolean required=requiredParam.toBoolean();
+  fileUploadField.setRequired(required);
   form.add(fileUploadField);
 }
