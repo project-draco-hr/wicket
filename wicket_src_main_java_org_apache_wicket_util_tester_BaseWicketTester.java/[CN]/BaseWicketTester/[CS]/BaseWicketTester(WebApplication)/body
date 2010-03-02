@@ -1,15 +1,3 @@
 {
-  servletContext=new org.apache.wicket.protocol.http.mock.MockServletContext(application,"");
-  hsession=new MockHttpSession(servletContext);
-  oldThreadContext=ThreadContext.detach();
-  this.application=application;
-  this.application.setName("WicketTesterApplication-" + UUID.randomUUID());
-  this.application.set();
-  application.setServletContext(new MockServletContext(application,""));
-  this.application.initApplication();
-  application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
-  application.setRequestCycleProvider(new TestRequestCycleProvider(application.getRequestCycleProvider()));
-  application.setSessionStoreProvider(new TestSessionStoreProvider());
-  application.setPageManagerProvider(new TestPageManagerProvider());
-  setupNextRequestCycle();
+  this(application,null);
 }
