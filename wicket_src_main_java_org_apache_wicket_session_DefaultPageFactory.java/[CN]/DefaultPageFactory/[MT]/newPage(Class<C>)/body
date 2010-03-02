@@ -6,7 +6,8 @@
  catch (  NoSuchMethodException e) {
     Constructor<?> constructor=constructor(pageClass,PageParameters.class);
     if (constructor != null) {
-      return newPage(constructor,new PageParameters());
+      PageParameters pp=new PageParameters();
+      return processPage(newPage(constructor,pp),pp);
     }
  else {
       throw new WicketRuntimeException("Unable to create page from " + pageClass + ". Class does not have a default contructor",e);

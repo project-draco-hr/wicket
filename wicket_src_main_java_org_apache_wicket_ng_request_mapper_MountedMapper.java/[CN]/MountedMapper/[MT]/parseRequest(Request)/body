@@ -11,6 +11,9 @@
     for (int i=0; i < mountSegments.length; ++i) {
       String placeholder=getPlaceholder(mountSegments[i]);
       if (placeholder != null) {
+        if (pageParameters == null) {
+          pageParameters=new PageParameters();
+        }
         pageParameters.addNamedParameter(placeholder,url.getSegments().get(i));
       }
     }
