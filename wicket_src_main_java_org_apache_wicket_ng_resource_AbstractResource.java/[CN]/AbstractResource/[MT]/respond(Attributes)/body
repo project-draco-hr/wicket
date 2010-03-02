@@ -2,6 +2,11 @@
   ResourceResponse data=newResourceResponse(attributes);
   WebRequest request=(WebRequest)attributes.getRequest();
   WebResponse response=(WebResponse)attributes.getResponse();
+  Date lastModified=data.getLastModified();
+  if (lastModified != null) {
+    response.setLastModifiedTime(lastModified.getTime());
+  }
+  configureCache(request,response,data,attributes);
   if (!data.dataNeedsToBeWritten(attributes)) {
     response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
     return;
@@ -17,7 +22,6 @@
     ContentDisposition disposition=data.getContentDisposition();
     String mimeType=data.getContentType();
     String encoding=null;
-    Date lastModified=data.getLastModified();
     if (mimeType != null && mimeType.indexOf("text") != -1) {
       encoding=data.getTextEncoding();
     }
@@ -36,10 +40,6 @@
         response.setContentType(mimeType + "; charset=" + encoding);
       }
     }
-    if (lastModified != null) {
-      response.setLastModifiedTime(lastModified.getTime());
-    }
-    configureCache(request,response,data,attributes);
     if (contentLength != -1) {
       response.setContentLength(contentLength);
     }
