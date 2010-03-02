@@ -1,3 +1,12 @@
 {
-  tester=new WicketTester(new WicketApplication());
+  tester=new WicketTester(new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      getSecuritySettings().setCryptFactory(new TestCryptFactory());
+      ThreadsafeCompoundRequestMapper root=new ThreadsafeCompoundRequestMapper();
+      root.register(new CryptoMapper(getRootRequestMapper(),this));
+      setRootRequestMapper(root);
+    }
+  }
+);
 }
