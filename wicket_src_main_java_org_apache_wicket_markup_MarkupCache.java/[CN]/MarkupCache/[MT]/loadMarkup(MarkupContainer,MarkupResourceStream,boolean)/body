@@ -7,8 +7,9 @@
   Markup markup=MarkupFactory.get().loadMarkup(container,markupResourceStream,enforceReload);
   if (markup != null) {
     if (cacheKey != null) {
-      if (markup.locationAsString() != null) {
-        locationString=markup.locationAsString();
+      String temp=markup.locationAsString();
+      if (temp != null) {
+        locationString=temp;
       }
       markupKeyCache.put(cacheKey,locationString);
       return putIntoCache(locationString,container,markup);
