@@ -1,0 +1,11 @@
+{
+  Url url=chain.mapHandler(requestHandler);
+  if (url != null && escapeSequence.get() != null) {
+    for (int i=0; i < url.getSegments().size(); i++) {
+      if ("..".equals(url.getSegments().get(i))) {
+        url.getSegments().set(i,escapeSequence.get());
+      }
+    }
+  }
+  return url;
+}
