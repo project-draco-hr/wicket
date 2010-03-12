@@ -1,0 +1,13 @@
+{
+  ResourceResponse response=new ResourceResponse();
+  response.setContentType("text/plain");
+  final String content=getStatus(attributes);
+  response.setWriteCallback(new WriteCallback(){
+    @Override public void writeData(    Attributes attributes){
+      attributes.getResponse().write(content);
+    }
+  }
+);
+  response.setContentLength(content.getBytes().length);
+  return response;
+}

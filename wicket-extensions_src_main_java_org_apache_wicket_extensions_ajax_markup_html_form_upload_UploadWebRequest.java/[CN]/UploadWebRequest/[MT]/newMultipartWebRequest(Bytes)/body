@@ -1,8 +1,6 @@
 {
   try {
-    final MultipartRequest multipartRequest=new MultipartRequest(req,maxsize);
-    multipartRequest.setRequestParameters(getRequestParameters());
-    return multipartRequest;
+    return new MultipartRequest(getHttpServletRequest(),getFilterPrefix(),maxsize);
   }
  catch (  FileUploadException e) {
     throw new WicketRuntimeException(e);
