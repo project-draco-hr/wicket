@@ -11,7 +11,7 @@
   formTester.setValue("rememberMeRow:rememberMe","true");
   formTester.submit();
   tester.assertRenderedPage(Home.class);
-  Collection<Cookie> cookies=tester.getServletResponse().getCookies();
+  Collection<Cookie> cookies=tester.getLastResponse().getCookies();
   for (  Cookie cookie : cookies) {
     if ("signInPanel.signInForm.username".equals(cookie.getName())) {
       assertEquals("wicket",cookie.getValue());

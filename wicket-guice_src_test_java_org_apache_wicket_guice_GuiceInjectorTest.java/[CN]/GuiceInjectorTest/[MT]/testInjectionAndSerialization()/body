@@ -1,5 +1,6 @@
 {
   MockApplication app=new MockApplication();
+  app.setServletContext(new MockServletContext(app,null));
   try {
     ThreadContext.setApplication(app);
     app.setName(getClass().getName());
@@ -32,7 +33,7 @@
     doChecksForComponent(clonedComponent);
   }
   finally {
-    app.destroy();
+    app.internalDestroy();
     ThreadContext.detach();
   }
 }

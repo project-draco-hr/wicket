@@ -1,5 +1,13 @@
 {
   servletContext=new org.apache.wicket.protocol.http.mock.MockServletContext(application,servletContextBasePath);
+  final FilterConfig filterConfig=new TestFilterConfig();
+  WicketFilter filter=new WicketFilter(){
+    @Override public FilterConfig getFilterConfig(){
+      return filterConfig;
+    }
+  }
+;
+  application.setWicketFilter(filter);
   hsession=new MockHttpSession(servletContext);
   oldThreadContext=ThreadContext.detach();
   this.application=application;

@@ -1,0 +1,48 @@
+{
+  InputStream is=null;
+  BufferedImage originalImage=null;
+  try {
+    ByteArrayResponse byteResponse=new ByteArrayResponse();
+    Attributes dispatchAttributes=new Attributes(attributes.getRequest(),byteResponse);
+    unscaledImageResource.respond(dispatchAttributes);
+    is=new ByteArrayInputStream(byteResponse.getBytes());
+    originalImage=ImageIO.read(is);
+    if (originalImage == null) {
+      throw new IOException("Unable to read unscaled image");
+    }
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
+ finally {
+    if (is != null) {
+      try {
+        is.close();
+      }
+ catch (      IOException e) {
+        log.error(e.getMessage(),e);
+      }
+    }
+  }
+  int originalWidth=originalImage.getWidth();
+  int originalHeight=originalImage.getHeight();
+  if ((originalWidth > maxSize) || (originalHeight > maxSize)) {
+    final int newWidth;
+    final int newHeight;
+    if (originalWidth > originalHeight) {
+      newWidth=maxSize;
+      newHeight=(maxSize * originalHeight) / originalWidth;
+    }
+ else {
+      newWidth=(maxSize * originalWidth) / originalHeight;
+      newHeight=maxSize;
+    }
+    BufferedImage dimg=new BufferedImage(newWidth,newHeight,originalImage.getType());
+    Graphics2D g=dimg.createGraphics();
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g.drawImage(originalImage,0,0,newWidth,newHeight,0,0,originalWidth,originalHeight,null);
+    g.dispose();
+    return dimg;
+  }
+  return originalImage;
+}
