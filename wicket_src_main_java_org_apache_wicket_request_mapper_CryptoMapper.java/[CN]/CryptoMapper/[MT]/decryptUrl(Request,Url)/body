@@ -1,0 +1,20 @@
+{
+  if (encryptedUrl.getSegments().isEmpty() && encryptedUrl.getQueryParameters().isEmpty()) {
+    return encryptedUrl;
+  }
+  String encryptedUrlString=encryptedUrl.getQueryParameterValue("x").toString();
+  if (Strings.isEmpty(encryptedUrlString)) {
+    return null;
+  }
+  Url url=null;
+  try {
+    String urlString=getCrypt().decryptUrlSafe(encryptedUrlString);
+    if (!Strings.isEmpty(urlString)) {
+      url=Url.parse(urlString,request.getCharset());
+    }
+  }
+ catch (  Exception e) {
+    url=null;
+  }
+  return url;
+}

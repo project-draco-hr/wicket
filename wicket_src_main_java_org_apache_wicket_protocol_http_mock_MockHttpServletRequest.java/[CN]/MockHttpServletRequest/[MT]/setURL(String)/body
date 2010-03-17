@@ -21,7 +21,7 @@
     setPath(url.substring(0,index));
     String queryString=url.substring(index + 1);
     parameters.clear();
-    for (    QueryParameter parameter : Url.parse("?" + queryString).getQueryParameters()) {
+    for (    QueryParameter parameter : Url.parse("?" + queryString,Charset.forName(getCharacterEncoding())).getQueryParameters()) {
       addParameter(parameter.getName(),parameter.getValue());
     }
   }

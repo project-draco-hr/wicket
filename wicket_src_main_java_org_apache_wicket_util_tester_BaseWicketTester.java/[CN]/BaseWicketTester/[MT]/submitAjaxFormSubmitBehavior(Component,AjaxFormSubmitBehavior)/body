@@ -2,7 +2,7 @@
   Form<?> form=behavior.getForm();
   String failMessage="No form attached to the submitlink.";
   notNull(failMessage,form);
-  Url url=Url.parse(behavior.getCallbackUrl().toString());
+  Url url=Url.parse(behavior.getCallbackUrl().toString(),Charset.forName(request.getCharacterEncoding()));
   transform(url);
   request.addHeader("Wicket-Ajax-BaseURL",url.toString());
   request.addHeader("Wicket-Ajax","Wicket-Ajax");

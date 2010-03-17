@@ -27,7 +27,7 @@
         throw new IllegalStateException("Possible infinite redirect detected. Bailing out.");
       }
       ++redirectCount;
-      Url newUrl=Url.parse(lastResponse.getRedirectLocation());
+      Url newUrl=Url.parse(lastResponse.getRedirectLocation(),Charset.forName(request.getCharacterEncoding()));
       if (newUrl.isAbsolute()) {
         throw new WicketRuntimeException("Can not follow absolute redirect URL.");
       }

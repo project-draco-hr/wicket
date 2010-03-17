@@ -1,0 +1,11 @@
+{
+  String charsetName=null;
+  Application application=Application.get();
+  if (application != null) {
+    charsetName=application.getRequestCycleSettings().getResponseRequestEncoding();
+  }
+  if (Strings.isEmpty(charsetName)) {
+    charsetName="UTF-8";
+  }
+  return Charset.forName(charsetName);
+}

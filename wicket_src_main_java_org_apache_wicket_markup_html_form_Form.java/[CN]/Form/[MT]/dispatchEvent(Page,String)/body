@@ -1,5 +1,5 @@
 {
-  Url parsed=Url.parse(url);
+  Url parsed=Url.parse(url,getRequest().getCharset());
   IRequestHandler handler=getApplication().getRootRequestMapper().mapRequest(getRequest().requestWithUrl(parsed));
   if (handler != null) {
     getRequestCycle().scheduleRequestHandlerAfterCurrent(handler);
