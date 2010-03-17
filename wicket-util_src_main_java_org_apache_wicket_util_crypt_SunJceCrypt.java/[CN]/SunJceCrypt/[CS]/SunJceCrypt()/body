@@ -1,0 +1,12 @@
+{
+  if (Security.getProviders("Cipher." + CRYPT_METHOD).length > 0) {
+    return;
+  }
+  try {
+    final Class<?> clazz=Class.forName("com.sun.crypto.provider.SunJCE");
+    Security.addProvider((Provider)clazz.newInstance());
+  }
+ catch (  Exception ex) {
+    throw new RuntimeException("Unable to load SunJCE service provider",ex);
+  }
+}
