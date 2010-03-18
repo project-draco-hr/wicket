@@ -10,7 +10,7 @@ catch (  IllegalAccessException e) {
     throw new WicketRuntimeException(createDescription(constructor,argument),e);
   }
 catch (  InvocationTargetException e) {
-    if (e.getTargetException() instanceof AbortException || e.getTargetException() instanceof AuthorizationException || e.getTargetException() instanceof MarkupException) {
+    if (e.getTargetException() instanceof ReplaceHandlerException || e.getTargetException() instanceof AuthorizationException || e.getTargetException() instanceof MarkupException) {
       throw (RuntimeException)e.getTargetException();
     }
     throw new WicketRuntimeException(createDescription(constructor,argument),e);

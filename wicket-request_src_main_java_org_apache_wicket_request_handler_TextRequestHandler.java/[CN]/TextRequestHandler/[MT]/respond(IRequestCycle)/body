@@ -1,0 +1,11 @@
+{
+  String encoding=getEncoding(requestCycle);
+  final WebResponse response=(WebResponse)requestCycle.getResponse();
+  response.setContentType(contentType + ";charset=" + encoding);
+  try {
+    response.write(string.getBytes(encoding));
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Unable to render string: " + e.getMessage(),e);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  final String location;
+  if (redirectUrl.startsWith("/")) {
+    location=requestCycle.getUrlRenderer().renderContextPathRelativeUrl(redirectUrl,requestCycle.getRequest());
+  }
+ else   if (redirectUrl.contains("://")) {
+    location=redirectUrl;
+  }
+ else {
+    location=redirectUrl;
+  }
+  WebResponse response=(WebResponse)requestCycle.getResponse();
+  if (status == 302) {
+    response.sendRedirect(location);
+  }
+ else {
+    response.setStatus(301);
+    response.setHeader("Location",location);
+  }
+}

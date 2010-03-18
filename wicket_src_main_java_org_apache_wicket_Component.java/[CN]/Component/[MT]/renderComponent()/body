@@ -32,10 +32,10 @@
       }
     }
   }
- catch (  RuntimeException re) {
-    if (re instanceof WicketRuntimeException || re instanceof AbortException) {
-      throw re;
-    }
+ catch (  WicketRuntimeException wre) {
+    throw wre;
+  }
+catch (  RuntimeException re) {
     throw new WicketRuntimeException("Exception in rendering component: " + this,re);
   }
 }
