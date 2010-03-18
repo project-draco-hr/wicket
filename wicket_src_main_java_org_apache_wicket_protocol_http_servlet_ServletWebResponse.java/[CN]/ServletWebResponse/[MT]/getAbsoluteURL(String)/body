@@ -6,7 +6,7 @@
     return getAbsolutePrefix() + url;
   }
  else {
-    Charset charset=Charset.forName(httpServletRequest.getCharacterEncoding());
+    Charset charset=RequestUtils.getCharset(httpServletRequest);
     Url current=Url.parse(httpServletRequest.getRequestURI(),charset);
     Url append=Url.parse(url,charset);
     current.concatSegments(append.getSegments());
