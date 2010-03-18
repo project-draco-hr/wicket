@@ -1,0 +1,10 @@
+{
+  return visit(throwable,new IThrowableVisitor<T>(){
+    @SuppressWarnings("unchecked") public void visit(    Throwable throwable,    Traversal<T> traversal){
+      if (causeType.isAssignableFrom(throwable.getClass())) {
+        traversal.stop((T)throwable);
+      }
+    }
+  }
+);
+}
