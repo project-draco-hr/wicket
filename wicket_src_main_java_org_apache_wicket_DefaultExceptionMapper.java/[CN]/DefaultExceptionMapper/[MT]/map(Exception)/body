@@ -6,6 +6,16 @@
     return new RenderPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getPageExpiredErrorPage()));
   }
  else {
-    return new RenderPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getInternalErrorPage()));
+    final Application application=Application.get();
+    final UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
+    if (IExceptionSettings.SHOW_EXCEPTION_PAGE.equals(unexpectedExceptionDisplay)) {
+      return new RenderPageRequestHandler(new PageProvider(new ExceptionErrorPage(e,null)));
+    }
+ else     if (IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE.equals(unexpectedExceptionDisplay)) {
+      return new RenderPageRequestHandler(new PageProvider(application.getApplicationSettings().getInternalErrorPage()));
+    }
+ else {
+      return new EmptyRequestHandler();
+    }
   }
 }
