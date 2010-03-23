@@ -2,11 +2,10 @@
   super.onAfterRender();
   checkRendering(this);
   if (Application.get().getDebugSettings().getComponentUseCheck()) {
-    visitChildren(new IVisitor<Component>(){
-      public Object component(      Component component){
+    visitChildren(new IVisitor<Component,Void>(){
+      public void component(      final Component component,      final IVisit<Void> visit){
         component.setMetaData(Component.CONSTRUCTED_AT_KEY,null);
         component.setMetaData(Component.ADDED_AT_KEY,null);
-        return CONTINUE_TRAVERSAL;
       }
     }
 );

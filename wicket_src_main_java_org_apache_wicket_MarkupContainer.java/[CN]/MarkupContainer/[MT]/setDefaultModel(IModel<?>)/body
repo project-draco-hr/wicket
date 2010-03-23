@@ -2,8 +2,8 @@
   final IModel<?> previous=getModelImpl();
   super.setDefaultModel(model);
   if (previous instanceof IComponentInheritedModel) {
-    visitChildren(new IVisitor<Component>(){
-      public Object component(      Component component){
+    visitChildren(new IVisitor<Component,Void>(){
+      public void component(      final Component component,      final IVisit<Void> visit){
         IModel<?> compModel=component.getDefaultModel();
         if (compModel instanceof IWrapModel) {
           compModel=((IWrapModel<?>)compModel).getWrappedModel();
@@ -14,7 +14,6 @@
  else         if (compModel == model) {
           component.modelChanged();
         }
-        return IVisitor.CONTINUE_TRAVERSAL;
       }
     }
 );

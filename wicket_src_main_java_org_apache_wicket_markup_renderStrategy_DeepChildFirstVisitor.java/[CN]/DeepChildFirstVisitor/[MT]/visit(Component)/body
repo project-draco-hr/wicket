@@ -1,32 +1,32 @@
 {
   Checks.argumentNotNull(rootComponent,"rootComponent");
   if (rootComponent instanceof MarkupContainer) {
+    final Visit<Component> visit=new Visit<Component>();
     final Component[] lastComponent=new Component[1];
-    Object rtn=((MarkupContainer)rootComponent).visitChildren(new Component.IVisitor<Component>(){
-      public Object component(      Component component){
+    Object rtn=((MarkupContainer)rootComponent).visitChildren(new Component.IVisitor<Component,Component>(){
+      public void component(      final Component component,      final IVisit<Component> visit){
         if (component.isVisibleInHierarchy()) {
           if (!(component instanceof MarkupContainer) || ((MarkupContainer)component).size() == 0) {
             if (lastComponent[0] != null) {
               MarkupContainer parent=lastComponent[0].getParent();
               while ((parent != null) && (parent != rootComponent) && isCommonParent(parent,lastComponent[0],component) == false) {
-                Object rtn=component(parent);
-                if ((rtn != IVisitor.CONTINUE_TRAVERSAL) && (rtn != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
-                  return rtn;
+                component(parent,visit);
+                if (((Visit)visit).isStopped()) {
+                  return;
                 }
                 parent=parent.getParent();
               }
             }
-            Object rtn=component(component);
-            if ((rtn != IVisitor.CONTINUE_TRAVERSAL) && (rtn != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
-              return rtn;
+            component(component,visit);
+            if (((Visit)visit).isStopped()) {
+              return;
             }
-            lastComponent[0]=component;
+            visit.stop(component);
           }
-          return CONTINUE_TRAVERSAL;
         }
  else {
           lastComponent[0]=component;
-          return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+          visit.dontGoDeeper();
         }
       }
       /** 
@@ -56,8 +56,8 @@
     if (lastComponent[0] != null) {
       MarkupContainer parent=lastComponent[0].getParent();
       while ((parent != null) && (parent != rootComponent)) {
-        rtn=component(parent);
-        if ((rtn != IVisitor.CONTINUE_TRAVERSAL) && (rtn != IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER)) {
+        component(parent,visit);
+        if (visit.isStopped()) {
           return rtn;
         }
         parent=parent.getParent();

@@ -1,7 +1,7 @@
 {
   final List<ComponentData> data=new ArrayList<ComponentData>();
-  page.visitChildren(new IVisitor<Component>(){
-    public Object component(    final Component component){
+  page.visitChildren(new IVisitor<Component,Void>(){
+    public void component(    final Component component,    final IVisit<Void> visit){
       if (!component.getPath().startsWith(PageView.this.getPath())) {
         final ComponentData componentData;
         String name=component.getClass().getName();
@@ -18,7 +18,6 @@
         }
         data.add(componentData);
       }
-      return IVisitor.CONTINUE_TRAVERSAL;
     }
   }
 );

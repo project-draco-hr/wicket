@@ -5,12 +5,11 @@
   }
   final PageParameters parameters=page.getPageParameters();
   if (parameters != null) {
-    visitFormComponents(new FormComponent.IVisitor(){
-      public Object formComponent(      IFormVisitorParticipant formComponent){
-        if (formComponent instanceof FormComponent) {
+    visitFormComponents(new FormComponent.IVisitor<Void>(){
+      public void formComponent(      final IFormVisitorParticipant formComponent,      final IVisit<Void> visit){
+        if (formComponent instanceof FormComponent<?>) {
           parameters.removeNamedParameter(((FormComponent<?>)formComponent).getInputName());
         }
-        return Component.IVisitor.CONTINUE_TRAVERSAL;
       }
     }
 );

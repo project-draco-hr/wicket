@@ -16,10 +16,9 @@
     child.onConnectedToPage();
     if (child instanceof MarkupContainer) {
       MarkupContainer container=(MarkupContainer)child;
-      container.visitChildren(new IVisitor<Component>(){
-        public Object component(        final Component component){
+      container.visitChildren(new IVisitor<Component,Void>(){
+        public void component(        final Component component,        final IVisit<Void> visit){
           component.onConnectedToPage();
-          return CONTINUE_TRAVERSAL;
         }
       }
 );

@@ -1,0 +1,27 @@
+{
+  if (component instanceof MarkupContainer) {
+    final MarkupContainer container=(MarkupContainer)component;
+    if (container.size() > 0) {
+      boolean visitChildren=true;
+      if (container instanceof IFormVisitorParticipant) {
+        visitChildren=((IFormVisitorParticipant)container).processChildren();
+      }
+      if (visitChildren) {
+        Visit<R> childTraversal=new Visit<R>();
+        final Iterator<? extends Component> children=container.iterator();
+        while (children.hasNext()) {
+          final Component child=children.next();
+          visitFormComponentsPostOrderHelper(child,visitor,childTraversal);
+          if (childTraversal.isStopped()) {
+            visit.stop(childTraversal.getResult());
+            return;
+          }
+        }
+      }
+    }
+  }
+  if (component instanceof FormComponent<?>) {
+    final FormComponent<?> fc=(FormComponent<?>)component;
+    visitor.formComponent(fc,visit);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  if (component instanceof IFormModelUpdateListener) {
+    final Form<?> form=Form.findForm(component);
+    if (form != null) {
+      if (this.formFilter == null || this.formFilter == form) {
+        if (form.isEnabledInHierarchy()) {
+          if (component.isVisibleInHierarchy() && component.isEnabledInHierarchy()) {
+            ((IFormModelUpdateListener)component).updateModel();
+          }
+        }
+      }
+    }
+  }
+}

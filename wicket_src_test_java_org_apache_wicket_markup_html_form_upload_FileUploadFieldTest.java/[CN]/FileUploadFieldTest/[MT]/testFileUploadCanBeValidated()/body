@@ -14,10 +14,10 @@
   }
 ;
   final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
-  page.getForm().visitChildren(FileUploadField.class,new IVisitor<FileUploadField>(){
-    public Object component(    FileUploadField uploadField){
+  page.getForm().visitChildren(FileUploadField.class,new IVisitor<FileUploadField,Void>(){
+    public void component(    FileUploadField uploadField,    IVisit<Void> visit){
       uploadField.add(testValidator);
-      return STOP_TRAVERSAL;
+      visit.stop();
     }
   }
 );

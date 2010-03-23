@@ -1,8 +1,8 @@
 {
   final List<ComponentData> data=new ArrayList<ComponentData>();
   if (page != null) {
-    page.visitChildren(new IVisitor<Component>(){
-      public Object component(      final Component component){
+    page.visitChildren(new IVisitor<Component,Void>(){
+      public void component(      final Component component,      final IVisit<Void> visit){
         final ComponentData object=new ComponentData();
         String name=component.getClass().getName();
         if (name.indexOf("$") > 0) {
@@ -18,7 +18,6 @@
           object.value=e.getMessage();
         }
         data.add(object);
-        return IVisitor.CONTINUE_TRAVERSAL;
       }
     }
 );

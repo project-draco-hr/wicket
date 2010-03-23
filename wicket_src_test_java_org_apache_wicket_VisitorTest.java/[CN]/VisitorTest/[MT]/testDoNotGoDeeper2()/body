@@ -1,0 +1,14 @@
+{
+  final StringBuilder path=new StringBuilder();
+  TestContainer container=new TestContainer();
+  container.visitChildren(new IVisitor<Component,Void>(){
+    public void component(    Component component,    IVisit<Void> visit){
+      path.append(component.getId());
+      if ("E".equals(component.getId())) {
+        visit.dontGoDeeper();
+      }
+    }
+  }
+);
+  Assert.assertEquals("BCDEGH",path.toString());
+}

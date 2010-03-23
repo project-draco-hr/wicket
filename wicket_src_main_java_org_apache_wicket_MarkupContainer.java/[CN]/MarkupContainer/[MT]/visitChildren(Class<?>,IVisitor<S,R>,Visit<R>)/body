@@ -1,0 +1,28 @@
+{
+  if (visitor == null) {
+    throw new IllegalArgumentException("argument visitor may not be null");
+  }
+  for (int i=0; i < children_size(); i++) {
+    final Component child=children_get(i);
+    if (clazz == null || clazz.isInstance(child)) {
+      Visit<R> childTraversal=new Visit<R>();
+      @SuppressWarnings("unchecked") S s=(S)child;
+      visitor.component(s,childTraversal);
+      if (childTraversal.isStopped()) {
+        visit.stop(childTraversal.getResult());
+        return;
+      }
+ else       if (childTraversal.isDontGoDeeper()) {
+        continue;
+      }
+    }
+    if ((child instanceof MarkupContainer) && !visit.isDontGoDeeper()) {
+      Visit<R> childTraversal=new Visit<R>();
+      ((MarkupContainer)child).visitChildren(clazz,visitor,visit);
+      if (visit.isStopped()) {
+        return;
+      }
+    }
+  }
+  return;
+}

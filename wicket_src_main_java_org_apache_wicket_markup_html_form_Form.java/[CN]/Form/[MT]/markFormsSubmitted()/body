@@ -1,13 +1,13 @@
 {
   setFlag(FLAG_SUBMITTED,true);
-  visitChildren(Form.class,new IVisitor<Component>(){
-    public Object component(    Component component){
+  visitChildren(Form.class,new IVisitor<Component,Void>(){
+    public void component(    final Component component,    final IVisit<Void> visit){
       Form<?> form=(Form<?>)component;
       if (form.isEnabledInHierarchy() && isVisibleInHierarchy()) {
         form.setFlag(FLAG_SUBMITTED,true);
-        return IVisitor.CONTINUE_TRAVERSAL;
+        return;
       }
-      return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+      visit.dontGoDeeper();
     }
   }
 );

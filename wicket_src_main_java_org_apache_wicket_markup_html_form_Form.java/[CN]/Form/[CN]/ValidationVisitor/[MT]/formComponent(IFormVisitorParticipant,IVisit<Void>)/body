@@ -1,0 +1,20 @@
+{
+  if (component instanceof FormComponent<?>) {
+    FormComponent<?> formComponent=(FormComponent<?>)component;
+    Form<?> form=formComponent.getForm();
+    if (!form.isVisibleInHierarchy() || !form.isEnabledInHierarchy()) {
+      visit.dontGoDeeper();
+      return;
+    }
+    if (formComponent.isVisibleInHierarchy() && formComponent.isValid() && formComponent.isEnabledInHierarchy()) {
+      validate(formComponent);
+    }
+  }
+  if (component.processChildren()) {
+    return;
+  }
+ else {
+    visit.dontGoDeeper();
+    return;
+  }
+}

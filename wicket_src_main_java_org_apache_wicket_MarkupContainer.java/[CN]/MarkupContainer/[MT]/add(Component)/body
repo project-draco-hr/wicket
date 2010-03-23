@@ -19,9 +19,11 @@
         child.internalOnMarkupAttached();
         if (child instanceof MarkupContainer) {
           MarkupContainer container=(MarkupContainer)child;
-          container.visitChildren(new IVisitor<Component>(){
-            public Object component(            final Component component){
-              return component.internalOnMarkupAttached() ? CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER : CONTINUE_TRAVERSAL;
+          container.visitChildren(new IVisitor<Component,Void>(){
+            public void component(            final Component component,            final IVisit<Void> visit){
+              if (component.internalOnMarkupAttached()) {
+                visit.dontGoDeeper();
+              }
             }
           }
 );

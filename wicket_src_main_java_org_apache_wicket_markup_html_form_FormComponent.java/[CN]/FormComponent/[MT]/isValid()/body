@@ -1,16 +1,14 @@
 {
-class IsValidVisitor implements IVisitor {
-    boolean valid=true;
-    public Object formComponent(    IFormVisitorParticipant formComponent){
+class IsValidVisitor implements IVisitor<Boolean> {
+    public void formComponent(    final IFormVisitorParticipant formComponent,    final IVisit<Boolean> visit){
       final FormComponent<?> fc=(FormComponent<?>)formComponent;
       if (fc.hasErrorMessage()) {
-        valid=false;
-        return Component.IVisitor.STOP_TRAVERSAL;
+        visit.stop(Boolean.FALSE);
       }
-      return Component.IVisitor.CONTINUE_TRAVERSAL;
     }
   }
   IsValidVisitor tmp=new IsValidVisitor();
-  visitFormComponentsPostOrder(this,tmp);
-  return tmp.valid;
+  final Boolean result;
+  result=visitFormComponentsPostOrder(this,tmp);
+  return (Boolean.FALSE == result) ? false : true;
 }

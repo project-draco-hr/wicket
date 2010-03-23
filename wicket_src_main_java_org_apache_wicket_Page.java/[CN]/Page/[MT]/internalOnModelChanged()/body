@@ -1,10 +1,9 @@
 {
-  visitChildren(new Component.IVisitor<Component>(){
-    public Object component(    final Component component){
+  visitChildren(new Component.IVisitor<Component,Void>(){
+    public void component(    final Component component,    final IVisit<Void> visit){
       if (component.sameInnermostModel(Page.this)) {
         component.modelChanged();
       }
-      return IVisitor.CONTINUE_TRAVERSAL;
     }
   }
 );

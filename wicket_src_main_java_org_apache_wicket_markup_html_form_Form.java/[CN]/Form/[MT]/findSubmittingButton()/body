@@ -1,6 +1,6 @@
 {
-  IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)getPage().visitChildren(IFormSubmittingComponent.class,new IVisitor<Component>(){
-    public Object component(    final Component component){
+  IFormSubmittingComponent submittingComponent=getPage().visitChildren(IFormSubmittingComponent.class,new IVisitor<Component,IFormSubmittingComponent>(){
+    public void component(    final Component component,    final IVisit<IFormSubmittingComponent> visit){
       final IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)component;
       final Form<?> form=submittingComponent.getForm();
       if ((form != null) && (form.getRootForm() == Form.this)) {
@@ -13,10 +13,10 @@
           if (!component.isEnabledInHierarchy()) {
             throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not enabled");
           }
-          return submittingComponent;
+          visit.stop(submittingComponent);
+          return;
         }
       }
-      return CONTINUE_TRAVERSAL;
     }
   }
 );

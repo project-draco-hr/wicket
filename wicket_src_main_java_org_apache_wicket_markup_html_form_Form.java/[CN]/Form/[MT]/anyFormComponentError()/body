@@ -1,10 +1,9 @@
 {
-  Boolean error=(Boolean)visitChildren(Component.class,new IVisitor<Component>(){
-    public Object component(    final Component component){
+  Boolean error=visitChildren(Component.class,new IVisitor<Component,Boolean>(){
+    public void component(    final Component component,    final IVisit<Boolean> visit){
       if (component.hasErrorMessage()) {
-        return Boolean.TRUE;
+        visit.stop(true);
       }
-      return Component.IVisitor.CONTINUE_TRAVERSAL;
     }
   }
 );

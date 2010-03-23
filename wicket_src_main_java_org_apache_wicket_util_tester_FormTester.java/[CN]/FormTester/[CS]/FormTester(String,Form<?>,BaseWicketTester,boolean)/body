@@ -2,8 +2,8 @@
   this.path=path;
   this.workingForm=workingForm;
   tester=wicketTester;
-  workingForm.visitFormComponents(new FormComponent.AbstractVisitor(){
-    @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent<?> formComponent){
+  workingForm.visitFormComponents(new FormComponent.AbstractVisitor<Void>(){
+    @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent<?> formComponent,    IVisit<Void> visit){
       if (!formComponent.isVisibleInHierarchy()) {
         return;
       }
@@ -28,12 +28,11 @@
       }
  else       if (formComponent instanceof CheckGroup) {
         final Collection<?> checkGroupValues=(Collection<?>)formComponent.getDefaultModelObject();
-        formComponent.visitChildren(Check.class,new IVisitor<Component>(){
-          public Object component(          Component component){
+        formComponent.visitChildren(Check.class,new IVisitor<Component,Void>(){
+          public void component(          final Component component,          final IVisit<Void> visit){
             if (checkGroupValues.contains(component.getDefaultModelObject())) {
               addFormComponentValue(formComponent,((Check<?>)component).getValue());
             }
-            return CONTINUE_TRAVERSAL;
           }
         }
 );
@@ -41,13 +40,15 @@
  else       if (formComponent instanceof RadioGroup) {
         final Object value=formComponent.getDefaultModelObject();
         if (value != null) {
-          formComponent.visitChildren(Radio.class,new IVisitor<Component>(){
-            public Object component(            Component component){
+          formComponent.visitChildren(Radio.class,new IVisitor<Component,Void>(){
+            public void component(            final Component component,            final IVisit<Void> visit){
               if (value.equals(component.getDefaultModelObject())) {
                 addFormComponentValue(formComponent,((Radio<?>)component).getValue());
-                return STOP_TRAVERSAL;
+                visit.stop();
               }
-              return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+ else {
+                visit.dontGoDeeper();
+              }
             }
           }
 );

@@ -1,12 +1,11 @@
 {
   if (input != null && input.length > 0) {
     final String value=input[0];
-    Radio<T> choice=(Radio<T>)visitChildren(Radio.class,new Component.IVisitor<Radio<T>>(){
-      public Object component(      Radio<T> radio){
+    Radio<T> choice=visitChildren(Radio.class,new Component.IVisitor<Radio<T>,Radio<T>>(){
+      public void component(      final Radio<T> radio,      final IVisit<Radio<T>> visit){
         if (radio.getValue().equals(value)) {
-          return radio;
+          visit.stop(radio);
         }
-        return CONTINUE_TRAVERSAL;
       }
     }
 );

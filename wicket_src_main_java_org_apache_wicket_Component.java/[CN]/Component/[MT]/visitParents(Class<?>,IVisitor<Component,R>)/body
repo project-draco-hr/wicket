@@ -1,0 +1,14 @@
+{
+  Component current=getParent();
+  Visit<R> visit=new Visit<R>();
+  while (current != null) {
+    if (c.isInstance(current)) {
+      visitor.component(current,visit);
+      if (visit.action == Visit.Action.STOP) {
+        return visit.result;
+      }
+    }
+    current=current.getParent();
+  }
+  return null;
+}

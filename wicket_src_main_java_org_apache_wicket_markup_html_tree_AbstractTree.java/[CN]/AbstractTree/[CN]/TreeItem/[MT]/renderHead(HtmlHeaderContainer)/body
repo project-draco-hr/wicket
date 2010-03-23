@@ -3,14 +3,13 @@
   if (isRenderChildren()) {
     visitItemChildren(this,new IItemCallback(){
       public void visitItem(      TreeItem item){
-        item.visitChildren(new Component.IVisitor<Component>(){
-          public Object component(          Component component){
+        item.visitChildren(new Component.IVisitor<Component,Void>(){
+          public void component(          final Component component,          final IVisit<Void> visit){
             if (component.isVisible()) {
               component.renderHead(container);
-              return CONTINUE_TRAVERSAL;
             }
  else {
-              return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+              visit.dontGoDeeper();
             }
           }
         }

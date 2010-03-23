@@ -1,7 +1,7 @@
 {
   this.multiPart&=~MULTIPART_HINT;
-  visitFormComponents(new FormComponent.AbstractVisitor(){
-    @Override public void onFormComponent(    FormComponent<?> formComponent){
+  visitFormComponents(new FormComponent.AbstractVisitor<Void>(){
+    @Override public void onFormComponent(    FormComponent<?> formComponent,    IVisit<Void> visit){
       if (formComponent.isVisible() && formComponent.isMultiPart()) {
         multiPart|=MULTIPART_HINT;
       }

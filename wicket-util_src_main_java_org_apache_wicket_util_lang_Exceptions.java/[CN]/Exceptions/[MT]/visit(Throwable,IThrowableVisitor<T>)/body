@@ -1,10 +1,10 @@
 {
-  Traversal<T> traversal=new Traversal<T>();
+  Visit<T> visit=new Visit<T>();
   Throwable cursor=throwable;
   while (cursor != null) {
-    visitor.visit(cursor,traversal);
-    if (traversal.stopped) {
-      return traversal.result;
+    visitor.visit(cursor,visit);
+    if (visit.stopped) {
+      return visit.result;
     }
     cursor=cursor.getCause();
   }

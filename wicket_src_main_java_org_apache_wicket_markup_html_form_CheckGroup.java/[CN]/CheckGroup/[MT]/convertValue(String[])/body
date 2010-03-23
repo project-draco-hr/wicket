@@ -4,12 +4,11 @@
     for (int i=0; i < values.length; i++) {
       final String value=values[i];
       if (value != null) {
-        Check<T> checkbox=(Check<T>)visitChildren(Check.class,new Component.IVisitor<Check<T>>(){
-          public Object component(          Check<T> check){
+        Check<T> checkbox=visitChildren(Check.class,new Component.IVisitor<Check<T>,Check<T>>(){
+          public void component(          final Check<T> check,          final IVisit<Check<T>> visit){
             if (String.valueOf(check.getValue()).equals(value)) {
-              return check;
+              visit.stop(check);
             }
-            return CONTINUE_TRAVERSAL;
           }
         }
 );
