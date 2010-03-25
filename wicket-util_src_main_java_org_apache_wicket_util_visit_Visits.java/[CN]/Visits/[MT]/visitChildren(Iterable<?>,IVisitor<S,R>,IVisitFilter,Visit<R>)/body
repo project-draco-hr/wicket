@@ -4,7 +4,7 @@
   }
   for (final Iterator<?> children=container.iterator(); children.hasNext(); ) {
     final Object child=children.next();
-    if (clazz == null || clazz.isInstance(child)) {
+    if (filter.visitObject(child)) {
       Visit<R> childTraversal=new Visit<R>();
       @SuppressWarnings("unchecked") S s=(S)child;
       visitor.component(s,childTraversal);
@@ -16,8 +16,8 @@
         continue;
       }
     }
-    if (!visit.isDontGoDeeper() && (child instanceof Iterable<?>)) {
-      visitChildren((Iterable<?>)child,clazz,visitor,visit);
+    if (!visit.isDontGoDeeper() && (child instanceof Iterable<?>) && filter.visitChildren(child)) {
+      visitChildren((Iterable<?>)child,visitor,filter,visit);
       if (visit.isStopped()) {
         return;
       }
