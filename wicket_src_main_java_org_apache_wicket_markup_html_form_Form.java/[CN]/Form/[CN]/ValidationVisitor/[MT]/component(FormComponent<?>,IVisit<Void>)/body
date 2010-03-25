@@ -1,0 +1,17 @@
+{
+  Form<?> form=formComponent.getForm();
+  if (!form.isVisibleInHierarchy() || !form.isEnabledInHierarchy()) {
+    visit.dontGoDeeper();
+    return;
+  }
+  if (formComponent.isVisibleInHierarchy() && formComponent.isValid() && formComponent.isEnabledInHierarchy()) {
+    validate(formComponent);
+  }
+  if (formComponent.processChildren()) {
+    return;
+  }
+ else {
+    visit.dontGoDeeper();
+    return;
+  }
+}

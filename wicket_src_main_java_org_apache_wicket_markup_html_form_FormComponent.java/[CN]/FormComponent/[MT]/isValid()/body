@@ -1,8 +1,7 @@
 {
-class IsValidVisitor implements IVisitor<Boolean> {
-    public void formComponent(    final IFormVisitorParticipant formComponent,    final IVisit<Boolean> visit){
-      final FormComponent<?> fc=(FormComponent<?>)formComponent;
-      if (fc.hasErrorMessage()) {
+class IsValidVisitor implements IVisitor<FormComponent<?>,Boolean> {
+    public void component(    final FormComponent<?> formComponent,    final IVisit<Boolean> visit){
+      if (formComponent.hasErrorMessage()) {
         visit.stop(Boolean.FALSE);
       }
     }

@@ -1,0 +1,17 @@
+{
+  if (visitor == null) {
+    throw new IllegalArgumentException("Argument `visitor` cannot be null");
+  }
+  return Visits.visitComponentsPostOrder(component,visitor,new IVisitFilter(){
+    public boolean visitObject(    Object object){
+      return true;
+    }
+    public boolean visitChildren(    Object object){
+      if (object instanceof IFormVisitorParticipant) {
+        return ((IFormVisitorParticipant)object).processChildren();
+      }
+      return true;
+    }
+  }
+);
+}

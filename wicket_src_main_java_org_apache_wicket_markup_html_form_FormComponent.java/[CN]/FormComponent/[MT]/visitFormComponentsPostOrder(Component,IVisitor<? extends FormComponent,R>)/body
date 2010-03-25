@@ -1,0 +1,14 @@
+{
+  return Visits.visitComponentsPostOrder(component,visitor,new IVisitFilter(){
+    public boolean visitChildren(    Object object){
+      if (object instanceof IFormVisitorParticipant) {
+        return ((IFormVisitorParticipant)object).processChildren();
+      }
+      return true;
+    }
+    public boolean visitObject(    Object object){
+      return (object instanceof FormComponent<?>);
+    }
+  }
+);
+}

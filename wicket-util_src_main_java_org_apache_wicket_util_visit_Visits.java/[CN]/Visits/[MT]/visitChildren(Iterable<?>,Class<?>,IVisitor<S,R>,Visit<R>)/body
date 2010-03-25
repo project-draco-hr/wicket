@@ -1,0 +1,27 @@
+{
+  if (visitor == null) {
+    throw new IllegalArgumentException("argument visitor may not be null");
+  }
+  for (final Iterator<?> children=container.iterator(); children.hasNext(); ) {
+    final Object child=children.next();
+    if (clazz == null || clazz.isInstance(child)) {
+      Visit<R> childTraversal=new Visit<R>();
+      @SuppressWarnings("unchecked") S s=(S)child;
+      visitor.component(s,childTraversal);
+      if (childTraversal.isStopped()) {
+        visit.stop(childTraversal.getResult());
+        return;
+      }
+ else       if (childTraversal.isDontGoDeeper()) {
+        continue;
+      }
+    }
+    if (!visit.isDontGoDeeper() && (child instanceof Iterable<?>)) {
+      visitChildren((Iterable<?>)child,clazz,visitor,visit);
+      if (visit.isStopped()) {
+        return;
+      }
+    }
+  }
+  return;
+}

@@ -4,8 +4,8 @@
   while (current != null) {
     if (c.isInstance(current)) {
       visitor.component(current,visit);
-      if (visit.action == Visit.Action.STOP) {
-        return visit.result;
+      if (visit.isStopped()) {
+        return visit.getResult();
       }
     }
     current=current.getParent();

@@ -5,11 +5,9 @@
   }
   final PageParameters parameters=page.getPageParameters();
   if (parameters != null) {
-    visitFormComponents(new FormComponent.IVisitor<Void>(){
-      public void formComponent(      final IFormVisitorParticipant formComponent,      final IVisit<Void> visit){
-        if (formComponent instanceof FormComponent<?>) {
-          parameters.removeNamedParameter(((FormComponent<?>)formComponent).getInputName());
-        }
+    visitFormComponents(new IVisitor<FormComponent<?>,Void>(){
+      public void component(      final FormComponent<?> formComponent,      final IVisit<Void> visit){
+        parameters.removeNamedParameter(formComponent.getInputName());
       }
     }
 );
