@@ -11,13 +11,10 @@
   if (debugSettings.isLinePreciseReportingOnAddComponentEnabled()) {
     child.setMetaData(ADDED_AT_KEY,ComponentStrings.toString(child,new MarkupException("added")));
   }
-  if (this instanceof Page) {
-    child.initialize();
-  }
- else   if (isInitialized()) {
-    child.initialize();
-  }
   final Page page=findPage();
+  if (page != null) {
+    child.initialize();
+  }
   if (page != null) {
     page.componentAdded(child);
   }
