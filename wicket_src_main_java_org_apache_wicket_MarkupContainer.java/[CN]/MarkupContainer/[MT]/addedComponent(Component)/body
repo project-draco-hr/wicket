@@ -7,22 +7,18 @@
     parent.remove(child);
   }
   child.setParent(this);
-  final Page page=findPage();
   final IDebugSettings debugSettings=Application.get().getDebugSettings();
   if (debugSettings.isLinePreciseReportingOnAddComponentEnabled()) {
     child.setMetaData(ADDED_AT_KEY,ComponentStrings.toString(child,new MarkupException("added")));
   }
+  if (this instanceof Page) {
+    child.initialize();
+  }
+ else   if (isInitialized()) {
+    child.initialize();
+  }
+  final Page page=findPage();
   if (page != null) {
-    child.onConnectedToPage();
-    if (child instanceof MarkupContainer) {
-      MarkupContainer container=(MarkupContainer)child;
-      container.visitChildren(new IVisitor<Component,Void>(){
-        public void component(        final Component component,        final IVisit<Void> visit){
-          component.onConnectedToPage();
-        }
-      }
-);
-    }
     page.componentAdded(child);
   }
   if (isPreparedForRender()) {
