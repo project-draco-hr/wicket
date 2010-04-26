@@ -1,4 +1,5 @@
 {
+  modelChanging();
   Collection<T> model=getModelCollection();
   model.clear();
   Iterator<T> it=getRecorderComponent().getSelectedChoices();
@@ -6,5 +7,6 @@
     final T selectedChoice=it.next();
     model.add(selectedChoice);
   }
-  setDefaultModelObject(model);
+  modelChanged();
+  ((IModel<Object>)getDefaultModel()).setObject(model);
 }
