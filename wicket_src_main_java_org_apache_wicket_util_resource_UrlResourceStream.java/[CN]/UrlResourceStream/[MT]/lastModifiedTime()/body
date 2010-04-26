@@ -1,35 +1,33 @@
 {
-  if (file != null) {
-    if (file.exists() == false) {
-      return null;
+  try {
+    if (file != null) {
+      if (file.exists() == false) {
+        return null;
+      }
+      long lastModified=file.lastModified();
+      if (lastModified != this.lastModified) {
+        this.lastModified=lastModified;
+        setContentLength();
+      }
     }
-    long lastModified=file.lastModified();
-    if (lastModified != this.lastModified) {
-      this.lastModified=lastModified;
-      contentLength=(int)file.length();
-    }
-  }
  else {
-    try {
       long lastModified=Connections.getLastModified(url);
       if (lastModified != this.lastModified) {
         this.lastModified=lastModified;
-        URLConnection connection=url.openConnection();
-        contentLength=connection.getContentLength();
-        Connections.close(connection);
+        setContentLength();
       }
     }
- catch (    IOException e) {
-      if (url.toString().indexOf(".jar!") >= 0) {
-        if (log.isDebugEnabled()) {
-          log.debug("getLastModified for " + url + " failed: "+ e.getMessage());
-        }
-      }
- else {
-        log.warn("getLastModified for " + url + " failed: "+ e.getMessage());
-      }
-      return null;
-    }
+    return Time.milliseconds(lastModified);
   }
-  return Time.milliseconds(lastModified);
+ catch (  IOException e) {
+    if (url.toString().indexOf(".jar!") >= 0) {
+      if (log.isDebugEnabled()) {
+        log.debug("getLastModified for " + url + " failed: "+ e.getMessage());
+      }
+    }
+ else {
+      log.warn("getLastModified for " + url + " failed: "+ e.getMessage());
+    }
+    return null;
+  }
 }
