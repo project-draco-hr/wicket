@@ -1,0 +1,12 @@
+{
+  HttpSession httpSession=((HttpServletRequest)request).getSession(false);
+  Session session=getSession(httpSession,application);
+  if (session == null) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("could not set Wicket session: key " + sessionKey + " not found in http session for "+ ((HttpServletRequest)request).getContextPath()+ ","+ request.getServerName()+ ", or http session does not exist");
+    }
+  }
+ else {
+    session.bind();
+  }
+}

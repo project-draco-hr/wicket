@@ -1,0 +1,10 @@
+{
+  if (session != null) {
+    if (sessionKey == null) {
+      sessionKey=application.getSessionAttributePrefix(null,filterName) + Session.SESSION_ATTRIBUTE_NAME;
+      logger.debug("will use {} as the session key to get the Wicket session",sessionKey);
+    }
+    return (Session)session.getAttribute(sessionKey);
+  }
+  return null;
+}
