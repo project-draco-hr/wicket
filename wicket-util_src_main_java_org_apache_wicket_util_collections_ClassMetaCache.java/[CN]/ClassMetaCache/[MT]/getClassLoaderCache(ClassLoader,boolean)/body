@@ -1,0 +1,18 @@
+{
+  ConcurrentHashMap<String,T> container=cache.get(classLoader);
+  if (container == null) {
+    if (!create) {
+      return container;
+    }
+synchronized (this) {
+      container=cache.get(classLoader);
+      if (container == null) {
+        container=new ConcurrentHashMap<String,T>();
+        Map<ClassLoader,ConcurrentHashMap<String,T>> newCache=new WeakHashMap<ClassLoader,ConcurrentHashMap<String,T>>(cache);
+        newCache.put(classLoader,container);
+        cache=Collections.unmodifiableMap(newCache);
+      }
+    }
+  }
+  return container;
+}
