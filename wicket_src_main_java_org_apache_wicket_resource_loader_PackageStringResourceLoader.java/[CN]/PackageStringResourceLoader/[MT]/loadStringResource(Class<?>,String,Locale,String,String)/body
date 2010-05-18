@@ -4,10 +4,14 @@
   }
   IPropertiesFactory propertiesFactory=Application.get().getResourceSettings().getPropertiesFactory();
   while (true) {
-    String packageName=clazz.getPackage().getName();
+    Package pkg=clazz.getPackage();
+    String packageName=(pkg == null) ? "" : pkg.getName();
     packageName=packageName.replace('.','/');
-    while (packageName.length() > 0) {
-      String path=packageName + "/" + filename;
+    do {
+      String path=filename;
+      if (packageName.length() > 0) {
+        path=packageName + "/" + path;
+      }
       ResourceNameIterator iter=new ResourceNameIterator(path,style,variation,locale,null,false);
       while (iter.hasNext()) {
         String newPath=iter.next();
@@ -24,6 +28,7 @@
       }
       packageName=Strings.beforeLast(packageName,'/');
     }
+ while (packageName.length() > 0);
     clazz=clazz.getSuperclass();
     if (clazz == null) {
       break;
