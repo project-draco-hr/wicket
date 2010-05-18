@@ -1,0 +1,9 @@
+{
+  TestPage page=(TestPage)tester.startPage(TestPage.class);
+  FormTester form=tester.newFormTester("form");
+  form.selectMultiple("choices",new int[]{0},true);
+  form.submit();
+  assertTrue(page.selection.contains(0));
+  assertTrue(page.selection.contains(1));
+  assertEquals(2,page.selection.size());
+}

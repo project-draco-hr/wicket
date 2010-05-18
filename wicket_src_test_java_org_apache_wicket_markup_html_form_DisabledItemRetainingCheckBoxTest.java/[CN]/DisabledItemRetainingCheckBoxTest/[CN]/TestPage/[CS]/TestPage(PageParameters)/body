@@ -1,0 +1,16 @@
+{
+  Form<TestPage> form=new Form<TestPage>("form");
+  add(form);
+  form.add(new CheckBoxMultipleChoice<Integer>("choices",new PropertyModel<Collection<Integer>>(this,"selection"),Arrays.asList(0,1,2)){
+    @Override protected boolean isDisabled(    Integer object,    int index,    String selected){
+      return index == 1;
+    }
+  }
+.setRetainDisabledSelected(true));
+  form.add(new CheckBoxMultipleChoice<Integer>("choices2",new PropertyModel<Collection<Integer>>(this,"selection2"),Arrays.asList(0,1,2)){
+    @Override protected boolean isDisabled(    Integer object,    int index,    String selected){
+      return index == 1;
+    }
+  }
+);
+}

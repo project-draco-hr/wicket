@@ -1,0 +1,25 @@
+{
+  if (isRetainDisabledSelected()) {
+    Collection<T> unchangedModel=getModelObject();
+    String selected;
+{
+      StringBuilder builder=new StringBuilder();
+      for (      T t : unchangedModel) {
+        builder.append(t);
+        builder.append(";");
+      }
+      selected=builder.toString();
+    }
+    List<? extends T> choices=getChoices();
+    for (int i=0; i < choices.size(); i++) {
+      final T choice=choices.get(i);
+      if (isDisabled(choice,i,selected)) {
+        if (unchangedModel.contains(choice)) {
+          if (!selectedValues.contains(choice)) {
+            selectedValues.add(choice);
+          }
+        }
+      }
+    }
+  }
+}
