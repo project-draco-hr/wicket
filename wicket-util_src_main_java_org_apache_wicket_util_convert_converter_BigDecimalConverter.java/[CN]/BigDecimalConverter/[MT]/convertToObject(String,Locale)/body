@@ -1,5 +1,9 @@
 {
-  if (value == null || value.trim().equals("")) {
+  if (value == null) {
+    return null;
+  }
+  value=value.trim();
+  if (value.trim().equals("")) {
     return null;
   }
   final Number number=parse(value,-Double.MAX_VALUE,Double.MAX_VALUE,locale);
@@ -7,7 +11,7 @@
     return (BigDecimal)number;
   }
  else   if (number instanceof Double) {
-    return new BigDecimal(number.doubleValue());
+    return new BigDecimal(Double.toString(number.doubleValue()));
   }
  else   if (number instanceof Long) {
     return new BigDecimal(number.longValue());
