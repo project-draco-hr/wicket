@@ -3,7 +3,8 @@
   Iterator<String> it=names.iterator();
   while (it.hasNext()) {
     final String possibility=it.next();
-    if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.")) {
+    BeanDefinition beanDef=((AbstractApplicationContext)ctx).getBeanFactory().getBeanDefinition(possibility);
+    if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.") || !beanDef.isAutowireCandidate()) {
       it.remove();
     }
   }
