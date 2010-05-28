@@ -1,0 +1,14 @@
+{
+  if (beanFactory.containsBeanDefinition(name)) {
+    return beanFactory.getBeanDefinition(name);
+  }
+ else {
+    BeanFactory parent=beanFactory.getParentBeanFactory();
+    if (parent != null && parent instanceof ConfigurableListableBeanFactory) {
+      return getBeanDefinition(beanFactory,name);
+    }
+ else {
+      return null;
+    }
+  }
+}

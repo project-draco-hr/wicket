@@ -3,9 +3,11 @@
   Iterator<String> it=names.iterator();
   while (it.hasNext()) {
     final String possibility=it.next();
-    BeanDefinition beanDef=((AbstractApplicationContext)ctx).getBeanFactory().getBeanDefinition(possibility);
-    if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.") || !beanDef.isAutowireCandidate()) {
-      it.remove();
+    if (ctx instanceof AbstractApplicationContext) {
+      BeanDefinition beanDef=getBeanDefinition(((AbstractApplicationContext)ctx).getBeanFactory(),possibility);
+      if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.") || !beanDef.isAutowireCandidate()) {
+        it.remove();
+      }
     }
   }
   if (names.isEmpty()) {
@@ -13,13 +15,17 @@
   }
  else   if (names.size() > 1) {
     if (ctx instanceof AbstractApplicationContext) {
+      List<String> primaries=new ArrayList<String>();
       for (      String name : names) {
-        BeanDefinition beanDef=((AbstractApplicationContext)ctx).getBeanFactory().getBeanDefinition(name);
+        BeanDefinition beanDef=getBeanDefinition(((AbstractApplicationContext)ctx).getBeanFactory(),name);
         if (beanDef instanceof AbstractBeanDefinition) {
           if (((AbstractBeanDefinition)beanDef).isPrimary()) {
-            return name;
+            primaries.add(name);
           }
         }
+      }
+      if (primaries.size() == 1) {
+        return primaries.get(0);
       }
     }
     StringBuilder msg=new StringBuilder();
