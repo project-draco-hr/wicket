@@ -5,22 +5,15 @@
  * @see org.apache.wicket.markup.html.link.Link#onClick()
  */
     @Override public void onClick(){
-      final int index=getList().indexOf(item.getModelObject());
+      final int index=item.getIndex();
       if (index != -1) {
         addStateChange();
         Collections.swap(getList(),index,index + 1);
         ListView.this.removeAll();
       }
     }
-    /** 
- * @see org.apache.wicket.Component#onBeforeRender()
- */
-    @Override protected void onBeforeRender(){
-      super.onBeforeRender();
-      setAutoEnable(false);
-      if (getList().indexOf(item.getModelObject()) == (getList().size() - 1)) {
-        setEnabled(false);
-      }
+    @Override public boolean isEnabled(){
+      return item.getIndex() != (getList().size() - 1);
     }
   }
 ;
