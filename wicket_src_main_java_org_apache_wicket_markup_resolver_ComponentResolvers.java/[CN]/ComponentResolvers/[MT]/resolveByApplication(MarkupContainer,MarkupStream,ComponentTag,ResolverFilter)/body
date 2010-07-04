@@ -1,0 +1,11 @@
+{
+  for (  final IComponentResolver resolver : Application.get().getPageSettings().getComponentResolvers()) {
+    if ((filter == null) || (filter.ignoreResolver(resolver) == false)) {
+      Component component=resolver.resolve(container,markupStream,tag);
+      if (component != null) {
+        return component;
+      }
+    }
+  }
+  return null;
+}
