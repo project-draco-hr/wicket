@@ -1,0 +1,24 @@
+{
+  Component controller=container.get(childId.toString());
+  if (controller == null) {
+    int orgIndex=markupStream.getCurrentIndex();
+    try {
+      while (markupStream.hasMore()) {
+        markupStream.next();
+        if (markupStream.skipUntil(ComponentTag.class)) {
+          ComponentTag tag=markupStream.getTag();
+          if ((tag != null) && (tag.isOpen() || tag.isOpenClose())) {
+            if (childId.equals(tag.getId())) {
+              controller=ComponentResolvers.resolveByComponentHierarchy(container,markupStream,tag);
+              break;
+            }
+          }
+        }
+      }
+    }
+  finally {
+      markupStream.setCurrentIndex(orgIndex);
+    }
+  }
+  return controller;
+}

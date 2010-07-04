@@ -1,6 +1,6 @@
 {
-  if (tag instanceof WicketTag) {
+  if ((tag instanceof WicketTag) || !"autoCreatedPanel".equals(tag.getId())) {
     return null;
   }
-  return "autoCreatedPanel".equals(tag.getId()) ? new SimplePanel(tag.getId()) : null;
+  return new SimplePanel(tag.getId());
 }

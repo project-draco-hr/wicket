@@ -1,0 +1,14 @@
+{
+  Component cursor=container;
+  while (cursor != null) {
+    if (cursor instanceof IComponentResolver) {
+      IComponentResolver resolver=(IComponentResolver)cursor;
+      Component component=resolver.resolve(container,markupStream,tag);
+      if (component != null) {
+        return component;
+      }
+    }
+    cursor=cursor.getParent();
+  }
+  return null;
+}

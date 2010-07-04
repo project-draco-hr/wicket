@@ -1,20 +1,7 @@
 {
-  Component cursor=container;
-  while (cursor != null) {
-    if (cursor instanceof IComponentResolver) {
-      IComponentResolver resolver=(IComponentResolver)cursor;
-      Component component=resolver.resolve(container,markupStream,tag);
-      if (component != null) {
-        return component;
-      }
-    }
-    cursor=cursor.getParent();
+  Component component=resolveByComponentHierarchy(container,markupStream,tag);
+  if (component == null) {
+    component=resolveByApplication(container,markupStream,tag);
   }
-  for (  final IComponentResolver resolver : Application.get().getPageSettings().getComponentResolvers()) {
-    Component component=resolver.resolve(container,markupStream,tag);
-    if (component != null) {
-      return component;
-    }
-  }
-  return null;
+  return component;
 }

@@ -3,6 +3,17 @@
     if (child == null) {
       throw new IllegalArgumentException("argument child may not be null");
     }
+    MarkupContainer parent=getParent();
+    while (parent != null) {
+      if (child == parent) {
+        String msg="You can not add a component's parent as child to the component (loop): Component: " + this.toString(false) + "; parent == child: "+ parent.toString(false);
+        if (child instanceof Border.BorderBodyContainer) {
+          msg+=". Please consider using Border.addToBorder(new " + this.getClass().getSimpleName() + "(\""+ this.getId()+ "\", ...) instead of add(...)";
+        }
+        throw new WicketRuntimeException(msg);
+      }
+      parent=parent.getParent();
+    }
     checkHierarchyChange(child);
     if (log.isDebugEnabled()) {
       log.debug("Add " + child.getId() + " to "+ this);
