@@ -1,0 +1,17 @@
+{
+  String markupId=null;
+  for (  IBehavior behavior : component.getBehaviors()) {
+    if (behavior instanceof IAjaxRegionMarkupIdProvider) {
+      markupId=((IAjaxRegionMarkupIdProvider)behavior).getAjaxRegionMarkupId(component);
+    }
+  }
+  if (markupId == null) {
+    if (component instanceof IAjaxRegionMarkupIdProvider) {
+      markupId=((IAjaxRegionMarkupIdProvider)component).getAjaxRegionMarkupId(component);
+    }
+  }
+  if (markupId == null) {
+    markupId=component.getMarkupId();
+  }
+  return markupId;
+}
