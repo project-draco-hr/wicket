@@ -1,0 +1,11 @@
+{
+  if (resource != null) {
+    return resource;
+  }
+  String stringValue=textTemplate.asString(variablesModel.getObject());
+  variablesModel.detach();
+  StringResourceStream resourceStream=new StringResourceStream(stringValue,textTemplate.getContentType());
+  resourceStream.setLastModified(textTemplate.lastModifiedTime());
+  resource=new ResourceStreamResource(resourceStream);
+  return resource;
+}
