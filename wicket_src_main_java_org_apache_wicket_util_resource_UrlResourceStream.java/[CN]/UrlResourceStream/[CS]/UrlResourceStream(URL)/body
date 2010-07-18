@@ -13,7 +13,10 @@
     Connections.closeQuietly(connection);
   }
   try {
-    file=Connections.findFile(url);
+    file=new File(new URI(url.toExternalForm()));
+    if (file != null && !file.exists()) {
+      file=null;
+    }
   }
  catch (  Exception e) {
     log.debug("cannot convert url: " + url + " to file ("+ e.getMessage()+ "), falling back to the inputstream for polling");
