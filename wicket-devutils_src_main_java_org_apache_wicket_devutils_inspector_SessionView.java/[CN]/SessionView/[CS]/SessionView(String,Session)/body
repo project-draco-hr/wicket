@@ -5,16 +5,4 @@
   add(new Label("style",session.getStyle() == null ? "[None]" : session.getStyle()));
   add(new Label("size",new SessionSizeModel(session)));
   add(new Label("totalSize",new SessionTotalSizeModel(session)));
-  final List<IPageMap> pagemaps=session.getPageMaps();
-  add(new ListView<IPageMap>("pagemaps",pagemaps){
-    private static final long serialVersionUID=1L;
-    /** 
- * Populate the table with Wicket elements
- */
-    @Override protected void populateItem(    final ListItem<IPageMap> listItem){
-      IPageMap p=listItem.getModelObject();
-      listItem.add(new PageMapView("pagemap",p));
-    }
-  }
-);
 }

@@ -1,16 +1,17 @@
 {
   add(new ApplicationView("application",Application.get()));
   add(new SessionView("session",Session.get()));
-  IPageMapEntry entry=null;
+  IManageablePage page=null;
   try {
-    entry=Session.get().pageMapForName(parameters.getString("pageMap").equals("") ? null : parameters.getString("pageMap"),false).getEntry(parameters.getInt("pageId"));
+    final int pageId=parameters.getNamedParameter("pageId").toInt();
+    page=Session.get().getPageManager().getPage(pageId);
   }
  catch (  StringValueConversionException e) {
   }
 catch (  NullPointerException e) {
   }
-  add(new PageView("page",entry == null ? null : entry.getPage()));
-  add(new Image("bug",new ResourceReference(InspectorPage.class,"bug.png")));
+  add(new PageView("page",(Page)page));
+  add(new Image("bug",new PackageResourceReference(InspectorPage.class,"bug.png")));
   add(new BookmarkablePageLink<Void>("allsessions",LiveSessionsPage.class));
   add(new Label("wicketVersion",getApplication().getFrameworkSettings().getVersion()));
 }

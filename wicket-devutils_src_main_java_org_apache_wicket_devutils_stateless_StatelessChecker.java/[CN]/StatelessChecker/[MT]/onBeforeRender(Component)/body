@@ -1,15 +1,14 @@
 {
   if (StatelessChecker.mustCheck(component)) {
-    final IVisitor<Component> visitor=new Component.IVisitor<Component>(){
-      public Object component(      final Component comp){
+    final IVisitor<Component,Component> visitor=new IVisitor<Component,Component>(){
+      public void component(      final Component comp,      final IVisit<Component> visit){
         if (component instanceof Page && StatelessChecker.mustCheck(comp)) {
-          return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+          visit.dontGoDeeper();
         }
  else         if (!comp.isStateless()) {
-          return comp;
+          visit.stop(comp);
         }
  else {
-          return IVisitor.CONTINUE_TRAVERSAL;
         }
       }
     }
