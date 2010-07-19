@@ -1,0 +1,10 @@
+{
+  final RequestCycle requestCycle=RequestCycle.get();
+  final IRequestHandler activeRequestHandler=requestCycle.getActiveRequestHandler();
+  Page currentPage=null;
+  if (activeRequestHandler instanceof IPageRequestHandler) {
+    IPageRequestHandler pageRequestHandler=(IPageRequestHandler)activeRequestHandler;
+    currentPage=(Page)pageRequestHandler.getPage();
+  }
+  return currentPage;
+}

@@ -9,7 +9,8 @@
     final Application application=Application.get();
     final UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
     if (IExceptionSettings.SHOW_EXCEPTION_PAGE.equals(unexpectedExceptionDisplay)) {
-      return new RenderPageRequestHandler(new PageProvider(new ExceptionErrorPage(e,null)));
+      Page currentPage=extractCurrentPage();
+      return new RenderPageRequestHandler(new PageProvider(new ExceptionErrorPage(e,currentPage)));
     }
  else     if (IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE.equals(unexpectedExceptionDisplay)) {
       return new RenderPageRequestHandler(new PageProvider(application.getApplicationSettings().getInternalErrorPage()));
