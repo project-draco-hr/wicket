@@ -1,0 +1,44 @@
+{
+  AppendingStringBuffer sb=new AppendingStringBuffer(128);
+  if (requestHandler instanceof ListenerInterfaceRequestHandler) {
+    ListenerInterfaceRequestHandler listener=(ListenerInterfaceRequestHandler)requestHandler;
+    sb.append("Interface[component: ");
+    sb.append(Classes.simpleName(listener.getComponent().getClass()));
+    sb.append("(");
+    sb.append(listener.getComponent().getPageRelativePath());
+    sb.append("), page: ");
+    sb.append(listener.getPage().getClass().getName());
+    sb.append("(");
+    sb.append(listener.getPage().getId());
+    sb.append("), interface: ");
+    sb.append(listener.getListenerInterface().getName());
+    sb.append(".");
+    sb.append(listener.getListenerInterface().getMethod().getName());
+    sb.append("]");
+  }
+ else   if (requestHandler instanceof BookmarkablePageRequestHandler) {
+    BookmarkablePageRequestHandler pageRequestHandler=(BookmarkablePageRequestHandler)requestHandler;
+    sb.append("BookmarkablePage[");
+    sb.append(pageRequestHandler.getPageClass().getName());
+    sb.append("(").append(pageRequestHandler.getPageParameters()).append(")");
+    sb.append("]");
+  }
+ else   if (requestHandler instanceof IPageRequestHandler) {
+    IPageRequestHandler pageRequestHandler=(IPageRequestHandler)requestHandler;
+    sb.append("PageRequest[");
+    sb.append(pageRequestHandler.getPage().getClass().getName());
+    sb.append("(");
+    sb.append(pageRequestHandler.getPage().getId());
+    sb.append(")]");
+  }
+ else   if (requestHandler instanceof ResourceReferenceRequestHandler) {
+    ResourceReferenceRequestHandler resourceRefenceHandler=(ResourceReferenceRequestHandler)requestHandler;
+    sb.append("ResourceReference[");
+    sb.append(resourceRefenceHandler.getResourceReference());
+    sb.append("]");
+  }
+ else {
+    sb.append(requestHandler.toString());
+  }
+  return sb.toString();
+}
