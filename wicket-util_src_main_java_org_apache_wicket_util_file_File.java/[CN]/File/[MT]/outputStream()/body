@@ -1,0 +1,9 @@
+{
+  final Folder parent=getParentFolder();
+  if (!parent.exists()) {
+    if (!parent.mkdirs()) {
+      throw new FileNotFoundException("Couldn't create path " + parent);
+    }
+  }
+  return new BufferedOutputStream(new FileOutputStream(this));
+}
