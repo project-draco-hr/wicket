@@ -1,0 +1,12 @@
+{
+  boolean isHomeUrl=false;
+  List<String> segments=request.getUrl().getSegments();
+  if (segments.isEmpty()) {
+    isHomeUrl=true;
+  }
+ else   if (segments.size() == 1) {
+    String localeCandidate=segments.get(0);
+    isHomeUrl=LocaleHelper.isLocale(localeCandidate);
+  }
+  return isHomeUrl;
+}

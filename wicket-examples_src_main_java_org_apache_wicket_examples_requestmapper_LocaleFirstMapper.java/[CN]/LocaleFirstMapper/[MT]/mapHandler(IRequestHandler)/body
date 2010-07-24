@@ -1,0 +1,11 @@
+{
+  Url url=chain.mapHandler(handler);
+  if (url != null) {
+    Locale locale=Session.get().getLocale();
+    if (locale == null) {
+      locale=Locale.US;
+    }
+    url.getSegments().add(0,locale.toString());
+  }
+  return url;
+}

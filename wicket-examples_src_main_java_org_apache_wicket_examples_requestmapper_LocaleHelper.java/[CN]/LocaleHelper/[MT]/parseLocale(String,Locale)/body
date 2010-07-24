@@ -1,0 +1,13 @@
+{
+  Locale result=null;
+  final int idxOfUnderbar=localeAsString.indexOf('_');
+  if (idxOfUnderbar > 0) {
+    String lang=localeAsString.substring(0,idxOfUnderbar);
+    String country=localeAsString.substring(idxOfUnderbar + 1);
+    result=new Locale(lang,country);
+  }
+  if (result == null) {
+    result=defaultLocale;
+  }
+  return result;
+}
