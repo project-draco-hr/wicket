@@ -1,3 +1,7 @@
 {
-  return "wicket";
+  String sessionAttributePrefix="wicket";
+  if (request instanceof WebRequest) {
+    sessionAttributePrefix=WebApplication.get().getSessionAttributePrefix((WebRequest)request,null);
+  }
+  return sessionAttributePrefix;
 }
