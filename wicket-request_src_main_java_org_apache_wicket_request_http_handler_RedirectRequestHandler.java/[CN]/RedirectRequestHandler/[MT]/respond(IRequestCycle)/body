@@ -10,11 +10,11 @@
     location=redirectUrl;
   }
   WebResponse response=(WebResponse)requestCycle.getResponse();
-  if (status == 302) {
+  if (status == HttpServletResponse.SC_MOVED_TEMPORARILY) {
     response.sendRedirect(location);
   }
  else {
-    response.setStatus(301);
+    response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
     response.setHeader("Location",location);
   }
 }
