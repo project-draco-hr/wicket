@@ -1,0 +1,37 @@
+{
+  final Duration timeout=this.timeout.get();
+  final Thread thread=Thread.currentThread();
+  final PageLock lock=new PageLock(pageId,thread);
+  final Time start=Time.now();
+  boolean locked=false;
+  while (!locked && start.elapsedSince().lessThan(timeout)) {
+    logger.debug("{} attempting to acquire lock to page {}",thread.getName(),pageId);
+    PageLock previous=locks.putIfAbsent(pageId,lock);
+    if (previous == null || previous.getThread() == thread) {
+      locked=true;
+    }
+ else {
+      long remaining=remaining(start,timeout);
+      if (remaining > 0) {
+synchronized (semaphore) {
+          if (logger.isDebugEnabled()) {
+            logger.debug("{} waiting for lock to page {} for {}",new Object[]{thread.getName(),pageId,Duration.milliseconds(remaining)});
+          }
+          try {
+            semaphore.wait(remaining);
+          }
+ catch (          InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+        }
+      }
+    }
+  }
+  if (locked) {
+    logger.debug("{} acquired lock to page {}",thread.getName(),pageId);
+  }
+ else {
+    logger.warn("{} failed to acquire lock to page {}, attempted for {} out of allowed {}",new Object[]{thread.getName(),pageId,start.elapsedSince(),timeout});
+    throw new CouldNotLockPageException(pageId,thread.getName(),timeout);
+  }
+}

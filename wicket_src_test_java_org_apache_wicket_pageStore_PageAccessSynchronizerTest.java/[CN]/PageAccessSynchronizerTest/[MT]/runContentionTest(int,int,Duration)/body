@@ -1,0 +1,84 @@
+{
+  final PageAccessSynchronizer sync=new PageAccessSynchronizer(Duration.seconds(1));
+  final AtomicInteger[] counts=new AtomicInteger[pages];
+  for (int i=0; i < counts.length; i++) {
+    counts[i]=new AtomicInteger();
+  }
+  final AtomicInteger hits=new AtomicInteger();
+  final String[] error=new String[1];
+class Worker extends Thread {
+    @Override public void run(){
+      Random random=new Random();
+      Time start=Time.now();
+      while (start.elapsedSince().lessThan(duration) && error[0] == null) {
+        logger.info("{} elapsed: {}, duration: {}",new Object[]{Thread.currentThread().getName(),start.elapsedSince(),duration});
+        int page1=random.nextInt(counts.length);
+        int page2=random.nextInt(counts.length);
+        int count=0;
+        while (page2 == page1 && count < 100) {
+          page2=random.nextInt(counts.length);
+          count++;
+        }
+        if (page2 == page1) {
+          throw new RuntimeException("orly?");
+        }
+        try {
+          sync.lockPage(page1);
+          sync.lockPage(page2);
+          counts[page1].incrementAndGet();
+          counts[page2].incrementAndGet();
+          hits.incrementAndGet();
+          try {
+            Thread.sleep(50);
+          }
+ catch (          InterruptedException e) {
+            error[0]="Worker :" + Thread.currentThread().getName() + " interrupted";
+          }
+          counts[page1].decrementAndGet();
+          counts[page2].decrementAndGet();
+        }
+ catch (        CouldNotLockPageException e) {
+        }
+ finally {
+          sync.unlockAllPages();
+        }
+      }
+    }
+  }
+class Monitor extends Thread {
+    volatile boolean stop=false;
+    @Override public void run(){
+      while (!stop && error[0] == null) {
+        for (int i=0; i < counts.length; i++) {
+          int count=counts[i].get();
+          if (count < 0 || count > 1) {
+            error[0]="Detected count of: " + count + " for page: "+ i;
+            return;
+          }
+        }
+        try {
+          Thread.sleep(1);
+        }
+ catch (        InterruptedException e) {
+          error[0]="Monitor thread interrupted";
+        }
+      }
+    }
+  }
+  Monitor monitor=new Monitor();
+  monitor.setName("monitor");
+  monitor.start();
+  Worker[] bots=new Worker[workers];
+  for (int i=0; i < bots.length; i++) {
+    bots[i]=new Worker();
+    bots[i].setName("worker " + i);
+    bots[i].start();
+  }
+  for (int i=0; i < bots.length; i++) {
+    bots[i].join();
+  }
+  monitor.stop=true;
+  monitor.join();
+  assertNull(error[0],error[0]);
+  assertTrue(hits.get() >= counts.length);
+}

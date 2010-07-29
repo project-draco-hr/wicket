@@ -1,0 +1,22 @@
+{
+  return new PageManagerDecorator(pagemanager){
+    @Override public IManageablePage getPage(    int id){
+      lockPage(id);
+      IManageablePage page=super.getPage(id);
+      return page;
+    }
+    @Override public void touchPage(    IManageablePage page){
+      lockPage(page.getPageId());
+      super.touchPage(page);
+    }
+    @Override public void commitRequest(){
+      try {
+        super.commitRequest();
+      }
+  finally {
+        unlockAllPages();
+      }
+    }
+  }
+;
+}

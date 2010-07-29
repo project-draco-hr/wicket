@@ -1,0 +1,31 @@
+{
+  final PageAccessSynchronizer sync=new PageAccessSynchronizer(Duration.seconds(5));
+  final Duration hold=Duration.seconds(1);
+  final Time t1locks[]=new Time[1];
+  final Time t2locks[]=new Time[1];
+class T1 extends Thread {
+    @Override public void run(){
+      sync.lockPage(1);
+      t1locks[0]=Time.now();
+      hold.sleep();
+      sync.unlockAllPages();
+    }
+  }
+class T2 extends Thread {
+    @Override public void run(){
+      sync.lockPage(1);
+      t2locks[0]=Time.now();
+      sync.unlockAllPages();
+    }
+  }
+  T1 t1=new T1();
+  t1.setName("t1");
+  T2 t2=new T2();
+  t2.setName("t2");
+  t1.start();
+  Duration.milliseconds(100).sleep();
+  t2.start();
+  t1.join();
+  t2.join();
+  assertTrue(!t2locks[0].before(t1locks[0].add(hold)));
+}
