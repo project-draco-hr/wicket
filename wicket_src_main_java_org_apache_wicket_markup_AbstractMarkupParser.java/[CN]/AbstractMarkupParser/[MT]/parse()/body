@@ -1,4 +1,9 @@
 {
+  markupFilterChain=new RootMarkupFilter(xmlParser);
+  for (  IMarkupFilter filter : getMarkupFilters()) {
+    filter.setNextFilter(markupFilterChain);
+    markupFilterChain=filter;
+  }
   MarkupResourceStream markupResourceStream=markup.getMarkupResourceStream();
   xmlParser.parse(markupResourceStream.getResource().getInputStream(),markupSettings.getDefaultMarkupEncoding());
   parseMarkup();
