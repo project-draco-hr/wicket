@@ -1,0 +1,7 @@
+{
+  final String txt=Application.get().getResourceSettings().getLocalizer().getString(resourceKey,null,"Server parsetime: ${servertime}, Client parsetime: ${clienttime}");
+  final Map<String,String> map=new HashMap<String,String>(4);
+  map.put("clienttime","' + (new Date().getTime() - clientTimeVariable)/1000 +  's");
+  map.put("servertime",((double)timeTaken) / 1000 + "s");
+  return MapVariableInterpolator.interpolate(txt,map);
+}
