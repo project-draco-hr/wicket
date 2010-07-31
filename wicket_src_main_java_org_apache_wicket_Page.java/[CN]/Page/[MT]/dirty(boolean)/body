@@ -1,0 +1,12 @@
+{
+  checkHierarchyChange(this);
+  final IPageManager pageManager=getSession().getPageManager();
+  if (!getFlag(FLAG_IS_DIRTY) && isVersioned() && pageManager.supportsVersioning()) {
+    setFlag(FLAG_IS_DIRTY,true);
+    setNextAvailableId();
+    pageManager.touchPage(this);
+  }
+ else   if (isInitialization) {
+    setNextAvailableId();
+  }
+}
