@@ -8,13 +8,10 @@
   final ServletWebRequest webRequest=new ServletWebRequest(httpRequest,"",url);
   final IRequestCycle requestCycle=Mockito.mock(IRequestCycle.class);
   Mockito.when(requestCycle.getRequest()).thenReturn(webRequest);
-  final SwitchProtocolRequestHandler handler=new SwitchProtocolRequestHandler(Protocol.HTTPS);
+  HttpsConfig httpsConfig=new HttpsConfig(80,1443);
+  final SwitchProtocolRequestHandler handler=new SwitchProtocolRequestHandler(Protocol.HTTPS,httpsConfig);
   final WebResponse webResponse=Mockito.mock(WebResponse.class);
   Mockito.when(requestCycle.getResponse()).thenReturn(webResponse);
-  final WebApplication application=new MockApplication();
-  final WicketTester tester=new WicketTester(application);
-  ThreadContext.setApplication(application);
-  application.getSecuritySettings().setHttpsConfig(new HttpsConfig(80,1443));
   handler.respond(requestCycle);
   Mockito.verify(webResponse).sendRedirect(httpsUrl.toString());
 }

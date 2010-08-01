@@ -1,12 +1,3 @@
 {
-  IRequestHandler handler=requestMapper.mapRequest(request);
-  if (handler != null && Application.get().getSecuritySettings().getHttpsConfig() != null) {
-    Session.get().bind();
-    final HttpsRequestChecker httpsRequestChecker=new HttpsRequestChecker();
-    final IRequestHandler httpsHandler=httpsRequestChecker.checkSecureIncoming(handler);
-    if (httpsHandler != null) {
-      handler=httpsHandler;
-    }
-  }
-  return handler;
+  return requestMapper.mapRequest(request);
 }

@@ -1,0 +1,9 @@
+{
+  IRequestHandler requestHandler=delegate.mapRequest(request);
+  if (requestHandler != null) {
+    final IRequestHandler httpsHandler=checker.checkSecureIncoming(requestHandler,httpsConfig);
+    Session.get().bind();
+    requestHandler=httpsHandler;
+  }
+  return requestHandler;
+}
