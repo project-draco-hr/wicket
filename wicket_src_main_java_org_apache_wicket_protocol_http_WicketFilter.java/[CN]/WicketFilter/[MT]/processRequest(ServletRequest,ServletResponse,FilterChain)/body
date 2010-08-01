@@ -9,11 +9,12 @@
     HttpServletRequest httpServletRequest=(HttpServletRequest)request;
     HttpServletResponse httpServletResponse=(HttpServletResponse)response;
     String filterPath=getFilterPath(httpServletRequest);
-    webApplication.set();
-    if (checkForTrailingSlash(httpServletRequest,httpServletResponse,filterPath)) {
-      ServletWebRequest req=new ServletWebRequest(httpServletRequest,filterPath);
-      WebResponse resp=new HeaderBufferingWebResponse(new ServletWebResponse(httpServletRequest,httpServletResponse));
-      RequestCycle requestCycle=webApplication.createRequestCycle(req,resp);
+    String redirectURL=checkIfRedirectRequired(httpServletRequest);
+    if (redirectURL == null) {
+      application.set();
+      WebRequest webRequest=new ServletWebRequest(httpServletRequest,filterPath);
+      WebResponse webResponse=new HeaderBufferingWebResponse(new ServletWebResponse(httpServletRequest,httpServletResponse));
+      RequestCycle requestCycle=application.createRequestCycle(webRequest,webResponse);
       if (!requestCycle.processRequestAndDetach()) {
         if (chain != null) {
           chain.doFilter(request,response);
@@ -21,7 +22,15 @@
         res=false;
       }
  else {
-        resp.flush();
+        webResponse.flush();
+      }
+    }
+ else {
+      try {
+        httpServletResponse.sendRedirect(httpServletResponse.encodeRedirectURL(redirectURL));
+      }
+ catch (      IOException e) {
+        throw new RuntimeException(e);
       }
     }
   }
