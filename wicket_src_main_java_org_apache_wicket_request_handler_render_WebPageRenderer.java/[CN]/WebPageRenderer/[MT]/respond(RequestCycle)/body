@@ -6,7 +6,7 @@
     logger.warn("The Buffered response should be handled by BufferedResponseRequestHandler");
     bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
   }
- else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender() && getPage().isPageStateless())) {
+ else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender() && getPage().isPageStateless())) {
     renderPage();
   }
  else   if (!targetUrl.equals(currentUrl) && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender())) {
