@@ -1,5 +1,8 @@
 {
   checkHierarchyChange(this);
+  if (getFlag(FLAG_PREVENT_DIRTY)) {
+    return;
+  }
   final IPageManager pageManager=getSession().getPageManager();
   if (!getFlag(FLAG_IS_DIRTY) && isVersioned() && pageManager.supportsVersioning()) {
     setFlag(FLAG_IS_DIRTY,true);

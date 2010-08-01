@@ -1,4 +1,12 @@
 {
-  ++renderCount;
-  render();
+  if (getApplication().getRequestCycleSettings().getRenderStrategy() != RenderStrategy.REDIRECT_TO_BUFFER) {
+    preventDirty(true);
+  }
+  try {
+    ++renderCount;
+    render();
+  }
+  finally {
+    preventDirty(false);
+  }
 }
