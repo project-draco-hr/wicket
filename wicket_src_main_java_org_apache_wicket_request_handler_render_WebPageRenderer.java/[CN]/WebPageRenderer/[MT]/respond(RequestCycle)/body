@@ -7,7 +7,10 @@
     bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
   }
  else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender() && getPage().isPageStateless())) {
-    renderPage();
+    BufferedWebResponse response=renderPage(targetUrl,requestCycle);
+    if (response != null) {
+      response.writeTo((WebResponse)requestCycle.getResponse());
+    }
   }
  else   if (!targetUrl.equals(currentUrl) && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender())) {
     redirectTo(targetUrl,requestCycle);
@@ -17,6 +20,9 @@
   }
  else   if (isRedirectToBuffer()) {
     BufferedWebResponse response=renderPage(targetUrl,requestCycle);
+    if (response == null) {
+      return;
+    }
     Url targetUrl2=requestCycle.urlFor(getRenderPageRequestHandler());
     if (targetUrl.getSegments().equals(targetUrl2.getSegments()) == false) {
       response=renderPage(targetUrl2,requestCycle);
