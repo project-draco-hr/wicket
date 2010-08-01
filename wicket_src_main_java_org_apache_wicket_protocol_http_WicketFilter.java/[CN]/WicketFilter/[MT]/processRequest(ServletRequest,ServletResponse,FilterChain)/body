@@ -26,6 +26,9 @@
       }
     }
  else {
+      if (Strings.isEmpty(httpServletRequest.getQueryString()) == false) {
+        redirectURL+="?" + httpServletRequest.getQueryString();
+      }
       try {
         httpServletResponse.sendRedirect(httpServletResponse.encodeRedirectURL(redirectURL));
       }

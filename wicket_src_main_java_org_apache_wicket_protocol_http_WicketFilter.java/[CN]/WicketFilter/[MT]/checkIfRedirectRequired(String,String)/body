@@ -1,0 +1,26 @@
+{
+  int uriLength=requestURI.indexOf(';');
+  if (uriLength == -1) {
+    uriLength=requestURI.length();
+  }
+  if (filterPathLength == -1) {
+    filterPathLength=filterPath.length();
+    if (filterPath.endsWith("/")) {
+      filterPathLength-=1;
+    }
+  }
+  int homePathLenth=contextPath.length() + (filterPathLength > 0 ? 1 : 0) + filterPathLength;
+  if (uriLength != homePathLenth) {
+    return null;
+  }
+  String uri=Strings.stripJSessionId(requestURI);
+  String homePageUri=contextPath + "/" + filterPath;
+  if (homePageUri.endsWith("/")) {
+    homePageUri=homePageUri.substring(0,homePageUri.length() - 1);
+  }
+  if (uri.equals(homePageUri)) {
+    uri+="/";
+    return uri;
+  }
+  return null;
+}
