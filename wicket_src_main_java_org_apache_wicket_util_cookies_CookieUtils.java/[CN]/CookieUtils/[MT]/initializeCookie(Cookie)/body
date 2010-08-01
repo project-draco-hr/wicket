@@ -7,11 +7,8 @@
   if (domain != null) {
     cookie.setDomain(domain);
   }
-  HttpServletRequest request=((ServletWebRequest)getWebRequest()).getHttpServletRequest();
-  String path=request.getContextPath() + request.getServletPath();
-  if (Strings.isEmpty(path)) {
-    path="/";
-  }
+  ServletWebRequest request=(ServletWebRequest)getWebRequest();
+  String path=request.getHttpServletRequest().getContextPath() + "/" + request.getFilterPrefix();
   cookie.setPath(path);
   cookie.setVersion(settings.getVersion());
   cookie.setSecure(settings.getSecure());
