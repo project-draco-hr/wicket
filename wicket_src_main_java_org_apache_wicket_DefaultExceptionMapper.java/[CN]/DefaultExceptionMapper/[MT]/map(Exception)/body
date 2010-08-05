@@ -5,6 +5,9 @@
  else   if (e instanceof PageExpiredException) {
     return new RenderPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getPageExpiredErrorPage()));
   }
+ else   if (e instanceof AuthorizationException) {
+    return new RenderPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getAccessDeniedPage()));
+  }
  else {
     final Application application=Application.get();
     final UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
