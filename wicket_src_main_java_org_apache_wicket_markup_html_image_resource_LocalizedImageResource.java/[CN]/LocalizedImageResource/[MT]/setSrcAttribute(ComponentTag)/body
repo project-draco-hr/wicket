@@ -18,6 +18,21 @@
  else   if (modelObject instanceof IResource) {
     resource=(IResource)modelObject;
   }
+  if (resource == null && resourceReference == null) {
+    final CharSequence src=tag.getString("src");
+    if (src != null) {
+      loadStaticImage(src.toString());
+    }
+ else {
+      final CharSequence value=tag.getString("value");
+      if (value != null) {
+        newImage(value);
+      }
+ else {
+        loadStaticImage(component.getDefaultModelObjectAsString());
+      }
+    }
+  }
   final CharSequence url;
   if (resourceReference != null) {
     IRequestHandler handler=new ResourceReferenceRequestHandler(resourceReference,resourceParameters);
