@@ -1,0 +1,11 @@
+{
+  if (!getFlag(FLAG_INITIALIZED)) {
+    setFlag(FLAG_INITIALIZED,true);
+    setFlag(FLAG_INITIALIZE_SUPER_CALL_VERIFIED,false);
+    onInitialize();
+    if (!getFlag(FLAG_INITIALIZE_SUPER_CALL_VERIFIED)) {
+      throw new IllegalStateException(Component.class.getName() + " has not been properly initialized. Something in the hierarchy of " + getClass().getName()+ " has not called super.onInitializer() in the override of onInitialize() method");
+    }
+    setFlag(FLAG_INITIALIZE_SUPER_CALL_VERIFIED,false);
+  }
+}
