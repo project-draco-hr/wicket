@@ -1,0 +1,13 @@
+{
+  tester.startPage(HomePage.class);
+  tester.assertInfoMessages(new String[]{"info on field","page onbeforerender"});
+  FormTester formTester=tester.newFormTester("form");
+  formTester.submit();
+  tester.assertErrorMessages(new String[]{"Field 'field' is required."});
+  tester.assertInfoMessages(new String[]{"page onbeforerender"});
+  formTester=tester.newFormTester("form");
+  formTester.setValue("fieldborder:border:fieldborder_body:field","some text");
+  formTester.submit();
+  tester.assertErrorMessages(new String[0]);
+  tester.assertInfoMessages(new String[]{"form submitted","page onbeforerender"});
+}

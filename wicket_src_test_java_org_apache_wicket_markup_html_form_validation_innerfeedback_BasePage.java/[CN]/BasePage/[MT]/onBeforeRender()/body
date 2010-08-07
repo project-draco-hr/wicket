@@ -1,0 +1,11 @@
+{
+  super.onBeforeRender();
+  if (get("pagefbp") == null) {
+    add(new FeedbackPanel("pagefbp",new IFeedbackMessageFilter(){
+      public boolean accept(      FeedbackMessage message){
+        return !message.isRendered();
+      }
+    }
+));
+  }
+}

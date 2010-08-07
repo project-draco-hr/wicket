@@ -1,0 +1,19 @@
+{
+  super(id);
+  WebMarkupContainer brdr=new WebMarkupContainer("border");
+  brdr.add(feedback=new FeedbackPanel("feedback",getMessagesFilter()));
+  brdr.add(getBodyContainer());
+  brdr.add(new AttributeModifier("style",true,new AbstractReadOnlyModel<String>(){
+    @Override public String getObject(){
+      boolean error=Session.get().getFeedbackMessages().hasMessage(new IFeedbackMessageFilter(){
+        public boolean accept(        FeedbackMessage message){
+          return feedback.getFilter().accept(message) && message.isError();
+        }
+      }
+);
+      return "border: 1px solid " + (error ? "red" : "green");
+    }
+  }
+));
+  addToBorder(brdr);
+}
