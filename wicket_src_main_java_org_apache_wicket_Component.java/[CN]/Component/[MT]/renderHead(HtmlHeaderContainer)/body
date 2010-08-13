@@ -4,16 +4,14 @@
       log.debug("renderHead: " + toString(false));
     }
     IHeaderResponse response=container.getHeaderResponse();
-    if (this instanceof IHeaderContributor) {
-      if (response.wasRendered(this) == false) {
-        ((IHeaderContributor)this).renderHead(response);
-        response.markRendered(this);
-      }
+    if (response.wasRendered(this) == false) {
+      renderHead(response);
+      response.markRendered(this);
     }
     for (    IBehavior behavior : getBehaviors()) {
-      if ((behavior instanceof IHeaderContributor) && isBehaviorAccepted(behavior)) {
+      if (isBehaviorAccepted(behavior)) {
         if (response.wasRendered(behavior) == false) {
-          ((IHeaderContributor)behavior).renderHead(response);
+          behavior.renderHead(response);
           response.markRendered(behavior);
         }
       }

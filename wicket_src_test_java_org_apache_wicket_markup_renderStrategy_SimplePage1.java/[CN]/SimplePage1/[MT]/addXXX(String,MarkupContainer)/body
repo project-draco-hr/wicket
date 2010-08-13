@@ -1,6 +1,11 @@
 {
   MarkupContainer container=new WebMarkupContainer(id);
   parent.add(container);
-  container.add(HeaderContributor.forCss(id + ".css"));
+  container.add(new AbstractBehavior(){
+    @Override public void renderHead(    IHeaderResponse response){
+      response.renderCSSReference(id + ".css");
+    }
+  }
+);
   return container;
 }

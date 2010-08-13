@@ -16,16 +16,16 @@
         }
         @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
           return new IAjaxCallDecorator(){
-            public CharSequence decorateOnFailureScript(            CharSequence script){
+            public CharSequence decorateOnFailureScript(            Component c,            CharSequence script){
               return "window.location=this.href;";
             }
-            public CharSequence decorateOnSuccessScript(            CharSequence script){
+            public CharSequence decorateOnSuccessScript(            Component c,            CharSequence script){
               if (script == null) {
                 return "";
               }
               return script;
             }
-            public CharSequence decorateScript(            CharSequence script){
+            public CharSequence decorateScript(            Component c,            CharSequence script){
               int index=script.toString().indexOf('?');
               if (index >= 0) {
                 String test=script.subSequence(0,index + 1) + PAGE_CLASS + "=1"+ "&"+ script.subSequence(index + 1,script.length());

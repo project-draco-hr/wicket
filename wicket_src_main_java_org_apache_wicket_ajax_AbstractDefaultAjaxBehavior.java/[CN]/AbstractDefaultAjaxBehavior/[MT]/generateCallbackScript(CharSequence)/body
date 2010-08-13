@@ -7,7 +7,7 @@
   CharSequence success=(onSuccessScript == null) ? "" : onSuccessScript;
   CharSequence failure=(onFailureScript == null) ? "" : onFailureScript;
   if (decorator != null) {
-    success=decorator.decorateOnSuccessScript(success);
+    success=decorator.decorateOnSuccessScript(getComponent(),success);
   }
   if (!Strings.isEmpty(indicatorId)) {
     String hide=";wicketHide('" + indicatorId + "');";
@@ -15,7 +15,7 @@
     failure=failure + hide;
   }
   if (decorator != null) {
-    failure=decorator.decorateOnFailureScript(failure);
+    failure=decorator.decorateOnFailureScript(getComponent(),failure);
   }
   AppendingStringBuffer buff=new AppendingStringBuffer(256);
   buff.append("var ").append(IAjaxCallDecorator.WICKET_CALL_RESULT_VAR).append("=");
@@ -42,7 +42,7 @@
     call=new AppendingStringBuffer("wicketShow('").append(indicatorId).append("');").append(call);
   }
   if (decorator != null) {
-    call=decorator.decorateScript(call);
+    call=decorator.decorateScript(getComponent(),call);
   }
   return call;
 }

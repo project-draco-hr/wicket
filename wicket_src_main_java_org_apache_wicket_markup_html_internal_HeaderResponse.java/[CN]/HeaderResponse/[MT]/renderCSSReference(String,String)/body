@@ -1,21 +1,3 @@
 {
-  if (Strings.isEmpty(url)) {
-    throw new IllegalArgumentException("url cannot be empty or null");
-  }
-  if (!closed) {
-    List<Object> token=Arrays.asList(new Object[]{"css",url,media});
-    if (wasRendered(token) == false) {
-      getResponse().write("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
-      getResponse().write(url);
-      getResponse().write("\"");
-      if (media != null) {
-        getResponse().write(" media=\"");
-        getResponse().write(media);
-        getResponse().write("\"");
-      }
-      getResponse().write(" />");
-      getResponse().write("\n");
-      markRendered(token);
-    }
-  }
+  internalRenderCSSReference(relative(url),media);
 }

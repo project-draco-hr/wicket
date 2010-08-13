@@ -1,12 +1,3 @@
 {
-  if (Strings.isEmpty(url)) {
-    throw new IllegalArgumentException("url cannot be empty or null");
-  }
-  if (!closed) {
-    List<Object> token=Arrays.asList(new Object[]{"javascript",url});
-    if (wasRendered(token) == false) {
-      JavascriptUtils.writeJavascriptUrl(getResponse(),url);
-      markRendered(token);
-    }
-  }
+  internalRenderJavascriptReference(relative(url),null);
 }
