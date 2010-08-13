@@ -1,0 +1,16 @@
+{
+  final FeedbackPanel fbp=(FeedbackPanel)getComponentFromLastRenderedPage(path);
+  final IModel<List<FeedbackMessage>> model=fbp.getFeedbackMessagesModel();
+  final List<FeedbackMessage> renderedMessages=model.getObject();
+  if (renderedMessages == null) {
+    fail("feedback panel at path [" + path + "] returned null messages");
+  }
+  if (messages.length != renderedMessages.size()) {
+    fail("you expected " + messages.length + " messages for the feedback panel ["+ path+ "], but there were actually "+ renderedMessages.size());
+  }
+  for (int i=0; i < messages.length && i < renderedMessages.size(); i++) {
+    final String expected=messages[i];
+    final String actual=renderedMessages.get(i).getMessage().toString();
+    assertResult(isEqual(expected,actual));
+  }
+}
