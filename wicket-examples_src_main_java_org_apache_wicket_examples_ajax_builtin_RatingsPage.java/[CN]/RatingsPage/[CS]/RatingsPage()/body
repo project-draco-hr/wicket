@@ -11,11 +11,11 @@
   add(new RatingPanel("rating2",new PropertyModel<Integer>(rating2,"rating"),new Model<Integer>(5),new PropertyModel<Integer>(rating2,"nrOfVotes"),new PropertyModel<Boolean>(this,"hasVoted"),true){
     @Override protected String getActiveStarUrl(    int iteration){
       IRequestHandler handler=new ResourceReferenceRequestHandler(WICKETSTAR1);
-      return getRequestCycle().renderUrlFor(handler).toString();
+      return getRequestCycle().urlFor(handler).toString();
     }
     @Override protected String getInactiveStarUrl(    int iteration){
       IRequestHandler handler=new ResourceReferenceRequestHandler(WICKETSTAR0);
-      return getRequestCycle().renderUrlFor(handler).toString();
+      return getRequestCycle().urlFor(handler).toString();
     }
     @Override public boolean onIsStarActive(    int star){
       return RatingsPage.rating2.isActive(star);
