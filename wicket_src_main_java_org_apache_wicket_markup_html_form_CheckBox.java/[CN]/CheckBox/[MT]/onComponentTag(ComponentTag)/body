@@ -15,10 +15,6 @@
     CharSequence url=urlFor(IOnChangeListener.INTERFACE);
     Form<?> form=findParent(Form.class);
     if (form != null) {
-      RequestContext rc=RequestContext.get();
-      if (rc.isPortletRequest()) {
-        url=((PortletRequestContext)rc).getLastEncodedPath();
-      }
       tag.put("onclick",form.getJsForInterfaceUrl(url));
     }
  else {

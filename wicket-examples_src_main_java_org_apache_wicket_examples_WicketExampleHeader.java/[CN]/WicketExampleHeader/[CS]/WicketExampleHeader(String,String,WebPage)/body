@@ -1,16 +1,6 @@
 {
   super(id);
-  WebMarkupContainer hideInPortlet=new WebMarkupContainer("hideInPortlet"){
-    /** 
- * @see org.apache.wicket.Component#isVisible()
- */
-    @Override public boolean isVisible(){
-      return !RequestContext.get().isPortletRequest();
-    }
-  }
-;
-  add(hideInPortlet);
-  hideInPortlet.add(new WebMarkupContainer("debug"));
+  add(new WebMarkupContainer("debug"));
   add(new Label("exampleTitle",exampleTitle));
   BookmarkablePageLink<Void> link=new BookmarkablePageLink<Void>("sources",SourcesPage.class,SourcesPage.generatePageParameters(page));
   add(link);
