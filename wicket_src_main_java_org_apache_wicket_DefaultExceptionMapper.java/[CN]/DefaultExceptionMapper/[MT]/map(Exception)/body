@@ -11,6 +11,7 @@
  else {
     final Application application=Application.get();
     final UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
+    logger.error("Unexpected error occurred",e);
     if (IExceptionSettings.SHOW_EXCEPTION_PAGE.equals(unexpectedExceptionDisplay)) {
       Page currentPage=extractCurrentPage();
       return new RenderPageRequestHandler(new PageProvider(new ExceptionErrorPage(e,currentPage)));
