@@ -4,8 +4,10 @@
     PageComponentInfo info=getPageComponentInfo(url);
     String className=url.getSegments().get(2);
     Class<? extends IRequestablePage> pageClass=getPageClass(className);
-    PageParameters pageParameters=extractPageParameters(request,3,pageParametersEncoder);
-    return new UrlInfo(info,pageClass,pageParameters);
+    if (Page.class.isAssignableFrom(pageClass)) {
+      PageParameters pageParameters=extractPageParameters(request,3,pageParametersEncoder);
+      return new UrlInfo(info,pageClass,pageParameters);
+    }
   }
   return null;
 }
