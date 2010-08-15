@@ -1,4 +1,8 @@
 {
+  Checks.argumentNotNull(url,"url");
+  if (url.startsWith("/")) {
+    url=url.substring(1);
+  }
   PrependingStringBuffer buffer=new PrependingStringBuffer(url);
   for (int i=0; i < baseUrl.getSegments().size() - 1; ++i) {
     buffer.prepend("../");

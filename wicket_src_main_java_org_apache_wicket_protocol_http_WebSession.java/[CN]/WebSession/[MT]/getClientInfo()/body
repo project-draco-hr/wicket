@@ -1,0 +1,19 @@
+{
+  if (clientInfo == null) {
+    RequestCycle requestCycle=RequestCycle.get();
+    if (getApplication().getRequestCycleSettings().getGatherExtendedBrowserInfo()) {
+      if (getMetaData(BROWSER_WAS_POLLED_KEY) == null) {
+        setMetaData(BROWSER_WAS_POLLED_KEY,Boolean.TRUE);
+        Request request=requestCycle.getRequest();
+        IRequestHandler activeRequestHandler=requestCycle.getActiveRequestHandler();
+        String url=requestCycle.urlFor(activeRequestHandler).toString();
+        String relativeUrl=requestCycle.getUrlRenderer().renderContextPathRelativeUrl(url,request);
+        Page browserInfoPage=newBrowserInfoPage(relativeUrl);
+        throw new RestartResponseException(browserInfoPage);
+      }
+      setMetaData(BROWSER_WAS_POLLED_KEY,(Boolean)null);
+    }
+    clientInfo=new WebClientInfo(requestCycle);
+  }
+  return (WebClientInfo)clientInfo;
+}
