@@ -1,12 +1,9 @@
 {
-  IHeaderResponse headerResponse=RequestContext.get().getHeaderResponse();
-  if (headerResponse == null) {
-    headerResponse=new HeaderResponse(){
-      @Override protected Response getRealResponse(){
-        return HtmlHeaderContainer.this.getResponse();
-      }
+  IHeaderResponse headerResponse=new HeaderResponse(){
+    @Override protected Response getRealResponse(){
+      return HtmlHeaderContainer.this.getResponse();
     }
-;
   }
+;
   return headerResponse;
 }
