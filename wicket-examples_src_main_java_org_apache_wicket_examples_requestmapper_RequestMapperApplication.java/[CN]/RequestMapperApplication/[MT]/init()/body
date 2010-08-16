@@ -3,5 +3,6 @@
   getRootRequestMapperAsCompound().add(new CustomHomeMapper());
   getRootRequestMapperAsCompound().add(new LocaleFirstMapper(new MountedMapper("/localized",LocalizedPage.class)));
   getRootRequestMapperAsCompound().add(new MountedMapper("secured",HttpsPage.class));
+  getRootRequestMapperAsCompound().add(new PackageMapper("pMount",PackageName.forClass(PackageMountedPage.class)));
   setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),new HttpsConfig()));
 }
