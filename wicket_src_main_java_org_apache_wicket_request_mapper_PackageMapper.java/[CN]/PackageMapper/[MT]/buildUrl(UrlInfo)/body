@@ -1,0 +1,11 @@
+{
+  Class<? extends IRequestablePage> pageClass=info.getPageClass();
+  if (pageClass.getName().startsWith(packageName.getName())) {
+    Url url=new Url();
+    url.getSegments().add(mountPath);
+    url.getSegments().add(pageClass.getSimpleName());
+    encodePageComponentInfo(url,info.getPageComponentInfo());
+    return encodePageParameters(url,info.getPageParameters(),pageParametersEncoder);
+  }
+  return null;
+}

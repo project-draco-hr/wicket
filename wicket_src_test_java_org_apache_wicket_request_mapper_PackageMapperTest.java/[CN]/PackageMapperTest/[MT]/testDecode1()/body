@@ -1,0 +1,9 @@
+{
+  Url url=Url.parse(MOUNT_PATH + "/" + PAGE_CLASS_NAME);
+  IRequestHandler handler=encoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof RenderPageRequestHandler);
+  IRequestablePage page=((RenderPageRequestHandler)handler).getPage();
+  assertEquals(PAGE_CLASS_NAME,page.getClass().getSimpleName());
+  assertEquals(0,page.getPageParameters().getIndexedParamsCount());
+  assertTrue(page.getPageParameters().getNamedParameterKeys().isEmpty());
+}

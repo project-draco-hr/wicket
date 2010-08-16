@@ -1,0 +1,14 @@
+{
+  Url url=request.getUrl();
+  if (url.getSegments().size() >= 1 && urlStartsWith(url,mountPath)) {
+    PageComponentInfo info=getPageComponentInfo(url);
+    String className=url.getSegments().get(1);
+    String fullyQualifiedClassName=packageName.getName() + '.' + className;
+    Class<? extends IRequestablePage> pageClass=getPageClass(fullyQualifiedClassName);
+    if (pageClass != null && IRequestablePage.class.isAssignableFrom(pageClass)) {
+      PageParameters pageParameters=extractPageParameters(request,2,pageParametersEncoder);
+      return new UrlInfo(info,pageClass,pageParameters);
+    }
+  }
+  return null;
+}

@@ -1,0 +1,10 @@
+{
+  MockPage page=new MockPage(15);
+  page.setBookmarkable(true);
+  page.setCreatedBookmarkable(true);
+  page.setPageStateless(true);
+  IPageProvider provider=new PageProvider(page);
+  IRequestHandler handler=new RenderPageRequestHandler(provider);
+  Url url=encoder.mapHandler(handler);
+  assertEquals(MOUNT_PATH + "/" + PAGE_CLASS_NAME,url.toString());
+}
