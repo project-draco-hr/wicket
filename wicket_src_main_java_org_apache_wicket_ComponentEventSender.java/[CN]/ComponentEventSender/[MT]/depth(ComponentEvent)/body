@@ -1,0 +1,33 @@
+{
+  IEventSink sink=event.getSink();
+  boolean targetsApplication=sink instanceof Application;
+  boolean targetsSession=targetsApplication || sink instanceof Session;
+  boolean targetsCycle=targetsSession || sink instanceof RequestCycle;
+  boolean targetsComponnet=sink instanceof Component;
+  if (!targetsComponnet && !targetsCycle) {
+    sink.onEvent(event);
+    return;
+  }
+  Component cursor=(targetsCycle) ? source.getPage() : (Component)sink;
+  if (cursor instanceof MarkupContainer) {
+    Visits.visitComponentsPostOrder(cursor,new ComponentEventVisitor(event));
+  }
+  if (event.isStop()) {
+    return;
+  }
+  if (targetsCycle) {
+    source.getRequestCycle().onEvent(event);
+  }
+  if (event.isStop()) {
+    return;
+  }
+  if (targetsSession) {
+    source.getSession().onEvent(event);
+  }
+  if (event.isStop()) {
+    return;
+  }
+  if (targetsApplication) {
+    source.getApplication().onEvent(event);
+  }
+}

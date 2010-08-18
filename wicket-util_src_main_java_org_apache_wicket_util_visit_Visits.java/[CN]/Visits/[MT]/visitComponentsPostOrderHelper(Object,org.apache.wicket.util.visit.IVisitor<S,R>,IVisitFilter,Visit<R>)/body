@@ -5,17 +5,15 @@
       Visit<R> childTraversal=new Visit<R>();
       for (final Iterator<?> iterator=((Iterable<?>)component).iterator(); iterator.hasNext(); ) {
         final Object child=iterator.next();
-        if (child instanceof Iterable<?>) {
-          visitComponentsPostOrderHelper(child,visitor,filter,childTraversal);
-          if (childTraversal.isStopped()) {
-            visit.stop(childTraversal.getResult());
-            return;
-          }
+        visitComponentsPostOrderHelper(child,visitor,filter,childTraversal);
+        if (childTraversal.isStopped()) {
+          visit.stop(childTraversal.getResult());
+          return;
         }
       }
     }
-    if (filter.visitObject(component)) {
-      visitor.component((S)component,visit);
-    }
+  }
+  if (filter.visitObject(component)) {
+    visitor.component((S)component,visit);
   }
 }

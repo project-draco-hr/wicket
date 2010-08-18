@@ -1,0 +1,18 @@
+{
+  ComponentEvent event=new ComponentEvent(sink,source,type,payload);
+  Checks.argumentNotNull(type,"type");
+switch (type) {
+case BUBBLE:
+    bubble(event);
+  break;
+case BREADTH:
+breadth(event);
+break;
+case DEPTH:
+depth(event);
+break;
+case EXACT:
+event.getSink().onEvent(event);
+break;
+}
+}

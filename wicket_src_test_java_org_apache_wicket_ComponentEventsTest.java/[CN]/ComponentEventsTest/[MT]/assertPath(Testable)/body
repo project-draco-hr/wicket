@@ -1,0 +1,14 @@
+{
+  List<Testable> remaining=new ArrayList<Testable>(Arrays.asList(all));
+  for (int i=0; i < testables.length; i++) {
+    Assert.assertEquals("checking path element " + i,i,testables[i].getSequence());
+    remaining.remove(testables[i]);
+  }
+  for (  Testable testable : remaining) {
+    String name=testable.getClass().getSimpleName();
+    if (testable instanceof Component && !(testable instanceof Page)) {
+      name+="#" + ((Component)testable).getId();
+    }
+    Assert.assertEquals(name + " should not have been visited, but was.",-1,testable.getSequence());
+  }
+}

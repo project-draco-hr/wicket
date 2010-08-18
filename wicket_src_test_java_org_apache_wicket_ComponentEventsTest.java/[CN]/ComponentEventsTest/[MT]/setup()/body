@@ -1,0 +1,21 @@
+{
+  tester=new WicketTester(new TestApplication());
+  application=(TestApplication)tester.getApplication();
+  session=(TestSession)tester.getSession();
+  cycle=(TestRequestCycle)tester.getRequestCycle();
+  page=new TestPage();
+  c1=new TestContainer("c1");
+  c12=new TestContainer("c12");
+  c13=new TestContainer("c13");
+  c134=new TestContainer("c134");
+  c135=new TestComponent("c135");
+  c6=new TestComponent("c6");
+  page.add(c1);
+  c1.add(c12);
+  c1.add(c13);
+  c13.add(c134);
+  c13.add(c135);
+  page.add(c6);
+  all=new Testable[]{page,c1,c12,c13,c134,c135,c6,application,session,cycle};
+  stop=null;
+}

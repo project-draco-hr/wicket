@@ -1,0 +1,37 @@
+{
+  IEventSink sink=event.getSink();
+  boolean targetsComponent=sink instanceof Component;
+  boolean targetsCycle=targetsComponent || sink instanceof RequestCycle;
+  boolean targetsSession=targetsCycle || sink instanceof Session;
+  boolean targetsApplication=targetsSession || sink instanceof Application;
+  if (!targetsApplication && !targetsComponent) {
+    sink.onEvent(event);
+    return;
+  }
+  if (targetsComponent) {
+    Component cursor=(Component)sink;
+    cursor.onEvent(event);
+    if (event.isStop()) {
+      return;
+    }
+    cursor.visitParents(Component.class,new ComponentEventVisitor(event));
+  }
+  if (event.isStop()) {
+    return;
+  }
+  if (targetsCycle) {
+    source.getRequestCycle().onEvent(event);
+  }
+  if (event.isStop()) {
+    return;
+  }
+  if (targetsSession) {
+    source.getSession().onEvent(event);
+  }
+  if (event.isStop()) {
+    return;
+  }
+  if (targetsApplication) {
+    source.getApplication().onEvent(event);
+  }
+}
