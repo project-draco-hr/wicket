@@ -4,7 +4,8 @@
     detachListener.onDestroyListener();
   }
   PropertyResolver.destroy(this);
-  getMarkupSettings().getMarkupFactory().getMarkupCache().shutdown();
+  MarkupFactory markupFactory=getMarkupSettings().getMarkupFactory();
+  if (markupFactory.hasMarkupCache())   markupFactory.getMarkupCache().shutdown();
   onDestroy();
   callDestroyers();
   applicationKeyToApplication.remove(getApplicationKey());
