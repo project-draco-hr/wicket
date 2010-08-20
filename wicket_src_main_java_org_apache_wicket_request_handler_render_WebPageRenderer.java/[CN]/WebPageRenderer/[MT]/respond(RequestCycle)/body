@@ -7,7 +7,7 @@
     bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
   }
  else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender())) {
-    BufferedWebResponse response=renderPage(targetUrl,requestCycle);
+    BufferedWebResponse response=renderPage(currentUrl,requestCycle);
     if (response != null) {
       response.writeTo((WebResponse)requestCycle.getResponse());
     }
