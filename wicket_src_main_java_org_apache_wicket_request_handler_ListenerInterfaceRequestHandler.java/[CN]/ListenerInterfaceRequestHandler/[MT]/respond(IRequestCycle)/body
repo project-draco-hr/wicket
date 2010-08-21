@@ -1,19 +1,20 @@
 {
-  if (getComponent().getPage() == getPage()) {
-    if (((WebRequest)requestCycle.getRequest()).isAjax() == false && listenerInterface.isRenderPageAfterInvocation()) {
+  final IRequestablePage page=getPage();
+  if (getComponent().getPage() == page) {
+    boolean isAjax=((WebRequest)requestCycle.getRequest()).isAjax();
+    if (isAjax == false && listenerInterface.isRenderPageAfterInvocation()) {
       RedirectPolicy policy=getPage().isPageStateless() ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
       requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(getPage()),policy));
     }
-    if (getBehaviorIndex() == null) {
-      listenerInterface.invoke(getComponent());
+    if (isAjax & page instanceof IManageablePage) {
+      ((IManageablePage)page).setFreezePageId(true);
     }
- else {
-      try {
-        IBehavior behavior=getComponent().getBehaviors().get(behaviorIndex);
-        listenerInterface.invoke(getComponent(),behavior);
-      }
- catch (      IndexOutOfBoundsException e) {
-        throw new WicketRuntimeException("Couldn't find component behavior.");
+    try {
+      invokeListener();
+    }
+  finally {
+      if (isAjax && page instanceof IManageablePage) {
+        ((IManageablePage)page).setFreezePageId(false);
       }
     }
   }

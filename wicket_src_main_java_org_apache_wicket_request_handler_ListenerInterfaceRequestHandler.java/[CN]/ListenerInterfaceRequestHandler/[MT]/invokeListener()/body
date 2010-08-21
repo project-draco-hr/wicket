@@ -1,0 +1,14 @@
+{
+  if (getBehaviorIndex() == null) {
+    listenerInterface.invoke(getComponent());
+  }
+ else {
+    try {
+      IBehavior behavior=getComponent().getBehaviors().get(behaviorIndex);
+      listenerInterface.invoke(getComponent(),behavior);
+    }
+ catch (    IndexOutOfBoundsException e) {
+      throw new WicketRuntimeException("Couldn't find component behavior.");
+    }
+  }
+}
