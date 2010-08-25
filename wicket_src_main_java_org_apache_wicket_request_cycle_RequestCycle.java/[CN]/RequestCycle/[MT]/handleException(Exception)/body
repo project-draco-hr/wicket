@@ -1,3 +1,9 @@
 {
-  return exceptionMapper.map(e);
+  try {
+    return exceptionMapper.map(e);
+  }
+ catch (  RuntimeException e2) {
+    log.error("unexpected exception when handling another exception: " + e.getMessage(),e);
+    return new ErrorCodeResponseHandler(500);
+  }
 }
