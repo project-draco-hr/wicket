@@ -1,0 +1,17 @@
+{
+  tester.startPage(new MockFormPage(){
+    @Override protected void onBeforeRender(){
+      super.onBeforeRender();
+      assertTrue(getRequest().getPostParameters().getParameterNames().isEmpty());
+    }
+  }
+);
+  final Component form=tester.getComponentFromLastRenderedPage("form");
+  form.setEnabled(false);
+  assertFalse(form.isEnabled());
+  Component check=tester.getComponentFromLastRenderedPage("form:checkbox");
+  assertTrue(check.isEnabled());
+  assertFalse(check.isEnabledInHierarchy());
+  FormTester formTester=tester.newFormTester("form");
+  formTester.submit();
+}

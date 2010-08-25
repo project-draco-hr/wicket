@@ -4,7 +4,7 @@
   tester=wicketTester;
   workingForm.visitFormComponents(new FormComponent.AbstractVisitor<Void>(){
     @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent<?> formComponent,    IVisit<Void> visit){
-      if (!formComponent.isVisibleInHierarchy()) {
+      if (!(formComponent.isVisibleInHierarchy() && formComponent.isEnabledInHierarchy())) {
         return;
       }
       if (formComponent instanceof AbstractTextComponent) {
