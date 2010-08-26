@@ -1,0 +1,13 @@
+{
+  super.onInitialize();
+  BookmarkablePageLink<Void> link=createLink("link");
+  add(link);
+  ResourceReference img=getImageResourceReference();
+  if (img == null) {
+    link.add(new WebMarkupContainer("img").setVisibilityAllowed(false));
+  }
+ else {
+    link.add(new Image("img",img));
+  }
+  link.add(new Label("data",getDataModel()));
+}
