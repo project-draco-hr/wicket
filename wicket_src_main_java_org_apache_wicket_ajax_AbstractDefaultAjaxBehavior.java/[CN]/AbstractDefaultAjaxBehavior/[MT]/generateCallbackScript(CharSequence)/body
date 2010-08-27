@@ -10,7 +10,7 @@
     success=decorator.decorateOnSuccessScript(getComponent(),success);
   }
   if (!Strings.isEmpty(indicatorId)) {
-    String hide=";wicketHide('" + indicatorId + "');";
+    String hide=";Wicket.hideIncrementally('" + indicatorId + "');";
     success=success + hide;
     failure=failure + hide;
   }
@@ -39,7 +39,7 @@
   buff.append(");");
   CharSequence call=buff;
   if (!Strings.isEmpty(indicatorId)) {
-    call=new AppendingStringBuffer("wicketShow('").append(indicatorId).append("');").append(call);
+    call=new AppendingStringBuffer("Wicket.showIncrementally('").append(indicatorId).append("');").append(call);
   }
   if (decorator != null) {
     call=decorator.decorateScript(getComponent(),call);
