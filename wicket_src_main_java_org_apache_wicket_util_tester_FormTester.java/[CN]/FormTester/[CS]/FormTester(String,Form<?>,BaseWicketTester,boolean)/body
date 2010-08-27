@@ -8,20 +8,20 @@
         return;
       }
       if (formComponent instanceof AbstractTextComponent) {
-        if (Strings.isEmpty(formComponent.getValue())) {
+        if (Strings.isEmpty(getFormComponentValue(formComponent))) {
           if (fillBlankString) {
             setFormComponentValue(formComponent,"");
           }
         }
  else {
-          setFormComponentValue(formComponent,formComponent.getValue());
+          setFormComponentValue(formComponent,getFormComponentValue(formComponent));
         }
       }
  else       if ((formComponent instanceof DropDownChoice) || (formComponent instanceof RadioChoice) || (formComponent instanceof CheckBox)) {
-        setFormComponentValue(formComponent,formComponent.getValue());
+        setFormComponentValue(formComponent,getFormComponentValue(formComponent));
       }
  else       if (formComponent instanceof ListMultipleChoice) {
-        final String[] modelValues=formComponent.getValue().split(FormComponent.VALUE_SEPARATOR);
+        final String[] modelValues=getFormComponentValue(formComponent).split(FormComponent.VALUE_SEPARATOR);
         for (        String modelValue : modelValues) {
           addFormComponentValue(formComponent,modelValue);
         }
@@ -31,7 +31,7 @@
         formComponent.visitChildren(Check.class,new IVisitor<Component,Void>(){
           public void component(          final Component component,          final IVisit<Void> visit){
             if (checkGroupValues.contains(component.getDefaultModelObject())) {
-              addFormComponentValue(formComponent,((Check<?>)component).getValue());
+              addFormComponentValue(formComponent,getFormComponentValue((Check<?>)component));
             }
           }
         }
@@ -43,7 +43,7 @@
           formComponent.visitChildren(Radio.class,new IVisitor<Component,Void>(){
             public void component(            final Component component,            final IVisit<Void> visit){
               if (value.equals(component.getDefaultModelObject())) {
-                addFormComponentValue(formComponent,((Radio<?>)component).getValue());
+                addFormComponentValue(formComponent,getFormComponentValue((Radio<?>)component));
                 visit.stop();
               }
  else {
@@ -54,6 +54,27 @@
 );
         }
       }
+    }
+    private String getFormComponentValue(    final FormComponent<?> formComponent){
+      boolean oldEscape=formComponent.getEscapeModelStrings();
+      formComponent.setEscapeModelStrings(false);
+      String val=formComponent.getValue();
+      formComponent.setEscapeModelStrings(oldEscape);
+      return val;
+    }
+    private String getFormComponentValue(    final Check<?> formComponent){
+      boolean oldEscape=formComponent.getEscapeModelStrings();
+      formComponent.setEscapeModelStrings(false);
+      String val=formComponent.getValue();
+      formComponent.setEscapeModelStrings(oldEscape);
+      return val;
+    }
+    private String getFormComponentValue(    final Radio<?> formComponent){
+      boolean oldEscape=formComponent.getEscapeModelStrings();
+      formComponent.setEscapeModelStrings(false);
+      String val=formComponent.getValue();
+      formComponent.setEscapeModelStrings(oldEscape);
+      return val;
     }
   }
 );
