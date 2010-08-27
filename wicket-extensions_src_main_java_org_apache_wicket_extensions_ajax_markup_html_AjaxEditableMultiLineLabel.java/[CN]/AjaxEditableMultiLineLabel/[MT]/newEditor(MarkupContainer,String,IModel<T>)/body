@@ -36,7 +36,8 @@
       final String cancelCall="{wicketAjaxGet('" + getCallbackUrl() + "&save=false');this.onblur='';return false;}";
       final String keypress="var kc=wicketKeyCode(event); if (kc==27) " + cancelCall + "; ";
       tag.put("onblur",saveCall);
-      tag.put("onkeypress",keypress);
+      tag.put("onkeypress","if (Wicket.Browser.isSafari()) { return; }; " + keypress);
+      tag.put("onkeydown","if (!Wicket.Browser.isSafari()) { return; }; " + keypress);
     }
   }
 );
