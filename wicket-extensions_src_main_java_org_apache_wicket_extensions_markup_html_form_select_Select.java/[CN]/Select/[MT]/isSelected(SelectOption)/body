@@ -8,22 +8,8 @@
           return true;
         }
       }
+      return false;
     }
   }
- else {
-    Object selected=getDefaultModelObject();
-    Object value=option.getDefaultModelObject();
-    if (selected != null && selected instanceof Collection) {
-      if (value instanceof Collection) {
-        return ((Collection)selected).containsAll((Collection)value);
-      }
- else {
-        return ((Collection)selected).contains(value);
-      }
-    }
- else {
-      return Objects.equal(selected,value);
-    }
-  }
-  return false;
+  return compareModels(getDefaultModelObject(),option.getDefaultModelObject());
 }
