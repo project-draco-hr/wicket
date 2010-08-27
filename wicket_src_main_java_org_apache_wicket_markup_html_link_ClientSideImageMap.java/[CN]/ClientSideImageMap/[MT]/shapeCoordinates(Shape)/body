@@ -1,0 +1,38 @@
+{
+  final StringBuilder sb=new StringBuilder();
+  final PathIterator pi=shape.getPathIterator(null,1.0);
+  final float[] coords=new float[6];
+  final float[] lastMove=new float[2];
+  while (!pi.isDone()) {
+switch (pi.currentSegment(coords)) {
+case PathIterator.SEG_MOVETO:
+      if (sb.length() != 0) {
+        sb.append(",");
+      }
+    sb.append(Math.round(coords[0]));
+  sb.append(",");
+sb.append(Math.round(coords[1]));
+lastMove[0]=coords[0];
+lastMove[1]=coords[1];
+break;
+case PathIterator.SEG_LINETO:
+if (sb.length() != 0) {
+sb.append(",");
+}
+sb.append(Math.round(coords[0]));
+sb.append(",");
+sb.append(Math.round(coords[1]));
+break;
+case PathIterator.SEG_CLOSE:
+if (sb.length() != 0) {
+sb.append(",");
+}
+sb.append(Math.round(lastMove[0]));
+sb.append(",");
+sb.append(Math.round(lastMove[1]));
+break;
+}
+pi.next();
+}
+return sb.toString();
+}
