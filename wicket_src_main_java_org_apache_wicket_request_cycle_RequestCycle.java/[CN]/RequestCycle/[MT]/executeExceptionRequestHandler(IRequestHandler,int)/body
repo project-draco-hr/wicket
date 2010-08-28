@@ -1,15 +1,16 @@
 {
   try {
     executeRequestHandler(handler);
+    return true;
   }
  catch (  Exception e) {
     if (retryCount > 0) {
       IRequestHandler next=handleException(e);
       if (handler != null) {
-        executeExceptionRequestHandler(next,retryCount - 1);
-        return;
+        return executeExceptionRequestHandler(next,retryCount - 1);
       }
     }
     log.error("Error during processing error message",e);
   }
+  return false;
 }

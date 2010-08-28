@@ -1,0 +1,15 @@
+{
+  try {
+    set(this);
+    IRequestHandler handler=resolveRequestHandler();
+    if (handler != null) {
+      executeRequestHandler(handler);
+      return true;
+    }
+  }
+  finally {
+    set(null);
+    detach();
+  }
+  return false;
+}

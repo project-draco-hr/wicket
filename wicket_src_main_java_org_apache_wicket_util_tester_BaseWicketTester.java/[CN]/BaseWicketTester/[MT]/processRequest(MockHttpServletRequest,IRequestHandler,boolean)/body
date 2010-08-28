@@ -17,7 +17,14 @@
     }
     applyRequest();
     requestCycle.scheduleRequestHandlerAfterCurrent(null);
-    if (!requestCycle.processRequestAndDetach()) {
+    boolean requestProcessed;
+    if (exposeExceptions == true) {
+      requestProcessed=requestCycle.processRequestAndDetachWithoutExceptionHandling();
+    }
+ else {
+      requestProcessed=requestCycle.processRequestAndDetach();
+    }
+    if (requestProcessed == false) {
       return false;
     }
     recordRequestResponse();

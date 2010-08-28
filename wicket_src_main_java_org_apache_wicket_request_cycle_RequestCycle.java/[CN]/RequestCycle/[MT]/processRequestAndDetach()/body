@@ -1,10 +1,15 @@
 {
-  boolean result;
   try {
-    result=processRequest();
+    return processRequestAndDetachWithoutExceptionHandling();
   }
-  finally {
-    detach();
+ catch (  Exception e) {
+    IRequestHandler handler=handleException(e);
+    if (handler != null) {
+      return executeExceptionRequestHandler(handler,getExceptionRetryCount());
+    }
+ else {
+      log.error("Error during request processing",e);
+    }
   }
-  return result;
+  return false;
 }
