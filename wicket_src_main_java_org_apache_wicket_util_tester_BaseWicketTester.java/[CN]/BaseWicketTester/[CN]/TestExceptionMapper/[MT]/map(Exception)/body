@@ -1,3 +1,13 @@
 {
-  return delegate.map(e);
+  if (exposeExceptions) {
+    if (e instanceof RuntimeException) {
+      throw (RuntimeException)e;
+    }
+ else {
+      throw new WicketRuntimeException(e);
+    }
+  }
+ else {
+    return delegate.map(e);
+  }
 }
