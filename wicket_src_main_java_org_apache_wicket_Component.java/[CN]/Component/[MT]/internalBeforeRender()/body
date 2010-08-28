@@ -3,7 +3,7 @@
   if ((determineVisibility() || callOnBeforeRenderIfNotVisible()) && !getFlag(FLAG_RENDERING) && !getFlag(FLAG_PREPARED_FOR_RENDER)) {
     setFlag(FLAG_BEFORE_RENDER_SUPER_CALL_VERIFIED,false);
     getApplication().notifyPreComponentOnBeforeRenderListeners(this);
-    setMetaData(Component.ENABLED_IN_HIERARCHY_CACHE_KEY,null);
+    clearEnabledInHierarchyCache();
     onBeforeRender();
     getApplication().notifyPostComponentOnBeforeRenderListeners(this);
     if (!getFlag(FLAG_BEFORE_RENDER_SUPER_CALL_VERIFIED)) {
