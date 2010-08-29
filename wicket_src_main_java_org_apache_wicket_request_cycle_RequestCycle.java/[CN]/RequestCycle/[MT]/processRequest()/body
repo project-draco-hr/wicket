@@ -6,6 +6,7 @@
       executeRequestHandler(handler);
       return true;
     }
+    log.error("Unable to execute request. No suitable RequestHandler found. URL=" + request.getUrl());
   }
  catch (  Exception e) {
     IRequestHandler handler=handleException(e);
@@ -13,7 +14,7 @@
       executeExceptionRequestHandler(handler,getExceptionRetryCount());
     }
  else {
-      log.error("Error during request processing",e);
+      log.error("Error during request processing. URL=" + request.getUrl(),e);
     }
     return true;
   }

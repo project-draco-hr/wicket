@@ -1,0 +1,12 @@
+{
+  Args.notNull(reference,"reference");
+  if (reference.canBeRegistered()) {
+    Key key=new Key(reference);
+    if (map.containsKey(key) == false) {
+      map.put(key,reference);
+    }
+    return key;
+  }
+  log.warn("Resource reference not added to registry. reference.canBeRegistered() == false");
+  return null;
+}

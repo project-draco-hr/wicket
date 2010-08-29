@@ -1,4 +1,8 @@
 {
+  if (klass == null) {
+    return 0;
+  }
+  int count=0;
   String className=klass.getName();
   if (scannedClasses.contains(className) == false) {
     scannedClasses.add(className);
@@ -8,7 +12,9 @@
         try {
           Object value=f.get(null);
           if (value instanceof ResourceReference) {
-            foundResourceReference((ResourceReference)value);
+            if (foundResourceReference((ResourceReference)value) == true) {
+              count+=1;
+            }
           }
         }
  catch (        Exception e) {
@@ -16,9 +22,7 @@
         }
       }
     }
-    klass=klass.getSuperclass();
-    if (klass != null) {
-      scanClass(klass);
-    }
+    count+=scanClass(klass.getSuperclass());
   }
+  return count;
 }

@@ -1,37 +1,12 @@
 {
-  Key key=new Key(scope.getName(),name,locale,style,variation);
-  ResourceReference res=map.get(key);
-  if (strict) {
-    if (res == null && createIfNotFound) {
-      res=addDefaultResourceReference(scope,name,locale,style,variation);
+  ResourceReference resource=_getResourceReference(scope,name,locale,style,variation,strict);
+  if (resource == null) {
+    if (scanner.scanClass(scope) > 0) {
+      resource=_getResourceReference(scope,name,locale,style,variation,strict);
+    }
+    if ((resource == null) && createIfNotFound) {
+      resource=addDefaultResourceReference(scope,name,locale,style,variation);
     }
   }
-  if (strict || res != null) {
-    return res;
-  }
- else {
-    res=getResourceReference(scope,name,locale,style,null,true,false);
-    if (res == null) {
-      res=getResourceReference(scope,name,locale,null,variation,true,false);
-    }
-    if (res == null) {
-      res=getResourceReference(scope,name,locale,null,null,true,false);
-    }
-    if (res == null) {
-      res=getResourceReference(scope,name,null,style,variation,true,false);
-    }
-    if (res == null) {
-      res=getResourceReference(scope,name,null,style,null,true,false);
-    }
-    if (res == null) {
-      res=getResourceReference(scope,name,null,null,variation,true,false);
-    }
-    if (res == null) {
-      res=getResourceReference(scope,name,null,null,null,true,false);
-    }
-    if (res == null && createIfNotFound) {
-      res=addDefaultResourceReference(scope,name,locale,style,variation);
-    }
-    return res;
-  }
+  return resource;
 }

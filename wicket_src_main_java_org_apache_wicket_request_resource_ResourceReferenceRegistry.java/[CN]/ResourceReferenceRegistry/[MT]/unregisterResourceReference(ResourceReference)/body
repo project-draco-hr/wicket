@@ -1,5 +1,9 @@
 {
   Args.notNull(reference,"reference");
-  Key key=new Key(reference.getScope().getName(),reference.getName(),reference.getLocale(),reference.getStyle(),reference.getVariation());
-  map.remove(key);
+  Key key=new Key(reference);
+  ResourceReference removed=map.remove(key);
+  if (autoAddedQueue != null) {
+    autoAddedQueue.remove(key);
+  }
+  return removed;
 }

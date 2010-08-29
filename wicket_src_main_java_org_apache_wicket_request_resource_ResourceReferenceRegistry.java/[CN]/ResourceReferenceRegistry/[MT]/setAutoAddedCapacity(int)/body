@@ -1,3 +1,15 @@
 {
-  this.autoAddedCapacity=autoAddedCapacity;
+  if (autoAddedCapacity < 0) {
+    clearAutoAddedEntries();
+    autoAddedQueue=null;
+  }
+ else {
+    this.autoAddedCapacity=autoAddedCapacity;
+    if (autoAddedQueue == null) {
+      autoAddedQueue=new ConcurrentLinkedQueue<Key>();
+    }
+ else {
+      enforceAutoAddedCacheSize(autoAddedCapacity);
+    }
+  }
 }

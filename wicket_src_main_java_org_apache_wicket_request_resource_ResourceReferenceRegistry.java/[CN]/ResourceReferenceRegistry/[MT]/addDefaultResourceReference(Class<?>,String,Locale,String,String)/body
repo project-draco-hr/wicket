@@ -1,13 +1,14 @@
 {
   ResourceReference reference=createDefaultResourceReference(scope,name,locale,style,variation);
   if (reference != null) {
-    Key key=new Key(scope.getName(),name,locale,style,variation);
-    if (autoAddedQueue.size() > getAutoAddedCapacity()) {
-      Key first=autoAddedQueue.remove();
-      map.remove(first);
+    enforceAutoAddedCacheSize(getAutoAddedCapacity());
+    Key key=_registerResourceReference(reference);
+    if (autoAddedQueue != null) {
+      autoAddedQueue.add(key);
     }
-    autoAddedQueue.add(key);
-    registerResourceReference(reference);
+  }
+ else {
+    log.warn("Asked to auto-create a ResourceReference, but ResourceReferenceRegistry.createDefaultResourceReference() return null. " + " [scope: " + scope.getName() + "; name: "+ name+ "; locale: "+ locale+ "; style: "+ style+ "; variation: "+ variation+ "]");
   }
   return reference;
 }
