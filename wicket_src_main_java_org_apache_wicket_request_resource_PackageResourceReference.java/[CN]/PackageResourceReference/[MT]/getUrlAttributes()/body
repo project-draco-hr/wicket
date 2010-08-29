@@ -2,10 +2,10 @@
   Locale locale=getLocale() != null ? getLocale() : Session.get().getLocale();
   String style=getStyle() != null ? getStyle() : Session.get().getStyle();
   String variation=getVariation();
-  UrlAttributes key=new UrlAttributes(locale,style,variation);
   if (urlAttributesCacheMap == null) {
-    urlAttributesCacheMap=new ConcurrentHashMap<UrlAttributes,UrlAttributes>();
+    urlAttributesCacheMap=Generics.newConcurrentHashMap();
   }
+  UrlAttributes key=new UrlAttributes(locale,style,variation);
   UrlAttributes value=urlAttributesCacheMap.get(key);
   if (value == null) {
     value=getUrlAttributes(locale,style,variation);

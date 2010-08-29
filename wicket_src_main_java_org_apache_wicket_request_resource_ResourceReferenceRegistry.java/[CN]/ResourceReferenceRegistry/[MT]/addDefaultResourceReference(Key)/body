@@ -1,0 +1,14 @@
+{
+  ResourceReference reference=createDefaultResourceReference(key);
+  if (reference != null) {
+    enforceAutoAddedCacheSize(getAutoAddedCapacity());
+    _registerResourceReference(reference);
+    if (autoAddedQueue != null) {
+      autoAddedQueue.add(key);
+    }
+  }
+ else {
+    log.warn("Asked to auto-create a ResourceReference, but ResourceReferenceRegistry.createDefaultResourceReference() return null. " + " [" + key.toString() + "]");
+  }
+  return reference;
+}

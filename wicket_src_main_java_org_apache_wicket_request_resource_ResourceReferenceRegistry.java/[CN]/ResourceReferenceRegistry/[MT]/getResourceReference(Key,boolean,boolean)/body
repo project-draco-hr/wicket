@@ -1,0 +1,12 @@
+{
+  ResourceReference resource=_getResourceReference(key.getScope(),key.getName(),key.getLocale(),key.getStyle(),key.getVariation(),strict);
+  if (resource == null) {
+    if (scanner.scanClass(key.getScopeClass()) > 0) {
+      resource=_getResourceReference(key.getScope(),key.getName(),key.getLocale(),key.getStyle(),key.getVariation(),strict);
+    }
+    if ((resource == null) && createIfNotFound) {
+      resource=addDefaultResourceReference(key);
+    }
+  }
+  return resource;
+}
