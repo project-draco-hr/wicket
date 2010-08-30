@@ -7,7 +7,10 @@
  * @see org.apache.wicket.util.convert.converter.DateConverter#getDateFormat(java.util.Locale)
  */
     @Override public DateFormat getDateFormat(    Locale locale){
-      return new SimpleDateFormat(DateTextField.this.datePattern);
+      if (locale == null) {
+        locale=Locale.getDefault();
+      }
+      return new SimpleDateFormat(DateTextField.this.datePattern,locale);
     }
   }
 ;
