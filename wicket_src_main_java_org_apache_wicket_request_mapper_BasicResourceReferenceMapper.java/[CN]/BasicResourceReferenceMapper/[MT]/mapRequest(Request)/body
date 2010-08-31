@@ -3,11 +3,16 @@
   if (url.getSegments().size() >= 4 && urlStartsWith(url,getContext().getNamespace(),getContext().getResourceIdentifier())) {
     String className=url.getSegments().get(2);
     StringBuilder name=new StringBuilder();
-    for (int i=3; i < url.getSegments().size(); ++i) {
+    int segmentsSize=url.getSegments().size();
+    for (int i=3; i < segmentsSize; ++i) {
+      String segment=url.getSegments().get(i);
+      if (isTimestampsEnabled() && i + 1 == segmentsSize) {
+        segment=stripTimestampFromResourceName(segment);
+      }
       if (name.length() > 0) {
         name.append("/");
       }
-      name.append(url.getSegments().get(i));
+      name.append(segment);
     }
     ResourceReference.UrlAttributes attributes=getResourceReferenceAttributes(url);
     PageParameters pageParameters=extractPageParameters(request,url.getSegments().size(),pageParametersEncoder);

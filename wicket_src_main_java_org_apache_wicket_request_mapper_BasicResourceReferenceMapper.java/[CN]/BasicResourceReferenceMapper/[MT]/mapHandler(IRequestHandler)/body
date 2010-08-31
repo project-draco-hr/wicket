@@ -3,12 +3,26 @@
     ResourceReferenceRequestHandler referenceRequestHandler=(ResourceReferenceRequestHandler)requestHandler;
     ResourceReference reference=referenceRequestHandler.getResourceReference();
     Url url=new Url();
-    url.getSegments().add(getContext().getNamespace());
-    url.getSegments().add(getContext().getResourceIdentifier());
-    url.getSegments().add(getClassName(reference.getScope()));
-    String nameParts[]=reference.getName().split("/");
-    for (    String name : nameParts) {
-      url.getSegments().add(name);
+    List<String> segments=url.getSegments();
+    segments.add(getContext().getNamespace());
+    segments.add(getContext().getResourceIdentifier());
+    segments.add(getClassName(reference.getScope()));
+    StringTokenizer tokens=new StringTokenizer(reference.getName(),"/");
+    while (tokens.hasMoreTokens()) {
+      String token=tokens.nextToken();
+      if (isTimestampsEnabled() && tokens.hasMoreTokens() == false) {
+        Time lastModified=reference.getLastModified();
+        if (lastModified != null) {
+          int extensionAt=token.lastIndexOf('.');
+          StringBuilder filename=new StringBuilder();
+          filename.append(extensionAt == -1 ? token : token.substring(0,extensionAt));
+          filename.append(TIMESTAMP_PREFIX);
+          filename.append(lastModified.getMilliseconds());
+          if (extensionAt != -1)           filename.append(token.substring(extensionAt));
+          token=filename.toString();
+        }
+      }
+      segments.add(token);
     }
     encodeResourceReferenceAttributes(url,reference);
     PageParameters parameters=referenceRequestHandler.getPageParameters();
