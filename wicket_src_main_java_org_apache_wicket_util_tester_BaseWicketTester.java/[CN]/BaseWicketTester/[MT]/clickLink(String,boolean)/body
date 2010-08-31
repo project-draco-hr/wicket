@@ -14,6 +14,8 @@
       fail("Link " + path + " is an AjaxSubmitLink and "+ "will not be invoked when AJAX (javascript) is disabled.");
     }
     AjaxSubmitLink link=(AjaxSubmitLink)linkComponent;
+    String pageRelativePath=link.getInputName();
+    request.getPostParameters().setParameterValue(pageRelativePath,"x");
     submitAjaxFormSubmitBehavior(link,(AjaxFormSubmitBehavior)WicketTesterHelper.findAjaxEventBehavior(link,"onclick"));
   }
  else   if (linkComponent instanceof SubmitLink) {
