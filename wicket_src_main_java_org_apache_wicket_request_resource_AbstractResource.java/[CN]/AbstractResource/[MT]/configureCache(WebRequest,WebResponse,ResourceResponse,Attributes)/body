@@ -1,7 +1,10 @@
 {
+  long now=System.currentTimeMillis();
+  response.setDateHeader("Date",now);
   if (data.isCacheable()) {
-    response.setDateHeader("Expires",System.currentTimeMillis() + (data.getCacheDuration() * 1000L));
-    response.setHeader(CACHE_CONTROL,"max-age=" + data.getCacheDuration());
+    response.setDateHeader("Expires",now + (data.getCacheDuration() * 1000L));
+    response.setHeader(CACHE_CONTROL,"public, max-age=" + data.getCacheDuration());
+    response.setHeader("Vary","Accept-Encoding");
   }
  else {
     response.setHeader(CACHE_CONTROL,"no-cache, must-revalidate");
