@@ -3,6 +3,8 @@
   if (resourceResponse.dataNeedsToBeWritten(attributes)) {
     IResourceStream resourceStream=getResourceStream();
     resourceResponse.setContentType(resourceStream.getContentType());
+    final Time lastModified=resourceStream.lastModifiedTime();
+    if (lastModified != null)     resourceResponse.setLastModified(lastModified.toDate());
     if (resourceStream == null)     return sendResourceError(resourceResponse,HttpServletResponse.SC_NOT_FOUND,"Unable to find resource");
     try {
       final byte[] bytes;
