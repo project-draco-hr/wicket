@@ -1,0 +1,34 @@
+{
+  ResourceResponse resourceResponse=new ResourceResponse();
+  if (resourceResponse.dataNeedsToBeWritten(attributes)) {
+    IResourceStream resourceStream=getResourceStream();
+    resourceResponse.setContentType(resourceStream.getContentType());
+    if (resourceStream == null)     return sendResourceError(resourceResponse,HttpServletResponse.SC_NOT_FOUND,"Unable to find resource");
+    try {
+      final byte[] bytes;
+      try {
+        bytes=IOUtils.toByteArray(resourceStream.getInputStream());
+      }
+  finally {
+        resourceStream.close();
+      }
+      resourceResponse.setContentLength(bytes.length);
+      resourceResponse.setWriteCallback(new WriteCallback(){
+        @Override public void writeData(        Attributes attributes){
+          attributes.getResponse().write(bytes);
+        }
+      }
+);
+    }
+ catch (    IOException e) {
+      log.debug(e.getMessage(),e);
+      return sendResourceError(resourceResponse,500,"Unable to read resource stream");
+    }
+catch (    ResourceStreamNotFoundException e) {
+      log.debug(e.getMessage(),e);
+      return sendResourceError(resourceResponse,500,"Unable to open resource stream");
+    }
+  }
+  resourceResponse.setCacheable(isCacheable());
+  return resourceResponse;
+}
