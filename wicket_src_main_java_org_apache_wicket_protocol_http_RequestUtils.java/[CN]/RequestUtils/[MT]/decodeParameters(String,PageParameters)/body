@@ -1,7 +1,6 @@
 {
-  final String[] paramTuples=queryString.split("&");
-  for (int t=0; t < paramTuples.length; t++) {
-    final String[] bits=paramTuples[t].split("=");
+  for (  String paramTuple : Strings.split(queryString,'&')) {
+    final String[] bits=Strings.split(paramTuple,'=');
     if (bits.length == 2) {
       params.addNamedParameter(UrlDecoder.QUERY_INSTANCE.decode(bits[0],getCurrentCharset()),UrlDecoder.QUERY_INSTANCE.decode(bits[1],getCurrentCharset()));
     }

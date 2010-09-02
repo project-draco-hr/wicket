@@ -1,0 +1,12 @@
+{
+  redirect=true;
+  url=getAbsoluteURL(url);
+  url=httpServletResponse.encodeRedirectURL(url);
+  try {
+    if (cacheable == false)     RequestUtils.disableCaching(this);
+    httpServletResponse.sendRedirect(url);
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException(e);
+  }
+}
