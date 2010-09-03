@@ -1,6 +1,6 @@
 {
-  visitFormComponentsPostOrder(new FormComponent.AbstractVisitor<Void>(){
-    @Override public void onFormComponent(    final FormComponent<?> formComponent,    IVisit<Void> visit){
+  visitFormComponentsPostOrder(new IVisitor<FormComponent<?>,Void>(){
+    public void component(    final FormComponent<?> formComponent,    IVisit<Void> visit){
       if (formComponent.isVisibleInHierarchy()) {
         formComponent.clearInput();
       }

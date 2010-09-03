@@ -2,8 +2,8 @@
   this.path=path;
   this.workingForm=workingForm;
   tester=wicketTester;
-  workingForm.visitFormComponents(new FormComponent.AbstractVisitor<Void>(){
-    @SuppressWarnings("unchecked") @Override public void onFormComponent(    final FormComponent<?> formComponent,    IVisit<Void> visit){
+  workingForm.visitFormComponents(new IVisitor<FormComponent<?>,Void>(){
+    public void component(    final FormComponent<?> formComponent,    final IVisit<Void> visit){
       if (!(formComponent.isVisibleInHierarchy() && formComponent.isEnabledInHierarchy())) {
         return;
       }

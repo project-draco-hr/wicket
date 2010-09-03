@@ -1,14 +1,12 @@
 {
   container.visitChildren(MarkupContainer.class,new IVisitor<MarkupContainer,Void>(){
     public void component(    final MarkupContainer component,    final IVisit<Void> visit){
-      List<IBehavior> behaviors=BehaviorsUtil.getBehaviors(component,AbstractAjaxTimerBehavior.class);
+      List<AbstractAjaxTimerBehavior> behaviors=component.getBehaviors(AbstractAjaxTimerBehavior.class);
       for (      IBehavior b : behaviors) {
-        if (b instanceof AbstractAjaxTimerBehavior) {
-          log.debug("Triggering AjaxSelfUpdatingTimerBehavior: " + component.getClassRelativePath());
-          AbstractAjaxTimerBehavior timer=(AbstractAjaxTimerBehavior)b;
-          if (!timer.isStopped()) {
-            executeBehavior(timer);
-          }
+        log.debug("Triggering AjaxSelfUpdatingTimerBehavior: " + component.getClassRelativePath());
+        AbstractAjaxTimerBehavior timer=(AbstractAjaxTimerBehavior)b;
+        if (!timer.isStopped()) {
+          executeBehavior(timer);
         }
       }
     }

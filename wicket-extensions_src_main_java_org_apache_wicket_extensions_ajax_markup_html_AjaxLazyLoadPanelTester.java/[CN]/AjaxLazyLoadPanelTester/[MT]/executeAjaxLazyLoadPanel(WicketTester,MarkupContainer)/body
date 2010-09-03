@@ -1,12 +1,12 @@
 {
   container.visitChildren(AjaxLazyLoadPanel.class,new IVisitor<AjaxLazyLoadPanel,Void>(){
     public void component(    AjaxLazyLoadPanel component,    final IVisit<Void> visit){
-      List<IBehavior> behaviors=BehaviorsUtil.getBehaviors(component,AbstractAjaxBehavior.class);
+      List<AbstractAjaxBehavior> behaviors=component.getBehaviors(AbstractAjaxBehavior.class);
       if (behaviors.size() == 0) {
         logger.warn("AjaxLazyLoadPanel child found, but no attached AbstractAjaxBehaviors found. A curious situation...");
       }
       for (      IBehavior b : behaviors) {
-        if (b instanceof AbstractAjaxBehavior && !(b instanceof AjaxSelfUpdatingTimerBehavior)) {
+        if (!(b instanceof AjaxSelfUpdatingTimerBehavior)) {
           logger.debug("Triggering lazy panel: " + component.getClassRelativePath());
           AbstractAjaxBehavior abstractAjaxBehaviour=(AbstractAjaxBehavior)b;
           wt.executeBehavior(abstractAjaxBehaviour);
