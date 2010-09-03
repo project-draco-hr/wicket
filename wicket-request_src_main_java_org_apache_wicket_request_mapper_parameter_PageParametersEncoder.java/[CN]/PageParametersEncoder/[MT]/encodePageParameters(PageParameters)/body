@@ -1,9 +1,9 @@
 {
   Url url=new Url();
-  for (int i=0; i < pageParameters.getIndexedParamsCount(); ++i) {
-    url.getSegments().add(pageParameters.getIndexedParameter(i).toString());
+  for (int i=0; i < pageParameters.getIndexedCount(); ++i) {
+    url.getSegments().add(pageParameters.get(i).toString());
   }
-  for (  PageParameters.NamedParameterPair pair : pageParameters.getNamedParameters()) {
+  for (  PageParameters.NamedPair pair : pageParameters.getAllNamed()) {
     QueryParameter param=new QueryParameter(pair.getKey(),pair.getValue());
     url.getQueryParameters().add(param);
   }

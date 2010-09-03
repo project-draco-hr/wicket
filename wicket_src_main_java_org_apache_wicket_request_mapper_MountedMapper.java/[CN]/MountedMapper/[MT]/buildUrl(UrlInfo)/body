@@ -8,8 +8,8 @@
   for (int i=0; i < mountSegments.length; ++i) {
     String placeholder=getPlaceholder(mountSegments[i]);
     if (placeholder != null) {
-      url.getSegments().set(i,copy.getNamedParameter(placeholder).toString(""));
-      copy.removeNamedParameter(placeholder);
+      url.getSegments().set(i,copy.get(placeholder).toString(""));
+      copy.remove(placeholder);
     }
   }
   return encodePageParameters(url,copy,pageParametersEncoder);
