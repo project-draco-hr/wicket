@@ -5,7 +5,7 @@
   final Label c2=new Label("c2",new PropertyModel<Integer>(this,"counter2"));
   c2.setOutputMarkupId(true);
   add(c2);
-  add(new AjaxLink("c1-link"){
+  add(new AjaxLink<Void>("c1-link"){
     @Override public void onClick(    AjaxRequestTarget target){
       counter1++;
       target.addComponent(c1);
@@ -13,7 +13,7 @@
     }
   }
 );
-  add(new AjaxFallbackLink("c2-link"){
+  add(new AjaxFallbackLink<Void>("c2-link"){
     @Override public void onClick(    AjaxRequestTarget target){
       counter2++;
       if (target != null) {
