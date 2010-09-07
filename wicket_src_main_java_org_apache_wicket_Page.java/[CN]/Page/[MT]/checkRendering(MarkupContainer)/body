@@ -41,9 +41,8 @@
             parent=parent.getParent();
           }
         }
-        Iterator<? extends Component> iterator2=component.getParent().iterator();
-        while (iterator2.hasNext()) {
-          Component sibling=iterator2.next();
+        for (        Object o : component.getParent()) {
+          Component sibling=(Component)o;
           if (!sibling.isVisible()) {
             if (sibling instanceof IComponentResolver) {
               if (log.isDebugEnabled()) {

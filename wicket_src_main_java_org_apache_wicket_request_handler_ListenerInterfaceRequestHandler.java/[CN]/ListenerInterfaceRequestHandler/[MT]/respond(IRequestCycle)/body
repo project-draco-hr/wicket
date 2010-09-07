@@ -7,14 +7,14 @@
       requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(getPage()),policy));
     }
     if (isAjax & page instanceof IManageablePage) {
-      ((IManageablePage)page).setFreezePageId(true);
+      page.setFreezePageId(true);
     }
     try {
       invokeListener();
     }
   finally {
       if (isAjax && page instanceof IManageablePage) {
-        ((IManageablePage)page).setFreezePageId(false);
+        page.setFreezePageId(false);
       }
     }
   }
