@@ -1,45 +1,51 @@
 {
-  RequestCycle rc=(RequestCycle)requestCycle;
-  Url oldBaseURL=rc.getUrlRenderer().getBaseUrl();
-  WebRequest request=(WebRequest)requestCycle.getRequest();
-  Url baseURL=Url.parse(request.getHeader("Wicket-Ajax-BaseURL"),request.getCharset());
-  rc.getUrlRenderer().setBaseUrl(baseURL);
-  final WebResponse response=(WebResponse)requestCycle.getResponse();
-  if (markupIdToComponent.values().contains(page)) {
-    IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
-    final String url=rc.urlFor(handler).toString();
-    response.sendRedirect(url);
-    return;
+  page.setFreezePageId(true);
+  try {
+    RequestCycle rc=(RequestCycle)requestCycle;
+    Url oldBaseURL=rc.getUrlRenderer().getBaseUrl();
+    WebRequest request=(WebRequest)requestCycle.getRequest();
+    Url baseURL=Url.parse(request.getHeader("Wicket-Ajax-BaseURL"),request.getCharset());
+    rc.getUrlRenderer().setBaseUrl(baseURL);
+    final WebResponse response=(WebResponse)requestCycle.getResponse();
+    if (markupIdToComponent.values().contains(page)) {
+      IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
+      final String url=rc.urlFor(handler).toString();
+      response.sendRedirect(url);
+      return;
+    }
+    for (    ITargetRespondListener listener : respondListeners) {
+      listener.onTargetRespond(this);
+    }
+    final Application app=Application.get();
+    final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
+    response.setContentType("text/xml; charset=" + encoding);
+    RequestUtils.disableCaching(response);
+    response.write("<?xml version=\"1.0\" encoding=\"");
+    response.write(encoding);
+    response.write("\"?>");
+    response.write("<ajax-response>");
+    fireOnBeforeRespondListeners();
+    Iterator<CharSequence> it=prependJavascripts.iterator();
+    while (it.hasNext()) {
+      CharSequence js=it.next();
+      respondInvocation(response,js);
+    }
+    respondComponents(response);
+    fireOnAfterRespondListeners(response);
+    it=domReadyJavascripts.iterator();
+    while (it.hasNext()) {
+      CharSequence js=it.next();
+      respondInvocation(response,js);
+    }
+    it=appendJavascripts.iterator();
+    while (it.hasNext()) {
+      CharSequence js=it.next();
+      respondInvocation(response,js);
+    }
+    response.write("</ajax-response>");
+    rc.getUrlRenderer().setBaseUrl(oldBaseURL);
   }
-  for (  ITargetRespondListener listener : respondListeners) {
-    listener.onTargetRespond(this);
+  finally {
+    page.setFreezePageId(false);
   }
-  final Application app=Application.get();
-  final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
-  response.setContentType("text/xml; charset=" + encoding);
-  RequestUtils.disableCaching(response);
-  response.write("<?xml version=\"1.0\" encoding=\"");
-  response.write(encoding);
-  response.write("\"?>");
-  response.write("<ajax-response>");
-  fireOnBeforeRespondListeners();
-  Iterator<CharSequence> it=prependJavascripts.iterator();
-  while (it.hasNext()) {
-    CharSequence js=it.next();
-    respondInvocation(response,js);
-  }
-  respondComponents(response);
-  fireOnAfterRespondListeners(response);
-  it=domReadyJavascripts.iterator();
-  while (it.hasNext()) {
-    CharSequence js=it.next();
-    respondInvocation(response,js);
-  }
-  it=appendJavascripts.iterator();
-  while (it.hasNext()) {
-    CharSequence js=it.next();
-    respondInvocation(response,js);
-  }
-  response.write("</ajax-response>");
-  rc.getUrlRenderer().setBaseUrl(oldBaseURL);
 }

@@ -1,9 +1,8 @@
 {
   if (listeners != null) {
     final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
-    Iterator<IListener> it=listeners.iterator();
-    while (it.hasNext()) {
-      (it.next()).onBeforeRespond(components,this);
+    for (    IListener listener : listeners) {
+      listener.onBeforeRespond(components,this);
     }
   }
 }
