@@ -6,19 +6,19 @@
   wicketTester.clickLink("ajaxUpdatingLink",true);
   assertEquals(0,versioningPage.getPageId());
   wicketTester.clickLink("ajaxUpdatingChangeModelLink",true);
-  assertEquals(1,versioningPage.getPageId());
+  assertEquals(0,versioningPage.getPageId());
   wicketTester.clickLink("addTemporaryBehaviorLink");
-  assertEquals(1,versioningPage.getPageId());
+  assertEquals(0,versioningPage.getPageId());
   wicketTester.clickLink("addBehaviorLink");
-  assertEquals(2,versioningPage.getPageId());
+  assertEquals(1,versioningPage.getPageId());
   wicketTester.clickLink("changeEnabledStateLink");
-  assertEquals(3,versioningPage.getPageId());
+  assertEquals(2,versioningPage.getPageId());
   wicketTester.clickLink("changeVisibilityStateLink");
-  assertEquals(4,versioningPage.getPageId());
+  assertEquals(3,versioningPage.getPageId());
   try {
     versioningPage.setVersioned(false);
     wicketTester.clickLink("changeVisibilityStateLink");
-    assertEquals(4,versioningPage.getPageId());
+    assertEquals(3,versioningPage.getPageId());
   }
   finally {
     versioningPage.setVersioned(true);

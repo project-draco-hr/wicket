@@ -1,12 +1,19 @@
 {
-  WebApplication app=(WebApplication)getComponent().getApplication();
-  AjaxRequestTarget target=app.newAjaxRequestTarget(getComponent().getPage());
-  RequestCycle requestCycle=RequestCycle.get();
-  requestCycle.scheduleRequestHandlerAfterCurrent(target);
-  Url oldBaseURL=requestCycle.getUrlRenderer().getBaseUrl();
-  WebRequest request=(WebRequest)requestCycle.getRequest();
-  Url baseURL=Url.parse(request.getHeader("Wicket-Ajax-BaseURL"),request.getCharset());
-  requestCycle.getUrlRenderer().setBaseUrl(baseURL);
-  respond(target);
-  requestCycle.getUrlRenderer().setBaseUrl(oldBaseURL);
+  final Page page=getComponent().getPage();
+  boolean previous=page.setFreezePageId(true);
+  try {
+    WebApplication app=(WebApplication)getComponent().getApplication();
+    AjaxRequestTarget target=app.newAjaxRequestTarget(page);
+    RequestCycle requestCycle=RequestCycle.get();
+    requestCycle.scheduleRequestHandlerAfterCurrent(target);
+    Url oldBaseURL=requestCycle.getUrlRenderer().getBaseUrl();
+    WebRequest request=(WebRequest)requestCycle.getRequest();
+    Url baseURL=Url.parse(request.getHeader("Wicket-Ajax-BaseURL"),request.getCharset());
+    requestCycle.getUrlRenderer().setBaseUrl(baseURL);
+    respond(target);
+    requestCycle.getUrlRenderer().setBaseUrl(oldBaseURL);
+  }
+  finally {
+    page.setFreezePageId(previous);
+  }
 }
