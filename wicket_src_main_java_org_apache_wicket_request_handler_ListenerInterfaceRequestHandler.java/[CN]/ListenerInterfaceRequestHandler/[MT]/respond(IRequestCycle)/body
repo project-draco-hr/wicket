@@ -6,16 +6,15 @@
       RedirectPolicy policy=getPage().isPageStateless() ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
       requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(getPage()),policy));
     }
-    if (isAjax & page instanceof IManageablePage) {
-      page.setFreezePageId(true);
+    Boolean frozen=null;
+    if (isAjax) {
+      frozen=page.setFreezePageId(true);
     }
     try {
       invokeListener();
     }
   finally {
-      if (isAjax && page instanceof IManageablePage) {
-        page.setFreezePageId(false);
-      }
+      if (frozen != null)       page.setFreezePageId(frozen);
     }
   }
  else {
