@@ -1,0 +1,25 @@
+{
+  super(id);
+  textField=new TextField("textField",new Model());
+  textField.add(new AjaxFormSubmitBehavior("onchange"){
+    @Override protected void onError(    AjaxRequestTarget target){
+    }
+    @Override protected void onSubmit(    AjaxRequestTarget target){
+      submitedByAjaxBehavior=true;
+    }
+  }
+);
+  add(textField);
+  add(new SubmitLink("ajaxSubmitLink"){
+    @Override public void onSubmit(){
+      throw new IllegalStateException("Submit link hit!");
+    }
+  }
+);
+  add((submitButton=new Button("submit"){
+    @Override public void onSubmit(){
+      throw new IllegalStateException("Submit button hit!");
+    }
+  }
+));
+}
