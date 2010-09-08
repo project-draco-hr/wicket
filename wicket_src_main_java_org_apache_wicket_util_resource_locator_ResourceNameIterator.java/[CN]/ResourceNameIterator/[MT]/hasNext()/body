@@ -1,29 +1,27 @@
 {
-  if (extenstionsIterator != null) {
-    if (extenstionsIterator.hasNext() == true) {
+  if (extensionsIterator != null) {
+    if (extensionsIterator.hasNext() == true) {
       return true;
     }
-    extenstionsIterator=null;
+    extensionsIterator=null;
   }
   if (localeIterator != null) {
     while (localeIterator.hasNext()) {
-      String newPath=localeIterator.next();
-      currentLocale=localeIterator.getLocale();
-      extenstionsIterator=new ExtensionResourceNameIterator(newPath,extensions);
-      if (extenstionsIterator.hasNext() == true) {
+      localeIterator.next();
+      extensionsIterator=newExtensionResourceNameIterator(extensions);
+      if (extensionsIterator.hasNext() == true) {
         return true;
       }
     }
     localeIterator=null;
   }
   while (styleIterator.hasNext()) {
-    String newPath=styleIterator.next();
-    localeIterator=new LocaleResourceNameIterator(newPath,locale,strict);
+    styleIterator.next();
+    localeIterator=newLocaleResourceNameIterator(locale,strict);
     while (localeIterator.hasNext()) {
-      newPath=localeIterator.next();
-      currentLocale=localeIterator.getLocale();
-      extenstionsIterator=new ExtensionResourceNameIterator(newPath,extensions);
-      if (extenstionsIterator.hasNext() == true) {
+      localeIterator.next();
+      extensionsIterator=newExtensionResourceNameIterator(extensions);
+      if (extensionsIterator.hasNext() == true) {
         return true;
       }
     }

@@ -1,13 +1,13 @@
 {
   this.locale=locale;
-  if ((extensions == null) && (path.indexOf('.') != -1)) {
+  if ((extensions == null) && (path != null) && (path.indexOf('.') != -1)) {
     this.extensions=Strings.afterLast(path,'.');
-    path=Strings.beforeLast(path,'.');
+    this.path=Strings.beforeLast(path,'.');
   }
  else {
     this.extensions=extensions;
+    this.path=path;
   }
-  path=getLocaleFromFilename(path);
-  styleIterator=new StyleAndVariationResourceNameIterator(path,style,variation);
+  styleIterator=newStyleAndVariationResourceNameIterator(style,variation);
   this.strict=strict;
 }

@@ -1,10 +1,17 @@
 {
+  PathLocale data=ResourceUtils.getLocaleFromFilename(path);
+  if ((data != null) && (data.locale != null)) {
+    path=data.path;
+    locale=data.locale;
+  }
   ResourceNameIterator iter=new ResourceNameIterator(path,style,variation,locale,extension,strict);
   while (iter.hasNext()) {
     String newPath=iter.next();
     IResourceStream stream=locate(clazz,newPath);
     if (stream != null) {
       stream.setLocale(iter.getLocale());
+      stream.setStyle(iter.getStyle());
+      stream.setVariation(iter.getVariation());
       return stream;
     }
   }
