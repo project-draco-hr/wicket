@@ -3,6 +3,6 @@
   getResourceSettings().setThrowExceptionOnMissingResource(false);
   uploadFolder=new Folder(System.getProperty("java.io.tmpdir"),"wicket-uploads");
   uploadFolder.mkdirs();
-  mountBookmarkablePage("/multi",MultiUploadPage.class);
-  mountBookmarkablePage("/single",UploadPage.class);
+  getRootRequestMapperAsCompound().add(new MountedMapper("/multi",MultiUploadPage.class));
+  getRootRequestMapperAsCompound().add(new MountedMapper("/single",UploadPage.class));
 }

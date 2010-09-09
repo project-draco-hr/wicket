@@ -12,7 +12,7 @@
     String redirectURL=checkIfRedirectRequired(httpServletRequest);
     if (redirectURL == null) {
       application.set();
-      WebRequest webRequest=new ServletWebRequest(httpServletRequest,filterPath);
+      WebRequest webRequest=application.newWebRequest(httpServletRequest,filterPath);
       WebResponse webResponse=new HeaderBufferingWebResponse(new ServletWebResponse(httpServletRequest,httpServletResponse));
       RequestCycle requestCycle=application.createRequestCycle(webRequest,webResponse);
       if (!requestCycle.processRequestAndDetach()) {
