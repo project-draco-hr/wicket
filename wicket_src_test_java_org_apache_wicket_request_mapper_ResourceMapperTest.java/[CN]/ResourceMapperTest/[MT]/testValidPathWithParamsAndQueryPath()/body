@@ -1,0 +1,24 @@
+{
+  Request request=createRequest("test/resource/1/fred?foo=bar&foo=baz&value=12");
+  IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertNotNull(requestHandler);
+  assertEquals(ResourceReferenceRequestHandler.class,requestHandler.getClass());
+  assertEquals(request.getUrl(),mapper.mapHandler(requestHandler));
+  tester.processRequest(requestHandler);
+  PageParameters params=resource.pageParameters;
+  assertNotNull(params);
+  assertEquals(3,params.getAllNamed().size());
+  assertEquals(2,params.getIndexedCount());
+  StringValue paramId=params.get(0);
+  assertNotNull(paramId);
+  assertEquals(1,paramId.toInt());
+  StringValue paramName=params.get(1);
+  assertNotNull(paramName);
+  assertEquals("fred",paramName.toString());
+  List<StringValue> foo=params.getValues("foo");
+  assertNotNull(foo.size() == 2);
+  assertEquals("bar",foo.get(0).toString(""));
+  assertEquals("baz",foo.get(1).toString(""));
+  StringValue paramValue=params.get("value");
+  assertEquals(12,paramValue.toInt());
+}

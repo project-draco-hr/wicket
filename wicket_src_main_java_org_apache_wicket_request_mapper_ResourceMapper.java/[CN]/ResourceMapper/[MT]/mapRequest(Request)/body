@@ -1,0 +1,13 @@
+{
+  Url url=request.getUrl();
+  Iterator<String> segments=url.getSegments().iterator();
+  for (  String mountSegment : mountSegments) {
+    if (segments.hasNext() == false)     return null;
+    if (mountSegment.equals(segments.next()) == false)     return null;
+  }
+  PageParameters parameters=new PageParameters();
+  int index=0;
+  while (segments.hasNext())   parameters.set(index++,segments.next());
+  for (  Url.QueryParameter queryParameter : url.getQueryParameters())   parameters.add(queryParameter.getName(),queryParameter.getValue());
+  return new ResourceReferenceRequestHandler(resourceReference,parameters);
+}
