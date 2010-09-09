@@ -13,7 +13,7 @@
     if (redirectURL == null) {
       application.set();
       WebRequest webRequest=application.newWebRequest(httpServletRequest,filterPath);
-      WebResponse webResponse=new HeaderBufferingWebResponse(new ServletWebResponse(httpServletRequest,httpServletResponse));
+      WebResponse webResponse=application.newWebResponse(httpServletRequest,httpServletResponse);
       RequestCycle requestCycle=application.createRequestCycle(webRequest,webResponse);
       if (!requestCycle.processRequestAndDetach()) {
         if (chain != null) {
