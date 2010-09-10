@@ -1,0 +1,19 @@
+{
+  DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
+  DocumentBuilder builder=factory.newDocumentBuilder();
+  Document document=builder.parse(is);
+  String tag=(isServlet ? "servlet" : "filter");
+  String mapping=tag + "-mapping";
+  String name=tag + "-name";
+  String urlPattern=getFilterPath(filterName,mapping,name,document.getChildNodes());
+  if (urlPattern == null) {
+    if (log.isWarnEnabled()) {
+      log.warn("web.xml: No url-pattern found for " + tag + " with name "+ filterName);
+    }
+    return null;
+  }
+ else   if (log.isInfoEnabled()) {
+    log.info("web.xml: found " + tag + " with name "+ filterName+ ". url-pattern="+ urlPattern);
+  }
+  return urlPattern.substring(1,urlPattern.length() - 1);
+}
