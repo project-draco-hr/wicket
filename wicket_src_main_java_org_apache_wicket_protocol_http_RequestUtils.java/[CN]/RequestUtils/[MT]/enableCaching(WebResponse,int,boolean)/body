@@ -1,6 +1,7 @@
 {
   Args.notNull(response,"response");
   if (duration < 0)   throw new IllegalArgumentException("duration must be a positive value");
+  if (duration > MAX_CACHE_DURATION)   duration=MAX_CACHE_DURATION;
   long now=System.currentTimeMillis();
   response.setDateHeader("Date",now);
   response.setDateHeader("Expires",now + (duration * 1000L));
