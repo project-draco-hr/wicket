@@ -5,7 +5,6 @@
   long now=System.currentTimeMillis();
   response.setDateHeader("Date",now);
   response.setDateHeader("Expires",now + duration.getMilliseconds());
-  String scope=cachePublic ? "public" : "private";
-  response.setHeader("Cache-Control",scope + ", max-age=" + duration.getMilliseconds());
+  response.setHeader("Cache-Control",scope.getCacheControl() + ", max-age=" + duration.getMilliseconds());
   response.setHeader("Vary","Accept-Encoding");
 }
