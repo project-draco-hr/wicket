@@ -4,7 +4,7 @@
       WebResponse r=(WebResponse)requestCycle.getResponse();
       final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
       r.setContentType("text/xml; charset=" + encoding);
-      RequestUtils.disableCaching(r);
+      r.disableCaching();
       Iterator<T> comps=getChoices(val);
       renderer.renderHeader(r);
       while (comps.hasNext()) {

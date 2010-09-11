@@ -2,7 +2,7 @@
   WebResponse response=(WebResponse)requestCycle.getResponse();
   final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
   response.setContentType("text/xml; charset=" + encoding);
-  RequestUtils.disableCaching(response);
+  response.disableCaching();
   response.write("<?xml version=\"1.0\" encoding=\"");
   response.write(encoding);
   response.write("\"?><ajax-response></ajax-response>");
