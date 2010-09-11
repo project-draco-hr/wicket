@@ -1,0 +1,10 @@
+{
+  Args.notNull(response,"response");
+  if (duration < 0)   throw new IllegalArgumentException("duration must be a positive value");
+  long now=System.currentTimeMillis();
+  response.setDateHeader("Date",now);
+  response.setDateHeader("Expires",now + (duration * 1000L));
+  String scope=cachePublic ? "public" : "private";
+  response.setHeader("Cache-Control",scope + ", max-age=" + duration);
+  response.setHeader("Vary","Accept-Encoding");
+}
