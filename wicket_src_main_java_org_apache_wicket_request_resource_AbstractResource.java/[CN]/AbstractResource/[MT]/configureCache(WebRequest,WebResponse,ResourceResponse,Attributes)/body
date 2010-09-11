@@ -1,10 +1,7 @@
 {
-  if (data.isCacheable()) {
-    long now=System.currentTimeMillis();
-    response.setDateHeader("Date",now);
-    response.setDateHeader("Expires",now + (data.getCacheDuration() * 1000L));
-    response.setHeader(CACHE_CONTROL,"public, max-age=" + data.getCacheDuration());
-    response.setHeader("Vary","Accept-Encoding");
+  final int duration=data.getCacheDuration();
+  if (duration > 0) {
+    RequestUtils.enableCaching(response,duration,false);
   }
  else {
     RequestUtils.disableCaching(response);
