@@ -1,0 +1,11 @@
+{
+  Args.notNull(duration,"duration");
+  Args.notNull(response,"response");
+  if (duration.compareTo(MAX_CACHE_DURATION) > 0)   duration=MAX_CACHE_DURATION;
+  long now=System.currentTimeMillis();
+  response.setDateHeader("Date",now);
+  response.setDateHeader("Expires",now + duration.getMilliseconds());
+  String scope=cachePublic ? "public" : "private";
+  response.setHeader("Cache-Control",scope + ", max-age=" + duration.getMilliseconds());
+  response.setHeader("Vary","Accept-Encoding");
+}
