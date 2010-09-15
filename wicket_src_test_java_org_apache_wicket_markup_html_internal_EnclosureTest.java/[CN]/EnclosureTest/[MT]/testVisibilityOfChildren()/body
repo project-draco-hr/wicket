@@ -1,14 +1,14 @@
 {
   tester.startPage(EnclosurePage_6.class);
-  String doc=tester.getLastResponse().getTextResponse().toString();
+  String doc=tester.getLastResponse().getDocument();
   assertTrue(doc.contains("content1"));
   assertTrue(doc.contains("content2"));
   tester.clickLink("link");
-  doc=tester.getLastResponse().getTextResponse().toString();
+  doc=tester.getLastResponse().getDocument();
   assertFalse(doc.contains("content1"));
   assertFalse(doc.contains("content2"));
   tester.clickLink("link");
-  doc=tester.getLastResponse().getTextResponse().toString();
+  doc=tester.getLastResponse().getDocument();
   assertTrue(doc.contains("content1"));
   assertTrue(doc.contains("content2"));
 }

@@ -2,12 +2,12 @@
   System.out.println("=== " + MarkupInheritanceExtension_4.class.getName() + " ===");
   tester.startPage(MarkupInheritanceExtension_4.class);
   assertEquals(MarkupInheritanceExtension_4.class,tester.getLastRenderedPage().getClass());
-  String document=tester.getLastResponse().getTextResponse().toString();
+  String document=tester.getLastResponse().getDocument();
   DiffUtil.validatePage(document,getClass(),"MarkupInheritanceExpectedResult_4.html",true);
   MarkupInheritanceExtension_4 page=(MarkupInheritanceExtension_4)tester.getLastRenderedPage();
   Link link=(Link)page.get("link");
   tester.clickLink(link.getPageRelativePath());
   assertEquals(MarkupInheritanceExtension_4.class,tester.getLastRenderedPage().getClass());
-  document=tester.getLastResponse().getTextResponse().toString();
+  document=tester.getLastResponse().getDocument();
   DiffUtil.validatePage(document,getClass(),"MarkupInheritanceExpectedResult_4-1.html",true);
 }
