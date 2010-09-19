@@ -1,0 +1,15 @@
+{
+  if (selectedNodes.size() > 0 && !isAllowSelectMultiple()) {
+    for (    Object currentlySelectedNode : selectedNodes.toArray()) {
+      if (!currentlySelectedNode.equals(node)) {
+        deselectNode(currentlySelectedNode);
+      }
+    }
+  }
+  if (!selectedNodes.contains(node)) {
+    selectedNodes.add(node);
+    for (    ITreeStateListener listener : listeners.toArray(new ITreeStateListener[listeners.size()])) {
+      listener.nodeSelected(node);
+    }
+  }
+}
