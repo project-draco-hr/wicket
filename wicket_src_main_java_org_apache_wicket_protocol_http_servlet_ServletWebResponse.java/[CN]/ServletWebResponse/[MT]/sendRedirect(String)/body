@@ -3,11 +3,11 @@
     redirect=true;
     url=getAbsoluteURL(url);
     url=httpServletResponse.encodeRedirectURL(url);
-    this.disableCaching();
-    if (ServletWebRequest.isAjax(httpServletRequest)) {
+    disableCaching();
+    if (webRequest.isAjax()) {
       httpServletResponse.addHeader("Ajax-Location",url);
       httpServletResponse.getWriter().write("<ajax-response><redirect>" + url + "</redirect></ajax-response>");
-      setContentType("text/xml;charset=" + httpServletRequest.getCharacterEncoding());
+      setContentType("text/xml;charset=" + webRequest.getHttpServletRequest().getCharacterEncoding());
     }
  else {
       httpServletResponse.sendRedirect(url);
