@@ -12,5 +12,12 @@
  catch (    Exception e) {
     }
   }
+ else   if (this.target instanceof IObjectClassAwareModel) {
+    try {
+      return PropertyResolver.getPropertyClass(expression,((IObjectClassAwareModel<?>)this.target).getObjectClass());
+    }
+ catch (    WicketRuntimeException e) {
+    }
+  }
   return null;
 }
