@@ -1,3 +1,10 @@
 {
-  return new RenderPageRequestHandler(pageProvider,redirectPolicy);
+  RequestCycle requestCycle=RequestCycle.get();
+  if (requestCycle == null)   throw new IllegalStateException("there is no current request cycle attached to this thread");
+  RenderPageRequestHandler.RedirectPolicy redirect=redirectPolicy;
+  if (requestCycle.getRequest() instanceof WebRequest) {
+    WebRequest webRequest=(WebRequest)requestCycle.getRequest();
+    if (webRequest.isAjax())     redirect=RenderPageRequestHandler.RedirectPolicy.ALWAYS_REDIRECT;
+  }
+  return new RenderPageRequestHandler(pageProvider,redirect);
 }
