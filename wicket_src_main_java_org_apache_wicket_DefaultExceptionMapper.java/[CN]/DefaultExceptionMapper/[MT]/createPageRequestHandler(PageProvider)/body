@@ -1,7 +1,7 @@
 {
   RequestCycle requestCycle=RequestCycle.get();
   if (requestCycle == null)   throw new IllegalStateException("there is no current request cycle attached to this thread");
-  RenderPageRequestHandler.RedirectPolicy redirect=redirectPolicy;
+  RenderPageRequestHandler.RedirectPolicy redirect=RenderPageRequestHandler.RedirectPolicy.NEVER_REDIRECT;
   if (requestCycle.getRequest() instanceof WebRequest) {
     WebRequest webRequest=(WebRequest)requestCycle.getRequest();
     if (webRequest.isAjax())     redirect=RenderPageRequestHandler.RedirectPolicy.ALWAYS_REDIRECT;
