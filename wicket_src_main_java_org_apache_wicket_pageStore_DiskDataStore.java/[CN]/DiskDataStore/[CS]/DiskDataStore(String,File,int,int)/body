@@ -2,7 +2,12 @@
   this.applicationName=applicationName;
   this.fileStoreFolder=fileStoreFolder;
   maxSizePerPageSession=maxSizePerSession;
-  fileChannelPool=new FileChannelPool(fileChannelPoolCapacity);
-  this.fileStoreFolder.mkdirs();
-  loadIndex();
+  try {
+    fileChannelPool=new FileChannelPool(fileChannelPoolCapacity);
+    this.fileStoreFolder.mkdirs();
+    loadIndex();
+  }
+ catch (  SecurityException e) {
+    throw new WicketRuntimeException("SecurityException occurred while creating DiskDataStore. Consider using a non-disk based IDataStore implementation.",e);
+  }
 }
