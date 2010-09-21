@@ -2,7 +2,7 @@
   PageComponentInfo info=null;
   if (requestHandler instanceof RenderPageRequestHandler) {
     IRequestablePage page=((RenderPageRequestHandler)requestHandler).getPage();
-    PageInfo i=new PageInfo(page);
+    PageInfo i=new PageInfo(page.getPageId());
     info=new PageComponentInfo(i,null);
   }
  else   if (requestHandler instanceof ListenerInterfaceRequestHandler) {
@@ -14,7 +14,7 @@
     if (listenerInterface.isIncludeRenderCount()) {
       renderCount=page.getRenderCount();
     }
-    PageInfo pageInfo=new PageInfo(page);
+    PageInfo pageInfo=new PageInfo(page.getPageId());
     ComponentInfo componentInfo=new ComponentInfo(renderCount,requestListenerInterfaceToString(listenerInterface),componentPath,handler.getBehaviorIndex());
     info=new PageComponentInfo(pageInfo,componentInfo);
   }
