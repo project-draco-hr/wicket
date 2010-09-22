@@ -1,0 +1,22 @@
+{
+  final MockRequestParameters postParameters=request.getPostParameters();
+  final Set<String> currentParameterNamesSet=postParameters.getParameterNames();
+  form.visitFormComponents(new IVisitor<FormComponent<?>,Void>(){
+    public void component(    final FormComponent<?> formComponent,    final IVisit<Void> visit){
+      final String inputName=formComponent.getInputName();
+      if (!currentParameterNamesSet.contains(inputName)) {
+        final Object modelObject=formComponent.getModelObject();
+        if (modelObject instanceof Collection<?>) {
+          final Collection<?> collectionModelObject=(Collection<?>)modelObject;
+          for (          Object value : collectionModelObject) {
+            postParameters.addParameterValue(inputName,value.toString());
+          }
+        }
+ else {
+          postParameters.addParameterValue(inputName,formComponent.getValue());
+        }
+      }
+    }
+  }
+);
+}

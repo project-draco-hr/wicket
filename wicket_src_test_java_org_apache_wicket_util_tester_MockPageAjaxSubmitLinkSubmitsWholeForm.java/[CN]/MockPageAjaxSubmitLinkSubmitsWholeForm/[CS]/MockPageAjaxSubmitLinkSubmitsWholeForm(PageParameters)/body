@@ -1,0 +1,30 @@
+{
+  final Label label=new Label("text",new PropertyModel<String>(this,"text"));
+  label.setOutputMarkupId(true);
+  add(label);
+  Form<Void> form=new Form<Void>("form");
+  form.add(new TextField<String>("name",new PropertyModel<String>(this,"name")));
+  add(form);
+  add(new AjaxSubmitLink("helloSubmit",form){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      text="Hello " + name;
+      target.addComponent(label);
+    }
+    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+      throw new RuntimeException("Unexpected error occurred.");
+    }
+  }
+);
+  add(new AjaxSubmitLink("goodbyeSubmit",form){
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      text="Goodbye " + name;
+      target.addComponent(label);
+    }
+    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+      throw new RuntimeException("Unexpected error occurred.");
+    }
+  }
+);
+}

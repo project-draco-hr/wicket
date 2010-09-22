@@ -1,0 +1,14 @@
+{
+  tester.startPage(MockPageAjaxSubmitLinkSubmitsWholeForm.class);
+  tester.assertRenderedPage(MockPageAjaxSubmitLinkSubmitsWholeForm.class);
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setValue("name","Bob");
+  tester.clickLink("helloSubmit",true);
+  tester.assertModelValue("form:name","Bob");
+  tester.assertComponentOnAjaxResponse("text");
+  tester.assertModelValue("text","Hello Bob");
+  tester.clickLink("goodbyeSubmit",true);
+  tester.assertModelValue("form:name","Bob");
+  tester.assertComponentOnAjaxResponse("text");
+  tester.assertModelValue("text","Goodbye Bob");
+}
