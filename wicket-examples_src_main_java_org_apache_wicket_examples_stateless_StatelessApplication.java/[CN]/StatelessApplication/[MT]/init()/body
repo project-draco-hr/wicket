@@ -1,7 +1,9 @@
 {
   super.init();
-  mountBookmarkablePage("/statefull",StatefulPage.class);
-  mountBookmarkablePage("/query",StatelessPage1.class);
-  mountBookmarkablePage("/mixed",StatelessPage2.class);
-  mountBookmarkablePage("/state-in-url",StatelessPage3.class);
+  mountPage("/statefull",StatefulPage.class);
+  mountPage("/query",StatelessPage1.class);
+  mountPage("/mixed",StatelessPage2.class);
+  mountPage("/state-in-url",StatelessPage3.class);
+  getRootRequestMapperAsCompound().add(new PackageMapper("/public",PackageName.forClass(StatelessApplication.class)));
+  mountPage("foo",StatelessPage.class);
 }
