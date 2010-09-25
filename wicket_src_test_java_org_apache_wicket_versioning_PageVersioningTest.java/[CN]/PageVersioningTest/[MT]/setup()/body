@@ -1,21 +1,16 @@
 {
-  final WebApplication application=new WebApplication(){
-    @Override public Class<? extends Page> getHomePage(){
-      return VersioningTestPage.class;
-    }
-  }
-;
+  final PageVersioningApplication application=new PageVersioningApplication();
   wicketTester=new WicketTester(application){
     /** 
  * @see org.apache.wicket.util.tester.BaseWicketTester#newTestPageManagerProvider()
  */
     @Override protected IPageManagerProvider newTestPageManagerProvider(){
       return new IPageManagerProvider(){
-        public IPageManager get(        final IPageManagerContext context){
+        public IPageManager get(){
           final IDataStore dataStore=new InMemoryPageStore();
           final AsynchronousDataStore asyncDS=new AsynchronousDataStore(dataStore);
           final DefaultPageStore pageStore=new DefaultPageStore(application.getName(),asyncDS,40);
-          return new PersistentPageManager(application.getName(),pageStore,context);
+          return new PersistentPageManager(application.getName(),pageStore,application.getPageManagerContext());
         }
       }
 ;
