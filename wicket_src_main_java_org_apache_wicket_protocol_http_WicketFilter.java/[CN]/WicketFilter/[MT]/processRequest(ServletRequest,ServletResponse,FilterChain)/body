@@ -11,7 +11,7 @@
     String filterPath=getFilterPath(httpServletRequest);
     String redirectURL=checkIfRedirectRequired(httpServletRequest);
     if (redirectURL == null) {
-      application.set();
+      ThreadContext.setApplication(application);
       WebRequest webRequest=application.newWebRequest(httpServletRequest,filterPath);
       WebResponse webResponse=application.newWebResponse(webRequest,httpServletResponse);
       RequestCycle requestCycle=application.createRequestCycle(webRequest,webResponse);

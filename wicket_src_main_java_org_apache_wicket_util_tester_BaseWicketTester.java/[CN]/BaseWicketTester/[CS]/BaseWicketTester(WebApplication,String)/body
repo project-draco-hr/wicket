@@ -12,7 +12,7 @@
   oldThreadContext=ThreadContext.detach();
   this.application=application;
   this.application.setName("WicketTesterApplication-" + UUID.randomUUID());
-  this.application.set();
+  ThreadContext.setApplication(application);
   application.setServletContext(servletContext);
   this.application.initApplication();
   application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
