@@ -4,13 +4,13 @@
     /** 
  * @see org.apache.wicket.util.tester.BaseWicketTester#newTestPageManagerProvider()
  */
-    @Override protected IProvider<IPageManager> newTestPageManagerProvider(){
-      return new IProvider<IPageManager>(){
-        public IPageManager get(){
+    @Override protected IPageManagerProvider newTestPageManagerProvider(){
+      return new IPageManagerProvider(){
+        public IPageManager get(        IPageManagerContext pageManagerContext){
           final IDataStore dataStore=new InMemoryPageStore();
           final AsynchronousDataStore asyncDS=new AsynchronousDataStore(dataStore);
           final DefaultPageStore pageStore=new DefaultPageStore(application.getName(),asyncDS,40);
-          return new PersistentPageManager(application.getName(),pageStore,application.getPageManagerContext());
+          return new PersistentPageManager(application.getName(),pageStore,pageManagerContext);
         }
       }
 ;
