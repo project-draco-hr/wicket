@@ -1,0 +1,19 @@
+{
+  TestInitListener listener1=new TestInitListener();
+  TestInitListener listener2=new TestInitListener();
+  tester.getApplication().addComponentInitializationListener(listener1);
+  tester.getApplication().addComponentInitializationListener(listener2);
+  WebPage page=new WebPage(){
+  }
+;
+  TestComponent t1=new TestComponent("t1");
+  TestComponent t2=new TestComponent("t2");
+  t1.add(t2);
+  page.add(t1);
+  assertTrue(listener1.getComponents().contains(page));
+  assertTrue(listener1.getComponents().contains(t1));
+  assertTrue(listener1.getComponents().contains(t2));
+  assertTrue(listener2.getComponents().contains(page));
+  assertTrue(listener2.getComponents().contains(t1));
+  assertTrue(listener2.getComponents().contains(t2));
+}
