@@ -2,29 +2,29 @@
   if (dirtyAll) {
     return;
   }
-  Object parent=e.getTreePath().getLastPathComponent();
-  TreeItem parentItem=nodeToItemMap.get(parent);
-  if (parentItem != null && isNodeVisible(parent) && isNodeExpanded(parent)) {
-    boolean nonEmpty=parentItem.getChildren() != null && !parentItem.getChildren().isEmpty();
-    for (int i=0; i < e.getChildren().length; ++i) {
-      Object node=e.getChildren()[i];
-      TreeItem item=nodeToItemMap.get(node);
-      if (item != null) {
-        markTheLastButOneChildDirty(parentItem,item);
-        visitItemChildren(item,new IItemCallback(){
-          public void visitItem(          TreeItem item){
-            removeItem(item);
-            getTreeState().selectNode(item.getModelObject(),false);
-          }
-        }
-);
-        parentItem.getChildren().remove(item);
-        removeItem(item);
-        getTreeState().selectNode(item.getModelObject(),false);
-      }
+  TreeNode parentNode=(TreeNode)removalEvent.getTreePath().getLastPathComponent();
+  TreeItem parentItem=nodeToItemMap.get(parentNode);
+  if (parentItem != null && isNodeVisible(parentNode)) {
+    if (parentNode.getChildCount() == 0) {
+      invalidateNode(parentNode,true);
     }
-    if (nonEmpty && parentItem.getChildren().isEmpty()) {
-      invalidateNode(parent,true);
+    if (isNodeExpanded(parentNode)) {
+      for (      Object deletedNode : removalEvent.getChildren()) {
+        TreeItem itemToDelete=nodeToItemMap.get(deletedNode);
+        if (itemToDelete != null) {
+          markTheLastButOneChildDirty(parentItem,itemToDelete);
+          visitItemChildren(itemToDelete,new IItemCallback(){
+            public void visitItem(            TreeItem item){
+              removeItem(item);
+              getTreeState().selectNode(item.getModelObject(),false);
+            }
+          }
+);
+          parentItem.getChildren().remove(itemToDelete);
+          removeItem(itemToDelete);
+          getTreeState().selectNode(itemToDelete.getModelObject(),false);
+        }
+      }
     }
   }
 }
