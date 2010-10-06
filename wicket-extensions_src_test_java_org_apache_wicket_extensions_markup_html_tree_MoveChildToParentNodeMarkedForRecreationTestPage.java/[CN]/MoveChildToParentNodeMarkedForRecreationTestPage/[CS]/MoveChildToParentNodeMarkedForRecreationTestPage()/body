@@ -1,0 +1,18 @@
+{
+  treeTable=new Tree("tree",getTreeModel());
+  treeTable.getTreeState().expandAll();
+  add(treeTable);
+  add(new AjaxLink("moveC3ToC2"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      treeTable.modelChanging();
+      DefaultTreeModel model=(DefaultTreeModel)treeTable.getDefaultModelObject();
+      model.removeNodeFromParent(c3);
+      model.insertNodeInto(c3,c2,model.getChildCount(c2));
+      treeTable.modelChanged();
+      treeTable.nodeSelected(c2);
+      treeTable.updateTree(target);
+    }
+  }
+);
+}
