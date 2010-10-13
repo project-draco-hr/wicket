@@ -1,0 +1,10 @@
+{
+  int start=getFlag(FLAG_MODEL_SET) ? 1 : 0;
+  for (int i=start; i < data_length(); i++) {
+    Object object=data_get(i);
+    if (object instanceof MetaDataEntry<?>[] || object instanceof MetaDataEntry) {
+      return i;
+    }
+  }
+  return -1;
+}

@@ -4,14 +4,7 @@
   for (int i=start; i < len; ++i) {
     Object o=data_get(i);
     if (o != null && o.equals(behavior)) {
-      boolean anyListenersAfter=false;
-      for (int j=i + 1; j < len; j++) {
-        if (data_get(j) instanceof IRequestListener) {
-          anyListenersAfter=true;
-          break;
-        }
-      }
-      if (anyListenersAfter) {
+      if (!data_can_remove(i)) {
         data_set(i,null);
       }
  else {
