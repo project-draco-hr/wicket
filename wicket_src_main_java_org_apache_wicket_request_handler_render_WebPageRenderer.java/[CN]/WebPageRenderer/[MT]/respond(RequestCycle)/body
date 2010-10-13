@@ -1,41 +1,56 @@
 {
-  Url currentUrl=requestCycle.getUrlRenderer().getBaseUrl();
-  Url targetUrl=requestCycle.mapUrlFor(getRenderPageRequestHandler());
-  BufferedWebResponse bufferedResponse=getAndRemoveBufferedResponse(currentUrl);
-  if (bufferedResponse != null) {
-    logger.warn("The Buffered response should be handled by BufferedResponseRequestHandler");
-    bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
-  }
- else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender())) {
-    BufferedWebResponse response=renderPage(currentUrl,requestCycle);
-    if (response != null) {
-      response.writeTo((WebResponse)requestCycle.getResponse());
+  Url previousBaseUrl=null;
+  try {
+    if (requestCycle.getRequest() instanceof WebRequest) {
+      WebRequest webRequest=(WebRequest)requestCycle.getRequest();
+      String ajaxBaseUrl=webRequest.getAjaxBaseUrl();
+      if (ajaxBaseUrl != null) {
+        Url currentBaseUrl=Url.parse(ajaxBaseUrl,webRequest.getCharset());
+        previousBaseUrl=requestCycle.getUrlRenderer().setBaseUrl(currentBaseUrl);
+      }
     }
-  }
- else   if (!targetUrl.equals(currentUrl) && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender())) {
-    redirectTo(targetUrl,requestCycle);
-  }
- else   if (!targetUrl.equals(currentUrl) && isSessionTemporary() && getPage().isPageStateless()) {
-    redirectTo(targetUrl,requestCycle);
-  }
- else   if (isRedirectToBuffer()) {
-    BufferedWebResponse response=renderPage(targetUrl,requestCycle);
-    if (response == null) {
-      return;
+    Url currentUrl=requestCycle.getUrlRenderer().getBaseUrl();
+    Url targetUrl=requestCycle.mapUrlFor(getRenderPageRequestHandler());
+    boolean sameUrl=targetUrl.equals(currentUrl);
+    BufferedWebResponse bufferedResponse=getAndRemoveBufferedResponse(currentUrl);
+    if (bufferedResponse != null) {
+      logger.warn("The Buffered response should be handled by BufferedResponseRequestHandler");
+      bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
     }
-    Url targetUrl2=requestCycle.mapUrlFor(getRenderPageRequestHandler());
-    if (targetUrl.getSegments().equals(targetUrl2.getSegments()) == false) {
-      response=renderPage(targetUrl2,requestCycle);
+ else     if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (sameUrl && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (sameUrl && isRedirectToRender())) {
+      BufferedWebResponse response=renderPage(currentUrl,requestCycle);
+      if (response != null) {
+        response.writeTo((WebResponse)requestCycle.getResponse());
+      }
     }
-    if (getPage().isPageStateless() && !enableRedirectForStatelessPage()) {
-      response.writeTo((WebResponse)requestCycle.getResponse());
+ else     if (!sameUrl && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender())) {
+      redirectTo(targetUrl,requestCycle);
+    }
+ else     if (!sameUrl && isSessionTemporary() && getPage().isPageStateless()) {
+      redirectTo(targetUrl,requestCycle);
+    }
+ else     if (isRedirectToBuffer()) {
+      BufferedWebResponse response=renderPage(targetUrl,requestCycle);
+      if (response == null) {
+        return;
+      }
+      Url targetUrl2=requestCycle.mapUrlFor(getRenderPageRequestHandler());
+      if (targetUrl.getSegments().equals(targetUrl2.getSegments()) == false) {
+        response=renderPage(targetUrl2,requestCycle);
+      }
+      if (getPage().isPageStateless() && !enableRedirectForStatelessPage()) {
+        response.writeTo((WebResponse)requestCycle.getResponse());
+      }
+ else {
+        storeBufferedResponse(targetUrl2,response);
+        redirectTo(targetUrl2,requestCycle);
+      }
     }
  else {
-      storeBufferedResponse(targetUrl2,response);
-      redirectTo(targetUrl2,requestCycle);
+      throw new IllegalStateException("Unknown RenderStrategy.");
     }
   }
- else {
-    throw new IllegalStateException("Unknown RenderStrategy.");
+  finally {
+    if (previousBaseUrl != null)     requestCycle.getUrlRenderer().setBaseUrl(previousBaseUrl);
   }
 }
