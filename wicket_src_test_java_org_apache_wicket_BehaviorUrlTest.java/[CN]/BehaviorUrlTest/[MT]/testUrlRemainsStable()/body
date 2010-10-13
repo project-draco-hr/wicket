@@ -1,0 +1,9 @@
+{
+  WicketTester tester=new WicketTester();
+  TestPage page=new TestPage();
+  int indexBeforeRender=page.container.getBehaviorsRawList().indexOf(page.callbackBehavior);
+  tester.startPage(page);
+  page=(TestPage)tester.getLastRenderedPage();
+  int indexAfterRender=page.container.getBehaviorsRawList().indexOf(page.callbackBehavior);
+  assertEquals("index of behavior in the raw list should not have changed",indexBeforeRender,indexAfterRender);
+}
