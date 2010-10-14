@@ -1,3 +1,19 @@
 {
+  if (continueTo == null) {
+    throw new IllegalArgumentException("Argument continueTo must not be null");
+  }
+ else   if (continueTo.contains("://")) {
+    throw new IllegalArgumentException("continuTo url : " + continueTo + " must be relative to the current server."){
+      /** 
+ * No stack trace. We won't tell the hackers about the internals of wicket in case
+ * stack traces are enabled
+ * @see java.lang.Throwable#getStackTrace()
+ */
+      @Override public StackTraceElement[] getStackTrace(){
+        return new StackTraceElement[0];
+      }
+    }
+;
+  }
   this.continueTo=continueTo;
 }
