@@ -2,10 +2,6 @@
   boolean frozen=page.setFreezePageId(true);
   try {
     RequestCycle rc=(RequestCycle)requestCycle;
-    Url oldBaseURL=rc.getUrlRenderer().getBaseUrl();
-    WebRequest request=(WebRequest)requestCycle.getRequest();
-    Url baseURL=Url.parse(request.getHeader("Wicket-Ajax-BaseURL"),request.getCharset());
-    rc.getUrlRenderer().setBaseUrl(baseURL);
     final WebResponse response=(WebResponse)requestCycle.getResponse();
     if (markupIdToComponent.values().contains(page)) {
       IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
@@ -43,7 +39,6 @@
       respondInvocation(response,js);
     }
     response.write("</ajax-response>");
-    rc.getUrlRenderer().setBaseUrl(oldBaseURL);
   }
   finally {
     page.setFreezePageId(frozen);

@@ -9,6 +9,6 @@
   if (!urlCopy.getQueryParameters().isEmpty() && Strings.isEmpty(urlCopy.getQueryParameters().get(0).getValue())) {
     removeMetaParameter(urlCopy);
   }
-  PageParameters decoded=encoder.decodePageParameters(request.requestWithUrl(urlCopy));
+  PageParameters decoded=encoder.decodePageParameters(request.cloneWithUrl(urlCopy));
   return decoded;
 }

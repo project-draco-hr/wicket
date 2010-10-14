@@ -9,17 +9,10 @@
     HttpServletRequest httpServletRequest=webRequest.getHttpServletRequest();
     Charset charset=RequestUtils.getCharset(httpServletRequest);
     final Url current;
-    if (webRequest.isAjax()) {
-      String ajaxBaseUrl=httpServletRequest.getHeader("Wicket-Ajax-BaseURL");
-      if (ajaxBaseUrl == null)       throw new IllegalStateException("current ajax request is missing the base url header");
-      current=Url.parse('/' + ajaxBaseUrl,charset);
-    }
- else {
-      current=Url.parse(httpServletRequest.getRequestURI(),charset);
-    }
+    current=webRequest.getBaseUrl();
     Url append=Url.parse(url,charset);
     current.concatSegments(append.getSegments());
     Url result=new Url(current.getSegments(),append.getQueryParameters());
-    return getAbsolutePrefix() + result.toString();
+    return Strings.join("/",getAbsolutePrefix(),httpServletRequest.getContextPath(),webRequest.getFilterPrefix(),result.toString());
   }
 }
