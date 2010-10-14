@@ -5,7 +5,7 @@
   requestCycle.scheduleRequestHandlerAfterCurrent(target);
   Url oldBaseURL=requestCycle.getUrlRenderer().getBaseUrl();
   WebRequest request=(WebRequest)requestCycle.getRequest();
-  Url baseURL=Url.parse(request.getAjaxBaseUrl(),request.getCharset());
+  Url baseURL=Url.parse(request.getHeader("Wicket-Ajax-BaseURL"),request.getCharset());
   requestCycle.getUrlRenderer().setBaseUrl(baseURL);
   respond(target);
   requestCycle.getUrlRenderer().setBaseUrl(oldBaseURL);
