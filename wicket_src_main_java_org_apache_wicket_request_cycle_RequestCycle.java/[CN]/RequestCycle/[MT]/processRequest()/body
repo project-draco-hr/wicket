@@ -6,9 +6,7 @@
       executeRequestHandler(handler);
       return true;
     }
-    if (log.isDebugEnabled()) {
-      log.debug("Unable to execute request. No suitable RequestHandler found. URL=" + request.getUrl());
-    }
+    log.debug("No suitable handler found for URL {}, falling back to container to process this request",request.getUrl());
   }
  catch (  Exception e) {
     IRequestHandler handler=handleException(e);
