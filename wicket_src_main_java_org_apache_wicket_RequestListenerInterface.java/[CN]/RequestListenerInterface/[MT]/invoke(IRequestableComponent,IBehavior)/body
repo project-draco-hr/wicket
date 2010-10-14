@@ -3,6 +3,9 @@
     log.warn("component not enabled or visible; ignoring call. Component: " + component);
     return;
   }
+  if (!behavior.isEnabled((Component)component)) {
+    log.warn("behavior not enabled; ignore call. Behavior {} at component {}",behavior,component);
+  }
   try {
     method.invoke(behavior,new Object[]{});
   }
