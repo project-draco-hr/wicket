@@ -1,5 +1,12 @@
 {
-  StringBuilder url=getBaseUrl(request,filterPrefix);
+  if (filterPrefix.length() > 0 && !filterPrefix.endsWith("/")) {
+    filterPrefix+="/";
+  }
+  StringBuilder url=new StringBuilder();
+  String uri=request.getRequestURI();
+  uri=Strings.stripJSessionId(uri);
+  final int start=request.getContextPath().length() + filterPrefix.length() + 1;
+  url.append(uri.substring(start));
   String query=request.getQueryString();
   if (!Strings.isEmpty(query)) {
     url.append("?");
