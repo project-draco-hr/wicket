@@ -1,8 +1,7 @@
 {
-  licenseHeaderHandlers=new ILicenseHeaderHandler[]{new JavaLicenseHeaderHandler(javaIgnore),new JavaScriptLicenseHeaderHandler(javaScriptIgnore),new XmlLicenseHeaderHandler(xmlIgnore),new PropertiesLicenseHeaderHandler(propertiesIgnore),new CssLicenseHeaderHandler(cssIgnore),new HtmlLicenseHeaderHandler(htmlIgnore),new VelocityLicenseHeaderHandler(velocityIgnore)};
+  licenseHeaderHandlers=new ILicenseHeaderHandler[]{new JavaLicenseHeaderHandler(javaIgnore),new JavaScriptLicenseHeaderHandler(javaScriptIgnore),new XmlLicenseHeaderHandler(xmlIgnore),new PropertiesLicenseHeaderHandler(propertiesIgnore),new HtmlLicenseHeaderHandler(htmlIgnore),new VelocityLicenseHeaderHandler(velocityIgnore),new XmlPrologHeaderHandler(xmlPrologIgnore),new CssLicenseHeaderHandler(cssIgnore)};
   final Map<ILicenseHeaderHandler,List<File>> badFiles=new HashMap<ILicenseHeaderHandler,List<File>>();
-  for (int i=0; i < licenseHeaderHandlers.length; i++) {
-    final ILicenseHeaderHandler licenseHeaderHandler=licenseHeaderHandlers[i];
+  for (  final ILicenseHeaderHandler licenseHeaderHandler : licenseHeaderHandlers) {
     visitFiles(licenseHeaderHandler.getSuffixes(),licenseHeaderHandler.getIgnoreFiles(),new FileVisitor(){
       public void visitFile(      File file){
         if (licenseHeaderHandler.checkLicenseHeader(file) == false) {
