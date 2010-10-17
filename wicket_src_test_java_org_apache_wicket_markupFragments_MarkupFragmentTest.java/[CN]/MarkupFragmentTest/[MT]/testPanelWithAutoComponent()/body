@@ -3,12 +3,12 @@
   Panel panel=new MyPanelWithAutoComponent("panel");
   page.add(panel);
   IMarkupFragment markup=panel.getAssociatedMarkup();
-  compareWithFile(markup,"MyPanelWithAutoComponent_ExpectedResult.html");
+  compareMarkupWithFile(markup,"MyPanelWithAutoComponent_ExpectedResult.html");
   assertNull(panel.getMarkup());
   page=new MyPanelWithAutoComponentPage();
   panel=(Panel)page.get("panel");
   markup=panel.getMarkup();
-  compare(markup,"<span wicket:id=\"panel\">test</span>");
+  compareMarkupWithString(markup,"<span wicket:id=\"panel\">test</span>");
   markup=panel.getMarkup(null);
-  compare(markup,"<wicket:panel><a href=\"something\"><span wicket:id=\"label\">text</span></a></wicket:panel>");
+  compareMarkupWithString(markup,"<wicket:panel><a href=\"something\"><span wicket:id=\"label\">text</span></a></wicket:panel>");
 }

@@ -2,18 +2,18 @@
   Page page=new MyBorderPage();
   Border border=(Border)page.get("border");
   IMarkupFragment markup=border.getAssociatedMarkup();
-  compareWithFile(markup,"MyBorder_ExpectedResult.html");
+  compareMarkupWithFile(markup,"MyBorder_ExpectedResult.html");
   markup=border.getMarkup();
-  compare(markup,"<span wicket:id=\"border\">test</span>");
+  compareMarkupWithString(markup,"<span wicket:id=\"border\">test</span>");
   markup=border.getMarkup(null);
-  compare(markup,"<wicket:border>  111  <wicket:body/>  222</wicket:border>");
+  compareMarkupWithString(markup,"<wicket:border>  111  <wicket:body/>  222</wicket:border>");
   assertNull(border.getBodyContainer().getAssociatedMarkup());
   markup=border.getBodyContainer().getMarkup();
-  compare(markup,"<wicket:body/>");
+  compareMarkupWithString(markup,"<wicket:body/>");
   markup=border.getBodyContainer().getMarkup(null);
-  compare(markup,"<span wicket:id=\"border\">test</span>");
+  compareMarkupWithString(markup,"<span wicket:id=\"border\">test</span>");
   markup=border.getBodyContainer().getParent().getMarkup(border.getBodyContainer());
-  compare(markup,"<wicket:body/>");
+  compareMarkupWithString(markup,"<wicket:body/>");
   markup=border.getBodyContainer().getMarkup(null);
-  compare(markup,"<span wicket:id=\"border\">test</span>");
+  compareMarkupWithString(markup,"<span wicket:id=\"border\">test</span>");
 }
