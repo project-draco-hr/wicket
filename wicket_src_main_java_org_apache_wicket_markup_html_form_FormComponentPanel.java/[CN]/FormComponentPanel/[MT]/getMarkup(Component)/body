@@ -1,14 +1,3 @@
 {
-  IMarkupFragment markup=getAssociatedMarkup();
-  if (markup == null) {
-    throw new MarkupException("Failed to find associated markup file. Component: " + toString());
-  }
-  IMarkupFragment panelMarkup=findPanelTag(markup);
-  if (panelMarkup == null) {
-    throw new MarkupException("Expected to find <wicket:panel> in associated markup file. Markup: " + markup.toString());
-  }
-  if (child == null) {
-    return panelMarkup;
-  }
-  return panelMarkup.find(child.getId());
+  return PanelMarkupHelper.getMarkup(this,child);
 }
