@@ -1,6 +1,12 @@
 {
-  String locale=Session.get().getLocale().toString();
-  Url homeUrl=new Url();
-  homeUrl.getSegments().add(0,locale);
+  Url homeUrl=null;
+  if (requestHandler instanceof RenderPageRequestHandler) {
+    RenderPageRequestHandler pageRequestHandler=(RenderPageRequestHandler)requestHandler;
+    if (pageRequestHandler.getPageClass().equals(Application.get().getHomePage())) {
+      String locale=Session.get().getLocale().toString();
+      homeUrl=new Url();
+      homeUrl.getSegments().add(0,locale);
+    }
+  }
   return homeUrl;
 }
