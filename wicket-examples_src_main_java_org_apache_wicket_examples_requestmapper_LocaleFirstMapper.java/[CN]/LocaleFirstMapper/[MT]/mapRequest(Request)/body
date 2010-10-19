@@ -4,10 +4,12 @@
     String localeAsString=segments.get(0);
     if (!Strings.isEmpty(localeAsString)) {
       Locale locale=LocaleHelper.parseLocale(localeAsString);
-      Session.get().setLocale(locale);
-      Url url=request.getUrl();
-      url.getSegments().remove(0);
-      request=request.cloneWithUrl(url);
+      if (locale != null) {
+        Session.get().setLocale(locale);
+        Url url=request.getUrl();
+        url.getSegments().remove(0);
+        request=request.cloneWithUrl(url);
+      }
     }
   }
   return chain.mapRequest(request);
