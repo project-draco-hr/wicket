@@ -2,16 +2,12 @@
   if (dirtyAll) {
     return;
   }
-  TreeNode parentNode=(TreeNode)e.getTreePath().getLastPathComponent();
-  if (isNodeVisible(parentNode)) {
-    boolean wasLeaf=true;
+  Object parentNode=e.getTreePath().getLastPathComponent();
+  TreeItem parentItem=nodeToItemMap.get(parentNode);
+  if (parentItem != null && isNodeVisible(parentNode)) {
     List<?> eventChildren=Arrays.asList(e.getChildren());
-    Enumeration<?> treeChildren=parentNode.children();
-    while (wasLeaf && treeChildren.hasMoreElements()) {
-      if (!eventChildren.contains(treeChildren.nextElement())) {
-        wasLeaf=false;
-      }
-    }
+    List<TreeItem> itemChildren=parentItem.getChildren();
+    boolean wasLeaf=itemChildren == null || eventChildren.containsAll(itemChildren);
     if (wasLeaf) {
       Object grandparentNode=getParentNode(parentNode);
       invalidateNodeWithChildren(grandparentNode);
@@ -19,26 +15,21 @@
     }
  else {
       if (isNodeExpanded(parentNode)) {
-        TreeItem parentItem=nodeToItemMap.get(parentNode);
-        if (parentItem != null) {
-          if (parentItem.getChildren() == null || parentItem.getChildren().isEmpty()) {
-            invalidateNode(parentNode,true);
+        final int[] childIndices=e.getChildIndices();
+        for (int i=0; i < eventChildren.size(); ++i) {
+          Object node=eventChildren.get(i);
+          int index=childIndices[i];
+          TreeItem item=newTreeItem(parentItem,node,parentItem.getLevel() + 1);
+          itemContainer.add(item);
+          if (itemChildren != null) {
+            itemChildren.add(index,item);
+            markTheLastButOneChildDirty(parentItem,item);
           }
-          for (int i=0; i < e.getChildren().length; ++i) {
-            Object node=e.getChildren()[i];
-            int index=e.getChildIndices()[i];
-            TreeItem item=newTreeItem(parentItem,node,parentItem.getLevel() + 1);
-            itemContainer.add(item);
-            if (parentItem.getChildren() != null) {
-              parentItem.getChildren().add(index,item);
-              markTheLastButOneChildDirty(parentItem,item);
-            }
-            if (!dirtyItems.contains(item)) {
-              dirtyItems.add(item);
-            }
-            if (!dirtyItemsCreateDOM.contains(item) && !item.hasParentWithChildrenMarkedToRecreation()) {
-              dirtyItemsCreateDOM.add(item);
-            }
+          if (!dirtyItems.contains(item)) {
+            dirtyItems.add(item);
+          }
+          if (!dirtyItemsCreateDOM.contains(item) && !item.hasParentWithChildrenMarkedToRecreation()) {
+            dirtyItemsCreateDOM.add(item);
           }
         }
       }

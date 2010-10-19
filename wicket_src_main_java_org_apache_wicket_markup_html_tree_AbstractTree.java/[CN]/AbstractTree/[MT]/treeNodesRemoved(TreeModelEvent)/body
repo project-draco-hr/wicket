@@ -2,12 +2,9 @@
   if (dirtyAll) {
     return;
   }
-  TreeNode parentNode=(TreeNode)removalEvent.getTreePath().getLastPathComponent();
+  Object parentNode=removalEvent.getTreePath().getLastPathComponent();
   TreeItem parentItem=nodeToItemMap.get(parentNode);
   if (parentItem != null && isNodeVisible(parentNode)) {
-    if (parentNode.getChildCount() == 0) {
-      invalidateNode(parentNode,true);
-    }
     if (isNodeExpanded(parentNode)) {
       for (      Object deletedNode : removalEvent.getChildren()) {
         TreeItem itemToDelete=nodeToItemMap.get(deletedNode);
@@ -25,6 +22,9 @@
           getTreeState().selectNode(itemToDelete.getModelObject(),false);
         }
       }
+    }
+    if (!parentItem.hasChildTreeItems()) {
+      invalidateNode(parentNode,true);
     }
   }
 }
