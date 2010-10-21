@@ -1,0 +1,14 @@
+{
+  Application.get().addRequestCycleListener(newIncrementingListener());
+  assertValues(0,0,0,0,0,0);
+  cycle.processRequestAndDetach();
+  assertValues(1,1,0,0,1,1);
+  setupNewRequestCycle(false);
+  cycle.register(newIncrementingListener());
+  cycle.processRequestAndDetach();
+  assertValues(3,3,0,0,2,2);
+  setupNewRequestCycle(true);
+  cycle.register(newIncrementingListener());
+  cycle.processRequestAndDetach();
+  assertValues(5,5,2,1,2,3);
+}

@@ -6,6 +6,12 @@
     }
   }
   try {
+    callRequestCycleListeners(new IExecutor<IRequestCycleListener>(){
+      public void execute(      IRequestCycleListener rcl){
+        rcl.onEndRequest();
+      }
+    }
+,"onEndRequest");
     onEndRequest();
   }
  catch (  RuntimeException e) {

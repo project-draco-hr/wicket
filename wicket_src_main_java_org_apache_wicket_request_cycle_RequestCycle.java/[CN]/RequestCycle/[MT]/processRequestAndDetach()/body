@@ -1,6 +1,12 @@
 {
   boolean result;
   try {
+    callRequestCycleListeners(new IExecutor<IRequestCycleListener>(){
+      public void execute(      IRequestCycleListener rcl){
+        rcl.onBeginRequest();
+      }
+    }
+,"onBeginRequest");
     onBeginRequest();
     result=processRequest();
   }
