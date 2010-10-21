@@ -6,13 +6,8 @@
     }
   }
   try {
-    callRequestCycleListeners(new IExecutor<IRequestCycleListener>(){
-      public void execute(      IRequestCycleListener rcl){
-        rcl.onEndRequest();
-      }
-    }
-,"onEndRequest");
     onEndRequest();
+    listeners.onEndRequest(this);
   }
  catch (  RuntimeException e) {
     log.error("Exception occurred during onAfterRequest",e);
@@ -21,14 +16,7 @@
     super.detach();
   }
   finally {
-    for (    DetachCallback c : detachCallbacks) {
-      try {
-        c.onDetach(this);
-      }
- catch (      Exception e) {
-        log.error("Error detaching DetachCallback",e);
-      }
-    }
+    listeners.onDetach(this);
     set(null);
   }
 }

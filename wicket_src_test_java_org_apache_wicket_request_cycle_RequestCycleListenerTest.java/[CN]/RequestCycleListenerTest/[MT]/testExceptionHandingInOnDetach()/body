@@ -1,0 +1,14 @@
+{
+  RequestCycle cycle=newRequestCycle(false);
+  cycle.getListeners().add(new IncrementingListener());
+  cycle.getListeners().add(new IncrementingListener(){
+    @Override public void onDetach(    final RequestCycle cycle){
+      super.onDetach(cycle);
+      throw new RuntimeException();
+    }
+  }
+);
+  cycle.getListeners().add(new IncrementingListener());
+  cycle.processRequestAndDetach();
+  assertValues(3,3,0,0,1,1,3);
+}

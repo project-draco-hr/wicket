@@ -1,7 +1,7 @@
 {
   if (sessionInvalidated == false) {
-    RequestCycle.get().register(new RequestCycle.DetachCallback(){
-      public void onDetach(      final RequestCycle requestCycle){
+    RequestCycle.get().getListeners().add(new AbstractRequestCycleListener(){
+      @Override public void onDetach(      final RequestCycle cycle){
         destroy();
       }
     }
