@@ -3,10 +3,10 @@
     @Override protected void init(){
       getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy(){
         private boolean block=true;
-        public boolean isActionAuthorized(        Component component,        Action action){
+        public boolean isActionAuthorized(        IRequestableComponent component,        Action action){
           return true;
         }
-        public <T extends Component>boolean isInstantiationAuthorized(        Class<T> componentClass){
+        public <T extends IRequestableComponent>boolean isInstantiationAuthorized(        Class<T> componentClass){
           if (block && (componentClass == TargetPage.class || componentClass == HomePage.class)) {
             block=false;
             throw new RestartResponseAtInterceptPageException(InterceptPage.class);
