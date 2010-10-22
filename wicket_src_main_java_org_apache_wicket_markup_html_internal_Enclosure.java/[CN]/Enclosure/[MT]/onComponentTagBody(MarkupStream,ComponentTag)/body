@@ -2,7 +2,7 @@
   boolean visible=childComponent.determineVisibility();
   final IComponentOnAfterRenderListener listener=new EnclosureListener(this);
   try {
-    getApplication().addComponentOnAfterRenderListener(listener);
+    getApplication().getComponentOnAfterRenderListeners().add(listener);
     if (visible) {
       super.onComponentTagBody(markupStream,openTag);
     }
@@ -19,6 +19,6 @@
     }
   }
   finally {
-    getApplication().removeComponentOnAfterRenderListener(listener);
+    getApplication().getComponentOnAfterRenderListeners().remove(listener);
   }
 }

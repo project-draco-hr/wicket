@@ -48,6 +48,6 @@ catch (      IllegalAccessException e) {
     throw new RuntimeException("To use GuiceWebApplicationFactory, you must specify either an 'injectorContextAttribute' or a 'module' init-param.");
   }
   WebApplication app=injector.getInstance(WebApplication.class);
-  app.addComponentInstantiationListener(new GuiceComponentInjector(app,injector));
+  app.getComponentInstantiationListeners().add(new GuiceComponentInjector(app,injector));
   return app;
 }

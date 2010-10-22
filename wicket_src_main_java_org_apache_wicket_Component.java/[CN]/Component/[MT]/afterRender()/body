@@ -2,7 +2,7 @@
   try {
     setFlag(FLAG_AFTER_RENDERING,true);
     onAfterRender();
-    getApplication().notifyComponentOnAfterRenderListeners(this);
+    getApplication().getComponentOnAfterRenderListeners().onAfterRender(this);
     if (getFlag(FLAG_AFTER_RENDERING)) {
       throw new IllegalStateException(Component.class.getName() + " has not been properly detached. Something in the hierarchy of " + getClass().getName()+ " has not called super.onAfterRender() in the override of onAfterRender() method");
     }

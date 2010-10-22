@@ -3,7 +3,7 @@
   RequestCycle requestCycle=getRequestCycleProvider().get(context);
   requestCycle.getListeners().add(requestCycleListeners);
   requestCycle.getListeners().add(new AbstractRequestCycleListener(){
-    public void onDetach(    RequestCycle requestCycle){
+    @Override public void onDetach(    RequestCycle requestCycle){
       getPageManager().commitRequest();
     }
   }
