@@ -3,6 +3,8 @@
   if (mount == null) {
     return null;
   }
+  Checks.notNull(mount.getUrl(),"Mount's Url should not be null");
+  Checks.notNull(mount.getMountParameters(),"Mount's parameters should not be null");
   for (int i=mountSegments.length; i > 0; i--) {
     String segment=mountSegments[i - 1];
     String placeholder=getPlaceholder(segment);
@@ -10,7 +12,7 @@
     if (placeholder != null) {
       replacement=mount.getMountParameters().getValue(placeholder).toString();
       if (replacement == null) {
-        throw new IllegalStateException();
+        throw new IllegalStateException(String.format("Cannot find a value for placeholder '%s'.",placeholder));
       }
     }
     mount.getUrl().getSegments().add(0,replacement);
