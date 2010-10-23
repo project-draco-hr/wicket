@@ -1,8 +1,12 @@
 {
   PageInfo pageInfo=pageComponentInfo.getPageInfo();
   ComponentInfo componentInfo=pageComponentInfo.getComponentInfo();
-  Integer renderCount=componentInfo != null ? componentInfo.getRenderCount() : null;
-  RequestListenerInterface listenerInterface=requestListenerInterfaceFromString(componentInfo.getListenerInterface());
+  Integer renderCount=null;
+  RequestListenerInterface listenerInterface=null;
+  if (componentInfo != null) {
+    renderCount=componentInfo.getRenderCount();
+    listenerInterface=requestListenerInterfaceFromString(componentInfo.getListenerInterface());
+  }
   if (listenerInterface != null) {
     PageAndComponentProvider provider=new PageAndComponentProvider(pageInfo.getPageId(),pageClass,pageParameters,renderCount,componentInfo.getComponentPath());
     provider.setPageSource(getContext());
@@ -10,7 +14,12 @@
   }
  else {
     if (logger.isWarnEnabled()) {
-      logger.warn("Unknown listener interface '" + componentInfo.getListenerInterface() + "'");
+      if (componentInfo != null) {
+        logger.warn("Unknown listener interface '{}'",componentInfo.getListenerInterface());
+      }
+ else {
+        logger.warn("Cannot extract the listener interface for PageComponentInfo: '{}'" + pageComponentInfo);
+      }
     }
     return null;
   }
