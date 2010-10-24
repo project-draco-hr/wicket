@@ -30,13 +30,15 @@
       clazz=char.class;
     }
  else {
-      ClassLoader loader=Thread.currentThread().getContextClassLoader();
-      if (loader == null) {
-        loader=DefaultClassResolver.class.getClassLoader();
-      }
-      clazz=Class.forName(classname,false,loader);
-      if (clazz == null) {
-        throw new ClassNotFoundException(classname);
+synchronized (classes) {
+        ClassLoader loader=Thread.currentThread().getContextClassLoader();
+        if (loader == null) {
+          loader=DefaultClassResolver.class.getClassLoader();
+        }
+        clazz=Class.forName(classname,false,loader);
+        if (clazz == null) {
+          throw new ClassNotFoundException(classname);
+        }
       }
       classes.put(classname,new WeakReference<Class<?>>(clazz));
     }
