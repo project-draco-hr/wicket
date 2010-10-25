@@ -1,7 +1,9 @@
 {
   final RequestCycle requestCycle=RequestCycle.get();
   IRequestHandler handler=requestCycle.getActiveRequestHandler();
-  if (handler == null)   handler=requestCycle.getRequestHandlerScheduledAfterCurrent();
+  if (handler == null) {
+    handler=requestCycle.getRequestHandlerScheduledAfterCurrent();
+  }
   if (handler instanceof IPageRequestHandler) {
     IPageRequestHandler pageRequestHandler=(IPageRequestHandler)handler;
     return (Page)pageRequestHandler.getPage();

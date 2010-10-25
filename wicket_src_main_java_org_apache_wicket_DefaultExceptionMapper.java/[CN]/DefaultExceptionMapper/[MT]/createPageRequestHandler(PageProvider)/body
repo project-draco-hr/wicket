@@ -1,6 +1,8 @@
 {
   RequestCycle requestCycle=RequestCycle.get();
-  if (requestCycle == null)   throw new IllegalStateException("there is no current request cycle attached to this thread");
+  if (requestCycle == null) {
+    throw new IllegalStateException("there is no current request cycle attached to this thread");
+  }
   RenderPageRequestHandler.RedirectPolicy redirect=RenderPageRequestHandler.RedirectPolicy.NEVER_REDIRECT;
   return new RenderPageRequestHandler(pageProvider,redirect);
 }
