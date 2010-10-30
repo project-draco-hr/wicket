@@ -1,25 +1,3 @@
 {
-  if (!getBehaviorsRawList().contains(behavior)) {
-    throw new IllegalStateException("Behavior must be added to component before its id can be generated. Behavior: " + behavior + ", Component: "+ this);
-  }
-  ArrayList<IBehavior> ids=getMetaData(BEHAVIOR_IDS);
-  if (ids == null) {
-    ids=new ArrayList<IBehavior>(1);
-    setMetaData(BEHAVIOR_IDS,ids);
-  }
-  int id=ids.indexOf(behavior);
-  if (id < 0) {
-    for (int i=0; i < ids.size(); i++) {
-      if (ids.get(i) == null) {
-        ids.set(i,behavior);
-        id=i;
-      }
-    }
-  }
-  if (id < 0) {
-    id=ids.size();
-    ids.add(behavior);
-    ids.trimToSize();
-  }
-  return id;
+  return new Behaviors(this).getBehaviorId(behavior);
 }

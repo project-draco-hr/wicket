@@ -1,14 +1,4 @@
 {
-  if (behavior == null) {
-    throw new IllegalArgumentException("Argument `behavior` cannot be null");
-  }
-  if (removeBehavior(behavior)) {
-    if (!behavior.isTemporary()) {
-      addStateChange();
-    }
-  }
- else {
-    throw new IllegalStateException("Tried to remove a behavior that was not added to the component. Behavior: " + behavior.toString());
-  }
+  new Behaviors(this).remove(behavior);
   return this;
 }

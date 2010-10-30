@@ -1,18 +1,3 @@
 {
-  List<? extends IBehavior> behaviors=getBehaviorsRawList();
-  if (behaviors == null) {
-    return Collections.emptyList();
-  }
-  List<M> subset=new ArrayList<M>(behaviors.size());
-  for (  IBehavior behavior : behaviors) {
-    if (behavior != null) {
-      if (type == null) {
-        subset.add((M)behavior);
-      }
- else       if (type.isAssignableFrom(behavior.getClass())) {
-        subset.add(type.cast(behavior));
-      }
-    }
-  }
-  return Collections.unmodifiableList(subset);
+  return new Behaviors(this).getBehaviors(type);
 }

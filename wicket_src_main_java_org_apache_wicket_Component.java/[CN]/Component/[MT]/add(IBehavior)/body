@@ -1,16 +1,4 @@
 {
-  if (behaviors == null) {
-    throw new IllegalArgumentException("Argument may not be null");
-  }
-  for (  IBehavior behavior : behaviors) {
-    if (behavior == null) {
-      throw new IllegalArgumentException("Argument may not be null");
-    }
-    addBehavior(behavior);
-    if (!behavior.isTemporary()) {
-      addStateChange();
-    }
-    behavior.bind(this);
-  }
+  new Behaviors(this).add(behaviors);
   return this;
 }

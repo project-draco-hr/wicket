@@ -1,13 +1,3 @@
 {
-  IBehavior behavior=null;
-  ArrayList<IBehavior> ids=getMetaData(BEHAVIOR_IDS);
-  if (ids != null) {
-    if (id >= 0 && id < ids.size()) {
-      behavior=ids.get(id);
-    }
-  }
-  if (behavior != null) {
-    return behavior;
-  }
-  throw new InvalidBehaviorIdException(this,id);
+  return new Behaviors(this).getBehaviorById(id);
 }

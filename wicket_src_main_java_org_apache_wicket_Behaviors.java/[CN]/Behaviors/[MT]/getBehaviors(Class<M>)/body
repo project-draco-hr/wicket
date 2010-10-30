@@ -1,0 +1,17 @@
+{
+  final int len=component.data_length();
+  final int start=component.data_start();
+  if (len < start) {
+    return Collections.emptyList();
+  }
+  List<M> subset=new ArrayList<M>(len);
+  for (int i=component.data_start(); i < len; i++) {
+    Object obj=component.data_get(i);
+    if (obj != null && obj instanceof IBehavior) {
+      if (type == null || type.isAssignableFrom(obj.getClass())) {
+        subset.add((M)obj);
+      }
+    }
+  }
+  return Collections.unmodifiableList(subset);
+}
