@@ -1,7 +1,8 @@
 {
   MetaDataEntry<?>[] metaData=null;
-  int index=getMetaDataIndex();
-  if (index >= 0) {
+  int index=getFlag(FLAG_MODEL_SET) ? 1 : 0;
+  int length=data_length();
+  if (index < length) {
     Object object=data_get(index);
     if (object instanceof MetaDataEntry<?>[]) {
       metaData=(MetaDataEntry<?>[])object;

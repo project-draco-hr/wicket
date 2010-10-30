@@ -1,24 +1,22 @@
 {
-  final int start=getFlag(FLAG_MODEL_SET) ? 1 : 0;
   final int len=data_length();
-  for (int i=start; i < len; ++i) {
+  for (int i=0; i < len; i++) {
     Object o=data_get(i);
     if (o != null && o.equals(behavior)) {
-      if (!data_can_remove(i)) {
-        data_set(i,null);
-      }
- else {
-        data_remove(i);
-        if (o instanceof IRequestListener) {
-          for (int j=i - 1; j >= start; j--) {
-            if (data_get(j) == null) {
-              data_remove(j);
-            }
-          }
-        }
-      }
+      data_remove(i);
       behavior.unbind(this);
-      return true;
+      ArrayList<IBehavior> ids=getMetaData(BEHAVIOR_IDS);
+      if (ids != null) {
+        int idx=ids.indexOf(behavior);
+        if (idx == ids.size() - 1) {
+          ids.remove(idx);
+        }
+ else         if (idx >= 0) {
+          ids.set(idx,null);
+        }
+        ids.trimToSize();
+        return true;
+      }
     }
   }
   return false;
