@@ -1,0 +1,10 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.setExposeExceptions(false);
+  tester.startPage(InternalErrorCallsAjaxOnFailurePage.class);
+  tester.clickLink("failure-link",true);
+  MockHttpServletResponse errorPageResponse=tester.getLastResponse();
+  assertEquals(Integer.valueOf(500),errorPageResponse.getStatus());
+  assertTrue(errorPageResponse.getDocument().contains(InternalErrorCallsAjaxOnFailurePage.ERROR_MESSAGE));
+  tester.assertRenderedPage(ExceptionErrorPage.class);
+}
