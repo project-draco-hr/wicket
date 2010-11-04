@@ -1,0 +1,23 @@
+{
+  String[] patterns=null;
+  if (isServlet) {
+    WebServlet servlet=getClass().getAnnotation(WebServlet.class);
+    if (servlet != null) {
+      patterns=servlet.urlPatterns();
+    }
+  }
+ else {
+    WebFilter filter=getClass().getAnnotation(WebFilter.class);
+    if (filter != null) {
+      patterns=filter.urlPatterns();
+    }
+  }
+  if (patterns != null && patterns.length > 0) {
+    String pattern=patterns[0];
+    if (patterns.length > 1) {
+      log.warn("Multiple url patterns defined for Wicket filter/servlet, using the first: {}",pattern);
+    }
+    return pattern;
+  }
+  return null;
+}

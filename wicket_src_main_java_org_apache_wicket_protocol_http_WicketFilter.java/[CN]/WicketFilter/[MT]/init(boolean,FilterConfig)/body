@@ -5,10 +5,16 @@
   application.setName(filterConfig.getFilterName());
   application.setWicketFilter(this);
   if (filterPath == null) {
-    filterPath=new WebXmlFile().getFilterPath(isServlet,filterConfig);
-    if ((filterPath == null) && log.isInfoEnabled()) {
-      log.info("Unable to parse filter mapping web.xml for " + filterConfig.getFilterName() + ". "+ "Configure with init-param "+ FILTER_MAPPING_PARAM+ " if it is not \"/*\".");
-    }
+    filterPath=getFilterPathFromConfig(filterConfig);
+  }
+  if (filterPath == null) {
+    filterPath=getFilterPathFromWebXml(isServlet,filterConfig);
+  }
+  if (filterPath == null) {
+    filterPath=getFilterPathFromAnnotation(isServlet);
+  }
+  if (filterPath == null) {
+    log.warn("Unable to determine filter path from filter init-parm, web.xml, " + "or servlet 3.0 annotations. Assuming user will set filter path " + "manually by calling setFilterPath(String)");
   }
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   final ClassLoader newClassLoader=getClassLoader();

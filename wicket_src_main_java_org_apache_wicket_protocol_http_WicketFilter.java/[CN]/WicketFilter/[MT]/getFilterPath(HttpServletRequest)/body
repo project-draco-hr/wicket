@@ -2,15 +2,5 @@
   if (filterPath != null) {
     return filterPath;
   }
-  String result=filterConfig.getInitParameter(FILTER_MAPPING_PARAM);
-  if (result == null || result.equals("/*")) {
-    filterPath="";
-  }
- else   if (!result.startsWith("/") || !result.endsWith("/*")) {
-    throw new WicketRuntimeException("Your " + FILTER_MAPPING_PARAM + " must start with \"/\" and end with \"/*\". It is: "+ result);
-  }
- else {
-    filterPath=result.substring(1,result.length() - 1);
-  }
-  return filterPath;
+  return null;
 }

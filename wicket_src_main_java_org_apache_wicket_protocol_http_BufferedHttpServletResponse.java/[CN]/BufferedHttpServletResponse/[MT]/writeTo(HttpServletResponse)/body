@@ -3,17 +3,11 @@
     servletResponse.setStatus(status);
   }
   if (headers != null) {
-    for (    Entry<String,Object> stringObjectEntry : headers.entrySet()) {
+    for (    Entry<String,List<Object>> stringObjectEntry : headers.entrySet()) {
       String name=stringObjectEntry.getKey();
-      Object value=stringObjectEntry.getValue();
-      if (value instanceof List) {
-        List<?> lst=(List<?>)value;
-        for (        Object aLst : lst) {
-          addHeader(name,aLst,servletResponse);
-        }
-      }
- else {
-        setHeader(name,value,servletResponse);
+      List<Object> values=stringObjectEntry.getValue();
+      for (      Object value : values) {
+        addHeader(name,value,servletResponse);
       }
     }
   }
