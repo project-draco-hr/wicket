@@ -1,12 +1,7 @@
 {
   if (inputStreamsToClose != null) {
-    for (Iterator<InputStream> inputStreamsIterator=inputStreamsToClose.iterator(); inputStreamsIterator.hasNext(); ) {
-      InputStream inputStream=inputStreamsIterator.next();
-      try {
-        inputStream.close();
-      }
- catch (      IOException e) {
-      }
+    for (    InputStream inputStream : inputStreamsToClose) {
+      IOUtils.closeQuietly(inputStream);
     }
     inputStreamsToClose=null;
   }
