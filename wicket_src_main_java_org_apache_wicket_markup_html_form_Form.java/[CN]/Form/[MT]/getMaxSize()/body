@@ -1,18 +1,15 @@
 {
-  Bytes maxSize=this.maxSize;
-  if (maxSize == null) {
-    maxSize=visitChildren(Form.class,new IVisitor<Form<?>,Bytes>(){
+  final Bytes[] maxSize=new Bytes[]{this.maxSize};
+  if (maxSize[0] == null) {
+    visitChildren(Form.class,new IVisitor<Form<?>,Bytes>(){
       public void component(      Form<?> component,      IVisit<Bytes> visit){
-        Bytes maxSize=component.getMaxSize();
-        if (maxSize != null) {
-          visit.stop(maxSize);
-        }
+        maxSize[0]=LongValue.maxNullSafe(maxSize[0],component.maxSize);
       }
     }
 );
   }
-  if (maxSize == null) {
+  if (maxSize[0] == null) {
     return getApplication().getApplicationSettings().getDefaultMaximumUploadSize();
   }
-  return maxSize;
+  return maxSize[0];
 }
