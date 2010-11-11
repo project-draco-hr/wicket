@@ -1,0 +1,8 @@
+{
+  for (  AbstractResourceDependentResourceReference child : parent.getDependentResourceReferences()) {
+    render(child);
+  }
+  boolean css=ResourceType.CSS.equals(parent.getResourceType());
+  String string=css ? parent.getMedia() : parent.getUniqueId();
+  ResourceUtil.renderTo(getRealResponse(),parent,css,string);
+}

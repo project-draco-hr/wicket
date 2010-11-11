@@ -1,0 +1,17 @@
+{
+  SortedMap<K,R> map=new TreeMap<K,R>(getGroupingKeyComparator());
+  for (  ResourceReferenceAndStringData ref : topLevelReferences) {
+    K key=newGroupingKey(ref);
+    R coll=map.get(key);
+    if (coll == null) {
+      map.put(key,coll=newResourceReferenceCollection());
+    }
+    coll.add(ref);
+  }
+  Set<ResourceReferenceAndStringData> alreadyRendered=new LinkedHashSet<ResourceReferenceAndStringData>();
+  for (  Entry<K,R> entry : map.entrySet()) {
+    renderCollection(alreadyRendered,entry.getKey(),entry.getValue());
+  }
+  onAllCollectionsRendered(topLevelReferences);
+  super.close();
+}

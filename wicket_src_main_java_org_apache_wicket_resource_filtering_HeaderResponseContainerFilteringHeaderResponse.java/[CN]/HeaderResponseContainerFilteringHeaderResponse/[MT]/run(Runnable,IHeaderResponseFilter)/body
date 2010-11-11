@@ -1,0 +1,16 @@
+{
+  if (AjaxRequestTarget.get() != null) {
+    runnable.run();
+    return;
+  }
+  Response original=RequestCycle.get().setResponse(responseFilterMap.get(filter.getName()));
+  try {
+    runnable.run();
+  }
+ catch (  RuntimeException ex) {
+    throw ex;
+  }
+ finally {
+    RequestCycle.get().setResponse(original);
+  }
+}

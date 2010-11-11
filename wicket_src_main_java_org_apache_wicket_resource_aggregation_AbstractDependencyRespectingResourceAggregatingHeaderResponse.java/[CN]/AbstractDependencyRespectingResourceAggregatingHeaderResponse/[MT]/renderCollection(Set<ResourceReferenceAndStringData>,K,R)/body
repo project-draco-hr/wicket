@@ -1,0 +1,14 @@
+{
+  for (  ResourceReferenceAndStringData data : coll) {
+    ResourceReference ref=data.getReference();
+    if (ref instanceof AbstractResourceDependentResourceReference) {
+      AbstractResourceDependentResourceReference parent=(AbstractResourceDependentResourceReference)ref;
+      R childColl=newResourceReferenceCollection();
+      for (      AbstractResourceDependentResourceReference child : parent.getDependentResourceReferences()) {
+        childColl.add(toData(child));
+      }
+      renderCollection(alreadyRendered,key,childColl);
+    }
+    renderIfNotAlreadyRendered(alreadyRendered,data);
+  }
+}
