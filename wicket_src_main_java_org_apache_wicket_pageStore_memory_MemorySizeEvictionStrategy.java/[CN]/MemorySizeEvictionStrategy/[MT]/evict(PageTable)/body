@@ -1,0 +1,8 @@
+{
+  long storeCurrentSize=WicketObjects.sizeof(pageTable);
+  if (storeCurrentSize > maxBytes.bytes()) {
+    PageTableCleaner cleaner=new PageTableCleaner();
+    cleaner.drop(pageTable,1);
+    evict(pageTable);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  PageTable pageTable=new PageTable();
+  assertNull(pageTable.getOldest());
+  pageTable.storePage(1,data);
+  assertEquals(Integer.valueOf(1),pageTable.getOldest());
+  pageTable.storePage(2,data);
+  assertEquals(Integer.valueOf(1),pageTable.getOldest());
+  pageTable.storePage(3,data);
+  assertEquals(Integer.valueOf(1),pageTable.getOldest());
+  pageTable.getPage(1);
+  assertEquals(Integer.valueOf(2),pageTable.getOldest());
+  pageTable.removePage(2);
+  assertEquals(Integer.valueOf(3),pageTable.getOldest());
+}

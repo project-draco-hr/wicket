@@ -1,0 +1,20 @@
+{
+  PageTable pageTable=new PageTable();
+  long sizeOfEmptyPageTable=WicketObjects.sizeof(pageTable);
+  MemorySizeEvictionStrategy strategy=new MemorySizeEvictionStrategy(Bytes.bytes(sizeOfEmptyPageTable));
+  pageTable.storePage(PAGE1.length,PAGE1);
+  assertEquals(1,pageTable.size());
+  strategy.evict(pageTable);
+  assertEquals(0,pageTable.size());
+  long currentSize=WicketObjects.sizeof(pageTable);
+  assertTrue("Current size: |" + currentSize + "|, strategy size: |"+ sizeOfEmptyPageTable+ "|",currentSize <= sizeOfEmptyPageTable);
+  pageTable.storePage(PAGE2.length,PAGE2);
+  long sizeOfWithPage2=WicketObjects.sizeof(pageTable);
+  strategy=new MemorySizeEvictionStrategy(Bytes.bytes(sizeOfWithPage2));
+  pageTable.storePage(PAGE1.length,PAGE1);
+  assertEquals(2,pageTable.size());
+  strategy.evict(pageTable);
+  assertEquals(1,pageTable.size());
+  currentSize=WicketObjects.sizeof(pageTable);
+  assertTrue("Current size: |" + currentSize + "|, strategy size: |"+ sizeOfWithPage2+ "|",currentSize <= sizeOfWithPage2);
+}

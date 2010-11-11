@@ -1,0 +1,15 @@
+{
+  PageNumberEvictionStrategy strategy=new PageNumberEvictionStrategy(1);
+  PageTable pageTable=new PageTable();
+  pageTable.storePage(PAGE1.length,PAGE1);
+  assertEquals(1,pageTable.size());
+  strategy.evict(pageTable);
+  assertEquals(1,pageTable.size());
+  assertNotNull(pageTable.getPage(PAGE1.length));
+  pageTable.storePage(PAGE2.length,PAGE2);
+  assertEquals(2,pageTable.size());
+  strategy.evict(pageTable);
+  assertEquals(1,pageTable.size());
+  assertNotNull(pageTable.getPage(PAGE2.length));
+  assertNull(pageTable.getPage(PAGE1.length));
+}
