@@ -1,0 +1,13 @@
+{
+  tester.startPage(ModifyCookiePage.class);
+  tester.assertRenderedPage(ModifyCookiePage.class);
+  tester.clickLink(ModifyCookiePage.CREATE_COOKIE_ID);
+  tester.assertRenderedPage(ModifyCookiePage.class);
+  MockHttpServletResponse response=tester.getLastResponse();
+  assertNotNull(response);
+  List<Cookie> cookies=response.getCookies();
+  assertEquals(1,cookies.size());
+  Cookie cookie=cookies.get(0);
+  assertEquals(ModifyCookiePage.COOKIE_NAME,cookie.getName());
+  assertEquals(ModifyCookiePage.COOKIE_VALUE,cookie.getValue());
+}
