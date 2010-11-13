@@ -1,6 +1,7 @@
 {
   DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
   DocumentBuilder builder=factory.newDocumentBuilder();
+  builder.setEntityResolver(CustomEntityResolver.getPreloaded());
   Document document=builder.parse(is);
   String tag=(isServlet ? "servlet" : "filter");
   String mapping=tag + "-mapping";
