@@ -18,7 +18,8 @@
 {
       Object displayValue=renderer.getDisplayValue(choice);
       Class<?> displayClass=displayValue == null ? null : displayValue.getClass();
-      String displayString=getConverter(displayClass).convertToString(displayValue,getLocale());
+      IConverter<Object> converter=(IConverter<Object>)getConverter(displayClass);
+      String displayString=converter.convertToString(displayValue,getLocale());
       displayString=getLocalizer().getString(displayString,this,displayString);
       if (getEscapeModelStrings()) {
         value=Strings.escapeMarkup(displayString);

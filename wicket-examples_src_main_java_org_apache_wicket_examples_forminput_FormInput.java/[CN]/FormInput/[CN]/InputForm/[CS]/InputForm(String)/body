@@ -47,10 +47,10 @@
   checks.add(checksList);
   add(new ListMultipleChoice<String>("siteSelection",SITES));
   add(new TextField<URL>("urlProperty",URL.class){
-    @Override public IConverter getConverter(    final Class<?> type){
+    @SuppressWarnings("unchecked") @Override public <C>IConverter<C> getConverter(    final Class<C> type){
       if (URL.class.isAssignableFrom(type)) {
-        return new IConverter(){
-          public Object convertToObject(          String value,          Locale locale){
+        return (IConverter<C>)new IConverter<URL>(){
+          public URL convertToObject(          String value,          Locale locale){
             try {
               return new URL(value.toString());
             }
@@ -58,7 +58,7 @@
               throw new ConversionException("'" + value + "' is not a valid URL");
             }
           }
-          public String convertToString(          Object value,          Locale locale){
+          public String convertToString(          URL value,          Locale locale){
             return value != null ? value.toString() : null;
           }
         }
@@ -71,9 +71,9 @@
   }
 );
   add(new TextField<UsPhoneNumber>("phoneNumberUS",UsPhoneNumber.class){
-    @Override public IConverter getConverter(    final Class<?> type){
+    @Override public <C>IConverter<C> getConverter(    final Class<C> type){
       if (UsPhoneNumber.class.isAssignableFrom(type)) {
-        return new MaskConverter("(###) ###-####",UsPhoneNumber.class);
+        return new MaskConverter<C>("(###) ###-####",UsPhoneNumber.class);
       }
  else {
         return super.getConverter(type);

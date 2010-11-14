@@ -2,8 +2,8 @@
   checkComponentTag(tag,"input");
   checkComponentTagAttribute(tag,"type","checkbox");
   final String value=getValue();
-  final IConverter converter=getConverter(Boolean.class);
-  final Boolean checked=(Boolean)converter.convertToObject(value,getLocale());
+  final IConverter<Boolean> converter=getConverter(Boolean.class);
+  final Boolean checked=converter.convertToObject(value,getLocale());
   if (Boolean.TRUE.equals(checked)) {
     tag.put("checked","checked");
   }

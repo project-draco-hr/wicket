@@ -1,0 +1,10 @@
+{
+  if (type == null) {
+    return (IConverter<C>)new DefaultConverter<String>(String.class);
+  }
+  final IConverter<C> converter=get(type);
+  if (converter == null) {
+    return new DefaultConverter<C>(type);
+  }
+  return converter;
+}
