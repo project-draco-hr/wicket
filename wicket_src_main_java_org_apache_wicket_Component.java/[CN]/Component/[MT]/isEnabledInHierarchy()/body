@@ -1,12 +1,12 @@
 {
   Boolean state=getMetaData(ENABLED_IN_HIERARCHY_CACHE_KEY);
   if (state == null) {
-    state=isEnabled() && isEnableAllowed();
-    if (state) {
-      Component parent=getParent();
-      if (parent != null) {
-        state=state && parent.isEnabledInHierarchy();
-      }
+    Component parent=getParent();
+    if (parent != null && !parent.isEnabledInHierarchy()) {
+      state=false;
+    }
+ else {
+      state=isEnabled() && isEnableAllowed();
     }
     setMetaData(ENABLED_IN_HIERARCHY_CACHE_KEY,state);
   }

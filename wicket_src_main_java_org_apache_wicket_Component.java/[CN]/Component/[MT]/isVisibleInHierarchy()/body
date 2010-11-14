@@ -1,12 +1,7 @@
 {
-  Component component=this;
-  while (component != null) {
-    if (component.determineVisibility()) {
-      component=component.getParent();
-    }
- else {
-      return false;
-    }
+  Component parent=getParent();
+  if (parent != null && !parent.isVisibleInHierarchy()) {
+    return false;
   }
-  return true;
+  return determineVisibility();
 }
