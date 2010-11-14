@@ -1,12 +1,15 @@
 {
-  Properties properties=propertiesCache.get(path);
+  Properties properties=null;
+  if (propertiesCache != null) {
+    properties=propertiesCache.get(path);
+  }
   if (properties == null) {
     IResourceSettings resourceSettings=Application.get().getResourceSettings();
     Iterator<IPropertiesLoader> iter=propertiesLoader.iterator();
     while ((properties == null) && iter.hasNext()) {
       IPropertiesLoader loader=iter.next();
       String fullPath=path + loader.getFileExtension();
-      final IResourceStream resourceStream=resourceSettings.getResourceStreamLocator().locate(clazz,fullPath);
+      IResourceStream resourceStream=resourceSettings.getResourceStreamLocator().locate(clazz,fullPath);
       if (resourceStream == null) {
         continue;
       }
@@ -19,11 +22,13 @@
         properties=new Properties(path,props);
       }
     }
-    if (properties == null) {
-      propertiesCache.put(path,Properties.EMPTY_PROPERTIES);
-    }
+    if (propertiesCache != null) {
+      if (properties == null) {
+        propertiesCache.put(path,Properties.EMPTY_PROPERTIES);
+      }
  else {
-      propertiesCache.put(path,properties);
+        propertiesCache.put(path,properties);
+      }
     }
   }
   if (properties == Properties.EMPTY_PROPERTIES) {
