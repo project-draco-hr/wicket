@@ -1,0 +1,12 @@
+{
+  tester.startPage(LinkPage.class);
+  tester.assertRenderedPage(LinkPage.class);
+  tester.getComponentFromLastRenderedPage("ajaxLinkWithSetResponsePageClass").setEnabled(false);
+  try {
+    tester.executeAjaxEvent("ajaxLinkWithSetResponsePageClass","onclick");
+    fail("Disabled link should not be clickable.");
+  }
+ catch (  Exception _) {
+    ;
+  }
+}

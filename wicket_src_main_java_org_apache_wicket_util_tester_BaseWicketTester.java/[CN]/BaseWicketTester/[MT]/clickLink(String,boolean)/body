@@ -1,5 +1,8 @@
 {
   Component linkComponent=getComponentFromLastRenderedPage(path);
+  if (linkComponent.isEnabledInHierarchy() == false) {
+    fail("The component is currently not enabled in the hierarchy and thus you can not be clicked." + " Component: " + linkComponent);
+  }
   if (linkComponent instanceof AjaxLink) {
     if (isAjax == false) {
       fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
