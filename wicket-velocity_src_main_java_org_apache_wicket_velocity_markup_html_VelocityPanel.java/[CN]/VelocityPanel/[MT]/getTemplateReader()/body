@@ -1,9 +1,9 @@
 {
-  final IStringResourceStream resource=getTemplateResource();
+  final IResourceStream resource=getTemplateResource();
   if (resource == null) {
     throw new IllegalArgumentException("getTemplateResource must return a resource");
   }
-  final String template=resource.asString();
+  final String template=ResourceUtil.readString(resource);
   if (template != null) {
     return new StringReader(template);
   }

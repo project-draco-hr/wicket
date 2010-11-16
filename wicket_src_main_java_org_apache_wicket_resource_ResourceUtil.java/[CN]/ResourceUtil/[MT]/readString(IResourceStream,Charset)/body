@@ -1,0 +1,19 @@
+{
+  try {
+    InputStream stream=resourceStream.getInputStream();
+    try {
+      byte[] bytes=IOUtils.toByteArray(stream);
+      if (charset == null)       charset=Charset.defaultCharset();
+      return new String(bytes,charset);
+    }
+  finally {
+      resourceStream.close();
+    }
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("failed to read string from " + resourceStream,e);
+  }
+catch (  ResourceStreamNotFoundException e) {
+    throw new WicketRuntimeException("failed to locate stream from " + resourceStream,e);
+  }
+}
