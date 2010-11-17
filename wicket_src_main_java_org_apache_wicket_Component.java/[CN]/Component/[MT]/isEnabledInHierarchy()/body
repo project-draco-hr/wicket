@@ -1,14 +1,16 @@
 {
-  Boolean state=getMetaData(ENABLED_IN_HIERARCHY_CACHE_KEY);
-  if (state == null) {
-    Component parent=getParent();
-    if (parent != null && !parent.isEnabledInHierarchy()) {
-      state=false;
-    }
- else {
-      state=isEnabled() && isEnableAllowed();
-    }
-    setMetaData(ENABLED_IN_HIERARCHY_CACHE_KEY,state);
+  if (getRequestFlag(RFLAG_ENABLED_IN_HIERARCHY_SET)) {
+    return getRequestFlag(RFLAG_ENABLED_IN_HIERARCHY_VALUE);
   }
+  final boolean state;
+  Component parent=getParent();
+  if (parent != null && !parent.isEnabledInHierarchy()) {
+    state=false;
+  }
+ else {
+    state=isEnabled() && isEnableAllowed();
+  }
+  setRequestFlag(RFLAG_ENABLED_IN_HIERARCHY_SET,true);
+  setRequestFlag(RFLAG_ENABLED_IN_HIERARCHY_VALUE,state);
   return state;
 }
