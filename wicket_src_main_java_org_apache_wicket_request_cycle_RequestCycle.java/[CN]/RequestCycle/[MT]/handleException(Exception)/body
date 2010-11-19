@@ -1,4 +1,7 @@
 {
-  listeners.onException(this,e);
+  IRequestHandler handler=listeners.onException(this,e);
+  if (handler != null) {
+    return handler;
+  }
   return exceptionMapper.map(e);
 }
