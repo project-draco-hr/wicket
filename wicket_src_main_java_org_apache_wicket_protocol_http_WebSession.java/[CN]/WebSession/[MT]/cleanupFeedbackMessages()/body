@@ -3,7 +3,7 @@
     if (getFeedbackMessages().clear(RENDERED_SESSION_SCOPED_MESSAGES) > 0) {
       dirty();
     }
-    if (Application.DEVELOPMENT.equals(getApplication().getConfigurationType())) {
+    if (getApplication().usesDevelopmentConfig()) {
       List<FeedbackMessage> messages=getFeedbackMessages().messages(WebSession.MESSAGES_FOR_COMPONENTS);
       for (      FeedbackMessage message : messages) {
         if (!message.isRendered()) {

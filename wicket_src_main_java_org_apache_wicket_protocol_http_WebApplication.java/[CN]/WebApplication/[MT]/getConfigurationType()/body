@@ -18,7 +18,12 @@
     result=getServletContext().getInitParameter(Application.CONFIGURATION);
   }
   if (result != null) {
-    return result;
+    try {
+      return RuntimeConfigurationType.valueOf(result.toUpperCase());
+    }
+ catch (    IllegalArgumentException e) {
+      throw new IllegalArgumentException("Invalid configuration type: '" + result + "'.  Must be \"development\" or \"deployment\".");
+    }
   }
-  return Application.DEVELOPMENT;
+  return RuntimeConfigurationType.DEVELOPMENT;
 }

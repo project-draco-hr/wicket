@@ -1,16 +1,19 @@
 {
-  final String configurationType=getConfigurationType();
-  if (DEVELOPMENT.equalsIgnoreCase(configurationType)) {
-    getResourceSettings().setResourcePollFrequency(Duration.ONE_SECOND);
-    getDebugSettings().setComponentUseCheck(true);
-    getMarkupSettings().setStripWicketTags(false);
-    getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_EXCEPTION_PAGE);
-    getDebugSettings().setAjaxDebugModeEnabled(true);
-    getDebugSettings().setDevelopmentUtilitiesEnabled(true);
-    getResourceSettings().setJavascriptCompressor(null);
-    getRequestCycleSettings().addResponseFilter(EmptySrcAttributeCheckFilter.INSTANCE);
-  }
- else   if (DEPLOYMENT.equalsIgnoreCase(configurationType)) {
+switch (getConfigurationType()) {
+case DEVELOPMENT:
+{
+      getResourceSettings().setResourcePollFrequency(Duration.ONE_SECOND);
+      getDebugSettings().setComponentUseCheck(true);
+      getMarkupSettings().setStripWicketTags(false);
+      getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_EXCEPTION_PAGE);
+      getDebugSettings().setAjaxDebugModeEnabled(true);
+      getDebugSettings().setDevelopmentUtilitiesEnabled(true);
+      getResourceSettings().setJavascriptCompressor(null);
+      getRequestCycleSettings().addResponseFilter(EmptySrcAttributeCheckFilter.INSTANCE);
+      break;
+    }
+case DEPLOYMENT:
+{
     getResourceSettings().setResourcePollFrequency(null);
     getDebugSettings().setComponentUseCheck(false);
     getMarkupSettings().setStripWicketTags(true);
@@ -18,8 +21,7 @@
     getDebugSettings().setAjaxDebugModeEnabled(false);
     getDebugSettings().setDevelopmentUtilitiesEnabled(false);
     getResourceSettings().setJavascriptCompressor(new DefaultJavascriptCompressor());
+    break;
   }
- else {
-    throw new IllegalArgumentException("Invalid configuration type: '" + configurationType + "'.  Must be \"development\" or \"deployment\".");
-  }
+}
 }
