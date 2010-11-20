@@ -5,7 +5,9 @@
   }
   PropertyResolver.destroy(this);
   MarkupFactory markupFactory=getMarkupSettings().getMarkupFactory();
-  if (markupFactory.hasMarkupCache())   markupFactory.getMarkupCache().shutdown();
+  if (markupFactory.hasMarkupCache()) {
+    markupFactory.getMarkupCache().shutdown();
+  }
   onDestroy();
   callDestroyers();
   getPageManager().destroy();

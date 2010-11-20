@@ -1,8 +1,8 @@
 {
-  Settings settings=new Settings(new MockApplication());
+  IResourceSettings settings=new DefaultResourceSettings(new MockApplication());
   settings.getStringResourceLoaders().clear();
-  settings.addStringResourceLoader(new BundleStringResourceLoader("org.apache.wicket.resource.DummyResources"));
-  settings.addStringResourceLoader(new ComponentStringResourceLoader());
+  settings.getStringResourceLoaders().add(new BundleStringResourceLoader("org.apache.wicket.resource.DummyResources"));
+  settings.getStringResourceLoaders().add(new ComponentStringResourceLoader());
   List<IStringResourceLoader> loaders=settings.getStringResourceLoaders();
   Assert.assertEquals("There should be 2 overridden loaders",2,loaders.size());
   Assert.assertTrue("First loader one should be the bundle one",loaders.get(0) instanceof BundleStringResourceLoader);

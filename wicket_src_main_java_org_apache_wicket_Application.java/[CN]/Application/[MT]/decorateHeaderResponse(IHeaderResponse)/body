@@ -1,4 +1,6 @@
 {
-  IHeaderResponse hr=headerResponseDecorator == null ? response : headerResponseDecorator.decorate(response);
-  return hr;
+  if (headerResponseDecorator == null) {
+    return response;
+  }
+  return headerResponseDecorator.decorate(response);
 }
