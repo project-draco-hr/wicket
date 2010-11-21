@@ -3,6 +3,7 @@
     public void component(    final MarkupContainer component,    final IVisit<Void> visit){
       List<AbstractAjaxTimerBehavior> behaviors=component.getBehaviors(AbstractAjaxTimerBehavior.class);
       for (      IBehavior b : behaviors) {
+        checkUsability(component);
         log.debug("Triggering AjaxSelfUpdatingTimerBehavior: " + component.getClassRelativePath());
         AbstractAjaxTimerBehavior timer=(AbstractAjaxTimerBehavior)b;
         if (!timer.isStopped()) {
