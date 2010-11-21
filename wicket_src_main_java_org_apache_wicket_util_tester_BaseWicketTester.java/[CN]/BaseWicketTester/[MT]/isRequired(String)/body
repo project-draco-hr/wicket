@@ -1,0 +1,10 @@
+{
+  Component component=getLastRenderedPage().get(path);
+  if (component == null) {
+    fail("path: '" + path + "' does no exist for page: "+ Classes.simpleName(getLastRenderedPage().getClass()));
+  }
+ else   if (component instanceof FormComponent == false) {
+    fail("path: '" + path + "' is not a form component");
+  }
+  return isRequired((FormComponent<?>)component);
+}

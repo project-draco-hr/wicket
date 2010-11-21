@@ -1,0 +1,20 @@
+{
+  tester.startPage(CreateBook.class);
+  tester.assertRenderedPage(CreateBook.class);
+  tester.assertRequired("createForm:id");
+  FormComponent<?> bookId=(FormComponent<?>)tester.getComponentFromLastRenderedPage("createForm:id");
+  try {
+    bookId.setRequired(false);
+    tester.assertRequired("createForm:id");
+    fail("Book ID component must not be required anymore!");
+  }
+ catch (  AssertionFailedError _) {
+    ;
+  }
+  try {
+    tester.assertRequired("createForm");
+  }
+ catch (  WicketRuntimeException _) {
+    ;
+  }
+}

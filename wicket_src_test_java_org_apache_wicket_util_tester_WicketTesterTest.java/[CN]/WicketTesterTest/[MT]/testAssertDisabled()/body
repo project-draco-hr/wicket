@@ -1,0 +1,12 @@
+{
+  tester.startPage(LinkPage.class);
+  tester.assertRenderedPage(LinkPage.class);
+  tester.getComponentFromLastRenderedPage("ajaxLinkWithSetResponsePageClass").setEnabled(true);
+  try {
+    tester.assertDisabled("ajaxLinkWithSetResponsePageClass");
+    fail("The link must not be disabled.");
+  }
+ catch (  AssertionFailedError _) {
+    ;
+  }
+}
