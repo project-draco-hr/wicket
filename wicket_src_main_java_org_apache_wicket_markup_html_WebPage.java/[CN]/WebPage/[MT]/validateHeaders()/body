@@ -17,17 +17,7 @@
     try {
       final StringResponse response=new StringResponse();
       getRequestCycle().setResponse(response);
-      renderHead(header);
-      final HtmlHeaderContainer finalHeader=header;
-      visitChildren(new IVisitor<Component,Void>(){
-        /** 
- * @see org.apache.wicket.IVisitor#component(org.apache.wicket.Component)
- */
-        public void component(        final Component component,        final IVisit<Void> visit){
-          component.renderHead(finalHeader);
-        }
-      }
-);
+      AbstractHeaderRenderStrategy.get().renderHeader(header,getPage());
       response.close();
       if (response.getBuffer().length() > 0) {
         log.error("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");

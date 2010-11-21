@@ -1,24 +1,19 @@
 {
-  if (strategy == null) {
-    String className=System.getProperty("Wicket_HeaderRenderStrategy");
-    if (className != null) {
-      Class<?> clazz=null;
-      try {
-        clazz=Application.get().getApplicationSettings().getClassResolver().resolveClass(className);
-        if (clazz != null) {
-          strategy=(IHeaderRenderStrategy)clazz.newInstance();
-        }
-      }
- catch (      ClassNotFoundException ex) {
-      }
-catch (      InstantiationException ex) {
-      }
-catch (      IllegalAccessException ex) {
+  String className=System.getProperty("Wicket_HeaderRenderStrategy");
+  if (className != null) {
+    Class<?> clazz=null;
+    try {
+      clazz=Application.get().getApplicationSettings().getClassResolver().resolveClass(className);
+      if (clazz != null) {
+        return (IHeaderRenderStrategy)clazz.newInstance();
       }
     }
+ catch (    ClassNotFoundException ex) {
+    }
+catch (    InstantiationException ex) {
+    }
+catch (    IllegalAccessException ex) {
+    }
   }
-  if (strategy == null) {
-    strategy=new ParentFirstHeaderRenderStrategy();
-  }
-  return strategy;
+  return new ParentFirstHeaderRenderStrategy();
 }

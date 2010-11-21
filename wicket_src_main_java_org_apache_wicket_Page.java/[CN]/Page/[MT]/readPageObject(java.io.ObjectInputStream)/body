@@ -1,11 +1,11 @@
 {
-  int id=s.readShort();
-  String name=(String)s.readObject();
+  int id=stream.readShort();
+  String name=(String)stream.readObject();
   IPageSerializer ps=serializer.get();
   if (ps != null) {
-    ps.deserializePage(id,name,this,s);
+    ps.deserializePage(id,name,this,stream);
   }
  else {
-    s.defaultReadObject();
+    stream.defaultReadObject();
   }
 }

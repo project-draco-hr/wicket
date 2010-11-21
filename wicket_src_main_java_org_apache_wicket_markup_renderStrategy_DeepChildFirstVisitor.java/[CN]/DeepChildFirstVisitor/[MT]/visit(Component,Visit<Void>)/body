@@ -1,0 +1,21 @@
+{
+  Args.notNull(rootComponent,"rootComponent");
+  Args.notNull(visit,"visit");
+  if (!(rootComponent instanceof MarkupContainer)) {
+    component(rootComponent,visit);
+    return visit;
+  }
+  if (preCheck(rootComponent) == false) {
+    return visit;
+  }
+  if (visit.isContinue()) {
+    for (    Component child : (MarkupContainer)rootComponent) {
+      visit(child,visit);
+      if (visit.isStopped()) {
+        return visit;
+      }
+    }
+  }
+  component(rootComponent,visit);
+  return visit;
+}
