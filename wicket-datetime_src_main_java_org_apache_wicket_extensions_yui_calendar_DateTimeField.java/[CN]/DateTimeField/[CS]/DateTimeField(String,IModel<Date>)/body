@@ -9,8 +9,13 @@
   hoursField.setLabel(new Model<String>("hours"));
   add(minutesField=new TextField<Integer>("minutes",new PropertyModel<Integer>(this,"minutes"),Integer.class){
     private static final long serialVersionUID=1L;
-    @SuppressWarnings("unchecked") @Override public IConverter getConverter(    Class type){
-      return MINUTES_CONVERTER;
+    @SuppressWarnings("unchecked") @Override public <C>IConverter<C> getConverter(    Class<C> type){
+      if (Integer.class.isAssignableFrom(type)) {
+        return (IConverter<C>)MINUTES_CONVERTER;
+      }
+ else {
+        return super.getConverter(type);
+      }
     }
   }
 );
