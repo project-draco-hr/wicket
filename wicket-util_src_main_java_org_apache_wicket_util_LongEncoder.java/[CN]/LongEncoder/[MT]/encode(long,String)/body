@@ -1,11 +1,18 @@
 {
-  final int len=alphabet.length();
+  final int len=alphabet.length() - 1;
   PrependingStringBuffer buff=new PrependingStringBuffer();
+  final boolean negative=value < 0;
+  if (negative) {
+    value=-value;
+  }
   do {
     int mod=(int)(value % len);
     buff.prepend(alphabet.charAt(mod));
     value=value / len;
   }
  while (value > 0);
+  if (negative) {
+    buff.prepend(alphabet.charAt(len));
+  }
   return buff.toString();
 }

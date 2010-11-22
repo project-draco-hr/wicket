@@ -1,8 +1,12 @@
 {
-  final int factor=alphabet.length();
+  final int factor=alphabet.length() - 1;
+  final boolean negative=alphabet.charAt(factor) == value.charAt(0);
   long num=0;
-  for (int i=0, len=value.length(); i < len; i++) {
+  for (int i=(negative) ? 1 : 0, len=value.length(); i < len; i++) {
     num=num * factor + alphabet.indexOf(value.charAt(i));
+  }
+  if (negative) {
+    num=-num;
   }
   return num;
 }
