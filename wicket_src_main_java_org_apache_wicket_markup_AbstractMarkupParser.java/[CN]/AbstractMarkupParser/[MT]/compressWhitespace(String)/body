@@ -2,7 +2,7 @@
   Pattern preBlock=Pattern.compile("<pre>.*?</pre>",Pattern.DOTALL | Pattern.MULTILINE);
   Matcher m=preBlock.matcher(rawMarkup);
   int lastend=0;
-  StringBuffer sb=null;
+  StringBuilder sb=null;
   while (true) {
     boolean matched=m.find();
     String nonPre=matched ? rawMarkup.substring(lastend,m.start()) : rawMarkup.substring(lastend);
@@ -10,7 +10,7 @@
     nonPre=nonPre.replaceAll("( ?[\\r\\n] ?)+","\n");
     if (lastend == 0) {
       if (matched) {
-        sb=new StringBuffer(rawMarkup.length());
+        sb=new StringBuilder(rawMarkup.length());
       }
  else {
         return nonPre;
