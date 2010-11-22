@@ -9,6 +9,9 @@
       throw new WicketRuntimeException("Property '" + key + "' not found in property files. Markup: "+ markupStream.toString());
     }
     log.warn("No value found for wicket:message tag with key: {}",key);
+    if (markupStream.hasMore() == false) {
+      getResponse().write(NOT_FOUND);
+    }
     super.onComponentTagBody(markupStream,openTag);
   }
 }
