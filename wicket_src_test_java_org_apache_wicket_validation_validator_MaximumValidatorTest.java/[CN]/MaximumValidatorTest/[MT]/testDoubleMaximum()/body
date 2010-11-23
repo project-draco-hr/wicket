@@ -1,15 +1,15 @@
 {
   IValidator<Double> validator=new MaximumValidator<Double>(1.8);
-  Validatable<Double> validatable=new Validatable<Double>(new Double(-100.8));
+  Validatable<Double> validatable=new Validatable<Double>(-100.8);
   validator.validate(validatable);
   assertEquals(0,validatable.getErrors().size());
-  validatable=new Validatable<Double>(new Double(1));
+  validatable=new Validatable<Double>((double)1);
   validator.validate(validatable);
   assertEquals(0,validatable.getErrors().size());
-  validatable=new Validatable<Double>(new Double(1.8));
+  validatable=new Validatable<Double>(1.8);
   validator.validate(validatable);
   assertEquals(0,validatable.getErrors().size());
-  validatable=new Validatable<Double>(new Double(2));
+  validatable=new Validatable<Double>((double)2);
   validator.validate(validatable);
   assertEquals(1,validatable.getErrors().size());
 }

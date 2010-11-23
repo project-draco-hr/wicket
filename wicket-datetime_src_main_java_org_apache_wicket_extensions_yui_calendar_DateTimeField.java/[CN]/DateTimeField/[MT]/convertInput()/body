@@ -8,8 +8,8 @@
     try {
       boolean use12HourFormat=use12HourFormat();
       if (hours != null) {
-        date.set(DateTimeFieldType.hourOfDay(),hours.intValue() % getMaximumHours(use12HourFormat));
-        date.setMinuteOfHour((minutes != null) ? minutes.intValue() : 0);
+        date.set(DateTimeFieldType.hourOfDay(),hours % getMaximumHours(use12HourFormat));
+        date.setMinuteOfHour((minutes != null) ? minutes : 0);
       }
       if (use12HourFormat) {
         date.set(DateTimeFieldType.halfdayOfDay(),amOrPm == AM_PM.PM ? 1 : 0);

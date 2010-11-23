@@ -6,9 +6,9 @@
   if (storedMarkupId == null && createIfDoesNotExist == false) {
     return null;
   }
-  final int generatedMarkupId=storedMarkupId instanceof Integer ? ((Integer)storedMarkupId).intValue() : Session.get().nextSequenceValue();
+  final int generatedMarkupId=storedMarkupId instanceof Integer ? (Integer)storedMarkupId : Session.get().nextSequenceValue();
   if (storedMarkupId == null) {
-    setMarkupIdImpl(new Integer(generatedMarkupId));
+    setMarkupIdImpl(generatedMarkupId);
   }
   String markupIdPrefix="id";
   if (!getApplication().usesDeploymentConfig()) {
