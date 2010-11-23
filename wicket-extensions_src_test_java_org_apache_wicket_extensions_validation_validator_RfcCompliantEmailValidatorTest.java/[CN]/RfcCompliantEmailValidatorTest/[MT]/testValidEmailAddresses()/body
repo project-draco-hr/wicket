@@ -1,8 +1,7 @@
 {
   IValidator validator=RfcCompliantEmailAddressValidator.getInstance();
   String[] validEmails=new String[]{"bill.gates@gmail.com","firstname.middlename@lastname.dk","buy@something.nu","user@post.inet.tele.dk","read@my.info","my @email.com","my@ email.com","\"John Doe\"@email.com","no@domain","german@m???dchen.de","another.german@???m??????l.com"};
-  for (int i=0; i < validEmails.length; i++) {
-    String emailAddress=validEmails[i];
+  for (  String emailAddress : validEmails) {
     Validatable validatable=new Validatable(emailAddress);
     validator.validate(validatable);
     assertTrue(emailAddress + " wasn't valid but should be",validatable.isValid());

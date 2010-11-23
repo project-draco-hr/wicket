@@ -1,15 +1,13 @@
 {
   File[] files=directory.listFiles(new SuffixAndIgnoreFileFilter(suffixes,ignoreFiles));
   if (files != null) {
-    for (int i=0; i < files.length; i++) {
-      File file=files[i];
+    for (    File file : files) {
       fileVisitor.visitFile(file);
     }
   }
   files=directory.listFiles(new DirectoryFileFilter());
   if (files != null) {
-    for (int i=0; i < files.length; i++) {
-      File childDirectory=files[i];
+    for (    File childDirectory : files) {
       visitDirectory(suffixes,ignoreFiles,childDirectory,fileVisitor);
     }
   }

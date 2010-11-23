@@ -11,8 +11,7 @@
  else {
         Map<String,String> actualAttributes=parser.getAttributes();
         Map<String,String> expectedAttributes=workingTag.getExpectedAttributes();
-        for (Iterator<Map.Entry<String,String>> it=expectedAttributes.entrySet().iterator(); it.hasNext(); ) {
-          Map.Entry<String,String> entry=it.next();
+        for (        Map.Entry<String,String> entry : expectedAttributes.entrySet()) {
           String name=entry.getKey();
           String pattern=entry.getValue();
           if (!actualAttributes.containsKey(name)) {
@@ -31,8 +30,7 @@
             }
           }
         }
-        for (Iterator<String> it=workingTag.getIllegalAttributes().iterator(); it.hasNext(); ) {
-          String name=it.next();
+        for (        String name : workingTag.getIllegalAttributes()) {
           if (actualAttributes.containsKey(name)) {
             log.error("Tag <" + workingTag.getTag() + "> should not have an attributed named '"+ name+ "'");
             valid=false;

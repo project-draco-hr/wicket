@@ -2,8 +2,7 @@
   if (visitor == null) {
     throw new IllegalArgumentException("argument visitor may not be null");
   }
-  for (final Iterator<?> children=container.iterator(); children.hasNext(); ) {
-    final Object child=children.next();
+  for (  final Object child : container) {
     if (filter.visitObject(child)) {
       Visit<R> childTraversal=new Visit<R>();
       @SuppressWarnings("unchecked") S s=(S)child;

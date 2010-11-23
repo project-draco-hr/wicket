@@ -5,8 +5,7 @@
   if ((tag instanceof WicketTag) || (tag.isAutolinkEnabled() == true) || (tag.getAttributes().get("wicket:id") != null)) {
     return tag;
   }
-  for (int i=0; i < attributeNames.length; i++) {
-    String attrName=attributeNames[i];
+  for (  String attrName : attributeNames) {
     String attrValue=tag.getAttributes().getString(attrName);
     if ((attrValue != null) && (attrValue.startsWith("/") == false) && (attrValue.indexOf(":") < 0)&& !(attrValue.startsWith("#"))) {
       if (tag.getId() == null) {

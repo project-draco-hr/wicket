@@ -3,8 +3,7 @@
   if (!Strings.isEmpty(expr)) {
     expr=expr.trim();
     String[] attrsAndKeys=expr.split(",");
-    for (int i=0; i < attrsAndKeys.length; i++) {
-      String attrAndKey=attrsAndKeys[i];
+    for (    String attrAndKey : attrsAndKeys) {
       int colon=attrAndKey.lastIndexOf(":");
       if (attrAndKey.length() < 3 || colon < 1 || colon > attrAndKey.length() - 2) {
         throw new WicketRuntimeException("wicket:message attribute contains an invalid value [[" + expr + "]], must be of form (attr:key)+");

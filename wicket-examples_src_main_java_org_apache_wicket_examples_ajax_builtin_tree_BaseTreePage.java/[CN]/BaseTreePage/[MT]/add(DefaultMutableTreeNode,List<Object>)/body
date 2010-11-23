@@ -1,13 +1,12 @@
 {
-  for (Iterator<Object> i=sub.iterator(); i.hasNext(); ) {
-    Object o=i.next();
-    if (o instanceof List) {
+  for (  Object obj : sub) {
+    if (obj instanceof List) {
       DefaultMutableTreeNode child=new DefaultMutableTreeNode(new ModelBean("subtree..."));
       parent.add(child);
-      add(child,(List<Object>)o);
+      add(child,(List<Object>)obj);
     }
  else {
-      DefaultMutableTreeNode child=new DefaultMutableTreeNode(new ModelBean(o.toString()));
+      DefaultMutableTreeNode child=new DefaultMutableTreeNode(new ModelBean(obj.toString()));
       parent.add(child);
     }
   }

@@ -3,8 +3,7 @@
     final Iterable<?> container=(Iterable<?>)component;
     if (filter.visitChildren(container)) {
       Visit<R> childTraversal=new Visit<R>();
-      for (final Iterator<?> iterator=((Iterable<?>)component).iterator(); iterator.hasNext(); ) {
-        final Object child=iterator.next();
+      for (      final Object child : ((Iterable<?>)component)) {
         visitPostOrderHelper(child,visitor,filter,childTraversal);
         if (childTraversal.isStopped()) {
           visit.stop(childTraversal.getResult());

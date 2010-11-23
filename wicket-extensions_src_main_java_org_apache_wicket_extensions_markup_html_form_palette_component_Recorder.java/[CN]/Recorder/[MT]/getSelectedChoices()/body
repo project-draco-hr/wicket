@@ -4,11 +4,9 @@
     return Collections.EMPTY_LIST.iterator();
   }
   List<T> selected=new ArrayList<T>(ids.length);
-  for (int i=0; i < ids.length; i++) {
-    Iterator<? extends T> it=getPalette().getChoices().iterator();
-    while (it.hasNext()) {
-      final T choice=it.next();
-      if (renderer.getIdValue(choice,0).equals(ids[i])) {
+  for (  String id : ids) {
+    for (    T choice : getPalette().getChoices()) {
+      if (renderer.getIdValue(choice,0).equals(id)) {
         selected.add(choice);
         break;
       }

@@ -10,10 +10,9 @@
   filters.setRenderBodyOnly(true);
   add(filters);
   IColumn<?>[] cols=table.getColumns();
-  for (int i=0; i < cols.length; i++) {
+  for (  IColumn<?> col : cols) {
     WebMarkupContainer item=new WebMarkupContainer(filters.newChildId());
     item.setRenderBodyOnly(true);
-    IColumn<?> col=cols[i];
     Component filter=null;
     if (col instanceof IFilteredColumn) {
       IFilteredColumn<?> filteredCol=(IFilteredColumn<?>)col;
