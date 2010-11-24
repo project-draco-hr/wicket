@@ -2,11 +2,11 @@
   super(id,property,stateLocator,cssProvider);
   add(new AjaxEventBehavior("onclick"){
     private static final long serialVersionUID=1L;
-    protected void onEvent(    AjaxRequestTarget target){
+    @Override protected void onEvent(    AjaxRequestTarget target){
       onClick();
       onAjaxClick(target);
     }
-    protected IAjaxCallDecorator getAjaxCallDecorator(){
+    @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
       return new CancelEventIfNoAjaxDecorator(decorator);
     }
   }
