@@ -1,7 +1,8 @@
 {
+  final Component component=(Component)rcomponent;
   if (!component.canCallListenerInterface()) {
     log.info("component not enabled or visible; ignoring call. Component: " + component);
-    return;
+    throw new ListenerInvocationNotAllowedException(this,component,null,"Component rejected interface invocation");
   }
   try {
     method.invoke(component);

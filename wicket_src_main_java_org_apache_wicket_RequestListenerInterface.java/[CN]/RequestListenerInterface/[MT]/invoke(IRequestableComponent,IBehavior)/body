@@ -1,11 +1,8 @@
 {
-  if (!component.canCallListenerInterface()) {
-    log.warn("component not enabled or visible; ignoring call. Component: " + component);
-    return;
-  }
-  if (!behavior.isEnabled((Component)component)) {
+  final Component component=(Component)rcomponent;
+  if (!behavior.canCallListenerInterface(component)) {
     log.warn("behavior not enabled; ignore call. Behavior {} at component {}",behavior,component);
-    return;
+    throw new ListenerInvocationNotAllowedException(this,component,behavior,"Behavior rejected interface invocation");
   }
   try {
     method.invoke(behavior);

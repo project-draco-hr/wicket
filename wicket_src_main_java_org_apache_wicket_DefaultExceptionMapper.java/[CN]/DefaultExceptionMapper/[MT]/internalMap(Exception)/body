@@ -12,7 +12,7 @@ if (e instanceof StalePageException) {
  else if (e instanceof PageExpiredException) {
   return createPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getPageExpiredErrorPage()));
 }
- else if (e instanceof AuthorizationException) {
+ else if (e instanceof AuthorizationException || e instanceof ListenerInvocationNotAllowedException) {
   return createPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getAccessDeniedPage()));
 }
  else {
