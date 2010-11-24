@@ -12,7 +12,7 @@
   try {
     final Class<?> componentClass=container.getSession().getClassResolver().resolveClass(classname);
     final Constructor<?> constructor=componentClass.getConstructor(new Class[]{String.class});
-    component=(Component)constructor.newInstance(new Object[]{componentId});
+    component=(Component)constructor.newInstance(componentId);
   }
  catch (  ClassNotFoundException e) {
     throw new MarkupException("Unable to create Component from wicket tag: Cause: " + e.getMessage());

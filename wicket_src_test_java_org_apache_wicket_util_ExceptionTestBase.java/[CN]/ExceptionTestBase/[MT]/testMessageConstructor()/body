@@ -1,7 +1,7 @@
 {
   Class c=Class.forName(getExceptionClassName());
   Constructor constructor=c.getConstructor(new Class[]{String.class});
-  Exception e=(Exception)constructor.newInstance(new Object[]{"test message"});
+  Exception e=(Exception)constructor.newInstance("test message");
   Assert.assertNotNull("Exception should be created",e);
   Assert.assertEquals("test message",e.getMessage());
   Assert.assertNull(e.getCause());

@@ -9,7 +9,7 @@
       throw new ConversionException("Can't convert value: " + value + " to class: "+ getMethod.getReturnType()+ " for setting it on "+ object);
     }
     try {
-      setMethod.invoke(object,new Object[]{index,converted});
+      setMethod.invoke(object,index,converted);
     }
  catch (    InvocationTargetException ex) {
       throw new WicketRuntimeException("Error index property calling method: " + setMethod + " on object: "+ object,ex.getCause());

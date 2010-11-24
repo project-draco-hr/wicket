@@ -4,12 +4,12 @@
   tester.startPage(page);
   tester.getRequest().getPostParameters().setParameterValue(page.integerField.getInputName(),"foo");
   tester.submitForm(page.form);
-  tester.assertErrorMessages(new String[]{"'foo' in veld 'integer' moet een geheel getal zijn. "});
+  tester.assertErrorMessages("'foo' in veld 'integer' moet een geheel getal zijn. ");
   tester.getSession().setLocale(new Locale("us"));
   tester.getSession().cleanupFeedbackMessages();
   page=new LocalizedMessagePage();
   tester.startPage(page);
   tester.getRequest().getPostParameters().setParameterValue(page.integerField.getInputName(),"foo");
   tester.submitForm(page.form);
-  tester.assertErrorMessages(new String[]{"'foo' is not a valid Integer."});
+  tester.assertErrorMessages("'foo' is not a valid Integer.");
 }
