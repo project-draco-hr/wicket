@@ -11,7 +11,7 @@
     while (tokens.hasMoreTokens()) {
       String token=tokens.nextToken();
       if (isTimestampsEnabled() && tokens.hasMoreTokens() == false) {
-        Time lastModified=reference.getLastModified();
+        Time lastModified=getLastModifiedTimestampUsingCache(reference);
         if (lastModified != null) {
           int extensionAt=token.lastIndexOf('.');
           StringBuilder filename=new StringBuilder();

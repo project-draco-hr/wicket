@@ -1,0 +1,8 @@
+{
+  long millis=12345678L;
+  final ResourceReferenceWithTimestamp reference=new ResourceReferenceWithTimestamp(Time.milliseconds(millis));
+  final IRequestHandler handler=new ResourceReferenceRequestHandler(reference,null);
+  Url url=encoderWithTimestamps.mapHandler(handler);
+  String timestampPart=BasicResourceReferenceMapper.TIMESTAMP_PREFIX + Long.toString(millis) + "?";
+  assertTrue(url.toString().contains(timestampPart));
+}
