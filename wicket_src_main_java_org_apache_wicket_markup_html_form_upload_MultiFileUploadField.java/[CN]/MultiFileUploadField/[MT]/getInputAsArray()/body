@@ -4,9 +4,7 @@
     final Request request=getRequest();
     if (request instanceof IMultipartWebRequest) {
       final Map<String,FileItem> itemNameToItem=((IMultipartWebRequest)request).getFiles();
-      Iterator<Entry<String,FileItem>> it=itemNameToItem.entrySet().iterator();
-      while (it.hasNext()) {
-        final Entry<String,FileItem> entry=it.next();
+      for (      Entry<String,FileItem> entry : itemNameToItem.entrySet()) {
         final String name=entry.getKey();
         final FileItem item=entry.getValue();
         if (!Strings.isEmpty(name) && name.startsWith(getInputName() + MAGIC_SEPARATOR) && !Strings.isEmpty(item.getName())) {

@@ -5,9 +5,7 @@
     return Collections.<T>emptyList().iterator();
   }
   List<T> unselected=new ArrayList<T>(Math.max(1,choices.size() - ids.length));
-  Iterator<? extends T> it=choices.iterator();
-  while (it.hasNext()) {
-    final T choice=it.next();
+  for (  T choice : choices) {
     final String choiceId=renderer.getIdValue(choice,0);
     boolean selected=false;
     for (    String id : ids) {

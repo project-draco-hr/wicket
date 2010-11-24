@@ -1,12 +1,9 @@
 {
   ArrayList names=new ArrayList();
-  Iterator entries=beans.entrySet().iterator();
-  while (entries.hasNext()) {
-    Entry entry=(Entry)entries.next();
+  for (  Entry<String,Object> entry : beans.entrySet()) {
     Object bean=entry.getValue();
     if (type.isAssignableFrom(bean.getClass())) {
-      String name=(String)entry.getKey();
-      names.add(name);
+      names.add(entry.getKey());
     }
   }
   return (String[])names.toArray(new String[names.size()]);

@@ -6,12 +6,10 @@
       if (!(modelObject instanceof Collection)) {
         throw new WicketRuntimeException("Model object " + modelObject + " not a collection");
       }
-      Iterator<? extends T> it=modelObject.iterator();
-      while (it.hasNext()) {
+      for (      T value : modelObject) {
         WebMarkupContainer row=new WebMarkupContainer(newChildId());
         row.setRenderBodyOnly(true);
         add(row);
-        T value=it.next();
         String text=renderer.getDisplayValue(value);
         IModel<T> model=renderer.getModel(value);
         row.add(newOption(text,model));

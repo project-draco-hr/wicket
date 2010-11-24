@@ -3,9 +3,7 @@
     public void onChange(){
       log.info("A properties files has changed. Removing all entries " + "from the cache. Resource: " + resourceStream);
       clearCache();
-      Iterator<IPropertiesChangeListener> iter=afterReloadListeners.iterator();
-      while (iter.hasNext()) {
-        IPropertiesChangeListener listener=iter.next();
+      for (      IPropertiesChangeListener listener : afterReloadListeners) {
         try {
           listener.propertiesChanged(path);
         }

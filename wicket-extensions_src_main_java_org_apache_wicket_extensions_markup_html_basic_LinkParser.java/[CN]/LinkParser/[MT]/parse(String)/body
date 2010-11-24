@@ -3,9 +3,7 @@
     return text;
   }
   String work=text;
-  Iterator<String> iter=renderStrategies.keySet().iterator();
-  while (iter.hasNext()) {
-    String pattern=iter.next();
+  for (  String pattern : renderStrategies.keySet()) {
     ILinkRenderStrategy strategy=renderStrategies.get(pattern);
     Matcher matcher=Pattern.compile(pattern,Pattern.DOTALL).matcher(work);
     StringBuffer buffer=new StringBuffer();

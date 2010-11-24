@@ -1,15 +1,11 @@
 {
-  Iterator<Folder> foldersIter=folders.iterator();
-  while (foldersIter.hasNext()) {
-    Folder folder=foldersIter.next();
+  for (  Folder folder : folders) {
     final File file=new File(folder,pathname);
     if (file.exists()) {
       return new FileResourceStream(file);
     }
   }
-  Iterator<String> webappPathsIter=webappPaths.iterator();
-  while (webappPathsIter.hasNext()) {
-    String path=webappPathsIter.next();
+  for (  String path : webappPaths) {
     try {
       final URL url=servletContext.getResource(path + pathname);
       if (url != null) {

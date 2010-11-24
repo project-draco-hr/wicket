@@ -31,9 +31,7 @@
   }
 .toString();
   getResponse().write(text);
-  Iterator<String> iter=childTags.keySet().iterator();
-  while (iter.hasNext()) {
-    String id=iter.next();
+  for (  String id : childTags.keySet()) {
     if (variablesReplaced.containsKey(id) == false) {
       String msg="The <wicket:message key=\"" + key + "\"> has a child element with wicket:id=\""+ id+ "\". You must add the variable ${"+ id+ "} to the localized text for the wicket:message.";
       if (isThrowExceptionIfPropertyNotFound() == true) {
