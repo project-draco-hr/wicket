@@ -49,20 +49,7 @@
   add(new TextField<URL>("urlProperty",URL.class){
     @SuppressWarnings("unchecked") @Override public <C>IConverter<C> getConverter(    final Class<C> type){
       if (URL.class.isAssignableFrom(type)) {
-        return (IConverter<C>)new IConverter<URL>(){
-          public URL convertToObject(          String value,          Locale locale){
-            try {
-              return new URL(value.toString());
-            }
- catch (            MalformedURLException e) {
-              throw new ConversionException("'" + value + "' is not a valid URL");
-            }
-          }
-          public String convertToString(          URL value,          Locale locale){
-            return value != null ? value.toString() : null;
-          }
-        }
-;
+        return (IConverter<C>)URLConverter.INSTANCE;
       }
  else {
         return super.getConverter(type);
