@@ -9,7 +9,12 @@
   InputStream stream=getServletContext().getResourceAsStream(url);
   String mimeType=getServletContext().getMimeType(url);
   if (stream == null) {
-    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    if (response.isCommitted()) {
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+ else {
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    }
   }
  else {
     if (mimeType != null) {
