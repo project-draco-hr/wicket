@@ -14,5 +14,11 @@
   assertTrue(check.isEnabled());
   assertFalse(check.isEnabledInHierarchy());
   FormTester formTester=tester.newFormTester("form");
-  formTester.submit();
+  try {
+    formTester.submit();
+    fail("Executing the listener on disabled component is not allowed.");
+  }
+ catch (  ListenerInvocationNotAllowedException expected) {
+    ;
+  }
 }
