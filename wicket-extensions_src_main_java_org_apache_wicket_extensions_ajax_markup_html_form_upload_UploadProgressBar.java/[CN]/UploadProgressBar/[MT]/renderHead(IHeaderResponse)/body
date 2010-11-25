@@ -1,8 +1,12 @@
 {
   super.renderHead(response);
+  response.renderJavascriptReference(WicketEventReference.INSTANCE);
   response.renderJavascriptReference(JS);
   ResourceReference css=getCss();
   if (css != null) {
     response.renderCSSReference(css);
   }
+  ResourceReference ref=new SharedResourceReference(RESOURCE_NAME);
+  final String uploadFieldId=(uploadField == null) ? "" : uploadField.getMarkupId();
+  response.renderOnDomReadyJavascript("Wicket.Event.add(document.getElementById('" + form.getRootForm().getMarkupId() + "'), 'submit', function() {"+ "if (!document.getElementById('"+ statusDiv.getMarkupId()+ "')) return;"+ "var def=new Wicket.WUPB.Def('"+ getMarkupId()+ "', '"+ statusDiv.getMarkupId()+ "', '"+ barDiv.getMarkupId()+ "', '"+ urlFor(ref,null)+ "','"+ uploadFieldId+ "'); Wicket.WUPB.start(def);});");
 }
