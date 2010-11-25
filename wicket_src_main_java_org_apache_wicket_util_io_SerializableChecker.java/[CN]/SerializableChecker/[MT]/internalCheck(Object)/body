@@ -67,21 +67,15 @@ catch (    InvocationTargetException e) {
   }
  else {
     Method writeObjectMethod=null;
-    Object o=writeObjectMethodCache.get(cls);
-    if (o != null) {
-      if (o instanceof Method) {
-        writeObjectMethod=(Method)o;
-      }
-    }
- else {
+    if (writeObjectMethodMissing.contains(cls) == false) {
       try {
         writeObjectMethod=cls.getDeclaredMethod("writeObject",new Class[]{java.io.ObjectOutputStream.class});
       }
  catch (      SecurityException e) {
-        writeObjectMethodCache.put(cls,Boolean.FALSE);
+        writeObjectMethodMissing.add(cls);
       }
 catch (      NoSuchMethodException e) {
-        writeObjectMethodCache.put(cls,Boolean.FALSE);
+        writeObjectMethodMissing.add(cls);
       }
     }
     final Object original=obj;
