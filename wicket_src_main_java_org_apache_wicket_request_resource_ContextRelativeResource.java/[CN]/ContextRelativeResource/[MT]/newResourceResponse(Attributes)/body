@@ -1,0 +1,27 @@
+{
+  final ResourceResponse resourceResponse=new ResourceResponse();
+  if (resourceResponse.dataNeedsToBeWritten(attributes)) {
+    final WebExternalResourceStream webExternalResourceStream=new WebExternalResourceStream(path);
+    resourceResponse.setContentType(webExternalResourceStream.getContentType());
+    resourceResponse.setLastModified(webExternalResourceStream.lastModifiedTime().toDate());
+    resourceResponse.setFileName(path);
+    resourceResponse.setWriteCallback(new WriteCallback(){
+      @Override public void writeData(      final Attributes attributes){
+        try {
+          InputStream inputStream=webExternalResourceStream.getInputStream();
+          ByteArrayOutputStream baos=new ByteArrayOutputStream();
+          Streams.copy(inputStream,baos);
+          attributes.getResponse().write(baos.toByteArray());
+        }
+ catch (        ResourceStreamNotFoundException rsnfx) {
+          throw new WicketRuntimeException(rsnfx);
+        }
+catch (        IOException iox) {
+          throw new WicketRuntimeException(iox);
+        }
+      }
+    }
+);
+  }
+  return resourceResponse;
+}
