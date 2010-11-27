@@ -1,0 +1,31 @@
+{
+  hoursField.setRequired(isRequired());
+  minutesField.setRequired(isRequired());
+  boolean use12HourFormat=use12HourFormat();
+  amOrPmChoice.setVisible(use12HourFormat);
+  Date d=(Date)getDefaultModelObject();
+  if (d != null) {
+    date=new MutableDateTime(d);
+  }
+ else {
+    date=null;
+    hours=null;
+    minutes=null;
+  }
+  if (date != null) {
+    TimeZone zone=getClientTimeZone();
+    if (zone != null) {
+      date.setMillis(getMillis(TimeZone.getDefault(),zone,date.getMillis()));
+    }
+    if (use12HourFormat) {
+      int hourOfHalfDay=date.get(DateTimeFieldType.hourOfHalfday());
+      hours=new Integer(hourOfHalfDay == 0 ? 12 : hourOfHalfDay);
+    }
+ else {
+      hours=new Integer(date.get(DateTimeFieldType.hourOfDay()));
+    }
+    amOrPm=(date.get(DateTimeFieldType.halfdayOfDay()) == 0) ? AM_PM.AM : AM_PM.PM;
+    minutes=new Integer(date.getMinuteOfHour());
+  }
+  super.onBeforeRender();
+}
