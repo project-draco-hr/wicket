@@ -1,0 +1,10 @@
+{
+  IMarkupFragment markup=getMarkup(null);
+  ComponentTag panelTag=(ComponentTag)markup.get(0);
+  for (  String key : panelTag.getAttributes().keySet()) {
+    if (key.startsWith(markup.getMarkupResourceStream().getWicketNamespace() + ":") == false) {
+      tag.append(key,panelTag.getAttribute(key),", ");
+    }
+  }
+  super.onComponentTag(tag);
+}
