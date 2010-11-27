@@ -1,17 +1,19 @@
 {
   super(id);
-  final List<ComponentData> data=new ArrayList<ComponentData>();
   add(new Label("info",page == null ? "[Stateless Page]" : page.toString()));
-  data.clear();
+  List<ComponentData> data=null;
   if (page != null) {
-    data.addAll(getComponentData(page));
-  }
-  Collections.sort(data,new Comparator<ComponentData>(){
-    public int compare(    ComponentData o1,    ComponentData o2){
-      return (o1).path.compareTo((o2).path);
+    data=new ArrayList<ComponentData>(getComponentData(page));
+    Collections.sort(data,new Comparator<ComponentData>(){
+      public int compare(      ComponentData o1,      ComponentData o2){
+        return (o1).path.compareTo((o2).path);
+      }
     }
-  }
 );
+  }
+ else {
+    data=Collections.emptyList();
+  }
   add(new ListView<ComponentData>("components",data){
     private static final long serialVersionUID=1L;
     /** 
