@@ -1,9 +1,8 @@
 {
-  MarkupContainer root=getLastRenderedPage();
-  if (root instanceof DummyPanelPage) {
-    root=(MarkupContainer)root.get(DummyPanelPage.TEST_PANEL_ID);
+  if (startComponent != null) {
+    path=startComponent.getId() + ":" + path;
   }
-  Component component=root.get(path);
+  Component component=getLastRenderedPage().get(path);
   if (component == null) {
     fail("path: '" + path + "' does not exist for page: "+ Classes.simpleName(getLastRenderedPage().getClass()));
     return component;
