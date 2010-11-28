@@ -1,0 +1,23 @@
+{
+  String value=getHeader(name);
+  if (value == null) {
+    return -1;
+  }
+  DateFormat[] dateFormats=threadLocalDateFormats.get();
+  Date date=null;
+  for (int i=0; ((i < dateFormats.length) && (date == null)); i++) {
+    DateFormat dateFormat=dateFormats[i];
+    try {
+      date=dateFormat.parse(value);
+    }
+ catch (    Exception ParseException) {
+      ;
+    }
+  }
+  if (date == null) {
+    throw new IllegalArgumentException(value);
+  }
+ else {
+    return date.getTime();
+  }
+}

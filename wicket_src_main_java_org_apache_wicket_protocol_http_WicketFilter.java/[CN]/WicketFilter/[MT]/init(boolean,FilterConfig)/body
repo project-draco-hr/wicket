@@ -4,6 +4,11 @@
   application=factory.createApplication(this);
   application.setName(filterConfig.getFilterName());
   application.setWicketFilter(this);
+  if (filterChain != null) {
+    for (    IWicketFilterExtension filter : filterChain) {
+      filter.init(application,isServlet,filterConfig);
+    }
+  }
   if (filterPath == null) {
     filterPath=getFilterPathFromConfig(filterConfig);
   }

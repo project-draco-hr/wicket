@@ -1,0 +1,15 @@
+{
+  HttpServletRequest xRequest=request;
+  if (needsWrapper(request)) {
+    xRequest=new HttpServletRequestWrapper(request){
+      @Override public boolean isSecure(){
+        return true;
+      }
+    }
+;
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Incoming request uri=" + (request).getRequestURI() + " with originalSecure='"+ request.isSecure()+ "', remoteAddr='"+ request.getRemoteAddr()+ "' will be seen with newSecure='"+ xRequest.isSecure()+ "'");
+  }
+  return xRequest;
+}

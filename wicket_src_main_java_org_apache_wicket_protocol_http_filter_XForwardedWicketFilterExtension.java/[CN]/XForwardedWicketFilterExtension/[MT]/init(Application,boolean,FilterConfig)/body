@@ -1,0 +1,36 @@
+{
+  if (filterConfig.getInitParameter(INTERNAL_PROXIES_PARAMETER) != null) {
+    config.setAllowedInternalProxies(filterConfig.getInitParameter(INTERNAL_PROXIES_PARAMETER));
+  }
+  if (filterConfig.getInitParameter(PROTOCOL_HEADER_PARAMETER) != null) {
+    config.setProtocolHeader(filterConfig.getInitParameter(PROTOCOL_HEADER_PARAMETER));
+  }
+  if (filterConfig.getInitParameter(PROTOCOL_HEADER_SSL_VALUE_PARAMETER) != null) {
+    config.setProtocolHeaderSslValue(filterConfig.getInitParameter(PROTOCOL_HEADER_SSL_VALUE_PARAMETER));
+  }
+  if (filterConfig.getInitParameter(PROXIES_HEADER_PARAMETER) != null) {
+    config.setProxiesHeader(filterConfig.getInitParameter(PROXIES_HEADER_PARAMETER));
+  }
+  if (filterConfig.getInitParameter(REMOTE_IP_HEADER_PARAMETER) != null) {
+    config.setRemoteIPHeader(filterConfig.getInitParameter(REMOTE_IP_HEADER_PARAMETER));
+  }
+  if (filterConfig.getInitParameter(TRUSTED_PROXIES_PARAMETER) != null) {
+    config.setTrustedProxies(filterConfig.getInitParameter(TRUSTED_PROXIES_PARAMETER));
+  }
+  if (filterConfig.getInitParameter(HTTP_SERVER_PORT_PARAMETER) != null) {
+    try {
+      config.setHttpServerPort(Integer.parseInt(filterConfig.getInitParameter(HTTP_SERVER_PORT_PARAMETER)));
+    }
+ catch (    NumberFormatException e) {
+      throw new NumberFormatException("Illegal " + HTTP_SERVER_PORT_PARAMETER + " : "+ e.getMessage());
+    }
+  }
+  if (filterConfig.getInitParameter(HTTPS_SERVER_PORT_PARAMETER) != null) {
+    try {
+      config.setHttpsServerPort(Integer.parseInt(filterConfig.getInitParameter(HTTPS_SERVER_PORT_PARAMETER)));
+    }
+ catch (    NumberFormatException e) {
+      throw new NumberFormatException("Illegal " + HTTPS_SERVER_PORT_PARAMETER + " : "+ e.getMessage());
+    }
+  }
+}

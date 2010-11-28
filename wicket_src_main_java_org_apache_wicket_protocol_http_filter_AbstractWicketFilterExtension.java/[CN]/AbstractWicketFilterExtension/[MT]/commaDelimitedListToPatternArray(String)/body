@@ -1,0 +1,13 @@
+{
+  String[] patterns=commaDelimitedListToStringArray(commaDelimitedPatterns);
+  List<Pattern> patternsList=Generics.newArrayList();
+  for (  String pattern : patterns) {
+    try {
+      patternsList.add(Pattern.compile(pattern));
+    }
+ catch (    PatternSyntaxException e) {
+      throw new IllegalArgumentException("Illegal pattern syntax '" + pattern + "'",e);
+    }
+  }
+  return patternsList.toArray(new Pattern[0]);
+}

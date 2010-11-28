@@ -1,0 +1,14 @@
+{
+  super(request);
+  remoteAddr=request.getRemoteAddr();
+  remoteHost=request.getRemoteHost();
+  scheme=request.getScheme();
+  secure=request.isSecure();
+  serverPort=request.getServerPort();
+  headers=new HashMap<String,List<String>>();
+  Enumeration<?> headerNames=request.getHeaderNames();
+  while (headerNames.hasMoreElements()) {
+    String header=(String)headerNames.nextElement();
+    headers.put(header,Collections.list(request.getHeaders(header)));
+  }
+}

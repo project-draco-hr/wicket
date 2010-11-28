@@ -1,0 +1,10 @@
+{
+  HttpServletRequest resp=(HttpServletRequest)filter.getRequestWrapper(request);
+  assertEquals("127.0.0.1",resp.getRemoteAddr());
+  assertEquals(null,resp.getHeader("x-forwarded-for"));
+  assertEquals(null,resp.getHeader("x-forwarded-by"));
+  assertEquals(null,resp.getHeader("x-forwarded-proto"));
+  assertEquals("http",resp.getScheme());
+  assertFalse(resp.isSecure());
+  assertEquals(80,resp.getServerPort());
+}
