@@ -1,0 +1,14 @@
+{
+  SecuredRemoteAddressRequestWrapperFactory factory=new SecuredRemoteAddressRequestWrapperFactory();
+  MockHttpServletRequest request=tester.getRequest();
+  request.setSecure(true);
+  assertFalse(factory.needsWrapper(request));
+  request.setRemoteAddr("111.222.333.444");
+  assertFalse(factory.needsWrapper(request));
+  request.setSecure(false);
+  assertTrue(factory.needsWrapper(request));
+  request.setRemoteAddr("10.222.333.444");
+  assertFalse(factory.needsWrapper(request));
+  request.setRemoteAddr("129.222.333.444");
+  assertTrue(factory.needsWrapper(request));
+}

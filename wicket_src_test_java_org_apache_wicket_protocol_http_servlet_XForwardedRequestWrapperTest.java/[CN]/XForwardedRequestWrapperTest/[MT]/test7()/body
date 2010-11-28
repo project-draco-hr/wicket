@@ -1,0 +1,14 @@
+{
+  MyApplication app=new MyApplication();
+  tester=new WicketTester(app);
+  app.factory.getConfig().setAllowedInternalProxies("192\\.168\\.0\\.10, 192\\.168\\.0\\.11");
+  app.factory.getConfig().setRemoteIPHeader("x-forwarded-for");
+  app.factory.getConfig().setProxiesHeader("x-forwarded-by");
+  app.factory.getConfig().setTrustedProxies("proxy1, proxy2");
+  request.setRemoteAddr("192.168.0.10");
+  request.addHeader("x-forwarded-for","140.211.11.130, untrusted-proxy, proxy1");
+  tester.startPage(SimplePage.class);
+  tester.assertRenderedPage(SimplePage.class);
+  tester.assertResultPage(SimplePage.class,"SimplePageExpectedResult.html");
+  MockHttpServletResponse resp=tester.getResponse();
+}
