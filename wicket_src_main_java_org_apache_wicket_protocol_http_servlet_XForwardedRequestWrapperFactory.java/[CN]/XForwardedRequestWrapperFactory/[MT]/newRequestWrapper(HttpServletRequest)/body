@@ -1,0 +1,62 @@
+{
+  String remoteIp=null;
+  LinkedList<String> proxiesHeaderValue=new LinkedList<String>();
+  String[] remoteIPHeaderValue=commaDelimitedListToStringArray(request.getHeader(config.remoteIPHeader));
+  int idx;
+  for (idx=remoteIPHeaderValue.length - 1; idx >= 0; idx--) {
+    String currentRemoteIp=remoteIPHeaderValue[idx];
+    remoteIp=currentRemoteIp;
+    if (matchesOne(currentRemoteIp,config.allowedInternalProxies)) {
+    }
+ else     if (matchesOne(currentRemoteIp,config.trustedProxies)) {
+      proxiesHeaderValue.addFirst(currentRemoteIp);
+    }
+ else {
+      idx--;
+      break;
+    }
+  }
+  LinkedList<String> newRemoteIpHeaderValue=new LinkedList<String>();
+  for (; idx >= 0; idx--) {
+    String currentRemoteIp=remoteIPHeaderValue[idx];
+    newRemoteIpHeaderValue.addFirst(currentRemoteIp);
+  }
+  XForwardedRequestWrapper xRequest=new XForwardedRequestWrapper(request);
+  if (remoteIp != null) {
+    xRequest.setRemoteAddr(remoteIp);
+    xRequest.setRemoteHost(remoteIp);
+    if (proxiesHeaderValue.size() == 0) {
+      xRequest.removeHeader(config.proxiesHeader);
+    }
+ else {
+      String commaDelimitedListOfProxies=listToCommaDelimitedString(proxiesHeaderValue);
+      xRequest.setHeader(config.proxiesHeader,commaDelimitedListOfProxies);
+    }
+    if (newRemoteIpHeaderValue.size() == 0) {
+      xRequest.removeHeader(config.remoteIPHeader);
+    }
+ else {
+      String commaDelimitedRemoteIpHeaderValue=listToCommaDelimitedString(newRemoteIpHeaderValue);
+      xRequest.setHeader(config.remoteIPHeader,commaDelimitedRemoteIpHeaderValue);
+    }
+  }
+  if (config.protocolHeader != null) {
+    String protocolHeaderValue=request.getHeader(config.protocolHeader);
+    if (protocolHeaderValue == null) {
+    }
+ else     if (config.protocolHeaderSslValue.equalsIgnoreCase(protocolHeaderValue)) {
+      xRequest.setSecure(true);
+      xRequest.setScheme("https");
+      xRequest.setServerPort(config.httpsServerPort);
+    }
+ else {
+      xRequest.setSecure(false);
+      xRequest.setScheme("http");
+      xRequest.setServerPort(config.httpServerPort);
+    }
+  }
+  if (log.isDebugEnabled()) {
+    log.debug("Incoming request " + request.getRequestURI() + " with originalRemoteAddr '"+ request.getRemoteAddr()+ "', originalRemoteHost='"+ request.getRemoteHost()+ "', originalSecure='"+ request.isSecure()+ "', originalScheme='"+ request.getScheme()+ "', original["+ config.remoteIPHeader+ "]='"+ request.getHeader(config.remoteIPHeader)+ ", original["+ config.protocolHeader+ "]='"+ (config.protocolHeader == null ? null : request.getHeader(config.protocolHeader))+ "' will be seen as newRemoteAddr='"+ xRequest.getRemoteAddr()+ "', newRemoteHost='"+ xRequest.getRemoteHost()+ "', newScheme='"+ xRequest.getScheme()+ "', newSecure='"+ xRequest.isSecure()+ "', new["+ config.remoteIPHeader+ "]='"+ xRequest.getHeader(config.remoteIPHeader)+ ", new["+ config.proxiesHeader+ "]='"+ xRequest.getHeader(config.proxiesHeader)+ "'");
+  }
+  return xRequest;
+}

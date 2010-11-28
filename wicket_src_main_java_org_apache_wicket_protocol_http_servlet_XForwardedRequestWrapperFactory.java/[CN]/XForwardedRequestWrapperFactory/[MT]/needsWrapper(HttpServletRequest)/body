@@ -1,0 +1,9 @@
+{
+  boolean rtn=matchesOne(request.getRemoteAddr(),config.allowedInternalProxies);
+  if (rtn == false) {
+    if (log.isDebugEnabled()) {
+      log.debug("Skip XForwardedFilter for request " + request.getRequestURI() + " with remote address "+ request.getRemoteAddr());
+    }
+  }
+  return rtn;
+}
