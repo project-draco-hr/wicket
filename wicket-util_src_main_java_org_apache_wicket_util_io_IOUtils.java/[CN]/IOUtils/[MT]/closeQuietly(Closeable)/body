@@ -1,9 +1,8 @@
 {
-  if (closeable != null) {
-    try {
-      closeable.close();
-    }
- catch (    Exception e) {
-    }
+  try {
+    close(closeable);
+  }
+ catch (  IOException e) {
+    log.debug("closing resource failed: " + e.getMessage(),e);
   }
 }
