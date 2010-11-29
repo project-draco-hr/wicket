@@ -15,10 +15,12 @@
       return ois.readObject();
     }
   finally {
-      if (ois != null) {
-        ois.close();
+      try {
+        IOUtils.close(ois);
       }
-      in.close();
+  finally {
+        in.close();
+      }
     }
   }
  catch (  ClassNotFoundException e) {

@@ -26,18 +26,8 @@ catch (  IOException e) {
     log.warn("Unable to find resource " + resourceStream,e);
   }
  finally {
-    if (in != null) {
-      try {
-        in.close();
-      }
- catch (      IOException ex) {
-      }
-    }
-    try {
-      resourceStream.close();
-    }
- catch (    IOException ex) {
-    }
+    IOUtils.closeQuietly(in);
+    IOUtils.closeQuietly(resourceStream);
   }
   return null;
 }

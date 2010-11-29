@@ -4,9 +4,11 @@
     input=new FullyBufferedReader(xmlReader);
   }
   finally {
-    inputStream.close();
-    if (xmlReader != null) {
-      xmlReader.close();
+    try {
+      inputStream.close();
+    }
+  finally {
+      IOUtils.close(xmlReader);
     }
   }
 }

@@ -26,13 +26,11 @@ catch (      ResourceStreamNotFoundException e) {
         throw new WicketRuntimeException(e);
       }
  finally {
-        if (is != null) {
-          try {
-            is.close();
-          }
- catch (          IOException e) {
-            log.error(e.getMessage(),e);
-          }
+        try {
+          IOUtils.close(is);
+        }
+ catch (        IOException e) {
+          log.error(e.getMessage(),e);
         }
       }
     }
@@ -47,13 +45,11 @@ catch (      ResourceStreamNotFoundException e) {
     throw new WicketRuntimeException(e);
   }
  finally {
-    if (is != null) {
-      try {
-        is.close();
-      }
- catch (      IOException e) {
-        log.error(e.getMessage(),e);
-      }
+    try {
+      IOUtils.close(is);
+    }
+ catch (    IOException e) {
+      log.error(e.getMessage(),e);
     }
   }
 }

@@ -43,8 +43,12 @@
         out.write(crlf.getBytes());
         out.write(crlf.getBytes());
         FileInputStream fis=new FileInputStream(uf.getFile());
-        IOUtils.copy(fis,out);
-        fis.close();
+        try {
+          IOUtils.copy(fis,out);
+        }
+  finally {
+          fis.close();
+        }
         out.write(crlf.getBytes());
       }
     }

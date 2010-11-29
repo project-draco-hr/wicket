@@ -13,13 +13,11 @@
     Assert.fail(e.getMessage());
   }
  finally {
-    if (lineNumberReader != null) {
-      try {
-        lineNumberReader.close();
-      }
- catch (      IOException e) {
-        Assert.fail(e.getMessage());
-      }
+    try {
+      IOUtils.close(lineNumberReader);
+    }
+ catch (    IOException e) {
+      Assert.fail(e.getMessage());
     }
   }
   return header.toString().trim();

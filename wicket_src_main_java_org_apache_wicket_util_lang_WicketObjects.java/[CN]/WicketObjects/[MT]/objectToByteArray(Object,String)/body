@@ -8,10 +8,12 @@
       oos.writeObject(object);
     }
   finally {
-      if (oos != null) {
-        oos.close();
+      try {
+        IOUtils.close(oos);
       }
-      out.close();
+  finally {
+        out.close();
+      }
     }
     return out.toByteArray();
   }

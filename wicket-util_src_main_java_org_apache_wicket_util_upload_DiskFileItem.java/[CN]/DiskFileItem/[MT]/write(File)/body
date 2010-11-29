@@ -6,9 +6,7 @@
       fout.write(get());
     }
   finally {
-      if (fout != null) {
-        fout.close();
-      }
+      IOUtils.close(fout);
     }
   }
  else {
@@ -27,20 +25,8 @@
           }
         }
   finally {
-          if (in != null) {
-            try {
-              in.close();
-            }
- catch (            IOException e) {
-            }
-          }
-          if (out != null) {
-            try {
-              out.close();
-            }
- catch (            IOException e) {
-            }
-          }
+          IOUtils.closeQuietly(in);
+          IOUtils.closeQuietly(out);
         }
       }
     }

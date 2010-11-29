@@ -15,13 +15,7 @@
     fileData=null;
   }
  finally {
-    if (fis != null) {
-      try {
-        fis.close();
-      }
- catch (      IOException e) {
-      }
-    }
+    IOUtils.closeQuietly(fis);
   }
   return fileData;
 }
