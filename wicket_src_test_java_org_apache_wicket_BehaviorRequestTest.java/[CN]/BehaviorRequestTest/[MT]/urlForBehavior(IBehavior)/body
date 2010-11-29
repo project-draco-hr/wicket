@@ -1,5 +1,6 @@
 {
-  int index=page.container.getBehaviorId(behaviorUnderTest);
-  String enabledBehaviorUrl=tester.urlFor(new ListenerInterfaceRequestHandler(new PageAndComponentProvider(page,page.container),IBehaviorListener.INTERFACE,index)).toString();
-  return enabledBehaviorUrl;
+  final int index=page.container.getBehaviorId(behaviorUnderTest);
+  final IPageAndComponentProvider provider=new PageAndComponentProvider(page,page.container);
+  final IRequestHandler handler=new ListenerInterfaceRequestHandler(provider,IBehaviorListener.INTERFACE,index);
+  return tester.urlFor(handler).toString();
 }

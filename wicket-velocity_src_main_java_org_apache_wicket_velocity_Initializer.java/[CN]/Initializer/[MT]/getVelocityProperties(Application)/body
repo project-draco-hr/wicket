@@ -1,16 +1,16 @@
 {
+  String velocityPropertiesFile="velocity.properties";
   if (application instanceof WebApplication) {
     WebApplication webapp=(WebApplication)application;
     ServletContext servletContext=webapp.getServletContext();
-    ServletContext sc=servletContext;
-    velocityPropertiesFolder=sc.getInitParameter("velocityPropertiesFolder");
+    String propertiesFolder=servletContext.getInitParameter("velocityPropertiesFolder");
     String propsFile=servletContext.getInitParameter("velocity.properties");
     if (null != propsFile) {
       velocityPropertiesFile=propsFile;
     }
-    if (null != velocityPropertiesFolder) {
-      WebApplicationPath webPath=new WebApplicationPath(sc);
-      webPath.add(velocityPropertiesFolder);
+    if (null != propertiesFolder) {
+      WebApplicationPath webPath=new WebApplicationPath(servletContext);
+      webPath.add(propertiesFolder);
       IResourceStream stream=webPath.find(Initializer.class,velocityPropertiesFile);
       InputStream is=null;
       try {

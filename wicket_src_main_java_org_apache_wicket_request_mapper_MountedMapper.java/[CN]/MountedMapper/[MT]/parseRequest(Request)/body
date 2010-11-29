@@ -1,8 +1,7 @@
 {
   Url url=request.getUrl();
   if (redirectFromHomePage() && checkHomePage(url)) {
-    UrlInfo info=new UrlInfo(null,getContext().getHomePageClass(),newPageParameters());
-    return info;
+    return new UrlInfo(null,getContext().getHomePageClass(),newPageParameters());
   }
  else   if (url.getSegments().size() >= mountSegments.length && urlStartsWith(url,mountSegments)) {
     PageComponentInfo info=getPageComponentInfo(url);
