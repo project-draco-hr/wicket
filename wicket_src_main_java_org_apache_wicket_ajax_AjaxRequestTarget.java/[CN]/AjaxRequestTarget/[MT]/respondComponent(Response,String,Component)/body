@@ -3,7 +3,6 @@
     throw new IllegalStateException("Ajax render cannot be called on component that has setRenderBodyOnly enabled. Component: " + component.toString());
   }
   component.setOutputMarkupId(true);
-  final Response originalResponse=response;
   encodingBodyResponse.reset();
   RequestCycle.get().setResponse(encodingBodyResponse);
   final Page page=component.findParent(Page.class);
@@ -22,7 +21,7 @@
     }
  catch (    RuntimeException e2) {
     }
-    RequestCycle.get().setResponse(originalResponse);
+    RequestCycle.get().setResponse(response);
     encodingBodyResponse.reset();
     throw e;
   }
@@ -30,12 +29,12 @@
     component.render();
   }
  catch (  RuntimeException e) {
-    RequestCycle.get().setResponse(originalResponse);
+    RequestCycle.get().setResponse(response);
     encodingBodyResponse.reset();
     throw e;
   }
   page.endComponentRender(component);
-  RequestCycle.get().setResponse(originalResponse);
+  RequestCycle.get().setResponse(response);
   response.write("<component id=\"");
   response.write(markupId);
   response.write("\" ");
