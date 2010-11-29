@@ -1,11 +1,9 @@
 {
-  if (cacheKey == null) {
-    throw new IllegalArgumentException("Parameter 'cacheKey' must not be null");
-  }
+  Args.notNull(cacheKey,"cacheKey");
   if (log.isDebugEnabled()) {
     log.debug("Remove from cache: cacheKey=" + cacheKey);
   }
-  String locationString=(String)markupKeyCache.get(cacheKey);
+  CharSequence locationString=markupKeyCache.get(cacheKey);
   IMarkupFragment markup=markupCache.get(locationString);
   if (markup != null) {
     markupCache.remove(locationString);
@@ -14,32 +12,24 @@
       count=0;
       Iterator<CharSequence> iter=markupCache.getKeys().iterator();
       while (iter.hasNext()) {
-        Markup cacheMarkup=markupCache.get(iter.next());
-        MarkupResourceStream resourceData=cacheMarkup.getMarkupResourceStream().getBaseMarkupResourceStream();
-        if (resourceData != null) {
-          String baseCacheKey=resourceData.getCacheKey();
-          String baseLocationString=(String)markupKeyCache.get(baseCacheKey);
-          if (baseLocationString != null && markupCache.get(baseLocationString) == null) {
-            if (log.isDebugEnabled()) {
-              log.debug("Remove from cache: cacheKey=" + cacheMarkup.getMarkupResourceStream().getCacheKey());
-            }
-            iter.remove();
-            count++;
+        CharSequence key=iter.next();
+        if (isBaseMarkupCached(key)) {
+          if (log.isDebugEnabled()) {
+            log.debug("Remove from cache: cacheKey=" + key);
           }
+          iter.remove();
+          count++;
         }
       }
     }
  while (count > 0);
-    final IModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(true);
+    IModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(true);
     if (watcher != null) {
       Iterator<IModifiable> iter=watcher.getEntries().iterator();
       while (iter.hasNext()) {
         IModifiable modifiable=iter.next();
         if (modifiable instanceof MarkupResourceStream) {
-          MarkupResourceStream resourceStream=(MarkupResourceStream)modifiable;
-          String resourceCacheKey=resourceStream.getCacheKey();
-          String resouceLocationString=(String)markupKeyCache.get(resourceCacheKey);
-          if (resouceLocationString != null && markupCache.containsKey(resouceLocationString) == false) {
+          if (isMarkupCached((MarkupResourceStream)modifiable)) {
             iter.remove();
           }
         }
