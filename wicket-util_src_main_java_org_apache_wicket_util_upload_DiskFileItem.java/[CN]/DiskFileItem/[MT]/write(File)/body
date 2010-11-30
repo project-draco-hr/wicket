@@ -10,13 +10,9 @@
   }
  else {
     File outputFile=getStoreLocation();
-    if (outputFile != null) {
-      if (outputFile.renameTo(file) == false) {
-        Files.copy(outputFile,file);
-      }
-    }
- else {
-      throw new FileUploadException("Cannot write uploaded file to disk!");
+    if (outputFile == null)     throw new IllegalStateException("for a non-memory upload the file location must not be empty");
+    if (outputFile.renameTo(file) == false) {
+      Files.copy(outputFile,file);
     }
   }
 }
