@@ -1,10 +1,16 @@
 {
   absolutePath=Packages.absolutePath(scope,name);
-  if (!accept(scope,name)) {
+  final String parentEscape=Application.get().getResourceSettings().getParentFolderPlaceholder();
+  if (Strings.isEmpty(parentEscape) == false) {
+    path=Strings.replaceAll(name,"../",parentEscape + "/").toString();
+  }
+ else {
+    path=name;
+  }
+  if (!accept(scope,path)) {
     throw new PackageResourceBlockedException("Access denied to (static) package resource " + absolutePath + ". See IPackageResourceGuard");
   }
   scopeName=scope.getName();
-  path=name;
   this.locale=locale;
   this.style=style;
   this.variation=variation;
