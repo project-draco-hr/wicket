@@ -1,33 +1,18 @@
 {
   if (isInMemory()) {
-    FileOutputStream fout=null;
+    FileOutputStream fout=new FileOutputStream(file);
     try {
-      fout=new FileOutputStream(file);
       fout.write(get());
     }
   finally {
-      IOUtils.close(fout);
+      fout.close();
     }
   }
  else {
     File outputFile=getStoreLocation();
     if (outputFile != null) {
-      if (!outputFile.renameTo(file)) {
-        BufferedInputStream in=null;
-        BufferedOutputStream out=null;
-        try {
-          in=new BufferedInputStream(new FileInputStream(outputFile));
-          out=new BufferedOutputStream(new FileOutputStream(file));
-          byte[] bytes=new byte[WRITE_BUFFER_SIZE];
-          int s;
-          while ((s=in.read(bytes)) != -1) {
-            out.write(bytes,0,s);
-          }
-        }
-  finally {
-          IOUtils.closeQuietly(in);
-          IOUtils.closeQuietly(out);
-        }
+      if (outputFile.renameTo(file) == false) {
+        Files.copy(outputFile,file);
       }
     }
  else {

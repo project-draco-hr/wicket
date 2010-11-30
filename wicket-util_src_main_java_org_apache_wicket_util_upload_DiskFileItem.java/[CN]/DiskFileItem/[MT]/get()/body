@@ -5,17 +5,12 @@
     }
     return cachedContent;
   }
-  byte[] fileData=new byte[(int)getSize()];
-  FileInputStream fis=null;
+  File file=dfos.getFile();
   try {
-    fis=new FileInputStream(dfos.getFile());
-    fis.read(fileData);
+    return Files.readBytes(file);
   }
  catch (  IOException e) {
-    fileData=null;
+    log.debug("failed to read content of file: " + file.getAbsolutePath(),e);
+    return null;
   }
- finally {
-    IOUtils.closeQuietly(fis);
-  }
-  return fileData;
 }
