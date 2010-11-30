@@ -1,0 +1,8 @@
+{
+  TestPage testPage=new TestPage();
+  tester.startPage(testPage);
+  tester.getRequest().getPostParameters().addParameterValue(testPage.button.getInputName(),"");
+  tester.submitForm(testPage.form);
+  assertEquals(0,testPage.submitSequence.indexOf(testPage.button));
+  assertEquals(1,testPage.submitSequence.indexOf(testPage.form));
+}

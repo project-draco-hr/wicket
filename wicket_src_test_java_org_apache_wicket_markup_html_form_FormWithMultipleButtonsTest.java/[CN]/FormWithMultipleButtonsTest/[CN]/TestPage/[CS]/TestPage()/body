@@ -1,5 +1,22 @@
 {
-  add(form=new Form("form"));
-  form.add(b1=new TestButton("b1"));
-  form.add(b2=new TestButton("b2"));
+  add(form=new Form("form"){
+    @Override protected void onSubmit(){
+      submitSequence.add(this);
+    }
+  }
+);
+  form.add(button=new Button("b1"){
+    @Override public void onSubmit(){
+      submitSequence.add(this);
+    }
+  }
+);
+  form.add(ajaxFallbackButton=new AjaxFallbackButton("b2",form){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      submitSequence.add(this);
+    }
+    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+    }
+  }
+);
 }
