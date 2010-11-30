@@ -1,26 +1,3 @@
 {
-  markFormsSubmitted();
-  if (handleMultiPart()) {
-    inputChanged();
-    String url=getRequest().getRequestParameters().getParameterValue(getHiddenFieldId()).toString();
-    if (!Strings.isEmpty(url)) {
-      dispatchEvent(getPage(),url);
-    }
- else {
-      final IFormSubmittingComponent submittingComponent=findSubmittingButton();
-      if (submittingComponent != null && !submittingComponent.getDefaultFormProcessing()) {
-        submittingComponent.onSubmit();
-      }
- else {
-        Form<?> formToProcess=this;
-        if (submittingComponent != null) {
-          formToProcess=submittingComponent.getForm();
-        }
-        formToProcess.process(submittingComponent);
-      }
-    }
-  }
- else   if (hasError()) {
-    callOnError();
-  }
+  onFormSubmitted(null);
 }

@@ -1,14 +1,17 @@
 {
-  getForm().getRootForm().onFormSubmitted();
-  if (!getForm().isSubmitted()) {
-    return;
-  }
-  if (!getForm().hasError()) {
-    onSubmit(target);
-  }
-  if (getForm().findParent(Page.class) != null) {
-    if (getForm().hasError()) {
-      onError(target);
+  getForm().getRootForm().onFormSubmitted(new IFormSubmitter(){
+    public Form<?> getForm(){
+      return AjaxFormSubmitBehavior.this.getForm();
+    }
+    public boolean getDefaultFormProcessing(){
+      return AjaxFormSubmitBehavior.this.getDefaultProcessing();
+    }
+    public void onSubmit(){
+      AjaxFormSubmitBehavior.this.onSubmit(target);
+    }
+    public void onError(){
+      AjaxFormSubmitBehavior.this.onError(target);
     }
   }
+);
 }

@@ -1,6 +1,17 @@
 {
   final Page page=getPage();
-  if (process()) {
+  if (!isEnabledInHierarchy() || !isVisibleInHierarchy()) {
+    return;
+  }
+  validate();
+  if (hasError()) {
+    markFormComponentsInvalid();
+    callOnError(submittingComponent);
+  }
+ else {
+    markFormComponentsValid();
+    beforeUpdateFormComponentModels();
+    updateFormComponentModels();
     delegateSubmit(submittingComponent);
   }
   final PageParameters parameters=page.getPageParameters();
