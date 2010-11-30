@@ -1,6 +1,7 @@
 {
+  super.finalize();
   File outputFile=dfos.getFile();
   if (outputFile != null && outputFile.exists()) {
-    outputFile.delete();
+    if (outputFile.delete() == false)     log.debug("failed to delete file: " + outputFile.getAbsolutePath());
   }
 }

@@ -1,14 +1,12 @@
 {
   File tempDir=repository;
   if (tempDir == null) {
-    String systemTmp=null;
     try {
-      systemTmp=System.getProperty("java.io.tmpdir");
+      tempDir=new File(System.getProperty("java.io.tmpdir"));
     }
  catch (    SecurityException e) {
       throw new RuntimeException("Reading property java.io.tmpdir is not allowed" + " for the current security settings. The repository location needs to be" + " set manually, or upgrade permissions to allow reading the tmpdir property.");
     }
-    tempDir=new File(systemTmp);
   }
   String fileName="upload_" + getUniqueId() + ".tmp";
   File f=new File(tempDir,fileName);
