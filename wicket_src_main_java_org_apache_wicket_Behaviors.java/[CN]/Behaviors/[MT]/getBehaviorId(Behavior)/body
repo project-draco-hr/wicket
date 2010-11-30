@@ -1,0 +1,30 @@
+{
+  Args.notNull(behavior,"behavior");
+  boolean found=false;
+  for (int i=component.data_start(); i < component.data_length(); i++) {
+    if (behavior == component.data_get(i)) {
+      found=true;
+      break;
+    }
+  }
+  if (!found) {
+    throw new IllegalStateException("Behavior must be added to component before its id can be generated. Behavior: " + behavior + ", Component: "+ this);
+  }
+  ArrayList<Behavior> ids=getBehaviorsIdList(true);
+  int id=ids.indexOf(behavior);
+  if (id < 0) {
+    for (int i=0; i < ids.size(); i++) {
+      if (ids.get(i) == null) {
+        ids.set(i,behavior);
+        id=i;
+        break;
+      }
+    }
+  }
+  if (id < 0) {
+    id=ids.size();
+    ids.add(behavior);
+    ids.trimToSize();
+  }
+  return id;
+}

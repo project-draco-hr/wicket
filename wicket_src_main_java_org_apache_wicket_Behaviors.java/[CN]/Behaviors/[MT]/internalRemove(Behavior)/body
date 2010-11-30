@@ -1,0 +1,26 @@
+{
+  final int len=component.data_length();
+  for (int i=component.data_start(); i < len; i++) {
+    Object o=component.data_get(i);
+    if (o != null && o.equals(behavior)) {
+      component.data_remove(i);
+      behavior.unbind(component);
+      ArrayList<Behavior> ids=getBehaviorsIdList(false);
+      if (ids != null) {
+        int idx=ids.indexOf(behavior);
+        if (idx == ids.size() - 1) {
+          ids.remove(idx);
+        }
+ else         if (idx >= 0) {
+          ids.set(idx,null);
+        }
+        ids.trimToSize();
+        if (ids.isEmpty()) {
+          removeBehaviorsIdList();
+        }
+      }
+      return true;
+    }
+  }
+  return false;
+}

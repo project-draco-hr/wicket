@@ -1,0 +1,32 @@
+{
+  super.afterRender(component);
+  Response response=component.getResponse();
+  response.write("\n<span class=\"yui-skin-sam\">&nbsp;<span style=\"");
+  if (renderOnLoad()) {
+    response.write("display:block;");
+  }
+ else {
+    response.write("display:none;");
+    response.write("position:absolute;");
+  }
+  response.write("z-index: 99999;\" id=\"");
+  response.write(getEscapedComponentMarkupId());
+  response.write("Dp\"></span><img style=\"");
+  response.write(getIconStyle());
+  response.write("\" id=\"");
+  response.write(getIconId());
+  response.write("\" src=\"");
+  CharSequence iconUrl=getIconUrl();
+  response.write(Strings.escapeMarkup(iconUrl != null ? iconUrl.toString() : ""));
+  response.write("\" alt=\"");
+  CharSequence alt=getIconAltText();
+  response.write(Strings.escapeMarkup((alt != null) ? alt.toString() : ""));
+  response.write("\" title=\"");
+  CharSequence title=getIconTitle();
+  response.write(Strings.escapeMarkup((title != null) ? title.toString() : ""));
+  response.write("\"/>");
+  if (renderOnLoad()) {
+    response.write("<br style=\"clear:left;\"/>");
+  }
+  response.write("</span>");
+}
