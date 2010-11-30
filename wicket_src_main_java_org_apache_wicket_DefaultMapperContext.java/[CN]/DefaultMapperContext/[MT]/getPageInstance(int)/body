@@ -1,3 +1,8 @@
 {
-  return Page.getPage(pageId);
+  IManageablePage manageablePage=Application.get().getPageManager().getPage(pageId);
+  IRequestablePage requestablePage=null;
+  if (manageablePage instanceof IRequestablePage) {
+    requestablePage=(IRequestablePage)manageablePage;
+  }
+  return requestablePage;
 }
