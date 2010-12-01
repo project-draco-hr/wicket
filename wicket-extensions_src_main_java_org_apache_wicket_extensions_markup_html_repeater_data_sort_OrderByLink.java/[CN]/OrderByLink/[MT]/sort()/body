@@ -3,11 +3,7 @@
     addStateChange();
   }
   ISortState state=stateLocator.getSortState();
-  int oldDir=state.getPropertySortOrder(property);
-  int newDir=ISortState.ASCENDING;
-  if (oldDir == ISortState.ASCENDING) {
-    newDir=ISortState.DESCENDING;
-  }
-  state.setPropertySortOrder(property,newDir);
+  SortOrder order=state.getPropertySortOrder(property);
+  state.setPropertySortOrder(property,order.nextOrderInCycle());
   return this;
 }

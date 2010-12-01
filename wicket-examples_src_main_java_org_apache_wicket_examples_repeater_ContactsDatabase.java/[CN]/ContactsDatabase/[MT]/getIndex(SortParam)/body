@@ -1,0 +1,14 @@
+{
+  if (sort == null) {
+    return fnameIdx;
+  }
+  final String field=sort.getProperty();
+  final SortOrder order=sort.getOrder();
+  if (field.equals("firstName")) {
+    return (order != SortOrder.DESCENDING) ? fnameIdx : fnameDescIdx;
+  }
+ else   if (field.equals("lastName")) {
+    return (order != SortOrder.DESCENDING) ? lnameIdx : lnameDescIdx;
+  }
+  throw new RuntimeException("unknown sort option [" + sort + "]. valid fields: [firstName], [lastName]");
+}
