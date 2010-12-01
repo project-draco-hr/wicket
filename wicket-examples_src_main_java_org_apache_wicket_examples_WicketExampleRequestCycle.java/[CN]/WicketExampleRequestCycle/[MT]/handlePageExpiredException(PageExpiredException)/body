@@ -1,0 +1,9 @@
+{
+  Request request=getRequest();
+  if (request instanceof WebRequest) {
+    WebRequest webRequest=(WebRequest)request;
+    if (webRequest.isAjax() && !request.getRequestParameters().getParameterValue(SourcesPage.PAGE_CLASS).isNull()) {
+      throw new AbortWithHttpErrorCodeException(404,"");
+    }
+  }
+}
