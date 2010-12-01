@@ -4,12 +4,6 @@
   }
   ISortState state=stateLocator.getSortState();
   SortOrder order=state.getPropertySortOrder(property);
-  if (order == SortOrder.NONE) {
-    order=SortOrder.ASCENDING;
-  }
- else {
-    order=order == SortOrder.ASCENDING ? SortOrder.DESCENDING : SortOrder.ASCENDING;
-  }
-  state.setPropertySortOrder(property,order);
+  state.setPropertySortOrder(property,nextSortOrder(order));
   return this;
 }
