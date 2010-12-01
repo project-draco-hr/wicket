@@ -2,13 +2,11 @@
   if (sort == null) {
     return fnameIdx;
   }
-  final String field=sort.getProperty();
-  final SortOrder order=sort.getOrder();
-  if (field.equals("firstName")) {
-    return (order != SortOrder.DESCENDING) ? fnameIdx : fnameDescIdx;
+  if (sort.getProperty().equals("firstName")) {
+    return sort.isAscending() ? fnameIdx : fnameDescIdx;
   }
- else   if (field.equals("lastName")) {
-    return (order != SortOrder.DESCENDING) ? lnameIdx : lnameDescIdx;
+ else   if (sort.getProperty().equals("lastName")) {
+    return sort.isAscending() ? lnameIdx : lnameDescIdx;
   }
   throw new RuntimeException("unknown sort option [" + sort + "]. valid fields: [firstName], [lastName]");
 }

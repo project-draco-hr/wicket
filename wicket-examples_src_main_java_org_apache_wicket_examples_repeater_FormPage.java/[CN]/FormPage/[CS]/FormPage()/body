@@ -3,7 +3,7 @@
   add(form);
   RefreshingView<Contact> refreshingView=new RefreshingView<Contact>("simple"){
     @Override protected Iterator<IModel<Contact>> getItemModels(){
-      SortParam sort=new SortParam("firstName",SortOrder.ASCENDING);
+      SortParam sort=new SortParam("firstName",true);
       Iterator<Contact> contacts=DatabaseLocator.getDatabase().find(0,10,sort).iterator();
       return new ModelIteratorAdapter<Contact>(contacts){
         @Override protected IModel<Contact> model(        Contact object){
