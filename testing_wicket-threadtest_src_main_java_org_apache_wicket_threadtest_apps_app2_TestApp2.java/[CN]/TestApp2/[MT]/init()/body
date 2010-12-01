@@ -1,3 +1,11 @@
 {
   getSharedResources().add("cancelButton",new DefaultButtonImageResource("Cancel"));
+  setPageManagerProvider(new DefaultPageManagerProvider(this){
+    @Override public IPageManager get(    IPageManagerContext pageManagerContext){
+      IDataStore dataStore=new HttpSessionDataStore(pageManagerContext,new PageNumberEvictionStrategy(100));
+      IPageStore pageStore=new DefaultPageStore(getName(),dataStore,getCacheSize());
+      return new PersistentPageManager(getName(),pageStore,pageManagerContext);
+    }
+  }
+);
 }
