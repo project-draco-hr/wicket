@@ -13,7 +13,10 @@
       }
     }
     data.setContentDisposition(contentDisposition);
-    data.setContentLength(stream.length());
+    Bytes length=stream.length();
+    if (length != null) {
+      data.setContentLength(length.bytes());
+    }
     data.setFileName(fileName);
     data.setContentType(stream.getContentType());
     data.setTextEncoding(textEncoding);
