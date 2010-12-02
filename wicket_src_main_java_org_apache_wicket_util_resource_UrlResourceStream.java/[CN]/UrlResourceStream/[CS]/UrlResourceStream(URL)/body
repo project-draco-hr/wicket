@@ -1,17 +1,5 @@
 {
   this.url=url;
-  URLConnection connection=null;
-  try {
-    connection=url.openConnection();
-    contentLength=Bytes.bytes(connection.getContentLength());
-    contentType=connection.getContentType();
-  }
- catch (  IOException ex) {
-    throw new IllegalArgumentException("Invalid URL parameter " + url,ex);
-  }
- finally {
-    Connections.closeQuietly(connection);
-  }
   try {
     file=new File(new URI(url.toExternalForm()));
     if (file != null && !file.exists()) {

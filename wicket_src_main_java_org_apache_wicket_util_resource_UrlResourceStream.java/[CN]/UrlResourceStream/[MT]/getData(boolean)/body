@@ -1,0 +1,25 @@
+{
+  if (streamData == null && initialize) {
+    streamData=new StreamData();
+    try {
+      streamData.connection=url.openConnection();
+      streamData.contentLength=streamData.connection.getContentLength();
+      streamData.contentType=streamData.connection.getContentType();
+      if (streamData.contentType == null || streamData.contentType.indexOf("unknown") != -1) {
+        if (Application.exists() && Application.get() instanceof WebApplication) {
+          streamData.contentType=WebApplication.get().getServletContext().getMimeType(url.getFile());
+          if (streamData.contentType == null) {
+            streamData.contentType=URLConnection.getFileNameMap().getContentTypeFor(url.getFile());
+          }
+        }
+ else {
+          streamData.contentType=URLConnection.getFileNameMap().getContentTypeFor(url.getFile());
+        }
+      }
+    }
+ catch (    IOException ex) {
+      throw new IllegalArgumentException("Invalid URL parameter " + url,ex);
+    }
+  }
+  return streamData;
+}
