@@ -1,0 +1,11 @@
+{
+  if (Strings.isEmpty(doctype) == false) {
+    String doc=doctype.toString().replaceAll("[\n\r]+","");
+    doc=doc.replaceAll("\\s+"," ");
+    Matcher matcher=DOCTYPE_REGEX.matcher(doc);
+    if (matcher.matches() == false) {
+      throw new MarkupException("Invalid DOCTYPE: '" + doctype + "'");
+    }
+    this.doctype=matcher.group(1).trim();
+  }
+}

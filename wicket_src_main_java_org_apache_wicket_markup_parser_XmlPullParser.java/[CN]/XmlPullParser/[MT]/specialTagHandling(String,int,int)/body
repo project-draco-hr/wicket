@@ -6,9 +6,9 @@
     }
     pos+=3;
     lastText=input.getSubstring(openBracketIndex,pos);
-    lastType=COMMENT;
+    lastType=ELEMENT_TYPE.COMMENT;
     if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && lastText.toString().endsWith("<![endif]-->")) {
-      lastType=CONDITIONAL_COMMENT;
+      lastType=ELEMENT_TYPE.CONDITIONAL_COMMENT;
       input.setPosition(closeBracketIndex + 1);
     }
  else {
@@ -17,7 +17,7 @@
     return;
   }
   if (tagText.equals("![endif]--")) {
-    lastType=CONDITIONAL_COMMENT;
+    lastType=ELEMENT_TYPE.CONDITIONAL_COMMENT;
     input.setPosition(closeBracketIndex + 1);
     return;
   }
@@ -36,15 +36,21 @@
  while (tagText.endsWith("]]") == false);
       input.setPosition(closeBracketIndex + 1);
       lastText=tagText;
-      lastType=CDATA;
+      lastType=ELEMENT_TYPE.CDATA;
       return;
     }
   }
   if (tagText.charAt(0) == '?') {
-    lastType=PROCESSING_INSTRUCTION;
+    lastType=ELEMENT_TYPE.PROCESSING_INSTRUCTION;
     input.setPosition(closeBracketIndex + 1);
     return;
   }
-  lastType=SPECIAL_TAG;
+  if (tagText.startsWith("!DOCTYPE")) {
+    lastType=ELEMENT_TYPE.DOCTYPE;
+    doctype=input.getSubstring(openBracketIndex + 1,closeBracketIndex);
+    input.setPosition(closeBracketIndex + 1);
+    return;
+  }
+  lastType=ELEMENT_TYPE.SPECIAL_TAG;
   input.setPosition(closeBracketIndex + 1);
 }

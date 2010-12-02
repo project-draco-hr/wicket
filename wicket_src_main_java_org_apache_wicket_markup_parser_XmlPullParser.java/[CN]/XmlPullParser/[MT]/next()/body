@@ -1,6 +1,6 @@
 {
   if (input.getPosition() >= input.size()) {
-    return NOT_INITIALIZED;
+    return ELEMENT_TYPE.NOT_INITIALIZED;
   }
   if (skipUntilText != null) {
     skipUntil();
@@ -11,12 +11,12 @@
     if (openBracketIndex == -1) {
       lastText=input.getSubstring(-1);
       input.setPosition(input.size());
-      lastType=BODY;
+      lastType=ELEMENT_TYPE.BODY;
       return lastType;
     }
     lastText=input.getSubstring(openBracketIndex);
     input.setPosition(openBracketIndex);
-    lastType=BODY;
+    lastType=ELEMENT_TYPE.BODY;
     return lastType;
   }
   input.countLinesTo(openBracketIndex);
@@ -64,7 +64,7 @@
     lastTag.lineNumber=input.getLineNumber();
     lastTag.columnNumber=input.getColumnNumber();
     input.setPosition(closeBracketIndex + 1);
-    lastType=TAG;
+    lastType=ELEMENT_TYPE.TAG;
     return lastType;
   }
  else {

@@ -1,0 +1,19 @@
+{
+  Args.notNull(container,"container");
+  Page page=container.getPage();
+  if (page == null) {
+    throw new WicketRuntimeException("Component not attached to Page. Component: " + container.toString());
+  }
+  final boolean rtn[]=new boolean[]{true};
+  page.visitChildren(MarkupContainer.class,new IVisitor<MarkupContainer,Void>(){
+    public void component(    final MarkupContainer comp,    final IVisit<Void> visit){
+      MarkupResourceStream rs=comp.getAssociatedMarkup().getMarkupResourceStream();
+      if (rs.isHtml5() == false) {
+        rtn[0]=false;
+        visit.stop();
+      }
+    }
+  }
+);
+  return rtn[0];
+}
