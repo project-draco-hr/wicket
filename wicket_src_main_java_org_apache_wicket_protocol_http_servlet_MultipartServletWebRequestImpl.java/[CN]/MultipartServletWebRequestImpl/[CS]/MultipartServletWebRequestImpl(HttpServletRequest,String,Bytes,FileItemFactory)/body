@@ -9,6 +9,9 @@
   }
   ServletFileUpload upload=new ServletFileUpload(factory);
   String encoding=request.getCharacterEncoding();
+  if (encoding == null) {
+    encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
+  }
   if (encoding != null) {
     upload.setHeaderEncoding(encoding);
   }
