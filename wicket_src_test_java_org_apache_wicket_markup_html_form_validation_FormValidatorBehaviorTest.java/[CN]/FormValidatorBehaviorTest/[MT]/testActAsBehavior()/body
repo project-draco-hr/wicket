@@ -1,0 +1,11 @@
+{
+  TestPage page=new TestPage();
+  tester.startPage(page);
+  assertFalse(tester.getPreviousRequests().contains("foo=\"bar\""));
+  MaxLenValidator validator=new MaxLenValidator(page.name);
+  page.form.add(validator);
+  tester.startPage(page);
+  tester.assertContains("foo=\"bar\"");
+  page.form.remove(validator);
+  assertFalse(tester.getPreviousRequests().contains("foo=\"bar\""));
+}

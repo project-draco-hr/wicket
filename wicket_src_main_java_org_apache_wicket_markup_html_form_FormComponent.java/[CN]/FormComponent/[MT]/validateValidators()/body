@@ -1,17 +1,17 @@
 {
-  final int size=validators_size();
   final IValidatable<T> validatable=newValidatable();
-  int i=0;
-  IValidator<T> validator=null;
   boolean isNull=getConvertedInput() == null;
+  IValidator<T> validator=null;
   try {
-    for (i=0; i < size; i++) {
-      validator=validators_get(i);
-      if (isNull == false || validator instanceof INullAcceptingValidator<?>) {
-        validator.validate(validatable);
-      }
-      if (!isValid()) {
-        break;
+    for (    Behavior behavior : getBehaviors()) {
+      if (behavior instanceof IValidator) {
+        validator=(IValidator<T>)behavior;
+        if (isNull == false || validator instanceof INullAcceptingValidator<?>) {
+          validator.validate(validatable);
+        }
+        if (!isValid()) {
+          break;
+        }
       }
     }
   }

@@ -2,9 +2,23 @@
   if (validator == null) {
     throw new IllegalArgumentException("Argument `validator` cannot be null");
   }
-  IFormValidator removed=formValidators_remove(validator);
-  if (removed == null) {
+  Behavior match=null;
+  for (  Behavior behavior : getBehaviors()) {
+    if (behavior.equals(validator)) {
+      match=behavior;
+      break;
+    }
+ else     if (behavior instanceof FormValidatorAdapter) {
+      if (((FormValidatorAdapter)behavior).getValidator().equals(validator)) {
+        match=behavior;
+        break;
+      }
+    }
+  }
+  if (match != null) {
+    remove(match);
+  }
+ else {
     throw new IllegalStateException("Tried to remove form validator that was not previously added. " + "Make sure your validator's equals() implementation is sufficient");
   }
-  addStateChange();
 }

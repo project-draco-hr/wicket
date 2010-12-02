@@ -1,0 +1,23 @@
+{
+  Args.notNull(validator,"validator");
+  Behavior match=null;
+  for (  Behavior behavior : getBehaviors()) {
+    if (behavior.equals(validator)) {
+      match=behavior;
+      break;
+    }
+ else     if (behavior instanceof ValidatorAdapter) {
+      if (((ValidatorAdapter<?>)behavior).getValidator().equals(validator)) {
+        match=behavior;
+        break;
+      }
+    }
+  }
+  if (match != null) {
+    remove(match);
+  }
+ else {
+    throw new IllegalStateException("Tried to remove validator that was not previously added. " + "Make sure your validator's equals() implementation is sufficient");
+  }
+  return this;
+}

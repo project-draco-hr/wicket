@@ -2,8 +2,10 @@
   if (validator == null) {
     throw new IllegalArgumentException("Argument `validator` cannot be null");
   }
-  formValidators_add(validator);
-  if (validator instanceof IValidatorAddListener) {
-    ((IValidatorAddListener)validator).onAdded(this);
+  if (validator instanceof Behavior) {
+    add((Behavior)validator);
+  }
+ else {
+    add(new FormValidatorAdapter(validator));
   }
 }

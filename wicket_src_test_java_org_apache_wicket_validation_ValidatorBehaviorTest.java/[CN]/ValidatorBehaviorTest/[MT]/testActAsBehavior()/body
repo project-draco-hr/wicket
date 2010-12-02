@@ -1,0 +1,12 @@
+{
+  TestPage page=new TestPage();
+  tester.startPage(page);
+  assertFalse(tester.getLastResponseAsString().contains("foo=\"bar\""));
+  MaxLenValidator max=new MaxLenValidator();
+  page.name.add(max);
+  tester.startPage(page);
+  tester.assertContains("foo=\"bar\"");
+  page.name.remove(max);
+  tester.startPage(page);
+  assertFalse(tester.getLastResponseAsString().contains("foo=\"bar\""));
+}

@@ -1,13 +1,8 @@
 {
-  final int size=formValidators_size();
-  List<IFormValidator> validators=null;
-  if (size == 0) {
-    validators=Collections.emptyList();
-  }
- else {
-    validators=new ArrayList<IFormValidator>(size);
-    for (int i=0; i < size; i++) {
-      validators.add(formValidators_get(i));
+  List<IFormValidator> validators=new ArrayList<IFormValidator>();
+  for (  Behavior behavior : getBehaviors()) {
+    if (behavior instanceof IFormValidator) {
+      validators.add((IFormValidator)behavior);
     }
   }
   return Collections.unmodifiableCollection(validators);
