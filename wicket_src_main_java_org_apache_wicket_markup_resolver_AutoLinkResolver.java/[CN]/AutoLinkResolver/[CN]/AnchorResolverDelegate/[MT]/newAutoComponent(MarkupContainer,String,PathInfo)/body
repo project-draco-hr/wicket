@@ -18,8 +18,8 @@
     if (container.getParent() != null) {
       parentWithContainer=container.findParentWithAssociatedMarkup();
     }
-    if ((parentWithContainer instanceof Page) && !pathInfo.path.startsWith("/") && page.getMarkupStream().isMergedMarkup()) {
-      Class<? extends Page> clazz=(Class<? extends Page>)container.getMarkupStream().getTag().getMarkupClass();
+    if ((parentWithContainer instanceof Page) && !pathInfo.path.startsWith("/") && new MarkupStream(page.getMarkup()).isMergedMarkup()) {
+      Class<? extends Page> clazz=(Class<? extends Page>)new MarkupStream(container.getMarkup()).getTag().getMarkupClass();
       if (clazz != null) {
         className=Packages.absolutePath(clazz,pathInfo.path);
         className=Strings.replaceAll(className,"/",".").toString();

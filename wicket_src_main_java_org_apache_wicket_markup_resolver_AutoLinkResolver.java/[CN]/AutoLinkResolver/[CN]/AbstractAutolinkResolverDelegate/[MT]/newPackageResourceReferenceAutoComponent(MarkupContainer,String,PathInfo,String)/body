@@ -1,8 +1,9 @@
 {
   if (!pathInfo.absolute && (pathInfo.path != null) && (pathInfo.path.length() > 0)) {
-    Class<? extends Component> clazz=container.getMarkupStream().getContainerClass();
-    if ((container.getMarkupStream().get() instanceof ComponentTag) && (container.getMarkupStream().getTag().getMarkupClass() != null)) {
-      clazz=container.getMarkupStream().getTag().getMarkupClass();
+    MarkupStream markupStream=new MarkupStream(container.getMarkup());
+    Class<? extends Component> clazz=markupStream.getContainerClass();
+    if ((markupStream.get() instanceof ComponentTag) && (markupStream.getTag().getMarkupClass() != null)) {
+      clazz=markupStream.getTag().getMarkupClass();
     }
     ResourceReferenceAutolink autoLink=new ResourceReferenceAutolink(autoId,clazz,pathInfo.reference,attribute,container);
     if (autoLink.resourceReference != null) {

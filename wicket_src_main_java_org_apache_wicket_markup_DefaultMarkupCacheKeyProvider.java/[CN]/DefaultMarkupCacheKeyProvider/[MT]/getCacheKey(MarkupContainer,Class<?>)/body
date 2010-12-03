@@ -1,6 +1,6 @@
 {
   final String classname=clazz.getName();
-  final AppendingStringBuffer buffer=new AppendingStringBuffer(classname.length() + 64);
+  final StringBuilder buffer=new StringBuilder(classname.length() + 64);
   buffer.append(classname);
   final Locale locale=container.getLocale();
   if (locale != null) {
@@ -15,8 +15,12 @@
       buffer.append('_').append(locale.getVariant());
     }
   }
-  if (container.getStyle() != null)   buffer.append('_').append(container.getStyle());
-  if (container.getVariation() != null)   buffer.append('_').append(container.getVariation());
+  if (container.getStyle() != null) {
+    buffer.append('_').append(container.getStyle());
+  }
+  if (container.getVariation() != null) {
+    buffer.append('_').append(container.getVariation());
+  }
   buffer.append('.').append(container.getMarkupType().getExtension());
   return buffer.toString();
 }

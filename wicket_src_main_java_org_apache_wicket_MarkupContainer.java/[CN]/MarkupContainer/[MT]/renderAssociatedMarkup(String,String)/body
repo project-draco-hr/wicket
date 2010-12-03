@@ -1,7 +1,5 @@
 {
-  final MarkupStream originalMarkupStream=getMarkupStream();
   final MarkupStream associatedMarkupStream=new MarkupStream(getMarkup(null));
-  setMarkupStream(associatedMarkupStream);
   MarkupElement elem=associatedMarkupStream.get();
   if ((elem instanceof ComponentTag) == false) {
     associatedMarkupStream.throwMarkupException("Expected the open tag. " + exceptionMessage);
@@ -32,7 +30,6 @@
       getResponse().write(" END -->");
     }
     renderClosingComponentTag(associatedMarkupStream,associatedMarkupOpenTag,false);
-    setMarkupStream(originalMarkupStream);
   }
   finally {
     setIgnoreAttributeModifier(false);
