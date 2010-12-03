@@ -1,8 +1,8 @@
 {
   int pos1=rawMarkup.indexOf("<!--");
   while (pos1 != -1) {
-    final int pos2=rawMarkup.indexOf("-->",pos1 + 4);
-    final AppendingStringBuffer buf=new AppendingStringBuffer(rawMarkup.length());
+    int pos2=rawMarkup.indexOf("-->",pos1 + 4);
+    final StringBuilder buf=new StringBuilder(rawMarkup.length());
     if (pos2 != -1) {
       final String comment=rawMarkup.substring(pos1 + 4,pos2);
       if (CONDITIONAL_COMMENT.matcher(comment).matches() == false) {
@@ -12,8 +12,11 @@
         }
         rawMarkup=buf.toString();
       }
+ else {
+        pos1=pos2;
+      }
     }
-    pos1=rawMarkup.length() <= pos1 + 2 ? -1 : rawMarkup.indexOf("<!--",pos1 + 4);
+    pos1=rawMarkup.indexOf("<!--",pos1);
   }
   return rawMarkup;
 }

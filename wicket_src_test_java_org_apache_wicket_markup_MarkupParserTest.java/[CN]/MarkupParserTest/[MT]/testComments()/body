@@ -1,0 +1,7 @@
+{
+  tester.getApplication().getMarkupSettings().setStripComments(true);
+  final MarkupParser parser=new MarkupParser("<span><!-- c1 --> <!-- c2 --><!-- c3 --></span>");
+  IMarkupFragment markup=parser.parse();
+  RawMarkup raw=(RawMarkup)markup.get(0);
+  assertEquals("<span> </span>",raw.toString());
+}
