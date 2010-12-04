@@ -19,7 +19,7 @@
         if (wtag.isOpenClose()) {
           childTag=wtag;
           WicketTag childOpenTag=(WicketTag)wtag.mutable();
-          childOpenTag.getXmlTag().setType(XmlTag.OPEN);
+          childOpenTag.getXmlTag().setType(TagType.OPEN);
           childOpenTag.setMarkupClass(baseMarkup.getMarkupResourceStream().getMarkupClass());
           addMarkupElement(childOpenTag);
           break;
@@ -96,7 +96,7 @@
   }
  else {
     WicketTag childCloseTag=(WicketTag)childTag.mutable();
-    childCloseTag.getXmlTag().setType(XmlTag.CLOSE);
+    childCloseTag.getXmlTag().setType(TagType.CLOSE);
     childCloseTag.setMarkupClass(baseMarkup.getMarkupResourceStream().getMarkupClass());
     addMarkupElement(childCloseTag);
   }
@@ -130,13 +130,13 @@
     if ((hasOpenWicketHead != -1) && (hasHead == -1)) {
       final XmlTag headOpenTag=new XmlTag();
       headOpenTag.setName("head");
-      headOpenTag.setType(XmlTag.OPEN);
+      headOpenTag.setType(TagType.OPEN);
       final ComponentTag openTag=new ComponentTag(headOpenTag);
       openTag.setId(HtmlHeaderSectionHandler.HEADER_ID);
       openTag.setAutoComponentTag(true);
       final XmlTag headCloseTag=new XmlTag();
       headCloseTag.setName(headOpenTag.getName());
-      headCloseTag.setType(XmlTag.CLOSE);
+      headCloseTag.setType(TagType.CLOSE);
       final ComponentTag closeTag=new ComponentTag(headCloseTag);
       closeTag.setOpenTag(openTag);
       closeTag.setId(HtmlHeaderSectionHandler.HEADER_ID);
