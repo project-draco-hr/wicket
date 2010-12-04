@@ -4,30 +4,30 @@
   stream.setCurrentIndex(0);
   boolean insideBorderMarkup=false;
   while (stream.hasMore()) {
-    MarkupElement e=stream.get();
+    MarkupElement elem=stream.get();
     stream.next();
-    if (e instanceof WicketTag) {
-      WicketTag wt=(WicketTag)e;
+    if (elem instanceof WicketTag) {
+      WicketTag wTag=(WicketTag)elem;
       if (!insideBorderMarkup) {
-        if (wt.isBorderTag() && wt.isOpen()) {
+        if (wTag.isBorderTag() && wTag.isOpen()) {
           insideBorderMarkup=true;
           continue;
         }
  else {
-          throw new WicketRuntimeException("Unexpected tag encountered in markup of component border " + getClass().getName() + ". Tag: "+ wt.toString()+ ", expected tag: <wicket:border>");
+          throw new WicketRuntimeException("Unexpected tag encountered in markup of component border " + getClass().getName() + ". Tag: "+ wTag.toString()+ ", expected tag: <wicket:border>");
         }
       }
  else {
-        if (wt.isBodyTag()) {
+        if (wTag.isBodyTag()) {
           break;
         }
  else {
-          throw new WicketRuntimeException("Unexpected tag encountered in markup of component border " + getClass().getName() + ". Tag: "+ wt.toString()+ ", expected tag: <wicket:body> or </wicket:body>");
+          throw new WicketRuntimeException("Unexpected tag encountered in markup of component border " + getClass().getName() + ". Tag: "+ wTag.toString()+ ", expected tag: <wicket:body> or </wicket:body>");
         }
       }
     }
     if (insideBorderMarkup) {
-      response.write(e.toCharSequence());
+      response.write(elem.toCharSequence());
     }
   }
   if (!stream.hasMore()) {
