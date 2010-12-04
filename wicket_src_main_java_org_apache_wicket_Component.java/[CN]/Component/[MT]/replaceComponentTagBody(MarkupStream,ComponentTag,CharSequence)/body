@@ -1,9 +1,7 @@
 {
   ComponentTag markupOpenTag=null;
   if (tag.isOpen()) {
-    markupStream.setCurrentIndex(markupStream.getCurrentIndex() - 1);
-    markupOpenTag=markupStream.getTag();
-    markupStream.next();
+    markupOpenTag=markupStream.getPreviousTag();
     if (markupOpenTag.isOpen()) {
       markupStream.skipRawMarkup();
     }

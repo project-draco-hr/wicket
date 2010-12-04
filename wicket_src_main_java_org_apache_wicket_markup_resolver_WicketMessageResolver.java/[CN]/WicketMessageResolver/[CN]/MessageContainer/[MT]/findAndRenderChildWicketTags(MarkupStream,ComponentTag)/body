@@ -1,8 +1,6 @@
 {
   Map<String,CharSequence> childTags=new HashMap<String,CharSequence>();
-  markupStream.setCurrentIndex(markupStream.getCurrentIndex() - 1);
-  ComponentTag tag=markupStream.getTag();
-  markupStream.next();
+  ComponentTag tag=markupStream.getPreviousTag();
   if (!tag.isOpenClose()) {
     while (markupStream.hasMore() && !markupStream.get().closes(openTag)) {
       MarkupElement element=markupStream.get();
