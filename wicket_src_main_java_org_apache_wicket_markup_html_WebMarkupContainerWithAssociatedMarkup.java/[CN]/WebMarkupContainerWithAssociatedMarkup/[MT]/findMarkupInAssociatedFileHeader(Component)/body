@@ -4,12 +4,9 @@
   MarkupStream stream=new MarkupStream(markup);
   while (stream.skipUntil(ComponentTag.class) && (childMarkup == null)) {
     ComponentTag tag=stream.getTag();
-    if (tag instanceof WicketTag) {
-      WicketTag wtag=(WicketTag)tag;
-      if (wtag.isHeadTag()) {
-        if (tag.getMarkupClass() == null) {
-          childMarkup=stream.getMarkupFragment().find(child.getId());
-        }
+    if (TagUtils.isWicketHeadTag(tag)) {
+      if (tag.getMarkupClass() == null) {
+        childMarkup=stream.getMarkupFragment().find(child.getId());
       }
     }
  else     if (TagUtils.isHeadTag(tag)) {

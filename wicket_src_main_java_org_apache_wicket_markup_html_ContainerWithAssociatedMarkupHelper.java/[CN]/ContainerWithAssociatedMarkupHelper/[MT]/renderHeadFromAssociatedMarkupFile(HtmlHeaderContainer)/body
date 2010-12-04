@@ -5,26 +5,12 @@
   }
   noMoreWicketHeadTagsAllowed=false;
   while (nextHeaderMarkup(markupStream) != -1) {
-    Class<?> markupClass=markupStream.getTag().getMarkupClass();
-    if (markupClass == null) {
-      markupClass=markupStream.getContainerClass();
-    }
-    final HeaderPartContainer headerPart=getHeaderPart(markupClass,markupStream.getCurrentIndex());
+    String headerId=getHeaderId(container,markupStream);
+    HeaderPartContainer headerPart=getHeaderPart(headerId,markupStream.getMarkupFragment());
     if (headerPart != null) {
       if (htmlContainer.okToRenderComponent(headerPart.getScope(),headerPart.getId())) {
-        htmlContainer.autoAdd(headerPart,null);
+        headerPart.setParent(htmlContainer);
         headerPart.render();
-      }
- else {
-        Response response=container.getRequestCycle().getResponse();
-        try {
-          container.getRequestCycle().setResponse(NullResponse.getInstance());
-          htmlContainer.autoAdd(headerPart,null);
-          headerPart.render();
-        }
-  finally {
-          container.getRequestCycle().setResponse(response);
-        }
       }
     }
     markupStream.skipComponent();

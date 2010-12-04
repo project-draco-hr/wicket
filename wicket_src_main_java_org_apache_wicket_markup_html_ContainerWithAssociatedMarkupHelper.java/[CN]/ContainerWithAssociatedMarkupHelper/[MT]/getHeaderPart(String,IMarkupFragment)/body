@@ -1,0 +1,10 @@
+{
+  final MarkupElement element=markup.get(0);
+  if (element instanceof WicketTag) {
+    final WicketTag wTag=(WicketTag)element;
+    if ((wTag.isHeadTag() == true) && (wTag.getNamespace() != null)) {
+      return new HeaderPartContainer(id,container,markup);
+    }
+  }
+  throw new WicketRuntimeException("Programming error: expected a WicketTag: " + markup.toString());
+}
