@@ -10,7 +10,9 @@
   }
  else {
     File outputFile=getStoreLocation();
-    if (outputFile == null)     throw new IllegalStateException("for a non-memory upload the file location must not be empty");
+    if (outputFile == null) {
+      throw new IllegalStateException("for a non-memory upload the file location must not be empty");
+    }
     if (outputFile.renameTo(file) == false) {
       Files.copy(outputFile,file);
     }

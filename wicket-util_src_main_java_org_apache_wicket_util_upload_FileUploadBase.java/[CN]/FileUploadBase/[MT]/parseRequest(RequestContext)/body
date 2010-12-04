@@ -8,10 +8,10 @@
     throw new InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or "+ MULTIPART_MIXED+ " stream, content type header is "+ contentType);
   }
   int requestSize=ctx.getContentLength();
-  if (requestSize == -1 && getSizeMax() != Long.MAX_VALUE) {
+  if ((requestSize == -1) && (getSizeMax() != Long.MAX_VALUE)) {
     throw new UnknownSizeException("the request was rejected because its size is unknown");
   }
-  if (sizeMax >= 0 && requestSize > sizeMax) {
+  if ((sizeMax >= 0) && (requestSize > sizeMax)) {
     throw new SizeLimitExceededException("the request was rejected because " + "its size exceeds allowed range");
   }
   try {
@@ -29,7 +29,7 @@
       String fieldName=getFieldName(headers);
       if (fieldName != null) {
         String subContentType=getHeader(headers,CONTENT_TYPE);
-        if (subContentType != null && subContentType.toLowerCase().startsWith(MULTIPART_MIXED)) {
+        if ((subContentType != null) && subContentType.toLowerCase().startsWith(MULTIPART_MIXED)) {
           byte[] subBoundary=getBoundary(subContentType);
           multi.setBoundary(subBoundary);
           boolean nextSubPart=multi.skipPreamble();

@@ -19,7 +19,7 @@
       final int kminus=kmiddle - 1;
       PathNode prev=null;
       int i;
-      if ((k == -d) || (k != d && diagonal[kminus].i < diagonal[kplus].i)) {
+      if ((k == -d) || ((k != d) && (diagonal[kminus].i < diagonal[kplus].i))) {
         i=diagonal[kplus].i;
         prev=diagonal[kplus];
       }
@@ -30,7 +30,7 @@
       diagonal[kminus]=null;
       int j=i - k;
       PathNode node=new DiffNode(i,j,prev);
-      while (i < N && j < M && orig[i].equals(rev[j])) {
+      while ((i < N) && (j < M) && orig[i].equals(rev[j])) {
         i++;
         j++;
       }
@@ -38,7 +38,7 @@
         node=new Snake(i,j,node);
       }
       diagonal[kmiddle]=node;
-      if (i >= N && j >= M) {
+      if ((i >= N) && (j >= M)) {
         return diagonal[kmiddle];
       }
     }
