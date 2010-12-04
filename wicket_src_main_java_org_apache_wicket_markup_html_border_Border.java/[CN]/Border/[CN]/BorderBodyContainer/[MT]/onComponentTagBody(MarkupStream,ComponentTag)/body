@@ -1,7 +1,10 @@
 {
-  if (wasOpenCloseTag == false) {
+  if (markupStream.getPreviousTag().isOpen()) {
     markupStream.skipRawMarkup();
   }
-  originalMarkupStream.setCurrentIndex(beginOfBodyIndex);
-  super.onComponentTagBody(originalMarkupStream,Border.this.openTag);
+  IMarkupFragment markup=Border.this.getMarkup();
+  MarkupStream stream=new MarkupStream(markup);
+  ComponentTag tag=stream.getTag();
+  stream.next();
+  super.onComponentTagBody(stream,tag);
 }

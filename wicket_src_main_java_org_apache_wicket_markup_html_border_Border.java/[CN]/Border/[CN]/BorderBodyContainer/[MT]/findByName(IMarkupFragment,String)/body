@@ -6,11 +6,8 @@
   while (stream.skipUntil(ComponentTag.class)) {
     ComponentTag tag=stream.getTag();
     if (tag.isOpen() || tag.isOpenClose()) {
-      if (tag instanceof WicketTag) {
-        WicketTag wtag=(WicketTag)tag;
-        if (wtag.isBodyTag()) {
-          return stream.getMarkupFragment();
-        }
+      if (TagUtils.isWicketBodyTag(tag)) {
+        return stream.getMarkupFragment();
       }
     }
     stream.next();

@@ -13,7 +13,8 @@
     renderComponentTag(associatedMarkupOpenTag);
     associatedMarkupStream.next();
     String className=null;
-    if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
+    final boolean outputClassName=getApplication().getDebugSettings().isOutputMarkupContainerClassName();
+    if (outputClassName) {
       Class<?> klass=getClass();
       while (klass.isAnonymousClass()) {
         klass=klass.getSuperclass();
@@ -24,7 +25,7 @@
       getResponse().write(" BEGIN -->");
     }
     renderComponentTagBody(associatedMarkupStream,associatedMarkupOpenTag);
-    if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
+    if (outputClassName) {
       getResponse().write("<!-- MARKUP FOR ");
       getResponse().write(className);
       getResponse().write(" END -->");
