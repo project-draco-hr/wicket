@@ -1,3 +1,8 @@
 {
-  return getPage().getMarkupType();
+  try {
+    return getPage().getMarkupType();
+  }
+ catch (  Exception ex) {
+    throw new WicketRuntimeException("Unable to determine the markup type which e.g. is used for the extension of the markup file. " + "Probably the component is not yet added to the Page. " + "You may defer markup access to a later point in time or subclass getMarkupType(). "+ "Please see IModel, onMarkupAttached() or onInitialize()",ex);
+  }
 }
