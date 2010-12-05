@@ -5,6 +5,9 @@
     if (tail == -1) {
       throw new IOException("No more data is available");
     }
+    if (notifier != null) {
+      notifier.noteBytesRead(tail);
+    }
   }
   return buffer[head++];
 }

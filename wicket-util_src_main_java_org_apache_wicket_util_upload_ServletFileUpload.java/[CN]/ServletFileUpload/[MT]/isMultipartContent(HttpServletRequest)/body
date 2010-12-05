@@ -2,5 +2,12 @@
   if (!"post".equals(request.getMethod().toLowerCase())) {
     return false;
   }
-  return FileUploadBase.isMultipartContent(new ServletRequestContext(request));
+  String contentType=request.getContentType();
+  if (contentType == null) {
+    return false;
+  }
+  if (contentType.toLowerCase().startsWith(MULTIPART)) {
+    return true;
+  }
+  return false;
 }

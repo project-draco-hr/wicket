@@ -1,0 +1,56 @@
+{
+  if (eof) {
+    return false;
+  }
+  if (currentItem != null) {
+    currentItem.close();
+    currentItem=null;
+  }
+  for (; ; ) {
+    boolean nextPart;
+    if (skipPreamble) {
+      nextPart=multi.skipPreamble();
+    }
+ else {
+      nextPart=multi.readBoundary();
+    }
+    if (!nextPart) {
+      if (currentFieldName == null) {
+        eof=true;
+        return false;
+      }
+      multi.setBoundary(boundary);
+      currentFieldName=null;
+      continue;
+    }
+    FileItemHeaders headers=getParsedHeaders(multi.readHeaders());
+    if (currentFieldName == null) {
+      String fieldName=getFieldName(headers);
+      if (fieldName != null) {
+        String subContentType=headers.getHeader(CONTENT_TYPE);
+        if (subContentType != null && subContentType.toLowerCase().startsWith(MULTIPART_MIXED)) {
+          currentFieldName=fieldName;
+          byte[] subBoundary=getBoundary(subContentType);
+          multi.setBoundary(subBoundary);
+          skipPreamble=true;
+          continue;
+        }
+        String fileName=getFileName(headers);
+        currentItem=new FileItemStreamImpl(fileName,fieldName,headers.getHeader(CONTENT_TYPE),fileName == null,getContentLength(headers));
+        notifier.noteItem();
+        itemValid=true;
+        return true;
+      }
+    }
+ else {
+      String fileName=getFileName(headers);
+      if (fileName != null) {
+        currentItem=new FileItemStreamImpl(fileName,currentFieldName,headers.getHeader(CONTENT_TYPE),false,getContentLength(headers));
+        notifier.noteItem();
+        itemValid=true;
+        return true;
+      }
+    }
+    multi.discardBodyData();
+  }
+}

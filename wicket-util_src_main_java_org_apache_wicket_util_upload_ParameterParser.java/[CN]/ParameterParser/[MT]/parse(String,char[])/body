@@ -1,0 +1,19 @@
+{
+  if (separators == null || separators.length == 0) {
+    return new HashMap<String,String>();
+  }
+  char separator=separators[0];
+  if (str != null) {
+    int idx=str.length();
+    for (int i=0; i < separators.length; i++) {
+      int tmp=str.indexOf(separators[i]);
+      if (tmp != -1) {
+        if (tmp < idx) {
+          idx=tmp;
+          separator=separators[i];
+        }
+      }
+    }
+  }
+  return parse(str,separator);
+}

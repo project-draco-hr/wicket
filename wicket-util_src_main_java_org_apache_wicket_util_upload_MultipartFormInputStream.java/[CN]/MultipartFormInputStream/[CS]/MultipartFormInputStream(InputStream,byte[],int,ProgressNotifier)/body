@@ -1,0 +1,13 @@
+{
+  this.input=input;
+  this.bufSize=bufSize;
+  buffer=new byte[bufSize];
+  notifier=pNotifier;
+  this.boundary=new byte[boundary.length + BOUNDARY_PREFIX.length];
+  boundaryLength=boundary.length + BOUNDARY_PREFIX.length;
+  keepRegion=this.boundary.length;
+  System.arraycopy(BOUNDARY_PREFIX,0,this.boundary,0,BOUNDARY_PREFIX.length);
+  System.arraycopy(boundary,0,this.boundary,BOUNDARY_PREFIX.length,boundary.length);
+  head=0;
+  tail=0;
+}

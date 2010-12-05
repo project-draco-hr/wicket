@@ -1,0 +1,16 @@
+{
+  if (closed) {
+    throw new FileItemStream.ItemSkippedException();
+  }
+  if (available() == 0) {
+    if (makeAvailable() == 0) {
+      return -1;
+    }
+  }
+  ++total;
+  int b=buffer[head++];
+  if (b >= 0) {
+    return b;
+  }
+  return b + BYTE_POSITIVE_OFFSET;
+}

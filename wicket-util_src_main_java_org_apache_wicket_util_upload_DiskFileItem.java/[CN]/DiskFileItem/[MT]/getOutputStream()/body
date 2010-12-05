@@ -1,7 +1,11 @@
 {
   if (dfos == null) {
-    File outputFile=getTempFile();
-    dfos=new DeferredFileOutputStream(sizeThreshold,outputFile);
+    dfos=new DeferredFileOutputStream(sizeThreshold,new DeferredFileOutputStream.FileFactory(){
+      public File createFile(){
+        return getTempFile();
+      }
+    }
+);
   }
   return dfos;
 }
