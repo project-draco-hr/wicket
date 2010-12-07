@@ -1,5 +1,6 @@
 {
-  FileItem fileItem=new DiskFileItemFactory().createItem("dummyFieldName","text/java",false,"FileUploadTest.java");
+  IFileUploadCleaner fileUploadCleaner=new FileUploadCleaner();
+  FileItem fileItem=new DiskFileItemFactory(fileUploadCleaner).createItem("dummyFieldName","text/java",false,"FileUploadTest.java");
   fileItem.getOutputStream();
   Field inputStreamsField=FileUpload.class.getDeclaredField("inputStreamsToClose");
   inputStreamsField.setAccessible(true);
@@ -21,4 +22,5 @@
   }
   inputStreams=(List)inputStreamsField.get(fileUpload);
   assertNull(inputStreams);
+  fileUploadCleaner.destroy();
 }

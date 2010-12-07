@@ -4,6 +4,9 @@
     resourceWatcher.destroy();
   }
   bufferedResponses.clear();
-  FileCleaner.destroy();
+  IFileUploadCleaner fileUploadCleaner=getResourceSettings().getFileUploadCleaner();
+  if (fileUploadCleaner != null) {
+    fileUploadCleaner.destroy();
+  }
   super.internalDestroy();
 }

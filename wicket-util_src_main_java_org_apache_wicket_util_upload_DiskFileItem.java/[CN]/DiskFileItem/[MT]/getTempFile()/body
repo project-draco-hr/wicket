@@ -21,7 +21,9 @@
  catch (    IOException e) {
       throw new RuntimeException("Could not create the temp file for upload",e);
     }
-    FileCleaner.track(tempFile,this);
+    if (fileUploadCleaner != null) {
+      fileUploadCleaner.track(tempFile,this);
+    }
   }
   return tempFile;
 }
