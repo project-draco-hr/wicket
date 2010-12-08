@@ -1,0 +1,20 @@
+{
+  Request request=createRequest("test2/image/resource/foo/bar?name=name-2&val=123");
+  IRequestHandler handler=mapperWithPlaceholder.mapRequest(request);
+  assertNotNull(handler);
+  assertEquals(ResourceReferenceRequestHandler.class,handler.getClass());
+  Url newUrl=mapperWithPlaceholder.mapHandler(handler);
+  assertEquals(Url.parse("test2/name-2/resource/foo/bar?val=123"),newUrl);
+  request=createRequest(newUrl.toString());
+  handler=mapperWithPlaceholder.mapRequest(request);
+  assertNotNull(handler);
+  tester.processRequest(handler);
+  PageParameters params=resource.pageParameters;
+  assertNotNull(params);
+  assertEquals(2,params.getAllNamed().size());
+  assertEquals(2,params.getIndexedCount());
+  assertEquals("foo",params.get(0).toString());
+  assertEquals("bar",params.get(1).toString());
+  assertEquals("name-2",params.get("name").toString());
+  assertEquals("123",params.get("val").toString());
+}
