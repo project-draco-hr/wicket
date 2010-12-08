@@ -1,16 +1,20 @@
 {
-  if ((requestHandler instanceof ResourceReferenceRequestHandler) == false)   return null;
+  if ((requestHandler instanceof ResourceReferenceRequestHandler) == false) {
+    return null;
+  }
   ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;
-  if (resourceReference.getResource().equals(handler.getResource()) == false)   return null;
+  if (resourceReference.getResource().equals(handler.getResource()) == false) {
+    return null;
+  }
   Url url=new Url();
   for (  String segment : mountSegments) {
     url.getSegments().add(segment);
   }
   PageParameters parameters=new PageParameters(handler.getPageParameters());
-  for (int i=0; i < mountSegments.length; ++i) {
-    String placeholder=getPlaceholder(mountSegments[i]);
+  for (int index=0; index < mountSegments.length; ++index) {
+    String placeholder=getPlaceholder(mountSegments[index]);
     if (placeholder != null) {
-      url.getSegments().set(i,parameters.get(placeholder).toString(""));
+      url.getSegments().set(index,parameters.get(placeholder).toString(""));
       parameters.remove(placeholder);
     }
   }

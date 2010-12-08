@@ -1,14 +1,16 @@
 {
   final Url url=request.getUrl();
-  if (urlStartsWith(url,mountSegments) == false)   return null;
+  if (urlStartsWith(url,mountSegments) == false) {
+    return null;
+  }
   PageParameters parameters=extractPageParameters(request,mountSegments.length,parametersEncoder);
-  for (int i=0; i < mountSegments.length; ++i) {
-    String placeholder=getPlaceholder(mountSegments[i]);
+  for (int index=0; index < mountSegments.length; ++index) {
+    String placeholder=getPlaceholder(mountSegments[index]);
     if (placeholder != null) {
       if (parameters == null) {
         parameters=new PageParameters();
       }
-      parameters.add(placeholder,url.getSegments().get(i));
+      parameters.add(placeholder,url.getSegments().get(index));
     }
   }
   return new ResourceReferenceRequestHandler(resourceReference,parameters);
