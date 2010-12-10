@@ -4,10 +4,13 @@
   if ((value == null) && (defaultValue != null)) {
     if (resourceSettings.getUseDefaultOnMissingResource()) {
       value=defaultValue;
+      if (value != null) {
+        return substitutePropertyExpressions(component,value,model);
+      }
     }
   }
   if (value != null) {
-    return substitutePropertyExpressions(component,value,model);
+    return value;
   }
   if (resourceSettings.getThrowExceptionOnMissingResource()) {
     AppendingStringBuffer message=new AppendingStringBuffer("Unable to find property: '");
