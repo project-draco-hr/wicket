@@ -6,16 +6,7 @@
       RedirectPolicy policy=getPage().isPageStateless() ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
       requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(getPage()),policy));
     }
-    Boolean frozen=null;
-    if (isAjax) {
-      frozen=page.setFreezePageId(true);
-    }
-    try {
-      invokeListener();
-    }
-  finally {
-      if (frozen != null)       page.setFreezePageId(frozen);
-    }
+    invokeListener();
   }
  else {
     throw new WicketRuntimeException("Component " + getComponent() + " has been removed from page.");
