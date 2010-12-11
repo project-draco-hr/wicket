@@ -3,22 +3,24 @@
   setDefaultModel(new CompoundPropertyModel<Input>(input));
   FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
   add(feedbackPanel);
-  Form<?> form=new Form("form"){
+  Form<?> form=new Form<Void>("form"){
+    private static final long serialVersionUID=1L;
     @Override protected void onSubmit(){
       info("input: " + input);
     }
   }
 ;
   add(form);
-  Select site=new Select("site");
+  Select<String> site=new Select<String>("site");
   form.add(site);
   site.add(new SelectOption<String>("site1",new Model<String>("tss")));
   site.add(new SelectOption<String>("site2",new Model<String>("jl")));
   site.add(new SelectOption<String>("site3",new Model<String>("sd")));
   site.add(new SelectOption<String>("site4",new Model<String>("bn")));
-  Select choices=new Select("choices");
+  Select<List<String>> choices=new Select<List<String>>("choices");
   form.add(choices);
   IOptionRenderer<String> renderer=new IOptionRenderer<String>(){
+    private static final long serialVersionUID=1L;
     public String getDisplayValue(    String object){
       return object;
     }

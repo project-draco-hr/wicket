@@ -1,5 +1,5 @@
 {
-  boolean supportsMultiple=getDefaultModelObject() instanceof Collection;
+  boolean supportsMultiple=getModelObject() instanceof Collection;
   String[] paths=getInputAsArray();
   if (paths == null || paths.length == 0) {
     setConvertedInput(null);
@@ -8,11 +8,11 @@
   if (!supportsMultiple && paths.length > 1) {
     throw new WicketRuntimeException("The model of Select component [" + getPath() + "] is not of type java.util.Collection, but more then one SelectOption component has been selected. Either remove the multiple attribute from the select tag or make the model of the Select component a collection");
   }
-  List converted=new ArrayList(paths.length);
+  List<Object> converted=new ArrayList<Object>(paths.length);
   for (  String path : paths) {
     if (!Strings.isEmpty(path)) {
       path=path.substring(getPath().length() + 1);
-      SelectOption option=(SelectOption)get(path);
+      SelectOption<?> option=(SelectOption<?>)get(path);
       if (option == null) {
         throw new WicketRuntimeException("submitted http post value [" + Arrays.toString(paths) + "] for SelectOption component ["+ getPath()+ "] contains an illegal relative path element ["+ path+ "] which does not point to an SelectOption component. Due to this the Select component cannot resolve the selected SelectOption component pointed to by the illegal value. A possible reason is that component hierarchy changed between rendering and form submission.");
       }
@@ -23,9 +23,9 @@
     setConvertedInput(null);
   }
  else   if (!supportsMultiple) {
-    setConvertedInput(converted.get(0));
+    setConvertedInput((T)converted.get(0));
   }
  else {
-    setConvertedInput(converted);
+    setConvertedInput((T)converted);
   }
 }
