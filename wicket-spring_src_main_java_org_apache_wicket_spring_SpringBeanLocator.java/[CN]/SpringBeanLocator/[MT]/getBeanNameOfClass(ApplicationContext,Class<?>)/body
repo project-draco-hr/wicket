@@ -1,9 +1,9 @@
 {
   List<String> names=new ArrayList<String>(Arrays.asList(BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx,clazz)));
-  Iterator<String> it=names.iterator();
-  while (it.hasNext()) {
-    final String possibility=it.next();
-    if (ctx instanceof AbstractApplicationContext) {
+  if (ctx instanceof AbstractApplicationContext) {
+    Iterator<String> it=names.iterator();
+    while (it.hasNext()) {
+      String possibility=it.next();
       BeanDefinition beanDef=getBeanDefinition(((AbstractApplicationContext)ctx).getBeanFactory(),possibility);
       if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.") || !beanDef.isAutowireCandidate()) {
         it.remove();
