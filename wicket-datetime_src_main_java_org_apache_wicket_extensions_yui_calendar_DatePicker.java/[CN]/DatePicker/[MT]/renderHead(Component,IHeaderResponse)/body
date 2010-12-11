@@ -21,7 +21,7 @@
     variables.put("filter","");
     variables.put("allowRollup",true);
   }
-  String script=getAdditionalJavascript();
+  String script=getAdditionalJavaScript();
   if (script != null) {
     variables.put("additionalJavascript",Strings.replaceAll(script,"${calendar}","YAHOO.wicket." + widgetId + "DpJs"));
   }
@@ -75,10 +75,10 @@
   variables.put("calendarInit",calendarInit.toString());
   TextTemplate datePickerJs=new PackagedTextTemplate(DatePicker.class,"DatePicker.js");
   datePickerJs.interpolate(variables);
-  response.renderOnDomReadyJavascript(datePickerJs.asString());
+  response.renderOnDomReadyJavaScript(datePickerJs.asString());
   if (AjaxRequestTarget.get() != null) {
     final String escapedComponentMarkupId=getEscapedComponentMarkupId();
     final String javascript="var e = Wicket.$('" + escapedComponentMarkupId + "Dp"+ "'); if (e != null && typeof(e.parentNode) != 'undefined' && "+ "typeof(e.parentNode.parentNode != 'undefined')) "+ "e.parentNode.parentNode.removeChild(e.parentNode);"+ "YAHOO.wicket."+ escapedComponentMarkupId+ "DpJs.destroy(); delete YAHOO.wicket."+ escapedComponentMarkupId+ "DpJs;";
-    response.renderJavascript(javascript,null);
+    response.renderJavaScript(javascript,null);
   }
 }

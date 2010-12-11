@@ -1,0 +1,10 @@
+{
+  if (!closed) {
+    List<String> token=Arrays.asList("javascript-event",target,event,javascript);
+    if (wasRendered(token) == false) {
+      renderJavaScriptReference(WicketEventReference.INSTANCE);
+      JavaScriptUtils.writeJavaScript(getResponse(),"Wicket.Event.add(" + target + ", \""+ event+ "\", function(event) { "+ javascript+ ";});");
+      markRendered(token);
+    }
+  }
+}
