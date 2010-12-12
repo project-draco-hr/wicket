@@ -19,7 +19,7 @@
         behavior.detach(this);
       }
     }
-    if ((tag instanceof WicketTag) && !tag.isClose()) {
+    if ((tag instanceof WicketTag) && !tag.isClose() && !getFlag(FLAG_IGNORE_ATTRIBUTE_MODIFIER)) {
       if (getFlag(FLAG_OUTPUT_MARKUP_ID)) {
         log.warn(String.format("Markup id set on a component that is usually not rendered into markup. " + "Markup id: %s, component id: %s, component tag: %s.",getMarkupId(),getId(),tag.getName()));
       }
