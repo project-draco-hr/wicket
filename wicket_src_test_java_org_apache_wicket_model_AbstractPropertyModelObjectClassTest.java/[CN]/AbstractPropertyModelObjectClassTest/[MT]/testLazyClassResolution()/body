@@ -1,0 +1,8 @@
+{
+  Model<CustomBean> modelCustomBean=new Model<CustomBean>(null);
+  PropertyModel<CustomType> customTypeModel=new PropertyModel<CustomType>(modelCustomBean,"customType");
+  PropertyModel<Integer> somePropertyModel=new PropertyModel<Integer>(customTypeModel,"someProperty");
+  assertNull(somePropertyModel.getObjectClass());
+  modelCustomBean.setObject(new CustomBean());
+  assertEquals(Integer.class,somePropertyModel.getObjectClass());
+}
