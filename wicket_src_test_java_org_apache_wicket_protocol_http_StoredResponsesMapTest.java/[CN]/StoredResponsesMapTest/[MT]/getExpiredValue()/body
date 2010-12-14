@@ -1,0 +1,9 @@
+{
+  StoredResponsesMap map=new StoredResponsesMap(1000,Duration.milliseconds(50));
+  assertEquals(0,map.size());
+  map.put("1",new BufferedWebResponse(null));
+  assertEquals(1,map.size());
+  TimeUnit.MILLISECONDS.sleep(51);
+  Object value=map.get("1");
+  assertNull(value);
+}

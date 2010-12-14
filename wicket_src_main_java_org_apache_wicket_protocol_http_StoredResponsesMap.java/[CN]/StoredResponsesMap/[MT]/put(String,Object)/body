@@ -1,0 +1,10 @@
+{
+  if (!(bufferedResponse instanceof BufferedWebResponse)) {
+    throw new IllegalArgumentException(StoredResponsesMap.class.getSimpleName() + " can store only instances of " + BufferedWebResponse.class.getSimpleName());
+  }
+  Value value=new Value();
+  value.creationTime=Time.now();
+  value.response=(BufferedWebResponse)bufferedResponse;
+  Value oldValue=(Value)super.put(key,value);
+  return oldValue != null ? oldValue.response : null;
+}
