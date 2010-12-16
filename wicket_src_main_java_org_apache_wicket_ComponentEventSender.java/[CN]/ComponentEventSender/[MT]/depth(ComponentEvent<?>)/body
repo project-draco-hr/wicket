@@ -5,29 +5,29 @@
   boolean targetsCycle=targetsSession || sink instanceof RequestCycle;
   boolean targetsComponnet=sink instanceof Component;
   if (!targetsComponnet && !targetsCycle) {
-    sink.onEvent(event);
+    dispatcher.dispatchEvent(sink,event);
     return;
   }
   Component cursor=(targetsCycle) ? source.getPage() : (Component)sink;
   if (cursor instanceof MarkupContainer) {
-    Visits.visitPostOrder(cursor,new ComponentEventVisitor(event));
+    Visits.visitPostOrder(cursor,new ComponentEventVisitor(event,dispatcher));
   }
   if (event.isStop()) {
     return;
   }
   if (targetsCycle) {
-    source.getRequestCycle().onEvent(event);
+    dispatcher.dispatchEvent(source.getRequestCycle(),event);
   }
   if (event.isStop()) {
     return;
   }
   if (targetsSession) {
-    source.getSession().onEvent(event);
+    dispatcher.dispatchEvent(source.getSession(),event);
   }
   if (event.isStop()) {
     return;
   }
   if (targetsApplication) {
-    source.getApplication().onEvent(event);
+    dispatcher.dispatchEvent(source.getApplication(),event);
   }
 }
