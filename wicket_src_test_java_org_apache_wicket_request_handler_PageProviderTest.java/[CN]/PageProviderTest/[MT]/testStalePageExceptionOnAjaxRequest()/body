@@ -1,0 +1,12 @@
+{
+  tester.startPage(TestPage.class);
+  TestPage testPage=(TestPage)tester.getLastRenderedPage();
+  Url firstAjaxLinkUrl=tester.urlFor(testPage.ajaxLink);
+  tester.clickLink("link");
+  tester.setExposeExceptions(false);
+  tester.setFollowRedirects(false);
+  tester.setUseRequestUrlAsBase(false);
+  executeAjaxUrlWithLastBaseUrl(firstAjaxLinkUrl);
+  assertTrue(tester.getLastResponseAsString().startsWith("<ajax-response>"));
+  assertTrue(tester.getLastResponse().isRedirect());
+}

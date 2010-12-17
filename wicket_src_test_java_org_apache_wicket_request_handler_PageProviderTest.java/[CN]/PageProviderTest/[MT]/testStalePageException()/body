@@ -1,0 +1,15 @@
+{
+  tester.startPage(TestPage.class);
+  TestPage testPage=(TestPage)tester.getLastRenderedPage();
+  String firstHRef=tester.urlFor(testPage.link);
+  tester.clickLink("link");
+  try {
+    tester.setExposeExceptions(true);
+    tester.getRequest().setURL(firstHRef);
+    tester.processRequest();
+    fail("Stale page request process should throw StalePageException");
+  }
+ catch (  StalePageException e) {
+    assertTrue(true);
+  }
+}

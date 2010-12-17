@@ -1,0 +1,14 @@
+{
+  XmlPullParser parser=new XmlPullParser();
+  parser.parse(getLastResponseAsString());
+  XmlTag tag=null;
+  do {
+    tag=(XmlTag)parser.nextTag();
+    if (tag.isOpen() && tag.getName().equals("script") && "wicket-ajax-base-url".equals(tag.getString("id"))) {
+      parser.next();
+      return parser.getString().toString().split("\\\"")[1];
+    }
+  }
+ while (tag != null);
+  return null;
+}

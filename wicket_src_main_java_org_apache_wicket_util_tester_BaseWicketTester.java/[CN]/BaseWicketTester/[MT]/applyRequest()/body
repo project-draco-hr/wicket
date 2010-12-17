@@ -1,5 +1,7 @@
 {
   ServletWebRequest req=createServletWebRequest();
   requestCycle.setRequest(req);
-  requestCycle.getUrlRenderer().setBaseUrl(req.getUrl());
+  if (useRequestUrlAsBase) {
+    requestCycle.getUrlRenderer().setBaseUrl(req.getUrl());
+  }
 }

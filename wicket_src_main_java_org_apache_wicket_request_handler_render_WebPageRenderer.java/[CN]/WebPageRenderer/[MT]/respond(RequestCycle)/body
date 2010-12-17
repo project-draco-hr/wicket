@@ -2,17 +2,18 @@
   Url currentUrl=requestCycle.getUrlRenderer().getBaseUrl();
   Url targetUrl=requestCycle.mapUrlFor(getRenderPageRequestHandler());
   BufferedWebResponse bufferedResponse=getAndRemoveBufferedResponse(currentUrl);
+  boolean isAjax=isAjax(requestCycle);
   if (bufferedResponse != null) {
     logger.warn("The Buffered response should be handled by BufferedResponseRequestHandler");
     bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
   }
- else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender())) {
+ else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (!isAjax && (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender()))) {
     BufferedWebResponse response=renderPage(currentUrl,requestCycle);
     if (response != null) {
       response.writeTo((WebResponse)requestCycle.getResponse());
     }
   }
- else   if (!targetUrl.equals(currentUrl) && (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender())) {
+ else   if ((!targetUrl.equals(currentUrl) && getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT) || isRedirectToRender() || (isAjax && targetUrl.equals(currentUrl))) {
     redirectTo(targetUrl,requestCycle);
   }
  else   if (!targetUrl.equals(currentUrl) && isSessionTemporary() && getPage().isPageStateless()) {
