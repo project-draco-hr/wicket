@@ -1,0 +1,17 @@
+{
+  add(new AjaxLink<Void>(LINK_ID){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+    }
+  }
+);
+  add(new WebComponent(COMPONENT_ID){
+    private static final long serialVersionUID=1L;
+    @Override public void onEvent(    IEvent<?> event){
+      if (event.getPayload() instanceof AjaxRequestTarget) {
+        defaultEventRaised=true;
+      }
+    }
+  }
+);
+}
