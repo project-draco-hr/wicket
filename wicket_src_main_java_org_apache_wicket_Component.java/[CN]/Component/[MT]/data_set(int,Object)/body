@@ -1,16 +1,12 @@
 {
   if (index > data_length() - 1) {
-    throw new IndexOutOfBoundsException();
+    throw new IndexOutOfBoundsException("can not set data at " + index + " when data_length() is "+ data_length());
   }
  else   if (index == 0 && !(data instanceof Object[] && !(data instanceof MetaDataEntry<?>[]))) {
-    Object old=data;
     data=object;
-    return old;
   }
  else {
     Object[] array=(Object[])data;
-    Object old=array[index];
     array[index]=object;
-    return old;
   }
 }
