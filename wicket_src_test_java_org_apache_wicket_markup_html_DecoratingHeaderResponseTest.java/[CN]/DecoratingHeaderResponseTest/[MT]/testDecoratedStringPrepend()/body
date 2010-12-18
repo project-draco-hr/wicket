@@ -1,0 +1,29 @@
+{
+  tester.getApplication().setHeaderResponseDecorator(new IHeaderResponseDecorator(){
+    public IHeaderResponse decorate(    IHeaderResponse response){
+      return new DecoratingHeaderResponse(response){
+        @Override public void renderJavaScriptReference(        ResourceReference reference,        String id){
+          super.renderJavaScriptReference(new PackageResourceReference("DECORATED-" + reference.getName()),id);
+        }
+      }
+;
+    }
+  }
+);
+  tester.startPage(TestPage.class);
+  XmlPullParser parser=new XmlPullParser();
+  parser.parse(tester.getLastResponseAsString());
+  XmlTag tag=(XmlTag)parser.nextTag();
+  boolean isDecorated=false;
+  do {
+    if (tag.isOpen() && "script".equals(tag.getName())) {
+      isDecorated=tag.getString("src").toString().contains("DECORATED");
+      if (!isDecorated) {
+        fail();
+      }
+      break;
+    }
+  }
+ while ((tag=(XmlTag)parser.nextTag()) != null);
+  assertTrue(isDecorated);
+}
