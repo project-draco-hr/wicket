@@ -6,6 +6,12 @@
     }
   }
   if (header != null) {
+    headerRendering=true;
+    Response oldResponse=RequestCycle.get().setResponse(encodingHeaderResponse);
+    encodingHeaderResponse.reset();
     header.getHeaderResponse().close();
+    RequestCycle.get().setResponse(oldResponse);
+    writeHeaderContribution(response);
+    headerRendering=false;
   }
 }

@@ -22,17 +22,6 @@
 );
   }
   RequestCycle.get().setResponse(oldResponse);
-  if (encodingHeaderResponse.getContents().length() != 0) {
-    response.write("<header-contribution");
-    if (encodingHeaderResponse.isContentsEncoded()) {
-      response.write(" encoding=\"");
-      response.write(getEncodingName());
-      response.write("\" ");
-    }
-    response.write("><![CDATA[<head xmlns:wicket=\"http://wicket.apache.org\">");
-    response.write(encodingHeaderResponse.getContents());
-    response.write("</head>]]>");
-    response.write("</header-contribution>");
-  }
+  writeHeaderContribution(response);
   headerRendering=false;
 }
