@@ -1,0 +1,39 @@
+{
+  PageParameters pageParameters=attributes.getParameters();
+  String refsVal=pageParameters.get("refs").toOptionalString();
+  String type=pageParameters.get("type").toOptionalString();
+  boolean isCss="css".equals(type);
+  ResourceResponse resourceResponse=new ResourceResponse();
+  if (resourceResponse.dataNeedsToBeWritten(attributes)) {
+    if (isCss) {
+      resourceResponse.setContentType("text/css");
+    }
+ else {
+      resourceResponse.setContentType("text/javascript");
+    }
+    final StringBuilder combined=new StringBuilder();
+    String[] refs=refsVal.split("\\|");
+    for (    String ref : refs) {
+      String[] parts=ref.split(":");
+      String className=parts[0];
+      String name=parts[1];
+      PackageResourceStream resourceStream=new PackageResourceStream(WicketObjects.resolveClass(className),name);
+      try {
+        BufferedReader br=new BufferedReader(new InputStreamReader(resourceStream.getInputStream()));
+        for (String line=br.readLine(); line != null; line=br.readLine()) {
+          combined.append(line).append("\n");
+        }
+      }
+ catch (      Exception e) {
+        combined.append("/* ERROR: ").append(e.getMessage()).append(" */\n");
+      }
+    }
+    resourceResponse.setWriteCallback(new WriteCallback(){
+      @Override public void writeData(      Attributes attributes){
+        attributes.getResponse().write(combined);
+      }
+    }
+);
+  }
+  return resourceResponse;
+}

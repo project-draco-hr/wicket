@@ -1,0 +1,22 @@
+{
+  final WebMarkupContainer jsPlaceholder=new WebMarkupContainer("jsProofPlaceholder");
+  jsPlaceholder.add(new Behavior(){
+    private static final long serialVersionUID=1L;
+    @Override public void renderHead(    Component component,    IHeaderResponse response){
+      jsPlaceholder.setOutputMarkupId(true);
+      response.renderOnDomReadyJavaScript("$('#" + jsPlaceholder.getMarkupId() + "').html('the ondomready script ran').css('border-color', 'green');");
+    }
+  }
+);
+  add(jsPlaceholder);
+  add(new AjaxProofContainer("ajaxProofPlaceholder"));
+  add(new AbstractAjaxTimerBehavior(Duration.seconds(4)){
+    private static final long serialVersionUID=1L;
+    @Override protected void onTimer(    AjaxRequestTarget target){
+      HomePage.this.replace(new AjaxProofContainer("ajaxProofPlaceholder"));
+      target.add(HomePage.this.get("ajaxProofPlaceholder"));
+      stop();
+    }
+  }
+);
+}

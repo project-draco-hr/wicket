@@ -1,0 +1,7 @@
+{
+  if (ref.getReference() instanceof GroupedAndOrderedResourceReference) {
+    GroupedAndOrderedResourceReference ourRef=(GroupedAndOrderedResourceReference)ref.getReference();
+    return new BasicGroupingKey(ourRef.getGroup(),ourRef.getLoadOrder(),ref.isCss());
+  }
+  return ref.isCss() ? UNKNOWN_CSS_GROUPING_KEY : UNKNOWN_JS_GROUPING_KEY;
+}

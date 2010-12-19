@@ -1,0 +1,28 @@
+{
+  getRealResponse().renderString("<!-- " + key + " -->\n");
+  if (ResourceGroup.UNKNOWN.equals(key.getGroup())) {
+    super.renderCollection(alreadyRendered,key,coll);
+    return;
+  }
+  StringBuffer refs=new StringBuffer();
+  boolean first=true;
+  for (  ResourceReferenceAndStringData data : coll) {
+    ResourceReference ref=data.getReference();
+    if (!first) {
+      refs.append('|');
+    }
+    refs.append(ref.getScope().getName()).append(':').append(ref.getName());
+    first=false;
+  }
+  PageParameters parameters=new PageParameters();
+  parameters.add("refs",refs);
+  parameters.add("type",key.isCss() ? "css" : "js");
+  ResourceReference ref=new PackageResourceReference("merged-resources");
+  String url=RequestCycle.get().urlFor(ref,parameters).toString();
+  if (key.isCss()) {
+    getRealResponse().renderCSSReference(url);
+  }
+ else {
+    getRealResponse().renderJavaScriptReference(url);
+  }
+}

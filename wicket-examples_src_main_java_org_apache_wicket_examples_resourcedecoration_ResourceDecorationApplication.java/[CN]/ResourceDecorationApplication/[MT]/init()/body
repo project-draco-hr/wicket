@@ -1,0 +1,10 @@
+{
+  super.init();
+  getSharedResources().add("merged-resources",new MergedResourcesResource());
+  setHeaderResponseDecorator(new IHeaderResponseDecorator(){
+    public IHeaderResponse decorate(    IHeaderResponse response){
+      return new HttpAggregatingHeaderResponse(response);
+    }
+  }
+);
+}
