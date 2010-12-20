@@ -1,0 +1,8 @@
+{
+  tester.getApplication().getFrameworkSettings().add(new DispatchToAnnotatedMethod());
+  MockPageWithOneComponent page=new MockPageWithOneComponent();
+  TestComponent testComponent=new TestComponent(MockPageWithOneComponent.COMPONENT_ID);
+  page.add(testComponent);
+  page.send(page,Broadcast.DEPTH,null);
+  assertTrue(testComponent.callbackInvoked);
+}

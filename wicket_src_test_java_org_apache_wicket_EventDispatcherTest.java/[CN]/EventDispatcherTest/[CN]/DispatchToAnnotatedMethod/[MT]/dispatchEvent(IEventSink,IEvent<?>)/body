@@ -1,0 +1,13 @@
+{
+  Method[] sinkMethods=sink.getClass().getMethods();
+  for (int i=0; i < sinkMethods.length; i++) {
+    if (sinkMethods[i].isAnnotationPresent(EvenCallback.class)) {
+      try {
+        sinkMethods[i].invoke(sink);
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+}
