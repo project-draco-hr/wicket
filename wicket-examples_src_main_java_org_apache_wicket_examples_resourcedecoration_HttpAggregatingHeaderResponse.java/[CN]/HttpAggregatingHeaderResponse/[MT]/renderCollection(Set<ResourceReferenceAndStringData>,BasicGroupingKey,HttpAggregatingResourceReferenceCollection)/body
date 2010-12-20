@@ -4,7 +4,7 @@
     super.renderCollection(alreadyRendered,key,coll);
     return;
   }
-  StringBuffer refs=new StringBuffer();
+  StringBuilder refs=new StringBuilder();
   boolean first=true;
   for (  ResourceReferenceAndStringData data : coll) {
     ResourceReference ref=data.getReference();
@@ -18,11 +18,10 @@
   parameters.add("refs",refs);
   parameters.add("type",key.isCss() ? "css" : "js");
   ResourceReference ref=new PackageResourceReference("merged-resources");
-  String url=RequestCycle.get().urlFor(ref,parameters).toString();
   if (key.isCss()) {
-    getRealResponse().renderCSSReference(url);
+    getRealResponse().renderCSSReference(ref,parameters,null);
   }
  else {
-    getRealResponse().renderJavaScriptReference(url);
+    getRealResponse().renderJavaScriptReference(ref,parameters,null);
   }
 }

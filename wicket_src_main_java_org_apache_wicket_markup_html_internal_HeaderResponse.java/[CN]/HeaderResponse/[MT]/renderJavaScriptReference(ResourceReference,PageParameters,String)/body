@@ -1,0 +1,10 @@
+{
+  if (reference == null) {
+    throw new IllegalArgumentException("reference cannot be null");
+  }
+  if (!closed) {
+    IRequestHandler handler=new ResourceReferenceRequestHandler(reference,pageParameters);
+    CharSequence url=RequestCycle.get().urlFor(handler);
+    internalRenderJavaScriptReference(url.toString(),id);
+  }
+}
