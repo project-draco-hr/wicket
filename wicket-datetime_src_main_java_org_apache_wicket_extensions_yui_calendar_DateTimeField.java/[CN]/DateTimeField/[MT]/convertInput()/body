@@ -7,6 +7,9 @@
     AM_PM amOrPm=amOrPmChoice.getConvertedInput();
     try {
       boolean use12HourFormat=use12HourFormat();
+      if (hoursField.isVisibleInHierarchy() == false) {
+        hours=0;
+      }
       if (hours != null) {
         date.set(DateTimeFieldType.hourOfDay(),hours % getMaximumHours(use12HourFormat));
         date.setMinuteOfHour((minutes != null) ? minutes : 0);
