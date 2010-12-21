@@ -3,7 +3,9 @@
   getSharedResources().add("merged-resources",new MergedResourcesResource());
   setHeaderResponseDecorator(new IHeaderResponseDecorator(){
     public IHeaderResponse decorate(    IHeaderResponse response){
-      return new GroupingHeaderResponse(response);
+      GroupingHeaderResponse groupingHeaderResponse=new GroupingHeaderResponse(response);
+      JavaScriptFilteredIntoFooterHeaderResponse javaScriptFooterResponse=new JavaScriptFilteredIntoFooterHeaderResponse(response,"footerJS");
+      return new GroupingAndFilteringHeaderResponse(groupingHeaderResponse,javaScriptFooterResponse);
     }
   }
 );
