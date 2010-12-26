@@ -17,29 +17,15 @@
     final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
     response.setContentType("text/xml; charset=" + encoding);
     response.disableCaching();
-    response.write("<?xml version=\"1.0\" encoding=\"");
-    response.write(encoding);
-    response.write("\"?>");
-    response.write("<ajax-response>");
-    fireOnBeforeRespondListeners();
-    Iterator<CharSequence> it=prependJavaScripts.iterator();
-    while (it.hasNext()) {
-      CharSequence js=it.next();
-      respondInvocation(response,js);
+    try {
+      final StringResponse bodyResponse=new StringResponse();
+      contructResponseBody(bodyResponse,encoding);
+      invokeResponseFilters(bodyResponse);
+      response.write(bodyResponse.getBuffer());
     }
-    respondComponents(response);
-    fireOnAfterRespondListeners(response);
-    it=domReadyJavaScripts.iterator();
-    while (it.hasNext()) {
-      CharSequence js=it.next();
-      respondInvocation(response,js);
+  finally {
+      RequestCycle.get().setResponse(response);
     }
-    it=appendJavaScripts.iterator();
-    while (it.hasNext()) {
-      CharSequence js=it.next();
-      respondInvocation(response,js);
-    }
-    response.write("</ajax-response>");
   }
   finally {
     page.setFreezePageId(frozen);

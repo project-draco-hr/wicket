@@ -1,0 +1,25 @@
+{
+  bodyResponse.write("<?xml version=\"1.0\" encoding=\"");
+  bodyResponse.write(encoding);
+  bodyResponse.write("\"?>");
+  bodyResponse.write("<ajax-response>");
+  fireOnBeforeRespondListeners();
+  Iterator<CharSequence> it=prependJavaScripts.iterator();
+  while (it.hasNext()) {
+    CharSequence js=it.next();
+    respondInvocation(bodyResponse,js);
+  }
+  respondComponents(bodyResponse);
+  fireOnAfterRespondListeners(bodyResponse);
+  it=domReadyJavaScripts.iterator();
+  while (it.hasNext()) {
+    CharSequence js=it.next();
+    respondInvocation(bodyResponse,js);
+  }
+  it=appendJavaScripts.iterator();
+  while (it.hasNext()) {
+    CharSequence js=it.next();
+    respondInvocation(bodyResponse,js);
+  }
+  bodyResponse.write("</ajax-response>");
+}

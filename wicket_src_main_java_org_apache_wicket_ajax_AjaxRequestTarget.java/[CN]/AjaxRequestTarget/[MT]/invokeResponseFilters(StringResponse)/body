@@ -1,10 +1,9 @@
 {
-  AppendingStringBuffer responseBuffer=new AppendingStringBuffer(builder);
+  AppendingStringBuffer responseBuffer=new AppendingStringBuffer(contentResponse.getBuffer());
   List<IResponseFilter> responseFilters=Application.get().getRequestCycleSettings().getResponseFilters();
   if (responseFilters != null) {
     for (    IResponseFilter filter : responseFilters) {
       filter.filter(responseBuffer);
     }
   }
-  response.write(builder);
 }
