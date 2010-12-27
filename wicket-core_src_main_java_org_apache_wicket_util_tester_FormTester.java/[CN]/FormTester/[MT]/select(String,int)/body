@@ -3,17 +3,19 @@
   FormComponent<?> component=(FormComponent<?>)workingForm.get(formComponentId);
   ChoiceSelector choiceSelector=choiceSelectorFactory.create(component);
   choiceSelector.doSelect(index);
-  if (component instanceof DropDownChoice) {
+  try {
+    Method wantOnSelectionChangedNotificationsMethod=component.getClass().getDeclaredMethod("wantOnSelectionChangedNotifications");
     try {
-      Method wantOnSelectionChangedNotificationsMethod=DropDownChoice.class.getDeclaredMethod("wantOnSelectionChangedNotifications");
       wantOnSelectionChangedNotificationsMethod.setAccessible(true);
       boolean wantOnSelectionChangedNotifications=(Boolean)wantOnSelectionChangedNotificationsMethod.invoke(component);
       if (wantOnSelectionChangedNotifications) {
-        ((DropDownChoice<?>)component).onSelectionChanged();
+        tester.executeListener(component,IOnChangeListener.INTERFACE);
       }
     }
- catch (    Exception e) {
-      throw new RuntimeException(e);
+ catch (    final Exception x) {
+      throw new RuntimeException(x);
     }
+  }
+ catch (  final NoSuchMethodException ignored) {
   }
 }
