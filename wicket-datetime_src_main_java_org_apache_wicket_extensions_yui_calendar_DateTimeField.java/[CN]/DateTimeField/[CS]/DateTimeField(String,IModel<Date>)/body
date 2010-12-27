@@ -1,13 +1,13 @@
 {
   super(id,model);
   setType(Date.class);
-  PropertyModel<Date> dateFieldModel=new PropertyModel<Date>(this,"date");
-  add(dateField=newDateTextField("date",dateFieldModel));
+  PropertyModel<Date> dateFieldModel=new PropertyModel<Date>(this,DATE);
+  add(dateField=newDateTextField(DATE,dateFieldModel));
   dateField.add(newDatePicker());
-  add(hoursField=new TextField<Integer>("hours",new PropertyModel<Integer>(this,"hours"),Integer.class));
+  add(hoursField=new TextField<Integer>(HOURS,new PropertyModel<Integer>(this,HOURS),Integer.class));
   hoursField.add(new HoursValidator());
-  hoursField.setLabel(new Model<String>("hours"));
-  add(minutesField=new TextField<Integer>("minutes",new PropertyModel<Integer>(this,"minutes"),Integer.class){
+  hoursField.setLabel(new Model<String>(HOURS));
+  add(minutesField=new TextField<Integer>(MINUTES,new PropertyModel<Integer>(this,MINUTES),Integer.class){
     private static final long serialVersionUID=1L;
     @SuppressWarnings("unchecked") @Override public <C>IConverter<C> getConverter(    Class<C> type){
       if (Integer.class.isAssignableFrom(type)) {
@@ -20,6 +20,6 @@
   }
 );
   minutesField.add(new RangeValidator<Integer>(0,59));
-  minutesField.setLabel(new Model<String>("minutes"));
-  add(amOrPmChoice=new DropDownChoice<AM_PM>("amOrPmChoice",new PropertyModel<AM_PM>(this,"amOrPm"),Arrays.asList(AM_PM.values())));
+  minutesField.setLabel(new Model<String>(MINUTES));
+  add(amOrPmChoice=new DropDownChoice<AM_PM>(AM_OR_PM_CHOICE,new PropertyModel<AM_PM>(this,AM_OR_PM),Arrays.asList(AM_PM.values())));
 }
