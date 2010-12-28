@@ -1,0 +1,39 @@
+{
+  Locale locale=getLocale();
+  String key="wicketCalendarI18n[\"" + locale.toString() + "\"]";
+  initVariables.put("i18n",key);
+  if (response.wasRendered(key)) {
+    return;
+  }
+  DateFormatSymbols dfSymbols=null;
+  if (GETINSTANCEMETHOD != null) {
+    try {
+      dfSymbols=(DateFormatSymbols)GETINSTANCEMETHOD.invoke(null,locale);
+    }
+ catch (    Exception e) {
+    }
+  }
+  if (dfSymbols == null) {
+    dfSymbols=new DateFormatSymbols(locale);
+  }
+  Map<String,Object> i18nVariables=new HashMap<String,Object>();
+  setWidgetProperty(i18nVariables,"MONTHS_SHORT",filterEmpty(dfSymbols.getShortMonths()));
+  setWidgetProperty(i18nVariables,"MONTHS_LONG",filterEmpty(dfSymbols.getMonths()));
+  setWidgetProperty(i18nVariables,"WEEKDAYS_MEDIUM",filterEmpty(dfSymbols.getShortWeekdays()));
+  setWidgetProperty(i18nVariables,"WEEKDAYS_LONG",filterEmpty(dfSymbols.getWeekdays()));
+  i18nVariables.put("START_WEEKDAY",Calendar.getInstance(locale).getFirstDayOfWeek() - 1);
+  if (Locale.SIMPLIFIED_CHINESE.equals(locale) || Locale.TRADITIONAL_CHINESE.equals(locale)) {
+    setWidgetProperty(i18nVariables,"WEEKDAYS_1CHAR",filterEmpty(substring(dfSymbols.getShortWeekdays(),2,1)));
+    i18nVariables.put("WEEKDAYS_SHORT",filterEmpty(substring(dfSymbols.getShortWeekdays(),2,1)));
+  }
+ else {
+    setWidgetProperty(i18nVariables,"WEEKDAYS_1CHAR",filterEmpty(substring(dfSymbols.getShortWeekdays(),0,1)));
+    setWidgetProperty(i18nVariables,"WEEKDAYS_SHORT",filterEmpty(substring(dfSymbols.getShortWeekdays(),0,2)));
+  }
+  StringBuilder i18n=new StringBuilder(key);
+  i18n.append('=');
+  appendMapping(i18nVariables,i18n);
+  i18n.append(';');
+  response.renderOnDomReadyJavaScript(i18n.toString());
+  response.wasRendered(key);
+}

@@ -1,0 +1,42 @@
+{
+  json.append("{");
+  for (Iterator<Entry<String,Object>> i=map.entrySet().iterator(); i.hasNext(); ) {
+    Entry<String,Object> entry=i.next();
+    json.append(entry.getKey());
+    Object value=entry.getValue();
+    if (value instanceof CharSequence) {
+      json.append(":\"");
+      json.append(Strings.toEscapedUnicode(value.toString()));
+      json.append("\"");
+    }
+ else     if (value instanceof CharSequence[]) {
+      json.append(":[");
+      CharSequence[] valueArray=(CharSequence[])value;
+      for (int j=0; j < valueArray.length; j++) {
+        CharSequence tmpValue=valueArray[j];
+        if (j > 0) {
+          json.append(",");
+        }
+        if (tmpValue != null) {
+          json.append("\"");
+          json.append(Strings.toEscapedUnicode(tmpValue.toString()));
+          json.append("\"");
+        }
+      }
+      json.append("]");
+    }
+ else     if (value instanceof Map) {
+      json.append(":");
+      @SuppressWarnings("unchecked") Map<String,Object> nmap=(Map<String,Object>)value;
+      appendMapping(nmap,json);
+    }
+ else {
+      json.append(":");
+      json.append(Strings.toEscapedUnicode(String.valueOf(value)));
+    }
+    if (i.hasNext()) {
+      json.append(",");
+    }
+  }
+  json.append("}");
+}
