@@ -1,5 +1,5 @@
 {
-  super(id,table);
+  super(table);
   if (table == null) {
     throw new IllegalArgumentException("argument [table] cannot be null");
   }
@@ -16,14 +16,14 @@
     Component filter=null;
     if (col instanceof IFilteredColumn) {
       IFilteredColumn<?> filteredCol=(IFilteredColumn<?>)col;
-      filter=filteredCol.getFilter(id,form);
+      filter=filteredCol.getFilter(getId(),form);
     }
     if (filter == null) {
-      filter=new NoFilter(id);
+      filter=new NoFilter(getId());
     }
  else {
-      if (!filter.getId().equals(id)) {
-        throw new IllegalStateException("filter component returned  with an invalid component id. invalid component id [" + filter.getId() + "] required component id ["+ id+ "] generating column ["+ col.toString()+ "] ");
+      if (!filter.getId().equals(getId())) {
+        throw new IllegalStateException("filter component returned  with an invalid component id. invalid component id [" + filter.getId() + "] required component id ["+ getId()+ "] generating column ["+ col.toString()+ "] ");
       }
     }
     item.add(filter);
