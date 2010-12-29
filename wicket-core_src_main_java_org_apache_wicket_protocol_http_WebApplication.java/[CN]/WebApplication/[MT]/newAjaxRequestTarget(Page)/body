@@ -1,3 +1,7 @@
 {
-  return new AjaxRequestTarget(page);
+  AjaxRequestTarget target=getAjaxRequestTargetProvider().get(page);
+  for (  AjaxRequestTarget.IListener listener : ajaxRequestTargetListeners) {
+    target.addListener(listener);
+  }
+  return target;
 }

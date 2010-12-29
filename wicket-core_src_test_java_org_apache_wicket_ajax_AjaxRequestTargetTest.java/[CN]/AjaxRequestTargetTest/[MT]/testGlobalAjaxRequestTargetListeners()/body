@@ -1,0 +1,8 @@
+{
+  final ValidatingAjaxRequestTargetListener listener=new ValidatingAjaxRequestTargetListener();
+  tester.getApplication().getAjaxRequestTargetListeners().add(listener);
+  tester.startPage(TestEventPage.class);
+  tester.clickLink(MockPageWithLinkAndComponent.LINK_ID,true);
+  assertTrue(listener.onBeforeRespondExecuted);
+  assertTrue(listener.onAfterRespondExecuted);
+}
