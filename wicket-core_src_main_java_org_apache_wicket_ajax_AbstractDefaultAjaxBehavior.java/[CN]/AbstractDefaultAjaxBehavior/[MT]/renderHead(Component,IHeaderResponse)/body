@@ -6,5 +6,7 @@
     response.renderJavaScriptReference(JAVASCRIPT_DEBUG);
     response.renderJavaScript("wicketAjaxDebugEnable=true;","wicket-ajax-debug-enable");
   }
-  response.renderJavaScript("Wicket.Ajax.baseUrl=\"" + RequestCycle.get().getUrlRenderer().getBaseUrl() + "\";","wicket-ajax-base-url");
+  Url baseUrl=RequestCycle.get().getUrlRenderer().getBaseUrl();
+  CharSequence ajaxBaseUrl=Strings.escapeMarkup(baseUrl.toString());
+  response.renderJavaScript("Wicket.Ajax.baseUrl=\"" + ajaxBaseUrl + "\";","wicket-ajax-base-url");
 }
