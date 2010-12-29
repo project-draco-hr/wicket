@@ -1,0 +1,30 @@
+{
+  Date dateFieldInput=(dateStr != null ? DateFormat.getDateInstance().parse(dateStr) : null);
+  final MutableDateTime date;
+  if (dateFieldInput != null) {
+    date=new MutableDateTime(dateFieldInput);
+  }
+ else {
+    date=new MutableDateTime();
+  }
+  date.setSecondOfMinute(0);
+  if (use12HourFormat) {
+    date.set(DateTimeFieldType.halfdayOfDay(),amOrPm == AM_PM.PM ? 1 : 0);
+  }
+  if (hours == null) {
+    date.setHourOfDay(0);
+  }
+ else {
+    date.set(DateTimeFieldType.hourOfDay(),hours % (use12HourFormat ? 12 : 24));
+  }
+  if (minutes == null) {
+    date.setMinuteOfHour(0);
+  }
+ else {
+    date.setMinuteOfHour(minutes);
+  }
+  if (tzClient != null) {
+    date.setZoneRetainFields(DateTimeZone.forTimeZone(tzClient));
+  }
+  return new Date(date.getMillis());
+}

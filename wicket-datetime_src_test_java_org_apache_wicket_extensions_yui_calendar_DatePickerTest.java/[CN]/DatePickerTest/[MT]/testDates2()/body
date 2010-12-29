@@ -1,0 +1,13 @@
+{
+  TimeZone tzClient=TimeZone.getTimeZone("America/Los_Angeles");
+  TimeZone tzServer=TimeZone.getTimeZone("Europe/Berlin");
+  TimeZone.setDefault(tzServer);
+  Locale.setDefault(Locale.GERMAN);
+  Date orig=convertDate("06.11.2010",0,0,AM_PM.AM,false,tzClient);
+  MutableDateTime dt=new MutableDateTime(DateTimeZone.forTimeZone(tzClient));
+  dt.setDateTime(2010,11,06,0,0,0,0);
+  Date date=new Date(dt.getMillis());
+  log.error("actual: " + orig.getTime() + "; expected: "+ date.getTime());
+  log.error("actual: " + orig + "; expected: "+ date);
+  assertEquals(date.getTime(),orig.getTime());
+}
