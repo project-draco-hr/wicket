@@ -1,36 +1,24 @@
 {
   try {
     Date dateFieldInput=dateField.getConvertedInput();
-    Integer hours=hoursField.getConvertedInput();
-    Integer minutes=minutesField.getConvertedInput();
-    AM_PM amOrPm=amOrPmChoice.getConvertedInput();
-    final MutableDateTime date;
-    if (dateFieldInput != null) {
-      date=new MutableDateTime(dateFieldInput);
+    Integer hoursInput=hoursField.getConvertedInput();
+    Integer minutesInput=minutesField.getConvertedInput();
+    AM_PM amOrPmInput=amOrPmChoice.getConvertedInput();
+    if (dateFieldInput == null) {
+      dateFieldInput=new Date();
     }
- else {
-      date=new MutableDateTime();
-    }
-    date.setSecondOfMinute(0);
-    boolean use12HourFormat=use12HourFormat();
-    if (use12HourFormat) {
-      date.set(DateTimeFieldType.halfdayOfDay(),amOrPm == AM_PM.PM ? 1 : 0);
-    }
-    if ((hoursField.isVisibleInHierarchy() == false) || (hours == null)) {
-      date.setHourOfDay(0);
-    }
- else {
-      date.set(DateTimeFieldType.hourOfDay(),hours % getMaximumHours(use12HourFormat));
-    }
-    if ((minutesField.isVisibleInHierarchy() == false) || (minutes == null)) {
-      date.setMinuteOfHour(0);
-    }
- else {
-      date.setMinuteOfHour(minutes);
-    }
-    TimeZone zone=getClientTimeZone();
-    if (zone != null) {
-      date.setZoneRetainFields(DateTimeZone.forTimeZone(zone));
+    Calendar cal=Calendar.getInstance();
+    cal.setTime(dateFieldInput);
+    int year=cal.get(Calendar.YEAR);
+    int month=cal.get(Calendar.MONTH) + 1;
+    int day=cal.get(Calendar.DAY_OF_MONTH);
+    int hours=(hoursInput == null ? 0 : hoursInput % 24);
+    int minutes=(minutesInput == null ? 0 : minutesInput);
+    MutableDateTime date=new MutableDateTime(year,month,day,hours,minutes,0,0,DateTimeZone.forTimeZone(getClientTimeZone()));
+    if (use12HourFormat()) {
+      int halfday=(amOrPm == AM_PM.PM ? 1 : 0);
+      date.set(DateTimeFieldType.halfdayOfDay(),halfday);
+      date.set(DateTimeFieldType.hourOfDay(),hours % 12);
     }
     setConvertedInput(new Date(date.getMillis()));
   }
