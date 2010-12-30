@@ -1,12 +1,9 @@
 {
-  cardId=CreditCard.INVALID;
-  boolean returnValue=false;
-  if (creditCardNumber.length() == 16 && isChecksumCorrect(creditCardNumber)) {
+  if (creditCardNumber.length() == 16) {
     int firstFourDigits=Integer.parseInt(creditCardNumber.substring(0,4));
     if (firstFourDigits >= 3528 && firstFourDigits <= 3589) {
-      cardId=CreditCard.JCB;
-      returnValue=true;
+      return CreditCard.JCB;
     }
   }
-  return returnValue;
+  return CreditCard.INVALID;
 }

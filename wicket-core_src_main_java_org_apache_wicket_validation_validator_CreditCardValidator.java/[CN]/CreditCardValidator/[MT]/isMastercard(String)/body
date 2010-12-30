@@ -1,12 +1,9 @@
 {
-  cardId=CreditCard.INVALID;
-  boolean returnValue=false;
-  if (creditCardNumber.length() == 16 && isChecksumCorrect(creditCardNumber)) {
+  if (creditCardNumber.length() == 16) {
     int firstTwoDigits=Integer.parseInt(creditCardNumber.substring(0,2));
     if (firstTwoDigits >= 51 && firstTwoDigits <= 55) {
-      cardId=CreditCard.MASTERCARD;
-      returnValue=true;
+      return CreditCard.MASTERCARD;
     }
   }
-  return returnValue;
+  return CreditCard.INVALID;
 }

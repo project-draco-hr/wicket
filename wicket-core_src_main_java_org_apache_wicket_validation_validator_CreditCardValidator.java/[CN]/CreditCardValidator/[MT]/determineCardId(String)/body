@@ -1,0 +1,55 @@
+{
+  if (creditCardNumber == null) {
+    return CreditCard.INVALID;
+  }
+  creditCardNumber=creditCardNumber.replaceAll("[ -]","");
+  if ((creditCardNumber.length() >= 12) && (creditCardNumber.length() <= 19) && isChecksumCorrect(creditCardNumber)) {
+    cardId=CreditCard.INVALID;
+    if (cardId == CreditCard.INVALID) {
+      cardId=isAmericanExpress(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isChinaUnionPay(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isDinersClubCarteBlanche(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isDinersClubInternational(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isDinersClubUsAndCanada(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isDiscoverCard(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isJCB(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isLaser(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isMaestro(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isMastercard(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isSolo(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isSwitch(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isVisa(creditCardNumber);
+    }
+    if (cardId == CreditCard.INVALID) {
+      cardId=isVisaElectron(creditCardNumber);
+    }
+  }
+ else {
+    cardId=isUnknown(creditCardNumber);
+  }
+  return cardId;
+}

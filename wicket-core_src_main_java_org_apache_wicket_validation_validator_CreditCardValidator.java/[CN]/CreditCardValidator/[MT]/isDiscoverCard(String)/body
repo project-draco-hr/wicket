@@ -1,13 +1,10 @@
 {
-  cardId=CreditCard.INVALID;
-  boolean returnValue=false;
-  if (creditCardNumber.length() == 16 && creditCardNumber.startsWith("6") && isChecksumCorrect(creditCardNumber)) {
+  if (creditCardNumber.length() == 16 && creditCardNumber.startsWith("6")) {
     int firstThreeDigits=Integer.parseInt(creditCardNumber.substring(0,3));
     int firstSixDigits=Integer.parseInt(creditCardNumber.substring(0,6));
     if (creditCardNumber.startsWith("6011") || creditCardNumber.startsWith("65") || (firstThreeDigits >= 644 && firstThreeDigits <= 649)|| (firstSixDigits >= 622126 && firstSixDigits <= 622925)) {
-      cardId=CreditCard.DISCOVER_CARD;
-      returnValue=true;
+      return CreditCard.DISCOVER_CARD;
     }
   }
-  return returnValue;
+  return CreditCard.INVALID;
 }

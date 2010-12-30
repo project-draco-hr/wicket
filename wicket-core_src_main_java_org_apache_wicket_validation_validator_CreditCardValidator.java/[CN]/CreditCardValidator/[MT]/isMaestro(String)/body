@@ -1,11 +1,8 @@
 {
-  cardId=CreditCard.INVALID;
-  boolean returnValue=false;
-  if (creditCardNumber.length() >= 12 && creditCardNumber.length() <= 19 && isChecksumCorrect(creditCardNumber)) {
+  if (creditCardNumber.length() >= 12 && creditCardNumber.length() <= 19) {
     if (creditCardNumber.startsWith("5018") || creditCardNumber.startsWith("5020") || creditCardNumber.startsWith("5038")|| creditCardNumber.startsWith("6304")|| creditCardNumber.startsWith("6759")|| creditCardNumber.startsWith("6761")|| creditCardNumber.startsWith("6763")) {
-      cardId=CreditCard.MAESTRO;
-      returnValue=true;
+      return CreditCard.MAESTRO;
     }
   }
-  return returnValue;
+  return CreditCard.INVALID;
 }
