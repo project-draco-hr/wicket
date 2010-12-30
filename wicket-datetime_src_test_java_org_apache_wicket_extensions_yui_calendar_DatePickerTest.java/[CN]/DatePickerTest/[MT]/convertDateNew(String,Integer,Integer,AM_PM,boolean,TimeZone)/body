@@ -1,0 +1,26 @@
+{
+  log.error(">>> convertDateNew()");
+  Date dateFieldInput=(dateStr != null ? DateFormat.getDateInstance().parse(dateStr) : null);
+  if (dateFieldInput == null) {
+    dateFieldInput=new Date();
+  }
+  Calendar cal=Calendar.getInstance();
+  cal.setTime(dateFieldInput);
+  int year=cal.get(Calendar.YEAR);
+  int month=cal.get(Calendar.MONTH) + 1;
+  int day=cal.get(Calendar.DAY_OF_MONTH);
+  int iHours=(hours == null ? 0 : hours % 24);
+  int iMins=(minutes == null ? 0 : minutes);
+  MutableDateTime date=new MutableDateTime(year,month,day,iHours,iMins,0,0,DateTimeZone.forTimeZone(tzClient));
+  log.error("1. date: " + date.getMillis() + "  "+ date);
+  int halfday=0;
+  if (use12HourFormat) {
+    halfday=(amOrPm == AM_PM.PM ? 1 : 0);
+    date.set(DateTimeFieldType.halfdayOfDay(),halfday);
+    date.set(DateTimeFieldType.hourOfDay(),hours % 12);
+  }
+  log.error("2. halfday adjustments: " + date.getMillis() + "  "+ date);
+  Date rtn=new Date(date.getMillis());
+  log.error("3. final date: " + rtn.getTime() + "  "+ rtn);
+  return rtn;
+}

@@ -3,14 +3,17 @@
   TimeZone tzClient=TimeZone.getTimeZone("America/Los_Angeles");
   TimeZone tzServer=TimeZone.getTimeZone("Europe/Berlin");
   TimeZone.setDefault(tzServer);
+  DateTimeZone.setDefault(DateTimeZone.forTimeZone(tzServer));
   Locale.setDefault(Locale.GERMAN);
   Date orig=convertDate("06.11.2010",12,0,null,false,tzClient);
   Date origJoda=convertDateJoda("06.11.2010",12,0,null,false,tzClient);
+  Date orig3=convertDateNew("06.11.2010",12,0,null,false,tzClient);
   MutableDateTime dt=new MutableDateTime(DateTimeZone.forTimeZone(tzClient));
   dt.setDateTime(2010,11,06,12,0,0,0);
   Date date=new Date(dt.getMillis());
-  log.error("actual: " + orig.getTime() + "; joda: "+ origJoda.getTime()+ "; expected: "+ date.getTime());
-  log.error("actual: " + orig + "; joda: "+ origJoda+ "; expected: "+ date);
+  log.error("actual: " + orig.getTime() + "; joda: "+ origJoda.getTime()+ "; origNew: "+ orig3.getTime()+ "; expected: "+ date.getTime());
+  log.error("actual: " + orig + "; joda: "+ origJoda+ "; origNew: "+ orig3+ "; expected: "+ date);
+  assertEquals(date.getTime(),orig3.getTime());
   assertEquals(date.getTime(),orig.getTime());
   assertEquals(origJoda.getTime(),orig.getTime());
 }

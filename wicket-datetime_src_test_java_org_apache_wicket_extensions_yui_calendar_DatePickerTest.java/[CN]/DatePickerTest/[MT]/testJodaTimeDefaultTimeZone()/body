@@ -1,0 +1,17 @@
+{
+  TimeZone origJvmDef=TimeZone.getDefault();
+  DateTimeZone origJodaDef=DateTimeZone.getDefault();
+  String newId=null;
+  for (  String id : TimeZone.getAvailableIDs()) {
+    if (!id.equals(origJvmDef.getID())) {
+      newId=id;
+      break;
+    }
+  }
+  assertNotNull(newId);
+  TimeZone.setDefault(TimeZone.getTimeZone(newId));
+  TimeZone newJvmDef=TimeZone.getDefault();
+  DateTimeZone newJodaDef=DateTimeZone.getDefault();
+  assertNotSame(origJvmDef,newJvmDef);
+  assertSame(origJodaDef,newJodaDef);
+}
