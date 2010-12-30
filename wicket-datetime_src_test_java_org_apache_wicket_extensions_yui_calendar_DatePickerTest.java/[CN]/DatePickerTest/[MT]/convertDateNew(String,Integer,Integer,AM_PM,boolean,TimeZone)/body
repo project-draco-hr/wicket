@@ -4,14 +4,7 @@
   if (dateFieldInput == null) {
     dateFieldInput=new Date();
   }
-  Calendar cal=Calendar.getInstance();
-  cal.setTime(dateFieldInput);
-  int year=cal.get(Calendar.YEAR);
-  int month=cal.get(Calendar.MONTH) + 1;
-  int day=cal.get(Calendar.DAY_OF_MONTH);
-  int iHours=(hours == null ? 0 : hours % 24);
-  int iMins=(minutes == null ? 0 : minutes);
-  MutableDateTime date=new MutableDateTime(year,month,day,iHours,iMins,0,0,DateTimeZone.forTimeZone(tzClient));
+  MutableDateTime date=new MutableDateTime(dateFieldInput,DateTimeZone.forTimeZone(tzClient));
   log.error("1. date: " + date.getMillis() + "  "+ date);
   int halfday=0;
   if (use12HourFormat) {
