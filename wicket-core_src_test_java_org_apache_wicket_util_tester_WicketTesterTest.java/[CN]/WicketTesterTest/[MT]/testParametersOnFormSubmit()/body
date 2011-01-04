@@ -1,0 +1,12 @@
+{
+  tester.startPage(MockPageParametersAware.class);
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setValue("textfield","v1");
+  tester.getRequest().getPostParameters().setParameterValue("p_1","p_1_value");
+  tester.getRequest().setParameter("q_1","q_1_value");
+  formTester.submit();
+  MockPageParametersAware page=tester.getLastRenderedPage();
+  assertEquals("v1",page.getLastPostParameters().getParameterValue("textfield").toString());
+  assertEquals("p_1_value",page.getLastPostParameters().getParameterValue("p_1").toString());
+  assertEquals("q_1_value",page.getLastQueryParameters().getParameterValue("q_1").toString());
+}
