@@ -3,7 +3,7 @@
   if (!(getComponent() instanceof FormComponent)) {
     throw new WicketRuntimeException("Behavior " + getClass().getName() + " can only be added to an instance of a FormComponent");
   }
- else   if (Application.get().usesDevelopmentConfig() && ((getComponent() instanceof RadioChoice) || (getComponent() instanceof CheckBoxMultipleChoice) || (getComponent() instanceof RadioGroup)|| (getComponent() instanceof CheckGroup))) {
+ else   if (Application.get().usesDevelopmentConfig() && AjaxFormChoiceComponentUpdatingBehavior.appliesTo(getComponent())) {
     log.warn(String.format("AjaxFormComponentUpdatingBehavior is not suposed to be added in the form component at path: \"%s\". " + "Use the AjaxFormChoiceComponentUpdatingBehavior instead, that is meant for choices/groups that are not one component in the html but many",getComponent().getPageRelativePath()));
   }
 }
