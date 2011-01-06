@@ -9,7 +9,7 @@
   tester.getRequest().addParameter("q_2","q_2_value_2");
   tester.getRequest().setUrl(url);
   tester.processRequest();
-  MockPageParametersAware page=tester.getLastRenderedPage();
+  MockPageParametersAware page=(MockPageParametersAware)tester.getLastRenderedPage();
   IRequestParameters lastQueryParameter=page.getLastQueryParameters();
   List<StringValue> q1ParameterValues=lastQueryParameter.getParameterValues("q_1");
   assertTrue(q1ParameterValues.contains(StringValue.valueOf("q_1_value_1")));

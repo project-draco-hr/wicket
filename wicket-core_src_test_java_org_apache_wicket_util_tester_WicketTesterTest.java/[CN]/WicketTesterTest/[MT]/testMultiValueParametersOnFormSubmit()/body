@@ -5,7 +5,7 @@
   tester.getRequest().getPostParameters().setParameterValue("p_1","p_1_value");
   tester.getRequest().setParameter("q_1","q_1_value");
   formTester.submit();
-  MockPageParametersAware page=tester.getLastRenderedPage();
+  MockPageParametersAware page=(MockPageParametersAware)tester.getLastRenderedPage();
   assertEquals("v1",page.getLastPostParameters().getParameterValue("textfield").toString());
   assertEquals("p_1_value",page.getLastPostParameters().getParameterValue("p_1").toString());
   assertEquals("q_1_value",page.getLastQueryParameters().getParameterValue("q_1").toString());
