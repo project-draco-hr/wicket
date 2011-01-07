@@ -1,0 +1,10 @@
+{
+  TestPage testPage=new TestPage();
+  testPage.tree.setRootLess(true);
+  DefaultMutableTreeNode rootChild=new DefaultMutableTreeNode("rootChild");
+  testPage.rootNode.add(rootChild);
+  testPage.tree.getTreeState().selectNode(rootChild,true);
+  tester.startPage(testPage);
+  tester.clickLink("addChildToSelected",true);
+  assertTrue(tester.getLastResponseAsString().contains("newNode"));
+}

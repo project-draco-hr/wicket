@@ -11,9 +11,11 @@
     for (int i=0; wasLeaf && i < nodeChildCount; i++) {
       wasLeaf=eventChildren.contains(getChildAt(parentNode,i));
     }
-    if (wasLeaf) {
+    if (wasLeaf && !(parentItem.getParentItem() == null && isRootLess())) {
       Object grandparentNode=getParentNode(parentNode);
-      invalidateNodeWithChildren(grandparentNode);
+      if (!(getParentNode(grandparentNode) == null && isRootLess())) {
+        invalidateNodeWithChildren(grandparentNode);
+      }
       getTreeState().expandNode(parentNode);
     }
  else {

@@ -1,0 +1,24 @@
+{
+  rootNode=new DefaultMutableTreeNode("ROOT");
+  treeModel=new DefaultTreeModel(rootNode);
+  tree=new LinkTree("tree",treeModel);
+  add(tree);
+  add(new AjaxLink<Void>("addToRoot"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      DefaultMutableTreeNode child=new DefaultMutableTreeNode("rootChild");
+      treeModel.insertNodeInto(child,rootNode,rootNode.getChildCount());
+      tree.updateTree(target);
+    }
+  }
+);
+  add(new AjaxLink<Void>("addChildToSelected"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      DefaultMutableTreeNode selectedNode=(DefaultMutableTreeNode)tree.getTreeState().getSelectedNodes().iterator().next();
+      treeModel.insertNodeInto(new DefaultMutableTreeNode("newNode"),selectedNode,selectedNode.getChildCount());
+      tree.updateTree(target);
+    }
+  }
+);
+}
