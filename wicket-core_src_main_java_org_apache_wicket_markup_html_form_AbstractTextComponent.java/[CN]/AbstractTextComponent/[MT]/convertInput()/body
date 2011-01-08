@@ -1,4 +1,11 @@
 {
   resolveType();
-  super.convertInput();
+  String[] value=getInputAsArray();
+  String tmp=value != null && value.length > 0 ? value[0] : null;
+  if (getConvertEmptyInputStringToNull() && Strings.isEmpty(tmp)) {
+    setConvertedInput(null);
+  }
+ else {
+    super.convertInput();
+  }
 }

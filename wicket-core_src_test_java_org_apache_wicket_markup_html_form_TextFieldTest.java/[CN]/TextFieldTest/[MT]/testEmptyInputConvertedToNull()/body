@@ -1,0 +1,10 @@
+{
+  TestPage testPage=new TestPage();
+  testPage.textField.setType(String.class);
+  testPage.textField.setConvertEmptyInputStringToNull(true);
+  tester.startPage(testPage);
+  FormTester formTester=tester.newFormTester(testPage.form.getId());
+  formTester.setValue(testPage.textField.getId(),"");
+  formTester.submit();
+  assertEquals(null,testPage.textField.getDefaultModelObject());
+}
