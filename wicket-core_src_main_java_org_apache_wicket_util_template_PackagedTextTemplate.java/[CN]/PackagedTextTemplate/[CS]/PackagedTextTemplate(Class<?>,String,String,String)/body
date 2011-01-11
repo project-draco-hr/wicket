@@ -9,6 +9,7 @@
   if (stream == null) {
     throw new IllegalArgumentException("resource " + fileName + " not found for scope "+ clazz+ " (path = "+ path+ ")");
   }
+  setLastModified(stream.lastModifiedTime());
   try {
     if (encoding != null) {
       buffer.append(Streams.readString(stream.getInputStream(),encoding));
