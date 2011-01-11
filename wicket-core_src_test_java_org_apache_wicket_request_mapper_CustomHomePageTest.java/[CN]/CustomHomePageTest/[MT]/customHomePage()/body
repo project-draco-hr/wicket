@@ -1,0 +1,15 @@
+{
+  final WebApplication dummyApplication=new DummyApplication(){
+    /** 
+ * @see org.apache.wicket.protocol.http.WebApplication#init()
+ */
+    @Override protected void init(){
+      super.init();
+      mountPage("/",CustomHomePage.class);
+    }
+  }
+;
+  final WicketTester tester=new WicketTester(dummyApplication);
+  requestHomePage(tester);
+  tester.assertRenderedPage(CustomHomePage.class);
+}
