@@ -5,7 +5,10 @@
       IConverter<C> c=AjaxEditableLabel.this.getConverter(type);
       return c != null ? c : super.getConverter(type);
     }
-    @Override protected void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
+    /** 
+ * {@inheritDoc}
+ */
+    @Override public void onComponentTagBody(    MarkupStream markupStream,    ComponentTag openTag){
       Object modelObject=getDefaultModelObject();
       if (modelObject == null || "".equals(modelObject)) {
         replaceComponentTagBody(markupStream,openTag,defaultNullLabel());

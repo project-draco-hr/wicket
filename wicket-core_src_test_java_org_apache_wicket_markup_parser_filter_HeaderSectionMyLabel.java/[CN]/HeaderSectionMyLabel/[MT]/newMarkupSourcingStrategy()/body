@@ -1,0 +1,13 @@
+{
+  return new PanelMarkupSourcingStrategy(){
+    @Override public IMarkupFragment getMarkup(    final MarkupContainer parent,    final Component child){
+      MarkupStream markup=parent.getAssociatedMarkupStream(true);
+      markup.skipRawMarkup();
+      return markup.getMarkupFragment();
+    }
+    @Override public void onComponentTagBody(    Component component,    MarkupStream markupStream,    ComponentTag openTag){
+      HeaderSectionMyLabel.this.onComponentTagBody(markupStream,openTag);
+    }
+  }
+;
+}

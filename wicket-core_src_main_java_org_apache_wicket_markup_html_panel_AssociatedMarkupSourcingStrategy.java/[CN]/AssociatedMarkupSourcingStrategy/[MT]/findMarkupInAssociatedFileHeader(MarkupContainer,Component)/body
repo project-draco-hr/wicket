@@ -1,0 +1,21 @@
+{
+  IMarkupFragment markup=container.getAssociatedMarkup();
+  IMarkupFragment childMarkup=null;
+  MarkupStream stream=new MarkupStream(markup);
+  while (stream.skipUntil(ComponentTag.class) && (childMarkup == null)) {
+    ComponentTag tag=stream.getTag();
+    if (TagUtils.isWicketHeadTag(tag)) {
+      if (tag.getMarkupClass() == null) {
+        childMarkup=stream.getMarkupFragment().find(child.getId());
+      }
+    }
+ else     if (TagUtils.isHeadTag(tag)) {
+      childMarkup=stream.getMarkupFragment().find(child.getId());
+    }
+    if (tag.isOpen() && !tag.hasNoCloseTag()) {
+      stream.skipToMatchingCloseTag(tag);
+    }
+    stream.next();
+  }
+  return childMarkup;
+}

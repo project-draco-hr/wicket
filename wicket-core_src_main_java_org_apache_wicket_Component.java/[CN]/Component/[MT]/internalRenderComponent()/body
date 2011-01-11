@@ -19,7 +19,13 @@
     }
     markupStream.next();
     if (tag.isOpen()) {
-      onComponentTagBody(markupStream,tag);
+      IMarkupSourcingStrategy provider=getMarkupSourcingStrategy();
+      if (provider != null) {
+        provider.onComponentTagBody(this,markupStream,tag);
+      }
+ else {
+        onComponentTagBody(markupStream,tag);
+      }
     }
     if (tag.isOpen()) {
       if (openTag.isOpen()) {

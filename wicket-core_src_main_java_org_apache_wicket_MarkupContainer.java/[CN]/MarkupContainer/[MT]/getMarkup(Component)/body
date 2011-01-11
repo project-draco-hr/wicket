@@ -1,4 +1,11 @@
 {
+  IMarkupSourcingStrategy provider=getMarkupSourcingStrategy();
+  if (provider != null) {
+    IMarkupFragment markup=provider.getMarkup(this,child);
+    if (markup != null) {
+      return markup;
+    }
+  }
   IMarkupFragment markup=getMarkup();
   if (markup == null) {
     return null;

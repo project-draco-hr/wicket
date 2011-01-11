@@ -1,0 +1,19 @@
+{
+  noMoreWicketHeadTagsAllowed=false;
+  final MarkupStream markupStream=container.getAssociatedMarkupStream(false);
+  if (markupStream == null) {
+    return;
+  }
+  noMoreWicketHeadTagsAllowed=false;
+  while (nextHeaderMarkup(markupStream) != -1) {
+    String headerId=getHeaderId(container,markupStream);
+    HeaderPartContainer headerPart=getHeaderPart(container,headerId,markupStream.getMarkupFragment());
+    if (headerPart != null) {
+      if (htmlContainer.okToRenderComponent(headerPart.getScope(),headerPart.getId())) {
+        headerPart.setParent(htmlContainer);
+        headerPart.render();
+      }
+    }
+    markupStream.skipComponent();
+  }
+}

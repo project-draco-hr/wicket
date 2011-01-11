@@ -1,0 +1,18 @@
+{
+  IMarkupFragment markup=parent.getAssociatedMarkup();
+  if (markup == null) {
+    throw new MarkupNotFoundException("Failed to find markup file associated. " + parent.getClass().getSimpleName() + ": "+ parent.toString());
+  }
+  IMarkupFragment panelMarkup=findPanelTag(markup);
+  if (panelMarkup == null) {
+    throw new MarkupNotFoundException("Expected to find <wicket:panel> in associated markup file. Markup: " + markup.toString());
+  }
+  if (child == null) {
+    return panelMarkup;
+  }
+  markup=panelMarkup.find(child.getId());
+  if ((child == null) || (markup != null)) {
+    return markup;
+  }
+  return findMarkupInAssociatedFileHeader(parent,child);
+}

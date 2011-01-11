@@ -1,0 +1,9 @@
+{
+  super.onComponentTagBody(component,markupStream,openTag);
+  MarkupStream stream=new MarkupStream(getMarkup((MarkupContainer)component,null));
+  ComponentTag fragmentOpenTag=stream.getTag();
+  if (!fragmentOpenTag.isOpenClose()) {
+    stream.next();
+    component.onComponentTagBody(stream,fragmentOpenTag);
+  }
+}
