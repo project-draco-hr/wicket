@@ -1,6 +1,6 @@
 {
   super(id);
-  if (columns == null || columns.length < 1) {
+  if (columns == null || columns.size() < 1) {
     throw new IllegalArgumentException("Argument `columns` cannot be null or empty");
   }
   this.columns=columns;
@@ -9,7 +9,7 @@
     private static final long serialVersionUID=1L;
     @Override protected Item newCellItem(    String id,    int index,    IModel model){
       Item item=DataTable.this.newCellItem(id,index,model);
-      final IColumn<?> column=DataTable.this.columns[index];
+      final IColumn<T> column=DataTable.this.columns.get(index);
       if (column instanceof IStyledColumn) {
         item.add(new DataTable.CssAttributeBehavior(){
           private static final long serialVersionUID=1L;

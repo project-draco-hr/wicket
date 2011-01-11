@@ -1,9 +1,9 @@
 {
-  ICellPopulator[] columns=new ICellPopulator[5];
-  columns[0]=new PropertyPopulator("id");
-  columns[1]=new PropertyPopulator("firstName");
-  columns[2]=new PropertyPopulator("lastName");
-  columns[3]=new PropertyPopulator("homePhone");
-  columns[4]=new PropertyPopulator("cellPhone");
-  add(new DataGridView("rows",columns,new SortableContactDataProvider()));
+  List<ICellPopulator<Contact>> columns=new ArrayList<ICellPopulator<Contact>>();
+  columns.add(new PropertyPopulator<Contact>("id"));
+  columns.add(new PropertyPopulator<Contact>("firstName"));
+  columns.add(new PropertyPopulator<Contact>("lastName"));
+  columns.add(new PropertyPopulator<Contact>("homePhone"));
+  columns.add(new PropertyPopulator<Contact>("cellPhone"));
+  add(new DataGridView<Contact>("rows",columns,new SortableContactDataProvider()));
 }
