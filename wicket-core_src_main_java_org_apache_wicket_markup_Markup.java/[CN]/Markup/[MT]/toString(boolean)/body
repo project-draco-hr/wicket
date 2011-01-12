@@ -1,11 +1,18 @@
 {
   final AppendingStringBuffer buf=new AppendingStringBuffer(400);
   if (markupOnly == false) {
-    buf.append(markupResourceStream.toString());
+    if (markupResourceStream != null) {
+      buf.append(markupResourceStream.toString());
+    }
+ else {
+      buf.append("null MarkupResouceStream");
+    }
     buf.append("\n");
   }
-  for (  MarkupElement markupElement : markupElements) {
-    buf.append(markupElement);
+  if (markupElements != null) {
+    for (    MarkupElement markupElement : markupElements) {
+      buf.append(markupElement);
+    }
   }
   return buf.toString();
 }
