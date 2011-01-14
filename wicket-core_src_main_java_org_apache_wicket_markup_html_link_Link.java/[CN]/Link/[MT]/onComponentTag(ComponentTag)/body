@@ -7,13 +7,13 @@
   }
  else {
     if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
-      tag.put("href",Strings.replaceAll(url,"&","&amp;"));
+      tag.put("href",url);
       if (popupSettings != null) {
         tag.put("onclick",popupSettings.getPopupJavaScript());
       }
     }
  else     if (tag.getName().equalsIgnoreCase("script") || tag.getName().equalsIgnoreCase("style")) {
-      tag.put("src",Strings.replaceAll(url,"&","&amp;"));
+      tag.put("src",url);
     }
  else {
       if (popupSettings != null) {
@@ -22,7 +22,7 @@
         tag.put("onclick",popupScript);
       }
  else {
-        tag.put("onclick","var win = this.ownerDocument.defaultView || this.ownerDocument.parentWindow; " + "if (win == window) { window.location.href='" + Strings.replaceAll(url,"&","&amp;") + "'; } ;return false");
+        tag.put("onclick","var win = this.ownerDocument.defaultView || this.ownerDocument.parentWindow; " + "if (win == window) { window.location.href='" + url + "'; } ;return false");
       }
     }
     final CharSequence onClickJavaScript=getOnClickScript(url);
