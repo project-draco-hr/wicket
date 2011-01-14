@@ -40,16 +40,11 @@ case '\'':
 buffer.append("&#039;");
 break;
 default :
-if (convertToHtmlUnicodeEscapes) {
 int ci=0xffff & c;
-if (ci > 31 && ci < 160) {
-buffer.append(c);
-}
- else {
+if ((ci < 32 && ci != 9 && ci != 10 && ci != 13) || (convertToHtmlUnicodeEscapes && ci > 159)) {
 buffer.append("&#");
 buffer.append(Integer.toString(ci));
 buffer.append(';');
-}
 }
  else {
 buffer.append(c);
