@@ -6,10 +6,7 @@
     IHeaderResponse response=container.getHeaderResponse();
     if (response.wasRendered(this) == false) {
       renderHead(response);
-      IMarkupSourcingStrategy provider=getMarkupSourcingStrategy();
-      if (provider != null) {
-        provider.renderHead(this,container);
-      }
+      getMarkupSourcingStrategy().renderHead(this,container);
       response.markRendered(this);
     }
     for (    Behavior behavior : getBehaviors()) {
