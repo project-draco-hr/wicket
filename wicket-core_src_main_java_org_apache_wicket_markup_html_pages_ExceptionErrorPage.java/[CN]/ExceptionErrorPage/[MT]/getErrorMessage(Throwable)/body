@@ -1,9 +1,10 @@
 {
   if (throwable != null) {
-    List<Throwable> al=convertToList(throwable);
     AppendingStringBuffer sb=new AppendingStringBuffer(256);
+    List<Throwable> al=convertToList(throwable);
     int length=al.size() - 1;
     Throwable cause=al.get(length);
+    sb.append("Last cause: ").append(cause.getMessage()).append('\n');
     if (throwable instanceof WicketRuntimeException) {
       String msg=throwable.getMessage();
       if (throwable instanceof MarkupException) {

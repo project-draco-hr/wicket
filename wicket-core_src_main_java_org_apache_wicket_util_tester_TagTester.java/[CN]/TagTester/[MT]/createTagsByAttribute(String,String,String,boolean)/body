@@ -13,8 +13,8 @@
           XmlTag xmlTag=(XmlTag)elm;
           if (openTag == null) {
             IValueMap attributeMap=xmlTag.getAttributes();
-            for (            String attr : attributeMap.keySet()) {
-              if (attr.equals(attribute) && value.equals(attributeMap.get(attr))) {
+            for (            Map.Entry<String,Object> entry : attributeMap.entrySet()) {
+              if (entry.getKey().equals(attribute) && value.equals(entry.getValue())) {
                 if (xmlTag.isOpen()) {
                   openTag=xmlTag;
                 }
