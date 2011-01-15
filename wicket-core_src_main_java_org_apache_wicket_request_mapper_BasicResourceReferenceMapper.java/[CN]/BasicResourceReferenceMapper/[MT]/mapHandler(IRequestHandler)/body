@@ -2,7 +2,14 @@
   if (requestHandler instanceof ResourceReferenceRequestHandler) {
     ResourceReferenceRequestHandler referenceRequestHandler=(ResourceReferenceRequestHandler)requestHandler;
     ResourceReference reference=referenceRequestHandler.getResourceReference();
-    Url url=new Url();
+    Url url;
+    if (reference instanceof MetaInfStaticResourceReference) {
+      url=((MetaInfStaticResourceReference)reference).mapHandler(referenceRequestHandler);
+      if (url != null) {
+        return url;
+      }
+    }
+    url=new Url();
     List<String> segments=url.getSegments();
     segments.add(getContext().getNamespace());
     segments.add(getContext().getResourceIdentifier());

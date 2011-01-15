@@ -1,0 +1,16 @@
+{
+  if (!isMetaInfResourcesSupported()) {
+    return null;
+  }
+  Url url=new Url();
+  List<String> segments=url.getSegments();
+  String[] parts=Packages.extractPackageName(getScope()).split("\\.");
+  for (  String p : parts) {
+    segments.add(p);
+  }
+  parts=getName().split("/");
+  for (  String p : parts) {
+    segments.add(p);
+  }
+  return url;
+}

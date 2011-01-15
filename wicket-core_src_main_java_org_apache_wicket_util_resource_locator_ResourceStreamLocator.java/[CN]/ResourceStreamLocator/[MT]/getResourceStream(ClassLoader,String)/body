@@ -5,7 +5,10 @@
   if (log.isDebugEnabled()) {
     log.debug("Attempting to locate resource '" + path + "' using classloader "+ classLoader);
   }
-  final URL url=classLoader.getResource(path);
+  URL url=classLoader.getResource(path);
+  if (url == null) {
+    url=classLoader.getResource("META-INF/resources/" + path);
+  }
   if (url != null) {
     return new UrlResourceStream(url);
   }
