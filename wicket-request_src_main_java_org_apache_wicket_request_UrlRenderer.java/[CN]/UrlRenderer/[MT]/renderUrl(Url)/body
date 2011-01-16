@@ -22,8 +22,14 @@
       --common;
       urlSegments.add(0,last);
     }
-    for (int i=common + 1; i < baseUrlSegments.size(); ++i) {
-      newSegments.add("..");
+    int baseUrlSize=baseUrlSegments.size();
+    if (common + 1 == baseUrlSize) {
+      newSegments.add(".");
+    }
+ else {
+      for (int i=common + 1; i < baseUrlSize; ++i) {
+        newSegments.add("..");
+      }
     }
     newSegments.addAll(urlSegments);
     return new Url(newSegments,url.getQueryParameters()).toString();
