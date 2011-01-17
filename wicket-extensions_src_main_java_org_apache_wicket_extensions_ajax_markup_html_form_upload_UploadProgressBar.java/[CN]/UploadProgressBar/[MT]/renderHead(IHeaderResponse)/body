@@ -11,15 +11,7 @@
   final String uploadFieldId=(uploadField == null) ? "" : uploadField.getMarkupId();
   ByteArrayOutputStream out=new ByteArrayOutputStream();
   PrintStream js=new PrintStream(out);
-  js.printf("var formElement = Wicket.$('%s');",form.getRootForm().getMarkupId());
-  js.append("var originalCallback = formElement.onsubmit;");
-  js.append("var submitCallback = function() {");
-  js.printf("  if (!Wicket.$('%s')) return;",statusDiv.getMarkupId());
   js.printf("  var def=new Wicket.WUPB.Def('%s', '%s', '%s', '%s','%s');",getMarkupId(),statusDiv.getMarkupId(),barDiv.getMarkupId(),urlFor(ref,null),uploadFieldId);
-  js.append("  new Wicket.WUPB(def).start();");
-  js.append("  if(originalCallback)return originalCallback(); else return true;");
-  js.append("};");
-  js.append("formElement.onsubmit = submitCallback;");
-  js.close();
+  js.printf(" new Wicket.WUPB(def).bind('%s');",getCallbackForm().getMarkupId());
   response.renderOnDomReadyJavaScript(new String(out.toByteArray()));
 }
