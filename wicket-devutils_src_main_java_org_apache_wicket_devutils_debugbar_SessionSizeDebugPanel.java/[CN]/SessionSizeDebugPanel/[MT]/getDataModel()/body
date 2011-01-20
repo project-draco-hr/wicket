@@ -4,7 +4,11 @@
     private IModel<Bytes> size=new SessionSizeModel(Session.get());
     private IModel<Bytes> totalSize=new SessionTotalSizeModel(Session.get());
     @Override public String getObject(){
-      return size.getObject() + " / " + totalSize.getObject();
+      Bytes sessionSizeInBytes=size.getObject();
+      String sessionSizeAsString=sessionSizeInBytes != null ? sessionSizeInBytes.toString() : "unknown";
+      Bytes totalSizeInBytes=totalSize.getObject();
+      String totalSizeAsString=totalSizeInBytes != null ? totalSizeInBytes.toString() : "unknown";
+      return sessionSizeAsString + " / " + totalSizeAsString;
     }
     @Override public void detach(){
       super.detach();
