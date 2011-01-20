@@ -31,8 +31,8 @@
     buffer.append("\n<option value=\"").append(id).append("\"");
     Map<String,String> additionalAttributesMap=getAdditionalAttributes(choice);
     if (additionalAttributesMap != null) {
-      for (      String s : additionalAttributesMap.keySet()) {
-        buffer.append(" " + s + "=\""+ additionalAttributesMap.get(s)+ "\"");
+      for (      Map.Entry<String,String> entry : additionalAttributesMap.entrySet()) {
+        buffer.append(' ').append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
       }
     }
     buffer.append(">").append(value).append("</option>");
