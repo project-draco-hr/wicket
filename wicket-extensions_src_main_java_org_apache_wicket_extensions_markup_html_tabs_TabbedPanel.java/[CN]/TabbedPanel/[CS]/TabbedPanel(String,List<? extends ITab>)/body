@@ -1,9 +1,6 @@
 {
   super(id,new Model<Integer>(-1));
-  if (tabs == null) {
-    throw new IllegalArgumentException("argument [tabs] cannot be null");
-  }
-  this.tabs=tabs;
+  this.tabs=Args.notNull(tabs,"tabs");
   final IModel<Integer> tabCount=new AbstractReadOnlyModel<Integer>(){
     private static final long serialVersionUID=1L;
     @Override public Integer getObject(){
@@ -15,9 +12,9 @@
   add(tabsContainer);
   tabsContainer.add(new Loop("tabs",tabCount){
     private static final long serialVersionUID=1L;
-    @Override protected void populateItem(    LoopItem item){
+    @Override protected void populateItem(    final LoopItem item){
       final int index=item.getIndex();
-      final ITab tab=(TabbedPanel.this.tabs.get(index));
+      final ITab tab=TabbedPanel.this.tabs.get(index);
       final WebMarkupContainer titleLink=newLink("link",index);
       titleLink.add(newTitle("title",tab.getTitle(),index));
       item.add(titleLink);
