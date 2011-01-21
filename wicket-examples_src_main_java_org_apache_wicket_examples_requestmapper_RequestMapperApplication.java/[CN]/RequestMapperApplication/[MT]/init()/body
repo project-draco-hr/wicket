@@ -4,5 +4,6 @@
   getRootRequestMapperAsCompound().add(new LocaleFirstMapper(new MountedMapper("/localized",LocalizedPage.class)));
   mountPage("secured",HttpsPage.class);
   mountPackage("pMount",PackageMountedPage.class);
+  mountResource("/print/${sheet}/${format}",new MapperDemoResourceReference());
   setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),new HttpsConfig()));
 }
