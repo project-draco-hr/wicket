@@ -53,7 +53,7 @@
             getAndSetter=new ArrayLengthGetSet();
           }
  else {
-            throw new WicketRuntimeException("can't parse the exp " + exp + " as an index for an array lookup");
+            throw new WicketRuntimeException("Can't parse the expression '" + exp + "' as an index for an array lookup");
           }
         }
       }
@@ -69,11 +69,11 @@
               try {
                 int parsedIndex=Integer.parseInt(propertyIndex);
                 String name=Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
-                method=clz.getMethod("get" + name,new Class[]{int.class});
+                method=clz.getMethod(GET + name,new Class[]{int.class});
                 getAndSetter=new ArrayPropertyGetSet(method,parsedIndex);
               }
  catch (              Exception e) {
-                throw new WicketRuntimeException("no get method defined for class: " + clz + " expression: "+ propertyName);
+                throw new WicketRuntimeException("No get method defined for class: " + clz + " expression: "+ propertyName);
               }
             }
  else {
