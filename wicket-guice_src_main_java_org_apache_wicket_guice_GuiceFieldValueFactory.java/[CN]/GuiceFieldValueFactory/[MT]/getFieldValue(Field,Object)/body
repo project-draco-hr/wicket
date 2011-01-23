@@ -2,7 +2,7 @@
   Object target=null;
   if (supportsField(field)) {
     Inject injectAnnotation=field.getAnnotation(Inject.class);
-    if (!Modifier.isStatic(field.getModifiers()) && injectAnnotation != null) {
+    if (!Modifier.isStatic(field.getModifiers()) && (injectAnnotation != null)) {
       try {
         Annotation bindingAnnotation=findBindingAnnotation(field.getAnnotations());
         final IProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,injectAnnotation.optional());

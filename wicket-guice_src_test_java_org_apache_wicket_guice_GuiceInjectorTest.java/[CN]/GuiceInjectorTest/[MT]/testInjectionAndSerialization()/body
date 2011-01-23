@@ -9,7 +9,7 @@
     app.getSessionStore().bind(null,session);
     ThreadContext.setSession(session);
     GuiceComponentInjector injector=new GuiceComponentInjector(app,new Module(){
-      public void configure(      Binder binder){
+      public void configure(      final Binder binder){
         binder.bind(ITestService.class).to(TestService.class);
         binder.bind(ITestService.class).annotatedWith(Red.class).to(TestServiceRed.class);
         binder.bind(ITestService.class).annotatedWith(Blue.class).to(TestServiceBlue.class);
