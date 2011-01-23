@@ -1,8 +1,8 @@
 {
   return new AbstractReadOnlyModel<String>(){
     private static final long serialVersionUID=1L;
-    private IModel<Bytes> size=new SessionSizeModel(Session.get());
-    private IModel<Bytes> totalSize=new SessionTotalSizeModel(Session.get());
+    private final IModel<Bytes> size=new SessionSizeModel(Session.get());
+    private final IModel<Bytes> totalSize=new SessionTotalSizeModel(Session.get());
     @Override public String getObject(){
       Bytes sessionSizeInBytes=size.getObject();
       String sessionSizeAsString=sessionSizeInBytes != null ? sessionSizeInBytes.toString() : "unknown";
