@@ -2,7 +2,12 @@
   if (!isLinkEnabled() && getBeforeDisabledLink() != null) {
     getResponse().write(getBeforeDisabledLink());
   }
-  super.onComponentTagBody(markupStream,openTag);
+  if ((label != null) && (label.getObject() != null)) {
+    replaceComponentTagBody(markupStream,openTag,getDefaultModelObjectAsString(label.getObject()));
+  }
+ else {
+    super.onComponentTagBody(markupStream,openTag);
+  }
   if (!isLinkEnabled() && getAfterDisabledLink() != null) {
     getResponse().write(getAfterDisabledLink());
   }
