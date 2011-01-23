@@ -1,11 +1,11 @@
 {
-  List loaders=application.getResourceSettings().getStringResourceLoaders();
+  List<IStringResourceLoader> loaders=application.getResourceSettings().getStringResourceLoaders();
   if (loaders != null) {
-    List list=new ArrayList();
+    List<String> list=Generics.newArrayList();
     for (    Object loader : loaders) {
       list.add(loader.toString());
     }
-    return (String[])list.toArray(new String[loaders.size()]);
+    return list.toArray(new String[loaders.size()]);
   }
   return null;
 }
