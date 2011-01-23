@@ -1,13 +1,13 @@
 {
   super(id);
-  if (columns == null || columns.size() < 1) {
+  if ((columns == null) || (columns.size() < 1)) {
     throw new IllegalArgumentException("Argument `columns` cannot be null or empty");
   }
   this.columns=columns;
   body=newBodyContainer("body");
   datagrid=new DataGridView<T>("rows",columns,dataProvider){
     private static final long serialVersionUID=1L;
-    @Override protected Item newCellItem(    String id,    int index,    IModel model){
+    @Override protected Item newCellItem(    final String id,    final int index,    final IModel model){
       Item item=DataTable.this.newCellItem(id,index,model);
       final IColumn<T> column=DataTable.this.columns.get(index);
       if (column instanceof IStyledColumn) {
@@ -21,7 +21,7 @@
       }
       return item;
     }
-    @Override protected Item<T> newRowItem(    String id,    int index,    IModel<T> model){
+    @Override protected Item<T> newRowItem(    final String id,    final int index,    final IModel<T> model){
       return DataTable.this.newRowItem(id,index,model);
     }
   }

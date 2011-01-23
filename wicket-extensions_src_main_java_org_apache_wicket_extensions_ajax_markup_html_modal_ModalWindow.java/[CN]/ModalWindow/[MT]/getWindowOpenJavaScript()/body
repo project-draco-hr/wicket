@@ -10,7 +10,7 @@
   appendAssignment(buffer,"settings.minHeight",getMinimalHeight());
   appendAssignment(buffer,"settings.className",getCssClassName());
   appendAssignment(buffer,"settings.width",getInitialWidth());
-  if (isUseInitialHeight() == true || isCustomComponent() == false) {
+  if ((isUseInitialHeight() == true) || (isCustomComponent() == false)) {
     appendAssignment(buffer,"settings.height",getInitialHeight());
   }
  else {
@@ -54,7 +54,7 @@
     buffer.append(" };\n");
     haveCloseCallback=true;
   }
-  if (closeButtonCallback != null || haveCloseCallback == false) {
+  if ((closeButtonCallback != null) || (haveCloseCallback == false)) {
     CloseButtonBehavior behavior=getBehaviors(CloseButtonBehavior.class).get(0);
     buffer.append("settings.onCloseButton = function() { ");
     buffer.append(behavior.getCallbackScript());

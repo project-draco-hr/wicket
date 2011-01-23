@@ -1,6 +1,6 @@
 {
   IRequestHandler target=new IRequestHandler(){
-    public void respond(    IRequestCycle requestCycle){
+    public void respond(    final IRequestCycle requestCycle){
       WebResponse r=(WebResponse)requestCycle.getResponse();
       final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
       r.setContentType("text/xml; charset=" + encoding);
@@ -13,7 +13,7 @@
       }
       renderer.renderFooter(r);
     }
-    public void detach(    IRequestCycle requestCycle){
+    public void detach(    final IRequestCycle requestCycle){
     }
   }
 ;

@@ -8,7 +8,7 @@
       }
  else {
         Component c=parent.visitChildren(new IVisitor<Component,Component>(){
-          public void component(          Component component,          final IVisit<Component> visit){
+          public void component(          final Component component,          final IVisit<Component> visit){
             if (component.getId().equals(thisId)) {
               visit.stop(component);
             }
@@ -17,7 +17,7 @@
 );
         if (c == null) {
           c=parent.visitParents(Component.class,new IVisitor<Component,Component>(){
-            public void component(            Component component,            final IVisit<Component> visit){
+            public void component(            final Component component,            final IVisit<Component> visit){
               if (component.getId().equals(thisId)) {
                 visit.stop(component);
               }
