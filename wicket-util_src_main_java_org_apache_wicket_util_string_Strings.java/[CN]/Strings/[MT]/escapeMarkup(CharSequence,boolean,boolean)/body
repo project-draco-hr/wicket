@@ -2,28 +2,27 @@
   if (s == null) {
     return null;
   }
- else {
-    int len=s.length();
-    final AppendingStringBuffer buffer=new AppendingStringBuffer((int)(len * 1.1));
-    for (int i=0; i < len; i++) {
-      final char c=s.charAt(i);
+  int len=s.length();
+  final AppendingStringBuffer buffer=new AppendingStringBuffer((int)(len * 1.1));
+  for (int i=0; i < len; i++) {
+    final char c=s.charAt(i);
 switch (c) {
 case '\t':
-        if (escapeSpaces) {
-          buffer.append("&nbsp;&nbsp;&nbsp;&nbsp;");
-        }
+      if (escapeSpaces) {
+        buffer.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+      }
  else {
-          buffer.append(c);
-        }
-      break;
+        buffer.append(c);
+      }
+    break;
 case ' ':
-    if (escapeSpaces) {
-      buffer.append("&nbsp;");
-    }
+  if (escapeSpaces) {
+    buffer.append("&nbsp;");
+  }
  else {
-      buffer.append(c);
-    }
-  break;
+    buffer.append(c);
+  }
+break;
 case '<':
 buffer.append("&lt;");
 break;
@@ -41,7 +40,7 @@ buffer.append("&#039;");
 break;
 default :
 int ci=0xffff & c;
-if ((ci < 32 && ci != 9 && ci != 10 && ci != 13) || (convertToHtmlUnicodeEscapes && ci > 159)) {
+if (((ci < 32) && (ci != 9) && (ci != 10)&& (ci != 13)) || (convertToHtmlUnicodeEscapes && (ci > 159))) {
 buffer.append("&#");
 buffer.append(Integer.toString(ci));
 buffer.append(';');
@@ -53,5 +52,4 @@ break;
 }
 }
 return buffer;
-}
 }

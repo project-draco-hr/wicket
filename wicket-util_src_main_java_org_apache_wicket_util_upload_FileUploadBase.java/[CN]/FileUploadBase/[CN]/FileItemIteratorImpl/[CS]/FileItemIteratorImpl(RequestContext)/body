@@ -11,7 +11,7 @@
     int requestSize=ctx.getContentLength();
     if (requestSize == -1) {
       input=new LimitedInputStream(input,sizeMax){
-        @Override protected void raiseError(        long pSizeMax,        long pCount) throws IOException {
+        @Override protected void raiseError(        final long pSizeMax,        final long pCount) throws IOException {
           FileUploadException ex=new SizeLimitExceededException("the request was rejected because" + " its size (" + pCount + ") exceeds the configured maximum"+ " ("+ pSizeMax+ ")",pCount,pSizeMax);
           throw new FileUploadIOException(ex);
         }
@@ -19,7 +19,7 @@
 ;
     }
  else {
-      if (sizeMax >= 0 && requestSize > sizeMax) {
+      if ((sizeMax >= 0) && (requestSize > sizeMax)) {
         throw new SizeLimitExceededException("the request was rejected because its size (" + requestSize + ") exceeds the configured maximum ("+ sizeMax+ ")",requestSize,sizeMax);
       }
     }
