@@ -1,9 +1,12 @@
 {
   super();
-  this.inputStream=inputStream;
-  encoding=defaultEncoding;
-  if (inputStream == null) {
-    throw new IllegalArgumentException("Parameter 'inputStream' must not be null");
+  Args.notNull(inputStream,"inputStream");
+  if (!inputStream.markSupported()) {
+    this.inputStream=new BufferedInputStream(inputStream);
   }
+ else {
+    this.inputStream=inputStream;
+  }
+  encoding=defaultEncoding;
   init();
 }
