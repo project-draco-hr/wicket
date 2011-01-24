@@ -1,0 +1,13 @@
+{
+  final MountedMapper encoder=new MountedMapper("/securedPage",SecuredMockPage.class){
+    @Override protected IMapperContext getContext(){
+      return context;
+    }
+  }
+;
+  Url originalUrl=Url.parse("securedPage");
+  IRequestHandler handler=encoder.mapRequest(getRequest(originalUrl));
+  SwitchProtocolRequestHandler switchProtocolRequestHandler=new SwitchProtocolRequestHandler(Protocol.HTTPS,handler,new HttpsConfig());
+  Url mappedUrl=encoder.mapHandler(switchProtocolRequestHandler);
+  assertEquals(originalUrl,mappedUrl);
+}
