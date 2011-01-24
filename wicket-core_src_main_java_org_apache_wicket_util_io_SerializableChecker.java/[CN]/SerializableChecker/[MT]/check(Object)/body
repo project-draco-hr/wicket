@@ -2,7 +2,13 @@
   if (obj == null) {
     return;
   }
-  if (stack.contains(obj)) {
+  try {
+    if (stack.contains(obj)) {
+      return;
+    }
+  }
+ catch (  RuntimeException e) {
+    log.warn("Wasn't possible to check the object " + obj.getClass() + " possible due an problematic implementation of equals method");
     return;
   }
   stack.push(obj);

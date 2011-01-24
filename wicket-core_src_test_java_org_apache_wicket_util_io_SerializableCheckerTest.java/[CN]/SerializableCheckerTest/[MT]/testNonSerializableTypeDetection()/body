@@ -1,0 +1,11 @@
+{
+  SerializableChecker serializableChecker=new SerializableChecker(new NotSerializableException());
+  String exceptionMessage=null;
+  try {
+    serializableChecker.writeObject(new TestType2());
+  }
+ catch (  WicketNotSerializableException e) {
+    exceptionMessage=e.getMessage();
+  }
+  assertTrue(exceptionMessage.contains(NonSerializableType.class.getName()));
+}
