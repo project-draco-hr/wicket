@@ -1,0 +1,16 @@
+{
+  try {
+    PropertyResolverConverter convertToNull=new PropertyResolverConverter(null,null){
+      private static final long serialVersionUID=1L;
+      @Override public Object convert(      Object object,      Class<?> clz){
+        return null;
+      }
+    }
+;
+    PropertyResolver.setValue("name",person,"",convertToNull);
+    fail("Should have thrown an ConversionException");
+  }
+ catch (  ConversionException e) {
+    assertTrue(e.getMessage().toLowerCase().contains("name"));
+  }
+}
