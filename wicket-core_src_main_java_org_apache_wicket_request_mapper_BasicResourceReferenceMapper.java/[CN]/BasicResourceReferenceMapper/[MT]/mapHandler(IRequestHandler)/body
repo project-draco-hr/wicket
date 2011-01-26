@@ -14,28 +14,23 @@
     segments.add(getContext().getNamespace());
     segments.add(getContext().getResourceIdentifier());
     segments.add(getClassName(reference.getScope()));
-    StringTokenizer tokens=new StringTokenizer(reference.getName(),"/");
-    while (tokens.hasMoreTokens()) {
-      String token=tokens.nextToken();
-      if (isTimestampsEnabled() && tokens.hasMoreTokens() == false) {
-        Time lastModified=getLastModifiedTimestampUsingCache(reference);
-        if (lastModified != null) {
-          int extensionAt=token.lastIndexOf('.');
-          StringBuilder filename=new StringBuilder();
-          filename.append(extensionAt == -1 ? token : token.substring(0,extensionAt));
-          filename.append(TIMESTAMP_PREFIX);
-          filename.append(lastModified.getMilliseconds());
-          if (extensionAt != -1)           filename.append(token.substring(extensionAt));
-          token=filename.toString();
-        }
-      }
-      segments.add(token);
-    }
-    encodeResourceReferenceAttributes(url,reference);
     PageParameters parameters=referenceRequestHandler.getPageParameters();
     if (parameters != null) {
       parameters=new PageParameters(parameters);
       parameters.clearIndexed();
+    }
+    encodeResourceReferenceAttributes(url,reference);
+    StringTokenizer tokens=new StringTokenizer(reference.getName(),"/");
+    while (tokens.hasMoreTokens()) {
+      String token=tokens.nextToken();
+      if (tokens.hasMoreTokens() == false) {
+        token=getCachingStrategy().decorateRequest(token,parameters,reference);
+        if (token == null)         throw new NullPointerException("caching strategy must not return an empty filename");
+        if (parameters.getIndexedCount() > 0)         throw new IllegalStateException("caching strategy must not add indexed parameters");
+      }
+      segments.add(token);
+    }
+    if (parameters != null) {
       url=encodePageParameters(url,parameters,pageParametersEncoder);
     }
     return url;

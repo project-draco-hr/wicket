@@ -31,9 +31,6 @@ catch (    ResourceStreamNotFoundException e) {
       return sendResourceError(resourceResponse,500,"Unable to open resource stream");
     }
   }
-  if (Application.get().getResourceSettings().getUseTimestampOnResources()) {
-    resourceResponse.setCacheDurationToMaximum();
-    resourceResponse.setCacheScope(WebResponse.CacheScope.PUBLIC);
-  }
+  Application.get().getResourceSettings().getResourceCachingStrategy().processResponse(resourceResponse);
   return resourceResponse;
 }

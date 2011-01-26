@@ -1,13 +1,15 @@
 {
   Url url=request.getUrl();
+  PageParameters pageParameters=extractPageParameters(request,url.getSegments().size(),pageParametersEncoder);
   if (url.getSegments().size() >= 4 && urlStartsWith(url,getContext().getNamespace(),getContext().getResourceIdentifier())) {
     String className=url.getSegments().get(2);
     StringBuilder name=new StringBuilder();
     int segmentsSize=url.getSegments().size();
     for (int i=3; i < segmentsSize; ++i) {
       String segment=url.getSegments().get(i);
-      if (isTimestampsEnabled() && i + 1 == segmentsSize) {
-        segment=stripTimestampFromResourceName(segment);
+      if (i + 1 == segmentsSize) {
+        segment=getCachingStrategy().sanitizeRequest(segment,pageParameters);
+        if (segment == null)         throw new NullPointerException("caching strategy must not return null for filename");
       }
       if (name.length() > 0) {
         name.append("/");
@@ -15,7 +17,6 @@
       name.append(segment);
     }
     ResourceReference.UrlAttributes attributes=getResourceReferenceAttributes(url);
-    PageParameters pageParameters=extractPageParameters(request,url.getSegments().size(),pageParametersEncoder);
     Class<?> scope=resolveClass(className);
     if (scope != null) {
       ResourceReference res=getContext().getResourceReferenceRegistry().getResourceReference(scope,name.toString(),attributes.getLocale(),attributes.getStyle(),attributes.getVariation(),true,true);

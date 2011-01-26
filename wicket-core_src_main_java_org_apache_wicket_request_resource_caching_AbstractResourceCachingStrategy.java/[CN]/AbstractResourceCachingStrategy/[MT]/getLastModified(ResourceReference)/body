@@ -1,0 +1,15 @@
+{
+  RequestCycle requestCycle=ThreadContext.getRequestCycle();
+  if (requestCycle == null)   return resourceReference.getLastModified();
+  Map<ResourceReference,Time> cache=requestCycle.getMetaData(TIMESTAMP_KEY);
+  if (cache == null) {
+    cache=new HashMap<ResourceReference,Time>();
+    requestCycle.setMetaData(TIMESTAMP_KEY,cache);
+  }
+  if (cache.containsKey(resourceReference)) {
+    return cache.get(resourceReference);
+  }
+  Time lastModified=resourceReference.getLastModified();
+  cache.put(resourceReference,lastModified);
+  return lastModified;
+}
