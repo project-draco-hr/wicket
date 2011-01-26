@@ -31,6 +31,6 @@ catch (    ResourceStreamNotFoundException e) {
       return sendResourceError(resourceResponse,500,"Unable to open resource stream");
     }
   }
-  Application.get().getResourceSettings().getResourceCachingStrategy().processResponse(resourceResponse);
+  Application.get().getResourceSettings().getCachingStrategy().decorateResponse(resourceResponse);
   return resourceResponse;
 }
