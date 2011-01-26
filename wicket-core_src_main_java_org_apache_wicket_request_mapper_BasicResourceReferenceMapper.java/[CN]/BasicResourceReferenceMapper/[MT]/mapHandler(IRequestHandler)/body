@@ -25,7 +25,7 @@
       String token=tokens.nextToken();
       if (tokens.hasMoreTokens() == false) {
         token=getCachingStrategy().decorateRequest(token,parameters,reference);
-        if (token == null)         throw new NullPointerException("caching strategy must not return an empty filename");
+        if (Strings.isEmpty(token))         throw new NullPointerException("caching strategy must not return an empty filename");
         if (parameters.getIndexedCount() > 0)         throw new IllegalStateException("caching strategy must not add indexed parameters");
       }
       segments.add(token);
