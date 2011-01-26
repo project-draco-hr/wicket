@@ -8,7 +8,9 @@
     for (int i=3; i < segmentsSize; ++i) {
       String segment=url.getSegments().get(i);
       if (i + 1 == segmentsSize) {
-        segment=getCachingStrategy().sanitizeRequest(segment,pageParameters);
+        ResourceUrl resourceUrl=new ResourceUrl(segment,pageParameters);
+        getCachingStrategy().undecorateUrl(resourceUrl);
+        segment=resourceUrl.getFileName();
         if (Strings.isEmpty(segment))         throw new NullPointerException("caching strategy must not return an empty filename");
       }
       if (name.length() > 0) {

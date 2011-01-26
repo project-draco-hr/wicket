@@ -1,11 +1,12 @@
 {
   Time lastModified=getLastModified(reference);
-  if (lastModified == null)   return filename;
+  final String filename=url.getFileName();
+  if (lastModified == null)   return;
   int extensionAt=filename.lastIndexOf('.');
   StringBuilder timestampedFilename=new StringBuilder();
   timestampedFilename.append(extensionAt == -1 ? filename : filename.substring(0,extensionAt));
   timestampedFilename.append(timestampPrefix);
   timestampedFilename.append(lastModified.getMilliseconds());
   if (extensionAt != -1)   timestampedFilename.append(filename.substring(extensionAt));
-  return timestampedFilename.toString();
+  url.setFileName(timestampedFilename.toString());
 }
