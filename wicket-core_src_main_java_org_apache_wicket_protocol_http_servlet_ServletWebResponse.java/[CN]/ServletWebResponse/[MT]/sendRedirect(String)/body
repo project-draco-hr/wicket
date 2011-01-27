@@ -7,7 +7,7 @@
     if (webRequest.isAjax()) {
       httpServletResponse.addHeader("Ajax-Location",url);
       httpServletResponse.getWriter().write("<ajax-response><redirect><![CDATA[" + url + "]]></redirect></ajax-response>");
-      setContentType("text/xml;charset=" + webRequest.getHttpServletRequest().getCharacterEncoding());
+      setContentType("text/xml;charset=" + webRequest.getContainerRequest().getCharacterEncoding());
     }
  else {
       httpServletResponse.sendRedirect(url);

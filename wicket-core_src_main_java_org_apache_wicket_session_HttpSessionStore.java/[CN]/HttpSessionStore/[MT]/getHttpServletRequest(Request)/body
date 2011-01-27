@@ -1,6 +1,7 @@
 {
-  if ((request instanceof ServletWebRequest) == false) {
+  Object containerRequest=request.getContainerRequest();
+  if (containerRequest == null || (containerRequest instanceof HttpServletRequest) == false) {
     throw new IllegalArgumentException("Request must be ServletWebRequest");
   }
-  return ((ServletWebRequest)request).getHttpServletRequest();
+  return (HttpServletRequest)containerRequest;
 }

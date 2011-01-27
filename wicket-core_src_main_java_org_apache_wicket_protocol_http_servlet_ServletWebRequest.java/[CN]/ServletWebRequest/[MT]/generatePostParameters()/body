@@ -1,10 +1,10 @@
 {
-  if (isMultiPart(getHttpServletRequest())) {
+  if (isMultiPart(getContainerRequest())) {
     return Collections.emptyMap();
   }
   Map<String,List<StringValue>> postParameters=new HashMap<String,List<StringValue>>();
   try {
-    final BufferedReader reader=getHttpServletRequest().getReader();
+    final BufferedReader reader=getContainerRequest().getReader();
     final String value=Streams.readString(reader);
     if (!Strings.isEmpty(value)) {
       final Url url=Url.parse("?" + value,getCharset());
@@ -20,13 +20,13 @@
   }
  catch (  final IOException e) {
     logger.warn("Error parsing request body for post parameters; Fallback to ServletRequest#getParameters().",e);
-    for (    final String name : (List<String>)Collections.list(getHttpServletRequest().getParameterNames())) {
+    for (    final String name : (List<String>)Collections.list(getContainerRequest().getParameterNames())) {
       List<StringValue> list=postParameters.get(name);
       if (list == null) {
         list=new ArrayList<StringValue>();
         postParameters.put(name,list);
       }
-      for (      final String value : getHttpServletRequest().getParameterValues(name)) {
+      for (      final String value : getContainerRequest().getParameterValues(name)) {
         list.add(StringValue.valueOf(value));
       }
     }

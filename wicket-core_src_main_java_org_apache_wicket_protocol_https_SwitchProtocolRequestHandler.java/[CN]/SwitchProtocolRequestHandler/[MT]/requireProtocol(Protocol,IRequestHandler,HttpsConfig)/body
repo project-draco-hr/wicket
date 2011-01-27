@@ -1,7 +1,7 @@
 {
   IRequestCycle requestCycle=RequestCycle.get();
   WebRequest webRequest=(WebRequest)requestCycle.getRequest();
-  HttpServletRequest request=((ServletWebRequest)webRequest).getHttpServletRequest();
+  HttpServletRequest request=(HttpServletRequest)webRequest.getContainerRequest();
   if (protocol == null || protocol == Protocol.PRESERVE_CURRENT || request.getScheme().equals(protocol.toString().toLowerCase())) {
     return null;
   }
