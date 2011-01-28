@@ -1,0 +1,21 @@
+{
+  MockApplication application=new MockApplication();
+  MockServletContext servletContext=new MockServletContext30(application,null);
+  BaseWicketTester tester=new BaseWicketTester(application,servletContext);
+  MetaInfStaticResourceReference metaRes=new MetaInfStaticResourceReference(getClass(),STATIC_RESOURCE_NAME);
+  PackageResourceReference packRes=new PackageResourceReference(getClass(),STATIC_RESOURCE_NAME);
+  Url packUrl=tester.getRequestCycle().mapUrlFor(packRes,null);
+  Url metaUrl=tester.getRequestCycle().mapUrlFor(metaRes,null);
+  Assert.assertNotNull(metaUrl);
+  Assert.assertNotNull(packUrl);
+  Assert.assertFalse("Meta and pack resource should not map to the same url under servlet 3.0.",metaUrl.equals(packUrl));
+  String metaUrlStr=metaUrl.toString();
+  if (!metaUrlStr.startsWith("/")) {
+    metaUrlStr="/" + metaUrlStr;
+  }
+  URL metaNetUrl=servletContext.getResource(metaUrlStr);
+  Assert.assertNotNull("Meta resource is not found by the 3.0 servlet container.",metaNetUrl);
+  MockWebRequest request=new MockWebRequest(packUrl);
+  IRequestHandler requestHandler=tester.getApplication().getRootRequestMapper().mapRequest(request);
+  Assert.assertNotNull(requestHandler);
+}

@@ -1,0 +1,12 @@
+{
+  BaseWicketTester tester=new BaseWicketTester();
+  MetaInfStaticResourceReference metaRes=new MetaInfStaticResourceReference(getClass(),STATIC_RESOURCE_NAME);
+  PackageResourceReference packRes=new PackageResourceReference(getClass(),STATIC_RESOURCE_NAME);
+  Url packUrl=tester.getRequestCycle().mapUrlFor(packRes,null);
+  Url metaUrl=tester.getRequestCycle().mapUrlFor(metaRes,null);
+  Assert.assertNotNull(metaUrl);
+  Assert.assertEquals(metaUrl,packUrl);
+  MockWebRequest request=new MockWebRequest(metaUrl);
+  IRequestHandler requestHandler=tester.getApplication().getRootRequestMapper().mapRequest(request);
+  Assert.assertNotNull(requestHandler);
+}

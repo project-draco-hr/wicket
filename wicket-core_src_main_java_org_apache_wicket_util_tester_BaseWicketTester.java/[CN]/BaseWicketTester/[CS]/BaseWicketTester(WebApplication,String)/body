@@ -1,23 +1,3 @@
 {
-  servletContext=new org.apache.wicket.protocol.http.mock.MockServletContext(application,servletContextBasePath);
-  final FilterConfig filterConfig=new TestFilterConfig();
-  WicketFilter filter=new WicketFilter(){
-    @Override public FilterConfig getFilterConfig(){
-      return filterConfig;
-    }
-  }
-;
-  application.setWicketFilter(filter);
-  hsession=new MockHttpSession(servletContext);
-  ThreadContext.detach();
-  this.application=application;
-  this.application.setName("WicketTesterApplication-" + UUID.randomUUID());
-  ThreadContext.setApplication(application);
-  application.setServletContext(servletContext);
-  this.application.initApplication();
-  application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
-  application.setRequestCycleProvider(new TestRequestCycleProvider(application.getRequestCycleProvider()));
-  application.setSessionStoreProvider(new TestSessionStoreProvider());
-  application.setPageManagerProvider(newTestPageManagerProvider());
-  setupNextRequestCycle();
+  this(application,new MockServletContext(application,servletContextBasePath));
 }
