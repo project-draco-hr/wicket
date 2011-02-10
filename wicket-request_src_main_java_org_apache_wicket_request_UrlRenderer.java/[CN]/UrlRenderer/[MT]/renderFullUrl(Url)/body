@@ -1,0 +1,16 @@
+{
+  StringBuilder render=new StringBuilder();
+  final String protocol=resolveProtocol(url);
+  final String host=resolveHost(url);
+  final Integer port=resolvePort(url);
+  final String path=url.toString();
+  render.append(protocol).append("://").append(host);
+  if (port != null && !port.equals(PROTO_TO_PORT.get(protocol))) {
+    render.append(":").append(port);
+  }
+  if (!path.startsWith("/")) {
+    render.append("/");
+  }
+  render.append(path);
+  return render.toString();
+}

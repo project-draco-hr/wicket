@@ -1,6 +1,6 @@
 {
   if (!isAjax()) {
-    return Url.parse(getUrl(httpServletRequest,filterPrefix).toString(),getCharset());
+    return getUrl(httpServletRequest,filterPrefix);
   }
  else {
     String base=null;
@@ -9,6 +9,6 @@
       base=getRequestParameters().getParameterValue(PARAM_AJAX_BASE_URL).toString(null);
     }
     Checks.notNull(base,"Current ajax request is missing the base url header or parameter");
-    return Url.parse(base,getCharset());
+    return setParameters(Url.parse(base,getCharset()));
   }
 }

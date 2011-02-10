@@ -1,0 +1,14 @@
+{
+  Class<?> pageClass=getPageClass(requestHandler);
+  if (pageClass != null) {
+    if (hasSecureAnnotation(pageClass)) {
+      return Protocol.HTTPS;
+    }
+ else {
+      return Protocol.HTTP;
+    }
+  }
+ else {
+    return Protocol.PRESERVE_CURRENT;
+  }
+}
