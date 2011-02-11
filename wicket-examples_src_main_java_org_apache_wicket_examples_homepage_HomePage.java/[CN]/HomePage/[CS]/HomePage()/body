@@ -1,0 +1,19 @@
+{
+  super();
+  add(new Label("version",new AbstractReadOnlyModel<String>(){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      Package p=Application.class.getPackage();
+      String version=p.getSpecificationVersion();
+      if (version == null || version.length() == 0) {
+        return "Missing Version";
+      }
+ else {
+        return version;
+      }
+    }
+  }
+));
+}
