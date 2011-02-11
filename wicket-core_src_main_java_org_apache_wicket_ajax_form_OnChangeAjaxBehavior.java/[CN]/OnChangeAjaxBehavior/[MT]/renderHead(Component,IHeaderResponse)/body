@@ -1,0 +1,7 @@
+{
+  super.renderHead(component,response);
+  if (component instanceof AbstractTextComponent) {
+    final String id=getComponent().getMarkupId();
+    response.renderOnDomReadyJavaScript("new Wicket.ChangeHandler('" + id + "');");
+  }
+}
