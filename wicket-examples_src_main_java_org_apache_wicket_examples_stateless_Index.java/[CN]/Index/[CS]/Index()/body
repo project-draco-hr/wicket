@@ -5,7 +5,8 @@
   add(new BookmarkablePageLink<Void>("linkToStatelessPage1",StatelessPage1.class));
   add(new BookmarkablePageLink<Void>("linkToStatelessPage2",StatelessPage2.class));
   add(new BookmarkablePageLink<Void>("linkToStatelessPage3",StatelessPage3.class));
-  add(new StatelessLink("linkToStatefulPage"){
+  add(new StatelessLink<Void>("linkToStatefulPage"){
+    private static final long serialVersionUID=1L;
     /** 
  * @see org.apache.wicket.markup.html.link.Link#onClick()
  */
@@ -14,7 +15,8 @@
     }
   }
 );
-  add(new StatelessLink("invalidatesession"){
+  add(new StatelessLink<Void>("invalidatesession"){
+    private static final long serialVersionUID=1L;
     @Override public void onClick(){
       Session.get().invalidate();
       setResponsePage(Index.class);
