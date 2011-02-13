@@ -1,0 +1,14 @@
+{
+  int port=-1;
+  RequestCycle requestCycle=RequestCycle.get();
+  if (requestCycle != null) {
+    HttpServletRequest containerRequest=(HttpServletRequest)requestCycle.getRequest().getContainerRequest();
+    if (containerRequest != null) {
+      port=containerRequest.getLocalPort();
+    }
+  }
+  if (port == -1) {
+    port=super.getHttpPort();
+  }
+  return port;
+}
