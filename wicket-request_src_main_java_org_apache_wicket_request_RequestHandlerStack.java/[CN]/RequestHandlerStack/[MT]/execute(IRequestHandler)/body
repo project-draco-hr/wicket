@@ -1,0 +1,30 @@
+{
+  final boolean first=requestHandlers.isEmpty();
+  requestHandlers.add(handler);
+  IRequestHandler replacementHandler=null;
+  try {
+    respond(handler);
+  }
+ catch (  RuntimeException exception) {
+    ReplaceHandlerException replacer=Exceptions.findCause(exception,ReplaceHandlerException.class);
+    if (replacer == null) {
+      throw exception;
+    }
+    if (replacer.removeAll && !first) {
+      throw exception;
+    }
+    replacementHandler=replacer.replacementRequestHandler;
+  }
+ finally {
+    requestHandlers.poll();
+    inactiveRequestHandlers.add(handler);
+  }
+  IRequestHandler scheduled=scheduledAfterCurrent;
+  scheduledAfterCurrent=null;
+  if (replacementHandler != null) {
+    execute(replacementHandler);
+  }
+ else   if (scheduled != null) {
+    execute(scheduled);
+  }
+}

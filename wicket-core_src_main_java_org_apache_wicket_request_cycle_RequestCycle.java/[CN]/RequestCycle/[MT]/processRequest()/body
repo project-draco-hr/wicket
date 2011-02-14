@@ -5,7 +5,8 @@
     onBeginRequest();
     IRequestHandler handler=resolveRequestHandler();
     if (handler != null) {
-      executeRequestHandler(handler);
+      listeners.onRequestHandlerResolved(handler);
+      requestHandlerExecutor.execute(handler);
       return true;
     }
     log.debug("No suitable handler found for URL {}, falling back to container to process this request",request.getUrl());
@@ -13,6 +14,7 @@
  catch (  Exception e) {
     IRequestHandler handler=handleException(e);
     if (handler != null) {
+      listeners.onExceptionRequestHandlerResolved(handler,e);
       executeExceptionRequestHandler(handler,getExceptionRetryCount());
     }
  else {

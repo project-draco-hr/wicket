@@ -1,7 +1,8 @@
 {
   initFlags();
   final Response originalResponse=newResponse();
-  final RequestHandlerStack stack=newStack(originalResponse);
+  final IRequestCycle requestCycle=newRequestCycle(originalResponse);
+  final IRequestHandlerExecutor stack=newStack(requestCycle);
   final IRequestHandler handler3=new IRequestHandler(){
     public void respond(    IRequestCycle requestCycle){
       testFlag3=false;
@@ -14,7 +15,7 @@
   final IRequestHandler handler2=new IRequestHandler(){
     public void respond(    IRequestCycle requestCycle){
       testFlag2=false;
-      stack.replaceAllRequestHandlers(handler3);
+      stack.replaceAll(handler3);
       testFlag2=true;
     }
     public void detach(    IRequestCycle requestCycle){
@@ -26,9 +27,9 @@
     public void respond(    IRequestCycle requestCycle){
       testFlag1=false;
       Response resp=newResponse();
-      stack.setResponse(resp);
-      stack.executeRequestHandler(handler2);
-      assertEquals(stack.getResponse(),resp);
+      requestCycle.setResponse(resp);
+      stack.execute(handler2);
+      assertEquals(requestCycle.getResponse(),resp);
       testFlag1=true;
     }
     public void detach(    IRequestCycle requestCycle){
@@ -36,8 +37,8 @@
     }
   }
 ;
-  stack.executeRequestHandler(handler1);
-  assertEquals(stack.getResponse(),originalResponse);
+  stack.execute(handler1);
+  assertEquals(requestCycle.getResponse(),originalResponse);
   stack.detach();
   assertFalse(testFlag1);
   assertFalse(testFlag2);

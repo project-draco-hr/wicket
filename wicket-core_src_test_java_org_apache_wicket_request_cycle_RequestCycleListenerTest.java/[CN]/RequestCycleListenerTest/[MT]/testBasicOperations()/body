@@ -1,15 +1,20 @@
 {
-  Application.get().getRequestCycleListeners().add(new IncrementingListener());
+  IncrementingListener incrementingListener=new IncrementingListener();
+  Application.get().getRequestCycleListeners().add(incrementingListener);
   RequestCycle cycle=newRequestCycle(false);
-  assertValues(0,0,0,0,0,0,0);
+  incrementingListener.assertValues(0,0,0,0);
+  assertValues(0,0,0);
   cycle.processRequestAndDetach();
-  assertValues(1,1,0,0,1,1,1);
+  incrementingListener.assertValues(1,1,0,1);
+  assertValues(0,1,1);
   cycle=newRequestCycle(false);
-  cycle.getListeners().add(new IncrementingListener());
+  cycle.getListeners().add(incrementingListener);
   cycle.processRequestAndDetach();
-  assertValues(3,3,0,0,2,2,3);
+  incrementingListener.assertValues(3,3,0,3);
+  assertValues(0,2,2);
   cycle=newRequestCycle(true);
-  cycle.getListeners().add(new IncrementingListener());
+  cycle.getListeners().add(incrementingListener);
   cycle.processRequestAndDetach();
-  assertValues(5,5,2,1,2,3,5);
+  incrementingListener.assertValues(5,5,2,5);
+  assertValues(1,2,3);
 }

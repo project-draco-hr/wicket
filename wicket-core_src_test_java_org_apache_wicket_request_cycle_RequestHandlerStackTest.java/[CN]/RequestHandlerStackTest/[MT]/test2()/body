@@ -1,12 +1,13 @@
 {
   initFlags();
   final Response originalResponse=newResponse();
-  final RequestHandlerStack stack=newStack(originalResponse);
+  final IRequestCycle requestCycle=newRequestCycle(originalResponse);
+  final IRequestHandlerExecutor stack=newStack(requestCycle);
   final IRequestHandler handler4=new IRequestHandler(){
     public void respond(    IRequestCycle requestCycle){
       testFlag4=false;
-      assertEquals(stack.getResponse(),originalResponse);
-      stack.setResponse(newResponse());
+      assertEquals(requestCycle.getResponse(),originalResponse);
+      requestCycle.setResponse(newResponse());
     }
     public void detach(    IRequestCycle requestCycle){
       detachedFlag4=true;
@@ -16,8 +17,8 @@
   final IRequestHandler handler3=new IRequestHandler(){
     public void respond(    IRequestCycle requestCycle){
       testFlag3=false;
-      stack.setResponse(newResponse());
-      stack.replaceAllRequestHandlers(handler4);
+      requestCycle.setResponse(newResponse());
+      stack.replaceAll(handler4);
       testFlag3=true;
     }
     public void detach(    IRequestCycle requestCycle){
@@ -28,8 +29,8 @@
   final IRequestHandler handler2=new IRequestHandler(){
     public void respond(    IRequestCycle requestCycle){
       testFlag2=false;
-      stack.setResponse(newResponse());
-      stack.executeRequestHandler(handler3);
+      requestCycle.setResponse(newResponse());
+      stack.execute(handler3);
       testFlag2=true;
     }
     public void detach(    IRequestCycle requestCycle){
@@ -40,8 +41,8 @@
   IRequestHandler handler1=new IRequestHandler(){
     public void respond(    IRequestCycle requestCycle){
       testFlag1=false;
-      stack.setResponse(newResponse());
-      stack.executeRequestHandler(handler2);
+      requestCycle.setResponse(newResponse());
+      stack.execute(handler2);
       testFlag1=true;
     }
     public void detach(    IRequestCycle requestCycle){
@@ -49,8 +50,8 @@
     }
   }
 ;
-  stack.executeRequestHandler(handler1);
-  assertEquals(stack.getResponse(),originalResponse);
+  stack.execute(handler1);
+  assertEquals(requestCycle.getResponse(),originalResponse);
   stack.detach();
   assertFalse(testFlag1);
   assertFalse(testFlag2);

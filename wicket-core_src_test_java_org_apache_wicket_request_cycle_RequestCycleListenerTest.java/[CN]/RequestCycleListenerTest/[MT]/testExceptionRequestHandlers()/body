@@ -1,8 +1,12 @@
 {
+  IncrementingListener incrementingListener=new IncrementingListener();
+  Application.get().getRequestCycleListeners().add(incrementingListener);
   Application.get().getRequestCycleListeners().add(new ErrorCodeListener(401));
   RequestCycle cycle=newRequestCycle(true);
   cycle.processRequestAndDetach();
   assertEquals(401,errorCode);
+  assertEquals(1,incrementingListener.exceptionResolutions);
+  assertEquals(1,incrementingListener.schedules);
   Application.get().getRequestCycleListeners().add(new ErrorCodeListener(401));
   cycle=newRequestCycle(true);
   try {
@@ -10,5 +14,6 @@
     fail("expected an exception because two request cycle listeners returned a request handler");
   }
  catch (  WicketRuntimeException e) {
+    assertEquals(2,incrementingListener.resolutions);
   }
 }
