@@ -5,7 +5,10 @@
     final IMultipartWebRequest request=(IMultipartWebRequest)getRequest();
     uploads=new ArrayList<FileUpload>(filenames.length);
     for (    String filename : filenames) {
-      uploads.add(new FileUpload(request.getFile(filename)));
+      List<FileItem> fileItems=request.getFile(filename);
+      for (      FileItem fileItem : fileItems) {
+        uploads.add(new FileUpload(fileItem));
+      }
     }
   }
   return uploads;

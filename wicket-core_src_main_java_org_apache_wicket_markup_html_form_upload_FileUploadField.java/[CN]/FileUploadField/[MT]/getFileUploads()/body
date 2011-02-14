@@ -1,0 +1,20 @@
+{
+  if (fileUploads != null) {
+    return fileUploads;
+  }
+  final Request request=getRequest();
+  if (request instanceof IMultipartWebRequest) {
+    final List<FileItem> fileItems=((IMultipartWebRequest)request).getFile(getInputName());
+    if (fileItems != null) {
+      for (      FileItem item : fileItems) {
+        if (item != null && item.getSize() > 0) {
+          if (fileUploads == null) {
+            fileUploads=new ArrayList<FileUpload>();
+          }
+          fileUploads.add(new FileUpload(item));
+        }
+      }
+    }
+  }
+  return fileUploads;
+}

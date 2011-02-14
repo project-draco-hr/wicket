@@ -6,8 +6,9 @@
     private static final long serialVersionUID=1L;
     public void validate(    IValidatable validatable){
       validatedComponents.add(validatable);
-      assertEquals(FileUpload.class,validatable.getValue().getClass());
-      FileUpload upload=(FileUpload)validatable.getValue();
+      assertEquals(ArrayList.class,validatable.getValue().getClass());
+      List<FileUpload> uploads=(List<FileUpload>)validatable.getValue();
+      FileUpload upload=uploads.get(0);
       assertEquals(tmpFile.getName(),upload.getClientFileName());
       assertEquals(new String(read(tmpFile)),new String(upload.getBytes()));
     }

@@ -1,7 +1,8 @@
 {
   final File file=listItem.getModelObject();
   listItem.add(new Label("file",file.getName()));
-  listItem.add(new Link("delete"){
+  listItem.add(new Link<Void>("delete"){
+    private static final long serialVersionUID=1L;
     @Override public void onClick(){
       Files.remove(file);
       info("Deleted " + file);

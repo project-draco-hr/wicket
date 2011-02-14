@@ -49,7 +49,12 @@
       addParameter(item.getFieldName(),value);
     }
  else {
-      files.put(item.getFieldName(),item);
+      List<FileItem> fileItems=files.get(item.getFieldName());
+      if (fileItems == null) {
+        fileItems=new ArrayList<FileItem>();
+        files.put(item.getFieldName(),fileItems);
+      }
+      fileItems.add(item);
     }
   }
 }

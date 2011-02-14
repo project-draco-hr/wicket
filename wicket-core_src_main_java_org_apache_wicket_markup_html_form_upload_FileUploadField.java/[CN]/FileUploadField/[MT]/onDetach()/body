@@ -1,7 +1,9 @@
 {
-  if ((fileUpload != null) && forceCloseStreamsOnDetach()) {
-    fileUpload.closeStreams();
-    fileUpload=null;
+  if ((fileUploads != null) && forceCloseStreamsOnDetach()) {
+    for (    FileUpload fu : fileUploads) {
+      fu.closeStreams();
+    }
+    fileUploads=null;
     if (getModel() != null) {
       getModel().setObject(null);
     }

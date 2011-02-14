@@ -1,7 +1,11 @@
 {
-  FileUpload fu=getFileUpload();
-  if (fu != null) {
-    return new String[]{fu.getClientFileName()};
+  List<FileUpload> fileUploads=getFileUploads();
+  if (fileUploads != null) {
+    List<String> clientFileNames=new ArrayList<String>();
+    for (    FileUpload fu : fileUploads) {
+      clientFileNames.add(fu.getClientFileName());
+    }
+    return clientFileNames.toArray(new String[clientFileNames.size()]);
   }
   return null;
 }

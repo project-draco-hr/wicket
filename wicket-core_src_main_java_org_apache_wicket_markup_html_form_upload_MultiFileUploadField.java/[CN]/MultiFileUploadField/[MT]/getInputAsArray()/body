@@ -3,11 +3,11 @@
     ArrayList<String> names=null;
     final Request request=getRequest();
     if (request instanceof IMultipartWebRequest) {
-      final Map<String,FileItem> itemNameToItem=((IMultipartWebRequest)request).getFiles();
-      for (      Entry<String,FileItem> entry : itemNameToItem.entrySet()) {
+      final Map<String,List<FileItem>> itemNameToItem=((IMultipartWebRequest)request).getFiles();
+      for (      Entry<String,List<FileItem>> entry : itemNameToItem.entrySet()) {
         final String name=entry.getKey();
-        final FileItem item=entry.getValue();
-        if (!Strings.isEmpty(name) && name.startsWith(getInputName() + MAGIC_SEPARATOR) && !Strings.isEmpty(item.getName())) {
+        final List<FileItem> fileItems=entry.getValue();
+        if (!Strings.isEmpty(name) && name.startsWith(getInputName() + MAGIC_SEPARATOR) && !fileItems.isEmpty()&& !Strings.isEmpty(fileItems.get(0).getName())) {
           names=(names != null) ? names : new ArrayList<String>();
           names.add(name);
         }
