@@ -1,0 +1,23 @@
+{
+  if (cleanupFeedbackMessagesOnDetach) {
+    if (Session.exists()) {
+      Session.get().cleanupFeedbackMessages();
+    }
+  }
+  if (Session.exists()) {
+    Session.get().detach();
+  }
+  try {
+    onEndRequest();
+    listeners.onEndRequest(this);
+  }
+ catch (  RuntimeException e) {
+    log.error("Exception occurred during onAfterRequest",e);
+  }
+  try {
+    requestHandlerExecutor.detach();
+  }
+  finally {
+    listeners.onDetach(this);
+  }
+}
