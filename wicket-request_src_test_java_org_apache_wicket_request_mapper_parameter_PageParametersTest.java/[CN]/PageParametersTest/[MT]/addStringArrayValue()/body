@@ -1,0 +1,18 @@
+{
+  PageParameters parameters=new PageParameters();
+  String[] input=new String[]{"v1","v2"};
+  parameters.add("key",input);
+  List<StringValue> stringValue=parameters.getValues("key");
+  for (  String in : input) {
+    boolean found=false;
+    for (    StringValue value : stringValue) {
+      if (value.toString().equals(in)) {
+        found=true;
+        break;
+      }
+    }
+    if (found == false) {
+      throw new IllegalStateException("Expected to find a StringValue with value: " + in);
+    }
+  }
+}
