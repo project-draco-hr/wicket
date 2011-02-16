@@ -1,3 +1,19 @@
 {
-  return Collections.unmodifiableMap(parameters);
+  Map<String,String[]> params=new HashMap<String,String[]>(parameters);
+  for (  String name : post.getParameterNames()) {
+    List<StringValue> values=post.getParameterValues(name);
+    for (    StringValue value : values) {
+      String[] present=params.get(name);
+      if (present == null) {
+        params.put(name,new String[]{value.toString()});
+      }
+ else {
+        String[] newval=new String[present.length + 1];
+        System.arraycopy(present,0,newval,0,present.length);
+        newval[newval.length - 1]=value.toString();
+        params.put(name,newval);
+      }
+    }
+  }
+  return params;
 }
