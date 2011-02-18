@@ -1,18 +1,3 @@
 {
-  String id=getId();
-  final PrependingStringBuffer inputName=new PrependingStringBuffer(id.length());
-  Component c=this;
-  while (true) {
-    inputName.prepend(id);
-    c=c.getParent();
-    if (c == null || (c instanceof Form && ((Form<?>)c).isRootForm()) || c instanceof Page) {
-      break;
-    }
-    inputName.prepend(Component.PATH_SEPARATOR);
-    id=c.getId();
-  }
-  if ("submit".equals(inputName.toString())) {
-    inputName.prepend(Component.PATH_SEPARATOR);
-  }
-  return inputName.toString();
+  return Form.getRootFormRelativeId(this);
 }
