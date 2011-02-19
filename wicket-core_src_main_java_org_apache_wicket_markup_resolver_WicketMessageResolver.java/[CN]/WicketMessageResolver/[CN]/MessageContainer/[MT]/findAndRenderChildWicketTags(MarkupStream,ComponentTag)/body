@@ -5,12 +5,19 @@
     while (markupStream.hasMore() && !markupStream.get().closes(openTag)) {
       MarkupElement element=markupStream.get();
       if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
-        String id=((ComponentTag)element).getId();
+        ComponentTag currentTag=(ComponentTag)element;
+        String id=currentTag.getId();
         final Response webResponse=getResponse();
         try {
           final StringResponse response=new StringResponse();
           getRequestCycle().setResponse(response);
           Component component=getParent().get(id);
+          if (component == null) {
+            component=ComponentResolvers.resolve(getParent(),markupStream,currentTag,null);
+            if (component.getParent() == null) {
+              component=null;
+            }
+          }
           if (component != null) {
             component.render();
             markupStream.skipComponent();
