@@ -1,0 +1,12 @@
+{
+  tester.startPage(RedirectA.class,new PageParameters().set("file","umlaut-\u00E4-\u00F6-\u00FC"));
+  tester.assertRenderedPage(RedirectB.class);
+  String url2=((RedirectB)tester.getLastRenderedPage()).getInterceptContinuationURL();
+  assertTrue(url2.contains("umlaut-%C3%A4-%C3%B6-%C3%BC"));
+  tester.clickLink("link");
+  tester.assertRenderedPage(RedirectA.class);
+  String file=((RedirectA)tester.getLastRenderedPage()).getFileParameter();
+  assertEquals("umlaut-\u00E4-\u00F6-\u00FC",file);
+  String document=tester.getLastResponseAsString();
+  assertTrue(document.contains("umlaut-\u00E4-\u00F6-\u00FC"));
+}
