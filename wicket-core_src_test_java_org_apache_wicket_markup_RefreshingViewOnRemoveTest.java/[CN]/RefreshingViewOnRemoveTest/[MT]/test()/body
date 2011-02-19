@@ -1,0 +1,22 @@
+{
+  tester.startPage(new TestPage());
+  for (  TestComponent c : components) {
+    assertTrue(c.detached);
+  }
+  round++;
+  tester.startPage(tester.getLastRenderedPage());
+  for (  TestComponent c : components) {
+    assertTrue(c.detached);
+  }
+  boolean round1=false;
+  boolean round2=false;
+  for (  TestComponent c : components) {
+    if (c.round == 1)     round1=true;
+    if (c.round == 2)     round2=true;
+  }
+  assertTrue(round1);
+  assertTrue(round2);
+  for (  TestComponent c : components) {
+    if (c.round == 1)     assertTrue(c.removed);
+  }
+}
