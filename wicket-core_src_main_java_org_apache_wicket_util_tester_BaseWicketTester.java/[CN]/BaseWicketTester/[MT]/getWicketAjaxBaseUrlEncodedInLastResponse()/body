@@ -2,13 +2,11 @@
   XmlPullParser parser=new XmlPullParser();
   parser.parse(getLastResponseAsString());
   XmlTag tag;
-  do {
-    tag=(XmlTag)parser.nextTag();
+  while ((tag=(XmlTag)parser.nextTag()) != null) {
     if (tag.isOpen() && tag.getName().equals("script") && "wicket-ajax-base-url".equals(tag.getString("id"))) {
       parser.next();
       return parser.getString().toString().split("\\\"")[1];
     }
   }
- while (tag != null);
-  return null;
+  throw new WicketRuntimeException("Last response has no AJAX base URL set by AbstractDefaultAjaxBehavior.");
 }
