@@ -1,7 +1,11 @@
 {
-  Component component=getLastRenderedPage().get(path);
+  Component component=getComponentFromLastRenderedPage(path,false);
+  final Result result;
   if (component == null) {
-    fail("path: '" + path + "' does no exist for page: "+ Classes.simpleName(getLastRenderedPage().getClass()));
+    result=Result.fail("path: '" + path + "' does no exist for page: "+ Classes.simpleName(getLastRenderedPage().getClass()));
   }
-  return isTrue("component '" + path + "' is not visible",component.isVisibleInHierarchy());
+ else {
+    result=isTrue("component '" + path + "' is not visible",component.isVisibleInHierarchy());
+  }
+  return result;
 }
