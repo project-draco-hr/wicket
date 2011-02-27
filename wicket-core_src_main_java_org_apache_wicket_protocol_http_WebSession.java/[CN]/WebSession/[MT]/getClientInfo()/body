@@ -6,7 +6,13 @@
         setMetaData(BROWSER_WAS_POLLED_KEY,Boolean.TRUE);
         Request request=requestCycle.getRequest();
         IRequestHandler activeRequestHandler=requestCycle.getActiveRequestHandler();
-        String url=requestCycle.urlFor(activeRequestHandler).toString();
+        final String url;
+        if (activeRequestHandler != null) {
+          url=requestCycle.urlFor(activeRequestHandler).toString();
+        }
+ else {
+          url=requestCycle.urlFor(getApplication().getHomePage(),null).toString();
+        }
         String relativeUrl=requestCycle.getUrlRenderer().renderContextPathRelativeUrl(url);
         Page browserInfoPage=newBrowserInfoPage(relativeUrl);
         throw new RestartResponseException(browserInfoPage);
