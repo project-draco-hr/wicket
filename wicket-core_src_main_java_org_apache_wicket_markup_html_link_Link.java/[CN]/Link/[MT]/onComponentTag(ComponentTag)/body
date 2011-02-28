@@ -1,11 +1,11 @@
 {
   super.onComponentTag(tag);
-  CharSequence url=getURL();
-  url=appendAnchor(tag,url);
   if (!isLinkEnabled()) {
     disableLink(tag);
   }
  else {
+    CharSequence url=getURL();
+    url=appendAnchor(tag,url);
     if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
       tag.put("href",url);
       if (popupSettings != null) {
