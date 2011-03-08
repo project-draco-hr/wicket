@@ -1,16 +1,12 @@
 {
-  HttpServletRequest httpRequest=Mockito.mock(HttpServletRequest.class);
-  Mockito.when(httpRequest.getCharacterEncoding()).thenReturn("UTF-8");
-  Mockito.when(httpRequest.getContextPath()).thenReturn("/contextPath");
-  Mockito.when(httpRequest.getRequestURI()).thenReturn("/contextPath/filterPath/anything");
-  ServletWebRequest request=new ServletWebRequest(httpRequest,"filterPath/");
-  UrlRenderer r1=new UrlRenderer(Url.parse("a/b/q/d/e"),request.getPrefixToContextPath());
-  assertEquals("../../../../../",r1.renderContextPathRelativeUrl(""));
-  assertEquals("../../../../../",r1.renderContextPathRelativeUrl("/"));
-  assertEquals("../../../../../f",r1.renderContextPathRelativeUrl("/f"));
-  assertEquals("../../../../../../f",r1.renderContextPathRelativeUrl("../f"));
+  MockWebRequest request=new MockWebRequest(Url.parse("a/b/q/d/e"),"/contextPath","/filterPath","../");
+  UrlRenderer r=new UrlRenderer(request);
+  assertEquals("../../../../../",r.renderContextPathRelativeUrl(""));
+  assertEquals("../../../../../",r.renderContextPathRelativeUrl("/"));
+  assertEquals("../../../../../f",r.renderContextPathRelativeUrl("/f"));
+  assertEquals("../../../../../../f",r.renderContextPathRelativeUrl("../f"));
   try {
-    r1.renderContextPathRelativeUrl(null);
+    r.renderContextPathRelativeUrl(null);
     fail("Null 'url' is not allowed!");
   }
  catch (  IllegalArgumentException iax) {
