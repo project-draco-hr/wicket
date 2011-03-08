@@ -7,12 +7,8 @@
   if (port != null && !port.equals(PROTO_TO_PORT.get(protocol))) {
     render+=":" + port;
   }
-  if (!Strings.isEmpty(request.getContextPath())) {
-    render+=request.getContextPath();
-  }
-  if (!Strings.isEmpty(request.getFilterPath())) {
-    render=Strings.join("/",render,request.getFilterPath());
-  }
+  render+=request.getContextPath();
+  render+=request.getFilterPath();
   render=Strings.join("/",render,path);
   return render.toString();
 }
