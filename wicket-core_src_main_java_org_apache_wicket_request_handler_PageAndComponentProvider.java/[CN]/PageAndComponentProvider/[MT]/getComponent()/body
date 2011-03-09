@@ -2,6 +2,14 @@
   if (component == null) {
     IRequestablePage page=getPageInstance();
     component=page.get(componentPath);
+    if (component == null) {
+      if (getPageId() == null) {
+        Page p=(Page)page;
+        p.internalInitialize();
+        p.internalPrepareForRender(false);
+        component=page.get(componentPath);
+      }
+    }
   }
   if (component == null) {
     throw new ComponentNotFoundException("Could not find component '" + componentPath + "' on page '"+ getPageClass());
