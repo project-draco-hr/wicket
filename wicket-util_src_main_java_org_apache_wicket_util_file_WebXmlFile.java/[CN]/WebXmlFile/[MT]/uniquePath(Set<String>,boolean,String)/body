@@ -1,0 +1,18 @@
+{
+  if (paths.size() > 1) {
+    StringBuilder err=new StringBuilder();
+    err.append("web.xml: expected one ");
+    err.append(isServlet ? "servlet" : "filter");
+    err.append(" path for [");
+    err.append(filterName);
+    err.append("] but found multiple:");
+    for (    String path : paths) {
+      err.append(" [" + path + "]");
+    }
+    throw new RuntimeException(err.toString());
+  }
+  if (paths.size() == 1) {
+    return paths.iterator().next();
+  }
+  return null;
+}

@@ -1,4 +1,5 @@
 {
+  Set<String> paths=new HashSet<String>();
   String foundUrlPattern=null;
   String foundFilterName=null;
   for (int i=0; i < node.getChildNodes().getLength(); ++i) {
@@ -9,14 +10,12 @@
  else     if ("url-pattern".equals(n.getNodeName())) {
       foundUrlPattern=n.getTextContent();
     }
+    if (foundFilterName != null) {
+      foundFilterName=foundFilterName.trim();
+    }
+    if (filterName.equals(foundFilterName)) {
+      if (foundUrlPattern != null)       paths.add(foundUrlPattern.trim());
+    }
   }
-  if (foundFilterName != null) {
-    foundFilterName=foundFilterName.trim();
-  }
-  if (filterName.equals(foundFilterName)) {
-    return (foundUrlPattern != null) ? foundUrlPattern.trim() : null;
-  }
- else {
-    return null;
-  }
+  return paths;
 }

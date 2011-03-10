@@ -6,15 +6,23 @@
   String tag=(isServlet ? "servlet" : "filter");
   String mapping=tag + "-mapping";
   String name=tag + "-name";
-  String urlPattern=getFilterPath(filterName,mapping,name,document.getChildNodes());
-  if (urlPattern == null) {
-    if (log.isWarnEnabled()) {
-      log.warn("web.xml: No url-pattern found for " + tag + " with name "+ filterName);
+  Set<String> urlPatterns=getFilterPaths(filterName,mapping,name,document.getChildNodes());
+  if (urlPatterns.size() == 0) {
+    log.warn("web.xml: No url-pattern found for " + tag + " with name "+ filterName);
+  }
+  if (log.isInfoEnabled()) {
+    StringBuilder msg=new StringBuilder();
+    msg.append("web.xml: url mapping found for " + tag + " with name "+ filterName+ ':');
+    for (    String urlPattern : urlPatterns) {
+      msg.append(" [");
+      msg.append(urlPattern);
+      msg.append(']');
     }
-    return null;
+    log.info(msg.toString());
   }
- else   if (log.isInfoEnabled()) {
-    log.info("web.xml: found " + tag + " with name "+ filterName+ ". url-pattern="+ urlPattern);
+  Set<String> stripped=new HashSet<String>(urlPatterns.size());
+  for (  String urlPattern : urlPatterns) {
+    stripped.add(urlPattern.substring(1,urlPattern.length() - 1));
   }
-  return urlPattern.substring(1,urlPattern.length() - 1);
+  return stripped;
 }
