@@ -1,6 +1,9 @@
 {
   if (resourceStreamLocator == null) {
     resourceStreamLocator=new ResourceStreamLocator(getResourceFinder());
+    if (Application.get().getConfigurationType() == RuntimeConfigurationType.DEPLOYMENT) {
+      resourceStreamLocator=new CachingResourceStreamLocator(resourceStreamLocator);
+    }
   }
   return resourceStreamLocator;
 }

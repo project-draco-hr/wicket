@@ -1,0 +1,9 @@
+{
+  Key key=new Key(clazz.getName(),path,null,null,null);
+  IResourceStream resourceStream=getCopyFromCache(key);
+  if (resourceStream == null) {
+    resourceStream=delegate.locate(clazz,path);
+    updateCache(key,resourceStream);
+  }
+  return resourceStream;
+}

@@ -1,0 +1,9 @@
+{
+  Key key=new Key(scope.getName(),path,locale,style,variation);
+  IResourceStream resourceStream=getCopyFromCache(key);
+  if (resourceStream == null) {
+    resourceStream=delegate.locate(scope,path,style,variation,locale,extension,strict);
+    updateCache(key,resourceStream);
+  }
+  return resourceStream;
+}
