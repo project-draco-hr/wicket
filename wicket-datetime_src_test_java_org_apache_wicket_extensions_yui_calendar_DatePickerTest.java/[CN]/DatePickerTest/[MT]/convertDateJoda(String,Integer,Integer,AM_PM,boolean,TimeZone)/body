@@ -1,33 +1,33 @@
 {
-  log.error(">>> convertDateJoda()");
+  log.debug(">>> convertDateJoda()");
   DateTimeFormatter fmt=DateTimeFormat.shortDate();
   MutableDateTime date=(dateStr != null ? fmt.parseMutableDateTime(dateStr) : new MutableDateTime());
-  log.error("1. mutable date: " + date.getMillis() + "  "+ date);
+  log.debug("1. mutable date: " + date.getMillis() + "  "+ date);
   date.setSecondOfMinute(0);
-  log.error("2. secs = 0: " + date.getMillis() + "  "+ date);
+  log.debug("2. secs = 0: " + date.getMillis() + "  "+ date);
   if (use12HourFormat) {
     date.set(DateTimeFieldType.halfdayOfDay(),amOrPm == AM_PM.PM ? 1 : 0);
   }
-  log.error("3. AM/PM: " + date.getMillis() + "  "+ date);
+  log.debug("3. AM/PM: " + date.getMillis() + "  "+ date);
   if (hours == null) {
     date.setHourOfDay(0);
   }
  else {
     date.set(DateTimeFieldType.hourOfDay(),hours % (use12HourFormat ? 12 : 24));
   }
-  log.error("4. hours: " + date.getMillis() + "  "+ date);
+  log.debug("4. hours: " + date.getMillis() + "  "+ date);
   if (minutes == null) {
     date.setMinuteOfHour(0);
   }
  else {
     date.setMinuteOfHour(minutes);
   }
-  log.error("5. minutes: " + date.getMillis() + "  "+ date);
+  log.debug("5. minutes: " + date.getMillis() + "  "+ date);
   if (tzClient != null) {
     date.setZoneRetainFields(DateTimeZone.forTimeZone(tzClient));
   }
-  log.error("6. timezone: " + date.getMillis() + "  "+ date);
+  log.debug("6. timezone: " + date.getMillis() + "  "+ date);
   Date rtn=new Date(date.getMillis());
-  log.error("7. final date: " + rtn.getTime() + "  "+ rtn);
+  log.debug("7. final date: " + rtn.getTime() + "  "+ rtn);
   return rtn;
 }

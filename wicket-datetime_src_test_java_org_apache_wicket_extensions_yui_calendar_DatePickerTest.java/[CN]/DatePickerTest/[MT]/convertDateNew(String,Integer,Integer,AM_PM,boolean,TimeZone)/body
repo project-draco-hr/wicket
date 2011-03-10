@@ -1,5 +1,5 @@
 {
-  log.error(">>> convertDateNew()");
+  log.debug(">>> convertDateNew()");
   Date dateFieldInput=(dateStr != null ? DateFormat.getDateInstance().parse(dateStr) : null);
   if (dateFieldInput == null) {
     dateFieldInput=new Date();
@@ -12,15 +12,15 @@
   int iHours=(hours == null ? 0 : hours % 24);
   int iMins=(minutes == null ? 0 : minutes);
   MutableDateTime date=new MutableDateTime(year,month,day,iHours,iMins,0,0,DateTimeZone.forTimeZone(tzClient));
-  log.error("1. date: " + date.getMillis() + "  "+ date);
-  int halfday=0;
+  log.debug("1. date: " + date.getMillis() + "  "+ date);
+  int halfday;
   if (use12HourFormat) {
     halfday=(amOrPm == AM_PM.PM ? 1 : 0);
     date.set(DateTimeFieldType.halfdayOfDay(),halfday);
     date.set(DateTimeFieldType.hourOfDay(),iHours % 12);
   }
-  log.error("2. halfday adjustments: " + date.getMillis() + "  "+ date);
+  log.debug("2. halfday adjustments: " + date.getMillis() + "  "+ date);
   Date rtn=new Date(date.getMillis());
-  log.error("3. final date: " + rtn.getTime() + "  "+ rtn);
+  log.debug("3. final date: " + rtn.getTime() + "  "+ rtn);
   return rtn;
 }

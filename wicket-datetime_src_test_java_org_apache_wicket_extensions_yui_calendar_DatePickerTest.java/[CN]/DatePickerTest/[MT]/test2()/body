@@ -1,7 +1,7 @@
 {
-  log.error("=========== test2() =================");
+  log.debug("=========== test2() =================");
   Class<? extends Page> pageClass=DatesPage2.class;
-  Date date=new GregorianCalendar(2010,10,06,0,0).getTime();
+  Date date=new GregorianCalendar(2010,10,6,0,0).getTime();
   tester.getSession().setLocale(Locale.GERMAN);
   tester.startPage(pageClass);
   tester.assertRenderedPage(pageClass);
@@ -12,8 +12,8 @@
   formTester.setValue("dateField:date","06.11.2010");
   formTester.submit();
   DatesPage2 page=(DatesPage2)tester.getLastRenderedPage();
-  log.error("orig: " + date.getTime() + "; date: "+ page.date.getTime()+ "; dateTime: "+ page.dateTime.getTime());
-  log.error("orig: " + date + "; date: "+ page.date+ "; dateTime: "+ page.dateTime);
+  log.debug("orig: " + date.getTime() + "; date: "+ page.date.getTime()+ "; dateTime: "+ page.dateTime.getTime());
+  log.debug("orig: " + date + "; date: "+ page.date+ "; dateTime: "+ page.dateTime);
   assertEquals(0,date.compareTo(page.dateTime));
   assertEquals(0,date.compareTo(page.date));
 }
