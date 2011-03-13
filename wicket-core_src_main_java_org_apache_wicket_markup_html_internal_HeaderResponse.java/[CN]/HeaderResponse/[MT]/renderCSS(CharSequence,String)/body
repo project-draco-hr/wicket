@@ -1,0 +1,12 @@
+{
+  if (css == null) {
+    throw new IllegalArgumentException("css cannot be null");
+  }
+  if (!closed) {
+    List<String> token=Arrays.asList(css.toString(),id);
+    if (wasRendered(token) == false) {
+      renderString(CssUtils.INLINE_OPEN_TAG + css + CssUtils.INLINE_CLOSE_TAG);
+      markRendered(token);
+    }
+  }
+}
