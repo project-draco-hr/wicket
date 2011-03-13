@@ -5,7 +5,7 @@
   final Time start=Time.now();
   boolean locked=false;
   while (!locked && start.elapsedSince().lessThan(timeout)) {
-    logger.debug("{} attempting to acquire lock to page {}",thread.getName(),pageId);
+    logger.debug("'{}' attempting to acquire lock to page with id '{}'",thread.getName(),pageId);
     PageLock previous=locks.putIfAbsent(pageId,lock);
     if (previous == null || previous.getThread() == thread) {
       locked=true;
