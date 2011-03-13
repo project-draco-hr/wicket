@@ -1,0 +1,9 @@
+{
+  IResourceStreamLocator resourceStreamLocator=mock(IResourceStreamLocator.class);
+  StringResourceStream srs=new StringResourceStream("anything");
+  when(resourceStreamLocator.locate(String.class,"path","style","variation",null,"extension",true)).thenReturn(srs);
+  CachingResourceStreamLocator cachingLocator=new CachingResourceStreamLocator(resourceStreamLocator);
+  cachingLocator.locate(String.class,"path","style","variation",null,"extension",true);
+  cachingLocator.locate(String.class,"path","style","variation",null,"extension",true);
+  verify(resourceStreamLocator,times(2)).locate(String.class,"path","style","variation",null,"extension",true);
+}

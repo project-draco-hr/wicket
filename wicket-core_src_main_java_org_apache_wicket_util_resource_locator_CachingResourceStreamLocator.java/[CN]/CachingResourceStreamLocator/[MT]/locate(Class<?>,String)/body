@@ -1,9 +1,13 @@
 {
   Key key=new Key(clazz.getName(),path,null,null,null);
-  IResourceStream resourceStream=getCopyFromCache(key);
-  if (resourceStream == null) {
-    resourceStream=delegate.locate(clazz,path);
-    updateCache(key,resourceStream);
+  IResourceStreamReference resourceStreamReference=cache.get(key);
+  final IResourceStream result;
+  if (resourceStreamReference == null) {
+    result=delegate.locate(clazz,path);
+    updateCache(key,result);
   }
-  return resourceStream;
+ else {
+    result=resourceStreamReference.getReference();
+  }
+  return result;
 }
