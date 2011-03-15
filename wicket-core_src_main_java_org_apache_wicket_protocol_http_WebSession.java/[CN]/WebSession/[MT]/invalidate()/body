@@ -1,4 +1,6 @@
 {
-  getApplication().getSecuritySettings().getAuthenticationStrategy().remove();
-  super.invalidate();
+  if (isSessionInvalidated() == false) {
+    getApplication().getSecuritySettings().getAuthenticationStrategy().remove();
+    super.invalidate();
+  }
 }
