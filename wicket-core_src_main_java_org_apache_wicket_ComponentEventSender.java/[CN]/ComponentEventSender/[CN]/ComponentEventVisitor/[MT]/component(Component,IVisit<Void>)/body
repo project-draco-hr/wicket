@@ -5,13 +5,11 @@
   }
   List<? extends Behavior> behaviors=object.getBehaviors();
   for (  Behavior behavior : behaviors) {
-    if (behavior instanceof IEventSink) {
-      IEventSink behaviorSink=(IEventSink)behavior;
-      dispatcher.dispatchEvent(behaviorSink,e);
-      if (e.isStop()) {
-        visit.stop();
-        break;
-      }
+    IEventSink behaviorSink=behavior;
+    dispatcher.dispatchEvent(behaviorSink,e);
+    if (e.isStop()) {
+      visit.stop();
+      break;
     }
   }
   if (e.isShallow()) {
