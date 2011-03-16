@@ -12,6 +12,9 @@
   if (cursor instanceof MarkupContainer) {
     Visits.visitPostOrder(cursor,new ComponentEventVisitor(event,dispatcher));
   }
+ else {
+    dispatcher.dispatchEvent(cursor,event);
+  }
   if (event.isStop()) {
     return;
   }
