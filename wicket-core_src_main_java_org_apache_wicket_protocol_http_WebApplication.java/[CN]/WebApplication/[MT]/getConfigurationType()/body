@@ -1,29 +1,34 @@
 {
-  String result=null;
-  try {
-    result=System.getProperty("wicket." + Application.CONFIGURATION);
-  }
- catch (  SecurityException e) {
-  }
-  if (result == null) {
-    result=getInitParameter("wicket." + Application.CONFIGURATION);
-  }
-  if (result == null) {
-    result=getServletContext().getInitParameter("wicket." + Application.CONFIGURATION);
-  }
-  if (result == null) {
-    result=getInitParameter(Application.CONFIGURATION);
-  }
-  if (result == null) {
-    result=getServletContext().getInitParameter(Application.CONFIGURATION);
-  }
-  if (result != null) {
+  if (configurationType == null) {
+    String result=null;
     try {
-      return RuntimeConfigurationType.valueOf(result.toUpperCase());
+      result=System.getProperty("wicket." + Application.CONFIGURATION);
     }
- catch (    IllegalArgumentException e) {
-      throw new IllegalArgumentException("Invalid configuration type: '" + result + "'.  Must be \"development\" or \"deployment\".");
+ catch (    SecurityException e) {
+    }
+    if (result == null) {
+      result=getInitParameter("wicket." + Application.CONFIGURATION);
+    }
+    if (result == null) {
+      result=getServletContext().getInitParameter("wicket." + Application.CONFIGURATION);
+    }
+    if (result == null) {
+      result=getInitParameter(Application.CONFIGURATION);
+    }
+    if (result == null) {
+      result=getServletContext().getInitParameter(Application.CONFIGURATION);
+    }
+    if (result != null) {
+      try {
+        configurationType=RuntimeConfigurationType.valueOf(result.toUpperCase());
+      }
+ catch (      IllegalArgumentException e) {
+        throw new IllegalArgumentException("Invalid configuration type: '" + result + "'.  Must be \"development\" or \"deployment\".");
+      }
     }
   }
-  return RuntimeConfigurationType.DEVELOPMENT;
+  if (configurationType == null) {
+    configurationType=RuntimeConfigurationType.DEVELOPMENT;
+  }
+  return configurationType;
 }
