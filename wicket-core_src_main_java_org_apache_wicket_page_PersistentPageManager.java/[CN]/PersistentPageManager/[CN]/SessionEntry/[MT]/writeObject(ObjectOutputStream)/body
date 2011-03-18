@@ -1,8 +1,15 @@
 {
   s.defaultWriteObject();
   List<Serializable> l=new ArrayList<Serializable>();
+  IPageStore pageStore=getPageStore();
   for (  IManageablePage p : pages) {
-    Serializable preparedPage=getPageStore().prepareForSerialization(sessionId,p);
+    Serializable preparedPage;
+    if (pageStore != null) {
+      preparedPage=pageStore.prepareForSerialization(sessionId,p);
+    }
+ else {
+      preparedPage=p;
+    }
     if (preparedPage != null) {
       l.add(preparedPage);
     }
