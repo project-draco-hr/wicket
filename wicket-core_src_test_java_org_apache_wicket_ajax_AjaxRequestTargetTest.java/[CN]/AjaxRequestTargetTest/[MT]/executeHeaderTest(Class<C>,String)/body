@@ -27,14 +27,17 @@
   tester.debugComponentTrees();
   tester.clickLink(MockPageWithLinkAndComponent.LINK_ID);
   String document=tester.getLastResponseAsString();
-  Pattern pat=Pattern.compile(".*<header-contribution>(.*?)</header-contribution>.*",Pattern.DOTALL);
-  Matcher mat=pat.matcher(document);
   String headerContribution=null;
+  Pattern pat=Pattern.compile(".*<header-contribution.*?>(.*?)</header-contribution>.*",Pattern.DOTALL);
+  Matcher mat=pat.matcher(document);
   if (mat.matches()) {
     headerContribution=mat.group(1);
   }
   if (expectedFile == null) {
-    assertNull("There was a header contribution on the response: <" + headerContribution + ">",headerContribution);
+    assertNull("There was a header contribution on the response " + "(though we didn't expect one): <" + headerContribution + ">",headerContribution);
+  }
+ else   if (headerContribution == null) {
+    fail("Failed to find header contribution: \n" + document);
   }
  else {
     DiffUtil.validatePage(headerContribution,getClass(),expectedFile,true);
