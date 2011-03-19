@@ -1,14 +1,8 @@
 {
   if (openTag.isOpen()) {
     if (markupStream.atCloseTag() && markupStream.getTag().closes(openTag)) {
-      if (renderBodyOnly == false) {
-        ComponentTag closeTag=markupStream.getTag();
-        if (openTag.getNameChanged()) {
-          closeTag=closeTag.mutable();
-          closeTag.setName(openTag.getName());
-          closeTag.setNamespace(openTag.getNamespace());
-        }
-        renderComponentTag(closeTag);
+      if ((renderBodyOnly == false) && needToRenderTag(openTag)) {
+        getResponse().write(openTag.syntheticCloseTagString());
       }
     }
  else     if (openTag.requiresCloseTag()) {
