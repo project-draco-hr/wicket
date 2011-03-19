@@ -5,9 +5,9 @@
     if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
       ParameterParser parser=new ParameterParser();
       parser.setLowerCaseNames(true);
-      Map params=parser.parse(pContentDisposition,';');
+      Map<String,String> params=parser.parse(pContentDisposition,';');
       if (params.containsKey("filename")) {
-        fileName=(String)params.get("filename");
+        fileName=params.get("filename");
         if (fileName != null) {
           fileName=fileName.trim();
         }
