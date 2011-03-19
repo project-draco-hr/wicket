@@ -1,9 +1,8 @@
 {
   final MarkupParser parser=new MarkupParser("<html wicket:id=\"test\"><script language=\"JavaScript\">... <x a> ...</script></html>");
   IMarkupFragment markup=parser.parse();
-  assertEquals(3,markup.size());
+  assertEquals(5,markup.size());
   assertEquals("html",((ComponentTag)markup.get(0)).getName());
-  assertEquals("html",((ComponentTag)markup.get(2)).getName());
-  assertEquals(true,markup.get(1) instanceof RawMarkup);
-  assertEquals("<script language=\"JavaScript\">... <x a> ...</script>",markup.get(1).toString());
+  assertEquals("html",((ComponentTag)markup.get(4)).getName());
+  assertEquals("<![CDATA[... <x a> ...]]>",markup.get(2).toString());
 }

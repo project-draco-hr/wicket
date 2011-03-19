@@ -3,7 +3,7 @@
     int size=markup.size();
     ComponentTag tag;
     while (null != (tag=getNextTag())) {
-      boolean add=(tag.getId() != null);
+      boolean add=(tag.getId() != null) || tag.getFlag(ComponentTag.ADD);
       if (!add && tag.getXmlTag().isClose()) {
         add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
       }
@@ -46,5 +46,6 @@
     text=handleRawText(text.toString());
     markup.addMarkupElement(new RawMarkup(text));
   }
+  postProcess(markup);
   markup.makeImmutable();
 }

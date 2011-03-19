@@ -1,0 +1,15 @@
+{
+  if (tag.getNamespace() != null) {
+    return tag;
+  }
+  if (XmlPullParser.SCRIPT.equalsIgnoreCase(tag.getName()) || (XmlPullParser.STYLE.equalsIgnoreCase(tag.getName()))) {
+    if (tag.isOpen() && (tag.getId() == null)) {
+      tag.setId("_ScriptStyle");
+      tag.setModified(true);
+    }
+    tag.setFlag(ComponentTag.ADD,true);
+    tag.setFlag(ComponentTag.RENDER_RAW,true);
+    tag.setUserData("STYLE_OR_SCRIPT",Boolean.TRUE);
+  }
+  return tag;
+}

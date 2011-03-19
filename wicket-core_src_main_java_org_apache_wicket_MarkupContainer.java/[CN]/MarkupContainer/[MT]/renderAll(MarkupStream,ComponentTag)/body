@@ -4,10 +4,10 @@
       break;
     }
     final int index=markupStream.getCurrentIndex();
-    renderNext(markupStream);
+    boolean rawMarkup=renderNext(markupStream);
     markupStream.setCurrentIndex(index);
     MarkupElement elem=markupStream.get();
-    if (elem instanceof RawMarkup) {
+    if (rawMarkup) {
       markupStream.next();
     }
  else     if (!markupStream.getTag().isClose()) {

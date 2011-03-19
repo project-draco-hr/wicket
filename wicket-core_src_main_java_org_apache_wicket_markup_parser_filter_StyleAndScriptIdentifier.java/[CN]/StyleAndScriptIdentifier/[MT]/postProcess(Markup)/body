@@ -1,0 +1,24 @@
+{
+  for (int i=0; i < markup.size(); i++) {
+    MarkupElement elem=markup.get(i);
+    if (elem instanceof ComponentTag) {
+      ComponentTag open=(ComponentTag)elem;
+      if (open.getUserData("STYLE_OR_SCRIPT") != null) {
+        if (open.isOpen() && ((i + 2) < markup.size())) {
+          MarkupElement body=markup.get(i + 1);
+          MarkupElement tag2=markup.get(i + 2);
+          if ((body instanceof RawMarkup) && (tag2 instanceof ComponentTag)) {
+            ComponentTag close=(ComponentTag)tag2;
+            if (close.closes(open)) {
+              String text=body.toString().trim();
+              if (!text.startsWith("<!--") && !text.startsWith("<![CDATA[")) {
+                text="<![CDATA[" + body.toString() + "]]>";
+                markup.replace(i + 1,new RawMarkup(text));
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
