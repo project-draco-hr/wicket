@@ -3,15 +3,15 @@
   TestPage toSerializePage=new TestPage();
   pageManager.touchPage(toSerializePage);
   pageManager.commitRequest();
-  pageManager.destroy();
   Serializable sessionEntry=pageManager.getContext().getSessionAttribute(null);
+  pageManager.destroy();
   byte[] serializedSessionEntry=WicketObjects.objectToByteArray(sessionEntry);
   assertNotNull("Wicket needs to be able to serialize the session entry",serializedSessionEntry);
-  IPageManager newPageManager=newPersistentPageManager("test_app");
   ObjectInputStream in=new ObjectInputStream(new ByteArrayInputStream(serializedSessionEntry));
   assertNull("Worker thread should be unaware of Wicket application",in.readObject());
   Serializable loadedSessionEntry=(Serializable)in.readObject();
   assertNotNull("Wicket needs to be able to deserialize the session entry regardless the application availability",loadedSessionEntry);
+  IPageManager newPageManager=newPersistentPageManager("test_app");
   newPageManager.getContext().setSessionAttribute(null,loadedSessionEntry);
   TestPage deserializedPage=(TestPage)newPageManager.getPage(toSerializePage.getPageId());
   assertNotNull(deserializedPage);
