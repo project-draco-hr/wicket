@@ -1,0 +1,15 @@
+{
+  try {
+    try {
+      startLatch.await(2,TimeUnit.SECONDS);
+    }
+ catch (    InterruptedException e) {
+      fail();
+    }
+    assertEquals("/filter/",filter.checkIfRedirectRequired("/filter",""));
+    successCount.incrementAndGet();
+  }
+  finally {
+    finishLatch.countDown();
+  }
+}
