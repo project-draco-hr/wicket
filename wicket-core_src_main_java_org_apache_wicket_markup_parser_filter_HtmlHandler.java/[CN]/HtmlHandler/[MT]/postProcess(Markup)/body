@@ -1,0 +1,11 @@
+{
+  while (stack.size() > 0) {
+    final ComponentTag top=stack.peek();
+    if (!requiresCloseTag(top.getName())) {
+      stack.pop();
+    }
+ else {
+      throw new WicketRuntimeException(new WicketParseException("Tag does not have a close tag:",top));
+    }
+  }
+}

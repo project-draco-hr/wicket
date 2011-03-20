@@ -3,8 +3,8 @@
     int size=markup.size();
     ComponentTag tag;
     while (null != (tag=getNextTag())) {
-      boolean add=(tag.getId() != null) || tag.getFlag(ComponentTag.ADD);
-      if (!add && tag.getXmlTag().isClose()) {
+      boolean add=(tag.getId() != null);
+      if (!add && tag.isClose()) {
         add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
       }
       if (add || tag.isModified() || (markup.size() != size)) {
