@@ -1,16 +1,16 @@
 {
   final XmlPullParser parser=new XmlPullParser();
   parser.parse("<html><script language=\"JavaScript\">... <x a> ...</script></html>");
-  XmlTag tag=(XmlTag)parser.nextTag();
+  XmlTag tag=parser.nextTag();
   assertTrue(tag.isOpen());
   assertEquals("html",tag.getName());
-  tag=(XmlTag)parser.nextTag();
+  tag=parser.nextTag();
   assertTrue(tag.isOpen());
   assertEquals("script",tag.getName());
-  tag=(XmlTag)parser.nextTag();
+  tag=parser.nextTag();
   assertTrue(tag.isClose());
   assertEquals("script",tag.getName());
-  tag=(XmlTag)parser.nextTag();
+  tag=parser.nextTag();
   assertTrue(tag.isClose());
   assertEquals("html",tag.getName());
 }

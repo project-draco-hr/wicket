@@ -1,0 +1,18 @@
+{
+  if (tag == null) {
+    validate();
+    return;
+  }
+  if (log.isDebugEnabled() && debug) {
+    log.debug("tag: " + tag.toUserDebugString() + ", stack: "+ stack);
+  }
+  if (tag.isOpen()) {
+    stack.push(tag);
+  }
+ else   if (tag.isClose()) {
+    assertOpenTagFor(tag);
+  }
+ else   if (tag.isOpenClose()) {
+    tag.setOpenTag(tag);
+  }
+}

@@ -2,12 +2,11 @@
   final int tagTextLength=tagText.length();
   final TagNameParser tagnameParser=new TagNameParser(tagText);
   if (tagnameParser.matcher().lookingAt()) {
-    final XmlTag tag=new XmlTag();
     tag.name=tagnameParser.getName();
     tag.namespace=tagnameParser.getNamespace();
     int pos=tagnameParser.matcher().end(0);
     if (pos == tagTextLength) {
-      return tag;
+      return true;
     }
     final VariableAssignmentParser attributeParser=new VariableAssignmentParser(tagText);
     while (attributeParser.matcher().find(pos)) {
@@ -25,10 +24,10 @@
         throw new ParseException("Same attribute found twice: " + key + getLineAndColumnText(),input.getPosition());
       }
       if (pos == tagTextLength) {
-        return tag;
+        return true;
       }
     }
-    return tag;
+    return true;
   }
-  return null;
+  return false;
 }

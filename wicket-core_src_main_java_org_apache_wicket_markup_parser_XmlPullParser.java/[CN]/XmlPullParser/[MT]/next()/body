@@ -1,6 +1,6 @@
 {
   if (input.getPosition() >= input.size()) {
-    return ELEMENT_TYPE.NOT_INITIALIZED;
+    return HttpTagType.NOT_INITIALIZED;
   }
   if (skipUntilText != null) {
     skipUntil();
@@ -11,12 +11,12 @@
     if (openBracketIndex == -1) {
       lastText=input.getSubstring(-1);
       input.setPosition(input.size());
-      lastType=ELEMENT_TYPE.BODY;
+      lastType=HttpTagType.BODY;
       return lastType;
     }
     lastText=input.getSubstring(openBracketIndex);
     input.setPosition(openBracketIndex);
-    lastType=ELEMENT_TYPE.BODY;
+    lastType=HttpTagType.BODY;
     return lastType;
   }
   input.countLinesTo(openBracketIndex);
@@ -28,11 +28,6 @@
   String tagText=lastText.subSequence(1,lastText.length() - 1).toString();
   if (tagText.length() == 0) {
     throw new ParseException("Found empty tag: '<>' at" + getLineAndColumnText(),input.getPosition());
-  }
-  final char firstChar=tagText.charAt(0);
-  if ((firstChar == '!') || (firstChar == '?')) {
-    specialTagHandling(tagText,openBracketIndex,closeBracketIndex);
-    return lastType;
   }
   final TagType type;
   if (tagText.endsWith("/")) {
@@ -55,12 +50,20 @@
       }
     }
   }
-  lastTag=parseTagText(tagText);
-  if (lastTag != null) {
-    lastTag.type=type;
-    lastTag.text=new TextSegment(lastText,openBracketIndex,input.getLineNumber(),input.getColumnNumber());
+  final char firstChar=tagText.charAt(0);
+  if ((firstChar == '!') || (firstChar == '?')) {
+    specialTagHandling(tagText,openBracketIndex,closeBracketIndex);
+    input.countLinesTo(openBracketIndex);
+    TextSegment text=new TextSegment(lastText,openBracketIndex,input.getLineNumber(),input.getColumnNumber());
+    lastTag=new XmlTag(text,type);
+    return lastType;
+  }
+  TextSegment text=new TextSegment(lastText,openBracketIndex,input.getLineNumber(),input.getColumnNumber());
+  XmlTag tag=new XmlTag(text,type);
+  lastTag=tag;
+  if (parseTagText(tag,tagText)) {
     input.setPosition(closeBracketIndex + 1);
-    lastType=ELEMENT_TYPE.TAG;
+    lastType=HttpTagType.TAG;
     return lastType;
   }
  else {

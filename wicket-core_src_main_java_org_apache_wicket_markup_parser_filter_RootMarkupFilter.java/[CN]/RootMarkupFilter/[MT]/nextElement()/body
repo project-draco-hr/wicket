@@ -1,9 +1,15 @@
 {
-  ELEMENT_TYPE type;
-  while ((type=parser.next()) != ELEMENT_TYPE.TAG) {
-    if (type == ELEMENT_TYPE.NOT_INITIALIZED) {
-      return null;
+  HttpTagType type;
+  while ((type=parser.next()) != HttpTagType.NOT_INITIALIZED) {
+    if (type == HttpTagType.BODY) {
+      continue;
+    }
+ else     if (type == HttpTagType.TAG) {
+      return new ComponentTag(parser.getElement());
+    }
+ else {
+      return new HtmlSpecialTag(parser.getElement(),type);
     }
   }
-  return new ComponentTag(parser.getElement());
+  return null;
 }

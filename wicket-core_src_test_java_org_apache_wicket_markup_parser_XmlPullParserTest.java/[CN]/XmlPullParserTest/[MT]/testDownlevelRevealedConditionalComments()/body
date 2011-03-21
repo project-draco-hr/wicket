@@ -1,0 +1,14 @@
+{
+  final XmlPullParser parser=new XmlPullParser();
+  parser.parse("<!--[if (gt IE 9)|!(IE)]><!--><html lang=\"en\" class=\"no-js\"><!--<![endif]--> <span>test</span>");
+  HttpTagType type=parser.next();
+  assertEquals(HttpTagType.CONDITIONAL_COMMENT,type);
+  type=parser.next();
+  assertEquals(HttpTagType.COMMENT,type);
+  type=parser.next();
+  assertEquals(HttpTagType.TAG,type);
+  XmlTag componentTag=parser.getElement();
+  assertEquals("html",componentTag.getName());
+  type=parser.next();
+  assertEquals(HttpTagType.CONDITIONAL_COMMENT_ENDIF,type);
+}

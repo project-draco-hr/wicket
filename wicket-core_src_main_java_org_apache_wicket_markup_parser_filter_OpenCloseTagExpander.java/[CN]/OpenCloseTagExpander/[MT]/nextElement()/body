@@ -4,28 +4,5 @@
     next=null;
     return rtn;
   }
-  MarkupElement elem;
-  do {
-    elem=getNextFilter().nextElement();
-    if (elem == null) {
-      return null;
-    }
-  }
- while (elem instanceof RawMarkup);
-  ComponentTag tag=(ComponentTag)elem;
-  if (tag.isOpenClose()) {
-    String name=tag.getName();
-    if (tag.getNamespace() != null) {
-      name=tag.getNamespace() + ":" + tag.getName();
-    }
-    if (contains(name)) {
-      if (onFound(tag)) {
-        next=new ComponentTag(tag.getName(),TagType.CLOSE);
-        next.setNamespace(tag.getNamespace());
-        next.setOpenTag(tag);
-        next.setModified(true);
-      }
-    }
-  }
-  return tag;
+  return super.nextElement();
 }

@@ -1,0 +1,7 @@
+{
+  tester.getApplication().getMarkupSettings().setStripComments(true);
+  String conditionalComment="\r\n <!--[if IE 6]>\r\n<![endif]-->";
+  MarkupParser parser=new MarkupParser(conditionalComment);
+  Markup markup=parser.parse();
+  assertEquals(conditionalComment,markup.get(0).toString());
+}

@@ -1,23 +1,34 @@
 {
   if (tagText.startsWith("!--")) {
-    int pos=input.find("-->",openBracketIndex + 1);
-    if (pos == -1) {
-      throw new ParseException("Unclosed comment beginning at" + getLineAndColumnText(),openBracketIndex);
-    }
-    pos+=3;
-    lastText=input.getSubstring(openBracketIndex,pos);
-    lastType=ELEMENT_TYPE.COMMENT;
-    if (tagText.startsWith("!--[if ") && tagText.endsWith("]") && lastText.toString().endsWith("<![endif]-->")) {
-      lastType=ELEMENT_TYPE.CONDITIONAL_COMMENT;
+    if (tagText.contains("![endif]--")) {
+      lastType=HttpTagType.CONDITIONAL_COMMENT_ENDIF;
       input.setPosition(closeBracketIndex + 1);
+      return;
+    }
+    if (tagText.startsWith("!--[if ") && tagText.endsWith("]")) {
+      int pos=input.find("]-->",openBracketIndex + 1);
+      if (pos == -1) {
+        throw new ParseException("Unclosed conditional comment beginning at" + getLineAndColumnText(),openBracketIndex);
+      }
+      pos+=4;
+      lastText=input.getSubstring(openBracketIndex,pos);
+      input.setPosition(closeBracketIndex + 1);
+      lastType=HttpTagType.CONDITIONAL_COMMENT;
     }
  else {
+      int pos=input.find("-->",openBracketIndex + 1);
+      if (pos == -1) {
+        throw new ParseException("Unclosed comment beginning at" + getLineAndColumnText(),openBracketIndex);
+      }
+      pos+=3;
+      lastText=input.getSubstring(openBracketIndex,pos);
+      lastType=HttpTagType.COMMENT;
       input.setPosition(pos);
     }
     return;
   }
   if (tagText.equals("![endif]--")) {
-    lastType=ELEMENT_TYPE.CONDITIONAL_COMMENT;
+    lastType=HttpTagType.CONDITIONAL_COMMENT;
     input.setPosition(closeBracketIndex + 1);
     return;
   }
@@ -36,21 +47,21 @@
  while (tagText.endsWith("]]") == false);
       input.setPosition(closeBracketIndex + 1);
       lastText=tagText;
-      lastType=ELEMENT_TYPE.CDATA;
+      lastType=HttpTagType.CDATA;
       return;
     }
   }
   if (tagText.charAt(0) == '?') {
-    lastType=ELEMENT_TYPE.PROCESSING_INSTRUCTION;
+    lastType=HttpTagType.PROCESSING_INSTRUCTION;
     input.setPosition(closeBracketIndex + 1);
     return;
   }
   if (tagText.startsWith("!DOCTYPE")) {
-    lastType=ELEMENT_TYPE.DOCTYPE;
+    lastType=HttpTagType.DOCTYPE;
     doctype=input.getSubstring(openBracketIndex + 1,closeBracketIndex);
     input.setPosition(closeBracketIndex + 1);
     return;
   }
-  lastType=ELEMENT_TYPE.SPECIAL_TAG;
+  lastType=HttpTagType.SPECIAL_TAG;
   input.setPosition(closeBracketIndex + 1);
 }

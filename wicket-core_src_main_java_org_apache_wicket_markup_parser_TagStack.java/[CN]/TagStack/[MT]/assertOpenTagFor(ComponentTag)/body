@@ -1,0 +1,24 @@
+{
+  if (stack.size() > 0) {
+    ComponentTag top=stack.pop();
+    boolean mismatch=!hasEqualTagName(top,closeTag);
+    if (mismatch) {
+      top.setHasNoCloseTag(true);
+      while (mismatch && !requiresCloseTag(top.getName())) {
+        top.setHasNoCloseTag(true);
+        if (stack.isEmpty()) {
+          break;
+        }
+        top=stack.pop();
+        mismatch=!hasEqualTagName(top,closeTag);
+      }
+      if (mismatch) {
+        throw new ParseException("Tag " + top.toUserDebugString() + " has a mismatched close tag at "+ closeTag.toUserDebugString(),top.getPos());
+      }
+    }
+    closeTag.setOpenTag(top);
+  }
+ else {
+    throw new WicketParseException("Tag does not have a matching open tag:",closeTag);
+  }
+}

@@ -1,32 +1,38 @@
 {
   try {
     int size=markup.size();
-    ComponentTag tag;
-    while (null != (tag=getNextTag())) {
-      boolean add=(tag.getId() != null);
-      if (!add && tag.isClose()) {
-        add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
+    MarkupElement elem;
+    while (null != (elem=getNextTag())) {
+      if (elem instanceof HtmlSpecialTag) {
+        elem=new ComponentTag(((HtmlSpecialTag)elem).getXmlTag());
       }
-      if (add || tag.isModified() || (markup.size() != size)) {
-        CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
-        if (text.length() > 0) {
-          text=handleRawText(text.toString());
-          markup.addMarkupElement(size,new RawMarkup(text));
+      if (elem instanceof ComponentTag) {
+        ComponentTag tag=(ComponentTag)elem;
+        boolean add=(tag.getId() != null);
+        if (!add && tag.isClose()) {
+          add=((tag.getOpenTag() != null) && (tag.getOpenTag().getId() != null));
         }
-        xmlParser.setPositionMarker();
-        if (add) {
-          if (tag.isIgnore() == false) {
-            markup.addMarkupElement(tag);
+        if (add || tag.isModified() || (markup.size() != size)) {
+          CharSequence text=xmlParser.getInputFromPositionMarker(tag.getPos());
+          if (text.length() > 0) {
+            text=handleRawText(text.toString());
+            markup.addMarkupElement(size,new RawMarkup(text));
+          }
+          xmlParser.setPositionMarker();
+          if (add) {
+            if (tag.isIgnore() == false) {
+              markup.addMarkupElement(tag);
+            }
+          }
+ else           if (tag.isModified()) {
+            markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
+          }
+ else {
+            xmlParser.setPositionMarker(tag.getPos());
           }
         }
- else         if (tag.isModified()) {
-          markup.addMarkupElement(new RawMarkup(tag.toCharSequence()));
-        }
- else {
-          xmlParser.setPositionMarker(tag.getPos());
-        }
+        size=markup.size();
       }
-      size=markup.size();
     }
   }
  catch (  final ParseException ex) {
