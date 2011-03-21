@@ -13,7 +13,10 @@
  * label.
  */
     @Override protected String getOnClickScript(    CharSequence url){
-      return new AppendingStringBuffer("new Ajax.Updater('counter', '").append(urlFor(ILinkListener.INTERFACE)).append("', {method:'get'}); return false;").toString();
+      IRequestHandler handler=new ListenerInterfaceRequestHandler(new PageAndComponentProvider(getPage(),this),ILinkListener.INTERFACE);
+      Url componentUrl=RequestCycle.get().mapUrlFor(handler);
+      componentUrl.addQueryParameter("anticache",Math.random());
+      return new AppendingStringBuffer("new Ajax.Updater('counter', '").append(componentUrl).append("', {method:'get'}); return false;").toString();
     }
   }
 );
