@@ -12,7 +12,7 @@
             if (close.closes(open)) {
               String text=body.toString().trim();
               if (!text.startsWith("<!--") && !text.startsWith("<![CDATA[")) {
-                text="<![CDATA[" + body.toString() + "]]>";
+                text=JavaScriptUtils.SCRIPT_CONTENT_PREFIX + body.toString() + JavaScriptUtils.SCRIPT_CONTENT_SUFFIX;
                 markup.replace(i + 1,new RawMarkup(text));
               }
             }
