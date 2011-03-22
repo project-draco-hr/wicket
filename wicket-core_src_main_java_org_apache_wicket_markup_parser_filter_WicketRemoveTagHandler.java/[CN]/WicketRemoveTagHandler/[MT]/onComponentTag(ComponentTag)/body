@@ -5,8 +5,12 @@
   if (tag.isOpenClose()) {
     throw new WicketParseException("Wicket remove tag must not be an open-close tag:",tag);
   }
-  ComponentTag closeTag;
-  while (null != (closeTag=(ComponentTag)getNextFilter().nextElement())) {
+  MarkupElement markupElement;
+  while ((markupElement=getNextFilter().nextElement()) != null) {
+    if ((markupElement instanceof ComponentTag) == false) {
+      continue;
+    }
+    ComponentTag closeTag=(ComponentTag)markupElement;
     if (closeTag.getId() == null) {
       continue;
     }
