@@ -3,8 +3,8 @@
   if (getComponent().getPage() == page) {
     boolean isAjax=((WebRequest)requestCycle.getRequest()).isAjax();
     if (isAjax == false && listenerInterface.isRenderPageAfterInvocation()) {
-      RedirectPolicy policy=getPage().isPageStateless() ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
-      requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(getPage()),policy));
+      RedirectPolicy policy=page.isPageStateless() ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
+      requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(page),policy));
     }
     invokeListener();
   }
