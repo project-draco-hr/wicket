@@ -15,7 +15,10 @@
     segments.add(getContext().getResourceIdentifier());
     segments.add(getClassName(reference.getScope()));
     PageParameters parameters=referenceRequestHandler.getPageParameters();
-    if (parameters != null) {
+    if (parameters == null) {
+      parameters=new PageParameters();
+    }
+ else {
       parameters=new PageParameters(parameters);
       parameters.clearIndexed();
     }
