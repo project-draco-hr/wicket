@@ -2,4 +2,10 @@
   if (Session.exists()) {
     Session.get().internalDetach();
   }
+  if (Application.exists()) {
+    IRequestLogger requestLogger=Application.get().getRequestLogger();
+    if (requestLogger != null) {
+      requestLogger.requestTime((System.currentTimeMillis() - startTime));
+    }
+  }
 }
