@@ -1,3 +1,7 @@
 {
-  return getParent().get(tag.getId());
+  Component resolvedComponent=getParent().get(tag.getId());
+  if (resolvedComponent != null && getPage().wasRendered(resolvedComponent)) {
+    return null;
+  }
+  return resolvedComponent;
 }
