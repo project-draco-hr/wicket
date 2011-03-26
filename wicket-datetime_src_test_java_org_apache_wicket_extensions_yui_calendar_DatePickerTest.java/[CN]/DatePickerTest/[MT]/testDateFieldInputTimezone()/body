@@ -1,8 +1,16 @@
 {
-  log.debug("=========== test2() =================");
+  log.debug("=========== testDateFieldInputTimezone() =================");
+  TimeZone tzClient=TimeZone.getTimeZone("America/Los_Angeles");
+  TimeZone tzServer=TimeZone.getTimeZone("Europe/Berlin");
+  TimeZone.setDefault(tzServer);
+  DateTimeZone.setDefault(DateTimeZone.forTimeZone(tzServer));
   Class<? extends Page> pageClass=DatesPage2.class;
-  Date date=new GregorianCalendar(2010,10,6,0,0).getTime();
-  tester.getSession().setLocale(Locale.GERMAN);
+  MutableDateTime dt=new MutableDateTime(DateTimeZone.forTimeZone(tzClient));
+  dt.setDateTime(2010,11,6,0,0,0,0);
+  Date date=new Date(dt.getMillis());
+  WebClientInfo clientInfo=(WebClientInfo)tester.getSession().getClientInfo();
+  clientInfo.getProperties().setTimeZone(tzClient);
+  tester.getSession().setLocale(Locale.GERMANY);
   tester.startPage(pageClass);
   tester.assertRenderedPage(pageClass);
   FormTester formTester=tester.newFormTester("form");

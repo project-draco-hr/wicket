@@ -11,11 +11,11 @@
     minutes=null;
   }
  else {
-    MutableDateTime mDate=new MutableDateTime(modelObject);
     TimeZone zone=getClientTimeZone();
     if (zone != null) {
-      mDate.setZone(DateTimeZone.forTimeZone(zone));
+      modelObject=changeTimeZone(modelObject,zone);
     }
+    MutableDateTime mDate=new MutableDateTime(modelObject);
     date=mDate.toDate();
     if (use12HourFormat) {
       int hourOfHalfDay=mDate.get(DateTimeFieldType.hourOfHalfday());

@@ -1,23 +1,21 @@
 {
   TimeZone origJvmDef=TimeZone.getDefault();
   DateTimeZone origJodaDef=DateTimeZone.getDefault();
-  TimeZone tzClient=TimeZone.getTimeZone("Etc/GMT-14");
-  TimeZone tzServer=TimeZone.getTimeZone("Etc/GMT+12");
+  TimeZone tzClient=TimeZone.getTimeZone("GMT+14");
+  TimeZone tzServer=TimeZone.getTimeZone("GMT-12");
   TimeZone.setDefault(tzServer);
   DateTimeZone.setDefault(DateTimeZone.forTimeZone(tzServer));
-  Locale.setDefault(Locale.GERMANY);
   WebClientInfo clientInfo=(WebClientInfo)tester.getSession().getClientInfo();
   clientInfo.getProperties().setTimeZone(tzClient);
   StyleDateConverter converter=new StyleDateConverter(true);
   Calendar cal=Calendar.getInstance(tzClient);
   cal.set(2011,10,5,0,0,0);
   cal.set(Calendar.MILLISECOND,0);
-  Locale.setDefault(Locale.US);
   Date dateRef=cal.getTime();
   Date date=converter.convertToObject("05.11.2011",Locale.GERMANY);
   log.debug("ref: " + dateRef.getTime() + "; converted: "+ date.getTime());
   log.debug("ref: " + dateRef + "; date: "+ date);
-  assertEquals(0,dateRef.compareTo(date));
+  assertEquals(dateRef,date);
   TimeZone.setDefault(origJvmDef);
   DateTimeZone.setDefault(origJodaDef);
 }

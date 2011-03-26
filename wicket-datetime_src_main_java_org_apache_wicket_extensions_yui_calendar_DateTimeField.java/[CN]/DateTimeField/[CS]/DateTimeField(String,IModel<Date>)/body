@@ -22,4 +22,11 @@
   minutesField.add(new RangeValidator<Integer>(0,59));
   minutesField.setLabel(new Model<String>(MINUTES));
   add(amOrPmChoice=new DropDownChoice<AM_PM>(AM_OR_PM_CHOICE,new PropertyModel<AM_PM>(this,AM_OR_PM),Arrays.asList(AM_PM.values())));
+  add(new WebMarkupContainer("hoursSeparator"){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isVisible(){
+      return minutesField.determineVisibility();
+    }
+  }
+);
 }

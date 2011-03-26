@@ -1,0 +1,35 @@
+{
+  TimeZone origJvmDef=TimeZone.getDefault();
+  DateTimeZone origJodaDef=DateTimeZone.getDefault();
+  TimeZone tzClient=TimeZone.getTimeZone("Canada/Eastern");
+  TimeZone tzServer=TimeZone.getTimeZone("GMT");
+  TimeZone.setDefault(tzServer);
+  DateTimeZone.setDefault(DateTimeZone.forTimeZone(tzServer));
+  WebClientInfo clientInfo=(WebClientInfo)tester.getSession().getClientInfo();
+  clientInfo.getProperties().setTimeZone(tzClient);
+  tester.getSession().setLocale(Locale.GERMAN);
+  MutableDateTime dt=new MutableDateTime(DateTimeZone.forTimeZone(tzClient));
+  dt.setDateTime(2010,1,15,0,0,0,0);
+  Date date=new Date(dt.getMillis());
+  DatesPage2 testPage=new DatesPage2();
+  testPage.time=date;
+  tester.startPage(testPage);
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setValue("timeField:hours","00");
+  formTester.setValue("timeField:minutes","00");
+  formTester.submit();
+  assertEquals(date,testPage.time);
+  dt=new MutableDateTime(DateTimeZone.forTimeZone(tzClient));
+  dt.setDateTime(2010,7,15,0,0,0,0);
+  date=new Date(dt.getMillis());
+  testPage=new DatesPage2();
+  testPage.time=date;
+  tester.startPage(testPage);
+  formTester=tester.newFormTester("form");
+  formTester.setValue("timeField:hours","00");
+  formTester.setValue("timeField:minutes","00");
+  formTester.submit();
+  assertEquals(date,testPage.time);
+  TimeZone.setDefault(origJvmDef);
+  DateTimeZone.setDefault(origJodaDef);
+}
