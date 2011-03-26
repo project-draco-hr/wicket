@@ -14,7 +14,9 @@
   final Page page=findPage();
   if (page != null) {
     page.componentAdded(child);
-    child.internalInitialize();
+    if (page.getFlag(FLAG_INITIALIZED)) {
+      child.internalInitialize();
+    }
   }
   if (isPreparedForRender()) {
     child.beforeRender();
