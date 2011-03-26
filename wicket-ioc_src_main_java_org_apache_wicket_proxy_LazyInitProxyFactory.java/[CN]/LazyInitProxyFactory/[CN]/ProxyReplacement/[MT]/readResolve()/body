@@ -1,8 +1,9 @@
 {
-  Class<?> clazz;
-  clazz=WicketObjects.resolveClass(type);
-  if (clazz == null) {
-    throw new InvalidClassException(type,"could not resolve class [" + type + "] when deserializing proxy");
+  try {
+    Class<?> clazz=WicketObjects.resolveClass(type);
+    return LazyInitProxyFactory.createProxy(clazz,locator);
   }
-  return LazyInitProxyFactory.createProxy(clazz,locator);
+ catch (  ClassNotFoundException e) {
+    throw new RuntimeException("Could not resolve class [" + type + "] when deserializing proxy",e);
+  }
 }
