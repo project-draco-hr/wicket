@@ -1,5 +1,9 @@
 {
   super.setUp();
-  ThreadContext.setApplication(new DummyApplication());
+  DummyApplication application=new DummyApplication();
+  application.setName("dummyTestApplication");
+  ThreadContext.setApplication(application);
+  application.setServletContext(new MockServletContext(application,"/"));
+  application.initApplication();
   errorCode=0;
 }
