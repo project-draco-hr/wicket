@@ -1,0 +1,26 @@
+{
+  return new AjaxEventBehavior("onclick"){
+    private static final long serialVersionUID=1L;
+    /** 
+ * @see org.apache.wicket.ajax.AjaxEventBehavior#onEvent(org.apache.wicket.ajax.AjaxRequestTarget)
+ */
+    @Override protected void onEvent(    AjaxRequestTarget target){
+      onClick(target);
+    }
+    /** 
+ * @see org.apache.wicket.ajax.AbstractDefaultAjaxBehavior#getAjaxCallDecorator()
+ */
+    @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
+      return new CancelEventIfNoAjaxDecorator(AjaxFallbackLink.this.getAjaxCallDecorator());
+    }
+    /** 
+ * @see org.apache.wicket.ajax.AjaxEventBehavior#onComponentTag(org.apache.wicket.markup.ComponentTag)
+ */
+    @Override protected void onComponentTag(    ComponentTag tag){
+      if (isLinkEnabled()) {
+        super.onComponentTag(tag);
+      }
+    }
+  }
+;
+}
