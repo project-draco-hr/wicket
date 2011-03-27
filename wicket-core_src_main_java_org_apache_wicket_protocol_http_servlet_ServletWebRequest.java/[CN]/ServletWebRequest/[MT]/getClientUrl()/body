@@ -1,5 +1,8 @@
 {
-  if (!isAjax()) {
+  if (errorAttributes != null && !Strings.isEmpty(errorAttributes.getRequestUri())) {
+    return setParameters(Url.parse(errorAttributes.getRequestUri(),getCharset()));
+  }
+ else   if (!isAjax()) {
     return getUrl(httpServletRequest,filterPrefix);
   }
  else {
