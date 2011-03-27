@@ -1,4 +1,8 @@
 {
   Class<?> clazz=WicketObjects.resolveClass(type);
+  if (clazz == null) {
+    ClassNotFoundException cause=new ClassNotFoundException("Could not resolve type [" + type + "] with the currently configured org.apache.wicket.application.IClassResolver");
+    throw new WicketRuntimeException(cause);
+  }
   return LazyInitProxyFactory.createProxy(clazz,locator);
 }
