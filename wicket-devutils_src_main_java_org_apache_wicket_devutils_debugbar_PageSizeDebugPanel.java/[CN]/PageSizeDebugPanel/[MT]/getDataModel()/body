@@ -1,0 +1,13 @@
+{
+  return new AbstractReadOnlyModel<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      Page enclosingPage=getPage();
+      long pageSize=WicketObjects.sizeof(enclosingPage);
+      Bytes pageSizeInBytes=(pageSize > -1 ? Bytes.bytes(pageSize) : null);
+      String pageSizeAsString=pageSizeInBytes != null ? pageSizeInBytes.toString() : "unknown";
+      return "Page: " + pageSizeAsString;
+    }
+  }
+;
+}
