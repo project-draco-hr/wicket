@@ -1,3 +1,9 @@
 {
-  return lastResponse.getDocument();
+  String response=lastResponse.getDocument();
+  if (startComponent == null) {
+    return response;
+  }
+  int pos1=response.indexOf('>');
+  int pos2=response.lastIndexOf('<');
+  return response.substring(pos1 + 1,pos2);
 }

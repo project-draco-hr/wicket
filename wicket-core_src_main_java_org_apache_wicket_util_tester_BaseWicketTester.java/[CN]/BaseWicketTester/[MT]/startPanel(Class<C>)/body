@@ -1,23 +1,3 @@
 {
-  Panel panel=(Panel)startPage(new ITestPageSource(){
-    private static final long serialVersionUID=1L;
-    public Page getTestPage(){
-      return new DummyPanelPage(new ITestPanelSource(){
-        private static final long serialVersionUID=1L;
-        public Panel getTestPanel(        String panelId){
-          try {
-            Constructor<? extends Panel> c=panelClass.getConstructor(String.class);
-            return c.newInstance(panelId);
-          }
- catch (          Exception e) {
-            throw convertoUnexpect(e);
-          }
-        }
-      }
-);
-    }
-  }
-).get(DummyPanelPage.TEST_PANEL_ID);
-  startComponent=panel;
-  return panel;
+  return (Panel)startComponent(panelClass,null);
 }

@@ -1,0 +1,14 @@
+{
+  Args.notNull(component,"component");
+  if (pageMarkup == null) {
+    pageMarkup=Markup.of("<span wicket:id='" + component.getId() + "'></span>");
+  }
+  Page page=new WebPage(){
+    private static final long serialVersionUID=1L;
+  }
+;
+  page.setMarkup(pageMarkup);
+  page.add(component);
+  startPage(page);
+  return startComponent=component;
+}

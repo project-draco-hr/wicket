@@ -1,12 +1,7 @@
 {
-  tester.startPage(new ITestPageSource(){
-    private static final long serialVersionUID=1L;
-    public Page getTestPage(){
-      Book mockBook=new Book("xxId","xxName");
-      return new ViewBook(mockBook);
-    }
-  }
-);
+  Book mockBook=new Book("xxId","xxName");
+  Page page=new ViewBook(mockBook);
+  tester.startPage(page);
   tester.assertRenderedPage(ViewBook.class);
   tester.assertLabel("id","xxId");
   tester.assertLabel("name","xxName");

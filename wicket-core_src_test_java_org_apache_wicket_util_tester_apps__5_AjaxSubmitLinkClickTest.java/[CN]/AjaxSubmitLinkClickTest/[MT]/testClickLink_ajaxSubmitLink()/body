@@ -13,13 +13,7 @@
   }
 ;
   page.add(link);
-  tester.startPage(new ITestPageSource(){
-    private static final long serialVersionUID=1L;
-    public Page getTestPage(){
-      return page;
-    }
-  }
-);
+  tester.startPage(page);
   tester.assertRenderedPage(MockPageWithFormAndLink.class);
   tester.getRequest().getPostParameters().setParameterValue(page.getNameField().getInputName(),"new mock value");
   tester.clickLink("link");

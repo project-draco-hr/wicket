@@ -3,7 +3,14 @@
     return markup;
   }
   if (parent == null) {
-    throw new MarkupException("Can not determine Markup. Component is not yet connected to a parent. " + toString());
+    if (this instanceof MarkupContainer) {
+      MarkupContainer container=(MarkupContainer)this;
+      if (container.hasAssociatedMarkup()) {
+        markup=container.getAssociatedMarkup();
+        return markup;
+      }
+    }
+    throw new MarkupNotFoundException("Can not determine Markup. Component is not yet connected to a parent. " + toString());
   }
   markup=parent.getMarkup(this);
   return markup;
