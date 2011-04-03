@@ -8,13 +8,13 @@
   }
 ;
   application.setWicketFilter(filter);
-  hsession=new MockHttpSession(servletContext);
+  httpSession=new MockHttpSession(servletContext);
   ThreadContext.detach();
   this.application=application;
-  this.application.setName("WicketTesterApplication-" + UUID.randomUUID());
+  application.setName("WicketTesterApplication-" + UUID.randomUUID());
   ThreadContext.setApplication(application);
   application.setServletContext(servletContext);
-  this.application.initApplication();
+  application.initApplication();
   application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
   application.setRequestCycleProvider(new TestRequestCycleProvider(application.getRequestCycleProvider()));
   application.setSessionStoreProvider(new TestSessionStoreProvider());

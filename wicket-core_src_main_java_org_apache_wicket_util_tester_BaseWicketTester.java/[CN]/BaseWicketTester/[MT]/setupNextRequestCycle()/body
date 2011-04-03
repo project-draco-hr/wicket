@@ -1,12 +1,12 @@
 {
-  request=new MockHttpServletRequest(application,hsession,servletContext);
+  request=new MockHttpServletRequest(application,httpSession,servletContext);
   request.setURL(request.getContextPath() + request.getServletPath() + "/");
   response=new MockHttpServletResponse(request);
-  ServletWebRequest servletWebRequest=createServletWebRequest();
-  requestCycle=application.createRequestCycle(servletWebRequest,createServletWebResponse(servletWebRequest));
+  ServletWebRequest servletWebRequest=newServletWebRequest();
+  requestCycle=application.createRequestCycle(servletWebRequest,newServletWebResponse(servletWebRequest));
   requestCycle.setCleanupFeedbackMessagesOnDetach(false);
   ThreadContext.setRequestCycle(requestCycle);
   if (session == null) {
-    createNewSession();
+    newSession();
   }
 }
