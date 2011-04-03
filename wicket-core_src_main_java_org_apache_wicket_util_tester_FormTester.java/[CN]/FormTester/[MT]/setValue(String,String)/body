@@ -1,16 +1,7 @@
 {
-  checkClosed();
   Component component=workingForm.get(formComponentId);
   if (component == null) {
     throw new IllegalArgumentException("Unable to set value. Couldn't find component with name: " + formComponentId);
   }
-  if (component instanceof IFormSubmittingComponent) {
-    setFormSubmittingComponentValue((IFormSubmittingComponent)component,value);
-  }
- else   if (component instanceof FormComponent) {
-    setFormComponentValue((FormComponent<?>)component,value);
-  }
- else {
-    throw new IllegalArgumentException("Componet with id: " + formComponentId + " is not a FormComponent");
-  }
+  return setValue(component,value);
 }

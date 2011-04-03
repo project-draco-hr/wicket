@@ -1,0 +1,14 @@
+{
+  Args.notNull(formComponent,"formComponent");
+  checkClosed();
+  if (formComponent instanceof IFormSubmittingComponent) {
+    setFormSubmittingComponentValue((IFormSubmittingComponent)formComponent,value);
+  }
+ else   if (formComponent instanceof FormComponent) {
+    setFormComponentValue((FormComponent<?>)formComponent,value);
+  }
+ else {
+    throw new IllegalArgumentException("Componet with id: " + formComponent.getId() + " is not a FormComponent");
+  }
+  return this;
+}
