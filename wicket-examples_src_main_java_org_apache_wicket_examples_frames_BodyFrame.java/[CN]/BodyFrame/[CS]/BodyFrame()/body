@@ -1,11 +1,16 @@
 {
   LeftFrame leftFrame=new LeftFrame(this);
-  IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(leftFrame));
-  String leftFrameSrc=RequestCycle.get().urlFor(handler).toString();
-  WebComponent leftFrameTag=new WebComponent("leftFrame");
-  leftFrameTag.add(new AttributeModifier("src",new Model<String>(leftFrameSrc)));
+  IRequestHandler leftFrameHandler=new RenderPageRequestHandler(new PageProvider(leftFrame));
+  ExampleFrame leftFrameTag=new ExampleFrame("leftFrame",leftFrameHandler);
   add(leftFrameTag);
-  WebComponent rightFrameTag=new WebComponent("rightFrame");
-  rightFrameTag.add(new AttributeModifier("src",new FrameModel()));
+  ExampleFrame rightFrameTag=new ExampleFrame("rightFrame"){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    @Override protected CharSequence getUrl(){
+      return frameTarget.getUrl();
+    }
+  }
+;
   add(rightFrameTag);
 }
