@@ -4,7 +4,9 @@
     if (Application.exists()) {
       resolved=(Class<T>)Application.get().getApplicationSettings().getClassResolver().resolveClass(className);
     }
-    resolved=(Class<T>)Class.forName(className,false,Thread.currentThread().getContextClassLoader());
+    if (resolved == null) {
+      resolved=(Class<T>)Class.forName(className,false,Thread.currentThread().getContextClassLoader());
+    }
   }
  catch (  ClassNotFoundException cnfx) {
     log.warn("Could not resolve class [" + className + "]",cnfx);
