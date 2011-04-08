@@ -1,5 +1,5 @@
 {
-  Component controller=container.get(childId.toString());
+  Component controller=getEnclosureParent().get(getChildId());
   if (controller == null) {
     int orgIndex=markupStream.getCurrentIndex();
     try {
@@ -25,5 +25,6 @@
       markupStream.setCurrentIndex(orgIndex);
     }
   }
+  checkChildComponent(controller);
   return controller;
 }

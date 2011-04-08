@@ -1,0 +1,29 @@
+{
+{
+    InlineEnclosureWithAdditionalAjaxTargetPage ajaxPage=(InlineEnclosureWithAdditionalAjaxTargetPage)tester.startPage(InlineEnclosureWithAdditionalAjaxTargetPage.class);
+    assertVisible(ajaxPage.getLabel1());
+    assertVisible(ajaxPage.getLabel2());
+    tester.clickLink(ajaxPage.getLink().getPageRelativePath(),true);
+  }
+{
+    InlineEnclosureWithAdditionalAjaxTargetPage ajaxPage=(InlineEnclosureWithAdditionalAjaxTargetPage)tester.getLastRenderedPage();
+    tester.assertComponentOnAjaxResponse(ajaxPage.getLabel2());
+    assertInVisible(ajaxPage.getLabel1());
+    assertInVisible(ajaxPage.getLabel2());
+    tester.clickLink(ajaxPage.getLink().getPageRelativePath(),true);
+  }
+{
+    InlineEnclosureWithAdditionalAjaxTargetPage ajaxPage=(InlineEnclosureWithAdditionalAjaxTargetPage)tester.getLastRenderedPage();
+    tester.assertComponentOnAjaxResponse(ajaxPage.getLabel1());
+    tester.assertComponentOnAjaxResponse(ajaxPage.getLabel2());
+    assertVisible(ajaxPage.getLabel1());
+    assertVisible(ajaxPage.getLabel2());
+    tester.clickLink(ajaxPage.getLink().getPageRelativePath(),true);
+  }
+{
+    InlineEnclosureWithAdditionalAjaxTargetPage ajaxPage=(InlineEnclosureWithAdditionalAjaxTargetPage)tester.getLastRenderedPage();
+    tester.assertComponentOnAjaxResponse(ajaxPage.getLabel2());
+    assertInVisible(ajaxPage.getLabel1());
+    assertInVisible(ajaxPage.getLabel2());
+  }
+}

@@ -1,17 +1,13 @@
 {
-  if (Strings.isEmpty(markupId)) {
-    throw new IllegalArgumentException("markupId cannot be empty");
-  }
-  if (component == null) {
-    throw new IllegalArgumentException("component cannot be null");
-  }
- else   if (component instanceof Page) {
+  Args.notEmpty(markupId,"markupId");
+  Args.notNull(component,"component");
+  if (component instanceof Page) {
     if (component != page) {
       throw new IllegalArgumentException("component cannot be a page");
     }
   }
  else   if (component instanceof AbstractRepeater) {
-    throw new IllegalArgumentException("Component " + component.getClass().getName() + " has been added to the target. This component is a repeater and cannot be repainted via ajax directly. Instead add its parent or another markup container higher in the hierarchy.");
+    throw new IllegalArgumentException("Component " + component.getClass().getName() + " has been added to the target. This component is a repeater and cannot be repainted via ajax directly. "+ "Instead add its parent or another markup container higher in the hierarchy.");
   }
   component.setMarkupId(markupId);
   markupIdToComponent.put(markupId,component);

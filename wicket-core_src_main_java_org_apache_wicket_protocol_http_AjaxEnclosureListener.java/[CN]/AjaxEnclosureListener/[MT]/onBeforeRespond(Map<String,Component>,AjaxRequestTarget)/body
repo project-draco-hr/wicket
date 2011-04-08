@@ -1,0 +1,14 @@
+{
+  final List<Component> originalComponents=Collections.unmodifiableList(new ArrayList<Component>(map.values()));
+  target.getPage().visitChildren(InlineEnclosure.class,new IVisitor<InlineEnclosure,Void>(){
+    public void component(    final InlineEnclosure enclosure,    final IVisit<Void> visit){
+      for (      Component component : originalComponents) {
+        if (isControllerOfEnclosure(component,enclosure)) {
+          enclosure.updateVisibility();
+          target.add(enclosure);
+        }
+      }
+    }
+  }
+);
+}

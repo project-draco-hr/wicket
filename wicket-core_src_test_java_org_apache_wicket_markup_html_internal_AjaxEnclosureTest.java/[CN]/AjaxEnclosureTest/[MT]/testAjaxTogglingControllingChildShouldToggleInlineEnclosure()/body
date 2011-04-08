@@ -1,0 +1,33 @@
+{
+{
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.startPage(AjaxEnclosurePage_1.class);
+    assertVisible(ajaxPage.getLabel1(),true);
+    assertVisible(ajaxPage.getLabel2(),true);
+    String doc=tester.getLastResponseAsString();
+    tester.clickLink(ajaxPage.getToggleLabel1Link().getPageRelativePath());
+  }
+{
+    String doc=tester.getLastResponseAsString();
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.getLastRenderedPage();
+    tester.assertContains(inlineEnclosureHiddenPattern);
+    assertInvisible(ajaxPage.getLabel1());
+    assertInvisible(ajaxPage.getLabel2());
+    tester.clickLink(ajaxPage.getToggleLabel1Link().getPageRelativePath());
+  }
+{
+    String doc=tester.getLastResponseAsString();
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.getLastRenderedPage();
+    tester.assertContains(inlineEnclosureVisiblePattern);
+    assertVisible(ajaxPage.getLabel1(),true);
+    assertVisible(ajaxPage.getLabel2(),true);
+    tester.clickLink(ajaxPage.getToggleLabel1Link().getPageRelativePath());
+  }
+{
+    String doc=tester.getLastResponseAsString();
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.getLastRenderedPage();
+    tester.assertContains(inlineEnclosureHiddenPattern);
+    assertInvisible(ajaxPage.getLabel1());
+    assertInvisible(ajaxPage.getLabel2());
+    tester.clickLink(ajaxPage.getToggleLabel1Link().getPageRelativePath());
+  }
+}

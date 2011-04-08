@@ -1,0 +1,11 @@
+{
+  String inlineEnclosureChildId=getInlineEnclosureAttribute(tag);
+  if (Strings.isEmpty(inlineEnclosureChildId) == false) {
+    String id=tag.getId();
+    if (id.equals(INLINE_ENCLOSURE_ID_PREFIX)) {
+      id=id + container.getPage().getAutoIndex();
+    }
+    return new InlineEnclosure(id,inlineEnclosureChildId);
+  }
+  return null;
+}

@@ -1,0 +1,31 @@
+{
+  final String enclosurePath="InlineEnclosure-1";
+{
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.startPage(AjaxEnclosurePage_1.class);
+    ensureEnclosureIsVisible(enclosurePath,ajaxPage);
+    assertVisible(ajaxPage.getLabel1(),true);
+    assertVisible(ajaxPage.getLabel2(),true);
+    tester.clickLink(ajaxPage.getToggleLabel2Link().getPageRelativePath());
+  }
+{
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.getLastRenderedPage();
+    ensureEnclosureIsVisible(enclosurePath,ajaxPage);
+    assertVisible(ajaxPage.getLabel1(),false);
+    assertInvisible(ajaxPage.getLabel2());
+    tester.clickLink(ajaxPage.getToggleLabel2Link().getPageRelativePath());
+  }
+{
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.getLastRenderedPage();
+    ensureEnclosureIsVisible(enclosurePath,ajaxPage);
+    assertVisible(ajaxPage.getLabel1(),false);
+    assertVisible(ajaxPage.getLabel2(),false);
+    tester.clickLink(ajaxPage.getToggleLabel2Link().getPageRelativePath());
+  }
+{
+    AjaxEnclosurePage_1 ajaxPage=(AjaxEnclosurePage_1)tester.getLastRenderedPage();
+    ensureEnclosureIsVisible(enclosurePath,ajaxPage);
+    assertVisible(ajaxPage.getLabel1(),false);
+    assertInvisible(ajaxPage.getLabel2());
+    tester.clickLink(ajaxPage.getToggleLabel2Link().getPageRelativePath());
+  }
+}

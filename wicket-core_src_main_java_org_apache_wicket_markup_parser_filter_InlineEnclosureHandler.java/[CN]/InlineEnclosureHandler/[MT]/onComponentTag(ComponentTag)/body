@@ -1,0 +1,51 @@
+{
+  if (tag instanceof WicketTag) {
+    return tag;
+  }
+  String enclosureAttr=getInlineEnclosureAttribute(tag);
+  if (enclosureAttr != null) {
+    if (tag.isOpen()) {
+      String htmlId=tag.getAttribute("id");
+      if ((tag.getId() != null) && !Strings.isEmpty(htmlId) && !htmlId.equals(tag.getId())) {
+        throw new ParseException("Make sure that 'id' and 'wicket:id' are the same if both are provided. Tag:" + tag.toString(),tag.getPos());
+      }
+      if (Strings.isEmpty(tag.getId())) {
+        if (Strings.isEmpty(htmlId)) {
+          tag.setId(INLINE_ENCLOSURE_ID_PREFIX);
+        }
+ else {
+          tag.setId(htmlId);
+        }
+        tag.setAutoComponentTag(true);
+        tag.setModified(true);
+      }
+      if (enclosures == null) {
+        enclosures=new Stack<ComponentTag>();
+      }
+      enclosures.push(tag);
+    }
+ else {
+      throw new ParseException("Open-close tags don't make sense for InlineEnclosure. Tag:" + tag.toString(),tag.getPos());
+    }
+  }
+ else   if ((enclosures != null) && (enclosures.size() > 0)) {
+    if (tag.isOpen() && (tag.getId() != null) && !(tag instanceof WicketTag)&& !tag.isAutoComponentTag()) {
+      for (int i=enclosures.size() - 1; i >= 0; i--) {
+        ComponentTag lastEnclosure=enclosures.get(i);
+        String attr=getInlineEnclosureAttribute(lastEnclosure);
+        if (Strings.isEmpty(attr) == true) {
+          lastEnclosure.getAttributes().put(INLINE_ENCLOSURE_ATTRIBUTE_NAME,tag.getId());
+          lastEnclosure.setModified(true);
+        }
+      }
+    }
+ else     if (tag.isClose() && tag.closes(enclosures.peek())) {
+      ComponentTag lastEnclosure=enclosures.pop();
+      String attr=getInlineEnclosureAttribute(lastEnclosure);
+      if (Strings.isEmpty(attr) == true) {
+        throw new ParseException("Did not find any child for InlineEnclosure. Tag:" + lastEnclosure.toString(),tag.getPos());
+      }
+    }
+  }
+  return tag;
+}
