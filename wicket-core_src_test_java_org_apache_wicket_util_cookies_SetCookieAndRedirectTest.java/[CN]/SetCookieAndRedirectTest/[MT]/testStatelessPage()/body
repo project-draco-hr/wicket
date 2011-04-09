@@ -1,0 +1,10 @@
+{
+  tester.startPage(SetCookieAndRedirectStatelessTestPage.class);
+  FormTester formTester=tester.newFormTester("form");
+  formTester.setValue("input",cookieValue);
+  formTester.submit();
+  Page page=tester.getLastRenderedPage();
+  List<Cookie> cookies=tester.getLastResponse().getCookies();
+  assertEquals(1,cookies.size());
+  assertEquals(cookieValue,cookies.get(0).getValue());
+}
