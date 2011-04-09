@@ -7,7 +7,7 @@
   body=newBodyContainer("body");
   datagrid=new DataGridView<T>("rows",columns,dataProvider){
     private static final long serialVersionUID=1L;
-    @Override protected Item newCellItem(    final String id,    final int index,    final IModel model){
+    @SuppressWarnings({"rawtypes","unchecked"}) @Override protected Item newCellItem(    final String id,    final int index,    final IModel model){
       Item item=DataTable.this.newCellItem(id,index,model);
       final IColumn<T> column=DataTable.this.columns.get(index);
       if (column instanceof IStyledColumn) {
