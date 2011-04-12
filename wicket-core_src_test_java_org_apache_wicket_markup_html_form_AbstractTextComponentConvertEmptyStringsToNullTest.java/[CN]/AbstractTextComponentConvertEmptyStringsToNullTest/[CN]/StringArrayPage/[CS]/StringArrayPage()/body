@@ -1,0 +1,10 @@
+{
+  form=new Form<Void>("form");
+  add(form);
+  form.add(new TextField<String[]>("array",new PropertyModel<String[]>(this,"array")){
+    @Override @SuppressWarnings("unchecked") public <C>IConverter<C> getConverter(    Class<C> type){
+      return (IConverter<C>)new StringArrayConverter();
+    }
+  }
+.setConvertEmptyInputStringToNull(false));
+}
