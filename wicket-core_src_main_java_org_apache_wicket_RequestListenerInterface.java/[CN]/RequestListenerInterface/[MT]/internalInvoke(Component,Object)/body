@@ -1,11 +1,11 @@
 {
   Boolean frozen=null;
   Page page=component.getPage();
-  if (page.isStateless()) {
-    page.internalInitialize();
-  }
   if (isAjax(component)) {
     frozen=page.setFreezePageId(true);
+  }
+  if (page.isStateless()) {
+    page.internalInitialize();
   }
   try {
     method.invoke(target);
