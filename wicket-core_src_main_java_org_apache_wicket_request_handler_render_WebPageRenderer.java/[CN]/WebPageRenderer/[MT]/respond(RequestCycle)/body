@@ -29,7 +29,10 @@
     if (targetUrl.getSegments().equals(targetUrl2.getSegments()) == false) {
       response=renderPage(targetUrl2,requestCycle);
     }
-    if (getPage().isPageStateless() && !enableRedirectForStatelessPage()) {
+    if (currentUrl.equals(targetUrl2)) {
+      response.writeTo((WebResponse)requestCycle.getResponse());
+    }
+ else     if (getPage().isPageStateless() && !enableRedirectForStatelessPage()) {
       response.writeTo((WebResponse)requestCycle.getResponse());
     }
  else {
