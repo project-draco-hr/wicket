@@ -1,0 +1,15 @@
+{
+  PageRenderer renderer=new TestPageRenderer(handler){
+    @Override protected boolean isRedirectToRender(){
+      return true;
+    }
+  }
+;
+  Url sameUrl=Url.parse("anything");
+  when(urlRenderer.getBaseUrl()).thenReturn(sameUrl);
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(sameUrl);
+  when(request.shouldPreserveClientUrl()).thenReturn(false);
+  renderer.respond(requestCycle);
+  verify(response).write(any(byte[].class));
+  verify(response,never()).sendRedirect(anyString());
+}
