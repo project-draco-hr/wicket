@@ -1,0 +1,13 @@
+{
+  PageRenderer renderer=new TestPageRenderer(handler){
+    @Override protected boolean isRedirectToRender(){
+      return true;
+    }
+  }
+;
+  when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("a"));
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("b"));
+  renderer.respond(requestCycle);
+  verify(response,never()).write(any(byte[].class));
+  verify(response).sendRedirect(anyString());
+}

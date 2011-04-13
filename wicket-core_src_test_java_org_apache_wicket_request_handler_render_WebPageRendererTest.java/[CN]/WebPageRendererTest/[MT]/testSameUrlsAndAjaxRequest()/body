@@ -1,0 +1,10 @@
+{
+  PageRenderer renderer=new TestPageRenderer(handler);
+  Url sameUrl=Url.parse("same");
+  when(urlRenderer.getBaseUrl()).thenReturn(sameUrl);
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(sameUrl);
+  when(request.isAjax()).thenReturn(true);
+  renderer.respond(requestCycle);
+  verify(response,never()).write(any(byte[].class));
+  verify(response).sendRedirect(anyString());
+}
