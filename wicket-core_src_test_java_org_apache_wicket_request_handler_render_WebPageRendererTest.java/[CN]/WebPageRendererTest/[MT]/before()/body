@@ -1,0 +1,13 @@
+{
+  IPageProvider provider=mock(IPageProvider.class);
+  IRequestablePage page=mock(IRequestablePage.class);
+  when(provider.getPageInstance()).thenReturn(page);
+  handler=new RenderPageRequestHandler(provider);
+  requestCycle=mock(RequestCycle.class);
+  urlRenderer=mock(UrlRenderer.class);
+  when(requestCycle.getUrlRenderer()).thenReturn(urlRenderer);
+  request=mock(WebRequest.class);
+  when(requestCycle.getRequest()).thenReturn(request);
+  response=mock(WebResponse.class);
+  when(requestCycle.getResponse()).thenReturn(response);
+}

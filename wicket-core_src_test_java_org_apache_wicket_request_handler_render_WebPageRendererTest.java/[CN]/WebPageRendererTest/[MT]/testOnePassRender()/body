@@ -1,0 +1,22 @@
+{
+  PageRenderer renderer=new WebPageRenderer(handler){
+    @Override protected boolean isOnePassRender(){
+      return true;
+    }
+    @Override protected BufferedWebResponse getAndRemoveBufferedResponse(    Url url){
+      return null;
+    }
+    @Override protected BufferedWebResponse renderPage(    Url targetUrl,    RequestCycle requestCycle){
+      BufferedWebResponse webResponse=super.renderPage(targetUrl,requestCycle);
+      webResponse.write("some response".getBytes());
+      return webResponse;
+    }
+  }
+;
+  when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("base"));
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("base/a"));
+  when(request.shouldPreserveClientUrl()).thenReturn(false);
+  renderer.respond(requestCycle);
+  verify(response).write(any(byte[].class));
+  verify(response,never()).sendRedirect(anyString());
+}
