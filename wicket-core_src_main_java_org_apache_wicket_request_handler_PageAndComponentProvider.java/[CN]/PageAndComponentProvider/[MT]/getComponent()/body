@@ -3,7 +3,7 @@
     IRequestablePage page=getPageInstance();
     component=page.get(componentPath);
     if (component == null) {
-      if (getPageId() == null) {
+      if (page.isPageStateless()) {
         Page p=(Page)page;
         p.internalInitialize();
         p.internalPrepareForRender(false);
