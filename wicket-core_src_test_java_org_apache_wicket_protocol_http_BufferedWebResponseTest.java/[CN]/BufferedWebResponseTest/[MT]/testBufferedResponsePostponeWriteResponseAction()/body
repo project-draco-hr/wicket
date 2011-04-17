@@ -1,0 +1,18 @@
+{
+  final ArrayList<TestAction> actionsSequence=new ArrayList<TestAction>();
+  WebResponse originalResponse=new MockWebResponse(){
+    @Override public void setContentLength(    long length){
+      actionsSequence.add(TestAction.SET_HEADER);
+    }
+    @Override public void write(    CharSequence sequence){
+      actionsSequence.add(TestAction.WRITE_RESPONSE);
+    }
+  }
+;
+  BufferedWebResponse response=new BufferedWebResponse(originalResponse);
+  response.setText("some text");
+  response.setContentLength(9);
+  response.writeTo(originalResponse);
+  assertEquals(0,actionsSequence.indexOf(TestAction.SET_HEADER));
+  assertEquals(1,actionsSequence.indexOf(TestAction.WRITE_RESPONSE));
+}

@@ -1,0 +1,14 @@
+{
+  TestPage testPage=new TestPage();
+  testPage.add(new AbstractTransformerBehavior(){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    @Override public CharSequence transform(    Component component,    CharSequence output) throws Exception {
+      return output.toString().replace("to be replaced","replacement");
+    }
+  }
+);
+  tester.startPage(testPage);
+  assertTrue(tester.getLastResponseAsString().contains("replacement"));
+}
