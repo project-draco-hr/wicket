@@ -1,0 +1,12 @@
+{
+  IConverterLocator converterLocator=new ConverterLocator();
+  Locale locale=Locale.GERMAN;
+  PropertyResolverConverter converter=new PropertyResolverConverter(converterLocator,locale);
+  Calendar calDate=Calendar.getInstance();
+  calDate.clear();
+  calDate.set(2011,Calendar.APRIL,17);
+  Date date=calDate.getTime();
+  Object actual=converter.convert(date,String.class);
+  String expected=converterLocator.getConverter(Date.class).convertToString(date,locale);
+  assertEquals(expected,actual);
+}

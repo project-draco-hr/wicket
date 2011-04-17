@@ -1,0 +1,35 @@
+{
+  ConverterLocator converterLocator=new ConverterLocator();
+  final IConverter<Date> dateConverter=converterLocator.get(Date.class);
+  IConverter<Long> customLongConverter=new AbstractConverter<Long>(){
+    private static final long serialVersionUID=1L;
+    public Long convertToObject(    String value,    Locale locale){
+      Date date=dateConverter.convertToObject(value,locale);
+      return date != null ? date.getTime() : null;
+    }
+    @Override public String convertToString(    Long value,    Locale locale){
+      Date date;
+      if (value != null) {
+        date=new Date();
+        date.setTime(value);
+      }
+ else {
+        date=null;
+      }
+      return dateConverter.convertToString(date,locale);
+    }
+    @Override protected Class<Long> getTargetType(){
+      return Long.class;
+    }
+  }
+;
+  converterLocator.set(Long.class,customLongConverter);
+  converterLocator.set(Long.TYPE,customLongConverter);
+  PropertyResolverConverter converter=new PropertyResolverConverter(converterLocator,Locale.ENGLISH);
+  Calendar calDate=Calendar.getInstance();
+  calDate.clear();
+  calDate.set(2011,Calendar.APRIL,17);
+  Date date=calDate.getTime();
+  Object actual=converter.convert(date,Long.class);
+  assertEquals(date.getTime(),actual);
+}
