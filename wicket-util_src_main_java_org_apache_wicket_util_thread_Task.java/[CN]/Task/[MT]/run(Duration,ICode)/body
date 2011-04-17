@@ -8,7 +8,7 @@
           while (!stop) {
             final Time startOfPeriod=Time.now();
             if (log.isTraceEnabled()) {
-              log.trace("Run the job: " + code.toString());
+              log.trace("Run the job: '{}'",code.toString());
             }
             try {
               code.run(getLog());
@@ -17,13 +17,13 @@
               log.error("Unhandled exception thrown by user code in task " + name,e);
             }
             if (log.isTraceEnabled()) {
-              log.trace("Finished with job: " + code.toString());
+              log.trace("Finished with job: '{}'",code.toString());
             }
             startOfPeriod.add(frequency).fromNow().sleep();
           }
         }
  catch (        Throwable t) {
-          log.error("Task " + name + " terminated",t);
+          log.error("Task '{}' terminated",name,t);
         }
  finally {
           isStarted=false;

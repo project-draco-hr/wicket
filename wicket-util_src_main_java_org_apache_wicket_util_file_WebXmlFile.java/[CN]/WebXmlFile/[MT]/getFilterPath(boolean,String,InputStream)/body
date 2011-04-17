@@ -8,11 +8,11 @@
   String name=tag + "-name";
   Set<String> urlPatterns=getFilterPaths(filterName,mapping,name,document.getChildNodes());
   if (urlPatterns.size() == 0) {
-    log.warn("web.xml: No url-pattern found for " + tag + " with name "+ filterName);
+    log.warn("web.xml: No url-pattern found for '{}' with name '{}'",tag,filterName);
   }
   if (log.isInfoEnabled()) {
     StringBuilder msg=new StringBuilder();
-    msg.append("web.xml: url mapping found for " + tag + " with name "+ filterName+ ':');
+    msg.append("web.xml: url mapping found for ").append(tag).append(" with name ").append(filterName).append(':');
     for (    String urlPattern : urlPatterns) {
       msg.append(" [");
       msg.append(urlPattern);

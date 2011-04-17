@@ -1,13 +1,15 @@
 {
-  if ((dir == null) || !dir.isDirectory()) {
-    throw new IllegalArgumentException("Not a directory: " + dir);
-  }
+  Args.notNull(dir,"dir");
+  Args.isTrue(dir.isDirectory(),"Not a directory: '{}'",dir);
   bytearray=new ByteArrayOutputStream();
   try {
     ZipOutputStream out=new ZipOutputStream(bytearray);
     zipDir(dir,out,"",recursive);
   }
- catch (  Exception e) {
+ catch (  RuntimeException e) {
+    throw e;
+  }
+catch (  Exception e) {
     throw new RuntimeException(e);
   }
 }

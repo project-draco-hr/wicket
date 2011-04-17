@@ -1,15 +1,12 @@
 {
-  if (!dir.isDirectory()) {
-    throw new IllegalArgumentException("Not a directory: " + dir);
-  }
+  Args.notNull(dir,"dir");
+  Args.isTrue(dir.isDirectory(),"Not a directory: '{}'",dir);
   String[] files=dir.list();
   int BUFFER=2048;
   BufferedInputStream origin=null;
   byte data[]=new byte[BUFFER];
   for (  String file : files) {
-    if (log.isDebugEnabled()) {
-      log.debug("Adding: " + file);
-    }
+    log.debug("Adding: '{}'",file);
     File f=new File(dir,file);
     if (f.isDirectory()) {
       if (recursive == true) {
