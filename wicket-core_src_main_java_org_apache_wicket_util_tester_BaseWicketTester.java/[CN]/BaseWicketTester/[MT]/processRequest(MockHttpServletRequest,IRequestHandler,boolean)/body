@@ -24,11 +24,11 @@
     setupNextRequestCycle();
     if (followRedirects && lastResponse.isRedirect()) {
       if (redirectCount++ >= 100) {
-        throw new IllegalStateException("Possible infinite redirect detected. Bailing out.");
+        fail("Possible infinite redirect detected. Bailing out.");
       }
       Url newUrl=Url.parse(lastResponse.getRedirectLocation(),Charset.forName(request.getCharacterEncoding()));
       if (newUrl.isAbsolute()) {
-        throw new WicketRuntimeException("Can not follow absolute redirect URL.");
+        fail("Can not follow absolute redirect URL.");
       }
       Url mergedURL=new Url(lastRequest.getUrl().getSegments(),newUrl.getQueryParameters());
       mergedURL.concatSegments(newUrl.getSegments());

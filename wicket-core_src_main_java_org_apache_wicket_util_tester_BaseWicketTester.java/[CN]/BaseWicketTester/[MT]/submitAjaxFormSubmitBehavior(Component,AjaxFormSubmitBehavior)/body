@@ -1,8 +1,7 @@
 {
   Form<?> form=behavior.getForm();
-  String failMessage="No form attached to the submitlink.";
-  notNull(failMessage,form);
-  checkUsability(form);
+  assertNotNull("No form attached to the submitlink.",form);
+  checkUsability(form,true);
   serializeFormToRequest(form);
   executeBehavior(behavior);
 }

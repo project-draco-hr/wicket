@@ -1,6 +1,6 @@
 {
   Component linkComponent=getComponentFromLastRenderedPage(path);
-  checkUsability(linkComponent);
+  checkUsability(linkComponent,true);
   if (linkComponent instanceof AjaxLink) {
     if (isAjax == false) {
       fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
@@ -38,7 +38,7 @@
         return;
       }
  catch (      Exception e) {
-        fail("Internal error in WicketTester. " + "Please report this in Wicket's Issue Tracker.",e);
+        throw new WicketRuntimeException("Internal error in WicketTester. " + "Please report this in Wicket's Issue Tracker.",e);
       }
     }
     executeListener(link,ILinkListener.INTERFACE);

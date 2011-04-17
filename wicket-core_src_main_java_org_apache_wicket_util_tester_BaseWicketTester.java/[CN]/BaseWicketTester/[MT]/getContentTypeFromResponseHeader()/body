@@ -1,7 +1,5 @@
 {
   String contentType=getLastResponse().getContentType();
-  if (contentType == null) {
-    throw new WicketRuntimeException("No Content-Type header found");
-  }
+  assertNotNull("No Content-Type header found",contentType);
   return contentType;
 }

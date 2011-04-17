@@ -1,9 +1,7 @@
 {
-  String failMessage="Can't execute event on a component which is null.";
-  notNull(failMessage,component);
-  failMessage="event must not be null";
-  notNull(failMessage,event);
-  checkUsability(component);
+  Args.notNull(component,"component");
+  Args.notNull(event,"event");
+  checkUsability(component,true);
   AjaxEventBehavior ajaxEventBehavior=WicketTesterHelper.findAjaxEventBehavior(component,event);
   executeBehavior(ajaxEventBehavior);
 }

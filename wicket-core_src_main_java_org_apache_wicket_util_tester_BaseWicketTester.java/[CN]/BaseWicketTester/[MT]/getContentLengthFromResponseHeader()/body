@@ -1,7 +1,5 @@
 {
   String contentLength=getLastResponse().getHeader("Content-Length");
-  if (contentLength == null) {
-    throw new WicketRuntimeException("No Content-Length header found");
-  }
+  assertNotNull("No Content-Length header found",contentLength);
   return Integer.parseInt(contentLength);
 }

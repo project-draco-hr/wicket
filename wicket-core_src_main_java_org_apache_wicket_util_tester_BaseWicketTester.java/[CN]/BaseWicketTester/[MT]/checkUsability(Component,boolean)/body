@@ -1,0 +1,13 @@
+{
+  Result res=Result.pass();
+  if (component.isVisibleInHierarchy() == false) {
+    res=Result.fail("The component is currently not visible in the hierarchy and thus you can not be used." + " Component: " + component);
+  }
+  if (component.isEnabledInHierarchy() == false) {
+    res=Result.fail("The component is currently not enabled in the hierarchy and thus you can not be used." + " Component: " + component);
+  }
+  if (throwException && res.wasFailed()) {
+    throw new AssertionFailedError(res.getMessage());
+  }
+  return res;
+}

@@ -1,12 +1,12 @@
 {
   Args.notNull(componentClass,"componentClass");
-  Component comp;
+  Component comp=null;
   try {
     Constructor<? extends Component> c=componentClass.getConstructor(String.class);
     comp=c.newInstance("testObject");
   }
  catch (  Exception e) {
-    throw convertoUnexpect(e);
+    fail(e.getMessage());
   }
   return startComponent(comp,pageMarkup);
 }
