@@ -5,7 +5,7 @@
   for (  final Object child : container) {
     if (filter.visitObject(child)) {
       Visit<R> childTraversal=new Visit<R>();
-      @SuppressWarnings("unchecked") S s=(S)child;
+      S s=(S)child;
       visitor.component(s,childTraversal);
       if (childTraversal.isStopped()) {
         visit.stop(childTraversal.getResult());
