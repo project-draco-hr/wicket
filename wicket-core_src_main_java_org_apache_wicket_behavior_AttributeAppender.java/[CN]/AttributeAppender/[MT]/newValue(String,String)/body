@@ -1,17 +1,19 @@
 {
-  final int appendValueLen=(appendValue == null) ? 0 : appendValue.length();
-  final AppendingStringBuffer sb;
-  if (currentValue == null) {
-    sb=new AppendingStringBuffer(appendValueLen + separator.length());
+  if (Strings.isEmpty(currentValue)) {
+    return appendValue != null ? appendValue : "";
   }
- else {
-    sb=new AppendingStringBuffer(currentValue.length() + appendValueLen + separator.length());
+ else   if (Strings.isEmpty(appendValue)) {
+    return currentValue;
+  }
+  final AppendingStringBuffer sb=new AppendingStringBuffer(currentValue.length() + appendValue.length() + separator.length());
+  if (prepend) {
+    sb.append(appendValue);
+    sb.append(separator);
     sb.append(currentValue);
   }
-  if (!Strings.isEmpty(currentValue) && !Strings.isEmpty(appendValue)) {
+ else {
+    sb.append(currentValue);
     sb.append(separator);
-  }
-  if (!Strings.isEmpty(appendValue)) {
     sb.append(appendValue);
   }
   return sb.toString();
