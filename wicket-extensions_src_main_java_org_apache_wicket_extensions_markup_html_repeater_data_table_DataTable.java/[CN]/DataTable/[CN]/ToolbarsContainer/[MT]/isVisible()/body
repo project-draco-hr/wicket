@@ -1,0 +1,19 @@
+{
+  if (!super.isVisible()) {
+    return false;
+  }
+  toolbars.configure();
+  Boolean visible=toolbars.visitChildren(new IVisitor<Component,Boolean>(){
+    public void component(    Component object,    IVisit<Boolean> visit){
+      object.configure();
+      if (object.isVisible()) {
+        visit.stop(Boolean.TRUE);
+      }
+ else {
+        visit.dontGoDeeper();
+      }
+    }
+  }
+);
+  return visible == Boolean.TRUE;
+}

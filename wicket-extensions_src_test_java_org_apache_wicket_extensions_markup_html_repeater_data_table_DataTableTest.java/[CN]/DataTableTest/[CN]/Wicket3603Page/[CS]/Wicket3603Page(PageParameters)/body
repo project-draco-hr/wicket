@@ -1,0 +1,27 @@
+{
+  super(parameters);
+  IDataProvider<Number> provider=new IDataProvider<Number>(){
+    private static final long serialVersionUID=1L;
+    private List<Integer> items=Arrays.asList(1,3,5);
+    public void detach(){
+    }
+    public Iterator<? extends Number> iterator(    int first,    int count){
+      StringValue emptyValue=getPageParameters().get("empty");
+      return emptyValue.toBoolean() ? Collections.<Integer>emptyList().iterator() : items.iterator();
+    }
+    public int size(){
+      StringValue emptyValue=getPageParameters().get("empty");
+      return emptyValue.toBoolean() ? 0 : items.size();
+    }
+    public IModel<Number> model(    Number object){
+      return Model.of(object);
+    }
+  }
+;
+  List<IColumn<Number>> columns=new ArrayList<IColumn<Number>>();
+  columns.add(new PropertyColumn<Number>(Model.of("value"),"value"));
+  DataTable<Number> table=new DataTable<Number>("table",columns,provider,10);
+  table.addBottomToolbar(new NoRecordsToolbar(table));
+  table.addTopToolbar(new NoRecordsToolbar(table));
+  add(table);
+}
