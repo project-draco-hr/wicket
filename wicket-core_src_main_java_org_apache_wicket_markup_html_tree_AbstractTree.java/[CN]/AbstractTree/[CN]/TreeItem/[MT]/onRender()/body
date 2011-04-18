@@ -1,7 +1,12 @@
 {
   if (this == rootItem && isRootLess() == true) {
     String tagName=((ComponentTag)getMarkup().get(0)).getName();
-    getResponse().write("<" + tagName + " style=\"display:none\" id=\""+ getMarkupId()+ "\"></"+ tagName+ ">");
+    Response response=getResponse();
+    response.write("<" + tagName + " style=\"display:none\" id=\""+ getMarkupId()+ "\">");
+    if ("table".equals(tagName)) {
+      response.write("<tbody><tr><td></td></tr></tbody>");
+    }
+    response.write("</" + tagName + ">");
   }
  else {
     super.onRender();
