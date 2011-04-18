@@ -1,3 +1,5 @@
 {
-  return new HeaderBufferingWebResponse(new ServletWebResponse((ServletWebRequest)webRequest,httpServletResponse));
+  ServletWebResponse webResponse=new ServletWebResponse((ServletWebRequest)webRequest,httpServletResponse);
+  boolean shouldBufferResponse=getRequestCycleSettings().getBufferResponse();
+  return shouldBufferResponse ? new HeaderBufferingWebResponse(webResponse) : webResponse;
 }
