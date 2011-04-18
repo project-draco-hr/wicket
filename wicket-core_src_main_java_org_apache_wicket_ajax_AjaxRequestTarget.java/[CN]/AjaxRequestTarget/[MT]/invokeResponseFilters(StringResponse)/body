@@ -3,7 +3,8 @@
   List<IResponseFilter> responseFilters=Application.get().getRequestCycleSettings().getResponseFilters();
   if (responseFilters != null) {
     for (    IResponseFilter filter : responseFilters) {
-      filter.filter(responseBuffer);
+      responseBuffer=filter.filter(responseBuffer);
     }
   }
+  return responseBuffer;
 }

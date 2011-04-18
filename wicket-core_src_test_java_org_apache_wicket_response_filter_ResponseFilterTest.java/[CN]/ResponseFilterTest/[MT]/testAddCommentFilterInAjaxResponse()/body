@@ -1,0 +1,11 @@
+{
+  DummyHomePage testPage=new DummyHomePage();
+  testPage.getTestPageLink().add(new AjaxEventBehavior("event"){
+    @Override protected void onEvent(    AjaxRequestTarget target){
+    }
+  }
+);
+  tester.startPage(testPage);
+  tester.executeAjaxEvent(testPage.getTestPageLink(),"event");
+  Assert.assertTrue(tester.getLastResponseAsString().contains(AppendCommentFilter.COMMENT));
+}

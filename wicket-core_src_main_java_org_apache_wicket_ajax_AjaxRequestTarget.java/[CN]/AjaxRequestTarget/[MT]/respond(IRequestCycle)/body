@@ -20,8 +20,8 @@
     try {
       final StringResponse bodyResponse=new StringResponse();
       contructResponseBody(bodyResponse,encoding);
-      invokeResponseFilters(bodyResponse);
-      response.write(bodyResponse.getBuffer());
+      CharSequence filteredResponse=invokeResponseFilters(bodyResponse);
+      response.write(filteredResponse);
     }
   finally {
       RequestCycle.get().setResponse(response);
