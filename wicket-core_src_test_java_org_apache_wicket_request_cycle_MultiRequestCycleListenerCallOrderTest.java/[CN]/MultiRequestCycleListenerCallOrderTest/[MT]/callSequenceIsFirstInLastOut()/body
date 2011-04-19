@@ -1,0 +1,5 @@
+{
+  tester.startPage(new MultiRequestCycleListenerCallOrderPage());
+  tester.assertRenderedPage(MultiRequestCycleListenerCallOrderPage.class);
+  assertThat(application.callSequence,is(equalTo(asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach"))));
+}
