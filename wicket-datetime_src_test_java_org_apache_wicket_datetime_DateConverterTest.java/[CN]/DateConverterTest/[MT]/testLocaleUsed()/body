@@ -1,0 +1,13 @@
+{
+  Locale locale=Locale.GERMAN;
+  StyleDateConverter styleDateConverter=new StyleDateConverter("F-",false);
+  DateTimeFormatter styleFormatter=styleDateConverter.getFormat(locale);
+  Assert.assertEquals(locale,styleFormatter.getLocale());
+  PatternDateConverter patternDateConverter=new PatternDateConverter(styleDateConverter.getDatePattern(locale),false);
+  DateTimeFormatter patternFormatter=patternDateConverter.getFormat(locale);
+  Assert.assertEquals(locale,patternFormatter.getLocale());
+  Calendar now=Calendar.getInstance();
+  String actual=styleDateConverter.convertToString(now.getTime(),locale);
+  String expected=patternDateConverter.convertToString(now.getTime(),locale);
+  Assert.assertEquals(expected,actual);
+}
