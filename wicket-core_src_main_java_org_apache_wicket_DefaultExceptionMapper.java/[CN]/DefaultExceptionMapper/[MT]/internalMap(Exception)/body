@@ -15,6 +15,10 @@ if (e instanceof StalePageException) {
  else if (e instanceof AuthorizationException || e instanceof ListenerInvocationNotAllowedException) {
   return createPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getAccessDeniedPage()));
 }
+ else if (e instanceof ResponseIOException) {
+  logger.error("Connection lost, give up responding.",e);
+  return new EmptyRequestHandler();
+}
  else {
   final UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
   logger.error("Unexpected error occurred",e);
