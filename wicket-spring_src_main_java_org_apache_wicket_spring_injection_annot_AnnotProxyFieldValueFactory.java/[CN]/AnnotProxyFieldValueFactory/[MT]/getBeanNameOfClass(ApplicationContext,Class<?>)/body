@@ -5,7 +5,7 @@
     while (it.hasNext()) {
       final String possibility=it.next();
       BeanDefinition beanDef=getBeanDefinition(((AbstractApplicationContext)ctx).getBeanFactory(),possibility);
-      if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.") || !beanDef.isAutowireCandidate()) {
+      if (BeanFactoryUtils.isFactoryDereference(possibility) || possibility.startsWith("scopedTarget.") || (beanDef != null && !beanDef.isAutowireCandidate())) {
         it.remove();
       }
     }
