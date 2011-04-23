@@ -1,7 +1,8 @@
 {
   super(id);
-  textField=new TextField("textField",new Model());
+  textField=new TextField<String>("textField",new Model<String>());
   textField.add(new AjaxFormSubmitBehavior("onchange"){
+    private static final long serialVersionUID=1L;
     @Override protected void onError(    AjaxRequestTarget target){
     }
     @Override protected void onSubmit(    AjaxRequestTarget target){
@@ -11,12 +12,14 @@
 );
   add(textField);
   add(new SubmitLink("ajaxSubmitLink"){
+    private static final long serialVersionUID=1L;
     @Override public void onSubmit(){
       throw new IllegalStateException("Submit link hit!");
     }
   }
 );
   add((submitButton=new Button("submit"){
+    private static final long serialVersionUID=1L;
     @Override public void onSubmit(){
       throw new IllegalStateException("Submit button hit!");
     }

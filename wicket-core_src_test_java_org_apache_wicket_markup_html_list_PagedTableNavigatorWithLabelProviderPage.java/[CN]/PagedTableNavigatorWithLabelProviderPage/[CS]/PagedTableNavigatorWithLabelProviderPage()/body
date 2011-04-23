@@ -1,6 +1,6 @@
 {
   super();
-  List list=new ArrayList();
+  List<String> list=new ArrayList<String>();
   list.add("one");
   list.add("two");
   list.add("three");
@@ -16,10 +16,10 @@
   list.add("thirteen");
   list.add("fourteen");
   final int pageSize=2;
-  final PageableListView listview=new PageableListView("table",list,pageSize){
+  final PageableListView<String> listview=new PageableListView<String>("table",list,pageSize){
     private static final long serialVersionUID=1L;
-    @Override protected void populateItem(    ListItem listItem){
-      String txt=(String)listItem.getDefaultModelObject();
+    @Override protected void populateItem(    ListItem<String> listItem){
+      String txt=listItem.getModelObject();
       listItem.add(new Label("txt",txt));
     }
   }

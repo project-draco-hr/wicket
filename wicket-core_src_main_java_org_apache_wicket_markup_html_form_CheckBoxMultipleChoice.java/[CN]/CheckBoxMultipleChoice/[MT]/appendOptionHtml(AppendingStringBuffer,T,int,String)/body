@@ -3,7 +3,7 @@
   Class<?> objectClass=displayValue == null ? null : displayValue.getClass();
   String label="";
   if (objectClass != null && objectClass != String.class) {
-    IConverter converter=getConverter(objectClass);
+    @SuppressWarnings("rawtypes") IConverter converter=getConverter(objectClass);
     label=converter.convertToString(displayValue,getLocale());
   }
  else   if (displayValue != null) {

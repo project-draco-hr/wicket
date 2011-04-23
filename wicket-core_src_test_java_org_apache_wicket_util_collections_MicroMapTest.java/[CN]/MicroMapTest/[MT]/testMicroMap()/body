@@ -1,7 +1,7 @@
 {
   MicroMap<Object,Object> m=new MicroMap<Object,Object>();
   m.put(FOO,BAR);
-  Set<?> s=m.keySet();
+  Set<Object> s=m.keySet();
   assertEquals(1,m.size());
   assertEquals(1,s.size());
   Iterator<?> i=s.iterator();
@@ -15,12 +15,12 @@
   }
  catch (  NoSuchElementException e) {
   }
-  s=m.entrySet();
+  Set<Entry<Object,Object>> entrySet=m.entrySet();
   assertEquals(1,m.size());
-  assertEquals(1,s.size());
-  i=s.iterator();
+  assertEquals(1,entrySet.size());
+  i=entrySet.iterator();
   assertTrue(i.hasNext());
-  Map.Entry<Object,Object> entry=(Map.Entry<Object,Object>)i.next();
+  @SuppressWarnings("unchecked") Map.Entry<Object,Object> entry=(Map.Entry<Object,Object>)i.next();
   assertEquals(FOO,entry.getKey());
   assertEquals(BAR,entry.getValue());
   assertFalse(i.hasNext());

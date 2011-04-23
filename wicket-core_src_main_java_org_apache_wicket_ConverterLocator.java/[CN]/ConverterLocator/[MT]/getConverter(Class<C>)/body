@@ -1,6 +1,7 @@
 {
   if (type == null) {
-    return (IConverter<C>)new DefaultConverter<String>(String.class);
+    @SuppressWarnings("unchecked") IConverter<C> converter=(IConverter<C>)new DefaultConverter<String>(String.class);
+    return converter;
   }
   final IConverter<C> converter=get(type);
   if (converter == null) {
