@@ -1,7 +1,5 @@
 {
-  if (ctx == null) {
-    throw new NullPointerException("ctx parameter");
-  }
+  Args.notNull(ctx,"ctx");
   String contentType=ctx.getContentType();
   if ((null == contentType) || (!contentType.toLowerCase().startsWith(MULTIPART))) {
     throw new InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or "+ MULTIPART_MIXED+ " stream, content type header is "+ contentType);
