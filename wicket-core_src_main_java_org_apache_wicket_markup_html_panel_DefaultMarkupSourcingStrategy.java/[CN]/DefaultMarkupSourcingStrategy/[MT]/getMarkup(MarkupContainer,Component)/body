@@ -10,21 +10,5 @@
   if (markup != null) {
     return markup;
   }
-  if (Character.isDigit(child.getId().charAt(0))) {
-    String id=child.getId();
-    boolean miss=false;
-    for (int i=1; i < id.length(); i++) {
-      if (Character.isDigit(id.charAt(i)) == false) {
-        miss=true;
-        break;
-      }
-    }
-    if (miss == false) {
-      markup=container.getMarkup();
-      if (log.isWarnEnabled()) {
-        log.warn("1.4 to 1.5 migration issue: your item component should be derived from AbstractItem. Item=" + child.toString());
-      }
-    }
-  }
   return markup;
 }
