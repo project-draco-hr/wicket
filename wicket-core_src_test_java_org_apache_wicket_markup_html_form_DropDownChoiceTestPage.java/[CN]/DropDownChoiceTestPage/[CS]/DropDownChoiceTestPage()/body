@@ -10,8 +10,8 @@
   docTypes2.add(new DocumentType("b",false));
   docTypes2.add(new DocumentType("c",true));
   List<MyEnum> allDocumentTypes=Arrays.asList(MyEnum.values());
-  final DropDownChoice ddc=new DropDownChoice("dropdown",new PropertyModel(this,"dtype"),allDocumentTypes,new ChoiceRenderer("name"));
-  TextField expiryDate=new TextField("text",new PropertyModel(this,"myDate"),Date.class){
+  @SuppressWarnings({"rawtypes","unchecked"}) final DropDownChoice ddc=new DropDownChoice("dropdown",new PropertyModel(this,"dtype"),allDocumentTypes,new ChoiceRenderer("name"));
+  TextField<Date> expiryDate=new TextField<Date>("text",new PropertyModel<Date>(this,"myDate"),Date.class){
     private static final long serialVersionUID=1L;
     @Override public boolean isRequired(){
       DocumentType dt=(DocumentType)ddc.getConvertedInput();

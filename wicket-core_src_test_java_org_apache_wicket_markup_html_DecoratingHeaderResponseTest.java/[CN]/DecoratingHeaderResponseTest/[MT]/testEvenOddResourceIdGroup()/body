@@ -13,14 +13,14 @@
   tester.startPage(TestPage.class);
   XmlPullParser parser=new XmlPullParser();
   parser.parse(tester.getLastResponseAsString());
-  XmlTag tag=(XmlTag)parser.nextTag();
+  XmlTag tag=parser.nextTag();
   List<Integer> resourcesId=new ArrayList<Integer>();
   do {
     if (tag.isOpen() && "script".equals(tag.getName())) {
       resourcesId.add(Integer.parseInt(tag.getAttribute("id").toString()));
     }
   }
- while ((tag=(XmlTag)parser.nextTag()) != null);
+ while ((tag=parser.nextTag()) != null);
   int oddEvenCanges=0;
   for (int i=1; i < resourcesId.size(); i++) {
     if (resourcesId.get(i) % 2 != resourcesId.get(i - 1) % 2) {

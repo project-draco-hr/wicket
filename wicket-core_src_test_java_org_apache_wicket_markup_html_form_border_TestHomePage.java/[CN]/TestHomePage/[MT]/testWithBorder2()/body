@@ -1,11 +1,11 @@
 {
   FormTester formTester=tester.newFormTester("border:form");
-  TextField<String> textfield=(TextField<String>)tester.getLastRenderedPage().get("border:form:border_body:textfield");
+  @SuppressWarnings("unchecked") TextField<String> textfield=(TextField<String>)tester.getLastRenderedPage().get("border:form:border_body:textfield");
   tester.getRequest().getPostParameters().setParameterValue(textfield.getInputName(),"abcde");
   MyTextField datefield=(MyTextField)tester.getLastRenderedPage().get("border:form:border_body:datefield");
   tester.getRequest().getPostParameters().setParameterValue(datefield.getInputName(),"aaabbb");
   MyDateField datefield2=(MyDateField)tester.getLastRenderedPage().get("border:form:border_body:datefield2");
-  TextField<String> date=(TextField<String>)datefield2.get("date");
+  @SuppressWarnings("unchecked") TextField<String> date=(TextField<String>)datefield2.get("date");
   tester.getRequest().getPostParameters().setParameterValue(date.getInputName(),"abcdef");
   formTester.submit();
   tester.assertNoErrorMessage();

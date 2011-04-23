@@ -13,7 +13,7 @@
   tester.startPage(TestPage.class);
   XmlPullParser parser=new XmlPullParser();
   parser.parse(tester.getLastResponseAsString());
-  XmlTag tag=(XmlTag)parser.nextTag();
+  XmlTag tag=parser.nextTag();
   boolean isDecorated=false;
   do {
     if (tag.isOpen() && "script".equals(tag.getName())) {
@@ -24,6 +24,6 @@
       break;
     }
   }
- while ((tag=(XmlTag)parser.nextTag()) != null);
+ while ((tag=parser.nextTag()) != null);
   assertTrue(isDecorated);
 }

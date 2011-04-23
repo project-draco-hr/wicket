@@ -17,7 +17,7 @@
         Object displayObject=renderer.getDisplayValue((T)getDefaultModelObject());
         Class<?> objectClass=(displayObject == null ? null : displayObject.getClass());
         if ((objectClass != null) && (objectClass != String.class)) {
-          final IConverter converter=getConverter(objectClass);
+          @SuppressWarnings("rawtypes") final IConverter converter=getConverter(objectClass);
           displayValue=converter.convertToString(displayObject,getLocale());
         }
  else         if (displayObject != null) {
