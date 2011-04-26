@@ -37,6 +37,9 @@
     sb.append(resourceRefenceHandler.getResourceReference());
     sb.append("]");
   }
+ else   if (requestHandler instanceof IRequestHandlerDelegate) {
+    sb.append(requestHandler.getClass().getSimpleName()).append(".").append(getRequestHandlerString(((IRequestHandlerDelegate)requestHandler).getDelegateHandler()));
+  }
  else {
     sb.append(requestHandler.toString());
   }
