@@ -1,10 +1,10 @@
 {
-  String id=getMarkupIdFromMarkup();
-  if (id != null) {
-    return id;
-  }
   if (generatedMarkupId != -1) {
     return generatedMarkupId;
   }
-  return getMetaData(MARKUP_ID_KEY);
+  String id=getMetaData(MARKUP_ID_KEY);
+  if (id == null && findPage() != null) {
+    id=getMarkupIdFromMarkup();
+  }
+  return id;
 }
