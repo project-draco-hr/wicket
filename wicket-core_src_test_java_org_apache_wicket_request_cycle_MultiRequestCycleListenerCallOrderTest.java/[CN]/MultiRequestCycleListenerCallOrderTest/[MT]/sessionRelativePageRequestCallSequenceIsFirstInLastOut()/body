@@ -1,0 +1,10 @@
+{
+  tester.startPage(new MultiRequestCycleListenerCallOrderPage());
+  tester.assertRenderedPage(MultiRequestCycleListenerCallOrderPage.class);
+  List<String> primaryRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
+  List<String> redirectRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
+  List<String> expected=new ArrayList<String>();
+  expected.addAll(primaryRequest);
+  expected.addAll(redirectRequest);
+  assertEquals(expected.toString(),application.callSequence.toString());
+}
