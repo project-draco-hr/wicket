@@ -1,4 +1,11 @@
 {
+  String requestEncoding=getRequestCycleSettings().getResponseRequestEncoding();
+  try {
+    servletRequest.setCharacterEncoding(requestEncoding);
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new RuntimeException(e);
+  }
   if (hasFilterFactoryManager()) {
     for (    AbstractRequestWrapperFactory factory : getFilterFactoryManager()) {
       servletRequest=factory.getWrapper(servletRequest);
