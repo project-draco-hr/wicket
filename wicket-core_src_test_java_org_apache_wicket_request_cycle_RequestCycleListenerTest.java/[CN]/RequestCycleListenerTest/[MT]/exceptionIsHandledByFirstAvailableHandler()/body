@@ -1,0 +1,7 @@
+{
+  Application.get().getRequestCycleListeners().add(new ErrorCodeListener(401));
+  Application.get().getRequestCycleListeners().add(new ErrorCodeListener(402));
+  RequestCycle cycle=newRequestCycle(true);
+  cycle.processRequestAndDetach();
+  assertEquals(401,errorCode);
+}
