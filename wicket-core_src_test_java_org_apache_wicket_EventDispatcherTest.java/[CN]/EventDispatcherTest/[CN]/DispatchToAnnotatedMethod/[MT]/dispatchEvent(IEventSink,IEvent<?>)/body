@@ -1,9 +1,9 @@
 {
   Method[] sinkMethods=sink.getClass().getMethods();
-  for (int i=0; i < sinkMethods.length; i++) {
-    if (sinkMethods[i].isAnnotationPresent(EventCallback.class)) {
+  for (  Method sinkMethod : sinkMethods) {
+    if (sinkMethod.isAnnotationPresent(EventCallback.class)) {
       try {
-        sinkMethods[i].invoke(sink);
+        sinkMethod.invoke(sink);
       }
  catch (      Exception e) {
         throw new RuntimeException(e);
