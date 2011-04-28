@@ -1,0 +1,25 @@
+{
+  final Response realResponse=new StringResponse();
+  headerResponse=new HeaderResponse(){
+    @Override protected Response getRealResponse(){
+      return realResponse;
+    }
+  }
+;
+  reference=new ResourceReference("testReference"){
+    private static final long serialVersionUID=1L;
+    @Override public IResource getResource(){
+      return null;
+    }
+  }
+;
+  RequestCycle requestCycle=mock(RequestCycle.class);
+  when(requestCycle.urlFor(any(IRequestHandler.class))).thenReturn(RESOURCE_NAME);
+  Request request=mock(Request.class);
+  when(request.getCharset()).thenReturn(Charset.defaultCharset());
+  when(requestCycle.getRequest()).thenReturn(request);
+  UrlRenderer urlRenderer=mock(UrlRenderer.class);
+  when(urlRenderer.renderUrl(any(Url.class))).thenReturn(RESOURCE_NAME);
+  when(requestCycle.getUrlRenderer()).thenReturn(urlRenderer);
+  ThreadContext.setRequestCycle(requestCycle);
+}
