@@ -3,12 +3,15 @@
   final String host=resolveHost(url);
   final Integer port=resolvePort(url);
   final String path=url.toString();
-  String render=protocol + "://" + host;
+  StringBuilder render=new StringBuilder();
+  render.append(protocol);
+  render.append("://");
+  render.append(host);
   if ((port != null) && !port.equals(PROTO_TO_PORT.get(protocol))) {
-    render+=":" + port;
+    render.append(':');
+    render.append(port);
   }
-  render+=request.getContextPath();
-  render+=request.getFilterPath();
-  render=Strings.join("/",render,path);
-  return render.toString();
+  render.append(request.getContextPath());
+  render.append(request.getFilterPath());
+  return Strings.join("/",render.toString(),path);
 }
