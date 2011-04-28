@@ -1,0 +1,15 @@
+{
+  add(new AjaxEventBehavior("ondummy"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onEvent(    AjaxRequestTarget target){
+    }
+    @Override public void renderHead(    Component component,    IHeaderResponse response){
+      super.renderHead(component,response);
+      behavior.set(true);
+    }
+    @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
+      return new HeaderContributingCallDecorator(callDecorator);
+    }
+  }
+);
+}

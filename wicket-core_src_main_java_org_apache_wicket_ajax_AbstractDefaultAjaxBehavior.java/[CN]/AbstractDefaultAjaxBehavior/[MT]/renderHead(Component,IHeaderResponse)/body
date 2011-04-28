@@ -1,4 +1,10 @@
 {
+  super.renderHead(component,response);
+  IAjaxCallDecorator ajaxCallDecorator=getAjaxCallDecorator();
+  if (ajaxCallDecorator instanceof IHeaderContributor) {
+    IHeaderContributor contributor=(IHeaderContributor)ajaxCallDecorator;
+    contributor.renderHead(component,response);
+  }
   final IDebugSettings debugSettings=Application.get().getDebugSettings();
   response.renderJavaScriptReference(WicketEventReference.INSTANCE);
   response.renderJavaScriptReference(WicketAjaxReference.INSTANCE);
