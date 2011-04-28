@@ -1,0 +1,12 @@
+{
+  boolean stripComments=tester.getApplication().getMarkupSettings().getStripComments();
+  try {
+    tester.getApplication().getMarkupSettings().setStripComments(false);
+    executeTest(IEConditionalCommentsPage.class,"IEConditionalCommentsPage.html");
+    tester.getApplication().getMarkupSettings().setStripComments(true);
+    executeTest(IEConditionalCommentsPage.class,"IEConditionalCommentsPage.html");
+  }
+  finally {
+    tester.getApplication().getMarkupSettings().setStripComments(stripComments);
+  }
+}

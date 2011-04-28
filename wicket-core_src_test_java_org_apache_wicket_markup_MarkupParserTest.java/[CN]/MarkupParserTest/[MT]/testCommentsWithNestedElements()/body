@@ -1,0 +1,7 @@
+{
+  tester.getApplication().getMarkupSettings().setStripComments(true);
+  final MarkupParser parser=new MarkupParser("<span><!--[if lt IE 8 ]>\n" + "<script src=\"js/ie7.js\"></script>\n" + "<![endif]--></span>");
+  IMarkupFragment markup=parser.parse();
+  String parsedMarkup=markup.toString(true);
+  assertEquals("<span><!--[if lt IE 8 ]>\n" + "<script src=\"js/ie7.js\"></script>\n" + "<![endif]--></span>",parsedMarkup);
+}
