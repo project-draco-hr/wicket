@@ -6,16 +6,7 @@
  else   if (urlStartsWith(url,mountSegments)) {
     PageComponentInfo info=getPageComponentInfo(url);
     Class<? extends IRequestablePage> pageClass=getPageClass();
-    PageParameters pageParameters=extractPageParameters(request,mountSegments.length,pageParametersEncoder);
-    for (int i=0; i < mountSegments.length; ++i) {
-      String placeholder=getPlaceholder(mountSegments[i]);
-      if (placeholder != null) {
-        if (pageParameters == null) {
-          pageParameters=new PageParameters();
-        }
-        pageParameters.add(placeholder,url.getSegments().get(i));
-      }
-    }
+    PageParameters pageParameters=extractPageParameters(request,url);
     return new UrlInfo(info,pageClass,pageParameters);
   }
  else {

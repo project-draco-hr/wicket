@@ -1,0 +1,11 @@
+{
+  Url url=Url.parse("some/p1/path/p2/p3");
+  IRequestHandler handler=optionPlaceholderEncoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof RenderPageRequestHandler);
+  IRequestablePage page=((RenderPageRequestHandler)handler).getPage();
+  assertEquals(0,page.getPageParameters().getIndexedCount());
+  assertTrue(page.getPageParameters().getNamedKeys().size() == 3);
+  assertEquals("p1",page.getPageParameters().get("param1").toString());
+  assertEquals("p2",page.getPageParameters().get("param2").toString());
+  assertEquals("p3",page.getPageParameters().get("param3").toString());
+}

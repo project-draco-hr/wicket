@@ -1,0 +1,21 @@
+{
+  List<MountPathSegment> ret=new ArrayList<MountPathSegment>();
+  int segmentIndex=0;
+  MountPathSegment curPathSegment=new MountPathSegment(segmentIndex);
+  ret.add(curPathSegment);
+  for (  String curSegment : segments) {
+    if (isFixedSegment(curSegment)) {
+      curPathSegment.setFixedPart(curSegment);
+      curPathSegment=new MountPathSegment(segmentIndex + 1);
+      ret.add(curPathSegment);
+    }
+ else     if (getPlaceholder(curSegment) != null) {
+      curPathSegment.addRequiredParameter();
+    }
+ else {
+      curPathSegment.addOptionalParameter();
+    }
+    segmentIndex++;
+  }
+  return ret;
+}
