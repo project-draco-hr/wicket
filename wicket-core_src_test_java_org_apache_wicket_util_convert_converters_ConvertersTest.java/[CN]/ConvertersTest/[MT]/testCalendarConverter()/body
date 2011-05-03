@@ -1,0 +1,25 @@
+{
+  CalendarConverter converter=new CalendarConverter();
+  Calendar cal=Calendar.getInstance(DUTCH_LOCALE);
+  cal.clear();
+  cal.set(2011,Calendar.MAY,1);
+  assertEquals("1-5-11",converter.convertToString(cal,DUTCH_LOCALE));
+  assertEquals(cal,converter.convertToObject("1-5-11",DUTCH_LOCALE));
+  cal=Calendar.getInstance(Locale.US);
+  cal.clear();
+  cal.set(2011,Calendar.MAY,1);
+  assertEquals("5/1/11",converter.convertToString(cal,Locale.US));
+  assertEquals(cal,converter.convertToObject("5/1/11",Locale.US));
+  try {
+    converter.convertToObject("whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    converter.convertToObject("5/1/11whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}
