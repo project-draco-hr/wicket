@@ -4,8 +4,8 @@
   if (duration.compareTo(MAX_CACHE_DURATION) > 0) {
     duration=MAX_CACHE_DURATION;
   }
-  long now=System.currentTimeMillis();
+  Time now=Time.now();
   setDateHeader("Date",now);
-  setDateHeader("Expires",now + duration.getMilliseconds());
+  setDateHeader("Expires",now.add(duration));
   setHeader("Cache-Control",scope.cacheControl + ", max-age=" + duration.getMilliseconds());
 }

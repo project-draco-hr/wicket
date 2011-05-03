@@ -1,10 +1,9 @@
 {
   WebRequest request=(WebRequest)attributes.getRequest();
-  Date ifModifiedSince=request.getIfModifiedSinceHeader();
-  Date lastModified=getLastModified();
-  if (ifModifiedSince != null && lastModified != null) {
-    long modified=this.lastModified.getTime() / 1000 * 1000;
-    return ifModifiedSince.getTime() < modified;
+  Time ifModifiedSince=request.getIfModifiedSinceHeader();
+  if (ifModifiedSince != null && this.lastModified != null) {
+    Time roundedLastModified=Time.valueOf(this.lastModified.getMilliseconds() / 1000 * 1000);
+    return ifModifiedSince.before(roundedLastModified);
   }
  else {
     return true;
