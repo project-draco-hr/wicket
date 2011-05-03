@@ -1,12 +1,12 @@
 {
   RequestCycleContext context=new RequestCycleContext(request,response,getRootRequestMapper(),getExceptionMapperProvider().get());
   RequestCycle requestCycle=getRequestCycleProvider().get(context);
-  requestCycle.getListeners().add(requestCycleListeners);
   requestCycle.getListeners().add(new AbstractRequestCycleListener(){
     @Override public void onDetach(    final RequestCycle requestCycle){
       getPageManager().commitRequest();
     }
   }
 );
+  requestCycle.getListeners().add(requestCycleListeners);
   return requestCycle;
 }
