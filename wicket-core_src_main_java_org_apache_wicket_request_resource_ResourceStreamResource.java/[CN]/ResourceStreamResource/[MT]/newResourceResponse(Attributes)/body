@@ -1,6 +1,9 @@
 {
   ResourceResponse data=new ResourceResponse();
-  data.setLastModified(stream.lastModifiedTime().toDate());
+  Time lastModifiedTime=stream.lastModifiedTime();
+  if (lastModifiedTime != null) {
+    data.setLastModified(lastModifiedTime.toDate());
+  }
   if (data.dataNeedsToBeWritten(attributes)) {
     InputStream inputStream=null;
     if (stream instanceof IResourceStreamWriter == false) {
