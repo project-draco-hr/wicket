@@ -1,0 +1,10 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.startPage(ButtonValuePage.class);
+  String response=tester.getLastResponseAsString();
+  System.out.println(response);
+  assertTrue("One of the pound entity representations is missing: &pound; or &#163;",response.contains("????"));
+  assertTrue("must not be double escaped",response.contains("Watch escaped value: &gt;&gt;"));
+  assertTrue("following the last assert logic, this one would true",response.contains("alerting: &amp;"));
+  assertTrue("not double escape manually add attributes",response.contains("some_attribute=\"&amp;\""));
+}

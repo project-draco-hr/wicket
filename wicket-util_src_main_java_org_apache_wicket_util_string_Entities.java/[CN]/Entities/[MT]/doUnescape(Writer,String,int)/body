@@ -1,0 +1,65 @@
+{
+  writer.write(str,0,firstAmp);
+  int len=str.length();
+  for (int i=firstAmp; i < len; i++) {
+    char c=str.charAt(i);
+    if (c == '&') {
+      int nextIdx=i + 1;
+      int semiColonIdx=str.indexOf(';',nextIdx);
+      if (semiColonIdx == -1) {
+        writer.write(c);
+        continue;
+      }
+      int amphersandIdx=str.indexOf('&',i + 1);
+      if (amphersandIdx != -1 && amphersandIdx < semiColonIdx) {
+        writer.write(c);
+        continue;
+      }
+      String entityContent=str.substring(nextIdx,semiColonIdx);
+      int entityValue=-1;
+      int entityContentLen=entityContent.length();
+      if (entityContentLen > 0) {
+        if (entityContent.charAt(0) == '#') {
+          if (entityContentLen > 1) {
+            char isHexChar=entityContent.charAt(1);
+            try {
+switch (isHexChar) {
+case 'X':
+case 'x':
+{
+                  entityValue=Integer.parseInt(entityContent.substring(2),16);
+                  break;
+                }
+default :
+{
+                entityValue=Integer.parseInt(entityContent.substring(1),10);
+              }
+          }
+          if (entityValue > 0xFFFF) {
+            entityValue=-1;
+          }
+        }
+ catch (        NumberFormatException e) {
+          entityValue=-1;
+        }
+      }
+    }
+ else {
+      entityValue=entityValue(entityContent);
+    }
+  }
+  if (entityValue == -1) {
+    writer.write('&');
+    writer.write(entityContent);
+    writer.write(';');
+  }
+ else {
+    writer.write(entityValue);
+  }
+  i=semiColonIdx;
+}
+ else {
+  writer.write(c);
+}
+}
+}

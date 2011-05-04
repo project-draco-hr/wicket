@@ -1,0 +1,16 @@
+{
+  int firstAmp=str.indexOf('&');
+  if (firstAmp < 0) {
+    return str;
+  }
+ else {
+    StringWriter stringWriter=createStringWriter(str);
+    try {
+      doUnescape(stringWriter,str,firstAmp);
+    }
+ catch (    IOException e) {
+      throw new RuntimeException(e);
+    }
+    return stringWriter.toString();
+  }
+}
