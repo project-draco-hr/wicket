@@ -4,6 +4,19 @@
   }
   Object parentNode=removalEvent.getTreePath().getLastPathComponent();
   TreeItem parentItem=nodeToItemMap.get(parentNode);
+  List<Object> selection=new ArrayList<Object>(getTreeState().getSelectedNodes());
+  List<Object> removed=Arrays.asList(removalEvent.getChildren());
+  for (  Object selectedNode : selection) {
+    Object cursor=selectedNode;
+    while (cursor != null) {
+      if (removed.contains(cursor)) {
+        getTreeState().selectNode(selectedNode,false);
+      }
+      if (cursor instanceof TreeNode) {
+        cursor=((TreeNode)cursor).getParent();
+      }
+    }
+  }
   if (parentItem != null && isNodeVisible(parentNode)) {
     if (isNodeExpanded(parentNode)) {
       for (      Object deletedNode : removalEvent.getChildren()) {
@@ -13,13 +26,11 @@
           visitItemChildren(itemToDelete,new IItemCallback(){
             public void visitItem(            TreeItem item){
               removeItem(item);
-              getTreeState().selectNode(item.getModelObject(),false);
             }
           }
 );
           parentItem.getChildren().remove(itemToDelete);
           removeItem(itemToDelete);
-          getTreeState().selectNode(itemToDelete.getModelObject(),false);
         }
       }
     }
