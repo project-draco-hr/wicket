@@ -1,6 +1,6 @@
 {
   long millis=12345678L;
-  final ResourceReferenceWithTimestamp reference=new ResourceReferenceWithTimestamp(Time.milliseconds(millis));
+  final ResourceReferenceWithTimestamp reference=new ResourceReferenceWithTimestamp(Time.valueOf(millis));
   final IRequestHandler handler=new ResourceReferenceRequestHandler(reference,null);
   Url url=encoderWithTimestamps.mapHandler(handler);
   String timestampPart=CACHE_FILENAME_WITH_TIMESTAMP.get().getTimestampPrefix() + Long.toString(millis) + "?";
