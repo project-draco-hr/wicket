@@ -2,7 +2,7 @@
   WebRequest request=(WebRequest)attributes.getRequest();
   Time ifModifiedSince=request.getIfModifiedSinceHeader();
   if (ifModifiedSince != null && this.lastModified != null) {
-    Time roundedLastModified=Time.valueOf(this.lastModified.getMilliseconds() / 1000 * 1000);
+    Time roundedLastModified=Time.millis(this.lastModified.getMilliseconds() / 1000 * 1000);
     return ifModifiedSince.before(roundedLastModified);
   }
  else {
