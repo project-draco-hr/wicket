@@ -14,11 +14,11 @@
   finally {
         resourceStream.close();
       }
-      resourceResponse.setContentLength(bytes.length);
+      final byte[] processed=processResponse(bytes);
+      resourceResponse.setContentLength(processed.length);
       resourceResponse.setWriteCallback(new WriteCallback(){
         @Override public void writeData(        Attributes attributes){
-          byte[] processed=processResponse(bytes);
-          attributes.getResponse().write(bytes);
+          attributes.getResponse().write(processed);
         }
       }
 );
