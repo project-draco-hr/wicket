@@ -1,0 +1,17 @@
+{
+  final byte[] processedResponse=super.processResponse(bytes);
+  ICssCompressor compressor=Application.get().getResourceSettings().getCssCompressor();
+  if (compressor != null) {
+    try {
+      String nonCompressed=new String(processedResponse,"UTF-8");
+      return compressor.compress(nonCompressed).getBytes();
+    }
+ catch (    Exception e) {
+      log.error("Error while filtering content",e);
+      return processedResponse;
+    }
+  }
+ else {
+    return processedResponse;
+  }
+}

@@ -17,6 +17,7 @@
       resourceResponse.setContentLength(bytes.length);
       resourceResponse.setWriteCallback(new WriteCallback(){
         @Override public void writeData(        Attributes attributes){
+          byte[] processed=processResponse(bytes);
           attributes.getResponse().write(bytes);
         }
       }
