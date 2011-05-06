@@ -1,5 +1,5 @@
 {
-  IDataStore dataStore=new DiskDataStore(application.getName(),getMaxSizePerSession(),getFileChannelPoolCapacity());
-  IPageStore pageStore=new DefaultPageStore(application.getName(),dataStore,getCacheSize());
+  IDataStore dataStore=newDataStore();
+  IPageStore pageStore=newPageStore(dataStore);
   return new PersistentPageManager(application.getName(),pageStore,pageManagerContext);
 }
