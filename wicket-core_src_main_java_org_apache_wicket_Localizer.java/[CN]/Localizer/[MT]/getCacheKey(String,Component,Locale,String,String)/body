@@ -8,11 +8,12 @@
       if (cursor instanceof Page) {
         break;
       }
-      final boolean skip=cursor instanceof LoopItem;
+      final Component parent=cursor.getParent();
+      final boolean skip=parent instanceof AbstractRepeater;
       if (skip == false) {
         buffer.append(':').append(cursor.getId());
       }
-      cursor=cursor.getParent();
+      cursor=parent;
     }
     buffer.append('-').append(locale);
     buffer.append('-').append(style);
