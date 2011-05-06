@@ -1,0 +1,22 @@
+{
+  application=new MockApplication();
+  dataStore=new InMemoryPageStore(){
+    @Override public void storeData(    String sessionId,    int pageId,    byte[] pageAsBytes){
+      super.storeData(sessionId,pageId,pageAsBytes);
+      storeCount++;
+    }
+  }
+;
+  tester=new WicketTester(application){
+    @Override protected IPageManagerProvider newTestPageManagerProvider(){
+      return new IPageManagerProvider(){
+        public IPageManager get(        IPageManagerContext pageManagerContext){
+          IPageStore pageStore=new DefaultPageStore(application.getName(),dataStore,4);
+          return new PersistentPageManager(application.getName(),pageStore,pageManagerContext);
+        }
+      }
+;
+    }
+  }
+;
+}
