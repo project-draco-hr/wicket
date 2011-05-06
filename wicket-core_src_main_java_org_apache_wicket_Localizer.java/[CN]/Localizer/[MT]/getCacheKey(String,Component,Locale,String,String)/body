@@ -1,27 +1,25 @@
 {
-  String cacheKey=key;
   if (component != null) {
-    AppendingStringBuffer buffer=new AppendingStringBuffer(200);
+    StringBuilder buffer=new StringBuilder(200);
     buffer.append(key);
     Component cursor=component;
     while (cursor != null) {
-      buffer.append("-").append(metaDatabase.id(cursor.getClass()));
+      buffer.append('-').append(metaDatabase.id(cursor.getClass()));
       if (cursor instanceof Page) {
         break;
       }
-      if (cursor.getParent() != null && !(cursor.getParent() instanceof AbstractRepeater)) {
-        buffer.append(":").append(cursor.getId());
+      final boolean skip=cursor instanceof LoopItem;
+      if (skip == false) {
+        buffer.append(':').append(cursor.getId());
       }
       cursor=cursor.getParent();
     }
-    buffer.append("-").append(locale);
-    buffer.append("-").append(style);
-    buffer.append("-").append(variation);
-    cacheKey=buffer.toString();
+    buffer.append('-').append(locale);
+    buffer.append('-').append(style);
+    buffer.append('-').append(variation);
+    return buffer.toString();
   }
  else {
-    cacheKey+="-" + locale.toString();
-    cacheKey+="-" + style;
+    return key + '-' + locale.toString()+ '-'+ style;
   }
-  return cacheKey;
 }

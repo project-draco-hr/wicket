@@ -3,10 +3,10 @@
     return null;
   }
   if (log.isDebugEnabled()) {
-    log.debug("component: '" + component.toString(false) + "'; key: '"+ key+ "'");
+    log.debug("component: '" + component.toString(false) + "'; key: '"+ key+ '\'');
   }
   String string=null;
-  String prefix=Strings.replaceAll(component.getPageRelativePath(),":",".").toString();
+  String prefix=getResourcePath(component);
   List<Class<?>> searchStack=getComponentStack(component);
   for (int i=searchStack.size() - 1; (i >= 0) && (string == null); i--) {
     Class<?> clazz=searchStack.get(i);
