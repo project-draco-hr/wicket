@@ -1,66 +1,10 @@
 {
-  String userAgent=(getUserAgent() != null) ? getUserAgent().toLowerCase() : "";
-  boolean browserChrome=userAgent.contains("chrome");
-  boolean browserOpera=userAgent.contains("opera");
-  boolean browserKonqueror=userAgent.contains("konqueror");
-  boolean deceptiveUserAgent=browserOpera || browserKonqueror || browserChrome;
-  boolean browserSafari=!deceptiveUserAgent && userAgent.contains("safari");
-  deceptiveUserAgent=deceptiveUserAgent || browserSafari;
-  boolean browserMozilla=!deceptiveUserAgent && userAgent.contains("gecko");
-  boolean browserFireFox=userAgent.contains("firefox");
-  boolean browserInternetExplorer=!deceptiveUserAgent && userAgent.contains("msie");
-  int majorVersion=-1, minorVersion=-1;
-  if (browserOpera) {
-    properties.setBrowserOpera(true);
-  }
- else   if (browserKonqueror) {
-    properties.setBrowserKonqueror(true);
-  }
- else   if (browserSafari) {
-    properties.setBrowserSafari(true);
-  }
- else   if (browserChrome) {
-    properties.setBrowserChrome(true);
-  }
- else   if (browserMozilla) {
-    properties.setBrowserMozilla(true);
-    if (browserFireFox) {
-      properties.setBrowserMozillaFirefox(true);
-    }
-  }
- else   if (browserInternetExplorer) {
-    properties.setBrowserInternetExplorer(true);
-    Matcher matcher=Pattern.compile("msie (\\d+)").matcher(userAgent);
-    if (matcher.find()) {
-      majorVersion=Integer.parseInt(matcher.group(1));
-    }
-  }
-  if (majorVersion != -1) {
-    properties.setBrowserVersionMajor(majorVersion);
-  }
-  if (minorVersion != -1) {
-    properties.setBrowserVersionMinor(minorVersion);
-  }
-  if (browserInternetExplorer) {
-    properties.setProprietaryIECssExpressionsSupported(true);
-    properties.setQuirkCssPositioningOneSideOnly(true);
-    properties.setQuirkIERepaint(true);
-    properties.setQuirkIESelectZIndex(true);
-    properties.setQuirkIETextareaNewlineObliteration(true);
-    properties.setQuirkIESelectPercentWidth(true);
-    properties.setQuirkIESelectListDomUpdate(true);
-    properties.setQuirkIETablePercentWidthScrollbarError(true);
-    properties.setQuirkCssBackgroundAttachmentUseFixed(true);
-    properties.setQuirkCssBorderCollapseInside(true);
-    properties.setQuirkCssBorderCollapseFor0Padding(true);
-    if (majorVersion < 7) {
-      properties.setProprietaryIEPngAlphaFilterRequired(true);
-    }
-  }
-  if (browserMozilla) {
-    properties.setQuirkMozillaTextInputRepaint(true);
-    properties.setQuirkMozillaPerformanceLargeDomRemove(true);
-  }
+  setInternetExplorerProperties();
+  setOperaProperties();
+  setMozillaProperties();
+  setKonquerorProperties();
+  setChromeProperties();
+  setSafariProperties();
   if (log.isDebugEnabled()) {
     log.debug("determined user agent: " + properties);
   }

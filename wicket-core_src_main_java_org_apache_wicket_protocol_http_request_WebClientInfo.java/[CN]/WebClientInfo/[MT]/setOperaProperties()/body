@@ -1,0 +1,15 @@
+{
+  properties.setBrowserOpera(UserAgent.OPERA.matches(getUserAgent()));
+  if (properties.isBrowserOpera()) {
+    String userAgent=getUserAgentStringLc();
+    if (userAgent.startsWith("opera/") && userAgent.contains("version/")) {
+      setMajorMinorVersionByPattern("version/(\\d+)\\.(\\d+)");
+    }
+ else     if (userAgent.startsWith("opera/") && !userAgent.contains("version/")) {
+      setMajorMinorVersionByPattern("opera/(\\d+)\\.(\\d+)");
+    }
+ else {
+      setMajorMinorVersionByPattern("opera (\\d+)\\.(\\d+)");
+    }
+  }
+}

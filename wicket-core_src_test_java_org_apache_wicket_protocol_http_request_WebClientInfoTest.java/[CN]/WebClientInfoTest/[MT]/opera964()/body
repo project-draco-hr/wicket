@@ -1,0 +1,15 @@
+{
+  List<String> userAgents=Arrays.asList("Opera/9.64 (Windows NT 6.1; U; MRA 5.5 (build 02842); ru) Presto/2.1.1","Opera/9.64 (X11; Linux i686; U; Linux Mint; it) Presto/2.1.1");
+  for (  String userAgent : userAgents) {
+    WebClientInfo webClientInfo=new WebClientInfo(requestCycleMock,userAgent);
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserOpera(),is(equalTo(true)));
+    assertThat(userAgent,webClientInfo.getProperties().getBrowserVersionMajor(),is(equalTo(9)));
+    assertThat(userAgent,webClientInfo.getProperties().getBrowserVersionMinor(),is(equalTo(64)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserMozillaFirefox(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserMozilla(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserChrome(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserKonqueror(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserSafari(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserInternetExplorer(),is(equalTo(false)));
+  }
+}

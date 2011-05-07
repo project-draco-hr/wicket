@@ -1,0 +1,11 @@
+{
+  properties.setBrowserMozillaFirefox(UserAgent.FIREFOX.matches(getUserAgent()));
+  properties.setBrowserMozilla(UserAgent.MOZILLA.matches(getUserAgent()));
+  if (properties.isBrowserMozilla()) {
+    properties.setQuirkMozillaTextInputRepaint(true);
+    properties.setQuirkMozillaPerformanceLargeDomRemove(true);
+    if (properties.isBrowserMozillaFirefox()) {
+      setMajorMinorVersionByPattern("firefox/(\\d+)\\.(\\d+)");
+    }
+  }
+}

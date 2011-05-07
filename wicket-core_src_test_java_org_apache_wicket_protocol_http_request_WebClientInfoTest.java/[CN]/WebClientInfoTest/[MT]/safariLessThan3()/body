@@ -1,0 +1,14 @@
+{
+  List<String> userAgents=Arrays.asList("Mozilla/5.0 (Macintosh; U; PPC Mac OS X; es) AppleWebKit/418 (KHTML, like Gecko) Safari/417.9.3","Mozilla/5.0 (Macintosh; U; PPC Mac OS X; fr) AppleWebKit/312.5.2 (KHTML, like Gecko) Safari/312.3.3","Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/85.8.5 (KHTML, like Gecko) Safari/85.8.1");
+  for (  String userAgent : userAgents) {
+    WebClientInfo webClientInfo=new WebClientInfo(requestCycleMock,userAgent);
+    assertThat(userAgent,webClientInfo.getProperties().getBrowserVersionMajor(),is(lessThan(3)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserSafari(),is(equalTo(true)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserOpera(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserMozillaFirefox(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserMozilla(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserChrome(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserKonqueror(),is(equalTo(false)));
+    assertThat(userAgent,webClientInfo.getProperties().isBrowserInternetExplorer(),is(equalTo(false)));
+  }
+}
