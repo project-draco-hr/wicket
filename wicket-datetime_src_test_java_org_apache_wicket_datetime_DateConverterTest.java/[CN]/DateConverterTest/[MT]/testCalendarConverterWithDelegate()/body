@@ -1,0 +1,13 @@
+{
+  Locale locale=Locale.GERMAN;
+  Calendar input=Calendar.getInstance(locale);
+  input.clear();
+  input.set(2011,Calendar.MAY,7);
+  StyleDateConverter styleDateConverter=new StyleDateConverter("F-",false);
+  CalendarConverter calendarConverter=new CalendarConverter(styleDateConverter);
+  String expected=styleDateConverter.convertToString(input.getTime(),locale);
+  String actual=calendarConverter.convertToString(input,locale);
+  Assert.assertEquals(expected,actual);
+  Calendar revert=calendarConverter.convertToObject(actual,locale);
+  Assert.assertEquals(input,revert);
+}
