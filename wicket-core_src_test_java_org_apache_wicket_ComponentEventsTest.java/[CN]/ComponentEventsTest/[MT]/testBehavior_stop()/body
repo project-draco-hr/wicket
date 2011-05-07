@@ -1,0 +1,16 @@
+{
+  TestComponent c=new TestComponent("c");
+  TestBehavior b1=new TestBehavior(){
+    @Override public void onEvent(    Component component,    IEvent<?> event){
+      super.onEvent(component,event);
+      event.stop();
+    }
+  }
+;
+  TestBehavior b2=new TestBehavior();
+  c.add(b1,b2);
+  c.send(c,Broadcast.BREADTH,new Payload());
+  assertEquals(0,c.sequence);
+  assertEquals(1,b1.sequence);
+  assertEquals(-1,b2.sequence);
+}

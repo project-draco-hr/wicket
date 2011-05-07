@@ -1,0 +1,14 @@
+{
+  if (component != null && sink instanceof IComponentAwareEventSink) {
+    ((IComponentAwareEventSink)sink).onEvent(component,event);
+  }
+ else   if (sink instanceof IEventSink) {
+    ((IEventSink)sink).onEvent(event);
+  }
+  if (eventDispatchers == null) {
+    return;
+  }
+  for (  IEventDispatcher dispatcher : eventDispatchers) {
+    dispatcher.dispatchEvent(sink,event,component);
+  }
+}

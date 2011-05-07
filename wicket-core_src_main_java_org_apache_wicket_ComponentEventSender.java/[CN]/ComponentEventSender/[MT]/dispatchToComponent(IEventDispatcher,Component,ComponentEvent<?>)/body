@@ -1,0 +1,13 @@
+{
+  dispatcher.dispatchEvent(object,e,null);
+  if (e.isStop()) {
+    return;
+  }
+  List<? extends Behavior> behaviors=object.getBehaviors();
+  for (  Behavior behavior : behaviors) {
+    dispatcher.dispatchEvent(behavior,e,object);
+    if (e.isStop()) {
+      break;
+    }
+  }
+}

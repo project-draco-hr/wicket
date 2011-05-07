@@ -3,9 +3,9 @@
   boolean targetsApplication=sink instanceof Application;
   boolean targetsSession=targetsApplication || sink instanceof Session;
   boolean targetsCycle=targetsSession || sink instanceof RequestCycle;
-  boolean targetsComponnet=sink instanceof Component;
-  if (!targetsComponnet && !targetsCycle) {
-    dispatcher.dispatchEvent(sink,event);
+  boolean targetsComponent=sink instanceof Component;
+  if (!targetsComponent && !targetsCycle) {
+    dispatcher.dispatchEvent(sink,event,null);
     return;
   }
   Component cursor=(targetsCycle) ? source.getPage() : (Component)sink;
@@ -13,24 +13,24 @@
     Visits.visitPostOrder(cursor,new ComponentEventVisitor(event,dispatcher));
   }
  else {
-    dispatcher.dispatchEvent(cursor,event);
+    dispatchToComponent(dispatcher,cursor,event);
   }
   if (event.isStop()) {
     return;
   }
   if (targetsCycle) {
-    dispatcher.dispatchEvent(source.getRequestCycle(),event);
+    dispatcher.dispatchEvent(source.getRequestCycle(),event,null);
   }
   if (event.isStop()) {
     return;
   }
   if (targetsSession) {
-    dispatcher.dispatchEvent(source.getSession(),event);
+    dispatcher.dispatchEvent(source.getSession(),event,null);
   }
   if (event.isStop()) {
     return;
   }
   if (targetsApplication) {
-    dispatcher.dispatchEvent(source.getApplication(),event);
+    dispatcher.dispatchEvent(source.getApplication(),event,null);
   }
 }
