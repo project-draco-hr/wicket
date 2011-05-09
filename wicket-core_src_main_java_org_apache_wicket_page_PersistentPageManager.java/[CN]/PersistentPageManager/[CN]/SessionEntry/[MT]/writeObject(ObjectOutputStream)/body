@@ -1,18 +1,20 @@
 {
   s.defaultWriteObject();
-  List<Serializable> l=new ArrayList<Serializable>();
-  IPageStore pageStore=getPageStore();
-  for (  IManageablePage p : pages) {
-    Serializable preparedPage;
-    if (pageStore != null) {
-      preparedPage=pageStore.prepareForSerialization(sessionId,p);
-    }
+  List<Serializable> serializedPages=new ArrayList<Serializable>();
+  if (pages != null) {
+    IPageStore pageStore=getPageStore();
+    for (    IManageablePage p : pages) {
+      Serializable preparedPage;
+      if (pageStore != null) {
+        preparedPage=pageStore.prepareForSerialization(sessionId,p);
+      }
  else {
-      preparedPage=p;
-    }
-    if (preparedPage != null) {
-      l.add(preparedPage);
+        preparedPage=p;
+      }
+      if (preparedPage != null) {
+        serializedPages.add(preparedPage);
+      }
     }
   }
-  s.writeObject(l);
+  s.writeObject(serializedPages);
 }
