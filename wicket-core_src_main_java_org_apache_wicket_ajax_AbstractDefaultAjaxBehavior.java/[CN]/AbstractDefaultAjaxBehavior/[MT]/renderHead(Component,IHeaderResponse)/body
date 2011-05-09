@@ -11,8 +11,8 @@
   CharSequence ajaxBaseUrl=Strings.escapeMarkup(baseUrl.toString());
   response.renderJavaScript("Wicket.Ajax.baseUrl=\"" + ajaxBaseUrl + "\";","wicket-ajax-base-url");
   final IAjaxCallDecorator ajaxCallDecorator=getAjaxCallDecorator();
-  if (ajaxCallDecorator instanceof IHeaderContributor) {
-    IHeaderContributor contributor=(IHeaderContributor)ajaxCallDecorator;
+  if (ajaxCallDecorator instanceof IComponentAwareHeaderContributor) {
+    IComponentAwareHeaderContributor contributor=(IComponentAwareHeaderContributor)ajaxCallDecorator;
     contributor.renderHead(component,response);
   }
 }
