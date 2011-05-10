@@ -1,15 +1,13 @@
 {
-  for (  IManageablePage page : pages) {
-    try {
-      page.detach();
-    }
- catch (    Exception e) {
-      log.error("Error detaching page",e);
-    }
-  }
   if (touchedPages.isEmpty() == false) {
     List<IManageablePage> statefulPages=new ArrayList<IManageablePage>(touchedPages.size());
     for (    IManageablePage page : touchedPages) {
+      try {
+        page.detach();
+      }
+ catch (      Exception e) {
+        log.error("Error detaching page",e);
+      }
       if (!page.isPageStateless()) {
         statefulPages.add(page);
       }
