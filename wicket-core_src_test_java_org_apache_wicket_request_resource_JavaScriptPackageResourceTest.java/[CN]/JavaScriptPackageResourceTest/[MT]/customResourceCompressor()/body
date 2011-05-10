@@ -1,0 +1,16 @@
+{
+  JavaScriptPackageResource resource=new JavaScriptPackageResource(PackageResourceTest.class,"packaged1.txt",null,null,null){
+    private static final long serialVersionUID=1L;
+    @Override protected IJavaScriptCompressor getCompressor(){
+      return new IJavaScriptCompressor(){
+        public String compress(        String original){
+          return RESOURCE_COMPRESSED;
+        }
+      }
+;
+    }
+  }
+;
+  tester.startResource(resource);
+  assertEquals(RESOURCE_COMPRESSED,tester.getLastResponseAsString());
+}

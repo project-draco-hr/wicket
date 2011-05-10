@@ -1,6 +1,9 @@
 {
   String nonCompressed=super.getString();
-  ITextResourceCompressor compressor=Application.get().getResourceSettings().getCssCompressor();
+  ICssCompressor compressor=null;
+  if (Application.exists()) {
+    compressor=Application.get().getResourceSettings().getCssCompressor();
+  }
   if (compressor != null) {
     return compressor.compress(nonCompressed);
   }
