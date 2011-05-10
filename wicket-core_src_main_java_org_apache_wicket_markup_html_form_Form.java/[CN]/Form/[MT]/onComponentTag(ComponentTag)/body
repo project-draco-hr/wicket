@@ -2,7 +2,7 @@
   super.onComponentTag(tag);
   checkComponentTag(tag,"form");
   if (isRootForm()) {
-    String method=getMethod().toLowerCase();
+    String method=getMethod().toLowerCase(Locale.ENGLISH);
     tag.put("method",method);
     String url=getActionUrl().toString();
     if (encodeUrlInHiddenFields()) {
@@ -14,6 +14,12 @@
       tag.put("action",url);
     }
     if (isMultiPart()) {
+      if (METHOD_GET.equalsIgnoreCase(method)) {
+        if (log.isWarnEnabled()) {
+          log.warn(String.format("Form with id '%s' is multipart. It should use method 'POST'!",getId()));
+        }
+        tag.put("method",METHOD_POST.toLowerCase(Locale.ENGLISH));
+      }
       tag.put("enctype","multipart/form-data");
       tag.put("accept-charset",getApplication().getRequestCycleSettings().getResponseRequestEncoding());
     }
