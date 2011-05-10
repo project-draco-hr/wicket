@@ -1,0 +1,13 @@
+{
+  Duration duration=data.getCacheDuration();
+  Response response=attributes.getResponse();
+  if (response instanceof WebResponse) {
+    WebResponse webResponse=(WebResponse)response;
+    if (duration.compareTo(Duration.NONE) > 0) {
+      webResponse.enableCaching(duration,data.getCacheScope());
+    }
+ else {
+      webResponse.disableCaching();
+    }
+  }
+}
