@@ -1,0 +1,20 @@
+{
+  String contentType="application/x-octet";
+  final byte[] array=new byte[]{1,2,3};
+  ByteArrayResource resource=new ByteArrayResource(contentType){
+    private static final long serialVersionUID=1L;
+    @Override protected byte[] getData(    Attributes attributes){
+      return array;
+    }
+    @Override protected void configureCache(    ResourceResponse data,    Attributes attributes){
+    }
+  }
+;
+  WebRequest request=mock(WebRequest.class);
+  WebResponse response=mock(WebResponse.class);
+  Attributes attributes=new Attributes(request,response);
+  resource.respond(attributes);
+  verify(response).write(same(array));
+  verify(response).setContentLength(eq(3L));
+  verify(response).setContentType(eq(contentType));
+}
