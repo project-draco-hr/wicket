@@ -2,7 +2,11 @@
   final ResourceResponse response=new ResourceResponse();
   response.setContentType(contentType);
   response.setLastModified(lastModified);
-  response.setContentLength(array.length);
+  final byte[] data=getData(attributes);
+  if (data == null) {
+    throw new WicketRuntimeException("ByteArrayResource's data cannot be 'null'.");
+  }
+  response.setContentLength(data.length);
   if (response.dataNeedsToBeWritten(attributes)) {
     if (filename != null) {
       response.setFileName(filename);
@@ -13,7 +17,7 @@
     }
     response.setWriteCallback(new WriteCallback(){
       @Override public void writeData(      final Attributes attributes){
-        attributes.getResponse().write(array);
+        attributes.getResponse().write(data);
       }
     }
 );
