@@ -4,9 +4,6 @@
       Session.get().cleanupFeedbackMessages();
     }
   }
-  if (Session.exists()) {
-    Session.get().detach();
-  }
   try {
     onEndRequest();
     listeners.onEndRequest(this);
@@ -19,5 +16,8 @@
   }
   finally {
     listeners.onDetach(this);
+  }
+  if (Session.exists()) {
+    Session.get().detach();
   }
 }
