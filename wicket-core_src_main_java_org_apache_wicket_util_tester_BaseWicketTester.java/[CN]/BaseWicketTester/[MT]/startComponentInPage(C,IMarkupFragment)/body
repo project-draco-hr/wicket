@@ -1,0 +1,19 @@
+{
+  Args.notNull(component,"component");
+  if (pageMarkup == null) {
+    String markup=createPageMarkup(component.getId());
+    if (markup == null) {
+      fail("The markup for the automatically created page should not be null.");
+    }
+    pageMarkup=Markup.of(markup);
+  }
+  Page page=createPage();
+  if (page == null) {
+    fail("The automatically created page should not be null.");
+  }
+  page.setMarkup(pageMarkup);
+  page.add(component);
+  startPage(page);
+  startComponent=component;
+  return component;
+}
