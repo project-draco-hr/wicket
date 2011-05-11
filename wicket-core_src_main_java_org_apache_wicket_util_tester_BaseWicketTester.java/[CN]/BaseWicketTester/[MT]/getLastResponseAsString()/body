@@ -3,7 +3,13 @@
   if (startComponent == null) {
     return response;
   }
-  int pos1=response.indexOf('>');
-  int pos2=response.lastIndexOf('<');
-  return response.substring(pos1 + 1,pos2);
+  String componentId=startComponent.getId();
+  String before="wicket:id=\"" + componentId + "\">";
+  Matcher matcher=pattern.matcher(response);
+  if (matcher.matches()) {
+    int start=response.indexOf(before) + before.length();
+    int end=matcher.start(1);
+    response=response.substring(start,end);
+  }
+  return response;
 }
