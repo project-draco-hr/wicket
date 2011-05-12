@@ -1,8 +1,8 @@
 {
-  for (  FeedbackMessage message : messages) {
-    if (message.getReporter() == component && message.isLevel(level)) {
-      return true;
+  return hasMessage(new IFeedbackMessageFilter(){
+    public boolean accept(    FeedbackMessage message){
+      return Objects.equal(message.getReporter(),component) && message.isLevel(level);
     }
   }
-  return false;
+);
 }

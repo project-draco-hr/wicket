@@ -1,3 +1,8 @@
 {
-  return messages(filter).isEmpty() == false;
+  for (  final FeedbackMessage message : messages) {
+    if (filter == null || filter.accept(message)) {
+      return true;
+    }
+  }
+  return false;
 }
