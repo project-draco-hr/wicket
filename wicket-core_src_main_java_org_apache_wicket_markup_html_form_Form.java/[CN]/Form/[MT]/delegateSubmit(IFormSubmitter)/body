@@ -1,8 +1,17 @@
 {
+  final Form<?> processingForm;
   if (submittingComponent != null) {
+    processingForm=submittingComponent.getForm();
+    if (processingForm == null) {
+      throw new IllegalStateException("submitting component must not return 'null' on getForm()");
+    }
     submittingComponent.onSubmit();
   }
-  Visits.visitPostOrder(this,new IVisitor<Form<?>,Void>(){
+ else {
+    processingForm=this;
+  }
+  processingForm.onSubmit();
+  Visits.visitChildren(processingForm,new IVisitor<Form<?>,Void>(){
     public void component(    Form<?> form,    IVisit<Void> visit){
       if (form.isEnabledInHierarchy() && form.isVisibleInHierarchy()) {
         form.onSubmit();
