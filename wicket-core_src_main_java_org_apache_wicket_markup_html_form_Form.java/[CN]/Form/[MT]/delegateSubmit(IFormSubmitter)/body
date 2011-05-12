@@ -11,12 +11,12 @@
     processingForm=this;
   }
   processingForm.onSubmit();
-  Visits.visitChildren(processingForm,new IVisitor<Form<?>,Void>(){
+  processingForm.visitChildren(Form.class,new IVisitor<Form<?>,Void>(){
     public void component(    Form<?> form,    IVisit<Void> visit){
       if (form.isEnabledInHierarchy() && form.isVisibleInHierarchy()) {
         form.onSubmit();
       }
     }
   }
-,new ClassVisitFilter(Form.class));
+);
 }
