@@ -10,13 +10,12 @@
  else {
     processingForm=this;
   }
-  processingForm.onSubmit();
-  processingForm.visitChildren(Form.class,new IVisitor<Form<?>,Void>(){
+  Visits.visitPostOrder(processingForm,new IVisitor<Form<?>,Void>(){
     public void component(    Form<?> form,    IVisit<Void> visit){
       if (form.isEnabledInHierarchy() && form.isVisibleInHierarchy()) {
         form.onSubmit();
       }
     }
   }
-);
+,new ClassVisitFilter(Form.class));
 }
