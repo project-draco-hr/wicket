@@ -1,30 +1,10 @@
 {
-  final Set<IValidatable<?>> validatedComponents=new HashSet<IValidatable<?>>();
-  final File tmpFile=writeTestFile(1);
+  tester.startPage(TestValidationPage.class);
+  File tmpFile=writeTestFile(1);
   tmpFile.deleteOnExit();
-  final IValidator<List<FileUpload>> testValidator=new IValidator<List<FileUpload>>(){
-    private static final long serialVersionUID=1L;
-    public void validate(    IValidatable<List<FileUpload>> validatable){
-      validatedComponents.add(validatable);
-      assertEquals(ArrayList.class,validatable.getValue().getClass());
-      List<FileUpload> uploads=validatable.getValue();
-      FileUpload upload=uploads.get(0);
-      assertEquals(tmpFile.getName(),upload.getClientFileName());
-      assertEquals(new String(read(tmpFile)),new String(upload.getBytes()));
-    }
-  }
-;
-  final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
-  page.getForm().visitChildren(FileUploadField.class,new IVisitor<FileUploadField,Void>(){
-    public void component(    FileUploadField uploadField,    IVisit<Void> visit){
-      uploadField.add(testValidator);
-      visit.stop();
-    }
-  }
-);
-  tester.startPage(page);
   FormTester formtester=tester.newFormTester("form");
   formtester.setFile("upload",tmpFile,"text/plain");
   formtester.submit();
-  assertEquals(validatedComponents.size(),1);
+  TestValidationPage page=(TestValidationPage)tester.getLastRenderedPage();
+  assertFalse(page.getForm().hasError());
 }

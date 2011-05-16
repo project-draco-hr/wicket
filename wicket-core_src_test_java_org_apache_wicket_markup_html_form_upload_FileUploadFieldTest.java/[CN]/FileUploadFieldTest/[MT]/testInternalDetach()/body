@@ -1,12 +1,12 @@
 {
-  final MockPageWithFormAndUploadField page=new MockPageWithFormAndUploadField();
-  tester.startPage(page);
+  tester.startPage(MockPageWithFormAndUploadField.class);
   File tmp=null;
   try {
     tmp=writeTestFile(1000);
     FormTester formtester=tester.newFormTester("form");
     formtester.setFile("upload",tmp,"text/plain");
     formtester.submit();
+    MockPageWithFormAndUploadField page=(MockPageWithFormAndUploadField)tester.getLastRenderedPage();
     FileUpload fileUpload=page.getFileUpload();
     assertNotNull(fileUpload);
     InputStream is=fileUpload.getInputStream();

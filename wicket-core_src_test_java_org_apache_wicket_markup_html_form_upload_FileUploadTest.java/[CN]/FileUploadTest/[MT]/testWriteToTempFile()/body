@@ -1,0 +1,17 @@
+{
+  tester.startPage(TestPage.class);
+  File tmp=null;
+  try {
+    tmp=FileUploadFieldTest.writeTestFile(1);
+    FormTester formtester=tester.newFormTester("form");
+    formtester.setFile("upload",tmp,"text/plain");
+    formtester.submit();
+    TestPage page=(TestPage)tester.getLastRenderedPage();
+    assertNotNull(page.testFile);
+  }
+  finally {
+    if (tmp != null && tmp.exists()) {
+      tmp.delete();
+    }
+  }
+}

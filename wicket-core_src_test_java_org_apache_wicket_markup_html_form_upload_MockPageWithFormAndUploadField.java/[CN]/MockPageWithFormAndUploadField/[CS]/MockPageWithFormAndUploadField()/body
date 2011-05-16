@@ -1,11 +1,16 @@
 {
   final ListModel<FileUpload> model=new ListModel<FileUpload>();
-  form=new Form<Void>("form"){
+  form=new StatelessForm<Void>("form"){
     /** 
  */
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(){
-      fileUpload=model.getObject().get(0);
+      try {
+        handleFormSubmit();
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 ;

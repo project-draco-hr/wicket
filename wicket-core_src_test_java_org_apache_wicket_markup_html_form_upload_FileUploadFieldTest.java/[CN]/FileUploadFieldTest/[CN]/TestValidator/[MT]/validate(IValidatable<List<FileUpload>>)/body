@@ -1,0 +1,24 @@
+{
+  if (validatable.getValue() instanceof List == false) {
+    validatable.error(new ValidationError().addMessageKey("validatable value type not expected"));
+  }
+  FileUpload upload=validatable.getValue().get(0);
+  if (!upload.getClientFileName().contains(TEST_FILE_NAME)) {
+    validatable.error(new ValidationError().addMessageKey("uploaded file name not expected"));
+  }
+  File tmpFile=null;
+  try {
+    tmpFile=writeTestFile(1);
+    if (!new String(read(tmpFile)).equals(new String(upload.getBytes()))) {
+      validatable.error(new ValidationError().addMessageKey("uploaded content not expected"));
+    }
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e);
+  }
+ finally {
+    if (tmpFile != null && tmpFile.exists()) {
+      tmpFile.delete();
+    }
+  }
+}
