@@ -1,0 +1,13 @@
+{
+  super(parameters);
+  add(new TransparentWebMarkupContainer("html-tag"));
+  final TransparentWithAjaxUpdatePanel panel=new TransparentWithAjaxUpdatePanel("panel");
+  add(panel);
+  add(new AjaxLink<Void>("link"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      target.add(panel);
+    }
+  }
+);
+}
