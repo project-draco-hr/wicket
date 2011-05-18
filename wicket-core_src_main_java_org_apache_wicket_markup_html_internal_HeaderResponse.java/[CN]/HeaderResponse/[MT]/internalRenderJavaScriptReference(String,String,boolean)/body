@@ -3,12 +3,13 @@
     throw new IllegalArgumentException("url cannot be empty or null");
   }
   if (!closed) {
-    List<String> token1=Arrays.asList("javascript",url);
+    String urlWoSessionId=Strings.stripJSessionId(url);
+    List<String> token1=Arrays.asList("javascript",urlWoSessionId);
     List<String> token2=(id != null) ? Arrays.asList("javascript",id) : null;
     final boolean token1Unused=wasRendered(token1) == false;
     final boolean token2Unused=(token2 == null) || wasRendered(token2) == false;
     if (token1Unused && token2Unused) {
-      JavaScriptUtils.writeJavaScriptUrl(getResponse(),url,id,defer);
+      JavaScriptUtils.writeJavaScriptUrl(getResponse(),urlWoSessionId,id,defer);
       markRendered(token1);
       if (token2 != null) {
         markRendered(token2);
