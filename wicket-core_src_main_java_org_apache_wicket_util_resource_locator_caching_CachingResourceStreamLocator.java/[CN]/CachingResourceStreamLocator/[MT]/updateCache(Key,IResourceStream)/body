@@ -1,0 +1,13 @@
+{
+  if (null == stream) {
+    cache.put(key,NullResourceStreamReference.INSTANCE);
+  }
+ else   if (stream instanceof FileResourceStream) {
+    FileResourceStream fileResourceStream=(FileResourceStream)stream;
+    cache.put(key,new FileResourceStreamReference(fileResourceStream));
+  }
+ else   if (stream instanceof UrlResourceStream) {
+    UrlResourceStream urlResourceStream=(UrlResourceStream)stream;
+    cache.put(key,new UrlResourceStreamReference(urlResourceStream));
+  }
+}
