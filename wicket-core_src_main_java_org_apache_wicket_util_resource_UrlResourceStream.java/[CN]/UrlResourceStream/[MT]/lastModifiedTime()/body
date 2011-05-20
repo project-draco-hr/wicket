@@ -1,28 +1,14 @@
 {
   try {
-    StreamData data=getData(true);
-    final Time lastModified;
-    if (fileForLastModified != null) {
-      lastModified=Files.getLastModified(fileForLastModified);
+    final Time time=Connections.getLastModified(url);
+    if (Objects.equal(time,lastModified) == false) {
+      lastModified=time;
+      this.updateContentLength();
     }
- else {
-      lastModified=Connections.getLastModified(url);
-    }
-    if (Objects.equal(lastModified,data.lastModified) == false) {
-      data.lastModified=lastModified;
-      setContentLength();
-    }
-    return data.lastModified;
+    return lastModified;
   }
  catch (  IOException e) {
-    if (url.toString().contains(".jar!")) {
-      if (log.isDebugEnabled()) {
-        log.debug("getLastModified for " + url + " failed: "+ e.getMessage());
-      }
-    }
- else {
-      log.warn("getLastModified for " + url + " failed: "+ e.getMessage());
-    }
+    log.warn("getLastModified for " + url + " failed: "+ e.getMessage());
     return null;
   }
 }
