@@ -1,0 +1,11 @@
+{
+  URL url=new URL("file:" + FILE);
+  File file=IOUtils.getLocalFileFromUrl(url);
+  assertEquals(file.getAbsolutePath(),FILE);
+  url=new URL("jar:file:" + FILE + "!/internal/resource/bla/foo/bar/baz");
+  file=IOUtils.getLocalFileFromUrl(url);
+  assertEquals(file.getAbsolutePath(),FILE);
+  url=new URL("http://bla.de");
+  file=IOUtils.getLocalFileFromUrl(url);
+  assertNull(file);
+}
