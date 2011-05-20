@@ -1,0 +1,15 @@
+{
+  File file=File.createTempFile("wicket-io-utils-test","lastmodified");
+  assertTrue(file.exists());
+  try {
+    long lm=file.lastModified();
+    if (lm != 0) {
+      final Time expected=Time.millis(lm);
+      assertEquals(expected,IOUtils.getLastModified(file));
+      assertEquals(expected,Connections.getLastModified(new URL("file:" + file.getAbsolutePath())));
+    }
+  }
+  finally {
+    Files.remove(file);
+  }
+}
