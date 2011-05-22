@@ -1,10 +1,23 @@
 {
-  RequestCycle requestCycle=ThreadContext.getRequestCycle();
-  if (requestCycle == null)   return resourceReference.getLastModified();
-  Map<ResourceReference,Time> cache=requestCycle.getMetaData(TIMESTAMP_KEY);
-  if (cache == null) {
-    cache=new HashMap<ResourceReference,Time>();
-    requestCycle.setMetaData(TIMESTAMP_KEY,cache);
+  Application application=ThreadContext.getApplication();
+  if (application == null) {
+    return resourceReference.getLastModified();
+  }
+  Map<ResourceReference,Time> cache;
+  if (application.usesDevelopmentConfig()) {
+    RequestCycle requestCycle=ThreadContext.getRequestCycle();
+    cache=requestCycle.getMetaData(TIMESTAMP_KEY);
+    if (cache == null) {
+      cache=Generics.newHashMap();
+      requestCycle.setMetaData(TIMESTAMP_KEY,cache);
+    }
+  }
+ else {
+    cache=application.getMetaData(TIMESTAMP_KEY);
+    if (cache == null) {
+      cache=Generics.newConcurrentHashMap();
+      application.setMetaData(TIMESTAMP_KEY,cache);
+    }
   }
   if (cache.containsKey(resourceReference)) {
     return cache.get(resourceReference);
