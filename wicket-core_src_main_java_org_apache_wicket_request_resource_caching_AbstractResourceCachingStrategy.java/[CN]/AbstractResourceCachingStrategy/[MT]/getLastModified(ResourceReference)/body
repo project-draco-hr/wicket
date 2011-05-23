@@ -15,7 +15,7 @@
  else {
     cache=application.getMetaData(TIMESTAMP_KEY);
     if (cache == null) {
-      cache=Generics.newHashMap();
+      cache=Collections.<ResourceReference,Time>synchronizedMap(new HashMap<ResourceReference,Time>());
       application.setMetaData(TIMESTAMP_KEY,cache);
     }
   }
