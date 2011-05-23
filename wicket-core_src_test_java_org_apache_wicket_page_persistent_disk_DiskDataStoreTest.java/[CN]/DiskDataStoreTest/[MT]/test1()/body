@@ -1,6 +1,8 @@
 {
   generateFiles();
-  dataStore=new DiskDataStore("app1",MAX_SIZE_PER_SESSION,FILE_CHANNEL_POOL_CAPACITY);
+  IStoreSettings storeSettings=new StoreSettings(null);
+  java.io.File fileStoreFolder=storeSettings.getFileStoreFolder();
+  dataStore=new DiskDataStore("app1",fileStoreFolder,MAX_SIZE_PER_SESSION,FILE_CHANNEL_POOL_CAPACITY);
   dataStore=new AsynchronousDataStore(dataStore);
   doTestDataStore();
   dataStore.destroy();
