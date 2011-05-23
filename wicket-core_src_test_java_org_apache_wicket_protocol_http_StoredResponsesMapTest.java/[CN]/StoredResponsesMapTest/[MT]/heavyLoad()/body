@@ -1,0 +1,33 @@
+{
+  int numberOfThreads=100;
+  final int iterations=10000;
+  final CountDownLatch startLatch=new CountDownLatch(numberOfThreads);
+  final CountDownLatch endLatch=new CountDownLatch(numberOfThreads);
+  final SecureRandom rnd=new SecureRandom();
+  final StoredResponsesMap map=new StoredResponsesMap(1000,Duration.seconds(60));
+  final List<String> keys=new ArrayList<String>();
+  Runnable r=new Runnable(){
+    public void run(){
+      startLatch.countDown();
+      try {
+        startLatch.await();
+      }
+ catch (      InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+      for (int i=0; i < iterations; i++) {
+        String key="abc" + (rnd.nextDouble() * iterations);
+        keys.add(key);
+        map.put(key,new BufferedWebResponse(null));
+        String key2=keys.get(rnd.nextInt(keys.size() - 1));
+        map.remove(key2);
+      }
+      endLatch.countDown();
+    }
+  }
+;
+  for (int t=0; t < numberOfThreads; t++) {
+    new Thread(r).start();
+  }
+  endLatch.await();
+}

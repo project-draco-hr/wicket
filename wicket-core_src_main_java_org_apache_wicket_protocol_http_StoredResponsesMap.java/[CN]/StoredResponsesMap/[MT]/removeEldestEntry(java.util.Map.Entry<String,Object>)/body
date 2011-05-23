@@ -2,10 +2,12 @@
   boolean removed=super.removeEldestEntry(eldest);
   if (removed == false) {
     Value value=(Value)eldest.getValue();
-    Duration elapsedTime=Time.now().subtract(value.creationTime);
-    if (lifetime.lessThanOrEqual(elapsedTime)) {
-      removedValue=value.response;
-      removed=true;
+    if (value != null) {
+      Duration elapsedTime=Time.now().subtract(value.creationTime);
+      if (lifetime.lessThanOrEqual(elapsedTime)) {
+        removedValue=value.response;
+        removed=true;
+      }
     }
   }
   return removed;
