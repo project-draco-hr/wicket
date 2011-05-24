@@ -1,0 +1,17 @@
+{
+  when(provider.isNewPageInstance()).thenReturn(true);
+  when(page.isPageStateless()).thenReturn(true);
+  PageRenderer renderer=new TestPageRenderer(handler){
+    @Override protected boolean isOnePassRender(){
+      return true;
+    }
+  }
+;
+  when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("base"));
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("base/a"));
+  when(request.isAjax()).thenReturn(true);
+  when(request.shouldPreserveClientUrl()).thenReturn(false);
+  renderer.respond(requestCycle);
+  verify(response).sendRedirect(anyString());
+  verify(response,never()).write(any(byte[].class));
+}

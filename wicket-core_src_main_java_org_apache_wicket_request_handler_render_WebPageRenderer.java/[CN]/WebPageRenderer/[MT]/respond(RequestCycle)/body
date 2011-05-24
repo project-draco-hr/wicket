@@ -8,7 +8,7 @@
     logger.warn("The Buffered response should be handled by BufferedResponseRequestHandler");
     bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
   }
- else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || isOnePassRender() || (!isAjax && (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender())) || shouldPreserveClientUrl) {
+ else   if (getRedirectPolicy() == RedirectPolicy.NEVER_REDIRECT || (isOnePassRender() && isAjax == false) || (!isAjax && (targetUrl.equals(currentUrl) && !getPageProvider().isNewPageInstance() && !getPage().isPageStateless()) || (targetUrl.equals(currentUrl) && isRedirectToRender())) || shouldPreserveClientUrl) {
     BufferedWebResponse response=renderPage(currentUrl,requestCycle);
     if (response != null) {
       response.writeTo((WebResponse)requestCycle.getResponse());
