@@ -1,0 +1,15 @@
+{
+  MockApplication application=new MockApplication(){
+    @Override protected void init(){
+      getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_NO_EXCEPTION_PAGE);
+    }
+  }
+;
+  WicketTester tester=new WicketTester(application);
+  tester.setExposeExceptions(false);
+  ShowNoExceptionPage page=new ShowNoExceptionPage(null);
+  tester.startPage(page);
+  tester.submitForm("form");
+  Assert.assertEquals(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,tester.getLastResponse().getStatus());
+  tester.destroy();
+}
