@@ -3,17 +3,15 @@
   StringBuilder out=new StringBuilder(s.length());
   Charset charset;
   CharArrayWriter charArrayWriter=new CharArrayWriter();
-  if (enc == null) {
-    throw new NullPointerException("charsetName");
-  }
+  Args.notNull(charsetName,"charsetName");
   try {
-    charset=Charset.forName(enc);
+    charset=Charset.forName(charsetName);
   }
  catch (  IllegalCharsetNameException e) {
-    throw new RuntimeException(new UnsupportedEncodingException(enc));
+    throw new RuntimeException(new UnsupportedEncodingException(charsetName));
   }
 catch (  UnsupportedCharsetException e) {
-    throw new RuntimeException(new UnsupportedEncodingException(enc));
+    throw new RuntimeException(new UnsupportedEncodingException(charsetName));
   }
   boolean stopEncoding=false;
   for (int i=0; i < s.length(); ) {
