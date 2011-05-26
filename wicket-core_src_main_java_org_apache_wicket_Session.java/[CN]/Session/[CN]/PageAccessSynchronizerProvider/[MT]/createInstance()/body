@@ -1,0 +1,11 @@
+{
+  final Duration timeout;
+  if (Application.exists()) {
+    timeout=Application.get().getRequestCycleSettings().getTimeout();
+  }
+ else {
+    timeout=Duration.minutes(1);
+    log.warn("PageAccessSynchronizer created outside of application thread, using default timeout: {}",timeout);
+  }
+  return new PageAccessSynchronizer(timeout);
+}

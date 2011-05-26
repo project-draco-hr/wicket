@@ -1,19 +1,20 @@
 {
   final Thread thread=Thread.currentThread();
-  final Iterator<PageLock> locks=this.locks.values().iterator();
-  boolean changed=false;
+  final Iterator<PageLock> locks=this.locks.get().values().iterator();
+  final boolean isDebugEnabled=logger.isDebugEnabled();
   while (locks.hasNext()) {
     final PageLock lock=locks.next();
     if (lock.getThread() == thread) {
       locks.remove();
-      logger.debug("{} released lock to page {}",thread.getName(),lock.getPageId());
-      changed=true;
-    }
-  }
-  if (changed) {
-synchronized (semaphore) {
-      logger.debug("{} notifying blocked threads",thread.getName());
-      semaphore.notifyAll();
+      if (isDebugEnabled) {
+        logger.debug("{} released lock to page {}",thread.getName(),lock.getPageId());
+      }
+synchronized (lock) {
+        if (isDebugEnabled) {
+          logger.debug("{} notifying blocked threads",thread.getName());
+        }
+        lock.notifyAll();
+      }
     }
   }
 }
