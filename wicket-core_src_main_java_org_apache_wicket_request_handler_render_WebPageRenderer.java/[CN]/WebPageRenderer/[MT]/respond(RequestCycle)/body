@@ -14,7 +14,7 @@
       response.writeTo((WebResponse)requestCycle.getResponse());
     }
   }
- else   if ((!targetUrl.equals(currentUrl) && getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT) || isRedirectToRender() || (isAjax && targetUrl.equals(currentUrl))) {
+ else   if (getRedirectPolicy() == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender() || (isAjax && targetUrl.equals(currentUrl))) {
     redirectTo(targetUrl,requestCycle);
   }
  else   if (!targetUrl.equals(currentUrl) && (getPageProvider().isNewPageInstance() || (isSessionTemporary() && getPage().isPageStateless()))) {
