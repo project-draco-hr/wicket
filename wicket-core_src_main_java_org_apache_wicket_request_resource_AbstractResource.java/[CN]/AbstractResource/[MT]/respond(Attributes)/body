@@ -1,47 +1,11 @@
 {
   ResourceResponse data=newResourceResponse(attributes);
-  WebResponse response=(WebResponse)attributes.getResponse();
-  Time lastModified=data.getLastModified();
-  if (lastModified != null) {
-    response.setLastModifiedTime(lastModified);
-  }
-  configureCache(data,attributes);
+  setResponseHeaders(data,attributes);
   if (!data.dataNeedsToBeWritten(attributes)) {
-    response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
-    return;
-  }
-  if (data.getErrorCode() != null) {
-    response.sendError(data.getErrorCode(),data.getErrorMessage());
     return;
   }
   if (data.getWriteCallback() == null) {
-    throw new IllegalStateException("ResourceData#setWriteCallback must be called for AbstractResource.");
+    throw new IllegalStateException("ResourceResponse#setWriteCallback() must be set.");
   }
-  String fileName=data.getFileName();
-  ContentDisposition disposition=data.getContentDisposition();
-  String mimeType=data.getContentType();
-  String encoding=null;
-  if (mimeType != null && mimeType.contains("text")) {
-    encoding=data.getTextEncoding();
-  }
-  long contentLength=data.getContentLength();
-  if (ContentDisposition.ATTACHMENT == disposition) {
-    response.setAttachmentHeader(fileName);
-  }
- else   if (ContentDisposition.INLINE == disposition) {
-    response.setInlineHeader(fileName);
-  }
-  if (mimeType != null) {
-    if (encoding == null) {
-      response.setContentType(mimeType);
-    }
- else {
-      response.setContentType(mimeType + "; charset=" + encoding);
-    }
-  }
-  if (contentLength != -1) {
-    response.setContentLength(contentLength);
-  }
-  response.flush();
   data.getWriteCallback().writeData(attributes);
 }

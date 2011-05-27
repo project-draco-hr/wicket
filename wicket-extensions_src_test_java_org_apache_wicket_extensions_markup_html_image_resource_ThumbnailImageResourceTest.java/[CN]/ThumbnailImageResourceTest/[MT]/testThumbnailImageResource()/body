@@ -1,0 +1,10 @@
+{
+  DefaultButtonImageResource unscaled=new DefaultButtonImageResource(60,60,"");
+  ThumbnailImageResource scaledImageResource=new ThumbnailImageResource(unscaled,30);
+  tester.startResource(scaledImageResource);
+  byte[] response=tester.getLastResponse().getBinaryContent();
+  InputStream in=new ByteArrayInputStream(response);
+  BufferedImage scaledImage=ImageIO.read(in);
+  assertEquals(30,scaledImage.getWidth());
+  assertEquals(30,scaledImage.getHeight());
+}

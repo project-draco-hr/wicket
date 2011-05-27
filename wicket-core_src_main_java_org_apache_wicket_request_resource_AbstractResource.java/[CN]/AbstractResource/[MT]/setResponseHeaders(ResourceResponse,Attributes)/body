@@ -1,0 +1,45 @@
+{
+  Response response=attributes.getResponse();
+  if (response instanceof WebResponse) {
+    WebResponse webResponse=(WebResponse)response;
+    Time lastModified=data.getLastModified();
+    if (lastModified != null) {
+      webResponse.setLastModifiedTime(lastModified);
+    }
+    configureCache(data,attributes);
+    if (!data.dataNeedsToBeWritten(attributes)) {
+      webResponse.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+      return;
+    }
+    if (data.getErrorCode() != null) {
+      webResponse.sendError(data.getErrorCode(),data.getErrorMessage());
+      return;
+    }
+    String fileName=data.getFileName();
+    ContentDisposition disposition=data.getContentDisposition();
+    String mimeType=data.getContentType();
+    String encoding=null;
+    if (mimeType != null && mimeType.contains("text")) {
+      encoding=data.getTextEncoding();
+    }
+    long contentLength=data.getContentLength();
+    if (ContentDisposition.ATTACHMENT == disposition) {
+      webResponse.setAttachmentHeader(fileName);
+    }
+ else     if (ContentDisposition.INLINE == disposition) {
+      webResponse.setInlineHeader(fileName);
+    }
+    if (mimeType != null) {
+      if (encoding == null) {
+        webResponse.setContentType(mimeType);
+      }
+ else {
+        webResponse.setContentType(mimeType + "; charset=" + encoding);
+      }
+    }
+    if (contentLength != -1) {
+      webResponse.setContentLength(contentLength);
+    }
+    webResponse.flush();
+  }
+}
