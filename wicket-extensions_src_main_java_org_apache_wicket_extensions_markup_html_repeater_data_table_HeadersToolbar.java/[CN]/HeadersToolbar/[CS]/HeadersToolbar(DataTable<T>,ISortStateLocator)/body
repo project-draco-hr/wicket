@@ -24,6 +24,11 @@
     }
     item.add(header);
     item.setRenderBodyOnly(true);
-    header.add(column.getHeader("label"));
+    if (header instanceof Border) {
+      ((Border)header).addToBody(column.getHeader("label"));
+    }
+ else {
+      header.add(column.getHeader("label"));
+    }
   }
 }
