@@ -5,7 +5,7 @@
     onBeginRequest();
     IRequestHandler handler=resolveRequestHandler();
     if (handler != null) {
-      listeners.onRequestHandlerResolved(handler);
+      listeners.onRequestHandlerResolved(this,handler);
       requestHandlerExecutor.execute(handler);
       return true;
     }
@@ -14,7 +14,7 @@
  catch (  Exception e) {
     IRequestHandler handler=handleException(e);
     if (handler != null) {
-      listeners.onExceptionRequestHandlerResolved(handler,e);
+      listeners.onExceptionRequestHandlerResolved(this,handler,e);
       executeExceptionRequestHandler(handler,getExceptionRetryCount());
     }
  else {
