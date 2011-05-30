@@ -1,6 +1,28 @@
 {
-  Url encrypted=new Url();
+  if (url.getSegments().isEmpty() && url.getQueryParameters().isEmpty()) {
+    return url;
+  }
   String encryptedUrlString=getCrypt().encryptUrlSafe(url.toString());
-  encrypted.addQueryParameter(getCryptParameterName(),encryptedUrlString);
+  Url encrypted=new Url(url.getCharset());
+  encrypted.getSegments().add(encryptedUrlString);
+  encrypted.getQueryParameters().addAll(url.getQueryParameters());
+  int numberOfSegments=url.getSegments().size();
+  if (numberOfSegments == 0 && !url.getQueryParameters().isEmpty()) {
+    numberOfSegments=1;
+  }
+  char[] encryptedChars=encryptedUrlString.toCharArray();
+  int hash=0;
+  for (int segNo=0; segNo < numberOfSegments; segNo++) {
+    char a=encryptedChars[Math.abs(hash % encryptedChars.length)];
+    hash++;
+    char b=encryptedChars[Math.abs(hash % encryptedChars.length)];
+    hash++;
+    char c=encryptedChars[Math.abs(hash % encryptedChars.length)];
+    String segment="" + a + b+ c;
+    hash=hashString(segment);
+    segment+=String.format("%02x",Math.abs(hash % 256));
+    encrypted.getSegments().add(segment);
+    hash=hashString(segment);
+  }
   return encrypted;
 }

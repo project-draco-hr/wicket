@@ -1,0 +1,18 @@
+{
+  String expectedEncrypted="ywKWg-Qpk7YQBiYCmj9MaAJSIV1gtssNinjiALijtet62VMQc2-sMK_RchttkidUpYM_cplXKeZSfGxBkvWzH_E_zWv4Ii7MNSm5nXKno7o/ywK6c/MK_c0/nji3c/Qpk1b/XKnba/c2-cd?namedKey1=namedValue1&namedKey2=namedValue2";
+  PageParameters expectedParameters=new PageParameters();
+  expectedParameters.add("namedKey1","namedValue1");
+  expectedParameters.add("namedKey2","namedValue2");
+  expectedParameters.set(0,"indexedValue1");
+  expectedParameters.set(1,"indexedValue2");
+  RenderPageRequestHandler renderPageRequestHandler=new RenderPageRequestHandler(new PageProvider(DummyHomePage.class,expectedParameters));
+  Url url=mapper.mapHandler(renderPageRequestHandler);
+  assertEquals(expectedEncrypted,url.toString());
+  Request request=getRequest(url);
+  IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertTrue(requestHandler instanceof RenderPageRequestHandler);
+  RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
+  assertEquals(DummyHomePage.class,handler.getPageClass());
+  PageParameters actualParameters=handler.getPageParameters();
+  assertEquals(expectedParameters,actualParameters);
+}
