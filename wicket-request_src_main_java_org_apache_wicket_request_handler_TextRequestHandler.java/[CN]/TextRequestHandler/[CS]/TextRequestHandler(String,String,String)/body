@@ -1,11 +1,5 @@
 {
-  if (string == null) {
-    throw new IllegalArgumentException("Argument string must be not null");
-  }
-  if (Strings.isEmpty(contentType)) {
-    throw new IllegalArgumentException("Argument contentType must not be null or empty");
-  }
-  this.contentType=contentType;
-  this.string=string;
+  this.contentType=Args.notEmpty(contentType,"contentType");
+  this.string=Args.notNull(string,"string");
   this.encoding=encoding;
 }
