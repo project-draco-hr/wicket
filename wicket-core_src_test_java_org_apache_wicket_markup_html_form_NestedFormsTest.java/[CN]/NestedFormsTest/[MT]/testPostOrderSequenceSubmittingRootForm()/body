@@ -1,0 +1,10 @@
+{
+  tester.startPage(TestPage.class);
+  TestPage testPage=(TestPage)tester.getLastRenderedPage();
+  FormTester formTester=tester.newFormTester("outerForm");
+  formTester.submit("outerSubmit");
+  assertEquals(3,testPage.submitSequence.size());
+  assertEquals(0,testPage.submitSequence.indexOf(testPage.outerSubmit));
+  assertEquals(1,testPage.submitSequence.indexOf(testPage.innerForm));
+  assertEquals(2,testPage.submitSequence.indexOf(testPage.outerForm));
+}

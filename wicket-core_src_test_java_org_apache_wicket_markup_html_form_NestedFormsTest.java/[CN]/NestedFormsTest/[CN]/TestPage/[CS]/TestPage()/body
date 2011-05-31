@@ -1,0 +1,42 @@
+{
+  outerForm=new Form<Void>("outerForm"){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(){
+      submitSequence.add(this);
+    }
+  }
+;
+  add(outerForm);
+  outerSubmit=new Button("outerSubmit"){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    @Override public void onSubmit(){
+      submitSequence.add(this);
+    }
+  }
+;
+  outerForm.add(outerSubmit);
+  innerForm=new Form<Void>("innerForm"){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    @Override protected void onSubmit(){
+      submitSequence.add(this);
+    }
+  }
+;
+  outerForm.add(innerForm);
+  innerSubmit=new Button("innerSubmit"){
+    /** 
+ */
+    private static final long serialVersionUID=1L;
+    @Override public void onSubmit(){
+      submitSequence.add(this);
+    }
+  }
+;
+  innerForm.add(innerSubmit);
+}
