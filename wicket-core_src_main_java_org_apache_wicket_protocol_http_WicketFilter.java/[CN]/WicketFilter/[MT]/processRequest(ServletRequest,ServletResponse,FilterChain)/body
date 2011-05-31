@@ -12,6 +12,11 @@
     if (filterPath == null) {
       throw new IllegalStateException("filter path was not configured");
     }
+    if (shouldIgnorePath(httpServletRequest)) {
+      log.debug("Ignoring request {}",httpServletRequest.getRequestURL());
+      chain.doFilter(request,response);
+      return false;
+    }
     String redirectURL=checkIfRedirectRequired(httpServletRequest);
     if (redirectURL == null) {
       ThreadContext.setApplication(application);

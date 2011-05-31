@@ -1,0 +1,13 @@
+{
+  String paths=filterConfig.getInitParameter(IGNORE_PATHS_PARAM);
+  if (Strings.isEmpty(paths) == false) {
+    String[] parts=Strings.split(paths,',');
+    for (    String path : parts) {
+      path=path.trim();
+      if (path.startsWith("/")) {
+        path=path.substring(1);
+      }
+      ignorePaths.add(path);
+    }
+  }
+}
