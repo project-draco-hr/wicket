@@ -29,7 +29,7 @@
       hash=hashString(segment);
       segment+=String.format("%02x",Math.abs(hash % 256));
       hash=hashString(segment);
-      if (segment.equals(encryptedUrl.getSegments().get(segNo))) {
+      if (segment.equals(segments.get(segNo))) {
         url.getSegments().add(originalUrl.getSegments().get(segNo - 1));
       }
  else {
@@ -37,7 +37,7 @@
       }
     }
     if (segNo < numberOfSegments) {
-      url.getQueryParameters().addAll(encryptedUrl.getQueryParameters());
+      url.getQueryParameters().addAll(originalUrl.getQueryParameters());
       for (; segNo < numberOfSegments; segNo++) {
         url.getSegments().add(encryptedUrl.getSegments().get(segNo));
       }

@@ -3,9 +3,8 @@
     return url;
   }
   String encryptedUrlString=getCrypt().encryptUrlSafe(url.toString());
-  Url encrypted=new Url(url.getCharset());
-  encrypted.getSegments().add(encryptedUrlString);
-  encrypted.getQueryParameters().addAll(url.getQueryParameters());
+  Url encryptedUrl=new Url(url.getCharset());
+  encryptedUrl.getSegments().add(encryptedUrlString);
   int numberOfSegments=url.getSegments().size();
   if (numberOfSegments == 0 && !url.getQueryParameters().isEmpty()) {
     numberOfSegments=1;
@@ -21,8 +20,8 @@
     String segment="" + a + b+ c;
     hash=hashString(segment);
     segment+=String.format("%02x",Math.abs(hash % 256));
-    encrypted.getSegments().add(segment);
+    encryptedUrl.getSegments().add(segment);
     hash=hashString(segment);
   }
-  return encrypted;
+  return encryptedUrl;
 }
