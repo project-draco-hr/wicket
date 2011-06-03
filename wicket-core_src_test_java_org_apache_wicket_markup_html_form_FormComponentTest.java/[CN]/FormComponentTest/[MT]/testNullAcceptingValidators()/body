@@ -1,0 +1,13 @@
+{
+class MyValidator implements INullAcceptingValidator {
+    boolean called=false;
+    public void validate(    IValidatable validatable){
+      called=true;
+    }
+  }
+  MyValidator validator=new MyValidator();
+  FormComponent fc=new TextField("fc");
+  fc.add(validator);
+  fc.validate();
+  assertTrue(validator.called);
+}
