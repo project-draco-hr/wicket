@@ -1,11 +1,15 @@
 {
   Object result=PropertyResolver.getValue(propertyExpression,node);
+  IConverter converter=getConverter();
+  if (converter == null && result != null) {
+    converter=Application.get().getConverterLocator().getConverter(result.getClass());
+  }
   if (converter != null) {
     Locale locale=this.locale;
     if (locale == null) {
       locale=Session.get().getLocale();
     }
-    @SuppressWarnings("unchecked") String string=converter.convertToString((T)result,locale);
+    String string=converter.convertToString(result,locale);
     return string;
   }
  else {
