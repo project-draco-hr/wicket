@@ -3,7 +3,8 @@
     if (filterName == null) {
       filterName=getWicketFilter().getFilterConfig().getFilterName();
     }
-    sessionAttributePrefix="wicket:" + filterName + ":";
+    String namespace=getMapperContext().getNamespace();
+    sessionAttributePrefix=namespace + ':' + filterName+ ':';
   }
   return sessionAttributePrefix;
 }
