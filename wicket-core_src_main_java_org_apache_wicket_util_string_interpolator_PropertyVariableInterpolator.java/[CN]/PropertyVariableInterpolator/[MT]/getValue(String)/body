@@ -1,4 +1,13 @@
 {
   Object value=PropertyResolver.getValue(variableName,model);
-  return (value != null) ? value.toString() : null;
+  if (value != null) {
+    final IConverter converter=getConverter(value.getClass());
+    if (converter != null) {
+      return converter.convertToString(value,Session.get().getLocale());
+    }
+ else {
+      return value.toString();
+    }
+  }
+  return null;
 }
