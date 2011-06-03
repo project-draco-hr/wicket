@@ -7,34 +7,18 @@
     if (!response.equals(headerResponse.getResponse())) {
       getRequestCycle().setResponse(headerResponse.getResponse());
     }
-    super.onComponentTagBody(markupStream,openTag);
     AbstractHeaderRenderStrategy.get().renderHeader(this,getPage());
-    getHeaderResponse().close();
-    CharSequence output=response.getBuffer();
-    if (output.length() > 0) {
-      if (output.charAt(0) == '\r') {
-        for (int i=2; i < output.length(); i+=2) {
-          char ch=output.charAt(i);
-          if (ch != '\r') {
-            output=output.subSequence(i - 2,output.length());
-            break;
-          }
-        }
-      }
- else       if (output.charAt(0) == '\n') {
-        for (int i=1; i < output.length(); i++) {
-          char ch=output.charAt(i);
-          if (ch != '\n') {
-            output=output.subSequence(i - 1,output.length());
-            break;
-          }
-        }
-      }
-    }
-    if (output.length() > 0) {
+    headerResponse.close();
+    final StringResponse bodyResponse=new StringResponse();
+    getRequestCycle().setResponse(bodyResponse);
+    super.onComponentTagBody(markupStream,openTag);
+    CharSequence output=getCleanResponse(response);
+    CharSequence bodyOutput=getCleanResponse(bodyResponse);
+    if ((output.length() > 0) || (bodyOutput.length() > 0)) {
       if (renderOpenAndCloseTags()) {
         webResponse.write("<head>");
       }
+      webResponse.write(bodyOutput);
       webResponse.write(output);
       if (renderOpenAndCloseTags()) {
         webResponse.write("</head>");
