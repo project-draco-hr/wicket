@@ -1,0 +1,15 @@
+{
+  final List<String> names=Generics.newArrayList();
+  Page page=findPage();
+  if (page != null) {
+    page.visitChildren(new IVisitor<Component,Void>(){
+      public void component(      Component component,      IVisit<Void> visit){
+        if (Strings.getLevenshteinDistance(id.toLowerCase(),component.getId().toLowerCase()) < 3) {
+          names.add(component.getPageRelativePath());
+        }
+      }
+    }
+);
+  }
+  return names;
+}
