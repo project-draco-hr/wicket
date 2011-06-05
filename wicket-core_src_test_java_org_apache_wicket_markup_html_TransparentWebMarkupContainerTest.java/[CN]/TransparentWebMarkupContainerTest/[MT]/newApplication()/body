@@ -1,0 +1,20 @@
+{
+  return new MockApplication(){
+    @Override protected void internalInit(){
+      super.internalInit();
+      setPageManagerProvider(new IPageManagerProvider(){
+        public IPageManager get(        IPageManagerContext context){
+          return new MockPageManager(){
+            @Override public void touchPage(            IManageablePage page){
+              page=(IManageablePage)WicketObjects.cloneObject(page);
+              super.touchPage(page);
+            }
+          }
+;
+        }
+      }
+);
+    }
+  }
+;
+}
