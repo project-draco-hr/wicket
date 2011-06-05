@@ -18,6 +18,10 @@
   application.getResourceSettings().setResourcePollFrequency(getResourcePollFrequency());
   application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
   application.setRequestCycleProvider(new TestRequestCycleProvider(application.getRequestCycleProvider()));
+  IPageManagerProvider pageManagerProvider=newTestPageManagerProvider();
+  if (pageManagerProvider != null) {
+    application.setPageManagerProvider(pageManagerProvider);
+  }
   application.getSessionStore().registerUnboundListener(new UnboundListener(){
     public void sessionUnbound(    String sessionId){
       newSession();

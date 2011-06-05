@@ -1,4 +1,22 @@
 {
-  tester.startPage(TransparentWithAjaxUpdatePage.class);
-  tester.clickLink("link",true);
+  WicketTester wicketTester=new WicketTester(){
+    @Override protected IPageManagerProvider newTestPageManagerProvider(){
+      return new IPageManagerProvider(){
+        public IPageManager get(        IPageManagerContext context){
+          return new MockPageManager(){
+            @Override public void touchPage(            IManageablePage page){
+              page=(IManageablePage)WicketObjects.cloneObject(page);
+              super.touchPage(page);
+            }
+          }
+;
+        }
+      }
+;
+    }
+  }
+;
+  wicketTester.startPage(TransparentWithAjaxUpdatePage.class);
+  wicketTester.clickLink("link",true);
+  wicketTester.destroy();
 }
