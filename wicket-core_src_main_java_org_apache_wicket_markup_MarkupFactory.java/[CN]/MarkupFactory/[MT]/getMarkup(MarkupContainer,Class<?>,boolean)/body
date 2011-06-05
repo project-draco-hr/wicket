@@ -1,9 +1,13 @@
 {
   Args.notNull(container,"container");
-  Args.notNull(clazz,"clazz");
+  if (checkMarkupType(container) == false) {
+    return null;
+  }
+  Class<?> containerClass=getContainerClass(container,clazz);
   IMarkupCache cache=getMarkupCache();
   if (cache != null) {
-    return cache.getMarkup(container,clazz,enforceReload);
+    return cache.getMarkup(container,containerClass,enforceReload);
   }
-  return loadMarkup(container,null,enforceReload);
+  MarkupResourceStream markupResourceStream=getMarkupResourceStream(container,containerClass);
+  return loadMarkup(container,markupResourceStream,enforceReload);
 }

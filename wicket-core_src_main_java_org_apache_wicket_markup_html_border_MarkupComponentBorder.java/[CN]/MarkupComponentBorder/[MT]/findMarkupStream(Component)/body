@@ -1,5 +1,8 @@
 {
-  final String markupType=getMarkupType(owner);
+  final MarkupType markupType=getMarkupType(owner);
+  if (markupType == null) {
+    return null;
+  }
   final IResourceStreamLocator locator=Application.get().getResourceSettings().getResourceStreamLocator();
   final String style=owner.getStyle();
   final String variation=owner.getVariation();
@@ -8,7 +11,7 @@
   Class<?> containerClass=getClass();
   while (!(containerClass.equals(MarkupComponentBorder.class))) {
     String path=containerClass.getName().replace('.','/');
-    IResourceStream resourceStream=locator.locate(containerClass,path,style,variation,locale,markupType,false);
+    IResourceStream resourceStream=locator.locate(containerClass,path,style,variation,locale,markupType.getExtension(),false);
     if (resourceStream != null) {
       ContainerInfo ci=new ContainerInfo(containerClass,locale,style,variation,markupType);
       markupResourceStream=new MarkupResourceStream(resourceStream,ci,containerClass);

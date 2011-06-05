@@ -1,14 +1,11 @@
 {
+  Args.notNull(inputStream,"inputStream");
   try {
     xmlReader=new XmlReader(new BufferedInputStream(inputStream,4000),encoding);
     input=new FullyBufferedReader(xmlReader);
   }
   finally {
-    try {
-      inputStream.close();
-    }
-  finally {
-      IOUtils.close(xmlReader);
-    }
+    IOUtils.closeQuietly(inputStream);
+    IOUtils.closeQuietly(xmlReader);
   }
 }

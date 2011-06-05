@@ -1,13 +1,10 @@
 {
-  Class<?> containerClass=clazz;
-  if (clazz == null) {
-    containerClass=container.getClass();
-  }
- else   if (!clazz.isAssignableFrom(container.getClass())) {
-    throw new WicketRuntimeException("Parameter clazz must be an instance of " + container.getClass().getName() + ", but is a "+ clazz.getName());
-  }
+  Class<?> containerClass=MarkupFactory.get().getContainerClass(container,clazz);
   final String cacheKey=getMarkupCacheKeyProvider(container).getCacheKey(container,containerClass);
-  Markup markup=(enforceReload == false ? getMarkupFromCache(cacheKey,container) : null);
+  Markup markup=null;
+  if ((enforceReload == false) && (cacheKey != null)) {
+    markup=getMarkupFromCache(cacheKey,container);
+  }
   if (markup == null) {
     if (log.isDebugEnabled()) {
       log.debug("Load markup: cacheKey=" + cacheKey);
@@ -18,8 +15,11 @@
       markup=loadMarkupAndWatchForChanges(container,resourceStream,enforceReload);
     }
  else {
-      markup=onMarkupNotFound(cacheKey,container);
+      markup=onMarkupNotFound(cacheKey,container,Markup.NO_MARKUP);
     }
+  }
+  if (markup == Markup.NO_MARKUP) {
+    markup=null;
   }
   return markup;
 }

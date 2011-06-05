@@ -1,11 +1,9 @@
 {
-  Class<?> containerClass=clazz;
-  if (clazz == null) {
-    containerClass=container.getClass();
+  Args.notNull(container,"container");
+  if (checkMarkupType(container) == false) {
+    return null;
   }
- else   if (!clazz.isAssignableFrom(container.getClass())) {
-    throw new WicketRuntimeException("Parameter clazz must be an instance of " + container.getClass().getName() + ", but is a "+ clazz.getName());
-  }
+  Class<?> containerClass=getContainerClass(container,clazz);
   final IResourceStream resourceStream=getMarkupResourceStreamProvider(container).getMarkupResourceStream(container,containerClass);
   if (resourceStream == null) {
     return null;

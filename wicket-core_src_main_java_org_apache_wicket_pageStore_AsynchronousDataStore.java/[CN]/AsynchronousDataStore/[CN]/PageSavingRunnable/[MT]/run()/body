@@ -7,7 +7,7 @@ synchronized (entries) {
         }
       }
  catch (      InterruptedException e) {
-        e.printStackTrace();
+        log.error(e.getMessage(),e);
       }
     }
 synchronized (WRITE_LOCK) {
@@ -22,7 +22,7 @@ synchronized (WRITE_LOCK) {
     Thread.sleep(10);
   }
  catch (  InterruptedException e) {
-    e.printStackTrace();
+    log.error(e.getMessage(),e);
   }
 synchronized (destroy) {
     destroy.notify();

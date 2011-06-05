@@ -1,9 +1,11 @@
 {
   if (resourceStream != null) {
     String key=resourceStream.getCacheKey();
-    CharSequence locationString=markupKeyCache.get(key);
-    if ((locationString != null) && (markupCache.get(locationString) == null)) {
-      return true;
+    if (key != null) {
+      String locationString=markupKeyCache.get(key);
+      if ((locationString != null) && (markupCache.get(locationString) != null)) {
+        return true;
+      }
     }
   }
   return false;

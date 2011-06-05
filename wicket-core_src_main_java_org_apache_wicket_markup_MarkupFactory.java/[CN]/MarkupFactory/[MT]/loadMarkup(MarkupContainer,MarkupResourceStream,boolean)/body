@@ -1,15 +1,29 @@
 {
-  if (markupResourceStream == null) {
-    markupResourceStream=getMarkupResourceStream(container,null);
+  Args.notNull(container,"container");
+  Args.notNull(markupResourceStream,"markupResourceStream");
+  if (checkMarkupType(container) == false) {
+    return null;
   }
   try {
     return getMarkupLoader().loadMarkup(container,markupResourceStream,null,enforceReload);
   }
- catch (  ResourceStreamNotFoundException e) {
-    log.error("Unable to find markup from " + markupResourceStream,e);
+ catch (  MarkupNotFoundException e) {
+    log.error("Markup not found: " + e.getMessage(),e);
+  }
+catch (  ResourceStreamNotFoundException e) {
+    log.error("Markup not found: " + markupResourceStream,e);
   }
 catch (  IOException e) {
-    log.error("Unable to read markup from " + markupResourceStream,e);
+    log.error("Error while reading the markup " + markupResourceStream,e);
+    throw new MarkupException(markupResourceStream,"IO error while readin markup: " + e.getMessage(),e);
+  }
+catch (  WicketRuntimeException e) {
+    log.error("Error while reading the markup " + markupResourceStream,e);
+    throw e;
+  }
+catch (  RuntimeException e) {
+    log.error("Error while reading the markup " + markupResourceStream,e);
+    throw new MarkupException(markupResourceStream,"Error while reading the markup: " + e.getMessage(),e);
   }
   return null;
 }
