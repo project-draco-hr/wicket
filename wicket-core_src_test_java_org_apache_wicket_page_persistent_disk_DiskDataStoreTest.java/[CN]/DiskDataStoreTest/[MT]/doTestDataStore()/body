@@ -1,5 +1,5 @@
 {
-  System.out.println("Starting...");
+  log.error("Starting...");
   long start=System.currentTimeMillis();
   for (int i=0; i < THREAD_COUNT; ++i) {
     new Thread(new SaveRunnable()).start();
@@ -19,10 +19,10 @@
     }
   }
   long duration=System.currentTimeMillis() - start;
-  System.out.println("Took: " + duration + " ms");
-  System.out.println("Save: " + saveCount.intValue() + " files, "+ bytesWritten.get()+ " bytes");
-  System.out.println("Read: " + (read1Count.get() + read2Count.get()) + " files, "+ bytesRead.get()+ " bytes");
-  System.out.println("Average save time (ns): " + (double)saveTime.get() / (double)saveCount.get());
+  log.error("Took: " + duration + " ms");
+  log.error("Save: " + saveCount.intValue() + " files, "+ bytesWritten.get()+ " bytes");
+  log.error("Read: " + (read1Count.get() + read2Count.get()) + " files, "+ bytesRead.get()+ " bytes");
+  log.error("Average save time (ns): " + (double)saveTime.get() / (double)saveCount.get());
   assertEquals(0,failures.get());
   for (  String s : sessionCounter.keySet()) {
     dataStore.removeData(s);

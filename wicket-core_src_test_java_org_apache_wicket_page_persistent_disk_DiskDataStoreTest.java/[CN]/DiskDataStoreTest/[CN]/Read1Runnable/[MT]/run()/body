@@ -5,6 +5,7 @@
       byte bytes[]=dataStore.getData(file.getSessionId(),file.getId());
       if (file.checkData(bytes) == false) {
         failures.incrementAndGet();
+        log.error("Detected error number: " + failures.get());
       }
       filesToRead2.add(file);
       read1Count.incrementAndGet();

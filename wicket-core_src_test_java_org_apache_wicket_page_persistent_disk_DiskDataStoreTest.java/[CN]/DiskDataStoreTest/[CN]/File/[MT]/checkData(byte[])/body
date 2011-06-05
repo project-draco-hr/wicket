@@ -1,12 +1,18 @@
 {
-  Args.notNull(data,"data");
+  if (data == null) {
+    log.error("data[] should never be null");
+    return false;
+  }
   if (data.length != length) {
+    log.error("data.length != length");
     return false;
   }
   if (first != data[0]) {
+    log.error("first != data[0]");
     return false;
   }
   if (last != data[data.length - 1]) {
+    log.error("last != data[data.length - 1]");
     return false;
   }
   return true;
