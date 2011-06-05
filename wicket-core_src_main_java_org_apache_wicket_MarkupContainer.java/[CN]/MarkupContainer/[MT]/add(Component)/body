@@ -22,26 +22,28 @@
     if (put(child) != null) {
       throw new IllegalArgumentException(exceptionMessage("A child with id '" + child.getId() + "' already exists"));
     }
-    try {
-      if (getMarkup() != null) {
-        internalOnMarkupAttached();
-      }
-      if (child.getMarkup() != null) {
-        child.internalOnMarkupAttached();
-        if (child instanceof MarkupContainer) {
-          MarkupContainer container=(MarkupContainer)child;
-          container.visitChildren(new IVisitor<Component,Void>(){
-            public void component(            final Component component,            final IVisit<Void> visit){
-              if (component.internalOnMarkupAttached()) {
-                visit.dontGoDeeper();
+    if (getMarkupType() != null) {
+      try {
+        if (getMarkup() != null) {
+          internalOnMarkupAttached();
+        }
+        if (child.getMarkup() != null) {
+          child.internalOnMarkupAttached();
+          if (child instanceof MarkupContainer) {
+            MarkupContainer container=(MarkupContainer)child;
+            container.visitChildren(new IVisitor<Component,Void>(){
+              public void component(              final Component component,              final IVisit<Void> visit){
+                if (component.internalOnMarkupAttached()) {
+                  visit.dontGoDeeper();
+                }
               }
             }
-          }
 );
+          }
         }
       }
-    }
- catch (    WicketRuntimeException exception) {
+ catch (      WicketRuntimeException exception) {
+      }
     }
   }
   return this;
