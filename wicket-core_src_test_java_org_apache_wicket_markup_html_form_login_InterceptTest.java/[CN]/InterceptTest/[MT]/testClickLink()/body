@@ -1,11 +1,11 @@
 {
-  application.startPage(application.getApplication().getHomePage());
-  MockLoginPage loginPage=(MockLoginPage)application.getLastRenderedPage();
-  assertEquals(((MyMockWebApplication)application.getApplication()).getLoginPage(),loginPage.getClass());
-  FormTester form=application.newFormTester("form");
+  tester.startPage(tester.getApplication().getHomePage());
+  MockLoginPage loginPage=(MockLoginPage)tester.getLastRenderedPage();
+  assertEquals(((MyMockWebApplication)tester.getApplication()).getLoginPage(),loginPage.getClass());
+  FormTester form=tester.newFormTester("form");
   form.setValue("username","admin");
   form.submit();
-  assertEquals(application.getApplication().getHomePage(),application.getLastRenderedPage().getClass());
-  application.clickLink(application.getLastRenderedPage().get("link"));
-  assertEquals(PageA.class,application.getLastRenderedPage().getClass());
+  assertEquals(tester.getApplication().getHomePage(),tester.getLastRenderedPage().getClass());
+  tester.clickLink(tester.getLastRenderedPage().get("link"));
+  assertEquals(PageA.class,tester.getLastRenderedPage().getClass());
 }

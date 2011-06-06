@@ -1,0 +1,18 @@
+{
+  final IResponseFilter responseFilter=new IResponseFilter(){
+    public AppendingStringBuffer filter(    AppendingStringBuffer responseBuffer){
+      counter.getAndIncrement();
+      return responseBuffer;
+    }
+  }
+;
+  final WebApplication application=new DummyApplication(){
+    @Override protected void init(){
+      super.init();
+      getRequestCycleSettings().addResponseFilter(responseFilter);
+      getRequestCycleSettings().addResponseFilter(AppendCommentFilter.INSTANCE);
+    }
+  }
+;
+  return application;
+}

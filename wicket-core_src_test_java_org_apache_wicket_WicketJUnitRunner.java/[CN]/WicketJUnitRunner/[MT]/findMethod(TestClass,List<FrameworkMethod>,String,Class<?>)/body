@@ -1,0 +1,21 @@
+{
+  try {
+    Class<?> clazz=getTestClass().getJavaClass();
+    while (clazz != null || Object.class.equals(clazz) == false) {
+      try {
+        Method javaMethod=clazz.getDeclaredMethod(methodName,parameterTypes);
+        if (javaMethod != null && Modifier.isProtected(javaMethod.getModifiers()) && (javaMethod.getReturnType().equals(Void.TYPE) || javaMethod.getReturnType().equals(Void.class))) {
+          javaMethod.setAccessible(true);
+          junitMethods.add(new FrameworkMethod(javaMethod));
+          break;
+        }
+      }
+ catch (      NoSuchMethodException nsmx) {
+      }
+      clazz=clazz.getSuperclass();
+    }
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e);
+  }
+}

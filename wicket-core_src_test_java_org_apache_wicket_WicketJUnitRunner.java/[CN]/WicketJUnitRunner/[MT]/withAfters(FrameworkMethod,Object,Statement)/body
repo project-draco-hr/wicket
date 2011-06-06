@@ -1,0 +1,6 @@
+{
+  List<FrameworkMethod> afters=new ArrayList<FrameworkMethod>();
+  afters.addAll(getTestClass().getAnnotatedMethods(After.class));
+  findMethod(getTestClass(),afters,"tearDown");
+  return afters.isEmpty() ? statement : new RunAfters(statement,afters,target);
+}

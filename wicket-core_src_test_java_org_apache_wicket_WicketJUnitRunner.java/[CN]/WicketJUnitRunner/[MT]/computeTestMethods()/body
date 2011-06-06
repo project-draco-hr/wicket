@@ -1,0 +1,11 @@
+{
+  List<FrameworkMethod> methods=new ArrayList<FrameworkMethod>();
+  methods.addAll(super.computeTestMethods());
+  for (  Method javaMethod : getTestClass().getJavaClass().getMethods()) {
+    if (isJUnitMethod(javaMethod)) {
+      FrameworkMethod junitMethod=new FrameworkMethod(javaMethod);
+      methods.add(junitMethod);
+    }
+  }
+  return methods;
+}

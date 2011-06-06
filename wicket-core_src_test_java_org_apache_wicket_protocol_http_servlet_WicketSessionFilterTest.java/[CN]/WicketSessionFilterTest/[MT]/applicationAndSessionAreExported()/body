@@ -1,16 +1,4 @@
 {
-  final WicketTester tester=new WicketTester(new MockApplication(){
-    @Override protected void init(){
-      super.init();
-      setSessionStoreProvider(new IProvider<ISessionStore>(){
-        public ISessionStore get(){
-          return new HttpSessionStore();
-        }
-      }
-);
-    }
-  }
-);
   tester.getSession().bind();
   Thread testThread=new Thread(new Runnable(){
     public void run(){

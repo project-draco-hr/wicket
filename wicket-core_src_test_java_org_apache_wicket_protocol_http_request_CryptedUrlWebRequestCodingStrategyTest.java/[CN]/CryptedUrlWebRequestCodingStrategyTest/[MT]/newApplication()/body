@@ -1,0 +1,12 @@
+{
+  return new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      getSecuritySettings().setCryptFactory(new TestCryptFactory());
+      CompoundRequestMapper root=new CompoundRequestMapper();
+      root.add(new CryptoMapper(getRootRequestMapper(),this));
+      setRootRequestMapper(root);
+    }
+  }
+;
+}

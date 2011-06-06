@@ -1,0 +1,6 @@
+{
+  List<FrameworkMethod> befores=new ArrayList<FrameworkMethod>();
+  befores.addAll(getTestClass().getAnnotatedMethods(Before.class));
+  findMethod(getTestClass(),befores,"setUp");
+  return befores.isEmpty() ? statement : new RunBefores(statement,befores,target);
+}
