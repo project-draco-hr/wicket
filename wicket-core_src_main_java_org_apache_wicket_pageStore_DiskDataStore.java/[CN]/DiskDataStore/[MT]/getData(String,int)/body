@@ -1,7 +1,9 @@
 {
+  byte[] pageData=null;
   SessionEntry sessionEntry=getSessionEntry(sessionId,false);
-  if (sessionEntry == null) {
-    return null;
+  if (sessionEntry != null) {
+    pageData=sessionEntry.loadPage(id);
   }
-  return sessionEntry.loadPage(id);
+  log.debug("Returning data{} for page with id '{}' in session with id '{}'",new Object[]{pageData != null ? "" : "(null)",id,sessionId});
+  return pageData;
 }

@@ -1,6 +1,7 @@
 {
   SessionEntry sessionEntry=getSessionEntry(sessionId,false);
   if (sessionEntry != null) {
+    log.debug("Removing data for pages in session with id '{}'",sessionId);
 synchronized (sessionEntry) {
       sessionEntryMap.remove(sessionEntry.sessionId);
       sessionEntry.unbind();
