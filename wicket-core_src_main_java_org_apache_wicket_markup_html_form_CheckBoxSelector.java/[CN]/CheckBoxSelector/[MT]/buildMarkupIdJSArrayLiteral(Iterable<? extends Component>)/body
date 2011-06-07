@@ -1,0 +1,13 @@
+{
+  StringBuilder buf=new StringBuilder();
+  buf.append("[");
+  if (components.iterator().hasNext()) {
+    for (    Component component : components) {
+      component.setOutputMarkupId(true);
+      buf.append("'").append(component.getMarkupId()).append("', ");
+    }
+    buf.delete(buf.length() - 2,buf.length());
+  }
+  buf.append("]");
+  return buf.toString();
+}

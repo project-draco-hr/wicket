@@ -1,0 +1,10 @@
+{
+  response.renderJavaScriptReference(WicketEventReference.INSTANCE);
+  response.renderJavaScriptReference(WicketAjaxReference.INSTANCE);
+  response.renderJavaScriptReference(JS);
+  String findCheckboxes=getFindCheckboxesFunction().toString();
+  response.renderOnLoadJavaScript("Wicket.CheckboxSelector.initializeSelector('" + this.getMarkupId() + "', "+ findCheckboxes+ ");");
+  if (wantAutomaticUpdate()) {
+    response.renderOnLoadJavaScript("Wicket.CheckboxSelector.attachUpdateHandlers('" + this.getMarkupId() + "', "+ findCheckboxes+ ");");
+  }
+}
