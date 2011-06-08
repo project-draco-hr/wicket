@@ -1,6 +1,6 @@
 {
   Args.notNull(sessionId,"sessionId");
   Args.notNull(page,"page");
-  byte data[]=WicketObjects.objectToByteArray(page,applicationName);
+  byte[] data=pageSerializer.serialize(page);
   return new SerializedPage(sessionId,page.getPageId(),data);
 }

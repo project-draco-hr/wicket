@@ -11,7 +11,7 @@
     @Override protected IPageManagerProvider newTestPageManagerProvider(){
       return new IPageManagerProvider(){
         public IPageManager get(        IPageManagerContext pageManagerContext){
-          IPageStore pageStore=new DefaultPageStore(application.getName(),dataStore,4);
+          IPageStore pageStore=new DefaultPageStore(new JavaSerializer(application.getApplicationKey()),dataStore,4);
           return new PersistentPageManager(application.getName(),pageStore,pageManagerContext);
         }
       }
