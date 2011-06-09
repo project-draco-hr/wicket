@@ -1,0 +1,16 @@
+{
+  try {
+    super.writeObject(obj);
+  }
+ catch (  IOException e) {
+    if (SerializableChecker.isAvailable()) {
+      new SerializableChecker((NotSerializableException)e).writeObject(obj);
+      throw e;
+    }
+    throw e;
+  }
+catch (  RuntimeException e) {
+    log.error("error writing object " + obj + ": "+ e.getMessage(),e);
+    throw e;
+  }
+}

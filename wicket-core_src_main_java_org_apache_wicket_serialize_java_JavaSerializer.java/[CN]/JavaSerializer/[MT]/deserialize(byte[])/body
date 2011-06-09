@@ -1,3 +1,35 @@
 {
-  return WicketObjects.byteArrayToObject(data);
+  ThreadContext old=ThreadContext.get(false);
+  try {
+    final ByteArrayInputStream in=new ByteArrayInputStream(data);
+    ObjectInputStream ois=null;
+    try {
+      ois=new ClassResolverObjectInputStream(in);
+      String applicationName=(String)ois.readObject();
+      if (applicationName != null && !Application.exists()) {
+        Application app=Application.get(applicationName);
+        if (app != null) {
+          ThreadContext.setApplication(app);
+        }
+      }
+      return ois.readObject();
+    }
+  finally {
+      try {
+        IOUtils.close(ois);
+      }
+  finally {
+        in.close();
+      }
+    }
+  }
+ catch (  ClassNotFoundException e) {
+    throw new RuntimeException("Could not deserialize object using JavaSerializer",e);
+  }
+catch (  IOException e) {
+    throw new RuntimeException("Could not deserialize object using JavaSerializer",e);
+  }
+ finally {
+    ThreadContext.restore(old);
+  }
 }

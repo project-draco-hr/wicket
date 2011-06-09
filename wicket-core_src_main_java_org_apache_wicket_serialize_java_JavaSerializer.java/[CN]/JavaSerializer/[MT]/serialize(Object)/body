@@ -1,3 +1,24 @@
 {
-  return WicketObjects.objectToByteArray(page,applicationKey);
+  try {
+    final ByteArrayOutputStream out=new ByteArrayOutputStream();
+    ObjectOutputStream oos=null;
+    try {
+      oos=new CheckerObjectOutputStream(out);
+      oos.writeObject(applicationKey);
+      oos.writeObject(object);
+    }
+  finally {
+      try {
+        IOUtils.close(oos);
+      }
+  finally {
+        out.close();
+      }
+    }
+    return out.toByteArray();
+  }
+ catch (  Exception e) {
+    log.error("Error serializing object " + object.getClass() + " [object="+ object+ "]",e);
+  }
+  return null;
 }
