@@ -17,8 +17,12 @@
     writingStyles=getLocalizer().getString("noWritingStyles",this);
   }
   Label writingStylesLabel=new Label("writingStyles",writingStyles);
-  final AttributeModifier italic=new AttributeModifier("class",new Model<String>("italic"));
-  italic.setEnabled(!hasStyles);
+  final AttributeModifier italic=new AttributeModifier("class",new Model<String>("italic")){
+    @Override public boolean isEnabled(    Component component){
+      return !hasStyles;
+    }
+  }
+;
   add(writingStylesLabel.add(italic));
   add(EditBook.link("edit",book.getId()));
 }
