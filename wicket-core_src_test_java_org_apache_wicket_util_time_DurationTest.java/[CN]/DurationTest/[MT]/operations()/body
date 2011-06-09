@@ -1,0 +1,16 @@
+{
+  assertTrue(Duration.milliseconds(3001).greaterThan(Duration.seconds(3)));
+  assertTrue(Duration.milliseconds(3001).greaterThanOrEqual(Duration.seconds(3)));
+  assertTrue(Duration.milliseconds(3000).greaterThanOrEqual(Duration.seconds(3)));
+  assertTrue(Duration.milliseconds(2999).lessThan(Duration.seconds(3)));
+  assertTrue(Duration.milliseconds(2999).lessThanOrEqual(Duration.seconds(3)));
+  assertTrue(Duration.milliseconds(3000).lessThanOrEqual(Duration.seconds(3)));
+  assertEquals(-1,Duration.milliseconds(2999).compareTo(Duration.seconds(3)));
+  assertEquals(1,Duration.milliseconds(3001).compareTo(Duration.seconds(3)));
+  assertEquals(0,Duration.milliseconds(3000).compareTo(Duration.seconds(3)));
+  assertEquals(Duration.minutes(10),Duration.minutes(4).add(Duration.minutes(6)));
+  assertEquals(Duration.ONE_HOUR,Duration.minutes(90).subtract(Duration.minutes(30)));
+  String value=NumberFormat.getNumberInstance().format(1.5);
+  assertEquals(value + " minutes",Duration.seconds(90).toString());
+  assertEquals("12 hours",Duration.days(0.5).toString());
+}
