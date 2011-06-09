@@ -6,6 +6,7 @@
     contacts.add(dp.model(it.next()));
   }
   RefreshingView<Contact> view=new RefreshingView<Contact>("view"){
+    private static final long serialVersionUID=1L;
     /** 
  * Return an iterator over models for items in the view
  */
@@ -21,7 +22,8 @@
       item.add(new Label("lastname",contact.getLastName()));
       item.add(new Label("homephone",contact.getHomePhone()));
       item.add(new Label("cellphone",contact.getCellPhone()));
-      item.add(new AttributeModifier("class",true,new AbstractReadOnlyModel<String>(){
+      item.add(AttributeModifier.replace("class",new AbstractReadOnlyModel<String>(){
+        private static final long serialVersionUID=1L;
         @Override public String getObject(){
           return (item.getIndex() % 2 == 1) ? "even" : "odd";
         }
@@ -31,7 +33,8 @@
   }
 ;
   add(view);
-  add(new Link("refreshLink"){
+  add(new Link<Void>("refreshLink"){
+    private static final long serialVersionUID=1L;
     @Override public void onClick(){
     }
   }
