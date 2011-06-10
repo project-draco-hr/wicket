@@ -1,7 +1,5 @@
 {
-  if (!super.isVisible()) {
-    return false;
-  }
+  super.onConfigure();
   toolbars.configure();
   Boolean visible=toolbars.visitChildren(new IVisitor<Component,Boolean>(){
     public void component(    Component object,    IVisit<Boolean> visit){
@@ -15,5 +13,8 @@
     }
   }
 );
-  return visible == Boolean.TRUE;
+  if (visible == null) {
+    visible=false;
+  }
+  setVisible(visible);
 }
