@@ -1,14 +1,5 @@
 {
-  final MarkupFilterList filters=new MarkupFilterList(){
-    private static final long serialVersionUID=1L;
-    /** 
- * @see org.apache.wicket.markup.MarkupFactory.MarkupFilterList#onAdd(org.apache.wicket.markup.parser.IMarkupFilter)
- */
-    @Override protected IMarkupFilter onAdd(    final IMarkupFilter filter){
-      return MarkupParser.this.onAppendMarkupFilter(filter);
-    }
-  }
-;
+  final MarkupFilterList filters=new MarkupFilterList();
   MarkupResourceStream markupResourceStream=markup.getMarkupResourceStream();
   filters.add(new WicketTagIdentifier(markupResourceStream));
   filters.add(new HtmlHandler());

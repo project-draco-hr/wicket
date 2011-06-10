@@ -1,0 +1,21 @@
+{
+  if (insert || MarkupType.XML_MIME.equalsIgnoreCase(page.getMarkupType().getMimeType())) {
+    final RequestCycle cycle=RequestCycle.get();
+    if (insert == false) {
+      WebRequest request=(WebRequest)cycle.getRequest();
+      String accept=request.getHeader("HTTP_ACCEPT");
+      insert=((accept == null) || (accept.indexOf(MarkupType.XML_MIME) != -1));
+    }
+    if (insert) {
+      WebResponse response=(WebResponse)cycle.getResponse();
+      response.write("<?xml version='1.0'");
+      String encoding=getRequestCycleSettings().getResponseRequestEncoding();
+      if (Strings.isEmpty(encoding) == false) {
+        response.write(" encoding='");
+        response.write(encoding);
+        response.write("'");
+      }
+      response.write(" ?>");
+    }
+  }
+}

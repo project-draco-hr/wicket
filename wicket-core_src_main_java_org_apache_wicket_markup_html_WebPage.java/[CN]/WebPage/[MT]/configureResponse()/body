@@ -1,7 +1,16 @@
 {
-  if (getRequestCycle().getResponse() instanceof WebResponse) {
-    WebResponse response=(WebResponse)getRequestCycle().getResponse();
-    setHeaders(response);
+  final RequestCycle cycle=getRequestCycle();
+  final WebApplication application=WebApplication.get();
+  final WebResponse response=(WebResponse)cycle.getResponse();
+  setHeaders(response);
+  final String encoding=application.getRequestCycleSettings().getResponseRequestEncoding();
+  final boolean validEncoding=(Strings.isEmpty(encoding) == false);
+  final String contentType;
+  if (validEncoding) {
+    contentType=getMarkupType().getMimeType() + "; charset=" + encoding;
   }
-  super.configureResponse();
+ else {
+    contentType=getMarkupType().getMimeType();
+  }
+  response.setContentType(contentType);
 }

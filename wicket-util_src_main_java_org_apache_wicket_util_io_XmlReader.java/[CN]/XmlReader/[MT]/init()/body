@@ -1,8 +1,9 @@
 {
   final int readAheadSize=80;
   inputStream.mark(readAheadSize);
-  if (getXmlDeclaration(inputStream,readAheadSize)) {
-    encoding=determineEncoding(xmlDeclarationString);
+  String xmlDeclaration=getXmlDeclaration(inputStream,readAheadSize);
+  if (!Strings.isEmpty(xmlDeclaration)) {
+    encoding=determineEncoding(xmlDeclaration);
   }
  else {
     inputStream.reset();
