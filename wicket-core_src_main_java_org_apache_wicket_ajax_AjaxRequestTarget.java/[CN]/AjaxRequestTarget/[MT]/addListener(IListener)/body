@@ -1,10 +1,9 @@
 {
-  if (listener == null) {
-    throw new IllegalArgumentException("Argument `listener` cannot be null");
-  }
+  Args.notNull(listener,"listener");
   if (listeners == null) {
     listeners=new LinkedList<IListener>();
   }
+  assertListenersNotFrozen();
   if (!listeners.contains(listener)) {
     listeners.add(listener);
   }

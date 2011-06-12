@@ -3,12 +3,14 @@
   bodyResponse.write(encoding);
   bodyResponse.write("\"?>");
   bodyResponse.write("<ajax-response>");
+  respondersFrozen=true;
   fireOnBeforeRespondListeners();
   Iterator<CharSequence> it=prependJavaScripts.iterator();
   while (it.hasNext()) {
     CharSequence js=it.next();
     respondInvocation(bodyResponse,js);
   }
+  componentsFrozen=true;
   respondComponents(bodyResponse);
   fireOnAfterRespondListeners(bodyResponse);
   it=domReadyJavaScripts.iterator();
