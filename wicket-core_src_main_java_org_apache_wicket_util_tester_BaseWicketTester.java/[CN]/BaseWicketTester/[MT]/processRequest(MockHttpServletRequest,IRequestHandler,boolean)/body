@@ -6,6 +6,14 @@
   if (!redirect && getRequest().getHeader("Wicket-Ajax") == null) {
     lastRenderedPage=null;
   }
+  if ((request != null) && (preHeader != null)) {
+    for (    Map.Entry<String,String> entry : preHeader.entrySet()) {
+      if (Strings.isEmpty(entry.getKey()) == false) {
+        request.addHeader(entry.getKey(),entry.getValue());
+      }
+    }
+    preHeader=null;
+  }
   try {
     if (!redirect) {
       session.cleanupFeedbackMessages();
