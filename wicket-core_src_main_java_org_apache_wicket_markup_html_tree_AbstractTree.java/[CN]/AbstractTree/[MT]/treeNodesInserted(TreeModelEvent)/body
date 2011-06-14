@@ -11,10 +11,15 @@
     for (int i=0; wasLeaf && i < nodeChildCount; i++) {
       wasLeaf=eventChildren.contains(getChildAt(parentNode,i));
     }
-    if (wasLeaf && !(parentItem.getParentItem() == null && isRootLess())) {
+    boolean addingToHiddedRoot=parentItem.getParentItem() == null && isRootLess();
+    if (wasLeaf && !addingToHiddedRoot) {
       Object grandparentNode=getParentNode(parentNode);
-      if (!(getParentNode(grandparentNode) == null && isRootLess())) {
+      boolean addingToHiddedRootSon=grandparentNode != null && getParentNode(grandparentNode) == null && isRootLess();
+      if (grandparentNode != null && !addingToHiddedRootSon) {
         invalidateNodeWithChildren(grandparentNode);
+      }
+ else {
+        invalidateNode(parentNode,true);
       }
       getTreeState().expandNode(parentNode);
     }
