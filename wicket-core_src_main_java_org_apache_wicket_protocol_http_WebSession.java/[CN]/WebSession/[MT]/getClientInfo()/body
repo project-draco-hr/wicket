@@ -5,17 +5,9 @@
       if (getMetaData(BROWSER_WAS_POLLED_KEY) == null) {
         setMetaData(BROWSER_WAS_POLLED_KEY,Boolean.TRUE);
         Request request=requestCycle.getRequest();
-        IRequestHandler activeRequestHandler=requestCycle.getActiveRequestHandler();
-        final String url;
-        if (activeRequestHandler != null) {
-          url=requestCycle.urlFor(activeRequestHandler).toString();
-        }
- else {
-          url=requestCycle.urlFor(getApplication().getHomePage(),null).toString();
-        }
-        String relativeUrl=requestCycle.getUrlRenderer().renderContextPathRelativeUrl(url);
-        Page browserInfoPage=newBrowserInfoPage(relativeUrl);
-        throw new RestartResponseException(browserInfoPage);
+        WebPage browserInfoPage=newBrowserInfoPage();
+        getPageManager().touchPage(browserInfoPage);
+        throw new RestartResponseAtInterceptPageException(browserInfoPage);
       }
       setMetaData(BROWSER_WAS_POLLED_KEY,null);
     }
