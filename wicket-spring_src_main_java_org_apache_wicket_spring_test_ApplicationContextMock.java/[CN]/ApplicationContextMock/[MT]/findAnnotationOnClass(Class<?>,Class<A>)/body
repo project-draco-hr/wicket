@@ -1,0 +1,15 @@
+{
+  A annotation=cls.getAnnotation(annotationType);
+  if (annotation == null && cls.getSuperclass() != null) {
+    annotation=findAnnotationOnClass(cls.getSuperclass(),annotationType);
+  }
+  if (annotation == null) {
+    for (    Class<?> intfClass : cls.getInterfaces()) {
+      annotation=findAnnotationOnClass(intfClass,annotationType);
+      if (annotation != null) {
+        break;
+      }
+    }
+  }
+  return annotation;
+}

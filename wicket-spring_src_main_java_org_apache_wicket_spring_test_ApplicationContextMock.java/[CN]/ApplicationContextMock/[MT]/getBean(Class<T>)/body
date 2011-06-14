@@ -1,0 +1,11 @@
+{
+  Iterator<T> beans=getBeansOfType(requiredType).values().iterator();
+  if (beans.hasNext() == false) {
+    throw new NoSuchBeanDefinitionException("bean of required type " + requiredType + " not found");
+  }
+  final T bean=beans.next();
+  if (beans.hasNext() == false) {
+    throw new NoSuchBeanDefinitionException("more than one bean of required type " + requiredType + " found");
+  }
+  return bean;
+}
