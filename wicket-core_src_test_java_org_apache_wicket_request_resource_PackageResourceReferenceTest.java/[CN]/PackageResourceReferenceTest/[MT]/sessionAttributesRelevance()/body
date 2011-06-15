@@ -1,0 +1,15 @@
+{
+  for (  Locale locale : new Locale[]{new Locale("en"),new Locale("en","US")}) {
+    tester.getSession().setLocale(locale);
+    for (    String style : styles) {
+      tester.getSession().setStyle(style);
+      for (      String variation : variations) {
+        ResourceReference reference=new PackageResourceReference(scope,"resource.txt",null,null,variation);
+        UrlAttributes urlAttributes=reference.getUrlAttributes();
+        assertEquals(tester.getSession().getLocale(),urlAttributes.getLocale());
+        assertEquals(tester.getSession().getStyle(),urlAttributes.getStyle());
+        assertEquals(variation,urlAttributes.getVariation());
+      }
+    }
+  }
+}

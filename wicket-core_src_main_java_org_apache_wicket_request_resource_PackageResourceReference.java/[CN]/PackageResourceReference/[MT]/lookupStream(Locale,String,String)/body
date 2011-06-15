@@ -1,24 +1,7 @@
 {
   IResourceStreamLocator locator=Application.get().getResourceSettings().getResourceStreamLocator();
-  StreamInfo info;
-  info=lookupStream(locator,locale,style,variation);
-  if (info == null) {
-    info=lookupStream(locator,locale,style,null);
-  }
-  if (info == null) {
-    info=lookupStream(locator,locale,null,variation);
-  }
-  if (info == null) {
-    info=lookupStream(locator,null,style,variation);
-  }
-  if (info == null) {
-    info=lookupStream(locator,locale,null,null);
-  }
-  if (info == null) {
-    info=lookupStream(locator,null,style,null);
-  }
-  if (info == null) {
-    info=lookupStream(locator,null,null,variation);
-  }
-  return info;
+  String absolutePath=Packages.absolutePath(getScope(),getName());
+  IResourceStream stream=locator.locate(getScope(),absolutePath,style,variation,locale,null,false);
+  if (stream == null)   return null;
+  return new StreamInfo(stream);
 }

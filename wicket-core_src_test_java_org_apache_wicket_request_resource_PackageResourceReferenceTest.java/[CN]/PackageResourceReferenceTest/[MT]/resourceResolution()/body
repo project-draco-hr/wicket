@@ -1,0 +1,29 @@
+{
+  for (  Locale locale : locales) {
+    for (    String style : styles) {
+      for (      String variation : variations) {
+        ResourceReference reference=new PackageResourceReference(scope,"resource.txt",locale,style,variation);
+        UrlAttributes urlAttributes=reference.getUrlAttributes();
+        assertEquals(locale,urlAttributes.getLocale());
+        assertEquals(style,urlAttributes.getStyle());
+        assertEquals(variation,urlAttributes.getVariation());
+        ByteArrayResponse byteResponse=new ByteArrayResponse();
+        Attributes mockAttributes=new Attributes(tester.getRequestCycle().getRequest(),byteResponse);
+        reference.getResource().respond(mockAttributes);
+        String fileContent=new String(byteResponse.getBytes());
+        if (locale != null) {
+          assertTrue(fileContent.contains(locale.getLanguage()));
+          if (locale.getCountry() != null) {
+            assertTrue(fileContent.contains(locale.getCountry()));
+          }
+        }
+        if (style != null) {
+          assertTrue(fileContent.contains(style));
+        }
+        if (variation != null) {
+          assertTrue(fileContent.contains(variation));
+        }
+      }
+    }
+  }
+}

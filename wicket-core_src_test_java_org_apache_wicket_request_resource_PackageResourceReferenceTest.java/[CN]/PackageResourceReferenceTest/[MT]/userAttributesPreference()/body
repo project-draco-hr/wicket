@@ -1,0 +1,15 @@
+{
+  tester.getSession().setLocale(new Locale("en"));
+  tester.getSession().setStyle("style");
+  Locale[] userLocales={null,new Locale("pt"),new Locale("pt","BR")};
+  String userStyle="style2";
+  for (  Locale userLocale : userLocales) {
+    for (    String variation : variations) {
+      ResourceReference reference=new PackageResourceReference(scope,"resource.txt",userLocale,userStyle,variation);
+      UrlAttributes urlAttributes=reference.getUrlAttributes();
+      assertEquals(userLocale,urlAttributes.getLocale());
+      assertEquals(userStyle,urlAttributes.getStyle());
+      assertEquals(variation,urlAttributes.getVariation());
+    }
+  }
+}
