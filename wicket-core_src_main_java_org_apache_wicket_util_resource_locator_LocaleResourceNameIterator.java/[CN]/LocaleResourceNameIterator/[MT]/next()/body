@@ -3,19 +3,19 @@
     state=999;
     return "";
   }
-  if (state == 0) {
-    state++;
-    return '_' + locale.toString();
-  }
   final String language=locale.getLanguage();
   final String country=locale.getCountry();
+  final String variant=locale.getVariant();
+  if (state == 0) {
+    state++;
+    if (!Strings.isEmpty(variant)) {
+      return '_' + language + '_'+ country+ '_'+ variant;
+    }
+  }
   if (state == 1) {
     state++;
-    if (!Strings.isEmpty(language) && !Strings.isEmpty(country)) {
-      String newPath='_' + language + '_'+ country;
-      if (locale.toString().equals(newPath) == false) {
-        return newPath;
-      }
+    if (!Strings.isEmpty(country)) {
+      return '_' + language + '_'+ country;
     }
   }
   if (state == 2) {

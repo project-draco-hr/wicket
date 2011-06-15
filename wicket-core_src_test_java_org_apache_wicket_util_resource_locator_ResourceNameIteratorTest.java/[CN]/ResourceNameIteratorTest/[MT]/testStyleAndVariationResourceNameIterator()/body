@@ -1,0 +1,21 @@
+{
+  StyleAndVariationResourceNameIterator iterator=new StyleAndVariationResourceNameIterator(null,null);
+  assertTrue(iterator.hasNext());
+  iterator.next();
+  assertFalse(iterator.hasNext());
+  iterator=new StyleAndVariationResourceNameIterator("style","variation");
+  assertTrue(iterator.hasNext());
+  iterator.next();
+  assertEquals("style",iterator.getStyle());
+  assertEquals("variation",iterator.getVariation());
+  iterator.next();
+  assertEquals("style",iterator.getStyle());
+  assertNull(iterator.getVariation());
+  iterator.next();
+  assertNull(iterator.getStyle());
+  assertEquals("variation",iterator.getVariation());
+  iterator.next();
+  assertNull(iterator.getStyle());
+  assertNull(iterator.getVariation());
+  assertFalse(iterator.hasNext());
+}

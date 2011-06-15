@@ -1,0 +1,32 @@
+{
+  Locale locale=new Locale("a","b","c");
+  LocaleResourceNameIterator iterator=new LocaleResourceNameIterator(locale,false);
+  HashSet<String> variations=new HashSet<String>();
+  while (iterator.hasNext()) {
+    assertTrue(variations.add(iterator.next()));
+  }
+  assertEquals(4,variations.size());
+  assertTrue(variations.contains("_a_B_c"));
+  assertTrue(variations.contains("_a_B"));
+  assertTrue(variations.contains("_a"));
+  assertTrue(variations.contains(""));
+  locale=new Locale("a","b");
+  iterator=new LocaleResourceNameIterator(locale,false);
+  variations=new HashSet<String>();
+  while (iterator.hasNext()) {
+    assertTrue(variations.add(iterator.next()));
+  }
+  assertEquals(3,variations.size());
+  assertTrue(variations.contains("_a_B"));
+  assertTrue(variations.contains("_a"));
+  assertTrue(variations.contains(""));
+  locale=new Locale("a");
+  iterator=new LocaleResourceNameIterator(locale,false);
+  variations=new HashSet<String>();
+  while (iterator.hasNext()) {
+    assertTrue(variations.add(iterator.next()));
+  }
+  assertEquals(2,variations.size());
+  assertTrue(variations.contains("_a"));
+  assertTrue(variations.contains(""));
+}
