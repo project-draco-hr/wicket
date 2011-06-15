@@ -1,28 +1,17 @@
 {
-  while (destroy.get() == false || !entries.isEmpty()) {
-    if (entries.isEmpty()) {
-      try {
-synchronized (entries) {
-          entries.wait();
-        }
-      }
- catch (      InterruptedException e) {
-        log.error(e.getMessage(),e);
-      }
+  while (destroy.get() == false) {
+    Entry entry=null;
+    try {
+      entry=entries.poll(POLL_WAIT.getMilliseconds(),TimeUnit.MILLISECONDS);
     }
-synchronized (WRITE_LOCK) {
-      Entry entry=entries.poll();
-      if (entry != null) {
-        dataStore.storeData(entry.getSessionId(),entry.getPageId(),entry.getData());
-        entryMap.remove(getKey(entry));
-      }
+ catch (    InterruptedException e) {
+      log.error(e.getMessage(),e);
     }
-  }
-  try {
-    Thread.sleep(10);
-  }
- catch (  InterruptedException e) {
-    log.error(e.getMessage(),e);
+    if (entry != null) {
+      log.debug("Saving asynchronously: {}...",entry);
+      dataStore.storeData(entry.getSessionId(),entry.getPageId(),entry.getData());
+      entryMap.remove(getKey(entry));
+    }
   }
 synchronized (destroy) {
     destroy.notify();

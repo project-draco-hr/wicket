@@ -1,13 +1,16 @@
 {
-  if (entryMap.size() > getMaxQueuedEntries()) {
-    dataStore.storeData(sessionId,id,data);
-  }
- else {
-    Entry entry=new Entry(sessionId,id,data);
-    entryMap.put(getKey(sessionId,id),entry);
-    entries.add(entry);
-synchronized (entries) {
-      entries.notify();
+  Entry entry=new Entry(sessionId,id,data);
+  try {
+    boolean added=entries.offer(entry,OFFER_WAIT.getMilliseconds(),TimeUnit.MILLISECONDS);
+    if (added == false) {
+      dataStore.storeData(sessionId,id,data);
     }
+ else {
+      entryMap.put(getKey(entry),entry);
+    }
+  }
+ catch (  InterruptedException e) {
+    log.error(e.getMessage(),e);
+    dataStore.storeData(sessionId,id,data);
   }
 }

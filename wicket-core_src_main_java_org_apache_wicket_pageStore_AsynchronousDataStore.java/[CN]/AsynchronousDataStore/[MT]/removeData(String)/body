@@ -1,11 +1,9 @@
 {
-synchronized (WRITE_LOCK) {
-    for (Iterator<Entry> iter=entries.iterator(); iter.hasNext(); ) {
-      Entry e=iter.next();
-      if (e.getSessionId().equals(sessionId)) {
-        iter.remove();
-        entryMap.remove(getKey(e));
-      }
+  Entry[] entriesCopy=entries.toArray(new Entry[entries.size()]);
+  for (  Entry entry : entriesCopy) {
+    if (entry.getSessionId().equals(sessionId)) {
+      entryMap.remove(getKey(entry));
+      entries.remove(entry);
     }
   }
   dataStore.removeData(sessionId);
