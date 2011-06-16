@@ -1,8 +1,9 @@
 {
   Entry entry=new Entry(sessionId,id,data);
   try {
-    boolean added=entries.offer(entry,OFFER_WAIT.getMilliseconds(),TimeUnit.MILLISECONDS);
+    boolean added=entries.offer(entry,OFFER_WAIT,TimeUnit.MILLISECONDS);
     if (added == false) {
+      log.debug("Storing synchronously page with id '{}' in session '{}'",id,sessionId);
       dataStore.storeData(sessionId,id,data);
     }
  else {
