@@ -1,9 +1,8 @@
 {
   int channelsToReduce=nameToChannel.size() - capacity + 1;
   while (channelsToReduce > 0 && idleChannels.isEmpty() == false) {
-    FileChannel channel=idleChannels.getFirst();
+    FileChannel channel=idleChannels.removeFirst();
     String channelName=channelToName.get(channel);
-    idleChannels.removeFirst();
     nameToChannel.remove(channelName);
     channelToName.remove(channel);
     if (channelToUseCount.get(channel) != null) {
