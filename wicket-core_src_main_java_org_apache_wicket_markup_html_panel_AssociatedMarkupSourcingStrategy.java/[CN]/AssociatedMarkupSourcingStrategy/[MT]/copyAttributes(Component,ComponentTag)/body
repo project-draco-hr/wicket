@@ -1,0 +1,16 @@
+{
+  IMarkupFragment markup=((MarkupContainer)component).getMarkup(null);
+  String namespace=markup.getMarkupResourceStream().getWicketNamespace() + ":";
+  MarkupElement elem=markup.get(0);
+  if (elem instanceof ComponentTag) {
+    ComponentTag panelTag=(ComponentTag)elem;
+    for (    String key : panelTag.getAttributes().keySet()) {
+      if (key.startsWith(namespace) == false) {
+        tag.append(key,panelTag.getAttribute(key),", ");
+      }
+    }
+  }
+ else {
+    throw new MarkupException(markup.getMarkupResourceStream(),"Expected a Tag but found raw markup: " + elem.toString());
+  }
+}
