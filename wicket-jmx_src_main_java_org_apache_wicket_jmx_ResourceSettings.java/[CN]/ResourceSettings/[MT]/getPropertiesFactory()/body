@@ -1,3 +1,9 @@
 {
-  return Stringz.className(application.getResourceSettings().getPropertiesFactory());
+  ThreadContext.setApplication(application);
+  try {
+    return Stringz.className(application.getResourceSettings().getPropertiesFactory());
+  }
+  finally {
+    ThreadContext.detach();
+  }
 }
