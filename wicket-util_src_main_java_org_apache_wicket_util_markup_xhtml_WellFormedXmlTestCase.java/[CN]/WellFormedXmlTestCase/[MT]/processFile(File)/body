@@ -1,0 +1,20 @@
+{
+  DocumentBuilder builder;
+  try {
+    builder=factory.newDocumentBuilder();
+  }
+ catch (  ParserConfigurationException e) {
+    throw new RuntimeException("Configuration exception while parsing xml markup.",e);
+  }
+  builder.setEntityResolver(entityResolver);
+  builder.setErrorHandler(errorHandler);
+  try {
+    builder.parse(file);
+  }
+ catch (  SAXException e) {
+    throw new RuntimeException("Parsing xml sax failed, file: " + file,e);
+  }
+catch (  IOException e) {
+    throw new RuntimeException("Parsing xml io failed, file: " + file,e);
+  }
+}
