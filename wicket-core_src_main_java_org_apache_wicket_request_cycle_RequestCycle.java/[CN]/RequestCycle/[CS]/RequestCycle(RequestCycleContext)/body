@@ -4,6 +4,9 @@
   Args.notNull(context.getResponse(),"context.response");
   Args.notNull(context.getRequestMapper(),"context.requestMapper");
   Args.notNull(context.getExceptionMapper(),"context.exceptionMapper");
+  cleanupFeedbackMessagesOnDetach=true;
+  listeners=new RequestCycleListenerCollection();
+  startTime=System.currentTimeMillis();
   requestHandlerExecutor=new HandlerExecutor();
   activeResponse=context.getResponse();
   request=context.getRequest();
