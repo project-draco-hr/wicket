@@ -4,8 +4,14 @@
     try {
       constructor=pageClass.getConstructor(new Class[]{argumentType});
       constructorForClass.put(pageClass,constructor);
+      if (log.isDebugEnabled()) {
+        log.debug("Found constructor for Page of type '{}' and argument of type '{}'.",pageClass,argumentType);
+      }
     }
  catch (    NoSuchMethodException e) {
+      if (log.isDebugEnabled()) {
+        log.debug("Page of type '{}' has not visible constructor with an argument of type '{}'.",pageClass,argumentType);
+      }
       return null;
     }
   }
