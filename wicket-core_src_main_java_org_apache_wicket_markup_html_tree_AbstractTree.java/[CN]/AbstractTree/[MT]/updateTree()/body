@@ -1,6 +1,7 @@
 {
-  IRequestHandler handler=getRequestCycle().getActiveRequestHandler();
-  if (handler instanceof AjaxRequestTarget) {
-    updateTree((AjaxRequestTarget)handler);
+  AjaxRequestTarget handler=AjaxRequestTarget.get();
+  if (handler == null) {
+    throw new WicketRuntimeException("No AjaxRequestTarget available to execute updateTree(ART target)");
   }
+  updateTree(handler);
 }
