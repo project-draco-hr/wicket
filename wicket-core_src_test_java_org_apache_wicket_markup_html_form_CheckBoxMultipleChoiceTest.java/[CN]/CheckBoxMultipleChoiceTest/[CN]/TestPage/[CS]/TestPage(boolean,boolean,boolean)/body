@@ -1,0 +1,30 @@
+{
+  List<? extends String> choices=Arrays.asList("a","b","c");
+  add(new CheckBoxMultipleChoice<String>("checkWithoutPrefix",choices){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isVisible(){
+      return show1;
+    }
+  }
+);
+  add(new CheckBoxMultipleChoice<String>("checkWithFixedPrefix",choices){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isVisible(){
+      return show2;
+    }
+  }
+.setPrefix("pre").setSuffix("suf"));
+  add(new CheckBoxMultipleChoice<String>("checkWithDynamicPrefix",choices){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isVisible(){
+      return show3;
+    }
+    @Override protected String getPrefix(    int index,    String choice){
+      return "pre" + index + choice;
+    }
+    @Override protected String getSuffix(    int index,    String choice){
+      return "suf" + index + choice;
+    }
+  }
+);
+}
