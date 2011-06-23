@@ -6,12 +6,14 @@
       r.setContentType("text/xml; charset=" + encoding);
       r.disableCaching();
       Iterator<T> comps=getChoices(val);
+      int count=0;
       renderer.renderHeader(r);
       while (comps.hasNext()) {
         final T comp=comps.next();
         renderer.render(comp,r,val);
+        count+=1;
       }
-      renderer.renderFooter(r);
+      renderer.renderFooter(r,count);
     }
     public void detach(    final IRequestCycle requestCycle){
     }
