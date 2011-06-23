@@ -1,6 +1,6 @@
 {
   Object result=PropertyResolver.getValue(propertyExpression,node);
-  IConverter converter=getConverter();
+  @SuppressWarnings("rawtypes") IConverter converter=getConverter();
   if (converter == null && result != null) {
     converter=Application.get().getConverterLocator().getConverter(result.getClass());
   }
@@ -9,7 +9,7 @@
     if (locale == null) {
       locale=Session.get().getLocale();
     }
-    String string=converter.convertToString(result,locale);
+    @SuppressWarnings("unchecked") String string=converter.convertToString(result,locale);
     return string;
   }
  else {

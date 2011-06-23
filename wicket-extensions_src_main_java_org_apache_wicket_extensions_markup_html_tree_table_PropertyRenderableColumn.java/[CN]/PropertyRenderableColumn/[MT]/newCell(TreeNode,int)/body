@@ -3,6 +3,9 @@
     private static final long serialVersionUID=1L;
     public void render(    final TreeNode node,    final Response response){
       String content=getNodeValue(node);
+      if (content == null) {
+        content="";
+      }
       if (isEscapeContent()) {
         content=Strings.escapeMarkup(content).toString();
       }
