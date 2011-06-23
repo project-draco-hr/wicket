@@ -1,6 +1,6 @@
 {
   byte[] result=null;
-  FileChannel channel=diskDataStore.fileChannelPool.getFileChannel(getFileName(),false);
+  FileChannel channel=getFileChannel(false);
   if (channel != null) {
     ByteBuffer buffer=ByteBuffer.allocate(window.getFilePartSize());
     try {
@@ -13,7 +13,7 @@
       log.error("Error reading from file channel " + channel,e);
     }
  finally {
-      diskDataStore.fileChannelPool.returnFileChannel(channel);
+      IOUtils.closeQuietly(channel);
     }
   }
   return result;

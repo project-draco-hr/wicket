@@ -1,0 +1,15 @@
+{
+  FileChannel channel=null;
+  File file=new File(getFileName());
+  if (create || file.exists()) {
+    String mode=create ? "rw" : "r";
+    try {
+      RandomAccessFile randomAccessFile=new RandomAccessFile(file,mode);
+      channel=randomAccessFile.getChannel();
+    }
+ catch (    FileNotFoundException fnfx) {
+      log.error(fnfx.getMessage(),fnfx);
+    }
+  }
+  return channel;
+}
