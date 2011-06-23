@@ -9,5 +9,11 @@
     collection.clear();
     collection.addAll(getConvertedInput());
     modelChanged();
+    try {
+      getModel().setObject(collection);
+    }
+ catch (    Exception e) {
+      log.info("no setter for the property attached to " + this);
+    }
   }
 }
