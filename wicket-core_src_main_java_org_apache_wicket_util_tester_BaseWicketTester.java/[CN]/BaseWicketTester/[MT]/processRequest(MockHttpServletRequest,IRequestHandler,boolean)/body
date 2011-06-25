@@ -37,9 +37,11 @@
       Url newUrl=Url.parse(lastResponse.getRedirectLocation(),Charset.forName(request.getCharacterEncoding()));
       if (newUrl.isAbsolute()) {
         request.setUrl(newUrl);
-        if (newUrl.getProtocol() != null) {
-          request.setScheme(newUrl.getProtocol());
+        final String protocol=newUrl.getProtocol();
+        if (protocol != null) {
+          request.setScheme(protocol);
         }
+        request.setSecure("https".equals(protocol));
         if (newUrl.getHost() != null) {
           request.setServerName(newUrl.getHost());
         }
