@@ -1,6 +1,13 @@
 {
   request=new MockHttpServletRequest(application,httpSession,servletContext);
   request.setURL(request.getContextPath() + request.getServletPath() + "/");
+  final boolean assignBaseLocation=lastRequest != null && lastRequest.getHeader("Wicket-Ajax") == null;
+  if (assignBaseLocation) {
+    request.setScheme(lastRequest.getScheme());
+    request.setSecure(lastRequest.isSecure());
+    request.setServerName(lastRequest.getServerName());
+    request.setServerPort(lastRequest.getServerPort());
+  }
   response=new MockHttpServletResponse(request);
   ServletWebRequest servletWebRequest=newServletWebRequest();
   requestCycle=application.createRequestCycle(servletWebRequest,newServletWebResponse(servletWebRequest));
