@@ -1,0 +1,14 @@
+{
+  Url url=Url.parse("ftp://myhost:8081");
+  checkUrl(url,"ftp","myhost",8081);
+  assertFalse(url.isAbsolute());
+  url=Url.parse("gopher://myhost:8081/foo");
+  checkUrl(url,"gopher","myhost",8081,"","foo");
+  assertTrue(url.isAbsolute());
+  url=Url.parse("https://myhost/foo");
+  checkUrl(url,"https","myhost",null,"","foo");
+  assertTrue(url.isAbsolute());
+  url=Url.parse("https://myhost/foo:123");
+  checkUrl(url,"https","myhost",null,"","foo:123");
+  assertTrue(url.isAbsolute());
+}

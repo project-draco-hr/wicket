@@ -2,24 +2,52 @@
   Args.notNull(url,"url");
   Url result=new Url(charset);
   charset=result.getCharset();
-  String segments;
-  String query;
-  int qIndex=url.indexOf('?');
-  if (qIndex == -1) {
-    segments=url;
-    query="";
+  final String queryString;
+  final String absoluteUrl;
+  int queryAt=url.indexOf('?');
+  if (queryAt == -1) {
+    queryString="";
+    absoluteUrl=url;
   }
  else {
-    segments=url.substring(0,qIndex);
-    query=url.substring(qIndex + 1);
+    absoluteUrl=url.substring(0,queryAt);
+    queryString=url.substring(queryAt + 1);
   }
-  if (segments.length() > 0) {
+  String relativeUrl;
+  final int protocolAt=absoluteUrl.indexOf("://");
+  if (protocolAt != -1) {
+    result.protocol=absoluteUrl.substring(0,protocolAt);
+    final String afterProto=absoluteUrl.substring(protocolAt + 3);
+    final String hostAndPort;
+    int relativeAt=afterProto.indexOf('/');
+    if (relativeAt == -1) {
+      relativeUrl="";
+      hostAndPort=afterProto;
+    }
+ else {
+      relativeUrl=afterProto.substring(relativeAt);
+      hostAndPort=afterProto.substring(0,relativeAt);
+    }
+    int portAt=hostAndPort.indexOf(':');
+    if (portAt == -1) {
+      result.host=hostAndPort;
+      result.port=null;
+    }
+ else {
+      result.host=hostAndPort.substring(0,portAt);
+      result.port=Integer.parseInt(hostAndPort.substring(portAt + 1));
+    }
+  }
+ else {
+    relativeUrl=absoluteUrl;
+  }
+  if (relativeUrl.length() > 0) {
     boolean removeLast=false;
-    if (segments.endsWith("/")) {
-      segments+="/x";
+    if (relativeUrl.endsWith("/")) {
+      relativeUrl+="/x";
       removeLast=true;
     }
-    String segmentArray[]=Strings.split(segments,'/');
+    String segmentArray[]=Strings.split(relativeUrl,'/');
     if (removeLast) {
       segmentArray[segmentArray.length - 1]=null;
     }
@@ -29,8 +57,8 @@
       }
     }
   }
-  if (query.length() > 0) {
-    String queryArray[]=Strings.split(query,'&');
+  if (queryString.length() > 0) {
+    String queryArray[]=Strings.split(queryString,'&');
     for (    String s : queryArray) {
       result.parameters.add(parseQueryParameter(s,charset));
     }

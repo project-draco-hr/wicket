@@ -1,0 +1,19 @@
+{
+  Url url=Url.parse("foo");
+  checkUrl(url,null,null,null,"foo");
+  assertFalse(url.isAbsolute());
+  url=Url.parse("foo/bar/baz");
+  checkUrl(url,null,null,null,"foo","bar","baz");
+  assertFalse(url.isAbsolute());
+  url=Url.parse("?foobar");
+  checkUrl(url,null,null,null);
+  assertEquals("",url.getQueryParameter("foobar").getValue());
+  assertFalse(url.isAbsolute());
+  url=Url.parse("foo?a=123");
+  checkUrl(url,null,null,null,"foo");
+  assertEquals("123",url.getQueryParameter("a").getValue());
+  assertFalse(url.isAbsolute());
+  url=Url.parse("/foo");
+  checkUrl(url,null,null,null,"","foo");
+  assertTrue(url.isAbsolute());
+}
