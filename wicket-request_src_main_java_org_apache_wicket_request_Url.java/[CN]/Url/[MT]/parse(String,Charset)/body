@@ -1,10 +1,10 @@
 {
   Args.notNull(url,"url");
-  Url result=new Url(charset);
+  final Url result=new Url(charset);
   charset=result.getCharset();
   final String queryString;
   final String absoluteUrl;
-  int queryAt=url.indexOf('?');
+  final int queryAt=url.indexOf('?');
   if (queryAt == -1) {
     queryString="";
     absoluteUrl=url;
@@ -19,7 +19,7 @@
     result.protocol=absoluteUrl.substring(0,protocolAt).toLowerCase(Locale.US);
     final String afterProto=absoluteUrl.substring(protocolAt + 3);
     final String hostAndPort;
-    int relativeAt=afterProto.indexOf('/');
+    final int relativeAt=afterProto.indexOf('/');
     if (relativeAt == -1) {
       relativeUrl="";
       hostAndPort=afterProto;
@@ -28,7 +28,7 @@
       relativeUrl=afterProto.substring(relativeAt);
       hostAndPort=afterProto.substring(0,relativeAt);
     }
-    int portAt=hostAndPort.indexOf(':');
+    final int portAt=hostAndPort.lastIndexOf(':');
     if (portAt == -1) {
       result.host=hostAndPort;
       result.port=getDefaultPortForProtocol(result.protocol);
