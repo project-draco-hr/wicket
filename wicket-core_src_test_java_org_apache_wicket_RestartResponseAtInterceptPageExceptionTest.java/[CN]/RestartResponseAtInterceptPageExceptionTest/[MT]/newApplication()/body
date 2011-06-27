@@ -1,0 +1,18 @@
+{
+  return new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      getSecuritySettings().setAuthorizationStrategy(new AbstractPageAuthorizationStrategy(){
+        @Override protected <T extends Page>boolean isPageAuthorized(        Class<T> pageClass){
+          if (pageClass != RedirectPage.class) {
+            RedirectPage intercept=new RedirectPage("http://example.com/path");
+            throw new RestartResponseAtInterceptPageException(intercept);
+          }
+          return true;
+        }
+      }
+);
+    }
+  }
+;
+}
