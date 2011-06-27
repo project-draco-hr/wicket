@@ -1,0 +1,7 @@
+{
+  final ByteArrayOutputStream out=new ByteArrayOutputStream(256);
+  ObjectOutputStream oos=new ObjectOutputStream(out);
+  oos.writeObject(url);
+  ObjectInputStream ois=new ObjectInputStream(new ByteArrayInputStream(out.toByteArray()));
+  return (Url)ois.readObject();
+}
