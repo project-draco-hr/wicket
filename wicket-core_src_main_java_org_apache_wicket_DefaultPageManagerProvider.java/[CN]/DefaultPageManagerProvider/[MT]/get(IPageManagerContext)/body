@@ -1,5 +1,10 @@
 {
   IDataStore dataStore=newDataStore();
+  IStoreSettings storeSettings=getStoreSettings();
+  if (storeSettings.isAsynchronous()) {
+    int capacity=storeSettings.getAsynchronousQueueCapacity();
+    dataStore=new AsynchronousDataStore(dataStore,capacity);
+  }
   IPageStore pageStore=newPageStore(dataStore);
   return new PageStoreManager(application.getName(),pageStore,pageManagerContext);
 }
