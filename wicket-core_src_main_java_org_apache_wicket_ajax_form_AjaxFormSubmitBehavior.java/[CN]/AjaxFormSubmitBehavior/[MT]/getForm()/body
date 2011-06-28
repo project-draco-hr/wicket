@@ -1,14 +1,8 @@
 {
   if (__form == null) {
-    Component component=getComponent();
-    if (component instanceof Form<?>) {
-      __form=(Form<?>)component;
-    }
- else {
-      __form=component.findParent(Form.class);
-    }
+    __form=findForm();
     if (__form == null) {
-      throw new IllegalStateException("form was not specified in the constructor and cannot " + "be found in the hierarchy of the component this behavior " + "is attached to: Component="+ component.toString(false));
+      throw new IllegalStateException("form was not specified in the constructor and cannot " + "be found in the hierarchy of the component this behavior " + "is attached to: Component="+ getComponent().toString(false));
     }
   }
   return __form;
