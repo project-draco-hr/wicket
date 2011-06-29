@@ -1,0 +1,11 @@
+{
+  final String filename=url.getFileName();
+  int pos=filename.lastIndexOf('.');
+  final String fullname=pos == -1 ? filename : filename.substring(0,pos);
+  final String extension=pos == -1 ? null : filename.substring(pos);
+  pos=fullname.lastIndexOf(versionSuffix);
+  if (pos != -1) {
+    final String basename=fullname.substring(0,pos);
+    url.setFileName(extension == null ? basename : basename + extension);
+  }
+}
