@@ -10,7 +10,7 @@
     }
   }
 ;
-  FilenameWithStaticVersionResourceCachingStrategy strategy=new FilenameWithStaticVersionResourceCachingStrategy("-version-","foobar");
+  IResourceCachingStrategy strategy=new FilenameWithVersionResourceCachingStrategy("-version-",new StaticResourceVersion("foobar"));
   INamedParameters params=new PageParameters();
   ResourceUrl url=new ResourceUrl("test.js",params);
   strategy.decorateUrl(url,reference);
@@ -34,7 +34,7 @@
   url=new ResourceUrl("test-version-1.0.3-alpha.txt",params);
   strategy.undecorateUrl(url);
   assertEquals("test.txt",url.getFileName());
-  strategy=new FilenameWithStaticVersionResourceCachingStrategy("-version-","1.0.4-beta");
+  strategy=new FilenameWithVersionResourceCachingStrategy("-version-",new StaticResourceVersion("1.0.4-beta"));
   url=new ResourceUrl("test.txt",params);
   strategy.decorateUrl(url,reference);
   assertEquals("test-version-1.0.4-beta.txt",url.getFileName());

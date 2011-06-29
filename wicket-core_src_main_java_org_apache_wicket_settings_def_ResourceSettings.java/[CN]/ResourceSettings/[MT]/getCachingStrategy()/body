@@ -1,3 +1,13 @@
 {
+  if (resourceCachingStrategy == null) {
+    final IResourceVersion resourceVersion;
+    if (application.usesDevelopmentConfig()) {
+      resourceVersion=new RequestCycleCachedResourceVersion(new LastModifiedResourceVersion());
+    }
+ else {
+      resourceVersion=new CachingResourceVersion(new MessageDigestResourceVersion());
+    }
+    resourceCachingStrategy=new FilenameWithVersionResourceCachingStrategy(resourceVersion);
+  }
   return resourceCachingStrategy;
 }

@@ -1,0 +1,25 @@
+{
+  final IResource resource=resourceReference.getResource();
+  if (PackageResource.class.isInstance(resource) == false) {
+    log.warn("message digests are only available with package " + "resource, not with " + resourceReference);
+    return null;
+  }
+  final PackageResource packageResource=(PackageResource)resource;
+  final IResourceStream resourceStream=packageResource.getResourceStream();
+  if (resourceStream == null) {
+    log.debug("could not get resource stream for " + resource);
+    return null;
+  }
+  try {
+    final byte[] hash=computeDigest(resourceStream);
+    return new BigInteger(hash).toString(16);
+  }
+ catch (  ResourceStreamNotFoundException e) {
+    log.warn("resource stream not found for " + resource);
+    return null;
+  }
+catch (  IOException e) {
+    log.warn("resource stream not be read for " + resource,e);
+    return null;
+  }
+}

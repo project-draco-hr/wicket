@@ -1,0 +1,21 @@
+{
+  final String version=this.resourceVersion.getVersion(reference);
+  if (version == null) {
+    return;
+  }
+  final String filename=url.getFileName();
+  final int extensionAt=filename.lastIndexOf('.');
+  final StringBuilder versionedFilename=new StringBuilder();
+  if (extensionAt == -1) {
+    versionedFilename.append(filename);
+  }
+ else {
+    versionedFilename.append(filename.substring(0,extensionAt));
+  }
+  versionedFilename.append(versionPrefix);
+  versionedFilename.append(version);
+  if (extensionAt != -1) {
+    versionedFilename.append(filename.substring(extensionAt));
+  }
+  url.setFileName(versionedFilename.toString());
+}
