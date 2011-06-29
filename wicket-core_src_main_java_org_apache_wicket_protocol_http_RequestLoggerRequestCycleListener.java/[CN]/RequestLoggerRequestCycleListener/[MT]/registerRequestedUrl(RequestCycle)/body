@@ -1,0 +1,9 @@
+{
+  IRequestLogger requestLogger=Application.get().getRequestLogger();
+  if (cycle.getRequest().getContainerRequest() instanceof HttpServletRequest) {
+    HttpServletRequest containerRequest=(HttpServletRequest)cycle.getRequest().getContainerRequest();
+    AppendingStringBuffer url=new AppendingStringBuffer(containerRequest.getRequestURL());
+    if (containerRequest.getQueryString() != null)     url.append("?").append(containerRequest.getQueryString());
+    requestLogger.logRequestedUrl(url.toString());
+  }
+}

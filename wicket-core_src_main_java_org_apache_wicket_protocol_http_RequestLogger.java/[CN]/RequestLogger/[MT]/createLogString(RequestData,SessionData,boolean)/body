@@ -1,43 +1,47 @@
 {
-  AppendingStringBuffer asb=new AppendingStringBuffer(150);
-  asb.append("time=");
-  asb.append(rd.getTimeTaken());
-  asb.append(",event=");
-  asb.append(rd.getEventTarget());
-  asb.append(",response=");
-  asb.append(rd.getResponseTarget());
-  if (rd.getSessionInfo() != null && !rd.getSessionInfo().equals("")) {
-    asb.append(",sessioninfo=");
-    asb.append(rd.getSessionInfo());
+  AppendingStringBuffer sb=new AppendingStringBuffer(150);
+  sb.append("time=");
+  sb.append(rd.getTimeTaken());
+  if (!Strings.isEmpty(rd.getRequestedUrl())) {
+    sb.append(",url=");
+    sb.append(rd.getRequestedUrl());
+  }
+  sb.append(",event=");
+  sb.append(rd.getEventTarget());
+  sb.append(",response=");
+  sb.append(rd.getResponseTarget());
+  if (rd.getSessionInfo() != null && !Strings.isEmpty(rd.getSessionInfo().toString())) {
+    sb.append(",sessioninfo=");
+    sb.append(rd.getSessionInfo());
   }
  else {
-    asb.append(",sessionid=");
-    asb.append(rd.getSessionId());
+    sb.append(",sessionid=");
+    sb.append(rd.getSessionId());
   }
-  asb.append(",sessionsize=");
-  asb.append(rd.getSessionSize());
+  sb.append(",sessionsize=");
+  sb.append(rd.getSessionSize());
   if (sd != null) {
-    asb.append(",sessionstart=");
-    asb.append(sd.getStartDate());
-    asb.append(",requests=");
-    asb.append(sd.getNumberOfRequests());
-    asb.append(",totaltime=");
-    asb.append(sd.getTotalTimeTaken());
+    sb.append(",sessionstart=");
+    sb.append(sd.getStartDate());
+    sb.append(",requests=");
+    sb.append(sd.getNumberOfRequests());
+    sb.append(",totaltime=");
+    sb.append(sd.getTotalTimeTaken());
   }
-  asb.append(",activerequests=");
-  asb.append(rd.getActiveRequest());
+  sb.append(",activerequests=");
+  sb.append(rd.getActiveRequest());
   if (includeRuntimeInfo) {
     Runtime runtime=Runtime.getRuntime();
     long max=runtime.maxMemory() / 1000000;
     long total=runtime.totalMemory() / 1000000;
     long used=total - runtime.freeMemory() / 1000000;
-    asb.append(",maxmem=");
-    asb.append(max);
-    asb.append("M,total=");
-    asb.append(total);
-    asb.append("M,used=");
-    asb.append(used);
-    asb.append("M");
+    sb.append(",maxmem=");
+    sb.append(max);
+    sb.append("M,total=");
+    sb.append(total);
+    sb.append("M,used=");
+    sb.append(used);
+    sb.append("M");
   }
-  return asb;
+  return sb;
 }
