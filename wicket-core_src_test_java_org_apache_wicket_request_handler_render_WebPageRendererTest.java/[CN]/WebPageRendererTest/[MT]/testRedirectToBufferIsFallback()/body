@@ -1,0 +1,29 @@
+{
+  final AtomicBoolean stored=new AtomicBoolean(false);
+  PageRenderer renderer=new TestPageRenderer(handler){
+    @Override protected boolean isRedirectToBuffer(){
+      return false;
+    }
+    @Override protected boolean isOnePassRender(){
+      return false;
+    }
+    @Override protected boolean isRedirectToRender(){
+      return false;
+    }
+    @Override protected boolean isSessionTemporary(){
+      return false;
+    }
+    @Override protected void storeBufferedResponse(    Url url,    BufferedWebResponse response){
+      stored.set(true);
+    }
+  }
+;
+  when(page.isPageStateless()).thenReturn(false);
+  when(provider.isNewPageInstance()).thenReturn(false);
+  when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("url1"));
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("url2"));
+  renderer.respond(requestCycle);
+  verify(response,never()).write(any(byte[].class));
+  verify(response).sendRedirect(anyString());
+  Assert.assertTrue(stored.get());
+}

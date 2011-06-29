@@ -20,7 +20,10 @@
  else   if (!targetUrl.equals(currentUrl) && (getPageProvider().isNewPageInstance() || (isSessionTemporary() && getPage().isPageStateless()))) {
     redirectTo(targetUrl,requestCycle);
   }
- else   if (isRedirectToBuffer()) {
+ else {
+    if (isRedirectToBuffer() == false && logger.isWarnEnabled()) {
+      logger.warn("Falling back to Redirect_To_Buffer render strategy because none of the conditions matched.");
+    }
     BufferedWebResponse response=renderPage(targetUrl,requestCycle);
     if (response == null) {
       return;
@@ -39,8 +42,5 @@
       storeBufferedResponse(targetUrl2,response);
       redirectTo(targetUrl2,requestCycle);
     }
-  }
- else {
-    throw new IllegalStateException("Unknown RenderStrategy.");
   }
 }
