@@ -41,7 +41,9 @@
       webResponse.setContentLength(contentLength);
     }
     for (    HeaderCollection.Entry entry : data.headers) {
-      webResponse.setHeader(entry.getName(),entry.getValue());
+      for (      String value : entry.getValues()) {
+        webResponse.setHeader(entry.getName(),value);
+      }
     }
     webResponse.flush();
   }
