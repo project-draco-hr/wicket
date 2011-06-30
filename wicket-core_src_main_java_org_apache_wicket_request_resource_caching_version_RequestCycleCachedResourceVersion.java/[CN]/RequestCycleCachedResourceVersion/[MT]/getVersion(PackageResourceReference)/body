@@ -8,13 +8,13 @@
   CacheResourceVersionKey key=null;
   if (requestCycle != null) {
     cache=requestCycle.getMetaData(CACHE_KEY);
+    key=new CacheResourceVersionKey(resourceReference,streamInfo);
     if (cache == null) {
       requestCycle.setMetaData(CACHE_KEY,cache=Generics.newHashMap());
     }
  else     if (cache.containsKey(key)) {
       return cache.get(key);
     }
-    key=new CacheResourceVersionKey(resourceReference,streamInfo);
   }
   final String version=delegate.getVersion(resourceReference);
   if (cache != null && key != null) {
