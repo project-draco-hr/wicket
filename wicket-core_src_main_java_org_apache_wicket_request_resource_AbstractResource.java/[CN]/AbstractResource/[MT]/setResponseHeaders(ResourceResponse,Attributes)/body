@@ -40,9 +40,11 @@
     if (contentLength != -1) {
       webResponse.setContentLength(contentLength);
     }
-    for (    HeaderCollection.Entry entry : data.headers) {
-      for (      String value : entry.getValues()) {
-        webResponse.setHeader(entry.getName(),value);
+    final HttpHeaderCollection headers=data.getHeaders();
+    for (    String name : headers.getHeaderNames()) {
+      checkHeaderAccess(name);
+      for (      String value : headers.getHeaderValues(name)) {
+        webResponse.addHeader(name,value);
       }
     }
     webResponse.flush();

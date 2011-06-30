@@ -1,0 +1,26 @@
+{
+  final HttpHeaderCollection headers=new HttpHeaderCollection();
+  final Time time1=Time.millis(1000000);
+  final Time time2=Time.millis(2000000);
+  headers.setDateHeader("date",time1);
+  headers.addDateHeader("date",time2);
+  headers.addHeader("date","not-a-date");
+  assertEquals(time1,headers.getDateHeader("date"));
+  assertEquals("Thu, 01 Jan 1970 00:16:40 GMT",headers.getHeader("date"));
+  final Locale defaultLocale=Locale.getDefault();
+  try {
+    Locale.setDefault(Locale.CHINESE);
+    assertEquals("Thu, 01 Jan 1970 00:16:40 GMT",headers.getHeader("date"));
+  }
+  finally {
+    Locale.setDefault(defaultLocale);
+  }
+  assertArrayEquals(new String[]{"Thu, 01 Jan 1970 00:16:40 GMT","Thu, 01 Jan 1970 00:33:20 GMT","not-a-date"},headers.getHeaderValues("date"));
+  headers.setHeader("date","foobar");
+  try {
+    Time date=headers.getDateHeader("date");
+    fail();
+  }
+ catch (  IllegalStateException e) {
+  }
+}

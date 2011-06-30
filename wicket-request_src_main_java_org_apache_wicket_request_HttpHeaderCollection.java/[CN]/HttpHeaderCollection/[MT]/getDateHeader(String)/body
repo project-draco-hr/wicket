@@ -1,0 +1,11 @@
+{
+  final List<Object> objects=headers.get(new HeaderKey(name));
+  if (objects.isEmpty()) {
+    return null;
+  }
+  Object object=objects.get(0);
+  if ((object instanceof Time) == false) {
+    throw new IllegalStateException("header value is not of type date");
+  }
+  return (Time)object;
+}

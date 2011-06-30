@@ -1,12 +1,7 @@
 {
-  Object value=headers.get(name);
-  if (value == null) {
+  final Time time=headers.getDateHeader(name);
+  if (time == null) {
     throw new WicketRuntimeException("Date header '" + name + "' is not set.");
   }
- else   if (value instanceof Time == false) {
-    throw new WicketRuntimeException("Header '" + name + "' is not date type.");
-  }
- else {
-    return (Time)value;
-  }
+  return time;
 }
