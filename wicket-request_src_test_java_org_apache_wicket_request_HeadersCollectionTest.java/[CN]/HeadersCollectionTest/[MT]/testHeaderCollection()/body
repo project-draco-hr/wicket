@@ -1,0 +1,17 @@
+{
+  HeaderCollection headers=new HeaderCollection();
+  assertTrue(headers.isEmpty());
+  headers.setHeader("Content-Type","text/html");
+  headers.setHeader("content-type","text/plain");
+  assertEquals("text/plain",headers.getValue("CONTENT-TYPE"));
+  headers.removeHeader("content-TYPE");
+  assertTrue(headers.isEmpty());
+  headers.setHeader("   Content-Type    ","    image/jpeg     ");
+  headers.setHeader("Content-TYPE    ","    image/gif     ");
+  assertEquals("image/gif",headers.getValue("CONTENT-TYPE"));
+  assertEquals(1,headers.getCount());
+  headers.setHeader("X-Test","123");
+  assertEquals(2,headers.getCount());
+  headers.removeHeader("   content-TYPE");
+  assertEquals(1,headers.getCount());
+}

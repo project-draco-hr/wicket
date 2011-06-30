@@ -40,6 +40,9 @@
     if (contentLength != -1) {
       webResponse.setContentLength(contentLength);
     }
+    for (    HeaderCollection.Entry entry : data.headers) {
+      webResponse.setHeader(entry.getName(),entry.getValue());
+    }
     webResponse.flush();
   }
 }
