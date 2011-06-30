@@ -4,16 +4,15 @@
     properties=propertiesCache.get(path);
   }
   if (properties == null) {
-    IResourceSettings resourceSettings=application.getResourceSettings();
     Iterator<IPropertiesLoader> iter=propertiesLoader.iterator();
     while ((properties == null) && iter.hasNext()) {
       IPropertiesLoader loader=iter.next();
       String fullPath=path + loader.getFileExtension();
-      IResourceStream resourceStream=resourceSettings.getResourceStreamLocator().locate(clazz,fullPath);
+      IResourceStream resourceStream=context.getResourceStreamLocator().locate(clazz,fullPath);
       if (resourceStream == null) {
         continue;
       }
-      final IModificationWatcher watcher=resourceSettings.getResourceWatcher(true);
+      final IModificationWatcher watcher=context.getResourceWatcher(true);
       if (watcher != null) {
         addToWatcher(path,resourceStream,watcher);
       }
