@@ -6,7 +6,8 @@
  */
     @Override public void add(    int index,    RequestData o){
       super.add(index,o);
-      if (size() > Application.get().getRequestLoggerSettings().getRequestsWindowSize()) {
+      IRequestLoggerSettings settings=Application.get().getRequestLoggerSettings();
+      while (size() > Math.max(0,settings.getRequestsWindowSize())) {
         removeLast();
       }
     }
