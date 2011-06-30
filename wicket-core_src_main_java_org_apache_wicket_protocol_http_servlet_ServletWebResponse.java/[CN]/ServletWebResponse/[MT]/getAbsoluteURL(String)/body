@@ -12,6 +12,10 @@
     Url append=Url.parse(url,charset);
     current.concatSegments(append.getSegments());
     Url result=new Url(current.getSegments(),append.getQueryParameters());
-    return Strings.join("/",getAbsolutePrefix(),httpServletRequest.getContextPath(),webRequest.getFilterPrefix(),result.toString());
+    String path=result.toString();
+    if (Strings.isEmpty(path)) {
+      path="/";
+    }
+    return Strings.join("/",getAbsolutePrefix(),httpServletRequest.getContextPath(),webRequest.getFilterPrefix(),path);
   }
 }
