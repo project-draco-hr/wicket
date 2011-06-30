@@ -27,11 +27,14 @@
     while (tokens.hasMoreTokens()) {
       String token=tokens.nextToken();
       if (tokens.hasMoreTokens() == false) {
-        ResourceUrl resourceUrl=new ResourceUrl(token,parameters);
-        getCachingStrategy().decorateUrl(resourceUrl,reference);
-        token=resourceUrl.getFileName();
-        if (Strings.isEmpty(token))         throw new NullPointerException("caching strategy must not return an empty filename");
-        if (parameters.getIndexedCount() > 0)         throw new IllegalStateException("caching strategy must not add indexed parameters");
+        if (reference instanceof PackageResourceReference) {
+          final PackageResourceReference pkgref=(PackageResourceReference)reference;
+          final ResourceUrl resourceUrl=new ResourceUrl(token,parameters);
+          getCachingStrategy().decorateUrl(resourceUrl,pkgref);
+          token=resourceUrl.getFileName();
+          if (Strings.isEmpty(token))           throw new NullPointerException("caching strategy must not return an empty filename");
+          if (parameters.getIndexedCount() > 0)           throw new IllegalStateException("caching strategy must not add indexed parameters");
+        }
       }
       segments.add(token);
     }

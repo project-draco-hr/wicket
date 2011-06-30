@@ -1,0 +1,19 @@
+{
+  PackageResourceReference.StreamInfo streamInfo=resourceReference.getCurrentStreamInfo();
+  if (streamInfo == null) {
+    return null;
+  }
+  final CacheResourceVersionKey key=new CacheResourceVersionKey(resourceReference,streamInfo);
+  String version=cache.get(key);
+  if (version == null) {
+    version=delegate.getVersion(resourceReference);
+    if (version == null) {
+      version=NULL_VALUE;
+    }
+    cache.put(key,version);
+  }
+  if (version == NULL_VALUE) {
+    return null;
+  }
+  return version;
+}

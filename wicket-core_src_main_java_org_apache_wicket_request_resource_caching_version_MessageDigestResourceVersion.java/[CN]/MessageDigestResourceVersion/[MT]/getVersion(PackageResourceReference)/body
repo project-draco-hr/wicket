@@ -1,0 +1,19 @@
+{
+  final PackageResourceReference.StreamInfo streamInfo=resourceReference.getCurrentStreamInfo();
+  if (streamInfo == null) {
+    log.debug("could not get stream info for " + resourceReference);
+    return null;
+  }
+  try {
+    final byte[] hash=computeDigest(streamInfo.stream);
+    return Strings.toHexString(hash);
+  }
+ catch (  ResourceStreamNotFoundException e) {
+    log.warn("resource stream not found for " + resourceReference);
+    return null;
+  }
+catch (  IOException e) {
+    log.warn("resource stream not be read for " + resourceReference,e);
+    return null;
+  }
+}
