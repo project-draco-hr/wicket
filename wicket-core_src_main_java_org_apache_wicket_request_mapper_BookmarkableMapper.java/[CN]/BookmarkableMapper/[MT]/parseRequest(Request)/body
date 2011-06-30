@@ -1,4 +1,9 @@
 {
+  if (Application.exists()) {
+    if (Application.get().getSecuritySettings().getEnforceMounts()) {
+      return null;
+    }
+  }
   Url url=request.getUrl();
   if (url.getSegments().size() >= 3 && urlStartsWith(url,getContext().getNamespace(),getContext().getBookmarkableIdentifier())) {
     PageComponentInfo info=getPageComponentInfo(url);

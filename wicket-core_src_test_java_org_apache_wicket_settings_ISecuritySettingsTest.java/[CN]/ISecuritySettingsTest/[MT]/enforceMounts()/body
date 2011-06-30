@@ -1,0 +1,19 @@
+{
+  MockPageWithLink pageWithLink=new MockPageWithLink();
+  pageWithLink.add(new Link<Void>(MockPageWithLink.LINK_ID){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      throw new RedirectToUrlException("/wicket/bookmarkable/" + UnknownPage.class.getName());
+    }
+  }
+);
+  tester.startPage(pageWithLink);
+  tester.assertRenderedPage(MockPageWithLink.class);
+  tester.clickLink(MockPageWithLink.LINK_ID);
+  tester.assertRenderedPage(UnknownPage.class);
+  tester.getApplication().getSecuritySettings().setEnforceMounts(true);
+  tester.startPage(pageWithLink);
+  tester.assertRenderedPage(MockPageWithLink.class);
+  tester.clickLink(MockPageWithLink.LINK_ID);
+  Assert.assertNull(tester.getLastRenderedPage());
+}
