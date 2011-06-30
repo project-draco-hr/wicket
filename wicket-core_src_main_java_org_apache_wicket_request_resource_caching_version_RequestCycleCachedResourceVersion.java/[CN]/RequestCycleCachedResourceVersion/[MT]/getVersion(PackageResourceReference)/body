@@ -1,11 +1,11 @@
 {
   final RequestCycle requestCycle=ThreadContext.getRequestCycle();
-  Map<CacheResourceVersionKey,String> cache=null;
-  PackageResourceReference.StreamInfo streamInfo=resourceReference.getCurrentStreamInfo();
+  final PackageResourceReference.StreamInfo streamInfo=resourceReference.getCurrentStreamInfo();
   if (streamInfo == null) {
     return null;
   }
-  final CacheResourceVersionKey key=new CacheResourceVersionKey(resourceReference,streamInfo);
+  Map<CacheResourceVersionKey,String> cache=null;
+  CacheResourceVersionKey key=null;
   if (requestCycle != null) {
     cache=requestCycle.getMetaData(CACHE_KEY);
     if (cache == null) {
@@ -14,9 +14,10 @@
  else     if (cache.containsKey(key)) {
       return cache.get(key);
     }
+    key=new CacheResourceVersionKey(resourceReference,streamInfo);
   }
   final String version=delegate.getVersion(resourceReference);
-  if (cache != null) {
+  if (cache != null && key != null) {
     cache.put(key,version);
   }
   return version;
