@@ -1,0 +1,23 @@
+{
+  if (data == null) {
+    return false;
+  }
+  if (stack.isEmpty()) {
+    data=null;
+    return false;
+  }
+  data=stack.pop();
+  if (traverse) {
+    hasNextWasLast=true;
+    if (onFilter(data.lastNode) == true) {
+      return true;
+    }
+    return nextNode();
+  }
+ else   if (data.hasNext()) {
+    return nextNode();
+  }
+ else {
+    return moveUp();
+  }
+}

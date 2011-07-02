@@ -1,0 +1,25 @@
+{
+  Page page=new MyPage();
+  WebComponent a;
+  page.add(a=new WebComponent("a"));
+  WebMarkupContainer b;
+  page.add(b=new WebMarkupContainer("b"));
+  WebMarkupContainer b1;
+  b.add(b1=new WebMarkupContainer("b1"));
+  WebMarkupContainer b2;
+  b.add(b2=new WebMarkupContainer("b2"));
+  WebMarkupContainer b12;
+  b1.add(b12=new WebMarkupContainer("b12"));
+  WebMarkupContainer b121;
+  b12.add(b121=new WebMarkupContainer("b121"));
+  ComponentHierarchyIterator iter=new ComponentHierarchyIterator(page).filterLeavesOnly();
+  iter.getFilters().add(new IteratorFilter<Component>(){
+    @Override boolean onFilter(    Component component){
+      return component.getId().endsWith("2");
+    }
+  }
+);
+  assertTrue(iter.hasNext());
+  assertEquals("b2",iter.next().getId());
+  assertFalse(iter.hasNext());
+}

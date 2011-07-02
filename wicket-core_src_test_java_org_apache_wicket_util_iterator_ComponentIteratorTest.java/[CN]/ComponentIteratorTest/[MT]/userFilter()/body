@@ -1,0 +1,14 @@
+{
+  Page page=new MyPage();
+  page.add(new WebComponent("a"));
+  page.add(new WebMarkupContainer("2").setVisible(false));
+  ComponentHierarchyIterator iter=new ComponentHierarchyIterator(page).addFilter(new IteratorFilter<Component>(){
+    @Override protected boolean onFilter(    Component comp){
+      return comp.getId().startsWith("a");
+    }
+  }
+);
+  assertTrue(iter.hasNext());
+  assertEquals("a",iter.next().getId());
+  assertFalse(iter.hasNext());
+}

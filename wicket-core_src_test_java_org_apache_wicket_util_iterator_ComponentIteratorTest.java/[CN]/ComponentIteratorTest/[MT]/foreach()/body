@@ -1,0 +1,23 @@
+{
+  Page page=new MyPage();
+  WebComponent a;
+  page.add(a=new WebComponent("a"));
+  WebMarkupContainer b;
+  page.add(b=new WebMarkupContainer("b"));
+  WebMarkupContainer b1;
+  b.add(b1=new WebMarkupContainer("b1"));
+  WebMarkupContainer b2;
+  b.add(b2=new WebMarkupContainer("b2"));
+  WebMarkupContainer b12;
+  b1.add(b12=new WebMarkupContainer("b12"));
+  WebMarkupContainer b121;
+  b12.add(b121=new WebMarkupContainer("b121"));
+  int count=0;
+  String buf="";
+  for (  Component component : new ComponentHierarchyIterator(page)) {
+    count+=1;
+    buf+=component.getId();
+  }
+  assertEquals(6,count);
+  assertEquals("abb1b12b121b2",buf);
+}

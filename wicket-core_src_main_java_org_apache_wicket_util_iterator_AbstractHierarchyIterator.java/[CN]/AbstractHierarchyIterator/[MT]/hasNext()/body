@@ -1,0 +1,21 @@
+{
+  if (data == null) {
+    return false;
+  }
+  if (hasNextWasLast == true) {
+    return true;
+  }
+  hasNextWasLast=true;
+  if (skipRemainingSiblings == true) {
+    skipRemainingSiblings=false;
+    return moveUp();
+  }
+  if (traverse) {
+    if (moveDown(data.lastNode) == false) {
+      return false;
+    }
+    hasNextWasLast=true;
+    return true;
+  }
+  return nextNode();
+}

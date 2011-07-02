@@ -1,0 +1,29 @@
+{
+  Page page=new MyPage();
+  WebComponent a;
+  page.add(a=new WebComponent("a"));
+  WebMarkupContainer b;
+  page.add(b=new WebMarkupContainer("b"));
+  WebMarkupContainer b1;
+  b.add(b1=new WebMarkupContainer("b1"));
+  WebMarkupContainer b2;
+  b.add(b2=new WebMarkupContainer("b2"));
+  WebMarkupContainer b12;
+  b1.add(b12=new WebMarkupContainer("b12"));
+  WebMarkupContainer b121;
+  b12.add(b121=new WebMarkupContainer("b121"));
+  WebComponent c;
+  page.add(c=new WebComponent("c"));
+  ComponentHierarchyIterator iter=new ComponentHierarchyIterator(page);
+  assertTrue(iter.hasNext());
+  assertEquals("a",iter.next().getId());
+  assertTrue(iter.hasNext());
+  assertEquals("b",iter.next().getId());
+  assertTrue(iter.hasNext());
+  assertEquals("b1",iter.next().getId());
+  iter.skipRemainingSiblings();
+  assertTrue(iter.hasNext());
+  assertEquals("c",iter.next().getId());
+  assertFalse(iter.hasNext());
+  assertNull(iter.next());
+}

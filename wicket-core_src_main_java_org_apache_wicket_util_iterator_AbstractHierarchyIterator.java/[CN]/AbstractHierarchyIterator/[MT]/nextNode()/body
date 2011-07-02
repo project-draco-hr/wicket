@@ -1,0 +1,33 @@
+{
+  while (data.hasNext()) {
+    data.lastNode=data.next();
+    traverse=hasChildren(data.lastNode);
+    if (traverse) {
+      traverse=onTraversalFilter(data.lastNode);
+    }
+    if (childFirst && traverse) {
+      if (moveDown(data.lastNode) == false) {
+        return false;
+      }
+      traverse=false;
+    }
+    if (onFilter(data.lastNode)) {
+      return true;
+    }
+    if (!childFirst && traverse) {
+      if (moveDown(data.lastNode) == false) {
+        return false;
+      }
+      if (data == null) {
+        return false;
+      }
+      hasNextWasLast=true;
+      return true;
+    }
+    if (skipRemainingSiblings == true) {
+      skipRemainingSiblings=false;
+      break;
+    }
+  }
+  return moveUp();
+}

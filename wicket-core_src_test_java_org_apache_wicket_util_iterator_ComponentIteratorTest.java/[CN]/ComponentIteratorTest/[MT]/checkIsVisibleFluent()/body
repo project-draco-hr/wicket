@@ -1,0 +1,9 @@
+{
+  Page page=new MyPage();
+  page.add(new WebComponent("1"));
+  page.add(new WebMarkupContainer("2").setVisible(false));
+  ComponentHierarchyIterator iter=new ComponentHierarchyIterator(page).filterByVisibility();
+  assertTrue(iter.hasNext());
+  assertEquals("1",iter.next().getId());
+  assertFalse(iter.hasNext());
+}
