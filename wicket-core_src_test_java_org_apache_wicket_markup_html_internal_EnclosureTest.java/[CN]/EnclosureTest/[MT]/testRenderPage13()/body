@@ -1,0 +1,18 @@
+{
+  tester=new WicketTester(new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy(){
+        public boolean isActionAuthorized(        Component component,        Action action){
+          return !(component instanceof SecuredContainer_13);
+        }
+        public <T extends IRequestableComponent>boolean isInstantiationAuthorized(        Class<T> componentClass){
+          return true;
+        }
+      }
+);
+    }
+  }
+);
+  executeTest(EnclosurePage_13.class,"EnclosurePageExpectedResult_13.html");
+}

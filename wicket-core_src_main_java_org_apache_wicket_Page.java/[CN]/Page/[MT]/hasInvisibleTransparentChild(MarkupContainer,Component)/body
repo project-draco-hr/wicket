@@ -1,0 +1,16 @@
+{
+  for (  Component sibling : root) {
+    if ((sibling != self) && (sibling instanceof IComponentResolver) && (sibling instanceof MarkupContainer)) {
+      if (!sibling.isVisible()) {
+        return true;
+      }
+ else {
+        boolean rtn=hasInvisibleTransparentChild((MarkupContainer)sibling,self);
+        if (rtn == true) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
