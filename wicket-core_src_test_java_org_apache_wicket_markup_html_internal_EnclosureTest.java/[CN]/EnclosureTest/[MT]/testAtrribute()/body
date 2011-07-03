@@ -1,0 +1,28 @@
+{
+  /** 
+ * Page for the test
+ */
+class TestPage extends WebPage implements IMarkupResourceStreamProvider {
+    private static final long serialVersionUID=1L;
+    public TestPage(){
+      final Label l=new Label("msg","$label$");
+      add(l);
+      add(new Link<Void>("b"){
+        private static final long serialVersionUID=1L;
+        @Override public void onClick(){
+          l.setVisible(!l.isVisible());
+        }
+      }
+);
+    }
+    public IResourceStream getMarkupResourceStream(    MarkupContainer container,    Class<?> containerClass){
+      return new StringResourceStream("<html><body><div wicket:enclosure='msg'><span wicket:id='msg'></span></div><input type='button' value='Toggle' wicket:id='b'/></body></html>");
+    }
+  }
+  tester.startPage(new TestPage());
+  assertTrue(tester.getLastResponseAsString().contains("$label$"));
+  tester.clickLink("b");
+  assertFalse(tester.getLastResponseAsString().contains("$label$"));
+  tester.clickLink("b");
+  assertTrue(tester.getLastResponseAsString().contains("$label$"));
+}
