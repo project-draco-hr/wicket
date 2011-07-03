@@ -3,7 +3,8 @@
   WicketFilter filter=new WicketFilter();
   filter.init(new FilterTestingConfig());
   HttpServletRequest request=mock(HttpServletRequest.class);
-  when(request.getRequestURI()).thenReturn("/contextPath/js/bla.js").thenReturn("/contextPath/css/bla.css").thenReturn("/contextPath/images/bla.img").thenReturn("/contextPath/something/real");
+  when(request.getLocale()).thenReturn(new Locale("bg","BG"));
+  when(request.getRequestURI()).thenReturn("/contextPath/js/bla.js").thenReturn("/contextPath/css/bla.css").thenReturn("/contextPath/images/bla.img").thenReturn("/contextPath/servlet/wicket/bookmarkable/" + DummyHomePage.class.getName());
   when(request.getContextPath()).thenReturn("/contextPath");
   HttpServletResponse response=mock(HttpServletResponse.class);
   FilterChain chain=mock(FilterChain.class);
