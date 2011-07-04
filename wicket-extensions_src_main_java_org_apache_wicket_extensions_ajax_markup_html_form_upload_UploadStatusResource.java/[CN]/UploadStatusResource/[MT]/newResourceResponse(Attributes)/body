@@ -1,13 +1,15 @@
 {
+  final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
   ResourceResponse response=new ResourceResponse();
-  response.setContentType("text/html");
-  final String content=getStatus(attributes);
+  response.setContentType("text/html; charset=" + encoding);
+  final String status=getStatus(attributes);
   response.setWriteCallback(new WriteCallback(){
     @Override public void writeData(    final Attributes attributes){
-      attributes.getResponse().write(content);
+      attributes.getResponse().write("<html><body>|");
+      attributes.getResponse().write(status);
+      attributes.getResponse().write("|</body></html>");
     }
   }
 );
-  response.setContentLength(content.getBytes().length);
   return response;
 }
