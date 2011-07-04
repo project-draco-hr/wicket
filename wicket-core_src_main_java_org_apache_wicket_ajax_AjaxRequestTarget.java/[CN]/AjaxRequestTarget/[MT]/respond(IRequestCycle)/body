@@ -1,34 +1,28 @@
 {
-  boolean frozen=page.setFreezePageId(true);
+  final RequestCycle rc=(RequestCycle)requestCycle;
+  final WebResponse response=(WebResponse)requestCycle.getResponse();
+  if (markupIdToComponent.values().contains(page)) {
+    IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
+    final String url=rc.urlFor(handler).toString();
+    response.sendRedirect(url);
+    return;
+  }
+  respondersFrozen=true;
+  for (  ITargetRespondListener listener : respondListeners) {
+    listener.onTargetRespond(this);
+  }
+  final Application app=Application.get();
+  page.send(app,Broadcast.BREADTH,this);
+  final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
+  response.setContentType("text/xml; charset=" + encoding);
+  response.disableCaching();
   try {
-    final RequestCycle rc=(RequestCycle)requestCycle;
-    final WebResponse response=(WebResponse)requestCycle.getResponse();
-    if (markupIdToComponent.values().contains(page)) {
-      IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
-      final String url=rc.urlFor(handler).toString();
-      response.sendRedirect(url);
-      return;
-    }
-    respondersFrozen=true;
-    for (    ITargetRespondListener listener : respondListeners) {
-      listener.onTargetRespond(this);
-    }
-    final Application app=Application.get();
-    page.send(app,Broadcast.BREADTH,this);
-    final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
-    response.setContentType("text/xml; charset=" + encoding);
-    response.disableCaching();
-    try {
-      final StringResponse bodyResponse=new StringResponse();
-      constructResponseBody(bodyResponse,encoding);
-      CharSequence filteredResponse=invokeResponseFilters(bodyResponse);
-      response.write(filteredResponse);
-    }
-  finally {
-      RequestCycle.get().setResponse(response);
-    }
+    final StringResponse bodyResponse=new StringResponse();
+    constructResponseBody(bodyResponse,encoding);
+    CharSequence filteredResponse=invokeResponseFilters(bodyResponse);
+    response.write(filteredResponse);
   }
   finally {
-    page.setFreezePageId(frozen);
+    RequestCycle.get().setResponse(response);
   }
 }
