@@ -1,0 +1,12 @@
+{
+  CompoundRequestMapper compound=new CompoundRequestMapper();
+  compound.add(new MountMapper(MOUNT_PATH_1,new EmptyRequestHandler()));
+  compound.add(new MountMapper(MOUNT_PATH_2,new EmptyRequestHandler()));
+  compound.add(new MountMapper(MOUNT_PATH_3,new EmptyRequestHandler()));
+  assertEquals(3,compound.size());
+  compound.unmount(MOUNT_PATH_2);
+  assertEquals(2,compound.size());
+  assertTrue("Mount path 1 should match",compound.mapRequest(compound.createRequest(Url.parse(MOUNT_PATH_1))) instanceof EmptyRequestHandler);
+  assertNull("Mount path 2 should not match",compound.mapRequest(compound.createRequest(Url.parse(MOUNT_PATH_2))));
+  assertTrue("Mount path 3 should match",compound.mapRequest(compound.createRequest(Url.parse(MOUNT_PATH_3))) instanceof EmptyRequestHandler);
+}
