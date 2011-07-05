@@ -9,10 +9,11 @@
     return false;
   }
   boolean hit=false;
-  for (  SearchPattern pattern : this.pattern) {
+  for (  SearchPattern pattern : new ReverseListIterator<SearchPattern>(this.pattern)) {
     if ((pattern != null) && pattern.isActive()) {
       if (pattern.matches(path)) {
         hit=pattern.isInclude();
+        break;
       }
     }
   }
