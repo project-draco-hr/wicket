@@ -1,0 +1,20 @@
+{
+  DetachableComponent a=new DetachableComponent("a");
+  DetachableComponent ab=new DetachableComponent("b");
+  DetachableComponent ac=new DetachableComponent("c");
+  DetachableComponent abd=new DetachableComponent("d");
+  DetachableModel detachableModel=new DetachableModel();
+  DetachableBehavior detachableBehavior=new DetachableBehavior();
+  abd.setDefaultModel(detachableModel);
+  abd.add(detachableBehavior);
+  a.add(ab);
+  a.add(ac);
+  ab.add(abd);
+  a.removeAll();
+  assertFalse(a.detached);
+  assertTrue(ab.detached);
+  assertTrue(ac.detached);
+  assertTrue(abd.detached);
+  assertTrue(detachableModel.detached);
+  assertTrue(detachableBehavior.detached);
+}
