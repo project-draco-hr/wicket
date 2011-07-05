@@ -1,0 +1,22 @@
+{
+  Collection<S> convertedInput=formComponent.getConvertedInput();
+  Collection<S> collection=formComponent.getModelObject();
+  if (collection == null) {
+    collection=new ArrayList<S>(convertedInput);
+    formComponent.setDefaultModelObject(collection);
+  }
+ else {
+    formComponent.modelChanging();
+    collection.clear();
+    if (convertedInput != null) {
+      collection.addAll(convertedInput);
+    }
+    formComponent.modelChanged();
+    try {
+      formComponent.getModel().setObject(collection);
+    }
+ catch (    Exception e) {
+      logger.info("no setter for the property attached to " + formComponent);
+    }
+  }
+}
