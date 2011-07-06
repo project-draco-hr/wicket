@@ -1,4 +1,16 @@
 {
-  super.onComponentTagBody(component,markupStream,openTag);
-  ((MarkupContainer)component).renderAssociatedMarkup(Panel.PANEL,"Markup for a panel component has to contain part '<wicket:panel>'");
+  if (allowWicketComponentsInBodyMarkup) {
+    markupStream.skipToMatchingCloseTag(openTag);
+  }
+ else {
+    if (markupStream.getPreviousTag().isOpen()) {
+      markupStream.skipRawMarkup();
+      if (markupStream.get().closes(openTag) == false) {
+        StringBuilder msg=new StringBuilder();
+        msg.append("Close tag not found for tag: ").append(openTag.toString()).append(". For ").append(component.getClass().getSimpleName()).append(" Components only raw markup is allow in between the tags but not ").append("other Wicket Component. Component: ").append(component.toString());
+        throw new MarkupException(markupStream,msg.toString());
+      }
+    }
+  }
+  renderAssociatedMarkup(component);
 }

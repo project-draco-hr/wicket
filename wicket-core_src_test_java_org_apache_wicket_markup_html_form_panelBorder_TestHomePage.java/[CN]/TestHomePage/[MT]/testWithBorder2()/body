@@ -1,0 +1,21 @@
+{
+  tester.startPage(HomePage.class);
+  tester.assertRenderedPage(HomePage.class);
+  FormTester formTester=tester.newFormTester("border:form");
+  @SuppressWarnings("unchecked") TextField<String> textfield=(TextField<String>)tester.getLastRenderedPage().get("border:form:body:textfield");
+  tester.getRequest().getPostParameters().setParameterValue(textfield.getInputName(),"abcde");
+  MyTextField datefield=(MyTextField)tester.getLastRenderedPage().get("border:form:body:datefield");
+  tester.getRequest().getPostParameters().setParameterValue(datefield.getInputName(),"aaabbb");
+  MyDateField datefield2=(MyDateField)tester.getLastRenderedPage().get("border:form:body:datefield2");
+  @SuppressWarnings("unchecked") TextField<String> date=(TextField<String>)datefield2.get("date");
+  tester.getRequest().getPostParameters().setParameterValue(date.getInputName(),"abcdef");
+  formTester.submit();
+  tester.assertNoErrorMessage();
+  HomePage page=(HomePage)tester.getLastRenderedPage();
+  assertEquals("abcde",page.getTextfield());
+  assertEquals("aaabbb-converted",page.getDatefield());
+  assertEquals("abcdef-converted",page.getDatefield2());
+  assertEquals("abcde",page.get("border:form:body:lbltextfield").getDefaultModelObjectAsString());
+  assertEquals("aaabbb-converted",page.get("border:form:body:lbldatefield").getDefaultModelObjectAsString());
+  assertEquals("abcdef-converted",page.get("border:form:body:lbldatefield2").getDefaultModelObjectAsString());
+}
