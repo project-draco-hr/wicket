@@ -37,6 +37,9 @@
           realParams[i]=parameters[i];
         }
       }
+      if (value.indexOf('\'') != -1) {
+        value=escapeQuotes(value);
+      }
       if (model != null) {
         value=Strings.replaceAll(value,"${","$'{'").toString();
       }
