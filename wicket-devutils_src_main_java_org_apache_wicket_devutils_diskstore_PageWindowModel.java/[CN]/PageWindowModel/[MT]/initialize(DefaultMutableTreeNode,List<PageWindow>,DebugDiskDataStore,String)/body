@@ -1,0 +1,14 @@
+{
+  ISerializer serializer=Application.get().getFrameworkSettings().getSerializer();
+  for (  PageWindow pageWindow : pageWindows) {
+    int pageId=pageWindow.getPageId();
+    DefaultMutableTreeNode pageIdNode=new DefaultMutableTreeNode(pageId);
+    root.add(pageIdNode);
+    byte[] data=dataStore.getData(sessionId,pageId);
+    Object page=serializer.deserialize(data);
+    DefaultMutableTreeNode pageNameNode=new DefaultMutableTreeNode(page.getClass().getName());
+    pageIdNode.add(pageNameNode);
+    DefaultMutableTreeNode pageSizeNode=new DefaultMutableTreeNode("Size: " + data.length + " bytes");
+    pageIdNode.add(pageSizeNode);
+  }
+}

@@ -1,0 +1,24 @@
+{
+  String label;
+  PageWindowDescription windowDescription=rowModel.getObject();
+  if ("name".equals(getPropertyExpression())) {
+    int pageId=windowDescription.getId();
+    DebugPageManagerProvider pageManagerProvider=(DebugPageManagerProvider)Application.get().getPageManagerProvider();
+    DebugDiskDataStore dataStore=pageManagerProvider.getDataStore();
+    String sessionId=Session.get().getId();
+    byte[] data=dataStore.getData(sessionId,pageId);
+    ISerializer serializer=Application.get().getFrameworkSettings().getSerializer();
+    Object page=serializer.deserialize(data);
+    label=page.getClass().getName();
+  }
+ else   if ("id".equals(getPropertyExpression())) {
+    label=Integer.toString(windowDescription.getId());
+  }
+ else   if ("size".equals(getPropertyExpression())) {
+    label=Integer.toString(windowDescription.getSize());
+  }
+ else {
+    label="unknown: " + getPropertyExpression();
+  }
+  cellItem.add(new Label(componentId,label));
+}

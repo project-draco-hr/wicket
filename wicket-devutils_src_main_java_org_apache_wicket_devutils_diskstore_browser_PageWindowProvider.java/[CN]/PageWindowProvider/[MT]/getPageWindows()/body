@@ -1,0 +1,10 @@
+{
+  List<PageWindow> lastPageWindows=new ArrayList<PageWindow>();
+  if (Session.exists() && Session.get().isTemporary() == false) {
+    String sessionId=Session.get().getId();
+    DebugPageManagerProvider pageManagerProvider=(DebugPageManagerProvider)Application.get().getPageManagerProvider();
+    DebugDiskDataStore dataStore=pageManagerProvider.getDataStore();
+    lastPageWindows.addAll(dataStore.getLastPageWindows(sessionId,MAX_PAGES_TO_READ));
+  }
+  return lastPageWindows;
+}
