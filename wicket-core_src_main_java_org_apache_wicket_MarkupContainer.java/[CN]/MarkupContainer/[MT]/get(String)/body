@@ -1,9 +1,21 @@
 {
-  if (path == null || path.trim().equals("")) {
+  if (Strings.isEmpty(path)) {
     return this;
   }
-  final String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
-  Component child=children_get(id);
+  MarkupContainer container=this;
+  String id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
+  while (Component.PARENT_PATH.equals(id)) {
+    container=container.getParent();
+    if (container == null) {
+      return null;
+    }
+    path=path.length() == id.length() ? "" : path.substring(id.length() + 1);
+    id=Strings.firstPathComponent(path,Component.PATH_SEPARATOR);
+  }
+  if (Strings.isEmpty(id)) {
+    return container;
+  }
+  Component child=container.children_get(id);
   if (child != null) {
     String path2=Strings.afterFirstPathComponent(path,Component.PATH_SEPARATOR);
     return child.get(path2);
