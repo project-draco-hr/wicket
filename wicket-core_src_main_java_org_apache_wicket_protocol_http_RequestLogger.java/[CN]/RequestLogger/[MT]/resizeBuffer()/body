@@ -1,0 +1,23 @@
+{
+  int newCapacity=Application.get().getRequestLoggerSettings().getRequestsWindowSize();
+  if (newCapacity == requestWindow.length)   return;
+  RequestData[] newRequestWindow=new RequestData[newCapacity];
+synchronized (requestWindow) {
+    int oldCapacity=requestWindow.length;
+    int oldNumberOfElements=hasBufferRolledOver() ? oldCapacity : indexInWindow;
+    if (newCapacity > oldCapacity) {
+      copyRequestsInOrder(newRequestWindow);
+      indexInWindow=oldNumberOfElements;
+      requestWindow=newRequestWindow;
+    }
+ else     if (newCapacity < oldCapacity) {
+      RequestData[] sortedRequestWindow=new RequestData[oldCapacity];
+      copyRequestsInOrder(sortedRequestWindow);
+      int numberOfElementsToCopy=Math.min(newCapacity,oldNumberOfElements);
+      int numberOfElementsToSkip=Math.max(0,oldNumberOfElements - numberOfElementsToCopy);
+      arraycopy(sortedRequestWindow,numberOfElementsToSkip,newRequestWindow,0,numberOfElementsToCopy);
+      indexInWindow=numberOfElementsToCopy >= newCapacity ? 0 : numberOfElementsToCopy;
+      requestWindow=newRequestWindow;
+    }
+  }
+}

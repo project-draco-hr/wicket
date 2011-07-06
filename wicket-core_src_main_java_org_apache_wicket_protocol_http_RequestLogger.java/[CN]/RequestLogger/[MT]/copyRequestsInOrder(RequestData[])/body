@@ -1,0 +1,11 @@
+{
+  Args.isTrue(copy.length >= requestWindow.length,"copy.length must be at least {}",requestWindow.length);
+  if (hasBufferRolledOver()) {
+    int oldestPos=indexInWindow + 1;
+    if (oldestPos < requestWindow.length)     arraycopy(requestWindow,oldestPos,copy,0,requestWindow.length - oldestPos);
+    arraycopy(requestWindow,0,copy,requestWindow.length - oldestPos,indexInWindow);
+  }
+ else {
+    arraycopy(requestWindow,0,copy,0,indexInWindow);
+  }
+}

@@ -1,17 +1,5 @@
 {
-  requests=Collections.synchronizedList(new LinkedList<RequestData>(){
-    private static final long serialVersionUID=1L;
-    /** 
- * @see java.util.LinkedList#add(java.lang.Object)
- */
-    @Override public void add(    int index,    RequestData o){
-      super.add(index,o);
-      IRequestLoggerSettings settings=Application.get().getRequestLoggerSettings();
-      while (size() > Math.max(0,settings.getRequestsWindowSize())) {
-        removeLast();
-      }
-    }
-  }
-);
+  int requestsWindowSize=Application.get().getRequestLoggerSettings().getRequestsWindowSize();
+  requestWindow=new RequestData[requestsWindowSize];
   liveSessions=new ConcurrentHashMap<String,SessionData>();
 }

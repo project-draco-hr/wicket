@@ -20,10 +20,13 @@
     }
     requestdata.setSessionSize(sizeInBytes);
     requestdata.setTimeTaken(timeTaken);
-    requests.add(0,requestdata);
+    addRequest(requestdata);
     SessionData sessiondata=null;
     if (sessionId != null) {
       sessiondata=liveSessions.get(sessionId);
+      if (sessiondata == null) {
+        sessiondata=RequestCycle.get().getMetaData(SESSION_DATA);
+      }
       if (sessiondata == null) {
         sessionCreated(sessionId);
         sessiondata=liveSessions.get(sessionId);

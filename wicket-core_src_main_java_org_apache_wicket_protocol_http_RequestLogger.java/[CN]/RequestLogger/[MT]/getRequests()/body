@@ -1,3 +1,7 @@
 {
-  return Collections.unmodifiableList(requests);
+synchronized (requestWindow) {
+    RequestData[] result=new RequestData[hasBufferRolledOver() ? requestWindow.length : indexInWindow];
+    copyRequestsInOrder(result);
+    return Arrays.asList(result);
+  }
 }

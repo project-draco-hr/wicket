@@ -1,0 +1,17 @@
+{
+  resizeBuffer();
+synchronized (requestWindow) {
+    if (requestWindow.length == 0)     return;
+    RequestData old=requestWindow[indexInWindow];
+    requestWindow[indexInWindow]=rd;
+    indexInWindow=(indexInWindow + 1) % requestWindow.length;
+    if (old != null) {
+      startTimeOfOldestRequest=requestWindow[indexInWindow].getStartDate();
+      totalRequestTime-=old.getTimeTaken();
+    }
+ else {
+      if (startTimeOfOldestRequest == null)       startTimeOfOldestRequest=rd.getStartDate();
+    }
+    totalRequestTime+=rd.getTimeTaken();
+  }
+}
