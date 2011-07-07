@@ -1,35 +1,28 @@
 {
   Args.notNull(cacheKey,"cacheKey");
   if (log.isDebugEnabled()) {
-    log.debug("Remove from cache: cacheKey=" + cacheKey);
+    log.debug("Remove from cache: " + cacheKey);
   }
   String locationString=markupKeyCache.get(cacheKey);
   IMarkupFragment markup=(locationString != null ? markupCache.get(locationString) : null);
-  if (markup != null) {
-    markupCache.remove(locationString);
-    int count=1;
-    while (count > 0) {
-      count=0;
-      Iterator<String> iter=markupCache.getKeys().iterator();
-      while (iter.hasNext()) {
-        String key=iter.next();
-        if (isBaseMarkupCached(key)) {
-          if (log.isDebugEnabled()) {
-            log.debug("Remove from cache: cacheKey=" + key);
-          }
+  if (markup == null) {
+    return null;
+  }
+  markupCache.remove(locationString);
+  if (log.isDebugEnabled()) {
+    log.debug("Removed from cache: " + locationString);
+  }
+  removeMarkupWhereBaseMarkupIsNoLongerInTheCache();
+  IModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(false);
+  if (watcher != null) {
+    Iterator<IModifiable> iter=watcher.getEntries().iterator();
+    while (iter.hasNext()) {
+      IModifiable modifiable=iter.next();
+      if (modifiable instanceof MarkupResourceStream) {
+        if (!isMarkupCached((MarkupResourceStream)modifiable)) {
           iter.remove();
-          count++;
-        }
-      }
-    }
-    IModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(false);
-    if (watcher != null) {
-      Iterator<IModifiable> iter=watcher.getEntries().iterator();
-      while (iter.hasNext()) {
-        IModifiable modifiable=iter.next();
-        if (modifiable instanceof MarkupResourceStream) {
-          if (isMarkupCached((MarkupResourceStream)modifiable)) {
-            iter.remove();
+          if (log.isDebugEnabled()) {
+            log.debug("Removed from watcher: " + modifiable);
           }
         }
       }

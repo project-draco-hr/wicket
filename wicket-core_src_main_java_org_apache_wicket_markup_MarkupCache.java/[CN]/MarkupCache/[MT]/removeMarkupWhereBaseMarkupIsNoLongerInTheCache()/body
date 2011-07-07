@@ -1,0 +1,18 @@
+{
+  int count=1;
+  while (count > 0) {
+    count=0;
+    Iterator<Markup> iter=markupCache.getValues().iterator();
+    while (iter.hasNext()) {
+      Markup markup=iter.next();
+      MarkupResourceStream resourceStream=markup.getMarkupResourceStream().getBaseMarkupResourceStream();
+      if ((resourceStream != null) && !isMarkupCached(resourceStream)) {
+        iter.remove();
+        count++;
+        if (log.isDebugEnabled()) {
+          log.debug("Removed derived markup from cache: " + markup.getMarkupResourceStream());
+        }
+      }
+    }
+  }
+}
