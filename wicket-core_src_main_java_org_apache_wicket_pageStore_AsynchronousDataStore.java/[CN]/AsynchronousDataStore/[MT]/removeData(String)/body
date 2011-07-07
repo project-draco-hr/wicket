@@ -1,9 +1,12 @@
 {
-  Entry[] entriesCopy=entries.toArray(new Entry[entries.size()]);
-  for (  Entry entry : entriesCopy) {
-    if (entry.getSessionId().equals(sessionId)) {
-      entryMap.remove(getKey(entry));
-      entries.remove(entry);
+  for (Iterator<Entry> itor=entries.iterator(); itor.hasNext(); ) {
+    Entry entry=itor.next();
+    if (entry != null) {
+      String entrySessionId=entry.sessionId;
+      if (sessionId.equals(entrySessionId)) {
+        entryMap.remove(getKey(entry));
+        itor.remove();
+      }
     }
   }
   dataStore.removeData(sessionId);
