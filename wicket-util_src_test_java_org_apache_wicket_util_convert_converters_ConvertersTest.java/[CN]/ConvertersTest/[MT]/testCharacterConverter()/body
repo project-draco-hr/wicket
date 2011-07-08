@@ -1,0 +1,12 @@
+{
+  CharacterConverter converter=new CharacterConverter();
+  assertNull(converter.convertToObject("",Locale.US));
+  assertEquals("A",converter.convertToString('A',DUTCH_LOCALE));
+  assertEquals((Object)'A',converter.convertToObject("A",DUTCH_LOCALE));
+  try {
+    converter.convertToObject("AA",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}

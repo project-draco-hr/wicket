@@ -1,0 +1,25 @@
+{
+  IntegerConverter converter=new IntegerConverter();
+  assertEquals("7",converter.convertToString(7,Locale.US));
+  assertNull(converter.convertToObject("",Locale.US));
+  assertEquals(new Integer(10),converter.convertToObject("10",Locale.US));
+  assertEquals("10",converter.convertToString(10,Locale.US));
+  try {
+    converter.convertToObject("whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    converter.convertToObject("10whatever",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    converter.convertToObject("" + ((long)Integer.MAX_VALUE + 1),Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+}
