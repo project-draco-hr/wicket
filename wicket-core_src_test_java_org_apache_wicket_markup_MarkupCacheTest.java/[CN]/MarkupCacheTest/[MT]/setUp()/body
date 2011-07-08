@@ -1,6 +1,12 @@
 {
   super.setUp();
   cache=new MarkupCache();
+  Application.get().getMarkupSettings().setMarkupFactory(new MarkupFactory(){
+    @Override public IMarkupCache getMarkupCache(){
+      return cache;
+    }
+  }
+);
   component=new MarkupCachingAssumingComponent("panel");
   tester.startComponent(component);
 }

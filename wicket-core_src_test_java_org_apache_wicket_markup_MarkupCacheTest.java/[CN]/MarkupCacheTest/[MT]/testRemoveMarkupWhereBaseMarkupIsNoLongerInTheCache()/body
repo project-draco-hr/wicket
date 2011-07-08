@@ -1,0 +1,11 @@
+{
+  tester.startPage(MarkupInheritanceExtension_1.class);
+  tester.assertRenderedPage(MarkupInheritanceExtension_1.class);
+  MarkupInheritanceExtension_1 page=(MarkupInheritanceExtension_1)tester.getLastRenderedPage();
+  IMarkupFragment markup=cache.getMarkup(page,null,false);
+  assertNotNull(markup);
+  String key=markup.getMarkupResourceStream().getBaseMarkupResourceStream().getCacheKey();
+  cache.removeMarkup(key);
+  markup=cache.getMarkupFromCache(markup.getMarkupResourceStream().getCacheKey(),page);
+  assertNull(markup);
+}
