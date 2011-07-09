@@ -1,0 +1,17 @@
+{
+class MyTestPage extends TestPage {
+    public MyTestPage(    String labelMarkup){
+      super("<label wicket:for='t'>" + labelMarkup + "</label>");
+      field.setLabel(Model.of("t"));
+    }
+  }
+  assertRendered(new MyTestPage("<span class='text'>text</span>"),"<span class='text'>t</span>");
+  assertRendered(new MyTestPage(" <div> a </div> <span class='text'>text</span> b ")," <div> a </div> <span class='text'>t</span> b ");
+  assertRendered(new MyTestPage(" a <div> b <span class='text'>text</span> c </div> d")," a <div> b <span class='text'>t</span> c </div> d");
+  assertRendered(new MyTestPage("<span class='text'>text</span><span class='text'>text</span>"),"<span class='text'>t</span><span class='text'>text</span>");
+  assertRendered(new MyTestPage(" text ")," text ");
+  assertRendered(new MyTestPage(""),"></label>");
+  assertRendered(new MyTestPage("<span class='text'></span>"),"<span class='text'>t</span>");
+  assertRendered(new MyTestPage("<span class='text'/>"),"<span class='text'>t</span>");
+  assertRendered(new MyTestPage("<span class='foo text bar'/>"),"<span class='foo text bar'>t</span>");
+}

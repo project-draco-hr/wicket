@@ -1,0 +1,35 @@
+{
+  int[] range=new int[]{-1,-1};
+  XmlPullParser parser=new XmlPullParser();
+  XmlTag opening=null;
+  XmlTag closing=null;
+  try {
+    parser.parse(markup);
+    XmlTag tag=null;
+    int depth=0;
+    int openDepth=-1;
+    while (((tag=parser.nextTag()) != null)) {
+      if (!"span".equalsIgnoreCase(tag.getName()) || tag.getNamespace() != null) {
+        continue;
+      }
+      if (opening != null && tag.isClose() && depth == openDepth) {
+        closing=tag;
+        break;
+      }
+      depth+=tag.isOpen() ? 1 : -1;
+      if (opening == null && isTextSpan(tag)) {
+        opening=tag;
+        openDepth=depth;
+        continue;
+      }
+    }
+  }
+ catch (  Exception e) {
+    throw new WicketRuntimeException("Could not parse markup while processing an auto label for component: " + fc.toString(false),e);
+  }
+  if (opening != null) {
+    range[0]=opening.getPos() + opening.getLength();
+    range[1]=closing.getPos();
+  }
+  return range;
+}
