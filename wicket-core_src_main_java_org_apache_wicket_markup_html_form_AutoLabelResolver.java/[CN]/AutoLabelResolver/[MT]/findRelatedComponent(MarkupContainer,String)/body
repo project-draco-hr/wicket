@@ -1,7 +1,7 @@
 {
   Component component=container.get(id);
-  if (component != null && (component instanceof FormComponent<?>)) {
-    return (FormComponent<?>)component;
+  if (component != null) {
+    return component;
   }
   final Component[] searched=new Component[]{null};
   while (container != null) {
@@ -11,15 +11,15 @@
           visit.dontGoDeeper();
           return;
         }
-        if (id.equals(child.getId()) && (child instanceof FormComponent)) {
+        if (id.equals(child.getId())) {
           visit.stop(child);
           return;
         }
       }
     }
 );
-    if (component != null && (component instanceof FormComponent)) {
-      return (FormComponent<?>)component;
+    if (component != null) {
+      return component;
     }
     searched[0]=container;
     container=container.getParent();

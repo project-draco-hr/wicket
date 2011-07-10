@@ -1,14 +1,8 @@
 {
-  if (!tag.isOpen()) {
-    return false;
-  }
-  if (!"span".equalsIgnoreCase(tag.getName()) || tag.getNamespace() != null) {
-    return false;
-  }
-  String classNames=tag.getAttributes().getString(CLASS);
-  if (Strings.isEmpty(classNames)) {
-    return false;
-  }
+  if (!tag.isOpen())   return false;
+  if (!"span".equalsIgnoreCase(tag.getName()) || tag.getNamespace() != null)   return false;
+  String classNames=tag.getAttributes().getString("class");
+  if (Strings.isEmpty(classNames))   return false;
   boolean textClassFound=false;
   for (  String className : classNames.split(" ")) {
     if ("text".equals(className)) {
@@ -16,8 +10,6 @@
       break;
     }
   }
-  if (!textClassFound) {
-    return false;
-  }
+  if (!textClassFound)   return false;
   return true;
 }

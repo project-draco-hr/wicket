@@ -10,14 +10,17 @@
     super.onComponentTagBody(markupStream,openTag);
     return;
   }
-  String label=getFormComponentLabelText(fc);
+  String label=getLabelText();
   if (label != null) {
     markup=markup.replace(start,end,label);
     replaceComponentTagBody(markupStream,openTag,markup);
   }
  else {
-    String markupLabel=markup.substring(start,end);
-    fc.setLabel(Model.of(markupLabel));
-    super.onComponentTagBody(markupStream,openTag);
+    if (component instanceof FormComponent) {
+      FormComponent<?> fc=(FormComponent<?>)component;
+      String markupLabel=markup.substring(start,end);
+      fc.setLabel(Model.of(markupLabel));
+      super.onComponentTagBody(markupStream,openTag);
+    }
   }
 }
