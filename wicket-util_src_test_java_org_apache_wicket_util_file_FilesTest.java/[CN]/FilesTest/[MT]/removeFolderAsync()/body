@@ -1,0 +1,17 @@
+{
+  assertFalse("'null' folders are not deleted.",Files.removeFolderAsync(null,null));
+  IFileCleaner fileCleaner=new FileCleaner();
+  File nonExistingFolder=new File("/somethingThatDoesntExistsOnMostMachines-111111111111111111111111111111");
+  assertTrue("Even non existing folders are scheduled for deletion.",Files.removeFolderAsync(nonExistingFolder,fileCleaner));
+  assertFalse(nonExistingFolder.exists());
+  java.io.File folder=new File(System.getProperty("java.io.tmpdir"),"wicket-test-folder");
+  Files.mkdirs(folder);
+  assertTrue(folder.isDirectory());
+  File file=new File(folder,"child");
+  file.createNewFile();
+  assertTrue(file.exists());
+  assertTrue("The folder is scheduled for deletion.",Files.removeFolderAsync(folder,fileCleaner));
+  System.gc();
+  Thread.sleep(5);
+  assertFalse("",folder.exists());
+}

@@ -1,0 +1,15 @@
+{
+  IFileCleaner fileCleaner=new FileCleaner();
+  assertFalse("'null' files are not deleted.",Files.removeAsync(null,fileCleaner));
+  File nonExistingFile=new File("/somethingThatDoesntExistsOnMostMachines-111111111111111111111111111111");
+  assertTrue("Even non existing file are scheduled for deletion.",Files.removeFolderAsync(nonExistingFile,fileCleaner));
+  assertFalse(nonExistingFile.exists());
+  java.io.File file=java.io.File.createTempFile("wicket-test--",".tmp");
+  assertTrue("The just created file should exist!",file.exists());
+  file.createNewFile();
+  assertTrue(file.isFile());
+  assertTrue("The file is scheduled for deletion.",Files.removeAsync(file,fileCleaner));
+  System.gc();
+  Thread.sleep(5);
+  assertFalse("",file.exists());
+}

@@ -1,15 +1,17 @@
 {
   for (int j=0; j < 5; ++j) {
     for (int i=0; i < 10; ++i) {
-      if (file.mkdirs()) {
-        return;
+      if (folder.mkdirs()) {
+        return true;
       }
     }
     try {
       Thread.sleep(100);
     }
- catch (    InterruptedException ignore) {
+ catch (    InterruptedException ix) {
+      Thread.currentThread().interrupt();
     }
   }
-  logger.error("Failed to make directory " + file);
+  logger.error("Failed to create directory: " + folder);
+  return false;
 }

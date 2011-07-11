@@ -1,0 +1,17 @@
+{
+  if (folder == null || folder.isFile()) {
+    return false;
+  }
+  File[] files=folder.listFiles();
+  if (files != null) {
+    for (    File file : files) {
+      if (file.isDirectory()) {
+        deleteQuietly(file);
+      }
+ else {
+        super.deleteQuietly(file);
+      }
+    }
+  }
+  return super.deleteQuietly(folder);
+}
