@@ -1,0 +1,11 @@
+{
+  final String url="relative/path";
+  ServletWebRequest webRequest=mock(ServletWebRequest.class);
+  when(webRequest.isAjax()).thenReturn(Boolean.FALSE);
+  HttpServletResponse httpServletResponse=mock(HttpServletResponse.class);
+  when(httpServletResponse.encodeRedirectURL(Matchers.eq(url))).thenReturn(url);
+  ServletWebResponse webResponse=new ServletWebResponse(webRequest,httpServletResponse);
+  webResponse.sendRedirect(url);
+  verify(httpServletResponse).sendRedirect(url);
+  assertTrue(webResponse.isRedirect());
+}

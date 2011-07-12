@@ -1,0 +1,18 @@
+{
+  final String url="relative/path";
+  ServletWebRequest webRequest=mock(ServletWebRequest.class);
+  when(webRequest.isAjax()).thenReturn(Boolean.TRUE);
+  HttpServletRequest httpServletRequest=mock(HttpServletRequest.class);
+  when(webRequest.getContainerRequest()).thenReturn(httpServletRequest);
+  when(httpServletRequest.getCharacterEncoding()).thenReturn("UTF-8");
+  HttpServletResponse httpServletResponse=mock(HttpServletResponse.class);
+  when(httpServletResponse.encodeRedirectURL(Matchers.eq(url))).thenReturn(url);
+  StringWriter writer=new StringWriter();
+  when(httpServletResponse.getWriter()).thenReturn(new PrintWriter(writer));
+  ServletWebResponse webResponse=new ServletWebResponse(webRequest,httpServletResponse);
+  webResponse.sendRedirect(url);
+  verify(httpServletResponse).addHeader("Ajax-Location",url);
+  verify(httpServletResponse).setContentType("text/xml;charset=UTF-8");
+  assertEquals("<ajax-response><redirect><![CDATA[relative/path]]></redirect></ajax-response>",writer.toString());
+  assertTrue(webResponse.isRedirect());
+}
