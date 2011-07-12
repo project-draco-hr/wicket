@@ -1,10 +1,10 @@
 {
-  String key=getKey(sessionId,id);
-  if (key != null) {
-    Entry entry=entryMap.remove(key);
-    if (entry != null) {
-      entries.remove(entry);
+  for (  Runnable runnable : savePagesExecutor.getQueue()) {
+    StoreEntryRunnable storeEntryRunnable=(StoreEntryRunnable)runnable;
+    Entry cursorEntry=storeEntryRunnable.getEntry();
+    if (cursorEntry.getPageId() == pageId && cursorEntry.getSessionId().equals(sessionId)) {
+      savePagesExecutor.remove(runnable);
     }
   }
-  dataStore.removeData(sessionId,id);
+  dataStore.removeData(sessionId,pageId);
 }

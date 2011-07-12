@@ -1,12 +1,16 @@
 {
-  destroy.set(true);
+  log.debug("Going to shutdown the shutdown the task executor.");
+  savePagesExecutor.shutdown();
   try {
-synchronized (destroy) {
-      destroy.wait();
+    boolean stopped=savePagesExecutor.awaitTermination(30,TimeUnit.SECONDS);
+    if (stopped == false) {
+      log.warn("Some tasks didn't stop successfully. They were forcefully stopped.");
+      savePagesExecutor.shutdownNow();
     }
   }
  catch (  InterruptedException e) {
-    log.error(e.getMessage(),e);
+    throw new RuntimeException(e);
   }
+  log.debug("Going to shutdown the shutdown the underlying IDataStore.");
   dataStore.destroy();
 }
