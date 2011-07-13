@@ -1,14 +1,12 @@
 {
-  HttpServletRequest req=(HttpServletRequest)attributes.getRequest().getContainerRequest();
+  final HttpServletRequest req=(HttpServletRequest)attributes.getRequest().getContainerRequest();
   UploadInfo info=MultipartServletWebRequestImpl.getUploadInfo(req);
   String status=null;
   if ((info == null) || (info.getTotalBytes() < 1)) {
     status="100|";
   }
  else {
-    Locale locale=Session.get().getLocale();
-    String pattern=getStatus("statusUpdate",locale);
-    status=info.getPercentageComplete() + "|" + MessageFormat.format(pattern,info.getPercentageComplete(),info.getBytesUploadedString(locale),info.getTotalBytesString(locale),info.getTransferRateString(locale),info.getRemainingTimeString(locale));
+    status=info.getPercentageComplete() + "|" + new StringResourceModel(RESOURCE_STATUS,(Component)null,Model.of(info),"${percentageComplete}% finished, ${bytesUploadedString} of ${totalBytesString} at ${transferRateString}; ${remainingTimeString}").getString();
   }
   return status;
 }

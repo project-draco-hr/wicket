@@ -9,9 +9,10 @@
   }
   ResourceReference ref=new SharedResourceReference(RESOURCE_NAME);
   final String uploadFieldId=(uploadField == null) ? "" : uploadField.getMarkupId();
-  final String status=UploadStatusResource.getStatus("statusStarting",getLocale());
+  final String status=new StringResourceModel("UploadProgressBar.starting",this,(IModel<?>)null,"Upload starting...").getString();
+  CharSequence url=urlFor(ref,null);
   StringBuilder builder=new StringBuilder(128);
   Formatter formatter=new Formatter(builder);
-  formatter.format("new Wicket.WUPB('%s', '%s', '%s', '%s', '%s', '%s').bind('%s')",getMarkupId(),statusDiv.getMarkupId(),barDiv.getMarkupId(),urlFor(ref,null),uploadFieldId,status,getCallbackForm().getMarkupId());
+  formatter.format("new Wicket.WUPB('%s', '%s', '%s', '%s', '%s', '%s').bind('%s')",getMarkupId(),statusDiv.getMarkupId(),barDiv.getMarkupId(),url,uploadFieldId,status,getCallbackForm().getMarkupId());
   response.renderOnDomReadyJavaScript(builder.toString());
 }
