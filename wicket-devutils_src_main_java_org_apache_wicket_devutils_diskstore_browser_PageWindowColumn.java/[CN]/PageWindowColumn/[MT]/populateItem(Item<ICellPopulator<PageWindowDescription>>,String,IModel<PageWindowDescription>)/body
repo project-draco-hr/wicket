@@ -5,7 +5,7 @@
     int pageId=windowDescription.getId();
     DebugPageManagerProvider pageManagerProvider=(DebugPageManagerProvider)Application.get().getPageManagerProvider();
     DebugDiskDataStore dataStore=pageManagerProvider.getDataStore();
-    String sessionId=Session.get().getId();
+    String sessionId=windowDescription.getSessionId();
     byte[] data=dataStore.getData(sessionId,pageId);
     ISerializer serializer=Application.get().getFrameworkSettings().getSerializer();
     Object page=serializer.deserialize(data);

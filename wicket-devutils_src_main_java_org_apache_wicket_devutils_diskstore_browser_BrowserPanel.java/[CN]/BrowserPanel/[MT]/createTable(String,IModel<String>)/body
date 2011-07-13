@@ -1,5 +1,5 @@
 {
-  PageWindowProvider provider=new PageWindowProvider();
+  PageWindowProvider provider=new PageWindowProvider(sessionId);
   List<IColumn<PageWindowDescription>> columns=new ArrayList<IColumn<PageWindowDescription>>();
   PageWindowColumn pageIdColumn=new PageWindowColumn(Model.of("Id"),"id");
   columns.add(pageIdColumn);
@@ -7,5 +7,8 @@
   columns.add(pageNameColumn);
   PageWindowColumn pageSizeColumn=new PageWindowColumn(Model.of("Size"),"size");
   columns.add(pageSizeColumn);
-  return new BrowserTable(id,columns,provider);
+  BrowserTable browserTable=new BrowserTable(id,columns,provider);
+  browserTable.setOutputMarkupId(true);
+  browserTable.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(5)));
+  return browserTable;
 }

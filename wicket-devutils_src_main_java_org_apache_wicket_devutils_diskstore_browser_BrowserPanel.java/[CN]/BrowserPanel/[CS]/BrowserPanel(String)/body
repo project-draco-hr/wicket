@@ -1,5 +1,32 @@
 {
   super(id);
-  BrowserTable table=createTable("table");
+  final DropDownChoice<String> sessionsSelector=createSessionsSelector("sessions");
+  add(sessionsSelector);
+  final BrowserTable table=createTable("table",sessionsSelector.getModel());
   add(table);
+  AjaxLink<Void> refreshLink=new AjaxLink<Void>("refresh"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      target.add(table);
+    }
+  }
+;
+  add(refreshLink);
+  AjaxLink<Void> currentSessionLink=new AjaxLink<Void>("currentSessionLink"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      sessionsSelector.setModelObject(getCurrentSession().getObject());
+      target.add(sessionsSelector,table);
+    }
+    @Override public boolean isVisible(){
+      return BrowserPanel.this.getSession().isTemporary() == false;
+    }
+  }
+;
+  currentSessionLink.setOutputMarkupPlaceholderTag(true);
+  add(currentSessionLink);
+  sessionsSelector.add(new AjaxFormComponentUpdatingBehavior("onchange"){
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      target.add(table);
+    }
+  }
+);
 }

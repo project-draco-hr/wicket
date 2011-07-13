@@ -1,0 +1,16 @@
+{
+  List<String> sessionIds=new ArrayList<String>();
+  if (Application.exists()) {
+    DebugDiskDataStore dataStore=DataStoreHelper.getDataStore();
+    File appStoreFolder=dataStore.getStoreFolder();
+    if (appStoreFolder.isDirectory()) {
+      String[] sessionIdFileNames=appStoreFolder.list();
+      if (sessionIdFileNames != null) {
+        for (        String sessionId : sessionIdFileNames) {
+          sessionIds.add(sessionId);
+        }
+      }
+    }
+  }
+  return sessionIds;
+}
