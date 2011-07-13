@@ -1,0 +1,9 @@
+{
+  ResourceReferenceRegistry registry=new ResourceReferenceRegistry();
+  assertEquals(0,registry.getSize());
+  ResourceReference reference=new PackageResourceReference(ResourceReferenceRegistryTest.class,"test");
+  registry.registerResourceReference(reference);
+  assertEquals(1,registry.getSize());
+  registry.unregisterResourceReference(reference.getKey());
+  assertEquals(0,registry.getSize());
+}
