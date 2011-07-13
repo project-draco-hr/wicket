@@ -5,7 +5,7 @@
     String className=url.getSegments().get(0);
     String fullyQualifiedClassName=packageName.getName() + '.' + className;
     Class<? extends IRequestablePage> pageClass=getPageClass(fullyQualifiedClassName);
-    if (pageClass != null && IRequestablePage.class.isAssignableFrom(pageClass)) {
+    if (pageClass != null && Modifier.isAbstract(pageClass.getModifiers()) == false && IRequestablePage.class.isAssignableFrom(pageClass)) {
       PageParameters pageParameters=extractPageParameters(request,1,pageParametersEncoder);
       return new UrlInfo(info,pageClass,pageParameters);
     }
