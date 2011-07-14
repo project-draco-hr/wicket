@@ -10,12 +10,7 @@
       JarURLConnection jarUrlConnection=(JarURLConnection)connection;
       URL jarFileUrl=jarUrlConnection.getJarFileURL();
       URLConnection jarFileConnection=jarFileUrl.openConnection();
-      try {
-        milliseconds=jarFileConnection.getLastModified();
-      }
-  finally {
-        close(jarFileConnection);
-      }
+      milliseconds=jarFileConnection.getLastModified();
     }
  else {
       milliseconds=connection.getLastModified();
@@ -26,6 +21,6 @@
     return Time.millis(milliseconds);
   }
   finally {
-    close(connection);
+    closeQuietly(connection);
   }
 }
