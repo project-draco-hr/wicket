@@ -1,0 +1,14 @@
+{
+  boolean debugEnabled=logger.isDebugEnabled();
+  for (  IClassResolver resolver : resolvers) {
+    try {
+      return resolver.resolveClass(className);
+    }
+ catch (    ClassNotFoundException cnfx) {
+      if (debugEnabled) {
+        logger.debug("ClassResolver '{}' cannot find class: '{}'",resolver.getClass().getName(),className);
+      }
+    }
+  }
+  throw new ClassNotFoundException(className);
+}

@@ -1,0 +1,43 @@
+{
+  Class<?> clazz=null;
+  WeakReference<Class<?>> ref=classes.get(className);
+  if (ref != null) {
+    clazz=ref.get();
+  }
+  if (clazz == null) {
+    if (className.equals("byte")) {
+      clazz=byte.class;
+    }
+ else     if (className.equals("short")) {
+      clazz=short.class;
+    }
+ else     if (className.equals("int")) {
+      clazz=int.class;
+    }
+ else     if (className.equals("long")) {
+      clazz=long.class;
+    }
+ else     if (className.equals("float")) {
+      clazz=float.class;
+    }
+ else     if (className.equals("double")) {
+      clazz=double.class;
+    }
+ else     if (className.equals("boolean")) {
+      clazz=boolean.class;
+    }
+ else     if (className.equals("char")) {
+      clazz=char.class;
+    }
+ else {
+synchronized (classes) {
+        clazz=Class.forName(className,false,getClassLoader());
+        if (clazz == null) {
+          throw new ClassNotFoundException(className);
+        }
+      }
+      classes.put(className,new WeakReference<Class<?>>(clazz));
+    }
+  }
+  return clazz;
+}

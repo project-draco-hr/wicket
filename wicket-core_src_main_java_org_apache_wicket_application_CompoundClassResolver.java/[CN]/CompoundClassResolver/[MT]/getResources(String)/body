@@ -1,0 +1,14 @@
+{
+  Args.notNull(name,"name");
+  Set<URL> urls=new TreeSet<URL>();
+  for (  IClassResolver resolver : resolvers) {
+    Iterator<URL> it=resolver.getResources(name);
+    while (it.hasNext()) {
+      URL url=it.next();
+      if (urls.contains(url) == false) {
+        urls.add(url);
+      }
+    }
+  }
+  return urls.iterator();
+}
