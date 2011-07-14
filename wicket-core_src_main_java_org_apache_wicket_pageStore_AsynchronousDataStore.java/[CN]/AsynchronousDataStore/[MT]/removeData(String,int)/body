@@ -1,9 +1,11 @@
 {
   for (  Runnable runnable : savePagesExecutor.getQueue()) {
     StoreEntryRunnable storeEntryRunnable=(StoreEntryRunnable)runnable;
-    Entry cursorEntry=storeEntryRunnable.getEntry();
-    if (cursorEntry.getPageId() == pageId && cursorEntry.getSessionId().equals(sessionId)) {
-      savePagesExecutor.remove(runnable);
+    if (storeEntryRunnable != null) {
+      Entry cursorEntry=storeEntryRunnable.getEntry();
+      if (cursorEntry.getPageId() == pageId && cursorEntry.getSessionId().equals(sessionId)) {
+        savePagesExecutor.remove(runnable);
+      }
     }
   }
   dataStore.removeData(sessionId,pageId);

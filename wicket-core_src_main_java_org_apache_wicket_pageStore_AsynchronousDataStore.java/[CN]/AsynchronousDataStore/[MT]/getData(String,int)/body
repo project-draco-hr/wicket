@@ -2,10 +2,12 @@
   Entry entry=null;
   for (  Runnable runnable : savePagesExecutor.getQueue()) {
     StoreEntryRunnable storeEntryRunnable=(StoreEntryRunnable)runnable;
-    Entry cursorEntry=storeEntryRunnable.getEntry();
-    if (cursorEntry.getPageId() == pageId && cursorEntry.getSessionId().equals(sessionId)) {
-      entry=cursorEntry;
-      break;
+    if (storeEntryRunnable != null) {
+      Entry cursorEntry=storeEntryRunnable.getEntry();
+      if (cursorEntry.getPageId() == pageId && cursorEntry.getSessionId().equals(sessionId)) {
+        entry=cursorEntry;
+        break;
+      }
     }
   }
   final byte[] data;
