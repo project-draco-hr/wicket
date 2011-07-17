@@ -1,9 +1,9 @@
 {
   HttpServletRequest request=getContainerRequest();
-  UploadInfo info=getUploadInfo(request);
+  UploadInfo info=getUploadInfo(request,upload);
   if (info == null) {
     throw new IllegalStateException("could not find UploadInfo object in session which should have been set when uploaded started");
   }
   info.setBytesUploaded(bytesUploaded);
-  setUploadInfo(request,info);
+  setUploadInfo(request,upload,info);
 }

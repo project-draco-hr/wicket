@@ -1,6 +1,7 @@
 {
   final HttpServletRequest req=(HttpServletRequest)attributes.getRequest().getContainerRequest();
-  UploadInfo info=MultipartServletWebRequestImpl.getUploadInfo(req);
+  final String upload=req.getParameter(UPLOAD_PARAMETER);
+  UploadInfo info=MultipartServletWebRequestImpl.getUploadInfo(req,upload);
   String status=null;
   if ((info == null) || (info.getTotalBytes() < 1)) {
     status="100|";
