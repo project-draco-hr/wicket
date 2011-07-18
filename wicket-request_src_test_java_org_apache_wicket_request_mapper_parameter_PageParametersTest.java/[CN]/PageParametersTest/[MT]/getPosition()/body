@@ -1,0 +1,12 @@
+{
+  PageParameters parameters=new PageParameters();
+  parameters.set("named1","value1",3);
+  assertEquals("Adding a parameter at position out of the size of the list will just append it",0,parameters.getPosition("named1"));
+  parameters.set("named2","value2",0);
+  assertEquals(0,parameters.getPosition("named2"));
+  assertEquals("'named1' should be moved back",1,parameters.getPosition("named1"));
+  parameters.set("named3","value3",-100);
+  assertEquals(0,parameters.getPosition("named2"));
+  assertEquals(1,parameters.getPosition("named1"));
+  assertEquals("Adding a parameter with negative position will just append it.",2,parameters.getPosition("named3"));
+}
