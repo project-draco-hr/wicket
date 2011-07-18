@@ -1,0 +1,21 @@
+{
+  if (hasFilterFactoryManager()) {
+    for (    AbstractRequestWrapperFactory factory : getFilterFactoryManager()) {
+      servletRequest=factory.getWrapper(servletRequest);
+    }
+  }
+  WebRequest webRequest=newWebRequest(servletRequest,filterPath);
+  try {
+    if (webRequest.isAjax()) {
+      servletRequest.setCharacterEncoding(CharEncoding.UTF_8);
+    }
+ else {
+      String requestEncoding=getRequestCycleSettings().getResponseRequestEncoding();
+      servletRequest.setCharacterEncoding(requestEncoding);
+    }
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new RuntimeException(e);
+  }
+  return webRequest;
+}
