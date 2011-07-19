@@ -1,12 +1,12 @@
 {
-  List<EncoderWithSegmentsCount> list=new ArrayList<EncoderWithSegmentsCount>(mappers.size());
-  for (  IRequestMapper encoder : mappers) {
-    int score=encoder.getCompatibilityScore(request);
-    list.add(new EncoderWithSegmentsCount(encoder,score));
+  List<MapperWithScore> list=new ArrayList<MapperWithScore>(mappers.size());
+  for (  IRequestMapper mapper : mappers) {
+    int score=mapper.getCompatibilityScore(request);
+    list.add(new MapperWithScore(mapper,score));
   }
   Collections.sort(list);
-  for (  EncoderWithSegmentsCount encoder : list) {
-    IRequestHandler handler=encoder.getMapper().mapRequest(request);
+  for (  MapperWithScore mapperWithScore : list) {
+    IRequestHandler handler=mapperWithScore.getMapper().mapRequest(request);
     if (handler != null) {
       return handler;
     }
