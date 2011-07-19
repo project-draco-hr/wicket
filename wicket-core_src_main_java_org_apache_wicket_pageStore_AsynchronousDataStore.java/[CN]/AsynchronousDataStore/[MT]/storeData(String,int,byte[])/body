@@ -1,5 +1,17 @@
 {
-  Entry entry=new Entry(sessionId,pageId,data);
-  StoreEntryRunnable storeEntryRunnable=new StoreEntryRunnable(entry,dataStore);
-  savePagesExecutor.execute(storeEntryRunnable);
+  Entry entry=new Entry(sessionId,id,data);
+  try {
+    boolean added=entries.offer(entry,OFFER_WAIT,TimeUnit.MILLISECONDS);
+    if (added == false) {
+      log.debug("Storing synchronously page with id '{}' in session '{}'",id,sessionId);
+      dataStore.storeData(sessionId,id,data);
+    }
+ else {
+      entryMap.put(getKey(entry),entry);
+    }
+  }
+ catch (  InterruptedException e) {
+    log.error(e.getMessage(),e);
+    dataStore.storeData(sessionId,id,data);
+  }
 }

@@ -1,10 +1,11 @@
 {
-  for (  Runnable runnable : savePagesExecutor.getQueue()) {
-    StoreEntryRunnable storeEntryRunnable=(StoreEntryRunnable)runnable;
-    if (storeEntryRunnable != null) {
-      Entry cursorEntry=storeEntryRunnable.getEntry();
-      if (cursorEntry.getSessionId().equals(sessionId)) {
-        savePagesExecutor.remove(runnable);
+  for (Iterator<Entry> itor=entries.iterator(); itor.hasNext(); ) {
+    Entry entry=itor.next();
+    if (entry != null) {
+      String entrySessionId=entry.sessionId;
+      if (sessionId.equals(entrySessionId)) {
+        entryMap.remove(getKey(entry));
+        itor.remove();
       }
     }
   }
