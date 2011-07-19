@@ -1,4 +1,8 @@
 {
-  lastRenderedPage=(Page)handler.getPageProvider().getPageInstance();
+  Page newPage=(Page)handler.getPageProvider().getPageInstance();
+  if (startComponent != null && lastPage != null && lastPage.getPageClass() != newPage.getPageClass()) {
+    startComponent=null;
+  }
+  lastRenderedPage=lastPage=newPage;
   return delegate.get(handler);
 }

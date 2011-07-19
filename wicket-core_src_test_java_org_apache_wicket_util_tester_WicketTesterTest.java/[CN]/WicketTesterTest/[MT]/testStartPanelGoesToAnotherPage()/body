@@ -1,0 +1,11 @@
+{
+  tester.startComponentInPage(new MockPanelWithLink("testPanel"){
+    @Override protected void onLinkClick(    AjaxRequestTarget target){
+      setResponsePage(DummyHomePage.class);
+    }
+  }
+);
+  tester.clickLink("link");
+  tester.assertRenderedPage(DummyHomePage.class);
+  tester.assertComponent("testPage",TestLink.class);
+}
