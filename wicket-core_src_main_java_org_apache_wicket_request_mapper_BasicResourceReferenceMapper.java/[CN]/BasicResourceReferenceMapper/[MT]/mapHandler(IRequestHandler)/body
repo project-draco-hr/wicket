@@ -32,7 +32,10 @@
           final ResourceUrl resourceUrl=new ResourceUrl(token,parameters);
           getCachingStrategy().decorateUrl(resourceUrl,pkgref);
           token=resourceUrl.getFileName();
-          if (Strings.isEmpty(token))           throw new NullPointerException("caching strategy must not return an empty filename");
+          if (Strings.isEmpty(token)) {
+            log.debug("Caching strategy {} returned an empty name, not mapping {}",getCachingStrategy().getClass().getName(),url);
+            return null;
+          }
           if (parameters.getIndexedCount() > 0)           throw new IllegalStateException("caching strategy must not add indexed parameters");
         }
       }
