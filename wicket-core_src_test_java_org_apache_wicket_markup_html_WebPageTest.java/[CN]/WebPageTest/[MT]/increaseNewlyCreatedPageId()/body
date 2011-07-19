@@ -1,0 +1,12 @@
+{
+  tester.startPage(MainPage.class);
+  int mainPageId=tester.getLastRenderedPage().getPageId();
+  tester.clickLink("mainLink");
+  tester.assertRenderedPage(TargetPage.class);
+  int targetPageId=tester.getLastRenderedPage().getPageId();
+  Assert.assertTrue(mainPageId != targetPageId);
+  IManageablePage mainPage=tester.getSession().getPageManager().getPage(mainPageId);
+  IManageablePage targetPage=tester.getSession().getPageManager().getPage(targetPageId);
+  Assert.assertTrue(mainPage instanceof MainPage);
+  Assert.assertTrue(targetPage instanceof TargetPage);
+}
