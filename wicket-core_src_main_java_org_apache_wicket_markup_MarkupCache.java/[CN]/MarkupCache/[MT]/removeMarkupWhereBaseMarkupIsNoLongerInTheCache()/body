@@ -5,12 +5,17 @@
     Iterator<Markup> iter=markupCache.getValues().iterator();
     while (iter.hasNext()) {
       Markup markup=iter.next();
-      MarkupResourceStream resourceStream=markup.getMarkupResourceStream().getBaseMarkupResourceStream();
-      if ((resourceStream != null) && !isMarkupCached(resourceStream)) {
-        iter.remove();
-        count++;
-        if (log.isDebugEnabled()) {
-          log.debug("Removed derived markup from cache: " + markup.getMarkupResourceStream());
+      if ((markup != null) && (markup != Markup.NO_MARKUP)) {
+        MarkupResourceStream resourceStream=markup.getMarkupResourceStream();
+        if (resourceStream != null) {
+          resourceStream=resourceStream.getBaseMarkupResourceStream();
+        }
+        if ((resourceStream != null) && !isMarkupCached(resourceStream)) {
+          iter.remove();
+          count++;
+          if (log.isDebugEnabled()) {
+            log.debug("Removed derived markup from cache: " + markup.getMarkupResourceStream());
+          }
         }
       }
     }
