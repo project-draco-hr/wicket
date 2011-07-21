@@ -1,0 +1,43 @@
+{
+  boolean storeLabelText=false;
+  String labelText=null;
+  if (labeled instanceof ILabelProvider) {
+    ILabelProvider<String> provider=(ILabelProvider<String>)labeled;
+    if (provider.getLabel() != null) {
+      String text=provider.getLabel().getObject();
+      if (!Strings.isEmpty(text)) {
+        labelText=text;
+      }
+    }
+  }
+  if (labelText == null && labeled instanceof FormComponent) {
+    String text=((FormComponent<?>)labeled).getDefaultLabel("wicket:unknown");
+    if (!"wicket:unknown".equals(text) && !Strings.isEmpty(text)) {
+      labelText=text;
+    }
+  }
+  if (labelText == null && openTag.getAttribute("key") != null) {
+    String text=labeled.getString(openTag.getAttribute("key"));
+    if (!Strings.isEmpty(text)) {
+      labelText=text;
+      storeLabelText=true;
+    }
+  }
+  if (labelText == null) {
+    String text=new ResponseBufferZone(RequestCycle.get(),markupStream){
+      @Override protected void executeInsideBufferedZone(){
+        TextLabel.super.onComponentTagBody(markupStream,openTag);
+      }
+    }
+.execute().toString();
+    if (!Strings.isEmpty(text)) {
+      labelText=text;
+      storeLabelText=true;
+    }
+  }
+  replaceComponentTagBody(markupStream,openTag,labelText);
+  if (labeled instanceof FormComponent) {
+    FormComponent<?> fc=(FormComponent<?>)labeled;
+    fc.setLabel(Model.of(labelText));
+  }
+}

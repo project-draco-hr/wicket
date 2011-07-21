@@ -6,13 +6,11 @@ class MyTestPage extends TestPage {
       field.setLabel(Model.of("t"));
     }
   }
-  assertRendered(new MyTestPage("<span class='label-text'>text</span>"),"<span class='label-text'>t</span>");
-  assertRendered(new MyTestPage(" <div> a </div> <span class='label-text'>text</span> b ")," <div> a </div> <span class='label-text'>t</span> b ");
-  assertRendered(new MyTestPage(" a <div> b <span class='label-text'>text</span> c </div> d")," a <div> b <span class='label-text'>t</span> c </div> d");
-  assertRendered(new MyTestPage("<span class='label-text'>text</span><span class='label-text'>text</span>"),"<span class='label-text'>t</span><span class='label-text'>text</span>");
+  assertRendered(new MyTestPage("<wicket:label>text</wicket:label>"),">t</label>");
+  assertRendered(new MyTestPage(" <div> a </div> <wicket:label>text</wicket:label> b ")," <div> a </div> t b ");
+  assertRendered(new MyTestPage(" a <div> b <wicket:label>text</wicket:label> c </div> d")," a <div> b t c </div> d");
   assertRendered(new MyTestPage(" text ")," text ");
   assertRendered(new MyTestPage(""),"></label>");
-  assertRendered(new MyTestPage("<span class='label-text'></span>"),"<span class='label-text'>t</span>");
-  assertRendered(new MyTestPage("<span class='label-text'/>"),"<span class='label-text'>t</span>");
-  assertRendered(new MyTestPage("<span class='foo label-text bar'/>"),"<span class='foo label-text bar'>t</span>");
+  assertRendered(new MyTestPage("<wicket:label></wicket:label>"),">t</label>");
+  assertRendered(new MyTestPage("<wicket:label/>"),">t</label>");
 }

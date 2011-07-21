@@ -1,0 +1,27 @@
+{
+  if (tag instanceof WicketTag && "label".equals(((WicketTag)tag).getName())) {
+    Component related=null;
+    if (tag.getAttribute("for") != null) {
+      Component component=AutoLabelResolver.findRelatedComponent(container,tag.getAttribute("for"));
+      related=component;
+    }
+    if (related == null) {
+      if (container instanceof AutoLabel) {
+        related=((AutoLabel)container).getRelatedComponent();
+      }
+      if (related == null) {
+        AutoLabel autoLabel=container.findParent(AutoLabel.class);
+        if (autoLabel != null) {
+          related=autoLabel.getRelatedComponent();
+        }
+      }
+    }
+    if (related == null) {
+      throw new IllegalStateException("no related component found for <wicket:label>");
+    }
+ else {
+      return new TextLabel("label" + container.getPage().getAutoIndex(),related);
+    }
+  }
+  return null;
+}
