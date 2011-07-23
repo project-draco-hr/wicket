@@ -1,10 +1,12 @@
 {
   final Localizer localizer=getLocalizer();
-  final Session session=Session.get();
-  if (session == null) {
-    throw new WicketRuntimeException("Cannot attach a string resource model without a Session context because that is required to get a Locale");
+  final Locale locale;
+  if (component != null) {
+    locale=component.getLocale();
   }
-  final Locale locale=session.getLocale();
+ else {
+    locale=Session.exists() ? Session.get().getLocale() : Locale.getDefault();
+  }
   String value;
   Object[] parameters=getParameters();
   if (parameters == null || parameters.length == 0) {
@@ -37,7 +39,7 @@
       if (model != null) {
         value=Strings.replaceAll(value,"${","$'{'").toString();
       }
-      final MessageFormat format=new MessageFormat(value,component != null ? component.getLocale() : locale);
+      final MessageFormat format=new MessageFormat(value,locale);
       value=format.format(realParams);
       if (model != null) {
         value=Strings.replaceAll(value,"$'{'","${").toString();
