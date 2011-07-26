@@ -1,0 +1,10 @@
+{
+  ctx.putBean("bean",new Bean());
+  AnnotatedBeanRequired page;
+  tester.startPage(page=new AnnotatedBeanRequired());
+  assertNotNull(page.getBean());
+  AnnotatedBeanNotRequired notRequiredpage;
+  tester.startPage(notRequiredpage=new AnnotatedBeanNotRequired());
+  assertNotNull(notRequiredpage.getBean());
+  assertTrue(page.getBean() == notRequiredpage.getBean());
+}

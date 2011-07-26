@@ -1,0 +1,11 @@
+{
+  try {
+    tester.startPage(new AnnotatedBeanRequired());
+    fail();
+  }
+ catch (  IllegalStateException e) {
+  }
+  AnnotatedBeanNotRequired page;
+  tester.startPage(page=new AnnotatedBeanNotRequired());
+  assertNull(page.getBean());
+}

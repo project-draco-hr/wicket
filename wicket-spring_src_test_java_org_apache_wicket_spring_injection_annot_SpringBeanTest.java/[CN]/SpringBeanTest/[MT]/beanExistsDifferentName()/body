@@ -1,0 +1,14 @@
+{
+  ctx.putBean("mrBean",new Bean());
+  ctx.putBean("theBean",new Bean());
+  try {
+    tester.startPage(new AnnotatedBeanRequired());
+    fail();
+  }
+ catch (  IllegalStateException e) {
+  }
+  AnnotatedBeanNotRequiredDifferentName page;
+  tester.startPage(page=new AnnotatedBeanNotRequiredDifferentName());
+  SpringBeanLocator locator=(SpringBeanLocator)((ILazyInitProxy)page.getBean()).getObjectLocator();
+  assertTrue(locator.getBeanName().equals("mrBean"));
+}

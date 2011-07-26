@@ -1,6 +1,10 @@
 {
   if (supportsField(field)) {
-    SpringBeanLocator locator=new SpringBeanLocator(getBeanName(field),field.getType(),contextLocator);
+    String beanName=getBeanName(field);
+    if (beanName == null) {
+      return null;
+    }
+    SpringBeanLocator locator=new SpringBeanLocator(beanName,field.getType(),contextLocator);
     Object cachedValue=cache.get(locator);
     if (cachedValue != null) {
       return cachedValue;

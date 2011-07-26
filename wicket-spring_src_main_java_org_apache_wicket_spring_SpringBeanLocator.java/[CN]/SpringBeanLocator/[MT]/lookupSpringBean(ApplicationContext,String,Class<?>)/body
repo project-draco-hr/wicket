@@ -1,6 +1,11 @@
 {
   try {
-    return ctx.getBean(name,clazz);
+    if (name == null) {
+      return ctx.getBean(clazz);
+    }
+ else {
+      return ctx.getBean(name,clazz);
+    }
   }
  catch (  NoSuchBeanDefinitionException e) {
     throw new IllegalStateException("bean with name [" + name + "] and class ["+ clazz.getName()+ "] not found");
