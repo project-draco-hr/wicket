@@ -1,5 +1,5 @@
 {
-  Component controller=getEnclosureParent().get(getChildId());
+  Component controller=enclosureParent.get(getChildId());
   if (controller == null) {
     int orgIndex=markupStream.getCurrentIndex();
     try {
@@ -9,7 +9,7 @@
           ComponentTag tag=markupStream.getTag();
           if ((tag != null) && (tag.isOpen() || tag.isOpenClose())) {
             if (childId.equals(tag.getId())) {
-              controller=ComponentResolvers.resolve(container,markupStream,tag,new ResolverFilter(){
+              controller=ComponentResolvers.resolve(enclosureParent,markupStream,tag,new ResolverFilter(){
                 public boolean ignoreResolver(                final IComponentResolver resolver){
                   return resolver instanceof EnclosureHandler;
                 }
