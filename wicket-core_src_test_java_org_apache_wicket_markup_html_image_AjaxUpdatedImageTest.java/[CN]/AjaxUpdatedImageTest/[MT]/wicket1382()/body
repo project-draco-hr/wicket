@@ -2,10 +2,10 @@
   AjaxyImagesPage page=tester.startPage(AjaxyImagesPage.class);
   TagTester tagTester=tester.getTagById(page.image.getMarkupId());
   final String srcAttr=tagTester.getAttribute("src");
-  assertFalse("Image has not be rendered in Ajax request so it has no wicket:antiCache' parameter",srcAttr.contains("wicket:antiCache"));
+  assertFalse("Image has not be rendered in Ajax request so it has no wicket:antiCache' parameter",srcAttr.contains("antiCache"));
   tester.clickLink("link",true);
   page=(AjaxyImagesPage)tester.getLastRenderedPage();
   tagTester=tester.getTagById(page.image.getMarkupId());
   final String imageAjaxComponent=tagTester.getValue();
-  assertTrue("Image has not be rendered in Ajax request so it has no wicket:antiCache' parameter",imageAjaxComponent.contains("wicket:antiCache"));
+  assertTrue("Image has not be rendered in Ajax request so it has no wicket:antiCache' parameter",imageAjaxComponent.contains("antiCache"));
 }
