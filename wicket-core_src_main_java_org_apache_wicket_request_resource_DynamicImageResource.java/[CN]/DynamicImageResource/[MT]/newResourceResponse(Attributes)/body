@@ -9,12 +9,18 @@
   if (response.dataNeedsToBeWritten(attributes)) {
     response.setContentType("image/" + getFormat());
     response.setContentDisposition(ContentDisposition.INLINE);
-    response.setWriteCallback(new WriteCallback(){
-      @Override public void writeData(      final Attributes attributes){
-        attributes.getResponse().write(getImageData(attributes));
-      }
+    final byte[] imageData=getImageData(attributes);
+    if (imageData == null) {
+      response.setError(HttpServletResponse.SC_NOT_FOUND);
     }
+ else {
+      response.setWriteCallback(new WriteCallback(){
+        @Override public void writeData(        final Attributes attributes){
+          attributes.getResponse().write(imageData);
+        }
+      }
 );
+    }
     configureResponse(response,attributes);
   }
   return response;

@@ -1,0 +1,12 @@
+{
+  final byte[] expected=new byte[]{1,2,3};
+  DynamicImageResource resource=new DynamicImageResource(){
+    @Override protected byte[] getImageData(    Attributes attributes){
+      return expected;
+    }
+  }
+;
+  tester.startResource(resource);
+  assertEquals(HttpServletResponse.SC_OK,tester.getLastResponse().getStatus());
+  Assert.assertArrayEquals(expected,tester.getLastResponse().getBinaryContent());
+}
