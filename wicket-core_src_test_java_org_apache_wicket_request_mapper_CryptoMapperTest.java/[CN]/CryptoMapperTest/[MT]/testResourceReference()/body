@@ -1,0 +1,9 @@
+{
+  String encrypted="X5EA-RpmG5-t7GSByiSposVVWJ28fpoU-XgFo7bOPITjbCTT6mLI5l-7b-WJucu-Kc8StVsu-PL5htkbIxuxphv3mYi5-mmkCvkxPsriihj5VPg3naw2fA/X5E87/b-W6b/l-795/Juc97/mG5fa";
+  Request request=getRequest(Url.parse(encrypted));
+  IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
+  ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;
+  assertEquals(getClass(),handler.getResourceReference().getScope());
+  assertEquals("crypt/crypt.txt",handler.getResourceReference().getName());
+}
