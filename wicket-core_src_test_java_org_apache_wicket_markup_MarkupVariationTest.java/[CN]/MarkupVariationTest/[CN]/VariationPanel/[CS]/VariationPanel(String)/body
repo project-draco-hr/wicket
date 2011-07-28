@@ -1,0 +1,16 @@
+{
+  super(id);
+  setOutputMarkupId(true);
+  variation="one";
+  add(new AjaxLink<Void>("l"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      variation="one".equals(variation) ? "two" : "one";
+      target.add(VariationPanel.this);
+    }
+  }
+);
+  add(new Label("simpleLabel","Label"));
+  add(new Form<Void>("a_form"));
+  add(new Label("child","Inline Enclosure child text"));
+  add(new Label("nestedChild","Nested Inline Enclosure child text"));
+}
