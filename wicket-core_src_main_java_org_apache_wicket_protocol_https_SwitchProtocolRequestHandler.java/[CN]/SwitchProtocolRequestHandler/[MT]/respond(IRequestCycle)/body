@@ -12,13 +12,7 @@
       port=httpsConfig.getHttpsPort();
     }
   }
-  final String url;
-  if (handler == null) {
-    url=getUrl(protocol.toString().toLowerCase(),port,request);
-  }
- else {
-    url=((RequestCycle)requestCycle).mapUrlFor(handler).toString();
-  }
+  final String url=getUrl(protocol.toString().toLowerCase(),port,request);
   WebResponse response=(WebResponse)requestCycle.getResponse();
   response.sendRedirect(url);
 }
