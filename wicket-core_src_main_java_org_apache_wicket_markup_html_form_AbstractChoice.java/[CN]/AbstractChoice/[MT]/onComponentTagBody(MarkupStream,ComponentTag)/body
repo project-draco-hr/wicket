@@ -1,11 +1,11 @@
 {
   List<? extends E> choices=getChoices();
   final AppendingStringBuffer buffer=new AppendingStringBuffer((choices.size() * 50) + 16);
-  final String selected=getValue();
-  buffer.append(getDefaultChoice(selected));
+  final String selectedValue=getValue();
+  buffer.append(getDefaultChoice(selectedValue));
   for (int index=0; index < choices.size(); index++) {
     final E choice=choices.get(index);
-    appendOptionHtml(buffer,choice,index,selected);
+    appendOptionHtml(buffer,choice,index,selectedValue);
   }
   buffer.append("\n");
   replaceComponentTagBody(markupStream,openTag,buffer);

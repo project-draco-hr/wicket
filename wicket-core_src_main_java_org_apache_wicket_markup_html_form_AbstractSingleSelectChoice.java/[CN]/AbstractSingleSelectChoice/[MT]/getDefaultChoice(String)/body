@@ -1,0 +1,25 @@
+{
+  if (isNullValid()) {
+    String option=getLocalizer().getStringIgnoreSettings(getNullValidKey(),this,null,null);
+    if (Strings.isEmpty(option)) {
+      option=getLocalizer().getString("nullValid",this,"");
+    }
+    final AppendingStringBuffer buffer=new AppendingStringBuffer(64 + option.length());
+    buffer.append("\n<option");
+    if ("".equals(selectedValue)) {
+      buffer.append(" selected=\"selected\"");
+    }
+    buffer.append(" value=\"\">").append(option).append("</option>");
+    return buffer;
+  }
+ else {
+    if ("".equals(selectedValue)) {
+      String option=getLocalizer().getStringIgnoreSettings(getNullKey(),this,null,null);
+      if (Strings.isEmpty(option)) {
+        option=getLocalizer().getString("null",this,CHOOSE_ONE);
+      }
+      return "\n<option selected=\"selected\" value=\"\">" + option + "</option>";
+    }
+  }
+  return "";
+}
