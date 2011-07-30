@@ -10,6 +10,13 @@
   assertTrue(file.isFile());
   assertTrue("The file is scheduled for deletion.",Files.removeAsync(file,fileCleaner));
   System.gc();
-  Thread.sleep(5);
-  assertFalse("",file.exists());
+  boolean exists=true;
+  for (int i=0; i < 10; i++) {
+    Thread.sleep(5);
+    if (!file.exists()) {
+      exists=false;
+      break;
+    }
+  }
+  assertFalse("The file no longer exists",exists);
 }
