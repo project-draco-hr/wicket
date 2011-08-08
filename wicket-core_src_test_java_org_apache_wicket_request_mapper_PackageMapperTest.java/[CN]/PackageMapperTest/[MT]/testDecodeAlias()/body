@@ -1,0 +1,8 @@
+{
+  Url url=Url.parse(ALIAS + "?15");
+  IRequestHandler handler=aliasEncoder.mapRequest(getRequest(url));
+  assertTrue(handler instanceof RenderPageRequestHandler);
+  IRequestablePage page=((RenderPageRequestHandler)handler).getPage();
+  checkPage(page,15);
+  assertEquals(PAGE_CLASS_NAME,page.getClass().getSimpleName());
+}

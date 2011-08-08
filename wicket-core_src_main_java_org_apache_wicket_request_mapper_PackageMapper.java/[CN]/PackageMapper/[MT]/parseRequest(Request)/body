@@ -3,6 +3,7 @@
   if (url.getSegments().size() >= 1) {
     PageComponentInfo info=getPageComponentInfo(url);
     String className=url.getSegments().get(0);
+    className=transformFromUrl(className);
     String fullyQualifiedClassName=packageName.getName() + '.' + className;
     Class<? extends IRequestablePage> pageClass=getPageClass(fullyQualifiedClassName);
     if (pageClass != null && Modifier.isAbstract(pageClass.getModifiers()) == false && IRequestablePage.class.isAssignableFrom(pageClass)) {
