@@ -2,15 +2,15 @@
   try {
     super.writeObject(obj);
   }
- catch (  IOException e) {
+ catch (  NotSerializableException nsx) {
     if (SerializableChecker.isAvailable()) {
-      new SerializableChecker((NotSerializableException)e).writeObject(obj);
-      throw e;
+      new SerializableChecker(nsx).writeObject(obj);
+      throw nsx;
     }
-    throw e;
+    throw nsx;
   }
-catch (  RuntimeException e) {
+catch (  Exception e) {
     log.error("error writing object " + obj + ": "+ e.getMessage(),e);
-    throw e;
+    throw new WicketRuntimeException(e);
   }
 }
