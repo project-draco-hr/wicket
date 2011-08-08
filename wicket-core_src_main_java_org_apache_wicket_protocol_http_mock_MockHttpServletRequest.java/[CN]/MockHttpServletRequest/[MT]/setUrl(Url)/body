@@ -1,3 +1,26 @@
 {
-  setURL(url.toString());
+  if (url.getProtocol() != null) {
+    setScheme(url.getProtocol());
+  }
+  if (url.getHost() != null) {
+    serverName=url.getHost();
+  }
+  if (url.getPort() != null) {
+    serverPort=url.getPort();
+  }
+  String path=url.getPath(getCharset());
+  if (path.startsWith("/") == false) {
+    path=getContextPath() + getServletPath() + '/'+ path;
+  }
+  this.url=path;
+  if (path.startsWith(getContextPath())) {
+    path=path.substring(getContextPath().length());
+  }
+  if (path.startsWith(getServletPath())) {
+    path=path.substring(getServletPath().length());
+  }
+  setPath(path);
+  for (  QueryParameter parameter : url.getQueryParameters()) {
+    addParameter(parameter.getName(),parameter.getValue());
+  }
 }

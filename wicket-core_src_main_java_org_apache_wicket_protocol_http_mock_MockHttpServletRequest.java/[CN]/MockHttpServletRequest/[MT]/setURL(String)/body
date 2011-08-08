@@ -1,27 +1,3 @@
 {
-  if (url.startsWith("http://")) {
-    int index=url.indexOf("/",7);
-    url=url.substring(index);
-  }
-  if (!url.startsWith("/")) {
-    url=getContextPath() + getServletPath() + "/"+ url;
-  }
-  this.url=url;
-  if (url.startsWith(getContextPath())) {
-    url=url.substring(getContextPath().length());
-  }
-  if (url.startsWith(getServletPath())) {
-    url=url.substring(getServletPath().length());
-  }
-  int index=url.indexOf("?");
-  if (index == -1) {
-    setPath(url);
-  }
- else {
-    setPath(url.substring(0,index));
-    String queryString=url.substring(index + 1);
-    for (    QueryParameter parameter : Url.parse("?" + queryString,Charset.forName(getCharacterEncoding())).getQueryParameters()) {
-      addParameter(parameter.getName(),parameter.getValue());
-    }
-  }
+  setUrl(Url.parse(url));
 }

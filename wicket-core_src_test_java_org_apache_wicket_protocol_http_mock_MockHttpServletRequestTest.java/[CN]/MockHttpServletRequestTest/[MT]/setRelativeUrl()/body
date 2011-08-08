@@ -1,0 +1,19 @@
+{
+  WicketTester tester=new WicketTester();
+  MockHttpServletRequest request=tester.getRequest();
+  assertEquals("http",request.getScheme());
+  assertEquals("localhost",request.getServerName());
+  assertEquals(80,request.getServerPort());
+  request.setURL("foo/bar/baz.html?a=123&b=456");
+  assertEquals("http",request.getScheme());
+  assertEquals("localhost",request.getServerName());
+  assertEquals(80,request.getServerPort());
+  Url url=request.getUrl();
+  assertEquals("http",url.getProtocol());
+  assertEquals("localhost",url.getHost());
+  assertEquals(new Integer(80),url.getPort());
+  assertEquals(request.getContextPath() + request.getServletPath() + "/foo/bar/baz.html",url.getPath());
+  assertEquals("?a=123&b=456",url.getQueryString());
+  String pathInfo=request.getPathInfo();
+  assertEquals("/foo/bar/baz.html",pathInfo);
+}

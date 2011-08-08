@@ -1,5 +1,8 @@
 {
-  String url=getRequestURI();
-  url+="?" + getQueryString();
-  return Url.parse(url,Charset.forName(getCharacterEncoding()));
+  String urlString=getRequestURI() + '?' + getQueryString();
+  Url url=Url.parse(urlString,getCharset());
+  url.setProtocol(scheme);
+  url.setHost(serverName);
+  url.setPort(serverPort);
+  return url;
 }

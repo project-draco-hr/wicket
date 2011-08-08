@@ -9,11 +9,11 @@
       final String[] values=getParameterValues(name);
       for (int i=0; i < values.length; i++) {
         if (name != null) {
-          buf.append(UrlEncoder.QUERY_INSTANCE.encode(name,Charset.forName(getCharacterEncoding())));
+          buf.append(UrlEncoder.QUERY_INSTANCE.encode(name,getCharset()));
         }
         buf.append('=');
         if (values[i] != null) {
-          buf.append(UrlEncoder.QUERY_INSTANCE.encode(values[i],Charset.forName(getCharacterEncoding())));
+          buf.append(UrlEncoder.QUERY_INSTANCE.encode(values[i],getCharset()));
         }
         if (i + 1 < values.length) {
           buf.append('&');

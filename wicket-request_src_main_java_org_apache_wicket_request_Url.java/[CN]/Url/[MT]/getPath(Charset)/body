@@ -1,0 +1,13 @@
+{
+  Args.notNull(charset,"charset");
+  StringBuilder path=new StringBuilder();
+  boolean slash=false;
+  for (  String segment : getSegments()) {
+    if (slash) {
+      path.append('/');
+    }
+    path.append(encodeSegment(segment,charset));
+    slash=true;
+  }
+  return path.toString();
+}
