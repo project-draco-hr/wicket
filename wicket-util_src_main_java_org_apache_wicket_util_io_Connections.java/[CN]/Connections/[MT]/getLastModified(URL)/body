@@ -4,12 +4,14 @@
     return Files.getLastModified(file);
   }
   URLConnection connection=url.openConnection();
+  connection.setDoInput(false);
   final long milliseconds;
   try {
     if (connection instanceof JarURLConnection) {
       JarURLConnection jarUrlConnection=(JarURLConnection)connection;
       URL jarFileUrl=jarUrlConnection.getJarFileURL();
       URLConnection jarFileConnection=jarFileUrl.openConnection();
+      jarFileConnection.setDoInput(false);
       milliseconds=jarFileConnection.getLastModified();
     }
  else {
