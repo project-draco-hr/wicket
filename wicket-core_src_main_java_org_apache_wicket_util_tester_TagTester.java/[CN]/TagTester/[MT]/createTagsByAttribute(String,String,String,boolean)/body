@@ -9,35 +9,33 @@
       XmlTag closeTag=null;
       int level=0;
       while ((elm=parser.nextTag()) != null) {
-        if (elm instanceof XmlTag) {
-          XmlTag xmlTag=elm;
-          if (openTag == null) {
-            IValueMap attributeMap=xmlTag.getAttributes();
-            for (            Map.Entry<String,Object> entry : attributeMap.entrySet()) {
-              if (entry.getKey().equals(attribute) && value.equals(entry.getValue())) {
-                if (xmlTag.isOpen()) {
-                  openTag=xmlTag;
-                }
- else                 if (xmlTag.isOpenClose()) {
-                  openTag=xmlTag;
-                  closeTag=xmlTag;
-                }
+        XmlTag xmlTag=elm;
+        if (openTag == null) {
+          IValueMap attributeMap=xmlTag.getAttributes();
+          for (          Map.Entry<String,Object> entry : attributeMap.entrySet()) {
+            if (entry.getKey().equals(attribute) && value.equals(entry.getValue())) {
+              if (xmlTag.isOpen()) {
+                openTag=xmlTag;
+              }
+ else               if (xmlTag.isOpenClose()) {
+                openTag=xmlTag;
+                closeTag=xmlTag;
               }
             }
           }
+        }
  else {
-            if (xmlTag.isOpen() && xmlTag.getName().equals(openTag.getName())) {
-              level++;
-            }
-            if (xmlTag.isClose()) {
-              if (xmlTag.getName().equals(openTag.getName())) {
-                if (level == 0) {
-                  closeTag=xmlTag;
-                  closeTag.setOpenTag(openTag);
-                }
+          if (xmlTag.isOpen() && xmlTag.getName().equals(openTag.getName())) {
+            level++;
+          }
+          if (xmlTag.isClose()) {
+            if (xmlTag.getName().equals(openTag.getName())) {
+              if (level == 0) {
+                closeTag=xmlTag;
+                closeTag.setOpenTag(openTag);
+              }
  else {
-                  level--;
-                }
+                level--;
               }
             }
           }
