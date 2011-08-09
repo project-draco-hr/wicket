@@ -1,5 +1,7 @@
 {
-  StreamInfo info=lookupStream(locale,style,variation);
-  if (info != null)   return new UrlAttributes(info.locale,info.style,info.variation);
-  return new UrlAttributes(null,null,null);
+  IResourceStreamLocator locator=Application.get().getResourceSettings().getResourceStreamLocator();
+  String absolutePath=Packages.absolutePath(getScope(),getName());
+  IResourceStream stream=locator.locate(getScope(),absolutePath,style,variation,locale,null,false);
+  if (stream == null)   return new UrlAttributes(null,null,null);
+  return new UrlAttributes(stream.getLocale(),stream.getStyle(),stream.getVariation());
 }
