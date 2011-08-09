@@ -4,7 +4,6 @@
     if (getApplication().getRequestCycleSettings().getGatherExtendedBrowserInfo()) {
       if (getMetaData(BROWSER_WAS_POLLED_KEY) == null) {
         setMetaData(BROWSER_WAS_POLLED_KEY,Boolean.TRUE);
-        Request request=requestCycle.getRequest();
         WebPage browserInfoPage=newBrowserInfoPage();
         getPageManager().touchPage(browserInfoPage);
         throw new RestartResponseAtInterceptPageException(browserInfoPage);
