@@ -4,8 +4,12 @@
   maxSizePerPageSession=Args.notNull(maxSizePerSession,"maxSizePerSession");
   sessionEntryMap=new ConcurrentHashMap<String,SessionEntry>();
   try {
-    this.fileStoreFolder.mkdirs();
-    loadIndex();
+    if (this.fileStoreFolder.exists() || this.fileStoreFolder.mkdirs()) {
+      loadIndex();
+    }
+ else {
+      log.warn("Cannot create file store folder for some reason.");
+    }
   }
  catch (  SecurityException e) {
     throw new WicketRuntimeException("SecurityException occurred while creating DiskDataStore. Consider using a non-disk based IDataStore implementation. " + "See org.apache.wicket.Application.setPageManagerProvider(IPageManagerProvider)",e);
