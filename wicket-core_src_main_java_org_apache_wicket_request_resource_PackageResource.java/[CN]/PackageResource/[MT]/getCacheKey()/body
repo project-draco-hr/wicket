@@ -1,3 +1,7 @@
 {
-  return new CacheKey(scopeName,absolutePath,getCurrentLocale(),getCurrentStyle(),variation);
+  IResourceStream stream=getCacheableResourceStream();
+  if (stream == null) {
+    return null;
+  }
+  return new CacheKey(scopeName,absolutePath,stream.getLocale(),stream.getStyle(),stream.getVariation());
 }

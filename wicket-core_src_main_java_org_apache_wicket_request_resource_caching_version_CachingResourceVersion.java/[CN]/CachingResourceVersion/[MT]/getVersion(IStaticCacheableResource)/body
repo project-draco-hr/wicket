@@ -1,5 +1,8 @@
 {
   final Serializable key=resource.getCacheKey();
+  if (key == null) {
+    return null;
+  }
   String version=cache.get(key);
   if (version == null) {
     version=delegate.getVersion(resource);
