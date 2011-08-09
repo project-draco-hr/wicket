@@ -1,11 +1,14 @@
 {
   Args.notNull(name,"name");
-  Set<URL> urls=new TreeSet<URL>();
+  Set<String> externalForms=new TreeSet<String>();
+  List<URL> urls=new ArrayList<URL>();
   for (  IClassResolver resolver : resolvers) {
     Iterator<URL> it=resolver.getResources(name);
     while (it.hasNext()) {
       URL url=it.next();
-      if (urls.contains(url) == false) {
+      String externalForm=url.toExternalForm();
+      if (externalForms.contains(externalForm) == false) {
+        externalForms.add(externalForm);
         urls.add(url);
       }
     }
