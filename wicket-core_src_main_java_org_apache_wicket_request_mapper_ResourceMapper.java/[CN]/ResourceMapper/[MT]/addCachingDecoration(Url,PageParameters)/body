@@ -1,0 +1,17 @@
+{
+  final List<String> segments=url.getSegments();
+  final int lastSegmentAt=segments.size() - 1;
+  final String filename=segments.get(lastSegmentAt);
+  if (Strings.isEmpty(filename) == false) {
+    final IResource resource=resourceReference.getResource();
+    if (resource instanceof IStaticCacheableResource) {
+      final IStaticCacheableResource cacheable=(IStaticCacheableResource)resource;
+      final ResourceUrl cacheUrl=new ResourceUrl(filename,parameters);
+      getCachingStrategy().decorateUrl(cacheUrl,cacheable);
+      if (Strings.isEmpty(cacheUrl.getFileName())) {
+        throw new IllegalStateException("caching strategy returned empty name for " + resource);
+      }
+      segments.set(lastSegmentAt,cacheUrl.getFileName());
+    }
+  }
+}

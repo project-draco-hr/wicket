@@ -1,0 +1,10 @@
+{
+  final MessageDigest digest=getMessageDigest();
+  final int bufferLen=(int)Math.min(Integer.MAX_VALUE,bufferSize.bytes());
+  final byte[] buf=new byte[bufferLen];
+  int len;
+  while ((len=inputStream.read(buf)) != -1) {
+    digest.update(buf,0,len);
+  }
+  return digest.digest();
+}

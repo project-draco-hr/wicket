@@ -1,3 +1,10 @@
 {
-  return Time.now();
+  try {
+    final ServletContext context=((WebApplication)Application.get()).getServletContext();
+    return Connections.getLastModified(context.getResource(url));
+  }
+ catch (  IOException e) {
+    log.warn("failed to retrieve last modified timestamp",e);
+    return null;
+  }
 }

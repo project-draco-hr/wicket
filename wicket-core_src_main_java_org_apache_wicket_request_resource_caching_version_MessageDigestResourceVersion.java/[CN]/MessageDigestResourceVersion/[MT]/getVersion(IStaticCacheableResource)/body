@@ -1,0 +1,24 @@
+{
+  IResourceStream stream=resource.getResourceStream();
+  if (stream == null) {
+    return null;
+  }
+  try {
+    final InputStream inputStream=stream.getInputStream();
+    try {
+      final byte[] hash=computeDigest(inputStream);
+      return Strings.toHexString(hash);
+    }
+  finally {
+      IOUtils.close(inputStream);
+    }
+  }
+ catch (  IOException e) {
+    log.warn("unable to compute hash for " + resource,e);
+    return null;
+  }
+catch (  ResourceStreamNotFoundException e) {
+    log.warn("unable to locate resource for " + resource,e);
+    return null;
+  }
+}

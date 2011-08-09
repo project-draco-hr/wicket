@@ -1,0 +1,8 @@
+{
+  final IResourceVersion resourceVersion=new StaticResourceVersion("123");
+  final IResourceCachingStrategy strategy=new FilenameWithVersionResourceCachingStrategy("-version-",resourceVersion);
+  tester.getApplication().getSharedResources().add(SHARED_NAME,resource);
+  tester.getApplication().getResourceSettings().setCachingStrategy(strategy);
+  final ResourceReference resourceReference=new SharedResourceReference(SHARED_NAME);
+  tester.getApplication().mountResource(mountPath,resourceReference);
+}

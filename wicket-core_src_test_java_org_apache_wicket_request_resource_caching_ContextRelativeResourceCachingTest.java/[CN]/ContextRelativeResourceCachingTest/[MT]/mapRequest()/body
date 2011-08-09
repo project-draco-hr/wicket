@@ -1,0 +1,8 @@
+{
+  ContextRelativeResource resource=new ContextRelativeResource("/style.css");
+  init(resource,"/test/resource");
+  IRequestHandler handler=new ResourceReferenceRequestHandler(new SharedResourceReference(SHARED_NAME));
+  Url url=tester.getApplication().getRootRequestMapper().mapHandler(handler);
+  assertNotNull(url);
+  assertEquals(url,Url.parse("test/resource-version-123"));
+}

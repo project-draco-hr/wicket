@@ -1,0 +1,20 @@
+{
+  final RequestCycle requestCycle=ThreadContext.getRequestCycle();
+  Map<Serializable,String> cache=null;
+  Serializable key=null;
+  if (requestCycle != null) {
+    cache=requestCycle.getMetaData(CACHE_KEY);
+    key=resource.getCacheKey();
+    if (cache == null) {
+      requestCycle.setMetaData(CACHE_KEY,cache=Generics.newHashMap());
+    }
+ else     if (cache.containsKey(key)) {
+      return cache.get(key);
+    }
+  }
+  final String version=delegate.getVersion(resource);
+  if (cache != null && key != null) {
+    cache.put(key,version);
+  }
+  return version;
+}

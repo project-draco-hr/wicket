@@ -1,0 +1,9 @@
+{
+  ContextRelativeResource resource=new ContextRelativeResource("/style.css");
+  init(resource,"/test/resource");
+  Request request=createRequest("test/resource-version-4711?bla=123");
+  final IRequestHandler handler=tester.getApplication().getRootRequestMapper().mapRequest(request);
+  assertNotNull(handler);
+  assertTrue(handler instanceof ResourceReferenceRequestHandler);
+  assertEquals(((ResourceReferenceRequestHandler)handler).getResource(),resource);
+}

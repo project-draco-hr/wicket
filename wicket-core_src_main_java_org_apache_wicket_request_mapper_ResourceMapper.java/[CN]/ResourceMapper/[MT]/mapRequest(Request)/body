@@ -1,9 +1,10 @@
 {
-  final Url url=request.getUrl();
+  final Url url=new Url(request.getUrl());
+  PageParameters parameters=extractPageParameters(request,mountSegments.length,parametersEncoder);
+  removeCachingDecoration(url,parameters);
   if (urlStartsWith(url,mountSegments) == false) {
     return null;
   }
-  PageParameters parameters=extractPageParameters(request,mountSegments.length,parametersEncoder);
   for (int index=0; index < mountSegments.length; ++index) {
     String placeholder=getPlaceholder(mountSegments[index]);
     if (placeholder != null) {

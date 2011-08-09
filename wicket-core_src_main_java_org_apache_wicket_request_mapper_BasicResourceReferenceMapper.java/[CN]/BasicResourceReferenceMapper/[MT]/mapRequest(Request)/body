@@ -7,13 +7,12 @@
     int segmentsSize=url.getSegments().size();
     for (int i=3; i < segmentsSize; ++i) {
       String segment=url.getSegments().get(i);
-      if (i + 1 == segmentsSize) {
+      if (i + 1 == segmentsSize && Strings.isEmpty(segment) == false) {
         ResourceUrl resourceUrl=new ResourceUrl(segment,pageParameters);
         getCachingStrategy().undecorateUrl(resourceUrl);
         segment=resourceUrl.getFileName();
         if (Strings.isEmpty(segment)) {
-          log.debug("Caching strategy {} returned an empty name, not mapping {}",getCachingStrategy().getClass().getName(),url);
-          return null;
+          throw new IllegalStateException("caching strategy returned empty name for " + resourceUrl);
         }
       }
       if (name.length() > 0) {

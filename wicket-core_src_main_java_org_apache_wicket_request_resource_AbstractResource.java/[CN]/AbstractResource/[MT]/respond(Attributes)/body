@@ -1,5 +1,8 @@
 {
   ResourceResponse data=newResourceResponse(attributes);
+  if (this instanceof IStaticCacheableResource) {
+    getCachingStrategy().decorateResponse(data,(IStaticCacheableResource)this);
+  }
   setResponseHeaders(data,attributes);
   if (!data.dataNeedsToBeWritten(attributes) || data.getErrorCode() != null) {
     return;
