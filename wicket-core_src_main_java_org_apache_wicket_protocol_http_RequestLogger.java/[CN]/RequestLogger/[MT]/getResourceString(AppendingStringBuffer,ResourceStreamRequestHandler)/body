@@ -1,0 +1,21 @@
+{
+  sb.append("fileName=\"");
+  sb.append(escape('"',"\\\"",handler.getFileName()));
+  sb.append("\",contentDisposition=");
+  sb.append(handler.getContentDisposition());
+  sb.append(",resourceStream={");
+  IResourceStream resourceStream=handler.getResourceStream();
+  if (resourceStream != null) {
+    sb.append("resourceStreamClass=");
+    sb.append(resourceStream.getClass().getName());
+    sb.append(",contentType=\"");
+    sb.append(resourceStream.getContentType());
+    sb.append("\",locale=");
+    sb.append(resourceStream.getLocale());
+    sb.append(",style=");
+    sb.append(resourceStream.getStyle());
+    sb.append(",variation=");
+    sb.append(resourceStream.getVariation());
+  }
+  sb.append("}");
+}

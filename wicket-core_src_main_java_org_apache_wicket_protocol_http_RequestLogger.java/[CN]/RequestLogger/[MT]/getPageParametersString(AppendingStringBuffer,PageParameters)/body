@@ -1,0 +1,23 @@
+{
+  if (parameters != null) {
+    sb.append("pageParameters={");
+    String comma="";
+    for (int i=0; i < parameters.getIndexedCount(); i++) {
+      sb.append(comma);
+      comma=",";
+      sb.append(i);
+      sb.append("=\"");
+      sb.append(escape('"',"\"",parameters.get(i).toString("")));
+      sb.append("\"");
+    }
+    for (    NamedPair pair : parameters.getAllNamed()) {
+      sb.append(comma);
+      comma=",";
+      sb.append(pair.getKey());
+      sb.append("=\"");
+      sb.append(escape('"',"\"",pair.getValue()));
+      sb.append("\"");
+    }
+    sb.append("}");
+  }
+}

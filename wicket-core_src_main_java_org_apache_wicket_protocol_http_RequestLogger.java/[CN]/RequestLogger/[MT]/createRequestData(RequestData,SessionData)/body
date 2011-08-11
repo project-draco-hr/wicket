@@ -1,0 +1,46 @@
+{
+  AppendingStringBuffer sb=new AppendingStringBuffer(150);
+  sb.append("startTime=\"");
+  sb.append(formatDate(rd.getStartDate()));
+  sb.append("\",duration=");
+  sb.append(rd.getTimeTaken());
+  sb.append(",url=\"");
+  sb.append(escape('"',"\\\"",rd.getRequestedUrl()));
+  sb.append("\"");
+  sb.append(",event={");
+  sb.append(getRequestHandlerString(rd.getEventTarget()));
+  sb.append("},response={");
+  sb.append(getRequestHandlerString(rd.getResponseTarget()));
+  sb.append("},sessionid=\"");
+  sb.append(rd.getSessionId());
+  sb.append("\"");
+  sb.append(",sessionsize=");
+  sb.append(rd.getSessionSize());
+  if (rd.getSessionInfo() != null && !Strings.isEmpty(rd.getSessionInfo().toString())) {
+    sb.append(",sessioninfo={");
+    sb.append(rd.getSessionInfo());
+    sb.append("}");
+  }
+  if (sd != null) {
+    sb.append(",sessionstart=\"");
+    sb.append(formatDate(sd.getStartDate()));
+    sb.append("\",requests=");
+    sb.append(sd.getNumberOfRequests());
+    sb.append(",totaltime=");
+    sb.append(sd.getTotalTimeTaken());
+  }
+  sb.append(",activerequests=");
+  sb.append(rd.getActiveRequest());
+  Runtime runtime=Runtime.getRuntime();
+  long max=runtime.maxMemory() / 1000000;
+  long total=runtime.totalMemory() / 1000000;
+  long used=total - runtime.freeMemory() / 1000000;
+  sb.append(",maxmem=");
+  sb.append(max);
+  sb.append("M,total=");
+  sb.append(total);
+  sb.append("M,used=");
+  sb.append(used);
+  sb.append("M");
+  return sb.toString();
+}
