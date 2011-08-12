@@ -1,6 +1,8 @@
 {
   if (resourceReference != null) {
-    getApplication().getResourceReferenceRegistry().registerResourceReference(resourceReference);
+    if (resourceReference.canBeRegistered()) {
+      getApplication().getResourceReferenceRegistry().registerResourceReference(resourceReference);
+    }
     return getRequestCycle().urlFor(new ResourceReferenceRequestHandler(resourceReference,resourceParameters));
   }
   return urlFor(IResourceListener.INTERFACE);
