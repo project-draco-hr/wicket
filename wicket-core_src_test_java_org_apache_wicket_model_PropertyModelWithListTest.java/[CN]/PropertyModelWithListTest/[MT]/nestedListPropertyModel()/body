@@ -1,0 +1,10 @@
+{
+  List<List<Bean>> outer=new ArrayList<List<Bean>>();
+  List<Bean> inner=new ArrayList<Bean>();
+  outer.add(inner);
+  Bean bean=new Bean();
+  bean.setText("Wrinkly and green I am.");
+  inner.add(bean);
+  PropertyModel<String> model=new PropertyModel<String>(outer,"0[0].text");
+  assertEquals("Wrinkly and green I am.",model.getObject());
+}

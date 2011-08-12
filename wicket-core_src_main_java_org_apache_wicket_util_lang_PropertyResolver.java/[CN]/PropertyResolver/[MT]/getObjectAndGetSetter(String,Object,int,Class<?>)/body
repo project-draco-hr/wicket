@@ -1,6 +1,10 @@
 {
   String expressionBracketsSeperated=Strings.replaceAll(expression,"[",".[").toString();
   int index=getNextDotIndex(expressionBracketsSeperated,0);
+  while (index == 0 && expressionBracketsSeperated.startsWith(".")) {
+    expressionBracketsSeperated=expressionBracketsSeperated.substring(1);
+    index=getNextDotIndex(expressionBracketsSeperated,0);
+  }
   int lastIndex=0;
   Object value=object;
   String exp=expressionBracketsSeperated;
