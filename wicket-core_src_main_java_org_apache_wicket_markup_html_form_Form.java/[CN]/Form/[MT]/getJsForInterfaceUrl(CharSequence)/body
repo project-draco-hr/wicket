@@ -1,10 +1,14 @@
 {
   UrlRenderer renderer=getRequestCycle().getUrlRenderer();
   Url oldBase=renderer.getBaseUrl();
-  Url action=Url.parse(getActionUrl().toString());
-  renderer.setBaseUrl(action);
-  url=renderer.renderUrl(Url.parse(url.toString()));
-  renderer.setBaseUrl(oldBase);
+  try {
+    Url action=Url.parse(getActionUrl().toString());
+    renderer.setBaseUrl(action);
+    url=renderer.renderUrl(Url.parse(url.toString()));
+  }
+  finally {
+    renderer.setBaseUrl(oldBase);
+  }
   Form<?> root=getRootForm();
   return new AppendingStringBuffer("document.getElementById('").append(root.getHiddenFieldId()).append("').value='").append(url).append("';document.getElementById('").append(root.getMarkupId()).append("').submit();");
 }
