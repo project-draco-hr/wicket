@@ -14,19 +14,17 @@
     }
   }
   if (stateless == null) {
-    Boolean returnValue=visitChildren(Component.class,new IVisitor<Component,Boolean>(){
-      public void component(      final Component component,      final IVisit<Boolean> visit){
+    Component statefulComponent=visitChildren(Component.class,new IVisitor<Component,Component>(){
+      public void component(      final Component component,      final IVisit<Component> visit){
         if (!component.isStateless()) {
-          visit.stop(Boolean.FALSE);
+          visit.stop(component);
         }
       }
     }
 );
-    if (returnValue == null) {
-      stateless=Boolean.TRUE;
-    }
- else {
-      stateless=returnValue;
+    stateless=statefulComponent == null;
+    if (log.isDebugEnabled() && !stateless.booleanValue() && getStatelessHint()) {
+      log.debug("Page '{}' is not stateless because of component with path '{}'.",this,statefulComponent.getPageRelativePath());
     }
   }
   return stateless;
