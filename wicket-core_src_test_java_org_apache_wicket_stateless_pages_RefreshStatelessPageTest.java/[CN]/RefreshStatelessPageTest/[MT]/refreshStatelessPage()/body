@@ -1,0 +1,8 @@
+{
+  tester.startPage(new StatefulPage());
+  tester.clickLink("link",false);
+  tester.assertRenderedPage(StatelessPage.class);
+  Page renderedPage=tester.getLastRenderedPage();
+  tester.executeUrl("wicket/page?" + renderedPage.getId());
+  tester.assertRenderedPage(StatelessPage.class);
+}
