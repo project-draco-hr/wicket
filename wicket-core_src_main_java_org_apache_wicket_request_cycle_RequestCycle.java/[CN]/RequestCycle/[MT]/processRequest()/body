@@ -7,6 +7,7 @@
     if (handler != null) {
       listeners.onRequestHandlerResolved(this,handler);
       requestHandlerExecutor.execute(handler);
+      listeners.onRequestHandlerExecuted(this,handler);
       return true;
     }
     log.debug("No suitable handler found for URL {}, falling back to container to process this request",request.getUrl());
@@ -16,6 +17,7 @@
     if (handler != null) {
       listeners.onExceptionRequestHandlerResolved(this,handler,e);
       executeExceptionRequestHandler(handler,getExceptionRetryCount());
+      listeners.onRequestHandlerExecuted(this,handler);
     }
  else {
       log.error("Error during request processing. URL=" + request.getUrl(),e);

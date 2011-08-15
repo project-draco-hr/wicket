@@ -3,8 +3,8 @@
   tester.assertRenderedPage(MultiRequestCycleListenerCallOrderPage.class);
   application.callSequence.clear();
   tester.clickLink("link");
-  List<String> primaryRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","first.onRequestHandlerScheduled","second.onRequestHandlerScheduled","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
-  List<String> redirectRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
+  List<String> primaryRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","first.onRequestHandlerScheduled","second.onRequestHandlerScheduled","first.onRequestHandlerExecuted","second.onRequestHandlerExecuted","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
+  List<String> redirectRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","first.onRequestHandlerExecuted","second.onRequestHandlerExecuted","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
   List<String> expected=new ArrayList<String>();
   expected.addAll(primaryRequest);
   expected.addAll(redirectRequest);

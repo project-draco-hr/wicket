@@ -3,7 +3,7 @@
   tester.assertRenderedPage(MultiRequestCycleListenerCallOrderPage.class);
   application.callSequence.clear();
   tester.clickLink("ajax",true);
-  List<String> primaryRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","first.onRequestHandlerScheduled","second.onRequestHandlerScheduled","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
+  List<String> primaryRequest=asList("first.onBeginRequest","second.onBeginRequest","first.onRequestHandlerResolved","second.onRequestHandlerResolved","first.onRequestHandlerScheduled","second.onRequestHandlerScheduled","first.onRequestHandlerExecuted","second.onRequestHandlerExecuted","second.onEndRequest","first.onEndRequest","second.onDetach","first.onDetach");
   List<String> expected=new ArrayList<String>();
   expected.addAll(primaryRequest);
   assertEquals(expected.toString(),application.callSequence.toString());
