@@ -1,0 +1,19 @@
+{
+  getSession().setMetaData(KEY,UUID.randomUUID().toString());
+  System.out.println("1:" + getSession().getMetaData(KEY));
+  add(new Label("count",new PropertyModel(this,"counter.count")));
+  add(new Link<Void>("increment"){
+    @Override public void onClick(){
+      counter.increment();
+      System.out.println("1:" + getSession().getMetaData(KEY));
+    }
+  }
+);
+  add(new Link<Void>("next"){
+    @Override public void onClick(){
+      setResponsePage(new ConversationPage2());
+      System.out.println("1:" + getSession().getMetaData(KEY));
+    }
+  }
+);
+}
