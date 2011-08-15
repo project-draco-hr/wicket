@@ -1,7 +1,7 @@
 {
   super.onAfterRender();
   checkRendering(this);
-  if (Application.get().getDebugSettings().getComponentUseCheck()) {
+  if (getApplication().getDebugSettings().getComponentUseCheck()) {
     visitChildren(new IVisitor<Component,Void>(){
       public void component(      final Component component,      final IVisit<Void> visit){
         component.setMetaData(Component.CONSTRUCTED_AT_KEY,null);
@@ -11,7 +11,7 @@
 );
   }
   if (!isPageStateless()) {
-    Session.get().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);
+    getSession().getSessionStore().getSessionId(RequestCycle.get().getRequest(),true);
     getSession().getPageManager().touchPage(this);
   }
   if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
