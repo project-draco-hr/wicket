@@ -1,4 +1,5 @@
 {
+  final ThreadContext previousThreadContext=ThreadContext.detach();
   boolean res=true;
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   final ClassLoader newClassLoader=getClassLoader();
@@ -46,7 +47,7 @@
     }
   }
   finally {
-    ThreadContext.detach();
+    ThreadContext.restore(previousThreadContext);
     if (newClassLoader != previousClassLoader) {
       Thread.currentThread().setContextClassLoader(previousClassLoader);
     }
