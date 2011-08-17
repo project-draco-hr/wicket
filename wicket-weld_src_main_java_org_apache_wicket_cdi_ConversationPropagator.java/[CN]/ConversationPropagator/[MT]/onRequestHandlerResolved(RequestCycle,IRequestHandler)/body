@@ -1,0 +1,8 @@
+{
+  String cid=cycle.getRequest().getRequestParameters().getParameterValue("cid").toString();
+  Page page=getPage(handler);
+  if (cid == null && page != null) {
+    cid=page.getMetaData(CID_KEY);
+  }
+  container.activateConversationalContext(cycle,cid);
+}
