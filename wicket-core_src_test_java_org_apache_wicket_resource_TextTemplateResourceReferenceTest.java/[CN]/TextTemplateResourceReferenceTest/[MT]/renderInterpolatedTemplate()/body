@@ -1,0 +1,6 @@
+{
+  Page page=tester.startPage(new TemplateResourceReferencePage());
+  CharSequence urlForTemplate=page.urlFor(new PackageResourceReference(TextTemplateResourceReferenceTest.class,TEMPLATE_NAME),null);
+  tester.executeUrl(urlForTemplate.toString());
+  tester.assertContains("TMPL_START\\|" + EXPECTED_VALUE + "\\|TMPL_END");
+}
