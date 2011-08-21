@@ -1,0 +1,28 @@
+{
+  Behavior border=new AttributeModifier("class","border");
+  Behavior border2=new AttributeModifier("class2","border");
+  Behavior auto=new AttributeModifier("autocomplete","off");
+  Behavior auto2=new AttributeModifier("autocomplete2","off");
+  Behavior link=new LinkBehavior("href");
+  Behavior link2=new LinkBehavior("onclick");
+  MyPage page=new MyPage();
+  page.getContainer().add(border,auto,link,border2,link2,auto2);
+  tester.startPage(page);
+  String output=tester.getLastResponseAsString();
+  System.out.println(output);
+  assertTrue(output.contains("class=\"border\""));
+  assertTrue(output.contains("autocomplete=\"off\""));
+  assertTrue(output.contains("class2=\"border\""));
+  assertTrue(output.contains("autocomplete2=\"off\""));
+  assertTrue(output.contains("IBehaviorListener.2"));
+  assertTrue(output.contains("IBehaviorListener.4"));
+  page.getContainer().remove(border);
+  page.getContainer().remove(border2);
+  page.getContainer().remove(auto);
+  page.getContainer().remove(auto2);
+  tester.startPage(page);
+  output=tester.getLastResponseAsString();
+  System.out.println(output);
+  assertTrue(output.contains("IBehaviorListener.2"));
+  assertTrue(output.contains("IBehaviorListener.4"));
+}
