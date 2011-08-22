@@ -1,14 +1,4 @@
 {
-  if (column.isVisible()) {
-    if (column.getLocation().getAlignment() == Alignment.LEFT) {
-      columns.add(column);
-      components.add(component);
-      renderables.add(renderable);
-    }
- else {
-      columns.add(0,column);
-      components.add(0,component);
-      renderables.add(0,renderable);
-    }
-  }
+  Position position=(column.getLocation().getAlignment() == Alignment.LEFT) ? Position.APPEND : Position.PREPEND;
+  super.addColumn(column,component,renderable,position);
 }

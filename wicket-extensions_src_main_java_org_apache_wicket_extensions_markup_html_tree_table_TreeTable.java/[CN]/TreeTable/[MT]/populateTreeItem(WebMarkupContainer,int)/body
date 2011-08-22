@@ -6,11 +6,12 @@
     for (int i=0; i < columns.length; i++) {
       IColumn column=columns[i];
       if ((column.getLocation().getAlignment() == Alignment.LEFT) || (column.getLocation().getAlignment() == Alignment.RIGHT)) {
-        Component component;
+        TreeTableItem component;
         IRenderable renderable=column.newCell(node,level);
         if (renderable == null) {
-          component=column.newCell(sideColumns,"r" + i,node,level);
-          sideColumns.add(component);
+          component=new TreeTableItem(i);
+          Component cell=column.newCell(sideColumns,TreeTableItem.ID,node,level);
+          component.add(cell);
         }
  else {
           component=null;
@@ -24,11 +25,12 @@
     for (int i=0; i < columns.length; i++) {
       IColumn column=columns[i];
       if (column.getLocation().getAlignment() == Alignment.MIDDLE) {
-        Component component;
+        TreeTableItem component;
         IRenderable renderable=column.newCell(node,level);
         if (renderable == null) {
-          component=column.newCell(middleColumns,"" + i,node,level);
-          middleColumns.add(component);
+          component=new TreeTableItem(i);
+          Component cell=column.newCell(middleColumns,TreeTableItem.ID,node,level);
+          component.add(cell);
         }
  else {
           component=null;

@@ -1,4 +1,11 @@
 {
   super(id,model);
-  init(columns);
+  this.columns=columns;
+  add(new Behavior(){
+    private static final long serialVersionUID=1L;
+    @Override public void renderHead(    final Component component,    final IHeaderResponse response){
+      response.renderOnDomReadyJavaScript("Wicket.TreeTable.attachUpdate(\"" + getMarkupId() + "\")");
+    }
+  }
+);
 }
