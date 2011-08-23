@@ -37,17 +37,17 @@
   }
  else   if (requestHandler instanceof BookmarkableListenerInterfaceRequestHandler) {
     BookmarkableListenerInterfaceRequestHandler handler=(BookmarkableListenerInterfaceRequestHandler)requestHandler;
-    IRequestablePage page=handler.getPage();
-    if (!checkPageClass(page.getClass())) {
+    Class<? extends IRequestablePage> pageClass=handler.getPageClass();
+    if (!checkPageClass(pageClass)) {
       return null;
     }
     Integer renderCount=null;
     if (handler.getListenerInterface().isIncludeRenderCount()) {
-      renderCount=page.getRenderCount();
+      renderCount=handler.getRenderCount();
     }
-    PageInfo pageInfo=new PageInfo(page.getPageId());
-    ComponentInfo componentInfo=new ComponentInfo(renderCount,requestListenerInterfaceToString(handler.getListenerInterface()),handler.getComponent().getPageRelativePath(),handler.getBehaviorIndex());
-    UrlInfo urlInfo=new UrlInfo(new PageComponentInfo(pageInfo,componentInfo),page.getClass(),handler.getPageParameters());
+    PageInfo pageInfo=new PageInfo(handler.getPageId());
+    ComponentInfo componentInfo=new ComponentInfo(renderCount,requestListenerInterfaceToString(handler.getListenerInterface()),handler.getComponentPath(),handler.getBehaviorIndex());
+    UrlInfo urlInfo=new UrlInfo(new PageComponentInfo(pageInfo,componentInfo),pageClass,handler.getPageParameters());
     return buildUrl(urlInfo);
   }
   return null;

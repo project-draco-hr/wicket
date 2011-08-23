@@ -1,0 +1,9 @@
+{
+  final AtomicInteger constructorsCalls=new AtomicInteger(0);
+  WicketTester tester=new WicketTester(new TestApplication());
+  assertEquals(0,constructorsCalls.get());
+  tester.startPage(new TestPage(constructorsCalls));
+  assertEquals(1,constructorsCalls.get());
+  tester.assertRenderedPage(TestPage.class);
+  assertEquals(1,constructorsCalls.get());
+}
