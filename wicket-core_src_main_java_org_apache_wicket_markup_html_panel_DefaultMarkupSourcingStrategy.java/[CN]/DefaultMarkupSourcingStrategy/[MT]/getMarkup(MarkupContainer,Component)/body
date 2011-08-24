@@ -10,13 +10,9 @@
   if (markup != null) {
     return markup;
   }
-  for (  Component ch : container) {
-    if ((ch != child) && (ch instanceof MarkupContainer) && (ch instanceof IComponentResolver)) {
-      markup=((MarkupContainer)ch).getMarkup(child);
-      if (markup != null) {
-        return markup;
-      }
-    }
+  markup=searchMarkupInTransparentResolvers(container,child);
+  if (markup != null) {
+    return markup;
   }
   if (Character.isDigit(child.getId().charAt(0))) {
     String id=child.getId();

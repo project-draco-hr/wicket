@@ -1,0 +1,14 @@
+{
+  super(id);
+  add(new TransparentWebMarkupContainer("transparent"));
+  final Label label=new Label("innerpanel","Test");
+  label.setOutputMarkupId(true);
+  add(label);
+  add(new AjaxLink<Void>("link"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      target.add(label);
+    }
+  }
+);
+}
