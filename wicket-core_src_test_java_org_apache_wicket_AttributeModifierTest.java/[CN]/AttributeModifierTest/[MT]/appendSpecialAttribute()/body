@@ -1,10 +1,11 @@
 {
-  AttributeModifier appender=AttributeModifier.append("VA_REMOVE","newValue");
+  String attrName="attrName";
+  AttributeModifier appender=AttributeModifier.append(attrName,"VA_REMOVE");
   XmlTag xmlTag=new XmlTag();
   ComponentTag tag=new ComponentTag(xmlTag);
   Map<String,Object> attributes=tag.getAttributes();
-  attributes.put("VA_REMOVE","oldValue");
+  attributes.put(attrName,"VA_REMOVE");
   appender.replaceAttributeValue(null,tag);
   assertFalse(attributes.isEmpty());
-  assertEquals("oldValue newValue",attributes.get("VA_REMOVE"));
+  assertEquals("VA_REMOVE VA_REMOVE",attributes.get(attrName));
 }
