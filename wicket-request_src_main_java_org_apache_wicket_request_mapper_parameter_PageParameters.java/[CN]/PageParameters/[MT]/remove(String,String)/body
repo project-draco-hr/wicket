@@ -1,0 +1,22 @@
+{
+  Args.notNull(name,"name");
+  if (namedParameters != null) {
+    for (Iterator<Entry> i=namedParameters.iterator(); i.hasNext(); ) {
+      Entry e=i.next();
+      if (e.key.equals(name)) {
+        if (values != null && values.length > 0) {
+          for (          String value : values) {
+            if (e.value.equals(value)) {
+              i.remove();
+              break;
+            }
+          }
+        }
+ else {
+          i.remove();
+        }
+      }
+    }
+  }
+  return this;
+}
