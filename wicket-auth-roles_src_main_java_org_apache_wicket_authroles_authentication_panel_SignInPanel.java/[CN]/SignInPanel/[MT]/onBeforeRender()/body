@@ -1,6 +1,7 @@
 {
   if (isSignedIn() == false) {
-    String[] data=getApplication().getSecuritySettings().getAuthenticationStrategy().load();
+    IAuthenticationStrategy authenticationStrategy=getApplication().getSecuritySettings().getAuthenticationStrategy();
+    String[] data=authenticationStrategy.load();
     if ((data != null) && (data.length > 1)) {
       if (signIn(data[0],data[1])) {
         username=data[0];
@@ -8,6 +9,9 @@
         if (!continueToOriginalDestination()) {
           throw new RestartResponseException(getApplication().getSessionSettings().getPageFactory().newPage(getApplication().getHomePage()));
         }
+      }
+ else {
+        authenticationStrategy.remove();
       }
     }
   }
