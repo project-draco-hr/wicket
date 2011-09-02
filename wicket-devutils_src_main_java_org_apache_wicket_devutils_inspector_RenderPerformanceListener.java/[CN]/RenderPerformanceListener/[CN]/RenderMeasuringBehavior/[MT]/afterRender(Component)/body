@@ -1,0 +1,13 @@
+{
+  super.afterRender(component);
+  Long renderEnd=System.currentTimeMillis();
+  Long renderStart=component.getMetaData(PageView.RENDER_KEY);
+  if (renderStart != null && component.isAuto() == false) {
+    Long duration=renderEnd - renderStart;
+    component.setMetaData(PageView.RENDER_KEY,duration);
+    if (log.isDebugEnabled()) {
+      String componentPath=(component instanceof Page) ? component.getClass().getSimpleName() + " page" : component.getPageRelativePath();
+      log.debug("rendered '{}' for {}ms",componentPath,duration);
+    }
+  }
+}

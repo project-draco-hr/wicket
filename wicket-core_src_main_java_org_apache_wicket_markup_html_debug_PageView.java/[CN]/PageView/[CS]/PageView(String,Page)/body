@@ -2,7 +2,12 @@
   super(id);
   add(new Label("info",page == null ? "[Stateless Page]" : page.toString()));
   List<ComponentData> data=null;
+  String pageRenderDuration="n/a";
   if (page != null) {
+    Long renderTime=page.getMetaData(RENDER_KEY);
+    if (renderTime != null) {
+      pageRenderDuration=renderTime.toString();
+    }
     data=new ArrayList<ComponentData>(getComponentData(page));
     Collections.sort(data,new Comparator<ComponentData>(){
       public int compare(      ComponentData o1,      ComponentData o2){
@@ -14,6 +19,7 @@
  else {
     data=Collections.emptyList();
   }
+  add(new Label("pageRenderDuration",pageRenderDuration));
   add(new ListView<ComponentData>("components",data){
     private static final long serialVersionUID=1L;
     /** 
@@ -26,6 +32,7 @@
       listItem.add(new Label("size",Bytes.bytes(componentData.size).toString()));
       listItem.add(new Label("type",componentData.type));
       listItem.add(new Label("model",componentData.value));
+      listItem.add(new Label("renderDuration",componentData.renderDuration != null ? componentData.renderDuration.toString() : "n/a"));
     }
   }
 );
