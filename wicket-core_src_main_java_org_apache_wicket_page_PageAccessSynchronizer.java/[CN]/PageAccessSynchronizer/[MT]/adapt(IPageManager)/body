@@ -1,8 +1,17 @@
 {
   return new PageManagerDecorator(pagemanager){
-    @Override public IManageablePage getPage(    int id){
-      lockPage(id);
-      return super.getPage(id);
+    @Override public IManageablePage getPage(    int pageId){
+      IManageablePage page=null;
+      try {
+        lockPage(pageId);
+        page=super.getPage(pageId);
+      }
+  finally {
+        if (page == null) {
+          unlockPage(pageId);
+        }
+      }
+      return page;
     }
     @Override public void touchPage(    IManageablePage page){
       lockPage(page.getPageId());

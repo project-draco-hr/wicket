@@ -9,7 +9,7 @@
       logger.debug("'{}' attempting to acquire lock to page with id '{}'",thread.getName(),pageId);
     }
     PageLock previous=locks.get().putIfAbsent(pageId,lock);
-    if (previous == null || previous.getThread() == thread) {
+    if (previous == null || previous.thread == thread) {
       locked=true;
     }
  else {
