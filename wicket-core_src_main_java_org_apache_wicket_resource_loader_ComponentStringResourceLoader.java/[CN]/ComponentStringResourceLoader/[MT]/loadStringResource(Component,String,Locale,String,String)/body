@@ -7,17 +7,20 @@
   }
   String string=null;
   String prefix=getResourcePath(component);
-  List<Class<?>> searchStack=getComponentStack(component);
-  for (int i=searchStack.size() - 1; (i >= 0) && (string == null); i--) {
-    Class<?> clazz=searchStack.get(i);
-    if ((prefix != null) && (prefix.length() > 0)) {
+  for (  Component current : getComponentTrail(component)) {
+    final Class<?> clazz=current.getClass();
+    if (Strings.isEmpty(prefix) == false) {
       string=loadStringResource(clazz,prefix + '.' + key,locale,style,variation);
-      if (string == null) {
+      if (string != null) {
+        return string;
+      }
+      if ((current instanceof AbstractRepeater) == false) {
         prefix=Strings.afterFirst(prefix,'.');
       }
     }
-    if (string == null) {
-      string=loadStringResource(clazz,key,locale,style,variation);
+    string=loadStringResource(clazz,key,locale,style,variation);
+    if (string != null) {
+      return string;
     }
   }
   return string;
