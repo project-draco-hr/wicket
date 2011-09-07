@@ -1,0 +1,36 @@
+{
+  MyRepeatingView repeater=new MyRepeatingView("repeater");
+  add(repeater);
+  MyContainer container1=new MyContainer(repeater.newChildId());
+  repeater.add(container1);
+  MyLabel label1=new MyLabel("label");
+  container1.add(label1);
+  MyContainer container2=new MyContainer(repeater.newChildId());
+  repeater.add(container2);
+  MyLabel label2=new MyLabel("label");
+  container2.add(label2);
+  assertEquals("label-1",lookup("keyLabel",label1));
+  assertEquals("label-1",lookup("keyLabel",label2));
+  assertEquals("container-1",lookup("label.keyContainer",container1));
+  assertEquals("container-2",lookup("keyContainer",container1));
+  assertEquals("container-1",lookup("keyContainer",label1));
+  assertEquals("container-1",lookup("label.keyContainer",container2));
+  assertEquals("container-2",lookup("keyContainer",container2));
+  assertEquals("container-1",lookup("keyContainer",label2));
+  assertEquals("repeater-1",lookup("label.keyRepeater",repeater));
+  assertEquals("repeater-2",lookup("keyRepeater",repeater));
+  assertEquals("repeater-1",lookup("label.keyRepeater",container1));
+  assertEquals("repeater-2",lookup("keyRepeater",container1));
+  assertEquals("repeater-1",lookup("keyRepeater",label1));
+  assertEquals("repeater-1",lookup("label.keyRepeater",container2));
+  assertEquals("repeater-2",lookup("keyRepeater",container2));
+  assertEquals("repeater-1",lookup("keyRepeater",label2));
+  assertEquals("page-1",lookup("repeater.label.keyPage",MyPage.this));
+  assertEquals("page-2",lookup("label.keyPage",MyPage.this));
+  assertEquals("page-3",lookup("keyPage",MyPage.this));
+  assertEquals("page-1",lookup("label.keyPage",repeater));
+  assertEquals("page-1",lookup("label.keyPage",container1));
+  assertEquals("page-1",lookup("keyPage",label1));
+  assertEquals("page-1",lookup("label.keyPage",container2));
+  assertEquals("page-1",lookup("keyPage",label2));
+}
