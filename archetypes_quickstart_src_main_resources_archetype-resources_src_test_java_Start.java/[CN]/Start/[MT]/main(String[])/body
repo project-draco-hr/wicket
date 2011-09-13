@@ -1,10 +1,28 @@
 {
+  int timeout=(int)Duration.ONE_HOUR.getMilliseconds();
   Server server=new Server();
   SocketConnector connector=new SocketConnector();
-  connector.setMaxIdleTime(1000 * 60 * 60);
+  connector.setMaxIdleTime(timeout);
   connector.setSoLingerTime(-1);
   connector.setPort(8080);
-  server.setConnectors(new Connector[]{connector});
+  server.addConnector(connector);
+  Resource keystore=Resource.newClassPathResource("/keystore");
+  if (keystore != null && keystore.exists()) {
+    connector.setConfidentialPort(8443);
+    SslContextFactory factory=new SslContextFactory();
+    factory.setKeyStoreResource(keystore);
+    factory.setKeyStorePassword("wicket");
+    factory.setTrustStore(keystore);
+    factory.setKeyManagerPassword("wicket");
+    SslSocketConnector sslConnector=new SslSocketConnector(factory);
+    sslConnector.setMaxIdleTime(timeout);
+    sslConnector.setPort(8443);
+    sslConnector.setAcceptors(4);
+    server.addConnector(sslConnector);
+    System.out.println("SSL access to the quickstart has been enabled on port 8443");
+    System.out.println("You can access the application using SSL on https://localhost:8443");
+    System.out.println();
+  }
   WebAppContext bb=new WebAppContext();
   bb.setServer(server);
   bb.setContextPath("/");
@@ -20,6 +38,6 @@
   }
  catch (  Exception e) {
     e.printStackTrace();
-    System.exit(100);
+    System.exit(1);
   }
 }
