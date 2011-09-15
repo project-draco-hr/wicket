@@ -1,3 +1,11 @@
 {
-  return pageInstance == null && (pageId == null || getPageSource().getPageInstance(pageId) == null);
+  boolean isNew=pageInstance == null;
+  if (isNew && pageId != null) {
+    IRequestablePage storedPageInstance=getStoredPage(pageId);
+    if (storedPageInstance != null) {
+      pageInstance=storedPageInstance;
+      isNew=false;
+    }
+  }
+  return isNew;
 }

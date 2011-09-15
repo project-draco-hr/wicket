@@ -1,0 +1,20 @@
+{
+  int oldState=0;
+  int newState=1;
+  StatefullMockPage testPage=new StatefullMockPage();
+  testPage.state=oldState;
+  TestMapperContext mapperContext=new TestMapperContext();
+  mapperContext.getPageManager().touchPage(testPage);
+  mapperContext.getPageManager().commitRequest();
+  mapperContext.cleanSessionCache();
+  PageProvider pageProvider=mapperContext.new TestPageProvider(testPage.getPageId(),0);
+  boolean isNewPageInstance=pageProvider.isNewPageInstance();
+  assertFalse("test page is already stored",isNewPageInstance);
+  StatefullMockPage providedPage=(StatefullMockPage)pageProvider.getPageInstance();
+  providedPage.state=newState;
+  mapperContext.getPageManager().touchPage(providedPage);
+  mapperContext.getPageManager().commitRequest();
+  mapperContext.cleanSessionCache();
+  StatefullMockPage restauredPageAfterStateChage=(StatefullMockPage)mapperContext.getPageInstance(testPage.getPageId());
+  assertEquals(newState,restauredPageAfterStateChage.state);
+}

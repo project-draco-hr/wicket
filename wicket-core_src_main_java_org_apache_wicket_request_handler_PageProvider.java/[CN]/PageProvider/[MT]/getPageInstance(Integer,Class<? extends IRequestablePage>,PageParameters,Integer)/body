@@ -2,13 +2,7 @@
   IRequestablePage page=null;
   boolean freshCreated=false;
   if (pageId != null) {
-    page=getPageSource().getPageInstance(pageId);
-    if (page != null && pageClass != null && page.getClass().equals(pageClass) == false) {
-      page=null;
-    }
- else     if (page != null && pageParameters != null) {
-      page.getPageParameters().overwriteWith(pageParameters);
-    }
+    page=getStoredPage(pageId);
   }
   if (page == null) {
     if (pageClass != null) {
