@@ -1,20 +1,27 @@
 {
   boolean supportsMultiple=getModelObject() instanceof Collection;
-  String[] paths=getInputAsArray();
-  if ((paths == null) || (paths.length == 0)) {
+  String[] values=getInputAsArray();
+  if ((values == null) || (values.length == 0)) {
     setConvertedInput(null);
     return;
   }
-  if (!supportsMultiple && (paths.length > 1)) {
+  if (!supportsMultiple && (values.length > 1)) {
     throw new WicketRuntimeException("The model of Select component [" + getPath() + "] is not of type java.util.Collection, but more then one SelectOption component has been selected. Either remove the multiple attribute from the select tag or make the model of the Select component a collection");
   }
-  List<Object> converted=new ArrayList<Object>(paths.length);
-  for (  String path : paths) {
-    if (!Strings.isEmpty(path)) {
-      path=path.substring(getPath().length() + 1);
-      SelectOption<?> option=(SelectOption<?>)get(path);
+  List<Object> converted=new ArrayList<Object>(values.length);
+  for (int i=0; i < values.length; i++) {
+    final String value=values[i];
+    if (!Strings.isEmpty(value)) {
+      SelectOption<T> option=visitChildren(SelectOption.class,new IVisitor<SelectOption<T>,SelectOption<T>>(){
+        public void component(        SelectOption<T> option,        IVisit<SelectOption<T>> visit){
+          if (String.valueOf(option.getValue()).equals(value)) {
+            visit.stop(option);
+          }
+        }
+      }
+);
       if (option == null) {
-        throw new WicketRuntimeException("submitted http post value [" + Arrays.toString(paths) + "] for SelectOption component ["+ getPath()+ "] contains an illegal relative path element ["+ path+ "] which does not point to an SelectOption component. Due to this the Select component cannot resolve the selected SelectOption component pointed to by the illegal value. A possible reason is that component hierarchy changed between rendering and form submission.");
+        throw new WicketRuntimeException("submitted http post value [" + Arrays.toString(values) + "] for SelectOption component ["+ getPath()+ "] contains an illegal value ["+ value+ "] which does not point to a SelectOption component. Due to this the Select component cannot resolve the selected SelectOption component pointed to by the illegal value. A possible reason is that component hierarchy changed between rendering and form submission.");
       }
       converted.add(option.getDefaultModelObject());
     }
