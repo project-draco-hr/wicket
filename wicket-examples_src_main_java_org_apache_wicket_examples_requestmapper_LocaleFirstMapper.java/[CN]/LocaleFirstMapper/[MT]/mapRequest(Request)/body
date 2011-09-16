@@ -1,16 +1,8 @@
 {
-  List<String> segments=request.getUrl().getSegments();
-  if (segments != null && segments.size() > 1) {
-    String localeAsString=segments.get(0);
-    if (!Strings.isEmpty(localeAsString)) {
-      Locale locale=LocaleHelper.parseLocale(localeAsString);
-      if (locale != null) {
-        Session.get().setLocale(locale);
-        Url url=request.getUrl();
-        url.getSegments().remove(0);
-        request=request.cloneWithUrl(url);
-      }
-    }
+  Locale locale=getLocaleFromUrl(request);
+  if (locale != null) {
+    Session.get().setLocale(locale);
+    request=stripLocaleSegment(request);
   }
   return chain.mapRequest(request);
 }
