@@ -1,0 +1,27 @@
+{
+class TestPage extends WebPage implements IMarkupResourceStreamProvider {
+    private String selection;
+    public TestPage(){
+      Form<Object> form=new Form<Object>("form");
+      add(form);
+      List<String> choices=Arrays.asList(new String[]{"opt 1","opt 2"});
+      form.add(new DropDownChoice<String>("selector",Model.of(""),choices){
+        @Override protected boolean wantOnSelectionChangedNotifications(){
+          return true;
+        }
+        @Override protected void onSelectionChanged(        final String newSelection){
+          selection=newSelection;
+        }
+      }
+);
+    }
+    public IResourceStream getMarkupResourceStream(    MarkupContainer container,    Class<?> containerClass){
+      return new StringResourceStream("<html><body><form wicket:id='form'><select wicket:id='selector'></select></form></body></html>");
+    }
+  }
+  TestPage page=new TestPage();
+  tester.startPage(page);
+  final FormTester form=tester.newFormTester("form");
+  form.select("selector",0);
+  assertEquals("opt 1",page.selection);
+}
