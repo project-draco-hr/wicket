@@ -1,0 +1,14 @@
+{
+  final Integer renderCount=1;
+  final String listenerInterface="ILinkListener";
+  final String componentPath="-nav-container-:-nav:1:link";
+  final Integer behaviorId=null;
+  ComponentInfo info=new ComponentInfo(renderCount,listenerInterface,componentPath,behaviorId);
+  final String encoded=info.toString();
+  assertEquals("1.ILinkListener-~nav~container~-~nav-1-link",encoded);
+  ComponentInfo decoded=ComponentInfo.parse(encoded);
+  assertEquals(renderCount,decoded.getRenderCount());
+  assertEquals(listenerInterface,decoded.getListenerInterface());
+  assertEquals(componentPath,decoded.getComponentPath());
+  assertEquals(behaviorId,decoded.getBehaviorId());
+}

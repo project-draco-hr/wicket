@@ -4,8 +4,8 @@
       throw new WicketRuntimeException("Null or empty component ID's are not allowed.");
     }
   }
-  if ((id != null) && (id.indexOf(':') != -1)) {
-    throw new WicketRuntimeException("The component ID must not contain ':' chars.");
+  if ((id != null) && (id.indexOf(':') != -1 || id.indexOf('~') != -1)) {
+    throw new WicketRuntimeException("The component ID must not contain ':' or '~' chars.");
   }
   this.id=id;
 }
