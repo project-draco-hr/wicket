@@ -7,74 +7,15 @@
       if (!(formComponent.isVisibleInHierarchy() && formComponent.isEnabledInHierarchy())) {
         return;
       }
-      if (formComponent instanceof AbstractTextComponent) {
-        if (Strings.isEmpty(getFormComponentValue(formComponent))) {
-          if (fillBlankString) {
-            setFormComponentValue(formComponent,"");
-          }
-        }
- else {
-          setFormComponentValue(formComponent,getFormComponentValue(formComponent));
+      String[] values=getInputValue(formComponent);
+      if (formComponent instanceof AbstractTextComponent<?>) {
+        if (values.length == 0 && fillBlankString) {
+          setFormComponentValue(formComponent,"");
         }
       }
- else       if ((formComponent instanceof DropDownChoice) || (formComponent instanceof RadioChoice) || (formComponent instanceof CheckBox)) {
-        setFormComponentValue(formComponent,getFormComponentValue(formComponent));
+      for (      String value : values) {
+        addFormComponentValue(formComponent,value);
       }
- else       if (formComponent instanceof ListMultipleChoice) {
-        final String[] modelValues=getFormComponentValue(formComponent).split(FormComponent.VALUE_SEPARATOR);
-        for (        String modelValue : modelValues) {
-          addFormComponentValue(formComponent,modelValue);
-        }
-      }
- else       if (formComponent instanceof CheckGroup) {
-        final Collection<?> checkGroupValues=(Collection<?>)formComponent.getDefaultModelObject();
-        formComponent.visitChildren(Check.class,new IVisitor<Component,Void>(){
-          public void component(          final Component component,          final IVisit<Void> visit){
-            if (checkGroupValues.contains(component.getDefaultModelObject())) {
-              addFormComponentValue(formComponent,getFormComponentValue((Check<?>)component));
-            }
-          }
-        }
-);
-      }
- else       if (formComponent instanceof RadioGroup) {
-        final Object value=formComponent.getDefaultModelObject();
-        if (value != null) {
-          formComponent.visitChildren(Radio.class,new IVisitor<Component,Void>(){
-            public void component(            final Component component,            final IVisit<Void> visit){
-              if (value.equals(component.getDefaultModelObject())) {
-                addFormComponentValue(formComponent,getFormComponentValue((Radio<?>)component));
-                visit.stop();
-              }
- else {
-                visit.dontGoDeeper();
-              }
-            }
-          }
-);
-        }
-      }
-    }
-    private String getFormComponentValue(    final FormComponent<?> formComponent){
-      boolean oldEscape=formComponent.getEscapeModelStrings();
-      formComponent.setEscapeModelStrings(false);
-      String val=formComponent.getValue();
-      formComponent.setEscapeModelStrings(oldEscape);
-      return val;
-    }
-    private String getFormComponentValue(    final Check<?> formComponent){
-      boolean oldEscape=formComponent.getEscapeModelStrings();
-      formComponent.setEscapeModelStrings(false);
-      String val=formComponent.getValue();
-      formComponent.setEscapeModelStrings(oldEscape);
-      return val;
-    }
-    private String getFormComponentValue(    final Radio<?> formComponent){
-      boolean oldEscape=formComponent.getEscapeModelStrings();
-      formComponent.setEscapeModelStrings(false);
-      String val=formComponent.getValue();
-      formComponent.setEscapeModelStrings(oldEscape);
-      return val;
     }
   }
 );
