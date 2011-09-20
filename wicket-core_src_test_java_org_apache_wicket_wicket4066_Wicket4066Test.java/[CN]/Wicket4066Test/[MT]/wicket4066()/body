@@ -1,0 +1,11 @@
+{
+  tester.startPage(SecurePage.class);
+  tester.assertRenderedPage(LoginPage.class);
+  FormTester formTester=tester.newFormTester("form");
+  formTester.submit();
+  tester.assertRenderedPage(SecurePage.class);
+  tester.startPage(LoginPage.class);
+  FormTester formTester2=tester.newFormTester("form");
+  formTester2.submit();
+  tester.assertRenderedPage(SuccessPage.class);
+}
