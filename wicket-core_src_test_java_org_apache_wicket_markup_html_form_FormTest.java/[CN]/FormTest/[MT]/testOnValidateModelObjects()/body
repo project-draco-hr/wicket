@@ -1,0 +1,35 @@
+{
+class TestPage extends WebPage implements IMarkupResourceStreamProvider {
+    boolean shouldFail;
+    boolean submit;
+    boolean error;
+    public TestPage(){
+      add(new Form<Void>("form"){
+        @Override protected void onValidateModelObjects(){
+          if (shouldFail)           error("failed");
+        }
+        @Override protected void onSubmit(){
+          submit=true;
+        }
+        @Override protected void onError(){
+          error=true;
+        }
+      }
+);
+    }
+    public IResourceStream getMarkupResourceStream(    final MarkupContainer container,    Class<?> containerClass){
+      return new StringResourceStream("<form wicket:id='form'></form>");
+    }
+  }
+  TestPage page=new TestPage();
+  tester.startPage(page);
+  tester.submitForm("form");
+  assertTrue(page.submit);
+  assertFalse(page.error);
+  page=new TestPage();
+  page.shouldFail=true;
+  tester.startPage(page);
+  tester.submitForm("form");
+  assertFalse(page.submit);
+  assertTrue(page.error);
+}
