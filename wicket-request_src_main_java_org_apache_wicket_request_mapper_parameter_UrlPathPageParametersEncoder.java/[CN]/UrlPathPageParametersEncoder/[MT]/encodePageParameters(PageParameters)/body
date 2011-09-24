@@ -1,0 +1,10 @@
+{
+  Args.notNull(params,"params");
+  Args.isTrue(params.getIndexedCount() == 0,"This encoder does not support indexed page parameters. Specified parameters: %s",params);
+  Url url=new Url();
+  for (  PageParameters.NamedPair pair : params.getAllNamed()) {
+    url.getSegments().add(pair.getKey());
+    url.getSegments().add(pair.getValue());
+  }
+  return url;
+}
