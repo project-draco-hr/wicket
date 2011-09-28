@@ -2,8 +2,13 @@
   PageParameters params=new PageParameters();
   for (Iterator<String> segment=request.getUrl().getSegments().iterator(); segment.hasNext(); ) {
     String key=segment.next();
-    String value=segment.next();
-    params.add(key,value);
+    if (Strings.isEmpty(key)) {
+      continue;
+    }
+    if (segment.hasNext()) {
+      String value=segment.next();
+      params.add(key,value);
+    }
   }
   return params.isEmpty() ? null : params;
 }
