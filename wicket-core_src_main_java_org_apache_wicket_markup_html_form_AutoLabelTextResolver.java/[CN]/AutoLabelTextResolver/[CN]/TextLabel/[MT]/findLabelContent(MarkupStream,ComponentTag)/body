@@ -1,0 +1,43 @@
+{
+  if (labeled instanceof ILabelProvider) {
+    ILabelProvider<String> provider=(ILabelProvider<String>)labeled;
+    if (provider.getLabel() != null) {
+      if (!Strings.isEmpty(provider.getLabel().getObject())) {
+        return provider.getLabel();
+      }
+    }
+  }
+  if (labeled instanceof FormComponent) {
+    final FormComponent<?> formComponent=(FormComponent<?>)labeled;
+    String text=formComponent.getDefaultLabel("wicket:unknown");
+    if (!"wicket:unknown".equals(text) && !Strings.isEmpty(text)) {
+      return new LoadableDetachableModel<String>(){
+        @Override protected String load(){
+          return formComponent.getDefaultLabel("wicket:unknown");
+        }
+      }
+;
+    }
+  }
+{
+    String resourceKey=tag.getAttribute("key");
+    if (resourceKey != null) {
+      String text=labeled.getString(resourceKey);
+      if (!Strings.isEmpty(text)) {
+        return new StringResourceModel(resourceKey,labeled,null);
+      }
+    }
+  }
+{
+    String text=new ResponseBufferZone(RequestCycle.get(),markupStream){
+      @Override protected void executeInsideBufferedZone(){
+        TextLabel.super.onComponentTagBody(markupStream,tag);
+      }
+    }
+.execute().toString();
+    if (!Strings.isEmpty(text)) {
+      return Model.of(text);
+    }
+  }
+  return null;
+}

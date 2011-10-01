@@ -1,0 +1,12 @@
+{
+  Session.get().setLocale(Locale.GERMAN);
+  tester.startPage(new PickUpLabelPage(null));
+  assertEquals("propertiesDefaultLabel DE",((FormComponent)tester.getComponentFromLastRenderedPage("form:inputWithDefaultLabel")).getLabel().getObject());
+  tester.assertContains("propertiesDefaultLabel DE");
+  Session.get().setLocale(Locale.FRENCH);
+  Page page=tester.getLastRenderedPage();
+  page.detach();
+  tester.startPage(page);
+  assertEquals("propertiesDefaultLabel FR",((FormComponent)tester.getComponentFromLastRenderedPage("form:inputWithDefaultLabel")).getLabel().getObject());
+  tester.assertContains("propertiesDefaultLabel FR");
+}
