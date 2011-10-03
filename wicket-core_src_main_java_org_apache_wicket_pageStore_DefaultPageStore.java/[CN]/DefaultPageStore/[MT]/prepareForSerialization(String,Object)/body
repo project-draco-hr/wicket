@@ -8,7 +8,9 @@
     result=serializedPagesCache.getPage(sessionId,page.getPageId());
     if (result == null) {
       result=serializePage(sessionId,page);
-      serializedPagesCache.storePage(result);
+      if (result != null) {
+        serializedPagesCache.storePage(result);
+      }
     }
   }
  else   if (object instanceof SerializedPage) {

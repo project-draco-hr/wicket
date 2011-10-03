@@ -1,5 +1,7 @@
 {
   SerializedPage serialized=serializePage(sessionId,page);
-  serializedPagesCache.storePage(serialized);
-  storePageData(sessionId,serialized.getPageId(),serialized.getData());
+  if (serialized != null) {
+    serializedPagesCache.storePage(serialized);
+    storePageData(sessionId,serialized.getPageId(),serialized.getData());
+  }
 }
