@@ -1,0 +1,17 @@
+{
+  PageParameters parameters=new PageParameters();
+  parameters.set("name",name);
+  final RenderPageRequestHandler handler=new RenderPageRequestHandler(new PageProvider(pageClass,parameters),RedirectPolicy.NEVER_REDIRECT);
+  final PageRenderer pageRenderer=getApplication().getPageRendererProvider().get(handler);
+  RequestCycle requestCycle=getRequestCycle();
+  final Response oldResponse=requestCycle.getResponse();
+  BufferedWebResponse tempResponse=new BufferedWebResponse(null);
+  try {
+    requestCycle.setResponse(tempResponse);
+    pageRenderer.respond(requestCycle);
+  }
+  finally {
+    requestCycle.setResponse(oldResponse);
+  }
+  return tempResponse.getText();
+}

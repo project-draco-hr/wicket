@@ -1,0 +1,37 @@
+{
+  super(parameters);
+  final FeedbackPanel feedback=new FeedbackPanel("feedback");
+  feedback.setOutputMarkupId(true);
+  add(feedback);
+  final Form<Void> form=new Form<Void>("form");
+  add(form);
+  TextField<String> nameTextField=new TextField<String>("name",new PropertyModel<String>(MailTemplate.this,"name"));
+  nameTextField.setOutputMarkupId(true);
+  form.add(nameTextField);
+  final MultiLineLabel result=new MultiLineLabel("result",new Model<String>());
+  result.setOutputMarkupId(true);
+  add(result);
+  AjaxSubmitLink basedOnPageLink=new AjaxSubmitLink("pageBasedLink",form){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      CharSequence pageHtml=renderPage(TemplateBasedOnPage.class);
+      updateResult(result,pageHtml,target);
+      target.add(feedback);
+    }
+    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+      target.add(feedback);
+    }
+  }
+;
+  AjaxSubmitLink basedOnTextTemplateLink=new AjaxSubmitLink("textTemplateBasedLink",form){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      CharSequence templateHtml=renderTemplate(new PackageTextTemplate(MailTemplate.class,"mail-template.tmpl"));
+      updateResult(result,templateHtml,target);
+      target.add(feedback);
+    }
+    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+      target.add(feedback);
+    }
+  }
+;
+  add(basedOnPageLink,basedOnTextTemplateLink);
+}

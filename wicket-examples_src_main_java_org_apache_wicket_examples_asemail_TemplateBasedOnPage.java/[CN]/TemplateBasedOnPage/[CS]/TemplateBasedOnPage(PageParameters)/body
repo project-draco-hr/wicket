@@ -1,0 +1,8 @@
+{
+  super(parameters);
+  add(new Label("name",parameters.get("name").toString("Unknown")));
+  CharSequence relativeUrl=urlFor(new PackageResourceReference(MailTemplate.class,"resource.txt"),null);
+  String href=getRequestCycle().getUrlRenderer().renderFullUrl(Url.parse(relativeUrl.toString()));
+  ExternalLink downloadLink=new ExternalLink("downloadLink",href);
+  add(downloadLink);
+}
