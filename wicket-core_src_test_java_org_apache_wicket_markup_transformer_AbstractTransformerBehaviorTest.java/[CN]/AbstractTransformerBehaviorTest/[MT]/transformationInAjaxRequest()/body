@@ -1,0 +1,9 @@
+{
+  tester.startPage(new AjaxTestPage());
+  tester.assertRenderedPage(AjaxTestPage.class);
+  tester.assertContains("normal request");
+  tester.assertContainsNot("ajax request");
+  tester.clickLink("updateLabel",true);
+  tester.assertContains("ajax request");
+  tester.assertContainsNot("normal request");
+}

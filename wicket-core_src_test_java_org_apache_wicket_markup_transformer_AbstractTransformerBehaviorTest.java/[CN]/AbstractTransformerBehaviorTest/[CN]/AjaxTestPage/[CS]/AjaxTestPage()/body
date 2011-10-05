@@ -1,0 +1,24 @@
+{
+  final Label label=new Label("label","a label");
+  label.setOutputMarkupId(true);
+  label.add(new AbstractTransformerBehavior(){
+    @Override public CharSequence transform(    Component component,    CharSequence output) throws Exception {
+      CharSequence result;
+      if (AjaxRequestTarget.get() != null) {
+        result="ajax request";
+      }
+ else {
+        result="normal request";
+      }
+      return result;
+    }
+  }
+);
+  add(label);
+  add(new AjaxLink<Void>("updateLabel"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      target.add(label);
+    }
+  }
+);
+}
