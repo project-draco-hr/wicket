@@ -1,10 +1,22 @@
 {
+  final boolean isNewPageInstance=pageComponentProvider.isNewPageInstance();
+  final boolean isAjax=((WebRequest)requestCycle.getRequest()).isAjax();
   final IRequestablePage page=getPage();
+  final boolean isStateless=page.isPageStateless();
+  final IPageProvider pageProvider=new PageProvider(page);
   if (getComponent().getPage() == page) {
-    boolean isAjax=((WebRequest)requestCycle.getRequest()).isAjax();
+    RedirectPolicy policy=isStateless ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
+    if (isNewPageInstance) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("A ListenerInterface '{}' assigned to '{}' is executed on an expired page. " + "Scheduling re-create of the page and ignoring the listener interface...",listenerInterface,getComponentPath());
+      }
+      if (isAjax) {
+        policy=RedirectPolicy.ALWAYS_REDIRECT;
+      }
+      requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(pageProvider,policy));
+      return;
+    }
     if (isAjax == false && listenerInterface.isRenderPageAfterInvocation()) {
-      final IPageProvider pageProvider=new PageProvider(page);
-      final RedirectPolicy policy=page.isPageStateless() ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
       requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(pageProvider,policy));
     }
     invokeListener();

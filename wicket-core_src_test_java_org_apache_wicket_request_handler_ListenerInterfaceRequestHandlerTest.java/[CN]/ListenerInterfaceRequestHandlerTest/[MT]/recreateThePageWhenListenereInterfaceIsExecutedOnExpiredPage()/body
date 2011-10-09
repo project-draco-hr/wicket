@@ -1,0 +1,12 @@
+{
+  tester.getApplication().mountPage("ajaxLink",AjaxLinkExpirePage.class);
+  AjaxLinkExpirePage page=tester.startPage(AjaxLinkExpirePage.class);
+  int initialPageId=page.getPageId();
+  Url urlToAjaxLink=tester.urlFor(page.link);
+  Session session=tester.getSession();
+  session.getPageManager().sessionExpired(session.getId());
+  executeAjaxUrlWithLastBaseUrl(urlToAjaxLink);
+  Page lastRenderedPage=tester.getLastRenderedPage();
+  int lastRenderedPageId=lastRenderedPage.getPageId();
+  assertTrue("A new page must be create ",lastRenderedPageId > initialPageId);
+}
