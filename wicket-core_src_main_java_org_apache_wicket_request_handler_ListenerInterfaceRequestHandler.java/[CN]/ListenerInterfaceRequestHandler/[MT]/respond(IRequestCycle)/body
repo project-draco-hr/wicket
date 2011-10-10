@@ -2,13 +2,16 @@
   final boolean isNewPageInstance=pageComponentProvider.isNewPageInstance();
   final boolean isAjax=((WebRequest)requestCycle.getRequest()).isAjax();
   final IRequestablePage page=getPage();
-  final boolean isStateless=page.isPageStateless();
-  final IPageProvider pageProvider=new PageProvider(page);
   if (getComponent().getPage() == page) {
+    if (page instanceof Page) {
+      ((Page)page).internalInitialize();
+    }
+    final boolean isStateless=page.isPageStateless();
     RedirectPolicy policy=isStateless ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
-    if (isNewPageInstance) {
+    final IPageProvider pageProvider=new PageProvider(page);
+    if (isNewPageInstance && isStateless == false) {
       if (LOG.isDebugEnabled()) {
-        LOG.debug("A ListenerInterface '{}' assigned to '{}' is executed on an expired page. " + "Scheduling re-create of the page and ignoring the listener interface...",listenerInterface,getComponentPath());
+        LOG.debug("A ListenerInterface '{}' assigned to '{}' is executed on an expired stateful page. " + "Scheduling re-create of the page and ignoring the listener interface...",listenerInterface,getComponentPath());
       }
       if (isAjax) {
         policy=RedirectPolicy.ALWAYS_REDIRECT;
