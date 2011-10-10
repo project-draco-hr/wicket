@@ -21,7 +21,14 @@
   }
   page.setMarkup(pageMarkup);
   page.add(component);
+  ComponentInPage oldComponentInPage=componentInPage;
   startPage(page);
-  startComponent=component;
+  if (oldComponentInPage != null) {
+    componentInPage=oldComponentInPage;
+  }
+ else {
+    componentInPage=new ComponentInPage();
+    componentInPage.component=component;
+  }
   return component;
 }
