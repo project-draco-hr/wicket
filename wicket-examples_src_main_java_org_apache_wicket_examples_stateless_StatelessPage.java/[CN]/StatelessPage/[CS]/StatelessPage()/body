@@ -5,10 +5,8 @@
   final TextField<Integer> field=new TextField<Integer>("textfield",new PropertyModel<Integer>(this,"number"));
   field.add(new MaximumValidator<Integer>(20));
   field.setRequired(true);
-  StatelessForm<?> statelessForm=new StatelessForm("statelessform"){
-    /** 
- * @see org.apache.wicket.markup.html.form.Form#onSubmit()
- */
+  StatelessForm<?> statelessForm=new StatelessForm<Void>("statelessform"){
+    private static final long serialVersionUID=1L;
     @Override protected void onSubmit(){
       info("Submitted text: " + field.getDefaultModelObject());
     }
