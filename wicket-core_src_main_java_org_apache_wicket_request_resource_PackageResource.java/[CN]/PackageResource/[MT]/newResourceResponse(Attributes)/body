@@ -3,7 +3,11 @@
   if (resourceResponse.dataNeedsToBeWritten(attributes)) {
     final IResourceStream resourceStream=getResourceStream();
     if (resourceStream == null)     return sendResourceError(resourceResponse,HttpServletResponse.SC_NOT_FOUND,"Unable to find resource");
-    resourceResponse.setContentType(resourceStream.getContentType());
+    String contentType=resourceStream.getContentType();
+    if (contentType == null && Application.exists()) {
+      contentType=Application.get().getMimeType(path);
+    }
+    resourceResponse.setContentType(contentType);
     final Time lastModified=resourceStream.lastModifiedTime();
     if (lastModified != null)     resourceResponse.setLastModified(lastModified);
     try {
