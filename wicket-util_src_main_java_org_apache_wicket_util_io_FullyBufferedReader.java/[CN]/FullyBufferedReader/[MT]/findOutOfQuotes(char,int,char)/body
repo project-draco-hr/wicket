@@ -12,8 +12,13 @@
  else       if (currentChar == quotationChar && previousTag != '\\') {
         quotationChar=0;
       }
-      if (currentChar == ch && quotationChar != 0)       return findOutOfQuotes(ch,closeBracketIndex + 1,quotationChar);
+      if (currentChar == ch && quotationChar != 0) {
+        return findOutOfQuotes(ch,closeBracketIndex + 1,quotationChar);
+      }
     }
+  }
+ else   if (quotationChar != 0) {
+    throw new ParseException("Opening/closing quote not found for quote at " + "(line " + getLineNumber() + ", column "+ getColumnNumber()+ ")",startPos);
   }
   return closeBracketIndex;
 }
