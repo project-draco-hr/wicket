@@ -1,3 +1,19 @@
 {
-  return new ServletWebRequest(request,request.getFilterPrefix());
+  if (newWebRequestMethod == null) {
+    try {
+      newWebRequestMethod=WebApplication.class.getDeclaredMethod("newWebRequest",new Class[]{HttpServletRequest.class,String.class});
+      newWebRequestMethod.setAccessible(true);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+  ServletWebRequest webRequest;
+  try {
+    webRequest=(ServletWebRequest)newWebRequestMethod.invoke(application,request,request.getFilterPrefix());
+  }
+ catch (  Exception x) {
+    throw new RuntimeException(x);
+  }
+  return webRequest;
 }
