@@ -1,0 +1,12 @@
+{
+  String userSpecifiedContentType="text/custom";
+  ByteArrayResource userSpecified=new ByteArrayResource(userSpecifiedContentType,new byte[]{1,2,3});
+  tester.startResource(userSpecified);
+  assertEquals(userSpecifiedContentType,tester.getLastResponse().getContentType());
+  ByteArrayResource resolvedByExtension=new ByteArrayResource(null,new byte[]{1,2,3},"image.png");
+  tester.startResource(resolvedByExtension);
+  assertEquals("image/png",tester.getLastResponse().getContentType());
+  ByteArrayResource finalResortOctetStream=new ByteArrayResource(null,new byte[]{1,2,3},null);
+  tester.startResource(finalResortOctetStream);
+  assertEquals("application/octet-stream",tester.getLastResponse().getContentType());
+}

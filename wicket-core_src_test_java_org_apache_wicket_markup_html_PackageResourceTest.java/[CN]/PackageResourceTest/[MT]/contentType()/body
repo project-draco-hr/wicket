@@ -1,0 +1,14 @@
+{
+  PackageResource textResource=new PackageResource(PackageResourceTest.class,"packaged1.txt",null,null,null){
+    private static final long serialVersionUID=1L;
+  }
+;
+  tester.startResource(textResource);
+  assertEquals("text/plain",tester.getLastResponse().getContentType());
+  PackageResource jsResource=new PackageResource(PackageResourceTest.class,"packaged3.js",null,null,null){
+    private static final long serialVersionUID=1L;
+  }
+;
+  tester.startResource(jsResource);
+  assertEquals("text/javascript",tester.getLastResponse().getContentType());
+}
