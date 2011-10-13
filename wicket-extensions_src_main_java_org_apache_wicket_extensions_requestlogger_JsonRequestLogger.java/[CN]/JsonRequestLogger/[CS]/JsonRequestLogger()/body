@@ -1,0 +1,8 @@
+{
+  mapper=new ObjectMapper();
+  mapper.configure(Feature.FAIL_ON_EMPTY_BEANS,false);
+  SimpleFilterProvider filters=new SimpleFilterProvider();
+  filters.addFilter("default",SimpleBeanPropertyFilter.serializeAllExcept("eventTarget","responseTarget"));
+  mapper.setFilters(filters);
+  mapper.setAnnotationIntrospector(new FilteredInspector());
+}
