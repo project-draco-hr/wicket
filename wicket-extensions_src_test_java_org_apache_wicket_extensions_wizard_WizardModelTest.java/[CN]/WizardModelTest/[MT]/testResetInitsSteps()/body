@@ -1,0 +1,13 @@
+{
+  WizardModel model=new WizardModel();
+  model.add(new WizardStep());
+  model.add(new WizardStep());
+  model.add(new WizardStep());
+  model.reset();
+  Iterator<IWizardStep> iterator=model.stepIterator();
+  assertNotNull(iterator);
+  while (iterator.hasNext()) {
+    WizardStep step=(WizardStep)iterator.next();
+    assertEquals(model,step.getWizardModel());
+  }
+}
