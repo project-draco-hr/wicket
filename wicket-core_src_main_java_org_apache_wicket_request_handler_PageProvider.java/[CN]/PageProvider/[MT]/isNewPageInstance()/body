@@ -1,13 +1,11 @@
 {
-  if (isNewInstance == null) {
-    isNewInstance=pageInstance == null;
-    if (isNewInstance && pageId != null) {
-      IRequestablePage storedPageInstance=getStoredPage(pageId);
-      if (storedPageInstance != null) {
-        pageInstance=storedPageInstance;
-        isNewInstance=false;
-      }
+  boolean isNew=pageInstance == null;
+  if (isNew && pageId != null) {
+    IRequestablePage storedPageInstance=getStoredPage(pageId);
+    if (storedPageInstance != null) {
+      pageInstance=storedPageInstance;
+      isNew=false;
     }
   }
-  return isNewInstance;
+  return isNew;
 }

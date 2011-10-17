@@ -4,9 +4,16 @@
   componentPath=pageAndComponentProvider.getComponentPath();
   this.behaviorIndex=behaviorIndex;
   if (behaviorIndex != null) {
-    behaviorClass=pageAndComponentProvider.getComponent().getBehaviorById(behaviorIndex).getClass();
+    try {
+      behaviorClass=pageAndComponentProvider.getComponent().getBehaviorById(behaviorIndex).getClass();
+    }
+ catch (    Exception ignore) {
+      behaviorClass=null;
+    }
   }
- else   behaviorClass=null;
+ else {
+    behaviorClass=null;
+  }
   interfaceName=listenerInterface.getName();
   interfaceMethod=listenerInterface.getMethod().getName();
 }
