@@ -1,0 +1,18 @@
+{
+  Page page=tester.getLastRenderedPage();
+  AjaxEditableLabel<String> ajaxLabel=(AjaxEditableLabel<String>)page.get("ajaxLabel");
+  AjaxLink<Void> toggle=(AjaxLink<Void>)page.get("toggle");
+  tester.assertInvisible("ajaxLabel:editor");
+  tester.assertVisible("ajaxLabel:label");
+  tester.assertLabel("ajaxLabel:label","ajaxTest");
+  tester.executeAjaxEvent("ajaxLabel:label","onclick");
+  tester.assertVisible("ajaxLabel:editor");
+  tester.assertInvisible("ajaxLabel:label");
+  FormComponent<?> editor=(FormComponent<?>)ajaxLabel.get("editor");
+  tester.getRequest().setParameter(editor.getInputName(),"something");
+  tester.getRequest().setParameter("save","true");
+  tester.executeBehavior((AbstractAjaxBehavior)editor.getBehaviorById(0));
+  tester.assertInvisible("ajaxLabel:editor");
+  tester.assertVisible("ajaxLabel:label");
+  tester.assertLabel("ajaxLabel:label","something");
+}
