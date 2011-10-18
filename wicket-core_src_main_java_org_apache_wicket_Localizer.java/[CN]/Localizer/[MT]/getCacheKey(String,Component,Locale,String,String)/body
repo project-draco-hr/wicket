@@ -11,7 +11,8 @@
       final Component parent=cursor.getParent();
       final boolean skip=parent instanceof AbstractRepeater;
       if (skip == false) {
-        buffer.append(':').append(cursor.getId());
+        String cursorKey=cursor.isAuto() ? "wicket-auto" : cursor.getId();
+        buffer.append(':').append(cursorKey);
       }
       cursor=parent;
     }
