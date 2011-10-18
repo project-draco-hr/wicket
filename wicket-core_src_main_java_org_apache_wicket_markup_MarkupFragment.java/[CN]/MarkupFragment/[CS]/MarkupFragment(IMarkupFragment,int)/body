@@ -3,14 +3,15 @@
   if (startIndex < 0) {
     throw new IllegalArgumentException("Parameter 'startIndex' must not be < 0");
   }
-  if (startIndex >= markup.size()) {
+  int markupSize=markup.size();
+  if (startIndex >= markupSize) {
     throw new IllegalArgumentException("Parameter 'startIndex' must not be >= markup.size()");
   }
   this.markup=markup;
   this.startIndex=startIndex;
   MarkupElement startElem=markup.get(startIndex);
   if ((startElem instanceof ComponentTag) == false) {
-    throw new IllegalArgumentException("Parameter 'index' does not point to a Wicket open tag");
+    throw new IllegalArgumentException("Parameter 'startIndex' does not point to a Wicket open tag");
   }
   int endIndex;
   ComponentTag startTag=(ComponentTag)startElem;
@@ -18,16 +19,15 @@
     endIndex=startIndex;
   }
  else   if (startTag.hasNoCloseTag()) {
-    for (endIndex=startIndex + 1; endIndex < markup.size(); endIndex++) {
-      MarkupElement elem=markup.get(endIndex);
-      if (elem instanceof ComponentTag) {
-        endIndex--;
-        break;
-      }
+    if (CAN_BE_OPEN_TAG_SET.contains(startTag.getName())) {
+      endIndex=startIndex;
+    }
+ else {
+      endIndex=markupSize;
     }
   }
  else {
-    for (endIndex=startIndex + 1; endIndex < markup.size(); endIndex++) {
+    for (endIndex=startIndex + 1; endIndex < markupSize; endIndex++) {
       MarkupElement elem=markup.get(endIndex);
       if (elem instanceof ComponentTag) {
         ComponentTag tag=(ComponentTag)elem;
@@ -37,7 +37,7 @@
       }
     }
   }
-  if (endIndex >= markup.size()) {
+  if (endIndex >= markupSize) {
     throw new MarkupException("Unable to find close tag for: '" + startTag.toString() + "' in "+ getRootMarkup().getMarkupResourceStream().toString());
   }
   size=endIndex - startIndex + 1;
