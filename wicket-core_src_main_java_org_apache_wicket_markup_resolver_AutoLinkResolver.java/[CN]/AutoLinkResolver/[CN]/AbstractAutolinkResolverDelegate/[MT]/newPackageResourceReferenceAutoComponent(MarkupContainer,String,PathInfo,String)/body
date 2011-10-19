@@ -1,7 +1,6 @@
 {
-  final MarkupContainer container=pathInfo.getContainer();
   if (!pathInfo.absolute && (pathInfo.path != null) && (pathInfo.path.length() > 0)) {
-    MarkupStream markupStream=pathInfo.getMarkupStream();
+    MarkupStream markupStream=new MarkupStream(container.getMarkup());
     Class<? extends Component> clazz=markupStream.getContainerClass();
     if ((markupStream.get() instanceof ComponentTag) && (markupStream.getTag().getMarkupClass() != null)) {
       clazz=markupStream.getTag().getMarkupClass();
