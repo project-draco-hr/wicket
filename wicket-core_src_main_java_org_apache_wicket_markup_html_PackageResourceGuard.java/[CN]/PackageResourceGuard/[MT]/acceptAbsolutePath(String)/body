@@ -27,5 +27,15 @@
       return false;
     }
   }
+  if (!allowAccessToWebInfResources) {
+    String absolute=path;
+    if (absolute.startsWith("/")) {
+      absolute=absolute.substring(1);
+    }
+    if (!absolute.contains("/")) {
+      log.warn("Access to web-inf directory via '..' is by default disabled for shared resources: " + path);
+      return false;
+    }
+  }
   return true;
 }
