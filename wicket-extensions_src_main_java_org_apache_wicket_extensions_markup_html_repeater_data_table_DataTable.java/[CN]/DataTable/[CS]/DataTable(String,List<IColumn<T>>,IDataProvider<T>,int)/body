@@ -1,8 +1,6 @@
 {
   super(id);
-  if ((columns == null) || (columns.size() < 1)) {
-    throw new IllegalArgumentException("Argument `columns` cannot be null or empty");
-  }
+  Args.notEmpty(columns,"columns");
   this.columns=columns;
   this.caption=new Caption("caption",getCaptionModel());
   add(caption);
