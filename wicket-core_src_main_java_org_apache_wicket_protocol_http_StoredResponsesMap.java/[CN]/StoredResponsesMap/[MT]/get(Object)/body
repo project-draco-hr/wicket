@@ -1,6 +1,9 @@
 {
   BufferedWebResponse result=null;
-  Value value=(Value)super.get(key);
+  Value value;
+synchronized (this) {
+    value=(Value)super.get(key);
+  }
   if (value != null) {
     Duration elapsedTime=Time.now().subtract(value.creationTime);
     if (lifetime.greaterThan(elapsedTime)) {

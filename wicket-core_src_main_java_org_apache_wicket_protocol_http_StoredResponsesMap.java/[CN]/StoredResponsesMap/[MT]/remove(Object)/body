@@ -1,4 +1,7 @@
 {
-  Value removedValue=(Value)super.remove(key);
+  Value removedValue;
+synchronized (this) {
+    removedValue=(Value)super.remove(key);
+  }
   return removedValue != null ? removedValue.response : null;
 }

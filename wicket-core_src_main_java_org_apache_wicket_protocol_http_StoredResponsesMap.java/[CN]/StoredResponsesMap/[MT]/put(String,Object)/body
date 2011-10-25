@@ -5,6 +5,9 @@
   Value value=new Value();
   value.creationTime=Time.now();
   value.response=(BufferedWebResponse)bufferedResponse;
-  Value oldValue=(Value)super.put(key,value);
+  Value oldValue;
+synchronized (this) {
+    oldValue=(Value)super.put(key,value);
+  }
   return oldValue != null ? oldValue.response : null;
 }
