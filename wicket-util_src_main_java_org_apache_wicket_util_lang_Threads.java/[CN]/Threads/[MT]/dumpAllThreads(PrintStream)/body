@@ -1,0 +1,37 @@
+{
+  Args.notNull(out,"out");
+  RuntimeMXBean runtimeMXBean=ManagementFactory.getRuntimeMXBean();
+  StringBuilder dump=new StringBuilder();
+  String newLine=System.getProperty("line.separator","\n");
+  String format="\"${name}\"${isDaemon} prio=${priority} tid=${threadIdDec} state=${state} ";
+  dump.append("Full thread dump ").append(runtimeMXBean.getVmName()).append('(').append(runtimeMXBean.getVmVersion()).append(')');
+  dump.append(newLine).append(newLine);
+  Map<Thread,StackTraceElement[]> allStackTraces=Thread.getAllStackTraces();
+  Iterator<Entry<Thread,StackTraceElement[]>> itor=allStackTraces.entrySet().iterator();
+  while (itor.hasNext()) {
+    Entry<Thread,StackTraceElement[]> entry=itor.next();
+    Thread thread=entry.getKey();
+    Map<CharSequence,Object> variables=new HashMap<CharSequence,Object>();
+    variables.put("name",thread.getName());
+    variables.put("isDaemon",thread.isDaemon() ? " daemon" : "");
+    variables.put("priority",thread.getPriority());
+    variables.put("threadIdDec",thread.getId());
+    variables.put("state",thread.getState());
+    String interpolated=MapVariableInterpolator.interpolate(format,variables);
+    dump.append(interpolated).append(newLine);
+    StackTraceElement[] traceElements=entry.getValue();
+    for (int i=0; i < traceElements.length; i++) {
+      StackTraceElement element=traceElements[i];
+      dump.append("\tat ").append(element.getClassName()).append('.').append(element.getMethodName()).append('(');
+      if (element.getLineNumber() > 0) {
+        dump.append(element.getFileName()).append(':').append(element.getLineNumber());
+      }
+ else {
+        dump.append("Native method");
+      }
+      dump.append(')').append(newLine);
+    }
+    dump.append(newLine);
+  }
+  out.println(dump.toString());
+}

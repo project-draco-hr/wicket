@@ -4,11 +4,12 @@
   final Time start=Time.now();
   boolean locked=false;
   final boolean isDebugEnabled=logger.isDebugEnabled();
+  PageLock previous=null;
   while (!locked && start.elapsedSince().lessThan(timeout)) {
     if (isDebugEnabled) {
       logger.debug("'{}' attempting to acquire lock to page with id '{}'",thread.getName(),pageId);
     }
-    PageLock previous=locks.get().putIfAbsent(pageId,lock);
+    previous=locks.get().putIfAbsent(pageId,lock);
     if (previous == null || previous.thread == thread) {
       locked=true;
     }
@@ -36,7 +37,10 @@ synchronized (previous) {
   }
  else {
     if (logger.isWarnEnabled()) {
-      logger.warn("{} failed to acquire lock to page {}, attempted for {} out of allowed {}",new Object[]{thread.getName(),pageId,start.elapsedSince(),timeout});
+      logger.warn("Thread '{}' failed to acquire lock to page with id '{}', attempted for {} out of allowed {}. The thread that holds the lock has name '{}'.",new Object[]{thread.getName(),pageId,start.elapsedSince(),timeout,previous.thread.getName()});
+      if (Application.exists() && Application.get().getExceptionSettings().getDumpThreadTraces()) {
+        Threads.dumpAllThreads();
+      }
     }
     throw new CouldNotLockPageException(pageId,thread.getName(),timeout);
   }
