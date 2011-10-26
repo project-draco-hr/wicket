@@ -1,11 +1,3 @@
 {
-  super(id);
-  if (file == null) {
-    throw new IllegalArgumentException("file cannot be null");
-  }
-  if (Strings.isEmpty(fileName)) {
-    throw new IllegalArgumentException("fileName cannot be an empty string");
-  }
-  setDefaultModel(new Model<File>(file));
-  this.fileName=fileName;
+  this(id,Model.of(Args.notNull(file,"file")),Model.of(fileName));
 }

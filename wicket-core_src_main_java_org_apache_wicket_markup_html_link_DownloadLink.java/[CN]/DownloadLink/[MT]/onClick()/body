@@ -3,7 +3,11 @@
   if (file == null) {
     throw new IllegalStateException(getClass().getName() + " failed to retrieve a File object from model");
   }
-  final String fn=UrlEncoder.QUERY_INSTANCE.encode((fileName != null) ? fileName : file.getName(),getRequest().getCharset());
+  String fileName=fileNameModel != null ? fileNameModel.getObject() : null;
+  if (Strings.isEmpty(fileName)) {
+    fileName=file.getName();
+  }
+  fileName=UrlEncoder.QUERY_INSTANCE.encode(fileName,getRequest().getCharset());
   IResourceStream resourceStream=new FileResourceStream(new org.apache.wicket.util.file.File(file));
   getRequestCycle().scheduleRequestHandlerAfterCurrent(new ResourceStreamRequestHandler(resourceStream){
     @Override public void respond(    IRequestCycle requestCycle){
@@ -13,5 +17,5 @@
       }
     }
   }
-.setFileName(fn).setContentDisposition(ContentDisposition.ATTACHMENT));
+.setFileName(fileName).setContentDisposition(ContentDisposition.ATTACHMENT));
 }
