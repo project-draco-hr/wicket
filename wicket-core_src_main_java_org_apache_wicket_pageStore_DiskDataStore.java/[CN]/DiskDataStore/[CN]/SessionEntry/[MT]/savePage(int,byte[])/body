@@ -5,14 +5,19 @@
   if (data != null) {
     PageWindow window=getManager().createPageWindow(pageId,data.length);
     FileChannel channel=getFileChannel(true);
-    try {
-      channel.write(ByteBuffer.wrap(data),window.getFilePartOffset());
-    }
- catch (    IOException e) {
-      log.error("Error writing to a channel " + channel,e);
-    }
+    if (channel != null) {
+      try {
+        channel.write(ByteBuffer.wrap(data),window.getFilePartOffset());
+      }
+ catch (      IOException e) {
+        log.error("Error writing to a channel " + channel,e);
+      }
  finally {
-      IOUtils.closeQuietly(channel);
+        IOUtils.closeQuietly(channel);
+      }
+    }
+ else {
+      log.warn("Cannot save page with id '{}' because the data file cannot be opened.",pageId);
     }
   }
 }
