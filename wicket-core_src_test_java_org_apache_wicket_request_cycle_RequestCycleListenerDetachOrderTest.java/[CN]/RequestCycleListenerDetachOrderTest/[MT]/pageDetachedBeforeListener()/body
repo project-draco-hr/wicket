@@ -1,0 +1,8 @@
+{
+  List<Event> events=new ArrayList<Event>();
+  WicketTester tester=new WicketTester();
+  tester.getApplication().getRequestCycleListeners().add(new TestListener(events));
+  tester.startPage(new TestPage(events));
+  assertEquals(Event.PAGE_DETACHED,events.get(0));
+  assertEquals(Event.LISTENER_DETACHED,events.get(1));
+}
