@@ -1,0 +1,17 @@
+{
+  PageRenderer renderer=new TestPageRenderer(handler){
+    @Override protected boolean isOnePassRender(){
+      return true;
+    }
+    @Override protected RedirectPolicy getRedirectPolicy(){
+      return RedirectPolicy.ALWAYS_REDIRECT;
+    }
+  }
+;
+  when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("base"));
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("base/a"));
+  when(request.shouldPreserveClientUrl()).thenReturn(false);
+  renderer.respond(requestCycle);
+  verify(response,never()).write(any(byte[].class));
+  verify(response).sendRedirect(anyString());
+}
