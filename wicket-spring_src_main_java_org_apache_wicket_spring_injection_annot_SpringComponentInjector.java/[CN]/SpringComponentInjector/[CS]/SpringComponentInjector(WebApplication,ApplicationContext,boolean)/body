@@ -1,11 +1,8 @@
 {
-  if (webapp == null) {
-    throw new IllegalArgumentException("Argument [[webapp]] cannot be null");
-  }
-  if (ctx == null) {
-    throw new IllegalArgumentException("Argument [[ctx]] cannot be null");
-  }
+  Args.notNull(webapp,"webapp");
+  Args.notNull(ctx,"ctx");
   webapp.setMetaData(CONTEXT_KEY,ctx);
   fieldValueFactory=new AnnotProxyFieldValueFactory(new ContextLocator(),wrapInProxies);
+  webapp.getBehaviorInstantiationListeners().add(this);
   bind(webapp);
 }
