@@ -1,3 +1,8 @@
 {
-  return WebApplication.get().getAndRemoveBufferedResponse(getSessionId(),url);
+  String sessionId=getSessionId();
+  BufferedWebResponse response=null;
+  if (Strings.isEmpty(sessionId) == false) {
+    response=WebApplication.get().getAndRemoveBufferedResponse(sessionId,url);
+  }
+  return response;
 }

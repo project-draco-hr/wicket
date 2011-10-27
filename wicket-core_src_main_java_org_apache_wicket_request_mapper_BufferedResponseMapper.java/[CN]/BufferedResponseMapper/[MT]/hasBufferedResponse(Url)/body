@@ -1,3 +1,8 @@
 {
-  return WebApplication.get().hasBufferedResponse(getSessionId(),url);
+  String sessionId=getSessionId();
+  boolean hasResponse=false;
+  if (Strings.isEmpty(sessionId) == false) {
+    hasResponse=WebApplication.get().hasBufferedResponse(sessionId,url);
+  }
+  return hasResponse;
 }
