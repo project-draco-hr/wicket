@@ -1,0 +1,18 @@
+{
+  if (filterPrefix.length() > 0 && !filterPrefix.endsWith("/")) {
+    filterPrefix+="/";
+  }
+  StringBuilder url=new StringBuilder();
+  String uri=URI;
+  uri=Strings.stripJSessionId(uri);
+  final int start=httpServletRequest.getContextPath().length() + filterPrefix.length() + 1;
+  url.append(uri.substring(start));
+  if (errorAttributes == null) {
+    String query=httpServletRequest.getQueryString();
+    if (!Strings.isEmpty(query)) {
+      url.append('?');
+      url.append(query);
+    }
+  }
+  return setParameters(Url.parse(url.toString(),getCharset()));
+}

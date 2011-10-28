@@ -1,9 +1,0 @@
-{
-  MockHttpServletRequest httpRequest=new MockHttpServletRequest(null,null,null);
-  httpRequest.setURL(httpRequest.getContextPath() + "/request/Uri");
-  String problematiURI=httpRequest.getContextPath() + "/any/source/of/error";
-  httpRequest.setAttribute("javax.servlet.error.request_uri",problematiURI);
-  ServletWebRequest errorWebRequest=new ServletWebRequest(httpRequest,"");
-  Url errorClientUrl=errorWebRequest.getClientUrl();
-  assertEquals("any/source/of/error",errorClientUrl.toString());
-}
