@@ -1,0 +1,15 @@
+{
+  add(new Label("version",getApplication().getFrameworkSettings().getVersion()));
+  final TransparentWebMarkupContainer table_wrapper=new TransparentWebMarkupContainer("table_wrapper");
+  add(table_wrapper);
+  final WebMarkupContainer column=new WebMarkupContainer("column");
+  add(column);
+  column.add(new Label("info",LABEL_TEXT){
+    private static final long serialVersionUID=1L;
+    @Override public boolean isVisible(){
+      return childVisible;
+    }
+  }
+);
+  add(new Label("list",new Model<String>("Test Items")));
+}
