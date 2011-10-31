@@ -1,0 +1,9 @@
+{
+  MockHttpServletRequest httpRequest=new MockHttpServletRequest(null,null,null);
+  httpRequest.setURL(httpRequest.getContextPath() + "/request/Uri");
+  String forwardedURI=httpRequest.getContextPath() + "/some/forwarded/url";
+  httpRequest.setAttribute("javax.servlet.forward.request_uri",forwardedURI);
+  ServletWebRequest forwardWebRequest=new ServletWebRequest(httpRequest,"");
+  Url forwardClientUrl=forwardWebRequest.getClientUrl();
+  assertEquals("some/forwarded/url",forwardClientUrl.toString());
+}

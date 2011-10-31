@@ -1,0 +1,11 @@
+{
+  Args.notNull(request,"request");
+  final String requestUri=(String)request.getAttribute("javax.servlet.forward.request_uri");
+  final String servletPath=(String)request.getAttribute("javax.servlet.forward.servlet_path");
+  final String contextPath=(String)request.getAttribute("javax.servlet.forward.context_path");
+  final String queryString=(String)request.getAttribute("javax.servlet.forward.query_string");
+  if (!Strings.isEmpty(requestUri) || !Strings.isEmpty(servletPath) || !Strings.isEmpty(contextPath)|| !Strings.isEmpty(queryString)) {
+    return new ForwardAttributes(requestUri,servletPath,contextPath,queryString);
+  }
+  return null;
+}
