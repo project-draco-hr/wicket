@@ -1,5 +1,6 @@
 {
-  Component controller=enclosureParent.get(getChildId());
+  String fullChildId=getChildId();
+  Component controller=enclosureParent.get(fullChildId);
   if (controller == null) {
     int orgIndex=markupStream.getCurrentIndex();
     try {
@@ -8,14 +9,20 @@
         if (markupStream.skipUntil(ComponentTag.class)) {
           ComponentTag tag=markupStream.getTag();
           if ((tag != null) && (tag.isOpen() || tag.isOpenClose())) {
-            if (childId.equals(tag.getId())) {
-              controller=ComponentResolvers.resolve(enclosureParent,markupStream,tag,new ResolverFilter(){
+            String tagId=tag.getId();
+            if (fullChildId.equals(tagId)) {
+              ComponentTag fullComponentTag=new ComponentTag(tag);
+              fullComponentTag.setId(childId.toString());
+              controller=ComponentResolvers.resolve(enclosureParent,markupStream,fullComponentTag,new ResolverFilter(){
                 public boolean ignoreResolver(                final IComponentResolver resolver){
                   return resolver instanceof EnclosureHandler;
                 }
               }
 );
               break;
+            }
+ else             if (fullChildId.startsWith(tagId + PATH_SEPARATOR)) {
+              fullChildId=Strings.afterFirst(fullChildId,PATH_SEPARATOR);
             }
           }
         }
