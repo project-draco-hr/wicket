@@ -1,0 +1,9 @@
+{
+  Integer integer=(Integer)PropertyResolver.getValue("age",person);
+  assertTrue(integer == 0);
+  PropertyResolver.setValue("age",person,10,CONVERTER);
+  integer=(Integer)PropertyResolver.getValue("age",person);
+  assertTrue(integer == 10);
+  PropertyResolver.setValue("age",person,null,CONVERTER);
+  fail("primitive type can't be set to null");
+}

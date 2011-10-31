@@ -1,0 +1,12 @@
+{
+  tester.startComponentInPage(new MockPanelWithLink("testPanel"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onLinkClick(    AjaxRequestTarget target){
+      setResponsePage(DummyHomePage.class);
+    }
+  }
+);
+  tester.clickLink("testPanel:link");
+  tester.assertRenderedPage(DummyHomePage.class);
+  tester.assertComponent("testPage",TestLink.class);
+}

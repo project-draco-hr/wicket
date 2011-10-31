@@ -1,7 +1,7 @@
 {
   try {
     Class<?> clazz=getTestClass().getJavaClass();
-    while (clazz != null || Object.class.equals(clazz) == false) {
+    while (clazz != null && Object.class.equals(clazz) == false) {
       try {
         Method javaMethod=clazz.getDeclaredMethod(methodName,parameterTypes);
         if (javaMethod != null && Modifier.isProtected(javaMethod.getModifiers()) && (javaMethod.getReturnType().equals(Void.TYPE) || javaMethod.getReturnType().equals(Void.class))) {
