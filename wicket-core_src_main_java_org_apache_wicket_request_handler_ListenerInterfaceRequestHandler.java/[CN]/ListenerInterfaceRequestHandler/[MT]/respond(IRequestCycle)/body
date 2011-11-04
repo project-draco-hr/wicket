@@ -2,7 +2,14 @@
   final IRequestablePage page=getPage();
   final boolean freshPage=pageComponentProvider.isPageInstanceFresh();
   final boolean isAjax=((WebRequest)requestCycle.getRequest()).isAjax();
-  if (getComponent().getPage() == page) {
+  IRequestableComponent component=null;
+  try {
+    component=getComponent();
+  }
+ catch (  ComponentNotFoundException e) {
+    component=null;
+  }
+  if ((component == null && freshPage) || (component != null && getComponent().getPage() == page)) {
     if (page instanceof Page) {
       ((Page)page).internalInitialize();
     }
