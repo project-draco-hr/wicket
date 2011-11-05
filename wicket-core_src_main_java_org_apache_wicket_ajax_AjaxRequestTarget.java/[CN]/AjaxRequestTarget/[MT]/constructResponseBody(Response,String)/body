@@ -4,13 +4,13 @@
   bodyResponse.write("\"?>");
   bodyResponse.write("<ajax-response>");
   fireOnBeforeRespondListeners();
+  respondComponents(bodyResponse);
+  fireOnAfterRespondListeners(bodyResponse);
   Iterator<CharSequence> it=prependJavaScripts.iterator();
   while (it.hasNext()) {
     CharSequence js=it.next();
-    respondInvocation(bodyResponse,js);
+    respondPriorityInvocation(bodyResponse,js);
   }
-  respondComponents(bodyResponse);
-  fireOnAfterRespondListeners(bodyResponse);
   it=domReadyJavaScripts.iterator();
   while (it.hasNext()) {
     CharSequence js=it.next();
