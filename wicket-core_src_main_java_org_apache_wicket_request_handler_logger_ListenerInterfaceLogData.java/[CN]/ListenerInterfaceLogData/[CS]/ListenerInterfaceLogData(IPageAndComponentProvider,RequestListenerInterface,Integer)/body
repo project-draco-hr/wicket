@@ -1,9 +1,9 @@
 {
   super(pageAndComponentProvider);
-  componentClass=pageAndComponentProvider.getComponent().getClass();
-  componentPath=pageAndComponentProvider.getComponentPath();
+  componentClass=tryToGetComponentClass(pageAndComponentProvider);
+  componentPath=tryToGetComponentPath(pageAndComponentProvider);
   this.behaviorIndex=behaviorIndex;
-  if (behaviorIndex != null) {
+  if (behaviorIndex != null && componentClass != null) {
     try {
       behaviorClass=pageAndComponentProvider.getComponent().getBehaviorById(behaviorIndex).getClass();
     }

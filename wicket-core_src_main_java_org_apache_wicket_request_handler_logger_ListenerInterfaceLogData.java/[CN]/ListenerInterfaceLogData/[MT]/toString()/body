@@ -1,11 +1,17 @@
 {
   StringBuilder sb=new StringBuilder(super.toString());
   sb.setCharAt(sb.length() - 1,',');
-  sb.append("componentClass=");
-  sb.append(getComponentClass().getName());
-  sb.append(",componentPath=");
-  sb.append(getComponentPath());
-  sb.append(",behaviorIndex=");
+  if (getComponentClass() != null) {
+    sb.append("componentClass=");
+    sb.append(getComponentClass().getName());
+    sb.append(',');
+  }
+  if (getComponentPath() != null) {
+    sb.append("componentPath=");
+    sb.append(getComponentPath());
+    sb.append(',');
+  }
+  sb.append("behaviorIndex=");
   sb.append(getBehaviorIndex());
   if (getBehaviorClass() != null) {
     sb.append(",behaviorClass=");
