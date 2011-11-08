@@ -1,6 +1,17 @@
 {
-  if (!Strings.isEmpty(getName()) && getName().endsWith(".css")) {
-    return ResourceType.CSS;
+  String resourceName=getName();
+  final ResourceType type;
+  if (Strings.isEmpty(resourceName)) {
+    type=ResourceType.PLAIN;
   }
-  return ResourceType.JS;
+ else   if (resourceName.endsWith(".css")) {
+    type=ResourceType.CSS;
+  }
+ else   if (resourceName.endsWith(".js")) {
+    type=ResourceType.JS;
+  }
+ else {
+    throw new IllegalStateException("Cannot determine the resource's type by its name: " + resourceName);
+  }
+  return type;
 }

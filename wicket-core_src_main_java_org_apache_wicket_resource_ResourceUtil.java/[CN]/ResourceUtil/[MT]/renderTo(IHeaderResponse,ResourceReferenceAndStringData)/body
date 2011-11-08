@@ -1,32 +1,36 @@
 {
-  boolean css=data.isCss();
+  ResourceType resourceType=data.getResourceType();
   ResourceReference reference=data.getReference();
   PageParameters parameters=data.getParameters();
   String idOrMedia=data.getIdOrMedia();
   CharSequence content=data.getContent();
-  if (css) {
+switch (resourceType) {
+case CSS:
     String condition=data.getCssCondition();
-    if (Strings.isEmpty(content) == false) {
-      resp.renderCSS(content,idOrMedia);
-    }
- else     if (reference == null) {
-      resp.renderCSSReference(data.getUrl(),idOrMedia,condition);
-    }
- else {
-      resp.renderCSSReference(reference,parameters,idOrMedia,condition);
-    }
+  if (Strings.isEmpty(content) == false) {
+    resp.renderCSS(content,idOrMedia);
+  }
+ else   if (reference == null) {
+    resp.renderCSSReference(data.getUrl(),idOrMedia,condition);
   }
  else {
-    boolean defer=data.isJsDefer();
-    String charset=data.getCharset();
-    if (Strings.isEmpty(content) == false) {
-      resp.renderJavaScript(content,idOrMedia);
-    }
- else     if (reference == null) {
-      resp.renderJavaScriptReference(data.getUrl(),idOrMedia,defer,charset);
-    }
- else {
-      resp.renderJavaScriptReference(reference,parameters,idOrMedia,defer,charset);
-    }
+    resp.renderCSSReference(reference,parameters,idOrMedia,condition);
   }
+break;
+case JS:
+boolean defer=data.isJsDefer();
+String charset=data.getCharset();
+if (Strings.isEmpty(content) == false) {
+resp.renderJavaScript(content,idOrMedia);
+}
+ else if (reference == null) {
+resp.renderJavaScriptReference(data.getUrl(),idOrMedia,defer,charset);
+}
+ else {
+resp.renderJavaScriptReference(reference,parameters,idOrMedia,defer,charset);
+}
+break;
+case PLAIN:
+resp.renderString(content);
+}
 }
