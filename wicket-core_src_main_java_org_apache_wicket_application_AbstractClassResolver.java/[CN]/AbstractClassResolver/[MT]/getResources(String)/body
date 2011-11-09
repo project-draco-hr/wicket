@@ -1,15 +1,15 @@
 {
   List<URL> resultList=new ArrayList<URL>();
-  HashSet<URI> loadedFiles=new HashSet<URI>();
+  Set<String> loadedResources=new HashSet<String>();
   try {
     Enumeration<URL> resources=Application.class.getClassLoader().getResources(name);
-    loadResources(resources,loadedFiles);
+    loadResources(resources,loadedResources);
     resources=Application.get().getClass().getClassLoader().getResources(name);
-    loadResources(resources,loadedFiles);
+    loadResources(resources,loadedResources);
     resources=getClassLoader().getResources(name);
-    loadResources(resources,loadedFiles);
-    for (    URI uri : loadedFiles) {
-      resultList.add(uri.toURL());
+    loadResources(resources,loadedResources);
+    for (    String urlExternalForm : loadedResources) {
+      resultList.add(new URL(urlExternalForm));
     }
   }
  catch (  Exception e) {
