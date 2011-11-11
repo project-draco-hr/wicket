@@ -1,6 +1,10 @@
 {
   WicketTester tester=new WicketTester(new ImagesApplication());
-  tester.startPage(Home.class);
-  tester.assertContains("Wicket Examples - images");
-  tester.destroy();
+  try {
+    tester.startPage(Home.class);
+    tester.assertContains("Wicket Examples - images");
+  }
+  finally {
+    tester.destroy();
+  }
 }
