@@ -6,7 +6,7 @@
   brdr.add(AttributeModifier.replace("style",new AbstractReadOnlyModel<String>(){
     @Override public String getObject(){
       boolean error=Session.get().getFeedbackMessages().hasMessage(new IFeedbackMessageFilter(){
-        public boolean accept(        FeedbackMessage message){
+        @Override public boolean accept(        FeedbackMessage message){
           return feedback.getFilter().accept(message) && message.isError();
         }
       }

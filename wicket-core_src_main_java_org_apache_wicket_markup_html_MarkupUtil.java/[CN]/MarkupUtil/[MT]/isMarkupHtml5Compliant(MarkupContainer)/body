@@ -6,7 +6,7 @@
   }
   final boolean rtn[]=new boolean[]{true};
   page.visitChildren(MarkupContainer.class,new IVisitor<MarkupContainer,Void>(){
-    public void component(    final MarkupContainer comp,    final IVisit<Void> visit){
+    @Override public void component(    final MarkupContainer comp,    final IVisit<Void> visit){
       IMarkupFragment associatedMarkup=comp.getAssociatedMarkup();
       if (associatedMarkup != null) {
         MarkupResourceStream rs=associatedMarkup.getMarkupResourceStream();

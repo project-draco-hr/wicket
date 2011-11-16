@@ -6,7 +6,7 @@
  */
     @Override protected IPageManagerProvider newTestPageManagerProvider(){
       return new IPageManagerProvider(){
-        public IPageManager get(        IPageManagerContext pageManagerContext){
+        @Override public IPageManager get(        IPageManagerContext pageManagerContext){
           final IDataStore dataStore=new InMemoryPageStore();
           final AsynchronousDataStore asyncDS=new AsynchronousDataStore(dataStore,100);
           final DefaultPageStore pageStore=new DefaultPageStore(new JavaSerializer(application.getApplicationKey()),asyncDS,40);

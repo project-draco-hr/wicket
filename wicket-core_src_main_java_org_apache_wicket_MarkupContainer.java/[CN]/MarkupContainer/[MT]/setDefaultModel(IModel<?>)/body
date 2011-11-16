@@ -3,7 +3,7 @@
   super.setDefaultModel(model);
   if (previous instanceof IComponentInheritedModel) {
     visitChildren(new IVisitor<Component,Void>(){
-      public void component(      final Component component,      final IVisit<Void> visit){
+      @Override public void component(      final Component component,      final IVisit<Void> visit){
         IModel<?> compModel=component.getDefaultModel();
         if (compModel instanceof IWrapModel) {
           compModel=((IWrapModel<?>)compModel).getWrappedModel();

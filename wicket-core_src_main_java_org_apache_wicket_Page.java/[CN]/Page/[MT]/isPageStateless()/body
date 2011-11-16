@@ -15,7 +15,7 @@
   }
   if (stateless == null) {
     Component statefulComponent=visitChildren(Component.class,new IVisitor<Component,Component>(){
-      public void component(      final Component component,      final IVisit<Component> visit){
+      @Override public void component(      final Component component,      final IVisit<Component> visit){
         if (!component.isStateless()) {
           visit.stop(component);
         }

@@ -4,7 +4,7 @@
     final List<Component> unrenderedComponents=new ArrayList<Component>();
     final StringBuilder buffer=new StringBuilder();
     renderedContainer.visitChildren(new IVisitor<Component,Void>(){
-      public void component(      final Component component,      final IVisit<Void> visit){
+      @Override public void component(      final Component component,      final IVisit<Void> visit){
         if (renderedComponents == null || !renderedComponents.contains(component)) {
           if (!component.isAuto() && component.isVisibleInHierarchy()) {
             unrenderedComponents.add(component);

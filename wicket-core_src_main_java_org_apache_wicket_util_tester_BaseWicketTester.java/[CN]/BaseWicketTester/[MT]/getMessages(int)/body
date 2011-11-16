@@ -2,7 +2,7 @@
   FeedbackMessages feedbackMessages=Session.get().getFeedbackMessages();
   List<FeedbackMessage> allMessages=feedbackMessages.messages(new IFeedbackMessageFilter(){
     private static final long serialVersionUID=1L;
-    public boolean accept(    FeedbackMessage message){
+    @Override public boolean accept(    FeedbackMessage message){
       return message.getLevel() == level;
     }
   }

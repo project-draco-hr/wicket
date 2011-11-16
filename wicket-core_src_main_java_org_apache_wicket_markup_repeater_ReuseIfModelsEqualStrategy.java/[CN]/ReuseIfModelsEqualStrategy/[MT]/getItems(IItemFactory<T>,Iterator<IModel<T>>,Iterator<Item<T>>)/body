@@ -6,10 +6,10 @@
   }
   return new Iterator<Item<T>>(){
     private int index=0;
-    public boolean hasNext(){
+    @Override public boolean hasNext(){
       return newModels.hasNext();
     }
-    public Item<T> next(){
+    @Override public Item<T> next(){
       final IModel<T> model=newModels.next();
       final Item<T> oldItem=modelToItem.get(model);
       final Item<T> item;
@@ -23,7 +23,7 @@
       index++;
       return item;
     }
-    public void remove(){
+    @Override public void remove(){
       throw new UnsupportedOperationException();
     }
   }

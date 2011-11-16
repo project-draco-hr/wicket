@@ -1,6 +1,6 @@
 {
   tester.getApplication().setHeaderResponseDecorator(new IHeaderResponseDecorator(){
-    public IHeaderResponse decorate(    IHeaderResponse response){
+    @Override public IHeaderResponse decorate(    IHeaderResponse response){
       return new DecoratingHeaderResponse(response){
         @Override public void renderJavaScriptReference(        ResourceReference reference,        String id){
           super.renderJavaScriptReference(new PackageResourceReference("DECORATED-" + reference.getName()),id);

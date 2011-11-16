@@ -4,7 +4,7 @@
   }
   onError();
   visitChildren(Form.class,new IVisitor<Component,Void>(){
-    public void component(    final Component component,    final IVisit<Void> visit){
+    @Override public void component(    final Component component,    final IVisit<Void> visit){
       final Form<?> form=(Form<?>)component;
       if (!form.isEnabledInHierarchy() || !form.isVisibleInHierarchy()) {
         visit.dontGoDeeper();

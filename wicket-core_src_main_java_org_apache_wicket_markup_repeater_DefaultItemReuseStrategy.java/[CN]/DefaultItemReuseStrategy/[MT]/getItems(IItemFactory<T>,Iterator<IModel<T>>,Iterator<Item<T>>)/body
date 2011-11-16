@@ -1,13 +1,13 @@
 {
   return new Iterator<Item<T>>(){
     private int index=0;
-    public void remove(){
+    @Override public void remove(){
       throw new UnsupportedOperationException();
     }
-    public boolean hasNext(){
+    @Override public boolean hasNext(){
       return newModels.hasNext();
     }
-    public Item<T> next(){
+    @Override public Item<T> next(){
       IModel<T> model=newModels.next();
       Item<T> item=factory.newItem(index,model);
       index++;

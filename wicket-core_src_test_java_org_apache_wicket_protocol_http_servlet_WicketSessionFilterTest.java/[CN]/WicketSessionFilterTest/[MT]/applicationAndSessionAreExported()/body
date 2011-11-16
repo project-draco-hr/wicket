@@ -1,7 +1,7 @@
 {
   tester.getSession().bind();
   Thread testThread=new Thread(new Runnable(){
-    public void run(){
+    @Override public void run(){
       try {
         TestSessionFilter sessionFilter=new TestSessionFilter(tester);
         Assert.assertFalse(Application.exists());
@@ -19,7 +19,7 @@
   final StringBuilder failMessage=new StringBuilder();
   final AtomicBoolean passed=new AtomicBoolean(true);
   testThread.setUncaughtExceptionHandler(new UncaughtExceptionHandler(){
-    public void uncaughtException(    Thread t,    Throwable e){
+    @Override public void uncaughtException(    Thread t,    Throwable e){
       failMessage.append(e.getMessage());
       passed.set(false);
     }

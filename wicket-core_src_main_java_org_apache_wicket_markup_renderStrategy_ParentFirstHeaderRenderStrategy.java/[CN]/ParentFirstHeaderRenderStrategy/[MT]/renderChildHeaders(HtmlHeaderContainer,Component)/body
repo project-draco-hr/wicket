@@ -3,7 +3,7 @@
   Args.notNull(rootComponent,"rootComponent");
   if (rootComponent instanceof MarkupContainer) {
     ((MarkupContainer)rootComponent).visitChildren(new IVisitor<Component,Void>(){
-      public void component(      final Component component,      final IVisit<Void> visit){
+      @Override public void component(      final Component component,      final IVisit<Void> visit){
         if (component.isVisibleInHierarchy()) {
           component.renderHead(headerContainer);
         }

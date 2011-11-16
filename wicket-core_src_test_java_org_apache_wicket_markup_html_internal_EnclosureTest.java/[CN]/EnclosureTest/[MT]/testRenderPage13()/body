@@ -3,10 +3,10 @@
     @Override protected void init(){
       super.init();
       getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy(){
-        public boolean isActionAuthorized(        Component component,        Action action){
+        @Override public boolean isActionAuthorized(        Component component,        Action action){
           return !(component instanceof SecuredContainer_13);
         }
-        public <T extends IRequestableComponent>boolean isInstantiationAuthorized(        Class<T> componentClass){
+        @Override public <T extends IRequestableComponent>boolean isInstantiationAuthorized(        Class<T> componentClass){
           return true;
         }
       }

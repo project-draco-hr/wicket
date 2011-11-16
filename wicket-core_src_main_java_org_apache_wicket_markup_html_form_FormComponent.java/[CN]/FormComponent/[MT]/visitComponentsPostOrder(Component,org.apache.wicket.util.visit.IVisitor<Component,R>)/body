@@ -1,10 +1,10 @@
 {
   Args.notNull(visitor,"visitor");
   return Visits.visitPostOrder(component,visitor,new IVisitFilter(){
-    public boolean visitObject(    Object object){
+    @Override public boolean visitObject(    Object object){
       return true;
     }
-    public boolean visitChildren(    Object object){
+    @Override public boolean visitChildren(    Object object){
       if (object instanceof IFormVisitorParticipant) {
         return ((IFormVisitorParticipant)object).processChildren();
       }

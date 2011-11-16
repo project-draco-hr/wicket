@@ -15,7 +15,7 @@
     final Collection<?> checkGroupValues=(Collection<?>)formComponent.getDefaultModelObject();
     final List<String> result=new ArrayList<String>();
     formComponent.visitChildren(Check.class,new IVisitor<Component,Void>(){
-      public void component(      final Component component,      final IVisit<Void> visit){
+      @Override public void component(      final Component component,      final IVisit<Void> visit){
         if (checkGroupValues.contains(component.getDefaultModelObject())) {
           result.add(getFormComponentValue((Check<?>)component));
         }
@@ -29,7 +29,7 @@
     String result=null;
     if (value != null) {
       result=formComponent.visitChildren(Radio.class,new IVisitor<Component,String>(){
-        public void component(        final Component component,        final IVisit<String> visit){
+        @Override public void component(        final Component component,        final IVisit<String> visit){
           if (value.equals(component.getDefaultModelObject())) {
             visit.stop(getFormComponentValue((Radio<?>)component));
           }

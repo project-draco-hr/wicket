@@ -6,7 +6,7 @@
   final Component[] searched=new Component[]{null};
   while (container != null) {
     component=container.visitChildren(Component.class,new IVisitor<Component,Component>(){
-      public void component(      Component child,      IVisit<Component> visit){
+      @Override public void component(      Component child,      IVisit<Component> visit){
         if (child == searched[0]) {
           visit.dontGoDeeper();
           return;
