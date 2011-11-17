@@ -1,8 +1,6 @@
 {
   super.renderHead(response);
-  response.renderJavaScriptReference(WicketJQueryReference.INSTANCE);
-  response.renderJavaScriptReference(WicketEventReference.INSTANCE);
-  response.renderJavaScriptReference(WicketAjaxReference.INSTANCE);
+  AjaxLibrariesContributor.contribute(getApplication(),response);
   response.renderJavaScriptReference(JAVASCRIPT);
   ResourceReference cssResource=newCssResource();
   if (cssResource != null) {

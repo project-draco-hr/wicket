@@ -1,13 +1,6 @@
 {
   super.renderHead(component,response);
-  response.renderJavaScriptReference(WicketJQueryReference.INSTANCE);
-  response.renderJavaScriptReference(WicketEventReference.INSTANCE);
-  response.renderJavaScriptReference(WicketAjaxReference.INSTANCE);
-  final IDebugSettings debugSettings=Application.get().getDebugSettings();
-  if (debugSettings.isAjaxDebugModeEnabled()) {
-    response.renderJavaScriptReference(JAVASCRIPT_DEBUG);
-    response.renderJavaScript("Wicket.Ajax.DebugWindow.enabled=true;","wicket-ajax-debug-enable");
-  }
+  AjaxLibrariesContributor.contribute(component.getApplication(),response);
   Url baseUrl=RequestCycle.get().getUrlRenderer().getBaseUrl();
   CharSequence ajaxBaseUrl=Strings.escapeMarkup(baseUrl.toString());
   response.renderJavaScript("Wicket.Ajax.baseUrl=\"" + ajaxBaseUrl + "\";","wicket-ajax-base-url");
