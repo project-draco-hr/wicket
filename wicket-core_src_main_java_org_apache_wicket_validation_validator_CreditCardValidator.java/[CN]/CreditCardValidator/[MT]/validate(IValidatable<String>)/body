@@ -1,0 +1,11 @@
+{
+  final String value=validatable.getValue();
+  try {
+    if (!isLengthAndPrefixCorrect(value)) {
+      validatable.error(decorate(new ValidationError(this),validatable));
+    }
+  }
+ catch (  final NumberFormatException ex) {
+    validatable.error(decorate(new ValidationError(this),validatable));
+  }
+}
