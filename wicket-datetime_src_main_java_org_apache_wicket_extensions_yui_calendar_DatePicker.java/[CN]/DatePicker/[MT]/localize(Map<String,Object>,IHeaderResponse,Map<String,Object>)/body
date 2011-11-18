@@ -5,14 +5,7 @@
   if (response.wasRendered(key)) {
     return;
   }
-  DateFormatSymbols dfSymbols=null;
-  if (GETINSTANCEMETHOD != null) {
-    try {
-      dfSymbols=(DateFormatSymbols)GETINSTANCEMETHOD.invoke(null,locale);
-    }
- catch (    Exception e) {
-    }
-  }
+  DateFormatSymbols dfSymbols=DateFormatSymbols.getInstance(locale);
   if (dfSymbols == null) {
     dfSymbols=new DateFormatSymbols(locale);
   }
