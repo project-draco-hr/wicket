@@ -1,7 +1,7 @@
 {
   IDataStore dataStore=newDataStore();
   IStoreSettings storeSettings=getStoreSettings();
-  if (storeSettings.isAsynchronous() && dataStore instanceof DiskDataStore) {
+  if (dataStore.canBeAsynchronous()) {
     int capacity=storeSettings.getAsynchronousQueueCapacity();
     dataStore=new AsynchronousDataStore(dataStore,capacity);
   }
