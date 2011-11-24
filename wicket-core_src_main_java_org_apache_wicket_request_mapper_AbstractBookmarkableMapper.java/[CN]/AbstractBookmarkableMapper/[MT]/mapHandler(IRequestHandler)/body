@@ -22,7 +22,7 @@
       return buildUrl(urlInfo);
     }
     IRequestablePage page=handler.getPage();
-    if (!pageMustHaveBeenCreatedBookmarkable() || page.wasCreatedBookmarkable()) {
+    if (checkPageInstance(page) && (!pageMustHaveBeenCreatedBookmarkable() || page.wasCreatedBookmarkable())) {
       PageInfo info=null;
       if (!page.isPageStateless()) {
         info=new PageInfo(page.getPageId());
