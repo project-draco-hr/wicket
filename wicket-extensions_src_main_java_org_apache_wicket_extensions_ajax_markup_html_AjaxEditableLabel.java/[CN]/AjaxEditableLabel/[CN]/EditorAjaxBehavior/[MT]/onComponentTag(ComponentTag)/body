@@ -1,7 +1,9 @@
 {
   super.onComponentTag(tag);
-  final String saveCall="{" + generateCallbackScript("Wicket.Ajax.get('" + getCallbackUrl() + "&save=true&'+this.name+'='+Wicket.Form.encode(this.value)") + "; return false;}";
-  final String cancelCall="{" + generateCallbackScript("Wicket.Ajax.get('" + getCallbackUrl() + "&save=false'") + "; return false;}";
+  String callbackUrl=getCallbackUrl().toString();
+  char separator=(callbackUrl != null && callbackUrl.indexOf('?') > -1) ? '&' : '?';
+  final String saveCall="{" + generateCallbackScript("Wicket.Ajax.get('" + callbackUrl + separator+ "save=true&'+this.name+'='+wicketEncode(this.value)") + "; return false;}";
+  final String cancelCall="{" + generateCallbackScript("Wicket.Ajax.get('" + callbackUrl + separator+ "save=false'") + "; return false;}";
   final String keypress="var kc=Wicket.Event.keyCode(event); if (kc==27) " + cancelCall + " else if (kc!=13) { return true; } else "+ saveCall;
   tag.put("onblur",saveCall);
   tag.put("onkeypress","if (Wicket.Browser.isSafari()) { return; }; " + keypress);
