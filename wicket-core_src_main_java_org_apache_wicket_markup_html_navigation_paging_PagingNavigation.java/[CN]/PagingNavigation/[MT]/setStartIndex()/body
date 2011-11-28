@@ -1,6 +1,6 @@
 {
   long firstListItem=startIndex;
-  long viewSize=Math.min(getViewSize(),pageable.getPageCount());
+  int viewSize=(int)Math.min(getViewSize(),pageable.getPageCount());
   long margin=getMargin();
   long currentPage=pageable.getCurrentPage();
   if (currentPage < (firstListItem + margin)) {
@@ -19,7 +19,7 @@
     modelChanging();
     addStateChange();
     startIndex=firstListItem;
-    setIterations(Math.min(viewSize,pageable.getPageCount()));
+    setIterations((int)Math.min(viewSize,pageable.getPageCount()));
     modelChanged();
     removeAll();
   }
