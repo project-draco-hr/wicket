@@ -6,9 +6,8 @@
       if (signIn(data[0],data[1])) {
         username=data[0];
         password=data[1];
-        if (!continueToOriginalDestination()) {
-          throw new RestartResponseException(getSession().getPageFactory().newPage(getApplication().getHomePage()));
-        }
+        continueToOriginalDestination();
+        throw new RestartResponseException(getSession().getPageFactory().newPage(getApplication().getHomePage()));
       }
  else {
         authenticationStrategy.remove();
