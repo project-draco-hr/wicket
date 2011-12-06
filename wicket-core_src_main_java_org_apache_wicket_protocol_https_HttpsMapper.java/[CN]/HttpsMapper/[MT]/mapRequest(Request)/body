@@ -1,11 +1,10 @@
 {
-  IRequestHandler requestHandler=delegate.mapRequest(request);
-  if (requestHandler != null) {
-    final IRequestHandler httpsHandler=checker.checkSecureIncoming(requestHandler,httpsConfig);
-    if (httpsConfig.isPreferStateful()) {
-      Session.get().bind();
-    }
-    requestHandler=httpsHandler;
+  IRequestHandler handler=delegate.mapRequest(request);
+  Scheme desired=getDesiredSchemeFor(handler);
+  Scheme current=getSchemeOf(request);
+  if (!desired.isCompatibleWith(current)) {
+    String url=createRedirectUrl(handler,request,desired);
+    handler=createRedirectHandler(url);
   }
-  return requestHandler;
+  return handler;
 }

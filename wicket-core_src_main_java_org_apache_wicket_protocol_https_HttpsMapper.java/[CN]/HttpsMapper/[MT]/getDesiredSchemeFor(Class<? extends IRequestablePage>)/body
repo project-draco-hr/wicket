@@ -1,0 +1,13 @@
+{
+  Scheme SCHEME=cache.get(pageClass);
+  if (SCHEME == null) {
+    if (hasSecureAnnotation(pageClass)) {
+      SCHEME=Scheme.HTTPS;
+    }
+ else {
+      SCHEME=Scheme.HTTP;
+    }
+    cache.put(pageClass,SCHEME);
+  }
+  return SCHEME;
+}

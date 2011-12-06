@@ -1,0 +1,12 @@
+{
+  Url url=delegate.mapHandler(handler);
+  Scheme desired=getDesiredSchemeFor(handler);
+  Scheme current=getSchemeOf(request);
+  if (!desired.isCompatibleWith(current)) {
+    url.setProtocol(desired.urlName());
+    if (url.getPort() != null || !desired.usesStandardPort(config)) {
+      url.setPort(desired.getPort(config));
+    }
+  }
+  return url;
+}

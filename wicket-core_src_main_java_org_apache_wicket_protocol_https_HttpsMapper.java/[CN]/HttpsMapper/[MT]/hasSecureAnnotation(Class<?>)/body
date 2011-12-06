@@ -1,0 +1,14 @@
+{
+  if (type.getAnnotation(RequireHttps.class) != null) {
+    return true;
+  }
+  for (  Class<?> iface : type.getInterfaces()) {
+    if (hasSecureAnnotation(iface)) {
+      return true;
+    }
+  }
+  if (type.getSuperclass() != null) {
+    return hasSecureAnnotation(type.getSuperclass());
+  }
+  return false;
+}

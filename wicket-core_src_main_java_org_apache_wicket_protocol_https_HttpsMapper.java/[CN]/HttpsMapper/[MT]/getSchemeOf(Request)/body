@@ -1,0 +1,12 @@
+{
+  HttpServletRequest req=(HttpServletRequest)((WebRequest)request).getContainerRequest();
+  if ("https".equalsIgnoreCase(req.getScheme())) {
+    return Scheme.HTTPS;
+  }
+ else   if ("http".equalsIgnoreCase(req.getScheme())) {
+    return Scheme.HTTP;
+  }
+ else {
+    throw new IllegalStateException("Could not resolve protocol for request: " + req);
+  }
+}

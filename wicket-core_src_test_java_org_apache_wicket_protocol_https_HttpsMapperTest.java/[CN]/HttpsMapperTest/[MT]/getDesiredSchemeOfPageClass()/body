@@ -1,0 +1,8 @@
+{
+  IRequestMapper delegate=mock(IRequestMapper.class);
+  HttpsMapper mapper=new HttpsMapper(delegate,new HttpsConfig());
+  assertThat(mapper.getDesiredSchemeFor(SecurePage.class),is(Scheme.HTTPS));
+  assertThat(mapper.getDesiredSchemeFor(SecureDecendantPage.class),is(Scheme.HTTPS));
+  assertThat(mapper.getDesiredSchemeFor(SecureMixinPage.class),is(Scheme.HTTPS));
+  assertThat(mapper.getDesiredSchemeFor(InsecurePage.class),is(Scheme.HTTP));
+}

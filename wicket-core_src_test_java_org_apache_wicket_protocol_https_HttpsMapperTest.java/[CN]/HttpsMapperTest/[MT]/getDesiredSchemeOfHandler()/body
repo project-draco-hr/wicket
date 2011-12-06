@@ -1,0 +1,10 @@
+{
+  IRequestMapper delegate=mock(IRequestMapper.class);
+  HttpsMapper mapper=new HttpsMapper(delegate,new HttpsConfig());
+  IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(SecurePage.class));
+  assertThat(mapper.getDesiredSchemeFor(handler),is(Scheme.HTTPS));
+  handler=new RenderPageRequestHandler(new PageProvider(InsecurePage.class));
+  assertThat(mapper.getDesiredSchemeFor(handler),is(Scheme.HTTP));
+  handler=mock(IRequestHandler.class);
+  assertThat(mapper.getDesiredSchemeFor(handler),is(Scheme.ANY));
+}

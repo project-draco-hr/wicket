@@ -1,0 +1,13 @@
+{
+  HttpServletRequest req=(HttpServletRequest)((WebRequest)request).getContainerRequest();
+  String url=scheme.urlName() + "://";
+  url+=req.getServerName();
+  if (!scheme.usesStandardPort(config)) {
+    url+=":" + scheme.getPort(config);
+  }
+  url+=req.getRequestURI();
+  if (req.getQueryString() != null) {
+    url+="?" + req.getQueryString();
+  }
+  return url;
+}

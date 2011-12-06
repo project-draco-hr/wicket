@@ -1,0 +1,11 @@
+{
+  String location=url.toString();
+  if (location.startsWith("/")) {
+    location=requestCycle.getUrlRenderer().renderContextRelativeUrl(location);
+  }
+  if (config.isPreferStateful()) {
+    Session.get().bind();
+  }
+  WebResponse response=(WebResponse)requestCycle.getResponse();
+  response.sendRedirect(location);
+}
