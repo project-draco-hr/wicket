@@ -1,0 +1,17 @@
+{
+  String cookieName="wicket4289Name";
+  String cookieValue="wicket4289Value";
+  int cookieAge=1;
+  Cookie cookie=new Cookie(cookieName,cookieValue);
+  cookie.setMaxAge(cookieAge);
+  tester.getRequest().addCookie(cookie);
+  CookiePage page=new CookiePage(cookieName,cookieValue);
+  tester.startPage(page);
+  List<Cookie> cookies=tester.getLastResponse().getCookies();
+  assertEquals(1,cookies.size());
+  Cookie cookie2=cookies.get(0);
+  assertEquals(cookieName,cookie2.getName());
+  assertEquals(cookieValue,cookie2.getValue());
+  assertEquals(cookieAge,cookie2.getMaxAge());
+  assertEquals(cookieValue,tester.getRequest().getCookie(cookieName).getValue());
+}
