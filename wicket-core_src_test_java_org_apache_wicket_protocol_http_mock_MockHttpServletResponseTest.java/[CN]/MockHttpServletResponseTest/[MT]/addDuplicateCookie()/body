@@ -1,0 +1,26 @@
+{
+  Cookie cookie1=new Cookie("name","value");
+  response.addCookie(cookie1);
+  assertEquals(1,response.getCookies().size());
+  Cookie cookie2=new Cookie("name","value");
+  response.addCookie(cookie2);
+  assertEquals(1,response.getCookies().size());
+  Cookie cookie3=new Cookie("name","value");
+  cookie3.setPath("/");
+  response.addCookie(cookie3);
+  assertEquals(2,response.getCookies().size());
+  Cookie cookie4=new Cookie("name","value");
+  cookie4.setPath("/");
+  response.addCookie(cookie4);
+  assertEquals(2,response.getCookies().size());
+  Cookie cookie5=new Cookie("name","value");
+  cookie5.setPath("/");
+  cookie5.setDomain("example.com");
+  response.addCookie(cookie5);
+  assertEquals(3,response.getCookies().size());
+  Cookie cookie6=new Cookie("name","value");
+  cookie6.setPath("/");
+  cookie6.setDomain("example.com");
+  response.addCookie(cookie6);
+  assertEquals(3,response.getCookies().size());
+}
