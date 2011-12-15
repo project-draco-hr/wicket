@@ -1,0 +1,9 @@
+{
+  List<IResourceStream> ret=new ArrayList<IResourceStream>(providedResources.size());
+  for (  IReferenceHeaderItem curItem : providedResources) {
+    IResourceStream stream=((PackageResource)curItem.getReference().getResource()).getResourceStream();
+    if (stream == null)     return null;
+    ret.add(stream);
+  }
+  return ret;
+}

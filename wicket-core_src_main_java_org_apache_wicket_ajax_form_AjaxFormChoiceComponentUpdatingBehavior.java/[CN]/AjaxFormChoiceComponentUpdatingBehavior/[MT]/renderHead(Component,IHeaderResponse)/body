@@ -13,6 +13,6 @@
   asb.append(" }\n");
   asb.append(" }\n");
   asb.append("}\n");
-  response.renderJavaScript(asb,"attachChoice");
-  response.renderOnLoadJavaScript("attachChoiceHandlers('" + getComponent().getMarkupId() + "', function() {"+ getEventHandler()+ "});");
+  response.render(JavaScriptHeaderItem.forScript(asb,"attachChoice"));
+  response.render(OnLoadHeaderItem.forScript("attachChoiceHandlers('" + getComponent().getMarkupId() + "', function() {"+ getEventHandler()+ "});"));
 }

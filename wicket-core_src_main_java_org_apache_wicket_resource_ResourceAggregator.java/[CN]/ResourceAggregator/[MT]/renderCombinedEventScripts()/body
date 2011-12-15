@@ -1,0 +1,24 @@
+{
+  StringBuilder combinedScript=new StringBuilder();
+  for (  OnDomReadyHeaderItem curItem : domReadyItemsToBeRendered) {
+    HeaderItem itemToBeRendered=getItemToBeRendered(curItem);
+    if (itemToBeRendered == curItem) {
+      combinedScript.append("\n");
+      combinedScript.append(curItem.getJavaScript());
+      combinedScript.append(";");
+    }
+ else     getRealResponse().render(itemToBeRendered);
+  }
+  if (combinedScript.length() > 0)   getRealResponse().render(OnDomReadyHeaderItem.forScript(combinedScript.append("\n").toString()));
+  combinedScript.setLength(0);
+  for (  OnLoadHeaderItem curItem : loadItemsToBeRendered) {
+    HeaderItem itemToBeRendered=getItemToBeRendered(curItem);
+    if (itemToBeRendered == curItem) {
+      combinedScript.append("\n");
+      combinedScript.append(curItem.getJavaScript());
+      combinedScript.append(";");
+    }
+ else     getRealResponse().render(itemToBeRendered);
+  }
+  if (combinedScript.length() > 0)   getRealResponse().render(OnLoadHeaderItem.forScript(combinedScript.append("\n").toString()));
+}

@@ -1,0 +1,9 @@
+{
+  ArrayList<Serializable> key=new ArrayList<Serializable>(providedResources.size());
+  for (  IReferenceHeaderItem curItem : providedResources) {
+    Serializable curKey=((PackageResource)curItem.getReference().getResource()).getCacheKey();
+    if (curKey == null)     return null;
+    key.add(curKey);
+  }
+  return key;
+}

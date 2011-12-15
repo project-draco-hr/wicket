@@ -1,7 +1,7 @@
 {
   final byte[] processedResponse=super.processResponse(attributes,bytes);
   ICssCompressor compressor=getCompressor();
-  if (compressor != null) {
+  if (compressor != null && getCompress()) {
     try {
       String nonCompressed=new String(processedResponse,"UTF-8");
       return compressor.compress(nonCompressed).getBytes();

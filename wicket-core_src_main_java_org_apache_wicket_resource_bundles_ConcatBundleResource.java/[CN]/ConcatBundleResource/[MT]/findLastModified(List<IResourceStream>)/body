@@ -1,0 +1,8 @@
+{
+  Time ret=null;
+  for (  IResourceStream curStream : resources) {
+    Time curLastModified=curStream.lastModifiedTime();
+    if (ret == null || curLastModified.after(ret))     ret=curLastModified;
+  }
+  return ret;
+}

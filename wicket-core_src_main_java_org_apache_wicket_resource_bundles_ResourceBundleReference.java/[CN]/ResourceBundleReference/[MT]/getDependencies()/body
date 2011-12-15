@@ -1,0 +1,10 @@
+{
+  Set<HeaderItem> ret=new LinkedHashSet<HeaderItem>();
+  for (  HeaderItem curProvided : providedResources) {
+    for (    HeaderItem curDependency : curProvided.getDependencies())     ret.add(curDependency);
+  }
+  for (  HeaderItem curProvided : providedResources) {
+    ret.remove(curProvided);
+  }
+  return ret;
+}

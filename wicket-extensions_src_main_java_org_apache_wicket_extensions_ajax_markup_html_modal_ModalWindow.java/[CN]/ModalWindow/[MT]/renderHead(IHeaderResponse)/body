@@ -1,9 +1,9 @@
 {
   super.renderHead(response);
   CoreLibrariesContributor.contributeAjax(getApplication(),response);
-  response.renderJavaScriptReference(JAVASCRIPT);
+  response.render(JavaScriptHeaderItem.forReference(JAVASCRIPT));
   ResourceReference cssResource=newCssResource();
   if (cssResource != null) {
-    response.renderCSSReference(cssResource);
+    response.render(CssHeaderItem.forReference(cssResource));
   }
 }

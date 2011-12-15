@@ -1,10 +1,10 @@
 {
   super.renderHead(response);
   CoreLibrariesContributor.contributeAjax(getApplication(),response);
-  response.renderJavaScriptReference(JS);
+  response.render(JavaScriptHeaderItem.forReference(JS));
   ResourceReference css=getCss();
   if (css != null) {
-    response.renderCSSReference(css);
+    response.render(CssHeaderItem.forReference(css));
   }
   ResourceReference ref=new SharedResourceReference(RESOURCE_NAME);
   final String uploadFieldId=(uploadField == null) ? "" : uploadField.getMarkupId();
@@ -13,5 +13,5 @@
   StringBuilder builder=new StringBuilder(128);
   Formatter formatter=new Formatter(builder);
   formatter.format("Wicket.bind(new Wicket.WUPB('%s', '%s', '%s', '%s', '%s', '%s'), Wicket.$('%s'))",getMarkupId(),statusDiv.getMarkupId(),barDiv.getMarkupId(),url,uploadFieldId,status,getCallbackForm().getMarkupId());
-  response.renderOnDomReadyJavaScript(builder.toString());
+  response.render(OnDomReadyHeaderItem.forScript(builder.toString()));
 }

@@ -1,5 +1,5 @@
 {
-  response.renderJavaScriptReference(AUTOCOMPLETE_JS);
+  response.render(JavaScriptHeaderItem.forReference(AUTOCOMPLETE_JS));
   final String id=getComponent().getMarkupId();
   String indicatorId=findIndicatorId();
   if (Strings.isEmpty(indicatorId)) {
@@ -9,5 +9,5 @@
     indicatorId="'" + indicatorId + "'";
   }
   String initJS=String.format("new Wicket.AutoComplete('%s','%s',%s,%s);",id,getCallbackUrl(),constructSettingsJS(),indicatorId);
-  response.renderOnDomReadyJavaScript(initJS);
+  response.render(OnDomReadyHeaderItem.forScript(initJS));
 }

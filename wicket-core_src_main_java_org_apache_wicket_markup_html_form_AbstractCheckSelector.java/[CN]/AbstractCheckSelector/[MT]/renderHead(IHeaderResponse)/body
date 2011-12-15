@@ -1,9 +1,9 @@
 {
   CoreLibrariesContributor.contributeAjax(getApplication(),response);
-  response.renderJavaScriptReference(JS);
+  response.render(JavaScriptHeaderItem.forReference(JS));
   String findCheckboxes=getFindCheckboxesFunction().toString();
-  response.renderOnLoadJavaScript("Wicket.CheckboxSelector.initializeSelector('" + this.getMarkupId() + "', "+ findCheckboxes+ ");");
+  response.render(OnLoadHeaderItem.forScript("Wicket.CheckboxSelector.initializeSelector('" + this.getMarkupId() + "', "+ findCheckboxes+ ");"));
   if (wantAutomaticUpdate()) {
-    response.renderOnLoadJavaScript("Wicket.CheckboxSelector.attachUpdateHandlers('" + this.getMarkupId() + "', "+ findCheckboxes+ ");");
+    response.render(OnLoadHeaderItem.forScript("Wicket.CheckboxSelector.attachUpdateHandlers('" + this.getMarkupId() + "', "+ findCheckboxes+ ");"));
   }
 }

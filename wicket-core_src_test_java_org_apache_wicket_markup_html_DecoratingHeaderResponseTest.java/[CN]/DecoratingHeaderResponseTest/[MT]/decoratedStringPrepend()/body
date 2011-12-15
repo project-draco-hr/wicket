@@ -2,8 +2,12 @@
   tester.getApplication().setHeaderResponseDecorator(new IHeaderResponseDecorator(){
     @Override public IHeaderResponse decorate(    IHeaderResponse response){
       return new DecoratingHeaderResponse(response){
-        @Override public void renderJavaScriptReference(        ResourceReference reference,        String id){
-          super.renderJavaScriptReference(new PackageResourceReference("DECORATED-" + reference.getName()),id);
+        @Override public void render(        HeaderItem item){
+          if (item instanceof JavaScriptReferenceHeaderItem) {
+            JavaScriptReferenceHeaderItem original=(JavaScriptReferenceHeaderItem)item;
+            item=JavaScriptHeaderItem.forReference(new PackageResourceReference("DECORATED-" + original.getReference().getName()),original.getId());
+          }
+          super.render(item);
         }
       }
 ;

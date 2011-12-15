@@ -1,6 +1,6 @@
 {
   String charset="foo";
-  headerResponse.renderJavaScriptReference("js-resource.js","some-id",false,charset);
+  headerResponse.render(JavaScriptHeaderItem.forUrl("js-resource.js","some-id",false,charset));
   String expected="<script type=\"text/javascript\" id=\"some-id\" charset=\"" + charset + "\" src=\""+ RESOURCE_NAME+ "\"></script>\n";
   String actual=headerResponse.getResponse().toString();
   Assert.assertEquals(expected,actual);

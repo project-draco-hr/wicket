@@ -1,0 +1,11 @@
+{
+  for (  HeaderItem curProvidedResource : bundle.getProvidedResources()) {
+    if (providedResourcesToBundles.containsKey(curProvidedResource)) {
+      throw new IllegalArgumentException("Only one bundle can provide a certain resource. " + providedResourcesToBundles.get(curProvidedResource) + " already provides the resource "+ curProvidedResource);
+    }
+    providedResourcesToBundles.put(curProvidedResource,bundle);
+  }
+  bundles.add(bundle);
+  if (bundle instanceof IReferenceHeaderItem)   registry.registerResourceReference(((IReferenceHeaderItem)bundle).getReference());
+  return bundle;
+}

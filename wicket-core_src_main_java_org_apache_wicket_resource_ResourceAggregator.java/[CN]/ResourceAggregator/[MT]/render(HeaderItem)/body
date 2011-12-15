@@ -1,0 +1,15 @@
+{
+  if (item instanceof OnDomReadyHeaderItem) {
+    renderDependencies(item,new LinkedHashSet<HeaderItem>());
+    domReadyItemsToBeRendered.add((OnDomReadyHeaderItem)item);
+  }
+ else   if (item instanceof OnLoadHeaderItem) {
+    renderDependencies(item,new LinkedHashSet<HeaderItem>());
+    loadItemsToBeRendered.add((OnLoadHeaderItem)item);
+  }
+ else {
+    Set<HeaderItem> depsDone=new LinkedHashSet<HeaderItem>();
+    depsDone.add(item);
+    recordHeaderItem(item,depsDone);
+  }
+}

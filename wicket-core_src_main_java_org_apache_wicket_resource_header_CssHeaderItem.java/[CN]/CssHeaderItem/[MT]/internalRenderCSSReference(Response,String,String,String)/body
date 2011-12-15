@@ -1,0 +1,24 @@
+{
+  if (Strings.isEmpty(url)) {
+    throw new IllegalArgumentException("url cannot be empty or null");
+  }
+  String urlWoSessionId=Strings.stripJSessionId(url);
+  if (Strings.isEmpty(condition) == false) {
+    response.write("<!--[if ");
+    response.write(condition);
+    response.write("]>");
+  }
+  response.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
+  response.write(urlWoSessionId);
+  response.write("\"");
+  if (media != null) {
+    response.write(" media=\"");
+    response.write(media);
+    response.write("\"");
+  }
+  response.write(" />");
+  if (Strings.isEmpty(condition) == false) {
+    response.write("<![endif]-->");
+  }
+  response.write("\n");
+}
