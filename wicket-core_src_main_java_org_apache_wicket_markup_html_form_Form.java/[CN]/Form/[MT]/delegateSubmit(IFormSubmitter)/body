@@ -1,14 +1,7 @@
 {
-  final Form<?> processingForm;
+  final Form<?> processingForm=findFormToProcess(submittingComponent);
   if (submittingComponent != null) {
-    processingForm=submittingComponent.getForm();
-    if (processingForm == null) {
-      throw new IllegalStateException("submitting component must not return 'null' on getForm()");
-    }
     submittingComponent.onSubmit();
-  }
- else {
-    processingForm=this;
   }
   Visits.visitPostOrder(processingForm,new IVisitor<Form<?>,Void>(){
     @Override public void component(    Form<?> form,    IVisit<Void> visit){
