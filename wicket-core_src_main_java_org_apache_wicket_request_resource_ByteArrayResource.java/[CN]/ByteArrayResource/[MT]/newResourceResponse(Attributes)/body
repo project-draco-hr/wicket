@@ -13,24 +13,26 @@
   response.setLastModified(lastModified);
   final byte[] data=getData(attributes);
   if (data == null) {
-    throw new WicketRuntimeException("ByteArrayResource's data cannot be 'null'.");
+    response.setError(HttpServletResponse.SC_NOT_FOUND);
   }
-  response.setContentLength(data.length);
-  if (response.dataNeedsToBeWritten(attributes)) {
-    if (filename != null) {
-      response.setFileName(filename);
-      response.setContentDisposition(ContentDisposition.ATTACHMENT);
-    }
  else {
-      response.setContentDisposition(ContentDisposition.INLINE);
-    }
-    response.setWriteCallback(new WriteCallback(){
-      @Override public void writeData(      final Attributes attributes){
-        attributes.getResponse().write(data);
+    response.setContentLength(data.length);
+    if (response.dataNeedsToBeWritten(attributes)) {
+      if (filename != null) {
+        response.setFileName(filename);
+        response.setContentDisposition(ContentDisposition.ATTACHMENT);
       }
-    }
+ else {
+        response.setContentDisposition(ContentDisposition.INLINE);
+      }
+      response.setWriteCallback(new WriteCallback(){
+        @Override public void writeData(        final Attributes attributes){
+          attributes.getResponse().write(data);
+        }
+      }
 );
-    configureResponse(response,attributes);
+      configureResponse(response,attributes);
+    }
   }
   return response;
 }
