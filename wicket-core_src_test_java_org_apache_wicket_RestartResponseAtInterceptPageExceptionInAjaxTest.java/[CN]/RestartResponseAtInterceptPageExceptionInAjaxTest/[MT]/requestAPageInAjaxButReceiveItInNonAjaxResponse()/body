@@ -1,0 +1,8 @@
+{
+  tester.executeAjaxUrl(Url.parse("?" + WebRequest.PARAM_AJAX + "=true&"+ WebRequest.PARAM_AJAX_BASE_URL+ "=/"));
+  RestartResponseAtInterceptPageException.InterceptData data=RestartResponseAtInterceptPageException.InterceptData.get();
+  assertNull(data.getOriginalUrl().getQueryParameter(WebRequest.PARAM_AJAX));
+  assertNull(data.getOriginalUrl().getQueryParameter(WebRequest.PARAM_AJAX_BASE_URL));
+  assertNull(data.getPostParameters().get(WebRequest.PARAM_AJAX));
+  assertNull(data.getPostParameters().get(WebRequest.PARAM_AJAX_BASE_URL));
+}
