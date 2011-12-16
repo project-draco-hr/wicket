@@ -1,8 +1,12 @@
 {
   try {
     StreamData data=getData(true);
-    data.inputStream=data.connection.getInputStream();
-    return data.inputStream;
+    InputStream is=data.connection.getInputStream();
+    if (data.inputStreams == null) {
+      data.inputStreams=new ArrayList<InputStream>();
+    }
+    data.inputStreams.add(is);
+    return is;
   }
  catch (  IOException e) {
     throw new ResourceStreamNotFoundException("Resource " + url + " could not be opened",e);

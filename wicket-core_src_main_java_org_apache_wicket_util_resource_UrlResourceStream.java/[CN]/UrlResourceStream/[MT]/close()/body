@@ -2,8 +2,10 @@
   StreamData data=getData(false);
   if (data != null) {
     Connections.closeQuietly(data.connection);
-    if (data.inputStream != null) {
-      IOUtils.closeQuietly(data.inputStream);
+    if (data.inputStreams != null) {
+      for (      InputStream is : data.inputStreams) {
+        IOUtils.closeQuietly(is);
+      }
     }
     streamData=null;
   }

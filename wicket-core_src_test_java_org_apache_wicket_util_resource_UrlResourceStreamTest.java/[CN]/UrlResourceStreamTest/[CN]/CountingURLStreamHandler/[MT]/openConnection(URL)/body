@@ -1,4 +1,14 @@
 {
-  counter.getAndIncrement();
-  return realURL.openConnection();
+  connectCounter.getAndIncrement();
+  final URLConnection realConn=realURL.openConnection();
+  return new URLConnection(u){
+    @Override public void connect() throws IOException {
+      realConn.connect();
+    }
+    @Override public InputStream getInputStream() throws IOException {
+      streamCounter.incrementAndGet();
+      return realConn.getInputStream();
+    }
+  }
+;
 }
