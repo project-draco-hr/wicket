@@ -1,0 +1,24 @@
+{
+  JSONObject jo=new JSONObject();
+  HTTPTokener x=new HTTPTokener(string);
+  String token;
+  token=x.nextToken();
+  if (token.toUpperCase().startsWith("HTTP")) {
+    jo.put("HTTP-Version",token);
+    jo.put("Status-Code",x.nextToken());
+    jo.put("Reason-Phrase",x.nextTo('\0'));
+    x.next();
+  }
+ else {
+    jo.put("Method",token);
+    jo.put("Request-URI",x.nextToken());
+    jo.put("HTTP-Version",x.nextToken());
+  }
+  while (x.more()) {
+    String name=x.nextTo(':');
+    x.next(':');
+    jo.put(name,x.nextTo('\0'));
+    x.next();
+  }
+  return jo;
+}

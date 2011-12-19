@@ -1,0 +1,18 @@
+{
+  char c;
+  String s=string.trim();
+  StringBuffer sb=new StringBuffer();
+  int length=s.length();
+  for (int i=0; i < length; i+=1) {
+    c=s.charAt(i);
+    if (c < ' ' || c == '+' || c == '%' || c == '=' || c == ';') {
+      sb.append('%');
+      sb.append(Character.forDigit((char)((c >>> 4) & 0x0f),16));
+      sb.append(Character.forDigit((char)(c & 0x0f),16));
+    }
+ else {
+      sb.append(c);
+    }
+  }
+  return sb.toString();
+}

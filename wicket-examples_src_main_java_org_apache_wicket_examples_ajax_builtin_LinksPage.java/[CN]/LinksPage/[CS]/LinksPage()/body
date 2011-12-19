@@ -39,19 +39,14 @@
   add(new AjaxLink<Void>("success-link"){
     @Override public void onClick(    AjaxRequestTarget target){
     }
-    @Override protected org.apache.wicket.ajax.IAjaxCallDecorator getAjaxCallDecorator(){
-      return new AjaxCallDecorator(){
-        @Override public CharSequence decorateOnSuccessScript(        Component c,        CharSequence script){
-          return "alert('Success');";
-        }
-        @Override public CharSequence decorateOnFailureScript(        Component c,        CharSequence script){
-          return "alert('Failure');";
-        }
-        @Override public CharSequence decorateScript(        Component c,        CharSequence script){
-          return "alert('Before ajax call');" + script;
-        }
-      }
-;
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      attributes.getBeforeHandlers().add("alert('Before ajax call');");
+      attributes.getSuccessHandlers().add("alert('Success');");
+      attributes.getErrorHandlers().add("alert('Failure');");
+      List<CharSequence> urlArgumentMethods=attributes.getDynamicExtraParameters();
+      urlArgumentMethods.add("return {'htmlname': document.documentElement.tagName};");
+      urlArgumentMethods.add("return {'bodyname': document.body.tagName};");
     }
   }
 );
@@ -60,19 +55,11 @@
       getApplication().getExceptionSettings().setAjaxErrorHandlingStrategy(AjaxErrorStrategy.INVOKE_FAILURE_HANDLER);
       throw new WicketRuntimeException("Failure link clicked");
     }
-    @Override protected org.apache.wicket.ajax.IAjaxCallDecorator getAjaxCallDecorator(){
-      return new AjaxCallDecorator(){
-        @Override public CharSequence decorateOnSuccessScript(        Component c,        CharSequence script){
-          return "alert('Success');";
-        }
-        @Override public CharSequence decorateOnFailureScript(        Component c,        CharSequence script){
-          return "alert('Failure');";
-        }
-        @Override public CharSequence decorateScript(        Component c,        CharSequence script){
-          return "alert('Before ajax call');" + script;
-        }
-      }
-;
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      attributes.getBeforeHandlers().add("alert('Before ajax call');");
+      attributes.getSuccessHandlers().add("alert('Success');");
+      attributes.getErrorHandlers().add("alert('Failure');");
     }
   }
 );

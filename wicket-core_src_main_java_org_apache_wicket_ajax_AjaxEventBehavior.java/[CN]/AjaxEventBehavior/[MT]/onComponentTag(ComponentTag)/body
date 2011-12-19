@@ -1,7 +1,9 @@
 {
   super.onComponentTag(tag);
-  Component myComponent=getComponent();
-  if (myComponent.isEnabledInHierarchy()) {
-    tag.put(event,getEventHandler());
+  if ("href".equalsIgnoreCase(event)) {
+    if (getComponent().isEnabledInHierarchy()) {
+      String value="javascript:" + getEventHandler();
+      tag.put(event,value);
+    }
   }
 }

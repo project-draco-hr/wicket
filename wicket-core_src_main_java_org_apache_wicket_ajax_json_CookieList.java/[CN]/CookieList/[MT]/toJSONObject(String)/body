@@ -1,0 +1,11 @@
+{
+  JSONObject jo=new JSONObject();
+  JSONTokener x=new JSONTokener(string);
+  while (x.more()) {
+    String name=Cookie.unescape(x.nextTo('='));
+    x.next('=');
+    jo.put(name,Cookie.unescape(x.nextTo(';')));
+    x.next();
+  }
+  return jo;
+}

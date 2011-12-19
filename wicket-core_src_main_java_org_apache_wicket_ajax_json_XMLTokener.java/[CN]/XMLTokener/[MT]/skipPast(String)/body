@@ -1,0 +1,42 @@
+{
+  boolean b;
+  char c;
+  int i;
+  int j;
+  int offset=0;
+  int length=to.length();
+  char[] circle=new char[length];
+  for (i=0; i < length; i+=1) {
+    c=next();
+    if (c == 0) {
+      return false;
+    }
+    circle[i]=c;
+  }
+  for (; ; ) {
+    j=offset;
+    b=true;
+    for (i=0; i < length; i+=1) {
+      if (circle[j] != to.charAt(i)) {
+        b=false;
+        break;
+      }
+      j+=1;
+      if (j >= length) {
+        j-=length;
+      }
+    }
+    if (b) {
+      return true;
+    }
+    c=next();
+    if (c == 0) {
+      return false;
+    }
+    circle[offset]=c;
+    offset+=1;
+    if (offset >= length) {
+      offset-=length;
+    }
+  }
+}

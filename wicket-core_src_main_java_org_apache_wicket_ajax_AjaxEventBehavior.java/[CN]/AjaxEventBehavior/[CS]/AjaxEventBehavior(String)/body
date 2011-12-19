@@ -1,7 +1,9 @@
 {
-  if (Strings.isEmpty(event)) {
-    throw new IllegalArgumentException("argument [event] cannot be null or empty");
-  }
+  Args.notEmpty(event,"event");
   onCheckEvent(event);
+  event=event.toLowerCase();
+  if (event.startsWith("on")) {
+    event=event.substring(2);
+  }
   this.event=event;
 }

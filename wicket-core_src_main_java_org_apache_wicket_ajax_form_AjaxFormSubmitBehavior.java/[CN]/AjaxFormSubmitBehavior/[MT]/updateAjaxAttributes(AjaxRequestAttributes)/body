@@ -1,0 +1,13 @@
+{
+  super.updateAjaxAttributes(attributes);
+  Form<?> form=getForm();
+  attributes.setFormId(form.getMarkupId());
+  if (form.isMultiPart()) {
+    attributes.setMultipart(true);
+    attributes.setMethod(Method.POST);
+  }
+  if (getComponent() instanceof IFormSubmittingComponent) {
+    String submittingComponentName=((IFormSubmittingComponent)getComponent()).getInputName();
+    attributes.setSubmittingComponentName(submittingComponentName);
+  }
+}

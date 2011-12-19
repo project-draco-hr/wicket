@@ -19,7 +19,7 @@
     startScript.append(getStatusString(timeTaken,"ajax.ServerAndClientTimeFilter.statustext"));
     startScript.append("';]]></evaluate>");
     responseBuffer.insert(ajaxEnd,startScript.toString());
-    responseBuffer.insert(ajaxStart + 15,"<evaluate><![CDATA[clientTimeVariable = new Date().getTime();]]></evaluate>");
+    responseBuffer.insert(ajaxStart + 15,"<priority-evaluate><![CDATA[clientTimeVariable = new Date().getTime();]]></priority-evaluate>");
   }
   log.info(timeTaken + "ms server time taken for request " + RequestCycle.get().getRequest().getUrl()+ " response size: "+ responseBuffer.length());
   return responseBuffer;

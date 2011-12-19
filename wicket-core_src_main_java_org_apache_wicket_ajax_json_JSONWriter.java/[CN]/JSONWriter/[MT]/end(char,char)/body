@@ -1,0 +1,14 @@
+{
+  if (this.mode != mode) {
+    throw new JSONException(mode == 'a' ? "Misplaced endArray." : "Misplaced endObject.");
+  }
+  pop(mode);
+  try {
+    writer.write(c);
+  }
+ catch (  IOException e) {
+    throw new JSONException(e);
+  }
+  comma=true;
+  return this;
+}

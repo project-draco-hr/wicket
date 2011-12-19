@@ -1,0 +1,22 @@
+{
+  if (string == null) {
+    throw new JSONException("Null pointer");
+  }
+  if (mode == 'o' || mode == 'a') {
+    try {
+      if (comma && mode == 'a') {
+        writer.write(',');
+      }
+      writer.write(string);
+    }
+ catch (    IOException e) {
+      throw new JSONException(e);
+    }
+    if (mode == 'o') {
+      mode='k';
+    }
+    comma=true;
+    return this;
+  }
+  throw new JSONException("Value out of sequence.");
+}

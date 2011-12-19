@@ -1,0 +1,19 @@
+{
+  boolean b=false;
+  Iterator keys=jo.keys();
+  String string;
+  StringBuffer sb=new StringBuffer();
+  while (keys.hasNext()) {
+    string=keys.next().toString();
+    if (!jo.isNull(string)) {
+      if (b) {
+        sb.append(';');
+      }
+      sb.append(Cookie.escape(string));
+      sb.append("=");
+      sb.append(Cookie.escape(jo.getString(string)));
+      b=true;
+    }
+  }
+  return sb.toString();
+}

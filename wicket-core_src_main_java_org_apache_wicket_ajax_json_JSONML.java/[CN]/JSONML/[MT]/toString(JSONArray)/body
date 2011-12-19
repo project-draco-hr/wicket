@@ -1,0 +1,67 @@
+{
+  int i;
+  JSONObject jo;
+  String key;
+  Iterator keys;
+  int length;
+  Object object;
+  StringBuffer sb=new StringBuffer();
+  String tagName;
+  String value;
+  tagName=ja.getString(0);
+  XML.noSpace(tagName);
+  tagName=XML.escape(tagName);
+  sb.append('<');
+  sb.append(tagName);
+  object=ja.opt(1);
+  if (object instanceof JSONObject) {
+    i=2;
+    jo=(JSONObject)object;
+    keys=jo.keys();
+    while (keys.hasNext()) {
+      key=keys.next().toString();
+      XML.noSpace(key);
+      value=jo.optString(key);
+      if (value != null) {
+        sb.append(' ');
+        sb.append(XML.escape(key));
+        sb.append('=');
+        sb.append('"');
+        sb.append(XML.escape(value));
+        sb.append('"');
+      }
+    }
+  }
+ else {
+    i=1;
+  }
+  length=ja.length();
+  if (i >= length) {
+    sb.append('/');
+    sb.append('>');
+  }
+ else {
+    sb.append('>');
+    do {
+      object=ja.get(i);
+      i+=1;
+      if (object != null) {
+        if (object instanceof String) {
+          sb.append(XML.escape(object.toString()));
+        }
+ else         if (object instanceof JSONObject) {
+          sb.append(toString((JSONObject)object));
+        }
+ else         if (object instanceof JSONArray) {
+          sb.append(toString((JSONArray)object));
+        }
+      }
+    }
+ while (i < length);
+    sb.append('<');
+    sb.append('/');
+    sb.append(tagName);
+    sb.append('>');
+  }
+  return sb.toString();
+}

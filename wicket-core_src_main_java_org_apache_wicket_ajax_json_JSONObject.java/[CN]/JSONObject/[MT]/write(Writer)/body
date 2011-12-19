@@ -1,0 +1,31 @@
+{
+  try {
+    boolean commanate=false;
+    Iterator keys=keys();
+    writer.write('{');
+    while (keys.hasNext()) {
+      if (commanate) {
+        writer.write(',');
+      }
+      Object key=keys.next();
+      writer.write(quote(key.toString()));
+      writer.write(':');
+      Object value=map.get(key);
+      if (value instanceof JSONObject) {
+        ((JSONObject)value).write(writer);
+      }
+ else       if (value instanceof JSONArray) {
+        ((JSONArray)value).write(writer);
+      }
+ else {
+        writer.write(valueToString(value));
+      }
+      commanate=true;
+    }
+    writer.write('}');
+    return writer;
+  }
+ catch (  IOException exception) {
+    throw new JSONException(exception);
+  }
+}

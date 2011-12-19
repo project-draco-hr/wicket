@@ -33,17 +33,30 @@
   editor.setVisible(false);
   editor.add(new EditorAjaxBehavior(){
     private static final long serialVersionUID=1L;
-    /** 
- * {@inheritDoc}
- */
-    @Override protected void onComponentTag(    final ComponentTag tag){
-      super.onComponentTag(tag);
-      final String saveCall="{Wicket.Ajax.post('" + getCallbackUrl() + "&save=true', "+ "Wicket.Form.serialize(this)); return true;}";
-      final String cancelCall="{Wicket.Ajax.get('" + getCallbackUrl() + "&save=false');this.onblur='';return false;}";
-      final String keypress="var kc=Wicket.Event.keyCode(event); if (kc===27) " + cancelCall + "; ";
-      tag.put("onblur",saveCall);
-      tag.put("onkeypress","if (Wicket.Browser.isSafari()) { return; }; " + keypress);
-      tag.put("onkeydown","if (!Wicket.Browser.isSafari()) { return; }; " + keypress);
+    @Override public void renderHead(    final Component component,    final IHeaderResponse response){
+      super.renderHead(component,response);
+      AjaxRequestAttributes saveAttributes=getAttributes();
+      saveAttributes.getExtraParameters().put("save","true");
+      saveAttributes.setMethod(Method.POST);
+      saveAttributes.getDynamicExtraParameters().add("this.name+'='+Wicket.Form.encode(this.value)");
+      saveAttributes.setEventName("blur");
+      AjaxRequestAttributes cancelAttributes=getAttributes();
+      cancelAttributes.getExtraParameters().put("save","false");
+      cancelAttributes.setEventName("keydown");
+      CharSequence saveAttributesJson=renderAjaxAttributes(component,saveAttributes);
+      String saveCall="Wicket.Ajax.ajax(" + saveAttributesJson + ")";
+      CharSequence cancelAttributesJson=renderAjaxAttributes(component,cancelAttributes);
+      String cancelCall="Wicket.Ajax.ajax(" + cancelAttributesJson + ")";
+      final String keydown="var kc=Wicket.Event.keyCode(attrs.event); if (kc===27) " + cancelCall + " else if (kc===13) "+ saveCall;
+      AjaxRequestTarget target=AjaxRequestTarget.get();
+      if (target != null) {
+        target.appendJavaScript(saveCall);
+        target.appendJavaScript(keydown);
+      }
+ else {
+        response.render(JavaScriptHeaderItem.forScript(saveCall,"editable-blur-" + component.getMarkupId()));
+        response.render(JavaScriptHeaderItem.forScript(keydown,"editable-keydown-" + component.getMarkupId()));
+      }
     }
   }
 );

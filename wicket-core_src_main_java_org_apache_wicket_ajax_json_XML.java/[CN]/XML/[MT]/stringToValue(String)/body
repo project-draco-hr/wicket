@@ -1,0 +1,45 @@
+{
+  if (string.equals("")) {
+    return string;
+  }
+  if (string.equalsIgnoreCase("true")) {
+    return Boolean.TRUE;
+  }
+  if (string.equalsIgnoreCase("false")) {
+    return Boolean.FALSE;
+  }
+  if (string.equalsIgnoreCase("null")) {
+    return JSONObject.NULL;
+  }
+  if (string.equals("0")) {
+    return new Integer(0);
+  }
+  try {
+    char initial=string.charAt(0);
+    boolean negative=false;
+    if (initial == '-') {
+      initial=string.charAt(1);
+      negative=true;
+    }
+    if (initial == '0' && string.charAt(negative ? 2 : 1) == '0') {
+      return string;
+    }
+    if ((initial >= '0' && initial <= '9')) {
+      if (string.indexOf('.') >= 0) {
+        return Double.valueOf(string);
+      }
+ else       if (string.indexOf('e') < 0 && string.indexOf('E') < 0) {
+        Long myLong=new Long(string);
+        if (myLong.longValue() == myLong.intValue()) {
+          return new Integer(myLong.intValue());
+        }
+ else {
+          return myLong;
+        }
+      }
+    }
+  }
+ catch (  Exception ignore) {
+  }
+  return string;
+}

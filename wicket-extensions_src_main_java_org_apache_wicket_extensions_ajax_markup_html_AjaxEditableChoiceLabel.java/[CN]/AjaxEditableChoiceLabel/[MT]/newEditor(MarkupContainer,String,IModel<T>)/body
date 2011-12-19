@@ -20,10 +20,21 @@
   editor.setVisible(false);
   editor.add(new EditorAjaxBehavior(){
     private static final long serialVersionUID=1L;
-    @Override protected void onComponentTag(    final ComponentTag tag){
-      super.onComponentTag(tag);
-      final String saveCall="{Wicket.Ajax.get('" + getCallbackUrl() + "&save=true&'+this.name+'='+Wicket.Form.encode(this.value)); return true;}";
-      tag.put("onchange",saveCall);
+    @Override public void renderHead(    final Component component,    final IHeaderResponse response){
+      super.renderHead(component,response);
+      AjaxRequestAttributes saveAttributes=getAttributes();
+      saveAttributes.getExtraParameters().put("save","true");
+      saveAttributes.getDynamicExtraParameters().add("this.name+'='+Wicket.Form.encode(this.value)");
+      saveAttributes.setEventName("change");
+      CharSequence saveAttributesJson=renderAjaxAttributes(component,saveAttributes);
+      String saveCall="Wicket.Ajax.ajax(" + saveAttributesJson + ")";
+      AjaxRequestTarget target=AjaxRequestTarget.get();
+      if (target != null) {
+        target.appendJavaScript(saveCall);
+      }
+ else {
+        response.render(JavaScriptHeaderItem.forScript(saveCall,"editable-blur-" + component.getMarkupId()));
+      }
     }
   }
 );

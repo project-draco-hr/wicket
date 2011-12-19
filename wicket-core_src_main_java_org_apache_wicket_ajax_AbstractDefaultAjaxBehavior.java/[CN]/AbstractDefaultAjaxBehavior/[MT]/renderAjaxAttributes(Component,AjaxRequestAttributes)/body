@@ -1,0 +1,90 @@
+{
+  JSONObject attributesJson=new JSONObject();
+  try {
+    attributesJson.put("u",getCallbackUrl());
+    Method method=attributes.getMethod();
+    if (Method.POST == method) {
+      attributesJson.put("m",method);
+    }
+    if (component instanceof Page == false) {
+      String componentId=component.getMarkupId();
+      attributesJson.put("c",componentId);
+    }
+    String formId=attributes.getFormId();
+    if (Strings.isEmpty(formId) == false) {
+      attributesJson.put("f",formId);
+    }
+    if (attributes.isMultipart()) {
+      attributesJson.put("mp",true);
+    }
+    String submittingComponentId=attributes.getSubmittingComponentName();
+    if (Strings.isEmpty(submittingComponentId) == false) {
+      attributesJson.put("sc",submittingComponentId);
+    }
+    String indicatorId=findIndicatorId();
+    if (Strings.isEmpty(indicatorId) == false) {
+      attributesJson.put("i",indicatorId);
+    }
+    for (    CharSequence bh : attributes.getBeforeHandlers()) {
+      attributesJson.append("bh",bh);
+    }
+    for (    CharSequence sh : attributes.getSuccessHandlers()) {
+      attributesJson.append("sh",sh);
+    }
+    for (    CharSequence fh : attributes.getErrorHandlers()) {
+      attributesJson.append("fh",fh);
+    }
+    for (    CharSequence pre : attributes.getPreconditions()) {
+      attributesJson.append("pre",pre);
+    }
+    JSONObject extraParameters=new JSONObject();
+    Iterator<Entry<String,Object>> itor=attributes.getExtraParameters().entrySet().iterator();
+    while (itor.hasNext()) {
+      Entry<String,Object> entry=itor.next();
+      String name=entry.getKey();
+      Object value=entry.getValue();
+      extraParameters.accumulate(name,value);
+    }
+    if (extraParameters.length() > 0) {
+      attributesJson.put("ep",extraParameters);
+    }
+    List<CharSequence> urlArgumentMethods=attributes.getDynamicExtraParameters();
+    if (urlArgumentMethods != null) {
+      for (      CharSequence urlArgument : urlArgumentMethods) {
+        attributesJson.append("dep",urlArgument);
+      }
+    }
+    if (attributes.isAsynchronous() == false) {
+      attributesJson.put("async",false);
+    }
+    String eventName=attributes.getEventName();
+    if (Strings.isEmpty(eventName) == false) {
+      attributesJson.put("e",eventName);
+    }
+    AjaxChannel channel=attributes.getChannel();
+    if (channel != null) {
+      attributesJson.put("ch",channel);
+    }
+    if (attributes.isAllowDefault()) {
+      attributesJson.put("ad",true);
+    }
+    Integer requestTimeout=attributes.getRequestTimeout();
+    if (requestTimeout != null) {
+      attributesJson.put("rt",requestTimeout);
+    }
+    boolean wicketAjaxResponse=attributes.isWicketAjaxResponse();
+    if (wicketAjaxResponse == false) {
+      attributesJson.put("wr",false);
+    }
+    String dataType=attributes.getDataType();
+    if (AjaxRequestAttributes.XML_DATA_TYPE.equals(dataType) == false) {
+      attributesJson.put("dt",dataType);
+    }
+    postprocessConfiguration(attributesJson,component);
+  }
+ catch (  JSONException e) {
+    throw new RuntimeException(e);
+  }
+  String attributesAsJson=attributesJson.toString();
+  return attributesAsJson;
+}

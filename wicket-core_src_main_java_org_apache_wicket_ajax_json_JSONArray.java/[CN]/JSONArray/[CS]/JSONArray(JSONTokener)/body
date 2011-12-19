@@ -1,0 +1,32 @@
+{
+  this();
+  if (x.nextClean() != '[') {
+    throw x.syntaxError("A JSONArray text must start with '['");
+  }
+  if (x.nextClean() != ']') {
+    x.back();
+    for (; ; ) {
+      if (x.nextClean() == ',') {
+        x.back();
+        myArrayList.add(JSONObject.NULL);
+      }
+ else {
+        x.back();
+        myArrayList.add(x.nextValue());
+      }
+switch (x.nextClean()) {
+case ';':
+case ',':
+        if (x.nextClean() == ']') {
+          return;
+        }
+      x.back();
+    break;
+case ']':
+  return;
+default :
+throw x.syntaxError("Expected a ',' or ']'");
+}
+}
+}
+}

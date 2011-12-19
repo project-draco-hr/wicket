@@ -1,0 +1,20 @@
+{
+  try {
+    Iterator keys=keys();
+    StringBuffer sb=new StringBuffer("{");
+    while (keys.hasNext()) {
+      if (sb.length() > 1) {
+        sb.append(',');
+      }
+      Object o=keys.next();
+      sb.append(quote(o.toString()));
+      sb.append(':');
+      sb.append(valueToString(map.get(o)));
+    }
+    sb.append('}');
+    return sb.toString();
+  }
+ catch (  Exception e) {
+    return null;
+  }
+}

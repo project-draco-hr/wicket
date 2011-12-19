@@ -1,7 +1,7 @@
 {
   super(id,model);
   mForm=form;
-  add(new AjaxFormSubmitBehavior(form,"onclick"){
+  add(new AjaxFormSubmitBehavior(form,"click"){
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target){
       AjaxFallbackButton.this.onSubmit(target,AjaxFallbackButton.this.getForm());
@@ -20,6 +20,10 @@
     }
     @Override public boolean getDefaultProcessing(){
       return AjaxFallbackButton.this.getDefaultFormProcessing();
+    }
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      AjaxFallbackButton.this.updateAjaxAttributes(attributes);
     }
   }
 );

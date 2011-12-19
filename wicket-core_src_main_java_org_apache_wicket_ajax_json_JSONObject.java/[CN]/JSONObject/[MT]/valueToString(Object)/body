@@ -1,0 +1,34 @@
+{
+  if (value == null || value.equals(null)) {
+    return "null";
+  }
+  if (value instanceof JSONString) {
+    Object object;
+    try {
+      object=((JSONString)value).toJSONString();
+    }
+ catch (    Exception e) {
+      throw new JSONException(e);
+    }
+    if (object instanceof String) {
+      return (String)object;
+    }
+    throw new JSONException("Bad value from toJSONString: " + object);
+  }
+  if (value instanceof Number) {
+    return numberToString((Number)value);
+  }
+  if (value instanceof Boolean || value instanceof JSONObject || value instanceof JSONArray) {
+    return value.toString();
+  }
+  if (value instanceof Map) {
+    return new JSONObject((Map)value).toString();
+  }
+  if (value instanceof Collection) {
+    return new JSONArray((Collection)value).toString();
+  }
+  if (value.getClass().isArray()) {
+    return new JSONArray(value).toString();
+  }
+  return quote(value.toString());
+}

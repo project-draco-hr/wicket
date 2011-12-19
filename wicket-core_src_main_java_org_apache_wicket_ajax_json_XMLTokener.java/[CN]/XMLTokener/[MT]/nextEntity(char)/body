@@ -1,0 +1,18 @@
+{
+  StringBuffer sb=new StringBuffer();
+  for (; ; ) {
+    char c=next();
+    if (Character.isLetterOrDigit(c) || c == '#') {
+      sb.append(Character.toLowerCase(c));
+    }
+ else     if (c == ';') {
+      break;
+    }
+ else {
+      throw syntaxError("Missing ';' in XML entity: &" + sb);
+    }
+  }
+  String string=sb.toString();
+  Object object=entity.get(string);
+  return object != null ? object : ampersand + string + ";";
+}

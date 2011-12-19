@@ -1,0 +1,25 @@
+{
+  char c;
+  try {
+    int startIndex=index;
+    int startCharacter=character;
+    int startLine=line;
+    reader.mark(Integer.MAX_VALUE);
+    do {
+      c=next();
+      if (c == 0) {
+        reader.reset();
+        index=startIndex;
+        character=startCharacter;
+        line=startLine;
+        return c;
+      }
+    }
+ while (c != to);
+  }
+ catch (  IOException exc) {
+    throw new JSONException(exc);
+  }
+  back();
+  return c;
+}

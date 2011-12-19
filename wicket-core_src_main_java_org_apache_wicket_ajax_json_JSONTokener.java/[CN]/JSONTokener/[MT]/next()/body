@@ -1,0 +1,33 @@
+{
+  int c;
+  if (usePrevious) {
+    usePrevious=false;
+    c=previous;
+  }
+ else {
+    try {
+      c=reader.read();
+    }
+ catch (    IOException exception) {
+      throw new JSONException(exception);
+    }
+    if (c <= 0) {
+      eof=true;
+      c=0;
+    }
+  }
+  index+=1;
+  if (previous == '\r') {
+    line+=1;
+    character=c == '\n' ? 0 : 1;
+  }
+ else   if (c == '\n') {
+    line+=1;
+    character=0;
+  }
+ else {
+    character+=1;
+  }
+  previous=(char)c;
+  return previous;
+}

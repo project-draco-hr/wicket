@@ -1,0 +1,17 @@
+{
+  char c;
+  int i;
+  StringBuffer sb=new StringBuffer();
+  for (; ; ) {
+    c=next();
+    if (end()) {
+      throw syntaxError("Unclosed CDATA");
+    }
+    sb.append(c);
+    i=sb.length() - 3;
+    if (i >= 0 && sb.charAt(i) == ']' && sb.charAt(i + 1) == ']' && sb.charAt(i + 2) == '>') {
+      sb.setLength(i);
+      return sb.toString();
+    }
+  }
+}

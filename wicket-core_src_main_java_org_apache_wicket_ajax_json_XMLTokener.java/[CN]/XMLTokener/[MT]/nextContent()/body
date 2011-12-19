@@ -1,0 +1,28 @@
+{
+  char c;
+  StringBuffer sb;
+  do {
+    c=next();
+  }
+ while (Character.isWhitespace(c));
+  if (c == 0) {
+    return null;
+  }
+  if (c == '<') {
+    return XML.LT;
+  }
+  sb=new StringBuffer();
+  for (; ; ) {
+    if (c == '<' || c == 0) {
+      back();
+      return sb.toString().trim();
+    }
+    if (c == '&') {
+      sb.append(nextEntity(c));
+    }
+ else {
+      sb.append(c);
+    }
+    c=next();
+  }
+}

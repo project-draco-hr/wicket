@@ -1,0 +1,23 @@
+{
+  this();
+  ResourceBundle bundle=ResourceBundle.getBundle(baseName,locale,Thread.currentThread().getContextClassLoader());
+  Enumeration keys=bundle.getKeys();
+  while (keys.hasMoreElements()) {
+    Object key=keys.nextElement();
+    if (key instanceof String) {
+      String[] path=((String)key).split("\\.");
+      int last=path.length - 1;
+      JSONObject target=this;
+      for (int i=0; i < last; i+=1) {
+        String segment=path[i];
+        JSONObject nextTarget=target.optJSONObject(segment);
+        if (nextTarget == null) {
+          nextTarget=new JSONObject();
+          target.put(segment,nextTarget);
+        }
+        target=nextTarget;
+      }
+      target.put(path[last],bundle.getString((String)key));
+    }
+  }
+}
