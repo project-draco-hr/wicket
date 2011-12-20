@@ -1,0 +1,18 @@
+{
+  return new AbstractReadOnlyModel<FeedbackMessage>(){
+    private static final long serialVersionUID=1L;
+    /** 
+ * WICKET-4258 Feedback messages might be cleared already.
+ * @see WebSession#cleanupFeedbackMessages()
+ */
+    @Override public FeedbackMessage getObject(){
+      if (index >= listViewModel.getObject().size()) {
+        return null;
+      }
+ else {
+        return listViewModel.getObject().get(index);
+      }
+    }
+  }
+;
+}
