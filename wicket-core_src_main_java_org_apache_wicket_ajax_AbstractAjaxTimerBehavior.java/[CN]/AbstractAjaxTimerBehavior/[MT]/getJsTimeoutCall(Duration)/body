@@ -1,4 +1,5 @@
 {
   CharSequence ajaxAttributes=renderAjaxAttributes(getComponent());
-  return "setTimeout('Wicket.Ajax.ajax(" + ajaxAttributes + ");', "+ updateInterval.getMilliseconds()+ ")";
+  String timeoutHandle=getTimeoutHandle();
+  return timeoutHandle + " = setTimeout('Wicket.Ajax.ajax(" + ajaxAttributes+ ");', "+ updateInterval.getMilliseconds()+ ")";
 }

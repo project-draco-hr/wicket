@@ -1,7 +1,7 @@
 {
   super.renderHead(component,response);
   WebRequest request=(WebRequest)RequestCycle.get().getRequest();
-  if (!stopped && (!headRendered || !request.isAjax())) {
+  if (!isStopped() && (!headRendered || !request.isAjax())) {
     headRendered=true;
     response.render(OnLoadHeaderItem.forScript(getJsTimeoutCall(updateInterval)));
   }
