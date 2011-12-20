@@ -1,19 +1,16 @@
 {
-  while (destroy.get() == false) {
+  while (!Thread.interrupted()) {
     Entry entry=null;
     try {
       entry=entries.poll(POLL_WAIT,TimeUnit.MILLISECONDS);
     }
  catch (    InterruptedException e) {
-      log.error(e.getMessage(),e);
+      Thread.currentThread().interrupt();
     }
     if (entry != null) {
       log.debug("Saving asynchronously: {}...",entry);
       dataStore.storeData(entry.sessionId,entry.pageId,entry.data);
       entryMap.remove(getKey(entry));
     }
-  }
-synchronized (destroy) {
-    destroy.notify();
   }
 }

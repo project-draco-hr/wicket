@@ -1,12 +1,12 @@
 {
-  destroy.set(true);
-  try {
-synchronized (destroy) {
-      destroy.wait();
+  if (pageSavingThread.isAlive()) {
+    pageSavingThread.interrupt();
+    try {
+      pageSavingThread.join();
     }
-  }
- catch (  InterruptedException e) {
-    log.error(e.getMessage(),e);
+ catch (    InterruptedException e) {
+      log.error(e.getMessage(),e);
+    }
   }
   dataStore.destroy();
 }

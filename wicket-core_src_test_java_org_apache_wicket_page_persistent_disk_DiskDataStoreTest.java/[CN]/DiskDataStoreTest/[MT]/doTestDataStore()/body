@@ -1,5 +1,5 @@
 {
-  log.error("Starting...");
+  log.info("Starting...");
   long start=System.currentTimeMillis();
   for (int i=0; i < THREAD_COUNT; ++i) {
     new Thread(new Read1Runnable()).start();
@@ -22,10 +22,10 @@
     throw new RuntimeException("One of the worker threads failed.",exceptionThrownByThread);
   }
   long duration=System.currentTimeMillis() - start;
-  log.error("Took: " + duration + " ms");
-  log.error("Save: " + saveCount.intValue() + " files, "+ bytesWritten.get()+ " bytes");
-  log.error("Read: " + (read1Count.get() + read2Count.get()) + " files, "+ bytesRead.get()+ " bytes");
-  log.error("Average save time (ns): " + (double)saveTime.get() / (double)saveCount.get());
+  log.info("Took: " + duration + " ms");
+  log.info("Save: " + saveCount.intValue() + " files, "+ bytesWritten.get()+ " bytes");
+  log.info("Read: " + (read1Count.get() + read2Count.get()) + " files, "+ bytesRead.get()+ " bytes");
+  log.info("Average save time (ns): " + (double)saveTime.get() / (double)saveCount.get());
   assertEquals(0,failures.get());
   for (  String s : sessionCounter.keySet()) {
     dataStore.removeData(s);

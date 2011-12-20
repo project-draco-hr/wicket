@@ -1,10 +1,9 @@
 {
   this.dataStore=dataStore;
-  destroy=new AtomicBoolean(false);
   entries=new LinkedBlockingQueue<Entry>(capacity);
   entryMap=new ConcurrentHashMap<String,Entry>();
-  PageSavingRunnable savingRunnable=new PageSavingRunnable(dataStore,entries,entryMap,destroy);
-  Thread thread=new Thread(savingRunnable,"Wicket-PageSavingThread");
-  thread.setDaemon(true);
-  thread.start();
+  PageSavingRunnable savingRunnable=new PageSavingRunnable(dataStore,entries,entryMap);
+  pageSavingThread=new Thread(savingRunnable,"Wicket-PageSavingThread");
+  pageSavingThread.setDaemon(true);
+  pageSavingThread.start();
 }
