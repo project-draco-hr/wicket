@@ -16,7 +16,9 @@
   add(actionOnClickLink);
   add(new Label("onClickLinkClickCount",new PropertyModel<Integer>(this,"onClickLinkClickCount")));
   add(new BookmarkablePageLink<Void>("page1Link",Page1.class));
-  add(new BookmarkablePageLink<Void>("page3Link",Page3.class).setParameter("bookmarkparameter","3++2 & 5 ??? >< space + ???"));
+  BookmarkablePageLink<Void> page3Link=new BookmarkablePageLink<Void>("page3Link",Page3.class);
+  page3Link.getPageParameters().add("bookmarkparameter","3++2 & 5 ??? >< space + ???");
+  add(page3Link);
   add(new Link<Void>("bookDetailsLink"){
     @Override public void onClick(){
       setResponsePage(new BookDetails(new Book("The Hobbit")));
