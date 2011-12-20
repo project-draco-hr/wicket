@@ -1,10 +1,20 @@
 {
   SpringBean annot=field.getAnnotation(SpringBean.class);
-  String name=annot.name();
+  String name;
+  boolean required;
+  if (annot != null) {
+    name=annot.name();
+    required=annot.required();
+  }
+ else {
+    Named named=field.getAnnotation(Named.class);
+    name=named != null ? named.value() : "";
+    required=false;
+  }
   if (Strings.isEmpty(name)) {
     name=beanNameCache.get(field.getType());
     if (name == null) {
-      name=getBeanNameOfClass(contextLocator.getSpringContext(),field.getType(),annot);
+      name=getBeanNameOfClass(contextLocator.getSpringContext(),field.getType(),required);
       if (name != null) {
         beanNameCache.put(field.getType(),name);
       }

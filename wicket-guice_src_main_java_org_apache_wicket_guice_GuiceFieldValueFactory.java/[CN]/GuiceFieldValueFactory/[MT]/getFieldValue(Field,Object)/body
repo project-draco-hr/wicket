@@ -2,10 +2,11 @@
   Object target=null;
   if (supportsField(field)) {
     Inject injectAnnotation=field.getAnnotation(Inject.class);
-    if (!Modifier.isStatic(field.getModifiers()) && (injectAnnotation != null)) {
+    javax.inject.Inject javaxInjectAnnotation=field.getAnnotation(javax.inject.Inject.class);
+    if (!Modifier.isStatic(field.getModifiers()) && (injectAnnotation != null || javaxInjectAnnotation != null)) {
       try {
         Annotation bindingAnnotation=findBindingAnnotation(field.getAnnotations());
-        final IProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,injectAnnotation.optional());
+        final IProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,injectAnnotation != null ? injectAnnotation.optional() : false);
         if (wrapInProxies) {
           target=LazyInitProxyFactory.createProxy(field.getType(),locator);
         }
