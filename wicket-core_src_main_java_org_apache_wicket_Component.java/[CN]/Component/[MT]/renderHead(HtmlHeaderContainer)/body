@@ -5,7 +5,16 @@
     }
     IHeaderResponse response=container.getHeaderResponse();
     if (response.wasRendered(this) == false) {
-      getMarkupSourcingStrategy().renderHead(this,container);
+      StringResponse markupHeaderResponse=new StringResponse();
+      Response oldResponse=getResponse();
+      RequestCycle.get().setResponse(markupHeaderResponse);
+      try {
+        getMarkupSourcingStrategy().renderHead(this,container);
+        response.render(StringHeaderItem.forString(markupHeaderResponse.getBuffer()));
+      }
+  finally {
+        RequestCycle.get().setResponse(oldResponse);
+      }
       renderHead(this,response);
       response.markRendered(this);
     }

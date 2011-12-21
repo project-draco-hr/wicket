@@ -1,0 +1,16 @@
+{
+  if (headerStreamState == null)   return;
+  final Response oldResponse=getRequestCycle().getResponse();
+  try {
+    final StringResponse bodyResponse=new StringResponse();
+    getRequestCycle().setResponse(bodyResponse);
+    super.onComponentTagBody(headerStreamState.getMarkupStream(),headerStreamState.getOpenTag());
+    CharSequence bodyOutput=getCleanResponse(bodyResponse);
+    if (bodyOutput.length() > 0) {
+      getHeaderResponse().render(StringHeaderItem.forString(bodyOutput));
+    }
+  }
+  finally {
+    getRequestCycle().setResponse(oldResponse);
+  }
+}

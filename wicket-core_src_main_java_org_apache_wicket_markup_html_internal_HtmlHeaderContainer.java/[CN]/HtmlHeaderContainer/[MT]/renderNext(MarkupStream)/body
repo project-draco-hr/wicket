@@ -1,0 +1,13 @@
+{
+  StringResponse markupHeaderResponse=new StringResponse();
+  Response oldResponse=getResponse();
+  RequestCycle.get().setResponse(markupHeaderResponse);
+  try {
+    boolean ret=super.renderNext(markupStream);
+    getHeaderResponse().render(StringHeaderItem.forString(markupHeaderResponse.getBuffer()));
+    return ret;
+  }
+  finally {
+    RequestCycle.get().setResponse(oldResponse);
+  }
+}

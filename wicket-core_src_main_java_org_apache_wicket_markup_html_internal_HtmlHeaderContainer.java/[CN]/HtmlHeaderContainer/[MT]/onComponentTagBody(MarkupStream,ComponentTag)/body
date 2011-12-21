@@ -7,18 +7,13 @@
     if (!response.equals(headerResponse.getResponse())) {
       getRequestCycle().setResponse(headerResponse.getResponse());
     }
-    AbstractHeaderRenderStrategy.get().renderHeader(this,getPage());
+    AbstractHeaderRenderStrategy.get().renderHeader(this,new HeaderStreamState(markupStream,openTag),getPage());
     headerResponse.close();
-    final StringResponse bodyResponse=new StringResponse();
-    getRequestCycle().setResponse(bodyResponse);
-    super.onComponentTagBody(markupStream,openTag);
     CharSequence output=getCleanResponse(response);
-    CharSequence bodyOutput=getCleanResponse(bodyResponse);
-    if ((output.length() > 0) || (bodyOutput.length() > 0)) {
+    if (output.length() > 0) {
       if (renderOpenAndCloseTags()) {
         webResponse.write("<head>");
       }
-      webResponse.write(bodyOutput);
       webResponse.write(output);
       if (renderOpenAndCloseTags()) {
         webResponse.write("</head>");
