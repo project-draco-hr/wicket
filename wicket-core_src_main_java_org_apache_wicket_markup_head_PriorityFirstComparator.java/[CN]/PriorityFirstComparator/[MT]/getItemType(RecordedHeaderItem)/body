@@ -1,0 +1,8 @@
+{
+  if (item.getItem() instanceof PriorityHeaderItem)   return HeaderItemType.PRIORITY;
+  if (renderPageFirst) {
+    if (item.getItem() instanceof PageHeaderItem)     return HeaderItemType.PAGE;
+    for (    RecordedHeaderItemLocation curLocation : item.getLocations())     if (curLocation.getRenderBase() instanceof Page)     return HeaderItemType.PAGE;
+  }
+  return HeaderItemType.COMPONENT;
+}

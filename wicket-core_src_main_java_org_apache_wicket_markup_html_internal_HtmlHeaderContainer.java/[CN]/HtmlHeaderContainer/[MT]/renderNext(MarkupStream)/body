@@ -4,7 +4,7 @@
   RequestCycle.get().setResponse(markupHeaderResponse);
   try {
     boolean ret=super.renderNext(markupStream);
-    getHeaderResponse().render(StringHeaderItem.forString(markupHeaderResponse.getBuffer()));
+    getHeaderResponse().render(new PageHeaderItem(markupHeaderResponse.getBuffer()));
     return ret;
   }
   finally {
