@@ -1,0 +1,19 @@
+{
+  Form<?> outer=new Form("outer"){
+    @Override protected void onSubmit(){
+      super.onSubmit();
+      outerSubmitted=true;
+    }
+  }
+;
+  add(outer);
+  Form<?> inner=new Form("inner"){
+    @Override protected void onSubmit(){
+      url=getRequest().getUrl().toString();
+      innerSubmitted=true;
+    }
+  }
+;
+  outer.add(inner);
+  inner.add(new Button("submit"));
+}
