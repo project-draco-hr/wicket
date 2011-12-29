@@ -3,6 +3,9 @@
   if (url.getSegments().size() >= 1) {
     PageComponentInfo info=getPageComponentInfo(url);
     String className=url.getSegments().get(0);
+    if (isValidClassName(className) == false) {
+      return null;
+    }
     className=transformFromUrl(className);
     String fullyQualifiedClassName=packageName.getName() + '.' + className;
     Class<? extends IRequestablePage> pageClass=getPageClass(fullyQualifiedClassName);

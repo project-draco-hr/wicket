@@ -1,0 +1,16 @@
+{
+  Url url=new Url(this);
+  url.segments.clear();
+  for (int i=0; i < this.segments.size(); i++) {
+    final String segment=this.segments.get(i);
+    if (".".equals(segment)) {
+      continue;
+    }
+    if ((i + 1) < this.segments.size() && "..".equals(this.segments.get(i + 1))) {
+      i++;
+      continue;
+    }
+    url.segments.add(segment);
+  }
+  return url;
+}
