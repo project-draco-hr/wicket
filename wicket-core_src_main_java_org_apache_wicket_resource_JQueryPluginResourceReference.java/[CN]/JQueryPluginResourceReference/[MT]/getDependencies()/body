@@ -1,3 +1,10 @@
 {
-  return Collections.singletonList(JavaScriptHeaderItem.forReference(JQueryResourceReference.get()));
+  final ResourceReference backingLibraryReference;
+  if (Application.exists()) {
+    backingLibraryReference=Application.get().getJavaScriptLibrarySettings().getJQueryReference();
+  }
+ else {
+    backingLibraryReference=JQueryResourceReference.get();
+  }
+  return Arrays.asList(JavaScriptHeaderItem.forReference(backingLibraryReference));
 }
