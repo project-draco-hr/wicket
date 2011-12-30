@@ -1,6 +1,10 @@
 {
   Args.notNull(url,"url");
-  segments.addAll(url.getSegments());
-  parameters.addAll(url.getQueryParameters());
-  setCharset(url.getCharset());
+  this.protocol=url.protocol;
+  this.host=url.host;
+  this.port=url.port;
+  this.segments=new ArrayList<String>(url.segments);
+  this.parameters=new ArrayList<QueryParameter>(url.parameters);
+  this.charsetName=url.charsetName;
+  this._charset=url._charset;
 }
