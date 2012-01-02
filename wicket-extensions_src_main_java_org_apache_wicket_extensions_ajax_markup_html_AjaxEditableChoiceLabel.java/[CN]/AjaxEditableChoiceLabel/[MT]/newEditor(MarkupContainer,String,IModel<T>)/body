@@ -20,21 +20,12 @@
   editor.setVisible(false);
   editor.add(new EditorAjaxBehavior(){
     private static final long serialVersionUID=1L;
-    @Override public void renderHead(    final Component component,    final IHeaderResponse response){
-      super.renderHead(component,response);
-      AjaxRequestAttributes saveAttributes=getAttributes();
-      saveAttributes.getExtraParameters().put("save","true");
-      saveAttributes.getDynamicExtraParameters().add("this.name+'='+Wicket.Form.encode(this.value)");
-      saveAttributes.setEventName("change");
-      CharSequence saveAttributesJson=renderAjaxAttributes(component,saveAttributes);
-      String saveCall="Wicket.Ajax.ajax(" + saveAttributesJson + ")";
-      AjaxRequestTarget target=AjaxRequestTarget.get();
-      if (target != null) {
-        target.appendJavaScript(saveCall);
-      }
- else {
-        response.render(JavaScriptHeaderItem.forScript(saveCall,"editable-blur-" + component.getMarkupId()));
-      }
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      attributes.setEventNames("change");
+      attributes.getExtraParameters().put("save","true");
+      List<CharSequence> dynamicParameters=attributes.getDynamicExtraParameters();
+      dynamicParameters.add("return Wicket.Form.serializeElement(attrs.c)");
     }
   }
 );

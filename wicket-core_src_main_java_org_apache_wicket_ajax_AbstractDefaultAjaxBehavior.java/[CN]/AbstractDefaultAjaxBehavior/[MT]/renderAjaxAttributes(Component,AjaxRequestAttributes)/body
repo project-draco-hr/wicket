@@ -60,9 +60,9 @@
     if (attributes.isAsynchronous() == false) {
       attributesJson.put("async",false);
     }
-    String eventName=attributes.getEventName();
-    if (Strings.isEmpty(eventName) == false) {
-      attributesJson.put("e",eventName);
+    String[] eventNames=attributes.getEventNames();
+    for (    String eventName : eventNames) {
+      attributesJson.append("e",eventName);
     }
     AjaxChannel channel=attributes.getChannel();
     if (channel != null) {

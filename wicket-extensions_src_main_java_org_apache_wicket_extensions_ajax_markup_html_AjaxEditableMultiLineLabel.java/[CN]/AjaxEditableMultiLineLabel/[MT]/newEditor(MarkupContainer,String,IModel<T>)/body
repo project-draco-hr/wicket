@@ -33,30 +33,17 @@
   editor.setVisible(false);
   editor.add(new EditorAjaxBehavior(){
     private static final long serialVersionUID=1L;
-    @Override public void renderHead(    final Component component,    final IHeaderResponse response){
-      super.renderHead(component,response);
-      AjaxRequestAttributes saveAttributes=getAttributes();
-      saveAttributes.getExtraParameters().put("save","true");
-      saveAttributes.setMethod(Method.POST);
-      saveAttributes.getDynamicExtraParameters().add("this.name+'='+Wicket.Form.encode(this.value)");
-      saveAttributes.setEventName("blur");
-      AjaxRequestAttributes cancelAttributes=getAttributes();
-      cancelAttributes.getExtraParameters().put("save","false");
-      cancelAttributes.setEventName("keydown");
-      CharSequence saveAttributesJson=renderAjaxAttributes(component,saveAttributes);
-      String saveCall="Wicket.Ajax.ajax(" + saveAttributesJson + ")";
-      CharSequence cancelAttributesJson=renderAjaxAttributes(component,cancelAttributes);
-      String cancelCall="Wicket.Ajax.ajax(" + cancelAttributesJson + ")";
-      final String keydown="var kc=Wicket.Event.keyCode(attrs.event); if (kc===27) " + cancelCall + " else if (kc===13) "+ saveCall;
-      AjaxRequestTarget target=AjaxRequestTarget.get();
-      if (target != null) {
-        target.appendJavaScript(saveCall);
-        target.appendJavaScript(keydown);
-      }
- else {
-        response.render(JavaScriptHeaderItem.forScript(saveCall,"editable-blur-" + component.getMarkupId()));
-        response.render(JavaScriptHeaderItem.forScript(keydown,"editable-keydown-" + component.getMarkupId()));
-      }
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      attributes.setMethod(Method.POST);
+      attributes.setEventNames("blur","keyup");
+      CharSequence dynamicExtraParameters="var result = {}, " + "kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type;"+ "if (evtType === 'keyup') {"+ "if (kc===27) { result.save = false }"+ "}"+ "else if (evtType==='blur') { result = Wicket.Form.serializeElement(attrs.c); result.save = true; }"+ "return result;";
+      List<CharSequence> dynamicParameters=attributes.getDynamicExtraParameters();
+      dynamicParameters.add(dynamicExtraParameters);
+      CharSequence precondition="var kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type," + "ret=false;"+ "if(evtType==='blur' || (evtType==='keyup' && (kc===27))) ret = true;"+ "return ret;";
+      JavaScriptPrecondition javaScriptPrecondition=new JavaScriptPrecondition(precondition);
+      List<JavaScriptPrecondition> preconditions=attributes.getPreconditions();
+      preconditions.add(javaScriptPrecondition);
     }
   }
 );
