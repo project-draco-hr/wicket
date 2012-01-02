@@ -41,9 +41,9 @@
     }
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
-      attributes.getBeforeHandlers().add("alert('Before ajax call');");
-      attributes.getSuccessHandlers().add("alert('Success');");
-      attributes.getErrorHandlers().add("alert('Failure');");
+      attributes.getBeforeHandlers().add(new JavaScriptBeforeHandler("alert('Before ajax call');"));
+      attributes.getSuccessHandlers().add(new JavaScriptSuccessHandler("alert('Success');"));
+      attributes.getFailureHandlers().add(new JavaScriptFailureHandler("alert('Failure');"));
       List<CharSequence> urlArgumentMethods=attributes.getDynamicExtraParameters();
       urlArgumentMethods.add("return {'htmlname': document.documentElement.tagName};");
       urlArgumentMethods.add("return {'bodyname': document.body.tagName};");
@@ -57,9 +57,9 @@
     }
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
-      attributes.getBeforeHandlers().add("alert('Before ajax call');");
-      attributes.getSuccessHandlers().add("alert('Success');");
-      attributes.getErrorHandlers().add("alert('Failure');");
+      attributes.getBeforeHandlers().add(new JavaScriptBeforeHandler("alert('Before ajax call');"));
+      attributes.getSuccessHandlers().add(new JavaScriptSuccessHandler("alert('Success');"));
+      attributes.getFailureHandlers().add(new JavaScriptFailureHandler("alert('Failure');"));
     }
   }
 );

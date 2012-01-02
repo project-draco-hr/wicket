@@ -3,16 +3,19 @@
   if (callDecorator != null) {
     CharSequence onSuccessScript=callDecorator.decorateOnSuccessScript(getComponent(),getSuccessScript());
     if (onSuccessScript != null) {
-      attributes.getSuccessHandlers().add(onSuccessScript);
+      JavaScriptSuccessHandler successHandler=new JavaScriptSuccessHandler(onSuccessScript);
+      attributes.getSuccessHandlers().add(successHandler);
     }
     CharSequence onFailureScript=callDecorator.decorateOnFailureScript(getComponent(),getFailureScript());
     if (onFailureScript != null) {
-      attributes.getErrorHandlers().add(onFailureScript);
+      JavaScriptFailureHandler failureHandler=new JavaScriptFailureHandler(onFailureScript);
+      attributes.getFailureHandlers().add(failureHandler);
     }
   }
   CharSequence preconditionScript=getPreconditionScript();
   if (preconditionScript != null) {
-    attributes.getPreconditions().add(preconditionScript);
+    JavaScriptPrecondition precondition=new JavaScriptPrecondition(preconditionScript);
+    attributes.getPreconditions().add(precondition);
   }
   AjaxChannel channel=getChannel();
   if (channel != null) {
