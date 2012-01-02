@@ -13,10 +13,13 @@
   animalSelectionLabel.setOutputMarkupId(true);
   add(animalSelectionLabel);
   image=new NonCachingImage("image",imageResource=new CaptchaImageResource(animals));
-  image.add(new AjaxEventBehavior("onclick"){
+  image.add(new AjaxEventBehavior("click"){
     private static final long serialVersionUID=7480352029955897654L;
-    @Override protected CharSequence getCallbackScript(){
-      return generateCallbackScript("showLoadingIndicator(); Wicket.Ajax.get('" + getCallbackUrl() + "&x=' + getEventX(this, event) + '&y=' + getEventY(this, event)");
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      attributes.getBeforeHandlers().add(new JavaScriptBeforeHandler("showLoadingIndicator();"));
+      List<CharSequence> dynamicExtraParameters=attributes.getDynamicExtraParameters();
+      dynamicExtraParameters.add("return { x: getEventX(this, event), y: getEventY(this, event)}");
     }
     @Override protected void onEvent(    final AjaxRequestTarget target){
       final Request request=RequestCycle.get().getRequest();
