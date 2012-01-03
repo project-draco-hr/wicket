@@ -1,17 +1,4 @@
 {
-  IAjaxCallDecorator callDecorator=getAjaxCallDecorator();
-  if (callDecorator != null) {
-    CharSequence onSuccessScript=callDecorator.decorateOnSuccessScript(getComponent(),getSuccessScript());
-    if (onSuccessScript != null) {
-      JavaScriptSuccessHandler successHandler=new JavaScriptSuccessHandler(onSuccessScript);
-      attributes.getSuccessHandlers().add(successHandler);
-    }
-    CharSequence onFailureScript=callDecorator.decorateOnFailureScript(getComponent(),getFailureScript());
-    if (onFailureScript != null) {
-      JavaScriptFailureHandler failureHandler=new JavaScriptFailureHandler(onFailureScript);
-      attributes.getFailureHandlers().add(failureHandler);
-    }
-  }
   CharSequence preconditionScript=getPreconditionScript();
   if (preconditionScript != null) {
     JavaScriptPrecondition precondition=new JavaScriptPrecondition(preconditionScript);

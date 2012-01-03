@@ -41,9 +41,19 @@
     }
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
-      attributes.getBeforeHandlers().add(new JavaScriptBeforeHandler("alert('Before ajax call');"));
-      attributes.getSuccessHandlers().add(new JavaScriptSuccessHandler("alert('Success');"));
-      attributes.getFailureHandlers().add(new JavaScriptFailureHandler("alert('Failure');"));
+      IAjaxCallListener ajaxCallListener=new AjaxCallListener(){
+        @Override public CharSequence getSuccessHandler(        Component component){
+          return "alert('Success');";
+        }
+        @Override public CharSequence getBeforeHandler(        Component component){
+          return "alert('Before ajax call');";
+        }
+        @Override public CharSequence getFailureHandler(        Component component){
+          return "alert('Failure');";
+        }
+      }
+;
+      attributes.getAjaxCallListeners().add(ajaxCallListener);
       List<CharSequence> urlArgumentMethods=attributes.getDynamicExtraParameters();
       urlArgumentMethods.add("return {'htmlname': document.documentElement.tagName};");
       urlArgumentMethods.add("return {'bodyname': document.body.tagName};");
@@ -57,9 +67,19 @@
     }
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
-      attributes.getBeforeHandlers().add(new JavaScriptBeforeHandler("alert('Before ajax call');"));
-      attributes.getSuccessHandlers().add(new JavaScriptSuccessHandler("alert('Success');"));
-      attributes.getFailureHandlers().add(new JavaScriptFailureHandler("alert('Failure');"));
+      IAjaxCallListener ajaxCallListener=new AjaxCallListener(){
+        @Override public CharSequence getBeforeHandler(        Component component){
+          return "alert('Before ajax call');";
+        }
+        @Override public CharSequence getSuccessHandler(        Component component){
+          return "alert('Success');";
+        }
+        @Override public CharSequence getFailureHandler(        Component component){
+          return "alert('Failure');";
+        }
+      }
+;
+      attributes.getAjaxCallListeners().add(ajaxCallListener);
     }
   }
 );

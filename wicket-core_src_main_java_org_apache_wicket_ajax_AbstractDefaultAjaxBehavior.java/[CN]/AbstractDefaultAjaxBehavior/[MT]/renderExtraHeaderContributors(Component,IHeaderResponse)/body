@@ -5,21 +5,12 @@
     contributor.renderHead(component,response);
   }
   AjaxRequestAttributes attributes=getAttributes();
-  List<JavaScriptBeforeHandler> beforeHandlers=attributes.getBeforeHandlers();
-  for (  JavaScriptBeforeHandler beforeHandler : beforeHandlers) {
-    beforeHandler.renderHead(component,response);
-  }
-  List<JavaScriptAfterHandler> afterHandlers=attributes.getAfterHandlers();
-  for (  JavaScriptAfterHandler afterHandler : afterHandlers) {
-    afterHandler.renderHead(component,response);
-  }
-  List<JavaScriptFailureHandler> failureHandlers=attributes.getFailureHandlers();
-  for (  JavaScriptFailureHandler failureHandler : failureHandlers) {
-    failureHandler.renderHead(component,response);
-  }
-  List<JavaScriptSuccessHandler> successHandlers=attributes.getSuccessHandlers();
-  for (  JavaScriptSuccessHandler successHandler : successHandlers) {
-    successHandler.renderHead(component,response);
+  List<IAjaxCallListener> ajaxCallListeners=attributes.getAjaxCallListeners();
+  for (  IAjaxCallListener ajaxCallListener : ajaxCallListeners) {
+    if (ajaxCallListener instanceof IComponentAwareHeaderContributor) {
+      IComponentAwareHeaderContributor contributor=(IComponentAwareHeaderContributor)ajaxCallListener;
+      contributor.renderHead(component,response);
+    }
   }
   List<JavaScriptPrecondition> preconditions=attributes.getPreconditions();
   for (  JavaScriptPrecondition precondition : preconditions) {

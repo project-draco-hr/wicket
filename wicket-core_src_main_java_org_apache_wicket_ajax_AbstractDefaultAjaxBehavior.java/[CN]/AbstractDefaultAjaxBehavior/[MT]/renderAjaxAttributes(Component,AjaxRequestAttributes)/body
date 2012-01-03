@@ -25,17 +25,27 @@
     if (Strings.isEmpty(indicatorId) == false) {
       attributesJson.put("i",indicatorId);
     }
-    for (    JavaScriptBeforeHandler bh : attributes.getBeforeHandlers()) {
-      attributesJson.append("bh",bh);
-    }
-    for (    JavaScriptAfterHandler ah : attributes.getAfterHandlers()) {
-      attributesJson.append("ah",ah);
-    }
-    for (    JavaScriptSuccessHandler sh : attributes.getSuccessHandlers()) {
-      attributesJson.append("sh",sh);
-    }
-    for (    JavaScriptFailureHandler fh : attributes.getFailureHandlers()) {
-      attributesJson.append("fh",fh);
+    for (    IAjaxCallListener ajaxCallListener : attributes.getAjaxCallListeners()) {
+      CharSequence beforeHandler=ajaxCallListener.getBeforeHandler(component);
+      if (Strings.isEmpty(beforeHandler) == false) {
+        attributesJson.append("bh",beforeHandler);
+      }
+      CharSequence afterHandler=ajaxCallListener.getAfterHandler(component);
+      if (Strings.isEmpty(afterHandler) == false) {
+        attributesJson.append("ah",afterHandler);
+      }
+      CharSequence successHandler=ajaxCallListener.getSuccessHandler(component);
+      if (Strings.isEmpty(successHandler) == false) {
+        attributesJson.append("sh",successHandler);
+      }
+      CharSequence failureHandler=ajaxCallListener.getFailureHandler(component);
+      if (Strings.isEmpty(failureHandler) == false) {
+        attributesJson.append("fh",failureHandler);
+      }
+      CharSequence completeHandler=ajaxCallListener.getCompleteHandler(component);
+      if (Strings.isEmpty(completeHandler) == false) {
+        attributesJson.append("ch",completeHandler);
+      }
     }
     for (    JavaScriptPrecondition pre : attributes.getPreconditions()) {
       attributesJson.append("pre",pre);

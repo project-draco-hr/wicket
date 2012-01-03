@@ -17,7 +17,13 @@
     private static final long serialVersionUID=7480352029955897654L;
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
-      attributes.getBeforeHandlers().add(new JavaScriptBeforeHandler("showLoadingIndicator();"));
+      IAjaxCallListener ajaxCallListener=new AjaxCallListener(){
+        @Override public CharSequence getBeforeHandler(        Component component){
+          return "showLoadingIndicator();";
+        }
+      }
+;
+      attributes.getAjaxCallListeners().add(ajaxCallListener);
       List<CharSequence> dynamicExtraParameters=attributes.getDynamicExtraParameters();
       dynamicExtraParameters.add("return { x: getEventX(this, event), y: getEventY(this, event)}");
     }
