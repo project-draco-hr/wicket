@@ -98,6 +98,16 @@
     if (AjaxRequestAttributes.XML_DATA_TYPE.equals(dataType) == false) {
       attributesJson.put("dt",dataType);
     }
+    ThrottlingSettings throttlingSettings=attributes.getThrottlingSettings();
+    if (throttlingSettings != null) {
+      JSONObject throttlingSettingsJson=new JSONObject();
+      throttlingSettingsJson.put("id",throttlingSettings.getId());
+      throttlingSettingsJson.put("d",throttlingSettings.getDelay().getMilliseconds());
+      if (throttlingSettings.getPostponeTimerOnUpdate()) {
+        throttlingSettingsJson.put("p",true);
+      }
+      attributesJson.put("tr",throttlingSettingsJson);
+    }
     postprocessConfiguration(attributesJson,component);
   }
  catch (  JSONException e) {
