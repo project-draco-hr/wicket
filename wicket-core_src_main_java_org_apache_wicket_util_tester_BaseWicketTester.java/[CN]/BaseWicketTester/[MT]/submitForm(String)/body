@@ -1,6 +1,6 @@
 {
   Form<?> form=(Form<?>)getComponentFromLastRenderedPage(path);
-  Url url=Url.parse(form.getRootForm().urlFor(IFormSubmitListener.INTERFACE).toString(),Charset.forName(request.getCharacterEncoding()));
+  Url url=Url.parse(form.getRootForm().urlFor(IFormSubmitListener.INTERFACE,new PageParameters()).toString(),Charset.forName(request.getCharacterEncoding()));
   transform(url);
   request.setUrl(url);
   processRequest();

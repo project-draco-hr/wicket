@@ -20,18 +20,4 @@
     }
     delegateSubmit(submittingComponent);
   }
-  final PageParameters parameters=page.getPageParameters();
-  if (parameters != null) {
-    visitFormComponents(new IVisitor<FormComponent<?>,Void>(){
-      @Override public void component(      final FormComponent<?> formComponent,      final IVisit<Void> visit){
-        parameters.remove(formComponent.getInputName());
-      }
-    }
-);
-    parameters.remove(hiddenFieldId);
-    if (submittingComponent instanceof AbstractSubmitLink) {
-      AbstractSubmitLink submitLink=(AbstractSubmitLink)submittingComponent;
-      parameters.remove(submitLink.getInputName());
-    }
-  }
 }
