@@ -21,9 +21,9 @@
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
       attributes.setEventNames("blur","keyup");
-      CharSequence dynamicExtraParameters="var result = {}, " + "kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type;"+ "if (evtType === 'keyup') {"+ "if (kc===27) { result.save = false }"+ "else if (kc===13) { result = Wicket.Form.serializeElement(attrs.c); result.save = true; }"+ "}"+ "else if (evtType==='blur') { result = Wicket.Form.serializeElement(attrs.c); result.save = true; }"+ "return result;";
+      CharSequence dynamicExtraParameters="var result = {}, " + "kc=Wicket.Event.keyCode(event)," + "evtType=attrs.event.type;"+ "if (evtType === 'keyup') {"+ "if (kc===27) { result.save = false }"+ "else if (kc===13) { result = Wicket.Form.serializeElement(attrs.c); result.save = true; }"+ "}"+ "else if (evtType==='blur') { result = Wicket.Form.serializeElement(attrs.c); result.save = true; }"+ "return result;";
       attributes.getDynamicExtraParameters().add(dynamicExtraParameters);
-      CharSequence precondition="var kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type," + "ret=false;"+ "if(evtType==='blur' || (evtType==='keyup' && (kc===27 || kc===13))) ret = true;"+ "return ret;";
+      CharSequence precondition="var kc=Wicket.Event.keyCode(event)," + "evtType=attrs.event.type," + "ret=false;"+ "if(evtType==='blur' || (evtType==='keyup' && (kc===27 || kc===13))) ret = true;"+ "return ret;";
       JavaScriptPrecondition javaScriptPrecondition=new JavaScriptPrecondition(precondition);
       attributes.getPreconditions().add(javaScriptPrecondition);
     }
