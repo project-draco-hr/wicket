@@ -8,12 +8,6 @@
       onClick(target);
     }
     /** 
- * @see org.apache.wicket.ajax.AbstractDefaultAjaxBehavior#getAjaxCallDecorator()
- */
-    @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
-      return new CancelEventIfNoAjaxDecorator(AjaxFallbackLink.this.getAjaxCallDecorator());
-    }
-    /** 
  * @see org.apache.wicket.ajax.AjaxEventBehavior#onComponentTag(org.apache.wicket.markup.ComponentTag)
  */
     @Override protected void onComponentTag(    ComponentTag tag){
@@ -23,6 +17,10 @@
     }
     @Override protected AjaxChannel getChannel(){
       return AjaxFallbackLink.this.getChannel();
+    }
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      AjaxFallbackLink.this.updateAjaxAttributes(attributes);
     }
   }
 ;
