@@ -1,6 +1,9 @@
 {
   if (getAttribute(request,Session.SESSION_ATTRIBUTE_NAME) != newSession) {
     onBind(request,newSession);
+    for (    BindListener listener : getBindListeners()) {
+      listener.bindingSession(request,newSession);
+    }
     HttpSession httpSession=getHttpSession(request,false);
     if (httpSession != null) {
       String applicationKey=Application.get().getName();
