@@ -13,27 +13,16 @@
         @Override protected CharSequence getURL(){
           return urlFor(SourcesPage.class,SourcesPage.generatePageParameters(getPageTargetClass(),item.getModel().getObject()));
         }
-        @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
-          return new IAjaxCallDecorator(){
-            public CharSequence decorateOnFailureScript(            Component c,            CharSequence script){
+        @Override protected void updateAjaxAttributes(        AjaxRequestAttributes attributes){
+          super.updateAjaxAttributes(attributes);
+          AjaxCallListener ajaxCallListener=new AjaxCallListener(){
+            @Override public CharSequence getFailureHandler(            Component component){
               return "window.location=this.href;";
-            }
-            public CharSequence decorateOnSuccessScript(            Component c,            CharSequence script){
-              if (script == null) {
-                return "";
-              }
-              return script;
-            }
-            public CharSequence decorateScript(            Component c,            CharSequence script){
-              int index=script.toString().indexOf('?');
-              if (index >= 0) {
-                String test=script.subSequence(0,index + 1) + PAGE_CLASS + "=1"+ "&"+ script.subSequence(index + 1,script.length());
-                return test;
-              }
-              return script;
             }
           }
 ;
+          attributes.getAjaxCallListeners().add(ajaxCallListener);
+          attributes.getExtraParameters().put(PAGE_CLASS,"1");
         }
       }
 ;

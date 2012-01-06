@@ -7,8 +7,9 @@
       super.renderHead(component,response);
       behavior.set(true);
     }
-    @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
-      return new HeaderContributingCallDecorator(callDecorator);
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      attributes.getAjaxCallListeners().add(new HeaderContributingCallDecorator(callDecorator));
     }
   }
 );

@@ -48,7 +48,10 @@
       }
     }
     for (    JavaScriptPrecondition pre : attributes.getPreconditions()) {
-      attributesJson.append("pre",pre);
+      String precondition=pre.toString();
+      if (Strings.isEmpty(precondition) == false) {
+        attributesJson.append("pre",precondition);
+      }
     }
     JSONObject extraParameters=new JSONObject();
     Iterator<Entry<String,Object>> itor=attributes.getExtraParameters().entrySet().iterator();

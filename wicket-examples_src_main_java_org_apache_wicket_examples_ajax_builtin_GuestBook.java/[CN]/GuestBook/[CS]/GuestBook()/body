@@ -11,15 +11,7 @@
     }
   }
 );
-  commentForm.add(new AjaxFormSubmitBehavior(commentForm,"onsubmit"){
-    @Override protected IAjaxCallDecorator getAjaxCallDecorator(){
-      return new AjaxCallDecorator(){
-        @Override public CharSequence decorateScript(        Component c,        CharSequence script){
-          return script + "return false;";
-        }
-      }
-;
-    }
+  commentForm.add(new AjaxFormSubmitBehavior(commentForm,"submit"){
     @Override protected void onSubmit(    AjaxRequestTarget target){
       target.add(comments);
       target.add(text);

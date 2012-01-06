@@ -1,9 +1,19 @@
 {
   CharSequence preconditionScript=getPreconditionScript();
-  if (preconditionScript != null) {
+  if (Strings.isEmpty(preconditionScript) == false) {
     JavaScriptPrecondition precondition=new JavaScriptPrecondition(preconditionScript);
     attributes.getPreconditions().add(precondition);
   }
+  AjaxCallListener backwardCompatibleAjaxCallListener=new AjaxCallListener(){
+    @Override public CharSequence getSuccessHandler(    Component component){
+      return AbstractDefaultAjaxBehavior.this.getSuccessScript();
+    }
+    @Override public CharSequence getFailureHandler(    Component component){
+      return AbstractDefaultAjaxBehavior.this.getFailureScript();
+    }
+  }
+;
+  attributes.getAjaxCallListeners().add(backwardCompatibleAjaxCallListener);
   AjaxChannel channel=getChannel();
   if (channel != null) {
     attributes.setChannel(channel);
