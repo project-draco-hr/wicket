@@ -15,12 +15,7 @@
     throw new WicketRuntimeException(e);
   }
  finally {
-    try {
-      IOUtils.close(is);
-    }
- catch (    IOException e) {
-      log.error(e.getMessage(),e);
-    }
+    IOUtils.closeQuietly(is);
   }
   int originalWidth=originalImage.getWidth();
   int originalHeight=originalImage.getHeight();
@@ -37,9 +32,13 @@
     }
     BufferedImage dimg=new BufferedImage(newWidth,newHeight,originalImage.getType());
     Graphics2D g=dimg.createGraphics();
-    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-    g.drawImage(originalImage,0,0,newWidth,newHeight,0,0,originalWidth,originalHeight,null);
-    g.dispose();
+    try {
+      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+      g.drawImage(originalImage,0,0,newWidth,newHeight,0,0,originalWidth,originalHeight,null);
+    }
+  finally {
+      g.dispose();
+    }
     return dimg;
   }
   return originalImage;
