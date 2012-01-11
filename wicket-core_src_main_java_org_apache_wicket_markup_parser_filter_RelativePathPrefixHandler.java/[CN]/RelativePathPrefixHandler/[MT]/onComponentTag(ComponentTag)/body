@@ -2,7 +2,8 @@
   if (tag.isClose()) {
     return tag;
   }
-  if ((tag instanceof WicketTag) || (tag.isAutolinkEnabled() == true) || (tag.getAttributes().get("wicket:id") != null)) {
+  String wicketIdAttr=getWicketNamespace() + ":" + "id";
+  if ((tag instanceof WicketTag) || (tag.isAutolinkEnabled() == true) || (tag.getAttributes().get(wicketIdAttr) != null)) {
     return tag;
   }
   for (  String attrName : attributeNames) {
