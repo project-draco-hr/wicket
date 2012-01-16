@@ -1,0 +1,12 @@
+{
+  final IResource resource=mock(IResource.class);
+  ResourceReference reference=new ResourceReference("dummy"){
+    @Override public IResource getResource(){
+      return resource;
+    }
+  }
+;
+  ResourceReferenceRequestHandler handler=new ResourceReferenceRequestHandler(reference);
+  CharSequence url=requestCycle.urlFor(handler);
+  assertEquals(RES_REF_URL + JSESSIONID,url);
+}

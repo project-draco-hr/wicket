@@ -1,0 +1,19 @@
+{
+  Request request=mock(Request.class);
+  Response response=new StringResponse(){
+    @Override public String encodeURL(    CharSequence url){
+      return url + JSESSIONID;
+    }
+  }
+;
+  IRequestMapper mapper=mock(IRequestMapper.class);
+  Url bookmarkablePageUrl=Url.parse(BOOKMARKABLE_PAGE_URL);
+  when(mapper.mapHandler(argThat(new ExactClassMatcher<BookmarkablePageRequestHandler>(BookmarkablePageRequestHandler.class)))).thenReturn(bookmarkablePageUrl);
+  Url resourceUrl=Url.parse(RESOURCE_URL);
+  when(mapper.mapHandler(argThat(new ExactClassMatcher<ResourceRequestHandler>(ResourceRequestHandler.class)))).thenReturn(resourceUrl);
+  Url resourceReferenceUrl=Url.parse(RES_REF_URL);
+  when(mapper.mapHandler(argThat(new ExactClassMatcher<ResourceReferenceRequestHandler>(ResourceReferenceRequestHandler.class)))).thenReturn(resourceReferenceUrl);
+  IExceptionMapper exceptionMapper=mock(IExceptionMapper.class);
+  RequestCycleContext context=new RequestCycleContext(request,response,mapper,exceptionMapper);
+  requestCycle=new RequestCycle(context);
+}
