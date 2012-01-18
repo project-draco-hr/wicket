@@ -1,7 +1,8 @@
 {
   final Input input=new Input();
   setDefaultModel(new CompoundPropertyModel<Input>(input));
-  FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  final FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
+  feedbackPanel.setOutputMarkupId(true);
   add(feedbackPanel);
   Form<?> form=new Form("form"){
     @Override protected void onSubmit(){
@@ -10,5 +11,13 @@
   }
 ;
   add(form);
-  form.add(new RadioChoice<String>("site",SITES));
+  RadioChoice<String> sites=new RadioChoice<String>("site",SITES);
+  sites.add(new AjaxFormChoiceComponentUpdatingBehavior(){
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      info("Selected: " + getComponent().getDefaultModelObjectAsString());
+      target.add(feedbackPanel);
+    }
+  }
+);
+  form.add(sites);
 }

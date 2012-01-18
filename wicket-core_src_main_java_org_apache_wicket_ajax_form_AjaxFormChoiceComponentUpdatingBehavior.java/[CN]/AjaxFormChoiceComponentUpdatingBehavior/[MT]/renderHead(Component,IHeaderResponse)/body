@@ -1,7 +1,7 @@
 {
   super.renderHead(component,response);
   AppendingStringBuffer asb=new AppendingStringBuffer();
-  asb.append("function attachChoiceHandlers(markupId, callbackScript) {\n");
+  asb.append("function attachChoiceHandlers(markupId, attrs, callbackScript) {\n");
   asb.append(" var inputNodes = Wicket.$(markupId).getElementsByTagName('input');\n");
   asb.append(" for (var i = 0 ; i < inputNodes.length ; i ++) {\n");
   asb.append(" var inputNode = inputNodes[i];\n");
@@ -9,10 +9,12 @@
   asb.append(" if (!(inputNode.className.indexOf('wicket-'+markupId)>=0)&&!(inputNode.id.indexOf(markupId+'-')>=0)) continue;\n");
   asb.append(" var inputType = inputNode.type.toLowerCase();\n");
   asb.append(" if (inputType === 'checkbox' || inputType === 'radio') {\n");
-  asb.append(" Wicket.Event.add(inputNode, 'click', callbackScript);\n");
+  asb.append(" \tvar dataAttrs = jQuery.extend({}, attrs, {c: inputNode.id});\n");
+  asb.append(" \tWicket.Event.add(inputNode, 'click', callbackScript, dataAttrs);\n");
   asb.append(" }\n");
   asb.append(" }\n");
   asb.append("}\n");
-  response.render(JavaScriptHeaderItem.forScript(asb,"attachChoice"));
-  response.render(OnLoadHeaderItem.forScript("attachChoiceHandlers('" + getComponent().getMarkupId() + "', function() {"+ getEventHandler()+ "});"));
+  response.render(JavaScriptHeaderItem.forScript(asb,"attachChoice-" + component.getMarkupId()));
+  String onLoadScript=String.format("attachChoiceHandlers('%s', %s, function(event) { \n\tWicket.Ajax.ajax(event.data);\n})",component.getMarkupId(),renderAjaxAttributes(component));
+  response.render(OnLoadHeaderItem.forScript(onLoadScript));
 }
