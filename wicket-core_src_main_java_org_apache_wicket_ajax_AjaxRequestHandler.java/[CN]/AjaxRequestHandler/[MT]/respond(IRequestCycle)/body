@@ -1,7 +1,7 @@
 {
   final RequestCycle rc=(RequestCycle)requestCycle;
   final WebResponse response=(WebResponse)requestCycle.getResponse();
-  if (markupIdToComponent.values().contains(page)) {
+  if (responseObject.containsPage()) {
     IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
     final String url=rc.urlFor(handler).toString();
     response.sendRedirect(url);
@@ -11,18 +11,18 @@
   for (  ITargetRespondListener listener : respondListeners) {
     listener.onTargetRespond(this);
   }
-  final Application app=Application.get();
+  final Application app=page.getApplication();
   page.send(app,Broadcast.BREADTH,this);
   final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
-  response.setContentType("text/xml; charset=" + encoding);
+  responseObject.setContentType(response,encoding);
   response.disableCaching();
   try {
     final StringResponse bodyResponse=new StringResponse();
-    constructResponseBody(bodyResponse,encoding);
+    responseObject.writeTo(bodyResponse,encoding);
     CharSequence filteredResponse=invokeResponseFilters(bodyResponse);
     response.write(filteredResponse);
   }
   finally {
-    RequestCycle.get().setResponse(response);
+    rc.setResponse(response);
   }
 }

@@ -1,0 +1,20 @@
+{
+  if (item instanceof OnLoadHeaderItem) {
+    if (!wasItemRendered(item)) {
+      AbstractAjaxResponse.this.appendJavaScript(((OnLoadHeaderItem)item).getJavaScript());
+      markItemRendered(item);
+    }
+  }
+ else   if (item instanceof OnDomReadyHeaderItem) {
+    if (!wasItemRendered(item)) {
+      AbstractAjaxResponse.this.domReadyJavaScripts.add(((OnDomReadyHeaderItem)item).getJavaScript());
+      markItemRendered(item);
+    }
+  }
+ else   if (headerRendering) {
+    super.render(item);
+  }
+ else {
+    LOG.debug("Only methods that can be called on IHeaderResponse outside renderHead() are renderOnLoadJavaScript and renderOnDomReadyJavaScript");
+  }
+}
