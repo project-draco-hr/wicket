@@ -1,0 +1,11 @@
+{
+  Iterator<Component> iterator=markupIdToComponent.values().iterator();
+  while (iterator.hasNext()) {
+    final Component component=iterator.next();
+    final Page parentPage=component.findParent(Page.class);
+    if (parentPage != null) {
+      parentPage.detach();
+      break;
+    }
+  }
+}

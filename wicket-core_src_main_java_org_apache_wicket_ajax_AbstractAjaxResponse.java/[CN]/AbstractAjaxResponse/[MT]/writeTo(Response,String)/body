@@ -1,0 +1,22 @@
+{
+  writeHeader(response,encoding);
+  fireOnBeforeRespondListeners();
+  writeComponents(response,encoding);
+  fireOnAfterRespondListeners(response);
+  Iterator<CharSequence> it=prependJavaScripts.iterator();
+  while (it.hasNext()) {
+    CharSequence js=it.next();
+    writePriorityEvaluation(response,js);
+  }
+  it=domReadyJavaScripts.iterator();
+  while (it.hasNext()) {
+    CharSequence js=it.next();
+    writeNormalEvaluation(response,js);
+  }
+  it=appendJavaScripts.iterator();
+  while (it.hasNext()) {
+    CharSequence js=it.next();
+    writeNormalEvaluation(response,js);
+  }
+  writeFooter(response,encoding);
+}
