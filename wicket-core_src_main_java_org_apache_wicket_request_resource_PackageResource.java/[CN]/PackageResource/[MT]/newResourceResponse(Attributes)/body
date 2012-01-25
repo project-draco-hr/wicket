@@ -12,12 +12,7 @@
     if (lastModified != null)     resourceResponse.setLastModified(lastModified);
     try {
       final byte[] bytes;
-      try {
-        bytes=IOUtils.toByteArray(resourceStream.getInputStream());
-      }
-  finally {
-        resourceStream.close();
-      }
+      bytes=IOUtils.toByteArray(resourceStream.getInputStream());
       final byte[] processed=processResponse(attributes,bytes);
       resourceResponse.setContentLength(processed.length);
       resourceResponse.setWriteCallback(new WriteCallback(){
@@ -34,6 +29,14 @@
 catch (    ResourceStreamNotFoundException e) {
       log.debug(e.getMessage(),e);
       return sendResourceError(resourceResponse,500,"Unable to open resource stream");
+    }
+ finally {
+      try {
+        resourceStream.close();
+      }
+ catch (      IOException e) {
+        log.warn("Unable to close the resource stream",e);
+      }
     }
   }
   return resourceResponse;

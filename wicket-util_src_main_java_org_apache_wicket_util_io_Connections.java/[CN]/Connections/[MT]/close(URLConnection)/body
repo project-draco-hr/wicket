@@ -2,6 +2,10 @@
   if (connection == null) {
     return;
   }
+  String protocol=connection.getURL().getProtocol();
+  if ("file".equals(protocol)) {
+    connection.getInputStream().close();
+  }
   if (connection instanceof HttpURLConnection) {
     ((HttpURLConnection)connection).disconnect();
   }
