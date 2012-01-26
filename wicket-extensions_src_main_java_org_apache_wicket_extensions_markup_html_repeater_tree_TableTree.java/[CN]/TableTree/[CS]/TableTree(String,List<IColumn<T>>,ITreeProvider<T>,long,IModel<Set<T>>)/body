@@ -1,0 +1,11 @@
+{
+  super(id,provider,state);
+  Args.notEmpty(columns,"columns");
+  for (  IColumn<T> column : columns) {
+    if (column instanceof ITreeColumn<?>) {
+      ((ITreeColumn<T>)column).setTree(this);
+    }
+  }
+  this.table=newDataTable("table",columns,newDataProvider(provider),rowsPerPage);
+  add(table);
+}

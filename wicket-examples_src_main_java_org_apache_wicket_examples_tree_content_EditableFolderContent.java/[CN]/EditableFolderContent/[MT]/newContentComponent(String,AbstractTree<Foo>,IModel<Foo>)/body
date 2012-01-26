@@ -1,0 +1,33 @@
+{
+  return new Folder<Foo>(id,tree,model){
+    /** 
+ * Always clickable.
+ */
+    @Override protected boolean isClickable(){
+      return true;
+    }
+    /** 
+ * AjaxEditableLabel won't work reliable in Safari if wrapped in a Link, so simply
+ * replace the anchor with a &lt;span&gt;.
+ */
+    @Override protected MarkupContainer newLinkComponent(    String id,    IModel<Foo> model){
+      return new WebMarkupContainer(id){
+        @Override protected void onComponentTag(        ComponentTag tag){
+          tag.setName("span");
+          super.onComponentTag(tag);
+        }
+      }
+;
+    }
+    @Override protected Component newLabelComponent(    String id,    final IModel<Foo> model){
+      return new AjaxEditableLabel<String>(id,new PropertyModel<String>(model,"bar")){
+        @Override protected void onSubmit(        AjaxRequestTarget target){
+          super.onSubmit(target);
+          tree.updateNode(model.getObject(),target);
+        }
+      }
+;
+    }
+  }
+;
+}

@@ -1,0 +1,12 @@
+{
+  return new AbstractReadOnlyModel<Set<Foo>>(){
+    private static final long serialVersionUID=1L;
+    @Override public Set<Foo> getObject(){
+      return state;
+    }
+    @Override public void detach(){
+      ((IDetachable)state).detach();
+    }
+  }
+;
+}

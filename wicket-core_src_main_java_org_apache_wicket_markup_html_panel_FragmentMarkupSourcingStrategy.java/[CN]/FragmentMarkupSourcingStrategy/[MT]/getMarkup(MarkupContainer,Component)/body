@@ -6,8 +6,9 @@
   IMarkupFragment childMarkup=markup.find(markupId);
   if (childMarkup == null) {
     MarkupContainer markupProvider=getMarkupProvider(container);
-    if (markupProvider.hasAssociatedMarkup()) {
-      markup=markupProvider.getAssociatedMarkup();
+    Markup associatedMarkup=markupProvider.getAssociatedMarkup();
+    if (associatedMarkup != null) {
+      markup=associatedMarkup;
       if (markup != null) {
         childMarkup=markup.find(markupId);
       }

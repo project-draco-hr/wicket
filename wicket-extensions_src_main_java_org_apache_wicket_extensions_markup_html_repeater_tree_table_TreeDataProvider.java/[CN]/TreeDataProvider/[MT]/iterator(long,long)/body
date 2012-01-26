@@ -1,0 +1,33 @@
+{
+  currentBranch=new Branch(null,provider.getRoots());
+  Iterator<T> iterator=new Iterator<T>(){
+    public boolean hasNext(){
+      while (currentBranch != null) {
+        if (currentBranch.hasNext()) {
+          return true;
+        }
+        currentBranch=currentBranch.parent;
+      }
+      return false;
+    }
+    public T next(){
+      if (!hasNext()) {
+        throw new IllegalStateException();
+      }
+      T next=currentBranch.next();
+      previousBranch=currentBranch;
+      if (iterateChildren(next)) {
+        currentBranch=new Branch(previousBranch,provider.getChildren(next));
+      }
+      return next;
+    }
+    public void remove(){
+      throw new UnsupportedOperationException();
+    }
+  }
+;
+  for (int i=0; i < first; i++) {
+    iterator.next();
+  }
+  return iterator;
+}

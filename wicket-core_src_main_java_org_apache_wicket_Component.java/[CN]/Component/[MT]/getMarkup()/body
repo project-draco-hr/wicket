@@ -5,8 +5,9 @@
   if (parent == null) {
     if (this instanceof MarkupContainer) {
       MarkupContainer container=(MarkupContainer)this;
-      if (container.hasAssociatedMarkup()) {
-        markup=container.getAssociatedMarkup();
+      Markup associatedMarkup=container.getAssociatedMarkup();
+      if (associatedMarkup != null) {
+        markup=associatedMarkup;
         return markup;
       }
     }

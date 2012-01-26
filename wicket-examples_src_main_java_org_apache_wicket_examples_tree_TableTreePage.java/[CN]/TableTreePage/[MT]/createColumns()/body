@@ -1,0 +1,19 @@
+{
+  List<IColumn<Foo>> columns=new ArrayList<IColumn<Foo>>();
+  columns.add(new PropertyColumn<Foo>(Model.of("ID"),"id"));
+  columns.add(new TreeColumn<Foo>(Model.of("Tree")));
+  columns.add(new AbstractColumn<Foo>(Model.of("Depth")){
+    private static final long serialVersionUID=1L;
+    public void populateItem(    Item<ICellPopulator<Foo>> cellItem,    String componentId,    IModel<Foo> rowModel){
+      NodeModel<Foo> nodeModel=(NodeModel<Foo>)rowModel;
+      cellItem.add(new Label(componentId,"" + nodeModel.getDepth()));
+    }
+    @Override public String getCssClass(){
+      return "number";
+    }
+  }
+);
+  columns.add(new PropertyColumn<Foo>(Model.of("Bar"),"bar"));
+  columns.add(new PropertyColumn<Foo>(Model.of("Baz"),"baz"));
+  return columns;
+}
