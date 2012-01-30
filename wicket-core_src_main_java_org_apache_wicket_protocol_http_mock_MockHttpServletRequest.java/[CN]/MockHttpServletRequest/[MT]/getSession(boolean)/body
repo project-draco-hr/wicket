@@ -1,6 +1,13 @@
 {
-  if (b && session instanceof MockHttpSession) {
-    ((MockHttpSession)session).setTemporary(false);
+  HttpSession sess=null;
+  if (session instanceof MockHttpSession) {
+    MockHttpSession mockHttpSession=(MockHttpSession)session;
+    if (b) {
+      mockHttpSession.setTemporary(false);
+    }
+    if (mockHttpSession.isTemporary() == false) {
+      sess=session;
+    }
   }
-  return getSession();
+  return sess;
 }
