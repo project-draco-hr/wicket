@@ -1,0 +1,6 @@
+{
+  headerResponse.render(JavaScriptHeaderItem.forScript("someJSMethod();","id","lt IE 8"));
+  String expected="<!--[if lt IE 8]><script type=\"text/javascript\" id=\"id\">\n" + "/*<![CDATA[*/\n" + "someJSMethod();\n"+ "/*]]>*/\n"+ "</script>\n"+ "<![endif]-->\n";
+  String actual=headerResponse.getResponse().toString();
+  Assert.assertEquals(expected,actual);
+}

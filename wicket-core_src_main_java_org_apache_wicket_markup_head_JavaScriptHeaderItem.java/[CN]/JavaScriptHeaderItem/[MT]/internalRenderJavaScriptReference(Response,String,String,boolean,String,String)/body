@@ -1,0 +1,14 @@
+{
+  Args.notEmpty(url,"url");
+  boolean hasCondition=Strings.isEmpty(condition) == false;
+  if (hasCondition) {
+    response.write("<!--[if ");
+    response.write(condition);
+    response.write("]>");
+  }
+  JavaScriptUtils.writeJavaScriptUrl(response,Strings.stripJSessionId(url),id,defer,charset);
+  if (hasCondition) {
+    response.write("<![endif]-->");
+    response.write("\n");
+  }
+}

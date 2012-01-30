@@ -1,3 +1,13 @@
 {
+  boolean hasCondition=Strings.isEmpty(getCondition()) == false;
+  if (hasCondition) {
+    response.write("<!--[if ");
+    response.write(getCondition());
+    response.write("]>");
+  }
   CssUtils.writeCss(response,getCss(),getId());
+  if (hasCondition) {
+    response.write("<![endif]-->");
+    response.write("\n");
+  }
 }
