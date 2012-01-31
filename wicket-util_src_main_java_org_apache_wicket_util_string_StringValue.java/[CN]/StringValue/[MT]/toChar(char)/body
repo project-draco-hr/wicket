@@ -1,14 +1,13 @@
 {
-  char result=defaultValue;
   if (text != null) {
     try {
-      result=toChar();
+      return toChar();
     }
- catch (    Exception x) {
+ catch (    StringValueConversionException x) {
       if (LOG.isDebugEnabled()) {
         LOG.debug(String.format("An error occurred while converting '%s' to a character: %s",text,x.getMessage()),x);
       }
     }
   }
-  return result;
+  return defaultValue;
 }

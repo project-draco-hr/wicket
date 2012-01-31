@@ -1,14 +1,13 @@
 {
-  long result=defaultValue;
   if (text != null) {
     try {
-      result=toLong();
+      return toLong();
     }
- catch (    Exception x) {
+ catch (    StringValueConversionException x) {
       if (LOG.isDebugEnabled()) {
         LOG.debug(String.format("An error occurred while converting '%s' to a long: %s",text,x.getMessage()),x);
       }
     }
   }
-  return result;
+  return defaultValue;
 }
