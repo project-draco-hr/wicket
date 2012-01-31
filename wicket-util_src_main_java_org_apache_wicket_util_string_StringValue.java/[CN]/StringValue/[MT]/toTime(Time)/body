@@ -1,3 +1,14 @@
 {
-  return (text == null) ? defaultValue : toTime();
+  Time result=defaultValue;
+  if (text != null) {
+    try {
+      result=toTime();
+    }
+ catch (    Exception x) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("An error occurred while converting '%s' to a Time: %s",text,x.getMessage()),x);
+      }
+    }
+  }
+  return result;
 }

@@ -1,3 +1,14 @@
 {
-  return (text == null) ? defaultValue : toChar();
+  char result=defaultValue;
+  if (text != null) {
+    try {
+      result=toChar();
+    }
+ catch (    Exception x) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("An error occurred while converting '%s' to a character: %s",text,x.getMessage()),x);
+      }
+    }
+  }
+  return result;
 }

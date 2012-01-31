@@ -1,3 +1,14 @@
 {
-  return (text == null) ? defaultValue : toDouble();
+  double result=defaultValue;
+  if (text != null) {
+    try {
+      result=toDouble();
+    }
+ catch (    Exception x) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("An error occurred while converting '%s' to a double: %s",text,x.getMessage()),x);
+      }
+    }
+  }
+  return result;
 }

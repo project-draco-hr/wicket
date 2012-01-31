@@ -1,3 +1,14 @@
 {
-  return (text == null) ? defaultValue : toBoolean();
+  boolean result=defaultValue;
+  if (text != null) {
+    try {
+      result=toBoolean();
+    }
+ catch (    Exception x) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("An error occurred while converting '%s' to a boolean: %s",text,x.getMessage()),x);
+      }
+    }
+  }
+  return result;
 }
