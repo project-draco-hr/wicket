@@ -1,14 +1,5 @@
 {
   if (needToRenderTag(tag)) {
-    List<? extends Behavior> behaviors=getBehaviors();
-    if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
-      tag=tag.mutable();
-      for (      Behavior behavior : behaviors) {
-        if (isBehaviorAccepted(behavior)) {
-          behavior.onComponentTag(this,tag);
-        }
-      }
-    }
     if (tag.hasBehaviors()) {
       Iterator<? extends Behavior> tagBehaviors=tag.getBehaviors();
       while (tagBehaviors.hasNext()) {
@@ -17,6 +8,15 @@
           behavior.onComponentTag(this,tag);
         }
         behavior.detach(this);
+      }
+    }
+    List<? extends Behavior> behaviors=getBehaviors();
+    if ((behaviors != null) && !behaviors.isEmpty() && !tag.isClose()&& (isIgnoreAttributeModifier() == false)) {
+      tag=tag.mutable();
+      for (      Behavior behavior : behaviors) {
+        if (isBehaviorAccepted(behavior)) {
+          behavior.onComponentTag(this,tag);
+        }
       }
     }
     if ((tag instanceof WicketTag) && !tag.isClose() && !getFlag(FLAG_IGNORE_ATTRIBUTE_MODIFIER)) {
