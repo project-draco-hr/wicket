@@ -8,8 +8,8 @@
   assertEquals(EmailPage.class,tester.getLastRenderedPage().getClass());
   page=(EmailPage)tester.getLastRenderedPage();
   assertNull(page.getEmail());
-  assertTrue(Session.get().getFeedbackMessages().hasMessageFor(page.get("form:email")));
-  final List<FeedbackMessage> messages=Session.get().getFeedbackMessages().messagesForComponent(page.get("form:email"));
+  assertTrue(page.get("form:email").hasFeedbackMessage());
+  final List<FeedbackMessage> messages=page.get("form:email").getFeedbackMessages().toList();
   assertEquals(1,messages.size());
   assertEquals("wrong email address pattern for email",messages.get(0).getMessage().toString());
 }

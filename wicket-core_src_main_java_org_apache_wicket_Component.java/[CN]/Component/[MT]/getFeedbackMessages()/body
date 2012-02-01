@@ -1,3 +1,8 @@
 {
-  return getSession().getFeedbackMessages().messagesForComponent(this);
+  FeedbackMessages messages=getMetaData(FEEDBACK_KEY);
+  if (messages == null) {
+    messages=new FeedbackMessages();
+    setMetaData(FEEDBACK_KEY,messages);
+  }
+  return messages;
 }

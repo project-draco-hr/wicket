@@ -1,0 +1,20 @@
+{
+  final List<FeedbackMessage> messages=new ArrayList<FeedbackMessage>();
+  if (includeSession && Session.exists()) {
+    messages.addAll(Session.get().getFeedbackMessages().messages(filter));
+  }
+  if (component != null && component.hasFeedbackMessage()) {
+    messages.addAll(component.getFeedbackMessages().messages(filter));
+  }
+  if (component != null && recursive && component instanceof MarkupContainer) {
+    ((MarkupContainer)component).visitChildren(new IVisitor<Component,Void>(){
+      @Override public void component(      Component object,      IVisit<Void> visit){
+        if (object.hasFeedbackMessage()) {
+          messages.addAll(object.getFeedbackMessages().messages(filter));
+        }
+      }
+    }
+);
+  }
+  return messages;
+}
