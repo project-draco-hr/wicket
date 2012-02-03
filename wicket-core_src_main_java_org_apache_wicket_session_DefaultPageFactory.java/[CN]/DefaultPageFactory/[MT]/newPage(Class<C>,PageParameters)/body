@@ -1,7 +1,8 @@
 {
   Constructor<?> constructor=constructor(pageClass,PageParameters.class);
   if (constructor != null) {
-    return processPage(newPage(constructor,parameters),parameters);
+    final PageParameters nullSafeParams=parameters == null ? new PageParameters() : parameters;
+    return processPage(newPage(constructor,nullSafeParams),nullSafeParams);
   }
   return processPage(newPage(pageClass),parameters);
 }
