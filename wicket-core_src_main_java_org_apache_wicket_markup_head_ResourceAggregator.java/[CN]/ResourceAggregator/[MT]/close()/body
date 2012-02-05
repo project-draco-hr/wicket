@@ -1,6 +1,10 @@
 {
   renderHeaderItems();
-  if (AjaxRequestTarget.get() == null)   renderCombinedEventScripts();
- else   renderSeperateEventScripts();
+  if (RequestCycle.get().find(AjaxRequestTarget.class) == null) {
+    renderCombinedEventScripts();
+  }
+ else {
+    renderSeperateEventScripts();
+  }
   super.close();
 }

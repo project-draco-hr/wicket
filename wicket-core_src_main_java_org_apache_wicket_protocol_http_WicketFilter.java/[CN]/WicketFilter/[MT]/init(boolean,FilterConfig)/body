@@ -2,8 +2,10 @@
   this.filterConfig=filterConfig;
   this.isServlet=isServlet;
   initIgnorePaths(filterConfig);
-  applicationFactory=getApplicationFactory();
-  application=applicationFactory.createApplication(this);
+  if (application == null) {
+    applicationFactory=getApplicationFactory();
+    application=applicationFactory.createApplication(this);
+  }
   application.setName(filterConfig.getFilterName());
   application.setWicketFilter(this);
   if (filterPath == null) {

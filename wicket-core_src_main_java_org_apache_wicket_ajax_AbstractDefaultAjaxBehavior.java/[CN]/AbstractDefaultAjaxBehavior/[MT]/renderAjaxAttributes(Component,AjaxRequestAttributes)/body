@@ -26,25 +26,27 @@
       attributesJson.put("i",indicatorId);
     }
     for (    IAjaxCallListener ajaxCallListener : attributes.getAjaxCallListeners()) {
-      CharSequence beforeHandler=ajaxCallListener.getBeforeHandler(component);
-      if (Strings.isEmpty(beforeHandler) == false) {
-        attributesJson.append("bh",beforeHandler);
-      }
-      CharSequence afterHandler=ajaxCallListener.getAfterHandler(component);
-      if (Strings.isEmpty(afterHandler) == false) {
-        attributesJson.append("ah",afterHandler);
-      }
-      CharSequence successHandler=ajaxCallListener.getSuccessHandler(component);
-      if (Strings.isEmpty(successHandler) == false) {
-        attributesJson.append("sh",successHandler);
-      }
-      CharSequence failureHandler=ajaxCallListener.getFailureHandler(component);
-      if (Strings.isEmpty(failureHandler) == false) {
-        attributesJson.append("fh",failureHandler);
-      }
-      CharSequence completeHandler=ajaxCallListener.getCompleteHandler(component);
-      if (Strings.isEmpty(completeHandler) == false) {
-        attributesJson.append("coh",completeHandler);
+      if (ajaxCallListener != null) {
+        CharSequence beforeHandler=ajaxCallListener.getBeforeHandler(component);
+        if (Strings.isEmpty(beforeHandler) == false) {
+          attributesJson.append("bh",beforeHandler);
+        }
+        CharSequence afterHandler=ajaxCallListener.getAfterHandler(component);
+        if (Strings.isEmpty(afterHandler) == false) {
+          attributesJson.append("ah",afterHandler);
+        }
+        CharSequence successHandler=ajaxCallListener.getSuccessHandler(component);
+        if (Strings.isEmpty(successHandler) == false) {
+          attributesJson.append("sh",successHandler);
+        }
+        CharSequence failureHandler=ajaxCallListener.getFailureHandler(component);
+        if (Strings.isEmpty(failureHandler) == false) {
+          attributesJson.append("fh",failureHandler);
+        }
+        CharSequence completeHandler=ajaxCallListener.getCompleteHandler(component);
+        if (Strings.isEmpty(completeHandler) == false) {
+          attributesJson.append("coh",completeHandler);
+        }
       }
     }
     for (    JavaScriptPrecondition pre : attributes.getPreconditions()) {
@@ -114,7 +116,7 @@
     postprocessConfiguration(attributesJson,component);
   }
  catch (  JSONException e) {
-    throw new RuntimeException(e);
+    throw new WicketRuntimeException(e);
   }
   String attributesAsJson=attributesJson.toString();
   return attributesAsJson;

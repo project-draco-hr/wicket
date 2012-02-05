@@ -4,9 +4,9 @@
     try {
       return model.getObject();
     }
- catch (    RuntimeException ex) {
-      log.error("Error while getting default model object for Component: " + this.toString(true),ex);
-      throw ex;
+ catch (    Exception ex) {
+      RuntimeException rex=new RuntimeException("An error occurred while getting the model object for Component: " + this.toString(true),ex);
+      throw rex;
     }
   }
   return null;

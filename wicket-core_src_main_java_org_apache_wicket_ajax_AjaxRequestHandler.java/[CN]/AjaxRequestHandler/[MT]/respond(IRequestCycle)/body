@@ -1,0 +1,28 @@
+{
+  final RequestCycle rc=(RequestCycle)requestCycle;
+  final WebResponse response=(WebResponse)requestCycle.getResponse();
+  if (responseObject.containsPage()) {
+    IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
+    final String url=rc.urlFor(handler).toString();
+    response.sendRedirect(url);
+    return;
+  }
+  respondersFrozen=true;
+  for (  ITargetRespondListener listener : respondListeners) {
+    listener.onTargetRespond(this);
+  }
+  final Application app=page.getApplication();
+  page.send(app,Broadcast.BREADTH,this);
+  final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
+  responseObject.setContentType(response,encoding);
+  response.disableCaching();
+  try {
+    final StringResponse bodyResponse=new StringResponse();
+    responseObject.writeTo(bodyResponse,encoding);
+    CharSequence filteredResponse=invokeResponseFilters(bodyResponse);
+    response.write(filteredResponse);
+  }
+  finally {
+    rc.setResponse(response);
+  }
+}

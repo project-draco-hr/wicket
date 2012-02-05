@@ -10,7 +10,7 @@
   if ((markupResourceStream != null) && (markupResourceStream.getResource() != null)) {
     final ContainerInfo containerInfo=markupResourceStream.getContainerInfo();
     if (containerInfo != null) {
-      filters.add(new WicketMessageTagHandler());
+      filters.add(new WicketMessageTagHandler(markupResourceStream));
       if (Page.class.isAssignableFrom(containerInfo.getContainerClass())) {
         filters.add(new HtmlHeaderSectionHandler(markup));
       }
@@ -18,7 +18,7 @@
     }
   }
   filters.add(new OpenCloseTagExpander());
-  filters.add(new RelativePathPrefixHandler());
+  filters.add(new RelativePathPrefixHandler(markupResourceStream));
   filters.add(new EnclosureHandler());
   filters.add(new InlineEnclosureHandler());
   filters.add(new StyleAndScriptIdentifier(markup));

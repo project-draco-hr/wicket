@@ -1,3 +1,13 @@
 {
-  return (text == null) ? defaultValue : toInt();
+  if (text != null) {
+    try {
+      return toInt();
+    }
+ catch (    StringValueConversionException x) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("An error occurred while converting '%s' to an integer: %s",text,x.getMessage()),x);
+      }
+    }
+  }
+  return defaultValue;
 }

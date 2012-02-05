@@ -1,7 +1,7 @@
 {
-  AjaxRequestTarget handler=AjaxRequestTarget.get();
-  if (handler == null) {
+  AjaxRequestTarget target=getRequestCycle().find(AjaxRequestTarget.class);
+  if (target == null) {
     throw new WicketRuntimeException("No AjaxRequestTarget available to execute updateTree(ART target)");
   }
-  updateTree(handler);
+  updateTree(target);
 }

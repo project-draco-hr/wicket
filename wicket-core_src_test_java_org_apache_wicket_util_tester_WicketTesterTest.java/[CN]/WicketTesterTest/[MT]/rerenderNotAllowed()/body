@@ -1,0 +1,21 @@
+{
+  tester.setExposeExceptions(false);
+class YesNoPageAuthorizationStrategy implements IAuthorizationStrategy {
+    private boolean allowed=true;
+    @Override public <T extends IRequestableComponent>boolean isInstantiationAuthorized(    Class<T> componentClass){
+      if (componentClass == AccessDeniedPage.class)       return true;
+      return allowed || !WebPage.class.isAssignableFrom(componentClass);
+    }
+    @Override public boolean isActionAuthorized(    Component component,    Action action){
+      if (component instanceof AccessDeniedPage)       return true;
+      return allowed || !(component instanceof WebPage);
+    }
+  }
+  YesNoPageAuthorizationStrategy strategy=new YesNoPageAuthorizationStrategy();
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(strategy);
+  DummyHomePage start=tester.startPage(DummyHomePage.class);
+  tester.assertRenderedPage(DummyHomePage.class);
+  strategy.allowed=false;
+  tester.startPage(start);
+  tester.assertRenderedPage(tester.getApplication().getApplicationSettings().getAccessDeniedPage());
+}

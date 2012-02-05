@@ -1,0 +1,40 @@
+{
+  this.page=Args.notNull(page,"page");
+  responseObject=new XmlAjaxResponse(page){
+    /** 
+ * Freezes the {@link AjaxRequestHandler#listeners}, and does not un-freeze them as the events will have been
+ * fired by now.
+ * @param response
+ */
+    @Override protected void fireOnAfterRespondListeners(    final Response response){
+      listenersFrozen=true;
+      if (listeners != null) {
+        final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
+        final AjaxRequestTarget.IJavaScriptResponse jsresponse=new AjaxRequestTarget.IJavaScriptResponse(){
+          @Override public void addJavaScript(          String script){
+            writeNormalEvaluation(response,script);
+          }
+        }
+;
+        for (        AjaxRequestTarget.IListener listener : listeners) {
+          listener.onAfterRespond(components,jsresponse);
+        }
+      }
+    }
+    /** 
+ * Freezes the {@link AjaxRequestHandler#listeners} before firing the event and un-freezes them afterwards to
+ * allow components to add more {@link AjaxRequestTarget.IListener}s for the second event.
+ */
+    @Override protected void fireOnBeforeRespondListeners(){
+      listenersFrozen=true;
+      if (listeners != null) {
+        final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
+        for (        AjaxRequestTarget.IListener listener : listeners) {
+          listener.onBeforeRespond(components,AjaxRequestHandler.this);
+        }
+      }
+      listenersFrozen=false;
+    }
+  }
+;
+}

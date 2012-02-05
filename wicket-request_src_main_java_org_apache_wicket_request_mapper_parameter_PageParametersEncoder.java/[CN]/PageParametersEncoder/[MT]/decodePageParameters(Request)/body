@@ -5,8 +5,12 @@
     parameters.set(i,s);
     ++i;
   }
-  for (  QueryParameter p : request.getUrl().getQueryParameters()) {
-    parameters.add(p.getName(),p.getValue());
+  IRequestParameters requestParameters=request.getRequestParameters();
+  for (  String paramName : requestParameters.getParameterNames()) {
+    List<StringValue> parameterValues=requestParameters.getParameterValues(paramName);
+    for (    StringValue paramValue : parameterValues) {
+      parameters.add(paramName,paramValue);
+    }
   }
   return parameters.isEmpty() ? null : parameters;
 }

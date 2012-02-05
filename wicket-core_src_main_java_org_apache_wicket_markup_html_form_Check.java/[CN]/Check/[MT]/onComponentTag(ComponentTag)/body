@@ -11,10 +11,11 @@
     throw new WicketRuntimeException("CheckGroup [" + group.getPath() + "] contains a null model object, must be an object of type java.util.Collection");
   }
   if (group.hasRawInput()) {
-    final String[] inputArray=group.getInputAsArray();
-    if (inputArray != null) {
-      for (      String input : inputArray) {
-        if (uuid.equals(input)) {
+    final String raw=group.getRawInput();
+    if (!Strings.isEmpty(raw)) {
+      final String[] values=raw.split(FormComponent.VALUE_SEPARATOR);
+      for (      String value : values) {
+        if (uuid.equals(value)) {
           tag.put("checked","checked");
         }
       }

@@ -1,16 +1,17 @@
 {
   Args.notNull(option,"option");
   if (hasRawInput()) {
-    String[] values=getInputAsArray();
-    if (values != null && values.length > 0) {
+    final String raw=getRawInput();
+    if (!Strings.isEmpty(raw)) {
+      String[] values=raw.split(VALUE_SEPARATOR);
       for (int i=0; i < values.length; i++) {
         String value=values[i];
         if (value.equals(option.getValue())) {
           return true;
         }
       }
-      return false;
     }
+    return false;
   }
   return compareModels(getDefaultModelObject(),option.getDefaultModelObject());
 }

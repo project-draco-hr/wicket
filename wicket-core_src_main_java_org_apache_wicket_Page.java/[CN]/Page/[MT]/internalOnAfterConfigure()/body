@@ -1,0 +1,9 @@
+{
+  super.internalOnAfterConfigure();
+  if (!isRenderAllowed()) {
+    if (log.isDebugEnabled()) {
+      log.debug("Page not allowed to render: " + this);
+    }
+    throw new UnauthorizedActionException(this,Component.RENDER);
+  }
+}

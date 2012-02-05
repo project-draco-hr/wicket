@@ -1,0 +1,13 @@
+{
+  if (type == null) {
+    return null;
+  }
+  IRequestHandler result=getActiveRequestHandler();
+  if (result == null || type.isAssignableFrom(result.getClass()) == false) {
+    result=getRequestHandlerScheduledAfterCurrent();
+    if (result == null || type.isAssignableFrom(result.getClass()) == false) {
+      result=null;
+    }
+  }
+  return (T)result;
+}

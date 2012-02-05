@@ -1,0 +1,26 @@
+{
+  if (url != null) {
+    String renderedUrl=getUrlRenderer().renderUrl(url);
+    if (handler instanceof ResourceReferenceRequestHandler) {
+      ResourceReferenceRequestHandler rrrh=(ResourceReferenceRequestHandler)handler;
+      IResource resource=rrrh.getResource();
+      if (resource instanceof IStaticCacheableResource == false) {
+        renderedUrl=getOriginalResponse().encodeURL(renderedUrl);
+      }
+    }
+ else     if (handler instanceof ResourceRequestHandler) {
+      ResourceRequestHandler rrh=(ResourceRequestHandler)handler;
+      IResource resource=rrh.getResource();
+      if (resource instanceof IStaticCacheableResource == false) {
+        renderedUrl=getOriginalResponse().encodeURL(renderedUrl);
+      }
+    }
+ else {
+      renderedUrl=getOriginalResponse().encodeURL(renderedUrl);
+    }
+    return renderedUrl;
+  }
+ else {
+    return null;
+  }
+}

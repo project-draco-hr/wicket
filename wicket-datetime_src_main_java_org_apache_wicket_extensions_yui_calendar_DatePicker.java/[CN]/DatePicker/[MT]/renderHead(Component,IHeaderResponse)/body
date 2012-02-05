@@ -32,9 +32,10 @@
   TextTemplate datePickerJs=new PackageTextTemplate(DatePicker.class,"DatePicker.js");
   datePickerJs.interpolate(variables);
   response.render(OnDomReadyHeaderItem.forScript(datePickerJs.asString()));
-  if (AjaxRequestTarget.get() != null) {
+  AjaxRequestTarget target=component.getRequestCycle().find(AjaxRequestTarget.class);
+  if (target != null) {
     String escapedComponentMarkupId=getEscapedComponentMarkupId();
     String javascript="var e = Wicket.$('" + escapedComponentMarkupId + "Dp"+ "'); if (e != null && typeof(e.parentNode) != 'undefined' && "+ "typeof(e.parentNode.parentNode != 'undefined')) {"+ "e.parentNode.parentNode.removeChild(e.parentNode);"+ "YAHOO.wicket."+ escapedComponentMarkupId+ "DpJs.destroy(); delete YAHOO.wicket."+ escapedComponentMarkupId+ "DpJs;}";
-    AjaxRequestTarget.get().prependJavaScript(javascript);
+    target.prependJavaScript(javascript);
   }
 }

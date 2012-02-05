@@ -1,3 +1,13 @@
 {
-  return (text == null) ? defaultValue : toDuration();
+  if (text != null) {
+    try {
+      return toDuration();
+    }
+ catch (    Exception x) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("An error occurred while converting '%s' to a Duration: %s",text,x.getMessage()),x);
+      }
+    }
+  }
+  return defaultValue;
 }

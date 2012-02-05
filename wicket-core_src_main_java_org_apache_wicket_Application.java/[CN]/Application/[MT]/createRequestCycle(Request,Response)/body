@@ -4,7 +4,9 @@
   requestCycle.getListeners().add(requestCycleListeners);
   requestCycle.getListeners().add(new AbstractRequestCycleListener(){
     @Override public void onDetach(    final RequestCycle requestCycle){
-      Session.get().getPageManager().commitRequest();
+      if (Session.exists()) {
+        Session.get().getPageManager().commitRequest();
+      }
     }
     @Override public void onEndRequest(    RequestCycle cycle){
       if (Application.exists()) {
