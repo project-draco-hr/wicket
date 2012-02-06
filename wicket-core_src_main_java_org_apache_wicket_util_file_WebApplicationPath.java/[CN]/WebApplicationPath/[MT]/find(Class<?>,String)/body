@@ -1,19 +1,17 @@
 {
-  for (  Folder folder : folders) {
-    final File file=new File(folder,pathname);
-    if (file.exists()) {
-      return new FileResourceStream(file);
-    }
-  }
-  for (  String path : webappPaths) {
-    try {
-      final URL url=servletContext.getResource(path + pathname);
-      if (url != null) {
-        return new UrlResourceStream(url);
+  IResourceStream resourceStream=super.find(clazz,pathname);
+  if (resourceStream == null) {
+    for (    String path : webappPaths) {
+      try {
+        final URL url=servletContext.getResource(path + pathname);
+        if (url != null) {
+          resourceStream=new UrlResourceStream(url);
+          break;
+        }
+      }
+ catch (      Exception ex) {
       }
     }
- catch (    Exception ex) {
-    }
   }
-  return null;
+  return resourceStream;
 }
