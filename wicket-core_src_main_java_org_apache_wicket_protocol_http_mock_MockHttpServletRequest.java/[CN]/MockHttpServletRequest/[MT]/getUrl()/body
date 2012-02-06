@@ -1,6 +1,13 @@
 {
-  String urlString=getRequestURI() + '?' + getQueryString();
-  Url url=Url.parse(urlString,getCharset());
+  final String urlString;
+  final String queryString=getQueryString();
+  if (Strings.isEmpty(queryString)) {
+    urlString=getRequestURI();
+  }
+ else {
+    urlString=getRequestURI() + '?' + queryString;
+  }
+  final Url url=Url.parse(urlString,getCharset());
   url.setProtocol(scheme);
   url.setHost(serverName);
   url.setPort(serverPort);
