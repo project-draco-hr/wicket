@@ -1,0 +1,18 @@
+{
+  ExtensionResourceNameIterator iterator=new ExtensionResourceNameIterator(null,',');
+  assertTrue(iterator.hasNext());
+  assertEquals(null,iterator.next());
+  assertFalse(iterator.hasNext());
+  iterator=new ExtensionResourceNameIterator("txt",',');
+  assertTrue(iterator.hasNext());
+  assertEquals("txt",iterator.next());
+  assertFalse(iterator.hasNext());
+  iterator=new ExtensionResourceNameIterator("properties,utf8.properties,properties.xml",',');
+  assertTrue(iterator.hasNext());
+  assertEquals("properties",iterator.next());
+  assertTrue(iterator.hasNext());
+  assertEquals("utf8.properties",iterator.next());
+  assertTrue(iterator.hasNext());
+  assertEquals("properties.xml",iterator.next());
+  assertFalse(iterator.hasNext());
+}
