@@ -1,4 +1,6 @@
 {
-  if (!responseFilterMap.containsKey(filterName))   throw new IllegalArgumentException("No filter named '" + filterName + "', known filter names are: "+ responseFilterMap.keySet());
+  if (responseFilterMap.containsKey(filterName) == false) {
+    throw new IllegalArgumentException("No filter named '" + filterName + "', known filter names are: "+ responseFilterMap.keySet());
+  }
   render(item,responseFilterMap.get(filterName));
 }
