@@ -1,0 +1,21 @@
+{
+  DefaultMarkupCacheKeyProvider provider=new DefaultMarkupCacheKeyProvider();
+  Foo foo=new Foo("foo");
+  assertEquals("org.apache.wicket.markup.Foo.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("");
+  assertEquals("org.apache.wicket.markup.Foo_.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("language");
+  assertEquals("org.apache.wicket.markup.Foo_language.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("","COUNTRY");
+  assertEquals("org.apache.wicket.markup.Foo__COUNTRY.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("","","variant");
+  assertEquals("org.apache.wicket.markup.Foo_.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("language","COUNTRY");
+  assertEquals("org.apache.wicket.markup.Foo_language_COUNTRY.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("language","","variant");
+  assertEquals("org.apache.wicket.markup.Foo_language__variant.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("","COUNTRY","variant");
+  assertEquals("org.apache.wicket.markup.Foo__COUNTRY_variant.html",provider.getCacheKey(foo,foo.getClass()));
+  foo.locale=new Locale("language","COUNTRY","variant");
+  assertEquals("org.apache.wicket.markup.Foo_language_COUNTRY_variant.html",provider.getCacheKey(foo,foo.getClass()));
+}
