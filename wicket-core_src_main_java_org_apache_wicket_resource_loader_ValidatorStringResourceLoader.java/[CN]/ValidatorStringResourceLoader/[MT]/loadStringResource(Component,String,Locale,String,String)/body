@@ -4,7 +4,8 @@
   }
   FormComponent<?> fc=(FormComponent<?>)component;
   for (  IValidator<?> validator : fc.getValidators()) {
-    String resource=loadStringResource(validator.getClass(),key,locale,style,variation);
+    Class<?> scope=getScope(validator);
+    String resource=loadStringResource(scope,key,locale,style,variation);
     if (resource != null) {
       return resource;
     }
