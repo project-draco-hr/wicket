@@ -18,6 +18,8 @@
   application.getResourceSettings().setResourcePollFrequency(getResourcePollFrequency());
   application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
   application.setRequestCycleProvider(new TestRequestCycleProvider(application.getRequestCycleProvider()));
+  originalFeedbackMessageCleanupFilter=application.getApplicationSettings().getFeedbackMessageCleanupFilter();
+  application.getApplicationSettings().setFeedbackMessageCleanupFilter(IFeedbackMessageFilter.NONE);
   IPageManagerProvider pageManagerProvider=newTestPageManagerProvider();
   if (pageManagerProvider != null) {
     application.setPageManagerProvider(pageManagerProvider);

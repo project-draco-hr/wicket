@@ -1,0 +1,39 @@
+{
+  TreeDataProvider<String> provider=new TreeDataProvider<String>(new TestProvider()){
+    private static final long serialVersionUID=1L;
+    @Override protected boolean iterateChildren(    String object){
+      return !object.startsWith("B");
+    }
+  }
+;
+  assertEquals(3 + 2 * (3 + 3 * 3),provider.size());
+  Iterator<? extends String> iterator=provider.iterator(0,Integer.MAX_VALUE);
+  assertEquals("A",iterator.next());
+  assertEquals("AA",iterator.next());
+  assertEquals("AAA",iterator.next());
+  assertEquals("AAB",iterator.next());
+  assertEquals("AAC",iterator.next());
+  assertEquals("AB",iterator.next());
+  assertEquals("ABA",iterator.next());
+  assertEquals("ABB",iterator.next());
+  assertEquals("ABC",iterator.next());
+  assertEquals("AC",iterator.next());
+  assertEquals("ACA",iterator.next());
+  assertEquals("ACB",iterator.next());
+  assertEquals("ACC",iterator.next());
+  assertEquals("B",iterator.next());
+  assertEquals("C",iterator.next());
+  assertEquals("CA",iterator.next());
+  assertEquals("CAA",iterator.next());
+  assertEquals("CAB",iterator.next());
+  assertEquals("CAC",iterator.next());
+  assertEquals("CB",iterator.next());
+  assertEquals("CBA",iterator.next());
+  assertEquals("CBB",iterator.next());
+  assertEquals("CBC",iterator.next());
+  assertEquals("CC",iterator.next());
+  assertEquals("CCA",iterator.next());
+  assertEquals("CCB",iterator.next());
+  assertEquals("CCC",iterator.next());
+  assertFalse(iterator.hasNext());
+}

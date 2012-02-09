@@ -1,7 +1,11 @@
 {
   try {
     final ServletContext context=((WebApplication)Application.get()).getServletContext();
-    return Connections.getLastModified(context.getResource(url));
+    final URL resourceURL=context.getResource(url);
+    if (resourceURL == null) {
+      throw new FileNotFoundException("Unable to find resource '" + url + "' in the serlvet context");
+    }
+    return Connections.getLastModified(resourceURL);
   }
  catch (  IOException e) {
     log.warn("failed to retrieve last modified timestamp",e);

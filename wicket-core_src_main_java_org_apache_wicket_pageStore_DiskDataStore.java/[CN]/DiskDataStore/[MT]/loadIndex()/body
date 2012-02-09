@@ -5,14 +5,19 @@
     try {
       InputStream stream=new FileInputStream(index);
       ObjectInputStream ois=new ObjectInputStream(stream);
-      Map<String,SessionEntry> map=(Map<String,SessionEntry>)ois.readObject();
-      sessionEntryMap.clear();
-      sessionEntryMap.putAll(map);
-      for (      Entry<String,SessionEntry> entry : sessionEntryMap.entrySet()) {
-        SessionEntry sessionEntry=entry.getValue();
-        sessionEntry.diskDataStore=this;
+      try {
+        Map<String,SessionEntry> map=(Map<String,SessionEntry>)ois.readObject();
+        sessionEntryMap.clear();
+        sessionEntryMap.putAll(map);
+        for (        Entry<String,SessionEntry> entry : sessionEntryMap.entrySet()) {
+          SessionEntry sessionEntry=entry.getValue();
+          sessionEntry.diskDataStore=this;
+        }
       }
-      stream.close();
+  finally {
+        stream.close();
+        ois.close();
+      }
     }
  catch (    Exception e) {
       log.error("Couldn't load DiskDataStore index from file " + index + ".",e);

@@ -3,6 +3,15 @@
   assertTrue(iterator.hasNext());
   iterator.next();
   assertFalse(iterator.hasNext());
+  iterator=new StyleAndVariationResourceNameIterator("style",null);
+  assertTrue(iterator.hasNext());
+  iterator.next();
+  assertEquals("style",iterator.getStyle());
+  assertEquals(null,iterator.getVariation());
+  iterator.next();
+  assertEquals(null,iterator.getStyle());
+  assertEquals(null,iterator.getVariation());
+  assertFalse(iterator.hasNext());
   iterator=new StyleAndVariationResourceNameIterator("style","variation");
   assertTrue(iterator.hasNext());
   iterator.next();
@@ -10,12 +19,12 @@
   assertEquals("variation",iterator.getVariation());
   iterator.next();
   assertEquals("style",iterator.getStyle());
-  assertNull(iterator.getVariation());
+  assertEquals(null,iterator.getVariation());
   iterator.next();
-  assertNull(iterator.getStyle());
+  assertEquals(null,iterator.getStyle());
   assertEquals("variation",iterator.getVariation());
   iterator.next();
-  assertNull(iterator.getStyle());
-  assertNull(iterator.getVariation());
+  assertEquals(null,iterator.getStyle());
+  assertEquals(null,iterator.getVariation());
   assertFalse(iterator.hasNext());
 }

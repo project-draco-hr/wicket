@@ -1,0 +1,16 @@
+{
+  List<IColumn<Foo>> columns=createColumns();
+  tree=new TableTree<Foo>("tree",columns,provider,Integer.MAX_VALUE,state){
+    private static final long serialVersionUID=1L;
+    @Override protected Component newContentComponent(    String id,    IModel<Foo> model){
+      return TableTreePage.this.newContentComponent(id,model);
+    }
+    @Override protected Item<Foo> newRowItem(    String id,    int index,    IModel<Foo> model){
+      return new OddEvenItem<Foo>(id,index,model);
+    }
+  }
+;
+  tree.getTable().addTopToolbar(new HeadersToolbar(tree.getTable(),null));
+  tree.getTable().addBottomToolbar(new NoRecordsToolbar(tree.getTable()));
+  return tree;
+}

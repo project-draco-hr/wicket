@@ -4,7 +4,12 @@
   bytearray=new ByteArrayOutputStream();
   try {
     ZipOutputStream out=new ZipOutputStream(bytearray);
-    zipDir(dir,out,"",recursive);
+    try {
+      zipDir(dir,out,"",recursive);
+    }
+  finally {
+      out.close();
+    }
   }
  catch (  RuntimeException e) {
     throw e;

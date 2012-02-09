@@ -1,0 +1,17 @@
+{
+  return new Folder<Foo>(id,tree,model){
+    private static final long serialVersionUID=1L;
+    @Override protected MarkupContainer newLinkComponent(    String id,    IModel<Foo> model){
+      Foo foo=model.getObject();
+      if (tree.getProvider().hasChildren(foo)) {
+        return super.newLinkComponent(id,model);
+      }
+ else {
+        PageParameters parameters=new PageParameters();
+        parameters.add("foo",foo.getId());
+        return new BookmarkablePageLink<Void>(id,tree.getPage().getClass(),parameters);
+      }
+    }
+  }
+;
+}

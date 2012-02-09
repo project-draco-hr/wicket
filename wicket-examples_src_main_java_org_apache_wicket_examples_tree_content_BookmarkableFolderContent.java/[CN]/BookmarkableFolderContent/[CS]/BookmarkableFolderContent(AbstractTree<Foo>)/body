@@ -1,0 +1,10 @@
+{
+  String id=tree.getRequest().getRequestParameters().getParameterValue("foo").toString();
+  if (id != null) {
+    Foo foo=TreeApplication.get().getFoo(id);
+    while (foo != null) {
+      tree.getModel().getObject().add(foo);
+      foo=foo.getParent();
+    }
+  }
+}

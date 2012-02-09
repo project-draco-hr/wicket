@@ -1,0 +1,31 @@
+{
+  super(id,model);
+  if (tree == null) {
+    throw new IllegalArgumentException("argument [tree] cannot be null");
+  }
+  this.tree=tree;
+  RefreshingView<T> branches=new RefreshingView<T>("branches"){
+    private static final long serialVersionUID=1L;
+    @Override protected Iterator<IModel<T>> getItemModels(){
+      return new ModelIterator();
+    }
+    @Override protected Item<T> newItem(    String id,    int index,    IModel<T> model){
+      return newBranchItem(id,index,model);
+    }
+    @Override protected void populateItem(    Item<T> item){
+      IModel<T> model=item.getModel();
+      Component node=tree.newNodeComponent("node",model);
+      item.add(node);
+      item.add(tree.newSubtree("subtree",model));
+    }
+  }
+;
+  branches.setItemReuseStrategy(new IItemReuseStrategy(){
+    private static final long serialVersionUID=1L;
+    public <S>Iterator<Item<S>> getItems(    IItemFactory<S> factory,    Iterator<IModel<S>> newModels,    Iterator<Item<S>> existingItems){
+      return tree.getItemReuseStrategy().getItems(factory,newModels,existingItems);
+    }
+  }
+);
+  add(branches);
+}

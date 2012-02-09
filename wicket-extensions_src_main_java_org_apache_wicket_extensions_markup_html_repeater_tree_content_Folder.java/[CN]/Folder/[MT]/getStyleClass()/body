@@ -1,0 +1,19 @@
+{
+  T t=getModelObject();
+  String styleClass;
+  if (tree.getProvider().hasChildren(t)) {
+    if (tree.getState(t) == State.EXPANDED) {
+      styleClass=getOpenStyleClass();
+    }
+ else {
+      styleClass=getClosedStyleClass();
+    }
+  }
+ else {
+    styleClass=getOtherStyleClass(t);
+  }
+  if (isSelected()) {
+    styleClass+=" " + getSelectedStyleClass();
+  }
+  return styleClass;
+}

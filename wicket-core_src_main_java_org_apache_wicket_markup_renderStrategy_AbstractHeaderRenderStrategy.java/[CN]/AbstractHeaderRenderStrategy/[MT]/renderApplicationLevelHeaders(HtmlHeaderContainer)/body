@@ -1,8 +1,10 @@
 {
   Args.notNull(headerContainer,"headerContainer");
   if (Application.exists()) {
-    for (    IHeaderContributor listener : Application.get().getHeaderContributorListenerCollection()) {
-      listener.renderHead(headerContainer.getHeaderResponse());
+    HeaderContributorListenerCollection headerContributorListenerCollection=Application.get().getHeaderContributorListenerCollection();
+    IHeaderResponse headerResponse=headerContainer.getHeaderResponse();
+    for (    IHeaderContributor listener : headerContributorListenerCollection) {
+      listener.renderHead(headerResponse);
     }
   }
 }

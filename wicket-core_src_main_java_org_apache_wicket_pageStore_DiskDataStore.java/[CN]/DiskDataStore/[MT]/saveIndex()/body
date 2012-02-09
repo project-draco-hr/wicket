@@ -6,14 +6,19 @@
     try {
       OutputStream stream=new FileOutputStream(index);
       ObjectOutputStream oos=new ObjectOutputStream(stream);
-      Map<String,SessionEntry> map=new HashMap<String,SessionEntry>(sessionEntryMap.size());
-      for (      Entry<String,SessionEntry> e : sessionEntryMap.entrySet()) {
-        if (e.getValue().unbound == false) {
-          map.put(e.getKey(),e.getValue());
+      try {
+        Map<String,SessionEntry> map=new HashMap<String,SessionEntry>(sessionEntryMap.size());
+        for (        Entry<String,SessionEntry> e : sessionEntryMap.entrySet()) {
+          if (e.getValue().unbound == false) {
+            map.put(e.getKey(),e.getValue());
+          }
         }
+        oos.writeObject(map);
       }
-      oos.writeObject(map);
-      stream.close();
+  finally {
+        stream.close();
+        oos.close();
+      }
     }
  catch (    Exception e) {
       log.error("Couldn't write DiskDataStore index to file " + index + ".",e);

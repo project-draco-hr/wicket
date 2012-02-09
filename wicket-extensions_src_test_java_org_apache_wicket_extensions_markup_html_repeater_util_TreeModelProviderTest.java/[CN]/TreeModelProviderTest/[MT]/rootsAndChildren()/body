@@ -1,0 +1,23 @@
+{
+  TreeModelProvider<DefaultMutableTreeNode> provider=new TreeModelProvider<DefaultMutableTreeNode>(treeModel){
+    private static final long serialVersionUID=1L;
+    @Override public IModel<DefaultMutableTreeNode> model(    DefaultMutableTreeNode object){
+      return Model.of(object);
+    }
+  }
+;
+  Iterator<DefaultMutableTreeNode> roots=provider.getRoots();
+  assertTrue(roots.hasNext());
+  DefaultMutableTreeNode root=roots.next();
+  assertEquals("JTree",root.getUserObject());
+  assertFalse(roots.hasNext());
+  Iterator<DefaultMutableTreeNode> children=provider.getChildren(root);
+  assertTrue(children.hasNext());
+  assertEquals("colors",children.next().getUserObject());
+  assertTrue(children.hasNext());
+  assertEquals("sports",children.next().getUserObject());
+  assertTrue(children.hasNext());
+  assertEquals("food",children.next().getUserObject());
+  assertFalse(roots.hasNext());
+  treeModel.nodeChanged(root);
+}

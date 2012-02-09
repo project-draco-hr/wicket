@@ -1,0 +1,28 @@
+{
+  return new CheckedFolder<Foo>(id,tree,model){
+    private static final long serialVersionUID=1L;
+    @Override protected IModel<Boolean> newCheckBoxModel(    final IModel<Foo> model){
+      return new PropertyModel<Boolean>(model,"quux");
+    }
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      Foo foo=getModelObject();
+      while (!foo.getQuux() && foo.getParent() != null) {
+        foo=foo.getParent();
+      }
+      tree.updateBranch(foo,target);
+    }
+    /** 
+ * Always clickable.
+ */
+    @Override protected boolean isClickable(){
+      return true;
+    }
+    @Override protected void onClick(    AjaxRequestTarget target){
+      CheckedSelectableFolderContent.this.select(getModelObject(),tree,target);
+    }
+    @Override protected boolean isSelected(){
+      return CheckedSelectableFolderContent.this.isSelected(getModelObject());
+    }
+  }
+;
+}

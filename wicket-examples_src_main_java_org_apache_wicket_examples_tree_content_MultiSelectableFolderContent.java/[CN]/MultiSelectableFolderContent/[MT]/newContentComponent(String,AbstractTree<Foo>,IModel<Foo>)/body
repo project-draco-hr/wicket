@@ -1,0 +1,18 @@
+{
+  return new Folder<Foo>(id,tree,model){
+    private static final long serialVersionUID=1L;
+    /** 
+ * Always clickable.
+ */
+    @Override protected boolean isClickable(){
+      return true;
+    }
+    @Override protected void onClick(    AjaxRequestTarget target){
+      MultiSelectableFolderContent.this.toggle(getModelObject(),tree,target);
+    }
+    @Override protected boolean isSelected(){
+      return MultiSelectableFolderContent.this.isSelected(getModelObject());
+    }
+  }
+;
+}

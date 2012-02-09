@@ -1,0 +1,28 @@
+{
+  TreeModelProvider<DefaultMutableTreeNode> provider=new TreeModelProvider<DefaultMutableTreeNode>(treeModel){
+    private static final long serialVersionUID=1L;
+    @Override public IModel<DefaultMutableTreeNode> model(    DefaultMutableTreeNode object){
+      return Model.of(object);
+    }
+  }
+;
+  assertFalse(provider.completeUpdate);
+  assertEquals(null,provider.nodeUpdates);
+  assertEquals(null,provider.branchUpdates);
+  treeModel.removeNodeFromParent((MutableTreeNode)root.getChildAt(0).getChildAt(0));
+  assertFalse(provider.completeUpdate);
+  assertEquals(null,provider.nodeUpdates);
+  assertEquals(1,provider.branchUpdates.size());
+  treeModel.nodeChanged(root.getChildAt(1));
+  assertFalse(provider.completeUpdate);
+  assertEquals(1,provider.nodeUpdates.size());
+  assertEquals(1,provider.branchUpdates.size());
+  treeModel.nodeStructureChanged(root.getChildAt(2));
+  assertFalse(provider.completeUpdate);
+  assertEquals(1,provider.nodeUpdates.size());
+  assertEquals(2,provider.branchUpdates.size());
+  treeModel.setRoot(new DefaultMutableTreeNode("bam!"));
+  assertTrue(provider.completeUpdate);
+  assertEquals(1,provider.nodeUpdates.size());
+  assertEquals(2,provider.branchUpdates.size());
+}
