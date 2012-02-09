@@ -1,0 +1,14 @@
+{
+  int result=-1;
+  if (filterClass != null) {
+    final int size=size();
+    for (int index=0; index < size; index++) {
+      Class<? extends IMarkupFilter> currentFilterClass=get(index).getClass();
+      if (Objects.equal(filterClass,currentFilterClass)) {
+        result=index;
+        break;
+      }
+    }
+  }
+  return result;
+}
