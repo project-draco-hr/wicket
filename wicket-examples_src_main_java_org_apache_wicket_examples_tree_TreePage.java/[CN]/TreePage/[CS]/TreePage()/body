@@ -2,7 +2,7 @@
   content=new CheckedFolderContent(provider);
   Form<Void> form=new Form<Void>("form");
   add(form);
-  tree=createTree(provider,newStateModel());
+  tree=createTree(provider,new FooExpansionModel());
   tree.add(new Behavior(){
     private static final long serialVersionUID=1L;
     @Override public void onComponentTag(    Component component,    ComponentTag tag){
@@ -31,16 +31,14 @@
   form.add(new Link<Void>("expandAll"){
     private static final long serialVersionUID=1L;
     @Override public void onClick(){
-      ((IDetachable)state).detach();
-      state=new InverseSet<Foo>(new ProviderSubset<Foo>(provider));
+      FooExpansion.get().expandAll();
     }
   }
 );
   form.add(new Link<Void>("collapseAll"){
     private static final long serialVersionUID=1L;
     @Override public void onClick(){
-      ((IDetachable)state).detach();
-      state=new ProviderSubset<Foo>(provider);
+      FooExpansion.get().collapseAll();
     }
   }
 );
