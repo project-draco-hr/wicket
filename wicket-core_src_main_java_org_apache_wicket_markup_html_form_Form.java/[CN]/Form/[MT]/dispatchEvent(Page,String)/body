@@ -1,6 +1,7 @@
 {
+  String urlWoJSessionId=Strings.stripJSessionId(url);
   Url resolved=new Url(getRequest().getUrl());
-  resolved.resolveRelative(Url.parse(url));
+  resolved.resolveRelative(Url.parse(urlWoJSessionId));
   IRequestMapper mapper=getApplication().getRootRequestMapper();
   Request request=getRequest().cloneWithUrl(resolved);
   IRequestHandler handler=mapper.mapRequest(request);
