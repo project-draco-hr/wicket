@@ -4,7 +4,7 @@
     /** 
  * Freezes the {@link AjaxRequestHandler#listeners}, and does not un-freeze them as the
  * events will have been fired by now.
- * @param response
+ * @param responsethe response to write to
  */
     @Override protected void fireOnAfterRespondListeners(    final Response response){
       listenersFrozen=true;
@@ -12,7 +12,7 @@
         final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
         final AjaxRequestTarget.IJavaScriptResponse jsresponse=new AjaxRequestTarget.IJavaScriptResponse(){
           @Override public void addJavaScript(          String script){
-            writeNormalEvaluation(response,script);
+            writeNormalEvaluations(response,Collections.<CharSequence>singleton(script));
           }
         }
 ;
