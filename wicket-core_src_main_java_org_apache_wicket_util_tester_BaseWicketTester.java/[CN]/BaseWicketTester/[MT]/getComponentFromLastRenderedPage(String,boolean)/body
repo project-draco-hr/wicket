@@ -1,6 +1,9 @@
 {
   if (componentInPage != null && componentInPage.isInstantiated) {
-    path=componentInPage.component.getId() + ":" + path;
+    String componentIdPageId=componentInPage.component.getId() + ':';
+    if (path.startsWith(componentIdPageId) == false) {
+      path=componentIdPageId + path;
+    }
   }
   Component component=getLastRenderedPage().get(path);
   if (component == null) {
