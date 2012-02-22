@@ -3,7 +3,7 @@
     MarkupElement elem=markup.get(i);
     if (elem instanceof ComponentTag) {
       ComponentTag open=(ComponentTag)elem;
-      if (open.getUserData("STYLE_OR_SCRIPT") != null) {
+      if (shouldProcess(open)) {
         if (open.isOpen() && ((i + 2) < markup.size())) {
           MarkupElement body=markup.get(i + 1);
           MarkupElement tag2=markup.get(i + 2);
