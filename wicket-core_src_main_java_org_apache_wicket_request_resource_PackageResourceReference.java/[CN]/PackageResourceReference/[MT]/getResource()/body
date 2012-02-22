@@ -1,12 +1,17 @@
 {
   final String extension=getExtension();
+  final PackageResource resource;
   if (CSS_EXTENSION.equals(extension)) {
-    return new CssPackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation());
+    resource=new CssPackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation());
   }
  else   if (JAVASCRIPT_EXTENSION.equals(extension)) {
-    return new JavaScriptPackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation());
+    resource=new JavaScriptPackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation());
   }
  else {
-    return new PackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation());
+    resource=new PackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation());
   }
+  if (minifiedExists) {
+    resource.setCompress(false);
+  }
+  return resource;
 }

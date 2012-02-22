@@ -1,9 +1,0 @@
-{
-  if (minifiedExists != null)   return;
-  String name=getMinifiedName();
-  IResourceStreamLocator locator=Application.get().getResourceSettings().getResourceStreamLocator();
-  String absolutePath=Packages.absolutePath(getScope(),name);
-  IResourceStream stream=locator.locate(getScope(),absolutePath,getStyle(),getVariation(),getLocale(),null,true);
-  minifiedExists=stream != null;
-  if (!minifiedExists && log.isWarnEnabled())   log.warn("No minified version of '" + super.getName() + "' found, expected a file with the name '"+ name+ "', using full version");
-}
