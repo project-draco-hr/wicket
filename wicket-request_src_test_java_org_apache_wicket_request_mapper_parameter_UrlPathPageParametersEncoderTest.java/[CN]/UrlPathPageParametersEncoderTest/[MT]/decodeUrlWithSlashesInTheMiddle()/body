@@ -1,8 +1,7 @@
 {
   Url url=Url.parse("name1/value1////name2/value2");
-  Request request=getRequest(url);
   UrlPathPageParametersEncoder decoder=new UrlPathPageParametersEncoder();
-  PageParameters parameters=decoder.decodePageParameters(request);
+  PageParameters parameters=decoder.decodePageParameters(url);
   assertEquals(2,parameters.getAllNamed().size());
   assertEquals("value1",parameters.get("name1").toString());
   assertEquals("value2",parameters.get("name2").toString());
