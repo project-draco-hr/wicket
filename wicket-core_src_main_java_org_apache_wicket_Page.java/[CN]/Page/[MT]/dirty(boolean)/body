@@ -4,12 +4,9 @@
     return;
   }
   final IPageManager pageManager=getSession().getPageManager();
-  if (!getFlag(FLAG_IS_DIRTY) && isVersioned() && pageManager.supportsVersioning()) {
+  if (!getFlag(FLAG_IS_DIRTY) && (isVersioned() && pageManager.supportsVersioning() || isInitialization)) {
     setFlag(FLAG_IS_DIRTY,true);
     setNextAvailableId();
     pageManager.touchPage(this);
-  }
- else   if (isInitialization) {
-    setNextAvailableId();
   }
 }
