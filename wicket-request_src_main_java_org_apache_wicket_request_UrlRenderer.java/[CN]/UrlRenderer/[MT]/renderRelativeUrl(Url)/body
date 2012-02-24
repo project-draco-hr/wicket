@@ -33,6 +33,16 @@
     }
     newSegments.addAll(urlSegments);
     String renderedUrl=new Url(newSegments,url.getQueryParameters()).toString();
-    return Strings.isEmpty(renderedUrl) ? "." : renderedUrl;
+    String result;
+    if (Strings.isEmpty(renderedUrl)) {
+      result=".";
+    }
+ else     if (renderedUrl.endsWith("..")) {
+      result=renderedUrl + '/';
+    }
+ else {
+      result=renderedUrl;
+    }
+    return result;
   }
 }
