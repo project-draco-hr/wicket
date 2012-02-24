@@ -1,0 +1,12 @@
+{
+  List<AbstractAjaxTimerBehavior> behaviors=component.getBehaviors(AbstractAjaxTimerBehavior.class);
+  for (  AbstractAjaxTimerBehavior timer : behaviors) {
+    checkUsability(component,true);
+    if (!timer.isStopped()) {
+      if (log.isDebugEnabled()) {
+        log.debug("Triggering AjaxSelfUpdatingTimerBehavior: {}",component.getClassRelativePath());
+      }
+      executeBehavior(timer);
+    }
+  }
+}
