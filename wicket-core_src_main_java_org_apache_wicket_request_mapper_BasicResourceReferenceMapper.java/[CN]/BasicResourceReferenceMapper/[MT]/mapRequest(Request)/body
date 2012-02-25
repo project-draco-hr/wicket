@@ -7,6 +7,9 @@
     int segmentsSize=url.getSegments().size();
     for (int i=3; i < segmentsSize; ++i) {
       String segment=url.getSegments().get(i);
+      if (segment.contains("/")) {
+        return null;
+      }
       if (i + 1 == segmentsSize && Strings.isEmpty(segment) == false) {
         ResourceUrl resourceUrl=new ResourceUrl(segment,pageParameters);
         getCachingStrategy().undecorateUrl(resourceUrl);
