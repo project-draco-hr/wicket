@@ -1,7 +1,8 @@
 {
   this.locale=locale;
-  if ((extensions == null) && (path != null) && (path.indexOf('.') != -1)) {
-    this.extensions=Strings.afterLast(path,'.');
+  boolean noext=extensions == null || !extensions.iterator().hasNext();
+  if (noext && (path != null) && (path.indexOf('.') != -1)) {
+    this.extensions=Arrays.asList(Strings.afterLast(path,'.').split(","));
     this.path=Strings.beforeLast(path,'.');
   }
  else {
