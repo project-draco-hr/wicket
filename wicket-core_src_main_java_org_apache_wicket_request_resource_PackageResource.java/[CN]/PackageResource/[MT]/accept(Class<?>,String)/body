@@ -1,4 +1,9 @@
 {
   IPackageResourceGuard guard=ThreadContext.getApplication().getResourceSettings().getPackageResourceGuard();
-  return guard.accept(scope,path);
+  String realPath=path;
+  IResourceStream resourceStream=getResourceStream();
+  if (resourceStream instanceof IFixedLocationResourceStream) {
+    realPath=((IFixedLocationResourceStream)resourceStream).locationAsString();
+  }
+  return guard.accept(scope,realPath);
 }
