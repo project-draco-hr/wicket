@@ -4,6 +4,16 @@
   IResourceStream resourceStream=getResourceStream();
   if (resourceStream instanceof IFixedLocationResourceStream) {
     realPath=((IFixedLocationResourceStream)resourceStream).locationAsString();
+    if (realPath != null) {
+      int index=realPath.indexOf(path);
+      if (index != -1) {
+        realPath=realPath.substring(index);
+      }
+ else       return guard.accept(null,realPath);
+    }
+ else {
+      realPath=path;
+    }
   }
   return guard.accept(scope,realPath);
 }
