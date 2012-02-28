@@ -1,6 +1,6 @@
 {
   SecurePackageResourceGuard guard=new SecurePackageResourceGuard();
-  guard.setAllowAccessToWebInfResources(false);
+  guard.setAllowAccessToRootResources(false);
   guard.addPattern("+*.gif");
   assertTrue(guard.accept(Application.class,"test.gif"));
   assertTrue(guard.accept(Application.class,"mydir/test.gif"));
@@ -8,7 +8,7 @@
   assertTrue(guard.accept(Application.class,"../test.gif"));
   assertTrue(guard.accept(Application.class,"../../test.gif"));
   assertFalse(guard.accept(Application.class,"../../../test.gif"));
-  guard.setAllowAccessToWebInfResources(true);
+  guard.setAllowAccessToRootResources(true);
   assertTrue(guard.accept(Application.class,"../../../test.gif"));
   boolean hit=false;
   try {
