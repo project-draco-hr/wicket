@@ -5,8 +5,8 @@
  else {
     final StringList absolutePath=StringList.tokenize(packageName,".");
     final StringList folders=StringList.tokenize(relativePath,"/\\");
-    for (final IStringIterator iterator=folders.iterator(); iterator.hasNext(); ) {
-      final String folder=iterator.next();
+    for (int i=0, size=folders.size(); i < size; i++) {
+      final String folder=folders.get(i);
       if ("..".equals(folder)) {
         if (absolutePath.size() > 0) {
           absolutePath.removeLast();
@@ -15,7 +15,7 @@
           throw new IllegalArgumentException("Invalid path " + relativePath);
         }
       }
- else {
+ else       if (absolutePath.size() <= i || absolutePath.get(i).equals(folder) == false) {
         absolutePath.add(folder);
       }
     }

@@ -1,15 +1,5 @@
 {
-  try {
-    tester.startPage(BlockedResourceLinkPage.class);
-    TagTester linkTag=TagTester.createTagByAttribute(tester.getLastResponseAsString(),"wicket:id","link");
-    String url=linkTag.getAttribute("href");
-    url=url.replace("../","wicket/");
-    url+=",xml";
-    tester.executeUrl(url);
-    fail("Accessing " + BlockedResourceLinkPage.class + " should have raised a "+ PackageResourceBlockedException.class);
-  }
- catch (  PackageResourceBlockedException e) {
-  }
-  tester.startPage(MockResourceLinkPage.class);
-  tester.clickLink("link");
+  String url="wicket/resource/" + BlockedResourceLinkPage.class.getName() + "/"+ BlockedResourceLinkPage.class.getSimpleName()+ ".html,xml";
+  tester.executeUrl(url);
+  assertNull("Comma separated extensions are not supported and wont find any resource",tester.getLastResponse());
 }

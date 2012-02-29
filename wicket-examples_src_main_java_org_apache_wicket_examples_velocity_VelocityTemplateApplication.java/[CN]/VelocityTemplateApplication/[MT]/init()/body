@@ -1,5 +1,10 @@
 {
   getDebugSettings().setDevelopmentUtilitiesEnabled(true);
+  IPackageResourceGuard packageResourceGuard=getResourceSettings().getPackageResourceGuard();
+  if (packageResourceGuard instanceof SecurePackageResourceGuard) {
+    SecurePackageResourceGuard guard=(SecurePackageResourceGuard)packageResourceGuard;
+    guard.addPattern("+*.vm");
+  }
   try {
     Velocity.init();
   }
