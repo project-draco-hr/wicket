@@ -1,14 +1,15 @@
 {
-  Component current=getParent();
+  Args.notNull(filter,"filter");
+  C current=(C)getParent();
   Visit<R> visit=new Visit<R>();
   while (current != null) {
-    if (c.isInstance(current)) {
+    if (parentClass.isInstance(current) && filter.visitObject(current)) {
       visitor.component(current,visit);
       if (visit.isStopped()) {
         return visit.getResult();
       }
     }
-    current=current.getParent();
+    current=(C)current.getParent();
   }
   return null;
 }
