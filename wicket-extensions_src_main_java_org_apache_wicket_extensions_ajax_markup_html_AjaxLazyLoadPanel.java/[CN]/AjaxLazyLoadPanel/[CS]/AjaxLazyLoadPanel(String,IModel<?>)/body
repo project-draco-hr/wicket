@@ -18,8 +18,7 @@
     @Override public void renderHead(    final Component component,    final IHeaderResponse response){
       super.renderHead(component,response);
       if (state < 2) {
-        CharSequence attributesJson=renderAjaxAttributes(component);
-        String js="Wicket.Ajax.ajax(" + attributesJson + ")";
+        CharSequence js=getCallbackScript(component);
         handleCallbackScript(response,js,component);
       }
     }
