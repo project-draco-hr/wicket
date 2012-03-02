@@ -1,0 +1,13 @@
+{
+  try {
+    final IRequestableComponent component=pageAndComponentProvider.getComponent();
+    if (component instanceof Form) {
+      final IFormSubmitter submitter=((Form<?>)component).findSubmittingButton();
+      return submitter instanceof Component ? (Component)submitter : null;
+    }
+    return null;
+  }
+ catch (  Exception e) {
+    return null;
+  }
+}

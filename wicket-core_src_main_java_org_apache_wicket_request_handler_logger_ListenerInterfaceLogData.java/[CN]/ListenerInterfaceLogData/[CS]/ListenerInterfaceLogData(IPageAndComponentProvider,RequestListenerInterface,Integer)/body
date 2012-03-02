@@ -16,4 +16,11 @@
   }
   interfaceName=listenerInterface.getName();
   interfaceMethod=listenerInterface.getMethod().getName();
+  if (listenerInterface.getListenerInterfaceClass().equals(IFormSubmitListener.class)) {
+    final Component formSubmitter=tryToGetFormSubmittingComponent(pageAndComponentProvider);
+    if (formSubmitter != null) {
+      submittingComponentClass=formSubmitter.getClass();
+      submittingComponentPath=formSubmitter.getPageRelativePath();
+    }
+  }
 }
