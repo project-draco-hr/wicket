@@ -1,12 +1,12 @@
 {
   final String expression=propertyExpression();
   if (Strings.isEmpty(expression)) {
-    return (T)getTarget();
+    return (T)getInnermostModelOrObject();
   }
  else   if (expression.startsWith(".")) {
     throw new IllegalArgumentException("Property expressions cannot start with a '.' character");
   }
-  final Object target=getTarget();
+  final Object target=getInnermostModelOrObject();
   if (target != null) {
     return (T)PropertyResolver.getValue(expression,target);
   }
