@@ -1,8 +1,20 @@
 {
   StringBuilder builder=new StringBuilder();
-  builder.append("Package '").append(entry.getKey()).append("' has classes in two or more modules: ");
+  String packageName=entry.getKey();
+  builder.append("Package '").append(packageName).append("' has files in two or more modules: ");
   for (  Project conflict : entry.getValue()) {
     builder.append(conflict.getName()).append(", ");
+  }
+  try {
+    builder.append("\nResources:\n");
+    Enumeration<URL> resources=getClass().getClassLoader().getResources(packageName);
+    while (resources.hasMoreElements()) {
+      URL resource=resources.nextElement();
+      builder.append("\n\t").append(resource.toExternalForm());
+    }
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
   }
   fail(builder.toString());
 }
