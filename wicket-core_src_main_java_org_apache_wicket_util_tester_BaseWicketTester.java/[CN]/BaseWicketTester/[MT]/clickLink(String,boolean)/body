@@ -35,13 +35,17 @@
         getParametersMethod.setAccessible(true);
         PageParameters parameters=(PageParameters)getParametersMethod.invoke(bookmarkablePageLink,(Object[])null);
         startPage(bookmarkablePageLink.getPageClass(),parameters);
-        return;
       }
  catch (      Exception e) {
         throw new WicketRuntimeException("Internal error in WicketTester. " + "Please report this in Wicket's Issue Tracker.",e);
       }
     }
-    executeListener(link,ILinkListener.INTERFACE);
+ else     if (link instanceof ResourceLink) {
+      executeListener(link,IResourceListener.INTERFACE);
+    }
+ else {
+      executeListener(link,ILinkListener.INTERFACE);
+    }
   }
  else {
     fail("Link " + path + " is not a Link, AjaxLink, AjaxFallbackLink or AjaxSubmitLink");

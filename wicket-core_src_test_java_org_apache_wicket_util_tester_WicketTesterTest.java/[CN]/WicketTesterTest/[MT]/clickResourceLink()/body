@@ -1,0 +1,11 @@
+{
+  MockPageWithLink page=new MockPageWithLink();
+  String content="content";
+  ByteArrayResource resource=new ByteArrayResource("text/plain",content.getBytes(),"fileName.txt");
+  ResourceLink<Void> link=new ResourceLink<Void>(MockPageWithLink.LINK_ID,resource);
+  page.add(link);
+  tester.startPage(page);
+  tester.clickLink(MockPageWithLink.LINK_ID,false);
+  assertEquals(tester.getContentTypeFromResponseHeader(),"text/plain");
+  assertEquals(content,tester.getLastResponseAsString());
+}
