@@ -1,0 +1,11 @@
+{
+  Enumeration<JarEntry> entries=jarFile.entries();
+  while (entries.hasMoreElements()) {
+    JarEntry jarEntry=entries.nextElement();
+    String className=jarEntry.getName();
+    if (className.endsWith(".class")) {
+      String packageName=Strings.beforeLast(className,'/');
+      packagesWithContent.add(packageName);
+    }
+  }
+}

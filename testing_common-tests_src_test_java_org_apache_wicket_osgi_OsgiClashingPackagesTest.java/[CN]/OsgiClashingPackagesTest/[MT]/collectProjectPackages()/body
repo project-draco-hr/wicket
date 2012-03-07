@@ -1,0 +1,26 @@
+{
+  char pathSeparator=System.getProperty("path.separator").charAt(0);
+  String classpath=System.getProperty("java.class.path");
+  String[] dependencies=Strings.split(classpath,pathSeparator);
+  Map<String,List<Project>> projectBuckets=new HashMap<String,List<Project>>();
+  for (  String dependency : dependencies) {
+    if (dependency.contains("wicket-") && dependency.endsWith(".jar")) {
+      JarFile jarFile=new JarFile(dependency);
+      try {
+        String projectName=Strings.afterLast(dependency,'/');
+        Project project=new Project(projectName,jarFile);
+        project.addTo(projectBuckets);
+      }
+  finally {
+        jarFile.close();
+      }
+    }
+  }
+  Set<Entry<String,List<Project>>> entrySet=projectBuckets.entrySet();
+  for (  Entry<String,List<Project>> entry : entrySet) {
+    List<Project> projects=entry.getValue();
+    if (projects.size() > 1) {
+      fail(entry);
+    }
+  }
+}
