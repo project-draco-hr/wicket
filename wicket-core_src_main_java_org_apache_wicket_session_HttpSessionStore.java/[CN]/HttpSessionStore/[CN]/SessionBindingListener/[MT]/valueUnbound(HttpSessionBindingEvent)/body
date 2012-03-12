@@ -1,10 +1,9 @@
 {
-  if (log.isDebugEnabled()) {
-    log.debug("Session unbound: " + sessionId);
-  }
+  String sessionId=evt.getSession().getId();
+  log.debug("Session unbound: {}",sessionId);
   Application application=Application.get(applicationKey);
   if (application == null) {
-    log.debug("Wicket application with name '" + applicationKey + "' not found.");
+    log.debug("Wicket application with name '{}' not found.",applicationKey);
     return;
   }
   ISessionStore sessionStore=application.getSessionStore();
