@@ -47,12 +47,10 @@
         if (Strings.isEmpty(completeHandler) == false) {
           attributesJson.append("coh",completeHandler);
         }
-      }
-    }
-    for (    JavaScriptPrecondition pre : attributes.getPreconditions()) {
-      String precondition=pre.toString();
-      if (Strings.isEmpty(precondition) == false) {
-        attributesJson.append("pre",precondition);
+        CharSequence precondition=ajaxCallListener.getPrecondition(component);
+        if (Strings.isEmpty(precondition) == false) {
+          attributesJson.append("pre",precondition);
+        }
       }
     }
     JSONObject extraParameters=new JSONObject();
@@ -66,10 +64,10 @@
     if (extraParameters.length() > 0) {
       attributesJson.put("ep",extraParameters);
     }
-    List<CharSequence> urlArgumentMethods=attributes.getDynamicExtraParameters();
-    if (urlArgumentMethods != null) {
-      for (      CharSequence urlArgument : urlArgumentMethods) {
-        attributesJson.append("dep",urlArgument);
+    List<CharSequence> dynamicExtraParameters=attributes.getDynamicExtraParameters();
+    if (dynamicExtraParameters != null) {
+      for (      CharSequence dynamicExtraParameter : dynamicExtraParameters) {
+        attributesJson.append("dep",dynamicExtraParameter);
       }
     }
     if (attributes.isAsynchronous() == false) {
@@ -91,9 +89,9 @@
     if (attributes.isAllowDefault()) {
       attributesJson.put("ad",true);
     }
-    Integer requestTimeout=attributes.getRequestTimeout();
+    Duration requestTimeout=attributes.getRequestTimeout();
     if (requestTimeout != null) {
-      attributesJson.put("rt",requestTimeout);
+      attributesJson.put("rt",requestTimeout.getMilliseconds());
     }
     boolean wicketAjaxResponse=attributes.isWicketAjaxResponse();
     if (wicketAjaxResponse == false) {

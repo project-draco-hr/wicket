@@ -38,12 +38,11 @@
       attributes.setMethod(Method.POST);
       attributes.setEventNames("blur","keyup");
       CharSequence dynamicExtraParameters="var result = [], " + "kc=Wicket.Event.keyCode(event)," + "evtType=attrs.event.type;"+ "if (evtType === 'keyup') {"+ "if (kc===27) { result.push( { name: 'save', value: false } ); }"+ "}"+ "else if (evtType==='blur') { result = Wicket.Form.serializeElement(attrs.c); result.push( { name: 'save', value: true } ); }"+ "return result;";
-      List<CharSequence> dynamicParameters=attributes.getDynamicExtraParameters();
-      dynamicParameters.add(dynamicExtraParameters);
+      attributes.getDynamicExtraParameters().add(dynamicExtraParameters);
       CharSequence precondition="var kc=Wicket.Event.keyCode(event)," + "evtType=attrs.event.type," + "ret=false;"+ "if(evtType==='blur' || (evtType==='keyup' && (kc===27))) ret = true;"+ "return ret;";
-      JavaScriptPrecondition javaScriptPrecondition=new JavaScriptPrecondition(precondition);
-      List<JavaScriptPrecondition> preconditions=attributes.getPreconditions();
-      preconditions.add(javaScriptPrecondition);
+      AjaxCallListener ajaxCallListener=new AjaxCallListener();
+      ajaxCallListener.onPrecondition(precondition);
+      attributes.getAjaxCallListeners().add(ajaxCallListener);
     }
   }
 );
