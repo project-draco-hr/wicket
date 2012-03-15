@@ -1,0 +1,21 @@
+{
+  StyleAndScriptIdentifier filter=new StyleAndScriptIdentifier();
+  String elementBody="<!-- someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="\n<!-- someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="  <!-- someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="<![CDATA[ someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="\n<![CDATA[ someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="  <![CDATA[ someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="/*<![CDATA[*/ someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="\n/*<![CDATA[ */ someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+  elementBody="  /* <![CDATA[ */ \n someJS() ";
+  assertFalse(filter.shouldWrapInCdata(elementBody));
+}

@@ -1,0 +1,11 @@
+{
+  String rawMarkup="<script>someJS()</script>";
+  Markup createMarkupElementsMarkup=Markup.of(rawMarkup);
+  Markup markup=new Markup(createMarkupElementsMarkup.getMarkupResourceStream());
+  for (  MarkupElement markupElement : createMarkupElementsMarkup) {
+    markup.addMarkupElement(markupElement);
+  }
+  StyleAndScriptIdentifier filter=new StyleAndScriptIdentifier();
+  filter.postProcess(markup);
+  assertEquals("<script>\n/*<![CDATA[*/\nsomeJS()\n/*]]>*/\n</script>",markup.toString(true));
+}
