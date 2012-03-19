@@ -1,8 +1,16 @@
 {
-  if (isHomeUrl(request)) {
-    return new RenderPageRequestHandler(new PageProvider(getContext().getHomePageClass()));
+  IRequestHandler requestHandler=null;
+  Url url=request.getUrl();
+  List<String> segments=url.getSegments();
+  if (segments.size() == 1) {
+    String localeAsString=segments.get(0);
+    Locale locale=LocaleHelper.parseLocale(localeAsString);
+    if (locale != null) {
+      Session.get().setLocale(locale);
+      segments.remove(0);
+      Request requestWithoutLocale=request.cloneWithUrl(url);
+      requestHandler=super.mapRequest(requestWithoutLocale);
+    }
   }
- else {
-    return null;
-  }
+  return requestHandler;
 }

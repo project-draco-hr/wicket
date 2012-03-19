@@ -1,12 +1,8 @@
 {
-  Url homeUrl=null;
-  if (requestHandler instanceof IPageRequestHandler) {
-    IPageRequestHandler pageRequestHandler=(IPageRequestHandler)requestHandler;
-    if (pageRequestHandler.getPageClass().equals(Application.get().getHomePage())) {
-      String locale=Session.get().getLocale().toString();
-      homeUrl=new Url();
-      homeUrl.getSegments().add(0,locale);
-    }
+  Url homeUrl=super.mapHandler(requestHandler);
+  if (homeUrl != null) {
+    String locale=Session.get().getLocale().toString();
+    homeUrl.getSegments().add(0,locale);
   }
   return homeUrl;
 }
