@@ -1,14 +1,13 @@
 {
-  if (component == null || !(component instanceof FormComponent)) {
-    return null;
+  final String resource;
+  if (component instanceof FormComponent) {
+    resource=loadStringResource((FormComponent)component,key,locale,style,variation);
   }
-  FormComponent<?> fc=(FormComponent<?>)component;
-  for (  IValidator<?> validator : fc.getValidators()) {
-    Class<?> scope=getScope(validator);
-    String resource=loadStringResource(scope,key,locale,style,variation);
-    if (resource != null) {
-      return resource;
-    }
+ else   if (component instanceof Form) {
+    resource=loadStringResource((Form)component,key,locale,style,variation);
   }
-  return null;
+ else {
+    resource=null;
+  }
+  return resource;
 }
