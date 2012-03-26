@@ -3,6 +3,9 @@
     ResourceReferenceRequestHandler referenceRequestHandler=(ResourceReferenceRequestHandler)requestHandler;
     ResourceReference reference=referenceRequestHandler.getResourceReference();
     Url url;
+    if (reference instanceof ResourceBundleReference) {
+      reference=((ResourceBundleReference)reference).getBundleReference();
+    }
     if (reference instanceof MetaInfStaticResourceReference) {
       url=((MetaInfStaticResourceReference)reference).mapHandler(referenceRequestHandler);
       if (url != null) {
