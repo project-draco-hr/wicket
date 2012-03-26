@@ -1,0 +1,25 @@
+{
+  Behavior statefulBehavior=new Behavior(){
+    @Override public boolean getStatelessHint(    Component component){
+      return false;
+    }
+  }
+;
+  WebComponent component=new WebComponent("someId");
+  assertTrue(component.isStateless());
+  component.add(statefulBehavior);
+  assertFalse(component.isStateless());
+  component.setVisible(false);
+  assertTrue(component.isStateless());
+  component.setVisible(true).setEnabled(false);
+  assertTrue(component.isStateless());
+  component=new WebComponent("someId"){
+    @Override public boolean canCallListenerInterface(    Method method){
+      return true;
+    }
+  }
+;
+  component.add(statefulBehavior);
+  component.setVisible(false);
+  assertFalse(component.isStateless());
+}
