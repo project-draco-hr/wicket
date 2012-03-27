@@ -1,0 +1,9 @@
+{
+  for (  Entry entry : modifiableToEntry.values()) {
+    final Time modifiableLastModified=entry.modifiable.lastModifiedTime();
+    if ((modifiableLastModified != null) && modifiableLastModified.after(entry.lastModifiedTime)) {
+      entry.listeners.notifyListeners();
+      entry.lastModifiedTime=modifiableLastModified;
+    }
+  }
+}

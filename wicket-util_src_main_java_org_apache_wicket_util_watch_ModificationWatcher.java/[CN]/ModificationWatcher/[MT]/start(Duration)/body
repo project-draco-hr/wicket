@@ -1,14 +1,8 @@
 {
   task=new Task("ModificationWatcher");
   task.run(pollFrequency,new ICode(){
-    public void run(    final Logger log){
-      for (      Entry entry : modifiableToEntry.values()) {
-        final Time modifiableLastModified=entry.modifiable.lastModifiedTime();
-        if ((modifiableLastModified != null) && modifiableLastModified.after(entry.lastModifiedTime)) {
-          entry.listeners.notifyListeners();
-          entry.lastModifiedTime=modifiableLastModified;
-        }
-      }
+    @Override public void run(    final Logger log){
+      checkModified();
     }
   }
 );
