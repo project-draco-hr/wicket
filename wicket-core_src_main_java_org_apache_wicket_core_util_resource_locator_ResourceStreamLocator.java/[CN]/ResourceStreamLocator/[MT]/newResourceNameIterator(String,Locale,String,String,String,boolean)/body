@@ -1,17 +1,23 @@
 {
-  final Iterable<String> extensions=extension == null ? NO_EXTENSIONS : Arrays.asList(extension);
+  final Iterable<String> extensions;
   final String realPath;
-  final String realExtension;
   if ((extension == null) && (path != null) && (path.indexOf('.') != -1)) {
     realPath=Strings.beforeLast(path,'.');
-    realExtension=Strings.afterLast(path,'.');
+    String realExtension=Strings.afterLast(path,'.');
     if (realExtension.indexOf(',') > -1) {
       return new EmptyResourceNameIterator();
     }
+    extensions=Collections.singleton(realExtension);
   }
  else {
     realPath=path;
-    realExtension=extension;
+    if (extension == null) {
+      extensions=NO_EXTENSIONS;
+    }
+ else {
+      String[] commaSeparated=Strings.split(extension,',');
+      extensions=Arrays.asList(commaSeparated);
+    }
   }
-  return new ResourceNameIterator(path,style,variation,locale,extensions,strict);
+  return new ResourceNameIterator(realPath,style,variation,locale,extensions,strict);
 }
