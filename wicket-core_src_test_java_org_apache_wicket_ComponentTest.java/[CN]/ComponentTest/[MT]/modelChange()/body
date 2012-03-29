@@ -1,0 +1,23 @@
+{
+  final AtomicBoolean modelChanging=new AtomicBoolean(false);
+  final AtomicBoolean modelChanged=new AtomicBoolean(false);
+  WebComponent component=new WebComponent("someId"){
+    @Override protected void onModelChanging(){
+      super.onModelChanging();
+      modelChanging.set(true);
+    }
+    @Override protected void onModelChanged(){
+      super.onModelChanged();
+      modelChanged.set(true);
+    }
+  }
+;
+  assertNull(component.getDefaultModel());
+  IModel<Integer> model=Model.of(1);
+  component.setDefaultModel(model);
+  assertTrue(modelChanging.getAndSet(false));
+  assertTrue(modelChanged.getAndSet(false));
+  component.setDefaultModel(model);
+  assertFalse(modelChanging.get());
+  assertFalse(modelChanged.get());
+}
