@@ -1,0 +1,11 @@
+{
+  IStoreSettings storeSettings=new StoreSettings(null);
+  java.io.File fileStoreFolder=storeSettings.getFileStoreFolder();
+  DiskDataStore store=new DiskDataStore("sessionFolderName",fileStoreFolder,MAX_SIZE_PER_SESSION);
+  String sessionId="abcdefg";
+  java.io.File sessionFolder=store.getSessionFolder(sessionId,true);
+  assertEquals("/tmp/sessionFolderName-filestore/7141/1279/abcdefg",sessionFolder.getAbsolutePath());
+  DiskDataStore.SessionEntry sessionEntry=new DiskDataStore.SessionEntry(store,sessionId);
+  sessionEntry.unbind();
+  assertFalse(sessionFolder.getParentFile().getParentFile().exists());
+}
