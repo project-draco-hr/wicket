@@ -4,7 +4,11 @@
   }
   StringBuilder url=new StringBuilder();
   uri=Strings.stripJSessionId(uri);
-  final int start=httpServletRequest.getContextPath().length() + filterPrefix.length() + 1;
+  String contextPath=httpServletRequest.getContextPath();
+  if (LOG.isDebugEnabled()) {
+    LOG.debug("Calculating context relative path from: context path '{}', filterPrefix '{}', uri '{}'",new Object[]{contextPath,filterPrefix,uri});
+  }
+  final int start=contextPath.length() + filterPrefix.length() + 1;
   url.append(uri.substring(start));
   if (errorAttributes == null) {
     String query=httpServletRequest.getQueryString();
