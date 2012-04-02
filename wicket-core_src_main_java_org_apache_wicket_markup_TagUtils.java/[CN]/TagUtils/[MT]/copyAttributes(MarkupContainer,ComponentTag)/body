@@ -1,12 +1,13 @@
 {
-  IMarkupFragment markup=((MarkupContainer)component).getMarkup(null);
+  IMarkupFragment markup=component.getMarkup(null);
   String namespace=markup.getMarkupResourceStream().getWicketNamespace() + ":";
   MarkupElement elem=markup.get(0);
   if (elem instanceof ComponentTag) {
     ComponentTag panelTag=(ComponentTag)elem;
     for (    String key : panelTag.getAttributes().keySet()) {
       if (key.startsWith(namespace) == false) {
-        tag.append(key,panelTag.getAttribute(key),", ");
+        String separator=ATTRIBUTES_SEPARATORS.getString(key,DEFAULT_ATTRIBUTE_SEPARATOR);
+        tag.append(key,panelTag.getAttribute(key),separator);
       }
     }
   }
