@@ -6,7 +6,7 @@
       try {
         final URL url=resources.next();
         final Properties properties=new Properties();
-        in=url.openStream();
+        in=Streams.readNonCaching(url);
         properties.load(in);
         load(properties);
       }
