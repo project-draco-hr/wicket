@@ -1,0 +1,18 @@
+{
+  HttpSession httpSession=new MockHttpSession(null);
+  MockHttpServletRequest request=new MockHttpServletRequest(null,httpSession,null);
+  String headerName="headerName";
+  request.setHeader(headerName,"headerValue");
+  Enumeration<String> headers=request.getHeaders(headerName);
+  assertEquals("headerValue",headers.nextElement());
+  assertFalse(headers.hasMoreElements());
+  request.addHeader(headerName,"headerValue2");
+  headers=request.getHeaders(headerName);
+  assertEquals("headerValue",headers.nextElement());
+  assertEquals("headerValue2",headers.nextElement());
+  assertFalse(headers.hasMoreElements());
+  request.setHeader(headerName,"completelyNewValue");
+  headers=request.getHeaders(headerName);
+  assertEquals("completelyNewValue",headers.nextElement());
+  assertFalse(headers.hasMoreElements());
+}
