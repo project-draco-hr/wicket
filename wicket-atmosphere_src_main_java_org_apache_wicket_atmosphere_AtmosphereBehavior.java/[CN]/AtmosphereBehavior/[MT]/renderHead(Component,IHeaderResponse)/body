@@ -1,0 +1,12 @@
+{
+  try {
+    CoreLibrariesContributor.contributeAjax(component.getApplication(),response);
+    response.render(JavaScriptHeaderItem.forReference(new JQueryWicketAtmosphereResourceReference()));
+    JSONObject options=new JSONObject();
+    options.put("url",component.urlFor(this,IResourceListener.INTERFACE,new PageParameters()).toString());
+    response.render(OnDomReadyHeaderItem.forScript("$('#" + component.getMarkupId() + "').wicketAtmosphere("+ options.toString()+ ")"));
+  }
+ catch (  JSONException e) {
+    throw new WicketRuntimeException(e);
+  }
+}

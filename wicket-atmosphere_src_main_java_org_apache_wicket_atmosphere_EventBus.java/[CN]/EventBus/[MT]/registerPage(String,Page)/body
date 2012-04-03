@@ -1,0 +1,6 @@
+{
+  PageKey oldPage=trackedPages.remove(trackingId);
+  PageKey pageKey=new PageKey(page.getPageId(),Session.get().getId());
+  if (oldPage != null && !oldPage.equals(pageKey))   subscriptions.removeAll(oldPage);
+  trackedPages.forcePut(trackingId,pageKey);
+}

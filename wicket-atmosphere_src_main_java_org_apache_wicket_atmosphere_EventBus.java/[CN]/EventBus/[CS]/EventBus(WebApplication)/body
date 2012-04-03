@@ -1,0 +1,7 @@
+{
+  this.application=application;
+  application.setMetaData(EVENT_BUS_KEY,this);
+  application.mount(new PushRequestMapper());
+  application.getComponentPreOnBeforeRenderListeners().add(new AtmosphereEventSubscriptionCollector(this));
+  broadcaster=BroadcasterFactory.getDefault().lookup("/*");
+}

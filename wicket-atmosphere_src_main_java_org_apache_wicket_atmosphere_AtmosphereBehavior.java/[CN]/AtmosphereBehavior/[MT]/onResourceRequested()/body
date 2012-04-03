@@ -1,0 +1,23 @@
+{
+  connectedAt=System.currentTimeMillis();
+  RequestCycle requestCycle=RequestCycle.get();
+  ServletWebRequest request=(ServletWebRequest)requestCycle.getRequest();
+  System.out.println(request.getUrl());
+  Enumeration<String> e=request.getContainerRequest().getHeaderNames();
+  while (e.hasMoreElements()) {
+    String header=e.nextElement();
+    System.out.println(header + ": " + request.getHeader(header));
+  }
+  Meteor meteor=Meteor.build(request.getContainerRequest());
+  String uuid=getUUID(meteor.getAtmosphereResource());
+  component.getPage().setMetaData(ATMOSPHERE_UUID,uuid);
+  EventBus.get().registerPage(uuid,component.getPage());
+  meteor.addListener(this);
+  String header=request.getHeader(HeaderConfig.X_ATMOSPHERE_TRANSPORT);
+  if (header != null && header.equalsIgnoreCase(HeaderConfig.LONG_POLLING_TRANSPORT)) {
+    meteor.suspend(-1,false);
+  }
+ else {
+    meteor.suspend(-1);
+  }
+}
