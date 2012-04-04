@@ -1,0 +1,13 @@
+{
+  if (text != null) {
+    try {
+      return toEnum(eClass);
+    }
+ catch (    StringValueConversionException x) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(String.format("An error occurred while converting '%s' to a %s: %s",text,eClass,x.getMessage()),x);
+      }
+    }
+  }
+  return defaultValue;
+}

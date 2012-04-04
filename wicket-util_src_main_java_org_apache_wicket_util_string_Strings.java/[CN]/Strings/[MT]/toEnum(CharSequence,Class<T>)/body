@@ -1,0 +1,10 @@
+{
+  Args.notNull(enumClass,"enumClass");
+  Args.notNull(value,"value");
+  try {
+    return Enum.valueOf(enumClass,value.toString());
+  }
+ catch (  Exception e) {
+    throw new StringValueConversionException(String.format("Cannot convert '{}' to enum constant of type '{}'.",value,enumClass),e);
+  }
+}
