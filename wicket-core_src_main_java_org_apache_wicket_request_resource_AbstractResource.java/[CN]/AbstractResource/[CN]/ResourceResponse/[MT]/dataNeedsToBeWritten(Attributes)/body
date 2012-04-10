@@ -1,7 +1,7 @@
 {
   WebRequest request=(WebRequest)attributes.getRequest();
   Time ifModifiedSince=request.getIfModifiedSinceHeader();
-  if (ifModifiedSince != null && lastModified != null) {
+  if (cacheDuration != Duration.NONE && ifModifiedSince != null && lastModified != null) {
     Time roundedLastModified=Time.millis(lastModified.getMilliseconds() / 1000 * 1000);
     return ifModifiedSince.before(roundedLastModified);
   }

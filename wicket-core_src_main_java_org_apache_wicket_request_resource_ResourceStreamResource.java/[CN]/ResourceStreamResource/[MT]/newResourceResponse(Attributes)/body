@@ -1,14 +1,18 @@
 {
+  final IResourceStream resourceStream=internalGetResourceStream();
   ResourceResponse data=new ResourceResponse();
-  Time lastModifiedTime=stream.lastModifiedTime();
+  Time lastModifiedTime=resourceStream.lastModifiedTime();
   if (lastModifiedTime != null) {
     data.setLastModified(lastModifiedTime);
+  }
+  if (cacheDuration != null) {
+    data.setCacheDuration(cacheDuration);
   }
   if (data.dataNeedsToBeWritten(attributes)) {
     InputStream inputStream=null;
     if (stream instanceof IResourceStreamWriter == false) {
       try {
-        inputStream=stream.getInputStream();
+        inputStream=resourceStream.getInputStream();
       }
  catch (      ResourceStreamNotFoundException e) {
         data.setError(HttpServletResponse.SC_NOT_FOUND);
@@ -16,24 +20,21 @@
       }
     }
     data.setContentDisposition(contentDisposition);
-    Bytes length=stream.length();
+    Bytes length=resourceStream.length();
     if (length != null) {
       data.setContentLength(length.bytes());
     }
     data.setFileName(fileName);
-    String contentType=stream.getContentType();
+    String contentType=resourceStream.getContentType();
     if (contentType == null && fileName != null && Application.exists()) {
       contentType=Application.get().getMimeType(fileName);
     }
     data.setContentType(contentType);
     data.setTextEncoding(textEncoding);
-    if (cacheDuration != null) {
-      data.setCacheDuration(cacheDuration);
-    }
-    if (stream instanceof IResourceStreamWriter) {
+    if (resourceStream instanceof IResourceStreamWriter) {
       data.setWriteCallback(new WriteCallback(){
         @Override public void writeData(        Attributes attributes){
-          ((IResourceStreamWriter)stream).write(attributes.getResponse());
+          ((IResourceStreamWriter)resourceStream).write(attributes.getResponse());
           close();
         }
       }
