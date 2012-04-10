@@ -1,0 +1,11 @@
+{
+  TestMapperContext mapperContext=new TestMapperContext();
+  Page page=new TestPage();
+  mapperContext.getPageManager().touchPage(page);
+  mapperContext.getPageManager().commitRequest();
+  mapperContext.cleanSessionCache();
+  PageProvider provider=new PageProvider(page.getPageId(),MockPageWithLink.class,0);
+  assertFalse(provider.hasPageInstance());
+  assertEquals(MockPageWithLink.class,provider.getPageInstance().getClass());
+  assertTrue(provider.isPageInstanceFresh());
+}
