@@ -44,13 +44,7 @@ catch (  UnsupportedCharsetException e) {
  while ((i < s.length()) && !dontNeedEncoding.get((c=s.charAt(i))));
       charArrayWriter.flush();
       String str=new String(charArrayWriter.toCharArray());
-      byte[] ba;
-      try {
-        ba=str.getBytes(charset.name());
-      }
- catch (      UnsupportedEncodingException e) {
-        throw new RuntimeException(e);
-      }
+      byte[] ba=str.getBytes(charset);
       for (      byte b : ba) {
         out.append('%');
         char ch=Character.forDigit((b >> 4) & 0xF,16);
