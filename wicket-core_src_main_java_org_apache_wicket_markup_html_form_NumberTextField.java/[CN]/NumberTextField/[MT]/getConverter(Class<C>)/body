@@ -1,0 +1,10 @@
+{
+  IConverter<C> converter=super.getConverter(type);
+  if (converter instanceof AbstractDecimalConverter<?>) {
+    AbstractDecimalConverter<?> adc=(AbstractDecimalConverter<?>)converter;
+    NumberFormat numberFormat=adc.getNumberFormat(HTML5_LOCALE);
+    numberFormat.setGroupingUsed(false);
+    adc.setNumberFormat(HTML5_LOCALE,numberFormat);
+  }
+  return converter;
+}
