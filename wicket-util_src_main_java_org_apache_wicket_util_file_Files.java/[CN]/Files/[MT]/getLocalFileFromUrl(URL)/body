@@ -1,3 +1,9 @@
 {
-  return getLocalFileFromUrl(Args.notNull(url,"url").toExternalForm());
+  final URL location=Args.notNull(url,"url");
+  try {
+    return getLocalFileFromUrl(URLDecoder.decode(location.toExternalForm(),"UTF-8"));
+  }
+ catch (  UnsupportedEncodingException ex) {
+    return null;
+  }
 }
