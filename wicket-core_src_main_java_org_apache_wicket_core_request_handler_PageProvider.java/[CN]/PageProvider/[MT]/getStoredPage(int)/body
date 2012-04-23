@@ -1,7 +1,7 @@
 {
   IRequestablePage storedPageInstance=getPageSource().getPageInstance(pageId);
   if (storedPageInstance != null) {
-    if (pageClass == null || pageClass.equals(storedPageInstance.getClass())) {
+    if ((pageClass == null || pageClass.equals(storedPageInstance.getClass())) && (isPageParametersEmpty(pageParameters) || arePageParametersSame(storedPageInstance))) {
       pageInstance=storedPageInstance;
       pageInstanceIsFresh=false;
       if (renderCount != null && pageInstance.getRenderCount() != renderCount) {

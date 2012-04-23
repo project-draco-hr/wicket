@@ -4,6 +4,7 @@
   IRequestHandler handler=encoder.mapRequest(getRequest(url));
   assertTrue(handler instanceof ListenerInterfaceRequestHandler);
   ListenerInterfaceRequestHandler h=(ListenerInterfaceRequestHandler)handler;
+  context.setCurrentPageParameters(h.getPageParameters());
   IRequestablePage page=h.getPage();
   assertEquals(page.getRenderCount(),5);
 }
