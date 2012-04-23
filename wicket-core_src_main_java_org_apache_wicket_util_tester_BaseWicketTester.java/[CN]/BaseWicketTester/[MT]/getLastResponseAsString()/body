@@ -3,12 +3,9 @@
   if (componentInPage == null) {
     return response;
   }
-  String componentId=componentInPage.component.getId();
-  String before="wicket:id=\"" + componentId + "\">";
-  Matcher matcher=pattern.matcher(response);
-  if (matcher.matches()) {
-    int start=response.indexOf(before) + before.length();
-    int end=matcher.start(1);
+  int end=response.lastIndexOf("</body>");
+  if (end > -1) {
+    int start=response.indexOf("<body>") + "<body>".length();
     response=response.substring(start,end);
   }
   return response;

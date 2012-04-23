@@ -1,0 +1,11 @@
+{
+  tester.startComponentInPage(new Label("label","content"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onComponentTag(    ComponentTag tag){
+      super.onComponentTag(tag);
+      tag.put("test","123");
+    }
+  }
+);
+  assertEquals("<span wicket:id=\"label\" test=\"123\">content</span>",tester.getLastResponseAsString());
+}
