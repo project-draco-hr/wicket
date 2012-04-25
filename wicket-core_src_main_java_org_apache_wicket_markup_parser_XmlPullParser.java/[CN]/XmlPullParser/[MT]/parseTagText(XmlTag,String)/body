@@ -19,6 +19,7 @@
         value=value.substring(1,value.length() - 1);
       }
       value=value.trim();
+      value=Strings.unescapeMarkup(value).toString();
       final String key=attributeParser.getKey();
       if (null != tag.getAttributes().put(key,value)) {
         throw new ParseException("Same attribute found twice: " + key + getLineAndColumnText(),input.getPosition());
