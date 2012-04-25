@@ -1,0 +1,10 @@
+{
+  Url baseUrl=Url.parse("one/two/three");
+  baseUrl.setProtocol("http");
+  baseUrl.setHost("www.example.com");
+  baseUrl.setPort(8888);
+  UrlRenderer renderer=new UrlRenderer(new MockWebRequest(baseUrl));
+  renderer.setBaseUrl(baseUrl);
+  String fullUrl=renderer.renderFullUrl(Url.parse("/four"));
+  assertEquals("http://www.example.com:8888/four",fullUrl);
+}
