@@ -1,12 +1,10 @@
 {
-  if (getApplication().getRequestCycleSettings().getRenderStrategy() != RenderStrategy.REDIRECT_TO_BUFFER) {
-    setFreezePageId(true);
-  }
+  final boolean frozen=setFreezePageId(true);
   try {
     ++renderCount;
     render();
   }
   finally {
-    setFreezePageId(false);
+    setFreezePageId(frozen);
   }
 }
