@@ -2,12 +2,20 @@
   if (getSegments().size() > 0) {
     getSegments().remove(getSegments().size() - 1);
   }
-  if (!relative.getSegments().isEmpty() && ".".equals(relative.getSegments().get(0))) {
-    relative.getSegments().remove(0);
-  }
-  while (!relative.getSegments().isEmpty() && "..".equals(relative.getSegments().get(0))) {
-    relative.getSegments().remove(0);
-    getSegments().remove(getSegments().size() - 1);
+  while (!relative.getSegments().isEmpty()) {
+    if (".".equals(relative.getSegments().get(0))) {
+      relative.getSegments().remove(0);
+    }
+ else     if ("".equals(relative.getSegments().get(0))) {
+      relative.getSegments().remove(0);
+    }
+ else     if ("..".equals(relative.getSegments().get(0))) {
+      relative.getSegments().remove(0);
+      getSegments().remove(getSegments().size() - 1);
+    }
+ else {
+      break;
+    }
   }
   getSegments().addAll(relative.getSegments());
   parameters.clear();
