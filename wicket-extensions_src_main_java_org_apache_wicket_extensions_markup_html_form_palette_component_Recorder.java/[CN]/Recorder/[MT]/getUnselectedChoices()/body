@@ -1,22 +1,3 @@
 {
-  IChoiceRenderer<T> renderer=getPalette().getChoiceRenderer();
-  Collection<? extends T> choices=getPalette().getChoices();
-  if (choices.size() - ids.length == 0) {
-    return Collections.<T>emptyList().iterator();
-  }
-  List<T> unselected=new ArrayList<T>(Math.max(1,choices.size() - ids.length));
-  for (  T choice : choices) {
-    final String choiceId=renderer.getIdValue(choice,0);
-    boolean selected=false;
-    for (    String id : ids) {
-      if (id.equals(choiceId)) {
-        selected=true;
-        break;
-      }
-    }
-    if (!selected) {
-      unselected.add(choice);
-    }
-  }
-  return unselected.iterator();
+  return getUnselectedList().iterator();
 }
