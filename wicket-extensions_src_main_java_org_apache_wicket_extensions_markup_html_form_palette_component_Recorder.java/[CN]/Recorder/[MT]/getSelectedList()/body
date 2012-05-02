@@ -1,14 +1,21 @@
 {
-  if (getIds().isEmpty()) {
+  if (getSelectedIds().isEmpty()) {
     return Collections.EMPTY_LIST;
   }
   final IChoiceRenderer<T> renderer=getPalette().getChoiceRenderer();
-  final List<T> selected=new ArrayList<T>(getIds().size());
+  final List<T> selected=new ArrayList<T>(getSelectedIds().size());
   final Collection<? extends T> choices=getPalette().getChoices();
-  for (  T choice : choices) {
-    final String idValue=renderer.getIdValue(choice,0);
-    if (getIds().contains(idValue)) {
-      selected.add(choice);
+  final Map<T,String> idForChoice=new HashMap<T,String>(choices.size());
+  for (  final T choice : choices) {
+    idForChoice.put(choice,renderer.getIdValue(choice,0));
+  }
+  for (  final String id : getSelectedIds()) {
+    for (    final T choice : choices) {
+      final String idValue=idForChoice.get(choice);
+      if (id.equals(idValue)) {
+        selected.add(choice);
+        break;
+      }
     }
   }
   return selected;
