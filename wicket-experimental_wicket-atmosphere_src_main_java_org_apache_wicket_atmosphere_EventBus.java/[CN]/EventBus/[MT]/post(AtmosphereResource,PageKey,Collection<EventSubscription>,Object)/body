@@ -1,0 +1,14 @@
+{
+  String filterPath=WebApplication.get().getWicketFilter().getFilterConfig().getInitParameter(WicketFilter.FILTER_MAPPING_PARAM);
+  filterPath=filterPath.substring(1,filterPath.length() - 1);
+  HttpServletRequest httpRequest=new HttpServletRequestWrapper(resource.getRequest()){
+    @Override public String getContextPath(){
+      String ret=super.getContextPath();
+      return ret == null ? "" : ret;
+    }
+  }
+;
+  AtmosphereWebRequest request=new AtmosphereWebRequest(application.newWebRequest(httpRequest,filterPath),pageKey,subscriptionsForPage,event);
+  Response response=new AtmosphereWebResponse(resource.getResponse());
+  if (application.createRequestCycle(request,response).processRequestAndDetach())   broadcaster.broadcast(response.toString(),resource);
+}

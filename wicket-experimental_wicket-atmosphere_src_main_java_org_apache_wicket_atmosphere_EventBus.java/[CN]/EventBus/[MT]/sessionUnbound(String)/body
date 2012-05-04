@@ -1,0 +1,5 @@
+{
+  log.info("Session unbound {}",sessionId);
+  Iterator<PageKey> it=Iterators.concat(trackedPages.values().iterator(),subscriptions.keySet().iterator());
+  while (it.hasNext())   if (it.next().isForSession(sessionId))   it.remove();
+}

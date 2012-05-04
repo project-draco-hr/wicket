@@ -1,0 +1,16 @@
+{
+  RequestCycle requestCycle=RequestCycle.get();
+  ServletWebRequest request=(ServletWebRequest)requestCycle.getRequest();
+  Meteor meteor=Meteor.build(request.getContainerRequest());
+  String uuid=getUUID(meteor.getAtmosphereResource());
+  component.getPage().setMetaData(ATMOSPHERE_UUID,uuid);
+  EventBus.get().registerPage(uuid,component.getPage());
+  meteor.addListener(this);
+  String header=request.getHeader(HeaderConfig.X_ATMOSPHERE_TRANSPORT);
+  if (header != null && header.equalsIgnoreCase(HeaderConfig.LONG_POLLING_TRANSPORT)) {
+    meteor.suspend(-1,false);
+  }
+ else {
+    meteor.suspend(-1);
+  }
+}
