@@ -1,12 +1,6 @@
 {
   RequestCycle requestCycle=RequestCycle.get();
   ServletWebRequest request=(ServletWebRequest)requestCycle.getRequest();
-  System.out.println(request.getUrl());
-  Enumeration<String> e=request.getContainerRequest().getHeaderNames();
-  while (e.hasMoreElements()) {
-    String header=e.nextElement();
-    System.out.println(header + ": " + request.getHeader(header));
-  }
   Meteor meteor=Meteor.build(request.getContainerRequest());
   String uuid=getUUID(meteor.getAtmosphereResource());
   component.getPage().setMetaData(ATMOSPHERE_UUID,uuid);
