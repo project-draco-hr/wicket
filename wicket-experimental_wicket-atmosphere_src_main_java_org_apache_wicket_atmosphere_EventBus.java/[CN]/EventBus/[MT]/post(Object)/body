@@ -1,5 +1,7 @@
 {
+  ThreadContext oldContext=ThreadContext.get(false);
   try {
+    ThreadContext.restore(null);
     ThreadContext.setApplication(application);
     for (    AtmosphereResource resource : broadcaster.getAtmosphereResources()) {
       PageKey key;
@@ -14,5 +16,6 @@ synchronized (this) {
   }
   finally {
     ThreadContext.detach();
+    if (oldContext != null)     ThreadContext.restore(oldContext);
   }
 }
