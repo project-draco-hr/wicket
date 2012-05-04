@@ -1,5 +1,15 @@
 {
-  add(new Label("version",getApplication().getFrameworkSettings().getVersion()));
   add(timeLabel=new Label("time",Model.of("start")).setOutputMarkupId(true));
+  add(messageLabel=new Label("message",Model.of("-")).setOutputMarkupId(true));
+  Form<Void> form=new Form<Void>("form");
+  add(form);
+  form.add(input=new TextField<String>("input",Model.of("")));
+  form.add(new AjaxLink<Void>("send"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      EventBus.get().post(input.getModelObject());
+    }
+  }
+);
   setVersioned(false);
 }
