@@ -38,11 +38,13 @@
         final IResource resource=reference.getResource();
         if (resource instanceof IStaticCacheableResource) {
           final IStaticCacheableResource cacheable=(IStaticCacheableResource)resource;
-          final ResourceUrl resourceUrl=new ResourceUrl(token,parameters);
-          getCachingStrategy().decorateUrl(resourceUrl,cacheable);
-          token=resourceUrl.getFileName();
-          if (Strings.isEmpty(token)) {
-            throw new IllegalStateException("caching strategy returned empty name for " + resource);
+          if (cacheable.getCacheKey() != null) {
+            final ResourceUrl resourceUrl=new ResourceUrl(token,parameters);
+            getCachingStrategy().decorateUrl(resourceUrl,cacheable);
+            token=resourceUrl.getFileName();
+            if (Strings.isEmpty(token)) {
+              throw new IllegalStateException("caching strategy returned empty name for " + resource);
+            }
           }
         }
       }
