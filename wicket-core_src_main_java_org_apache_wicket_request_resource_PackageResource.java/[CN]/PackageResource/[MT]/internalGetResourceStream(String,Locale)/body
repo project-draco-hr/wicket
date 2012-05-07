@@ -1,5 +1,6 @@
 {
-  IResourceStream resourceStream=locateResourceStream(style,locale);
+  IResourceStreamLocator resourceStreamLocator=Application.get().getResourceSettings().getResourceStreamLocator();
+  IResourceStream resourceStream=resourceStreamLocator.locate(getScope(),absolutePath,style,variation,locale,null,false);
   Class<?> realScope=getScope();
   String realPath=absolutePath;
   if (resourceStream instanceof IFixedLocationResourceStream) {
