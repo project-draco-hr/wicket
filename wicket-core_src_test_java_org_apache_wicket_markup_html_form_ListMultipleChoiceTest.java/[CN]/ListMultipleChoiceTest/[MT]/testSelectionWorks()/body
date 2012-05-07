@@ -1,0 +1,12 @@
+{
+  TestPage page=(TestPage)tester.startPage(new TestPage());
+  FormTester form=tester.newFormTester("form");
+  form.select("list",1);
+  form.select("list",3);
+  form.select("list",5);
+  form.submit();
+  assertEquals(3,page.selectedValues.getObject().size());
+  assertTrue(page.selectedValues.getObject().contains("b"));
+  assertTrue(page.selectedValues.getObject().contains("d"));
+  assertTrue(page.selectedValues.getObject().contains("f"));
+}

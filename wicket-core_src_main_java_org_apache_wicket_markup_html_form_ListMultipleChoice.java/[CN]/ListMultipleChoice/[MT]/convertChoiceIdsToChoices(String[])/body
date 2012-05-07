@@ -1,14 +1,10 @@
 {
   ArrayList<T> selectedValues=new ArrayList<T>();
   if (ids != null && ids.length > 0 && !Strings.isEmpty(ids[0])) {
-    final List<? extends T> choices=getChoices();
+    final Map<String,T> choiceIds2choiceValues=createChoicesIdsMap();
     for (    String id : ids) {
-      for (int index=0; index < choices.size(); index++) {
-        final T choice=choices.get(index);
-        if (getChoiceRenderer().getIdValue(choice,index).equals(id)) {
-          selectedValues.add(choice);
-          break;
-        }
+      if (choiceIds2choiceValues.containsKey(id)) {
+        selectedValues.add(choiceIds2choiceValues.get(id));
       }
     }
   }
