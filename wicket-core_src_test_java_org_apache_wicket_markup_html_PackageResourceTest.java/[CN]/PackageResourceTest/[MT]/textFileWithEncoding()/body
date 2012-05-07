@@ -1,0 +1,11 @@
+{
+  final String encoding="Klingon-8859-42";
+  final PackageResource resource=new PackageResource(PackageResourceTest.class,"packaged1.txt",null,null,null){
+    private static final long serialVersionUID=1L;
+  }
+;
+  resource.setTextEncoding(encoding);
+  tester.startResource(resource);
+  final String contentType=tester.getLastResponse().getContentType();
+  assertEquals("text/plain; charset=" + encoding,contentType);
+}
