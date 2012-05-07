@@ -18,10 +18,6 @@
     String fileName=data.getFileName();
     ContentDisposition disposition=data.getContentDisposition();
     String mimeType=data.getContentType();
-    String encoding=null;
-    if (mimeType != null && mimeType.contains("text")) {
-      encoding=data.getTextEncoding();
-    }
     long contentLength=data.getContentLength();
     if (ContentDisposition.ATTACHMENT == disposition) {
       webResponse.setAttachmentHeader(fileName);
@@ -30,6 +26,7 @@
       webResponse.setInlineHeader(fileName);
     }
     if (mimeType != null) {
+      final String encoding=data.getTextEncoding();
       if (encoding == null) {
         webResponse.setContentType(mimeType);
       }
