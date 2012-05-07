@@ -2,8 +2,9 @@
   super(id);
   WebMarkupContainer messagesContainer=new WebMarkupContainer("feedbackul"){
     private static final long serialVersionUID=1L;
-    @Override public boolean isVisible(){
-      return anyMessage();
+    @Override protected void onConfigure(){
+      super.onConfigure();
+      setVisible(anyMessage());
     }
   }
 ;
