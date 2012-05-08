@@ -7,10 +7,12 @@
   sb.append(";\n");
   sb.append("var params = {");
   boolean first=true;
-  for (  String curExtraParameter : extraParameters) {
-    if (!first)     sb.append(",");
- else     first=false;
-    sb.append("'").append(curExtraParameter).append("': ").append(curExtraParameter);
+  for (  CallbackParameter curExtraParameter : extraParameters) {
+    if (curExtraParameter.getAjaxParameterName() != null) {
+      if (!first)       sb.append(",");
+ else       first=false;
+      sb.append("'").append(curExtraParameter.getAjaxParameterName()).append("': ").append(curExtraParameter.getAjaxParameterCode());
+    }
   }
   sb.append("};\n");
   if (attributes.getExtraParameters().isEmpty())   sb.append("attrs.ep = params;\n");
