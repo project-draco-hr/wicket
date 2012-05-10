@@ -1,0 +1,8 @@
+{
+  super.renderHead(component,response);
+  if (hasBeenRendered == false) {
+    hasBeenRendered=true;
+    response.render(OnDomReadyHeaderItem.forScript(String.format("window.name='%s'",windowName)));
+  }
+  response.render(OnLoadHeaderItem.forScript("setTimeout(function() {" + getCallbackScript().toString() + "}, 30);"));
+}
