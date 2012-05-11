@@ -1,21 +1,13 @@
 {
   Args.notEmpty(url,"url");
-  String urlWoSessionId=Strings.stripJSessionId(url);
   boolean hasCondition=Strings.isEmpty(condition) == false;
   if (hasCondition) {
     response.write("<!--[if ");
     response.write(condition);
     response.write("]>");
   }
-  response.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
-  response.write(urlWoSessionId);
-  response.write("\"");
-  if (media != null) {
-    response.write(" media=\"");
-    response.write(media);
-    response.write("\"");
-  }
-  response.write(" />");
+  String urlWoSessionId=Strings.stripJSessionId(url);
+  CssUtils.writeLinkUrl(response,urlWoSessionId,media);
   if (hasCondition) {
     response.write("<![endif]-->");
   }
