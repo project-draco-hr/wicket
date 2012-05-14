@@ -1,0 +1,9 @@
+{
+class RedirectPage extends WebPage {
+    @Override protected void onConfigure(){
+      throw new RedirectToUrlException("wicket/bookmarkable/" + CreateBook.class.getName());
+    }
+  }
+  tester.startPage(new RedirectPage());
+  tester.assertRenderedPage(CreateBook.class);
+}

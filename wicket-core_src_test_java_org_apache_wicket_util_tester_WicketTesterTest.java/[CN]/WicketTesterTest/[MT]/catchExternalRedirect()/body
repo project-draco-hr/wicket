@@ -1,0 +1,9 @@
+{
+class RedirectPage extends WebPage {
+    @Override protected void onConfigure(){
+      throw new RedirectToUrlException("https://issues.apache.org/jira/browse/WICKET-4558");
+    }
+  }
+  tester.startPage(new RedirectPage());
+  tester.assertRedirectUrl("https://issues.apache.org/jira/browse/WICKET-4558");
+}

@@ -32,6 +32,9 @@
         fail("Possible infinite redirect detected. Bailing out.");
       }
       Url newUrl=Url.parse(lastResponse.getRedirectLocation(),Charset.forName(request.getCharacterEncoding()));
+      if (isExternalRedirect(lastRequest.getUrl(),newUrl)) {
+        return true;
+      }
       if (newUrl.isAbsolute()) {
         request.setUrl(newUrl);
         final String protocol=newUrl.getProtocol();
