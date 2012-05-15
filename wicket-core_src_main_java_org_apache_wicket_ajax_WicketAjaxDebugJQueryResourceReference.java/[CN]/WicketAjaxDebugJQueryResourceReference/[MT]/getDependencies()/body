@@ -1,3 +1,10 @@
 {
-  return Collections.singletonList(JavaScriptHeaderItem.forReference(WicketAjaxJQueryResourceReference.get()));
+  final ResourceReference wicketAjaxReference;
+  if (Application.exists()) {
+    wicketAjaxReference=Application.get().getJavaScriptLibrarySettings().getWicketAjaxReference();
+  }
+ else {
+    wicketAjaxReference=WicketAjaxJQueryResourceReference.get();
+  }
+  return Collections.singletonList(JavaScriptHeaderItem.forReference(wicketAjaxReference));
 }
