@@ -3,7 +3,9 @@
     InputStream stream=resourceStream.getInputStream();
     try {
       byte[] bytes=IOUtils.toByteArray(stream);
-      if (charset == null)       charset=Charset.defaultCharset();
+      if (charset == null) {
+        charset=Charset.defaultCharset();
+      }
       return new String(bytes,charset.name());
     }
   finally {
