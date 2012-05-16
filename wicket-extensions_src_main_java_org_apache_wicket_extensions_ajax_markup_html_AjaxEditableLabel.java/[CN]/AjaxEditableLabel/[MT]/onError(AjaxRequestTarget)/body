@@ -3,5 +3,6 @@
     Serializable errorMessage=editor.getFeedbackMessages().first(FeedbackMessage.ERROR);
     target.appendJavaScript("window.status='" + JavaScriptUtils.escapeQuotes(errorMessage.toString()) + "';");
   }
-  target.appendJavaScript("{var el=Wicket.$('" + editor.getMarkupId() + "'); el.select(); el.focus();}");
+  String selectAndFocusScript=String.format("(function(){var el=Wicket.$('%s'); if (el.select) el.select(); el.focus();})()",editor.getMarkupId());
+  target.appendJavaScript(selectAndFocusScript);
 }
