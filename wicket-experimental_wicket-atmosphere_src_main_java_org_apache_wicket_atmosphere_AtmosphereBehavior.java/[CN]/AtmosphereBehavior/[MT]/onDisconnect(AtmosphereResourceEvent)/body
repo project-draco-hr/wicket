@@ -1,5 +1,7 @@
 {
-  String transport=event.getResource().getRequest().getHeader("X-Atmosphere-Transport");
-  HttpServletRequest req=event.getResource().getRequest();
-  log.info(String.format("%s connection dropped from ip %s:%s",transport == null ? "websocket" : transport,req.getRemoteAddr(),req.getRemotePort()));
+  if (log.isInfoEnabled()) {
+    String transport=event.getResource().getRequest().getHeader("X-Atmosphere-Transport");
+    HttpServletRequest req=event.getResource().getRequest();
+    log.info(String.format("%s connection dropped from ip %s:%s",transport == null ? "websocket" : transport,req.getRemoteAddr(),req.getRemotePort()));
+  }
 }

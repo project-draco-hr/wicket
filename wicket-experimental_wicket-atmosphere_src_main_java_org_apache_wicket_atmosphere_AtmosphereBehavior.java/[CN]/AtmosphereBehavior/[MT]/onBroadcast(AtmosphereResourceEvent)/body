@@ -1,10 +1,8 @@
 {
-  log.info("onBroadcast: " + event.getMessage());
+  log.info("onBroadcast: {}",event.getMessage());
   String transport=event.getResource().getRequest().getHeader(HeaderConfig.X_ATMOSPHERE_TRANSPORT);
-  if (transport != null) {
-    if (transport.equalsIgnoreCase(HeaderConfig.LONG_POLLING_TRANSPORT)) {
-      Meteor meteor=Meteor.lookup(event.getResource().getRequest());
-      meteor.resume();
-    }
+  if (HeaderConfig.LONG_POLLING_TRANSPORT.equalsIgnoreCase(transport)) {
+    Meteor meteor=Meteor.lookup(event.getResource().getRequest());
+    meteor.resume();
   }
 }
