@@ -10,10 +10,10 @@
     }
   }
 ;
-  IHeaderResponse headerResponseDecorated=Application.get().decorateHeaderResponse(headerRenderer);
+  ResourceAggregator resourceAggregator=new ResourceAggregator(headerRenderer);
   for (  HeaderItem curItem : resp) {
-    headerResponseDecorated.render(curItem);
+    resourceAggregator.render(curItem);
   }
-  headerRenderer.close();
+  resourceAggregator.close();
   return strResponse.getBuffer();
 }
