@@ -1,7 +1,11 @@
 {
   for (  HeaderItem curDependency : item.getDependencies()) {
-    if (depsDone.add(curDependency))     recordHeaderItem(curDependency,depsDone);
- else     throw new CircularDependencyException(depsDone,curDependency);
+    if (depsDone.add(curDependency)) {
+      recordHeaderItem(curDependency,depsDone);
+    }
+ else {
+      throw new CircularDependencyException(depsDone,curDependency);
+    }
     depsDone.remove(curDependency);
   }
 }
