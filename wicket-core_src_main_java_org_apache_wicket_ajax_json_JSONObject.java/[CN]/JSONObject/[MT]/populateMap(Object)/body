@@ -1,7 +1,7 @@
 {
   Class klass=bean.getClass();
   boolean includeSuperClass=klass.getClassLoader() != null;
-  Method[] methods=(includeSuperClass) ? klass.getMethods() : klass.getDeclaredMethods();
+  Method[] methods=includeSuperClass ? klass.getMethods() : klass.getDeclaredMethods();
   for (int i=0; i < methods.length; i+=1) {
     try {
       Method method=methods[i];
@@ -9,7 +9,7 @@
         String name=method.getName();
         String key="";
         if (name.startsWith("get")) {
-          if (name.equals("getClass") || name.equals("getDeclaringClass")) {
+          if ("getClass".equals(name) || "getDeclaringClass".equals(name)) {
             key="";
           }
  else {
@@ -28,7 +28,7 @@
           }
           Object result=method.invoke(bean,(Object[])null);
           if (result != null) {
-            map.put(key,wrap(result));
+            this.map.put(key,wrap(result));
           }
         }
       }

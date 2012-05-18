@@ -1,26 +1,26 @@
 {
-  char c=nextClean();
+  char c=this.nextClean();
   String string;
 switch (c) {
 case '"':
 case '\'':
-    return nextString(c);
+    return this.nextString(c);
 case '{':
-  back();
+  this.back();
 return new JSONObject(this);
 case '[':
-back();
+this.back();
 return new JSONArray(this);
 }
 StringBuffer sb=new StringBuffer();
 while (c >= ' ' && ",:]}/\\\"[{;=#".indexOf(c) < 0) {
 sb.append(c);
-c=next();
+c=this.next();
 }
-back();
+this.back();
 string=sb.toString().trim();
-if (string.equals("")) {
-throw syntaxError("Missing value");
+if ("".equals(string)) {
+throw this.syntaxError("Missing value");
 }
 return JSONObject.stringToValue(string);
 }

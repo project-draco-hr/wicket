@@ -1,33 +1,33 @@
 {
   int c;
-  if (usePrevious) {
-    usePrevious=false;
-    c=previous;
+  if (this.usePrevious) {
+    this.usePrevious=false;
+    c=this.previous;
   }
  else {
     try {
-      c=reader.read();
+      c=this.reader.read();
     }
  catch (    IOException exception) {
       throw new JSONException(exception);
     }
     if (c <= 0) {
-      eof=true;
+      this.eof=true;
       c=0;
     }
   }
-  index+=1;
-  if (previous == '\r') {
-    line+=1;
-    character=c == '\n' ? 0 : 1;
+  this.index+=1;
+  if (this.previous == '\r') {
+    this.line+=1;
+    this.character=c == '\n' ? 0 : 1;
   }
  else   if (c == '\n') {
-    line+=1;
-    character=0;
+    this.line+=1;
+    this.character=0;
   }
  else {
-    character+=1;
+    this.character+=1;
   }
-  previous=(char)c;
-  return previous;
+  this.previous=(char)c;
+  return this.previous;
 }

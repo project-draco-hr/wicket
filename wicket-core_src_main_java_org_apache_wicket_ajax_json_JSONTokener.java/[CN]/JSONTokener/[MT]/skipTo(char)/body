@@ -1,17 +1,17 @@
 {
   char c;
   try {
-    int startIndex=index;
-    int startCharacter=character;
-    int startLine=line;
-    reader.mark(Integer.MAX_VALUE);
+    long startIndex=this.index;
+    long startCharacter=this.character;
+    long startLine=this.line;
+    this.reader.mark(1000000);
     do {
-      c=next();
+      c=this.next();
       if (c == 0) {
-        reader.reset();
-        index=startIndex;
-        character=startCharacter;
-        line=startLine;
+        this.reader.reset();
+        this.index=startIndex;
+        this.character=startCharacter;
+        this.line=startLine;
         return c;
       }
     }
@@ -20,6 +20,6 @@
  catch (  IOException exc) {
     throw new JSONException(exc);
   }
-  back();
+  this.back();
   return c;
 }
