@@ -1,0 +1,14 @@
+{
+  String uri="/abc/http://host:9090/";
+  Url url=Url.parse(uri);
+  assertEquals(uri,url.toString());
+  assertNull(url.getProtocol());
+  assertNull(url.getHost());
+  assertNull(url.getPort());
+  uri="abchttp://host:9090/";
+  url=Url.parse(uri);
+  assertEquals(uri,url.toString(StringMode.FULL));
+  assertEquals("abchttp",url.getProtocol());
+  assertEquals("host",url.getHost());
+  assertEquals(Integer.valueOf(9090),url.getPort());
+}

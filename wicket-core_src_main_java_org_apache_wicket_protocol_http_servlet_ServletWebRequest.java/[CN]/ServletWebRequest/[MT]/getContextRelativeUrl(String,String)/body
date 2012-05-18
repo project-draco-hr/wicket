@@ -9,7 +9,9 @@
     LOG.debug("Calculating context relative path from: context path '{}', filterPrefix '{}', uri '{}'",new Object[]{contextPath,filterPrefix,uri});
   }
   final int start=contextPath.length() + filterPrefix.length() + 1;
-  url.append(uri.substring(start));
+  if (uri.length() > start) {
+    url.append(uri.substring(start));
+  }
   if (errorAttributes == null) {
     String query=httpServletRequest.getQueryString();
     if (!Strings.isEmpty(query)) {
