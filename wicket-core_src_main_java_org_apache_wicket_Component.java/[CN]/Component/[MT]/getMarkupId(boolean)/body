@@ -6,7 +6,10 @@
   if (storedMarkupId == null && createIfDoesNotExist == false) {
     return null;
   }
-  final int generatedMarkupId=storedMarkupId instanceof Integer ? (Integer)storedMarkupId : getSession().nextSequenceValue();
+  int generatedMarkupId=storedMarkupId instanceof Integer ? (Integer)storedMarkupId : getSession().nextSequenceValue();
+  if (generatedMarkupId == 0xAD) {
+    generatedMarkupId=getSession().nextSequenceValue();
+  }
   if (storedMarkupId == null) {
     setMarkupIdImpl(generatedMarkupId);
   }
