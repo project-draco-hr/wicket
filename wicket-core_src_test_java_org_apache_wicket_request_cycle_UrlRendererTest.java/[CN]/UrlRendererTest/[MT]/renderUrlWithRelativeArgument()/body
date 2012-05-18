@@ -1,0 +1,32 @@
+{
+  Url baseUrl=Url.parse("one/two/three");
+  UrlRenderer renderer=new UrlRenderer(new MockWebRequest(baseUrl));
+  baseUrl.setProtocol("http");
+  baseUrl.setHost("www.example.com");
+  baseUrl.setPort(8888);
+  renderer.setBaseUrl(baseUrl);
+  Url newUrl=Url.parse("four");
+  newUrl.setProtocol("https");
+  String fullUrl=renderer.renderUrl(newUrl);
+  assertEquals("http://www.example.com:8888/four",fullUrl);
+  newUrl=Url.parse("./four");
+  newUrl.setProtocol("https");
+  fullUrl=renderer.renderUrl(newUrl);
+  assertEquals("http://www.example.com:8888/four",fullUrl);
+  newUrl=Url.parse("./././four");
+  newUrl.setProtocol("https");
+  fullUrl=renderer.renderUrl(newUrl);
+  assertEquals("http://www.example.com:8888/four",fullUrl);
+  newUrl=Url.parse("../four");
+  newUrl.setProtocol("https");
+  fullUrl=renderer.renderUrl(newUrl);
+  assertEquals("http://www.example.com:8888/four",fullUrl);
+  newUrl=Url.parse(".././four");
+  newUrl.setProtocol("https");
+  fullUrl=renderer.renderUrl(newUrl);
+  assertEquals("http://www.example.com:8888/four",fullUrl);
+  newUrl=Url.parse("../../../../four");
+  newUrl.setProtocol("https");
+  fullUrl=renderer.renderUrl(newUrl);
+  assertEquals("http://www.example.com:8888/four",fullUrl);
+}
