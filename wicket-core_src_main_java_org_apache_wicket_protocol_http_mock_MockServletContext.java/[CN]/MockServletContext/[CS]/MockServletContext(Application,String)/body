@@ -8,8 +8,15 @@
       webappRoot=null;
     }
   }
-  File file=new File("target/work/");
-  file.mkdirs();
+  String workFolder=System.getProperty("wicket.tester.work.folder","target/work/");
+  File file=new File(workFolder);
+  try {
+    file.mkdirs();
+  }
+ catch (  SecurityException sx) {
+    String tmpDir=System.getProperty("java.io.tmpdir");
+    file=new File(tmpDir);
+  }
   attributes.put("javax.servlet.context.tempdir",file);
   mimeTypes.put("html","text/html");
   mimeTypes.put("htm","text/html");
