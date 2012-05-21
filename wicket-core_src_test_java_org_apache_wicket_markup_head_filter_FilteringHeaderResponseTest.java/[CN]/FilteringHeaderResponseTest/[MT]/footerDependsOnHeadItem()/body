@@ -1,0 +1,9 @@
+{
+  tester.getApplication().setHeaderResponseDecorator(new IHeaderResponseDecorator(){
+    public IHeaderResponse decorate(    IHeaderResponse response){
+      return new JavaScriptFilteredIntoFooterHeaderResponse(response,"footerJS");
+    }
+  }
+);
+  executeTest(FilteredHeaderPage.class,"FilteredHeaderPageExpected.html");
+}

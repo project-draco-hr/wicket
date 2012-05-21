@@ -8,6 +8,12 @@
     @Override protected Response getRealResponse(){
       return strResponse;
     }
+    @Override public boolean wasRendered(    Object object){
+      return FilteringHeaderResponse.this.getRealResponse().wasRendered(object);
+    }
+    @Override public void markRendered(    Object object){
+      FilteringHeaderResponse.this.getRealResponse().markRendered(object);
+    }
   }
 ;
   ResourceAggregator resourceAggregator=new ResourceAggregator(headerRenderer);
