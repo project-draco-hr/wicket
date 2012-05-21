@@ -1,0 +1,17 @@
+{
+  List<ITab> defaultTabs=new ArrayList<ITab>();
+  defaultTabs.add(new AbstractTab(Model.of("default 1")){
+    @Override public WebMarkupContainer getPanel(    String panelId){
+      return new TestPanel(panelId,"default 1");
+    }
+  }
+);
+  defaultTabs.add(new AbstractTab(Model.of("default 2")){
+    @Override public WebMarkupContainer getPanel(    String panelId){
+      return new TestPanel(panelId,"default 2");
+    }
+  }
+);
+  tabbedPanel=new TabbedPanel<ITab>("tabpanel",defaultTabs);
+  add(tabbedPanel);
+}
