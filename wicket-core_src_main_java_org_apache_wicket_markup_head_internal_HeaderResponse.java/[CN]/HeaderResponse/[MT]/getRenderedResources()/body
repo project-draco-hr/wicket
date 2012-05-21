@@ -1,0 +1,9 @@
+{
+  RequestCycle requestCycle=RequestCycle.get();
+  Set<Object> rendered=requestCycle.getMetaData(RENDERED_RESOURCES);
+  if (rendered == null) {
+    rendered=new HashSet<Object>();
+    requestCycle.setMetaData(RENDERED_RESOURCES,rendered);
+  }
+  return rendered;
+}
