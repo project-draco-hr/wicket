@@ -1,5 +1,10 @@
 {
   if (idToWindowIndex != null && pageId != -1 && windowIndex != -1) {
+    Integer oldPageId=windowIndexToPageId.remove(windowIndex);
+    if (oldPageId != null) {
+      idToWindowIndex.remove(oldPageId);
+    }
     idToWindowIndex.put(pageId,windowIndex);
+    windowIndexToPageId.put(windowIndex,pageId);
   }
 }
