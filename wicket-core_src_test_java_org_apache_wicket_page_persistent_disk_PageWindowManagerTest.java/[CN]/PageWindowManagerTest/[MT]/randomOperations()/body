@@ -1,0 +1,9 @@
+{
+  ExecutorService executorService=Executors.newFixedThreadPool(50);
+  for (int i=0; i < EXECUTIONS; i++) {
+    Runnable task=TASKS[RND.nextInt(TASKS.length)];
+    executorService.submit(task);
+  }
+  LATCH.await();
+  executorService.shutdown();
+}

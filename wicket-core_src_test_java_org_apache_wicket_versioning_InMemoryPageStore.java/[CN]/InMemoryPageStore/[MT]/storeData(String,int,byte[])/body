@@ -1,7 +1,7 @@
 {
   Map<Integer,byte[]> sessionPages=store.get(sessionId);
   if (sessionPages == null) {
-    sessionPages=new HashMap<Integer,byte[]>();
+    sessionPages=new ConcurrentHashMap<Integer,byte[]>();
     store.put(sessionId,sessionPages);
   }
   sessionPages.put(pageId,pageAsBytes);
