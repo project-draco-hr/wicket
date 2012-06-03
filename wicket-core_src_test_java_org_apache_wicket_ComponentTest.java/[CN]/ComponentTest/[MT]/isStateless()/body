@@ -22,4 +22,24 @@
   component.add(statefulBehavior);
   component.setVisible(false);
   assertFalse(component.isStateless());
+  Link<Void> link=new Link<Void>("someId"){
+    @Override public void onClick(){
+    }
+  }
+;
+  assertFalse(link.isStateless());
+  link.setVisible(false);
+  assertTrue(link.isStateless());
+  link.setVisible(true).setEnabled(false);
+  assertTrue(link.isStateless());
+  link=new Link("someId"){
+    @Override public boolean canCallListenerInterface(    Method method){
+      return true;
+    }
+    @Override public void onClick(){
+    }
+  }
+;
+  link.setVisible(false);
+  assertFalse(link.isStateless());
 }
