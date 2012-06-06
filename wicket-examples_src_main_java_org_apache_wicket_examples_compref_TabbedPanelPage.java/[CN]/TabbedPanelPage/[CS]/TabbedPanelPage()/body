@@ -1,7 +1,7 @@
 {
   setDefaultModel(new Model<String>("tabpanel"));
   addCssSwitchingLinks();
-  List<ITab> tabs=new ArrayList<ITab>();
+  final List<ITab> tabs=new ArrayList<ITab>();
   tabs.add(new AbstractTab(new Model<String>("first tab")){
     private static final long serialVersionUID=1L;
     @Override public Panel getPanel(    String panelId){
@@ -23,5 +23,15 @@
     }
   }
 );
-  add(new TabbedPanel("tabs",tabs).add(AttributeModifier.replace("class",TabbedPanelPage.this.getDefaultModel())));
+  final TabbedPanel<ITab> tabbedPanel=new TabbedPanel<ITab>("tabs",tabs);
+  tabbedPanel.add(AttributeModifier.replace("class",TabbedPanelPage.this.getDefaultModel()));
+  add(tabbedPanel);
+  add(new Link<Void>("skip"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      int index=tabbedPanel.getModelObject();
+      tabbedPanel.setModelObject((index + 1) % tabs.size());
+    }
+  }
+);
 }

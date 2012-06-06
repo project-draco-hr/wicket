@@ -1,5 +1,5 @@
 {
-  TestPage page=(TestPage)tester.startPage(new TestPage());
+  TestPage page=tester.startPage(new TestPage());
   page.tabbedPanel.getTabs().add(new AbstractTab(Model.of("added 1")){
     @Override public WebMarkupContainer getPanel(    String panelId){
       return new TestPanel(panelId,"added 1");
@@ -8,10 +8,13 @@
 );
   tester.assertContainsNot("<span wicket:id=\"title\">added 1</span></a>");
   tester.assertContainsNot("<span wicket:id=\"label\">added 1</span>");
+  assertEquals(Integer.valueOf(0),page.tabbedPanel.getModelObject());
   tester.clickLink("tabpanel:tabs-container:tabs:1:link");
   tester.assertContains("<span wicket:id=\"title\">added 1</span></a>");
   tester.assertContainsNot("<span wicket:id=\"label\">added 1</span>");
+  assertEquals(Integer.valueOf(1),page.tabbedPanel.getModelObject());
   tester.clickLink("tabpanel:tabs-container:tabs:2:link");
   tester.assertContains("<span wicket:id=\"title\">added 1</span></a>");
   tester.assertContains("<span wicket:id=\"label\">added 1</span>");
+  assertEquals(Integer.valueOf(2),page.tabbedPanel.getModelObject());
 }
