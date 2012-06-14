@@ -6,27 +6,35 @@
   if (stateLocator == null) {
     throw new IllegalArgumentException("argument [stateLocator] cannot be null");
   }
-  RepeatingView filters=new RepeatingView("filters");
+  RefreshingView<IColumn<T,S>> filters=new RefreshingView<IColumn<T,S>>("filters"){
+    private static final long serialVersionUID=1L;
+    @Override protected Iterator<IModel<IColumn<T,S>>> getItemModels(){
+      List<IModel<IColumn<T,S>>> columnsModels=new LinkedList<IModel<IColumn<T,S>>>();
+      for (      IColumn<T,S> column : table.getColumns()) {
+        columnsModels.add(Model.of(column));
+      }
+      return columnsModels.iterator();
+    }
+    @Override protected void populateItem(    Item<IColumn<T,S>> item){
+      final IColumn<T,S> col=item.getModelObject();
+      item.setRenderBodyOnly(true);
+      Component filter=null;
+      if (col instanceof IFilteredColumn) {
+        IFilteredColumn<T,S> filteredCol=(IFilteredColumn<T,S>)col;
+        filter=filteredCol.getFilter(FILTER_ID,form);
+      }
+      if (filter == null) {
+        filter=new NoFilter(FILTER_ID);
+      }
+ else {
+        if (!filter.getId().equals(FILTER_ID)) {
+          throw new IllegalStateException("filter component returned  with an invalid component id. invalid component id [" + filter.getId() + "] required component id ["+ getId()+ "] generating column ["+ col.toString()+ "] ");
+        }
+      }
+      item.add(filter);
+    }
+  }
+;
   filters.setRenderBodyOnly(true);
   add(filters);
-  List<IColumn<T,S>> cols=table.getColumns();
-  for (  IColumn<T,S> col : cols) {
-    WebMarkupContainer item=new WebMarkupContainer(filters.newChildId());
-    item.setRenderBodyOnly(true);
-    Component filter=null;
-    if (col instanceof IFilteredColumn) {
-      IFilteredColumn<T,S> filteredCol=(IFilteredColumn<T,S>)col;
-      filter=filteredCol.getFilter(FILTER_ID,form);
-    }
-    if (filter == null) {
-      filter=new NoFilter(FILTER_ID);
-    }
- else {
-      if (!filter.getId().equals(FILTER_ID)) {
-        throw new IllegalStateException("filter component returned  with an invalid component id. invalid component id [" + filter.getId() + "] required component id ["+ getId()+ "] generating column ["+ col.toString()+ "] ");
-      }
-    }
-    item.add(filter);
-    filters.add(item);
-  }
 }

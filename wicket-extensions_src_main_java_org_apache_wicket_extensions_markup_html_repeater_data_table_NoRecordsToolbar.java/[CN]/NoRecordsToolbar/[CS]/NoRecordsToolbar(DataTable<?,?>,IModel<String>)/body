@@ -2,6 +2,12 @@
   super(table);
   WebMarkupContainer td=new WebMarkupContainer("td");
   add(td);
-  td.add(AttributeModifier.replace("colspan",String.valueOf(table.getColumns().size())));
+  td.add(AttributeModifier.replace("colspan",new AbstractReadOnlyModel<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      return String.valueOf(table.getColumns().size());
+    }
+  }
+));
   td.add(new Label("msg",messageModel));
 }
