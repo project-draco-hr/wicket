@@ -1,15 +1,15 @@
 {
   Args.notNull(filter,"filter");
-  C current=(C)getParent();
+  MarkupContainer current=getParent();
   Visit<R> visit=new Visit<R>();
   while (current != null) {
     if (parentClass.isInstance(current) && filter.visitObject(current)) {
-      visitor.component(current,visit);
+      visitor.component((C)current,visit);
       if (visit.isStopped()) {
         return visit.getResult();
       }
     }
-    current=(C)current.getParent();
+    current=current.getParent();
   }
   return null;
 }
