@@ -3,14 +3,14 @@
   tester.getSession().setLocale(new Locale("de"));
   LocalizedMessagePage page=new LocalizedMessagePage();
   tester.startPage(page);
-  tester.getRequest().getPostParameters().setParameterValue(page.integerField.getInputName(),"foo");
+  tester.getRequest().getPostParameters().setParameterValue(page.field.getInputName(),"foo");
   tester.submitForm(page.form);
-  tester.assertErrorMessages("'Number' ist kein g\u00FCltiger Wert f\u00FCr 'Integer'.");
+  tester.assertErrorMessages("'Number' ist kein g\u00FCltiger Wert f\u00FCr 'Double'.");
   tester.getSession().setLocale(new Locale("pl"));
   tester.clearFeedbackMessages();
   page=new LocalizedMessagePage();
   tester.startPage(page);
-  tester.getRequest().getPostParameters().setParameterValue(page.integerField.getInputName(),"foo");
+  tester.getRequest().getPostParameters().setParameterValue(page.field.getInputName(),"foo");
   tester.submitForm(page.form);
-  tester.assertErrorMessages("'Number' nie jest w\u0142a\u015Bciwym Integer.");
+  tester.assertErrorMessages("'Number' nie jest w\u0142a\u015Bciwym Double.");
 }

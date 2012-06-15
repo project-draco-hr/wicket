@@ -1,8 +1,9 @@
 {
+  final Map<String,Object> p=(vars != null) ? vars : EMPTY_VARS;
   String errorMessage=null;
   if (keys != null) {
     for (    String key : keys) {
-      errorMessage=messageSource.getMessage(key);
+      errorMessage=messageSource.getMessage(key,vars);
       if (errorMessage != null) {
         break;
       }
@@ -10,10 +11,6 @@
   }
   if (errorMessage == null && message != null) {
     errorMessage=message;
-  }
-  if (errorMessage != null) {
-    final Map<String,Object> p=(vars != null) ? vars : EMPTY_VARS;
-    errorMessage=messageSource.substitute(errorMessage,p);
   }
   return new ValidationErrorFeedback(this,errorMessage);
 }

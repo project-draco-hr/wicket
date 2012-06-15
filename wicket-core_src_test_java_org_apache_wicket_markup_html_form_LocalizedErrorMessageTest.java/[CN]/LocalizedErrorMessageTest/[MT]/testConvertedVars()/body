@@ -1,0 +1,8 @@
+{
+  tester.getSession().setLocale(new Locale("de"));
+  LocalizedMessagePage page=new LocalizedMessagePage();
+  tester.startPage(page);
+  tester.getRequest().getPostParameters().setParameterValue(page.field.getInputName(),"20");
+  tester.submitForm(page.form);
+  tester.assertErrorMessages("Number muss zwischen 0,5 und 1,5 liegen.");
+}

@@ -1,3 +1,21 @@
 {
-  return new MapVariableInterpolator(string,addDefaultVars(vars),Application.get().getResourceSettings().getThrowExceptionOnMissingResource()).toString();
+  return new VariableInterpolator(string,Application.get().getResourceSettings().getThrowExceptionOnMissingResource()){
+    private static final long serialVersionUID=1L;
+    @SuppressWarnings({"rawtypes","unchecked"}) @Override protected String getValue(    String variableName){
+      Object value=vars.get(variableName);
+      if (value == null) {
+        return null;
+      }
+ else {
+        IConverter converter=getConverter(value.getClass());
+        if (converter == null) {
+          return Strings.toString(value);
+        }
+ else {
+          return converter.convertToString(value,getLocale());
+        }
+      }
+    }
+  }
+.toString();
 }

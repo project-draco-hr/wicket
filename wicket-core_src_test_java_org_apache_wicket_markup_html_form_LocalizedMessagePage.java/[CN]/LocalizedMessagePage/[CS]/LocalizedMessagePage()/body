@@ -1,7 +1,8 @@
 {
   add(form=new Form<Void>("form"));
-  integerField=new TextField<Integer>("integer",Integer.class);
-  integerField.setLabel(Model.of("Number"));
-  form.add(integerField);
+  field=new TextField<Double>("field",Double.class);
+  field.setLabel(Model.of("Number"));
+  field.add(new RangeValidator<Double>(0.5d,1.5d));
+  form.add(field);
   form.add(feedback=new FeedbackPanel("feedback"));
 }
