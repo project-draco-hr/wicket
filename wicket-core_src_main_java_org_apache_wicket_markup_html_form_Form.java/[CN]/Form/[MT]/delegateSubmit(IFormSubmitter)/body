@@ -1,14 +1,21 @@
 {
   final Form<?> processingForm=findFormToProcess(submittingComponent);
-  if (submittingComponent != null) {
-    submittingComponent.onSubmit();
+  if (submittingComponent == null) {
+    submitFormsIncludingNested(processingForm);
   }
-  Visits.visitPostOrder(processingForm,new IVisitor<Form<?>,Void>(){
-    @Override public void component(    Form<?> form,    IVisit<Void> visit){
-      if (form.isEnabledInHierarchy() && form.isVisibleInHierarchy()) {
-        form.onSubmit();
-      }
-    }
-  }
-,new ClassVisitFilter(Form.class));
+ else {
+    final SubmitOrder submitOrder=submittingComponent.getSubmitOrder();
+switch (submitOrder) {
+case BEFORE_FORM:
+      submittingComponent.onSubmit();
+    submitFormsIncludingNested(processingForm);
+  break;
+case AFTER_FORM:
+submitFormsIncludingNested(processingForm);
+submittingComponent.onSubmit();
+break;
+default :
+throw new IllegalStateException("unknown submitorder: " + submitOrder);
+}
+}
 }
