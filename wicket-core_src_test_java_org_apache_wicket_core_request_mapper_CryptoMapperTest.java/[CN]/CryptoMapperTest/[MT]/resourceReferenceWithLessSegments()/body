@@ -1,6 +1,10 @@
 {
-  String encrypted="X5EA-RpmG5-t7GSByiSposVVWJ28fpoU-XgFo7bOPITjbCTT6mLI5l-7b-WJucu-Kc8StVsu-PL5htkbIxuxphv3mYi5-mmkCvkxPsriihj5VPg3naw2fA/X5E87/b-W6b/l-795/less-crypt.txt";
-  Request request=getRequest(Url.parse(encrypted));
+  PackageResourceReference resource=new PackageResourceReference(getClass(),"crypt/crypt.txt");
+  Url url=mapper.mapHandler(new ResourceReferenceRequestHandler(resource));
+  url.getSegments().remove(url.getSegments().size() - 1);
+  url.getSegments().remove(url.getSegments().size() - 1);
+  url.getSegments().add("less-crypt.txt");
+  Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
   assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
   ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;

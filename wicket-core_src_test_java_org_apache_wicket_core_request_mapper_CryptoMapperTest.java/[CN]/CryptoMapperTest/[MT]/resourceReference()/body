@@ -1,6 +1,7 @@
 {
-  String encrypted="X5EA-RpmG5-t7GSByiSposVVWJ28fpoU-XgFo7bOPISxb3xq2Cs66Z2lkUjUYqOQlzEia56fViCD0yNMzA9ySE9DRAA5J3OUWSCSO3B8FjFYPHWdkqgcHg/X5E87/kUj7f/B8F3f/yiSe2/UYq6c";
-  Request request=getRequest(Url.parse(encrypted));
+  PackageResourceReference resource=new PackageResourceReference(getClass(),"crypt/crypt.txt");
+  Url url=mapper.mapHandler(new ResourceReferenceRequestHandler(resource));
+  Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
   assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
   ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;
