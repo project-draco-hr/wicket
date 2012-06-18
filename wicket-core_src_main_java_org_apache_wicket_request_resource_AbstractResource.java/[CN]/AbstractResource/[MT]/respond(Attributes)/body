@@ -13,5 +13,10 @@
   if (data.getWriteCallback() == null) {
     throw new IllegalStateException("ResourceResponse#setWriteCallback() must be set.");
   }
-  data.getWriteCallback().writeData(attributes);
+  try {
+    data.getWriteCallback().writeData(attributes);
+  }
+ catch (  IOException iox) {
+    throw new WicketRuntimeException(iox);
+  }
 }

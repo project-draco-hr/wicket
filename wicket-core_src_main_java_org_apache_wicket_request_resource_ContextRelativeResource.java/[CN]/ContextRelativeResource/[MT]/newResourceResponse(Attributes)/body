@@ -5,7 +5,7 @@
   resourceResponse.setLastModified(webExternalResourceStream.lastModifiedTime());
   resourceResponse.setFileName(path);
   resourceResponse.setWriteCallback(new WriteCallback(){
-    @Override public void writeData(    final Attributes attributes){
+    @Override public void writeData(    final Attributes attributes) throws IOException {
       InputStream inputStream=null;
       ByteArrayOutputStream baos=new ByteArrayOutputStream();
       try {
@@ -15,9 +15,6 @@
       }
  catch (      ResourceStreamNotFoundException rsnfx) {
         throw new WicketRuntimeException(rsnfx);
-      }
-catch (      IOException iox) {
-        throw new WicketRuntimeException(iox);
       }
  finally {
         IOUtils.closeQuietly(inputStream);

@@ -33,7 +33,7 @@
     data.setTextEncoding(textEncoding);
     if (resourceStream instanceof IResourceStreamWriter) {
       data.setWriteCallback(new WriteCallback(){
-        @Override public void writeData(        Attributes attributes){
+        @Override public void writeData(        Attributes attributes) throws IOException {
           ((IResourceStreamWriter)resourceStream).write(attributes.getResponse().getOutputStream());
           close();
         }
@@ -43,7 +43,7 @@
  else {
       final InputStream s=inputStream;
       data.setWriteCallback(new WriteCallback(){
-        @Override public void writeData(        Attributes attributes){
+        @Override public void writeData(        Attributes attributes) throws IOException {
           try {
             writeStream(attributes,s);
           }
