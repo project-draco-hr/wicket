@@ -6,19 +6,17 @@
   resourceResponse.setFileName(path);
   resourceResponse.setWriteCallback(new WriteCallback(){
     @Override public void writeData(    final Attributes attributes) throws IOException {
-      InputStream inputStream=null;
-      ByteArrayOutputStream baos=new ByteArrayOutputStream();
       try {
-        inputStream=webExternalResourceStream.getInputStream();
-        Streams.copy(inputStream,baos);
-        attributes.getResponse().write(baos.toByteArray());
+        InputStream inputStream=webExternalResourceStream.getInputStream();
+        try {
+          Streams.copy(inputStream,attributes.getResponse().getOutputStream());
+        }
+  finally {
+          IOUtils.closeQuietly(inputStream);
+        }
       }
  catch (      ResourceStreamNotFoundException rsnfx) {
         throw new WicketRuntimeException(rsnfx);
-      }
- finally {
-        IOUtils.closeQuietly(inputStream);
-        IOUtils.closeQuietly(baos);
       }
     }
   }
