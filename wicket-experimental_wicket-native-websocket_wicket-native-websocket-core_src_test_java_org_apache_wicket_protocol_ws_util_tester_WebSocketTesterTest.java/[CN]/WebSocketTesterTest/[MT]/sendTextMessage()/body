@@ -1,0 +1,13 @@
+{
+  final String expectedMessage="some message";
+  WebSocketTestPage page=new WebSocketTestPage(expectedMessage);
+  tester.startPage(page);
+  WebSocketTester webSocketTester=new WebSocketTester(page){
+    @Override protected void onOutMessage(    String message){
+      assertEquals(Strings.capitalize(expectedMessage),message);
+    }
+  }
+;
+  webSocketTester.sendMessage(expectedMessage);
+  webSocketTester.destroy();
+}

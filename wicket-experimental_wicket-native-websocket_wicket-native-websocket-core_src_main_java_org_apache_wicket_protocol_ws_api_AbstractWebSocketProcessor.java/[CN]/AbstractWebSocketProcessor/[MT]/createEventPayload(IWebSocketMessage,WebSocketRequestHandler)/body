@@ -1,0 +1,19 @@
+{
+  final WebSocketPayload payload;
+  if (message instanceof TextMessage) {
+    payload=new WebSocketTextPayload((TextMessage)message,handler);
+  }
+ else   if (message instanceof BinaryMessage) {
+    payload=new WebSocketBinaryPayload((BinaryMessage)message,handler);
+  }
+ else   if (message instanceof ConnectedMessage) {
+    payload=new WebSocketConnectedPayload((ConnectedMessage)message,handler);
+  }
+ else   if (message instanceof ClosedMessage) {
+    payload=new WebSocketClosedPayload((ClosedMessage)message,handler);
+  }
+ else {
+    throw new IllegalArgumentException("Unsupported message type: " + message.getClass().getName());
+  }
+  return payload;
+}

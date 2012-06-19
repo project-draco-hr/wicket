@@ -1,0 +1,13 @@
+{
+  Enumeration<String> headers=req.getHeaders(headerName);
+  while (headers.hasMoreElements()) {
+    String header=headers.nextElement();
+    String[] tokens=header.split(",");
+    for (    String token : tokens) {
+      if (target.equalsIgnoreCase(token.trim())) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

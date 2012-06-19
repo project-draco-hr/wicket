@@ -1,0 +1,13 @@
+{
+  add(new WebSocketBehavior(){
+    @Override protected void onMessage(    WebSocketRequestHandler handler,    BinaryMessage binaryMessage){
+      Assert.assertArrayEquals(message,binaryMessage.getData());
+      Assert.assertEquals(offset,binaryMessage.getOffset());
+      Assert.assertEquals(length,binaryMessage.getLength());
+      String msg=new String(message);
+      byte[] pushedMessage=Strings.capitalize(msg).getBytes();
+      handler.push(pushedMessage,offset + 1,length - 1);
+    }
+  }
+);
+}

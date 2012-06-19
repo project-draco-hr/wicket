@@ -1,0 +1,34 @@
+{
+  Args.notNull(application,"application");
+  Args.notNull(sessionId,"sessionId");
+  Args.notNull(pageId,"pageId");
+  ConcurrentMap<String,ConcurrentMap<Integer,WebSocketConnection>> connectionsBySession=application.getMetaData(KEY);
+  if (connectionsBySession == null) {
+synchronized (KEY) {
+      connectionsBySession=application.getMetaData(KEY);
+      if (connectionsBySession == null) {
+        connectionsBySession=Generics.newConcurrentHashMap();
+        application.setMetaData(KEY,connectionsBySession);
+      }
+    }
+  }
+  ConcurrentMap<Integer,WebSocketConnection> connectionsByPage=connectionsBySession.get(sessionId);
+  if (connectionsByPage == null && connection != null) {
+synchronized (connectionsBySession) {
+      connectionsByPage=connectionsBySession.get(sessionId);
+      if (connectionsByPage == null) {
+        connectionsByPage=Generics.newConcurrentHashMap();
+        connectionsBySession.put(sessionId,connectionsByPage);
+      }
+    }
+  }
+  if (connection != null) {
+    connectionsByPage.put(pageId,connection);
+  }
+ else   if (connectionsByPage != null) {
+    connectionsByPage.remove(pageId);
+    if (connectionsByPage.isEmpty()) {
+      connectionsBySession.remove(sessionId);
+    }
+  }
+}

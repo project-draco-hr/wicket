@@ -1,0 +1,11 @@
+{
+  Args.notNull(parent,"parent");
+  Args.notNull(childCriteria,"childCriteria");
+  parent.visitChildren(childCriteria,new IVisitor<Component,Void>(){
+    @Override public void component(    final Component component,    final IVisit<Void> visit){
+      add(component);
+      visit.dontGoDeeper();
+    }
+  }
+);
+}

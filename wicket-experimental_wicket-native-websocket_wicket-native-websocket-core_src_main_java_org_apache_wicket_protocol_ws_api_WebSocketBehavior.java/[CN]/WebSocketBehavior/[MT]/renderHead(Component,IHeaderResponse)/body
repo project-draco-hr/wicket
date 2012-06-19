@@ -1,0 +1,6 @@
+{
+  super.renderHead(component,response);
+  response.render(JavaScriptHeaderItem.forReference(WicketWebSocketJQueryResourceReference.get()));
+  int pageId=component.getPage().getPageId();
+  response.render(JavaScriptHeaderItem.forScript("jQuery.extend(Wicket.WebSocket, { pageId: " + pageId + "});","wicket-web-socket"));
+}

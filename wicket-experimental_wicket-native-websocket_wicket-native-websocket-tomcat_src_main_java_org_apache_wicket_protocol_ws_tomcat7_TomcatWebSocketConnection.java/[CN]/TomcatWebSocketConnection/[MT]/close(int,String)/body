@@ -1,0 +1,12 @@
+{
+  if (isOpen()) {
+    try {
+      ByteBuffer byteBuffer=ByteBuffer.wrap(reason.getBytes("UTF-8"));
+      connection.close(0,byteBuffer);
+    }
+ catch (    IOException iox) {
+      LOG.error("An error occurred while closing WebSocket connection with initial reason: " + reason,iox);
+    }
+    closed=true;
+  }
+}

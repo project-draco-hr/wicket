@@ -1,0 +1,13 @@
+{
+  return new Enumeration<String>(){
+    boolean hasNext=true;
+    @Override public boolean hasMoreElements(){
+      return hasNext && headers.get(name) != null;
+    }
+    @Override public String nextElement(){
+      hasNext=false;
+      return headers.get(name);
+    }
+  }
+;
+}

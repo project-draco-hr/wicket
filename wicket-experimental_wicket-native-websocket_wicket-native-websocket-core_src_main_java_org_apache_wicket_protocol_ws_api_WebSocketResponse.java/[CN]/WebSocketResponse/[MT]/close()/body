@@ -1,0 +1,20 @@
+{
+  if (connection.isOpen()) {
+    try {
+      if (text != null) {
+        connection.sendMessage(text.toString());
+        text=null;
+      }
+ else       if (binary != null) {
+        byte[] bytes=binary.toByteArray();
+        connection.sendMessage(bytes,0,bytes.length);
+        binary.close();
+        binary=null;
+      }
+    }
+ catch (    IOException iox) {
+      LOG.error("An error occurred while writing response to WebSocket client.",iox);
+    }
+  }
+  super.close();
+}

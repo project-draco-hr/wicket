@@ -1,0 +1,28 @@
+{
+  this.servletPath=request.getServletPath();
+  this.contextPath=request.getContextPath();
+  this.pathInfo=request.getPathInfo();
+  this.requestUri=request.getRequestURI();
+  this.requestURL=request.getRequestURL();
+  this.method=request.getMethod();
+  this.serverName=request.getServerName();
+  this.serverPort=request.getServerPort();
+  HttpSession session=request.getSession(true);
+  httpSession=new HttpSessionCopy(session);
+  Enumeration<String> e=request.getHeaderNames();
+  String s;
+  while (e.hasMoreElements()) {
+    s=e.nextElement();
+    headers.put(s,request.getHeader(s));
+  }
+  e=request.getAttributeNames();
+  while (e.hasMoreElements()) {
+    s=e.nextElement();
+    attributes.put(s,request.getAttribute(s));
+  }
+  e=request.getParameterNames();
+  while (e.hasMoreElements()) {
+    s=e.nextElement();
+    parameters.put(s,request.getParameterValues(s));
+  }
+}
