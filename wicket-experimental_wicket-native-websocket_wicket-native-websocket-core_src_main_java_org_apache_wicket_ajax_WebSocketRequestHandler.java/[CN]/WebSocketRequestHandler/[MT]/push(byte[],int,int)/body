@@ -1,10 +1,14 @@
 {
   if (connection.isOpen()) {
+    Args.notNull(message,"message");
     try {
       connection.sendMessage(message,offset,length);
     }
  catch (    IOException iox) {
       LOG.error("An error occurred while pushing binary message.",iox);
     }
+  }
+ else {
+    LOG.warn("The websocket connection is already closed. Cannot push the binary message '{}'",message);
   }
 }

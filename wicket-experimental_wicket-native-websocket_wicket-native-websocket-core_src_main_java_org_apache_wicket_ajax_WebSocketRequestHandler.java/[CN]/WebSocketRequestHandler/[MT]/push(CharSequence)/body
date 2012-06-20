@@ -1,0 +1,14 @@
+{
+  if (connection.isOpen()) {
+    Args.notNull(message,"message");
+    try {
+      connection.sendMessage(message.toString());
+    }
+ catch (    IOException iox) {
+      LOG.error("An error occurred while pushing text message.",iox);
+    }
+  }
+ else {
+    LOG.warn("The websocket connection is already closed. Cannot push the text message '{}'",message);
+  }
+}
