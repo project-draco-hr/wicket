@@ -1,11 +1,16 @@
 {
   String originalHost=requestUrl.getHost();
   String redirectHost=newUrl.getHost();
-  if (originalHost == redirectHost) {
+  Integer originalPort=requestUrl.getPort();
+  Integer newPort=newUrl.getPort();
+  if (originalHost.equals(redirectHost)) {
     return false;
   }
  else   if (redirectHost == null) {
     return false;
+  }
+ else   if (originalPort.equals(newPort) == false) {
+    return true;
   }
  else {
     return !(redirectHost.equals(originalHost));

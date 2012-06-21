@@ -1,0 +1,7 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.setFollowRedirects(false);
+  tester.startPage(AlwaysRedirectPage.class);
+  tester.assertRedirectUrl("http://localhost:4333/");
+  assertEquals(HttpServletResponse.SC_FOUND,tester.getLastResponse().getStatus());
+}
