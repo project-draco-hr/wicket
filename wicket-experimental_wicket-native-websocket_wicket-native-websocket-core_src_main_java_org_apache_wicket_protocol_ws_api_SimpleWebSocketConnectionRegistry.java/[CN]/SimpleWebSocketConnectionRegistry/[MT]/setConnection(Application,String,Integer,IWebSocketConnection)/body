@@ -2,7 +2,7 @@
   Args.notNull(application,"application");
   Args.notNull(sessionId,"sessionId");
   Args.notNull(pageId,"pageId");
-  ConcurrentMap<String,ConcurrentMap<Integer,WebSocketConnection>> connectionsBySession=application.getMetaData(KEY);
+  ConcurrentMap<String,ConcurrentMap<Integer,IWebSocketConnection>> connectionsBySession=application.getMetaData(KEY);
   if (connectionsBySession == null) {
 synchronized (KEY) {
       connectionsBySession=application.getMetaData(KEY);
@@ -12,7 +12,7 @@ synchronized (KEY) {
       }
     }
   }
-  ConcurrentMap<Integer,WebSocketConnection> connectionsByPage=connectionsBySession.get(sessionId);
+  ConcurrentMap<Integer,IWebSocketConnection> connectionsByPage=connectionsBySession.get(sessionId);
   if (connectionsByPage == null && connection != null) {
 synchronized (connectionsBySession) {
       connectionsByPage=connectionsBySession.get(sessionId);
