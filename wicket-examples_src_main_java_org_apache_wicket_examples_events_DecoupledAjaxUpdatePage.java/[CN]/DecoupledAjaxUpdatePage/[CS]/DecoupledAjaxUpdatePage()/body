@@ -7,7 +7,7 @@
   add(form);
   form.add(new TextField<Integer>("counter",new PropertyModel<Integer>(this,"counter"),Integer.class).setRequired(true));
   form.add(new AjaxButton("submit"){
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmitBeforeForm(    AjaxRequestTarget target,    Form<?> form){
       send(getPage(),Broadcast.BREADTH,new CounterUpdate(target));
     }
     @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){

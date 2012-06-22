@@ -8,14 +8,14 @@
 );
   form.add(button=new Button("b1"){
     private static final long serialVersionUID=1L;
-    @Override public void onSubmit(){
+    @Override public void onSubmitBeforeForm(){
       submitSequence.add(this);
     }
   }
 );
   form.add(ajaxFallbackButton=new AjaxFallbackButton("b2",form){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmitBeforeForm(    AjaxRequestTarget target,    Form<?> form){
       submitSequence.add(this);
     }
     @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){

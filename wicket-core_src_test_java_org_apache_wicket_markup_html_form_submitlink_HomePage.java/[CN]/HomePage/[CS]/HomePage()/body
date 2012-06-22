@@ -14,8 +14,13 @@
     /** 
  */
     private static final long serialVersionUID=1L;
-    @Override public void onSubmit(){
-      submittedViaLink=true;
+    @Override public void onSubmitBeforeForm(){
+      submittedViaLinkBefore=true;
+      assertFalse("before must be the first!",submittedViaLinkAfter);
+    }
+    @Override public void onSubmitAfterForm(){
+      assertTrue("before must have been called!",submittedViaLinkBefore);
+      submittedViaLinkAfter=true;
     }
   }
 );

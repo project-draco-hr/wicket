@@ -5,7 +5,7 @@
     private static final long serialVersionUID=1L;
     @Override protected void onError(    AjaxRequestTarget target){
     }
-    @Override protected void onSubmit(    AjaxRequestTarget target){
+    @Override protected void onSubmitBeforeForm(    AjaxRequestTarget target){
       submitedByAjaxBehavior=true;
     }
   }
@@ -13,14 +13,14 @@
   add(textField);
   add(new SubmitLink("ajaxSubmitLink"){
     private static final long serialVersionUID=1L;
-    @Override public void onSubmit(){
+    @Override public void onSubmitBeforeForm(){
       throw new IllegalStateException("Submit link hit!");
     }
   }
 );
   add((submitButton=new Button("submit"){
     private static final long serialVersionUID=1L;
-    @Override public void onSubmit(){
+    @Override public void onSubmitBeforeForm(){
       throw new IllegalStateException("Submit button hit!");
     }
   }
