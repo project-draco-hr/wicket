@@ -1,11 +1,10 @@
 {
+  final Form<?> processingForm=findFormToProcess(submitter);
   if (submitter != null) {
     submitter.onError();
   }
-  onError();
-  visitChildren(Form.class,new IVisitor<Component,Void>(){
-    @Override public void component(    final Component component,    final IVisit<Void> visit){
-      final Form<?> form=(Form<?>)component;
+  Visits.visitPostOrder(processingForm,new IVisitor<Form<?>,Void>(){
+    @Override public void component(    Form<?> form,    IVisit<Void> visit){
       if (!form.isEnabledInHierarchy() || !form.isVisibleInHierarchy()) {
         visit.dontGoDeeper();
         return;
@@ -15,5 +14,5 @@
       }
     }
   }
-);
+,new ClassVisitFilter(Form.class));
 }
