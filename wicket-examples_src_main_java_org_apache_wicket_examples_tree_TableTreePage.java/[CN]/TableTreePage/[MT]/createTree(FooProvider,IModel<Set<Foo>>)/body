@@ -1,6 +1,6 @@
 {
   List<IColumn<Foo,String>> columns=createColumns();
-  tree=new TableTree<Foo,String>("tree",columns,provider,Integer.MAX_VALUE,state){
+  final TableTree<Foo,String> tree=new TableTree<Foo,String>("tree",columns,provider,Integer.MAX_VALUE,state){
     private static final long serialVersionUID=1L;
     @Override protected Component newContentComponent(    String id,    IModel<Foo> model){
       return TableTreePage.this.newContentComponent(id,model);
@@ -10,7 +10,7 @@
     }
   }
 ;
-  tree.getTable().addTopToolbar(new HeadersToolbar(tree.getTable(),null));
+  tree.getTable().addTopToolbar(new HeadersToolbar<String>(tree.getTable(),null));
   tree.getTable().addBottomToolbar(new NoRecordsToolbar(tree.getTable()));
   return tree;
 }

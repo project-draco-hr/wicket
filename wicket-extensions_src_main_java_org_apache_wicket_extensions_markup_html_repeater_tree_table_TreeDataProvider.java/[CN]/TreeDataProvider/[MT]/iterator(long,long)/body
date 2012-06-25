@@ -1,5 +1,5 @@
 {
-  currentBranch=new Branch(null,provider.getRoots());
+  currentBranch=new Branch<T>(null,provider.getRoots());
   Iterator<T> iterator=new Iterator<T>(){
     public boolean hasNext(){
       while (currentBranch != null) {
@@ -17,7 +17,7 @@
       T next=currentBranch.next();
       previousBranch=currentBranch;
       if (iterateChildren(next)) {
-        currentBranch=new Branch(previousBranch,provider.getChildren(next));
+        currentBranch=new Branch<T>(previousBranch,provider.getChildren(next));
       }
       return next;
     }
