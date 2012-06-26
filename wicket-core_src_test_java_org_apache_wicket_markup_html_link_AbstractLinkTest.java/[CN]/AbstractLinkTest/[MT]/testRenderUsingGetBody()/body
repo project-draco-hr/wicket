@@ -1,0 +1,19 @@
+{
+  final AtomicInteger counter=new AtomicInteger(0);
+  MockPageWithLink mockPageWithLink=new MockPageWithLink();
+  AbstractLink link=new AbstractLink("link"){
+    private static final long serialVersionUID=1L;
+    @Override public IModel<?> getBody(){
+      return Model.of(counter.getAndIncrement());
+    }
+  }
+;
+  link.setMarkupId("link");
+  mockPageWithLink.add(link);
+  tester.startPage(mockPageWithLink);
+  TagTester tagTester=tester.getTagById("link");
+  Assert.assertEquals("0",tagTester.getValue());
+  tester.startPage(mockPageWithLink);
+  tagTester=tester.getTagById("link");
+  Assert.assertEquals("1",tagTester.getValue());
+}
