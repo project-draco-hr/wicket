@@ -13,7 +13,7 @@
   add(result);
   AjaxSubmitLink basedOnPageLink=new AjaxSubmitLink("pageBasedLink",form){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmitBeforeForm(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       CharSequence pageHtml=renderPage(TemplateBasedOnPage.class);
       updateResult(result,pageHtml,target);
       target.add(feedback);
@@ -25,7 +25,7 @@
 ;
   AjaxSubmitLink basedOnPanelLink=new AjaxSubmitLink("panelBasedLink",form){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmitBeforeForm(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       CharSequence panelHtml=renderPanel(new MailTemplatePanel(DummyPage.COMP_ID,new PropertyModel<String>(MailTemplate.this,"name")));
       updateResult(result,panelHtml,target);
       target.add(feedback);
@@ -37,7 +37,7 @@
 ;
   AjaxSubmitLink basedOnTextTemplateLink=new AjaxSubmitLink("textTemplateBasedLink",form){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmitBeforeForm(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       CharSequence templateHtml=renderTemplate(new PackageTextTemplate(MailTemplate.class,"mail-template.tmpl"));
       updateResult(result,templateHtml,target);
       target.add(feedback);

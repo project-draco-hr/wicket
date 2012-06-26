@@ -1,7 +1,7 @@
 {
   final Form<?> processingForm=findFormToProcess(submittingComponent);
   if (submittingComponent != null) {
-    submittingComponent.onSubmitBeforeForm();
+    submittingComponent.onSubmit();
   }
   Visits.visitPostOrder(processingForm,new IVisitor<Form<?>,Void>(){
     @Override public void component(    Form<?> form,    IVisit<Void> visit){
@@ -12,6 +12,6 @@
   }
 ,new ClassVisitFilter(Form.class));
   if (submittingComponent != null) {
-    submittingComponent.onSubmitAfterForm();
+    submittingComponent.onAfterSubmit();
   }
 }
