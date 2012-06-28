@@ -1,20 +1,19 @@
 {
-  int index=getSelectedTab();
-  if (index == -1 || isTabVisible(index) == false) {
-    index=0;
+  if (tabs.size() == 0) {
+    setSelectedTab(0);
+  }
+ else   if ((getSelectedTab() == -1) || (isTabVisible(getSelectedTab()) == false)) {
+    int selected=0;
     for (int i=0; i < tabs.size(); i++) {
       if (isTabVisible(i)) {
-        index=i;
+        selected=i;
         break;
       }
     }
-    if (index == tabs.size()) {
-      index=-1;
+    if (selected == tabs.size()) {
+      selected=0;
     }
- else {
-      setModelObject(index);
-    }
+    setSelectedTab(selected);
   }
-  updateTab(index);
   super.onBeforeRender();
 }
