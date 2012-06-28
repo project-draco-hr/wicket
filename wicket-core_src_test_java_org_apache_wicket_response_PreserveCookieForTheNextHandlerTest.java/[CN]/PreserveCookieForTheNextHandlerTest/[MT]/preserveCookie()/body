@@ -1,0 +1,10 @@
+{
+  tester.startPage(StartPage.class);
+  tester.assertRenderedPage(StartPage.class);
+  assertEquals(0,tester.getLastResponse().getCookies().size());
+  tester.clickLink("link");
+  tester.assertRenderedPage(StartPage.class);
+  List<Cookie> cookies=tester.getLastResponse().getCookies();
+  assertEquals(1,cookies.size());
+  assertEquals("value",cookies.get(0).getValue());
+}

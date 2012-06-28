@@ -1,12 +1,14 @@
 {
   IRequestHandler scheduled=requestCycle.getRequestHandlerScheduledAfterCurrent();
-  final Response originalResponse=requestCycle.getResponse();
-  BufferedWebResponse response=new BufferedWebResponse((WebResponse)originalResponse);
+  final WebResponse originalResponse=(WebResponse)requestCycle.getResponse();
+  BufferedWebResponse response=new BufferedWebResponse(originalResponse);
   Url originalBaseUrl=requestCycle.getUrlRenderer().setBaseUrl(targetUrl);
   try {
     requestCycle.setResponse(response);
     getPage().renderPage();
     if (scheduled == null && requestCycle.getRequestHandlerScheduledAfterCurrent() != null) {
+      originalResponse.reset();
+      response.writeMetaData(originalResponse);
       return null;
     }
  else {
