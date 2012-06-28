@@ -1,7 +1,9 @@
 {
-  Path path=new Path();
-  path.add(CLASSPATH_ROOT + File.separatorChar + PACKAGE_PATH);
-  IResourceStream rs=path.find(PathTest.class,FILENAME);
+  final String contents=PathTest.class.getName() + ": loaded from prefix";
+  final File file=createTempFile(contents);
+  final File parent=file.getParentFile();
+  final Path path=new Path(new Folder(parent.getCanonicalPath()));
+  IResourceStream rs=path.find(PathTest.class,file.getName());
   assertNotNull(rs);
-  assertEquals(FILENAME,getFilename(rs));
+  assertContents(contents,rs);
 }

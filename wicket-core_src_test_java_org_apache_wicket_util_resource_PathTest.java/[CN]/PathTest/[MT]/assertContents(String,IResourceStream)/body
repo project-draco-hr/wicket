@@ -1,0 +1,16 @@
+{
+  InputStream in=rs.getInputStream();
+  try {
+    final byte[] expectedBytes=expectedContents.getBytes(Charset.defaultCharset());
+    final int expectedLength=expectedBytes.length;
+    byte[] buf=new byte[expectedLength * 2];
+    int read=in.read(buf,0,buf.length);
+    assertEquals("contents do not match",expectedLength,read);
+    byte[] buf2=new byte[expectedLength];
+    System.arraycopy(buf,0,buf2,0,expectedLength);
+    assertTrue("contents do not match",Arrays.equals(expectedBytes,buf2));
+  }
+  finally {
+    in.close();
+  }
+}

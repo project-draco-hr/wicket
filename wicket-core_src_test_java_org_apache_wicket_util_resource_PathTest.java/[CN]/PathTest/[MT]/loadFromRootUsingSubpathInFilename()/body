@@ -1,7 +1,9 @@
 {
-  Path path=new Path();
-  path.add(CLASSPATH_ROOT);
-  IResourceStream rs=path.find(PathTest.class,PACKAGE_PATH + File.separatorChar + FILENAME);
+  final String contents=PathTest.class.getName() + ": loaded from root";
+  final File file=createTempFile(contents);
+  final File root=findRoot(file);
+  final Path path=new Path(new Folder(root.getCanonicalPath()));
+  IResourceStream rs=path.find(PathTest.class,file.getCanonicalPath());
   assertNotNull(rs);
-  assertEquals(FILENAME,getFilename(rs));
+  assertContents(contents,rs);
 }
