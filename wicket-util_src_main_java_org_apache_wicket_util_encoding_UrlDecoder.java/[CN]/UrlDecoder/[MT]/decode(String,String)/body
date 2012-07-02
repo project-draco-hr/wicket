@@ -2,7 +2,6 @@
   if (s == null) {
     return null;
   }
-  boolean needToChange=false;
   int numChars=s.length();
   StringBuilder sb=new StringBuilder(numChars > 500 ? numChars / 2 : numChars);
   int i=0;
@@ -17,35 +16,33 @@ switch (c) {
 case '+':
       sb.append(decodePlus ? ' ' : '+');
     i++;
-  needToChange=true;
-break;
+  break;
 case '%':
 try {
-if (bytes == null) {
-  bytes=new byte[(numChars - i) / 3];
-}
-int pos=0;
-while (((i + 2) < numChars) && (c == '%')) {
-  bytes[pos++]=(byte)Integer.parseInt(s.substring(i + 1,i + 3),16);
-  i+=3;
-  if (i < numChars) {
-    c=s.charAt(i);
+  if (bytes == null) {
+    bytes=new byte[(numChars - i) / 3];
+  }
+  int pos=0;
+  while (((i + 2) < numChars) && (c == '%')) {
+    bytes[pos++]=(byte)Integer.parseInt(s.substring(i + 1,i + 3),16);
+    i+=3;
+    if (i < numChars) {
+      c=s.charAt(i);
+    }
+  }
+  if ((i < numChars) && (c == '%')) {
+    throw new IllegalArgumentException("URLDecoder: Incomplete trailing escape (%) pattern");
+  }
+  try {
+    sb.append(new String(bytes,0,pos,enc));
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new RuntimeException(e);
   }
 }
-if ((i < numChars) && (c == '%')) {
-  throw new IllegalArgumentException("URLDecoder: Incomplete trailing escape (%) pattern");
-}
-try {
-  sb.append(new String(bytes,0,pos,enc));
-}
- catch (UnsupportedEncodingException e) {
-  throw new RuntimeException(e);
-}
-}
  catch (NumberFormatException e) {
-throw new IllegalArgumentException("URLDecoder: Illegal hex characters in escape (%) pattern - " + e.getMessage());
+  throw new IllegalArgumentException("URLDecoder: Illegal hex characters in escape (%) pattern - " + e.getMessage());
 }
-needToChange=true;
 break;
 default :
 sb.append(c);
@@ -53,5 +50,5 @@ i++;
 break;
 }
 }
-return (needToChange ? sb.toString() : s);
+return sb.toString().replace("\0","NULL");
 }

@@ -1,0 +1,6 @@
+{
+  String evil="http://www.devil.com/highway/to%00hell";
+  String decoded=UrlDecoder.PATH_INSTANCE.decode(evil,"UTF-8");
+  assertEquals(-1,decoded.indexOf('\0'));
+  assertEquals("http://www.devil.com/highway/toNULLhell",decoded);
+}
