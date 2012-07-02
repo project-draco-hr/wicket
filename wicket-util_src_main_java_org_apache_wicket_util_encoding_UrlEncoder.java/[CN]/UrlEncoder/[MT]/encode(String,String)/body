@@ -1,5 +1,5 @@
 {
-  boolean needToChange=false;
+  final String s=unsafeInput.replace("\0","NULL");
   StringBuilder out=new StringBuilder(s.length());
   Charset charset;
   CharArrayWriter charArrayWriter=new CharArrayWriter();
@@ -16,13 +16,12 @@ catch (  UnsupportedCharsetException e) {
   boolean stopEncoding=false;
   for (int i=0; i < s.length(); ) {
     int c=s.charAt(i);
-    if ((stopEncoding == false) && (c == stopChar)) {
+    if ((stopEncoding == false) && (c == '?' && type == Type.FULL_PATH)) {
       stopEncoding=true;
     }
     if ((stopEncoding == true) || dontNeedEncoding.get(c)) {
       if (c == ' ') {
         c='+';
-        needToChange=true;
       }
       out.append((char)c);
       i++;
@@ -59,8 +58,7 @@ catch (  UnsupportedCharsetException e) {
         out.append(ch);
       }
       charArrayWriter.reset();
-      needToChange=true;
     }
   }
-  return (needToChange ? out.toString() : s);
+  return out.toString();
 }
