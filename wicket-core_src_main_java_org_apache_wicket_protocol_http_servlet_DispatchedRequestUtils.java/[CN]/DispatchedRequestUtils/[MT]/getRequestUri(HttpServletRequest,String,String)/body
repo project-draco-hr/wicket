@@ -1,0 +1,13 @@
+{
+  if (filterPrefix == null) {
+    filterPrefix="";
+  }
+  if (Strings.isEmpty(filterPrefix) == false && filterPrefix.startsWith("/") == false) {
+    filterPrefix='/' + filterPrefix;
+  }
+  String uri=(String)request.getAttribute(attributeName);
+  if (uri != null && uri.startsWith(filterPrefix) && "/".equals(filterPrefix) == false) {
+    uri=uri.substring(filterPrefix.length());
+  }
+  return uri;
+}
