@@ -1,0 +1,7 @@
+{
+  ClassPathResourceFinder finder=new ClassPathResourceFinder(ClassPathResourceFinderTest.class.getPackage().getName().replace('.',File.separatorChar));
+  String filename=ClassPathResourceFinderTest.class.getSimpleName() + ".class";
+  IResourceStream rs=finder.find(WebApplication.class,filename);
+  assertNotNull(rs);
+  assertEquals(ClassPathResourceFinderTest.class.getSimpleName() + ".class",getFilename(rs));
+}

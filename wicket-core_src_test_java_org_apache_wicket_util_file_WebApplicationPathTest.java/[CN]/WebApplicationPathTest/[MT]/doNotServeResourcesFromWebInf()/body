@@ -1,8 +1,8 @@
 {
   URL webUrl=new URL("file://dummyFile");
   ServletContext context=Mockito.mock(ServletContext.class);
-  Mockito.when(context.getResource(Mockito.any(String.class))).thenReturn(webUrl);
-  WebApplicationPath path=new WebApplicationPath(context);
+  Mockito.when(context.getResource(Matchers.any(String.class))).thenReturn(webUrl);
+  WebApplicationPath path=new WebApplicationPath(context,"");
   IResourceStream resourceStream=path.find(String.class,"WEB-INF/web.xml");
   assertNull(resourceStream);
   IResourceStream otherResourceStream=path.find(String.class,"any/other/resource");

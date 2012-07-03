@@ -1,16 +1,19 @@
 {
   super.internalInit();
+  getResourceSettings().getResourceFinders().add(new WebApplicationPath(getServletContext(),""));
+  getResourceSettings().getResourceFinders().add(new ClassPathResourceFinder(META_INF_RESOURCES));
   getApplicationSettings().setPageExpiredErrorPage(PageExpiredErrorPage.class);
   getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
   getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
   getPageSettings().addComponentResolver(new AutoLinkResolver());
   getPageSettings().addComponentResolver(new AutoLabelResolver());
   getPageSettings().addComponentResolver(new AutoLabelTextResolver());
-  getResourceSettings().setResourceFinder(getResourceFinder());
   getResourceSettings().setFileCleaner(new FileCleaner());
-  String resourceFolder=getInitParameter("sourceFolder");
-  if (resourceFolder != null) {
-    getResourceSettings().addResourceFolder(resourceFolder);
+  if (getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT) {
+    String resourceFolder=getInitParameter("sourceFolder");
+    if (resourceFolder != null) {
+      getResourceSettings().getResourceFinders().add(new Path(resourceFolder));
+    }
   }
   setPageRendererProvider(new WebPageRendererProvider());
   setSessionStoreProvider(new WebSessionStoreProvider());

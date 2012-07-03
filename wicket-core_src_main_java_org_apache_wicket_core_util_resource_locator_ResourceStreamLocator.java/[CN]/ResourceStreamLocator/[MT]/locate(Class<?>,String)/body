@@ -1,11 +1,14 @@
 {
-  IResourceStream stream=locateByResourceFinder(clazz,path);
-  if (stream != null) {
-    return stream;
+  if (finders == null) {
+    finders=Application.get().getResourceSettings().getResourceFinders();
   }
-  stream=locateByClassLoader(clazz,path);
-  if (stream != null) {
-    return stream;
+  IResourceStream result;
+  for (  IResourceFinder finder : finders) {
+    log.debug("Attempting to locate resource '{}' using finder'{}'",path,finder);
+    result=finder.find(clazz,path);
+    if (result != null) {
+      return result;
+    }
   }
   return null;
 }

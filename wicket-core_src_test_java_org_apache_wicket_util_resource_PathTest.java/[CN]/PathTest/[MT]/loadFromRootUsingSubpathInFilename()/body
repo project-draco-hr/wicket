@@ -2,7 +2,7 @@
   final String contents=PathTest.class.getName() + ": loaded from root";
   final File file=createTempFile(contents);
   final File root=findRoot(file);
-  final Path path=new Path(new Folder(root.getCanonicalPath()));
+  final Path path=new Path(root.getCanonicalPath());
   IResourceStream rs=path.find(PathTest.class,file.getCanonicalPath());
   assertNotNull(rs);
   assertContents(contents,rs);

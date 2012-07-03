@@ -1,19 +1,13 @@
 {
-  if (pathname == null) {
-    return null;
-  }
-  IResourceStream resourceStream=super.find(clazz,pathname);
-  if (resourceStream == null && pathname.startsWith(WEB_INF) == false) {
-    for (    String path : webappPaths) {
-      try {
-        final URL url=servletContext.getResource(path + pathname);
-        if (url != null) {
-          resourceStream=new UrlResourceStream(url);
-          break;
-        }
+  IResourceStream resourceStream=null;
+  if (pathname.startsWith(WEB_INF) == false) {
+    try {
+      final URL url=servletContext.getResource(path + pathname);
+      if (url != null) {
+        resourceStream=new UrlResourceStream(url);
       }
- catch (      Exception ex) {
-      }
+    }
+ catch (    Exception ex) {
     }
   }
   return resourceStream;
