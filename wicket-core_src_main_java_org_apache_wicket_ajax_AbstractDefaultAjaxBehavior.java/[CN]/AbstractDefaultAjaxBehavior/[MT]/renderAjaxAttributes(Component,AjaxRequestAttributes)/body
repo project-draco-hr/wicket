@@ -28,41 +28,17 @@
     for (    IAjaxCallListener ajaxCallListener : attributes.getAjaxCallListeners()) {
       if (ajaxCallListener != null) {
         CharSequence beforeHandler=ajaxCallListener.getBeforeHandler(component);
-        if (Strings.isEmpty(beforeHandler) == false) {
-          String func=String.format(BEFORE_HANDLER_FUNCTION_TEMPLATE,beforeHandler);
-          JsonFunction function=new JsonFunction(func);
-          attributesJson.append("bh",function);
-        }
+        appendListenerHandler(beforeHandler,attributesJson,"bh",BEFORE_HANDLER_FUNCTION_TEMPLATE);
         CharSequence afterHandler=ajaxCallListener.getAfterHandler(component);
-        if (Strings.isEmpty(afterHandler) == false) {
-          String func=String.format(AFTER_HANDLER_FUNCTION_TEMPLATE,afterHandler);
-          JsonFunction function=new JsonFunction(func);
-          attributesJson.append("ah",function);
-        }
+        appendListenerHandler(afterHandler,attributesJson,"ah",AFTER_HANDLER_FUNCTION_TEMPLATE);
         CharSequence successHandler=ajaxCallListener.getSuccessHandler(component);
-        if (Strings.isEmpty(successHandler) == false) {
-          String func=String.format(SUCCESS_HANDLER_FUNCTION_TEMPLATE,successHandler);
-          JsonFunction function=new JsonFunction(func);
-          attributesJson.append("sh",function);
-        }
+        appendListenerHandler(successHandler,attributesJson,"sh",SUCCESS_HANDLER_FUNCTION_TEMPLATE);
         CharSequence failureHandler=ajaxCallListener.getFailureHandler(component);
-        if (Strings.isEmpty(failureHandler) == false) {
-          String func=String.format(FAILURE_HANDLER_FUNCTION_TEMPLATE,failureHandler);
-          JsonFunction function=new JsonFunction(func);
-          attributesJson.append("fh",function);
-        }
+        appendListenerHandler(failureHandler,attributesJson,"fh",FAILURE_HANDLER_FUNCTION_TEMPLATE);
         CharSequence completeHandler=ajaxCallListener.getCompleteHandler(component);
-        if (Strings.isEmpty(completeHandler) == false) {
-          String func=String.format(COMPLETE_HANDLER_FUNCTION_TEMPLATE,completeHandler);
-          JsonFunction function=new JsonFunction(func);
-          attributesJson.append("coh",function);
-        }
+        appendListenerHandler(completeHandler,attributesJson,"coh",COMPLETE_HANDLER_FUNCTION_TEMPLATE);
         CharSequence precondition=ajaxCallListener.getPrecondition(component);
-        if (Strings.isEmpty(precondition) == false) {
-          String func=String.format(PRECONDITION_FUNCTION_TEMPLATE,precondition);
-          JsonFunction function=new JsonFunction(func);
-          attributesJson.append("pre",function);
-        }
+        appendListenerHandler(precondition,attributesJson,"pre",PRECONDITION_FUNCTION_TEMPLATE);
       }
     }
     JSONObject extraParameters=new JSONObject();
