@@ -2,19 +2,19 @@
   return new WicketFilter(){
     @Override public FilterConfig getFilterConfig(){
       return new FilterConfig(){
-        public String getInitParameter(        final String param){
+        @Override public String getInitParameter(        final String param){
           if ("module".equals(param)) {
             return TestModule.class.getName();
           }
           return null;
         }
-        public ServletContext getServletContext(){
+        @Override public ServletContext getServletContext(){
           return new MockServletContext(null,null);
         }
-        public Enumeration<?> getInitParameterNames(){
+        @Override public Enumeration<?> getInitParameterNames(){
           return null;
         }
-        public String getFilterName(){
+        @Override public String getFilterName(){
           return null;
         }
       }

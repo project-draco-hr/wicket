@@ -2,14 +2,14 @@
   return new Iterator<T>(){
     private Iterator<IModel<T>> iterator=models.iterator();
     private IModel<T> current;
-    public boolean hasNext(){
+    @Override public boolean hasNext(){
       return iterator.hasNext();
     }
-    public T next(){
+    @Override public T next(){
       current=iterator.next();
       return current.getObject();
     }
-    public void remove(){
+    @Override public void remove(){
       iterator.remove();
       current.detach();
       current=null;

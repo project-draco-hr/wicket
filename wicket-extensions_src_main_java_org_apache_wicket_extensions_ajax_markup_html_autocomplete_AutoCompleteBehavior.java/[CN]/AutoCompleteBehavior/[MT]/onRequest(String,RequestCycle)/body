@@ -1,6 +1,6 @@
 {
   IRequestHandler target=new IRequestHandler(){
-    public void respond(    final IRequestCycle requestCycle){
+    @Override public void respond(    final IRequestCycle requestCycle){
       WebResponse r=(WebResponse)requestCycle.getResponse();
       final String encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
       r.setContentType("text/xml; charset=" + encoding);
@@ -15,7 +15,7 @@
       }
       renderer.renderFooter(r,count);
     }
-    public void detach(    final IRequestCycle requestCycle){
+    @Override public void detach(    final IRequestCycle requestCycle){
     }
   }
 ;

@@ -2,17 +2,17 @@
   return new AbstractSet<K>(){
     @Override public Iterator<K> iterator(){
       return new Iterator<K>(){
-        public boolean hasNext(){
+        @Override public boolean hasNext(){
           return i < size - 1;
         }
-        public K next(){
+        @Override public K next(){
           if (!hasNext()) {
             throw new NoSuchElementException();
           }
           i=nextKey(nextIndex(i));
           return keys[i];
         }
-        public void remove(){
+        @Override public void remove(){
           keys[i]=null;
           values[i]=null;
           size--;

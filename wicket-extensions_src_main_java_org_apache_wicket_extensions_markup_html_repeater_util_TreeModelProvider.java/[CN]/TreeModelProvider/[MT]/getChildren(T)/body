@@ -2,14 +2,14 @@
   return new Iterator<T>(){
     private int size=treeModel.getChildCount(object);
     private int index=-1;
-    public boolean hasNext(){
+    @Override public boolean hasNext(){
       return index < size - 1;
     }
-    public T next(){
+    @Override public T next(){
       index++;
       return cast(treeModel.getChild(object,index));
     }
-    public void remove(){
+    @Override public void remove(){
       throw new UnsupportedOperationException();
     }
   }
