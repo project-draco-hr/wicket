@@ -1,5 +1,8 @@
 {
   IRequestHandler scheduled=requestCycle.getRequestHandlerScheduledAfterCurrent();
+  if (scheduled != null) {
+    return null;
+  }
   final WebResponse originalResponse=(WebResponse)requestCycle.getResponse();
   BufferedWebResponse response=new BufferedWebResponse(originalResponse);
   Url originalBaseUrl=requestCycle.getUrlRenderer().setBaseUrl(targetUrl);
