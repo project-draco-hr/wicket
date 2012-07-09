@@ -6,10 +6,10 @@
   final TextField<String> rolesSetNameField=new TextField<String>("user.rolesSetName");
   add(rolesSetNameField);
   add(new AbstractFormValidator(){
-    public FormComponent[] getDependentFormComponents(){
+    @Override public FormComponent[] getDependentFormComponents(){
       return null;
     }
-    public void validate(    Form<?> form){
+    @Override public void validate(    Form<?> form){
       String rolesInput=rolesChoiceField.getInput();
       if (rolesInput != null && (!"".equals(rolesInput))) {
         if ("".equals(rolesSetNameField.getInput())) {

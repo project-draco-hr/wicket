@@ -4,7 +4,7 @@
   columns.add(new TreeColumn<Foo,String>(Model.of("Tree")));
   columns.add(new AbstractColumn<Foo,String>(Model.of("Depth")){
     private static final long serialVersionUID=1L;
-    public void populateItem(    Item<ICellPopulator<Foo>> cellItem,    String componentId,    IModel<Foo> rowModel){
+    @Override public void populateItem(    Item<ICellPopulator<Foo>> cellItem,    String componentId,    IModel<Foo> rowModel){
       NodeModel<Foo> nodeModel=(NodeModel<Foo>)rowModel;
       cellItem.add(new Label(componentId,"" + nodeModel.getDepth()));
     }

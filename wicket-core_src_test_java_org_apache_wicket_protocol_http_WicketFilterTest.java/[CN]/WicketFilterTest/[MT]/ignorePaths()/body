@@ -8,7 +8,7 @@
   when(request.getContextPath()).thenReturn("/contextPath");
   HttpServletResponse response=mock(HttpServletResponse.class);
   when(response.encodeRedirectURL(Matchers.anyString())).thenAnswer(new Answer<String>(){
-    public String answer(    InvocationOnMock invocation) throws Throwable {
+    @Override public String answer(    InvocationOnMock invocation) throws Throwable {
       return (String)invocation.getArguments()[0];
     }
   }

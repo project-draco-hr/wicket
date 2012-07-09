@@ -2,17 +2,17 @@
   return new AbstractSet<K>(){
     @Override public Iterator<K> iterator(){
       return new Iterator<K>(){
-        public boolean hasNext(){
+        @Override public boolean hasNext(){
           return index < MicroMap.this.size();
         }
-        public K next(){
+        @Override public K next(){
           if (!hasNext()) {
             throw new NoSuchElementException();
           }
           index++;
           return key;
         }
-        public void remove(){
+        @Override public void remove(){
           MicroMap.this.clear();
         }
         int index;

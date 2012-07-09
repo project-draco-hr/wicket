@@ -1,7 +1,7 @@
 {
   currentBranch=new Branch<T>(null,provider.getRoots());
   Iterator<T> iterator=new Iterator<T>(){
-    public boolean hasNext(){
+    @Override public boolean hasNext(){
       while (currentBranch != null) {
         if (currentBranch.hasNext()) {
           return true;
@@ -10,7 +10,7 @@
       }
       return false;
     }
-    public T next(){
+    @Override public T next(){
       if (!hasNext()) {
         throw new IllegalStateException();
       }
@@ -21,7 +21,7 @@
       }
       return next;
     }
-    public void remove(){
+    @Override public void remove(){
       throw new UnsupportedOperationException();
     }
   }

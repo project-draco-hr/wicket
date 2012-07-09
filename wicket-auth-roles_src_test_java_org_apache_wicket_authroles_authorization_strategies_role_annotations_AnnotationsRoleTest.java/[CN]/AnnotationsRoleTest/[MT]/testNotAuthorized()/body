@@ -3,7 +3,7 @@
   tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new RoleAuthorizationStrategy(new UserRolesAuthorizer("USER")));
 final class Listener implements IUnauthorizedComponentInstantiationListener {
     private boolean eventReceived=false;
-    public void onUnauthorizedInstantiation(    Component component){
+    @Override public void onUnauthorizedInstantiation(    Component component){
       eventReceived=true;
     }
   }

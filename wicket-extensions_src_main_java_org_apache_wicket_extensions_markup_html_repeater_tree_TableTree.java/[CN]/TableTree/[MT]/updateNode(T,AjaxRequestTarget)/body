@@ -2,7 +2,7 @@
   if (target != null) {
     final IModel<T> model=getProvider().model(t);
     visitChildren(Item.class,new IVisitor<Item<T>,Void>(){
-      public void component(      Item<T> item,      IVisit<Void> visit){
+      @Override public void component(      Item<T> item,      IVisit<Void> visit){
         NodeModel<T> nodeModel=(NodeModel<T>)item.getModel();
         if (model.equals(nodeModel.getWrappedModel())) {
           target.add(item);
