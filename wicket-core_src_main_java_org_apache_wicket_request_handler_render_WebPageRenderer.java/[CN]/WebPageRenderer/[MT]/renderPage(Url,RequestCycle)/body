@@ -1,4 +1,5 @@
 {
+  IRequestablePage requestablePage=getPage();
   IRequestHandler scheduled=requestCycle.getRequestHandlerScheduledAfterCurrent();
   if (scheduled != null) {
     return null;
@@ -8,7 +9,7 @@
   Url originalBaseUrl=requestCycle.getUrlRenderer().setBaseUrl(targetUrl);
   try {
     requestCycle.setResponse(response);
-    getPage().renderPage();
+    requestablePage.renderPage();
     if (scheduled == null && requestCycle.getRequestHandlerScheduledAfterCurrent() != null) {
       originalResponse.reset();
       response.writeMetaData(originalResponse);
