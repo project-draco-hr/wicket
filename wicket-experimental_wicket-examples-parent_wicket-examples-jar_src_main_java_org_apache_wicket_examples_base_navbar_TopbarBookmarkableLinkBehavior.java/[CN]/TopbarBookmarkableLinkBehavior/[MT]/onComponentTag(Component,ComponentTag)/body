@@ -1,0 +1,8 @@
+{
+  super.onComponentTag(component,tag);
+  BookmarkablePageLink<?> link=(BookmarkablePageLink<?>)component;
+  ClassValue classValue=ClassValue.of(tag.getAttributes().getString("class"));
+  if (link.linksTo(link.getPage()))   classValue.with("active");
+ else   classValue.without("active");
+  tag.put("class",classValue.toString());
+}

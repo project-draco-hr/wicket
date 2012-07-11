@@ -1,0 +1,9 @@
+{
+  super.onConfigure();
+  for (  Comment comment : comments) {
+    Time createdAt=Time.valueOf(comment.getCreatedAt());
+    if (Duration.elapsed(createdAt).seconds() > 10) {
+      comments.remove(comment);
+    }
+  }
+}
