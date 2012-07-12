@@ -1,0 +1,19 @@
+{
+  for (  Method curMethod : base.getClass().getMethods()) {
+    if (curMethod.isAnnotationPresent(Subscribe.class) && curMethod.getName().equals(subscription.getMethodName())) {
+      try {
+        curMethod.setAccessible(true);
+        curMethod.invoke(base,target,event);
+      }
+ catch (      IllegalAccessException e) {
+        throw new WicketRuntimeException(e);
+      }
+catch (      IllegalArgumentException e) {
+        throw new WicketRuntimeException(e);
+      }
+catch (      InvocationTargetException e) {
+        throw new WicketRuntimeException(e);
+      }
+    }
+  }
+}
