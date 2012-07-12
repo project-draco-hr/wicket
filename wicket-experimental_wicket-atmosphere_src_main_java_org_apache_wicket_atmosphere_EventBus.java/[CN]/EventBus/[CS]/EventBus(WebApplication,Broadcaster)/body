@@ -1,0 +1,8 @@
+{
+  this.application=application;
+  this.broadcaster=broadcaster;
+  application.setMetaData(EVENT_BUS_KEY,this);
+  application.mount(new AtmosphereRequestMapper());
+  application.getComponentPostOnBeforeRenderListeners().add(new AtmosphereEventSubscriptionCollector(this));
+  application.getSessionStore().registerUnboundListener(this);
+}
