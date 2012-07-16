@@ -1,0 +1,22 @@
+{
+  final int[] count=new int[1];
+  TestPage page=new TestPage();
+  page.tabbedPanel.getTabs().clear();
+  page.tabbedPanel.getTabs().add(new AbstractTab(Model.of("added 1")){
+    private static final long serialVersionUID=1L;
+    @Override public WebMarkupContainer getPanel(    String panelId){
+      count[0]++;
+      return new TestPanel(panelId,"added 1");
+    }
+  }
+);
+  assertEquals(0,count[0]);
+  tester.startPage(page);
+  assertEquals(1,count[0]);
+  tester.startPage(page);
+  assertEquals(1,count[0]);
+  page.tabbedPanel.setSelectedTab(0);
+  assertEquals(2,count[0]);
+  tester.startPage(page);
+  assertEquals(2,count[0]);
+}

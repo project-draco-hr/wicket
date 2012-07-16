@@ -1,19 +1,17 @@
 {
-  if (tabs.size() == 0) {
-    setSelectedTab(0);
-  }
- else   if ((getSelectedTab() == -1) || (isTabVisible(getSelectedTab()) == false)) {
-    int selected=0;
+  int index=getSelectedTab();
+  if ((index == -1) || (isTabVisible(index) == false)) {
+    index=-1;
     for (int i=0; i < tabs.size(); i++) {
       if (isTabVisible(i)) {
-        selected=i;
+        index=i;
         break;
       }
     }
-    if (selected == tabs.size()) {
-      selected=0;
+    if (index != -1) {
+      setSelectedTab(index);
     }
-    setSelectedTab(selected);
   }
+  setCurrentTab(index);
   super.onBeforeRender();
 }

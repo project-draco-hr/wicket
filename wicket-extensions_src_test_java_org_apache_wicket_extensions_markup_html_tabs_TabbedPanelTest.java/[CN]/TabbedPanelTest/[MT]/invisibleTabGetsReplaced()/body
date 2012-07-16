@@ -1,0 +1,49 @@
+{
+  final boolean[] visible={true,true};
+  TestPage page=new TestPage();
+  page.tabbedPanel.getTabs().clear();
+  page.tabbedPanel.getTabs().add(new AbstractTab(Model.of("added 1")){
+    private static final long serialVersionUID=1L;
+    @Override public WebMarkupContainer getPanel(    String panelId){
+      return new TestPanel(panelId,"added 1");
+    }
+    @Override public boolean isVisible(){
+      return visible[0];
+    }
+  }
+);
+  page.tabbedPanel.getTabs().add(new AbstractTab(Model.of("added 2")){
+    private static final long serialVersionUID=1L;
+    @Override public WebMarkupContainer getPanel(    String panelId){
+      return new TestPanel(panelId,"added 2");
+    }
+    @Override public boolean isVisible(){
+      return visible[1];
+    }
+  }
+);
+  page.tabbedPanel.setSelectedTab(1);
+  tester.startPage(page);
+  assertEquals(Integer.valueOf(1),page.tabbedPanel.getDefaultModelObject());
+  tester.assertContains("<span wicket:id=\"title\">added 1</span>");
+  tester.assertContains("<span wicket:id=\"title\">added 2</span>");
+  tester.assertContains("<span wicket:id=\"label\">added 2</span>");
+  visible[1]=false;
+  tester.startPage(page);
+  assertEquals(Integer.valueOf(0),page.tabbedPanel.getDefaultModelObject());
+  tester.assertContains("<span wicket:id=\"title\">added 1</span>");
+  tester.assertContainsNot("<span wicket:id=\"title\">added 2</span>");
+  tester.assertContains("<span wicket:id=\"label\">added 1</span>");
+  visible[0]=false;
+  tester.startPage(page);
+  assertEquals(Integer.valueOf(0),page.tabbedPanel.getDefaultModelObject());
+  tester.assertContainsNot("<span wicket:id=\"title\">added 1</span>");
+  tester.assertContainsNot("<span wicket:id=\"title\">added 2</span>");
+  tester.assertContains("<!-- no panel -->");
+  visible[1]=true;
+  tester.startPage(page);
+  assertEquals(Integer.valueOf(1),page.tabbedPanel.getDefaultModelObject());
+  tester.assertContainsNot("<span wicket:id=\"title\">added 1</span>");
+  tester.assertContains("<span wicket:id=\"title\">added 2</span>");
+  tester.assertContains("<span wicket:id=\"label\">added 2</span>");
+}
