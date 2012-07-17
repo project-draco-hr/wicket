@@ -1,16 +1,5 @@
 {
   if (target != null) {
-    final IModel<T> model=getProvider().model(node);
-    visitChildren(Node.class,new IVisitor<Node<T>,Void>(){
-      @Override public void component(      Node<T> node,      IVisit<Void> visit){
-        if (model.equals(node.getModel())) {
-          target.add(node);
-          visit.stop();
-        }
-        visit.dontGoDeeper();
-      }
-    }
-);
-    model.detach();
+    target.add(this);
   }
 }
