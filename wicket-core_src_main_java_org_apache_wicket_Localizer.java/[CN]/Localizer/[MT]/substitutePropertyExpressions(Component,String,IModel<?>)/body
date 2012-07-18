@@ -1,6 +1,18 @@
 {
   if ((string != null) && (model != null)) {
-    return PropertyVariableInterpolator.interpolate(string,model.getObject());
+    return new PropertyVariableInterpolator(string,model.getObject()){
+      @Override protected String toString(      Object value){
+        IConverter converter;
+        if (component == null) {
+          converter=Application.get().getConverterLocator().getConverter(value.getClass());
+        }
+ else {
+          converter=component.getConverter(value.getClass());
+        }
+        return converter.convertToString(value,Session.get().getLocale());
+      }
+    }
+.toString();
   }
   return string;
 }

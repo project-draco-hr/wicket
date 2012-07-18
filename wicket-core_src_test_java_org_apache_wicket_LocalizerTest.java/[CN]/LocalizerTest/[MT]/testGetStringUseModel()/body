@@ -1,6 +1,8 @@
 {
-  HashMap<String,String> model=new HashMap<String,String>();
+  Session.get().setLocale(Locale.GERMAN);
+  HashMap<String,Object> model=new HashMap<String,Object>();
   model.put("user","juergen");
-  Assert.assertEquals("Expected string should be returned","Welcome, juergen",localizer.getString("test.substitute",null,new PropertyModel<String>(model,null),"DEFAULT {user}"));
-  Assert.assertEquals("Expected string should be returned","DEFAULT juergen",localizer.getString("test.substituteDoesNotExist",null,new PropertyModel<String>(model,null),"DEFAULT ${user}"));
+  model.put("rating",4.5);
+  Assert.assertEquals("Expected string should be returned","juergen gives 4,5 stars",localizer.getString("test.substitute",null,new PropertyModel<String>(model,null),"DEFAULT {user}"));
+  Assert.assertEquals("Expected string should be returned","DEFAULT juergen",localizer.getString("test.substituteDoesNotExist",null,new PropertyModel<HashMap<String,Object>>(model,null),"DEFAULT ${user}"));
 }

@@ -1,6 +1,8 @@
 {
+  Session.get().setLocale(Locale.GERMAN);
   ValueMap vm=new ValueMap();
   vm.put("user","John Doe");
+  vm.put("rating",4.5);
   IModel<ValueMap> model=new Model<ValueMap>(vm);
-  Assert.assertEquals("Property substitution should occur","Welcome, John Doe",localizer.getString("test.substitute",null,model,null));
+  Assert.assertEquals("Property substitution should occur","John Doe gives 4,5 stars",localizer.getString("test.substitute",null,model,null));
 }
