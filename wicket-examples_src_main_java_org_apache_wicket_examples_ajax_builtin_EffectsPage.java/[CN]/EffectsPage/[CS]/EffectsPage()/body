@@ -11,6 +11,10 @@
       target.add(c1);
       target.appendJavaScript("new Effect.Shake($('" + c1.getMarkupId() + "'));");
     }
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      attributes.setChannel(new AjaxChannel("effects",Type.DROP));
+      super.updateAjaxAttributes(attributes);
+    }
   }
 );
   add(new AjaxFallbackLink<Void>("c2-link"){
@@ -20,6 +24,10 @@
         target.add(c2);
         target.appendJavaScript("new Effect.Highlight($('" + c2.getMarkupId() + "'));");
       }
+    }
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      attributes.setChannel(new AjaxChannel("effects",Type.DROP));
+      super.updateAjaxAttributes(attributes);
     }
   }
 );
