@@ -9,7 +9,7 @@
     if (cachedValue != null) {
       return cachedValue;
     }
-    final Object target;
+    Object target;
     if (wrapInProxies) {
       target=LazyInitProxyFactory.createProxy(field.getType(),locator);
     }
@@ -17,7 +17,10 @@
       target=locator.locateProxyTarget();
     }
     if (locator.isSingletonBean()) {
-      cache.put(locator,target);
+      Object tmpTarget=cache.putIfAbsent(locator,target);
+      if (tmpTarget != null) {
+        target=tmpTarget;
+      }
     }
     return target;
   }

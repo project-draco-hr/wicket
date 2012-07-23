@@ -7,10 +7,10 @@
       newEntry.modifiable=modifiable;
       newEntry.lastModifiedTime=lastModifiedTime;
       newEntry.listeners.add(listener);
-      modifiableToEntry.put(modifiable,newEntry);
+      modifiableToEntry.putIfAbsent(modifiable,newEntry);
     }
  else {
-      log.info("Cannot track modifications to resource " + modifiable);
+      log.info("Cannot track modifications to resource '{}'",modifiable);
     }
     return true;
   }

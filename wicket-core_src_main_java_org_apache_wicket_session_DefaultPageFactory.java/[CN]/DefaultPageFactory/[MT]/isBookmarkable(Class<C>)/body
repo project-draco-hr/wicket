@@ -18,7 +18,10 @@
     if (bookmarkable == null) {
       bookmarkable=Boolean.FALSE;
     }
-    pageToBookmarkableCache.put(pageClass.getName(),bookmarkable);
+    Boolean tmpBookmarkable=pageToBookmarkableCache.putIfAbsent(pageClass.getName(),bookmarkable);
+    if (tmpBookmarkable != null) {
+      bookmarkable=tmpBookmarkable;
+    }
   }
   return bookmarkable;
 }

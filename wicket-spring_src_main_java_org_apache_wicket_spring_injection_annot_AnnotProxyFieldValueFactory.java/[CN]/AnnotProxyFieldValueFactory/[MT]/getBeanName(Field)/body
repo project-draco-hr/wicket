@@ -16,7 +16,10 @@
     if (name == null) {
       name=getBeanNameOfClass(contextLocator.getSpringContext(),field.getType(),required);
       if (name != null) {
-        beanNameCache.put(field.getType(),name);
+        String tmpName=beanNameCache.putIfAbsent(field.getType(),name);
+        if (tmpName != null) {
+          name=tmpName;
+        }
       }
     }
   }

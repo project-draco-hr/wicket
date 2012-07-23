@@ -6,6 +6,10 @@
   for (  FeedbackMessage message : toDelete) {
     message.detach();
   }
-  messages.removeAll(toDelete);
-  return toDelete.size();
+synchronized (messages) {
+    int sizeBefore=messages.size();
+    messages.removeAll(toDelete);
+    int sizeAfter=messages.size();
+    return sizeAfter - sizeBefore;
+  }
 }

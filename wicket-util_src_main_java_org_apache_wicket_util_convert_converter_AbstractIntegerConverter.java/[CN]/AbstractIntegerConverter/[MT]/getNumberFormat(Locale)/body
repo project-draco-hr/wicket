@@ -4,7 +4,10 @@
     numberFormat=NumberFormat.getIntegerInstance(locale);
     numberFormat.setParseIntegerOnly(true);
     numberFormat.setGroupingUsed(false);
-    numberFormats.put(locale,numberFormat);
+    NumberFormat tmpNumberFormat=numberFormats.putIfAbsent(locale,numberFormat);
+    if (tmpNumberFormat != null) {
+      numberFormat=tmpNumberFormat;
+    }
   }
   return (NumberFormat)numberFormat.clone();
 }
