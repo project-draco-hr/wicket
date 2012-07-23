@@ -5,7 +5,14 @@
  else   if (type.isInterface()) {
     JdkHandler handler=new JdkHandler(type,locator);
     try {
-      return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+      ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+      if (Application.exists()) {
+        IClassResolver classResolver=(IClassResolver)Application.get().getApplicationSettings().getClassResolver();
+        if (classResolver != null) {
+          classLoader=classResolver.getClassLoader();
+        }
+      }
+      return Proxy.newProxyInstance(classLoader,new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
     }
  catch (    IllegalArgumentException e) {
       return Proxy.newProxyInstance(LazyInitProxyFactory.class.getClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
