@@ -1,0 +1,11 @@
+{
+  Args.notNull(handler,"handler");
+  Integer pageId=null;
+  if (handler.isPageInstanceCreated()) {
+    IRequestablePage page=handler.getPage();
+    if (page.isPageStateless() == false) {
+      pageId=page.getPageId();
+    }
+  }
+  return new PageInfo(pageId);
+}

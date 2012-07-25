@@ -4,7 +4,7 @@
     PageComponentInfo info=urlInfo.getPageComponentInfo();
     Class<? extends IRequestablePage> pageClass=urlInfo.getPageClass();
     PageParameters pageParameters=urlInfo.getPageParameters();
-    if (info == null || info.getPageInfo().getPageId() == null) {
+    if (info == null) {
       return processBookmarkable(pageClass,pageParameters);
     }
  else     if (info.getPageInfo().getPageId() != null && info.getComponentInfo() == null) {
@@ -12,6 +12,9 @@
     }
  else     if (info.getComponentInfo() != null) {
       return processListener(info,pageClass,pageParameters);
+    }
+ else     if (info.getPageInfo().getPageId() == null) {
+      return processBookmarkable(pageClass,pageParameters);
     }
   }
   return null;
