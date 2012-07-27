@@ -1,0 +1,8 @@
+{
+  Url url=Url.parse("some/relative/url");
+  UrlResourceReference reference=new UrlResourceReference(url);
+  assertEquals(url,reference.getUrl());
+  CharSequence _url=tester.getRequestCycle().urlFor(reference,null);
+  assertEquals(url.toString(),_url);
+  assertNull(reference.getResource());
+}

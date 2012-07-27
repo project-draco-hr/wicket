@@ -5,14 +5,14 @@
     if (handler instanceof ResourceReferenceRequestHandler) {
       ResourceReferenceRequestHandler rrrh=(ResourceReferenceRequestHandler)handler;
       IResource resource=rrrh.getResource();
-      if (!(resource instanceof IStaticCacheableResource) || shouldEncodeStaticResource) {
+      if (resource != null && !(resource instanceof IStaticCacheableResource) || shouldEncodeStaticResource) {
         renderedUrl=getOriginalResponse().encodeURL(renderedUrl);
       }
     }
  else     if (handler instanceof ResourceRequestHandler) {
       ResourceRequestHandler rrh=(ResourceRequestHandler)handler;
       IResource resource=rrh.getResource();
-      if (!(resource instanceof IStaticCacheableResource) || shouldEncodeStaticResource) {
+      if (resource != null && !(resource instanceof IStaticCacheableResource) || shouldEncodeStaticResource) {
         renderedUrl=getOriginalResponse().encodeURL(renderedUrl);
       }
     }
