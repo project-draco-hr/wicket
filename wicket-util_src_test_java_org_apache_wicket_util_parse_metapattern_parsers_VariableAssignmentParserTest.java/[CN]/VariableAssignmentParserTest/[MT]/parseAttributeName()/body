@@ -1,0 +1,15 @@
+{
+  String tagName="tagName";
+  VariableAssignmentParser parser=new VariableAssignmentParser(tagName + " name='value'");
+  parser.matcher().find(tagName.length());
+  assertEquals("name",parser.getKey());
+  assertEquals("'value'",parser.getValue());
+  parser=new VariableAssignmentParser(tagName + " namespace:name='value'");
+  parser.matcher().find(tagName.length());
+  assertEquals("namespace:name",parser.getKey());
+  assertEquals("'value'",parser.getValue());
+  parser=new VariableAssignmentParser(tagName + " namespace:name:subname='value'");
+  parser.matcher().find(tagName.length());
+  assertEquals("namespace:name:subname",parser.getKey());
+  assertEquals("'value'",parser.getValue());
+}
