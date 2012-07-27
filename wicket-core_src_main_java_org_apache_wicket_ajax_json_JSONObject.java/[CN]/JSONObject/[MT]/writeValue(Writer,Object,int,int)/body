@@ -1,5 +1,8 @@
 {
-  if (value instanceof JSONObject) {
+  if (value == null || value.equals(null)) {
+    writer.write("null");
+  }
+ else   if (value instanceof JSONObject) {
     ((JSONObject)value).write(writer,indentFactor,indent);
   }
  else   if (value instanceof JSONArray) {
@@ -29,9 +32,6 @@
       throw new JSONException(e);
     }
     writer.write(o != null ? o.toString() : quote(value.toString()));
-  }
- else   if (value == null || value.equals(null)) {
-    writer.write("null");
   }
  else {
     quote(value.toString(),writer);
