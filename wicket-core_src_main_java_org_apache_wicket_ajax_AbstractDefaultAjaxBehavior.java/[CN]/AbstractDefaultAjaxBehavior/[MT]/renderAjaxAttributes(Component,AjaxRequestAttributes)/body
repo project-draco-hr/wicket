@@ -43,14 +43,7 @@
         appendListenerHandler(precondition,attributesJson,"pre",PRECONDITION_FUNCTION_TEMPLATE);
       }
     }
-    JSONObject extraParameters=new JSONObject();
-    Iterator<Entry<String,Object>> itor=attributes.getExtraParameters().entrySet().iterator();
-    while (itor.hasNext()) {
-      Entry<String,Object> entry=itor.next();
-      String name=entry.getKey();
-      Object value=entry.getValue();
-      extraParameters.accumulate(name,value);
-    }
+    JSONArray extraParameters=JsonUtils.asArray(attributes.getExtraParameters());
     if (extraParameters.length() > 0) {
       attributesJson.put("ep",extraParameters);
     }
