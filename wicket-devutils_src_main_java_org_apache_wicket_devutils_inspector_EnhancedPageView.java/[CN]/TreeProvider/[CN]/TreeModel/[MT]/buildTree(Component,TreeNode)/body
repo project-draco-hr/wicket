@@ -1,0 +1,40 @@
+{
+  TreeNode treeNode=new TreeNode(node,parent);
+  List<TreeNode> children=treeNode.children;
+  if (showBehaviors) {
+    for (    Behavior behavior : node.getBehaviors()) {
+      if (!showStatefulAndParentsOnly || !behavior.getStatelessHint(node))       children.add(new TreeNode(behavior,treeNode));
+    }
+  }
+  if (node instanceof MarkupContainer) {
+    MarkupContainer container=(MarkupContainer)node;
+    for (    Component child : container) {
+      buildTree(child,treeNode);
+    }
+  }
+  Collections.sort(children,new Comparator<TreeNode>(){
+    @Override public int compare(    TreeNode o1,    TreeNode o2){
+      if (o1.node instanceof Component) {
+        if (o2.node instanceof Component) {
+          return o1.getPath().compareTo((o2).getPath());
+        }
+ else {
+          return 1;
+        }
+      }
+ else {
+        if (o2.node instanceof Component) {
+          return -1;
+        }
+ else {
+          return o1.getPath().compareTo((o2).getPath());
+        }
+      }
+    }
+  }
+);
+  if (parent != null && (!showStatefulAndParentsOnly || treeNode.hasChildren() || !node.isStateless())) {
+    parent.children.add(treeNode);
+  }
+  return treeNode;
+}

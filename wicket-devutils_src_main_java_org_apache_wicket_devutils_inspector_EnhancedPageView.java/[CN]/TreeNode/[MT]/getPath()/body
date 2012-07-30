@@ -1,0 +1,12 @@
+{
+  if (node instanceof Component) {
+    return ((Component)node).getPath();
+  }
+ else {
+    Behavior behavior=(Behavior)node;
+    Component parent=(Component)this.parent.node;
+    String parentPath=parent.getPath();
+    int indexOf=parent.getBehaviors().indexOf(behavior);
+    return parentPath + Component.PATH_SEPARATOR + "Behavior_"+ indexOf;
+  }
+}

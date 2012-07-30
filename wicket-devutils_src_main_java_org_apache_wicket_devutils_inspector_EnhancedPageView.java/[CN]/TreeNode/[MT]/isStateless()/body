@@ -1,0 +1,13 @@
+{
+  if (node instanceof Page) {
+    return ((Page)node).isPageStateless();
+  }
+ else   if (node instanceof Component) {
+    return ((Component)node).isStateless();
+  }
+ else {
+    Behavior behavior=(Behavior)node;
+    Component parent=(Component)this.parent.node;
+    return behavior.getStatelessHint(parent);
+  }
+}

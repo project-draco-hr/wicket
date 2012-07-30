@@ -1,0 +1,34 @@
+{
+  super(id,pageModel);
+  expandState=new ExpandState();
+  expandState.expandAll();
+  showStatefulAndParentsOnly=false;
+  showBehaviors=true;
+  visibleColumns=EnumSet.allOf(VisibleColumns.class);
+  add(new Label("info",new Model<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      Page page=getModelObject();
+      return page == null ? "[Stateless Page]" : page.toString();
+    }
+  }
+));
+  Model<String> pageRenderDuration=new Model<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      Page page=getModelObject();
+      if (page != null) {
+        Long renderTime=page.getMetaData(PageView.RENDER_KEY);
+        if (renderTime != null) {
+          return renderTime.toString();
+        }
+      }
+      return "n/a";
+    }
+  }
+;
+  add(new Label("pageRenderDuration",pageRenderDuration));
+  addTreeControls();
+  componentTree=newTree();
+  add(componentTree);
+}

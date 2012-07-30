@@ -1,0 +1,33 @@
+{
+  Form<Void> form=new Form<Void>("form");
+  add(form);
+  form.add(new CheckBox("showStateless",new PropertyModel<Boolean>(this,"showStatefulAndParentsOnly")));
+  form.add(new CheckBox("showBehaviors",new PropertyModel<Boolean>(this,"showBehaviors")));
+  form.add(new CheckBoxMultipleChoice<VisibleColumns>("visibleColumns",new PropertyModel<Set<VisibleColumns>>(this,"visibleColumns"),Arrays.asList(VisibleColumns.values())).setSuffix(" "));
+  form.add(new AjaxFallbackButton("submit",form){
+    private static final long serialVersionUID=1L;
+    @Override protected void onAfterSubmit(    AjaxRequestTarget target,    Form<?> form){
+      AbstractTree<TreeNode> newTree=newTree();
+      componentTree.replaceWith(newTree);
+      componentTree=newTree;
+      if (target != null)       target.add(componentTree);
+    }
+  }
+);
+  add(new AjaxFallbackLink<Void>("expandAll"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      expandState.expandAll();
+      if (target != null)       target.add(componentTree);
+    }
+  }
+);
+  add(new AjaxFallbackLink<Void>("collapseAll"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      expandState.collapseAll();
+      if (target != null)       target.add(componentTree);
+    }
+  }
+);
+}

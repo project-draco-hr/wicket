@@ -1,0 +1,13 @@
+{
+  List<Integer> path=new ArrayList<Integer>();
+  TreeNode nextChild=this;
+  TreeNode parent;
+  while ((parent=nextChild.parent) != null) {
+    int indexOf=parent.children.indexOf(nextChild);
+    if (indexOf < 0)     throw new AssertionError("Child not found in parent");
+    path.add(indexOf);
+    nextChild=parent;
+  }
+  Collections.reverse(path);
+  return path;
+}
