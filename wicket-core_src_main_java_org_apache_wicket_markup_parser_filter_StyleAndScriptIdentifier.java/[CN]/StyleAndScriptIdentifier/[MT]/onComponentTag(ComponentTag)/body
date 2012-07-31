@@ -2,8 +2,11 @@
   if (tag.getNamespace() != null) {
     return tag;
   }
-  if (XmlPullParser.SCRIPT.equalsIgnoreCase(tag.getName()) || (XmlPullParser.STYLE.equalsIgnoreCase(tag.getName()))) {
-    if (tag.isOpen() && (tag.getId() == null)) {
+  String tagName=tag.getName();
+  boolean isScript=XmlPullParser.SCRIPT.equalsIgnoreCase(tagName);
+  boolean isStyle=XmlPullParser.STYLE.equalsIgnoreCase(tagName);
+  if (isScript || isStyle) {
+    if (tag.isOpen() && tag.getId() == null && ((isScript && tag.getAttribute("src") == null) || isStyle)) {
       tag.setId("_ScriptStyle");
       tag.setModified(true);
       tag.setAutoComponentTag(true);
