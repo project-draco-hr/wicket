@@ -1,2 +1,19 @@
 {
+  TreeProvider provider=new TreeProvider();
+  IModel<Set<TreeNode>> expandStateModel=new LoadableDetachableModel<Set<TreeNode>>(){
+    private static final long serialVersionUID=1L;
+    @Override protected Set<TreeNode> load(){
+      return expandState;
+    }
+  }
+;
+  AbstractTree<TreeNode> tree=new DefaultTableTree<TreeNode,Void>("tree",visibleColumns,provider,Integer.MAX_VALUE,expandStateModel){
+    private static final long serialVersionUID=1L;
+    @Override protected Item<TreeNode> newRowItem(    String id,    int index,    IModel<TreeNode> model){
+      return new OddEvenItem<TreeNode>(id,index,model);
+    }
+  }
+;
+  tree.setOutputMarkupId(true);
+  return tree;
 }

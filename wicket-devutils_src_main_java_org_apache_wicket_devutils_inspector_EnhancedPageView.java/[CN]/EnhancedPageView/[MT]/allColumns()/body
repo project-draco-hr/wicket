@@ -1,0 +1,68 @@
+{
+  List<IColumn<TreeNode,Void>> columns=new ArrayList<IColumn<TreeNode,Void>>();
+  columns.add(new PropertyColumn<TreeNode,Void>(Model.of("Path"),"path"){
+    private static final long serialVersionUID=1L;
+    @Override public String getCssClass(){
+      return "col_path";
+    }
+    @Override public String toString(){
+      return getDisplayModel().getObject();
+    }
+  }
+);
+  columns.add(new TreeColumn<TreeNode,Void>(Model.of("Tree")){
+    private static final long serialVersionUID=1L;
+    @Override public String toString(){
+      return getDisplayModel().getObject();
+    }
+  }
+);
+  columns.add(new PropertyColumn<TreeNode,Void>(Model.of("Stateless"),"stateless"){
+    private static final long serialVersionUID=1L;
+    @Override public String getCssClass(){
+      return "col_stateless";
+    }
+    @Override public String toString(){
+      return getDisplayModel().getObject();
+    }
+  }
+);
+  columns.add(new PropertyColumn<TreeNode,Void>(Model.of("Render time (ms)"),"renderTime"){
+    private static final long serialVersionUID=1L;
+    @Override public String getCssClass(){
+      return "col_renderTime";
+    }
+    @Override public String toString(){
+      return getDisplayModel().getObject();
+    }
+  }
+);
+  columns.add(new AbstractColumn<TreeNode,Void>(Model.of("Size")){
+    private static final long serialVersionUID=1L;
+    @Override public void populateItem(    Item<ICellPopulator<TreeNode>> item,    String componentId,    IModel<TreeNode> rowModel){
+      item.add(new Label(componentId,Bytes.bytes(rowModel.getObject().getSize()).toString()));
+    }
+    @Override public String getCssClass(){
+      return "col_size";
+    }
+    @Override public String toString(){
+      return getDisplayModel().getObject();
+    }
+  }
+);
+  columns.add(new PropertyColumn<TreeNode,Void>(Model.of("Type"),"type"){
+    private static final long serialVersionUID=1L;
+    @Override public String toString(){
+      return getDisplayModel().getObject();
+    }
+  }
+);
+  columns.add(new PropertyColumn<TreeNode,Void>(Model.of("Model Object"),"model"){
+    private static final long serialVersionUID=1L;
+    @Override public String toString(){
+      return getDisplayModel().getObject();
+    }
+  }
+);
+  return columns;
+}
