@@ -9,7 +9,7 @@
         error.addKey(e.getResourceKey());
       }
       if (e.getTargetType() != null) {
-        error.addKey("ConversionError." + e.getTargetType().getSimpleName());
+        error.addKey("ConversionError." + Classes.simpleName(e.getTargetType()));
       }
       error.addKey("ConversionError");
       reportValidationError(e,error);
@@ -25,7 +25,7 @@
       if (e.getResourceKey() != null) {
         error.addKey(e.getResourceKey());
       }
-      String simpleName=getType().getSimpleName();
+      String simpleName=Classes.simpleName(getType());
       error.addKey("IConverter." + simpleName);
       error.addKey("IConverter");
       error.setVariable("type",simpleName);

@@ -1,8 +1,9 @@
 {
   AppendingStringBuffer sb=new AppendingStringBuffer(128);
   if (handler != null) {
+    Class<? extends IRequestHandler> handlerClass=handler.getClass();
     sb.append("handler=");
-    sb.append(handler.getClass().isAnonymousClass() ? handler.getClass().getName() : handler.getClass().getSimpleName());
+    sb.append(handlerClass.isAnonymousClass() ? handlerClass.getName() : Classes.simpleName(handlerClass));
     if (handler instanceof ILoggableRequestHandler) {
       sb.append(",data=");
       sb.append(((ILoggableRequestHandler)handler).getLogData());

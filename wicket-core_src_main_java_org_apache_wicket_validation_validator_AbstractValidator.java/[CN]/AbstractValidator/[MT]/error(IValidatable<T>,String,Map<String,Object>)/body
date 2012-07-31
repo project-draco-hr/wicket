@@ -8,10 +8,10 @@
   if (resourceKey == null) {
     throw new IllegalArgumentException("Argument [[resourceKey]] cannot be null");
   }
-  ValidationError error=new ValidationError().addMessageKey(resourceKey);
-  final String defaultKey=getClass().getSimpleName();
+  ValidationError error=new ValidationError().addKey(resourceKey);
+  final String defaultKey=Classes.simpleName(getClass());
   if (!resourceKey.equals(defaultKey)) {
-    error.addMessageKey(defaultKey);
+    error.addKey(defaultKey);
   }
   error.setVariables(vars);
   validatable.error(error);
