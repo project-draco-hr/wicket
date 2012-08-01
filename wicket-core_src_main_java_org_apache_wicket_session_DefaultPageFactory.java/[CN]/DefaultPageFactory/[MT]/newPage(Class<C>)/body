@@ -1,10 +1,10 @@
 {
   try {
-    Constructor<? extends IRequestablePage> constructor=pageClass.getConstructor((Class<?>[])null);
+    Constructor<C> constructor=pageClass.getConstructor((Class<?>[])null);
     return processPage(newPage(constructor,null),null);
   }
  catch (  NoSuchMethodException e) {
-    Constructor<?> constructor=constructor(pageClass,PageParameters.class);
+    Constructor<C> constructor=constructor(pageClass,PageParameters.class);
     if (constructor != null) {
       PageParameters pp=new PageParameters();
       return processPage(newPage(constructor,pp),pp);

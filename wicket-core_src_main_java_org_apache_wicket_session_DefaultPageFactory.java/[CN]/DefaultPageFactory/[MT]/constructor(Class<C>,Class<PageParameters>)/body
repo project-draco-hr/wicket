@@ -1,9 +1,9 @@
 {
-  Constructor<?> constructor=constructorForClass.get(pageClass);
+  Constructor<C> constructor=(Constructor<C>)constructorForClass.get(pageClass);
   if (constructor == null) {
     try {
       constructor=pageClass.getConstructor(new Class[]{argumentType});
-      Constructor<?> tmpConstructor=constructorForClass.putIfAbsent(pageClass,constructor);
+      Constructor<C> tmpConstructor=(Constructor<C>)constructorForClass.putIfAbsent(pageClass,constructor);
       if (tmpConstructor != null) {
         constructor=tmpConstructor;
       }
