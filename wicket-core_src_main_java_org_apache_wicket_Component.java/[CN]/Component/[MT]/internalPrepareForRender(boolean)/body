@@ -3,7 +3,8 @@
   if (setRenderingFlag) {
     List<Component> feedbacks=getRequestCycle().getMetaData(FEEDBACK_LIST);
     if (feedbacks != null) {
-      for (      Component feedback : feedbacks) {
+      Component[] feedbacksCopy=feedbacks.toArray(new Component[feedbacks.size()]);
+      for (      Component feedback : feedbacksCopy) {
         feedback.internalBeforeRender();
       }
     }
