@@ -1,8 +1,5 @@
 {
-  if (!(this instanceof IFeedback)) {
-    internalBeforeRender();
-  }
- else {
+  if (this instanceof IFeedback) {
     List<Component> feedbacks=getRequestCycle().getMetaData(FEEDBACK_LIST);
     if (feedbacks == null) {
       feedbacks=new ArrayList<Component>();
@@ -19,5 +16,8 @@
     if (!feedbacks.contains(this)) {
       feedbacks.add(this);
     }
+  }
+ else {
+    internalBeforeRender();
   }
 }
