@@ -7,8 +7,9 @@
     }
     if (this instanceof MarkupContainer) {
       ((MarkupContainer)this).visitChildren(IFeedback.class,new IVisitor<Component,Void>(){
-        @Override public void component(        Component component,        IVisit<Void> visit){
-          component.beforeRender();
+        @Override public void component(        Component feedback,        IVisit<Void> visit){
+          feedback.beforeRender();
+          visit.dontGoDeeper();
         }
       }
 );
