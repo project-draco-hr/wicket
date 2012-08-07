@@ -1,8 +1,8 @@
 {
   Url url=request.getUrl();
-  if (url.getSegments().size() >= 1) {
+  if (url.getSegments().size() > mountSegments.length) {
     PageComponentInfo info=getPageComponentInfo(url);
-    String className=url.getSegments().get(0);
+    String className=url.getSegments().get(mountSegments.length);
     if (isValidClassName(className) == false) {
       return null;
     }
@@ -10,7 +10,10 @@
     String fullyQualifiedClassName=packageName.getName() + '.' + className;
     Class<? extends IRequestablePage> pageClass=getPageClass(fullyQualifiedClassName);
     if (pageClass != null && Modifier.isAbstract(pageClass.getModifiers()) == false && IRequestablePage.class.isAssignableFrom(pageClass)) {
-      PageParameters pageParameters=extractPageParameters(request,1,pageParametersEncoder);
+      Url urlWithoutPageSegment=new Url(url);
+      urlWithoutPageSegment.getSegments().remove(mountSegments.length);
+      Request requestWithoutPageSegment=request.cloneWithUrl(urlWithoutPageSegment);
+      PageParameters pageParameters=extractPageParameters(requestWithoutPageSegment,urlWithoutPageSegment);
       return new UrlInfo(info,pageClass,pageParameters);
     }
   }

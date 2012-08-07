@@ -1,6 +1,7 @@
 {
   if (urlStartsWith(request.getUrl(),mountSegments)) {
-    return mountSegments.length + mapper.getCompatibilityScore(dismountRequest(request));
+    Request dismountedRequest=dismountRequest(request);
+    return mountSegments.length + mapper.getCompatibilityScore(dismountedRequest);
   }
  else {
     return 0;

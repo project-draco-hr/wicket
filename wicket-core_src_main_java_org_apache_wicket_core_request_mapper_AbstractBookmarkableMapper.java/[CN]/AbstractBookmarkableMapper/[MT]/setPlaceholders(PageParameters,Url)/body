@@ -1,0 +1,21 @@
+{
+  int dropped=0;
+  for (int i=0; i < mountSegments.length; ++i) {
+    String placeholder=getPlaceholder(mountSegments[i]);
+    String optionalPlaceholder=getOptionalPlaceholder(mountSegments[i]);
+    if (placeholder != null) {
+      url.getSegments().set(i - dropped,parameters.get(placeholder).toString(""));
+      parameters.remove(placeholder);
+    }
+ else     if (optionalPlaceholder != null) {
+      if (parameters.getNamedKeys().contains(optionalPlaceholder)) {
+        url.getSegments().set(i - dropped,parameters.get(optionalPlaceholder).toString(""));
+        parameters.remove(optionalPlaceholder);
+      }
+ else {
+        url.getSegments().remove(i - dropped);
+        dropped++;
+      }
+    }
+  }
+}

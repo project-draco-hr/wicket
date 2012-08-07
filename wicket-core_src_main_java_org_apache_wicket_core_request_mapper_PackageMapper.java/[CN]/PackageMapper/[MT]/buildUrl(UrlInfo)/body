@@ -3,6 +3,9 @@
   PackageName pageClassPackageName=PackageName.forClass(pageClass);
   if (pageClassPackageName.equals(packageName)) {
     Url url=new Url();
+    for (    String s : mountSegments) {
+      url.getSegments().add(s);
+    }
     String fullyQualifiedClassName=pageClass.getName();
     String packageRelativeClassName=fullyQualifiedClassName;
     int packageNameLength=packageName.getName().length();
@@ -12,7 +15,9 @@
     packageRelativeClassName=transformForUrl(packageRelativeClassName);
     url.getSegments().add(packageRelativeClassName);
     encodePageComponentInfo(url,info.getPageComponentInfo());
-    return encodePageParameters(url,info.getPageParameters(),pageParametersEncoder);
+    PageParameters copy=new PageParameters(info.getPageParameters());
+    setPlaceholders(copy,url);
+    return encodePageParameters(url,copy,pageParametersEncoder);
   }
   return null;
 }
