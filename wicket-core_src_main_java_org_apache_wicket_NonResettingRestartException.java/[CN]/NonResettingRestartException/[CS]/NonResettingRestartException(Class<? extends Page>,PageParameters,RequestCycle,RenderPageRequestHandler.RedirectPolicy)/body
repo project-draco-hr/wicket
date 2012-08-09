@@ -1,0 +1,11 @@
+{
+  super(createRequestHandler(pageClass,params,redirectPolicy),true);
+  Response response=cycle.getResponse();
+  if (response instanceof IMetaDataBufferingWebResponse) {
+    WebResponse originalResponse=(WebResponse)cycle.getOriginalResponse();
+    if (originalResponse != response) {
+      IMetaDataBufferingWebResponse bufferingWebResponse=(IMetaDataBufferingWebResponse)response;
+      bufferingWebResponse.writeMetaData(originalResponse);
+    }
+  }
+}
