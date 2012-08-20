@@ -1,5 +1,7 @@
 {
-  final IResourceStream resourceStream=getResourceStream();
-  Checks.notNull(resourceStream,"%s#getResourceStream() should not return null!",ResourceStreamResource.class.getName());
-  return resourceStream;
+  if (requestScopedStream == null) {
+    requestScopedStream=getResourceStream();
+    Checks.notNull(requestScopedStream,"%s#getResourceStream() should not return null!",getClass().getName());
+  }
+  return requestScopedStream;
 }
