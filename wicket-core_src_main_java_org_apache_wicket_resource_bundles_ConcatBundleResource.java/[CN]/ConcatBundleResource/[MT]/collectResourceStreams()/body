@@ -1,7 +1,7 @@
 {
   List<IResourceStream> ret=new ArrayList<IResourceStream>(providedResources.size());
   for (  IReferenceHeaderItem curItem : providedResources) {
-    IResourceStream stream=((PackageResource)curItem.getReference().getResource()).getResourceStream();
+    IResourceStream stream=((IStaticCacheableResource)curItem.getReference().getResource()).getCacheableResourceStream();
     if (stream == null)     return null;
     ret.add(stream);
   }
