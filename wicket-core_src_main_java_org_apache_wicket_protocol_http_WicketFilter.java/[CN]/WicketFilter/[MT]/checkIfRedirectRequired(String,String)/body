@@ -3,20 +3,12 @@
   if (uriLength == -1) {
     uriLength=requestURI.length();
   }
-  if (filterPathLength == -1) {
-    if (filterPath.endsWith("/")) {
-      filterPathLength=filterPath.length() - 1;
-    }
- else {
-      filterPathLength=filterPath.length();
-    }
-  }
   int homePathLength=contextPath.length() + (filterPathLength > 0 ? 1 + filterPathLength : 0);
   if (uriLength != homePathLength) {
     return null;
   }
   String uri=Strings.stripJSessionId(requestURI);
-  String homePageUri=contextPath + "/" + filterPath;
+  String homePageUri=contextPath + '/' + getFilterPath();
   if (homePageUri.endsWith("/")) {
     homePageUri=homePageUri.substring(0,homePageUri.length() - 1);
   }

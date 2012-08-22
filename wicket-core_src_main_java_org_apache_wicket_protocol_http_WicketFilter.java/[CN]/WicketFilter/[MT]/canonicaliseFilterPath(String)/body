@@ -1,0 +1,34 @@
+{
+  if (Strings.isEmpty(filterPath)) {
+    return filterPath;
+  }
+  int beginIndex=0;
+  int endIndex=filterPath.length();
+  while (beginIndex < endIndex) {
+    char c=filterPath.charAt(beginIndex);
+    if (c != '/') {
+      break;
+    }
+    beginIndex++;
+  }
+  int o;
+  int i=o=beginIndex;
+  while (i < endIndex) {
+    char c=filterPath.charAt(i);
+    i++;
+    if (c != '/') {
+      o=i;
+    }
+  }
+  if (o < endIndex) {
+    o++;
+    filterPath=filterPath.substring(beginIndex,o);
+  }
+ else {
+    filterPath=filterPath.substring(beginIndex) + '/';
+  }
+  if (filterPath.equals("/")) {
+    return "";
+  }
+  return filterPath;
+}
