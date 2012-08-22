@@ -1,26 +1,21 @@
 {
   if ((string != null) && (model != null)) {
-    return new PropertyVariableInterpolator(string,model.getObject()){
-      @SuppressWarnings({"rawtypes","unchecked"}) @Override protected String toString(      Object value){
-        IConverter converter;
-        Locale locale;
-        if (component == null) {
-          converter=Application.get().getConverterLocator().getConverter(value.getClass());
-          if (Session.exists()) {
-            locale=Session.get().getLocale();
-          }
+    final IConverterLocator locator;
+    final Locale locale;
+    if (component == null) {
+      locator=Application.get().getConverterLocator();
+      if (Session.exists()) {
+        locale=Session.get().getLocale();
+      }
  else {
-            locale=Locale.getDefault();
-          }
-        }
- else {
-          converter=component.getConverter(value.getClass());
-          locale=component.getLocale();
-        }
-        return converter.convertToString(value,locale);
+        locale=Locale.getDefault();
       }
     }
-.toString();
+ else {
+      locator=component;
+      locale=component.getLocale();
+    }
+    return new ConvertingPropertyVariableInterpolator(string,model.getObject(),locator,locale).toString();
   }
   return string;
 }
