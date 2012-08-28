@@ -1,0 +1,25 @@
+{
+  if (segments.isEmpty()) {
+    return;
+  }
+  if ("".equals(segments.get(0))) {
+    LOG.debug("Removing an empty first segment from '{}'",segments);
+    segments.remove(0);
+  }
+  String contextPath=request.getContextPath();
+  if (contextPath != null) {
+    if (segments.isEmpty() == false) {
+      if (contextPath.equals(UrlUtils.normalizePath(segments.get(0)))) {
+        LOG.debug("Removing the context path '{}' from '{}'",contextPath,segments);
+        segments.remove(0);
+      }
+    }
+  }
+  String filterPath=request.getFilterPath();
+  if (filterPath != null && segments.isEmpty() == false) {
+    if (filterPath.equals(UrlUtils.normalizePath(segments.get(0)))) {
+      LOG.debug("Removing the filter path '{}' from '{}'",filterPath,segments);
+      segments.remove(0);
+    }
+  }
+}
