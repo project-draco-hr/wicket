@@ -1,0 +1,8 @@
+{
+  LessResourcePage page=new LessResourcePage();
+  tester.startPage(page);
+  assertFalse(PROCESS_RESPONSE_CALLED.get());
+  CharSequence urlToReference=page.urlFor(page.resourceReference,null);
+  tester.executeUrl(urlToReference.toString());
+  assertTrue(PROCESS_RESPONSE_CALLED.get());
+}
