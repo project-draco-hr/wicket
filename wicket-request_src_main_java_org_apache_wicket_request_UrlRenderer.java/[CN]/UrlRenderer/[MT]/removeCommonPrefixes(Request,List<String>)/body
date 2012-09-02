@@ -6,12 +6,10 @@
     LOG.debug("Removing an empty first segment from '{}'",segments);
     segments.remove(0);
     String contextPath=request.getContextPath();
-    if (contextPath != null) {
-      if (segments.isEmpty() == false) {
-        if (contextPath.equals(UrlUtils.normalizePath(segments.get(0)))) {
-          LOG.debug("Removing the context path '{}' from '{}'",contextPath,segments);
-          segments.remove(0);
-        }
+    if (contextPath != null && segments.isEmpty() == false) {
+      if (contextPath.equals(UrlUtils.normalizePath(segments.get(0)))) {
+        LOG.debug("Removing the context path '{}' from '{}'",contextPath,segments);
+        segments.remove(0);
       }
     }
     String filterPath=request.getFilterPath();
