@@ -2,5 +2,8 @@
   if (log.isInfoEnabled()) {
     log.info("registering {} for page {} for session {}: {}{}",new Object[]{subscription.getBehaviorIndex() == null ? "component" : "behavior",page.getPageId(),Session.get().getId(),subscription.getComponentPath(),subscription.getBehaviorIndex() == null ? "" : ":" + subscription.getBehaviorIndex()});
   }
-  subscriptions.put(new PageKey(page.getPageId(),Session.get().getId()),subscription);
+  PageKey pageKey=new PageKey(page.getPageId(),Session.get().getId());
+  if (!subscriptions.containsEntry(pageKey,subscription)) {
+    subscriptions.put(pageKey,subscription);
+  }
 }
