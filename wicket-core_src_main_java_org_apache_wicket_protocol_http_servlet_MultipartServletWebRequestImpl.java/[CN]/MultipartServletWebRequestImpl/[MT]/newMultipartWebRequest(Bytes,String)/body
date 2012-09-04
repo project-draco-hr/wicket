@@ -1,3 +1,13 @@
 {
+  for (  Map.Entry<String,List<FileItem>> entry : files.entrySet()) {
+    List<FileItem> fileItems=entry.getValue();
+    for (    FileItem fileItem : fileItems) {
+      if (fileItem.getSize() > maxSize.bytes()) {
+        String fieldName=entry.getKey();
+        FileUploadException fslex=new FileUploadBase.FileSizeLimitExceededException("The field " + fieldName + " exceeds its maximum permitted "+ " size of "+ maxSize+ " characters.",fileItem.getSize(),maxSize.bytes());
+        throw fslex;
+      }
+    }
+  }
   return this;
 }
