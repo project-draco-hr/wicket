@@ -1,21 +1,22 @@
 {
-  if (event.startsWith("on")) {
-    event=event.substring(2);
-  }
-  for (  Behavior behavior : component.getBehaviors()) {
-    if (behavior instanceof AjaxEventBehavior) {
-      String behaviorEvent=((AjaxEventBehavior)behavior).getEvent();
-      String[] eventNames=Strings.split(behaviorEvent,' ');
-      for (      String eventName : eventNames) {
-        if (eventName.startsWith("on")) {
-          eventName=eventName.substring(2);
+  Args.notEmpty(event,"event");
+  String[] eventNames=Strings.split(event,' ');
+  for (  String eventName : eventNames) {
+    if (eventName.startsWith("on")) {
+      eventName=eventName.substring(2);
+    }
+    for (    Behavior behavior : component.getBehaviors()) {
+      if (behavior instanceof AjaxEventBehavior) {
+        String behaviorEvent=((AjaxEventBehavior)behavior).getEvent();
+        String[] behaviorEventNames=Strings.split(behaviorEvent,' ');
+        for (        String behaviorEventName : behaviorEventNames) {
+          if (behaviorEventName.startsWith("on")) {
+            behaviorEventName=behaviorEventName.substring(2);
+          }
+          if (eventName.equalsIgnoreCase(behaviorEventName)) {
+            return (AjaxEventBehavior)behavior;
+          }
         }
-        if (event.equalsIgnoreCase(eventName)) {
-          return (AjaxEventBehavior)behavior;
-        }
-      }
-      if (event.equals(behaviorEvent)) {
-        return (AjaxEventBehavior)behavior;
       }
     }
   }
