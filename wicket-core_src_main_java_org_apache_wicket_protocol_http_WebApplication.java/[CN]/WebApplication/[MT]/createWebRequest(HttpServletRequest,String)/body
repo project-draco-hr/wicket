@@ -20,9 +20,7 @@
     }
   }
   WebRequest webRequest=newWebRequest(servletRequest,filterPath);
-  String contentType=servletRequest.getContentType();
-  String method=servletRequest.getMethod();
-  if (webRequest instanceof ServletWebRequest && Form.METHOD_POST.equalsIgnoreCase(method) && Strings.isEmpty(contentType) == false && contentType.toLowerCase().startsWith(Form.ENCTYPE_MULTIPART_FORM_DATA)) {
+  if (ServletFileUpload.isMultipartContent(servletRequest)) {
     try {
       return ((ServletWebRequest)webRequest).newMultipartWebRequest(getApplicationSettings().getDefaultMaximumUploadSize(),"externalForm");
     }
