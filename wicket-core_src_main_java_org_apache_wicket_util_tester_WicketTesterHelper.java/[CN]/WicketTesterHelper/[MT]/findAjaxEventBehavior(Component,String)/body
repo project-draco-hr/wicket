@@ -5,11 +5,14 @@
   for (  Behavior behavior : component.getBehaviors()) {
     if (behavior instanceof AjaxEventBehavior) {
       String behaviorEvent=((AjaxEventBehavior)behavior).getEvent();
-      if (behaviorEvent.startsWith("on")) {
-        behaviorEvent=behaviorEvent.substring(2);
-      }
-      if (event.equalsIgnoreCase(behaviorEvent)) {
-        return (AjaxEventBehavior)behavior;
+      String[] eventNames=Strings.split(behaviorEvent,' ');
+      for (      String eventName : eventNames) {
+        if (eventName.startsWith("on")) {
+          eventName=eventName.substring(2);
+        }
+        if (event.equalsIgnoreCase(eventName)) {
+          return (AjaxEventBehavior)behavior;
+        }
       }
     }
   }
