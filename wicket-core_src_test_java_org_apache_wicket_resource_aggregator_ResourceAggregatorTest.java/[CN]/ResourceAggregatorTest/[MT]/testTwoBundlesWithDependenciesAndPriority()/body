@@ -1,0 +1,7 @@
+{
+  HeaderItem bundleAB=Application.get().getResourceBundles().addJavaScriptBundle(Application.class,"ab.js",new ResourceReferenceA(),new ResourceReferenceB());
+  HeaderItem bundleCD=Application.get().getResourceBundles().addJavaScriptBundle(Application.class,"cd.js",new ResourceReferenceC(),new ResourceReferenceD());
+  aggregator.render(new PriorityHeaderItem(forReference(new ResourceReferenceB())));
+  aggregator.render(forReference(new ResourceReferenceD()));
+  assertItems(bundleAB,bundleCD);
+}
