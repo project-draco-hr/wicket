@@ -1,0 +1,9 @@
+{
+  ClassMetaCache<NonContextual<?>> meta=getCache(manager);
+  @SuppressWarnings("unchecked") NonContextual<T> nc=(NonContextual<T>)meta.get(clazz);
+  if (nc == null) {
+    nc=new NonContextual<T>(manager,clazz);
+    meta.put(clazz,nc);
+  }
+  return nc;
+}

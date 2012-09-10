@@ -1,0 +1,12 @@
+{
+  Args.notNull(application,"application");
+  Args.notNull(container,"container");
+  Args.notNull(propagation,"propagation");
+  if (propagation == ConversationPropagation.NONE) {
+    throw new IllegalArgumentException("If propagation is NONE do not set up the propagator");
+  }
+  this.application=application;
+  this.container=container;
+  this.propagation=propagation;
+  container.getNonContextualManager().postConstruct(this);
+}

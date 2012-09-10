@@ -1,0 +1,13 @@
+{
+  String cid=cycle.getRequest().getRequestParameters().getParameterValue(CID).toString();
+  Page page=getPage(handler);
+  if (cid == null && page != null) {
+    cid=page.getMetaData(CID_KEY);
+  }
+  Conversation current=getConversation(cycle);
+  if (current != null && !Objects.isEqual(current.getId(),cid)) {
+    logger.info("Conversation {} has expired for {}",cid,page);
+    throw new ConversationExpiredException(null,cid,page,handler);
+  }
+  activateConversationIfNeeded(cycle,handler,cid);
+}

@@ -1,0 +1,10 @@
+{
+  Args.notNull(beanManager,"beanManager");
+  Args.notNull(nonContextualManager,"nonContextualManager");
+  this.beanManager=beanManager;
+  this.nonContextualManager=nonContextualManager;
+  conversationContext=SeamConversationContextFactory.getContext(HttpServletRequest.class);
+  if (conversationContext == null) {
+    throw new IllegalStateException("Could not resolve conversation context manager. Make sure a Seam-Conversation module for your CDI container implementation is included in your dependencies.");
+  }
+}
