@@ -1,0 +1,15 @@
+{
+  TestPage page=new TestPage();
+  scope.getTester().startPage(page);
+  FormTester formTester=scope.getTester().newFormTester(page.form.getPageRelativePath());
+  formTester.setClearFeedbackMessagesBeforeSubmit(false);
+  formTester.submit();
+  assertTrue(page.form.hasError());
+  assertFalse(page.field1.isValid());
+  formTester=scope.getTester().newFormTester(page.form.getPageRelativePath());
+  formTester.setValue(page.field1,"hi");
+  formTester.setClearFeedbackMessagesBeforeSubmit(false);
+  formTester.submit();
+  assertFalse(page.form.hasError());
+  assertTrue(page.field1.isValid());
+}
