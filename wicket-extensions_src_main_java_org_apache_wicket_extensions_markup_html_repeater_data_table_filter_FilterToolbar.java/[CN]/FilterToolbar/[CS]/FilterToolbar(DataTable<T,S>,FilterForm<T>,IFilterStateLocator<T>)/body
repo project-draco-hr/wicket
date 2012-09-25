@@ -6,16 +6,20 @@
   if (stateLocator == null) {
     throw new IllegalArgumentException("argument [stateLocator] cannot be null");
   }
-  RefreshingView<IColumn<T,S>> filters=new RefreshingView<IColumn<T,S>>("filters"){
+  IModel<List<IColumn<T,S>>> model=new AbstractReadOnlyModel<List<IColumn<T,S>>>(){
     private static final long serialVersionUID=1L;
-    @Override protected Iterator<IModel<IColumn<T,S>>> getItemModels(){
-      List<IModel<IColumn<T,S>>> columnsModels=new LinkedList<IModel<IColumn<T,S>>>();
+    @Override public List<IColumn<T,S>> getObject(){
+      List<IColumn<T,S>> columnsModels=new LinkedList<IColumn<T,S>>();
       for (      IColumn<T,S> column : table.getColumns()) {
-        columnsModels.add(Model.of(column));
+        columnsModels.add(column);
       }
-      return columnsModels.iterator();
+      return columnsModels;
     }
-    @Override protected void populateItem(    Item<IColumn<T,S>> item){
+  }
+;
+  ListView<IColumn<T,S>> filters=new ListView<IColumn<T,S>>("filters",model){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    ListItem<IColumn<T,S>> item){
       final IColumn<T,S> col=item.getModelObject();
       item.setRenderBodyOnly(true);
       Component filter=null;
@@ -35,6 +39,6 @@
     }
   }
 ;
-  filters.setRenderBodyOnly(true);
+  filters.setReuseItems(true);
   add(filters);
 }
