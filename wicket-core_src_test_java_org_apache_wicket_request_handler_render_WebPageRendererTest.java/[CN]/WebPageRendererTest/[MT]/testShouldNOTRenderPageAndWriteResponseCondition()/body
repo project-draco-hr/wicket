@@ -1,0 +1,23 @@
+{
+  RedirectPolicy redirectPolicy;
+  boolean ajax;
+  boolean onePassRender;
+  boolean redirectToRender;
+  boolean shouldPreserveClientUrl;
+  boolean targetEqualsCurrentUrl;
+  boolean newPageInstance;
+  boolean pageStateless;
+  redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
+  ajax=true;
+  onePassRender=false;
+  targetEqualsCurrentUrl=false;
+  shouldPreserveClientUrl=false;
+  redirectToRender=true;
+  newPageInstance=true;
+  pageStateless=true;
+  Assert.assertFalse(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  redirectToRender=false;
+  newPageInstance=false;
+  pageStateless=false;
+  Assert.assertFalse(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+}
