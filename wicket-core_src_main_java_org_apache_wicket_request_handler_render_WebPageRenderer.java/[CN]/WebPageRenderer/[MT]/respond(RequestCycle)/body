@@ -21,10 +21,7 @@
         response.writeTo((WebResponse)requestCycle.getResponse());
       }
     }
- else     if (redirectPolicy == RedirectPolicy.ALWAYS_REDIRECT || isRedirectToRender || (isAjax && targetEqualsCurrentUrl)) {
-      redirectTo(targetUrl,requestCycle);
-    }
- else     if (!targetEqualsCurrentUrl && (isNewPageInstance || (isSessionTemporary() && isPageStateless))) {
+ else     if (shouldRedirectToTargetUrl(isAjax,redirectPolicy,isRedirectToRender,targetEqualsCurrentUrl,isNewPageInstance,isPageStateless)) {
       redirectTo(targetUrl,requestCycle);
     }
  else {

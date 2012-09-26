@@ -1,3 +1,3 @@
 {
-  return redirectPolicy == RedirectPolicy.NEVER_REDIRECT || (onePassRender && ajax == false && redirectPolicy != RedirectPolicy.ALWAYS_REDIRECT) || (!ajax && (targetEqualsCurrentUrl && !newPageInstance && !pageStateless) || (targetEqualsCurrentUrl && redirectToRender)) || shouldPreserveClientUrl;
+  return neverRedirect(redirectPolicy) || (!ajax && ((onePassRender && notForcedRedirect(redirectPolicy)) || (targetEqualsCurrentUrl && notNewAndNotStatelessPage(newPageInstance,pageStateless)))) || (targetEqualsCurrentUrl && redirectToRender)|| shouldPreserveClientUrl;
 }
