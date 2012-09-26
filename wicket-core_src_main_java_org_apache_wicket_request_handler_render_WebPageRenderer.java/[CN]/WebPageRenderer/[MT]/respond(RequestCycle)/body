@@ -12,6 +12,7 @@
     RedirectPolicy redirectPolicy=getRedirectPolicy();
     boolean onePassRender=isOnePassRender();
     boolean isRedirectToRender=isRedirectToRender();
+    boolean redirectToBuffer=isRedirectToBuffer();
     boolean targetEqualsCurrentUrl=targetUrl.equals(currentUrl);
     boolean isNewPageInstance=getPageProvider().isNewPageInstance();
     boolean isPageStateless=getPage().isPageStateless();
@@ -21,31 +22,34 @@
         response.writeTo((WebResponse)requestCycle.getResponse());
       }
     }
- else     if (shouldRedirectToTargetUrl(isAjax,redirectPolicy,isRedirectToRender,targetEqualsCurrentUrl,isNewPageInstance,isPageStateless)) {
-      redirectTo(targetUrl,requestCycle);
-    }
  else {
-      if (isRedirectToBuffer() == false && logger.isDebugEnabled()) {
-        String details=String.format("redirect strategy: '%s', isAjax: '%s', redirect policy: '%s', " + "current url: '%s', target url: '%s', is new: '%s', is stateless: '%s', is temporary: '%s'",Application.get().getRequestCycleSettings().getRenderStrategy(),isAjax,redirectPolicy,currentUrl,targetUrl,isNewPageInstance,isPageStateless,isSessionTemporary());
-        logger.debug("Falling back to Redirect_To_Buffer render strategy because none of the conditions " + "matched. Details: " + details);
-      }
-      BufferedWebResponse response=renderPage(targetUrl,requestCycle);
-      if (response == null) {
-        return;
-      }
-      Url targetUrl2=requestCycle.mapUrlFor(getRenderPageRequestHandler());
-      if (targetUrl.getSegments().equals(targetUrl2.getSegments()) == false) {
-        response=renderPage(targetUrl2,requestCycle);
-      }
-      if (currentUrl.equals(targetUrl2)) {
-        response.writeTo((WebResponse)requestCycle.getResponse());
-      }
- else       if (isPageStateless && !enableRedirectForStatelessPage()) {
-        response.writeTo((WebResponse)requestCycle.getResponse());
+      boolean sessionTemporary=isSessionTemporary();
+      if (shouldRedirectToTargetUrl(isAjax,redirectPolicy,isRedirectToRender,targetEqualsCurrentUrl,isNewPageInstance,isPageStateless,sessionTemporary)) {
+        redirectTo(targetUrl,requestCycle);
       }
  else {
-        storeBufferedResponse(targetUrl2,response);
-        redirectTo(targetUrl2,requestCycle);
+        if (redirectToBuffer == false && logger.isDebugEnabled()) {
+          String details=String.format("redirect strategy: '%s', isAjax: '%s', redirect policy: '%s', " + "current url: '%s', target url: '%s', is new: '%s', is stateless: '%s', is temporary: '%s'",Application.get().getRequestCycleSettings().getRenderStrategy(),isAjax,redirectPolicy,currentUrl,targetUrl,isNewPageInstance,isPageStateless,sessionTemporary);
+          logger.debug("Falling back to Redirect_To_Buffer render strategy because none of the conditions " + "matched. Details: " + details);
+        }
+        BufferedWebResponse response=renderPage(targetUrl,requestCycle);
+        if (response == null) {
+          return;
+        }
+        Url targetUrl2=requestCycle.mapUrlFor(getRenderPageRequestHandler());
+        if (targetUrl.getSegments().equals(targetUrl2.getSegments()) == false) {
+          response=renderPage(targetUrl2,requestCycle);
+        }
+        if (currentUrl.equals(targetUrl2)) {
+          response.writeTo((WebResponse)requestCycle.getResponse());
+        }
+ else         if (isPageStateless && !enableRedirectForStatelessPage()) {
+          response.writeTo((WebResponse)requestCycle.getResponse());
+        }
+ else {
+          storeBufferedResponse(targetUrl2,response);
+          redirectTo(targetUrl2,requestCycle);
+        }
       }
     }
   }
