@@ -2,6 +2,8 @@
   Args.notNull(component,"component");
   Args.notNull(event,"event");
   checkUsability(component,true);
-  AjaxEventBehavior ajaxEventBehavior=WicketTesterHelper.findAjaxEventBehavior(component,event);
-  executeBehavior(ajaxEventBehavior);
+  List<AjaxEventBehavior> ajaxEventBehaviors=WicketTesterHelper.findAjaxEventBehaviors(component,event);
+  for (  AjaxEventBehavior ajaxEventBehavior : ajaxEventBehaviors) {
+    executeBehavior(ajaxEventBehavior);
+  }
 }
