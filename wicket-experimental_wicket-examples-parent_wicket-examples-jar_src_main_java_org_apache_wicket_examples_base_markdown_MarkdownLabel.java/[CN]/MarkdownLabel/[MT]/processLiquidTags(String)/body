@@ -1,0 +1,19 @@
+{
+  String markup;
+  StringBuilder sb=new StringBuilder();
+  int previousStart=0;
+  int start=text.indexOf("{% highlight");
+  while (start > 0) {
+    int end=text.indexOf("{% endhighlight %}",start) + 18;
+    sb.append(text.substring(previousStart,start));
+    String codeblock=text.substring(start,end);
+    codeblock=escapeTags(codeblock);
+    sb.append(codeblock);
+    sb.append("\n");
+    previousStart=end;
+    start=text.indexOf("{% highlight",end);
+  }
+  if (previousStart < text.length())   sb.append(text.substring(previousStart));
+  markup=sb.toString();
+  return markup;
+}
