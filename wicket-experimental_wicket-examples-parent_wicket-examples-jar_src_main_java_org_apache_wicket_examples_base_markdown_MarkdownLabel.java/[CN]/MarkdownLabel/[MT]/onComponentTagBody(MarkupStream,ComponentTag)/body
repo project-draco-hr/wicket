@@ -1,8 +1,5 @@
 {
-  String article=getModelObjectAsUnescapedString();
-  MarkdownProcessor processor=new MarkdownProcessor();
-  String markup;
-  String text=processor.markdown(article);
-  text=processLiquidTags(text);
-  replaceComponentTagBody(markupStream,openTag,text);
+  String markdown=getModelObjectAsUnescapedString();
+  String html=Markdown.markdownToHtml(markdown);
+  replaceComponentTagBody(markupStream,openTag,html);
 }

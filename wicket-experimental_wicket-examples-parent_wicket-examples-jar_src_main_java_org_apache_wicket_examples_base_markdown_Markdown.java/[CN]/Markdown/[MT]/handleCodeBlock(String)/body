@@ -6,9 +6,7 @@
   String result=codeblock.substring(start,end);
   result=result.replaceAll("\n\\ {4}","\n");
   if (!codeblock.contains("\"java\"")) {
-    result=result.replaceAll("&","&amp;");
-    result=result.replaceAll("<","&lt;");
-    result=result.replaceAll(">","&gt;");
+    result=Strings.escapeMarkup(result).toString();
   }
   return codeblock.substring(0,start) + result + "</pre>";
 }
