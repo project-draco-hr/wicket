@@ -1,0 +1,10 @@
+{
+  Object modelObject=getDefaultModelObject();
+  if (modelObject != null) {
+    final Class<?> objectClass=modelObject.getClass();
+    final IConverter converter=getConverter(objectClass);
+    final String modelString=converter.convertToString(modelObject,getLocale());
+    return modelString;
+  }
+  return null;
+}

@@ -1,0 +1,25 @@
+{
+  Args.notEmpty(event,"event");
+  List<AjaxEventBehavior> behaviors=new ArrayList<AjaxEventBehavior>();
+  String[] eventNames=Strings.split(event,' ');
+  for (  String eventName : eventNames) {
+    if (eventName.startsWith("on")) {
+      eventName=eventName.substring(2);
+    }
+    for (    Behavior behavior : component.getBehaviors()) {
+      if (behavior instanceof AjaxEventBehavior) {
+        String behaviorEvent=((AjaxEventBehavior)behavior).getEvent();
+        String[] behaviorEventNames=Strings.split(behaviorEvent,' ');
+        for (        String behaviorEventName : behaviorEventNames) {
+          if (behaviorEventName.startsWith("on")) {
+            behaviorEventName=behaviorEventName.substring(2);
+          }
+          if (eventName.equalsIgnoreCase(behaviorEventName)) {
+            behaviors.add((AjaxEventBehavior)behavior);
+          }
+        }
+      }
+    }
+  }
+  return behaviors;
+}
