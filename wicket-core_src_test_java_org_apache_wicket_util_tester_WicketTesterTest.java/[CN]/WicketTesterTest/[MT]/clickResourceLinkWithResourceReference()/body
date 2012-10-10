@@ -1,0 +1,17 @@
+{
+  MockPageWithLink page=new MockPageWithLink();
+  String content="content";
+  final ByteArrayResource resource=new ByteArrayResource("text/plain",content.getBytes(),"fileName.txt");
+  ResourceReference reference=new ResourceReference(WicketTesterTest.class,"resourceLinkWithResourceReferenceTest"){
+    @Override public IResource getResource(){
+      return resource;
+    }
+  }
+;
+  ResourceLink<Void> link=new ResourceLink<Void>(MockPageWithLink.LINK_ID,reference);
+  page.add(link);
+  tester.startPage(page);
+  tester.clickLink(MockPageWithLink.LINK_ID,false);
+  assertEquals(tester.getContentTypeFromResponseHeader(),"text/plain");
+  assertEquals(content,tester.getLastResponseAsString());
+}
