@@ -36,7 +36,6 @@
     if (link instanceof BookmarkablePageLink) {
       BookmarkablePageLink<?> bookmarkablePageLink=(BookmarkablePageLink<?>)link;
       try {
-        BookmarkablePageLink.class.getDeclaredField("parameters");
         Method getParametersMethod=BookmarkablePageLink.class.getDeclaredMethod("getPageParameters",(Class<?>[])null);
         getParametersMethod.setAccessible(true);
         PageParameters parameters=(PageParameters)getParametersMethod.invoke(bookmarkablePageLink,(Object[])null);
@@ -47,7 +46,15 @@
       }
     }
  else     if (link instanceof ResourceLink) {
-      executeListener(link,IResourceListener.INTERFACE);
+      try {
+        Method getURL=ResourceLink.class.getDeclaredMethod("getURL",new Class[0]);
+        getURL.setAccessible(true);
+        CharSequence url=(CharSequence)getURL.invoke(link);
+        executeUrl(url.toString());
+      }
+ catch (      Exception x) {
+        throw new RuntimeException("An error occurred while clicking on a ResourceLink",x);
+      }
     }
  else {
       executeListener(link,ILinkListener.INTERFACE);
