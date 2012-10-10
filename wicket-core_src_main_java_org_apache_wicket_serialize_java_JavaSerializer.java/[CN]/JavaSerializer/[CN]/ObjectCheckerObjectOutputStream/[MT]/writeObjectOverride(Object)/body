@@ -1,0 +1,13 @@
+{
+  try {
+    if (ObjectChecker.isAvailable()) {
+      ObjectChecker checker=new ObjectChecker(checkers);
+      checker.writeObject(obj);
+    }
+    oos.writeObject(obj);
+  }
+ catch (  Exception e) {
+    log.error("error writing object " + obj + ": "+ e.getMessage(),e);
+    throw new WicketRuntimeException(e);
+  }
+}

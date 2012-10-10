@@ -1,0 +1,153 @@
+{
+  if (obj == null) {
+    return;
+  }
+  Class<?> cls=obj.getClass();
+  nameStack.add(simpleName);
+  traceStack.add(new TraceSlot(obj,fieldDescription));
+  for (  IObjectChecker checker : checkers) {
+    IObjectChecker.Result result=checker.check(obj);
+    if (result.status == IObjectChecker.Result.Status.FAILURE) {
+      ObjectCheckException ocx;
+      String prettyPrintMessage=toPrettyPrintedStack(Classes.name(cls));
+      String exceptionMessage=result.reason + '\n' + prettyPrintMessage;
+      if (result.cause != null) {
+        ocx=new ObjectCheckException(exceptionMessage,result.cause);
+      }
+ else {
+        ocx=new ObjectCheckException(exceptionMessage);
+      }
+      throw ocx;
+    }
+  }
+  ObjectStreamClass desc;
+  for (; ; ) {
+    try {
+      desc=(ObjectStreamClass)LOOKUP_METHOD.invoke(null,cls,Boolean.TRUE);
+      Class<?> repCl;
+      if (!(Boolean)HAS_WRITE_REPLACE_METHOD_METHOD.invoke(desc,(Object[])null) || (obj=INVOKE_WRITE_REPLACE_METHOD.invoke(desc,obj)) == null || (repCl=obj.getClass()) == cls) {
+        break;
+      }
+      cls=repCl;
+    }
+ catch (    IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+catch (    InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  if (cls.isPrimitive()) {
+  }
+ else   if (cls.isArray()) {
+    checked.put(obj,null);
+    Class<?> ccl=cls.getComponentType();
+    if (!(ccl.isPrimitive())) {
+      Object[] objs=(Object[])obj;
+      for (int i=0; i < objs.length; i++) {
+        String arrayPos="[" + i + "]";
+        simpleName=arrayPos;
+        fieldDescription+=arrayPos;
+        check(objs[i]);
+      }
+    }
+  }
+ else   if (obj instanceof Externalizable && (!Proxy.isProxyClass(cls))) {
+    Externalizable extObj=(Externalizable)obj;
+    try {
+      extObj.writeExternal(new ObjectOutputAdaptor(){
+        private int count=0;
+        @Override public void writeObject(        Object streamObj) throws IOException {
+          if (checked.containsKey(streamObj)) {
+            return;
+          }
+          checked.put(streamObj,null);
+          String arrayPos="[write:" + count++ + "]";
+          simpleName=arrayPos;
+          fieldDescription+=arrayPos;
+          check(streamObj);
+        }
+      }
+);
+    }
+ catch (    Exception e) {
+      if (e instanceof WicketNotSerializableException) {
+        throw (WicketNotSerializableException)e;
+      }
+      log.warn("error delegating to Externalizable : " + e.getMessage() + ", path: "+ currentPath());
+    }
+  }
+ else {
+    Method writeObjectMethod=null;
+    if (writeObjectMethodMissing.contains(cls) == false) {
+      try {
+        writeObjectMethod=cls.getDeclaredMethod("writeObject",new Class[]{java.io.ObjectOutputStream.class});
+      }
+ catch (      SecurityException e) {
+        writeObjectMethodMissing.add(cls);
+      }
+catch (      NoSuchMethodException e) {
+        writeObjectMethodMissing.add(cls);
+      }
+    }
+    final Object original=obj;
+    if (writeObjectMethod != null) {
+class InterceptingObjectOutputStream extends ObjectOutputStream {
+        private int counter;
+        InterceptingObjectOutputStream() throws IOException {
+          super(DUMMY_OUTPUT_STREAM);
+          enableReplaceObject(true);
+        }
+        @Override protected Object replaceObject(        Object streamObj) throws IOException {
+          if (streamObj == original) {
+            return streamObj;
+          }
+          counter++;
+          if (checked.containsKey(streamObj)) {
+            return null;
+          }
+          checked.put(streamObj,null);
+          String arrayPos="[write:" + counter + "]";
+          simpleName=arrayPos;
+          fieldDescription+=arrayPos;
+          check(streamObj);
+          return streamObj;
+        }
+      }
+      try {
+        InterceptingObjectOutputStream ioos=new InterceptingObjectOutputStream();
+        ioos.writeObject(obj);
+      }
+ catch (      Exception e) {
+        if (e instanceof WicketNotSerializableException) {
+          throw (WicketNotSerializableException)e;
+        }
+        log.warn("error delegating to writeObject : " + e.getMessage() + ", path: "+ currentPath());
+      }
+    }
+ else {
+      Object[] slots;
+      try {
+        slots=(Object[])GET_CLASS_DATA_LAYOUT_METHOD.invoke(desc,(Object[])null);
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+      for (      Object slot : slots) {
+        ObjectStreamClass slotDesc;
+        try {
+          Field descField=slot.getClass().getDeclaredField("desc");
+          descField.setAccessible(true);
+          slotDesc=(ObjectStreamClass)descField.get(slot);
+        }
+ catch (        Exception e) {
+          throw new RuntimeException(e);
+        }
+        checked.put(obj,null);
+        checkFields(obj,slotDesc);
+      }
+    }
+  }
+  traceStack.removeLast();
+  nameStack.removeLast();
+}
