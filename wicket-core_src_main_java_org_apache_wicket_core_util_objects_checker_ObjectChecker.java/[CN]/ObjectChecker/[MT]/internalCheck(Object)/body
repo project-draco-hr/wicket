@@ -45,7 +45,7 @@ catch (    InvocationTargetException e) {
     if (!(ccl.isPrimitive())) {
       Object[] objs=(Object[])obj;
       for (int i=0; i < objs.length; i++) {
-        String arrayPos="[" + i + "]";
+        CharSequence arrayPos=new StringBuilder(4).append('[').append(i).append(']');
         simpleName=arrayPos;
         fieldDescription+=arrayPos;
         check(objs[i]);
@@ -62,7 +62,7 @@ catch (    InvocationTargetException e) {
             return;
           }
           checked.put(streamObj,null);
-          String arrayPos="[write:" + count++ + "]";
+          CharSequence arrayPos=new StringBuilder(10).append("[write:").append(count++).append(']');
           simpleName=arrayPos;
           fieldDescription+=arrayPos;
           check(streamObj);
@@ -74,7 +74,7 @@ catch (    InvocationTargetException e) {
       if (e instanceof WicketNotSerializableException) {
         throw (WicketNotSerializableException)e;
       }
-      log.warn("error delegating to Externalizable : " + e.getMessage() + ", path: "+ currentPath());
+      log.warn("error delegating to Externalizable : {}, path: {}",e.getMessage(),currentPath());
     }
   }
  else {
@@ -107,7 +107,7 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
             return null;
           }
           checked.put(streamObj,null);
-          String arrayPos="[write:" + counter + "]";
+          CharSequence arrayPos=new StringBuilder(10).append("[write:").append(counter).append(']');
           simpleName=arrayPos;
           fieldDescription+=arrayPos;
           check(streamObj);
@@ -122,7 +122,7 @@ class InterceptingObjectOutputStream extends ObjectOutputStream {
         if (e instanceof WicketNotSerializableException) {
           throw (WicketNotSerializableException)e;
         }
-        log.warn("error delegating to writeObject : " + e.getMessage() + ", path: "+ currentPath());
+        log.warn("error delegating to writeObject : {}, path: {}",e.getMessage(),currentPath());
       }
     }
  else {
