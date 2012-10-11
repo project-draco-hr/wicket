@@ -1,13 +1,13 @@
 {
-  StringBuilder result=new StringBuilder();
-  StringBuilder spaces=new StringBuilder();
+  StringBuilder result=new StringBuilder(512);
+  StringBuilder spaces=new StringBuilder(32);
   result.append("A problem occurred while checking object with type: ");
   result.append(type);
   result.append("\nField hierarchy is:");
   for (  TraceSlot slot : traceStack) {
     spaces.append(' ').append(' ');
     result.append('\n').append(spaces).append(slot.fieldDescription);
-    result.append(" [class=").append(slot.object.getClass().getName());
+    result.append(" [class=").append(Classes.name(slot.object.getClass()));
     if (slot.object instanceof Component) {
       Component component=(Component)slot.object;
       result.append(", path=").append(component.getPath());
