@@ -1,0 +1,8 @@
+{
+  String expected="10.17.37.156";
+  when(servletRequest.getRemoteAddr()).thenReturn("10.17.1.1");
+  when(webRequest.getHeader("X-Forwarded-For")).thenReturn(expected + ", 10.17.37.1");
+  WebClientInfo clientInfo=new WebClientInfo(requestCycleMock,"No user agent");
+  String actual=clientInfo.getRemoteAddr(requestCycleMock);
+  assertThat(actual,is(equalTo(expected)));
+}

@@ -1,0 +1,7 @@
+{
+  String expected="10.17.37.8";
+  when(servletRequest.getRemoteAddr()).thenReturn(expected);
+  WebClientInfo clientInfo=new WebClientInfo(requestCycleMock,"No user agent");
+  String actual=clientInfo.getRemoteAddr(requestCycleMock);
+  assertThat(actual,is(equalTo(expected)));
+}
