@@ -1,0 +1,11 @@
+{
+  List exclusions=Arrays.asList(CharSequence.class);
+  IObjectChecker checker=new AbstractObjectChecker(exclusions){
+    @Override protected Result doCheck(    Object object){
+      throw new AssertionError("Must not be called");
+    }
+  }
+;
+  IObjectChecker.Result result=checker.check("A String. It's type is excluded by CharSequence");
+  assertEquals(IObjectChecker.Result.SUCCESS,result);
+}

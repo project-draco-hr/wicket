@@ -1,0 +1,16 @@
+{
+  try {
+    oos.writeObject(obj);
+  }
+ catch (  NotSerializableException nsx) {
+    if (ObjectChecker.isAvailable()) {
+      new SerializableChecker(nsx).writeObject(obj);
+      throw nsx;
+    }
+    throw nsx;
+  }
+catch (  Exception e) {
+    log.error("error writing object " + obj + ": "+ e.getMessage(),e);
+    throw new WicketRuntimeException(e);
+  }
+}

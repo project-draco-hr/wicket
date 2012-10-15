@@ -1,0 +1,14 @@
+{
+  JavaSerializer serializer=new JavaSerializer("JavaSerializerTest"){
+    @Override protected ObjectOutputStream newObjectOutputStream(    OutputStream out) throws IOException {
+      IObjectChecker checker=new NotDetachedModelChecker();
+      return new ObjectCheckerObjectOutputStream(out,checker);
+    }
+  }
+;
+  IModel<String> model=new NotDetachedModel();
+  model.getObject();
+  WebComponent component=new WebComponent("id",model);
+  byte[] serialized=serializer.serialize(component);
+  assertNull("The produced byte[] must be null if there was an error",serialized);
+}

@@ -1,0 +1,14 @@
+{
+  Result result=Result.SUCCESS;
+  if (object != null && getExclusions().isEmpty() == false) {
+    Class<?> objectType=object.getClass();
+    for (    Class<?> excludedType : getExclusions()) {
+      if (excludedType.isAssignableFrom(objectType)) {
+        LOGGER.debug("Object with type '{}' wont be checked because its type is excluded ({})",objectType,excludedType);
+        return result;
+      }
+    }
+  }
+  result=doCheck(object);
+  return result;
+}
