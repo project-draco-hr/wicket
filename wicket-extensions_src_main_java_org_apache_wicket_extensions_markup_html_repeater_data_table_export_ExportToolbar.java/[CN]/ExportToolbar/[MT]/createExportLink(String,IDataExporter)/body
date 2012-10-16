@@ -1,0 +1,9 @@
+{
+  IResource resource=new ResourceStreamResource(){
+    @Override protected IResourceStream getResourceStream(){
+      return new DataExportResourceStreamWriter(dataExporter,getTable());
+    }
+  }
+.setFileName(fileNameModel.getObject() + "." + dataExporter.getFileNameExtension());
+  return new ResourceLink<Void>(componentId,resource).setBody(dataExporter.getDataFormatNameModel());
+}

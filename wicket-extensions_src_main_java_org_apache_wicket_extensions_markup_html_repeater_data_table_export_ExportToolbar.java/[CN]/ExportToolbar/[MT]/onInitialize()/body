@@ -1,0 +1,20 @@
+{
+  super.onInitialize();
+  WebMarkupContainer td=new WebMarkupContainer("td");
+  add(td);
+  td.add(AttributeModifier.replace("colspan",new AbstractReadOnlyModel<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      return String.valueOf(getTable().getColumns().size());
+    }
+  }
+));
+  td.add(new Label("exportTo",messageModel));
+  RepeatingView linkContainers=new RepeatingView("linkContainer");
+  td.add(linkContainers);
+  for (  IDataExporter exporter : dataExporters) {
+    WebMarkupContainer span=new WebMarkupContainer(linkContainers.newChildId());
+    linkContainers.add(span);
+    span.add(createExportLink("exportLink",exporter));
+  }
+}
