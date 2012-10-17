@@ -3,8 +3,8 @@
     oos.writeObject(obj);
   }
  catch (  NotSerializableException nsx) {
-    if (ObjectChecker.isAvailable()) {
-      new SerializableChecker(nsx).writeObject(obj);
+    if (CheckingObjectOutputStream.isAvailable()) {
+      new SerializableChecker(outputStream,nsx).writeObject(obj);
       throw nsx;
     }
     throw nsx;

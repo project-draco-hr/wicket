@@ -1,9 +1,9 @@
 {
-  Logger logger=LogManager.getLogger(ObjectChecker.class);
+  Logger logger=LogManager.getLogger(CheckingObjectOutputStream.class);
   logger.setLevel(Level.WARN);
   Log4jEventHistory logHistory=new Log4jEventHistory();
   logger.addAppender(logHistory);
-  SerializableChecker serializableChecker=new SerializableChecker(new NotSerializableException());
+  SerializableChecker serializableChecker=new SerializableChecker(new ByteArrayOutputStream(),new NotSerializableException());
   try {
     serializableChecker.writeObject(new TestType1());
     String expectedMessage="Wasn't possible to check the object 'class org.apache.wicket.util.io.SerializableCheckerTest$ProblematicType' possible due an problematic implementation of equals method";
