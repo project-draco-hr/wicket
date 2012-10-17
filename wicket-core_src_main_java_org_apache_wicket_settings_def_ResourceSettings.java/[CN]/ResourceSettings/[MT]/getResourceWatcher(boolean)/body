@@ -1,8 +1,12 @@
 {
   if (resourceWatcher == null && start) {
-    final Duration pollFrequency=getResourcePollFrequency();
-    if (pollFrequency != null) {
-      resourceWatcher=new ModificationWatcher(pollFrequency);
+synchronized (this) {
+      if (resourceWatcher == null) {
+        final Duration pollFrequency=getResourcePollFrequency();
+        if (pollFrequency != null) {
+          resourceWatcher=new ModificationWatcher(pollFrequency);
+        }
+      }
     }
   }
   return resourceWatcher;
