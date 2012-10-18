@@ -5,8 +5,10 @@
     tag=new WicketTag(tag.getXmlTag());
     if (Strings.isEmpty(wicketIdValue)) {
       tag.setId(namespace + "_" + tag.getName());
-      tag.setAutoComponentTag(true);
       tag.setModified(true);
+      if (tag.isClose() == false) {
+        tag.setAutoComponentTag(true);
+      }
     }
     if (!isWellKnown(tag)) {
       throw new WicketParseException("Unknown tag name with Wicket namespace: '" + tag.getName() + "'. Might be you haven't installed the appropriate resolver?",tag);
