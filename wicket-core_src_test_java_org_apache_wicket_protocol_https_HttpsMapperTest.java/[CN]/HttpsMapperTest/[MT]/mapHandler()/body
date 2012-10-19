@@ -10,6 +10,7 @@
   when(req.getScheme()).thenReturn("http");
   mapper.mapHandler(handler,request);
   assertThat(url.getProtocol(),is("https"));
+  assertThat(url.getPort(),is(443));
   handler=new RenderPageRequestHandler(new PageProvider(InsecurePage.class));
   url=new Url();
   reset(delegate);
@@ -24,4 +25,5 @@
   when(req.getScheme()).thenReturn("https");
   mapper.mapHandler(handler,request);
   assertThat(url.getProtocol(),is("http"));
+  assertThat(url.getPort(),is(80));
 }
