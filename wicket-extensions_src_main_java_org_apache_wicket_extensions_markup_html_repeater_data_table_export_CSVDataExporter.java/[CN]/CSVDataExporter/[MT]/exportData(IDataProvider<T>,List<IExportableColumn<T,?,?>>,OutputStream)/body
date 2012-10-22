@@ -1,0 +1,49 @@
+{
+  PrintWriter out=new PrintWriter(new OutputStreamWriter(outputStream,Charset.forName(characterSet)));
+  try {
+    if (isExportHeadersEnabled()) {
+      boolean first=true;
+      for (      IExportableColumn<T,?,?> col : columns) {
+        if (first) {
+          first=false;
+        }
+ else {
+          out.print(delimiter);
+        }
+        out.print(quoteValue(col.getDisplayModel().getObject()));
+      }
+      out.print("\r\n");
+    }
+    long numberOfRows=dataProvider.size();
+    Iterator<? extends T> rowIterator=dataProvider.iterator(0,numberOfRows);
+    while (rowIterator.hasNext()) {
+      T row=rowIterator.next();
+      boolean first=true;
+      for (      IExportableColumn<T,?,?> col : columns) {
+        if (first) {
+          first=false;
+        }
+ else {
+          out.print(delimiter);
+        }
+        Object o=col.getDataModel(dataProvider.model(row)).getObject();
+        if (o != null) {
+          Class<?> c=o.getClass();
+          String s;
+          IConverter converter=Application.get().getConverterLocator().getConverter(c);
+          if (converter == null) {
+            s=o.toString();
+          }
+ else {
+            s=converter.convertToString(o,Session.get().getLocale());
+          }
+          out.print(quoteValue(s));
+        }
+      }
+      out.print("\r\n");
+    }
+  }
+  finally {
+    out.close();
+  }
+}

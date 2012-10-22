@@ -1,0 +1,11 @@
+{
+  WebComponent component=new WebComponent("a");
+  IObjectChecker checker=new OrphanComponentChecker();
+  IObjectChecker.Result result=checker.check(component);
+  assertEquals(IObjectChecker.Result.Status.FAILURE,result.status);
+  assertEquals("A component without a parent is detected.",result.reason);
+  WebPage parent=new TestPage_1();
+  parent.add(component);
+  IObjectChecker.Result result2=checker.check(component);
+  assertEquals(IObjectChecker.Result.SUCCESS,result2);
+}

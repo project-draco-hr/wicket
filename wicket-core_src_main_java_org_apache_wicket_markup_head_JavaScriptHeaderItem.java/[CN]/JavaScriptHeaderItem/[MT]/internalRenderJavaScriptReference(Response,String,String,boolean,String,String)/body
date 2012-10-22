@@ -6,7 +6,9 @@
     response.write(condition);
     response.write("]>");
   }
-  JavaScriptUtils.writeJavaScriptUrl(response,url,id,defer,charset);
+  boolean isAjax=RequestCycle.get().find(AjaxRequestTarget.class) != null;
+  CharSequence escapedUrl=isAjax ? Strings.escapeMarkup(url) : url;
+  JavaScriptUtils.writeJavaScriptUrl(response,escapedUrl,id,defer,charset);
   if (hasCondition) {
     response.write("<![endif]-->\n");
   }
