@@ -1,6 +1,6 @@
 {
   Url url=request.getUrl();
-  if (url.getSegments().size() >= 4 && urlStartsWith(url,getContext().getNamespace(),getContext().getResourceIdentifier())) {
+  if (canBeHandled(url)) {
     PageParameters pageParameters=extractPageParameters(request,url.getSegments().size(),pageParametersEncoder);
     String className=url.getSegments().get(2);
     StringBuilder name=new StringBuilder();
