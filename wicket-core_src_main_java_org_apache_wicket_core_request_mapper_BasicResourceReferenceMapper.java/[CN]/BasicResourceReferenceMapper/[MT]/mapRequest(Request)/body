@@ -7,7 +7,7 @@
     StringBuilder name=new StringBuilder(segmentsSize * 2);
     for (int i=3; i < segmentsSize; ++i) {
       String segment=url.getSegments().get(i);
-      if (segment.contains("/")) {
+      if (segment.indexOf('/') > -1) {
         return null;
       }
       if (i + 1 == segmentsSize && Strings.isEmpty(segment) == false) {
@@ -17,7 +17,7 @@
         Checks.notEmpty(segment,"Caching strategy returned empty name for '%s'",resourceUrl);
       }
       if (name.length() > 0) {
-        name.append("/");
+        name.append('/');
       }
       name.append(segment);
     }
