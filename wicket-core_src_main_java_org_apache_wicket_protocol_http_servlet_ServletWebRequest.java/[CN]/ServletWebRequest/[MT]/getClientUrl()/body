@@ -15,7 +15,9 @@
     if (base == null) {
       base=getRequestParameters().getParameterValue(PARAM_AJAX_BASE_URL).toString(null);
     }
-    Checks.notNull(base,"Current ajax request is missing the base url header or parameter");
+    if (base == null) {
+      throw new AbortWithHttpErrorCodeException(HttpServletResponse.SC_BAD_REQUEST,"Current ajax request is missing the base url header or parameter");
+    }
     return setParameters(Url.parse(base,getCharset()));
   }
 }
