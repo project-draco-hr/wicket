@@ -3,14 +3,14 @@
     return null;
   }
  else {
-    StringBuilder res=new StringBuilder();
+    StringBuilder res=new StringBuilder(32);
     if (attributes.getLocale() != null) {
-      res.append(attributes.getLocale().toString());
+      res.append(attributes.getLocale());
     }
     boolean styleEmpty=Strings.isEmpty(attributes.getStyle());
     if (!styleEmpty) {
       res.append('-');
-      res.append(attributes.getStyle());
+      res.append(escapeAttributesSeparator(attributes.getStyle()));
     }
     if (!Strings.isEmpty(attributes.getVariation())) {
       if (styleEmpty) {
@@ -19,7 +19,7 @@
  else {
         res.append('-');
       }
-      res.append(attributes.getVariation());
+      res.append(escapeAttributesSeparator(attributes.getVariation()));
     }
     return res.toString();
   }

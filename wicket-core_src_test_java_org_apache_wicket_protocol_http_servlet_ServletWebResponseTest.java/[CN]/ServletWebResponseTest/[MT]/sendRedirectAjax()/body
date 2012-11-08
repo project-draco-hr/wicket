@@ -2,11 +2,16 @@
   final String url="./relative/path";
   ServletWebRequest webRequest=mock(ServletWebRequest.class);
   when(webRequest.isAjax()).thenReturn(Boolean.TRUE);
+  Url baseUrl=Url.parse("./baseUrl");
+  baseUrl.setProtocol("http");
+  baseUrl.setHost("someHost");
+  baseUrl.setPort(80);
+  when(webRequest.getClientUrl()).thenReturn(baseUrl);
   HttpServletRequest httpServletRequest=mock(HttpServletRequest.class);
   when(webRequest.getContainerRequest()).thenReturn(httpServletRequest);
   when(httpServletRequest.getCharacterEncoding()).thenReturn("UTF-8");
   HttpServletResponse httpServletResponse=mock(HttpServletResponse.class);
-  when(httpServletResponse.encodeRedirectURL(Matchers.eq(url))).thenReturn(url);
+  when(httpServletResponse.encodeRedirectURL(Matchers.anyString())).thenReturn(url);
   StringWriter writer=new StringWriter();
   when(httpServletResponse.getWriter()).thenReturn(new PrintWriter(writer));
   ServletWebResponse webResponse=new ServletWebResponse(webRequest,httpServletResponse);

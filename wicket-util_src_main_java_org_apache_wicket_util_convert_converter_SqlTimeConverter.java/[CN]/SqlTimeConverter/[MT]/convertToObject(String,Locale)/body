@@ -5,7 +5,7 @@
   if (locale == null) {
     locale=Locale.getDefault();
   }
-  DateFormat format=DateFormat.getTimeInstance(DateFormat.SHORT,locale);
+  DateFormat format=(DateFormat)DateFormat.getTimeInstance(DateFormat.SHORT,locale).clone();
   try {
     Date date=format.parse(value);
     return new Time(date.getTime());

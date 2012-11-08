@@ -1,7 +1,8 @@
 {
   final Component feedback=new FeedbackPanel("feedback").setOutputMarkupId(true);
   add(feedback);
-  Form<?> form=new Form<Void>("form"){
+  final Form<?> form=new Form<Void>("form"){
+    private static final long serialVersionUID=1L;
     /** 
  * @see org.apache.wicket.markup.html.form.Form#onSubmit()
  */
@@ -20,8 +21,18 @@
   form.setMaxSize(Bytes.megabytes(1));
   add(form);
   form.add(text=new TextField<String>("text",new Model<String>()));
+  text.add(StringValidator.minimumLength(2));
   form.add(file=new FileUploadField("file"));
+  form.add(new Label("max",new AbstractReadOnlyModel<String>(){
+    private static final long serialVersionUID=1L;
+    @Override public String getObject(){
+      return form.getMaxSize().toString();
+    }
+  }
+));
+  form.add(new UploadProgressBar("progress",form,file));
   form.add(new AjaxButton("ajaxSubmit"){
+    private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       info("This request was processed using AJAX");
       target.add(feedback);
