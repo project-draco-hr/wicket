@@ -1,5 +1,5 @@
 {
-  String expectedEncrypted="0lhSFdMIt3yZUNwbtLuXgDePMclxSbks";
+  String expectedEncrypted="?namedKey1=namedValue1";
   PageParameters expectedParameters=new PageParameters();
   expectedParameters.add("namedKey1","namedValue1");
   RenderPageRequestHandler renderPageRequestHandler=new RenderPageRequestHandler(new PageProvider(tester.getApplication().getHomePage(),expectedParameters));
@@ -7,6 +7,8 @@
   assertEquals(expectedEncrypted,url.toString());
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
   assertTrue(requestHandler instanceof RenderPageRequestHandler);
   RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
   assertEquals(tester.getApplication().getHomePage(),handler.getPageClass());

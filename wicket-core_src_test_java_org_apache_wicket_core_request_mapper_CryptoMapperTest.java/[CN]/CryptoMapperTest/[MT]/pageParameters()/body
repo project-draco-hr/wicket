@@ -10,6 +10,8 @@
   assertEquals(expectedEncrypted,url.toString());
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
   assertTrue(requestHandler instanceof RenderPageRequestHandler);
   RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
   assertEquals(DummyHomePage.class,handler.getPageClass());
