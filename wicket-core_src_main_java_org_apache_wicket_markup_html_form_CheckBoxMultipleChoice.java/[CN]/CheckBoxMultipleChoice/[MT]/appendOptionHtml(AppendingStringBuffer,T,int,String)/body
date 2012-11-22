@@ -27,7 +27,22 @@
     buffer.append(id);
     buffer.append("\" id=\"");
     buffer.append(idAttr);
-    buffer.append("\"/>");
+    buffer.append("\"");
+{
+      IValueMap attrs=getAdditionalAttributes(index,choice);
+      if (attrs != null) {
+        for (        Map.Entry<String,Object> attr : attrs.entrySet()) {
+          buffer.append(" ").append(attr.getKey()).append("=\"").append(attr.getValue()).append("\"");
+        }
+      }
+    }
+    if (getApplication().getDebugSettings().isOutputComponentPath()) {
+      String path=getPageRelativePath();
+      path=path.replace("_","__");
+      path=path.replace(":","_");
+      buffer.append(" wicketpath=\"").append(path).append("_input_").append(index).append("\"");
+    }
+    buffer.append("/>");
     String display=label;
     if (localizeDisplayValues()) {
       display=getLocalizer().getString(label,this,label);
