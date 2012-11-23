@@ -14,7 +14,7 @@
     String id=getChoiceRenderer().getIdValue(choice,index);
     final String idAttr=getMarkupId() + "-" + id;
     boolean enabled=isEnabledInHierarchy() && !isDisabled(choice,index,selected);
-    buffer.append("<input name=\"").append(getInputName()).append("\"").append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((enabled ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append("\"");
+    buffer.append("<input name=\"").append(getInputName()).append('"').append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((enabled ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append('"');
     if (wantOnSelectionChangedNotifications()) {
       CharSequence url=urlFor(IOnChangeListener.INTERFACE,new PageParameters());
       Form<?> form=findParent(Form.class);
@@ -22,22 +22,22 @@
         buffer.append(" onclick=\"").append(form.getJsForInterfaceUrl(url)).append(";\"");
       }
  else {
-        buffer.append(" onclick=\"window.location.href='").append(url).append((url.toString().indexOf('?') > -1 ? "&" : "?") + getInputName()).append("=").append(id).append("';\"");
+        buffer.append(" onclick=\"window.location.href='").append(url).append((url.toString().indexOf('?') > -1 ? '&' : '?') + getInputName()).append('=').append(id).append("';\"");
       }
     }
 {
       IValueMap attrs=getAdditionalAttributes(index,choice);
       if (attrs != null) {
         for (        Map.Entry<String,Object> attr : attrs.entrySet()) {
-          buffer.append(" ").append(attr.getKey()).append("=\"").append(attr.getValue()).append("\"");
+          buffer.append(' ').append(attr.getKey()).append("=\"").append(attr.getValue()).append('"');
         }
       }
     }
     if (getApplication().getDebugSettings().isOutputComponentPath()) {
-      String path=getPageRelativePath();
-      path=path.replace("_","__");
-      path=path.replace(":","_");
-      buffer.append(" wicketpath=\"").append(path).append("_input_").append(index).append("\"");
+      CharSequence path=getPageRelativePath();
+      path=Strings.replaceAll(path,"_","__");
+      path=Strings.replaceAll(path,":","_");
+      buffer.append(" wicketpath=\"").append(path).append("_input_").append(index).append('"');
     }
     buffer.append("/>");
     String display=label;
