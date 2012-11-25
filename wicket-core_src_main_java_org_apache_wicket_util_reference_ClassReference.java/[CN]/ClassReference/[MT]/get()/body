@@ -1,8 +1,8 @@
 {
-  Class<? extends T> clazz=cache != null ? cache.get() : null;
+  Class<T> clazz=cache != null ? cache.get() : null;
   if (clazz == null) {
     try {
-      clazz=(Class<? extends T>)Application.get().getApplicationSettings().getClassResolver().resolveClass(name);
+      clazz=(Class<T>)Application.get().getApplicationSettings().getClassResolver().resolveClass(name);
     }
  catch (    ClassNotFoundException e) {
       throw new RuntimeException("Could not resolve class: " + name,e);
