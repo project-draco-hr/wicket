@@ -1,0 +1,14 @@
+{
+  super.onComponentTag(component,tag);
+  BeanValidationContext config=BeanValidationConfiguration.get();
+  Validator validator=config.getValidator();
+  Property property=getProperty();
+  Iterator<ConstraintDescriptor<?>> it=new ConstraintIterator(validator,property,getGroups());
+  while (it.hasNext()) {
+    ConstraintDescriptor<?> desc=it.next();
+    ITagModifier modifier=config.getTagModifier(desc.getAnnotation().annotationType());
+    if (modifier != null) {
+      modifier.modify((FormComponent<?>)component,tag,desc.getAnnotation());
+    }
+  }
+}
