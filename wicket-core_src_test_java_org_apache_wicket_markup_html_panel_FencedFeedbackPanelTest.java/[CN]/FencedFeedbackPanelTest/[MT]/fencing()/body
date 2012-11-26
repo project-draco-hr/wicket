@@ -1,0 +1,26 @@
+{
+  TestPage page=scope.getTester().startPage(TestPage.class);
+  page.containerInput.error("error");
+  assertTrue(page.containerFeedback.anyMessage());
+  assertTrue(page.containerFeedback2.anyMessage());
+  assertFalse(page.formFeedback.anyMessage());
+  assertFalse(page.externalFeedback.anyMessage());
+  page=scope.getTester().startPage(TestPage.class);
+  page.formInput.error("error");
+  assertFalse(page.containerFeedback.anyMessage());
+  assertFalse(page.containerFeedback2.anyMessage());
+  assertTrue(page.formFeedback.anyMessage());
+  assertFalse(page.externalFeedback.anyMessage());
+  page=scope.getTester().startPage(TestPage.class);
+  page.externalLabel.error("error");
+  assertFalse(page.containerFeedback.anyMessage());
+  assertFalse(page.containerFeedback2.anyMessage());
+  assertFalse(page.formFeedback.anyMessage());
+  assertTrue(page.externalFeedback.anyMessage());
+  page=scope.getTester().startPage(TestPage.class);
+  page.getSession().error("error");
+  assertFalse(page.containerFeedback.anyMessage());
+  assertFalse(page.containerFeedback2.anyMessage());
+  assertFalse(page.formFeedback.anyMessage());
+  assertTrue(page.externalFeedback.anyMessage());
+}

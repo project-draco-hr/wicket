@@ -1,0 +1,24 @@
+{
+  return new FeedbackMessagesModel(this){
+    private static final long serialVersionUID=1L;
+    @Override protected List<FeedbackMessage> collectMessages(    Component panel,    IFeedbackMessageFilter filter){
+      if (fence == null) {
+        return new FeedbackCollector(panel.getPage()){
+          @Override protected boolean shouldRecurseInto(          Component component){
+            return component.getMetaData(FENCE_KEY) == null;
+          }
+        }
+.collect(filter);
+      }
+ else {
+        return new FeedbackCollector(fence){
+          @Override protected boolean shouldRecurseInto(          Component component){
+            return component.getMetaData(FENCE_KEY) == null;
+          }
+        }
+.setIncludeSession(false).collect(filter);
+      }
+    }
+  }
+;
+}
