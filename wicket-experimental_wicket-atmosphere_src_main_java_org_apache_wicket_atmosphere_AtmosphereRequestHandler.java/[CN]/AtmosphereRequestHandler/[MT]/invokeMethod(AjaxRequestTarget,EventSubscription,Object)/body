@@ -2,6 +2,10 @@
   for (  Method curMethod : base.getClass().getMethods()) {
     if (curMethod.isAnnotationPresent(Subscribe.class) && curMethod.getName().equals(subscription.getMethodName())) {
       try {
+        if (!ajaxRequestScheduled) {
+          ajaxRequestScheduled=true;
+          RequestCycle.get().scheduleRequestHandlerAfterCurrent(target);
+        }
         curMethod.setAccessible(true);
         curMethod.invoke(base,target,event);
       }
