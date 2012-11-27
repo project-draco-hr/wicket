@@ -1,0 +1,14 @@
+{
+  TestPage<Long> testPage=new TestPage<Long>();
+  testPage.textField.setType(Long.class);
+  testPage.textField.setMinimum(new Long("0"));
+  testPage.textField.setMaximum(new Long("100"));
+  testPage.textField.setModelObject(new Long("0"));
+  tester.startPage(testPage);
+  String response=tester.getLastResponseAsString();
+  assertTrue(response.contains("<input wicket:id=\"number\" type=\"number\" value=\"0\" name=\"number\" min=\"0\" max=\"100\"/>"));
+  FormTester formTester=tester.newFormTester(testPage.form.getId());
+  formTester.setValue(testPage.textField.getId(),"50");
+  formTester.submit();
+  assertEquals(new Long("50"),testPage.textField.getDefaultModelObject());
+}
