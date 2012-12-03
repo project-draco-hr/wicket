@@ -1,5 +1,10 @@
 {
   ByteArrayOutputStream output=new ByteArrayOutputStream();
   for (  IResourceStream curStream : resources)   IOUtils.copy(curStream.getInputStream(),output);
-  return output.toByteArray();
+  byte[] bytes=output.toByteArray();
+  if (getCompressor() != null) {
+    String nonCompressed=new String(bytes,"UTF-8");
+    bytes=getCompressor().compress(nonCompressed).getBytes("UTF-8");
+  }
+  return bytes;
 }

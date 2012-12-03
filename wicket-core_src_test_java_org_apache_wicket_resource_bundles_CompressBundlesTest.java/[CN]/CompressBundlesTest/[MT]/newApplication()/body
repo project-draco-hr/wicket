@@ -1,0 +1,10 @@
+{
+  return new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      getResourceSettings().setJavaScriptCompressor(new DefaultJavaScriptCompressor());
+      getResourceBundles().addJavaScriptBundle(CompressBundlesTest.class,"bundle.js",new JavaScriptResourceReference(CompressBundlesTest.class,"two.js"),new JavaScriptResourceReference(CompressBundlesTest.class,"one.js"));
+    }
+  }
+;
+}
