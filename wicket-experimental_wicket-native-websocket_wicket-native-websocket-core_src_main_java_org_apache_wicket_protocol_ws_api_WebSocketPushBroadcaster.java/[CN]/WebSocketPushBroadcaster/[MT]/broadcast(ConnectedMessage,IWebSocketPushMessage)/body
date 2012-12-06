@@ -1,0 +1,9 @@
+{
+  Args.notNull(connection,"connection");
+  Args.notNull(message,"message");
+  IWebSocketConnection wsConnection=registry.getConnection(connection.getApplication(),connection.getSessionId(),connection.getPageId());
+  if (wsConnection == null) {
+    return;
+  }
+  process(connection.getApplication(),singletonList(wsConnection),message);
+}

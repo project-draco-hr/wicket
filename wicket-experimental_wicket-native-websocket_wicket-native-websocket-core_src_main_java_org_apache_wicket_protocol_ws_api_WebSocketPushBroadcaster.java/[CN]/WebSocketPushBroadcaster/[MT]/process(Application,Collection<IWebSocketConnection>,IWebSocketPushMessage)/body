@@ -1,0 +1,12 @@
+{
+  IWebSocketSettings webSocketSettings=IWebSocketSettings.HOLDER.get(application);
+  Executor executor=webSocketSettings.getWebSocketPushMessageExecutor();
+  for (  final IWebSocketConnection wsConnection : wsConnections) {
+    executor.run(new Runnable(){
+      @Override public void run(){
+        wsConnection.sendMessage(message);
+      }
+    }
+);
+  }
+}

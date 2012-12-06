@@ -1,6 +1,9 @@
 {
   Args.notNull(page,"page");
   socketProcessor=new TestWebSocketProcessor(page){
+    @Override protected void onPushMessage(    IWebSocketPushMessage message){
+      WebSocketTester.this.onPushMessage(message);
+    }
     @Override protected void onOutMessage(    String message){
       WebSocketTester.this.onOutMessage(message);
     }

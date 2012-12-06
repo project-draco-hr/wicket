@@ -6,5 +6,6 @@
   this.pageId=Integer.parseInt(pageId,10);
   this.webRequest=new WebSocketRequest(new ServletRequestCopy(request));
   this.application=Args.notNull(application,"application");
-  this.connectionRegistry=new SimpleWebSocketConnectionRegistry();
+  IWebSocketSettings webSocketSettings=IWebSocketSettings.HOLDER.get(application);
+  this.connectionRegistry=webSocketSettings.getConnectionRegistry();
 }
