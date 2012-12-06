@@ -1,9 +1,7 @@
 {
+  Args.notNull(wicketTester,"wicketTester");
   Args.notNull(page,"page");
-  socketProcessor=new TestWebSocketProcessor(page){
-    @Override protected void onPushMessage(    IWebSocketPushMessage message){
-      WebSocketTester.this.onPushMessage(message);
-    }
+  socketProcessor=new TestWebSocketProcessor(wicketTester,page){
     @Override protected void onOutMessage(    String message){
       WebSocketTester.this.onOutMessage(message);
     }
