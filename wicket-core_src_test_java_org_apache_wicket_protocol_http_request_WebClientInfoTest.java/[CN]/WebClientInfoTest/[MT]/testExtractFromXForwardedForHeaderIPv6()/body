@@ -1,0 +1,7 @@
+{
+  String expected="2001:db8::1428:57";
+  when(webRequest.getHeader("X-Forwarded-For")).thenReturn("2001:db8::1428:57");
+  WebClientInfo clientInfo=new WebClientInfo(requestCycleMock,"No user agent");
+  String actual=clientInfo.getRemoteAddr(requestCycleMock);
+  assertThat(actual,is(equalTo(expected)));
+}

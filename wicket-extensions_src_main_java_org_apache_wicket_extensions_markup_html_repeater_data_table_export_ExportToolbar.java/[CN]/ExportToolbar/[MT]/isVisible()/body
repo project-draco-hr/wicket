@@ -1,0 +1,14 @@
+{
+  if (dataExporters.isEmpty()) {
+    return false;
+  }
+  if (getTable().getRowCount() == 0) {
+    return false;
+  }
+  for (  IColumn<?,?> col : getTable().getColumns()) {
+    if (col instanceof IExportableColumn) {
+      return true;
+    }
+  }
+  return false;
+}

@@ -1,3 +1,16 @@
 {
-  return httpServletResponse.encodeRedirectURL(url.toString());
+  Args.notNull(url,"url");
+  UrlRenderer urlRenderer=new UrlRenderer(webRequest);
+  Url relativeUrl=Url.parse(url);
+  String fullUrl=urlRenderer.renderFullUrl(relativeUrl);
+  String encodedFullUrl=httpServletResponse.encodeRedirectURL(fullUrl);
+  final String encodedRelativeUrl;
+  if (fullUrl.equals(encodedFullUrl)) {
+    encodedRelativeUrl=url.toString();
+  }
+ else {
+    Url _encoded=Url.parse(encodedFullUrl);
+    encodedRelativeUrl=urlRenderer.renderRelativeUrl(_encoded);
+  }
+  return encodedRelativeUrl;
 }

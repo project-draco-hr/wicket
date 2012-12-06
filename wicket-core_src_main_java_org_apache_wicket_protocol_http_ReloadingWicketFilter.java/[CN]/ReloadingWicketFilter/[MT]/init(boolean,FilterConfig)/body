@@ -1,6 +1,7 @@
 {
   reloadingClassLoader.setListener(new IChangeListener(){
     @Override public void onChange(){
+      destroy();
       reloadingClassLoader.destroy();
       reloadingClassLoader=new ReloadingClassLoader(getClass().getClassLoader());
       try {

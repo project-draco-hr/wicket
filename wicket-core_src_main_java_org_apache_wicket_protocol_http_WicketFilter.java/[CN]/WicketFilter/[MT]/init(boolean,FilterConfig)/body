@@ -2,40 +2,44 @@
   this.filterConfig=filterConfig;
   this.isServlet=isServlet;
   initIgnorePaths(filterConfig);
-  if (application == null) {
-    applicationFactory=getApplicationFactory();
-    application=applicationFactory.createApplication(this);
-  }
-  application.setName(filterConfig.getFilterName());
-  application.setWicketFilter(this);
-  String configureFilterPath=getFilterPath();
-  if (configureFilterPath == null) {
-    configureFilterPath=getFilterPathFromConfig(filterConfig);
-    if (configureFilterPath == null) {
-      configureFilterPath=getFilterPathFromWebXml(isServlet,filterConfig);
-      if (configureFilterPath == null) {
-        configureFilterPath=getFilterPathFromAnnotation(isServlet);
-      }
-    }
-    if (configureFilterPath != null) {
-      setFilterPath(configureFilterPath);
-    }
-  }
-  if (getFilterPath() == null) {
-    log.warn("Unable to determine filter path from filter init-param, web.xml, " + "or servlet 3.0 annotations. Assuming user will set filter path " + "manually by calling setFilterPath(String)");
-  }
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   final ClassLoader newClassLoader=getClassLoader();
-  ThreadContext.setApplication(application);
   try {
     if (previousClassLoader != newClassLoader) {
       Thread.currentThread().setContextClassLoader(newClassLoader);
     }
-    application.initApplication();
-    application.logStarted();
+    if (application == null) {
+      applicationFactory=getApplicationFactory();
+      application=applicationFactory.createApplication(this);
+    }
+    application.setName(filterConfig.getFilterName());
+    application.setWicketFilter(this);
+    String configureFilterPath=getFilterPath();
+    if (configureFilterPath == null) {
+      configureFilterPath=getFilterPathFromConfig(filterConfig);
+      if (configureFilterPath == null) {
+        configureFilterPath=getFilterPathFromWebXml(isServlet,filterConfig);
+        if (configureFilterPath == null) {
+          configureFilterPath=getFilterPathFromAnnotation(isServlet);
+        }
+      }
+      if (configureFilterPath != null) {
+        setFilterPath(configureFilterPath);
+      }
+    }
+    if (getFilterPath() == null) {
+      log.warn("Unable to determine filter path from filter init-param, web.xml, " + "or servlet 3.0 annotations. Assuming user will set filter path " + "manually by calling setFilterPath(String)");
+    }
+    ThreadContext.setApplication(application);
+    try {
+      application.initApplication();
+      application.logStarted();
+    }
+  finally {
+      ThreadContext.detach();
+    }
   }
   finally {
-    ThreadContext.detach();
     if (newClassLoader != previousClassLoader) {
       Thread.currentThread().setContextClassLoader(previousClassLoader);
     }

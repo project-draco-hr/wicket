@@ -5,25 +5,27 @@
   for (  Map.Entry<String,String[]> param : params.entrySet()) {
     final String name=param.getKey();
     final String[] values=param.getValue();
-    List<StringValue> queryValues=queryParams.getParameterValues(name);
-    if (queryValues == null) {
-      queryValues=Collections.emptyList();
-    }
- else {
-      queryValues=new ArrayList<StringValue>(queryValues);
-    }
-    List<StringValue> postValues=new ArrayList<StringValue>();
-    for (    String value : values) {
-      StringValue val=StringValue.valueOf(value);
-      if (queryValues.contains(val)) {
-        queryValues.remove(val);
+    if (name != null && values != null) {
+      List<StringValue> queryValues=queryParams.getParameterValues(name);
+      if (queryValues == null) {
+        queryValues=Collections.emptyList();
       }
  else {
-        postValues.add(val);
+        queryValues=new ArrayList<StringValue>(queryValues);
       }
-    }
-    if (!postValues.isEmpty()) {
-      postParameters.put(name,postValues);
+      List<StringValue> postValues=new ArrayList<StringValue>();
+      for (      String value : values) {
+        StringValue val=StringValue.valueOf(value);
+        if (queryValues.contains(val)) {
+          queryValues.remove(val);
+        }
+ else {
+          postValues.add(val);
+        }
+      }
+      if (!postValues.isEmpty()) {
+        postParameters.put(name,postValues);
+      }
     }
   }
   return postParameters;

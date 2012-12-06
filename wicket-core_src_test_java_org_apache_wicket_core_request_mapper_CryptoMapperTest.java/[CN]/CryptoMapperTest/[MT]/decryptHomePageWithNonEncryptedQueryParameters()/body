@@ -1,6 +1,8 @@
 {
   Request request=getRequest(Url.parse("?named1=value1"));
   IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
   assertTrue(requestHandler instanceof RenderPageRequestHandler);
   RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
   assertEquals(tester.getApplication().getHomePage(),handler.getPageClass());

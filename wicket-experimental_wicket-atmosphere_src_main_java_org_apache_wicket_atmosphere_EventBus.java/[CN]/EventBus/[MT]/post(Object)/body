@@ -2,16 +2,7 @@
   ThreadContext oldContext=ThreadContext.get(false);
   try {
     for (    AtmosphereResource resource : broadcaster.getAtmosphereResources()) {
-      ThreadContext.detach();
-      ThreadContext.setApplication(application);
-      PageKey key;
-      Collection<EventSubscription> subscriptionsForPage;
-synchronized (this) {
-        key=trackedPages.get(AtmosphereBehavior.getUUID(resource));
-        subscriptionsForPage=Collections2.filter(Collections.unmodifiableCollection(subscriptions.get(key)),new EventFilter(event));
-      }
-      if (key == null)       broadcaster.removeAtmosphereResource(resource);
- else       post(resource,key,subscriptionsForPage,event);
+      postToSingleResource(event,resource);
     }
   }
   finally {
