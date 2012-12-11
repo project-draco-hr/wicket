@@ -1,20 +1,6 @@
 {
-  if (load == null) {
-    return null;
-  }
   java.util.Properties properties=new java.util.Properties();
   Reader reader=new InputStreamReader(in,encoding);
-  try {
-    load.invoke(properties,reader);
-  }
- catch (  IllegalArgumentException ex) {
-    properties=null;
-  }
-catch (  IllegalAccessException ex) {
-    properties=null;
-  }
-catch (  InvocationTargetException ex) {
-    properties=null;
-  }
+  properties.load(reader);
   return properties;
 }
