@@ -1,5 +1,9 @@
 {
-  for (  CharSequence script : scripts) {
-    writeEvaluation(elementName,response,script);
+  if (scripts.size() > 0) {
+    StringBuilder combinedScript=new StringBuilder(1024);
+    for (    CharSequence script : scripts) {
+      combinedScript.append("(function(){").append(script).append("})();");
+    }
+    writeEvaluation(elementName,response,combinedScript);
   }
 }
