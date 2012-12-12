@@ -23,7 +23,7 @@
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
       attributes.setEventNames("change","blur","keyup");
-      CharSequence dynamicExtraParameters="var result = [], " + "kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type;console.log(evtType);"+ "if (evtType === 'blur' || (evtType === 'keyup' && kc===27)) {"+ "  result.push( { name: 'save', value: false } );"+ "}"+ "else {"+ "  result = Wicket.Form.serializeElement(attrs.c);"+ "  result.push( { name: 'save', value: true } );"+ "}"+ "return result;";
+      CharSequence dynamicExtraParameters="var result = [], " + "kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type;"+ "if (evtType === 'blur' || (evtType === 'keyup' && kc===27)) {"+ "  result.push( { name: 'save', value: false } );"+ "}"+ "else {"+ "  result = Wicket.Form.serializeElement(attrs.c);"+ "  result.push( { name: 'save', value: true } );"+ "}"+ "return result;";
       attributes.getDynamicExtraParameters().add(dynamicExtraParameters);
       CharSequence precondition="var kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type," + "ret=false;"+ "if(evtType==='blur' || evtType==='change' || (evtType==='keyup' && kc===27)) ret = true;"+ "return ret;";
       AjaxCallListener ajaxCallListener=new AjaxCallListener();
