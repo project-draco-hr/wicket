@@ -1,0 +1,14 @@
+{
+  MockWebResponse originalResponse=new MockWebResponse();
+  HeaderBufferingWebResponse response=new HeaderBufferingWebResponse(originalResponse);
+  response.addHeader("key1","value1");
+  assertNull(originalResponse.getHeader("key1"));
+  response.reset();
+  response.write("written");
+  try {
+    response.reset();
+    fail();
+  }
+ catch (  IllegalStateException expected) {
+  }
+}
