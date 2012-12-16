@@ -1,7 +1,8 @@
 {
-  if (flushed) {
-    throw new IllegalStateException("Response has already been flushed!");
+  if (buffering) {
+    bufferedResponse.reset();
   }
-  bufferedResponse.reset();
-  bufferedWritten=false;
+ else {
+    throw new IllegalStateException("Response is no longer buffering!");
+  }
 }

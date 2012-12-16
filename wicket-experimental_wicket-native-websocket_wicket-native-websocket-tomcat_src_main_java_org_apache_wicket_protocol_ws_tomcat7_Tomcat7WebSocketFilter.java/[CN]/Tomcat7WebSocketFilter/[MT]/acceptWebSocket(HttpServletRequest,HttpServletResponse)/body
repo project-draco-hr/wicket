@@ -1,0 +1,12 @@
+{
+  if (!super.acceptWebSocket(req,resp)) {
+    return false;
+  }
+  String key=req.getHeader("Sec-WebSocket-Key");
+  resp.setHeader("Sec-WebSocket-Accept",getWebSocketAccept(key));
+  Application application=getApplication();
+  TomcatWebSocketProcessor webSocketHandler=new TomcatWebSocketProcessor(req,application);
+  TomcatWebSocketProcessor.TomcatWebSocket tomcatWebSocket=webSocketHandler.new TomcatWebSocket();
+  ((RequestFacade)req).doUpgrade(tomcatWebSocket);
+  return true;
+}
