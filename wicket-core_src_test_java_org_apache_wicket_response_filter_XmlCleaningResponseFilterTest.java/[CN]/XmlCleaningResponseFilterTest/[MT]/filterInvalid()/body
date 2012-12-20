@@ -1,0 +1,9 @@
+{
+  XmlCleaningResponseFilter filter=new XmlCleaningResponseFilter();
+  int[] invalidChars=new int[]{0x0008,0x0010,0xD800,0xDDDD,0xFFFE};
+  for (  int invalidChar : invalidChars) {
+    CharSequence text=createText(invalidChar);
+    AppendingStringBuffer filtered=filter.filter(new AppendingStringBuffer(text));
+    assertEquals(String.format("checking Unicode codepoint 0x%X:",invalidChar),AJAX_RESPONSE_START + AJAX_RESPONSE_END,filtered.toString());
+  }
+}

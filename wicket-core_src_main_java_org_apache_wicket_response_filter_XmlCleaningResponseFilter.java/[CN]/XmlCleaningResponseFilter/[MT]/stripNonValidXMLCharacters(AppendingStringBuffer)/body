@@ -1,0 +1,23 @@
+{
+  char[] chars=input.getValue();
+  AppendingStringBuffer out=null;
+  int codePoint;
+  int i=0;
+  while (i < input.length()) {
+    codePoint=Character.codePointAt(chars,i,chars.length);
+    if (!isValidXmlChar(codePoint)) {
+      if (out == null) {
+        out=new AppendingStringBuffer(chars.length);
+        out.append(input.subSequence(0,i));
+      }
+ else {
+        out.append(Character.toChars(codePoint));
+      }
+    }
+ else     if (out != null) {
+      out.append(Character.toChars(codePoint));
+    }
+    i+=Character.charCount(codePoint);
+  }
+  return out != null ? out : input;
+}
