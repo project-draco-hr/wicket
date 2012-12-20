@@ -1,6 +1,7 @@
 {
   char[] chars=input.getValue();
   AppendingStringBuffer out=null;
+  boolean isDebugEnabled=LOG.isDebugEnabled();
   int codePoint;
   int i=0;
   while (i < input.length()) {
@@ -9,9 +10,15 @@
       if (out == null) {
         out=new AppendingStringBuffer(chars.length);
         out.append(input.subSequence(0,i));
+        if (isDebugEnabled) {
+          LOG.debug("An invalid character '{}' found at position '{}' in '{}'",new Object[]{String.format("0x%X",codePoint),i,new String(chars)});
+        }
       }
  else {
         out.append(Character.toChars(codePoint));
+        if (isDebugEnabled) {
+          LOG.debug(String.format("Dropping character for codePoint '0x%X' at position '%d'",codePoint,i));
+        }
       }
     }
  else     if (out != null) {
