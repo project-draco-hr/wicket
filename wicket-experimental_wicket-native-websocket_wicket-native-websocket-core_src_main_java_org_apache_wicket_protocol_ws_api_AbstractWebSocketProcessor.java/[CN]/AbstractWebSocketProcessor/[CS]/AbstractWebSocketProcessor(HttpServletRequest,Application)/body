@@ -4,6 +4,9 @@
   String pageId=request.getParameter("pageId");
   Checks.notEmpty(pageId,"Request parameter 'pageId' is required!");
   this.pageId=Integer.parseInt(pageId,10);
+  String baseUrl=request.getParameter(WebRequest.PARAM_AJAX_BASE_URL);
+  Checks.notNull(baseUrl,String.format("Request parameter '%s' is required!",WebRequest.PARAM_AJAX_BASE_URL));
+  this.baseUrl=Url.parse(baseUrl);
   this.webRequest=new WebSocketRequest(new ServletRequestCopy(request));
   this.application=Args.notNull(application,"application");
   IWebSocketSettings webSocketSettings=IWebSocketSettings.Holder.get(application);
