@@ -3,6 +3,9 @@
     return;
   }
   Url commonPrefix=Url.parse(request.getContextPath() + request.getFilterPath());
+  if (commonPrefix.getSegments().isEmpty()) {
+    commonPrefix.getSegments().add("");
+  }
   for (int i=0; i < commonPrefix.getSegments().size() && i < segments.size(); i++) {
     if (commonPrefix.getSegments().get(i).equals(segments.get(i)) == false) {
       LOG.debug("Segments '{}' do not start with common prefix '{}'",segments,commonPrefix);

@@ -28,8 +28,12 @@
 ;
     totalBytes=request.getContentLength();
     onUploadStarted(totalBytes);
-    items=fileUpload.parseRequest(ctx);
-    onUploadCompleted();
+    try {
+      items=fileUpload.parseRequest(ctx);
+    }
+  finally {
+      onUploadCompleted();
+    }
   }
  else {
     items=fileUpload.parseRequest(request);
