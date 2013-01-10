@@ -1,5 +1,11 @@
 {
   super.updateAjaxAttributes(attributes);
-  attributes.setEventNames("click");
-  attributes.setAllowDefault(true);
+  attributes.getAjaxCallListeners().add(new AjaxCallListener(){
+    private static final long serialVersionUID=1L;
+    @Override public CharSequence getPrecondition(    Component component){
+      return String.format("return Wicket.Choice.acceptInput('%s', attrs)",getFormComponent().getInputName());
+    }
+  }
+);
+  attributes.getDynamicExtraParameters().add(String.format("return Wicket.Choice.getInputValues('%s', attrs)",getFormComponent().getInputName()));
 }
