@@ -1,0 +1,20 @@
+{
+  try {
+    return subscribedMethodsCache.get(clazz,new Callable<Iterable<Method>>(){
+      @Override public Iterable<Method> call() throws Exception {
+        ImmutableList.Builder<Method> ret=ImmutableList.builder();
+        for (        Method curMethod : clazz.getMethods()) {
+          if (curMethod.isAnnotationPresent(Subscribe.class)) {
+            verifyMethodParameters(curMethod);
+            ret.add(curMethod);
+          }
+        }
+        return ret.build();
+      }
+    }
+);
+  }
+ catch (  ExecutionException e) {
+    throw new WicketRuntimeException(e);
+  }
+}
