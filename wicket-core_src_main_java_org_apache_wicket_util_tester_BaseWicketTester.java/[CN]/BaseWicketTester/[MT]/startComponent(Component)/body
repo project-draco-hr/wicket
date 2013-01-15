@@ -1,8 +1,14 @@
 {
-  component.internalInitialize();
-  if (component instanceof FormComponent) {
-    ((FormComponent<?>)component).processInput();
+  try {
+    component.internalInitialize();
+    if (component instanceof FormComponent) {
+      ((FormComponent<?>)component).processInput();
+    }
+    component.beforeRender();
   }
-  component.beforeRender();
+  finally {
+    getRequestCycle().detach();
+    component.detach();
+  }
   return component;
 }
