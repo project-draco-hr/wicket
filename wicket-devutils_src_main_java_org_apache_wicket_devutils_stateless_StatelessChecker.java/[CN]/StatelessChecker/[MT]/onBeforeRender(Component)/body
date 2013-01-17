@@ -14,8 +14,21 @@
     }
 ;
     final String msg="'" + component + "' claims to be stateless but isn't.";
-    if (!component.isStateless()) {
-      throw new IllegalArgumentException(msg + " Possible reasons: no stateless hint, statefull behaviors");
+    if (component.isStateless() == false) {
+      StringList statefulBehaviors=new StringList();
+      for (      Behavior b : component.getBehaviors()) {
+        if (b.getStatelessHint(component) == false) {
+          statefulBehaviors.add(Classes.name(b.getClass()));
+        }
+      }
+      String reason;
+      if (statefulBehaviors.size() == 0) {
+        reason=" Possible reason: no stateless hint";
+      }
+ else {
+        reason=" Stateful behaviors: " + statefulBehaviors.join();
+      }
+      throw new IllegalStateException(msg + reason);
     }
     if (component instanceof MarkupContainer) {
       final Object o=((MarkupContainer)component).visitChildren(visitor);
