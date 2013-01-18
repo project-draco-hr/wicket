@@ -1,0 +1,17 @@
+{
+  final RemoveTestPage page=new RemoveTestPage();
+  tester.startPage(page);
+  assertEquals("componentOnRemovalFromHierarchy was called.",0,page.getComponentOnRemovalFromHierarchyCalls());
+  assertEquals("linkOnRemovalFromHierarchy was called.",0,page.getLinkOnRemovalFromHierarchyCalls());
+  assertEquals("behaviorOnRemovalFromHierarchy was called.",0,page.getBehaviorOnRemovalCalls());
+  tester.clickLink(PATH);
+  assertEquals("componentOnRemovalFromHierarchy wasn't called.",1,page.getComponentOnRemovalFromHierarchyCalls());
+  assertEquals("linkOnRemovalFromHierarchy wasn't called.",1,page.getLinkOnRemovalFromHierarchyCalls());
+  assertEquals("behaviorOnRemovalFromHierarchy wasn't called.",1,page.getBehaviorOnRemovalCalls());
+  try {
+    tester.clickLink(PATH);
+    fail("Missing Exception");
+  }
+ catch (  WicketRuntimeException wre) {
+  }
+}
