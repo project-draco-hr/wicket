@@ -1,7 +1,10 @@
 {
+  MinCountingResourceStreamLocator locator=new MinCountingResourceStreamLocator();
+  Application.get().getResourceSettings().setResourceStreamLocator(locator);
   Application.get().getResourceSettings().setUseMinifiedResources(true);
   ResourceReference reference=new JavaScriptResourceReference(MinifiedAwareResourceReferenceTest.class,"a.js");
   assertEquals("a.js",reference.getName());
   String fileContent=renderResource(reference);
   assertEquals("//a",fileContent);
+  assertEquals(1,locator.minLocated);
 }
