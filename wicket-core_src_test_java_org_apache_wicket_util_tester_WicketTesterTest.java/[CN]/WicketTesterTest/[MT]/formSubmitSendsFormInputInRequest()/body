@@ -1,0 +1,14 @@
+{
+  MockFormSubmitsPage page=new MockFormSubmitsPage();
+  tester.startPage(page);
+  tester.newFormTester("form").submit();
+  assertEquals("a text value",page.text);
+  tester.executeAjaxEvent(page.get("form:ajaxButton"),"click");
+  assertEquals("a text value",page.text);
+  tester.clickLink("form:ajaxlink");
+  assertEquals("a text value",page.text);
+  tester.clickLink("form:link");
+  assertEquals("a text value",page.text);
+  tester.submitForm(page.form);
+  assertEquals(null,page.text);
+}
