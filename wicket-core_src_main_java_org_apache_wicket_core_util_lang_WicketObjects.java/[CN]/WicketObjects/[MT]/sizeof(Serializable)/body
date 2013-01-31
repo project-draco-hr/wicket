@@ -1,9 +1,11 @@
 {
   if (object instanceof Component) {
-    ((Component)object).detach();
+    Component clone=(Component)cloneObject(object);
+    clone.detach();
   }
  else   if (object instanceof IDetachable) {
-    ((IDetachable)object).detach();
+    IDetachable clone=(IDetachable)cloneObject(object);
+    clone.detach();
   }
   return objectSizeOfStrategy.sizeOf(object);
 }
