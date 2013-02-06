@@ -1,0 +1,14 @@
+{
+  final StringBuilder builder=new StringBuilder();
+  final T t=getModelObject();
+  visitChildren(Radio.class,new IVisitor<Radio<T>,Void>(){
+    @Override public void component(    Radio<T> radio,    IVisit<Void> visit){
+      if (getModelComparator().compare(RadioGroup.this,radio.getDefaultModelObject())) {
+        builder.append(radio.getValue());
+        visit.stop();
+      }
+    }
+  }
+);
+  return builder.toString();
+}
