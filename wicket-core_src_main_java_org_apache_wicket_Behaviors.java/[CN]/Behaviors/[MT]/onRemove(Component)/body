@@ -1,0 +1,10 @@
+{
+  final int len=component.data_length();
+  for (int i=component.data_start(); i < len; i++) {
+    Object obj=component.data_get(i);
+    if (obj != null && obj instanceof Behavior) {
+      final Behavior behavior=(Behavior)obj;
+      behavior.onRemove(component);
+    }
+  }
+}

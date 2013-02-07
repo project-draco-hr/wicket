@@ -1,9 +1,14 @@
 {
+  Serializable target=object;
   if (object instanceof Component) {
-    ((Component)object).detach();
+    Component clone=(Component)cloneObject(object);
+    clone.detach();
+    target=clone;
   }
  else   if (object instanceof IDetachable) {
-    ((IDetachable)object).detach();
+    IDetachable clone=(IDetachable)cloneObject(object);
+    clone.detach();
+    target=clone;
   }
-  return objectSizeOfStrategy.sizeOf(object);
+  return objectSizeOfStrategy.sizeOf(target);
 }

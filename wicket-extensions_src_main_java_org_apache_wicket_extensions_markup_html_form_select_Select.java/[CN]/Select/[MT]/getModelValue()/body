@@ -1,0 +1,15 @@
+{
+  final StringBuilder builder=new StringBuilder();
+  visitChildren(SelectOption.class,new IVisitor<SelectOption<T>,Void>(){
+    @Override public void component(    SelectOption<T> option,    IVisit<Void> visit){
+      if (isSelected(option.getDefaultModel())) {
+        if (builder.length() > 0) {
+          builder.append(VALUE_SEPARATOR);
+        }
+        builder.append(option.getValue());
+      }
+    }
+  }
+);
+  return builder.toString();
+}

@@ -1,0 +1,11 @@
+{
+  WebApplication application=super.newApplication();
+  application.getAjaxRequestTargetListeners().add(new AjaxRequestTarget.AbstractListener(){
+    @Override public void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      attributes.setChannel(new AjaxChannel("globalAjaxChannel",AjaxChannel.Type.ACTIVE));
+    }
+  }
+);
+  return application;
+}
