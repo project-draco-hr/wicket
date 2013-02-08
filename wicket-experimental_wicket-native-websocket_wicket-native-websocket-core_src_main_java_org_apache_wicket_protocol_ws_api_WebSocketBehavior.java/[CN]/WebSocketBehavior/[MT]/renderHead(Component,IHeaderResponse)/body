@@ -5,6 +5,9 @@
   Map<String,Object> variables=Generics.newHashMap();
   int pageId=component.getPage().getPageId();
   variables.put("pageId",Integer.valueOf(pageId));
+  Url baseUrl=component.getRequestCycle().getUrlRenderer().getBaseUrl();
+  CharSequence ajaxBaseUrl=Strings.escapeMarkup(baseUrl.toString());
+  variables.put("baseUrl",ajaxBaseUrl);
   String webSocketSetupScript=webSocketSetupTemplate.asString(variables);
   response.render(OnDomReadyHeaderItem.forScript(webSocketSetupScript));
 }

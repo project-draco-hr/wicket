@@ -1,0 +1,37 @@
+{
+  try {
+    JSONObject ret=new JSONObject();
+    ret.put("connectTimeout",getConnectTimeout());
+    ret.put("reconnectInterval",getReconnectInterval());
+    ret.put("timeout",getTimeout());
+    if (getMethod() != null)     ret.put("method",getMethod().toString());
+    if (getHeaders() != null)     ret.put("headers",getHeaders());
+    ret.put("contentType",getContentType());
+    ret.put("data",getData());
+    ret.put("suspend",getSuspend());
+    ret.put("maxRequest",getMaxRequest());
+    ret.put("maxStreamingLength",getMaxStreamingLength());
+    if (getLogLevel() != null)     ret.put("logLevel",getLogLevel().toString());
+    if (getTransport() != null)     ret.put("transport",getTransport().toString());
+    if (getFallbackTransport() != null)     ret.put("fallbackTransport",getFallbackTransport().toString());
+    if (getFallbackMethod() != null)     ret.put("fallbackMethod",getFallbackMethod().toString());
+    ret.put("webSocketImpl",getWebSocketImpl());
+    ret.put("webSocketUrl",getWebSocketUrl());
+    ret.put("webSocketPathDelimiter",getWebSocketPathDelimiter());
+    ret.put("enableXDR",getEnableXDR());
+    ret.put("rewriteURL",getRewriteURL());
+    ret.put("attachHeadersAsQueryString",getAttachHeadersAsQueryString());
+    ret.put("dropAtmosphereHeaders",getDropAtmosphereHeaders());
+    ret.put("executeCallbackBeforeReconnect",getExecuteCallbackBeforeReconnect());
+    ret.put("withCredentials",getWithCredentials());
+    ret.put("trackMessageLength",getTrackMessageLength());
+    ret.put("messageDelimiter",getMessageDelimiter());
+    ret.put("shared",getShared());
+    ret.put("readResponsesHeaders",getReadResponsesHeaders());
+    ret.put("maxReconnectOnClose",getMaxReconnectOnClose());
+    return ret;
+  }
+ catch (  JSONException e) {
+    throw new WicketRuntimeException(e);
+  }
+}

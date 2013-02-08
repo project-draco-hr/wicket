@@ -1,0 +1,10 @@
+{
+  MockWebResponse originalResponse=new MockWebResponse();
+  HeaderBufferingWebResponse response=new HeaderBufferingWebResponse(originalResponse);
+  response.addHeader("key1","value1");
+  assertNull(originalResponse.getHeader("key1"));
+  response.write("written");
+  assertEquals("value1",originalResponse.getHeader("key1"));
+  response.addHeader("key2","value2");
+  assertEquals("value2",originalResponse.getHeader("key2"));
+}

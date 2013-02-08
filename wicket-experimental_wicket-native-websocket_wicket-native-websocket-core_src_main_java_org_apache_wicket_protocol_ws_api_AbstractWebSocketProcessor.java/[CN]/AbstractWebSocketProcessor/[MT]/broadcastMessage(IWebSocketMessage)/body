@@ -7,9 +7,10 @@
     WebSocketResponse webResponse=new WebSocketResponse(connection);
     try {
       RequestCycle requestCycle;
-      if (oldRequestCycle == null) {
+      if (oldRequestCycle == null || message instanceof IWebSocketPushMessage) {
         RequestCycleContext context=new RequestCycleContext(webRequest,webResponse,application.getRootRequestMapper(),application.getExceptionMapperProvider().get());
         requestCycle=application.getRequestCycleProvider().get(context);
+        requestCycle.getUrlRenderer().setBaseUrl(baseUrl);
         ThreadContext.setRequestCycle(requestCycle);
       }
  else {
@@ -17,7 +18,7 @@
       }
       ThreadContext.setApplication(application);
       Session session;
-      if (oldSession == null) {
+      if (oldSession == null || message instanceof IWebSocketPushMessage) {
         ISessionStore sessionStore=application.getSessionStore();
         session=sessionStore.lookup(webRequest);
         ThreadContext.setSession(session);
@@ -28,11 +29,11 @@
       IPageManager pageManager=session.getPageManager();
       try {
         Page page=(Page)pageManager.getPage(pageId);
-        WebSocketRequestHandler target=new WebSocketRequestHandler(page,connection);
-        WebSocketPayload payload=createEventPayload(message,target);
+        WebSocketRequestHandler requestHandler=new WebSocketRequestHandler(page,connection);
+        WebSocketPayload payload=createEventPayload(message,requestHandler);
         page.send(application,Broadcast.BREADTH,payload);
         if (!(message instanceof ConnectedMessage || message instanceof ClosedMessage)) {
-          target.respond(requestCycle);
+          requestHandler.respond(requestCycle);
         }
       }
   finally {

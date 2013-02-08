@@ -1,0 +1,12 @@
+{
+  ResourceReference result=null;
+  if (PackageResource.exists(key)) {
+    if ("less".equals(Files.extension(key.getName()))) {
+      result=new LessResourceReference(key);
+    }
+ else {
+      result=super.create(key);
+    }
+  }
+  return result;
+}

@@ -1,7 +1,11 @@
 {
   PageKey oldPage=trackedPages.remove(trackingId);
   PageKey pageKey=new PageKey(page.getPageId(),Session.get().getId());
-  if (oldPage != null && !oldPage.equals(pageKey))   subscriptions.removeAll(oldPage);
+  if (oldPage != null && !oldPage.equals(pageKey)) {
+    subscriptions.removeAll(oldPage);
+    fireUnregistration(trackingId);
+  }
   trackedPages.put(trackingId,pageKey);
+  fireRegistration(trackingId,page);
   log.info("registered page {} for session {}",new Object[]{pageKey.getPageId(),pageKey.getSessionId()});
 }

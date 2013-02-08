@@ -3,7 +3,6 @@
   Url encodedFullUrl=Url.parse("http://host:8080/contextPath/a/b;jsessionid=123456");
   MockWebRequest request=new MockWebRequest(baseUrl);
   request.setContextPath("contextPath");
-  request.setFilterPath("filterPath");
   UrlRenderer renderer=new UrlRenderer(request);
   String encodedRelativeUrl=renderer.renderRelativeUrl(encodedFullUrl);
   assertEquals("../../b;jsessionid=123456",encodedRelativeUrl);

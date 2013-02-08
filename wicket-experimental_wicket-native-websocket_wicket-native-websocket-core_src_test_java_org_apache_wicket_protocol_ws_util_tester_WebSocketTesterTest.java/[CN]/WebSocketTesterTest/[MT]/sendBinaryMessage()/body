@@ -4,7 +4,7 @@
   final int length=2;
   WebSocketTestPage page=new WebSocketTestPage(expectedMessage,offset,length);
   tester.startPage(page);
-  WebSocketTester webSocketTester=new WebSocketTester(page){
+  WebSocketTester webSocketTester=new WebSocketTester(tester,page){
     @Override protected void onOutMessage(    byte[] message,    int off,    int len){
       try {
         String msg=new String(expectedMessage);

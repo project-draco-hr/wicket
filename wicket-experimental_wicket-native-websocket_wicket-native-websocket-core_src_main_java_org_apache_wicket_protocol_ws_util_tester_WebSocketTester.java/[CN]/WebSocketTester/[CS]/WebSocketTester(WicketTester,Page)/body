@@ -1,0 +1,14 @@
+{
+  Args.notNull(wicketTester,"wicketTester");
+  Args.notNull(page,"page");
+  socketProcessor=new TestWebSocketProcessor(wicketTester,page){
+    @Override protected void onOutMessage(    String message){
+      WebSocketTester.this.onOutMessage(message);
+    }
+    @Override protected void onOutMessage(    byte[] message,    int offset,    int length){
+      WebSocketTester.this.onOutMessage(message,offset,length);
+    }
+  }
+;
+  socketProcessor.onOpen(null);
+}

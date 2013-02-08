@@ -6,6 +6,8 @@
   url.getSegments().add("less-crypt.txt");
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
   assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
   ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;
   assertEquals(getClass(),handler.getResourceReference().getScope());

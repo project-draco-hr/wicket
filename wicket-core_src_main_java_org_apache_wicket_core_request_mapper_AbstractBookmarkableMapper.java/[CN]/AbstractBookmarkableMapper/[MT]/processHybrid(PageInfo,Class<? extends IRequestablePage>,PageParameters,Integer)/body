@@ -1,5 +1,10 @@
 {
   PageProvider provider=new PageProvider(pageInfo.getPageId(),pageClass,pageParameters,renderCount);
   provider.setPageSource(getContext());
-  return new RenderPageRequestHandler(provider);
+  if (provider.isNewPageInstance() && !WebApplication.get().getPageSettings().getRecreateMountedPagesAfterExpiry()) {
+    throw new PageExpiredException(String.format("Bookmarkable page id '%d' has expired.",pageInfo.getPageId()));
+  }
+ else {
+    return new RenderPageRequestHandler(provider);
+  }
 }

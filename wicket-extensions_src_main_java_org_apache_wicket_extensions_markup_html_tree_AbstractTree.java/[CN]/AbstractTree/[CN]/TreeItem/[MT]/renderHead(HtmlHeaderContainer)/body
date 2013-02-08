@@ -3,6 +3,9 @@
   if (isRenderChildren()) {
     visitItemChildren(this,new IItemCallback(){
       @Override public void visitItem(      TreeItem item){
+        if (item.isVisible()) {
+          item.renderHead(container);
+        }
         item.visitChildren(new IVisitor<Component,Void>(){
           @Override public void component(          final Component component,          final IVisit<Void> visit){
             if (component.isVisible()) {

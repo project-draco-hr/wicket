@@ -1,0 +1,9 @@
+{
+  Args.notNull(application,"application");
+  Args.notNull(message,"message");
+  Collection<IWebSocketConnection> wsConnections=registry.getConnections(application);
+  if (wsConnections == null) {
+    return;
+  }
+  process(application,wsConnections,message);
+}

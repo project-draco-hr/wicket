@@ -1,16 +1,10 @@
 {
-  for (  Method curMethod : component.getClass().getMethods()) {
-    if (curMethod.isAnnotationPresent(Subscribe.class)) {
-      verifyMethodParameters(curMethod);
-      subscribeComponent(component,null,curMethod);
-    }
+  for (  Method curMethod : findSubscribedMethods(component.getClass())) {
+    subscribeComponent(component,null,curMethod);
   }
   for (  Behavior curBehavior : component.getBehaviors()) {
-    for (    Method curMethod : curBehavior.getClass().getMethods()) {
-      if (curMethod.isAnnotationPresent(Subscribe.class)) {
-        verifyMethodParameters(curMethod);
-        subscribeComponent(component,curBehavior,curMethod);
-      }
+    for (    Method curMethod : findSubscribedMethods(curBehavior.getClass())) {
+      subscribeComponent(component,curBehavior,curMethod);
     }
   }
 }
