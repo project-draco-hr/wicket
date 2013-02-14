@@ -1,3 +1,13 @@
 {
-  return ThreadContext.getSession() != null;
+  Session session=ThreadContext.getSession();
+  if (session == null) {
+    RequestCycle requestCycle=RequestCycle.get();
+    if (requestCycle != null) {
+      session=Application.get().getSessionStore().lookup(requestCycle.getRequest());
+      if (session != null) {
+        ThreadContext.setSession(session);
+      }
+    }
+  }
+  return session != null;
 }
