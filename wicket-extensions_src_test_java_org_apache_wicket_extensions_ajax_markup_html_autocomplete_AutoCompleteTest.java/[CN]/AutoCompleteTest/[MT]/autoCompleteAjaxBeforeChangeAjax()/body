@@ -1,0 +1,15 @@
+{
+  tester.startPage(new AutoCompletePage());
+  String lastResponseAsString=tester.getLastResponseAsString();
+  int autoCompleteEventHandler=lastResponseAsString.indexOf("new Wicket.AutoComplete");
+  int eventHandler=lastResponseAsString.indexOf("Wicket.Ajax.ajax");
+  assertTrue(autoCompleteEventHandler != -1);
+  assertTrue(eventHandler != -1);
+  assertTrue(autoCompleteEventHandler < eventHandler);
+  tester.clickLink("link");
+  int autoCompleteEventHandler2=lastResponseAsString.indexOf("new Wicket.AutoComplete");
+  int eventHandler2=lastResponseAsString.indexOf("Wicket.Ajax.ajax");
+  assertTrue(autoCompleteEventHandler2 != -1);
+  assertTrue(eventHandler2 != -1);
+  assertTrue(autoCompleteEventHandler2 < eventHandler2);
+}
