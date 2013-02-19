@@ -15,11 +15,7 @@
     preHeader=null;
   }
   try {
-    if (getLastResponse() != null) {
-      for (      Cookie cookie : getLastResponse().getCookies()) {
-        request.addCookie(cookie);
-      }
-    }
+    transferRequestCookies();
     applyRequest();
     requestCycle.scheduleRequestHandlerAfterCurrent(null);
     if (!requestCycle.processRequestAndDetach()) {

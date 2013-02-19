@@ -8,7 +8,7 @@
     }
   }
 ;
-  AtmosphereWebRequest request=new AtmosphereWebRequest(application.newWebRequest(httpRequest,filterPath),pageKey,subscriptionsForPage,event);
+  AtmosphereWebRequest request=new AtmosphereWebRequest((ServletWebRequest)application.newWebRequest(httpRequest,filterPath),pageKey,subscriptionsForPage,event);
   Response response=new AtmosphereWebResponse(resource.getResponse());
   if (application.createRequestCycle(request,response).processRequestAndDetach())   broadcaster.broadcast(response.toString(),resource);
 }
