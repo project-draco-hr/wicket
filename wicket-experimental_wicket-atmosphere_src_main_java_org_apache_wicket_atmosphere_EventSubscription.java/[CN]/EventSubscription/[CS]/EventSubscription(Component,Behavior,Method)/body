@@ -3,7 +3,7 @@
   behaviorIndex=behavior == null ? null : component.getBehaviorId(behavior);
   Class<?> eventType=method.getParameterTypes()[1];
   Subscribe subscribe=method.getAnnotation(Subscribe.class);
-  filter=Predicates.and(Predicates.instanceOf(eventType),createFilter(subscribe.filter()));
+  filter=Predicates.and(payloadOfType(eventType),createFilter(subscribe.filter()));
   contextAwareFilter=createFilter(subscribe.contextAwareFilter());
   methodName=method.getName();
 }
