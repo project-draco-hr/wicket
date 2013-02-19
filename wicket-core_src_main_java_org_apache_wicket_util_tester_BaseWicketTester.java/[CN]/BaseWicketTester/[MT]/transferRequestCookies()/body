@@ -1,0 +1,37 @@
+{
+  List<Cookie> lastRequestCookies=new ArrayList<Cookie>();
+  if (lastRequest != null && lastRequest.getCookies() != null) {
+    for (    Cookie lastRequestCookie : lastRequest.getCookies()) {
+      lastRequestCookies.add(lastRequestCookie);
+    }
+  }
+  if (lastResponse != null) {
+    List<Cookie> cookies=lastResponse.getCookies();
+    if (cookies != null) {
+      for (      Cookie cookie : cookies) {
+        if (cookie.getMaxAge() == 0) {
+          Iterator<Cookie> cookieIterator=lastRequestCookies.iterator();
+          while (cookieIterator.hasNext()) {
+            Cookie lastRequestCookie=cookieIterator.next();
+            if (Cookies.isEqual(lastRequestCookie,cookie)) {
+              cookieIterator.remove();
+            }
+          }
+        }
+ else {
+          boolean newlyCreated=true;
+          for (          Cookie oldCookie : lastRequestCookies) {
+            if (Cookies.isEqual(cookie,oldCookie)) {
+              newlyCreated=false;
+              break;
+            }
+          }
+          if (newlyCreated) {
+            lastRequestCookies.add(cookie);
+          }
+        }
+      }
+    }
+  }
+  request.addCookies(lastRequestCookies);
+}

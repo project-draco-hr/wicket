@@ -1,0 +1,7 @@
+{
+  tester.getRequest().addCookie(new Cookie("dummy","sample"));
+  tester.startPage(tester.getApplication().getHomePage());
+  tester.assertRenderedPage(tester.getApplication().getHomePage());
+  Assert.assertEquals("The cookie should not be in the response unless explicitly set",0,tester.getLastResponse().getCookies().size());
+  Assert.assertEquals("The cookie should be in each following request",1,tester.getRequest().getCookies().length);
+}

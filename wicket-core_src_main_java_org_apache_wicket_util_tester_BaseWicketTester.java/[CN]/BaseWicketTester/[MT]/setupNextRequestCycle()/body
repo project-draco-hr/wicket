@@ -8,8 +8,16 @@
     request.setServerName(lastRequest.getServerName());
     request.setServerPort(lastRequest.getServerPort());
   }
-  transferCookies();
+  transferRequestCookies();
   response=new MockHttpServletResponse(request);
+  if (lastResponse != null && lastResponse.isRedirect()) {
+    List<Cookie> lastResponseCookies=lastResponse.getCookies();
+    for (    Cookie cookie : lastResponseCookies) {
+      if (cookie.getMaxAge() != 0) {
+        response.addCookie(cookie);
+      }
+    }
+  }
   ServletWebRequest servletWebRequest=newServletWebRequest();
   requestCycle=application.createRequestCycle(servletWebRequest,newServletWebResponse(servletWebRequest));
   ThreadContext.setRequestCycle(requestCycle);
