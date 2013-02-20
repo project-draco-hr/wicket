@@ -4,7 +4,7 @@
   }
   String key=req.getHeader("Sec-WebSocket-Key");
   resp.setHeader("Sec-WebSocket-Accept",getWebSocketAccept(key));
-  Application application=getApplication();
+  WebApplication application=getApplication();
   TomcatWebSocketProcessor webSocketHandler=new TomcatWebSocketProcessor(req,application);
   TomcatWebSocketProcessor.TomcatWebSocket tomcatWebSocket=webSocketHandler.new TomcatWebSocket();
   ((RequestFacade)req).doUpgrade(tomcatWebSocket);

@@ -1,6 +1,8 @@
 {
   Args.notNull(wicketTester,"wicketTester");
   Args.notNull(page,"page");
+  WebApplication webApplication=wicketTester.getApplication();
+  webApplication.getWicketFilter().setFilterPath("");
   socketProcessor=new TestWebSocketProcessor(wicketTester,page){
     @Override protected void onOutMessage(    String message){
       WebSocketTester.this.onOutMessage(message);
