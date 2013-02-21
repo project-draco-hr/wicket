@@ -1,7 +1,9 @@
 {
   String sessionId=evt.getSession().getId();
   log.debug("Session unbound: {}",sessionId);
-  wicketSession.onInvalidate();
+  if (wicketSession != null) {
+    wicketSession.onInvalidate();
+  }
   Application application=Application.get(applicationKey);
   if (application == null) {
     log.debug("Wicket application with name '{}' not found.",applicationKey);
