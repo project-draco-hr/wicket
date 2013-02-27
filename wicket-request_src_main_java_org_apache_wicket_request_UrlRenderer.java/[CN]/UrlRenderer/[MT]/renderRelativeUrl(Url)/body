@@ -1,5 +1,9 @@
 {
   Args.notNull(url,"url");
+  if (url instanceof IUrlRenderer) {
+    IUrlRenderer renderer=(IUrlRenderer)url;
+    return renderer.renderRelativeUrl(url,getBaseUrl());
+  }
   List<String> baseUrlSegments=getBaseUrl().getSegments();
   List<String> urlSegments=new ArrayList<String>(url.getSegments());
   removeCommonPrefixes(request,baseUrlSegments);

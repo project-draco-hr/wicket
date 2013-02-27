@@ -1,0 +1,15 @@
+{
+  Url url=null;
+  if (requestHandler instanceof ResourceReferenceRequestHandler) {
+    ResourceReferenceRequestHandler resourceReferenceRequestHandler=(ResourceReferenceRequestHandler)requestHandler;
+    ResourceReference resourceReference=resourceReferenceRequestHandler.getResourceReference();
+    while (resourceReference instanceof ResourceBundleReference) {
+      resourceReference=((ResourceBundleReference)resourceReference).getBundleReference();
+    }
+    if (resourceReference instanceof UrlResourceReference) {
+      UrlResourceReference urlResourceReference=(UrlResourceReference)resourceReference;
+      url=urlResourceReference.getUrl();
+    }
+  }
+  return url;
+}

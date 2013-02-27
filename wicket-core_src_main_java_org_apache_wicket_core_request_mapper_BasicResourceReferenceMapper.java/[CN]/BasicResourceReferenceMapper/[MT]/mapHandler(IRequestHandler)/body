@@ -3,7 +3,7 @@
     ResourceReferenceRequestHandler referenceRequestHandler=(ResourceReferenceRequestHandler)requestHandler;
     ResourceReference reference=referenceRequestHandler.getResourceReference();
     Url url;
-    if (reference instanceof ResourceBundleReference) {
+    while (reference instanceof ResourceBundleReference) {
       reference=((ResourceBundleReference)reference).getBundleReference();
     }
     if (reference instanceof MetaInfStaticResourceReference) {
@@ -11,11 +11,6 @@
       if (url != null) {
         return url;
       }
-    }
- else     if (reference instanceof UrlResourceReference) {
-      UrlResourceReference urlReference=(UrlResourceReference)reference;
-      url=urlReference.getUrl();
-      return url;
     }
     if (reference.canBeRegistered()) {
       ResourceReferenceRegistry resourceReferenceRegistry=getContext().getResourceReferenceRegistry();
