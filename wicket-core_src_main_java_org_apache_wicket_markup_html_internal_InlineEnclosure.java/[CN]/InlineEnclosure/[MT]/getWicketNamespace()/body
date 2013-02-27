@@ -1,0 +1,13 @@
+{
+  String markupNamespace=MarkupParser.WICKET;
+  Page page=findPage();
+  if (page != null) {
+    IMarkupFragment markup=page.getMarkup();
+    MarkupResourceStream markupResourceStream=markup.getMarkupResourceStream();
+    String namespace=markupResourceStream.getWicketNamespace();
+    if (Strings.isEmpty(namespace) == false) {
+      markupNamespace=namespace;
+    }
+  }
+  return markupNamespace;
+}
