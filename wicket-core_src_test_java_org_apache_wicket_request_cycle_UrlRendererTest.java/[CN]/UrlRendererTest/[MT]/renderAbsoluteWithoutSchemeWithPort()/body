@@ -1,0 +1,8 @@
+{
+  Url baseUrl=Url.parse("a/b");
+  MockWebRequest request=new MockWebRequest(baseUrl);
+  UrlRenderer renderer=new UrlRenderer(request);
+  Url absoluteUrl=Url.parse("//host:1234/c/d");
+  String encodedRelativeUrl=renderer.renderUrl(absoluteUrl);
+  assertEquals("//host:1234/c/d",encodedRelativeUrl);
+}

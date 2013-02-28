@@ -1,5 +1,7 @@
 {
   Request request=mock(Request.class);
+  Url baseUrl=Url.parse("");
+  when(request.getClientUrl()).thenReturn(baseUrl);
   Response response=new StringResponse(){
     @Override public String encodeURL(    CharSequence url){
       return url + JSESSIONID;
@@ -16,5 +18,5 @@
   IExceptionMapper exceptionMapper=mock(IExceptionMapper.class);
   RequestCycleContext context=new RequestCycleContext(request,response,mapper,exceptionMapper);
   requestCycle=new RequestCycle(context);
-  requestCycle.getUrlRenderer().setBaseUrl(Url.parse("http://dummy-host"));
+  requestCycle.getUrlRenderer().setBaseUrl(baseUrl);
 }
