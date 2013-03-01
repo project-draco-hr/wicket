@@ -1,6 +1,9 @@
 {
   String s="//foo/bar/";
   Url url=Url.parse(s);
-  checkSegments(url,"","","foo","bar","");
+  assertNull(url.getProtocol());
+  assertEquals("foo",url.getHost());
+  assertNull(url.getPort());
+  checkSegments(url,"","bar","");
   checkQueryParams(url);
 }
