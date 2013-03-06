@@ -1,9 +1,9 @@
 {
-  ServletContext sc=filter.getFilterConfig().getServletContext();
-  WebApplicationContext ac=WebApplicationContextUtils.getWebApplicationContext(sc);
+  ServletContext servletContext=filter.getFilterConfig().getServletContext();
+  WebApplicationContext applicationContext=WebApplicationContextUtils.getWebApplicationContext(servletContext);
   if (getContextConfigLocation(filter) != null) {
-    additionalContext=createWebApplicationContext(ac,filter);
+    applicationContext=createWebApplicationContext(applicationContext,filter);
   }
   String beanName=filter.getFilterConfig().getInitParameter("applicationBean");
-  return createApplication((additionalContext != null) ? additionalContext : ac,beanName);
+  return createApplication(applicationContext,beanName);
 }
