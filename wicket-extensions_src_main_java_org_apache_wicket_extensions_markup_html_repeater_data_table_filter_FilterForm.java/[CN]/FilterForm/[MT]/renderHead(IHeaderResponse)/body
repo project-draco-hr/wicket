@@ -1,4 +1,5 @@
 {
   super.renderHead(response);
-  response.render(OnLoadHeaderItem.forScript("_filter_focus_restore('" + getFocusTrackerFieldCssId() + "');"));
+  response.render(JavaScriptHeaderItem.forReference(JS));
+  response.render(OnLoadHeaderItem.forScript(String.format("Wicket.FilterForm.restore('%s');",getFocusTrackerFieldCssId())));
 }
