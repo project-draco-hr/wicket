@@ -9,9 +9,14 @@
     throw new IllegalArgumentException("You can only add a File, which is not a directory. Only files can be uploaded.");
   }
   if (uploadedFiles == null) {
-    uploadedFiles=new HashMap<String,UploadedFile>();
+    uploadedFiles=new HashMap<String,List<UploadedFile>>();
   }
   UploadedFile uf=new UploadedFile(fieldName,file,contentType);
-  uploadedFiles.put(fieldName,uf);
+  List<UploadedFile> filesPerField=uploadedFiles.get(fieldName);
+  if (filesPerField == null) {
+    filesPerField=new ArrayList<UploadedFile>();
+    uploadedFiles.put(fieldName,filesPerField);
+  }
+  filesPerField.add(uf);
   setUseMultiPartContentType(true);
 }
