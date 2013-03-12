@@ -1,15 +1,21 @@
 {
-  if (Application.exists()) {
-    if (Application.get().getSecuritySettings().getEnforceMounts()) {
-      return null;
-    }
-  }
   Url url=request.getUrl();
   if (matches(url)) {
     PageComponentInfo info=getPageComponentInfo(url);
     String className=url.getSegments().get(2);
     Class<? extends IRequestablePage> pageClass=getPageClass(className);
     if (pageClass != null && IRequestablePage.class.isAssignableFrom(pageClass)) {
+      if (Application.exists()) {
+        Application application=Application.get();
+        if (application.getSecuritySettings().getEnforceMounts()) {
+          if (!pageClass.equals(application.getHomePage())) {
+            Url reverseUrl=application.getRootRequestMapper().mapHandler(new RenderPageRequestHandler(new PageProvider(pageClass)));
+            if (!matches(reverseUrl)) {
+              return null;
+            }
+          }
+        }
+      }
       PageParameters pageParameters=extractPageParameters(request,3,pageParametersEncoder);
       return new UrlInfo(info,pageClass,pageParameters);
     }
