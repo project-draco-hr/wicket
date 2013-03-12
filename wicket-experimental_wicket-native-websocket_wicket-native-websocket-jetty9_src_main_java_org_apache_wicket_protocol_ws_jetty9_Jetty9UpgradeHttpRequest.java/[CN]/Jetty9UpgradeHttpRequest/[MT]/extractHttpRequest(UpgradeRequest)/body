@@ -1,0 +1,14 @@
+{
+  if (upgradeRequest instanceof ServletWebSocketRequest == false) {
+    throw new IllegalArgumentException(Jetty9UpgradeHttpRequest.class.getName() + " can work only with " + ServletWebSocketRequest.class.getName());
+  }
+  ServletWebSocketRequest servletWebSocketRequest=(ServletWebSocketRequest)upgradeRequest;
+  HttpServletRequest request;
+  try {
+    request=(HttpServletRequest)REQ.get(servletWebSocketRequest);
+  }
+ catch (  IllegalAccessException iax) {
+    throw new IllegalStateException("Cannot get the HttpServletRequest after the protocol upgrade",iax);
+  }
+  return request;
+}

@@ -2,14 +2,12 @@
   super.init(isServlet,filterConfig);
   try {
     WebSocketPolicy serverPolicy=WebSocketPolicy.newServerPolicy();
-    String bs=filterConfig.getInitParameter("bufferSize");
-    if (bs != null)     serverPolicy.setBufferSize(Integer.parseInt(bs));
+    String bs=filterConfig.getInitParameter("inputBufferSize");
+    if (bs != null)     serverPolicy.setInputBufferSize(Integer.parseInt(bs));
     String max=filterConfig.getInitParameter("maxIdleTime");
     if (max != null)     serverPolicy.setIdleTimeout(Integer.parseInt(max));
-    max=filterConfig.getInitParameter("maxTextMessageSize");
-    if (max != null)     serverPolicy.setMaxTextMessageSize(Integer.parseInt(max));
-    max=filterConfig.getInitParameter("maxBinaryMessageSize");
-    if (max != null)     serverPolicy.setMaxBinaryMessageSize(Integer.parseInt(max));
+    max=filterConfig.getInitParameter("maxMessageSize");
+    if (max != null)     serverPolicy.setMaxMessageSize(Integer.parseInt(max));
     _webSocketFactory=new WebSocketServerFactory(serverPolicy);
     _webSocketFactory.setCreator(new WebSocketCreator(){
       @Override public Object createWebSocket(      UpgradeRequest upgradeRequest,      UpgradeResponse upgradeResponse){

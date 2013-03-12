@@ -1,7 +1,5 @@
 {
   checkClosed();
-  FutureCallback<Void> waiter=new FutureCallback<Void>();
-  connection.write(null,waiter,message);
-  waitForMessageSent(waiter);
+  session.getRemote().sendString(message);
   return this;
 }

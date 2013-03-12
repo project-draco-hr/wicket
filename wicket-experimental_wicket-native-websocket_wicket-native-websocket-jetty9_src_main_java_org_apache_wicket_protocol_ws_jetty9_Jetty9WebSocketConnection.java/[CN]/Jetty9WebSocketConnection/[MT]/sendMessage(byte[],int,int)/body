@@ -1,7 +1,6 @@
 {
   checkClosed();
-  FutureCallback<Void> waiter=new FutureCallback<Void>();
-  connection.write(null,new Callback.Empty<Void>(),message,offset,length);
-  waitForMessageSent(waiter);
+  ByteBuffer buf=ByteBuffer.wrap(message,offset,length);
+  session.getRemote().sendBytes(buf);
   return this;
 }
