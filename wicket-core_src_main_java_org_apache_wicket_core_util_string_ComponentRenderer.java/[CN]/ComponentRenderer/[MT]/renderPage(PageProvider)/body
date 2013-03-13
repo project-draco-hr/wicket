@@ -1,0 +1,18 @@
+{
+  final RenderPageRequestHandler handler=new RenderPageRequestHandler(pageProvider,RenderPageRequestHandler.RedirectPolicy.NEVER_REDIRECT);
+  Application application=Application.get();
+  final PageRenderer pageRenderer=application.getPageRendererProvider().get(handler);
+  RequestCycle originalRequestCycle=RequestCycle.get();
+  BufferedWebResponse tempResponse=new BufferedWebResponse(null);
+  RequestCycleContext requestCycleContext=new RequestCycleContext(originalRequestCycle.getRequest(),tempResponse,application.getRootRequestMapper(),application.getExceptionMapperProvider().get());
+  RequestCycle tempRequestCycle=new RequestCycle(requestCycleContext);
+  final Response oldResponse=originalRequestCycle.getResponse();
+  try {
+    originalRequestCycle.setResponse(tempResponse);
+    pageRenderer.respond(tempRequestCycle);
+  }
+  finally {
+    originalRequestCycle.setResponse(oldResponse);
+  }
+  return tempResponse.getText();
+}
