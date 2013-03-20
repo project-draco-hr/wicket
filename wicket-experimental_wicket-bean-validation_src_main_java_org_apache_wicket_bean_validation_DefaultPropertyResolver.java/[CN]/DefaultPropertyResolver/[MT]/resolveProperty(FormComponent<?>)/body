@@ -1,6 +1,16 @@
 {
   IModel<?> model=component.getModel();
-  if (!(model instanceof IPropertyReflectionAwareModel)) {
+  while (true) {
+    if (model == null) {
+      return null;
+    }
+    if (model instanceof IPropertyReflectionAwareModel) {
+      break;
+    }
+    if (model instanceof IWrapModel<?>) {
+      model=((IWrapModel<?>)model).getWrappedModel();
+      continue;
+    }
     return null;
   }
   IPropertyReflectionAwareModel<?> delegate=(IPropertyReflectionAwareModel<?>)model;
@@ -10,7 +20,7 @@
   }
   Method getter=delegate.getPropertyGetter();
   if (getter != null) {
-    String name=getter.getName().substring(3,1).toLowerCase() + getter.getName().substring(4);
+    String name=getter.getName().substring(3,4).toLowerCase() + getter.getName().substring(4);
     return new Property(getter.getDeclaringClass(),name);
   }
   return null;
