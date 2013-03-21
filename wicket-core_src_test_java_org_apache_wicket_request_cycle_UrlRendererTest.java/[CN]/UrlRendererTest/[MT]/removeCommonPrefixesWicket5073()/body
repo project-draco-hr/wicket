@@ -1,0 +1,10 @@
+{
+  Url baseUrl=new Url(Arrays.asList(""),Arrays.<Url.QueryParameter>asList());
+  MockWebRequest request=new MockWebRequest(baseUrl);
+  request.setContextPath("/qs");
+  request.setFilterPath("");
+  UrlRenderer renderer=new UrlRenderer(request);
+  renderer.setBaseUrl(baseUrl);
+  String rendered=renderer.renderRelativeUrl(Url.parse("wicket/resource/org.apache.wicket.Application/x.css"));
+  assertEquals("./wicket/resource/org.apache.wicket.Application/x.css",rendered);
+}
