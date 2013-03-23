@@ -1,4 +1,9 @@
 {
+  if (Application.exists() && Application.get().usesDevelopmentConfig()) {
+    log.warn("********************************");
+    log.warn("Handling the following exception",e);
+    log.warn("********************************");
+  }
   IRequestHandler handler=listeners.onException(this,e);
   if (handler != null) {
     return handler;
