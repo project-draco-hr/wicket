@@ -30,14 +30,18 @@
   if (!allowAccessToRootResources) {
     String absolute=path;
     if ("\\".equals(File.separator)) {
-      if (absolute.indexOf(":\\") > 0) {
-        absolute=absolute.substring(absolute.indexOf(":\\") + 2);
+      int drive=absolute.indexOf(":\\");
+      if (drive < 0) {
+        drive=absolute.indexOf(":/");
+      }
+      if (drive > 0) {
+        absolute=absolute.substring(drive + 2);
       }
     }
-    if (absolute.startsWith(File.separator)) {
+    if (absolute.startsWith(File.separator) || absolute.startsWith("/")) {
       absolute=absolute.substring(1);
     }
-    if (!absolute.contains(File.separator)) {
+    if (!absolute.contains(File.separator) && !absolute.contains("/")) {
       log.warn("Access to root directory is by default disabled for shared resources: " + path);
       return false;
     }
