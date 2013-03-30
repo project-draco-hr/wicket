@@ -7,7 +7,7 @@
   RequestCycleListenerCollection listeners=new RequestCycleListenerCollection();
   application.getRequestCycleListeners().add(listeners);
   if (getPropagation() != ConversationPropagation.NONE) {
-    listeners.add(new ConversationPropagator(application,container,getPropagation()));
+    listeners.add(new ConversationPropagator(application,container,getPropagation(),autoConversationManagement));
     application.getComponentPreOnBeforeRenderListeners().add(new ConversationExpiryChecker(container));
     SeamConversationContextFactory.setDisableNoopInstance(true);
   }

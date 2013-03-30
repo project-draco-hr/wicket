@@ -4,8 +4,10 @@
     return;
   }
   Page page=getPage(handler);
-  if (page != null && propagation.propagatesViaPage(page,handler)) {
-    setConversationOnPage(conversation,page);
+  if (page != null) {
+    if (propagation.propagatesViaPage(page,handler)) {
+      setConversationOnPage(conversation,page);
+    }
   }
   if (propagation.propagatesViaParameters(handler)) {
     logger.debug("Propagating non-transient conversation {} via page parameters of handler {}",conversation.getId(),handler);
