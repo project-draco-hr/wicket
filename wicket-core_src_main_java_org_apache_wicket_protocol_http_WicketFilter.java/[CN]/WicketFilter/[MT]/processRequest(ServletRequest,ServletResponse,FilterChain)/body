@@ -20,6 +20,12 @@
       }
       return false;
     }
+    if ("OPTIONS".equals(httpServletRequest.getMethod())) {
+      httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+      httpServletResponse.setHeader("Allow","GET,POST,OPTIONS,PUT,HEAD,PATCH,DELETE,TRACE");
+      httpServletResponse.setHeader("Content-Length","0");
+      return true;
+    }
     String redirectURL=checkIfRedirectRequired(httpServletRequest);
     if (redirectURL == null) {
       ThreadContext.setApplication(application);
