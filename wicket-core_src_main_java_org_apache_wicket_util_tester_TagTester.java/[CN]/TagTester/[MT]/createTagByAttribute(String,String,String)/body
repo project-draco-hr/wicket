@@ -2,9 +2,11 @@
   TagTester tester=null;
   if (Strings.isEmpty(markup) == false && Strings.isEmpty(attribute) == false && Strings.isEmpty(value) == false) {
     try {
+      markup=AJAX_COMPONENT_CDATA_OPEN.matcher(markup).replaceAll("<component>");
+      markup=AJAX_COMPONENT_CDATA_CLOSE.matcher(markup).replaceAll("</component>");
       XmlPullParser parser=new XmlPullParser();
       parser.parse(markup);
-      XmlTag elm=null;
+      XmlTag elm;
       XmlTag openTag=null;
       XmlTag closeTag=null;
       int level=0;
