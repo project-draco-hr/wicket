@@ -1,0 +1,8 @@
+{
+  final TabbedPanelVisibilityTestPage visibilityTestPage=new TabbedPanelVisibilityTestPage(2,2);
+  visibilityTestPage.tabbedPanel.setSelectedTab(1);
+  tester.startPage(visibilityTestPage);
+  final List<TagTester> tabsTags=tester.getTagsByWicketId("tabs");
+  assertEquals("tab0",tabsTags.get(0).getAttribute("class"));
+  assertEquals("tab1 selected last",tabsTags.get(1).getAttribute("class"));
+}
