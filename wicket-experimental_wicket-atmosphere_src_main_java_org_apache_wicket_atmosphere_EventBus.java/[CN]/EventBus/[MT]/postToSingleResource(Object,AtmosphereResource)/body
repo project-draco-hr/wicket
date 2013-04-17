@@ -9,5 +9,5 @@ synchronized (this) {
     subscriptionsForPage=Collections2.filter(Collections.unmodifiableCollection(subscriptions.get(key)),new EventFilter(event));
   }
   if (key == null)   broadcaster.removeAtmosphereResource(resource);
- else   post(resource,key,subscriptionsForPage,event);
+ else   if (!subscriptionsForPage.isEmpty())   post(resource,key,subscriptionsForPage,event);
 }
