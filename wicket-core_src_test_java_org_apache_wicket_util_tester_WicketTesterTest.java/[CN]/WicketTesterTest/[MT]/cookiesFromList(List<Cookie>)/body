@@ -1,0 +1,10 @@
+{
+  Map<String,Cookie> ret=new LinkedHashMap<String,Cookie>();
+  for (  Cookie cookie : cookies) {
+    Cookie oldValue=ret.put(cookie.getName(),cookie);
+    if (oldValue != null) {
+      throw new RuntimeException("Cookie with name " + cookie.getName() + "("+ asString(oldValue)+ ") allready in map "+ asString(ret));
+    }
+  }
+  return ret;
+}

@@ -1,0 +1,30 @@
+{
+  CollectAllRequestCookiesPage collectingPage=collectAllRequestCookiesOnThisPage();
+  Assert.assertTrue("no cookie in first request",collectingPage.getCookies().isEmpty());
+  lastResponseDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+  Cookie cookieA=newCookie("a","1",1);
+  tester.getRequest().addCookie(cookieA);
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,cookieA);
+  lastResponseDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,cookieA);
+  lastResponseDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+  Cookie newCookieA=newCookie("a","newValue",1);
+  setCookieInResponse(newCookieA);
+  lastResponseShouldHaveTheseCookies(newCookieA);
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,newCookieA);
+  lastResponseDoesNotHaveAnyCookies();
+  Cookie removeCookieA=newCookie("a","removeMe",0);
+  setCookieInResponse(removeCookieA);
+  lastResponseShouldHaveTheseCookies(removeCookieA);
+  responseDoesNotHaveAnyCookies();
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage);
+  lastResponseDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+}
