@@ -39,7 +39,17 @@
       ThreadContext.detach();
     }
   }
-  finally {
+ catch (  Exception e) {
+    log.warn("initialization failed, destroying now");
+    try {
+      destroy();
+    }
+ catch (    Exception destroyException) {
+      log.warn("Unable to destroy after initialization failure",destroyException);
+    }
+    throw new ServletException(e);
+  }
+ finally {
     if (newClassLoader != previousClassLoader) {
       Thread.currentThread().setContextClassLoader(previousClassLoader);
     }
