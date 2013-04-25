@@ -1,10 +1,8 @@
 {
-  if (cookies.size() == 0) {
+  if (cookies.isEmpty()) {
     return null;
   }
-  Cookie[] result=new Cookie[cookies.size()];
-  for (int i=0; i < cookies.size(); i++) {
-    result[i]=Cookies.copyOf(cookies.get(i));
-  }
-  return result;
+  List<Cookie> cookieValues=new ArrayList<Cookie>();
+  cookieValues.addAll(cookies.values());
+  return cookieValues.toArray(new Cookie[cookieValues.size()]);
 }
