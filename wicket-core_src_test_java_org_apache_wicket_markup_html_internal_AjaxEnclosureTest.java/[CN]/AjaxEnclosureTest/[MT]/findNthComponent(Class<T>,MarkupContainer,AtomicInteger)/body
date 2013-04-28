@@ -1,0 +1,11 @@
+{
+  Component instance=container.visitChildren(new IVisitor<Component,Component>(){
+    @Override public void component(    Component object,    IVisit<Component> visit){
+      if (type.isInstance(object) && n.decrementAndGet() == 0) {
+        visit.stop(object);
+      }
+    }
+  }
+);
+  return type.cast(instance);
+}
