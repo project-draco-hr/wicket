@@ -2,6 +2,10 @@
   String inlineEnclosureChildId=getAttribute(tag,markupStream);
   if (Strings.isEmpty(inlineEnclosureChildId) == false) {
     String id=tag.getId();
+    if (container instanceof LoopItem) {
+      LoopItem item=(LoopItem)container;
+      id=id + '_' + item.getIndex();
+    }
     return new InlineEnclosure(id,inlineEnclosureChildId);
   }
   return null;
