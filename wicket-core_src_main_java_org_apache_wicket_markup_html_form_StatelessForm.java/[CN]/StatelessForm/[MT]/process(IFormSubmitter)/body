@@ -13,5 +13,14 @@
       AbstractSubmitLink submitLink=(AbstractSubmitLink)submittingComponent;
       parameters.remove(submitLink.getInputName());
     }
+    List<INamedParameters.NamedPair> namedParameters=parameters.getAllNamed();
+    Iterator<INamedParameters.NamedPair> iterator=namedParameters.iterator();
+    while (iterator.hasNext()) {
+      INamedParameters.NamedPair namedParameter=iterator.next();
+      if (Strings.isEmpty(namedParameter.getValue())) {
+        parameters.remove(namedParameter.getKey());
+        break;
+      }
+    }
   }
 }
