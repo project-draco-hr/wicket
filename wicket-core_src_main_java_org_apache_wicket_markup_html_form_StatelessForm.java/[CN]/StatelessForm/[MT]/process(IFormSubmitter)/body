@@ -1,20 +1,17 @@
 {
+  final PageParameters parameters=getPage().getPageParameters();
   super.process(submittingComponent);
-  Page page=findPage();
-  if (page != null) {
-    final PageParameters parameters=page.getPageParameters();
-    if (parameters != null) {
-      visitFormComponents(new IVisitor<FormComponent<?>,Void>(){
-        @Override public void component(        final FormComponent<?> formComponent,        final IVisit<Void> visit){
-          parameters.remove(formComponent.getInputName());
-        }
+  if (parameters != null) {
+    visitFormComponents(new IVisitor<FormComponent<?>,Void>(){
+      @Override public void component(      final FormComponent<?> formComponent,      final IVisit<Void> visit){
+        parameters.remove(formComponent.getInputName());
       }
+    }
 );
-      parameters.remove(getHiddenFieldId());
-      if (submittingComponent instanceof AbstractSubmitLink) {
-        AbstractSubmitLink submitLink=(AbstractSubmitLink)submittingComponent;
-        parameters.remove(submitLink.getInputName());
-      }
+    parameters.remove(getHiddenFieldId());
+    if (submittingComponent instanceof AbstractSubmitLink) {
+      AbstractSubmitLink submitLink=(AbstractSubmitLink)submittingComponent;
+      parameters.remove(submitLink.getInputName());
     }
   }
 }
