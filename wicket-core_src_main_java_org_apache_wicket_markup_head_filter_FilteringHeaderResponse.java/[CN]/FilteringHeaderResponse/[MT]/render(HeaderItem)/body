@@ -7,12 +7,18 @@
     render(item,filterName);
   }
  else {
-    for (    IHeaderResponseFilter filter : filters) {
-      if (filter.accepts(item)) {
-        render(item,filter.getName());
-        return;
+    if (filters != null) {
+      for (      IHeaderResponseFilter filter : filters) {
+        if (filter.accepts(item)) {
+          render(item,filter.getName());
+          return;
+        }
       }
     }
-    log.warn("A HeaderItem '{}' was rendered to the filtering header response, but did not match any filters, so it was effectively lost.  Make sure that you have filters that accept every possible case or else configure a default filter that returns true to all acceptance tests",item);
+    if (responseFilterMap.containsKey(headerFilterName) == false) {
+      responseFilterMap.put(headerFilterName,new ArrayList<HeaderItem>());
+    }
+    render(item,headerFilterName);
+    log.debug("A HeaderItem '{}' was rendered to the filtering header response, but did not match any filters, so it put in the <head>.",item);
   }
 }
