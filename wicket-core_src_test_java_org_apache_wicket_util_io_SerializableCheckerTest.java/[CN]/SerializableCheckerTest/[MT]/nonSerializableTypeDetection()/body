@@ -1,8 +1,8 @@
 {
-  SerializableChecker serializableChecker=new SerializableChecker(new ByteArrayOutputStream(),new NotSerializableException());
+  CheckingObjectOutputStream checker=new CheckingObjectOutputStream(new ByteArrayOutputStream(),new ObjectSerializationChecker(new NotSerializableException()));
   String exceptionMessage=null;
   try {
-    serializableChecker.writeObject(new TestType2());
+    checker.writeObject(new TestType2());
   }
  catch (  CheckingObjectOutputStream.ObjectCheckException e) {
     exceptionMessage=e.getMessage();

@@ -4,7 +4,8 @@
   }
  catch (  NotSerializableException nsx) {
     if (CheckingObjectOutputStream.isAvailable()) {
-      new SerializableChecker(outputStream,nsx).writeObject(obj);
+      CheckingObjectOutputStream checkingObjectOutputStream=new CheckingObjectOutputStream(outputStream,new ObjectSerializationChecker(nsx));
+      checkingObjectOutputStream.writeObject(obj);
       throw nsx;
     }
     throw nsx;
