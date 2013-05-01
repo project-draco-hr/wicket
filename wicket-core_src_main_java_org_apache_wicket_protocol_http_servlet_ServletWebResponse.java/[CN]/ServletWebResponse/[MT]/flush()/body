@@ -1,6 +1,9 @@
 {
   try {
-    httpServletResponse.flushBuffer();
+    HttpServletRequest httpServletRequest=webRequest.getContainerRequest();
+    if (httpServletRequest.isAsyncStarted() == false) {
+      httpServletResponse.flushBuffer();
+    }
   }
  catch (  IOException e) {
     throw new ResponseIOException(e);
