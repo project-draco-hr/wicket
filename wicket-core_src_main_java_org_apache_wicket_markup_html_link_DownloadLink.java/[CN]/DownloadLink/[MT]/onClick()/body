@@ -7,7 +7,6 @@
   if (Strings.isEmpty(fileName)) {
     fileName=file.getName();
   }
-  fileName=UrlEncoder.QUERY_INSTANCE.encode(fileName,getRequest().getCharset());
   IResourceStream resourceStream=new FileResourceStream(new org.apache.wicket.util.file.File(file));
   getRequestCycle().scheduleRequestHandlerAfterCurrent(new ResourceStreamRequestHandler(resourceStream){
     @Override public void respond(    IRequestCycle requestCycle){
