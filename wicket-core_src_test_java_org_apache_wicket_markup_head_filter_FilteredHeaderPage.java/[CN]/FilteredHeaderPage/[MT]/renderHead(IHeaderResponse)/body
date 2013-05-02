@@ -3,14 +3,10 @@
   response.render(new FilteredHeaderItem(JavaScriptHeaderItem.forReference(topJsReference),FilteringHeaderResponse.DEFAULT_HEADER_FILTER_NAME));
   JQueryPluginResourceReference bottomJs=new JQueryPluginResourceReference(FilteredHeaderPage.class,"bottom.js"){
     private static final long serialVersionUID=1L;
-    @Override public Iterable<? extends HeaderItem> getDependencies(){
-      Iterable<? extends HeaderItem> dependencies=super.getDependencies();
-      List<HeaderItem> deps=new ArrayList<HeaderItem>();
-      for (      HeaderItem hi : dependencies) {
-        deps.add(hi);
-      }
-      deps.add(JavaScriptHeaderItem.forReference(topJsReference));
-      return deps;
+    @Override public List<HeaderItem> getDependencies(){
+      List<HeaderItem> dependencies=super.getDependencies();
+      dependencies.add(JavaScriptHeaderItem.forReference(topJsReference));
+      return dependencies;
     }
   }
 ;
