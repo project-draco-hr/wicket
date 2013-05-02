@@ -1,0 +1,18 @@
+{
+  error=super.decorate(error,validatable);
+  if (error instanceof ValidationError) {
+    ValidationError ve=(ValidationError)error;
+    ve.setVariable("inputdate",validatable.getValue());
+    if (format != null) {
+      SimpleDateFormat sdf=new SimpleDateFormat(format);
+      if (getMinimum() != null) {
+        ve.setVariable("minimum",sdf.format(getMinimum()));
+      }
+      if (getMaximum() != null) {
+        ve.setVariable("maximum",sdf.format(getMaximum()));
+      }
+      ve.setVariable("inputdate",sdf.format(validatable.getValue()));
+    }
+  }
+  return error;
+}
