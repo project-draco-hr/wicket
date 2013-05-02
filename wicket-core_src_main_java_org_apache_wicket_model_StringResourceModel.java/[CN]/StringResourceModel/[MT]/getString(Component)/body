@@ -10,15 +10,17 @@
   String value;
   Object[] parameters=getParameters();
   if (parameters == null || parameters.length == 0) {
-    value=localizer.getString(getResourceKey(),component,model,defaultValue);
+    String defaultVal=defaultValue != null ? defaultValue.getObject() : null;
+    value=localizer.getString(getResourceKey(),component,model,defaultVal);
     if (value == null) {
-      value=defaultValue;
+      value=defaultVal;
     }
   }
  else {
-    value=localizer.getString(getResourceKey(),component,null,defaultValue);
+    String defaultVal=defaultValue != null ? defaultValue.getObject() : null;
+    value=localizer.getString(getResourceKey(),component,null,defaultVal);
     if (value == null) {
-      value=defaultValue;
+      value=defaultVal;
     }
     if (value != null) {
       Object[] realParams=new Object[parameters.length];
