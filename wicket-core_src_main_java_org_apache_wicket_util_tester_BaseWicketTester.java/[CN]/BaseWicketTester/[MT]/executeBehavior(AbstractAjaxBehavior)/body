@@ -10,6 +10,10 @@
     Form<?> form=formSubmitBehavior.getForm();
     getRequest().setUseMultiPartContentType(form.isMultiPart());
     serializeFormToRequest(form);
+    String name=Form.getRootFormRelativeId(new PropertyModel<Component>(behavior,"component").getObject());
+    if (!request.getPostParameters().getParameterNames().contains(name)) {
+      request.getPostParameters().setParameterValue(name,"marked");
+    }
   }
   processRequest();
 }
