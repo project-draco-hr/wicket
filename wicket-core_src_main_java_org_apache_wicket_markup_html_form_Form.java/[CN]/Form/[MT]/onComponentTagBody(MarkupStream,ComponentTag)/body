@@ -1,16 +1,6 @@
 {
   if (isRootForm()) {
-    String nameAndId=getHiddenFieldId();
-    AppendingStringBuffer buffer=new AppendingStringBuffer(HIDDEN_DIV_START).append("<input type=\"hidden\" name=\"").append(nameAndId).append("\" id=\"").append(nameAndId).append("\" />");
-    if (encodeUrlInHiddenFields()) {
-      String url=getActionUrl().toString();
-      int i=url.indexOf('?');
-      String queryString=(i > -1) ? url.substring(i + 1) : url;
-      String[] params=Strings.split(queryString,'&');
-      writeParamsAsHiddenFields(params,buffer);
-    }
-    buffer.append("</div>");
-    getResponse().write(buffer);
+    writeHiddenField(getResponse());
     if (defaultSubmittingComponent instanceof Component) {
       final Component submittingComponent=(Component)defaultSubmittingComponent;
       if (submittingComponent.isVisibleInHierarchy() && submittingComponent.isEnabledInHierarchy()) {
