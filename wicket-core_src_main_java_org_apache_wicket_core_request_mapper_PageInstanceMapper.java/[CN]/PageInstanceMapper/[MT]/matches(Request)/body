@@ -1,0 +1,13 @@
+{
+  boolean matches=false;
+  Url url=request.getUrl();
+  String namespace=getContext().getNamespace();
+  String pageIdentifier=getContext().getPageIdentifier();
+  if (urlStartsWith(url,namespace,pageIdentifier)) {
+    matches=true;
+  }
+ else   if (urlStartsWith(request.getClientUrl(),namespace) && urlStartsWith(url,pageIdentifier)) {
+    matches=true;
+  }
+  return matches;
+}

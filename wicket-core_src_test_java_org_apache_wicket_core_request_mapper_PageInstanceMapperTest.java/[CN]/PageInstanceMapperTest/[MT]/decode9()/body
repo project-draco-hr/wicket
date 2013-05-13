@@ -1,0 +1,23 @@
+{
+  final Url url=Url.parse("page?4");
+  Request request=new Request(){
+    @Override public Url getUrl(){
+      return url;
+    }
+    @Override public Locale getLocale(){
+      return null;
+    }
+    @Override public Charset getCharset(){
+      return Charset.forName("UTF-8");
+    }
+    @Override public Url getClientUrl(){
+      return Url.parse("wicket/page");
+    }
+    @Override public Object getContainerRequest(){
+      return null;
+    }
+  }
+;
+  IRequestHandler handler=encoder.mapRequest(request);
+  ((IPageRequestHandler)handler).getPage();
+}
