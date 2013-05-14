@@ -1,8 +1,15 @@
 {
-  Url url=request.getUrl();
-  if (matches(url)) {
+  if (matches(request)) {
+    Url url=request.getUrl();
     PageComponentInfo info=getPageComponentInfo(url);
-    String className=url.getSegments().get(2);
+    List<String> segments=url.getSegments();
+    String className;
+    if (segments.size() >= 3) {
+      className=segments.get(2);
+    }
+ else {
+      className=segments.get(1);
+    }
     Class<? extends IRequestablePage> pageClass=getPageClass(className);
     if (pageClass != null && IRequestablePage.class.isAssignableFrom(pageClass)) {
       if (Application.exists()) {
@@ -10,7 +17,7 @@
         if (application.getSecuritySettings().getEnforceMounts()) {
           if (!pageClass.equals(application.getHomePage())) {
             Url reverseUrl=application.getRootRequestMapper().mapHandler(new RenderPageRequestHandler(new PageProvider(pageClass)));
-            if (!matches(reverseUrl)) {
+            if (!matches(request.cloneWithUrl(reverseUrl))) {
               return null;
             }
           }
