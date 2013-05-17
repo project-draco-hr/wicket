@@ -4,7 +4,7 @@
   Args.notNull(upload,"upload");
   this.upload=upload;
   parameters=new ValueMap();
-  files=new HashMap<String,List<FileItem>>();
+  files=new HashMap<>();
   final boolean isMultipart=ServletFileUpload.isMultipartContent(request);
   if (!isMultipart) {
     throw new IllegalStateException("ServletRequest does not contain multipart content. One possible solution is to explicitly call Form.setMultipart(true), Wicket tries its best to auto-detect multipart forms but there are certain situation where it cannot.");
@@ -57,7 +57,7 @@
  else {
       List<FileItem> fileItems=files.get(item.getFieldName());
       if (fileItems == null) {
-        fileItems=new ArrayList<FileItem>();
+        fileItems=new ArrayList<>();
         files.put(item.getFieldName(),fileItems);
       }
       fileItems.add(item);
