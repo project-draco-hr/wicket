@@ -3,7 +3,7 @@
   feedback.setOutputMarkupId(true);
   add(feedback);
   Bean bean=new Bean();
-  Form<Bean> form=new Form<Bean>("form",new CompoundPropertyModel<Bean>(bean));
+  Form<Bean> form=new Form<>("form",new CompoundPropertyModel<>(bean));
   add(form);
   form.setOutputMarkupId(true);
   FormComponent fc;
@@ -17,7 +17,7 @@
   fc.setLabel(new ResourceModel("label.email"));
   form.add(fc);
   form.add(new SimpleFormComponentLabel("email-label",fc));
-  AjaxFormValidatingBehavior.addToAllFormComponents(form,"keydown",Duration.ONE_SECOND);
+  form.add(new AjaxFormValidatingBehavior("keydown",Duration.ONE_SECOND));
   form.add(new AjaxButton("ajax-button",form){
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       target.add(feedback);
