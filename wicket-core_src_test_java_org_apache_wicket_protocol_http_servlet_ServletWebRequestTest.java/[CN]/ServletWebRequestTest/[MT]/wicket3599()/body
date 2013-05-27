@@ -6,7 +6,7 @@
   Url clientUrl=webRequest.getClientUrl();
   assertEquals("request/Uri?some=parameter",clientUrl.toString());
   httpRequest.setAttribute("javax.servlet.error.request_uri",httpRequest.getContextPath() + "/any/source/of/error");
-  ServletWebRequest errorWebRequest=new ServletWebRequest(httpRequest,"/");
+  ServletWebRequest errorWebRequest=new ServletWebRequest(httpRequest,"");
   Url errorClientUrl=errorWebRequest.getClientUrl();
   assertEquals("any/source/of/error",errorClientUrl.toString());
 }
