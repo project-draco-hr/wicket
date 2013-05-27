@@ -1,0 +1,10 @@
+{
+  Url baseUrl=new Url(Arrays.asList("","SomePage;jsessionid=1234"),Arrays.<Url.QueryParameter>asList());
+  MockWebRequest request=new MockWebRequest(baseUrl);
+  request.setContextPath("/");
+  request.setFilterPath("filter");
+  UrlRenderer renderer=new UrlRenderer(request);
+  renderer.setBaseUrl(baseUrl);
+  String rendered=renderer.renderRelativeUrl(Url.parse("/filter;jsessionid=1234"));
+  assertEquals("../",rendered);
+}
