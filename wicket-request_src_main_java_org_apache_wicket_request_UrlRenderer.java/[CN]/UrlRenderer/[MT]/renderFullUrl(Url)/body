@@ -7,7 +7,7 @@
   final String host=resolveHost(url);
   final Integer port=resolvePort(url);
   final String path;
-  if (url.isAbsolute()) {
+  if (url.isFull() || url.isContextAbsolute()) {
     path=url.toString();
   }
  else {
@@ -28,7 +28,7 @@
       render.append(port);
     }
   }
-  if (url.isAbsolute() == false) {
+  if (!(url.isFull() || url.isContextAbsolute())) {
     render.append(request.getContextPath());
     render.append(request.getFilterPath());
   }
