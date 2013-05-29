@@ -1,5 +1,5 @@
 {
-  Map<String,List<StringValue>> postParameters=new HashMap<String,List<StringValue>>();
+  Map<String,List<StringValue>> postParameters=new HashMap<>();
   IRequestParameters queryParams=getQueryParameters();
   @SuppressWarnings("unchecked") Map<String,String[]> params=getContainerRequest().getParameterMap();
   for (  Map.Entry<String,String[]> param : params.entrySet()) {
@@ -11,9 +11,9 @@
         queryValues=Collections.emptyList();
       }
  else {
-        queryValues=new ArrayList<StringValue>(queryValues);
+        queryValues=new ArrayList<>(queryValues);
       }
-      List<StringValue> postValues=new ArrayList<StringValue>();
+      List<StringValue> postValues=new ArrayList<>();
       for (      String value : values) {
         StringValue val=StringValue.valueOf(value);
         if (queryValues.contains(val)) {
