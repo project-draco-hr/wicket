@@ -2,13 +2,13 @@
   Boolean bookmarkable=pageToBookmarkableCache.get(pageClass.getName());
   if (bookmarkable == null) {
     try {
-      if (pageClass.getConstructor(new Class[]{}) != null) {
+      if (pageClass.getDeclaredConstructor(new Class[]{}) != null) {
         bookmarkable=Boolean.TRUE;
       }
     }
  catch (    Exception ignore) {
       try {
-        if (pageClass.getConstructor(new Class[]{PageParameters.class}) != null) {
+        if (pageClass.getDeclaredConstructor(new Class[]{PageParameters.class}) != null) {
           bookmarkable=Boolean.TRUE;
         }
       }

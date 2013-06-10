@@ -1,10 +1,13 @@
 {
-  String msg;
+  String msg="Can't instantiate page using constructor '" + constructor + "'";
   if (argument != null) {
-    msg="Can't instantiate page using constructor '" + constructor + "' and argument '"+ argument;
+    msg+=" and argument '" + argument + "'";
+  }
+  if (constructor != null && Modifier.isPrivate(constructor.getModifiers())) {
+    msg+=". This constructor is private!";
   }
  else {
-    msg="Can't instantiate page using constructor '" + constructor;
+    msg+=". There is no such constructor!";
   }
-  return msg + "'. Might be it doesn't exist, may be it is not visible (public).";
+  return msg;
 }
