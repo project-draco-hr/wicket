@@ -15,7 +15,8 @@
   targetEqualsCurrentUrl=true;
   newPageInstance=true;
   pageStateless=true;
-  Assert.assertTrue(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  TestPageRenderer renderer=new TestPageRenderer(null);
+  Assert.assertTrue(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
   ajax=false;
   onePassRender=false;
   redirectToRender=false;
@@ -23,25 +24,25 @@
   targetEqualsCurrentUrl=false;
   newPageInstance=false;
   pageStateless=false;
-  Assert.assertTrue(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  Assert.assertTrue(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
   redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
   ajax=false;
   onePassRender=true;
-  Assert.assertTrue(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  Assert.assertTrue(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
   targetEqualsCurrentUrl=true;
   redirectPolicy=RedirectPolicy.ALWAYS_REDIRECT;
   onePassRender=false;
   newPageInstance=false;
   pageStateless=false;
-  Assert.assertTrue(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  Assert.assertTrue(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
   redirectToRender=true;
   targetEqualsCurrentUrl=true;
-  Assert.assertTrue(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  Assert.assertTrue(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
   targetEqualsCurrentUrl=true;
   pageStateless=true;
   newPageInstance=true;
   redirectToRender=true;
-  Assert.assertTrue(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  Assert.assertTrue(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
   shouldPreserveClientUrl=true;
   redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
   ajax=true;
@@ -50,5 +51,5 @@
   targetEqualsCurrentUrl=false;
   newPageInstance=true;
   pageStateless=true;
-  Assert.assertTrue(WebPageRenderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  Assert.assertTrue(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
 }
