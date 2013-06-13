@@ -3,7 +3,7 @@
   tester.assertRenderedPage(AjaxLinkPageToNormalPage.class);
   Page page=tester.getLastRenderedPage();
   Component ajaxLink=page.get("ajaxLink");
-  AbstractAjaxBehavior behavior=(AbstractAjaxBehavior)ajaxLink.getBehaviors().get(0);
+  AbstractAjaxBehavior behavior=ajaxLink.getBehaviors(AbstractAjaxBehavior.class).get(0);
   tester.executeBehavior(behavior);
   tester.assertRenderedPage(NormalPage.class);
 }

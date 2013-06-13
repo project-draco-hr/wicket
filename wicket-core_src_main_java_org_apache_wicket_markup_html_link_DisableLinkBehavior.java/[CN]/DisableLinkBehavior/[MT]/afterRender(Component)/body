@@ -1,0 +1,9 @@
+{
+  super.afterRender(component);
+  if (component instanceof AbstractLink) {
+    AbstractLink link=(AbstractLink)component;
+    if (!link.isLinkEnabled() && link.getAfterDisabledLink() != null) {
+      link.getResponse().write(link.getAfterDisabledLink());
+    }
+  }
+}
