@@ -1,7 +1,12 @@
 {
   super.onComponentTag(tag);
-  if (tag.getName().equalsIgnoreCase("a")) {
-    tag.put("href","#");
+  if (!isLinkEnabled()) {
+    disableLink(tag);
   }
-  tag.put("onclick",getTriggerJavaScript());
+ else {
+    if (tag.getName().equalsIgnoreCase("a")) {
+      tag.put("href","#");
+    }
+    tag.put("onclick",getTriggerJavaScript());
+  }
 }
