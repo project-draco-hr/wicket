@@ -1,0 +1,24 @@
+{
+  VariationIterator<Integer> numbers=VariationIterator.of(new Variation<>(1,2,3));
+  VariationIterator<Boolean> flag=VariationIterator.of(numbers,Variation.ofBoolean());
+  VariationIterator<?> last=flag;
+  Assert.assertTrue(last.hasNext());
+  last.nextVariation();
+  Assert.assertTrue(last.hasNext());
+  last.nextVariation();
+  Assert.assertTrue(last.hasNext());
+  last.nextVariation();
+  Assert.assertTrue(last.hasNext());
+  last.nextVariation();
+  Assert.assertTrue(last.hasNext());
+  last.nextVariation();
+  Assert.assertFalse(last.hasNext());
+  Exception ex=null;
+  try {
+    last.nextVariation();
+  }
+ catch (  Exception e) {
+    ex=e;
+  }
+  Assert.assertNotNull(ex);
+}
