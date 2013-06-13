@@ -1,11 +1,7 @@
 {
-  super.onComponentTag(tag);
-  if (isEnabledInHierarchy()) {
+  if (!component.isEnabledInHierarchy()) {
     if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
-      tag.put("href","#");
+      tag.setName("span");
     }
-  }
- else {
-    disableLink(tag);
   }
 }
