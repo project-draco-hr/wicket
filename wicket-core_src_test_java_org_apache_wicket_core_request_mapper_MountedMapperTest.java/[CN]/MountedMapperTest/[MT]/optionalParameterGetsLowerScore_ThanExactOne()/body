@@ -1,0 +1,9 @@
+{
+  final Url url=Url.parse("all/sindex");
+  final MountedMapper exactMount=new MountedMapper("/all/sindex",MockPage.class);
+  final MountedMapper optionalParameter=new MountedMapper("/all/#{exp}",MockPage.class);
+  Request request=getRequest(url);
+  final int exactCompatScore=exactMount.getCompatibilityScore(request);
+  final int optCompatScore=optionalParameter.getCompatibilityScore(request);
+  assertTrue("exactCompatScore should have greater compatibility score than optional one" + " got exact = " + exactCompatScore + " and optional = "+ optCompatScore,exactCompatScore > optCompatScore);
+}
