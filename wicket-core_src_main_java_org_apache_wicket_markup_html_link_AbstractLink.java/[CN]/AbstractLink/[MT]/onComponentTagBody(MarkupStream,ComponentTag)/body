@@ -1,15 +1,9 @@
 {
-  if (!isLinkEnabled() && getBeforeDisabledLink() != null) {
-    getResponse().write(getBeforeDisabledLink());
-  }
   IModel<?> tmpBodyModel=getBody();
   if ((tmpBodyModel != null) && (tmpBodyModel.getObject() != null)) {
     replaceComponentTagBody(markupStream,openTag,getDefaultModelObjectAsString(tmpBodyModel.getObject()));
   }
  else {
     super.onComponentTagBody(markupStream,openTag);
-  }
-  if (!isLinkEnabled() && getAfterDisabledLink() != null) {
-    getResponse().write(getAfterDisabledLink());
   }
 }

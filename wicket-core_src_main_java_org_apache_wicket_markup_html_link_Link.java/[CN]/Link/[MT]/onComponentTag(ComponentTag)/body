@@ -1,9 +1,6 @@
 {
   super.onComponentTag(tag);
-  if (!isLinkEnabled()) {
-    disableLink(tag);
-  }
- else {
+  if (isEnabledInHierarchy()) {
     CharSequence url=getURL();
     url=appendAnchor(tag,url);
     if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
@@ -29,5 +26,8 @@
     if (onClickJavaScript != null) {
       tag.put("onclick",onClickJavaScript);
     }
+  }
+ else {
+    disableLink(tag);
   }
 }

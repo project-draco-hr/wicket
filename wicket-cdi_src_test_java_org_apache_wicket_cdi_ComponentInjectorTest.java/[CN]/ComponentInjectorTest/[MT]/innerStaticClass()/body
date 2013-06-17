@@ -1,0 +1,19 @@
+{
+  BeanManager beanManager=mock(BeanManager.class);
+  INonContextualManager nonContextualManager=mock(INonContextualManager.class);
+  final String expectedValue="injected";
+  doAnswer(new Answer<Void>(){
+    @Override public Void answer(    InvocationOnMock invocation) throws Throwable {
+      TestStaticComponent component=(TestStaticComponent)invocation.getArguments()[0];
+      component.dependency=expectedValue;
+      return null;
+    }
+  }
+).when(nonContextualManager).inject(any(TestStaticComponent.class));
+  CdiContainer cdiContainer=new CdiContainer(beanManager,nonContextualManager);
+  ComponentInjector injector=new ComponentInjector(cdiContainer);
+  TestStaticComponent component=new TestStaticComponent("someId");
+  assertNull(component.dependency);
+  injector.onInstantiation(component);
+  assertEquals(expectedValue,component.dependency);
+}
