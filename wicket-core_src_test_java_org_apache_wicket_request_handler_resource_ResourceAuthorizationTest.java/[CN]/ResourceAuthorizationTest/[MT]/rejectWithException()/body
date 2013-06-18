@@ -1,0 +1,13 @@
+{
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new RejectingAuthorizationStrategy());
+  tester.getApplication().getSecuritySettings().setUnauthorizedResourceRequestListener(new IUnauthorizedResourceRequestListener(){
+    @Override public void onUnauthorizedRequest(    IResource resource,    PageParameters parameters){
+      throw new RuntimeException("Not authorized to request: " + resource);
+    }
+  }
+);
+  TestResource resource=new TestResource();
+  expectedException.expect(RuntimeException.class);
+  expectedException.expectMessage("Not authorized to request: " + resource);
+  tester.startResource(resource);
+}
