@@ -1,0 +1,11 @@
+{
+  BeanManager beanManager=mock(BeanManager.class);
+  INonContextualManager nonContextualManager=mock(INonContextualManager.class);
+  CdiContainer cdiContainer=new CdiContainer(beanManager,nonContextualManager);
+  ComponentInjector injector=new ComponentInjector(cdiContainer);
+  WebComponent component=new WebComponent("someId"){
+  }
+;
+  injector.onInstantiation(component);
+  verify(nonContextualManager,never()).inject(any());
+}
