@@ -1,9 +1,6 @@
 {
   super.init();
-  getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy(){
-    @Override public boolean isActionAuthorized(    Component component,    Action action){
-      return true;
-    }
+  getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy.AllowAllAuthorizationStrategy(){
     @Override public <T extends IRequestableComponent>boolean isInstantiationAuthorized(    Class<T> componentClass){
       if (AuthenticatedWebPage.class.isAssignableFrom(componentClass)) {
         if (((SignInSession)Session.get()).isSignedIn()) {

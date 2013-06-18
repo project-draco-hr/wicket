@@ -1,0 +1,17 @@
+{
+  IAuthorizationStrategy authorizationStrategy=null;
+  if (Session.exists()) {
+    authorizationStrategy=Session.get().getAuthorizationStrategy();
+  }
+ else   if (Application.exists()) {
+    authorizationStrategy=Application.get().getSecuritySettings().getAuthorizationStrategy();
+  }
+  if (authorizationStrategy != null && authorizationStrategy.isResourceAuthorized(resource,parameters) == false) {
+    if (Application.exists()) {
+      Application.get().getSecuritySettings().getUnauthorizedResourceRequestListener().onUnauthorizedRequest(resource,parameters);
+    }
+ else {
+      new DefaultUnauthorizedResourceRequestListener().onUnauthorizedRequest(resource,parameters);
+    }
+  }
+}
