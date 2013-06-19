@@ -30,7 +30,7 @@
       if (isExternalRedirect(lastRequest.getUrl(),newUrl)) {
         return true;
       }
-      if (newUrl.isAbsolute()) {
+      if (newUrl.isFull() || newUrl.isContextAbsolute()) {
         request.setUrl(newUrl);
         final String protocol=newUrl.getProtocol();
         if (protocol != null) {
