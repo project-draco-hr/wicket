@@ -1,0 +1,11 @@
+{
+  try {
+    this.application=application;
+    this.watchService=FileSystems.getDefault().newWatchService();
+    registerWatchables(watchService);
+    start(Duration.seconds(2));
+  }
+ catch (  IOException iox) {
+    throw new WicketRuntimeException("Cannot get the watch service",iox);
+  }
+}
