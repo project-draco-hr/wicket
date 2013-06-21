@@ -10,6 +10,9 @@
     String placeholder=getPlaceholder(mountSegments[i]);
     String optionalPlaceholder=getOptionalPlaceholder(mountSegments[i]);
     if (placeholder != null) {
+      if (!copy.getNamedKeys().contains(placeholder)) {
+        return null;
+      }
       url.getSegments().set(i - dropped,copy.get(placeholder).toString(""));
       copy.remove(placeholder);
     }

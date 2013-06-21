@@ -1,0 +1,12 @@
+{
+  PageProvider provider=new PageProvider(new MockPage()){
+    @Override public boolean isNewPageInstance(){
+      return false;
+    }
+  }
+;
+  provider.setPageSource(context);
+  IRequestHandler handler=new RenderPageRequestHandler(provider);
+  Url url=placeholderEncoder.mapHandler(handler);
+  assertNull(url);
+}
