@@ -4,8 +4,8 @@
 synchronized (lock) {
       meta=cache.get(manager);
       if (meta == null) {
-        meta=new ClassMetaCache<NonContextual<?>>();
-        Map<BeanManager,ClassMetaCache<NonContextual<?>>> newCache=new WeakHashMap<BeanManager,ClassMetaCache<NonContextual<?>>>(cache);
+        meta=new ClassMetaCache<>();
+        Map<BeanManager,ClassMetaCache<NonContextual<?>>> newCache=new WeakHashMap<>(cache);
         newCache.put(manager,meta);
         cache=Collections.unmodifiableMap(newCache);
       }
