@@ -3,7 +3,7 @@
   add(form);
   RefreshingView<Contact> refreshingView=new RefreshingView<Contact>("simple"){
     @Override protected Iterator<IModel<Contact>> getItemModels(){
-      SortParam<String> sort=new SortParam<String>("firstName",true);
+      SortParam<String> sort=new SortParam<>("firstName",true);
       Iterator<Contact> contacts=DatabaseLocator.getDatabase().find(0,10,sort).iterator();
       return new ModelIteratorAdapter<Contact>(contacts){
         @Override protected IModel<Contact> model(        Contact object){
@@ -15,14 +15,14 @@
     @Override protected void populateItem(    final Item<Contact> item){
       IModel<Contact> contact=item.getModel();
       item.add(new ActionPanel("actions",contact));
-      item.add(new TextField<Long>("id"));
-      item.add(new TextField<String>("firstName"));
-      item.add(new TextField<String>("lastName"));
-      item.add(new TextField<String>("homePhone"));
-      item.add(new TextField<String>("cellPhone"));
+      item.add(new TextField<>("id"));
+      item.add(new TextField<>("firstName"));
+      item.add(new TextField<>("lastName"));
+      item.add(new TextField<>("homePhone"));
+      item.add(new TextField<>("cellPhone"));
     }
     @Override protected Item<Contact> newItem(    String id,    int index,    IModel<Contact> model){
-      return new OddEvenItem<Contact>(id,index,model);
+      return new OddEvenItem<>(id,index,model);
     }
   }
 ;
