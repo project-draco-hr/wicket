@@ -3,16 +3,16 @@
   final IModel<List<FeedbackMessage>> model=fbp.getFeedbackMessagesModel();
   final List<FeedbackMessage> renderedMessages=model.getObject();
   if (renderedMessages == null) {
-    fail("feedback panel at path [" + path + "] returned null messages");
+    fail(String.format("feedback panel at path [%s] returned null messages",path));
   }
   if (messages.length != renderedMessages.size()) {
-    fail("you expected " + messages.length + " messages for the feedback panel ["+ path+ "], but there were actually "+ renderedMessages.size());
+    fail(String.format("you expected '%d' messages for the feedback panel [%s], but there were actually '%d'",messages.length,path,renderedMessages.size()));
   }
   for (int i=0; i < messages.length && i < renderedMessages.size(); i++) {
-    final String expected=messages[i];
+    final Serializable expected=messages[i];
     boolean found=false;
     for (    FeedbackMessage actual : renderedMessages) {
-      if (Objects.equal(expected,actual.getMessage().toString())) {
+      if (Objects.equal(expected,actual.getMessage())) {
         found=true;
         break;
       }
