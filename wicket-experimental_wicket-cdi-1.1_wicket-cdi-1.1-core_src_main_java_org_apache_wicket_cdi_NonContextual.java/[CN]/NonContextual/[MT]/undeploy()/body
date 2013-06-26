@@ -1,0 +1,9 @@
+{
+  if (cache.containsKey(CDI.current().getBeanManager())) {
+synchronized (lock) {
+      Map<BeanManager,ClassMetaCache<NonContextual<?>>> newCache=new WeakHashMap<BeanManager,ClassMetaCache<NonContextual<?>>>(cache);
+      newCache.remove(CDI.current().getBeanManager());
+      cache=Collections.unmodifiableMap(newCache);
+    }
+  }
+}

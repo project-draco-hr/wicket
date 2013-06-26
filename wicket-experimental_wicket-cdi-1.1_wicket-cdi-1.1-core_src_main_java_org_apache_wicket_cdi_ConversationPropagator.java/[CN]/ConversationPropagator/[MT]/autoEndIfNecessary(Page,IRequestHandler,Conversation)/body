@@ -1,0 +1,9 @@
+{
+  if (!auto || conversation == null || conversation.isTransient() || page == null || !propagationSource.get().propagatesViaPage(page,handler) || hasConversationalComponent(page) || autoConversation.isAutomatic() == false) {
+    return;
+  }
+  String cid=conversation.getId();
+  autoConversation.setAutomatic(false);
+  conversation.end();
+  logger.debug("Auto-ended conversation {} for page {}",cid,page);
+}

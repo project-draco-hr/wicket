@@ -1,0 +1,24 @@
+{
+  container.bind(application);
+  RequestCycleListenerCollection listeners=new RequestCycleListenerCollection();
+  application.getRequestCycleListeners().add(listeners);
+  if (getPropagation() != ConversationPropagation.NONE) {
+    listeners.add(conversationPropagatorSource.get());
+    application.getComponentPreOnBeforeRenderListeners().add(conversationExpiryCheckerSource.get());
+  }
+  listeners.add(detachEventEmitterSource.get());
+  if (isInjectApplication()) {
+    container.getNonContextualManager().postConstruct(application);
+  }
+  if (isInjectSession()) {
+    application.getSessionListeners().add(new SessionInjector(container));
+  }
+  if (isInjectComponents()) {
+    application.getComponentInstantiationListeners().add(new ComponentInjector(container));
+  }
+  if (isInjectBehaviors()) {
+    application.getBehaviorInstantiationListeners().add(new BehaviorInjector(container));
+  }
+  application.getApplicationListeners().add(new CdiShutdownCleaner(isInjectApplication()));
+  return container;
+}

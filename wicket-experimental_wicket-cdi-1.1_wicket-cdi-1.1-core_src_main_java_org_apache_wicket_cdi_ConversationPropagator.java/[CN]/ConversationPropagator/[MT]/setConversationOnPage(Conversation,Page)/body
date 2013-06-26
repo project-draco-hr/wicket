@@ -1,0 +1,10 @@
+{
+  if (conversation == null || conversation.isTransient()) {
+    logger.debug("Detaching transient conversation {} via meta of page instance {}",(conversation == null ? "null" : conversation.getId()),page);
+    page.setMetaData(CID_KEY,null);
+  }
+ else {
+    logger.debug("Propagating non-transient conversation {} via meta of page instance {}",conversation.getId(),page);
+    page.setMetaData(CID_KEY,conversation.getId());
+  }
+}

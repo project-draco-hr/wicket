@@ -1,0 +1,14 @@
+{
+  getRequest(cycle).getSession(true);
+  HttpConversationContext conversationContext=conversationContextSource.get();
+  conversationContext.associate(getRequest(cycle));
+  if (conversationContext.isActive()) {
+    if (conversationContext.getCurrentConversation().isTransient() && cid != null && !cid.isEmpty()) {
+      conversationContext.deactivate();
+      conversationContext.activate(cid);
+    }
+  }
+ else {
+    conversationContext.activate(cid);
+  }
+}
