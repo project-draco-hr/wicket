@@ -1,5 +1,7 @@
 {
-  container.bind(application);
+  if (configured) {
+    throw new IllegalStateException("Cannot configure CdiConfiguration multiple times");
+  }
   RequestCycleListenerCollection listeners=new RequestCycleListenerCollection();
   application.getRequestCycleListeners().add(listeners);
   if (getPropagation() != ConversationPropagation.NONE) {
@@ -8,17 +10,17 @@
   }
   listeners.add(detachEventEmitterSource.get());
   if (isInjectApplication()) {
-    container.getNonContextualManager().postConstruct(application);
+    nonContextualManager.postConstruct(application);
   }
   if (isInjectSession()) {
-    application.getSessionListeners().add(new SessionInjector(container));
+    application.getSessionListeners().add(sessionInjector);
   }
   if (isInjectComponents()) {
-    application.getComponentInstantiationListeners().add(new ComponentInjector(container));
+    application.getComponentInstantiationListeners().add(componentInjector);
   }
   if (isInjectBehaviors()) {
-    application.getBehaviorInstantiationListeners().add(new BehaviorInjector(container));
+    application.getBehaviorInstantiationListeners().add(behaviorInjector);
   }
   application.getApplicationListeners().add(new CdiShutdownCleaner(isInjectApplication()));
-  return container;
+  configured=true;
 }
