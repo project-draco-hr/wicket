@@ -2,7 +2,7 @@
   if (ex instanceof StalePageException) {
     IRequestablePage requestable=((StalePageException)ex).getPage();
     if (requestable instanceof Page) {
-      String cid=container.getConversationMarker((Page)requestable);
+      String cid=containerSource.get().getConversationMarker((Page)requestable);
       if (cid != null) {
         try {
           activateConversationIfNeeded(cycle,null,cid);
