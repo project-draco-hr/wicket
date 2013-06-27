@@ -1,0 +1,17 @@
+{
+  conversation.begin();
+  add(new Label("count",new PropertyModel(this,"counter.count")));
+  add(new Link<Void>("increment"){
+    @Override public void onClick(){
+      counter.increment();
+    }
+  }
+);
+  add(new Link<Void>("reset"){
+    @Override public void onClick(){
+      conversation.end();
+      setResponsePage(TestPage.class);
+    }
+  }
+);
+}

@@ -1,0 +1,14 @@
+{
+  assertEquals(false,conversationPropagator.getAuto());
+  CdiConfiguration.get().setAutoConversationManagement(true);
+  assertEquals(true,conversationPropagator.getAuto());
+  for (  ConversationPropagation propagation : ConversationPropagation.values()) {
+    CdiConfiguration.get().setPropagation(propagation);
+    assertEquals(propagation,conversationPropagator.getPropagation());
+  }
+  int ignoreCnt=componentInjector.getIgnorePackages().length;
+  CdiConfiguration.get().addPackagesToIgnore("test1","test2","test3");
+  assertEquals(ignoreCnt + 3,componentInjector.getIgnorePackages().length);
+  CdiConfiguration.get().removePackagesToIgnore("test1","test2");
+  assertEquals(ignoreCnt + 1,componentInjector.getIgnorePackages().length);
+}
