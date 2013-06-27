@@ -1,0 +1,19 @@
+{
+  super.onComponentTag(tag);
+  final ISortState<S> sortState=stateLocator.getSortState();
+  ICssSettings cssSettings=getApplication().getCssSettings();
+  SortOrder dir=sortState.getPropertySortOrder(property);
+  String cssClass;
+  if (dir == SortOrder.ASCENDING) {
+    cssClass=cssSettings.getSortOrderUpCssClass();
+  }
+ else   if (dir == SortOrder.DESCENDING) {
+    cssClass=cssSettings.getSortOrderDownCssClass();
+  }
+ else {
+    cssClass=cssSettings.getSortOrderNoneCssClass();
+  }
+  if (!Strings.isEmpty(cssClass)) {
+    tag.append("class",cssClass," ");
+  }
+}
