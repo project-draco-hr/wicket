@@ -1,17 +1,16 @@
 {
   super.onComponentTag(tag);
   tag.put("for",component.getMarkupId());
-  ICssSettings cssSettings=getApplication().getCssSettings();
   if (component instanceof FormComponent) {
     FormComponent<?> fc=(FormComponent<?>)component;
     if (fc.isRequired()) {
-      tag.append("class",cssSettings.getCssClass(REQUIRED_CSS_CLASS_KEY)," ");
+      tag.append("class",getString(REQUIRED_CSS_CLASS_KEY)," ");
     }
     if (!fc.isValid()) {
-      tag.append("class",cssSettings.getCssClass(INVALID_CSS_CLASS_KEY)," ");
+      tag.append("class",getString(INVALID_CSS_CLASS_KEY)," ");
     }
   }
   if (!component.isEnabledInHierarchy()) {
-    tag.append("class",cssSettings.getCssClass(DISABLED_CSS_CLASS_KEY)," ");
+    tag.append("class",getString(DISABLED_CSS_CLASS_KEY)," ");
   }
 }
