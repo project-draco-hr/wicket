@@ -1,0 +1,9 @@
+{
+  Application.get().getResourceSettings().setUseMinifiedResources(true);
+  final JavaScriptResourceReference notMinified=new JavaScriptResourceReference(PackageResourceReferenceTest.class,"a.js");
+  final JavaScriptPackageResource notMinifiedResource=notMinified.getResource();
+  Assert.assertTrue("Not minified resource should got its compress flag set to true",notMinifiedResource.getCompress());
+  final JavaScriptResourceReference alreadyMinified=new JavaScriptResourceReference(PackageResourceReferenceTest.class,"b.min.js");
+  final JavaScriptPackageResource alreadyMinifiedResource=alreadyMinified.getResource();
+  Assert.assertFalse("Already minified resource should got its compress flag set to false",alreadyMinifiedResource.getCompress());
+}
