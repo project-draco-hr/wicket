@@ -4,6 +4,9 @@
     return;
   }
   final String filename=url.getFileName();
+  if (filename.contains(getVersionPrefix())) {
+    LOG.error("A resource with name '{}' contains the version prefix '{}' so the un-decoration will not work." + " Either use a different version prefix or rename this resource.",filename,getVersionPrefix());
+  }
   final int extensionAt=filename.lastIndexOf('.');
   final StringBuilder versionedFilename=new StringBuilder();
   if (extensionAt == -1) {
