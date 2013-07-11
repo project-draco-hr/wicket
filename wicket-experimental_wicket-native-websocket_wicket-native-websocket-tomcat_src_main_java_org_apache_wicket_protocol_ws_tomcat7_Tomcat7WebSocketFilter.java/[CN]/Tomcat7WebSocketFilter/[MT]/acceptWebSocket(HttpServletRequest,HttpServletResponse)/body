@@ -7,6 +7,9 @@
   WebApplication application=getApplication();
   TomcatWebSocketProcessor webSocketHandler=new TomcatWebSocketProcessor(req,application);
   TomcatWebSocketProcessor.TomcatWebSocket tomcatWebSocket=webSocketHandler.new TomcatWebSocket();
+  while (req instanceof HttpServletRequestWrapper) {
+    req=(HttpServletRequest)((HttpServletRequestWrapper)req).getRequest();
+  }
   ((RequestFacade)req).doUpgrade(tomcatWebSocket);
   return true;
 }
