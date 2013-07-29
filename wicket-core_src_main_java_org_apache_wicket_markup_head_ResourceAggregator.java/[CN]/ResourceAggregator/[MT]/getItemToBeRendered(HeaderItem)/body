@@ -1,17 +1,11 @@
 {
-  while (item instanceof IWrappedHeaderItem) {
-    item=((IWrappedHeaderItem)item).getWrapped();
+  HeaderItem innerItem=item;
+  while (innerItem instanceof IWrappedHeaderItem) {
+    innerItem=((IWrappedHeaderItem)innerItem).getWrapped();
   }
-  if (getRealResponse().wasRendered(item)) {
+  if (getRealResponse().wasRendered(innerItem)) {
     return NoHeaderItem.get();
   }
-  getRealResponse().markRendered(item);
-  HeaderItem bundle=Application.get().getResourceBundles().findBundle(item);
-  if (bundle == null) {
-    return item;
-  }
-  for (  HeaderItem curProvided : bundle.getProvidedResources()) {
-    getRealResponse().markRendered(curProvided);
-  }
-  return bundle;
+  HeaderItem bundle=Application.get().getResourceBundles().findBundle(innerItem);
+  return bundle == null ? item : bundle;
 }
