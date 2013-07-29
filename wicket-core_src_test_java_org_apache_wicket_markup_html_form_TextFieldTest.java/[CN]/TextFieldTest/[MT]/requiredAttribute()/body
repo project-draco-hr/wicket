@@ -1,0 +1,10 @@
+{
+  TestPage testPage=new TestPage();
+  testPage.textField.setOutputMarkupId(true);
+  testPage.textField.setType(String.class);
+  testPage.textField.setRequired(true);
+  tester.startPage(testPage);
+  TagTester tagTester=tester.getTagById(testPage.textField.getMarkupId());
+  String required=tagTester.getAttribute("required");
+  assertEquals("required",required);
+}
