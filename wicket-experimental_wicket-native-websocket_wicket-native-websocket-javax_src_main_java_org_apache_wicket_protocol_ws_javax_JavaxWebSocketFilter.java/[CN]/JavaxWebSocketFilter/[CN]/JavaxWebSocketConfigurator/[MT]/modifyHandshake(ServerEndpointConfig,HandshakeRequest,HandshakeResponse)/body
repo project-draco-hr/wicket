@@ -1,0 +1,28 @@
+{
+  delegate.modifyHandshake(sec,request,response);
+  Map<String,Object> userProperties=sec.getUserProperties();
+  Object httpSession=request.getHttpSession();
+  if (httpSession != null) {
+    userProperties.put("session",httpSession);
+  }
+  Map<String,List<String>> headers=request.getHeaders();
+  if (headers != null) {
+    userProperties.put("headers",headers);
+  }
+  Map<String,List<String>> parameterMap=request.getParameterMap();
+  if (parameterMap != null) {
+    userProperties.put("parameterMap",parameterMap);
+  }
+  String queryString=request.getQueryString();
+  if (queryString != null) {
+    userProperties.put("queryString",queryString);
+  }
+  URI requestURI=request.getRequestURI();
+  if (requestURI != null) {
+    userProperties.put("requestURI",requestURI);
+  }
+  Principal userPrincipal=request.getUserPrincipal();
+  if (userPrincipal != null) {
+    userProperties.put("userPrincipal",userPrincipal);
+  }
+}

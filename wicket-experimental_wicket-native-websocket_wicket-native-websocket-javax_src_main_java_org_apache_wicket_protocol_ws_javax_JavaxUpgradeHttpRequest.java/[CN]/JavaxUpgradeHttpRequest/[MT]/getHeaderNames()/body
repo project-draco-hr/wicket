@@ -1,0 +1,19 @@
+{
+  Enumeration<String> names=null;
+  if (headers != null) {
+    Set<String> headerNames=headers.keySet();
+    if (headerNames.isEmpty() == false) {
+      final Iterator<String> iterator=headerNames.iterator();
+      names=new Enumeration<String>(){
+        @Override public boolean hasMoreElements(){
+          return iterator.hasNext();
+        }
+        @Override public String nextElement(){
+          return iterator.next();
+        }
+      }
+;
+    }
+  }
+  return names;
+}
