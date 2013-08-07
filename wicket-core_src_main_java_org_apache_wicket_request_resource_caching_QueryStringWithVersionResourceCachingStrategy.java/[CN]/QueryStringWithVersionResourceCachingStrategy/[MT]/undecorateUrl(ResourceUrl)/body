@@ -1,6 +1,11 @@
 {
   final INamedParameters parameters=url.getParameters();
   if (parameters != null) {
+    StringValue versionValue=parameters.get(versionParameter);
+    RequestCycle requestCycle=RequestCycle.get();
+    if (versionValue.isEmpty() == false && requestCycle != null) {
+      requestCycle.setMetaData(URL_VERSION,versionValue.toString());
+    }
     parameters.remove(versionParameter);
   }
 }
