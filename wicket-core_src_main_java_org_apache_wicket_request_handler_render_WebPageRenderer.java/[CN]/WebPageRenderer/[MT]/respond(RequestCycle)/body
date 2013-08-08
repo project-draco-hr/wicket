@@ -33,20 +33,24 @@
           logger.debug("Falling back to Redirect_To_Buffer render strategy because none of the conditions " + "matched. Details: " + details);
         }
         getPage();
-        Url renderTargetUrl=requestCycle.mapUrlFor(getRenderPageRequestHandler());
-        BufferedWebResponse response=renderPage(renderTargetUrl,requestCycle);
+        Url beforeRenderUrl=requestCycle.mapUrlFor(getRenderPageRequestHandler());
+        BufferedWebResponse response=renderPage(beforeRenderUrl,requestCycle);
         if (response == null) {
           return;
         }
-        if (currentUrl.equals(renderTargetUrl)) {
+        final Url afterRenderUrl=requestCycle.mapUrlFor(getRenderPageRequestHandler());
+        if (beforeRenderUrl.getSegments().equals(afterRenderUrl.getSegments()) == false) {
+          response=renderPage(afterRenderUrl,requestCycle);
+        }
+        if (currentUrl.equals(afterRenderUrl)) {
           response.writeTo((WebResponse)requestCycle.getResponse());
         }
  else         if (isPageStateless && !enableRedirectForStatelessPage()) {
           response.writeTo((WebResponse)requestCycle.getResponse());
         }
  else {
-          storeBufferedResponse(renderTargetUrl,response);
-          redirectTo(renderTargetUrl,requestCycle);
+          storeBufferedResponse(afterRenderUrl,response);
+          redirectTo(afterRenderUrl,requestCycle);
         }
       }
     }
