@@ -1,4 +1,11 @@
 {
+  PriorityHeaderItem priorityHeaderItem=null;
+  while (item instanceof IWrappedHeaderItem) {
+    if (item instanceof PriorityHeaderItem) {
+      priorityHeaderItem=(PriorityHeaderItem)item;
+    }
+    item=((IWrappedHeaderItem)item).getWrapped();
+  }
   if (item instanceof OnLoadHeaderItem) {
     if (!wasItemRendered(item)) {
       AbstractAjaxResponse.this.appendJavaScript(((OnLoadHeaderItem)item).getJavaScript());
@@ -13,7 +20,12 @@
   }
  else   if (item instanceof OnDomReadyHeaderItem) {
     if (!wasItemRendered(item)) {
-      AbstractAjaxResponse.this.domReadyJavaScripts.add(((OnDomReadyHeaderItem)item).getJavaScript());
+      if (priorityHeaderItem != null) {
+        AbstractAjaxResponse.this.domReadyJavaScripts.add(0,((OnDomReadyHeaderItem)item).getJavaScript());
+      }
+ else {
+        AbstractAjaxResponse.this.domReadyJavaScripts.add(((OnDomReadyHeaderItem)item).getJavaScript());
+      }
       markItemRendered(item);
     }
   }
