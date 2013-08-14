@@ -1,0 +1,17 @@
+{
+  if (released) {
+    if (isDebugEnabled) {
+      logger.debug("lock for page with id {} no longer locked by {}, falling through",pageId,thread.getName());
+    }
+    return;
+  }
+  if (isDebugEnabled) {
+    logger.debug("{} waiting for lock to page {} for {}",new Object[]{thread.getName(),pageId,Duration.milliseconds(remaining)});
+  }
+  try {
+    wait(remaining);
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException(e);
+  }
+}
