@@ -44,7 +44,8 @@
     }
     PageInfo pageInfo=getPageInfo(handler);
     ComponentInfo componentInfo=new ComponentInfo(renderCount,requestListenerInterfaceToString(handler.getListenerInterface()),handler.getComponentPath(),handler.getBehaviorIndex());
-    UrlInfo urlInfo=new UrlInfo(new PageComponentInfo(pageInfo,componentInfo),pageClass,handler.getPageParameters());
+    PageParameters parameters=getRecreateMountedPagesAfterExpiry() ? new PageParameters(handler.getPage().getPageParameters()).mergeWith(handler.getPageParameters()) : handler.getPageParameters();
+    UrlInfo urlInfo=new UrlInfo(new PageComponentInfo(pageInfo,componentInfo),pageClass,parameters);
     return buildUrl(urlInfo);
   }
   return null;
