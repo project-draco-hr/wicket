@@ -1,0 +1,17 @@
+{
+  if (input.isRequired()) {
+    tag.put("required","required");
+  }
+  IModel<String> label=input.getLabel();
+  if (label != null && label.getObject() != null) {
+    tag.put("placeholder",label.getObject());
+  }
+  for (  IValidator<?> validator : input.getValidators()) {
+    if (validator instanceof ValidatorAdapter) {
+      validator=((ValidatorAdapter<?>)validator).getValidator();
+    }
+    if (validator instanceof PatternValidator) {
+      tag.put("pattern",((PatternValidator)validator).getPattern().toString());
+    }
+  }
+}
