@@ -1,0 +1,10 @@
+{
+  IModel<List<String>> selected=new ListModel<>(new ArrayList<String>());
+  IModel<List<String>> all=new ListModel<>(new ArrayList<>(Arrays.asList("A")));
+  PaletteTestPage testPage=new PaletteTestPage(selected,all);
+  testPage.palette.setRequired(true);
+  tester.startPage(testPage);
+  FormTester formTester=tester.newFormTester(testPage.form.getId());
+  formTester.submit();
+  assertTrue(testPage.form.hasError());
+}

@@ -1,0 +1,23 @@
+{
+  IModel<List<String>> selected=new ListModel<>(new ArrayList<String>());
+  IModel<List<String>> all=new ListModel<>(new ArrayList<>(Arrays.asList("A","B")));
+  PaletteTestPage testPage=new PaletteTestPage(selected,all);
+  testPage.palette.add(new IValidator<Collection<String>>(){
+    @Override public void validate(    IValidatable<Collection<String>> validatable){
+      if (validatable.getValue().contains("A")) {
+        validatable.error(new ValidationError("A not allowed"));
+      }
+    }
+  }
+);
+  tester.startPage(testPage);
+  FormTester formTester=tester.newFormTester(testPage.form.getId());
+  formTester.setValue("palette:recorder","A");
+  formTester.submit();
+  assertTrue(testPage.form.hasError());
+  tester.assertContains("<option value=\"B\">B</option>\\s*</select>");
+  tester.assertContains("<option value=\"A\">A</option>\\s*</select>");
+  testPage.form.clearInput();
+  tester.startPage(testPage);
+  tester.assertContains("<option value=\"A\">A</option>\\s*<option value=\"B\">B</option>\\s*</select>");
+}
