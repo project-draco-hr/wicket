@@ -1,13 +1,11 @@
 {
-  final Collection<? extends T> choices=getPalette().getChoices();
-  if (choices.size() - getSelectedIds().size() == 0) {
-    return Collections.<T>emptyList();
-  }
   final IChoiceRenderer<T> renderer=getPalette().getChoiceRenderer();
-  final List<T> unselected=new ArrayList<T>(Math.max(1,choices.size() - getSelectedIds().size()));
+  final Collection<? extends T> choices=getPalette().getChoices();
+  final List<T> unselected=new ArrayList<T>(choices.size());
+  final String ids=getValue();
   for (  final T choice : choices) {
     final String choiceId=renderer.getIdValue(choice,0);
-    if (getSelectedIds().contains(choiceId) == false) {
+    if (ids.contains(choiceId) == false) {
       unselected.add(choice);
     }
   }
