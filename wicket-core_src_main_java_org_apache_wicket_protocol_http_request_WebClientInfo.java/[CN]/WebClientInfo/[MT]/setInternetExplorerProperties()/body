@@ -1,7 +1,12 @@
 {
   properties.setBrowserInternetExplorer(UserAgent.INTERNET_EXPLORER.matches(getUserAgent()));
   if (properties.isBrowserInternetExplorer()) {
-    setMajorMinorVersionByPattern("msie (\\d+)\\.(\\d+)");
+    if (getUserAgentStringLc().contains("like gecko")) {
+      setMajorMinorVersionByPattern("rv:(\\d+)\\.(\\d+)");
+    }
+ else {
+      setMajorMinorVersionByPattern("msie (\\d+)\\.(\\d+)");
+    }
     properties.setProprietaryIECssExpressionsSupported(true);
     properties.setQuirkCssPositioningOneSideOnly(true);
     properties.setQuirkIERepaint(true);
