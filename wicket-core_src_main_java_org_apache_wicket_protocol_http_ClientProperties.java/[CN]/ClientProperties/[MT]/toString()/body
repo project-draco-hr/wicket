@@ -4,7 +4,7 @@
   for (  Field field : fields) {
     if (field.getName().equals("serialVersionUID") == false && field.getName().startsWith("class$") == false && field.getName().startsWith("timeZone") == false) {
       field.setAccessible(true);
-      Object value=null;
+      Object value;
       try {
         value=field.get(this);
       }
@@ -15,15 +15,15 @@ catch (      IllegalAccessException e) {
         throw new RuntimeException(e);
       }
       if (field.getType().equals(Integer.TYPE)) {
-        if ((Integer)value == -1) {
+        if (value == -1) {
           value=null;
         }
       }
       if (value != null) {
         b.append(field.getName());
-        b.append("=");
+        b.append('=');
         b.append(value);
-        b.append("\n");
+        b.append('\n');
       }
     }
   }

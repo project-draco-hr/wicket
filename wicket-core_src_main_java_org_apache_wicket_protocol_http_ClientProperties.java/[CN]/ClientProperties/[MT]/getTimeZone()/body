@@ -12,11 +12,11 @@
         int offsetHours=Integer.parseInt(hours);
         int offsetMins=(int)(Double.parseDouble(hourPart) * 6);
         AppendingStringBuffer sb=new AppendingStringBuffer("GMT");
-        sb.append(offsetHours > 0 ? "+" : "-");
+        sb.append(offsetHours > 0 ? '+' : '-');
         sb.append(Math.abs(offsetHours));
-        sb.append(":");
+        sb.append(':');
         if (offsetMins < 10) {
-          sb.append("0");
+          sb.append('0');
         }
         sb.append(offsetMins);
         timeZone=TimeZone.getTimeZone(sb.toString());
@@ -30,7 +30,7 @@
       }
       String dstOffset=getUtcDSTOffset();
       if (timeZone != null && dstOffset != null) {
-        TimeZone dstTimeZone=null;
+        TimeZone dstTimeZone;
         dotPos=dstOffset.indexOf('.');
         if (dotPos >= 0) {
           String hours=dstOffset.substring(0,dotPos);
@@ -41,11 +41,11 @@
           int offsetHours=Integer.parseInt(hours);
           int offsetMins=(int)(Double.parseDouble(hourPart) * 6);
           AppendingStringBuffer sb=new AppendingStringBuffer("GMT");
-          sb.append(offsetHours > 0 ? "+" : "-");
+          sb.append(offsetHours > 0 ? '+' : '-');
           sb.append(Math.abs(offsetHours));
           sb.append(":");
           if (offsetMins < 10) {
-            sb.append("0");
+            sb.append('0');
           }
           sb.append(offsetMins);
           dstTimeZone=TimeZone.getTimeZone(sb.toString());
