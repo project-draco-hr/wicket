@@ -1,0 +1,12 @@
+{
+  String scope=Classes.name(reference.getScope());
+  String name=reference.getName();
+  StringBuilder message=new StringBuilder(prefix);
+  message.append(scope).append('/').append(name);
+  if (getThrowExceptionOnMissingResource()) {
+    throw new MissingResourceException(message.toString(),scope,name);
+  }
+ else   if (log.isWarnEnabled()) {
+    log.warn(message.toString());
+  }
+}
