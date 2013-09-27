@@ -1,0 +1,29 @@
+{
+  final AtomicBoolean submitted=new AtomicBoolean(false);
+  final ListModel<FileUpload> filesModel=new ListModel<FileUpload>(new ArrayList<FileUpload>());
+  TestPage page=new TestPage(filesModel){
+    @Override protected void onSubmit(){
+      super.onSubmit();
+      List<FileUpload> uploads=filesModel.getObject();
+      assertEquals(2,uploads.size());
+      for (int i=1; i < 2; i++) {
+        FileUpload fileUpload=uploads.get(i);
+        assertEquals(MultiFileUploadFieldTest.class.getSimpleName() + i + ".txt",fileUpload.getClientFileName());
+        try {
+          assertEquals("Test" + i,IOUtils.toString(fileUpload.getInputStream()));
+        }
+ catch (        IOException e) {
+          fail("Reading file upload '" + i + "' failed: "+ e.getMessage());
+        }
+      }
+      submitted.set(true);
+    }
+  }
+;
+  tester.startPage(page);
+  FormTester ft=tester.newFormTester("f");
+  ft.setFile("muf",new File("target/test-classes/org/apache/wicket/markup/html/form/upload/MultiFileUploadFieldTest0.txt"),"plain/text");
+  ft.setFile("muf",new File("target/test-classes/org/apache/wicket/markup/html/form/upload/MultiFileUploadFieldTest1.txt"),"plain/text");
+  ft.submit();
+  assertEquals("The form is not submitted",true,submitted.get());
+}
