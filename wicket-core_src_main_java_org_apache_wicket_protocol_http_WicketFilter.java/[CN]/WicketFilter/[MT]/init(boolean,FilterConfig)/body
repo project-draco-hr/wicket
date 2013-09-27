@@ -40,12 +40,12 @@
     }
   }
  catch (  Exception e) {
-    log.warn("initialization failed, destroying now");
+    log.error(String.format("The initialization of an application with name '%s' has failed.",filterConfig.getFilterName()),e);
     try {
       destroy();
     }
  catch (    Exception destroyException) {
-      log.warn("Unable to destroy after initialization failure",destroyException);
+      log.error("Unable to destroy after initialization failure",destroyException);
     }
     throw new ServletException(e);
   }
