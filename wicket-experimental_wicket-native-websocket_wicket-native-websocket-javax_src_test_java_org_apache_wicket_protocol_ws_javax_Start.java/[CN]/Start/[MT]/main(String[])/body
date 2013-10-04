@@ -31,8 +31,8 @@
   WebAppContext bb=new WebAppContext();
   bb.setServer(server);
   bb.setContextPath("/");
-  bb.setBaseResource(Resource.newResource(new File("src/test/webapp")));
-  bb.setConfigurations(new Configuration[]{new WebSocketConfiguration(),new WebXmlConfiguration()});
+  bb.setWar("src/test/webapp");
+  WebSocketServerContainerInitializer.configureContext(bb);
   server.setHandler(bb);
   try {
     System.out.println(">>> STARTING EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP");
