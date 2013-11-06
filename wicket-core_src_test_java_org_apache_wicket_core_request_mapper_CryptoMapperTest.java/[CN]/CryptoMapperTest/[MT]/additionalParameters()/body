@@ -7,6 +7,6 @@
   url.addQueryParameter("q","foo");
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
   assertEquals("foo",((RequestSettingRequestHandler)requestHandler).getRequest().getUrl().getQueryParameterValue("q").toString());
 }

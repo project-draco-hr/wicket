@@ -1,7 +1,7 @@
 {
   Url url=Url.parse("wicket/resource/" + CLASS_NAME + "/reference1?en");
   IRequestHandler handler=encoder.mapRequest(getRequest(url));
-  assertTrue(handler instanceof ResourceReferenceRequestHandler);
+  assertThat(handler,instanceOf(ResourceReferenceRequestHandler.class));
   ResourceReferenceRequestHandler h=(ResourceReferenceRequestHandler)handler;
   assertEquals(resource1,h.getResource());
   assertEquals(Locale.ENGLISH,h.getLocale());

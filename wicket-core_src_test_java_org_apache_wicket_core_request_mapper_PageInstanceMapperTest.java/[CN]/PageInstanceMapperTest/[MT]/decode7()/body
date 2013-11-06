@@ -2,7 +2,7 @@
   Url url=Url.parse("wicket/page?4-6.ILinkListener.5-a-b-c");
   context.setNextPageRenderCount(6);
   IRequestHandler handler=encoder.mapRequest(getRequest(url));
-  assertTrue(handler instanceof ListenerInterfaceRequestHandler);
+  assertThat(handler,instanceOf(ListenerInterfaceRequestHandler.class));
   ListenerInterfaceRequestHandler h=(ListenerInterfaceRequestHandler)handler;
   assertEquals(6,h.getPage().getRenderCount());
 }

@@ -1,9 +1,9 @@
 {
   Request request=getRequest(Url.parse("?named1=value1"));
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
   requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
-  assertTrue(requestHandler instanceof RenderPageRequestHandler);
+  assertThat(requestHandler,instanceOf(RenderPageRequestHandler.class));
   RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
   assertEquals(tester.getApplication().getHomePage(),handler.getPageClass());
   StringValue queryParam=handler.getPageParameters().get("named1");

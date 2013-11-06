@@ -1,7 +1,7 @@
 {
   Url url=Url.parse("wicket/page?4-ILinkListener.5-a-b-c");
   IRequestHandler handler=encoder.mapRequest(getRequest(url));
-  assertTrue(handler instanceof ListenerInterfaceRequestHandler);
+  assertThat(handler,instanceOf(ListenerInterfaceRequestHandler.class));
   ListenerInterfaceRequestHandler h=(ListenerInterfaceRequestHandler)handler;
   checkPage(h.getPage(),4);
   assertEquals(h.getComponent().getPageRelativePath(),"a:b:c");

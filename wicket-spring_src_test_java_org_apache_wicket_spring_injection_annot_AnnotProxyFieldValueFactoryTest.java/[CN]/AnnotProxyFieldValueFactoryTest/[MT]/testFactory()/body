@@ -9,12 +9,12 @@
   locator=(SpringBeanLocator)((ILazyInitProxy)proxy).getObjectLocator();
   assertTrue(locator.getBeanType().equals(Bean.class));
   assertTrue(locator.getSpringContextLocator() == mockCtxLocator);
-  assertTrue(factory.getFieldValue(field,obj) instanceof ILazyInitProxy);
+  assertThat(factory.getFieldValue(field,obj),instanceOf(ILazyInitProxy.class));
   field=obj.getClass().getDeclaredField("beanByName");
   proxy=factory.getFieldValue(field,obj);
   locator=(SpringBeanLocator)((ILazyInitProxy)proxy).getObjectLocator();
   assertTrue(locator.getBeanName().equals("somebean"));
   assertTrue(locator.getBeanType().equals(Bean2.class));
   assertTrue(locator.getSpringContextLocator() == mockCtxLocator);
-  assertTrue(factory.getFieldValue(field,obj) instanceof ILazyInitProxy);
+  assertThat(factory.getFieldValue(field,obj),instanceOf(ILazyInitProxy.class));
 }

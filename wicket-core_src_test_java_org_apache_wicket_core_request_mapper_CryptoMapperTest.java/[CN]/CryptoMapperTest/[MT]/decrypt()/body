@@ -1,9 +1,9 @@
 {
   Request request=getRequest(Url.parse(ENCRYPTED_URL));
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
   requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
-  assertTrue(requestHandler instanceof RenderPageRequestHandler);
+  assertThat(requestHandler,instanceOf(RenderPageRequestHandler.class));
   RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
   assertEquals(DummyHomePage.class,handler.getPageClass());
 }

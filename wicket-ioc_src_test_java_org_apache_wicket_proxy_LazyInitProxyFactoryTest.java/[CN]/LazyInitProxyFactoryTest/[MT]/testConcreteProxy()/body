@@ -1,6 +1,6 @@
 {
   ConcreteObject proxy=(ConcreteObject)LazyInitProxyFactory.createProxy(ConcreteObject.class,concreteObjectLocator);
-  assertTrue(proxy instanceof ILazyInitProxy);
+  assertThat(proxy,instanceOf(ILazyInitProxy.class));
   assertTrue(((ILazyInitProxy)proxy).getObjectLocator() == concreteObjectLocator);
   assertFalse(Proxy.isProxyClass(proxy.getClass()));
   assertEquals(proxy.getMessage(),"concrete");
