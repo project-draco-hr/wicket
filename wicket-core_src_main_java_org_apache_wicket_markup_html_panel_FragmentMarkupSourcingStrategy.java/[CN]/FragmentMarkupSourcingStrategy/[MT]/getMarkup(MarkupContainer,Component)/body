@@ -17,6 +17,12 @@
   if (childMarkup == null) {
     throw new MarkupNotFoundException("No Markup found for Fragment " + markupId + " in providing markup container "+ getMarkupProvider(container));
   }
+ else {
+    MarkupElement fragmentTag=childMarkup.get(0);
+    if ((fragmentTag instanceof WicketTag && ((WicketTag)fragmentTag).isFragementTag()) == false) {
+      throw new MarkupNotFoundException("Markup found for Fragment '" + markupId + "' in providing markup container "+ getMarkupProvider(container)+ " is not a fragment tag");
+    }
+  }
   if (child == null) {
     return childMarkup;
   }
