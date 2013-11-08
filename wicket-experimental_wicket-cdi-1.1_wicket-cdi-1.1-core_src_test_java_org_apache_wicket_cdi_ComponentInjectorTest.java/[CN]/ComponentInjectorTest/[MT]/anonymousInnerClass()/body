@@ -1,11 +1,10 @@
 {
   WebComponent component=new WebComponent("someId"){
-    @Inject private String dependency;
+    @Inject @TestQualifier private String dependency;
     @Override public String toString(){
       return dependency;
     }
   }
 ;
-  componentInjector.onInstantiation(component);
-  assertNull(component.toString());
+  assertEquals(component.toString(),"Test String");
 }
