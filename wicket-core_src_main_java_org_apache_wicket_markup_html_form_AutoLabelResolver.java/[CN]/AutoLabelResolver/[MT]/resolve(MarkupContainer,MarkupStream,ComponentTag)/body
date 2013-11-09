@@ -16,5 +16,8 @@
       logger.warn("Component: {} is referenced via a wicket:for attribute but does not have its outputMarkupId property set to true",component.toString(false));
     }
   }
+  if (component instanceof FormComponent) {
+    component.setMetaData(MARKER_KEY,new AutoLabelMarker((FormComponent<?>)component));
+  }
   return new AutoLabel("label" + container.getPage().getAutoIndex(),component);
 }
