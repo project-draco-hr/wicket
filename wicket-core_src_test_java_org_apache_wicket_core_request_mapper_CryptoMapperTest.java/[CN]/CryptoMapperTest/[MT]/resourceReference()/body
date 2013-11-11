@@ -3,9 +3,9 @@
   Url url=mapper.mapHandler(new ResourceReferenceRequestHandler(resource));
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertTrue(requestHandler instanceof RequestSettingRequestHandler);
+  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
   requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
-  assertTrue(requestHandler instanceof ResourceReferenceRequestHandler);
+  assertThat(requestHandler,instanceOf(ResourceReferenceRequestHandler.class));
   ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;
   assertEquals(getClass(),handler.getResourceReference().getScope());
   assertEquals("crypt/crypt.txt",handler.getResourceReference().getName());

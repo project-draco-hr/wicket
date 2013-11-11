@@ -1,7 +1,7 @@
 {
   Url url=Url.parse("PackageMapperTest$OuterPage$InnerPage");
   IRequestHandler handler=innerClassEncoder.mapRequest(getRequest(url));
-  assertTrue(handler instanceof RenderPageRequestHandler);
+  assertThat(handler,instanceOf(RenderPageRequestHandler.class));
   IRequestablePage page=((RenderPageRequestHandler)handler).getPage();
   assertEquals("InnerPage",page.getClass().getSimpleName());
   assertEquals(0,page.getPageParameters().getIndexedCount());

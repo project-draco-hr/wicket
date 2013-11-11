@@ -4,9 +4,9 @@
   tester.clickLink("mainLink");
   tester.assertRenderedPage(TargetPage.class);
   int targetPageId=tester.getLastRenderedPage().getPageId();
-  Assert.assertTrue(mainPageId != targetPageId);
+  assertTrue(mainPageId != targetPageId);
   IManageablePage mainPage=tester.getSession().getPageManager().getPage(mainPageId);
   IManageablePage targetPage=tester.getSession().getPageManager().getPage(targetPageId);
-  Assert.assertTrue(mainPage instanceof MainPage);
-  Assert.assertTrue(targetPage instanceof TargetPage);
+  assertThat(mainPage,instanceOf(MainPage.class));
+  assertThat(targetPage,instanceOf(TargetPage.class));
 }

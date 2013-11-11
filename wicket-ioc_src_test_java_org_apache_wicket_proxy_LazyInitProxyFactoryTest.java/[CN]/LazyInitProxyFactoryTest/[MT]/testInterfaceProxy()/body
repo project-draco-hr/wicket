@@ -1,7 +1,7 @@
 {
   IInterface proxy=(IInterface)LazyInitProxyFactory.createProxy(IInterface.class,interfaceObjectLocator);
   assertTrue(Proxy.isProxyClass(proxy.getClass()));
-  assertTrue(proxy instanceof ILazyInitProxy);
+  assertThat(proxy,instanceOf(ILazyInitProxy.class));
   assertTrue(((ILazyInitProxy)proxy).getObjectLocator() == interfaceObjectLocator);
   assertEquals(proxy.getMessage(),"interface");
   IInterface proxy2=(IInterface)WicketObjects.cloneObject(proxy);
