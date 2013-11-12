@@ -62,7 +62,7 @@
 );
   add(new AjaxLink<Void>("failure-link"){
     @Override public void onClick(    AjaxRequestTarget target){
-      getApplication().getExceptionSettings().setAjaxErrorHandlingStrategy(AjaxErrorStrategy.INVOKE_FAILURE_HANDLER);
+      getApplication().getExceptionSettings().setAjaxErrorHandlingStrategy(ExceptionSettings.AjaxErrorStrategy.INVOKE_FAILURE_HANDLER);
       throw new WicketRuntimeException("Failure link clicked");
     }
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
@@ -91,7 +91,7 @@
 );
   add(new AjaxLink<Void>("exception"){
     @Override public void onClick(    AjaxRequestTarget target){
-      getApplication().getExceptionSettings().setAjaxErrorHandlingStrategy(AjaxErrorStrategy.REDIRECT_TO_ERROR_PAGE);
+      getApplication().getExceptionSettings().setAjaxErrorHandlingStrategy(ExceptionSettings.AjaxErrorStrategy.REDIRECT_TO_ERROR_PAGE);
       throw new RuntimeException("test whether the exception handling works");
     }
   }
