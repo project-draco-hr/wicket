@@ -1,7 +1,6 @@
 {
   String key;
   String subProtocol=null;
-  List<String> extensions=Collections.emptyList();
   if (!headerContainsToken(req,"upgrade","websocket")) {
     return false;
   }
@@ -28,8 +27,6 @@
   if (!subProtocols.isEmpty()) {
     subProtocol=selectSubProtocol(subProtocols);
   }
-  resp.setHeader("upgrade","websocket");
-  resp.setHeader("connection","upgrade");
   if (subProtocol != null) {
     resp.setHeader("Sec-WebSocket-Protocol",subProtocol);
   }
