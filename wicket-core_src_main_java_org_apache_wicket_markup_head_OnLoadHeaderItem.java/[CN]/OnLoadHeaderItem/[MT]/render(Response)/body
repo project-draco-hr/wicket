@@ -1,3 +1,6 @@
 {
-  JavaScriptUtils.writeJavaScript(response,"Wicket.Event.add(window, \"load\", " + "function(event) { " + getJavaScript() + ";});");
+  CharSequence js=getJavaScript();
+  if (Strings.isEmpty(js) == false) {
+    JavaScriptUtils.writeJavaScript(response,"Wicket.Event.add(window, \"load\", " + "function(event) { " + js + ";});");
+  }
 }
