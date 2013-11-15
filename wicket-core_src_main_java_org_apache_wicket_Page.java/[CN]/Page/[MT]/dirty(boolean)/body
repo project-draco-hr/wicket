@@ -7,6 +7,8 @@
   if (!getFlag(FLAG_IS_DIRTY) && (isVersioned() && pageManager.supportsVersioning() || isInitialization)) {
     setFlag(FLAG_IS_DIRTY,true);
     setNextAvailableId();
-    pageManager.touchPage(this);
+    if (isInitialization == false) {
+      pageManager.touchPage(this);
+    }
   }
 }
