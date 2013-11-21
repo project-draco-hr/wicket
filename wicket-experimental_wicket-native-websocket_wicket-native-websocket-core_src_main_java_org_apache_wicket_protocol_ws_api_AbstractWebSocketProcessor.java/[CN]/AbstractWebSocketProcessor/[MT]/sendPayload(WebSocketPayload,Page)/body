@@ -1,0 +1,16 @@
+{
+  if (pageId != NO_PAGE_ID) {
+    page.send(application,Broadcast.BREADTH,payload);
+  }
+ else {
+    ResourceReference reference=new SharedResourceReference(resourceName);
+    IResource resource=reference.getResource();
+    if (resource instanceof WebSocketResource) {
+      WebSocketResource wsResource=(WebSocketResource)resource;
+      wsResource.onPayload(payload);
+    }
+ else {
+      throw new IllegalStateException(String.format("Shared resource with name '%s' is not a %s but %s",resourceName,WebSocketResource.class.getSimpleName(),Classes.name(resource.getClass())));
+    }
+  }
+}

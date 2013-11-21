@@ -21,7 +21,7 @@
   new WebSocketTester(tester,page);
   IWebSocketSettings webSocketSettings=IWebSocketSettings.Holder.get(tester.getApplication());
   WebSocketPushBroadcaster broadcaster=new WebSocketPushBroadcaster(webSocketSettings.getConnectionRegistry());
-  ConnectedMessage wsMessage=new ConnectedMessage(tester.getApplication(),tester.getHttpSession().getId(),page.getPageId());
+  ConnectedMessage wsMessage=new ConnectedMessage(tester.getApplication(),tester.getHttpSession().getId(),new PageIdKey(page.getPageId()));
   broadcaster.broadcast(wsMessage,new BroadcastMessage(message));
   assertEquals(true,messageReceived.get());
 }

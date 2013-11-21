@@ -1,9 +1,9 @@
 {
   Args.notNull(application,"application");
   Collection<IWebSocketConnection> connections=new ArrayList<>();
-  ConcurrentMap<String,ConcurrentMap<Integer,IWebSocketConnection>> connectionsBySession=application.getMetaData(KEY);
+  ConcurrentMap<String,ConcurrentMap<IKey,IWebSocketConnection>> connectionsBySession=application.getMetaData(KEY);
   if (connectionsBySession != null) {
-    for (    ConcurrentMap<Integer,IWebSocketConnection> connectionsByPage : connectionsBySession.values()) {
+    for (    ConcurrentMap<IKey,IWebSocketConnection> connectionsByPage : connectionsBySession.values()) {
       connections.addAll(connectionsByPage.values());
     }
   }

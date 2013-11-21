@@ -1,8 +1,16 @@
 {
   this.sessionId=request.getSession(true).getId();
   String pageId=request.getParameter("pageId");
-  Checks.notEmpty(pageId,"Request parameter 'pageId' is required!");
-  this.pageId=Integer.parseInt(pageId,10);
+  resourceName=request.getParameter("resourceName");
+  if (Strings.isEmpty(pageId) && Strings.isEmpty(resourceName)) {
+    throw new IllegalArgumentException("The request should have either 'pageId' or 'resourceName' parameter!");
+  }
+  if (Strings.isEmpty(pageId) == false) {
+    this.pageId=Integer.parseInt(pageId,10);
+  }
+ else {
+    this.pageId=NO_PAGE_ID;
+  }
   String baseUrl=request.getParameter(WebRequest.PARAM_AJAX_BASE_URL);
   Checks.notNull(baseUrl,String.format("Request parameter '%s' is required!",WebRequest.PARAM_AJAX_BASE_URL));
   this.baseUrl=Url.parse(baseUrl);

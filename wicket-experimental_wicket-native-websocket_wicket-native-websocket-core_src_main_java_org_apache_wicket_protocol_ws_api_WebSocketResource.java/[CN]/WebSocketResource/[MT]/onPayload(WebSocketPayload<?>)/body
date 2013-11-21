@@ -1,0 +1,23 @@
+{
+  WebSocketRequestHandler webSocketHandler=payload.getHandler();
+  if (payload instanceof WebSocketTextPayload) {
+    WebSocketTextPayload textPayload=(WebSocketTextPayload)payload;
+    TextMessage data=textPayload.getMessage();
+    onMessage(webSocketHandler,data);
+  }
+ else   if (payload instanceof WebSocketBinaryPayload) {
+    WebSocketBinaryPayload binaryPayload=(WebSocketBinaryPayload)payload;
+    BinaryMessage binaryData=binaryPayload.getMessage();
+    onMessage(webSocketHandler,binaryData);
+  }
+ else   if (payload instanceof WebSocketConnectedPayload) {
+    WebSocketConnectedPayload connectedPayload=(WebSocketConnectedPayload)payload;
+    ConnectedMessage message=connectedPayload.getMessage();
+    onConnect(message);
+  }
+ else   if (payload instanceof WebSocketClosedPayload) {
+    WebSocketClosedPayload connectedPayload=(WebSocketClosedPayload)payload;
+    ClosedMessage message=connectedPayload.getMessage();
+    onClose(message);
+  }
+}
