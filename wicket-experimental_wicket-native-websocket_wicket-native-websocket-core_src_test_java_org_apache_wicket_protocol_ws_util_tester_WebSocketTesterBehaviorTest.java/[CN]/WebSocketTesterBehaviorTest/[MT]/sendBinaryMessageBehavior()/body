@@ -1,0 +1,24 @@
+{
+  final byte[] expectedMessage="some message".getBytes("UTF-8");
+  final int offset=1;
+  final int length=2;
+  WebSocketBehaviorTestPage page=new WebSocketBehaviorTestPage(expectedMessage,offset,length);
+  tester.startPage(page);
+  WebSocketTester webSocketTester=new WebSocketTester(tester,page){
+    @Override protected void onOutMessage(    byte[] message,    int off,    int len){
+      try {
+        String msg=new String(expectedMessage);
+        byte[] pushedMessage=Strings.capitalize(msg).getBytes("UTF-8");
+        assertArrayEquals(pushedMessage,message);
+        assertEquals(offset + 1,off);
+        assertEquals(length - 1,len);
+      }
+ catch (      UnsupportedEncodingException uex) {
+        throw new RuntimeException(uex);
+      }
+    }
+  }
+;
+  webSocketTester.sendMessage(expectedMessage,offset,length);
+  webSocketTester.destroy();
+}

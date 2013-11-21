@@ -1,0 +1,10 @@
+{
+  super.onMessage(handler,binaryMessage);
+  byte[] data=binaryMessage.getData();
+  int offset=binaryMessage.getOffset();
+  int length=binaryMessage.getLength();
+  Assert.assertEquals(expectedBinaryMessage,data);
+  Assert.assertEquals(expectedOffset,offset);
+  Assert.assertEquals(expectedLength,length);
+  handler.push(data,offset,length);
+}
