@@ -25,11 +25,11 @@
       }
     }
   }
- catch (  ClassNotFoundException e) {
-    throw new RuntimeException("Could not deserialize object using: " + ois.getClass(),e);
+ catch (  ClassNotFoundException cnfx) {
+    throw new RuntimeException("Could not deserialize object from byte[]",cnfx);
   }
-catch (  IOException e) {
-    throw new RuntimeException("Could not deserialize object using: " + ois.getClass(),e);
+catch (  IOException iox) {
+    throw new RuntimeException("Could not deserialize object from byte[]",iox);
   }
  finally {
     ThreadContext.restore(old);
