@@ -1,6 +1,13 @@
 {
   tester=new WicketTester();
-  WebApplication webApplication=tester.getApplication();
-  webApplication.mountPage(EXPECTED_URL.toString(),DummyHomePage.class);
-  mapper=new CryptoMapper(webApplication.getRootRequestMapper(),webApplication);
+  WebApplication application=tester.getApplication();
+  application.mountPage(EXPECTED_URL.toString(),DummyHomePage.class);
+  IProvider<ICrypt> cryptProvider=new IProvider<ICrypt>(){
+    private ICryptFactory cryptFactory=new CachingSunJceCryptFactory(SecuritySettings.DEFAULT_ENCRYPTION_KEY);
+    @Override public ICrypt get(){
+      return cryptFactory.newCrypt();
+    }
+  }
+;
+  mapper=new CryptoMapper(application.getRootRequestMapper(),cryptProvider);
 }
