@@ -2,5 +2,7 @@
   String message="foo message";
   ValidationError error=new ValidationError(message);
   Serializable errorMessage=error.getErrorMessage(new TestMessageSource());
-  assertEquals(message,errorMessage);
+  assertThat(errorMessage,Matchers.instanceOf(ValidationErrorFeedback.class));
+  ValidationErrorFeedback vef=(ValidationErrorFeedback)errorMessage;
+  assertEquals(message,vef.getMessage());
 }
