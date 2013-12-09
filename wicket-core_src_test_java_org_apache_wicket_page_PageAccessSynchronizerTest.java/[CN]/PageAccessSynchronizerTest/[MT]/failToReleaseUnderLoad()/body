@@ -1,7 +1,8 @@
 {
+  final Duration duration=Duration.seconds(20);
   final ConcurrentLinkedQueue<Exception> errors=new ConcurrentLinkedQueue<Exception>();
-  final long endTime=System.currentTimeMillis() + Duration.seconds(20).getMilliseconds();
-  final PageAccessSynchronizer sync=new PageAccessSynchronizer(Duration.seconds(10));
+  final long endTime=System.currentTimeMillis() + duration.getMilliseconds();
+  final PageAccessSynchronizer sync=new PageAccessSynchronizer(duration.add(Duration.ONE_SECOND));
   final CountDownLatch latch=new CountDownLatch(100);
   for (int count=0; count < 100; count++) {
     new Thread(){
@@ -34,5 +35,8 @@
 .start();
   }
   latch.await();
-  if (!errors.isEmpty())   throw errors.remove();
+  if (!errors.isEmpty()) {
+    logger.error("Number of lock errors that occurred: {}",errors.size());
+    throw errors.remove();
+  }
 }
