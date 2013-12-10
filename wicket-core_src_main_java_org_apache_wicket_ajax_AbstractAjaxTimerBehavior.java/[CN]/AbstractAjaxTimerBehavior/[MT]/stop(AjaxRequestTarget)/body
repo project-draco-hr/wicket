@@ -1,7 +1,7 @@
 {
-  if (headRendered && stopped == false) {
+  if (stopped == false) {
     stopped=true;
     String timeoutHandle=getTimeoutHandle();
-    target.prependJavaScript("clearTimeout(" + timeoutHandle + "); delete "+ timeoutHandle+ ";");
+    target.getHeaderResponse().render(OnLoadHeaderItem.forScript("clearTimeout(" + timeoutHandle + "); delete "+ timeoutHandle+ ";"));
   }
 }
