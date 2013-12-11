@@ -1,6 +1,6 @@
 {
   Duration dur=Duration.seconds(20);
-  final MyAjaxSelfUpdatingTimerBehavior timer=new MyAjaxSelfUpdatingTimerBehavior(dur);
+  final AjaxSelfUpdatingTimerBehavior timer=new AjaxSelfUpdatingTimerBehavior(dur);
   final MockPageWithLinkAndComponent page=new MockPageWithLinkAndComponent();
   Label label=new Label(MockPageWithLinkAndComponent.COMPONENT_ID,"Hello");
   page.add(label);
@@ -13,7 +13,9 @@
   label.setOutputMarkupId(true);
   label.add(timer);
   tester.startPage(page);
-  validate(timer,true);
+  assertMatches("setTimeout",1);
   tester.clickLink(MockPageWithLinkAndComponent.LINK_ID);
-  validate(timer,true);
+  assertMatches("setTimeout",1);
+  tester.executeBehavior(timer);
+  assertMatches("setTimeout",1);
 }

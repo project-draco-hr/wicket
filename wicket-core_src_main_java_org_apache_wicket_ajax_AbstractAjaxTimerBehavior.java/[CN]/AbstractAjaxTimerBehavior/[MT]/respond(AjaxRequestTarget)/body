@@ -2,7 +2,10 @@
   if (shouldTrigger()) {
     onTimer(target);
     if (shouldTrigger()) {
-      target.getHeaderResponse().render(OnLoadHeaderItem.forScript(getJsTimeoutCall(updateInterval)));
+      hasTimeout=false;
+      addTimeout(target.getHeaderResponse());
+      return;
     }
   }
+  clearTimeout(target.getHeaderResponse());
 }

@@ -1,7 +1,10 @@
 {
   super.renderHead(component,response);
   response.render(JavaScriptHeaderItem.forScript("if (typeof(Wicket.TimerHandles) === 'undefined') {Wicket.TimerHandles = {}}",WICKET_TIMERS_ID));
-  if (!isStopped()) {
-    response.render(OnLoadHeaderItem.forScript(getJsTimeoutCall(updateInterval)));
+  if (component.getRequestCycle().find(AjaxRequestTarget.class) == null) {
+    hasTimeout=false;
+  }
+  if (isStopped() == false) {
+    addTimeout(response);
   }
 }

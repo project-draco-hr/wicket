@@ -1,7 +1,8 @@
 {
   if (stopped == false) {
     stopped=true;
-    String timeoutHandle=getTimeoutHandle();
-    target.getHeaderResponse().render(OnLoadHeaderItem.forScript("clearTimeout(" + timeoutHandle + "); delete "+ timeoutHandle+ ";"));
+    if (target != null) {
+      clearTimeout(target.getHeaderResponse());
+    }
   }
 }
