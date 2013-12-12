@@ -1,0 +1,18 @@
+{
+  Form<? extends ClientPropertiesBean> f=super.createForm(componentId);
+  f.add(new AjaxFormSubmitBehavior(f,"domready"){
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      AjaxCallListener listener=new AjaxCallListener();
+      listener.onBefore(String.format("Wicket.BrowserInfo.populateFields('%s');",getFormMarkupId()));
+      attributes.getAjaxCallListeners().add(listener);
+    }
+    @Override protected void onAfterSubmit(    AjaxRequestTarget target){
+      super.onAfterSubmit(target);
+      ClientInfo info=getSession().getClientInfo();
+      AjaxBrowserInfoForm.this.onAfterSubmit(target,info);
+    }
+  }
+);
+  return f;
+}

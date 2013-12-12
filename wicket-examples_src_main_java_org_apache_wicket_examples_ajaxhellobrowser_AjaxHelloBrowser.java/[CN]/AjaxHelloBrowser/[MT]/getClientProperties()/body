@@ -1,0 +1,14 @@
+{
+  IRequestCycleSettings requestCycleSettings=getApplication().getRequestCycleSettings();
+  boolean gatherExtendedBrowserInfo=requestCycleSettings.getGatherExtendedBrowserInfo();
+  ClientProperties properties=null;
+  try {
+    requestCycleSettings.setGatherExtendedBrowserInfo(false);
+    WebClientInfo clientInfo=(WebClientInfo)getSession().getClientInfo();
+    properties=clientInfo.getProperties();
+  }
+  finally {
+    requestCycleSettings.setGatherExtendedBrowserInfo(gatherExtendedBrowserInfo);
+  }
+  return properties;
+}

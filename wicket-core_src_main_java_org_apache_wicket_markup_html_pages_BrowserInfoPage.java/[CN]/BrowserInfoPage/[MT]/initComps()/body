@@ -19,14 +19,12 @@
   WebMarkupContainer link=new WebMarkupContainer("link");
   link.add(AttributeModifier.replace("href",urlModel));
   add(link);
-  add(new BrowserInfoForm("postback"){
+  browserInfoForm=new BrowserInfoForm("postback"){
     private static final long serialVersionUID=1L;
-    /** 
- * @see org.apache.wicket.markup.html.pages.BrowserInfoForm#afterSubmit()
- */
     @Override protected void afterSubmit(){
       continueToOriginalDestination();
     }
   }
-);
+;
+  add(browserInfoForm);
 }
