@@ -1,0 +1,20 @@
+{
+  Provider.Service _sha1Service=null;
+  for (  Provider provider : Security.getProviders()) {
+    for (    Provider.Service service : provider.getServices()) {
+      if ("SecureRandom".equals(service.getType())) {
+        String algorithm=service.getAlgorithm();
+        if ("NativePRNG".equals(algorithm)) {
+          return service;
+        }
+ else         if ("Windows-PRNG".equals(algorithm)) {
+          return service;
+        }
+ else         if (_sha1Service == null && "SHA1PRNG".equals(algorithm)) {
+          _sha1Service=service;
+        }
+      }
+    }
+  }
+  return _sha1Service;
+}
