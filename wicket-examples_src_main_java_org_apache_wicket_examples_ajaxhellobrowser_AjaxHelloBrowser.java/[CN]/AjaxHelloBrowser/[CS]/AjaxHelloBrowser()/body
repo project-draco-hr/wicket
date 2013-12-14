@@ -31,14 +31,14 @@
   final Label clientTime=new Label("clienttime",clientTimeModel);
   clientTime.setOutputMarkupPlaceholderTag(true);
   clientTime.setVisible(false);
-  AjaxBrowserInfoForm form=new AjaxBrowserInfoForm("form"){
-    @Override protected void onAfterSubmit(    AjaxRequestTarget target,    WebClientInfo info){
-      super.onAfterSubmit(target,info);
+  add(new AjaxClientInfoBehavior(){
+    @Override protected void onClientInfo(    AjaxRequestTarget target,    WebClientInfo info){
+      super.onClientInfo(target,info);
       clientInfo.setVisible(true);
       clientTime.setVisible(true);
       target.add(clientInfo,clientTime);
     }
   }
-;
-  add(form,clientInfo,clientTime);
+);
+  add(clientInfo,clientTime);
 }

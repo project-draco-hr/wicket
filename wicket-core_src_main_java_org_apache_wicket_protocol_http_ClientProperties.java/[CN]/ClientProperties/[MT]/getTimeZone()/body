@@ -26,7 +26,7 @@
         if (offset < 0) {
           utc=utc.substring(1);
         }
-        timeZone=TimeZone.getTimeZone("GMT" + ((offset > 0) ? "+" : "-") + utc);
+        timeZone=TimeZone.getTimeZone("GMT" + ((offset > 0) ? '+' : '-') + utc);
       }
       String dstOffset=getUtcDSTOffset();
       if (timeZone != null && dstOffset != null) {
@@ -43,7 +43,7 @@
           AppendingStringBuffer sb=new AppendingStringBuffer("GMT");
           sb.append(offsetHours > 0 ? '+' : '-');
           sb.append(Math.abs(offsetHours));
-          sb.append(":");
+          sb.append(':');
           if (offsetMins < 10) {
             sb.append('0');
           }
@@ -55,7 +55,7 @@
           if (offset < 0) {
             dstOffset=dstOffset.substring(1);
           }
-          dstTimeZone=TimeZone.getTimeZone("GMT" + ((offset > 0) ? "+" : "-") + dstOffset);
+          dstTimeZone=TimeZone.getTimeZone("GMT" + ((offset > 0) ? '+' : '-') + dstOffset);
         }
         if (dstTimeZone != null && dstTimeZone.getRawOffset() != timeZone.getRawOffset()) {
           int dstSaving=dstTimeZone.getRawOffset() - timeZone.getRawOffset();
