@@ -2,10 +2,10 @@
   WicketTester tester=new WicketTester();
   tester.getApplication().getResourceSettings().setCachingStrategy(strategy);
   try {
-    ResourceUrl resourceUrl=new ResourceUrl("some-resource--vers--9A0364B9E99BB480DD25E1F0284C8555.txt",new PageParameters());
+    ResourceUrl resourceUrl=new ResourceUrl("some-resource--vers--" + TEST_RESOURCE_VERSION + ".txt",new PageParameters());
     strategy.undecorateUrl(resourceUrl);
     String version=tester.getRequestCycle().getMetaData(IResourceCachingStrategy.URL_VERSION);
-    assertEquals("9A0364B9E99BB480DD25E1F0284C8555",version);
+    assertEquals(TEST_RESOURCE_VERSION,version);
   }
   finally {
     tester.destroy();

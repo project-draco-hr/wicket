@@ -1,6 +1,21 @@
 {
-  AbstractResource.ResourceResponse response=new AbstractResource.ResourceResponse();
-  strategy.decorateResponse(response,new TestResource());
-  assertEquals(WebResponse.MAX_CACHE_DURATION,response.getCacheDuration());
-  assertEquals(WebResponse.CacheScope.PUBLIC,response.getCacheScope());
+  Duration defaultDuration=Duration.minutes(60);
+  BaseWicketTester tester=new BaseWicketTester();
+  RequestCycle requestCycle=ThreadContext.getRequestCycle();
+  Application.get().getResourceSettings().setDefaultCacheDuration(defaultDuration);
+  try {
+    requestCycle.setMetaData(IResourceCachingStrategy.URL_VERSION,TEST_RESOURCE_VERSION);
+    AbstractResource.ResourceResponse response=new AbstractResource.ResourceResponse();
+    strategy.decorateResponse(response,new TestResource());
+    assertEquals(WebResponse.MAX_CACHE_DURATION,response.getCacheDuration());
+    assertEquals(WebResponse.CacheScope.PUBLIC,response.getCacheScope());
+    requestCycle.setMetaData(IResourceCachingStrategy.URL_VERSION,"foo");
+    response=new AbstractResource.ResourceResponse();
+    strategy.decorateResponse(response,new TestResource());
+    assertEquals(defaultDuration,response.getCacheDuration());
+    assertEquals(WebResponse.CacheScope.PRIVATE,response.getCacheScope());
+  }
+  finally {
+    tester.destroy();
+  }
 }
