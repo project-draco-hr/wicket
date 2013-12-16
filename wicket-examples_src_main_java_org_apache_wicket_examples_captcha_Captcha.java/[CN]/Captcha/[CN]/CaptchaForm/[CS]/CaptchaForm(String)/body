@@ -1,8 +1,18 @@
 {
   super(id);
   captchaImageResource=new CaptchaImageResource(imagePass);
-  add(new Image("captchaImage",captchaImageResource));
-  add(new RequiredTextField<String>("password",new PropertyModel<String>(properties,"password")){
+  final Image captchaImage=new Image("captchaImage",captchaImageResource);
+  captchaImage.setOutputMarkupId(true);
+  add(captchaImage);
+  AjaxLink<Void> changeCaptchaLink=new AjaxLink<Void>("changeCaptcha"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      captchaImageResource.invalidate();
+      target.add(captchaImage);
+    }
+  }
+;
+  add(changeCaptchaLink);
+  add(new RequiredTextField<String>("captchaText",new PropertyModel<String>(properties,"captchaText"),String.class){
     @Override protected final void onComponentTag(    final ComponentTag tag){
       super.onComponentTag(tag);
       tag.put("value","");
