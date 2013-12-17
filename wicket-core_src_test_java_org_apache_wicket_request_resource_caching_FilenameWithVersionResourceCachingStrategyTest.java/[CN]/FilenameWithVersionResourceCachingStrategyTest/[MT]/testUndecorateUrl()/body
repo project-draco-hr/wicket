@@ -2,4 +2,10 @@
   ResourceUrl resourceUrl=new ResourceUrl("some-resource--vers--" + TEST_RESOURCE_VERSION + ".txt",new PageParameters());
   strategy.undecorateUrl(resourceUrl);
   assertEquals("some-resource.txt",resourceUrl.getFileName());
+  resourceUrl=new ResourceUrl("some-resource--vers--with-prefix--vers--" + TEST_RESOURCE_VERSION + ".txt",new PageParameters());
+  strategy.undecorateUrl(resourceUrl);
+  assertEquals("some-resource--vers--with-prefix.txt",resourceUrl.getFileName());
+  resourceUrl=new ResourceUrl("some-resource--vers--without-version.txt",new PageParameters());
+  strategy.undecorateUrl(resourceUrl);
+  assertEquals("some-resource--vers--without-version.txt",resourceUrl.getFileName());
 }
