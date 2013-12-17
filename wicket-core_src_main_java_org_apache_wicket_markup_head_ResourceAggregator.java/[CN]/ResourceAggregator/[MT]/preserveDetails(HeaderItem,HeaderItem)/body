@@ -1,0 +1,15 @@
+{
+  HeaderItem resultBundle;
+  if (item instanceof CssReferenceHeaderItem && bundle instanceof CssReferenceHeaderItem) {
+    CssReferenceHeaderItem originalHeaderItem=(CssReferenceHeaderItem)item;
+    resultBundle=preserveCssDetails(originalHeaderItem,(CssReferenceHeaderItem)bundle);
+  }
+ else   if (item instanceof JavaScriptReferenceHeaderItem && bundle instanceof JavaScriptReferenceHeaderItem) {
+    JavaScriptReferenceHeaderItem originalHeaderItem=(JavaScriptReferenceHeaderItem)item;
+    resultBundle=preserveJavaScriptDetails(originalHeaderItem,(JavaScriptReferenceHeaderItem)bundle);
+  }
+ else {
+    resultBundle=bundle;
+  }
+  return resultBundle;
+}
