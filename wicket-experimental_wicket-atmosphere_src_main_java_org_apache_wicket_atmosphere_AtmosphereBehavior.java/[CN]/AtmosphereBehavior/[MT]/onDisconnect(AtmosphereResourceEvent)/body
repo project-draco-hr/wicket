@@ -1,8 +1,8 @@
 {
-  if (log.isInfoEnabled()) {
+  if (log.isDebugEnabled()) {
     String transport=event.getResource().getRequest().getHeader("X-Atmosphere-Transport");
     HttpServletRequest req=event.getResource().getRequest();
-    log.info(String.format("%s connection dropped from ip %s:%s",transport == null ? "websocket" : transport,req.getRemoteAddr(),req.getRemotePort()));
+    log.debug(String.format("%s connection dropped from ip %s:%s",transport == null ? "websocket" : transport,req.getRemoteAddr(),req.getRemotePort()));
   }
   if (Application.get(applicationKey) != null) {
     findEventBus().unregisterConnection(event.getResource().uuid());

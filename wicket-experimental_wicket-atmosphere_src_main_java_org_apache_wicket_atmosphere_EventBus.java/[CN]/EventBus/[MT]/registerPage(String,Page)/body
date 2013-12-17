@@ -7,5 +7,7 @@
   }
   trackedPages.put(trackingId,pageKey);
   fireRegistration(trackingId,page);
-  log.info("registered page {} for session {}",new Object[]{pageKey.getPageId(),pageKey.getSessionId()});
+  if (log.isDebugEnabled()) {
+    log.debug("registered page {} for session {}",pageKey.getPageId(),pageKey.getSessionId());
+  }
 }
