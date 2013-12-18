@@ -1,24 +1,15 @@
 {
-  RedirectPolicy redirectPolicy;
-  boolean ajax;
-  boolean onePassRender;
-  boolean redirectToRender;
-  boolean shouldPreserveClientUrl;
-  boolean targetEqualsCurrentUrl;
-  boolean newPageInstance;
-  boolean pageStateless;
-  redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
-  ajax=true;
-  onePassRender=false;
-  targetEqualsCurrentUrl=false;
-  shouldPreserveClientUrl=false;
-  redirectToRender=true;
-  newPageInstance=true;
-  pageStateless=true;
-  TestPageRenderer renderer=new TestPageRenderer(null);
-  Assert.assertFalse(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
-  redirectToRender=false;
-  newPageInstance=false;
-  pageStateless=false;
-  Assert.assertFalse(renderer.shouldRenderPageAndWriteResponse(ajax,onePassRender,redirectToRender,redirectPolicy,shouldPreserveClientUrl,targetEqualsCurrentUrl,newPageInstance,pageStateless));
+  TestPageRenderer renderer=new TestPageRenderer(handler);
+  renderer.redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
+  renderer.ajax=true;
+  renderer.onePassRender=false;
+  renderer.shouldPreserveClientUrl=false;
+  renderer.redirectToRender=true;
+  renderer.newPageInstance=true;
+  renderer.pageStateless=true;
+  Assert.assertFalse(renderer.shouldRenderPageAndWriteResponse(requestCycle,Url.parse("test1"),Url.parse("test2")));
+  renderer.redirectToRender=false;
+  renderer.newPageInstance=false;
+  renderer.pageStateless=false;
+  Assert.assertFalse(renderer.shouldRenderPageAndWriteResponse(requestCycle,Url.parse("test"),Url.parse("test")));
 }

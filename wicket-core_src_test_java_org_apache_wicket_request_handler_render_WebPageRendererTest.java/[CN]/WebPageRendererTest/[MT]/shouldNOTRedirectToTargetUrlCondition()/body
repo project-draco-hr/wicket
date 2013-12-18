@@ -1,18 +1,10 @@
 {
-  boolean ajax;
-  RedirectPolicy redirectPolicy;
-  boolean redirectToRender;
-  boolean targetEqualsCurrentUrl;
-  boolean newPageInstance;
-  boolean pageStateless;
-  boolean sessionTemporary;
-  ajax=false;
-  redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
-  redirectToRender=false;
-  targetEqualsCurrentUrl=false;
-  newPageInstance=false;
-  pageStateless=false;
-  sessionTemporary=false;
-  TestPageRenderer renderer=new TestPageRenderer(null);
-  Assert.assertFalse(renderer.shouldRedirectToTargetUrl(ajax,redirectPolicy,redirectToRender,targetEqualsCurrentUrl,newPageInstance,pageStateless,sessionTemporary));
+  TestPageRenderer renderer=new TestPageRenderer(handler);
+  renderer.ajax=false;
+  renderer.redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
+  renderer.redirectToRender=false;
+  renderer.newPageInstance=false;
+  renderer.pageStateless=false;
+  renderer.sessionTemporary=false;
+  Assert.assertFalse(renderer.shouldRedirectToTargetUrl(requestCycle,Url.parse("test1"),Url.parse("test2")));
 }

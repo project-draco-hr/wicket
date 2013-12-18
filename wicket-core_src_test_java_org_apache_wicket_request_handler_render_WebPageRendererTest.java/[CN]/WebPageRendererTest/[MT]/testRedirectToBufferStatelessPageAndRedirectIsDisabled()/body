@@ -1,9 +1,6 @@
 {
   final AtomicBoolean stored=new AtomicBoolean(false);
-  PageRenderer renderer=new TestPageRenderer(handler){
-    @Override protected boolean isRedirectToBuffer(){
-      return true;
-    }
+  TestPageRenderer renderer=new TestPageRenderer(handler){
     @Override protected boolean enableRedirectForStatelessPage(){
       return false;
     }
@@ -12,7 +9,8 @@
     }
   }
 ;
-  when(page.isPageStateless()).thenReturn(true);
+  renderer.redirectToBuffer=true;
+  renderer.pageStateless=true;
   when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("a"));
   when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("b"));
   renderer.respond(requestCycle);

@@ -1,10 +1,6 @@
 {
-  PageRenderer renderer=new TestPageRenderer(handler){
-    @Override protected boolean isRedirectToRender(){
-      return true;
-    }
-  }
-;
+  TestPageRenderer renderer=new TestPageRenderer(handler);
+  renderer.redirectToRender=true;
   when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("a"));
   when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("b"));
   renderer.respond(requestCycle);
