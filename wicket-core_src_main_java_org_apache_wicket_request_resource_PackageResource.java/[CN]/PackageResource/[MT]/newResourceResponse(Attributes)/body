@@ -14,13 +14,11 @@
     resourceResponse.setContentType(contentType);
     resourceResponse.setTextEncoding(getTextEncoding());
     try {
-      final byte[] bytes;
-      bytes=IOUtils.toByteArray(resourceStream.getInputStream());
-      final byte[] processed=processResponse(attributes,bytes);
-      resourceResponse.setContentLength(processed.length);
+      final byte[] bytes=IOUtils.toByteArray(resourceStream.getInputStream());
+      resourceResponse.setContentLength(bytes.length);
       resourceResponse.setWriteCallback(new WriteCallback(){
         @Override public void writeData(        Attributes attributes){
-          attributes.getResponse().write(processed);
+          attributes.getResponse().write(bytes);
         }
       }
 );

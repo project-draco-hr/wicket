@@ -1,0 +1,14 @@
+{
+  byte[] bytes;
+  InputStream inputStream=super.getInputStream();
+  try {
+    bytes=IOUtils.toByteArray(inputStream);
+  }
+ catch (  IOException iox) {
+    throw new WicketRuntimeException(iox);
+  }
+  RequestCycle cycle=RequestCycle.get();
+  Attributes attributes=new Attributes(cycle.getRequest(),cycle.getResponse());
+  byte[] processedBytes=processResponse(attributes,bytes);
+  return new ByteArrayInputStream(processedBytes);
+}
