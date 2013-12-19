@@ -1,11 +1,6 @@
 {
   final List<? extends T> choices=getChoices();
   final IChoiceRenderer<? super T> renderer=getChoiceRenderer();
-  for (int index=0; index < choices.size(); index++) {
-    final T choice=choices.get(index);
-    if (renderer.getIdValue(choice,index).equals(id)) {
-      return choice;
-    }
-  }
-  return null;
+  T object=(T)renderer.getObject(id,choices);
+  return object;
 }
