@@ -23,8 +23,8 @@
  else   if (hasError()) {
     callOnError(submitter);
   }
-  if (((WebRequest)getRequest()).isAjax()) {
-    final AjaxRequestTarget target=getRequestCycle().find(AjaxRequestTarget.class);
+  final AjaxRequestTarget target=getRequestCycle().find(AjaxRequestTarget.class);
+  if (target != null) {
     visitChildren(FormComponent.class,new IVisitor<FormComponent<?>,Void>(){
       @Override public void component(      FormComponent<?> component,      IVisit<Void> visit){
         component.updateAutoLabels(target);
