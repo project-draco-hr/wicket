@@ -3,7 +3,11 @@
   if (request != null) {
     String charsetName=request.getCharacterEncoding();
     if (charsetName != null) {
-      charset=Charset.forName(charsetName);
+      try {
+        charset=Charset.forName(charsetName);
+      }
+ catch (      UnsupportedCharsetException useDefault) {
+      }
     }
   }
   if (charset == null) {
