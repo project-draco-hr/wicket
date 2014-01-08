@@ -34,6 +34,8 @@
   tester.executeBehavior(timerBehavior);
   tester.assertLabel(labelPath,String.valueOf(labelInitialValue + 1));
   tester.clickLink(MockPageWithLinkAndComponent.LINK_ID);
+  assertMatches("setTimeout",1);
+  assertMatches("wicket:id=\"component\"",0);
   tester.executeBehavior(timerBehavior);
   tester.assertLabel(labelPath,String.valueOf(labelInitialValue + 2));
 }
