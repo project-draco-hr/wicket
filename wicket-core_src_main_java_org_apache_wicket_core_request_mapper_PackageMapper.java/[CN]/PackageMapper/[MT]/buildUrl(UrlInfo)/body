@@ -16,7 +16,9 @@
     url.getSegments().add(packageRelativeClassName);
     encodePageComponentInfo(url,info.getPageComponentInfo());
     PageParameters copy=new PageParameters(info.getPageParameters());
-    setPlaceholders(copy,url);
+    if (setPlaceholders(copy,url) == false) {
+      return null;
+    }
     return encodePageParameters(url,copy,pageParametersEncoder);
   }
   return null;
