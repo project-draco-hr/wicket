@@ -7,7 +7,7 @@
     }
   }
   setResponseHeaders(data,attributes);
-  if (!data.dataNeedsToBeWritten(attributes) || data.getErrorCode() != null) {
+  if (!data.dataNeedsToBeWritten(attributes) || data.getErrorCode() != null || needsBody(data.getStatusCode()) == false) {
     return;
   }
   if (data.getWriteCallback() == null) {

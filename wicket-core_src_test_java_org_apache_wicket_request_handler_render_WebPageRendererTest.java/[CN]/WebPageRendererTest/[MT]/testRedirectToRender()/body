@@ -1,10 +1,7 @@
 {
-  PageRenderer renderer=new TestPageRenderer(handler){
-    @Override protected boolean isRedirectToRender(){
-      return true;
-    }
-  }
-;
+  TestPageRenderer renderer=new TestPageRenderer(handler);
+  renderer.redirectToRender=true;
+  when(provider.getPageInstance()).thenThrow(new AssertionFailedError("no page instance should be created"));
   when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("a"));
   when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("b"));
   renderer.respond(requestCycle);

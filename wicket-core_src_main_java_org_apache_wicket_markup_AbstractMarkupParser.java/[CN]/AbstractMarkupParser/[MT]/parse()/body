@@ -1,5 +1,5 @@
 {
-  markupFilterChain=new RootMarkupFilter(xmlParser);
+  markupFilterChain=new RootMarkupFilter(xmlParser,markup.getMarkupResourceStream());
   for (  IMarkupFilter filter : getMarkupFilters()) {
     filter.setNextFilter(markupFilterChain);
     markupFilterChain=filter;
@@ -16,7 +16,7 @@
       throw new MarkupException(markupResourceStream.getResource(),a + b);
     }
  else {
-      log.debug(a + ":" + markupResourceStream.getResource()+ ". It is more save to use it"+ b);
+      log.debug(a + ":" + markupResourceStream.getResource()+ ". It is safer to use it"+ b);
     }
   }
   return markup;

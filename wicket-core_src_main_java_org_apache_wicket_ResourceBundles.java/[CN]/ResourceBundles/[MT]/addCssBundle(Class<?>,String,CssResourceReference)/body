@@ -3,5 +3,10 @@
   for (  CssResourceReference curReference : references) {
     items.add(CssHeaderItem.forReference(curReference));
   }
-  return addBundle(CssHeaderItem.forReference(new ConcatResourceBundleReference<CssReferenceHeaderItem>(scope,name,items)));
+  ConcatResourceBundleReference<CssReferenceHeaderItem> bundleReference=newBundleResourceReference(scope,name,items);
+  if (Application.exists()) {
+    ICssCompressor cssCompressor=Application.get().getResourceSettings().getCssCompressor();
+    bundleReference.setCompressor(cssCompressor);
+  }
+  return addBundle(CssHeaderItem.forReference(bundleReference));
 }

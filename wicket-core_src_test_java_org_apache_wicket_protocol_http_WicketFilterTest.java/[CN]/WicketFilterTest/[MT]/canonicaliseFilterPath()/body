@@ -1,0 +1,33 @@
+{
+  String s;
+  s=WicketFilter.canonicaliseFilterPath("");
+  assertEquals("",s);
+  s=WicketFilter.canonicaliseFilterPath("/");
+  assertEquals("",s);
+  s=WicketFilter.canonicaliseFilterPath("//");
+  assertEquals("",s);
+  s=WicketFilter.canonicaliseFilterPath("///");
+  assertEquals("",s);
+  s=WicketFilter.canonicaliseFilterPath("/wicket");
+  assertEquals("wicket/",s);
+  s=WicketFilter.canonicaliseFilterPath("/wicket/");
+  assertEquals("wicket/",s);
+  s=WicketFilter.canonicaliseFilterPath("wicket/");
+  assertEquals("wicket/",s);
+  s=WicketFilter.canonicaliseFilterPath("wicket");
+  assertEquals("wicket/",s);
+  s=WicketFilter.canonicaliseFilterPath("///wicket");
+  assertEquals("wicket/",s);
+  s=WicketFilter.canonicaliseFilterPath("///wicket///");
+  assertEquals("wicket/",s);
+  s=WicketFilter.canonicaliseFilterPath("wicket///");
+  assertEquals("wicket/",s);
+  s=WicketFilter.canonicaliseFilterPath("/wicket/foobar");
+  assertEquals("wicket/foobar/",s);
+  s=WicketFilter.canonicaliseFilterPath("/wicket/foobar/");
+  assertEquals("wicket/foobar/",s);
+  s=WicketFilter.canonicaliseFilterPath("wicket/foobar/");
+  assertEquals("wicket/foobar/",s);
+  s=WicketFilter.canonicaliseFilterPath("/wicket///foobar/");
+  assertEquals("wicket///foobar/",s);
+}

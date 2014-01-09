@@ -1,4 +1,5 @@
 {
-  broadcastMessage(new ClosedMessage(getApplication(),getSessionId(),pageId));
-  connectionRegistry.removeConnection(application,sessionId,pageId);
+  IKey key=getRegistryKey();
+  broadcastMessage(new ClosedMessage(getApplication(),getSessionId(),key));
+  connectionRegistry.removeConnection(getApplication(),getSessionId(),key);
 }

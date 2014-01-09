@@ -1,17 +1,18 @@
 {
   final String location;
-  if (redirectUrl.startsWith("/")) {
-    location=requestCycle.getUrlRenderer().renderContextRelativeUrl(redirectUrl);
+  final String url=getRedirectUrl();
+  if (url.charAt(0) == '/') {
+    location=requestCycle.getUrlRenderer().renderContextRelativeUrl(url);
   }
  else {
-    location=redirectUrl;
+    location=url;
   }
   WebResponse response=(WebResponse)requestCycle.getResponse();
   if (status == HttpServletResponse.SC_MOVED_TEMPORARILY) {
     response.sendRedirect(location);
   }
  else {
-    response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+    response.setStatus(status);
     response.setHeader("Location",location);
   }
 }

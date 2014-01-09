@@ -1,0 +1,14 @@
+{
+  TestPage<BigDecimal> testPage=new TestPage<BigDecimal>();
+  testPage.textField.setType(BigDecimal.class);
+  testPage.textField.setMinimum(new BigDecimal("0.00"));
+  testPage.textField.setMaximum(new BigDecimal("100.00"));
+  testPage.textField.setModelObject(new BigDecimal("0.00"));
+  tester.startPage(testPage);
+  String response=tester.getLastResponseAsString();
+  assertTrue(response.contains("<input wicket:id=\"number\" type=\"number\" value=\"0.00\" name=\"number\" min=\"0.00\" max=\"100.00\"/>"));
+  FormTester formTester=tester.newFormTester(testPage.form.getId());
+  formTester.setValue(testPage.textField.getId(),"50.50");
+  formTester.submit();
+  assertEquals(new BigDecimal("50.50"),testPage.textField.getDefaultModelObject());
+}

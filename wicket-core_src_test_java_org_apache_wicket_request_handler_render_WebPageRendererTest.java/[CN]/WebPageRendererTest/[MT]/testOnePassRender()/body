@@ -1,10 +1,6 @@
 {
-  PageRenderer renderer=new TestPageRenderer(handler){
-    @Override protected boolean isOnePassRender(){
-      return true;
-    }
-  }
-;
+  TestPageRenderer renderer=new TestPageRenderer(handler);
+  renderer.onePassRender=true;
   when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("base"));
   when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("base/a"));
   when(request.shouldPreserveClientUrl()).thenReturn(false);

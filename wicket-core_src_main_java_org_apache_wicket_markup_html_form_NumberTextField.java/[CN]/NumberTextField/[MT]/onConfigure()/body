@@ -2,7 +2,10 @@
   super.onConfigure();
   if (validator != null) {
     remove(validator);
+    validator=null;
   }
-  validator=new RangeValidator<N>(getMinValue(),getMaxValue());
-  add(validator);
+  if (minimum != null || maximum != null) {
+    validator=RangeValidator.range(minimum,maximum);
+    add(validator);
+  }
 }

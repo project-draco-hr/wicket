@@ -1,0 +1,28 @@
+{
+  final AjaxFormSubmitBehavior behavior=new AjaxFormSubmitBehavior(form,event){
+    @Override protected void updateAjaxAttributes(    final AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      if (throttleDelay != null) {
+        String id="throttle-" + component.getMarkupId();
+        ThrottlingSettings throttlingSettings=new ThrottlingSettings(id,throttleDelay);
+        attributes.setThrottlingSettings(throttlingSettings);
+      }
+      AjaxFormValidatingBehavior.this.updateAjaxAttributes(attributes);
+    }
+    @Override protected void onSubmit(    AjaxRequestTarget target){
+      super.onSubmit(target);
+      AjaxFormValidatingBehavior.this.onSubmit(target);
+    }
+    @Override protected void onAfterSubmit(    AjaxRequestTarget target){
+      super.onAfterSubmit(target);
+      AjaxFormValidatingBehavior.this.onAfterSubmit(target);
+    }
+    @Override protected void onError(    AjaxRequestTarget target){
+      super.onError(target);
+      AjaxFormValidatingBehavior.this.onError(target);
+    }
+  }
+;
+  component.add(behavior);
+  visit.dontGoDeeper();
+}

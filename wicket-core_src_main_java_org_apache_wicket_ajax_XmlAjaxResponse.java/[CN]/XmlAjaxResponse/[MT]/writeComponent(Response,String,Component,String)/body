@@ -3,38 +3,40 @@
     throw new IllegalStateException("Ajax render cannot be called on component that has setRenderBodyOnly enabled. Component: " + component.toString());
   }
   component.setOutputMarkupId(true);
-  encodingBodyResponse.reset();
-  RequestCycle.get().setResponse(encodingBodyResponse);
   final Page page=component.findParent(Page.class);
   if (page == null) {
-    LOG.debug("component: " + component + " with markupid: "+ markupId+ " not rendered because it was already removed from page");
+    LOG.warn("Component '{}' with markupid: '{}' not rendered because it was already removed from page",component,markupId);
     return;
   }
-  page.startComponentRender(component);
+  Response oldResponse=RequestCycle.get().setResponse(encodingBodyResponse);
   try {
-    component.prepareForRender();
-    writeHeaderContribution(response,component);
-  }
- catch (  RuntimeException e) {
+    encodingBodyResponse.reset();
+    page.startComponentRender(component);
     try {
-      component.afterRender();
+      component.prepareForRender();
+      writeHeaderContribution(response,component);
     }
- catch (    RuntimeException e2) {
+ catch (    RuntimeException e) {
+      try {
+        component.afterRender();
+      }
+ catch (      RuntimeException e2) {
+      }
+      encodingBodyResponse.reset();
+      throw e;
     }
-    RequestCycle.get().setResponse(response);
-    encodingBodyResponse.reset();
-    throw e;
+    try {
+      component.render();
+    }
+ catch (    RuntimeException e) {
+      encodingBodyResponse.reset();
+      throw e;
+    }
+    page.endComponentRender(component);
   }
-  try {
-    component.render();
+  finally {
+    RequestCycle.get().setResponse(oldResponse);
   }
- catch (  RuntimeException e) {
-    RequestCycle.get().setResponse(response);
-    encodingBodyResponse.reset();
-    throw e;
-  }
-  page.endComponentRender(component);
-  RequestCycle.get().setResponse(response);
   response.write("<component id=\"");
   response.write(markupId);
   response.write("\" ");

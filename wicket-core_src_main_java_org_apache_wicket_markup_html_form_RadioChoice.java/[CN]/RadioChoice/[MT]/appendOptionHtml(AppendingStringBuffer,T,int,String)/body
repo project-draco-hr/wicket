@@ -1,0 +1,54 @@
+{
+  Object displayValue=getChoiceRenderer().getDisplayValue(choice);
+  Class<?> objectClass=(displayValue == null ? null : displayValue.getClass());
+  String label="";
+  if (objectClass != null && objectClass != String.class) {
+    @SuppressWarnings("rawtypes") final IConverter converter=getConverter(objectClass);
+    label=converter.convertToString(displayValue,getLocale());
+  }
+ else   if (displayValue != null) {
+    label=displayValue.toString();
+  }
+  if (label != null) {
+    buffer.append(getPrefix(index,choice));
+    String id=getChoiceRenderer().getIdValue(choice,index);
+    final String idAttr=getMarkupId() + "-" + id;
+    boolean enabled=isEnabledInHierarchy() && !isDisabled(choice,index,selected);
+    buffer.append("<input name=\"").append(getInputName()).append('"').append(" type=\"radio\"").append((isSelected(choice,index,selected) ? " checked=\"checked\"" : "")).append((enabled ? "" : " disabled=\"disabled\"")).append(" value=\"").append(id).append("\" id=\"").append(idAttr).append('"');
+    if (wantOnSelectionChangedNotifications()) {
+      CharSequence url=urlFor(IOnChangeListener.INTERFACE,new PageParameters());
+      Form<?> form=findParent(Form.class);
+      if (form != null) {
+        buffer.append(" onclick=\"").append(form.getJsForInterfaceUrl(url)).append(";\"");
+      }
+ else {
+        buffer.append(" onclick=\"window.location.href='").append(url).append((url.toString().indexOf('?') > -1 ? '&' : '?') + getInputName()).append('=').append(id).append("';\"");
+      }
+    }
+{
+      IValueMap attrs=getAdditionalAttributes(index,choice);
+      if (attrs != null) {
+        for (        Map.Entry<String,Object> attr : attrs.entrySet()) {
+          buffer.append(' ').append(attr.getKey()).append("=\"").append(attr.getValue()).append('"');
+        }
+      }
+    }
+    if (getApplication().getDebugSettings().isOutputComponentPath()) {
+      CharSequence path=getPageRelativePath();
+      path=Strings.replaceAll(path,"_","__");
+      path=Strings.replaceAll(path,":","_");
+      buffer.append(" wicketpath=\"").append(path).append("_input_").append(index).append('"');
+    }
+    buffer.append("/>");
+    String display=label;
+    if (localizeDisplayValues()) {
+      display=getLocalizer().getString(label,this,label);
+    }
+    CharSequence escaped=display;
+    if (getEscapeModelStrings()) {
+      escaped=Strings.escapeMarkup(display);
+    }
+    buffer.append("<label for=\"").append(idAttr).append("\">").append(escaped).append("</label>");
+    buffer.append(getSuffix(index,choice));
+  }
+}

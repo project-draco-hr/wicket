@@ -2,21 +2,32 @@
   int ixExtension=path.lastIndexOf('.');
   int len=path.length();
   final String ext;
-  if (ixExtension <= 0 || ixExtension == len || (path.lastIndexOf('/') + 1) == ixExtension) {
+  if (ixExtension <= 0 || ixExtension == len || (path.lastIndexOf(File.separator) + 1) == ixExtension) {
     ext=null;
   }
  else {
     ext=path.substring(ixExtension + 1).toLowerCase().trim();
   }
-  if ("html".equals(ext) && getClass().getClassLoader().getResource(path.replaceAll("\\.html",".class")) != null) {
-    log.warn("Access denied to shared (static) resource because it is a Wicket markup file: " + path);
-    return false;
+  if ("html".equals(ext)) {
+    String prefix=path.substring(0,ixExtension);
+    ClassLoader classLoader=getClass().getClassLoader();
+    while (true) {
+      if (classLoader.getResource(prefix + ".class") != null) {
+        log.warn("Access denied to shared (static) resource because it is a Wicket markup file: " + path);
+        return false;
+      }
+      int ixUnderscore=prefix.lastIndexOf('_');
+      if (ixUnderscore == -1) {
+        break;
+      }
+      prefix=prefix.substring(0,ixUnderscore);
+    }
   }
   if (acceptExtension(ext) == false) {
     log.warn("Access denied to shared (static) resource because of the file extension: " + path);
     return false;
   }
-  String filename=Strings.lastPathComponent(path,'/');
+  String filename=Strings.lastPathComponent(path,File.separatorChar);
   if (acceptFile(filename) == false) {
     log.warn("Access denied to shared (static) resource because of the file name: " + path);
     return false;
@@ -29,10 +40,19 @@
   }
   if (!allowAccessToRootResources) {
     String absolute=path;
-    if (absolute.startsWith("/")) {
+    if ("\\".equals(File.separator)) {
+      int drive=absolute.indexOf(":\\");
+      if (drive < 0) {
+        drive=absolute.indexOf(":/");
+      }
+      if (drive > 0) {
+        absolute=absolute.substring(drive + 2);
+      }
+    }
+    if (absolute.startsWith(File.separator) || absolute.startsWith("/")) {
       absolute=absolute.substring(1);
     }
-    if (!absolute.contains("/")) {
+    if (!absolute.contains(File.separator) && !absolute.contains("/")) {
       log.warn("Access to root directory is by default disabled for shared resources: " + path);
       return false;
     }

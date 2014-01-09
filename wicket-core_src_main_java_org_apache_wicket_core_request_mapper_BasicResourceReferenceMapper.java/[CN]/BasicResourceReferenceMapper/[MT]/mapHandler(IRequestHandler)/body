@@ -3,7 +3,7 @@
     ResourceReferenceRequestHandler referenceRequestHandler=(ResourceReferenceRequestHandler)requestHandler;
     ResourceReference reference=referenceRequestHandler.getResourceReference();
     Url url;
-    if (reference instanceof ResourceBundleReference) {
+    while (reference instanceof ResourceBundleReference) {
       reference=((ResourceBundleReference)reference).getBundleReference();
     }
     if (reference instanceof MetaInfStaticResourceReference) {
@@ -12,10 +12,9 @@
         return url;
       }
     }
- else     if (reference instanceof UrlResourceReference) {
-      UrlResourceReference urlReference=(UrlResourceReference)reference;
-      url=urlReference.getUrl();
-      return url;
+    if (reference.canBeRegistered()) {
+      ResourceReferenceRegistry resourceReferenceRegistry=getContext().getResourceReferenceRegistry();
+      resourceReferenceRegistry.registerResourceReference(reference);
     }
     url=new Url();
     List<String> segments=url.getSegments();
@@ -42,9 +41,7 @@
             final ResourceUrl resourceUrl=new ResourceUrl(token,parameters);
             getCachingStrategy().decorateUrl(resourceUrl,cacheable);
             token=resourceUrl.getFileName();
-            if (Strings.isEmpty(token)) {
-              throw new IllegalStateException("caching strategy returned empty name for " + resource);
-            }
+            Checks.notEmpty(token,"Caching strategy returned empty name for '%s'",resource);
           }
         }
       }

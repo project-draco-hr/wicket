@@ -1,10 +1,10 @@
 {
-  WicketTester tester=new WicketTester(new MockApplication(){
+  new WicketTester(new MockApplication(){
     @Override public Session newSession(    final Request request,    final Response response){
       return new TestSession(request);
     }
   }
 );
-  SessionSizeModel model=new SessionSizeModel(tester.getSession());
+  SessionSizeModel model=new SessionSizeModel();
   assertEquals(null,model.getObject());
 }

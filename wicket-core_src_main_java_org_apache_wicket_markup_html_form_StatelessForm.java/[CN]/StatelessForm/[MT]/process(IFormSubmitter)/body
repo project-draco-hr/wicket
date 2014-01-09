@@ -1,6 +1,6 @@
 {
-  super.process(submittingComponent);
   final PageParameters parameters=getPage().getPageParameters();
+  super.process(submittingComponent);
   if (parameters != null) {
     visitFormComponents(new IVisitor<FormComponent<?>,Void>(){
       @Override public void component(      final FormComponent<?> formComponent,      final IVisit<Void> visit){
@@ -12,6 +12,15 @@
     if (submittingComponent instanceof AbstractSubmitLink) {
       AbstractSubmitLink submitLink=(AbstractSubmitLink)submittingComponent;
       parameters.remove(submitLink.getInputName());
+    }
+    List<INamedParameters.NamedPair> namedParameters=parameters.getAllNamed();
+    Iterator<INamedParameters.NamedPair> iterator=namedParameters.iterator();
+    while (iterator.hasNext()) {
+      INamedParameters.NamedPair namedParameter=iterator.next();
+      if (Strings.isEmpty(namedParameter.getValue())) {
+        parameters.remove(namedParameter.getKey());
+        break;
+      }
     }
   }
 }

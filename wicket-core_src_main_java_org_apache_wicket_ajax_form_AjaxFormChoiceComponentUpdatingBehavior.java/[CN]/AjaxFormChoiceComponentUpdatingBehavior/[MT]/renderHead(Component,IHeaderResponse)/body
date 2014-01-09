@@ -1,27 +1,4 @@
 {
   super.renderHead(component,response);
-  AppendingStringBuffer asb=new AppendingStringBuffer();
-  asb.append("function attachChoiceHandlers(markupId, attrs) {\n");
-  asb.append(" function getInputValues(groupId) {\n");
-  asb.append("  var result = [];\n");
-  asb.append("  var inputNodes = Wicket.$(groupId).getElementsByTagName('input');\n");
-  asb.append("  for (var i = 0 ; i < inputNodes.length ; i ++) {\n");
-  asb.append("   var inputNode = inputNodes[i];\n");
-  asb.append("   if (!inputNode.checked) continue;\n");
-  asb.append("   if (!inputNode.type) continue;\n");
-  asb.append("   if (!(inputNode.className.indexOf('wicket-'+markupId)>=0)&&!(inputNode.id.indexOf(markupId+'-')>=0)) continue;\n");
-  asb.append("   var inputType = inputNode.type.toLowerCase();\n");
-  asb.append("   if (inputType === 'checkbox' || inputType === 'radio') {\n");
-  asb.append("    var name = inputNode.name, value = inputNode.value;\n");
-  asb.append("    result.push({ name: name, value: value });\n");
-  asb.append("   }\n");
-  asb.append("  }\n");
-  asb.append("  return result;\n");
-  asb.append(" }\n");
-  asb.append(" attrs.dep = [ function() { var deps = getInputValues(markupId); return deps; } ];\n");
-  asb.append(" Wicket.Ajax.post(attrs);\n");
-  asb.append("}\n");
-  response.render(JavaScriptHeaderItem.forScript(asb,"attachChoice-" + component.getMarkupId()));
-  String onLoadScript=String.format("attachChoiceHandlers('%s', %s)",component.getMarkupId(),renderAjaxAttributes(component));
-  response.render(OnLoadHeaderItem.forScript(onLoadScript));
+  response.render(JavaScriptHeaderItem.forReference(CHOICE_JS));
 }

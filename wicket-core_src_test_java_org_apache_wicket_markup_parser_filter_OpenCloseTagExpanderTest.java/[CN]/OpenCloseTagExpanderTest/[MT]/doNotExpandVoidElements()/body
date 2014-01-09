@@ -1,0 +1,23 @@
+{
+  String[] htmlVoidElements=new String[]{"area","base","br","col","command","embed","hr","img","input","keygen","link","meta","param","source","track","wbr"};
+  for (  String htmlVoidElement : htmlVoidElements) {
+    OpenCloseTagExpander expander=new OpenCloseTagExpander(){
+      @Override public IMarkupFilter getNextFilter(){
+        return new AbstractMarkupFilter(){
+          @Override protected MarkupElement onComponentTag(          ComponentTag tag) throws ParseException {
+            return null;
+          }
+          @Override public MarkupElement nextElement() throws ParseException {
+            return new TestMarkupElement();
+          }
+        }
+;
+      }
+    }
+;
+    ComponentTag tag=new ComponentTag(htmlVoidElement,XmlTag.TagType.OPEN_CLOSE);
+    expander.onComponentTag(tag);
+    MarkupElement markupElement=expander.nextElement();
+    assertThat(markupElement,instanceOf(TestMarkupElement.class));
+  }
+}

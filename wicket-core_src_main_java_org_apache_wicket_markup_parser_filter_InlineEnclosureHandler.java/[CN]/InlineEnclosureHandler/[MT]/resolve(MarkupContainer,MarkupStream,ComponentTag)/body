@@ -1,10 +1,7 @@
 {
-  String inlineEnclosureChildId=getInlineEnclosureAttribute(tag);
+  String inlineEnclosureChildId=getAttribute(tag,markupStream);
   if (Strings.isEmpty(inlineEnclosureChildId) == false) {
     String id=tag.getId();
-    if (id.startsWith(getWicketNamespace())) {
-      id=id + container.getPage().getAutoIndex();
-    }
     return new InlineEnclosure(id,inlineEnclosureChildId);
   }
   return null;

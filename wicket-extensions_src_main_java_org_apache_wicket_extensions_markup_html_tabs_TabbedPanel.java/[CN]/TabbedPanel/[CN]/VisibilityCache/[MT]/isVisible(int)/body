@@ -1,0 +1,18 @@
+{
+  if (visibilities.length < index + 1) {
+    Boolean[] resized=new Boolean[index + 1];
+    System.arraycopy(visibilities,0,resized,0,visibilities.length);
+    visibilities=resized;
+  }
+  if (visibilities.length > 0) {
+    Boolean visible=visibilities[index];
+    if (visible == null) {
+      visible=tabs.get(index).isVisible();
+      visibilities[index]=visible;
+    }
+    return visible;
+  }
+ else {
+    return false;
+  }
+}

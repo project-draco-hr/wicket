@@ -1,0 +1,23 @@
+{
+  WebMarkupContainer section=new WebMarkupContainer(id);
+  if (!initiallyExpanded) {
+    section.add(AttributeModifier.append("style","display:none").setSeparator(";"));
+  }
+  List<IDebugBarContributor> contributors=getContributors(getApplication());
+  section.add(new ListView<IDebugBarContributor>("contributors",contributors){
+    private static final long serialVersionUID=1L;
+    @Override protected void populateItem(    final ListItem<IDebugBarContributor> item){
+      IDebugBarContributor contrib=item.getModelObject();
+      Component comp=contrib.createComponent("contrib",DebugBar.this);
+      if (comp == null) {
+        item.setVisibilityAllowed(false);
+      }
+ else {
+        item.add(comp);
+      }
+    }
+  }
+);
+  section.add(new Image("removeImg",new PackageResourceReference(DebugBar.class,"remove.png")));
+  return section;
+}

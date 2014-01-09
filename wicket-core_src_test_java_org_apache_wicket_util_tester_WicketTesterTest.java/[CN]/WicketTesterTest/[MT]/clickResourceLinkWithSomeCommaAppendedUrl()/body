@@ -1,5 +1,5 @@
 {
   String url="wicket/resource/" + BlockedResourceLinkPage.class.getName() + "/"+ BlockedResourceLinkPage.class.getSimpleName()+ ".html,xml";
-  tester.executeUrl(url);
-  assertNull("Comma separated extensions are not supported and wont find any resource",tester.getLastResponse());
+  tester.getRequest().setURL(url);
+  assertFalse("Comma separated extensions are not supported and wont find any resource",tester.processRequest());
 }

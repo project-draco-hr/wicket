@@ -4,15 +4,7 @@
       convertedInput=convertValue(getInputAsArray());
     }
  catch (    ConversionException e) {
-      ValidationError error=new ValidationError();
-      if (e.getResourceKey() != null) {
-        error.addKey(e.getResourceKey());
-      }
-      if (e.getTargetType() != null) {
-        error.addKey("ConversionError." + Classes.simpleName(e.getTargetType()));
-      }
-      error.addKey("ConversionError");
-      reportValidationError(e,error);
+      error(newValidationError(e));
     }
   }
  else {
@@ -21,15 +13,7 @@
       convertedInput=converter.convertToObject(getInput(),getLocale());
     }
  catch (    ConversionException e) {
-      ValidationError error=new ValidationError();
-      if (e.getResourceKey() != null) {
-        error.addKey(e.getResourceKey());
-      }
-      String simpleName=Classes.simpleName(getType());
-      error.addKey("IConverter." + simpleName);
-      error.addKey("IConverter");
-      error.setVariable("type",simpleName);
-      reportValidationError(e,error);
+      error(newValidationError(e));
     }
   }
 }

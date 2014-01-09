@@ -1,0 +1,19 @@
+{
+  return new WicketTester(app){
+    @Override protected IPageManagerProvider newTestPageManagerProvider(){
+      return new IPageManagerProvider(){
+        @Override public IPageManager get(        IPageManagerContext context){
+          return new MockPageManager(){
+            @Override public void touchPage(            IManageablePage page){
+              Assert.assertFalse("PageB should not be touched!",page instanceof PageB);
+              super.touchPage(page);
+            }
+          }
+;
+        }
+      }
+;
+    }
+  }
+;
+}

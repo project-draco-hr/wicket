@@ -1,5 +1,6 @@
 {
   AjaxRequestAttributes attributes=getAttributes();
+  attributes.setEventNames();
   CharSequence attrsJson=renderAjaxAttributes(getComponent(),attributes);
   StringBuilder sb=new StringBuilder();
   sb.append("var attrs = ");
@@ -15,8 +16,12 @@
     }
   }
   sb.append("};\n");
-  if (attributes.getExtraParameters().isEmpty())   sb.append("attrs.ep = params;\n");
- else   sb.append("attrs.ep = Wicket.merge(attrs.ep, params);\n");
+  if (attributes.getExtraParameters().isEmpty()) {
+    sb.append("attrs.").append(AjaxAttributeName.EXTRA_PARAMETERS).append(" = params;\n");
+  }
+ else {
+    sb.append("attrs.").append(AjaxAttributeName.EXTRA_PARAMETERS).append(" = Wicket.merge(attrs.").append(AjaxAttributeName.EXTRA_PARAMETERS).append(", params);\n");
+  }
   sb.append("Wicket.Ajax.ajax(attrs);\n");
   return sb;
 }

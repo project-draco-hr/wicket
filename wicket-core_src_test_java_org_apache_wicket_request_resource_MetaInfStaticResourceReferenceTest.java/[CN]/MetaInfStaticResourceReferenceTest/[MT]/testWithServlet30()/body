@@ -1,6 +1,6 @@
 {
   MockApplication application=new MockApplication();
-  MockServletContext servletContext=new MockServletContext30(application,null);
+  MockServletContext servletContext=new MockServletContext(application,"/");
   BaseWicketTester tester=new BaseWicketTester(application,servletContext);
   MetaInfStaticResourceReference metaRes=new MetaInfStaticResourceReference(getClass(),STATIC_RESOURCE_NAME);
   PackageResourceReference packRes=new PackageResourceReference(getClass(),STATIC_RESOURCE_NAME);
@@ -10,7 +10,7 @@
   Assert.assertNotNull(packUrl);
   Assert.assertFalse("Meta and pack resource should not map to the same url under servlet 3.0.",metaUrl.equals(packUrl));
   String metaUrlStr=metaUrl.toString();
-  if (!metaUrlStr.startsWith("/")) {
+  if (metaUrlStr.charAt(1) != '/') {
     metaUrlStr="/" + metaUrlStr;
   }
   URL metaNetUrl=servletContext.getResource(metaUrlStr);

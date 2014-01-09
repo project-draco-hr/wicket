@@ -1,0 +1,14 @@
+{
+  BeanValidationContext config=BeanValidationConfiguration.get();
+  Validator validator=config.getValidator();
+  Property property=getProperty();
+  List<NotNull> constraints=new ArrayList<NotNull>();
+  Iterator<ConstraintDescriptor<?>> it=new ConstraintIterator(validator,property);
+  while (it.hasNext()) {
+    ConstraintDescriptor<?> desc=it.next();
+    if (desc.getAnnotation().annotationType().equals(NotNull.class)) {
+      constraints.add((NotNull)desc.getAnnotation());
+    }
+  }
+  return constraints;
+}

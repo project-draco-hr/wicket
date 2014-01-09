@@ -1,8 +1,8 @@
 {
   setId(id);
   getApplication().getComponentInstantiationListeners().onInstantiation(this);
-  final IDebugSettings debugSettings=getApplication().getDebugSettings();
-  if (debugSettings.isLinePreciseReportingOnNewComponentEnabled()) {
+  final DebugSettings debugSettings=getApplication().getDebugSettings();
+  if (debugSettings.isLinePreciseReportingOnNewComponentEnabled() && debugSettings.getComponentUseCheck()) {
     setMetaData(CONSTRUCTED_AT_KEY,ComponentStrings.toString(this,new MarkupException("constructed")));
   }
   if (model != null) {

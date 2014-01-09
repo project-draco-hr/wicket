@@ -1,0 +1,9 @@
+{
+  if (cache.containsKey(BeanManagerLookup.lookup())) {
+synchronized (lock) {
+      Map<BeanManager,ClassMetaCache<NonContextual<?>>> newCache=new WeakHashMap<BeanManager,ClassMetaCache<NonContextual<?>>>(cache);
+      newCache.remove(BeanManagerLookup.lookup());
+      cache=Collections.unmodifiableMap(newCache);
+    }
+  }
+}

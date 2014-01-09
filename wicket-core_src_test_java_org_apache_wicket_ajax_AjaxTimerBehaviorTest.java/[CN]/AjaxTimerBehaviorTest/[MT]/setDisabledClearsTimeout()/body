@@ -1,0 +1,28 @@
+{
+  final AbstractAjaxTimerBehavior timer=new AbstractAjaxTimerBehavior(Duration.seconds(20)){
+    private boolean enabled=true;
+    @Override protected void onTimer(    AjaxRequestTarget target){
+      enabled=false;
+    }
+    @Override public boolean isEnabled(    Component component){
+      return enabled;
+    }
+  }
+;
+  final MockPageWithLinkAndComponent page=new MockPageWithLinkAndComponent();
+  final Label label=new Label(MockPageWithLinkAndComponent.COMPONENT_ID,"Hello");
+  page.add(label);
+  page.add(new Link<Void>(MockPageWithLinkAndComponent.LINK_ID){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+    }
+  }
+);
+  label.setOutputMarkupId(true);
+  label.add(timer);
+  tester.startPage(page);
+  assertMatches("setTimeout",1);
+  tester.executeBehavior(timer);
+  assertMatches("clearTimeout",1);
+  assertMatches("setTimeout",0);
+}

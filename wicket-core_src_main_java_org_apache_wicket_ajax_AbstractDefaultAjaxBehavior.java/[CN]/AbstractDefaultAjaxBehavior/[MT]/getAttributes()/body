@@ -1,6 +1,10 @@
 {
   AjaxRequestAttributes attributes=new AjaxRequestAttributes();
-  updateAjaxAttributesBackwardCompatibility(attributes);
+  WebApplication application=(WebApplication)getComponent().getApplication();
+  AjaxRequestTargetListenerCollection ajaxRequestTargetListeners=application.getAjaxRequestTargetListeners();
+  for (  AjaxRequestTarget.IListener listener : ajaxRequestTargetListeners) {
+    listener.updateAjaxAttributes(attributes);
+  }
   updateAjaxAttributes(attributes);
   return attributes;
 }

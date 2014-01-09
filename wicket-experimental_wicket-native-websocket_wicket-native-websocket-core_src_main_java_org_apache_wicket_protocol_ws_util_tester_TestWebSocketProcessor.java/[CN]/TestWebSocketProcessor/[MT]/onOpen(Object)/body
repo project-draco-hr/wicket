@@ -6,6 +6,9 @@
     @Override protected void onOutMessage(    byte[] message,    int offset,    int length){
       TestWebSocketProcessor.this.onOutMessage(message,offset,length);
     }
+    @Override public void sendMessage(    IWebSocketPushMessage message){
+      TestWebSocketProcessor.this.broadcastMessage(message);
+    }
   }
 );
 }

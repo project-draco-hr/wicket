@@ -1,0 +1,19 @@
+{
+  conversation.begin();
+  add(new Label("count",new PropertyModel<Integer>(this,"counter.count")));
+  add(new Link<Void>("increment"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      counter.increment();
+    }
+  }
+);
+  add(new Link<Void>("reset"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      conversation.end();
+      setResponsePage(TestPage.class);
+    }
+  }
+);
+}

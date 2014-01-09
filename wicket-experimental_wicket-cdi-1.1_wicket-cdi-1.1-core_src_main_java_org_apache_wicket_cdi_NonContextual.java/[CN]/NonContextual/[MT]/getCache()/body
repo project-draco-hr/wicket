@@ -1,0 +1,16 @@
+{
+  ClassMetaCache<NonContextual<?>> meta=cache.get(BeanManagerLookup.lookup());
+  if (meta == null) {
+synchronized (lock) {
+      BeanManager manager=BeanManagerLookup.lookup();
+      meta=cache.get(manager);
+      if (meta == null) {
+        meta=new ClassMetaCache<NonContextual<?>>();
+        Map<BeanManager,ClassMetaCache<NonContextual<?>>> newCache=new WeakHashMap<BeanManager,ClassMetaCache<NonContextual<?>>>(cache);
+        newCache.put(manager,meta);
+        cache=Collections.unmodifiableMap(newCache);
+      }
+    }
+  }
+  return meta;
+}

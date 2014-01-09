@@ -1,0 +1,17 @@
+{
+  form=new Form<Void>("form");
+  add(form);
+  group=new RadioGroup<Boolean>("group",new Model(Boolean.TRUE));
+  group.add(new AjaxFormChoiceComponentUpdatingBehavior(){
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+    }
+  }
+);
+  form.add(group);
+  radioTrue=new Radio<Boolean>("radioTrue",Model.of(Boolean.TRUE));
+  group.add(radioTrue);
+  radioFalse=new Radio<Boolean>("radioFalse",Model.of(Boolean.FALSE));
+  group.add(radioFalse);
+  text=new TextField<String>("text",Model.of(""));
+  group.add(text.setRequired(true));
+}

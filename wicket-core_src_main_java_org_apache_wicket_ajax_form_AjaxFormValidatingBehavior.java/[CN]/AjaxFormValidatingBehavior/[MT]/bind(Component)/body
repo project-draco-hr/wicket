@@ -1,0 +1,12 @@
+{
+  super.bind(component);
+  if (component instanceof Form<?>) {
+    form=(Form<?>)component;
+  }
+ else {
+    form=Form.findForm(component);
+    if (form == null) {
+      throw new WicketRuntimeException(AjaxFormValidatingBehavior.class.getSimpleName() + " should be bound to a Form component or a component that is inside a form!");
+    }
+  }
+}

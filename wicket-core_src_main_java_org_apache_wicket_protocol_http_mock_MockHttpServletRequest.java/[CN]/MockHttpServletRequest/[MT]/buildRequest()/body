@@ -30,26 +30,28 @@
     }
     if (uploadedFiles != null) {
       for (      String fieldName : uploadedFiles.keySet()) {
-        UploadedFile uf=uploadedFiles.get(fieldName);
-        newAttachment(out);
-        out.write("; name=\"".getBytes());
-        out.write(fieldName.getBytes());
-        out.write("\"; filename=\"".getBytes());
-        out.write(uf.getFile().getName().getBytes());
-        out.write("\"".getBytes());
-        out.write(crlf.getBytes());
-        out.write("Content-Type: ".getBytes());
-        out.write(uf.getContentType().getBytes());
-        out.write(crlf.getBytes());
-        out.write(crlf.getBytes());
-        FileInputStream fis=new FileInputStream(uf.getFile());
-        try {
-          IOUtils.copy(fis,out);
-        }
+        List<UploadedFile> files=uploadedFiles.get(fieldName);
+        for (        UploadedFile uf : files) {
+          newAttachment(out);
+          out.write("; name=\"".getBytes());
+          out.write(fieldName.getBytes());
+          out.write("\"; filename=\"".getBytes());
+          out.write(uf.getFile().getName().getBytes());
+          out.write("\"".getBytes());
+          out.write(crlf.getBytes());
+          out.write("Content-Type: ".getBytes());
+          out.write(uf.getContentType().getBytes());
+          out.write(crlf.getBytes());
+          out.write(crlf.getBytes());
+          FileInputStream fis=new FileInputStream(uf.getFile());
+          try {
+            IOUtils.copy(fis,out);
+          }
   finally {
-          fis.close();
+            fis.close();
+          }
+          out.write(crlf.getBytes());
         }
-        out.write(crlf.getBytes());
       }
     }
     out.write(boundary.getBytes());

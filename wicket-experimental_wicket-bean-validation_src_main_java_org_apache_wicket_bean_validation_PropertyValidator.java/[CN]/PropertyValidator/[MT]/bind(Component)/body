@@ -1,0 +1,9 @@
+{
+  if (this.component != null) {
+    throw new IllegalStateException("This validator has already been added to component: " + this.component + ". This validator does not support reusing instances, please create a new one");
+  }
+  if (!(component instanceof FormComponent)) {
+    throw new IllegalStateException(getClass().getSimpleName() + " can only be added to FormComponents");
+  }
+  this.component=(FormComponent<T>)component;
+}

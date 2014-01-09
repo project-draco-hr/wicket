@@ -1,14 +1,20 @@
 {
-  final List<Component> originalComponents=Collections.unmodifiableList(new ArrayList<Component>(map.values()));
-  target.getPage().visitChildren(InlineEnclosure.class,new IVisitor<InlineEnclosure,Void>(){
-    @Override public void component(    final InlineEnclosure enclosure,    final IVisit<Void> visit){
-      for (      Component component : originalComponents) {
+  String key=target.getPage().visitChildren(InlineEnclosure.class,new IVisitor<InlineEnclosure,String>(){
+    @Override public void component(    final InlineEnclosure enclosure,    final IVisit<String> visit){
+      for (      Map.Entry<String,Component> entry : map.entrySet()) {
+        String key=entry.getKey();
+        Component component=entry.getValue();
         if (isControllerOfEnclosure(component,enclosure)) {
           enclosure.updateVisibility();
           target.add(enclosure);
+          visit.stop(key);
+          break;
         }
       }
     }
   }
 );
+  if (key != null) {
+    map.remove(key);
+  }
 }

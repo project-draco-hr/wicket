@@ -1,5 +1,5 @@
 {
-  IChoiceRenderer<T> renderer=getPalette().getChoiceRenderer();
+  ChoiceRenderer<T> renderer=getPalette().getChoiceRenderer();
   StringBuilder modelStringBuffer=new StringBuilder();
   Collection<T> modelCollection=getPalette().getModelCollection();
   if (modelCollection == null) {
@@ -10,10 +10,9 @@
   while (selection.hasNext()) {
     modelStringBuffer.append(renderer.getIdValue(selection.next(),i++));
     if (selection.hasNext()) {
-      modelStringBuffer.append(",");
+      modelStringBuffer.append(',');
     }
   }
   String modelString=modelStringBuffer.toString();
-  setDefaultModel(new Model<String>(modelString));
-  updateIds(modelString);
+  setModelObject(modelString);
 }

@@ -1,0 +1,34 @@
+{
+  Cookie firstCookie=newCookie("a","firstValue",1);
+  setCookieInResponseAndRedirect(firstCookie);
+  lastResponseShouldHaveTheseCookies(firstCookie);
+  requestShouldHaveTheseCookies(firstCookie);
+  CollectAllRequestCookiesPage collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,firstCookie);
+  lastResponseDoesNotHaveAnyCookies();
+  requestShouldHaveTheseCookies(firstCookie);
+  responseDoesNotHaveAnyCookies();
+  Cookie cookieSetInRequest=newCookie("a","valueFromRequest",1);
+  Cookie cookieSetInResponse=newCookie("a","overwriteInResponse",1);
+  tester.getRequest().addCookie(cookieSetInRequest);
+  setCookieInResponseAndRedirect(cookieSetInResponse);
+  lastResponseShouldHaveTheseCookies(cookieSetInResponse);
+  requestShouldHaveTheseCookies(cookieSetInResponse);
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,cookieSetInResponse);
+  lastResponseDoesNotHaveAnyCookies();
+  requestShouldHaveTheseCookies(cookieSetInResponse);
+  responseDoesNotHaveAnyCookies();
+  Cookie nextCookieSetInRequest=newCookie("a","nextValueFromRequest",1);
+  Cookie nextCookieSetInResponse=newCookie("a","newValue",0);
+  tester.getRequest().addCookie(nextCookieSetInRequest);
+  setCookieInResponseAndRedirect(nextCookieSetInResponse);
+  lastResponseShouldHaveTheseCookies(nextCookieSetInResponse);
+  requestDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage);
+  lastResponseDoesNotHaveAnyCookies();
+  requestDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+}

@@ -1,15 +1,16 @@
 {
   Args.notNull(url,"url");
-  if (url.length() > 0 && url.charAt(0) == '?') {
-    String encoded=httpServletResponse.encodeURL("./" + url.toString());
-    if (encoded.startsWith("./")) {
-      return encoded.substring(2);
-    }
- else {
-      return encoded;
-    }
+  UrlRenderer urlRenderer=RequestCycle.get().getUrlRenderer();
+  Url relativeUrl=Url.parse(url);
+  String fullUrl=urlRenderer.renderFullUrl(relativeUrl);
+  String encodedFullUrl=httpServletResponse.encodeURL(fullUrl);
+  final String encodedRelativeUrl;
+  if (fullUrl.equals(encodedFullUrl)) {
+    encodedRelativeUrl=url.toString();
   }
  else {
-    return httpServletResponse.encodeURL(url.toString());
+    Url _encoded=Url.parse(encodedFullUrl);
+    encodedRelativeUrl=urlRenderer.renderRelativeUrl(_encoded);
   }
+  return encodedRelativeUrl;
 }

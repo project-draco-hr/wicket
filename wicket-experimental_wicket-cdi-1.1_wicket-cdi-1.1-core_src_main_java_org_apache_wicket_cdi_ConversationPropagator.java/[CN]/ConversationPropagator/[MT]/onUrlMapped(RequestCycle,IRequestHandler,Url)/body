@@ -1,0 +1,15 @@
+{
+  if (handler instanceof ResourceReferenceRequestHandler) {
+    if (((ResourceReferenceRequestHandler)handler).getResourceReference() instanceof PackageResourceReference) {
+      return;
+    }
+  }
+  Conversation conversation=getConversation(cycle);
+  if (conversation == null || conversation.isTransient()) {
+    return;
+  }
+  if (propagationSource.get().propagatesViaParameters(handler)) {
+    logger.debug("Propagating non-transient conversation {} via url",conversation.getId());
+    url.setQueryParameter(CID_ATTR,conversation.getId());
+  }
+}

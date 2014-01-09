@@ -1,0 +1,15 @@
+{
+  form=new Form<>("form");
+  add(form);
+  select=new Select<Foo>("select",new Model<Foo>(new Foo("foo"))){
+    /** 
+ * Selection based custom equality.
+ */
+    @Override protected boolean isSelected(    IModel<?> model){
+      return ((Foo)model.getObject()).string == getModelObject().string;
+    }
+  }
+;
+  form.add(select);
+  select.add(option0=new SelectOption<Foo>("option0",new Model<>(new Foo("foo"))));
+}

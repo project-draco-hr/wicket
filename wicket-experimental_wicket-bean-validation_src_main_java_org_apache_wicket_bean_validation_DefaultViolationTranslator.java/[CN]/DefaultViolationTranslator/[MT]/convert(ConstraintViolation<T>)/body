@@ -1,0 +1,16 @@
+{
+  ConstraintDescriptor<?> desc=violation.getConstraintDescriptor();
+  ValidationError error=new ValidationError();
+  error.setMessage(violation.getMessage());
+  String messageKey=getMessageKey(desc);
+  if (messageKey != null) {
+    if (violation.getInvalidValue() != null) {
+      error.addKey(messageKey + "." + violation.getInvalidValue().getClass().getSimpleName());
+    }
+    error.addKey(messageKey);
+  }
+  for (  String key : desc.getAttributes().keySet()) {
+    error.setVariable(key,desc.getAttributes().get(key));
+  }
+  return error;
+}

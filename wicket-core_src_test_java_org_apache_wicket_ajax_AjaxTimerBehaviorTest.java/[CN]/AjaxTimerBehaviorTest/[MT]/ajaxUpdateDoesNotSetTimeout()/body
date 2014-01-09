@@ -1,0 +1,22 @@
+{
+  Duration dur=Duration.seconds(20);
+  final AjaxSelfUpdatingTimerBehavior timer=new AjaxSelfUpdatingTimerBehavior(dur);
+  final MockPageWithLinkAndComponent page=new MockPageWithLinkAndComponent();
+  final Label label=new Label(MockPageWithLinkAndComponent.COMPONENT_ID,"Hello");
+  page.add(label);
+  page.add(new AjaxLink<Void>(MockPageWithLinkAndComponent.LINK_ID){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      target.add(label);
+    }
+  }
+);
+  label.setOutputMarkupId(true);
+  label.add(timer);
+  tester.startPage(page);
+  assertMatches("setTimeout",1);
+  tester.clickLink(MockPageWithLinkAndComponent.LINK_ID);
+  assertMatches("setTimeout",0);
+  tester.executeBehavior(timer);
+  assertMatches("setTimeout",1);
+}

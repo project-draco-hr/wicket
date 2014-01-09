@@ -2,6 +2,7 @@
   PageWithLink page=tester.startPage(PageWithLink.class,new PageParameters().add("param","value"));
   Link<?> link=(Link<?>)page.get("link");
   String url=link.getURL().toString();
-  assertTrue("URL for link should contain 'mount/value/part2': " + url,url.toString().contains("mount/value/part2"));
+  if (mount)   assertTrue("URL for link should contain 'mount/value/part2': " + url,url.toString().contains("mount/value/part2"));
+ else   assertTrue("URL for link should contain 'param=value': " + url,url.toString().contains("param=value"));
   tester.executeUrl(url);
 }

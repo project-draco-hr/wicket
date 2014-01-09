@@ -1,0 +1,8 @@
+{
+  ResourceUrl resourceUrl=new ResourceUrl("some-resource.txt",new PageParameters());
+  strategy.decorateUrl(resourceUrl,new TestResource());
+  assertEquals("some-resource--vers--" + TEST_RESOURCE_VERSION + ".txt",resourceUrl.getFileName());
+  resourceUrl=new ResourceUrl("some-resource--vers--with-prefix.txt",new PageParameters());
+  strategy.decorateUrl(resourceUrl,new TestResource());
+  assertEquals("some-resource--vers--with-prefix--vers--" + TEST_RESOURCE_VERSION + ".txt",resourceUrl.getFileName());
+}

@@ -1,0 +1,9 @@
+{
+  ChoiceComponentPage page=tester.startPage(ChoiceComponentPage.class);
+  tester.submitForm(page.form);
+  assertTrue(page.text.hasErrorMessage());
+  tester.getRequest().setParameter("form.group",page.radioFalse.getValue());
+  tester.executeAjaxEvent(page.group,"click");
+  assertFalse(page.group.isValid());
+  assertEquals(Boolean.TRUE,page.group.getModelObject());
+}

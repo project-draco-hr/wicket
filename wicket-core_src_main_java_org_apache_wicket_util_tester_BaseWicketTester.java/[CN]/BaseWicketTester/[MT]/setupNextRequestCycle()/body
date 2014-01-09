@@ -8,8 +8,30 @@
     request.setServerName(lastRequest.getServerName());
     request.setServerPort(lastRequest.getServerPort());
   }
-  transferCookies();
   response=new MockHttpServletResponse(request);
+  if (lastResponse != null) {
+    List<Cookie> lastResponseCookies=lastResponse.getCookies();
+    if (lastResponse.isRedirect()) {
+      CookieCollection responseCookies=new CookieCollection();
+      responseCookies.addAll(lastResponseCookies);
+      for (      Cookie cookie : responseCookies.allAsList()) {
+        response.addCookie(cookie);
+      }
+      if (lastRequest != null) {
+        CookieCollection requestCookies=new CookieCollection();
+        requestCookies.addAll(lastRequest.getCookies());
+        request.addCookies(requestCookies.asList());
+      }
+    }
+ else {
+      CookieCollection cookies=new CookieCollection();
+      if (lastRequest != null) {
+        cookies.addAll(lastRequest.getCookies());
+      }
+      cookies.addAll(lastResponseCookies);
+      request.addCookies(cookies.asList());
+    }
+  }
   ServletWebRequest servletWebRequest=newServletWebRequest();
   requestCycle=application.createRequestCycle(servletWebRequest,newServletWebResponse(servletWebRequest));
   ThreadContext.setRequestCycle(requestCycle);

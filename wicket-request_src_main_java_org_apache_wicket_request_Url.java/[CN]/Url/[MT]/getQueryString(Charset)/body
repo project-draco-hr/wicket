@@ -1,9 +1,16 @@
 {
   Args.notNull(charset,"charset");
-  StringBuilder query=new StringBuilder();
-  for (  QueryParameter parameter : getQueryParameters()) {
-    query.append(query.length() == 0 ? '?' : '&');
-    query.append(parameter.toString(charset));
+  String queryString=null;
+  List<QueryParameter> queryParameters=getQueryParameters();
+  if (queryParameters.size() != 0) {
+    StringBuilder query=new StringBuilder();
+    for (    QueryParameter parameter : queryParameters) {
+      if (query.length() != 0) {
+        query.append('&');
+      }
+      query.append(parameter.toString(charset));
+    }
+    queryString=query.toString();
   }
-  return query.toString();
+  return queryString;
 }

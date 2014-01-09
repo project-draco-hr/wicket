@@ -2,13 +2,19 @@
   ServletWebRequest request=(ServletWebRequest)requestCycle.getRequest();
   HttpServletRequest req=request.getContainerRequest();
   String remoteAddr=request.getHeader("X-Forwarded-For");
-  if (remoteAddr == null) {
-    remoteAddr=req.getRemoteAddr();
-  }
- else {
+  if (remoteAddr != null) {
     if (remoteAddr.contains(",")) {
       remoteAddr=Strings.split(remoteAddr,',')[0].trim();
     }
+    try {
+      InetAddress.getByName(remoteAddr);
+    }
+ catch (    UnknownHostException e) {
+      remoteAddr=req.getRemoteAddr();
+    }
+  }
+ else {
+    remoteAddr=req.getRemoteAddr();
   }
   return remoteAddr;
 }

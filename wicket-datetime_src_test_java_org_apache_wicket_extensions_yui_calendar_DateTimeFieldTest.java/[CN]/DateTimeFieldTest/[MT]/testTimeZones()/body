@@ -1,0 +1,19 @@
+{
+  DateTimeZone defaultTimeZone=DateTimeZone.getDefault();
+  try {
+    DateTimeZone.setDefault(DateTimeZone.forID("UTC"));
+    final String clientTimezone="America/Toronto";
+    DateTime jan01_10am=new DateTime(2013,01,01,10,0,0,DateTimeZone.forID(clientTimezone));
+    DateTimeField dateTimeField=new DateTimeField("foo",Model.of(jan01_10am.toDate())){
+      @Override protected TimeZone getClientTimeZone(){
+        return TimeZone.getTimeZone(clientTimezone);
+      }
+    }
+;
+    tester.startComponentInPage(dateTimeField);
+    Assert.assertEquals("The hour of day is incorrect!",jan01_10am.getHourOfDay(),dateTimeField.getHours().intValue());
+  }
+  finally {
+    DateTimeZone.setDefault(defaultTimeZone);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  File[] files=dir.listFiles();
+  for (  File file : files) {
+    if (file.isDirectory()) {
+      addResources(new AppendingStringBuffer(relativePath).append(file.getName()).append('/'),file,resources);
+    }
+ else {
+      String name=file.getName();
+      if (!name.endsWith("class")) {
+        resources.add(relativePath + name);
+      }
+    }
+  }
+}

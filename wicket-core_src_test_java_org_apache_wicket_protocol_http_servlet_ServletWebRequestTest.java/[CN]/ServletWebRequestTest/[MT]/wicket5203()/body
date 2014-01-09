@@ -1,0 +1,13 @@
+{
+  String filterPath="filterPath";
+  MockHttpServletRequest httpRequest=new MockHttpServletRequest(null,null,null);
+  httpRequest.setURL(httpRequest.getContextPath() + '/' + filterPath+ "/request/Path");
+  httpRequest.setParameter("some","parameter");
+  ServletWebRequest webRequest=new ServletWebRequest(httpRequest,filterPath);
+  Url clientUrl=webRequest.getClientUrl();
+  assertEquals("request/Path?some=parameter",clientUrl.toString());
+  httpRequest.setAttribute("javax.servlet.error.request_uri",httpRequest.getContextPath() + '/' + filterPath+ "/any/source/of/error");
+  ServletWebRequest errorWebRequest=new ServletWebRequest(httpRequest,filterPath);
+  Url errorClientUrl=errorWebRequest.getClientUrl();
+  assertEquals("any/source/of/error",errorClientUrl.toString());
+}

@@ -1,14 +1,16 @@
 {
   final String cacheKey=markupResourceStream.getCacheKey();
   if (cacheKey != null) {
-    String locationString=markupResourceStream.locationAsString();
-    if (locationString == null) {
-      locationString=cacheKey;
-    }
-    Markup markup=markupCache.get(locationString);
-    if (markup != null) {
-      markupKeyCache.put(cacheKey,locationString);
-      return markup;
+    if (enforceReload == false) {
+      String locationString=markupResourceStream.locationAsString();
+      if (locationString == null) {
+        locationString=cacheKey;
+      }
+      Markup markup=markupCache.get(locationString);
+      if (markup != null) {
+        markupKeyCache.put(cacheKey,locationString);
+        return markup;
+      }
     }
     final IModificationWatcher watcher=application.getResourceSettings().getResourceWatcher(true);
     if (watcher != null) {

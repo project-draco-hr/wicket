@@ -1,7 +1,9 @@
 {
   checkClosed();
   try {
-    tester.clearFeedbackMessages();
+    if (clearFeedbackMessagesBeforeSubmit) {
+      tester.clearFeedbackMessages();
+    }
     tester.getRequest().setUseMultiPartContentType(workingForm.isMultiPart());
     tester.submitForm(path);
   }

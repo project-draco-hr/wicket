@@ -1,0 +1,7 @@
+{
+  super.init();
+  mountPage("/behavior",WebSocketBehaviorDemoPage.class);
+  mountPage("/resource",WebSocketResourceDemoPage.class);
+  setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),new HttpsConfig()));
+  getSharedResources().add(ChartWebSocketResource.NAME,new ChartWebSocketResource());
+}

@@ -1,0 +1,18 @@
+{
+  super.onComponentTag(tag);
+  final ISortState<S> sortState=stateLocator.getSortState();
+  SortOrder dir=sortState.getPropertySortOrder(property);
+  String cssClass;
+  if (dir == SortOrder.ASCENDING) {
+    cssClass=getString(SORT_ASCENDING_CSS_CLASS_KEY);
+  }
+ else   if (dir == SortOrder.DESCENDING) {
+    cssClass=getString(SORT_DESCENDING_CSS_CLASS_KEY);
+  }
+ else {
+    cssClass=getString(SORT_NONE_CSS_CLASS_KEY);
+  }
+  if (!Strings.isEmpty(cssClass)) {
+    tag.append("class",cssClass," ");
+  }
+}

@@ -26,13 +26,16 @@
       throw new WicketParseException("Open-close tag not allowed for Enclosure:",tag);
     }
   }
- else   if ((tag.getId() != null) && (isWicketTag == false) && (stack != null)&& (!tag.isAutoComponentTag())) {
+ else   if (stack != null) {
     ComponentTag lastEnclosure=stack.lastElement();
     if (lastEnclosure.getAttribute(CHILD_ATTRIBUTE) == null) {
-      if (childId != null) {
-        throw new WicketParseException("Use <wicket:enclosure child='xxx'> to name the child component:",tag);
+      String id=tag.getAttribute(getWicketNamespace() + ":id");
+      if (id != null) {
+        if (childId != null) {
+          throw new WicketParseException("Use <" + getWicketNamespace() + ":enclosure child='xxx'> to name the child component:",tag);
+        }
+        childId=id;
       }
-      childId=tag.getId();
     }
   }
   return tag;

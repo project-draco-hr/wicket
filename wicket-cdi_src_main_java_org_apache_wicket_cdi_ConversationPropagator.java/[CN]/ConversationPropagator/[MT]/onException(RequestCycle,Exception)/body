@@ -1,0 +1,18 @@
+{
+  if (ex instanceof StalePageException) {
+    IRequestablePage requestable=((StalePageException)ex).getPage();
+    if (requestable instanceof Page) {
+      String cid=container.getConversationMarker((Page)requestable);
+      if (cid != null) {
+        try {
+          activateConversationIfNeeded(cycle,null,cid);
+          return null;
+        }
+ catch (        ConversationExpiredException e) {
+        }
+      }
+    }
+  }
+  activateConversationIfNeeded(cycle,null,null);
+  return null;
+}

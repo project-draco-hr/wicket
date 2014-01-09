@@ -25,6 +25,6 @@
   if (top != -1) {
     script.append(",top=").append(top);
   }
-  script.append("'); if(w.blur) w.focus();").append(" return false;");
+  script.append("'); try {if (w.blur) w.focus();}catch(ignore){}; return false;");
   return script.toString();
 }

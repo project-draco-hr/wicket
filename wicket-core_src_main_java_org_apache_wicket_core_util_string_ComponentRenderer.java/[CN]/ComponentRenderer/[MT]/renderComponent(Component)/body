@@ -1,0 +1,19 @@
+{
+  RequestCycle requestCycle=RequestCycle.get();
+  final Response originalResponse=requestCycle.getResponse();
+  BufferedWebResponse tempResponse=new BufferedWebResponse(null);
+  MarkupContainer oldParent=component.getParent();
+  try {
+    requestCycle.setResponse(tempResponse);
+    RenderPage page=new RenderPage(component);
+    page.internalInitialize();
+    component.render();
+  }
+  finally {
+    if (oldParent != null) {
+      oldParent.add(component);
+    }
+    requestCycle.setResponse(originalResponse);
+  }
+  return tempResponse.getText();
+}

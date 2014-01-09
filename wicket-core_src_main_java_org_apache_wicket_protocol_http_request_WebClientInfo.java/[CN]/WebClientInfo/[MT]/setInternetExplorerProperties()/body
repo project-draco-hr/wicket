@@ -1,20 +1,11 @@
 {
   properties.setBrowserInternetExplorer(UserAgent.INTERNET_EXPLORER.matches(getUserAgent()));
   if (properties.isBrowserInternetExplorer()) {
-    setMajorMinorVersionByPattern("msie (\\d+)\\.(\\d+)");
-    properties.setProprietaryIECssExpressionsSupported(true);
-    properties.setQuirkCssPositioningOneSideOnly(true);
-    properties.setQuirkIERepaint(true);
-    properties.setQuirkIESelectZIndex(true);
-    properties.setQuirkIETextareaNewlineObliteration(true);
-    properties.setQuirkIESelectPercentWidth(true);
-    properties.setQuirkIESelectListDomUpdate(true);
-    properties.setQuirkIETablePercentWidthScrollbarError(true);
-    properties.setQuirkCssBackgroundAttachmentUseFixed(true);
-    properties.setQuirkCssBorderCollapseInside(true);
-    properties.setQuirkCssBorderCollapseFor0Padding(true);
-    if (properties.getBrowserVersionMajor() < 7) {
-      properties.setProprietaryIEPngAlphaFilterRequired(true);
+    if (getUserAgentStringLc().contains("like gecko")) {
+      setMajorMinorVersionByPattern("rv:(\\d+)\\.(\\d+)");
+    }
+ else {
+      setMajorMinorVersionByPattern("msie (\\d+)\\.(\\d+)");
     }
   }
 }

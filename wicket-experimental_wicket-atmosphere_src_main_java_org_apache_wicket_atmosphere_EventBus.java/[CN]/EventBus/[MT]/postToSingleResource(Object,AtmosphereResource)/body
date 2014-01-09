@@ -1,0 +1,13 @@
+{
+  AtmosphereEvent event=new AtmosphereEvent(payload,resource);
+  ThreadContext.detach();
+  ThreadContext.setApplication(application);
+  PageKey key;
+  Collection<EventSubscription> subscriptionsForPage;
+synchronized (this) {
+    key=trackedPages.get(resource.uuid());
+    subscriptionsForPage=Collections2.filter(Collections.unmodifiableCollection(subscriptions.get(key)),new EventFilter(event));
+  }
+  if (key == null)   broadcaster.removeAtmosphereResource(resource);
+ else   if (!subscriptionsForPage.isEmpty())   post(resource,key,subscriptionsForPage,event);
+}

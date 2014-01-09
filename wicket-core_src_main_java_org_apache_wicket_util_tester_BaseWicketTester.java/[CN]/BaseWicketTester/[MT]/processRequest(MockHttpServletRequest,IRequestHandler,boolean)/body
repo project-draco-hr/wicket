@@ -14,19 +14,18 @@
     }
     preHeader=null;
   }
+  applyRequest();
+  requestCycle.scheduleRequestHandlerAfterCurrent(null);
   try {
-    if (getLastResponse() != null) {
-      for (      Cookie cookie : getLastResponse().getCookies()) {
-        request.addCookie(cookie);
-      }
-    }
-    applyRequest();
-    requestCycle.scheduleRequestHandlerAfterCurrent(null);
     if (!requestCycle.processRequestAndDetach()) {
       return false;
     }
+  }
+  finally {
     recordRequestResponse();
     setupNextRequestCycle();
+  }
+  try {
     if (followRedirects && lastResponse.isRedirect()) {
       if (redirectCount++ >= 100) {
         fail("Possible infinite redirect detected. Bailing out.");
@@ -35,7 +34,7 @@
       if (isExternalRedirect(lastRequest.getUrl(),newUrl)) {
         return true;
       }
-      if (newUrl.isAbsolute()) {
+      if (newUrl.isFull() || newUrl.isContextAbsolute()) {
         request.setUrl(newUrl);
         final String protocol=newUrl.getProtocol();
         if (protocol != null) {

@@ -1,21 +1,11 @@
 {
   ThreadContext oldContext=ThreadContext.get(false);
   try {
-    ThreadContext.restore(null);
-    ThreadContext.setApplication(application);
     for (    AtmosphereResource resource : broadcaster.getAtmosphereResources()) {
-      PageKey key;
-      Collection<EventSubscription> subscriptionsForPage;
-synchronized (this) {
-        key=trackedPages.get(AtmosphereBehavior.getUUID(resource));
-        subscriptionsForPage=Collections2.filter(Collections.unmodifiableCollection(subscriptions.get(key)),new EventFilter(event));
-      }
-      if (key == null)       broadcaster.removeAtmosphereResource(resource);
- else       post(resource,key,subscriptionsForPage,event);
+      postToSingleResource(event,resource);
     }
   }
   finally {
-    ThreadContext.detach();
-    if (oldContext != null)     ThreadContext.restore(oldContext);
+    ThreadContext.restore(oldContext);
   }
 }

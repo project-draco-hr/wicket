@@ -1,0 +1,19 @@
+{
+  assertFalse(TestWebSocketResource.ON_CONNECT_CALLED.get());
+  WebSocketTester webSocketTester=new WebSocketTester(tester,TestWebSocketResource.BINARY){
+    @Override protected void onOutMessage(    byte[] message,    int offset,    int length){
+      ON_OUT_BINARY_CALLED.set(true);
+      Assert.assertArrayEquals(EXPECTED_BINARY,message);
+      Assert.assertEquals(offset,offset);
+      Assert.assertEquals(length,length);
+    }
+  }
+;
+  assertTrue(TestWebSocketResource.ON_CONNECT_CALLED.get());
+  assertFalse(ON_OUT_BINARY_CALLED.get());
+  webSocketTester.sendMessage(EXPECTED_BINARY,EXPECTED_OFFSET,EXPECTED_LENGTH);
+  assertTrue(ON_OUT_BINARY_CALLED.get());
+  assertFalse(TestWebSocketResource.ON_CLOSE_CALLED.get());
+  webSocketTester.destroy();
+  assertTrue(TestWebSocketResource.ON_CLOSE_CALLED.get());
+}

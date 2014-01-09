@@ -1,0 +1,11 @@
+{
+  String cookieName="cookieName";
+  String cookieValue="cookieValue";
+  Cookie requestCookie=new Cookie(cookieName,cookieValue);
+  tester.getRequest().addCookie(requestCookie);
+  tester.startPage(new CookiePage(cookieName,cookieValue));
+  tester.assertRenderedPage(CookiePage.class);
+  Cookie responseCookie=tester.getLastResponse().getCookies().get(0);
+  requestCookie.setValue("valueChanged");
+  Assert.assertEquals(cookieValue,responseCookie.getValue());
+}

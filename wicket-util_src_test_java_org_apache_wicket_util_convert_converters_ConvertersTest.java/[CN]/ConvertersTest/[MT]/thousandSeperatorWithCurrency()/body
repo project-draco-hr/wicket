@@ -1,0 +1,12 @@
+{
+  FloatConverter fc=new FloatConverter(){
+    private static final long serialVersionUID=1L;
+    @Override protected NumberFormat newNumberFormat(    Locale locale){
+      return NumberFormat.getCurrencyInstance(locale);
+    }
+  }
+;
+  String string="1\u00A0234,00 \u00A4";
+  assertEquals(string,fc.convertToString(Float.valueOf(1234f),Locale.FRENCH));
+  assertEquals(Float.valueOf(1234f),fc.convertToObject(string,Locale.FRENCH));
+}

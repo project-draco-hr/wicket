@@ -1,0 +1,19 @@
+{
+  if (!super.acceptWebSocket(req,resp)) {
+    return false;
+  }
+ else {
+    resp.setHeader("upgrade","websocket");
+    resp.setHeader("connection","upgrade");
+  }
+  String key=req.getHeader("Sec-WebSocket-Key");
+  resp.setHeader("Sec-WebSocket-Accept",getWebSocketAccept(key));
+  WebApplication application=getApplication();
+  TomcatWebSocketProcessor webSocketHandler=new TomcatWebSocketProcessor(req,application);
+  TomcatWebSocketProcessor.TomcatWebSocket tomcatWebSocket=webSocketHandler.new TomcatWebSocket();
+  while (req instanceof HttpServletRequestWrapper) {
+    req=(HttpServletRequest)((HttpServletRequestWrapper)req).getRequest();
+  }
+  ((RequestFacade)req).doUpgrade(tomcatWebSocket);
+  return true;
+}

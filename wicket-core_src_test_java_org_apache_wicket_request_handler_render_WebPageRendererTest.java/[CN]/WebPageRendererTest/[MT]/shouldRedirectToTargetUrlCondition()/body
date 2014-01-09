@@ -1,0 +1,23 @@
+{
+  TestPageRenderer renderer=new TestPageRenderer(handler);
+  renderer.ajax=false;
+  renderer.redirectPolicy=RedirectPolicy.ALWAYS_REDIRECT;
+  renderer.redirectToRender=false;
+  renderer.newPageInstance=false;
+  renderer.pageStateless=false;
+  renderer.sessionTemporary=false;
+  Assert.assertTrue(renderer.shouldRedirectToTargetUrl(requestCycle,Url.parse("test1"),Url.parse("test2")));
+  renderer.redirectPolicy=RedirectPolicy.AUTO_REDIRECT;
+  renderer.redirectToRender=true;
+  Assert.assertTrue(renderer.shouldRedirectToTargetUrl(requestCycle,Url.parse("test1"),Url.parse("test2")));
+  renderer.redirectToRender=false;
+  renderer.ajax=true;
+  Assert.assertTrue(renderer.shouldRedirectToTargetUrl(requestCycle,Url.parse("test"),Url.parse("test")));
+  renderer.ajax=false;
+  renderer.newPageInstance=true;
+  Assert.assertTrue(renderer.shouldRedirectToTargetUrl(requestCycle,Url.parse("test1"),Url.parse("test2")));
+  renderer.newPageInstance=false;
+  renderer.sessionTemporary=true;
+  renderer.pageStateless=true;
+  Assert.assertTrue(renderer.shouldRedirectToTargetUrl(requestCycle,Url.parse("test1"),Url.parse("test2")));
+}

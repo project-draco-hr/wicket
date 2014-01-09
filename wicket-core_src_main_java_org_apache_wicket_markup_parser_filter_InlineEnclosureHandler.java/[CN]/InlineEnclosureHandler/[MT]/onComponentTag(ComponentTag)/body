@@ -2,7 +2,7 @@
   if (tag instanceof WicketTag) {
     return tag;
   }
-  String enclosureAttr=getInlineEnclosureAttribute(tag);
+  String enclosureAttr=getAttribute(tag,null);
   if (enclosureAttr != null) {
     if (tag.isOpen()) {
       String htmlId=tag.getAttribute("id");
@@ -11,7 +11,7 @@
       }
       if (Strings.isEmpty(tag.getId())) {
         if (Strings.isEmpty(htmlId)) {
-          String id=getWicketNamespace() + "_" + INLINE_ENCLOSURE_ID_PREFIX;
+          String id=getWicketNamespace() + "_" + INLINE_ENCLOSURE_ID_PREFIX+ (counter++);
           tag.setId(id);
         }
  else {
@@ -33,16 +33,16 @@
     if (tag.isOpen() && (tag.getId() != null) && !(tag instanceof WicketTag)&& !tag.isAutoComponentTag()) {
       for (int i=enclosures.size() - 1; i >= 0; i--) {
         ComponentTag lastEnclosure=enclosures.get(i);
-        String attr=getInlineEnclosureAttribute(lastEnclosure);
+        String attr=getAttribute(lastEnclosure,null);
         if (Strings.isEmpty(attr) == true) {
-          lastEnclosure.getAttributes().put(INLINE_ENCLOSURE_ATTRIBUTE_NAME,tag.getId());
+          lastEnclosure.getAttributes().put(getInlineEnclosureAttributeName(null),tag.getId());
           lastEnclosure.setModified(true);
         }
       }
     }
  else     if (tag.isClose() && tag.closes(enclosures.peek())) {
       ComponentTag lastEnclosure=enclosures.pop();
-      String attr=getInlineEnclosureAttribute(lastEnclosure);
+      String attr=getAttribute(lastEnclosure,null);
       if (Strings.isEmpty(attr) == true) {
         throw new ParseException("Did not find any child for InlineEnclosure. Tag:" + lastEnclosure.toString(),tag.getPos());
       }

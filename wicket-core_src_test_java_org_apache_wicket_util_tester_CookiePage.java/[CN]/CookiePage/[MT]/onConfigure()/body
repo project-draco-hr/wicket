@@ -1,4 +1,7 @@
 {
   super.onConfigure();
-  doAssert();
+  Cookie cookie=((WebRequest)getRequest()).getCookie(cookieName);
+  Assert.assertEquals(cookieValue,cookie.getValue());
+  WebResponse response=(WebResponse)getResponse();
+  response.addCookie(cookie);
 }

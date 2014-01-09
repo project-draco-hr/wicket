@@ -6,5 +6,7 @@
  else {
     wicketEventReference=WicketEventJQueryResourceReference.get();
   }
-  return Collections.singletonList(JavaScriptHeaderItem.forReference(wicketEventReference));
+  List<HeaderItem> dependencies=super.getDependencies();
+  dependencies.add(JavaScriptHeaderItem.forReference(wicketEventReference));
+  return dependencies;
 }

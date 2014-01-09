@@ -4,8 +4,14 @@
   final String fullname=pos == -1 ? filename : filename.substring(0,pos);
   final String extension=pos == -1 ? null : filename.substring(pos);
   pos=fullname.lastIndexOf(versionPrefix);
-  if (pos != -1) {
+  if (pos != -1 && isVersion(fullname.substring(pos + versionPrefix.length()))) {
     final String basename=fullname.substring(0,pos);
     url.setFileName(extension == null ? basename : basename + extension);
+    RequestCycle requestCycle=RequestCycle.get();
+    if (requestCycle != null) {
+      int idx=fullname.indexOf(versionPrefix);
+      String urlVersion=fullname.substring(idx + versionPrefix.length());
+      requestCycle.setMetaData(URL_VERSION,urlVersion);
+    }
   }
 }

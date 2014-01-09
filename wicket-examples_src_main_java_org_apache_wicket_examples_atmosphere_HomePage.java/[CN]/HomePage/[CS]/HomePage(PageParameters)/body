@@ -2,13 +2,14 @@
   super(parameters);
   add(timeLabel=new Label("time",Model.of("start")).setOutputMarkupId(true));
   add(messageLabel=new Label("message",Model.of("-")).setOutputMarkupId(true));
-  Form<Void> form=new Form<Void>("form");
+  Form<Void> form=new Form<>("form");
   add(form);
-  form.add(input=new TextField<String>("input",Model.of("")));
+  form.add(receiver=new TextField<>("receiver",Model.of("")));
+  form.add(input=new TextField<>("input",Model.of("")));
   form.add(new AjaxSubmitLink("send",form){
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      EventBus.get().post(input.getModelObject());
+      EventBus.get().post(new ChatMessage(receiver.getModelObject(),input.getModelObject()));
     }
     @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
     }

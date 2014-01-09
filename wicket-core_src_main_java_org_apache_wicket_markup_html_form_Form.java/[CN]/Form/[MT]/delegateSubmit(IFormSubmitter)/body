@@ -1,16 +1,20 @@
 {
   final Form<?> processingForm=findFormToProcess(submittingComponent);
-  if (submittingComponent != null) {
-    submittingComponent.onSubmit();
-  }
+  final List<Form<?>> forms=Generics.newArrayList(3);
   Visits.visitPostOrder(processingForm,new IVisitor<Form<?>,Void>(){
     @Override public void component(    Form<?> form,    IVisit<Void> visit){
       if (form.isEnabledInHierarchy() && form.isVisibleInHierarchy()) {
-        form.onSubmit();
+        forms.add(form);
       }
     }
   }
 ,new ClassVisitFilter(Form.class));
+  if (submittingComponent != null) {
+    submittingComponent.onSubmit();
+  }
+  for (  Form<?> form : forms) {
+    form.onSubmit();
+  }
   if (submittingComponent != null) {
     submittingComponent.onAfterSubmit();
   }

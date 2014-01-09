@@ -1,5 +1,5 @@
 {
-  add(new Label("currentUser",new PropertyModel<User>(this,"session.user")));
+  add(new Label("currentUser",new PropertyModel<>(this,"session.user")));
   add(new ListView<User>("users",RolesApplication.USERS){
     @Override protected void populateItem(    ListItem<User> item){
       final User user=item.getModelObject();
@@ -9,18 +9,18 @@
           session.setUser(user);
         }
       }
-.add(new Label("userId",new Model<User>(user))));
+.add(new Label("userId",new Model<>(user))));
     }
   }
 );
-  add(new BookmarkablePageLink<Void>("adminBookmarkableLink",AdminBookmarkablePage.class));
+  add(new BookmarkablePageLink<>("adminBookmarkableLink",AdminBookmarkablePage.class));
   add(new Link("adminInternalLink"){
     @Override public void onClick(){
       setResponsePage(new AdminInternalPage("foo"));
     }
   }
 );
-  add(new BookmarkablePageLink<Void>("panelsPageLink",PanelsPage.class));
+  add(new BookmarkablePageLink<>("panelsPageLink",PanelsPage.class));
   add(new BookmarkablePageLink<Void>("adminAnnotBookmarkableLink",AdminAnnotationsBookmarkablePage.class));
   add(new Link("adminAnnotInternalLink"){
     @Override public void onClick(){
@@ -28,5 +28,5 @@
     }
   }
 );
-  add(new BookmarkablePageLink<Void>("panelsAnnotPageLink",AnnotationsPanelsPage.class));
+  add(new BookmarkablePageLink<>("panelsAnnotPageLink",AnnotationsPanelsPage.class));
 }

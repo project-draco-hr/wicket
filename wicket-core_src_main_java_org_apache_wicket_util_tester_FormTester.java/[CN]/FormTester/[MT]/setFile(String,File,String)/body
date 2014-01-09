@@ -1,10 +1,16 @@
 {
   checkClosed();
   FormComponent<?> formComponent=(FormComponent<?>)workingForm.get(formComponentId);
-  if (formComponent instanceof FileUploadField == false) {
+  MockHttpServletRequest servletRequest=tester.getRequest();
+  if (formComponent instanceof FileUploadField) {
+    servletRequest.addFile(formComponent.getInputName(),file,contentType);
+  }
+ else   if (formComponent instanceof MultiFileUploadField) {
+    String inputName=formComponent.getInputName() + MultiFileUploadField.MAGIC_SEPARATOR + multiFileUploadIndex++;
+    servletRequest.addFile(inputName,file,contentType);
+  }
+ else {
     fail("'" + formComponentId + "' is not "+ "a FileUploadField. You can only attach a file to form "+ "component of this type.");
   }
-  MockHttpServletRequest servletRequest=tester.getRequest();
-  servletRequest.addFile(formComponent.getInputName(),file,contentType);
   return this;
 }

@@ -1,3 +1,10 @@
 {
-  return (c != null) ? c.getName() : null;
+  String name=null;
+  if (c != null) {
+    while (c.isAnonymousClass()) {
+      c=c.getSuperclass();
+    }
+    name=c.getName();
+  }
+  return name;
 }

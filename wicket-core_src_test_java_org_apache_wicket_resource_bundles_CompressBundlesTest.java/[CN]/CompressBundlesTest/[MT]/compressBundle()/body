@@ -1,0 +1,7 @@
+{
+  tester.startPage(new CompressBundleTestPage());
+  tester.assertRenderedPage(CompressBundleTestPage.class);
+  tester.executeUrl("wicket/resource/org.apache.wicket.resource.bundles.CompressBundlesTest/bundle.js");
+  String expected="\nvar two = function() {\nconsole.log( 2 );\n};\nvar one = function() {\nconsole.log( 1 );\n};";
+  assertEquals(expected,tester.getLastResponse().getDocument());
+}

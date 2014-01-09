@@ -1,0 +1,12 @@
+{
+  Args.notNull(connection,"connection");
+  Args.notNull(message,"message");
+  Application application=connection.getApplication();
+  String sessionId=connection.getSessionId();
+  IKey key=connection.getKey();
+  IWebSocketConnection wsConnection=registry.getConnection(application,sessionId,key);
+  if (wsConnection == null) {
+    return;
+  }
+  process(application,singletonList(wsConnection),message);
+}

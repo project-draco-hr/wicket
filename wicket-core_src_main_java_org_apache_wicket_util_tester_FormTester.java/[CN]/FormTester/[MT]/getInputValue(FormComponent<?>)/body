@@ -1,50 +1,15 @@
 {
-  if (!(formComponent.isVisibleInHierarchy() && formComponent.isEnabledInHierarchy())) {
-    return new String[]{};
-  }
-  if (formComponent instanceof AbstractTextComponent) {
-    return new String[]{getFormComponentValue(formComponent)};
-  }
- else   if ((formComponent instanceof DropDownChoice) || (formComponent instanceof RadioChoice) || (formComponent instanceof CheckBox)) {
-    return new String[]{getFormComponentValue(formComponent)};
-  }
- else   if (formComponent instanceof ListMultipleChoice) {
-    return getFormComponentValue(formComponent).split(FormComponent.VALUE_SEPARATOR);
-  }
- else   if (formComponent instanceof CheckGroup) {
-    final Collection<?> checkGroupValues=(Collection<?>)formComponent.getDefaultModelObject();
-    final List<String> result=new ArrayList<String>();
-    formComponent.visitChildren(Check.class,new IVisitor<Component,Void>(){
-      @Override public void component(      final Component component,      final IVisit<Void> visit){
-        if (checkGroupValues.contains(component.getDefaultModelObject())) {
-          result.add(getFormComponentValue((Check<?>)component));
-        }
-      }
+  if (formComponent.isVisibleInHierarchy() && formComponent.isEnabledInHierarchy()) {
+    if (formComponent instanceof IFormSubmittingComponent) {
     }
-);
-    return result.toArray(new String[result.size()]);
-  }
- else   if (formComponent instanceof RadioGroup) {
-    final Object value=formComponent.getDefaultModelObject();
-    String result=null;
-    if (value != null) {
-      result=formComponent.visitChildren(Radio.class,new IVisitor<Component,String>(){
-        @Override public void component(        final Component component,        final IVisit<String> visit){
-          if (value.equals(component.getDefaultModelObject())) {
-            visit.stop(getFormComponentValue((Radio<?>)component));
-          }
- else {
-            visit.dontGoDeeper();
-          }
-        }
-      }
-);
-    }
-    if (result == null) {
-      return new String[]{};
+ else     if (formComponent instanceof AbstractTextComponent) {
+      return new String[]{getFormComponentValue(formComponent)};
     }
  else {
-      return new String[]{result};
+      String value=getFormComponentValue(formComponent);
+      if (!Strings.isEmpty(value)) {
+        return value.split(FormComponent.VALUE_SEPARATOR);
+      }
     }
   }
   return new String[]{};

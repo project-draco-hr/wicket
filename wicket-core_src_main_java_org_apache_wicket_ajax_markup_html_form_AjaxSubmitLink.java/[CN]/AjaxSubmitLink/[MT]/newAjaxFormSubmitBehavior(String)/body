@@ -1,0 +1,30 @@
+{
+  return new AjaxFormSubmitBehavior(form,event){
+    private static final long serialVersionUID=1L;
+    @Override protected void onError(    AjaxRequestTarget target){
+      AjaxSubmitLink.this.onError(target,getForm());
+    }
+    @Override protected Form<?> findForm(){
+      return AjaxSubmitLink.this.getForm();
+    }
+    @Override protected void onComponentTag(    ComponentTag tag){
+      if (isEnabledInHierarchy()) {
+        super.onComponentTag(tag);
+      }
+    }
+    @Override public boolean getDefaultProcessing(){
+      return AjaxSubmitLink.this.getDefaultFormProcessing();
+    }
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      AjaxSubmitLink.this.updateAjaxAttributes(attributes);
+    }
+    @Override protected void onSubmit(    AjaxRequestTarget target){
+      AjaxSubmitLink.this.onSubmit(target,getForm());
+    }
+    @Override protected void onAfterSubmit(    AjaxRequestTarget target){
+      AjaxSubmitLink.this.onAfterSubmit(target,getForm());
+    }
+  }
+;
+}

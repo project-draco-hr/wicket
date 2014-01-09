@@ -12,14 +12,12 @@
     @Override protected void onError(    AjaxRequestTarget target){
       AjaxFallbackButton.this.onError(target,AjaxFallbackButton.this.getForm());
     }
-    @Override protected AjaxChannel getChannel(){
-      return AjaxFallbackButton.this.getChannel();
-    }
     @Override public boolean getDefaultProcessing(){
       return AjaxFallbackButton.this.getDefaultFormProcessing();
     }
     @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
       super.updateAjaxAttributes(attributes);
+      attributes.setPreventDefault(true);
       AjaxFallbackButton.this.updateAjaxAttributes(attributes);
     }
   }

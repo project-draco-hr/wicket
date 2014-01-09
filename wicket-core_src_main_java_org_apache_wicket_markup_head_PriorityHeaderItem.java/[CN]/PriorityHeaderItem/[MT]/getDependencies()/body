@@ -1,7 +1,9 @@
 {
-  List<PriorityHeaderItem> ret=new ArrayList<PriorityHeaderItem>();
+  List<PriorityHeaderItem> ret=new ArrayList<>();
   for (  HeaderItem curDependency : getWrapped().getDependencies()) {
-    ret.add(new PriorityHeaderItem(curDependency));
+    ret.add(wrap(curDependency));
   }
-  return ret;
+  List<HeaderItem> dependencies=super.getDependencies();
+  dependencies.addAll(ret);
+  return dependencies;
 }

@@ -1,0 +1,13 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.getApplication().getResourceSettings().setCachingStrategy(strategy);
+  try {
+    ResourceUrl resourceUrl=new ResourceUrl("some-resource--vers--" + TEST_RESOURCE_VERSION + ".txt",new PageParameters());
+    strategy.undecorateUrl(resourceUrl);
+    String version=tester.getRequestCycle().getMetaData(IResourceCachingStrategy.URL_VERSION);
+    assertEquals(TEST_RESOURCE_VERSION,version);
+  }
+  finally {
+    tester.destroy();
+  }
+}

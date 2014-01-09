@@ -3,18 +3,21 @@
   final FeedbackPanel feedback=new FeedbackPanel("feedback");
   feedback.setOutputMarkupId(true);
   add(feedback);
-  final Form<Void> form=new Form<Void>("form");
+  final Form<Void> form=new Form<>("form");
   add(form);
   TextField<String> nameTextField=new TextField<String>("name",new PropertyModel<String>(MailTemplate.this,"name"));
   nameTextField.setOutputMarkupId(true);
   form.add(nameTextField);
-  final MultiLineLabel result=new MultiLineLabel("result",new Model<String>());
+  final MultiLineLabel result=new MultiLineLabel("result",new Model<>());
   result.setOutputMarkupId(true);
   add(result);
   AjaxSubmitLink basedOnPageLink=new AjaxSubmitLink("pageBasedLink",form){
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      CharSequence pageHtml=renderPage(TemplateBasedOnPage.class);
+      PageParameters parameters=new PageParameters();
+      parameters.set("name",name);
+      PageProvider pageProvider=new PageProvider(TemplateBasedOnPage.class,parameters);
+      CharSequence pageHtml=ComponentRenderer.renderPage(pageProvider);
       updateResult(result,pageHtml,target);
       target.add(feedback);
     }
@@ -26,7 +29,7 @@
   AjaxSubmitLink basedOnPanelLink=new AjaxSubmitLink("panelBasedLink",form){
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      CharSequence panelHtml=renderPanel(new MailTemplatePanel(DummyPage.COMP_ID,new PropertyModel<String>(MailTemplate.this,"name")));
+      CharSequence panelHtml=ComponentRenderer.renderComponent(new MailTemplatePanel("someId",new PropertyModel<String>(MailTemplate.this,"name")));
       updateResult(result,panelHtml,target);
       target.add(feedback);
     }
@@ -38,7 +41,13 @@
   AjaxSubmitLink basedOnTextTemplateLink=new AjaxSubmitLink("textTemplateBasedLink",form){
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      CharSequence templateHtml=renderTemplate(new PackageTextTemplate(MailTemplate.class,"mail-template.tmpl"));
+      Map<String,Object> variables=new HashMap<>();
+      variables.put("name",name);
+      CharSequence relativeUrl=urlFor(new PackageResourceReference(MailTemplate.class,"resource.txt"),null);
+      String href=getRequestCycle().getUrlRenderer().renderFullUrl(Url.parse(relativeUrl.toString()));
+      variables.put("downloadLink",href);
+      PackageTextTemplate template=new PackageTextTemplate(MailTemplate.class,"mail-template.tmpl");
+      CharSequence templateHtml=template.asString(variables);
       updateResult(result,templateHtml,target);
       target.add(feedback);
     }

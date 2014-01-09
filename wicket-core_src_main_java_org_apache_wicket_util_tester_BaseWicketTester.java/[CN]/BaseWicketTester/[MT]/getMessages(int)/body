@@ -1,12 +1,7 @@
 {
-  List<FeedbackMessage> allMessages=new FeedbackCollector(getLastRenderedPage()).collect(new IFeedbackMessageFilter(){
-    @Override public boolean accept(    FeedbackMessage message){
-      return message.getLevel() == level;
-    }
-  }
-);
+  List<FeedbackMessage> messages=getFeedbackMessages(new ExactLevelFeedbackMessageFilter(level));
   List<Serializable> actualMessages=Generics.newArrayList();
-  for (  FeedbackMessage message : allMessages) {
+  for (  FeedbackMessage message : messages) {
     actualMessages.add(message.getMessage());
   }
   return actualMessages;

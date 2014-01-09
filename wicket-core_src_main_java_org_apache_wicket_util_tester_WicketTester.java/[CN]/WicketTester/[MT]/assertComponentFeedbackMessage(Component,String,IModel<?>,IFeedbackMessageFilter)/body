@@ -1,0 +1,7 @@
+{
+  Args.notNull(key,"key");
+  String expectedMessage=getApplication().getResourceSettings().getLocalizer().getString(key,component,model);
+  List<FeedbackMessage> feedbackMessages=getFeedbackMessages(filter);
+  List<Serializable> actualMessages=getActualFeedbackMessages(feedbackMessages);
+  assertThat(String.format("Feedback message with key '%s' cannot be found",key),actualMessages,IsCollectionContaining.hasItem(expectedMessage));
+}

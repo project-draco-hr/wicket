@@ -1,0 +1,6 @@
+{
+  tester.getApplication().getSecuritySettings().setAuthorizationStrategy(new RejectingAuthorizationStrategy());
+  tester.startResource(new TestResource());
+  assertEquals(HttpServletResponse.SC_FORBIDDEN,tester.getLastResponse().getStatus());
+  assertEquals("The request to resource 'TestResource' with parameters '' cannot be authorized.",tester.getLastResponse().getErrorMessage());
+}

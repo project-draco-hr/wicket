@@ -1,0 +1,12 @@
+{
+  codeblock=codeblock.replaceAll("\\{\\% highlight (.+) \\%\\}","<pre class=\"prettyprint linenums\" lang=\"$1\">");
+  codeblock=codeblock.replaceAll("\\{\\% endhighlight \\%\\}","</pre>");
+  int start=codeblock.indexOf(">") + 1;
+  int end=codeblock.indexOf("</pre>");
+  String result=codeblock.substring(start,end);
+  result=result.replaceAll("\n\\ {4}","\n");
+  if (!codeblock.contains("\"java\"")) {
+    result=Strings.escapeMarkup(result).toString();
+  }
+  return codeblock.substring(0,start) + result + "</pre>";
+}

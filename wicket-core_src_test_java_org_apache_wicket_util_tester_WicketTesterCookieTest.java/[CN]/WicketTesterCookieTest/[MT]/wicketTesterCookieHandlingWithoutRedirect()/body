@@ -1,0 +1,37 @@
+{
+  CollectAllRequestCookiesPage collectingPage=collectAllRequestCookiesOnThisPage();
+  Assert.assertTrue("no cookie in first request",collectingPage.getCookies().isEmpty());
+  lastResponseDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+  requestDoesNotHaveAnyCookies();
+  Cookie firstCookie=newCookie("a","firstValue",1);
+  tester.getRequest().addCookie(firstCookie);
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,firstCookie);
+  lastResponseDoesNotHaveAnyCookies();
+  requestShouldHaveTheseCookies(firstCookie);
+  responseDoesNotHaveAnyCookies();
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,firstCookie);
+  lastResponseDoesNotHaveAnyCookies();
+  requestShouldHaveTheseCookies(firstCookie);
+  responseDoesNotHaveAnyCookies();
+  Cookie cookieSetInResponse=newCookie("a","overwriteWithNewValue",1);
+  setCookieInResponse(cookieSetInResponse);
+  lastResponseShouldHaveTheseCookies(cookieSetInResponse);
+  requestShouldHaveTheseCookies(cookieSetInResponse);
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage,cookieSetInResponse);
+  lastResponseDoesNotHaveAnyCookies();
+  requestShouldHaveTheseCookies(cookieSetInResponse);
+  Cookie expiredCookieSetInResponse=newCookie("a","removeMe",0);
+  setCookieInResponse(expiredCookieSetInResponse);
+  lastResponseShouldHaveTheseCookies(expiredCookieSetInResponse);
+  responseDoesNotHaveAnyCookies();
+  requestDoesNotHaveAnyCookies();
+  collectingPage=collectAllRequestCookiesOnThisPage();
+  requestOnPageShouldHaveTheseCookies(collectingPage);
+  lastResponseDoesNotHaveAnyCookies();
+  requestDoesNotHaveAnyCookies();
+  responseDoesNotHaveAnyCookies();
+}

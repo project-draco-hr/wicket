@@ -3,5 +3,10 @@
   for (  JavaScriptResourceReference curReference : references) {
     items.add(JavaScriptHeaderItem.forReference(curReference));
   }
-  return addBundle(JavaScriptHeaderItem.forReference(new ConcatResourceBundleReference<JavaScriptReferenceHeaderItem>(scope,name,items)));
+  ConcatResourceBundleReference<JavaScriptReferenceHeaderItem> bundleReference=newBundleResourceReference(scope,name,items);
+  if (Application.exists()) {
+    IJavaScriptCompressor javaScriptCompressor=Application.get().getResourceSettings().getJavaScriptCompressor();
+    bundleReference.setCompressor(javaScriptCompressor);
+  }
+  return addBundle(JavaScriptHeaderItem.forReference(bundleReference));
 }

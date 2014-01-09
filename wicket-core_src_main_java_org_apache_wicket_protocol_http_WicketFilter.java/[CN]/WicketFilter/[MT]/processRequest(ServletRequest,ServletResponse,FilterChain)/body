@@ -3,12 +3,12 @@
   boolean res=true;
   final ClassLoader previousClassLoader=Thread.currentThread().getContextClassLoader();
   final ClassLoader newClassLoader=getClassLoader();
+  HttpServletRequest httpServletRequest=(HttpServletRequest)request;
+  HttpServletResponse httpServletResponse=(HttpServletResponse)response;
   try {
     if (previousClassLoader != newClassLoader) {
       Thread.currentThread().setContextClassLoader(newClassLoader);
     }
-    HttpServletRequest httpServletRequest=(HttpServletRequest)request;
-    HttpServletResponse httpServletResponse=(HttpServletResponse)response;
     String filterPath=getFilterPath(httpServletRequest);
     if (filterPath == null) {
       throw new IllegalStateException("filter path was not configured");
@@ -20,21 +20,19 @@
       }
       return false;
     }
+    if ("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())) {
+      httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+      httpServletResponse.setHeader("Allow","GET,POST,OPTIONS,PUT,HEAD,PATCH,DELETE,TRACE");
+      httpServletResponse.setHeader("Content-Length","0");
+      return true;
+    }
     String redirectURL=checkIfRedirectRequired(httpServletRequest);
     if (redirectURL == null) {
       ThreadContext.setApplication(application);
       WebRequest webRequest=application.createWebRequest(httpServletRequest,filterPath);
       WebResponse webResponse=application.createWebResponse(webRequest,httpServletResponse);
       RequestCycle requestCycle=application.createRequestCycle(webRequest,webResponse);
-      if (!requestCycle.processRequestAndDetach()) {
-        if (chain != null) {
-          chain.doFilter(request,response);
-        }
-        res=false;
-      }
- else {
-        webResponse.flush();
-      }
+      res=processRequestCycle(requestCycle,webResponse,httpServletRequest,httpServletResponse,chain);
     }
  else {
       if (Strings.isEmpty(httpServletRequest.getQueryString()) == false) {
@@ -53,7 +51,7 @@
     if (newClassLoader != previousClassLoader) {
       Thread.currentThread().setContextClassLoader(previousClassLoader);
     }
-    if (response.isCommitted()) {
+    if (response.isCommitted() && httpServletRequest.isAsyncStarted() == false) {
       response.flushBuffer();
     }
   }

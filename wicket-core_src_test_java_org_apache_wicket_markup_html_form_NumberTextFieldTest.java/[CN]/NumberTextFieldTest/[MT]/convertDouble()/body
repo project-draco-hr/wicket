@@ -1,0 +1,14 @@
+{
+  TestPage<Double> testPage=new TestPage<Double>();
+  testPage.textField.setType(Double.class);
+  testPage.textField.setMinimum(new Double("0.0"));
+  testPage.textField.setMaximum(new Double("2000.0"));
+  testPage.textField.setModelObject(new Double("1000.0"));
+  tester.startPage(testPage);
+  String response=tester.getLastResponseAsString();
+  assertTrue(response.contains("<input wicket:id=\"number\" type=\"number\" value=\"1000.0\" name=\"number\" min=\"0.0\" max=\"2000.0\"/>"));
+  FormTester formTester=tester.newFormTester(testPage.form.getId());
+  formTester.setValue(testPage.textField.getId(),"2,000.00");
+  formTester.submit();
+  assertEquals(new Double("2000.00"),testPage.textField.getDefaultModelObject());
+}

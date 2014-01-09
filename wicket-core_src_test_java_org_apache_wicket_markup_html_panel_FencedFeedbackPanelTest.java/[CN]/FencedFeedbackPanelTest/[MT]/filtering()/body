@@ -1,0 +1,16 @@
+{
+  TestPage page=scope.getTester().startPage(TestPage.class);
+  page.containerFeedback.setFilter(new ErrorLevelFeedbackMessageFilter(FeedbackMessage.ERROR));
+  page.containerInput.info("info");
+  assertFalse(page.containerFeedback.anyMessage());
+  assertTrue(page.containerFeedback2.anyMessage());
+  assertFalse(page.formFeedback.anyMessage());
+  assertFalse(page.externalFeedback.anyMessage());
+  page=scope.getTester().startPage(TestPage.class);
+  page.containerFeedback.setFilter(new ErrorLevelFeedbackMessageFilter(FeedbackMessage.ERROR));
+  page.containerInput.error("info");
+  assertTrue(page.containerFeedback.anyMessage());
+  assertTrue(page.containerFeedback2.anyMessage());
+  assertFalse(page.formFeedback.anyMessage());
+  assertFalse(page.externalFeedback.anyMessage());
+}

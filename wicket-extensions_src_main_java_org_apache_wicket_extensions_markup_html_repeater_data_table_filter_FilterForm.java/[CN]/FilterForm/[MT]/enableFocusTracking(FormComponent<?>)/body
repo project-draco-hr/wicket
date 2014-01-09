@@ -1,8 +1,11 @@
 {
   fc.add(new Behavior(){
     private static final long serialVersionUID=1L;
-    @Override public void onComponentTag(    final Component component,    final ComponentTag tag){
+    @Override public void bind(    Component component){
+      super.bind(component);
       component.setOutputMarkupId(true);
+    }
+    @Override public void onComponentTag(    final Component component,    final ComponentTag tag){
       tag.put("onfocus",getFocusTrackingHandler(component));
       super.onComponentTag(component,tag);
     }

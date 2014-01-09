@@ -1,7 +1,9 @@
 {
   for (  EventSubscription curSubscription : subscriptions) {
-    Component component=page.get(curSubscription.getComponentPath());
-    if (curSubscription.getBehaviorIndex() == null)     invokeMethod(target,curSubscription,component);
- else     invokeMethod(target,curSubscription,component.getBehaviorById(curSubscription.getBehaviorIndex()));
+    if (curSubscription.getContextAwareFilter().apply(event)) {
+      Component component=page.get(curSubscription.getComponentPath());
+      if (curSubscription.getBehaviorIndex() == null)       invokeMethod(target,curSubscription,component);
+ else       invokeMethod(target,curSubscription,component.getBehaviorById(curSubscription.getBehaviorIndex()));
+    }
   }
 }

@@ -9,6 +9,7 @@
   final CheckBox formComponent=new CheckBox("formComponent",new Model<Boolean>());
   Form<Void> form=new Form<Void>("form"){
     private static final long serialVersionUID=1L;
+    private transient IFormSubmitter submittingComponent;
     @Override protected void onError(){
       super.onError();
       labelModel.setObject("Test PASSED - an error was expected.");
@@ -19,6 +20,10 @@
       Assert.fail("A validation error should've been detected by the Form processing");
     }
     @Override public void process(    IFormSubmitter submittingComponent){
+      this.submittingComponent=submittingComponent;
+      super.process(submittingComponent);
+    }
+    @Override protected void onValidate(){
       if (submittingComponent == submitFormComponent) {
         formComponent.error("FormComponent validation error");
       }
@@ -28,7 +33,6 @@
  else {
         error("Form validation error");
       }
-      super.process(submittingComponent);
     }
   }
 ;

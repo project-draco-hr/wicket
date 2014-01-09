@@ -1,5 +1,10 @@
 {
   this.target=Args.notEmpty(target,"target");
-  this.event=Args.notEmpty(event,"event");
-  this.javaScript=Args.notEmpty(javaScript,"javaScript");
+  Args.notEmpty(event,"event");
+  event=event.toLowerCase(Locale.ENGLISH);
+  if (event.startsWith("on")) {
+    event=event.substring(2);
+  }
+  this.event=event;
+  this.javaScript=javaScript;
 }

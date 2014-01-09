@@ -1,6 +1,6 @@
 {
-  if (s == null) {
-    return null;
+  if (Strings.isEmpty(s)) {
+    return s;
   }
   int numChars=s.length();
   StringBuilder sb=new StringBuilder(numChars > 500 ? numChars / 2 : numChars);
@@ -31,7 +31,9 @@ try {
     }
   }
   if ((i < numChars) && (c == '%')) {
-    throw new IllegalArgumentException("URLDecoder: Incomplete trailing escape (%) pattern");
+    LOG.info("Incomplete trailing escape (%) pattern in '%s'. The escape character (%) will be ignored.",s);
+    i++;
+    break;
   }
   try {
     sb.append(new String(bytes,0,pos,enc));
@@ -41,7 +43,8 @@ try {
   }
 }
  catch (NumberFormatException e) {
-  throw new IllegalArgumentException("URLDecoder: Illegal hex characters in escape (%) pattern - " + e.getMessage());
+  LOG.info("Illegal hex characters in escape (%) pattern in '{}'. " + "The escape character (%) will be ignored. NumberFormatException: {} ",s,e.getMessage());
+  i++;
 }
 break;
 default :

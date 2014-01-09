@@ -1,8 +1,12 @@
 {
   for (  OnDomReadyHeaderItem curItem : domReadyItemsToBeRendered) {
-    getRealResponse().render(getItemToBeRendered(curItem));
+    if (markItemRendered(curItem)) {
+      getRealResponse().render(curItem);
+    }
   }
   for (  OnLoadHeaderItem curItem : loadItemsToBeRendered) {
-    getRealResponse().render(getItemToBeRendered(curItem));
+    if (markItemRendered(curItem)) {
+      getRealResponse().render(curItem);
+    }
   }
 }

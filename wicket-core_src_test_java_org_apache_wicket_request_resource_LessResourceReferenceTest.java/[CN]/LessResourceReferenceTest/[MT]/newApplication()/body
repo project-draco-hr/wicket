@@ -1,0 +1,17 @@
+{
+  return new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      SecurePackageResourceGuard guard=(SecurePackageResourceGuard)getResourceSettings().getPackageResourceGuard();
+      guard.addPattern("+*.less");
+    }
+    /** 
+ * Register custom ResourceReferenceRegistry that creates LessResourceReference
+ * for requests with .less extension
+ */
+    @Override protected ResourceReferenceRegistry newResourceReferenceRegistry(){
+      return new ResourceReferenceRegistry(new LessResourceReferenceFactory());
+    }
+  }
+;
+}

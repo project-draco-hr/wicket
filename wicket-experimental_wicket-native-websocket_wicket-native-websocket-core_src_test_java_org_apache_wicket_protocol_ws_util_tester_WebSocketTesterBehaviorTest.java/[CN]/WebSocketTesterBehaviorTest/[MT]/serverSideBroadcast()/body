@@ -1,0 +1,27 @@
+{
+  final String message="Broadcasted Message";
+  final AtomicBoolean messageReceived=new AtomicBoolean(false);
+  WebSocketBehaviorTestPage page=new WebSocketBehaviorTestPage(){
+    @Override public void onEvent(    IEvent<?> event){
+      super.onEvent(event);
+      if (event.getPayload() instanceof WebSocketPushPayload) {
+        WebSocketPushPayload payload=(WebSocketPushPayload)event.getPayload();
+        if (payload.getMessage() instanceof BroadcastMessage) {
+          BroadcastMessage broadcastMessage=(BroadcastMessage)payload.getMessage();
+          if (message.equals(broadcastMessage.getText())) {
+            messageReceived.set(true);
+          }
+        }
+      }
+    }
+  }
+;
+  tester.startPage(page);
+  tester.getSession().bind();
+  new WebSocketTester(tester,page);
+  WebSocketSettings webSocketSettings=WebSocketSettings.Holder.get(tester.getApplication());
+  WebSocketPushBroadcaster broadcaster=new WebSocketPushBroadcaster(webSocketSettings.getConnectionRegistry());
+  ConnectedMessage wsMessage=new ConnectedMessage(tester.getApplication(),tester.getHttpSession().getId(),new PageIdKey(page.getPageId()));
+  broadcaster.broadcast(wsMessage,new BroadcastMessage(message));
+  assertEquals(true,messageReceived.get());
+}

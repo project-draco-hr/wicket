@@ -1,3 +1,9 @@
 {
-  return new AjaxPagingNavigationBehavior(this,pageable,event);
+  return new AjaxPagingNavigationBehavior(this,pageable,event){
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      AjaxPagingNavigationLink.this.updateAjaxAttributes(attributes);
+    }
+  }
+;
 }

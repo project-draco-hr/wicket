@@ -1,0 +1,23 @@
+{
+  for (  String htmlNonVoidElement : OpenCloseTagExpander.REPLACE_FOR_TAGS) {
+    OpenCloseTagExpander expander=new OpenCloseTagExpander(){
+      @Override public IMarkupFilter getNextFilter(){
+        return new AbstractMarkupFilter(){
+          @Override protected MarkupElement onComponentTag(          ComponentTag tag) throws ParseException {
+            return null;
+          }
+          @Override public MarkupElement nextElement() throws ParseException {
+            return new TestMarkupElement();
+          }
+        }
+;
+      }
+    }
+;
+    ComponentTag tag=new ComponentTag(htmlNonVoidElement,XmlTag.TagType.OPEN_CLOSE);
+    expander.onComponentTag(tag);
+    ComponentTag markupElement=(ComponentTag)expander.nextElement();
+    assertEquals(htmlNonVoidElement,markupElement.getName());
+    assertTrue(markupElement.closes(tag));
+  }
+}

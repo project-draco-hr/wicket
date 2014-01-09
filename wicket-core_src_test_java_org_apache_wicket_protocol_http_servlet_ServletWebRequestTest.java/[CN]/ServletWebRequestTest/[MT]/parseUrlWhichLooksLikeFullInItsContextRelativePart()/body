@@ -1,0 +1,8 @@
+{
+  String filterPath="filterPath";
+  MockHttpServletRequest httpRequest=new MockHttpServletRequest(null,null,null);
+  String looksLikeFullUrl="/foo://:/";
+  httpRequest.setURL("http://localhost" + '/' + httpRequest.getContextPath()+ '/'+ filterPath+ looksLikeFullUrl);
+  ServletWebRequest webRequest=new ServletWebRequest(httpRequest,filterPath);
+  assertEquals(looksLikeFullUrl,webRequest.getClientUrl().toString());
+}

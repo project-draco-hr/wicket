@@ -1,0 +1,13 @@
+{
+  Cookie testCookie=new Cookie("lostCookie","lostValue");
+  testCookie.setMaxAge(1);
+  tester.getRequest().addCookie(testCookie);
+  tester.startPage(Page1.class);
+  tester.clickLink("testCookieTransfer");
+  tester.assertRenderedPage(Page2.class);
+  Cookie[] cookies=tester.getRequest().getCookies();
+  assertEquals(1,cookies.length);
+  Cookie firstCookie=cookies[0];
+  assertEquals("lostCookie",firstCookie.getName());
+  assertEquals("lostValue",firstCookie.getValue());
+}

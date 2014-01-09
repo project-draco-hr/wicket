@@ -1,0 +1,15 @@
+{
+  Conversation conversation=getConversation(cycle);
+  if (conversation == null) {
+    return;
+  }
+  Page page=getPage(handler);
+  if (page == null) {
+    return;
+  }
+  autoEndIfNecessary(page,handler,conversation);
+  autoBeginIfNecessary(page,handler,conversation);
+  if (propagation.propagatesViaPage(page,handler)) {
+    setConversationOnPage(conversation,page);
+  }
+}

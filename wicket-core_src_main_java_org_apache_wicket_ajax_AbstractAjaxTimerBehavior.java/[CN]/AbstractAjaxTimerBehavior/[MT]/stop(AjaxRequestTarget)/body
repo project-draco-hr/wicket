@@ -1,5 +1,8 @@
 {
-  stopped=true;
-  String timeoutHandle=getTimeoutHandle();
-  target.prependJavaScript("clearTimeout(" + timeoutHandle + "); delete "+ timeoutHandle+ ";");
+  if (stopped == false) {
+    stopped=true;
+    if (target != null) {
+      clearTimeout(target.getHeaderResponse());
+    }
+  }
 }

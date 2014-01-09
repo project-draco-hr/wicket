@@ -1,3 +1,8 @@
 {
-  return new ConcatBundleResource(providedResources);
+  ConcatBundleResource bundleResource=new ConcatBundleResource(providedResources);
+  ITextResourceCompressor compressor=getCompressor();
+  if (compressor != null) {
+    bundleResource.setCompressor(compressor);
+  }
+  return bundleResource;
 }

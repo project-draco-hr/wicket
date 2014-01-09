@@ -1,0 +1,12 @@
+{
+  Url url=Url.parse("");
+  assertFalse(url.isContextAbsolute());
+  url=Url.parse("http://www.example.com/path");
+  assertFalse(url.isContextAbsolute());
+  url=Url.parse("//www.example.com/path");
+  assertFalse(url.isContextAbsolute());
+  url=Url.parse("path");
+  assertFalse(url.isContextAbsolute());
+  url=Url.parse("/path");
+  assertTrue(url.isContextAbsolute());
+}

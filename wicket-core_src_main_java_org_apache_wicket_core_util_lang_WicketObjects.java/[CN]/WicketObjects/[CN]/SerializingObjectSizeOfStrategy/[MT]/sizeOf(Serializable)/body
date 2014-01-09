@@ -2,16 +2,17 @@
   if (object == null) {
     return 0;
   }
-  try {
-    final ByteCountingOutputStream out=new ByteCountingOutputStream();
-    new ObjectOutputStream(out).writeObject(object);
-    out.close();
-    return out.size();
+  ISerializer serializer;
+  if (Application.exists()) {
+    serializer=Application.get().getFrameworkSettings().getSerializer();
   }
- catch (  IOException e) {
-    if (log.isWarnEnabled()) {
-      log.warn("Unable to determine object size: " + object.toString(),e);
-    }
-    return -1;
+ else {
+    serializer=new JavaSerializer("SerializingObjectSizeOfStrategy");
   }
+  byte[] serialized=serializer.serialize(object);
+  int size=-1;
+  if (serialized != null) {
+    size=serialized.length;
+  }
+  return size;
 }

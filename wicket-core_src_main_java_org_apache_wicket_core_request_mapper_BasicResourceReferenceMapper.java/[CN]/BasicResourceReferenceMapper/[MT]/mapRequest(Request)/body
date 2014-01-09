@@ -1,25 +1,23 @@
 {
   Url url=request.getUrl();
-  PageParameters pageParameters=extractPageParameters(request,url.getSegments().size(),pageParametersEncoder);
-  if (url.getSegments().size() >= 4 && urlStartsWith(url,getContext().getNamespace(),getContext().getResourceIdentifier())) {
+  if (canBeHandled(url)) {
+    final int segmentsSize=url.getSegments().size();
+    PageParameters pageParameters=extractPageParameters(request,segmentsSize,pageParametersEncoder);
     String className=url.getSegments().get(2);
-    StringBuilder name=new StringBuilder();
-    int segmentsSize=url.getSegments().size();
+    StringBuilder name=new StringBuilder(segmentsSize * 2);
     for (int i=3; i < segmentsSize; ++i) {
       String segment=url.getSegments().get(i);
-      if (segment.contains("/")) {
+      if (segment.indexOf('/') > -1) {
         return null;
       }
       if (i + 1 == segmentsSize && Strings.isEmpty(segment) == false) {
         ResourceUrl resourceUrl=new ResourceUrl(segment,pageParameters);
         getCachingStrategy().undecorateUrl(resourceUrl);
         segment=resourceUrl.getFileName();
-        if (Strings.isEmpty(segment)) {
-          throw new IllegalStateException("caching strategy returned empty name for " + resourceUrl);
-        }
+        Checks.notEmpty(segment,"Caching strategy returned empty name for '%s'",resourceUrl);
       }
       if (name.length() > 0) {
-        name.append("/");
+        name.append('/');
       }
       name.append(segment);
     }

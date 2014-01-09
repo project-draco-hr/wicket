@@ -14,7 +14,7 @@
       dateTime=format.parseDateTime(value);
     }
  catch (    RuntimeException e) {
-      throw new ConversionException(e);
+      throw newConversionException(e,locale);
     }
     if (zone != null) {
       dateTime=dateTime.withZoneRetainFields(DateTimeZone.forTimeZone(zone));
@@ -27,7 +27,7 @@
       return date.toDate();
     }
  catch (    RuntimeException e) {
-      throw new ConversionException(e);
+      throw newConversionException(e,locale);
     }
   }
 }

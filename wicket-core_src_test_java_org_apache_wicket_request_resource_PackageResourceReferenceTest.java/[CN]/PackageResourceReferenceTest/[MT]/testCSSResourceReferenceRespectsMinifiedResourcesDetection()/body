@@ -1,0 +1,9 @@
+{
+  Application.get().getResourceSettings().setUseMinifiedResources(true);
+  final CssResourceReference notMinified=new CssResourceReference(PackageResourceReferenceTest.class,"a.css");
+  final CssPackageResource notMinifiedResource=notMinified.getResource();
+  Assert.assertTrue("Not minified resource should got its compress flag set to true",notMinifiedResource.getCompress());
+  final CssResourceReference alreadyMinified=new CssResourceReference(PackageResourceReferenceTest.class,"b.min.css");
+  final CssPackageResource alreadyMinifiedResource=alreadyMinified.getResource();
+  Assert.assertFalse("Already minified resource should got its compress flag set to false",alreadyMinifiedResource.getCompress());
+}

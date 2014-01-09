@@ -16,13 +16,8 @@
   final String encoding=app.getRequestCycleSettings().getResponseRequestEncoding();
   responseObject.setContentType(response,encoding);
   response.disableCaching();
-  try {
-    final StringResponse bodyResponse=new StringResponse();
-    responseObject.writeTo(bodyResponse,encoding);
-    CharSequence filteredResponse=invokeResponseFilters(bodyResponse);
-    response.write(filteredResponse);
-  }
-  finally {
-    rc.setResponse(response);
-  }
+  final StringResponse bodyResponse=new StringResponse();
+  responseObject.writeTo(bodyResponse,encoding);
+  CharSequence filteredResponse=invokeResponseFilters(bodyResponse);
+  response.write(filteredResponse);
 }

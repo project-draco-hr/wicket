@@ -9,12 +9,7 @@
       if (isDebugEnabled) {
         logger.debug("'{}' released lock to page with id '{}'",thread.getName(),lock.pageId);
       }
-synchronized (lock) {
-        if (isDebugEnabled) {
-          logger.debug("'{}' notifying blocked threads",thread.getName());
-        }
-        lock.notifyAll();
-      }
+      lock.markReleased(isDebugEnabled);
       if (pageId != null) {
         break;
       }

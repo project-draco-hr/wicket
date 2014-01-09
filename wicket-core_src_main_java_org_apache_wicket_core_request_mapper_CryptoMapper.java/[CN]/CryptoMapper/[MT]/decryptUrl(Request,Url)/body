@@ -3,9 +3,6 @@
     return encryptedUrl;
   }
   List<String> encryptedSegments=encryptedUrl.getSegments();
-  if (encryptedSegments.size() < 1) {
-    return null;
-  }
   Url url=new Url(request.getCharset());
   try {
     String encryptedUrlString=encryptedSegments.get(0);
@@ -36,6 +33,7 @@
       url.getSegments().add(encryptedUrl.getSegments().get(segNo));
     }
     url.getQueryParameters().addAll(originalUrl.getQueryParameters());
+    url.getQueryParameters().addAll(encryptedUrl.getQueryParameters());
   }
  catch (  Exception e) {
     log.error("Error decrypting URL",e);

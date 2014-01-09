@@ -1,0 +1,17 @@
+{
+  next=null;
+  while (!stack.isEmpty()) {
+    Iterator<ConstraintDescriptor<?>> top=stack.get(stack.size() - 1);
+    if (top.hasNext()) {
+      next=top.next();
+      Set<ConstraintDescriptor<?>> composing=next.getComposingConstraints();
+      if (!composing.isEmpty()) {
+        stack.add(composing.iterator());
+      }
+      break;
+    }
+ else {
+      stack.remove(stack.size() - 1);
+    }
+  }
+}

@@ -1,8 +1,18 @@
 {
-  Page newPage=(Page)handler.getPageProvider().getPageInstance();
-  if (componentInPage != null && lastPage != null && lastPage.getPageClass() != newPage.getPageClass()) {
-    componentInPage=null;
+  return new PageRenderer(handler){
+    @Override public void respond(    RequestCycle requestCycle){
+      delegate.get(handler).respond(requestCycle);
+      if (handler.getPageProvider().hasPageInstance()) {
+        Page renderedPage=(Page)handler.getPageProvider().getPageInstance();
+        if (componentInPage != null && lastPage != null && lastPage.getPageClass() != renderedPage.getPageClass()) {
+          componentInPage=null;
+        }
+        lastRenderedPage=lastPage=renderedPage;
+      }
+ else {
+        lastRenderedPage=null;
+      }
+    }
   }
-  lastRenderedPage=lastPage=newPage;
-  return delegate.get(handler);
+;
 }

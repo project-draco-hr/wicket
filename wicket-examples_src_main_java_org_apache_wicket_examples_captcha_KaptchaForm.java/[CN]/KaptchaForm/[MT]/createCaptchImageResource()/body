@@ -1,0 +1,13 @@
+{
+  return new CaptchaImageResource(){
+    @Override protected byte[] render(){
+      DefaultKaptcha kaptcha=new DefaultKaptcha();
+      Properties properties=new Properties();
+      kaptcha.setConfig(new Config(properties));
+      randomText=Captcha.randomString(6,8);
+      BufferedImage image=kaptcha.createImage(randomText);
+      return toImageData(image);
+    }
+  }
+;
+}

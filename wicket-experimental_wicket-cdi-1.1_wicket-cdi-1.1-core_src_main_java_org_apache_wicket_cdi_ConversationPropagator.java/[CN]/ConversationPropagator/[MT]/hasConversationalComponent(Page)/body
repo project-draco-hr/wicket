@@ -1,0 +1,11 @@
+{
+  Boolean hasConversational=Visits.visit(page,new IVisitor<Component,Boolean>(){
+    @Override public void component(    Component object,    IVisit<Boolean> visit){
+      if (object instanceof ConversationalComponent) {
+        visit.stop(true);
+      }
+    }
+  }
+);
+  return hasConversational == null ? false : hasConversational;
+}

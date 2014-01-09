@@ -1,16 +1,17 @@
 {
-  setDefaultModel(new CompoundPropertyModel<EditableLabelPage>(this));
-  add(new AjaxEditableLabel("text1"));
-  add(new AjaxEditableLabel("text2"));
-  add(new AjaxEditableMultiLineLabel("text3"));
-  add(new AjaxEditableChoiceLabel("site",SITES));
-  add(new Label("refresh-counter",new AbstractReadOnlyModel<String>(){
+  Form form=new Form("form",new CompoundPropertyModel<>(this));
+  add(form);
+  form.add(new AjaxEditableLabel("text1"));
+  form.add(new AjaxEditableLabel("text2"));
+  form.add(new AjaxEditableMultiLineLabel("text3"));
+  form.add(new AjaxEditableChoiceLabel("site",SITES));
+  form.add(new Label("refresh-counter",new AbstractReadOnlyModel<String>(){
     @Override public String getObject(){
       return "" + refreshCounter;
     }
   }
 ));
-  add(new Link("refresh-link"){
+  form.add(new Link("refresh-link"){
     @Override public void onClick(){
       refreshCounter++;
     }

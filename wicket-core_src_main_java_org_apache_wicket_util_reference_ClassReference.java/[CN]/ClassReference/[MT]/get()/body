@@ -1,0 +1,11 @@
+{
+  Class<T> clazz=cache != null ? cache.get() : null;
+  if (clazz == null) {
+    clazz=WicketObjects.resolveClass(name);
+    if (clazz == null) {
+      throw new RuntimeException("Could not resolve class: " + name);
+    }
+    cache(clazz);
+  }
+  return clazz;
+}

@@ -4,13 +4,13 @@
   if (component instanceof FormComponent) {
     FormComponent<?> fc=(FormComponent<?>)component;
     if (fc.isRequired()) {
-      tag.append("class","required"," ");
+      tag.append("class",component.getString(CSS_REQUIRED_KEY,null,CSS_REQUIRED_DEFAULT)," ");
     }
     if (!fc.isValid()) {
-      tag.append("class","error"," ");
+      tag.append("class",component.getString(CSS_ERROR_KEY,null,CSS_ERROR_DEFAULT)," ");
     }
   }
   if (!component.isEnabledInHierarchy()) {
-    tag.append("class","disabled"," ");
+    tag.append("class",component.getString(CSS_DISABLED_KEY,null,CSS_DISABLED_DEFAULT)," ");
   }
 }

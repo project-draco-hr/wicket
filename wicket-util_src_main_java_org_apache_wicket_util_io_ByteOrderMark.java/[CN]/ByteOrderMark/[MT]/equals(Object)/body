@@ -1,0 +1,15 @@
+{
+  if (!(obj instanceof ByteOrderMark)) {
+    return false;
+  }
+  final ByteOrderMark bom=(ByteOrderMark)obj;
+  if (bytes.length != bom.length()) {
+    return false;
+  }
+  for (int i=0; i < bytes.length; i++) {
+    if (bytes[i] != bom.get(i)) {
+      return false;
+    }
+  }
+  return true;
+}

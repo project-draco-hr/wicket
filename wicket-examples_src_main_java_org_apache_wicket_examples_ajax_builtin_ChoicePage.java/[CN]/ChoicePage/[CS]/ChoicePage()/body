@@ -4,7 +4,7 @@
   modelsMap.put("FORD",Arrays.asList("CROWN","ESCAPE","EXPEDITION","EXPLORER","F-150"));
   IModel<List<? extends String>> makeChoices=new AbstractReadOnlyModel<List<? extends String>>(){
     @Override public List<String> getObject(){
-      return new ArrayList<String>(modelsMap.keySet());
+      return new ArrayList<>(modelsMap.keySet());
     }
   }
 ;
@@ -20,8 +20,8 @@
 ;
   Form<?> form=new Form("form");
   add(form);
-  final DropDownChoice<String> makes=new DropDownChoice<String>("makes",new PropertyModel<String>(this,"selectedMake"),makeChoices);
-  final DropDownChoice<String> models=new DropDownChoice<String>("models",new Model<String>(),modelChoices);
+  final DropDownChoice<String> makes=new DropDownChoice<>("makes",new PropertyModel<String>(this,"selectedMake"),makeChoices);
+  final DropDownChoice<String> models=new DropDownChoice<>("models",new Model<String>(),modelChoices);
   models.setOutputMarkupId(true);
   form.add(makes);
   form.add(models);

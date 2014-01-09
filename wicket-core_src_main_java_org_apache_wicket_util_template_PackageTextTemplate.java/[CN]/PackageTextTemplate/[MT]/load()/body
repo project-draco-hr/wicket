@@ -1,0 +1,36 @@
+{
+  if (buffer.length() == 0) {
+    String path=Packages.absolutePath(scope,fileName);
+    Application app=Application.get();
+    IResourceStream stream=app.getResourceSettings().getResourceStreamLocator().locate(scope,path,getStyle(),getVariation(),getLocale(),null,false);
+    if (stream == null) {
+      stream=new ResourceStreamLocator().locate(scope,path,getStyle(),getVariation(),getLocale(),null,false);
+    }
+    if (stream == null) {
+      throw new IllegalArgumentException("resource " + fileName + " not found for scope "+ scope+ " (path = "+ path+ ")");
+    }
+    setLastModified(stream.lastModifiedTime());
+    try {
+      if (encoding != null) {
+        buffer.append(Streams.readString(stream.getInputStream(),encoding));
+      }
+ else {
+        buffer.append(Streams.readString(stream.getInputStream()));
+      }
+    }
+ catch (    IOException e) {
+      throw new RuntimeException(e);
+    }
+catch (    ResourceStreamNotFoundException e) {
+      throw new RuntimeException(e);
+    }
+ finally {
+      try {
+        stream.close();
+      }
+ catch (      IOException e) {
+        log.error(e.getMessage(),e);
+      }
+    }
+  }
+}

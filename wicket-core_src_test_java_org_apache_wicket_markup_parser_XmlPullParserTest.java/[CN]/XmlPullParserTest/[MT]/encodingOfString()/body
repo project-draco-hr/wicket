@@ -1,0 +1,12 @@
+{
+  final String encoding;
+  if ("UTF-8".equals(System.getProperty("file.encoding"))) {
+    encoding="ISO-8859-1";
+  }
+ else {
+    encoding="UTF-8";
+  }
+  final XmlPullParser parser=new XmlPullParser();
+  parser.parse(String.format("<?xml encoding='%s' ?><span id='umlaut-??????'></span>",encoding));
+  assertEquals("umlaut-??????",parser.nextTag().getAttribute("id"));
+}

@@ -2,7 +2,7 @@
   if (component instanceof Iterable<?>) {
     final Iterable<?> container=(Iterable<?>)component;
     if (filter.visitChildren(container)) {
-      Visit<R> childTraversal=new Visit<R>();
+      Visit<R> childTraversal=new Visit<>();
       for (      final Object child : ((Iterable<?>)component)) {
         visitPostOrderHelper(child,visitor,filter,childTraversal);
         if (childTraversal.isStopped()) {

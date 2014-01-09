@@ -1,0 +1,23 @@
+{
+  textField=new AutoCompleteTextField<String>("textfield",Model.of("")){
+    private static final long serialVersionUID=1L;
+    @Override protected Iterator<String> getChoices(    String input){
+      return Arrays.<String>asList().iterator();
+    }
+  }
+;
+  textField.add(new AjaxEventBehavior("change"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onEvent(    AjaxRequestTarget target){
+    }
+  }
+);
+  add(textField);
+  add(new AjaxLink<Void>("link"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      target.add(textField);
+    }
+  }
+);
+}

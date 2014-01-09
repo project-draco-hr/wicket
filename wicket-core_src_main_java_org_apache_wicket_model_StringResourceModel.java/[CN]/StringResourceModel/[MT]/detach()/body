@@ -1,0 +1,16 @@
+{
+  super.detach();
+  if (model != null) {
+    model.detach();
+  }
+  if (parameters != null) {
+    for (    Object parameter : parameters) {
+      if (parameter instanceof IDetachable) {
+        ((IDetachable)parameter).detach();
+      }
+    }
+  }
+  if (defaultValue != null) {
+    defaultValue.detach();
+  }
+}

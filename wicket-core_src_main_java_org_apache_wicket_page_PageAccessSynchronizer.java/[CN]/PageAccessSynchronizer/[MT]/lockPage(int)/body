@@ -16,17 +16,7 @@
  else {
       long remaining=remaining(start,timeout);
       if (remaining > 0) {
-synchronized (previous) {
-          if (isDebugEnabled) {
-            logger.debug("{} waiting for lock to page {} for {}",new Object[]{thread.getName(),pageId,Duration.milliseconds(remaining)});
-          }
-          try {
-            previous.wait(remaining);
-          }
- catch (          InterruptedException e) {
-            throw new RuntimeException(e);
-          }
-        }
+        previous.waitForRelease(remaining,isDebugEnabled);
       }
     }
   }

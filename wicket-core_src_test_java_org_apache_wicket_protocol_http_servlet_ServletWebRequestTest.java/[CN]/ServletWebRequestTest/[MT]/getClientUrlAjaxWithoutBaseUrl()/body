@@ -1,0 +1,12 @@
+{
+  MockHttpServletRequest httpRequest=new MockHttpServletRequest(null,null,null);
+  httpRequest.setHeader(ServletWebRequest.HEADER_AJAX,"true");
+  ServletWebRequest webRequest=new ServletWebRequest(httpRequest,"");
+  try {
+    webRequest.getClientUrl();
+    fail("Should not be possible to get the request client url in Ajax request without base url");
+  }
+ catch (  AbortWithHttpErrorCodeException awhex) {
+    assertEquals(HttpServletResponse.SC_BAD_REQUEST,awhex.getErrorCode());
+  }
+}

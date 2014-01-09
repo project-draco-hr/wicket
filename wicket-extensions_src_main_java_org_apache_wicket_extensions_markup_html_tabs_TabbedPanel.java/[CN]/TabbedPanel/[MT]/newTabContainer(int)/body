@@ -1,6 +1,10 @@
 {
   return new LoopItem(tabIndex){
     private static final long serialVersionUID=1L;
+    @Override protected void onConfigure(){
+      super.onConfigure();
+      setVisible(getVisiblityCache().isVisible(tabIndex));
+    }
     @Override protected void onComponentTag(    final ComponentTag tag){
       super.onComponentTag(tag);
       String cssClass=tag.getAttribute("class");
@@ -9,15 +13,12 @@
       }
       cssClass+=" tab" + getIndex();
       if (getIndex() == getSelectedTab()) {
-        cssClass+=" selected";
+        cssClass+=' ' + getSelectedTabCssClass();
       }
-      if (getIndex() == getTabs().size() - 1) {
-        cssClass+=" last";
+      if (getVisiblityCache().getLastVisible() == getIndex()) {
+        cssClass+=' ' + getLastTabCssClass();
       }
       tag.put("class",cssClass.trim());
-    }
-    @Override public boolean isVisible(){
-      return getTabs().get(tabIndex).isVisible();
     }
   }
 ;

@@ -1,0 +1,16 @@
+{
+  final StringBuilder builder=new StringBuilder();
+  final Collection<T> ts=getModelObject();
+  visitChildren(Check.class,new IVisitor<Check<T>,Void>(){
+    @Override public void component(    Check<T> check,    IVisit<Void> visit){
+      if (ts.contains(check.getModelObject())) {
+        if (builder.length() > 0) {
+          builder.append(VALUE_SEPARATOR);
+        }
+        builder.append(check.getValue());
+      }
+    }
+  }
+);
+  return builder.toString();
+}

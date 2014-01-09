@@ -1,0 +1,8 @@
+{
+  PageParameters urlParameters=new PageParameters();
+  urlParameters.add(versionParameter,TEST_RESOURCE_VERSION);
+  ResourceUrl resourceUrl=new ResourceUrl("some-resource.txt",urlParameters);
+  strategy.undecorateUrl(resourceUrl);
+  assertEquals("some-resource.txt",resourceUrl.getFileName());
+  assertNull(resourceUrl.getParameters().get(versionParameter).toString());
+}

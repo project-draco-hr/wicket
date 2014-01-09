@@ -1,0 +1,29 @@
+{
+  if (beanManager == null) {
+    throw new IllegalStateException("Configuration does not have a BeanManager instance configured");
+  }
+  CdiContainer container=new CdiContainer(beanManager,nonContextualManager);
+  container.bind(application);
+  RequestCycleListenerCollection listeners=new RequestCycleListenerCollection();
+  application.getRequestCycleListeners().add(listeners);
+  if (getPropagation() != ConversationPropagation.NONE) {
+    listeners.add(new ConversationPropagator(application,container,getPropagation(),autoConversationManagement));
+    application.getComponentPreOnBeforeRenderListeners().add(new ConversationExpiryChecker(container));
+    SeamConversationContextFactory.setDisableNoopInstance(true);
+  }
+  listeners.add(new DetachEventEmitter(container));
+  if (isInjectApplication()) {
+    container.getNonContextualManager().postConstruct(application);
+  }
+  if (isInjectSession()) {
+    application.getSessionListeners().add(new SessionInjector(container));
+  }
+  if (isInjectComponents()) {
+    application.getComponentInstantiationListeners().add(new ComponentInjector(container));
+  }
+  if (isInjectBehaviors()) {
+    application.getBehaviorInstantiationListeners().add(new BehaviorInjector(container));
+  }
+  application.getApplicationListeners().add(new CdiShutdownCleaner(beanManager,isInjectApplication()));
+  return container;
+}

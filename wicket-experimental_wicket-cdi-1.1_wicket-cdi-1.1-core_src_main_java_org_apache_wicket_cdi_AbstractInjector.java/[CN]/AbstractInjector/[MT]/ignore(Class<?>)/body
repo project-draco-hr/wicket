@@ -1,0 +1,10 @@
+{
+  String packageName=instanceClass.getPackage().getName();
+  for (  String ignore : ignorePackages.get()) {
+    if (packageName.contains(ignore)) {
+      LOG.debug("Skipping {} which is in a package to ignore {}",instanceClass,packageName);
+      return true;
+    }
+  }
+  return false;
+}

@@ -1,0 +1,26 @@
+{
+  if (configured) {
+    throw new IllegalStateException("Cannot configure CdiConfiguration multiple times");
+  }
+  RequestCycleListenerCollection listeners=new RequestCycleListenerCollection();
+  application.getRequestCycleListeners().add(listeners);
+  if (getPropagation() != ConversationPropagation.NONE) {
+    listeners.add(conversationPropagatorSource.get());
+    application.getComponentPreOnBeforeRenderListeners().add(conversationExpiryCheckerSource.get());
+  }
+  listeners.add(detachEventEmitterSource.get());
+  if (isInjectApplication()) {
+    nonContextualManager.postConstruct(application);
+  }
+  if (isInjectSession()) {
+    application.getSessionListeners().add(sessionInjector);
+  }
+  if (isInjectComponents()) {
+    application.getComponentInstantiationListeners().add(componentInjector);
+  }
+  if (isInjectBehaviors()) {
+    application.getBehaviorInstantiationListeners().add(behaviorInjector);
+  }
+  application.getApplicationListeners().add(new CdiShutdownCleaner(isInjectApplication()));
+  configured=true;
+}

@@ -4,15 +4,7 @@
   this.httpServletRequest=httpServletRequest;
   errorAttributes=ErrorAttributes.of(httpServletRequest,filterPrefix);
   forwardAttributes=ForwardAttributes.of(httpServletRequest,filterPrefix);
-  if (forwardAttributes != null || errorAttributes != null) {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Setting filterPrefix('{}') to '' because there is either an error or a forward. {}, {}",new Object[]{filterPrefix,forwardAttributes,errorAttributes});
-    }
-    this.filterPrefix="";
-  }
- else {
-    this.filterPrefix=filterPrefix;
-  }
+  this.filterPrefix=filterPrefix;
   if (url != null) {
     this.url=url;
   }

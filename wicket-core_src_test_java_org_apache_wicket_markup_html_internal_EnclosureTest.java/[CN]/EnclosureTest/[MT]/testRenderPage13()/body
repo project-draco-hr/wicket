@@ -2,12 +2,9 @@
   tester=new WicketTester(new MockApplication(){
     @Override protected void init(){
       super.init();
-      getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy(){
+      getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy.AllowAllAuthorizationStrategy(){
         @Override public boolean isActionAuthorized(        Component component,        Action action){
           return !(component instanceof SecuredContainer_13);
-        }
-        @Override public <T extends IRequestableComponent>boolean isInstantiationAuthorized(        Class<T> componentClass){
-          return true;
         }
       }
 );

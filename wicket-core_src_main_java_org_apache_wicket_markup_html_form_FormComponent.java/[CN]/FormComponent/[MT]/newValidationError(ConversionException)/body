@@ -1,0 +1,32 @@
+{
+  ValidationError error=new ValidationError(cause.getMessage());
+  if (cause.getResourceKey() != null) {
+    error.addKey(cause.getResourceKey());
+  }
+  if (typeName == null) {
+    if (cause.getTargetType() != null) {
+      error.addKey("ConversionError." + Classes.simpleName(cause.getTargetType()));
+    }
+    error.addKey("ConversionError");
+  }
+ else {
+    String simpleName=Classes.simpleName(getType());
+    error.addKey("IConverter." + simpleName);
+    error.addKey("IConverter");
+    error.setVariable("type",simpleName);
+  }
+  final Locale locale=cause.getLocale();
+  if (locale != null) {
+    error.setVariable("locale",locale);
+  }
+  error.setVariable("exception",cause);
+  Format format=cause.getFormat();
+  if (format instanceof SimpleDateFormat) {
+    error.setVariable("format",((SimpleDateFormat)format).toLocalizedPattern());
+  }
+  Map<String,Object> variables=cause.getVariables();
+  if (variables != null) {
+    error.getVariables().putAll(variables);
+  }
+  return error;
+}

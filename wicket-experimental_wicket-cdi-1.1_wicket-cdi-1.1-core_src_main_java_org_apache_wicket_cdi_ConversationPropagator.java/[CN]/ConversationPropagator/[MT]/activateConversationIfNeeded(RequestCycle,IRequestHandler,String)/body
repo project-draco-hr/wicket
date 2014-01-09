@@ -1,0 +1,18 @@
+{
+  Conversation current=getConversation(cycle);
+  if (current != null || !activateForHandler(handler)) {
+    return;
+  }
+  logger.debug("Activating conversation {}",cid);
+  try {
+    containerSource.get().activateConversationalContext(cycle,cid);
+    fireOnAfterConversationStarted(cycle);
+  }
+ catch (  NonexistentConversationException e) {
+    logger.info("Unable to restore conversation with id {}",cid,e.getMessage());
+    logger.debug("Unable to restore conversation",e);
+    fireOnAfterConversationStarted(cycle);
+    throw new ConversationExpiredException(e,cid,getPage(handler),handler);
+  }
+  cycle.setMetaData(CONVERSATION_STARTED_KEY,true);
+}

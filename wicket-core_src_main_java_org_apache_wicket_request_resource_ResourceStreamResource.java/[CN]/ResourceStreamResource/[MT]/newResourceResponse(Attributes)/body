@@ -16,7 +16,7 @@
       }
  catch (      ResourceStreamNotFoundException e) {
         data.setError(HttpServletResponse.SC_NOT_FOUND);
-        close();
+        close(resourceStream);
       }
     }
     data.setContentDisposition(contentDisposition);
@@ -35,7 +35,7 @@
       data.setWriteCallback(new WriteCallback(){
         @Override public void writeData(        Attributes attributes) throws IOException {
           ((IResourceStreamWriter)resourceStream).write(attributes.getResponse().getOutputStream());
-          close();
+          close(resourceStream);
         }
       }
 );
@@ -48,7 +48,7 @@
             writeStream(attributes,s);
           }
   finally {
-            close();
+            close(resourceStream);
           }
         }
       }

@@ -1,0 +1,11 @@
+{
+  if (wasRendered(item))   return false;
+  if (item instanceof IWrappedHeaderItem) {
+    getRealResponse().markRendered(((IWrappedHeaderItem)item).getWrapped());
+  }
+  getRealResponse().markRendered(item);
+  for (  HeaderItem curProvided : item.getProvidedResources()) {
+    getRealResponse().markRendered(curProvided);
+  }
+  return true;
+}

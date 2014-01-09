@@ -1,5 +1,7 @@
 {
-  IJavaScriptLibrarySettings ajaxSettings=Application.get().getJavaScriptLibrarySettings();
+  JavaScriptLibrarySettings ajaxSettings=Application.get().getJavaScriptLibrarySettings();
   ResourceReference wicketEventReference=ajaxSettings.getWicketEventReference();
-  return Collections.singletonList(JavaScriptHeaderItem.forReference(wicketEventReference));
+  List<HeaderItem> dependencies=super.getDependencies();
+  dependencies.add(JavaScriptHeaderItem.forReference(wicketEventReference));
+  return dependencies;
 }

@@ -1,8 +1,11 @@
 {
-  Url _url=url;
+  CalculatedUrl _url;
   if (contextRelative) {
     String contextRelative=UrlUtils.rewriteToContextRelative(url.toString(),RequestCycle.get());
-    _url=Url.parse(contextRelative,url.getCharset());
+    _url=new CalculatedUrl(Url.parse(contextRelative,url.getCharset()));
+  }
+ else {
+    _url=new CalculatedUrl(url);
   }
   return _url;
 }

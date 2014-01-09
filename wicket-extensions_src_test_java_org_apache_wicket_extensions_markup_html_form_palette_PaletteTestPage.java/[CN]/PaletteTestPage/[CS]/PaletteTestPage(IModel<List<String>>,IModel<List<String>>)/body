@@ -1,7 +1,7 @@
 {
-  form=new Form<Void>("form");
+  form=new Form<>("form",new CompoundPropertyModel<Object>("WICKET-5086"));
   add(form);
-  IChoiceRenderer<String> choiceRenderer=new IChoiceRenderer<String>(){
+  ChoiceRenderer<String> choiceRenderer=new ChoiceRenderer<String>(){
     @Override public Object getDisplayValue(    String s){
       return s;
     }
@@ -10,6 +10,6 @@
     }
   }
 ;
-  palette=new Palette<String>("palette",selected,all,choiceRenderer,10,true);
+  palette=new Palette<>("palette",selected,all,choiceRenderer,10,true);
   form.add(palette);
 }

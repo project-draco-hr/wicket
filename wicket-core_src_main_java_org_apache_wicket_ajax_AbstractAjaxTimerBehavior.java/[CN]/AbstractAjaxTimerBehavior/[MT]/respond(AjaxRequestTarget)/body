@@ -1,6 +1,11 @@
 {
-  if (!isStopped() && isEnabled(getComponent())) {
+  if (shouldTrigger()) {
     onTimer(target);
-    target.getHeaderResponse().render(OnLoadHeaderItem.forScript(getJsTimeoutCall(updateInterval)));
+    if (shouldTrigger()) {
+      hasTimeout=false;
+      addTimeout(target.getHeaderResponse());
+      return;
+    }
   }
+  clearTimeout(target.getHeaderResponse());
 }

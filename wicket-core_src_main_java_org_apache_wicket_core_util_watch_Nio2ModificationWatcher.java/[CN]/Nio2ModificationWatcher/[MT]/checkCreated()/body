@@ -1,0 +1,31 @@
+{
+  WatchKey watchKey=watchService.poll();
+  if (watchKey != null) {
+    List<WatchEvent<?>> events=watchKey.pollEvents();
+    for (    WatchEvent<?> event : events) {
+      WatchEvent.Kind<?> eventKind=event.kind();
+      Path eventPath=(Path)event.context();
+      if (eventKind == ENTRY_CREATE) {
+        if (Files.isDirectory(eventPath)) {
+          try {
+            register(eventPath,watchService);
+          }
+ catch (          IOException iox) {
+            LOG.warn("Cannot register folder '" + eventPath + "' to be watched.",iox);
+          }
+        }
+ else {
+          String absolutePath=eventPath.toAbsolutePath().toFile().toURI().toString();
+          try {
+            ThreadContext.setApplication(application);
+            application.getMarkupSettings().getMarkupFactory().getMarkupCache().removeMarkup(absolutePath);
+          }
+  finally {
+            ThreadContext.setApplication(null);
+          }
+        }
+      }
+    }
+    watchKey.reset();
+  }
+}

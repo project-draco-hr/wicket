@@ -1,0 +1,19 @@
+{
+  String classpath=System.getProperty("java.class.path");
+  String[] classPathEntries=Strings.split(classpath,File.pathSeparatorChar);
+  for (  String classPathEntry : classPathEntries) {
+    if (classPathEntry.endsWith(".jar") == false) {
+      Path folder=Paths.get(classPathEntry);
+      if (Files.isDirectory(folder)) {
+        register(folder,watchService);
+        Files.walkFileTree(folder,new SimpleFileVisitor<Path>(){
+          @Override public FileVisitResult preVisitDirectory(          Path dir,          BasicFileAttributes attrs) throws IOException {
+            register(dir,watchService);
+            return FileVisitResult.CONTINUE;
+          }
+        }
+);
+      }
+    }
+  }
+}

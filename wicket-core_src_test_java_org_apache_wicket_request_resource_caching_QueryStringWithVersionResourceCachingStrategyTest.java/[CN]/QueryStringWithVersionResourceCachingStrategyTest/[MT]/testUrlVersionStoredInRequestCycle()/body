@@ -1,0 +1,15 @@
+{
+  WicketTester tester=new WicketTester();
+  tester.getApplication().getResourceSettings().setCachingStrategy(strategy);
+  try {
+    PageParameters urlParameters=new PageParameters();
+    urlParameters.add(versionParameter,"9A0364B9E99BB480DD25E1F0284C8555");
+    ResourceUrl resourceUrl=new ResourceUrl("some-resource.txt",urlParameters);
+    strategy.undecorateUrl(resourceUrl);
+    String version=tester.getRequestCycle().getMetaData(IResourceCachingStrategy.URL_VERSION);
+    assertEquals("9A0364B9E99BB480DD25E1F0284C8555",version);
+  }
+  finally {
+    tester.destroy();
+  }
+}
