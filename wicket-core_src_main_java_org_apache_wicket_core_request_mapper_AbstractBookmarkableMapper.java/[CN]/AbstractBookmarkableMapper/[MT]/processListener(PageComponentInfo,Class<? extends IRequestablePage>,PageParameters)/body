@@ -8,6 +8,9 @@
     listenerInterface=requestListenerInterfaceFromString(componentInfo.getListenerInterface());
   }
   if (listenerInterface != null) {
+    if (pageInfo.getPageId() != null) {
+      pageParameters=null;
+    }
     PageAndComponentProvider provider=new PageAndComponentProvider(pageInfo.getPageId(),pageClass,pageParameters,renderCount,componentInfo.getComponentPath());
     provider.setPageSource(getContext());
     return new ListenerInterfaceRequestHandler(provider,listenerInterface,componentInfo.getBehaviorId());
