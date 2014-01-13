@@ -1,0 +1,9 @@
+{
+  PageSettings pageSettings=tester.getApplication().getPageSettings();
+  pageSettings.setRecreateMountedPagesAfterExpiry(false);
+  ExpirationRecoveryPage page=tester.startPage(ExpirationRecoveryPage.class,parameters);
+  assertEquals(parameters,page.getPageParameters());
+  tester.getSession().invalidateNow();
+  assertFalse(page.linkClicked.get());
+  tester.clickLink("link",false);
+}
