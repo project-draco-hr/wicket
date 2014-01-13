@@ -7,7 +7,7 @@
     segmentIndex+=curPathSegment.getMinParameters();
     int max=Math.min(curPathSegment.getOptionalParameters() + 1,url.getSegments().size() - segmentIndex);
     for (int count=max - 1; count >= 0; count--) {
-      if (url.getSegments().get(segmentIndex + count).equals(curPathSegment.getFixedPart())) {
+      if (segmentsMatch(url.getSegments().get(segmentIndex + count),curPathSegment.getFixedPart())) {
         foundFixedPart=true;
         segmentIndex+=count + 1;
         ret[pathSegmentIndex]=count + curPathSegment.getMinParameters() + 1;
