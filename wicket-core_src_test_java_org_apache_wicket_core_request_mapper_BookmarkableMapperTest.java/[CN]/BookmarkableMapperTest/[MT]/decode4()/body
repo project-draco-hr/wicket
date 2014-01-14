@@ -2,9 +2,11 @@
   Url url=Url.parse("wicket/bookmarkable/" + PAGE_CLASS_NAME + "/i1/i2?15&a=b&b=c");
   IRequestHandler handler=encoder.mapRequest(getRequest(url));
   assertThat(handler,instanceOf(RenderPageRequestHandler.class));
-  IRequestablePage page=((RenderPageRequestHandler)handler).getPage();
-  checkPage(page,15);
+  RenderPageRequestHandler h=(RenderPageRequestHandler)handler;
+  ((PageProvider)h.getPageProvider()).setPageSource(context);
+  IRequestablePage page=h.getPage();
+  checkPage(page,1);
   PageParameters p=page.getPageParameters();
-  assertEquals(0,p.getIndexedCount());
-  assertEquals(0,p.getNamedKeys().size());
+  assertEquals(2,p.getIndexedCount());
+  assertEquals(2,p.getNamedKeys().size());
 }
