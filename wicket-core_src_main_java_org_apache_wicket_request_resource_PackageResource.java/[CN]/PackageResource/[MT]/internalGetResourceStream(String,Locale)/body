@@ -21,5 +21,8 @@
   if (accept(realScope,realPath) == false) {
     throw new PackageResourceBlockedException("Access denied to (static) package resource " + absolutePath + ". See IPackageResourceGuard");
   }
-  return new ProcessingResourceStream(resourceStream);
+  if (resourceStream != null) {
+    resourceStream=new ProcessingResourceStream(resourceStream);
+  }
+  return resourceStream;
 }
