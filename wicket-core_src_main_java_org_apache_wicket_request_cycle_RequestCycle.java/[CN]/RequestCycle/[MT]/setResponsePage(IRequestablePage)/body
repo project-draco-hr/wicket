@@ -1,8 +1,7 @@
 {
   if (page instanceof Page) {
-    Page _page=(Page)page;
-    _page.setStatelessHint(false);
-    _page.internalInitialize();
+    ((Page)page).setStatelessHint(false);
   }
+  Session.get().getPageManager().touchPage(page);
   scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(page),RenderPageRequestHandler.RedirectPolicy.AUTO_REDIRECT));
 }
