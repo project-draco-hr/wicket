@@ -13,7 +13,7 @@ class Locker extends Thread {
   Locker locker1=new Locker(sync);
   final long start=System.currentTimeMillis();
   locker1.run();
-  final PageAccessSynchronizer sync2=(PageAccessSynchronizer)WicketObjects.cloneObject(sync);
+  final PageAccessSynchronizer sync2=WicketObjects.cloneObject(sync);
   assertTrue(sync != sync2);
   Locker locker2=new Locker(sync2);
   locker2.run();

@@ -1,0 +1,11 @@
+{
+  if (object == null) {
+    return null;
+  }
+ else {
+    ISerializer serializer=Application.get().getFrameworkSettings().getSerializer();
+    byte[] serialized=serializer.serialize(object);
+    Object deserialized=serializer.deserialize(serialized);
+    return (T)deserialized;
+  }
+}
