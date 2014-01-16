@@ -9,30 +9,28 @@
  catch (  ComponentNotFoundException e) {
     component=null;
   }
-  if ((component == null && freshPage) || (component != null && getComponent().getPage() == page)) {
-    if (page instanceof Page) {
-      ((Page)page).internalInitialize();
-    }
-    final boolean isStateless=page.isPageStateless();
-    RedirectPolicy policy=isStateless ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
-    final IPageProvider pageProvider=new PageProvider(page);
-    final boolean canCallListenerInterfaceAfterExpiry=component != null ? component.canCallListenerInterfaceAfterExpiry() : false;
-    if (!canCallListenerInterfaceAfterExpiry && freshPage && (isStateless == false || component == null)) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("A ListenerInterface '{}' assigned to '{}' is executed on an expired stateful page. " + "Scheduling re-create of the page and ignoring the listener interface...",listenerInterface,getComponentPath());
-      }
-      if (isAjax) {
-        policy=RedirectPolicy.ALWAYS_REDIRECT;
-      }
-      requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(pageProvider,policy));
-      return;
-    }
-    if (isAjax == false && listenerInterface.isRenderPageAfterInvocation()) {
-      requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(pageProvider,policy));
-    }
-    invokeListener();
+  if ((component == null && !freshPage) || (component != null && component.getPage() != page)) {
+    throw new WicketRuntimeException("Component '" + getComponentPath() + "' has been removed from page.");
   }
- else {
-    throw new WicketRuntimeException("Component " + getComponent() + " has been removed from page.");
+  if (page instanceof Page) {
+    ((Page)page).internalInitialize();
   }
+  final boolean isStateless=page.isPageStateless();
+  RedirectPolicy policy=isStateless ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
+  final IPageProvider pageProvider=new PageProvider(page);
+  final boolean canCallListenerInterfaceAfterExpiry=component != null ? component.canCallListenerInterfaceAfterExpiry() : false;
+  if (!canCallListenerInterfaceAfterExpiry && freshPage && (isStateless == false || component == null)) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("A ListenerInterface '{}' assigned to '{}' is executed on an expired stateful page. " + "Scheduling re-create of the page and ignoring the listener interface...",listenerInterface,getComponentPath());
+    }
+    if (isAjax) {
+      policy=RedirectPolicy.ALWAYS_REDIRECT;
+    }
+    requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(pageProvider,policy));
+    return;
+  }
+  if (isAjax == false && listenerInterface.isRenderPageAfterInvocation()) {
+    requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(pageProvider,policy));
+  }
+  invokeListener();
 }
