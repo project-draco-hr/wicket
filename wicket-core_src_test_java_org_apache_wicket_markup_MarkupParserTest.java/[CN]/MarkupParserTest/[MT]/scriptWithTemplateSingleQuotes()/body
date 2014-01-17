@@ -1,0 +1,8 @@
+{
+  final MarkupParser parser=new MarkupParser("<html wicket:id=\"test\"><script type='text/x-jquery-tmpl' language=\"JavaScript\">... <x a/> ...</script></html>");
+  IMarkupFragment markup=parser.parse();
+  assertEquals(5,markup.size());
+  assertEquals("html",((ComponentTag)markup.get(0)).getName());
+  assertEquals("html",((ComponentTag)markup.get(4)).getName());
+  assertEquals("... <x a/> ...",markup.get(2).toString());
+}
