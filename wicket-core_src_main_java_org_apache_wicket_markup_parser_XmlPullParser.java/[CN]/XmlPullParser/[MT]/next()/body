@@ -48,7 +48,16 @@
     if ((tagText.length() > STYLE.length()) && ((tagText.charAt(0) == 's') || (tagText.charAt(0) == 'S'))) {
       final String lowerCase=tagText.substring(0,6).toLowerCase();
       if (lowerCase.startsWith(SCRIPT)) {
-        skipUntilText=SCRIPT;
+        int idxOfType=lowerCase.indexOf("type=\"");
+        if (idxOfType > 0) {
+          String typePrefix=lowerCase.substring(idxOfType);
+          if (typePrefix.startsWith("text/javascript")) {
+            skipUntilText=SCRIPT;
+          }
+        }
+ else {
+          skipUntilText=SCRIPT;
+        }
       }
  else       if (lowerCase.startsWith(STYLE)) {
         skipUntilText=STYLE;
