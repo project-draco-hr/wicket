@@ -21,7 +21,7 @@
         tag.setModified(true);
       }
       if (enclosures == null) {
-        enclosures=new Stack<ComponentTag>();
+        enclosures=new ArrayDeque<>();
       }
       enclosures.push(tag);
     }
@@ -31,8 +31,9 @@
   }
  else   if ((enclosures != null) && (enclosures.size() > 0)) {
     if (tag.isOpen() && (tag.getId() != null) && !(tag instanceof WicketTag)&& !tag.isAutoComponentTag()) {
-      for (int i=enclosures.size() - 1; i >= 0; i--) {
-        ComponentTag lastEnclosure=enclosures.get(i);
+      Iterator<ComponentTag> componentTagIterator=enclosures.descendingIterator();
+      while (componentTagIterator.hasNext()) {
+        ComponentTag lastEnclosure=componentTagIterator.next();
         String attr=getAttribute(lastEnclosure,null);
         if (Strings.isEmpty(attr) == true) {
           lastEnclosure.getAttributes().put(getInlineEnclosureAttributeName(null),tag.getId());
