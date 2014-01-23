@@ -1,0 +1,11 @@
+{
+  TestPageRenderer renderer=new TestPageRenderer(handler);
+  renderer.redirectPolicy=RedirectPolicy.NEVER_REDIRECT;
+  renderer.ajax=true;
+  renderer.newPageInstance=true;
+  when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("base"));
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("base/a"));
+  renderer.respond(requestCycle);
+  verify(response).sendRedirect(anyString());
+  verify(response,never()).write(any(byte[].class));
+}
