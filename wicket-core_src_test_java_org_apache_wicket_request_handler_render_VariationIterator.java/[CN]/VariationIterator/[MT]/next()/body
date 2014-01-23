@@ -1,3 +1,17 @@
 {
-  return variation.values().get(idx);
+  if (thisHasNextVariation()) {
+    idx++;
+  }
+ else {
+    if (prevHasNextVariation()) {
+      idx=0;
+    }
+ else {
+      throw new NoSuchElementException("no variation left, but next called");
+    }
+  }
+  if (idx == 0 && prev != null) {
+    prev.next();
+  }
+  return current();
 }
