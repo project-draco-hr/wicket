@@ -1,0 +1,10 @@
+{
+  Args.notNull(application,"application");
+  Args.notNull(propagation,"propagation");
+  if (propagation == ConversationPropagation.NONE) {
+    throw new IllegalArgumentException("If propagation is NONE do not set up the propagator");
+  }
+  this.application=application;
+  this.propagation=propagation;
+  NonContextual.of(ConversationPropagator.class).postConstruct(this);
+}

@@ -1,0 +1,14 @@
+{
+  try {
+    lifecycle=new HttpContextLifecycle(BeanManagerProxy.unwrap(beanManager),AcceptingHttpContextActivationFilter.INSTANCE,true,true);
+  }
+ catch (  NoSuchMethodError e) {
+    try {
+      lifecycle=HttpContextLifecycle.class.getConstructor(BeanManager.class,AcceptingHttpContextActivationFilter.class).newInstance(BeanManagerProxy.unwrap(beanManager),AcceptingHttpContextActivationFilter.INSTANCE);
+    }
+ catch (    Exception e1) {
+      throw new RuntimeException(e1);
+    }
+  }
+  lifecycle.setConversationActivationEnabled(true);
+}

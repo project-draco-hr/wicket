@@ -1,0 +1,14 @@
+{
+  configure(new CdiConfiguration());
+  tester.startPage(TestConversationalPage.class);
+  int i;
+  for (i=0; i < 3; i++) {
+    tester.assertCount(i);
+    tester.clickLink("increment");
+  }
+  tester.clickLink("next");
+  for (; i < 6; i++) {
+    tester.clickLink("increment");
+    tester.assertCount(1);
+  }
+}

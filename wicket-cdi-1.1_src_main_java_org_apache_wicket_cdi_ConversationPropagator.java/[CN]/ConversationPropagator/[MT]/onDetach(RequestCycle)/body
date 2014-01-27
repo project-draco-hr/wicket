@@ -1,0 +1,11 @@
+{
+  if (!Boolean.TRUE.equals(cycle.getMetaData(CONVERSATION_STARTED_KEY))) {
+    return;
+  }
+  logger.debug("Deactivating conversation {}",conversation.getId());
+  for (  IRequestCycleListener listener : application.getRequestCycleListeners()) {
+    if (listener instanceof ICdiAwareRequestCycleListener) {
+      ((ICdiAwareRequestCycleListener)listener).onBeforeConversationDeactivated(cycle);
+    }
+  }
+}

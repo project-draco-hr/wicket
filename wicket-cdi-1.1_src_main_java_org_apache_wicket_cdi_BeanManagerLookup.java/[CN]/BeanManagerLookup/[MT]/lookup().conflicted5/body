@@ -1,0 +1,12 @@
+{
+  BeanManager ret=lastSuccessful.lookup();
+  if (ret != null)   return ret;
+  for (  BeanManagerLookupStrategy curStrategy : BeanManagerLookupStrategy.values()) {
+    ret=curStrategy.lookup();
+    if (ret != null) {
+      lastSuccessful=curStrategy;
+      return ret;
+    }
+  }
+  throw new IllegalStateException("No BeanManager found via the CDI provider and no fallback specified. Check your " + "CDI setup or specify a fallback BeanManager in the CdiConfiguration.");
+}

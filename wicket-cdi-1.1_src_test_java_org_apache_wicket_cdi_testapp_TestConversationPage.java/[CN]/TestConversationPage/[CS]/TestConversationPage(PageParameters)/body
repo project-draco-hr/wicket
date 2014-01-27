@@ -1,0 +1,22 @@
+{
+  super(parameters);
+  conversation.begin();
+  System.out.println("Opened Conversion with id = " + conversation.getId());
+  add(new Label("count",new PropertyModel<String>(this,"counter.countStr")));
+  add(new Link<Void>("increment"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      counter.increment();
+    }
+  }
+);
+  add(new Link<Void>("next"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      String pageType=parameters.get("pageType").toString("nonbookmarkable");
+      if ("bookmarkable".equals(pageType.toLowerCase()))       setResponsePage(TestNonConversationalPage.class);
+ else       setResponsePage(new TestNonConversationalPage());
+    }
+  }
+);
+}

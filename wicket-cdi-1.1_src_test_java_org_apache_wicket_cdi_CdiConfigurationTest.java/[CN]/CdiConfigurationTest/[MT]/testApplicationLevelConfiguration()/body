@@ -1,0 +1,9 @@
+{
+  WicketTester tester=new WicketTester();
+  CdiConfiguration config=new CdiConfiguration();
+  for (  ConversationPropagation cp : ConversationPropagation.values()) {
+    config.setPropagation(cp);
+    assertEquals(cp,config.getPropagation());
+  }
+  config.configure(tester.getApplication());
+}

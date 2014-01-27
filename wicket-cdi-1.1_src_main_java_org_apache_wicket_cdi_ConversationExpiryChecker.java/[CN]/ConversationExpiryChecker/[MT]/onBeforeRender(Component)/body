@@ -1,0 +1,10 @@
+{
+  if (component instanceof Page || RequestCycle.get().find(AjaxRequestTarget.class) != null) {
+    Page page=component.getPage();
+    String cid=ConversationPropagator.getConversationIdFromPage(page);
+    if (cid != null && !Objects.isEqual(conversation.getId(),cid)) {
+      logger.info("Conversation {} has expired for {}",cid,page);
+      throw new ConversationExpiredException(null,cid,page,RequestCycle.get().getActiveRequestHandler());
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  if (application.getMetaData(CDI_CONFIGURATION_KEY) != null) {
+    throw new IllegalStateException("Cdi already configured for this application");
+  }
+  application.setMetaData(CDI_CONFIGURATION_KEY,this);
+  RequestCycleListenerCollection listeners=new RequestCycleListenerCollection();
+  application.getRequestCycleListeners().add(listeners);
+  if (getPropagation() != ConversationPropagation.NONE) {
+    listeners.add(new ConversationPropagator(application,getPropagation()));
+    application.getComponentPreOnBeforeRenderListeners().add(new AutoConversationManager(getPropagation()));
+    application.getComponentPreOnBeforeRenderListeners().add(new ConversationExpiryChecker());
+  }
+  listeners.add(new DetachEventEmitter());
+  NonContextual.of(application.getClass()).postConstruct(application);
+  application.getSessionListeners().add(new SessionInjector());
+  application.getComponentInstantiationListeners().add(new ComponentInjector());
+  application.getBehaviorInstantiationListeners().add(new BehaviorInjector());
+  application.getApplicationListeners().add(new CdiShutdownCleaner());
+}

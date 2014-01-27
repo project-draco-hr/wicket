@@ -1,0 +1,14 @@
+{
+  configure(new CdiConfiguration().setPropagation(ConversationPropagation.NONE));
+  tester.startPage(TestConversationPage.class);
+  int i;
+  for (i=0; i < 3; i++) {
+    tester.clickLink("increment");
+    tester.assertCount(1);
+  }
+  tester.clickLink("next");
+  for (; i < 6; i++) {
+    tester.clickLink("increment");
+    tester.assertCount(1);
+  }
+}
