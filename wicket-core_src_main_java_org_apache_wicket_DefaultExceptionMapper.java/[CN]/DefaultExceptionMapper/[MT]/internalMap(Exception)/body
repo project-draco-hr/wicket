@@ -19,6 +19,10 @@ if (e instanceof StalePageException) {
   logger.error("Connection lost, give up responding.",e);
   return new EmptyRequestHandler();
 }
+ else if (e instanceof PackageResource.PackageResourceBlockedException && application.usesDeploymentConfig()) {
+  logger.debug(e.getMessage(),e);
+  return new ErrorCodeRequestHandler(404);
+}
  else {
   final ExceptionSettings.UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
   logger.error("Unexpected error occurred",e);

@@ -1,0 +1,8 @@
+{
+  DefaultExceptionMapper mapper=new DefaultExceptionMapper();
+  PackageResource.PackageResourceBlockedException x=new PackageResource.PackageResourceBlockedException("test");
+  IRequestHandler handler=mapper.map(x);
+  assertThat(handler,instanceOf(ErrorCodeRequestHandler.class));
+  ErrorCodeRequestHandler errorCodeRequestHandler=(ErrorCodeRequestHandler)handler;
+  assertThat(errorCodeRequestHandler.getErrorCode(),is(HttpServletResponse.SC_NOT_FOUND));
+}
