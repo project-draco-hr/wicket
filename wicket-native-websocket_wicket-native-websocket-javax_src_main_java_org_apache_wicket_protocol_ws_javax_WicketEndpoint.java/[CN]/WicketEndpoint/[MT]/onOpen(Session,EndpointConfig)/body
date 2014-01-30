@@ -1,5 +1,6 @@
 {
-  WebApplication app=(WebApplication)session.getUserProperties().get(JavaxWebSocketFilter.APPLICATION_KEY);
+  String appName=getApplicationName(session);
+  WebApplication app=(WebApplication)WebApplication.get(appName);
   try {
     ThreadContext.setApplication(app);
     javaxWebSocketProcessor=new JavaxWebSocketProcessor(session,app);

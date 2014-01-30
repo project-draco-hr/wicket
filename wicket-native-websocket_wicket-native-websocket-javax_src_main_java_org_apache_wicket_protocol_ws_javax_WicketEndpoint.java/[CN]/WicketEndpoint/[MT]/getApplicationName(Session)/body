@@ -1,0 +1,21 @@
+{
+  String appName=null;
+  @SuppressWarnings("unchecked") Map<String,List<String>> parameters=session.getRequestParameterMap();
+  if (parameters != null) {
+    appName=parameters.get(WICKET_APP_PARAM_NAME).get(0);
+  }
+ else {
+    String queryString=session.getQueryString();
+    if (!Strings.isEmpty(queryString)) {
+      String[] params=Strings.split(queryString,'&');
+      for (      String paramPair : params) {
+        String[] nameValues=Strings.split(paramPair,'=');
+        if (WICKET_APP_PARAM_NAME.equals(nameValues[0])) {
+          appName=nameValues[1];
+        }
+      }
+    }
+  }
+  Checks.notNull(appName,"The application name cannot be read from the upgrade request's parameters");
+  return appName;
+}

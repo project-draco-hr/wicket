@@ -2,14 +2,17 @@
   Map<String,Object> userProperties=session.getUserProperties();
   this.httpSession=(HttpSession)userProperties.get("session");
   this.headers=(Map<String,List<String>>)userProperties.get("headers");
-  this.queryString=(String)userProperties.get("queryString");
-  this.userPrincipal=(Principal)userProperties.get("userPrincipal");
-  this.requestUri=userProperties.get("requestURI").toString();
+  this.queryString=session.getQueryString();
+  this.userPrincipal=session.getUserPrincipal();
+  Object requestURI=session.getRequestURI();
+  this.requestUri=requestURI != null ? requestURI.toString() : "";
   this.parametersMap=new HashMap<>();
-  Map<String,List<String>> parameters=(Map<String,List<String>>)userProperties.get("parameterMap");
-  for (  Map.Entry<String,List<String>> entry : parameters.entrySet()) {
-    String name=entry.getKey();
-    List<String> value=entry.getValue();
-    parametersMap.put(name,value.toArray(new String[value.size()]));
+  Map<String,List<String>> parameters=session.getRequestParameterMap();
+  if (parameters != null) {
+    for (    Map.Entry<String,List<String>> entry : parameters.entrySet()) {
+      String name=entry.getKey();
+      List<String> value=entry.getValue();
+      parametersMap.put(name,value.toArray(new String[value.size()]));
+    }
   }
 }
