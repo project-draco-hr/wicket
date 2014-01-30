@@ -3,7 +3,7 @@
   renderer.redirectPolicy=RedirectPolicy.ALWAYS_REDIRECT;
   when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("base"));
   when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("base/a"));
-  when(request.shouldPreserveClientUrl()).thenReturn(false);
+  when(request.shouldPreserveClientUrl()).thenReturn(true);
   renderer.respond(requestCycle);
   verify(response,never()).write(any(byte[].class));
   verify(response).sendRedirect(anyString());
