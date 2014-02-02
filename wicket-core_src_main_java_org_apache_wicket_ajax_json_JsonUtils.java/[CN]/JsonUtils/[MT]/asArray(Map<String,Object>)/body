@@ -15,19 +15,19 @@
           }
         }
       }
- else       if (value.getClass().isArray()) {
-        Object[] array=(Object[])value;
-        for (        Object v : array) {
-          if (v != null) {
-            JSONObject object=new JSONObject();
-            object.put("name",name);
-            object.put("value",v);
-            jsonArray.put(object);
+ else       if (value != null) {
+        if (value.getClass().isArray()) {
+          Object[] array=(Object[])value;
+          for (          Object v : array) {
+            if (v != null) {
+              JSONObject object=new JSONObject();
+              object.put("name",name);
+              object.put("value",v);
+              jsonArray.put(object);
+            }
           }
         }
-      }
  else {
-        if (value != null) {
           JSONObject object=new JSONObject();
           object.put("name",name);
           object.put("value",value);
