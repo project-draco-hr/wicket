@@ -2,7 +2,8 @@
   Url url=request.getUrl();
   if (url.getSegments().size() > mountSegments.length) {
     PageComponentInfo info=getPageComponentInfo(url);
-    String className=url.getSegments().get(mountSegments.length);
+    String name=url.getSegments().get(mountSegments.length);
+    String className=cleanClassName(name);
     if (isValidClassName(className) == false) {
       return null;
     }
