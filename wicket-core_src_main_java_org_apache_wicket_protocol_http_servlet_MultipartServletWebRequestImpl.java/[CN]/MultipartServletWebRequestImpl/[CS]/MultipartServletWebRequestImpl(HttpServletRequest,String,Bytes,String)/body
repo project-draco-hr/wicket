@@ -1,3 +1,9 @@
 {
-  this(request,filterPrefix,maxSize,upload,new DiskFileItemFactory(Application.get().getResourceSettings().getFileCleaner()));
+  this(request,filterPrefix,maxSize,upload,new DiskFileItemFactory(){
+    @Override public FileCleaningTracker getFileCleaningTracker(){
+      IFileCleaner fileCleaner=Application.get().getResourceSettings().getFileCleaner();
+      return new FileCleanerTrackerAdapter(fileCleaner);
+    }
+  }
+);
 }

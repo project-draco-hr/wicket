@@ -1,6 +1,12 @@
 {
-  IFileCleaner fileUploadCleaner=new FileCleaner();
-  FileItem fileItem=new DiskFileItemFactory(fileUploadCleaner).createItem("dummyFieldName","text/java",false,"FileUploadTest.java");
+  final IFileCleaner fileUploadCleaner=new FileCleaner();
+  DiskFileItemFactory itemFactory=new DiskFileItemFactory(){
+    @Override public FileCleaningTracker getFileCleaningTracker(){
+      return new FileCleanerTrackerAdapter(fileUploadCleaner);
+    }
+  }
+;
+  FileItem fileItem=itemFactory.createItem("dummyFieldName","text/java",false,"FileUploadTest.java");
   fileItem.getOutputStream();
   Field inputStreamsField=FileUpload.class.getDeclaredField("inputStreamsToClose");
   inputStreamsField.setAccessible(true);
