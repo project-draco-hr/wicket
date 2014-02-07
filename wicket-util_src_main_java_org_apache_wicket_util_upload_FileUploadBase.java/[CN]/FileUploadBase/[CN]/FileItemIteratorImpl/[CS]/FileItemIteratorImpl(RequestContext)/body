@@ -31,7 +31,12 @@
     throw new FileUploadException("the request was rejected because " + "no multipart boundary was found");
   }
   notifier=new MultipartFormInputStream.ProgressNotifier(listener,ctx.getContentLength());
-  multi=new MultipartFormInputStream(input,boundary,notifier);
+  try {
+    multi=new MultipartFormInputStream(input,boundary,notifier);
+  }
+ catch (  IllegalArgumentException iae) {
+    throw new InvalidContentTypeException(String.format("The boundary specified in the %s header is too long",CONTENT_TYPE),iae);
+  }
   multi.setHeaderEncoding(charEncoding);
   skipPreamble=true;
   findNextItem();
