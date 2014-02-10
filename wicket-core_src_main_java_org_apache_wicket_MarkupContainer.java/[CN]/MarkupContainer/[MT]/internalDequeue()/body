@@ -13,9 +13,9 @@ class Repeater {
   if (markup == null) {
     return;
   }
-  ArrayListStack<ComponentTag> tags=new ArrayListStack<ComponentTag>();
-  ArrayListStack<MarkupContainer> containers=new ArrayListStack<MarkupContainer>();
-  ArrayListStack<Repeater> repeaters=new ArrayListStack<Repeater>();
+  ArrayListStack<ComponentTag> tags=new ArrayListStack<>();
+  ArrayListStack<MarkupContainer> containers=new ArrayListStack<>();
+  ArrayListStack<Repeater> repeaters=new ArrayListStack<>();
   containers.push(this);
   for (int i=0; i < markup.size(); i++) {
     MarkupElement element=markup.get(i);
@@ -59,7 +59,13 @@ class Repeater {
           }
         }
         if (child != null) {
-          containers.peek().add(child);
+          MarkupContainer parentContainer=containers.peek();
+          if (parentContainer instanceof Border) {
+            ((Border)parentContainer).addToBorder(child);
+          }
+ else {
+            parentContainer.add(child);
+          }
           if (child instanceof IQueueRegion) {
             ((MarkupContainer)child).dequeue();
           }
@@ -69,7 +75,7 @@ class Repeater {
         if (tag.isOpen()) {
           for (i=i + 1; i < markup.size(); i++) {
             MarkupElement e=markup.get(i);
-            if (e instanceof ComponentTag && ((ComponentTag)e).closes(tag)) {
+            if (e instanceof ComponentTag && e.closes(tag)) {
               break;
             }
           }
@@ -90,7 +96,7 @@ class Repeater {
  else {
                 for (i=i + 1; i < markup.size(); i++) {
                   MarkupElement e=markup.get(i);
-                  if (e instanceof ComponentTag && ((ComponentTag)e).closes(tag)) {
+                  if (e instanceof ComponentTag && e.closes(tag)) {
                     break;
                   }
                 }
@@ -102,7 +108,7 @@ class Repeater {
  else {
             for (i=i + 1; i < markup.size(); i++) {
               MarkupElement e=markup.get(i);
-              if (e instanceof ComponentTag && ((ComponentTag)e).closes(tag)) {
+              if (e instanceof ComponentTag && e.closes(tag)) {
                 break;
               }
             }

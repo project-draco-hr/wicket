@@ -1,0 +1,11 @@
+{
+  MarkupContainer a=new A(), b=new B(), r=new R(), s=new S();
+  TestBorder border=new TestBorder("border");
+  border.setBorderMarkup("<wicket:border><p wicket:id='r'><p wicket:id='s'>" + "<wicket:body/></p></p></wicket:border>");
+  border.queueToBorder(r,s);
+  TestPage p=new TestPage();
+  p.setPageMarkup("<p wicket:id='a'><p wicket:id='border'><p wicket:id='b'></p></p></p>");
+  p.queue(a,border,b);
+  tester.startPage(p);
+  assertThat(p,hasPath(new Path(a,border,r,s)));
+}
