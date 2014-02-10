@@ -1,0 +1,24 @@
+{
+  final int warmup=30;
+  final int performance=60;
+  tester.startPage(AddContactsPage.class);
+  for (int i=0; i < warmup; i++) {
+    run(AddContactsPage.class);
+  }
+  long start=System.currentTimeMillis();
+  for (int i=0; i < performance; i++) {
+    run(AddContactsPage.class);
+  }
+  long end=System.currentTimeMillis();
+  long addDuration=end - start;
+  for (int i=0; i < warmup; i++) {
+    run(QueueContactsPage.class);
+  }
+  start=System.currentTimeMillis();
+  for (int i=0; i < performance; i++) {
+    run(QueueContactsPage.class);
+  }
+  end=System.currentTimeMillis();
+  long queueDuration=end - start;
+  System.out.println("add duration: " + addDuration + " queue duration: "+ queueDuration);
+}

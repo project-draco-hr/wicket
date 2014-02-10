@@ -1,0 +1,43 @@
+{
+  if (component == null) {
+    throw new IllegalArgumentException("component cannot be null");
+  }
+  if (seen != null) {
+    for (int i=0; i < seenSize; i++) {
+      if (seen[i].equals(component.getId())) {
+        throw new WicketRuntimeException("A component with id: " + component.getId() + " has already been queued");
+      }
+    }
+  }
+  if (dirty) {
+    if (queueSize == 0) {
+      queue=null;
+    }
+ else {
+      Component[] replacement=new Component[queueSize + ADDITIONAL];
+      int pos=0;
+      for (int i=0; i < queue.length; i++) {
+        if (queue[i] != null) {
+          replacement[pos++]=queue[i];
+        }
+      }
+      queue=replacement;
+    }
+  }
+  if (queue == null) {
+    queue=new Component[INITIAL];
+  }
+ else   if (queue.length == queueSize) {
+    queue=Arrays.copyOf(queue,queue.length + ADDITIONAL);
+  }
+  queue[queueSize]=component;
+  queueSize++;
+  if (seen == null) {
+    seen=new String[INITIAL];
+  }
+ else   if (seenSize == seen.length) {
+    seen=Arrays.copyOf(seen,seen.length + ADDITIONAL);
+  }
+  seen[seenSize]=component.getId();
+  seenSize++;
+}

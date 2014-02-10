@@ -1,0 +1,15 @@
+{
+  if (!(this instanceof IQueueRegion)) {
+    throw new UnsupportedOperationException();
+  }
+  if (dequeuing) {
+    throw new IllegalStateException();
+  }
+  dequeuing=true;
+  try {
+    internalDequeue();
+  }
+  finally {
+    dequeuing=false;
+  }
+}

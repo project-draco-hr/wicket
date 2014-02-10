@@ -1,0 +1,11 @@
+{
+  MarkupContainer r=new R();
+  TestPanel q=new TestPanel("q");
+  q.setPanelMarkup("<html><body><wicket:panel><p wicket:id='r'></p></wicket:panel></body></html>");
+  q.queue(r);
+  TestPage p=new TestPage();
+  p.setPageMarkup("<p wicket:id='q'></p>");
+  p.queue(q);
+  tester.startPage(p);
+  assertThat(p,hasPath(new Path(q,r)));
+}

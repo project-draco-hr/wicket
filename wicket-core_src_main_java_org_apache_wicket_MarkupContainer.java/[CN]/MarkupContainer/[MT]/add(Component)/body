@@ -19,10 +19,14 @@
     if (log.isDebugEnabled()) {
       log.debug("Add " + child.getId() + " to "+ this);
     }
-    addedComponent(child);
+    parent=child.getParent();
+    if (parent != null) {
+      parent.remove(child);
+    }
     if (put(child) != null) {
       throw new IllegalArgumentException(exceptionMessage("A child with id '" + child.getId() + "' already exists"));
     }
+    addedComponent(child);
   }
   return this;
 }

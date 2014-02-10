@@ -1,0 +1,12 @@
+{
+  TestPage p=new TestPage();
+  p.setPageMarkup("<p wicket:id='a'><a wicket:id='l'><p wicket:id='b'></p></a></p>");
+  MarkupContainer a=new A(), b=new B();
+  L l=new L();
+  p.queue(a,b,l);
+  tester.startPage(p);
+  assertThat(p,hasPath(new Path(a,l,b)));
+  assertThat(l.isClicked(),is(false));
+  tester.clickLink(l);
+  assertThat(l.isClicked(),is(true));
+}

@@ -1,0 +1,15 @@
+{
+  TestPage p=new TestPage();
+  p.setPageMarkup("  <p wicket:id='a'>" + "  <p wicket:id='b'>" + "    <p wicket:id='c'></p>"+ "    <p wicket:id='d'>"+ "      <p wicket:id='e'></p>"+ "    </p>"+ "    <p wicket:id='f'>"+ "      <p wicket:id='g'></p>"+ "    </p>"+ "  </p>"+ "</p>");
+  MarkupContainer a=new A(), b=new B(), c=new C(), d=new D(), e=new E(), f=new F(), g=new G();
+  a.add(b);
+  b.queue(e);
+  p.queue(a,c);
+  b.add(d);
+  f.queue(g);
+  b.add(f);
+  tester.startPage(p);
+  assertThat(p,hasPath(new Path(a,b,c)));
+  assertThat(p,hasPath(new Path(a,b,d,e)));
+  assertThat(p,hasPath(new Path(a,b,f,g)));
+}

@@ -3,6 +3,9 @@
   final boolean isEnclosureTag=isWicketTag && ((WicketTag)tag).isEnclosureTag();
   if (isEnclosureTag) {
     if (tag.isOpen()) {
+      tag.setId(tag.getId() + index.getAndIncrement());
+      tag.setModified(true);
+      tag.setAutoComponentFactory(FACTORY);
       if (stack == null) {
         stack=new ArrayDeque<>();
       }

@@ -1,0 +1,14 @@
+{
+  TestPage p=new TestPage();
+  p.setPageMarkup("<wicket:enclosure child='a'><div wicket:id='a'></div><div wicket:id='b'></div></wicket:enclosure>");
+  A a=new A();
+  B b=new B();
+  p.add(a,b);
+  tester.startPage(p);
+  assertTrue(a.getParent() instanceof TestPage);
+  assertTrue(b.getParent() instanceof TestPage);
+  assertEquals("<wicket:enclosure child=\"a\"><div wicket:id=\"a\"></div><div wicket:id=\"b\"></div></wicket:enclosure>",tester.getLastResponseAsString());
+  a.setVisible(false);
+  tester.startPage(p);
+  assertEquals("",tester.getLastResponseAsString());
+}

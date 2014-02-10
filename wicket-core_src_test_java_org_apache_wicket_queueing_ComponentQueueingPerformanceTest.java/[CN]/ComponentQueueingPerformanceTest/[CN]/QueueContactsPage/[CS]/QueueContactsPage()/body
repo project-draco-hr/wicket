@@ -1,0 +1,21 @@
+{
+  queue(new RefreshingView<Contact>("contacts"){
+    @Override protected Iterator<IModel<Contact>> getItemModels(){
+      return new ModelIteratorAdapter<Contact>(store.contacts.values()){
+        @Override protected IModel<Contact> model(        Contact object){
+          return new ContactModel(object);
+        }
+      }
+;
+    }
+    @Override protected void populateItem(    Item<Contact> item){
+      IModel<Contact> model=item.getModel();
+      item.queue(new Label("first",new PropertyModel(model,"first")));
+      item.queue(new Label("last",new PropertyModel(model,"first")));
+      item.queue(new AddAddressPanel("addr",new PropertyModel(model,"address")));
+      item.queue(new AddPhonePanel("work",new PropertyModel(model,"work")));
+      item.queue(new AddPhonePanel("cell",new PropertyModel(model,"cell")));
+    }
+  }
+);
+}

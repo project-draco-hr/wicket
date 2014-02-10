@@ -1,0 +1,16 @@
+{
+  int seen=0;
+  for (int i=0; i < queue.length && seen < queueSize; i++) {
+    Component component=queue[i];
+    if (component != null) {
+      seen++;
+      if (component.getId().equals(id)) {
+        queue[i]=null;
+        dirty=true;
+        queueSize--;
+        return component;
+      }
+    }
+  }
+  return null;
+}

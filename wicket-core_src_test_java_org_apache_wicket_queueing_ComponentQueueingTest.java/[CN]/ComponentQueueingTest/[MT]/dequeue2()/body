@@ -1,0 +1,9 @@
+{
+  TestPage p=new TestPage();
+  p.setPageMarkup("<p wicket:id='a'><p wicket:id='b'><p wicket:id='c'></p></p></p>");
+  MarkupContainer a=new A(), b=new B(), c=new C();
+  p.queue(a);
+  a.queue(b,c);
+  tester.startPage(p);
+  assertThat(p,hasPath(a,b,c));
+}

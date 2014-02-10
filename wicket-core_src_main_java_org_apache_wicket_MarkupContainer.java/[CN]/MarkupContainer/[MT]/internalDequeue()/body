@@ -1,0 +1,116 @@
+{
+class Repeater {
+    int parentMarkupIndex;
+    Iterator<Component> renderIterator;
+    ComponentTag tag;
+    Repeater(    int parentMarkupIndex,    Iterator<Component> renderIterator,    ComponentTag tag){
+      this.parentMarkupIndex=parentMarkupIndex;
+      this.renderIterator=renderIterator;
+      this.tag=tag;
+    }
+  }
+  Markup markup=getAssociatedMarkup();
+  if (markup == null) {
+    return;
+  }
+  ArrayListStack<ComponentTag> tags=new ArrayListStack<ComponentTag>();
+  ArrayListStack<MarkupContainer> containers=new ArrayListStack<MarkupContainer>();
+  ArrayListStack<Repeater> repeaters=new ArrayListStack<Repeater>();
+  containers.push(this);
+  for (int i=0; i < markup.size(); i++) {
+    MarkupElement element=markup.get(i);
+    if (!(element instanceof ComponentTag)) {
+      continue;
+    }
+    ComponentTag tag=(ComponentTag)element;
+    if (tag instanceof WicketTag) {
+      ComponentTag openTag=tag.getOpenTag() == null ? tag : tag.getOpenTag();
+      if (openTag.getAutoComponentFactory() == null) {
+        continue;
+      }
+    }
+    if (tag.isClose()) {
+      ComponentTag closeTag=tags.pop();
+      containers.pop();
+      if (containers.peek() instanceof AbstractRepeater) {
+        Repeater repeater=repeaters.peek();
+        if (repeater.renderIterator.hasNext()) {
+          containers.push((MarkupContainer)repeater.renderIterator.next());
+          tags.push(repeater.tag);
+          i=repeater.parentMarkupIndex;
+          continue;
+        }
+ else {
+          repeaters.pop();
+          tags.pop();
+          containers.pop();
+        }
+      }
+    }
+ else {
+      String id=tag.getId();
+      Component child=containers.peek().get(id);
+      if (child == null) {
+        for (int j=containers.size() - 1; j >= 0; j--) {
+          MarkupContainer container=containers.get(j);
+          child=container.getQueue() != null ? container.getQueue().remove(id) : null;
+          if (child != null) {
+            break;
+          }
+        }
+        if (child != null) {
+          containers.peek().add(child);
+          if (child instanceof IQueueRegion) {
+            ((MarkupContainer)child).dequeue();
+          }
+        }
+      }
+      if (child == null) {
+        if (tag.isOpen()) {
+          for (i=i + 1; i < markup.size(); i++) {
+            MarkupElement e=markup.get(i);
+            if (e instanceof ComponentTag && ((ComponentTag)e).closes(tag)) {
+              break;
+            }
+          }
+        }
+      }
+ else {
+        if (tag.isOpen()) {
+          if (child instanceof MarkupContainer) {
+            containers.push((MarkupContainer)child);
+            tags.push(tag);
+            if (child instanceof AbstractRepeater) {
+              Repeater repeater=new Repeater(i,((AbstractRepeater)child).iterator(),tag);
+              if (repeater.renderIterator.hasNext()) {
+                repeaters.push(repeater);
+                containers.push((MarkupContainer)repeater.renderIterator.next());
+                tags.push(tag);
+              }
+ else {
+                for (i=i + 1; i < markup.size(); i++) {
+                  MarkupElement e=markup.get(i);
+                  if (e instanceof ComponentTag && ((ComponentTag)e).closes(tag)) {
+                    break;
+                  }
+                }
+                i--;
+                continue;
+              }
+            }
+          }
+ else {
+            for (i=i + 1; i < markup.size(); i++) {
+              MarkupElement e=markup.get(i);
+              if (e instanceof ComponentTag && ((ComponentTag)e).closes(tag)) {
+                break;
+              }
+            }
+          }
+        }
+ else {
+        }
+      }
+    }
+  }
+}

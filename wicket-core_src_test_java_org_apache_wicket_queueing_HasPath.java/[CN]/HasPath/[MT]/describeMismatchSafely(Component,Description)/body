@@ -1,0 +1,24 @@
+{
+  Component cursor=item;
+  int matched=0;
+  String error=null;
+  for (int i=0; i < path.size(); i++) {
+    matched=i;
+    if (!(cursor instanceof MarkupContainer)) {
+      error="next component has to be at least a MarkupContainer to contain children, but was: " + toString(cursor);
+      break;
+    }
+    cursor=((MarkupContainer)cursor).get(path.get(i).getId());
+    if (cursor == null) {
+      error="next child with id: '" + path.get(i).getId() + "' not found";
+      break;
+    }
+    if (!path.get(i).getType().isAssignableFrom(cursor.getClass())) {
+      error="expected next child of type: " + path.get(i).getType().getSimpleName() + ", but found: "+ toString(cursor);
+      break;
+    }
+  }
+  desc.appendText("\n       root: ").appendText(toString(item));
+  desc.appendText("\n       matched segments: ").appendText(toString(path,0,matched));
+  desc.appendText("\n       error: ").appendText(error);
+}

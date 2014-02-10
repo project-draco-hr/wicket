@@ -1,0 +1,16 @@
+{
+  Component cursor=item;
+  for (int i=0; i < path.size(); i++) {
+    if (!(cursor instanceof MarkupContainer)) {
+      return false;
+    }
+    cursor=((MarkupContainer)cursor).get(path.get(i).getId());
+    if (cursor == null) {
+      return false;
+    }
+    if (!path.get(i).getType().isAssignableFrom(cursor.getClass())) {
+      return false;
+    }
+  }
+  return true;
+}
