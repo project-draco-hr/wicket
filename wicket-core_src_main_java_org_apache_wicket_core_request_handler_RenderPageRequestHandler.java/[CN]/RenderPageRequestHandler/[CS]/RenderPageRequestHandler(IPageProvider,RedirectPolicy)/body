@@ -3,4 +3,13 @@
   Args.notNull(redirectPolicy,"redirectPolicy");
   this.redirectPolicy=redirectPolicy;
   this.pageProvider=pageProvider;
+  if (pageProvider.hasPageInstance()) {
+    IRequestablePage page=pageProvider.getPageInstance();
+    if (page instanceof Page) {
+      ((Page)page).setStatelessHint(false);
+    }
+    if (Session.exists()) {
+      Session.get().getPageManager().touchPage(page);
+    }
+  }
 }
