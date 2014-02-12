@@ -1,0 +1,16 @@
+{
+  StatelessPageWithForm.FORM_SUBMITTED.set(false);
+  try {
+    tester.startPage(StatelessPageWithForm.class);
+    tester.assertRenderedPage(StatelessPageWithForm.class);
+    FormTester form=tester.newFormTester("form");
+    assertTrue(tester.getSession().isTemporary());
+    form.submit();
+    tester.assertRenderedPage(StatelessPageWithForm.class);
+    assertTrue(StatelessPageWithForm.FORM_SUBMITTED.get());
+    assertTrue(tester.getSession().isTemporary());
+  }
+  finally {
+    StatelessPageWithForm.FORM_SUBMITTED.set(false);
+  }
+}

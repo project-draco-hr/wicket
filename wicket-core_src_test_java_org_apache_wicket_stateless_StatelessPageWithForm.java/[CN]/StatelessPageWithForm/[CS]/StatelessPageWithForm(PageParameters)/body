@@ -1,4 +1,10 @@
 {
   super(parameters);
-  add(new StatelessForm<Void>("form"));
+  add(new StatelessForm<Void>("form"){
+    @Override protected void onSubmit(){
+      super.onSubmit();
+      FORM_SUBMITTED.set(true);
+    }
+  }
+);
 }
