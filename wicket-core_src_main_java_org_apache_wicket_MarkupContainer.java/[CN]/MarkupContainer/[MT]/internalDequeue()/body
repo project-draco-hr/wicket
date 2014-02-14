@@ -25,7 +25,16 @@ class Repeater {
     ComponentTag tag=(ComponentTag)element;
     if (tag instanceof WicketTag) {
       ComponentTag openTag=tag.getOpenTag() == null ? tag : tag.getOpenTag();
-      if (openTag.getAutoComponentFactory() == null) {
+      if (((WicketTag)tag).isBorderTag()) {
+        if (tag.isOpen()) {
+          tags.push(tag);
+        }
+ else         if (tag.isClose()) {
+          tags.pop();
+        }
+        continue;
+      }
+ else       if (openTag.getAutoComponentFactory() == null) {
         continue;
       }
     }
@@ -60,7 +69,8 @@ class Repeater {
         }
         if (child != null) {
           MarkupContainer parentContainer=containers.peek();
-          if (parentContainer instanceof Border) {
+          boolean isInBorder=isInBorder(tags,parentContainer);
+          if (isInBorder) {
             ((Border)parentContainer).addToBorder(child);
           }
  else {
