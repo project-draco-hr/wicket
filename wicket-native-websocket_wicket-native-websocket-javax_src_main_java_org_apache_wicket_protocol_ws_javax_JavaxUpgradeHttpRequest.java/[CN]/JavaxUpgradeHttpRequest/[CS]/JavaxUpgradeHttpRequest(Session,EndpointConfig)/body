@@ -1,5 +1,8 @@
 {
   Map<String,Object> userProperties=session.getUserProperties();
+  if (userProperties == null || userProperties.isEmpty()) {
+    userProperties=endpointConfig.getUserProperties();
+  }
   this.httpSession=(HttpSession)userProperties.get("session");
   this.headers=(Map<String,List<String>>)userProperties.get("headers");
   this.queryString=session.getQueryString();
