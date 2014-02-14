@@ -16,7 +16,9 @@
     cursor=cursor.getParent();
   }
   if (page != null) {
-    region.dequeue();
+    if (!region.dequeuing) {
+      region.dequeue();
+    }
   }
   return this;
 }
