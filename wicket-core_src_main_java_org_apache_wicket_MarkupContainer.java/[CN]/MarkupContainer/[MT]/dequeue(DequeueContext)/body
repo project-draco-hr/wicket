@@ -1,0 +1,30 @@
+{
+  while (dequeue.isAtOpenOrOpenCloseTag()) {
+    ComponentTag tag=dequeue.popTag();
+    Component child=get(tag.getId());
+    if (child == null) {
+      child=dequeue.dequeue(tag);
+      if (child != null) {
+        add(child);
+        if (child instanceof IQueueRegion) {
+          ((MarkupContainer)child).dequeue();
+        }
+      }
+    }
+    if (child == null || tag.isOpenClose() || !(child instanceof MarkupContainer)) {
+      dequeue.skipToCloseTag();
+    }
+ else {
+      MarkupContainer container=(MarkupContainer)child;
+      dequeue.pushContainer(container);
+      container.dequeue(dequeue);
+      dequeue.popContainer();
+    }
+    if (tag.isOpen()) {
+      ComponentTag close=dequeue.popTag();
+      if (!close.closes(tag)) {
+        throw new IllegalStateException();
+      }
+    }
+  }
+}
