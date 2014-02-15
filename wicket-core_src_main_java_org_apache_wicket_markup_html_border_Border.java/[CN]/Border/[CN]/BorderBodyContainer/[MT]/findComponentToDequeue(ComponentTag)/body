@@ -1,0 +1,18 @@
+{
+  Component component=super.findComponentToDequeue(tag);
+  if (component != null) {
+    return component;
+  }
+  MarkupContainer cursor=getParent();
+  while (cursor != null) {
+    component=cursor.findComponentToDequeue(tag);
+    if (component != null) {
+      return component;
+    }
+    if (cursor instanceof BorderBodyContainer) {
+      break;
+    }
+    cursor=cursor.getParent();
+  }
+  return null;
+}

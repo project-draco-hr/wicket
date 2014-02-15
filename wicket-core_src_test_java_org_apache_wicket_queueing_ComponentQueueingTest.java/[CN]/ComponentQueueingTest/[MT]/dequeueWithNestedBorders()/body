@@ -4,12 +4,11 @@
   Border innerBorder=new InnerBorder("innerBorder");
   outerBorder.queueToBorder(r,innerBorder);
   innerBorder.queueToBorder(c,d);
-  outerBorder.queue(s);
+  outerBorder.queueToBorder(s);
   TestPage p=new TestPage();
   p.setPageMarkup("<p wicket:id='a'><p wicket:id='outerBorder'><p wicket:id='b'></p></p></p>");
   p.queue(b,outerBorder,a);
   tester.startPage(p);
-  assertThat(p,hasPath(new Path(a,outerBorder,outerBorder.getBodyContainer(),b)));
-  assertThat(p,hasPath(new Path(a,outerBorder,r,innerBorder,c,d)));
-  assertThat(p,hasPath(new Path(a,outerBorder,r,innerBorder,innerBorder.getBodyContainer(),s)));
+  assertThat(p,hasPath(new Path(a,outerBorder,r,innerBorder,c,d,innerBorder.getBodyContainer(),s)));
+  assertThat(p,hasPath(new Path(a,outerBorder,r,outerBorder.getBodyContainer(),b)));
 }

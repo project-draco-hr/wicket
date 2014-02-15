@@ -1,0 +1,28 @@
+{
+  Border border=findParent(Border.class);
+  IMarkupFragment fragment=findParent(Border.class).getMarkup();
+  int i=0;
+  while (i < fragment.size()) {
+    MarkupElement element=fragment.get(i);
+    if (element instanceof ComponentTag && ((ComponentTag)element).getId().equals(border.getId())) {
+      break;
+    }
+    i++;
+  }
+  if (i >= fragment.size()) {
+    throw new IllegalStateException("Could not find starting border tag for border: " + border.getId() + " in markup: "+ fragment);
+  }
+  i++;
+  while (i < fragment.size()) {
+    MarkupElement element=fragment.get(i);
+    if (element instanceof ComponentTag) {
+      break;
+    }
+    i++;
+  }
+  ComponentTag tag=(ComponentTag)fragment.get(i);
+  if (tag.isClose()) {
+    return null;
+  }
+  return new MarkupFragment(fragment,i);
+}
