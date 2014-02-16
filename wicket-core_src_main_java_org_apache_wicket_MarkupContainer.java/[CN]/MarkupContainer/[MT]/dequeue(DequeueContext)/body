@@ -3,7 +3,7 @@
     ComponentTag tag=dequeue.popTag();
     Component child=get(tag.getId());
     if (child == null) {
-      child=dequeue.dequeue(tag);
+      child=dequeue.findComponentToDequeue(tag);
       if (child != null) {
         addDequeuedComponent(child,tag);
         if (child instanceof IQueueRegion) {

@@ -1,0 +1,15 @@
+{
+  IMarkupFragment markup=getDequeueMarkup();
+  if (markup != null) {
+    for (int i=0; i < markup.size(); i++) {
+      MarkupElement element=markup.get(i);
+      if (element instanceof ComponentTag) {
+        ComponentTag tag=(ComponentTag)element;
+        if (tag.getAutoComponentFactory() != null) {
+          Component auto=tag.getAutoComponentFactory().newComponent(tag);
+          queue(auto);
+        }
+      }
+    }
+  }
+}
