@@ -1,0 +1,8 @@
+{
+  DefaultPropertyResolver resolver=new DefaultPropertyResolver();
+  TextField<?> component=new TextField<>("id",new PropertyModel<BooleanBean>(new BooleanBean(),"foo"));
+  Property property=resolver.resolveProperty(component);
+  assertThat(property,not(nullValue()));
+  assertThat(property.getName(),is("foo"));
+  assertThat(property.getOwner().getName(),is(BooleanBean.class.getName()));
+}
