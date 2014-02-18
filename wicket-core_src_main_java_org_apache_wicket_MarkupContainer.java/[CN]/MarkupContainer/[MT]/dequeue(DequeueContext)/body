@@ -20,7 +20,7 @@
       container.dequeue(dequeue);
       dequeue.popContainer();
     }
-    if (tag.isOpen()) {
+    if (tag.isOpen() && tag.hasNoCloseTag() == false) {
       ComponentTag close=dequeue.popTag();
       if (!close.closes(tag)) {
         throw new IllegalStateException();
