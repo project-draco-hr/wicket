@@ -7,10 +7,7 @@
   try {
     charset=Charset.forName(charsetName);
   }
- catch (  IllegalCharsetNameException e) {
-    throw new RuntimeException(new UnsupportedEncodingException(charsetName));
-  }
-catch (  UnsupportedCharsetException e) {
+ catch (  IllegalCharsetNameException|UnsupportedCharsetException e) {
     throw new RuntimeException(new UnsupportedEncodingException(charsetName));
   }
   boolean stopEncoding=false;
@@ -19,7 +16,7 @@ catch (  UnsupportedCharsetException e) {
     if ((stopEncoding == false) && (c == '?' && type == Type.FULL_PATH)) {
       stopEncoding=true;
     }
-    if ((stopEncoding == true) || dontNeedEncoding.get(c)) {
+    if (stopEncoding || dontNeedEncoding.get(c)) {
       if (c == ' ') {
         c='+';
       }
