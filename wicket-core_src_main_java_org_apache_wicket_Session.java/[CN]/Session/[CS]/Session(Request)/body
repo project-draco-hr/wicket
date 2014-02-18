@@ -1,7 +1,8 @@
 {
-  locale=request.getLocale();
+  Locale locale=request.getLocale();
   if (locale == null) {
     throw new IllegalStateException("Request#getLocale() cannot return null, request has to have a locale set on it");
   }
+  this.locale=new AtomicReference<>(locale);
   pageAccessSynchronizer=new PageAccessSynchronizerProvider();
 }

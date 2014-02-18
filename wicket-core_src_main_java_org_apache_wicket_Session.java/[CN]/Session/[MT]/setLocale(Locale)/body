@@ -1,10 +1,8 @@
 {
-  if (locale == null) {
-    throw new IllegalArgumentException("Argument 'locale' must not be null");
-  }
-  if (!Objects.equal(this.locale,locale)) {
+  Args.notNull(locale,"locale");
+  if (!Objects.equal(getLocale(),locale)) {
+    this.locale.set(locale);
     dirty();
   }
-  this.locale=locale;
   return this;
 }
