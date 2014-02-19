@@ -1,7 +1,8 @@
 {
   if (component instanceof Page) {
     Page page=(Page)component;
-    autoEndIfNecessary(page,RequestCycle.get().getActiveRequestHandler());
-    autoBeginIfNecessary(page,RequestCycle.get().getActiveRequestHandler());
+    IRequestHandler activeRequestHandler=page.getRequestCycle().getActiveRequestHandler();
+    autoEndIfNecessary(page,activeRequestHandler);
+    autoBeginIfNecessary(page,activeRequestHandler);
   }
 }
