@@ -10,7 +10,12 @@
         final ResourceUrl cacheUrl=new ResourceUrl(filename,parameters);
         getCachingStrategy().decorateUrl(cacheUrl,cacheable);
         if (Strings.isEmpty(cacheUrl.getFileName())) {
-          throw new IllegalStateException("caching strategy returned empty name for " + resource);
+          if (Application.exists() && Application.get().usesDeploymentConfig()) {
+            throw new AbortWithHttpErrorCodeException(HttpServletResponse.SC_NOT_FOUND,"caching strategy returned empty name for " + resource);
+          }
+ else {
+            throw new IllegalStateException("caching strategy returned empty name for " + resource);
+          }
         }
         segments.set(lastSegmentAt,cacheUrl.getFileName());
       }
