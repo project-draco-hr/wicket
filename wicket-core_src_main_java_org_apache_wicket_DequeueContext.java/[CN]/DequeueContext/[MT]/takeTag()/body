@@ -1,0 +1,11 @@
+{
+  ComponentTag taken=next;
+  if (taken.isOpen() && !taken.hasNoCloseTag()) {
+    tags.push(taken);
+  }
+ else   if (tags.size() > 0 && taken.closes(tags.peek())) {
+    tags.pop();
+  }
+  next=nextTag();
+  return taken;
+}

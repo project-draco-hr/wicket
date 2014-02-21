@@ -1,6 +1,6 @@
 {
   while (dequeue.isAtOpenOrOpenCloseTag()) {
-    ComponentTag tag=dequeue.popTag();
+    ComponentTag tag=dequeue.takeTag();
     Component child=get(tag.getId());
     if (child == null) {
       child=dequeue.findComponentToDequeue(tag);
@@ -11,17 +11,26 @@
         }
       }
     }
-    if (child == null || tag.isOpenClose() || !(child instanceof MarkupContainer)) {
-      dequeue.skipToCloseTag();
+    if (child == null || !(child instanceof MarkupContainer)) {
+      if (tag.isOpen()) {
+        dequeue.skipToCloseTag();
+      }
     }
  else {
       MarkupContainer container=(MarkupContainer)child;
-      dequeue.pushContainer(container);
-      container.dequeue(dequeue);
-      dequeue.popContainer();
+      if (container instanceof IQueueRegion) {
+        if (tag.isOpen()) {
+          dequeue.skipToCloseTag();
+        }
+      }
+ else       if (tag.isOpen()) {
+        dequeue.pushContainer(container);
+        container.dequeue(dequeue);
+        dequeue.popContainer();
+      }
     }
-    if (tag.isOpen() && tag.hasNoCloseTag() == false) {
-      ComponentTag close=dequeue.popTag();
+    if (tag.isOpen() && !tag.hasNoCloseTag()) {
+      ComponentTag close=dequeue.takeTag();
       if (!close.closes(tag)) {
         throw new IllegalStateException();
       }

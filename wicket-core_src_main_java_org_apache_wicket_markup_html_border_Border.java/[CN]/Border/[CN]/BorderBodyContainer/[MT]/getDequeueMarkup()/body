@@ -1,6 +1,9 @@
 {
   Border border=findParent(Border.class);
-  IMarkupFragment fragment=border.getMarkup();
+  IMarkupFragment fragment=findParent(Border.class).getMarkup();
+  if (fragment == null) {
+    return null;
+  }
   int i=0;
   while (i < fragment.size()) {
     MarkupElement element=fragment.get(i);
