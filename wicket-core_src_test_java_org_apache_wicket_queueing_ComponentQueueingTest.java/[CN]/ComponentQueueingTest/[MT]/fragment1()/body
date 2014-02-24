@@ -1,0 +1,12 @@
+{
+  MarkupContainer a=new A(), b=new B(), r=new R(), s=new S();
+  TestPage page=new TestPage();
+  page.setPageMarkup("<a wicket:id='a'></a><f wicket:id='fragment'></f><b wicket:id='b'></b>" + "<wicket:fragment wicket:id='f'><r wicket:id='r'></r><s wicket:id='s'></s></wicket:fragment>");
+  Fragment fragment=new Fragment("fragment","f",page);
+  fragment.queue(r,s);
+  page.queue(a,b,fragment);
+  assertThat(page,hasPath(new Path(a)));
+  assertThat(page,hasPath(new Path(b)));
+  assertThat(page,hasPath(new Path(fragment,r)));
+  assertThat(page,hasPath(new Path(fragment,s)));
+}
