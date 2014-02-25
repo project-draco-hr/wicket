@@ -23,7 +23,9 @@
   }
   if (page != null) {
     if (!queueRegion.getRequestFlag(RFLAG_CONTAINER_DEQUEING)) {
-      queueRegion.dequeue();
+      if (!child.isAuto()) {
+        queueRegion.dequeue();
+      }
     }
   }
   if (page != null) {
