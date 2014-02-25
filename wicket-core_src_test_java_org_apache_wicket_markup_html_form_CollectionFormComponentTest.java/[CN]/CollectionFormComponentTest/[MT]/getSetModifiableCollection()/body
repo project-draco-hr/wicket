@@ -1,0 +1,19 @@
+{
+  final AtomicBoolean setCalled=new AtomicBoolean();
+  Object object=new Object(){
+    private Collection<String> internal=new ArrayList<>();
+    public Collection<String> getStrings(){
+      return internal;
+    }
+    public void setStrings(    Collection<String> strings){
+      this.internal=strings;
+      setCalled.set(true);
+    }
+  }
+;
+  Choice choice=new Choice(object);
+  choice.setConvertedInput(Arrays.asList("A","B"));
+  FormComponent.updateCollectionModel(choice);
+  assertEquals(true,setCalled.get());
+  assertEquals("[A, B]",choice.getDefaultModelObjectAsString());
+}

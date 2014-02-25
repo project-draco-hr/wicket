@@ -6,17 +6,35 @@
     formComponent.setDefaultModelObject(collection);
   }
  else {
+    Exception failure;
     formComponent.modelChanging();
-    collection.clear();
-    if (convertedInput != null) {
-      collection.addAll(convertedInput);
+    try {
+      collection.clear();
+      if (convertedInput != null) {
+        collection.addAll(convertedInput);
+      }
+      failure=null;
     }
-    formComponent.modelChanged();
+ catch (    UnsupportedOperationException unmodifiable) {
+      logger.debug("An error occurred while trying to change the collection attached to " + formComponent,unmodifiable);
+      failure=unmodifiable;
+      collection=new ArrayList<>(convertedInput);
+    }
     try {
       formComponent.getModel().setObject(collection);
+      failure=null;
     }
- catch (    Exception e) {
-      logger.info("An error occurred while trying to set the new value for the property attached to " + formComponent,e);
+ catch (    Exception noSetter) {
+      logger.debug("An error occurred while trying to set the collection attached to " + formComponent,noSetter);
+      if (failure != null) {
+        failure=noSetter;
+      }
+    }
+    if (failure == null) {
+      formComponent.modelChanged();
+    }
+ else {
+      throw new WicketRuntimeException("Unable to update the collection attached to " + formComponent);
     }
   }
 }

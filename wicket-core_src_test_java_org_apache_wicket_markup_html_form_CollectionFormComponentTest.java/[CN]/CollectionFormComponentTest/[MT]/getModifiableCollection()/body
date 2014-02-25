@@ -1,0 +1,13 @@
+{
+  Object object=new Object(){
+    private Collection<String> internal=new ArrayList<>();
+    public Collection<String> getStrings(){
+      return internal;
+    }
+  }
+;
+  Choice choice=new Choice(object);
+  choice.setConvertedInput(Arrays.asList("A","B"));
+  FormComponent.updateCollectionModel(choice);
+  assertEquals("[A, B]",choice.getDefaultModelObjectAsString());
+}
