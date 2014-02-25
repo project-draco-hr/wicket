@@ -48,7 +48,16 @@
     if (getEscapeModelStrings()) {
       escaped=Strings.escapeMarkup(display);
     }
-    buffer.append("<label for=\"").append(idAttr).append("\">").append(escaped).append("</label>");
+    buffer.append("<label for=\"").append(idAttr).append('"');
+{
+      IValueMap labelAttrs=getAdditionalAttributesForLabel(index,choice);
+      if (labelAttrs != null) {
+        for (        Map.Entry<String,Object> attr : labelAttrs.entrySet()) {
+          buffer.append(' ').append(attr.getKey()).append("=\"").append(attr.getValue()).append('"');
+        }
+      }
+    }
+    buffer.append('>').append(escaped).append("</label>");
     buffer.append(getSuffix(index,choice));
   }
 }
