@@ -24,13 +24,13 @@ case DEQUEUE:
 case SKIP:
     boolean found=false;
   for (; index < markup.size(); index++) {
-    if ((markup.get(index) instanceof ComponentTag) && ((ComponentTag)markup.get(index)).closes(tag)) {
+    if ((markup.get(index) instanceof ComponentTag) && markup.get(index).closes(tag)) {
       found=true;
       break;
     }
   }
 if (!found) {
-  throw new IllegalStateException("Could not find close tag for tag: " + tag);
+  throw new IllegalStateException(String.format("Could not find close tag for tag '%s' in markup: %s ",tag,markup));
 }
 }
 }
@@ -46,7 +46,7 @@ return tag;
 case IGNORE:
 continue;
 case SKIP:
-throw new IllegalStateException("Should not see closed tag of skipped open tag: " + tag);
+throw new IllegalStateException(String.format("Should not see closed tag of skipped open tag '%s' in markup:%s",tag,markup));
 }
 }
 }
