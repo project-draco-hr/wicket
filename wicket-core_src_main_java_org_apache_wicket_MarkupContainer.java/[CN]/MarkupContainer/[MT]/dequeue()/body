@@ -7,11 +7,10 @@
   }
   setRequestFlag(RFLAG_CONTAINER_DEQUEING,true);
   try {
-    IMarkupFragment markup=getDequeueMarkup();
-    if (markup == null) {
+    DequeueContext dequeue=newDequeueContext();
+    if (dequeue == null) {
       return;
     }
-    DequeueContext dequeue=new DequeueContext(markup,this);
     if (dequeue.peekTag() != null) {
       dequeue(dequeue);
     }

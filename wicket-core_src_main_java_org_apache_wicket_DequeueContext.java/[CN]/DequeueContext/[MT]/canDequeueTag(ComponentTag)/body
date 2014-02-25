@@ -1,12 +1,14 @@
 {
   Args.notNull(open,"open");
+  DequeueTagAction action=null;
   if (containers.size() < 1) {
     throw new IllegalStateException();
   }
   for (int i=containers.size() - 1; i >= 0; i--) {
-    if (containers.get(i).canDequeueTag((open))) {
-      return true;
+    action=containers.get(i).canDequeueTag((open));
+    if (action != null) {
+      return action;
     }
   }
-  return false;
+  return DequeueTagAction.IGNORE;
 }

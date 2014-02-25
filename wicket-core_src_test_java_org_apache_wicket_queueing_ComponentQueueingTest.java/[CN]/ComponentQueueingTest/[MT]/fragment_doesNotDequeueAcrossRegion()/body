@@ -1,0 +1,9 @@
+{
+  MarkupContainer a=new A();
+  TestPage page=new TestPage();
+  page.setPageMarkup("<f wicket:id='fragment'></f><wicket:fragment wicket:id='f'><a wicket:id='a'></a></wicket:fragment>");
+  Fragment fragment=new Fragment("fragment","f",page);
+  page.queue(a,fragment);
+  assertThat(page,hasPath(new Path(fragment)));
+  assertThat(a.getParent(),is(nullValue()));
+}
