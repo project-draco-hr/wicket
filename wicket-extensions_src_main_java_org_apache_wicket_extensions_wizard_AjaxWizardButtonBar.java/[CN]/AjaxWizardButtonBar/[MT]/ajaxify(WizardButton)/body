@@ -1,0 +1,24 @@
+{
+  button.add(new AjaxFormSubmitBehavior("click"){
+    private static final long serialVersionUID=1L;
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      super.updateAjaxAttributes(attributes);
+      AjaxWizardButtonBar.this.updateAjaxAttributes(attributes);
+    }
+    @Override public boolean getDefaultProcessing(){
+      return button.getDefaultFormProcessing();
+    }
+    @Override protected void onSubmit(    AjaxRequestTarget target){
+      target.add(findParent(Wizard.class));
+      button.onSubmit();
+    }
+    @Override protected void onAfterSubmit(    AjaxRequestTarget target){
+      button.onAfterSubmit();
+    }
+    @Override protected void onError(    AjaxRequestTarget target){
+      target.add(findParent(Wizard.class));
+      button.onError();
+    }
+  }
+);
+}
