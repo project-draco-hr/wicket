@@ -1,0 +1,16 @@
+{
+  StyleAttributeModifier cam=new StyleAttributeModifier(){
+    @Override protected Map<String,String> update(    Map<String,String> oldStyles){
+      oldStyles.remove("color");
+      oldStyles.remove("font-size");
+      return oldStyles;
+    }
+  }
+;
+  ComponentTag tag=createTag();
+  Map<String,Object> attributes=tag.getAttributes();
+  attributes.put(cam.getAttribute(),"color:white ;   font-size:99999px; ");
+  cam.replaceAttributeValue(null,tag);
+  String classes=(String)attributes.get(cam.getAttribute());
+  assertNull(classes);
+}
