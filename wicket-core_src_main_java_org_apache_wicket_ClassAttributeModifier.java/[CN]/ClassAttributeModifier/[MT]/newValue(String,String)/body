@@ -1,0 +1,20 @@
+{
+  String[] classes;
+  if (Strings.isEmpty(currentValue)) {
+    classes=new String[0];
+  }
+ else {
+    classes=SPLITTER.split(currentValue);
+  }
+  Set<String> oldClasses=new TreeSet<>();
+  Collections.addAll(oldClasses,classes);
+  Set<String> newClasses=update(oldClasses);
+  StringBuilder result=new StringBuilder();
+  for (  String cls : newClasses) {
+    if (result.length() > 0) {
+      result.append(getSeparator());
+    }
+    result.append(cls);
+  }
+  return result.length() > 0 ? result.toString() : VALUELESS_ATTRIBUTE_REMOVE;
+}

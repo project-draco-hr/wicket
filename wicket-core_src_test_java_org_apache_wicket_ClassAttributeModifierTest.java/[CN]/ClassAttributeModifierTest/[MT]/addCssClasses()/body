@@ -1,0 +1,15 @@
+{
+  ClassAttributeModifier cam=new ClassAttributeModifier(){
+    @Override protected Set<String> update(    Set<String> oldClasses){
+      oldClasses.add("one");
+      oldClasses.add("two");
+      return oldClasses;
+    }
+  }
+;
+  ComponentTag tag=createTag();
+  Map<String,Object> attributes=tag.getAttributes();
+  cam.replaceAttributeValue(null,tag);
+  String classes=(String)attributes.get(cam.getAttribute());
+  assertEquals("one two",classes);
+}
