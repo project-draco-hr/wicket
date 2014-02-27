@@ -1,13 +1,5 @@
 {
   int id=getBehaviorId(behaviour);
-  Page page=getPage();
-  PageAndComponentProvider provider=new PageAndComponentProvider(page,this,parameters);
-  IRequestHandler handler;
-  if (getApplication().getPageSettings().getRecreateMountedPagesAfterExpiry() && ((page.isBookmarkable() && page.wasCreatedBookmarkable()) || page.isPageStateless())) {
-    handler=new BookmarkableListenerInterfaceRequestHandler(provider,listener,id);
-  }
- else {
-    handler=new ListenerInterfaceRequestHandler(provider,listener,id);
-  }
+  IRequestHandler handler=createRequestHandler(listener,parameters,id);
   return getRequestCycle().urlFor(handler);
 }
