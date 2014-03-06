@@ -1,13 +1,11 @@
 {
   Args.notNull(sessionId,"sessionId");
   if (size > 0) {
-synchronized (cache) {
-      for (Iterator<SoftReference<SerializedPage>> i=cache.iterator(); i.hasNext(); ) {
-        SoftReference<SerializedPage> ref=i.next();
-        SerializedPage entry=ref.get();
-        if (entry != null && entry.getSessionId().equals(sessionId)) {
-          i.remove();
-        }
+    for (Iterator<SoftReference<SerializedPage>> i=cache.iterator(); i.hasNext(); ) {
+      SoftReference<SerializedPage> ref=i.next();
+      SerializedPage entry=ref.get();
+      if (entry != null && entry.getSessionId().equals(sessionId)) {
+        i.remove();
       }
     }
   }

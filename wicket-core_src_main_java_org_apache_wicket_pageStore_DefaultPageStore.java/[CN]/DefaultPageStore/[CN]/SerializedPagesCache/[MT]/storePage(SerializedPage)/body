@@ -1,19 +1,16 @@
 {
-  SoftReference<SerializedPage> ref=new SoftReference<SerializedPage>(page);
   if (size > 0) {
-synchronized (cache) {
-      for (Iterator<SoftReference<SerializedPage>> i=cache.iterator(); i.hasNext(); ) {
-        SoftReference<SerializedPage> r=i.next();
-        SerializedPage entry=r.get();
-        if (entry != null && entry.equals(page)) {
-          i.remove();
-          break;
-        }
+    for (Iterator<SoftReference<SerializedPage>> i=cache.iterator(); i.hasNext(); ) {
+      SoftReference<SerializedPage> r=i.next();
+      SerializedPage entry=r.get();
+      if (entry != null && entry.equals(page)) {
+        i.remove();
+        break;
       }
-      cache.add(ref);
-      if (cache.size() > size) {
-        cache.remove(0);
-      }
+    }
+    cache.add(new SoftReference<>(page));
+    if (cache.size() > size) {
+      cache.remove(0);
     }
   }
 }
