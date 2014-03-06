@@ -2,11 +2,11 @@
   if (current == null) {
     throw new IllegalStateException();
   }
-  if (modCount != expectedModCount) {
+  if (!modCount.compareAndSet(expectedModCount,expectedModCount)) {
     throw new ConcurrentModificationException();
   }
   int k=current.key;
   current=null;
   removeEntryForKey(k);
-  expectedModCount=modCount;
+  expectedModCount=modCount.get();
 }
