@@ -14,11 +14,12 @@ synchronized (KEY) {
   }
   ConcurrentMap<IKey,IWebSocketConnection> connectionsByPage=connectionsBySession.get(sessionId);
   if (connectionsByPage == null && connection != null) {
-synchronized (connectionsBySession) {
-      connectionsByPage=connectionsBySession.get(sessionId);
-      if (connectionsByPage == null) {
-        connectionsByPage=Generics.newConcurrentHashMap();
-        connectionsBySession.put(sessionId,connectionsByPage);
+    connectionsByPage=connectionsBySession.get(sessionId);
+    if (connectionsByPage == null) {
+      connectionsByPage=Generics.newConcurrentHashMap();
+      ConcurrentMap<IKey,IWebSocketConnection> old=connectionsBySession.putIfAbsent(sessionId,connectionsByPage);
+      if (old != null) {
+        connectionsByPage=old;
       }
     }
   }
