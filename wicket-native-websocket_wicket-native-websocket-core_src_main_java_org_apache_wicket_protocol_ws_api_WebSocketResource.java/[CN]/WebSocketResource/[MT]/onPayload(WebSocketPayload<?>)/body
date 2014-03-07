@@ -20,4 +20,9 @@
     ClosedMessage message=connectedPayload.getMessage();
     onClose(message);
   }
+ else   if (payload instanceof WebSocketPushPayload) {
+    WebSocketPushPayload pushPayload=(WebSocketPushPayload)payload;
+    IWebSocketPushMessage message=pushPayload.getMessage();
+    onPush(webSocketHandler,message);
+  }
 }

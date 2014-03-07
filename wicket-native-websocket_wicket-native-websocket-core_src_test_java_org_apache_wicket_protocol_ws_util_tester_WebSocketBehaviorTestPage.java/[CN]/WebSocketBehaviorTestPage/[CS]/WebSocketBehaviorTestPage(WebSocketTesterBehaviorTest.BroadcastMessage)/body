@@ -1,0 +1,12 @@
+{
+  add(new WebSocketBehavior(){
+    @Override protected void onPush(    WebSocketRequestHandler handler,    IWebSocketPushMessage message){
+      Assert.assertThat(message,CoreMatchers.instanceOf(WebSocketTesterBehaviorTest.BroadcastMessage.class));
+      WebSocketTesterBehaviorTest.BroadcastMessage broadcastMessage=(WebSocketTesterBehaviorTest.BroadcastMessage)message;
+      Assert.assertSame(expectedMessage,broadcastMessage);
+      String pushedMessage=broadcastMessage.getText().toUpperCase();
+      handler.push(pushedMessage);
+    }
+  }
+);
+}

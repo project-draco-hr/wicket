@@ -20,9 +20,14 @@
       onConnect(message);
     }
  else     if (wsPayload instanceof WebSocketClosedPayload) {
-      WebSocketClosedPayload connectedPayload=(WebSocketClosedPayload)wsPayload;
-      ClosedMessage message=connectedPayload.getMessage();
+      WebSocketClosedPayload closedPayload=(WebSocketClosedPayload)wsPayload;
+      ClosedMessage message=closedPayload.getMessage();
       onClose(message);
+    }
+ else     if (wsPayload instanceof WebSocketPushPayload) {
+      WebSocketPushPayload pushPayload=(WebSocketPushPayload)wsPayload;
+      IWebSocketPushMessage message=pushPayload.getMessage();
+      onPush(webSocketHandler,message);
     }
   }
 }
