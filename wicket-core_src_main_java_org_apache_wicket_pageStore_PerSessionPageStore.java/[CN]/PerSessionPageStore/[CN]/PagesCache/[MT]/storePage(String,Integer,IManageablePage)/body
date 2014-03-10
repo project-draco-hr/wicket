@@ -1,0 +1,31 @@
+{
+  if (maxEntriesPerSession > 0) {
+    Args.notNull(sessionId,"sessionId");
+    Args.notNull(pageId,"pageId");
+    SoftReference<ConcurrentSkipListMap<PageValue,IManageablePage>> pagesPerSession=cache.get(sessionId);
+    if (pagesPerSession == null) {
+      ConcurrentSkipListMap<PageValue,IManageablePage> pages=new ConcurrentSkipListMap<>(new PageComparator());
+      pagesPerSession=new SoftReference<>(pages);
+      SoftReference<ConcurrentSkipListMap<PageValue,IManageablePage>> old=cache.putIfAbsent(sessionId,pagesPerSession);
+      if (old != null) {
+        pagesPerSession=old;
+      }
+    }
+    ConcurrentSkipListMap<PageValue,IManageablePage> pages=pagesPerSession.get();
+    if (pages == null) {
+      pages=new ConcurrentSkipListMap<>();
+      pagesPerSession=new SoftReference<>(pages);
+      SoftReference<ConcurrentSkipListMap<PageValue,IManageablePage>> old=cache.putIfAbsent(sessionId,pagesPerSession);
+      if (old != null) {
+        pages=old.get();
+      }
+    }
+    if (pages != null) {
+      while (pages.size() > maxEntriesPerSession) {
+        pages.pollFirstEntry();
+      }
+      PageValue pv=new PageValue(page);
+      pages.put(pv,page);
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   Map<Integer,byte[]> sessionPages=store.get(sessionId);
   if (sessionPages == null) {
-    sessionPages=new ConcurrentHashMap<Integer,byte[]>();
+    sessionPages=new ConcurrentHashMap<>();
     Map<Integer,byte[]> tmpSessionPages=store.putIfAbsent(sessionId,sessionPages);
     if (tmpSessionPages != null) {
       sessionPages=tmpSessionPages;

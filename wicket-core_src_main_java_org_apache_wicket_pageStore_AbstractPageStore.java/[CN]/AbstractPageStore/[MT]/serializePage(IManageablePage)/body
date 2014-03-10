@@ -1,0 +1,8 @@
+{
+  Args.notNull(page,"page");
+  byte[] data=pageSerializer.serialize(page);
+  if (data == null && LOG.isWarnEnabled()) {
+    LOG.warn("Page {} cannot be serialized. See previous logs for possible reasons.",page);
+  }
+  return data;
+}

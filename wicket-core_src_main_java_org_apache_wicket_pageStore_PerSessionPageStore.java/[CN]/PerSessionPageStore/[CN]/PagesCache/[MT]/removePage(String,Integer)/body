@@ -1,0 +1,19 @@
+{
+  IManageablePage result=null;
+  if (maxEntriesPerSession > 0) {
+    Args.notNull(sessionId,"sessionId");
+    Args.notNull(pageId,"pageId");
+    SoftReference<ConcurrentSkipListMap<PageValue,IManageablePage>> pagesPerSession=cache.get(sessionId);
+    if (pagesPerSession != null) {
+      ConcurrentMap<PageValue,IManageablePage> pages=pagesPerSession.get();
+      if (pages != null) {
+        PageValue pv=new PageValue(pageId);
+        IManageablePage page=pages.remove(pv);
+        if (page != null) {
+          result=page;
+        }
+      }
+    }
+  }
+  return result;
+}
