@@ -5,11 +5,11 @@
   SerializedPage result=null;
   if (page instanceof IManageablePage) {
     IManageablePage _page=(IManageablePage)page;
-    result=serializedPagesCache.getPage(sessionId,_page.getPageId());
+    result=pagesCache.getPage(sessionId,_page.getPageId());
     if (result == null) {
-      result=serializePage(sessionId,_page);
+      result=createSerializedPage(sessionId,_page);
       if (result != null) {
-        serializedPagesCache.storePage(sessionId,_page.getPageId(),result);
+        pagesCache.storePage(sessionId,_page.getPageId(),result);
       }
     }
   }
