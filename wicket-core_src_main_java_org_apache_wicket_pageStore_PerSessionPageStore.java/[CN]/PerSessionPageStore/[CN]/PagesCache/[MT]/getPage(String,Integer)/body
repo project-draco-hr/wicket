@@ -8,11 +8,9 @@
       ConcurrentSkipListMap<PageValue,IManageablePage> pages=pagesPerSession.get();
       if (pages != null) {
         PageValue sample=new PageValue(pageId);
-        Iterator<Map.Entry<PageValue,IManageablePage>> iterator=pages.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Map.Entry<PageValue,IManageablePage> entry=iterator.next();
+        for (        Map.Entry<PageValue,IManageablePage> entry : pages.entrySet()) {
           if (sample.equals(entry.getKey())) {
-            entry.getKey().accessTime=System.nanoTime();
+            entry.getKey().touch();
             result=entry.getValue();
             break;
           }
