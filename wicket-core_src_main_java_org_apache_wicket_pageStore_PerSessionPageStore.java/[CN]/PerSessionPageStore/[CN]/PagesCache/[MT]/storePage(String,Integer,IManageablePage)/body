@@ -21,11 +21,12 @@
       }
     }
     if (pages != null) {
+      removePage(sessionId,pageId);
+      PageValue pv=new PageValue(page);
+      pages.put(pv,page);
       while (pages.size() > maxEntriesPerSession) {
         pages.pollFirstEntry();
       }
-      PageValue pv=new PageValue(page);
-      pages.put(pv,page);
     }
   }
 }

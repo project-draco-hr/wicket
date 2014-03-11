@@ -1,5 +1,5 @@
 {
-  if (size > 0) {
+  if (maxSize > 0) {
     Args.notNull(sessionId,"sessionId");
     Args.notNull(pageId,"pageId");
     Args.notNull(page,"page");
@@ -11,9 +11,6 @@
         break;
       }
     }
-    cache.add(new SoftReference<>(page));
-    while (cache.size() > size) {
-      cache.remove(0);
-    }
+    internalStore(page);
   }
 }
