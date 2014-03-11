@@ -13,6 +13,13 @@
         }
       }
  else       if (tag.isClose()) {
+        if (foundHeaderItemsTag) {
+          ComponentTag headOpenTag=tag.getOpenTag();
+          headOpenTag.setId(HEADER_ID + "-Ignored");
+          headOpenTag.setAutoComponentTag(false);
+          headOpenTag.setModified(false);
+          headOpenTag.setFlag(ComponentTag.RENDER_RAW,true);
+        }
         foundClosingHead=true;
       }
       return tag;
@@ -21,6 +28,13 @@
       foundHead=true;
       foundClosingHead=true;
     }
+  }
+ else   if (HtmlHeaderResolver.HEADER_ITEMS.equalsIgnoreCase(tag.getName()) && tag.getNamespace().equalsIgnoreCase(getWicketNamespace())) {
+    foundHeaderItemsTag=true;
+    tag.setId(HEADER_ID);
+    tag.setAutoComponentTag(true);
+    tag.setModified(true);
+    return tag;
   }
  else   if (BODY.equalsIgnoreCase(tag.getName()) && (tag.getNamespace() == null)) {
     if (foundHead && !foundClosingHead) {
