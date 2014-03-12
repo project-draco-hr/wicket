@@ -1,0 +1,15 @@
+{
+  tester.startPage(SubPageWithoutHeaderItemsAndWicketHead.class);
+  String responseAsString=tester.getLastResponseAsString();
+  int idxMetaCharset=responseAsString.indexOf("<meta charset=\"utf-8\"");
+  int idxMetaPanelWicketHead=responseAsString.indexOf("meta name=\"panel-wicket-head\"");
+  int idxWicketAjaxJs=responseAsString.indexOf("wicket-ajax-jquery.js");
+  int idxTitleElement=responseAsString.indexOf("<title>Apache Wicket Quickstart</title>");
+  int idxMetaFromBasePage=responseAsString.indexOf("<meta name='fromBasePage' content='1'");
+  int idxMetaFromSubPage=responseAsString.indexOf("<meta name=\"SubPageWithoutHeaderItemsAndWicketHead\"");
+  assertThat("<meta name=\"panel-wicket-head\"> should be rendered before <script src=wicket-ajax-jquery.js>",idxMetaPanelWicketHead,lessThan(idxWicketAjaxJs));
+  assertThat("<script src=wicket-ajax-jquery.js> should be rendered before <meta charset>",idxWicketAjaxJs,lessThan(idxMetaCharset));
+  assertThat("<meta charset> should be rendered before the <title> element",idxMetaCharset,lessThan(idxTitleElement));
+  assertThat("<title> should be rendered before the <meta name=\"SubPageWithoutHeaderItemsAndWicketHead\" element",idxTitleElement,lessThan(idxMetaFromSubPage));
+  assertThat("<meta name='fromBasePage'> should be rendered before the <meta name=\"SubPageWithoutHeaderItemsAndWicketHead\" element",idxMetaFromSubPage,lessThan(idxMetaFromBasePage));
+}
