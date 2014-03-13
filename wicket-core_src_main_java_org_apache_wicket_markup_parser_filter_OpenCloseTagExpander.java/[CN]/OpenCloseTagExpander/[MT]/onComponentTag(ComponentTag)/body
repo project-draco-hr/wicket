@@ -4,6 +4,9 @@
     if (contains(name)) {
       if (onFound(tag)) {
         next=new ComponentTag(tag.getName(),TagType.CLOSE);
+        if (getWicketNamespace().equals(tag.getNamespace())) {
+          next=new WicketTag(next);
+        }
         next.setNamespace(tag.getNamespace());
         next.setOpenTag(tag);
         next.setModified(true);
