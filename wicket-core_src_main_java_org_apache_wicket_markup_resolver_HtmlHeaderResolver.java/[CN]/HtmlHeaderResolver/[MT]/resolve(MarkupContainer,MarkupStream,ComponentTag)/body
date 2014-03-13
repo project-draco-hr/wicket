@@ -5,15 +5,28 @@
   }
  else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
     if (container instanceof WebPage) {
-      MarkupContainer header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + page.getAutoIndex(),tag);
-      WebMarkupContainer header2=new TransparentWebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID);
-      header2.setRenderBodyOnly(true);
-      header.add(header2);
-      return header;
+      HtmlHeaderContainer header=container.visitChildren(new IVisitor<Component,HtmlHeaderContainer>(){
+        @Override public void component(        final Component component,        final IVisit<HtmlHeaderContainer> visit){
+          if (component instanceof HtmlHeaderContainer) {
+            visit.stop((HtmlHeaderContainer)component);
+          }
+ else           if (component instanceof TransparentWebMarkupContainer == false) {
+            visit.dontGoDeeper();
+          }
+        }
+      }
+);
+      WebMarkupContainer wicketHeadContainer=new WicketHeadContainer();
+      if (header == null) {
+        header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + page.getAutoIndex(),tag);
+        header.add(wicketHeadContainer);
+        return header;
+      }
+      header.add(wicketHeadContainer);
+      return wicketHeadContainer;
     }
  else     if (container instanceof HtmlHeaderContainer) {
-      WebMarkupContainer header=new TransparentWebMarkupContainer(HtmlHeaderSectionHandler.HEADER_ID);
-      header.setRenderBodyOnly(true);
+      WebMarkupContainer header=new WicketHeadContainer();
       return header;
     }
     final String pageClassName=(page != null) ? page.getClass().getName() : "unknown";
