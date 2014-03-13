@@ -1,0 +1,24 @@
+{
+  IManageablePage result=null;
+  if (maxEntriesPerSession > 0) {
+    Args.notNull(sessionId,"sessionId");
+    Args.notNull(pageId,"pageId");
+    SoftReference<ConcurrentSkipListMap<PageValue,IManageablePage>> pagesPerSession=cache.get(sessionId);
+    if (pagesPerSession != null) {
+      ConcurrentMap<PageValue,IManageablePage> pages=pagesPerSession.get();
+      if (pages != null) {
+        PageValue sample=new PageValue(pageId);
+        Iterator<Map.Entry<PageValue,IManageablePage>> iterator=pages.entrySet().iterator();
+        while (iterator.hasNext()) {
+          Map.Entry<PageValue,IManageablePage> entry=iterator.next();
+          if (sample.equals(entry.getKey())) {
+            result=entry.getValue();
+            iterator.remove();
+            break;
+          }
+        }
+      }
+    }
+  }
+  return result;
+}

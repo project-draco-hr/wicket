@@ -1,0 +1,29 @@
+{
+  if (dataStore.isReplicated()) {
+    return null;
+  }
+  SerializedPage result=null;
+  if (page instanceof IManageablePage) {
+    IManageablePage _page=(IManageablePage)page;
+    result=pagesCache.getPage(sessionId,_page.getPageId());
+    if (result == null) {
+      result=createSerializedPage(sessionId,_page);
+      if (result != null) {
+        pagesCache.storePage(sessionId,_page.getPageId(),result);
+      }
+    }
+  }
+ else   if (page instanceof SerializedPage) {
+    SerializedPage _page=(SerializedPage)page;
+    if (_page.getData() == null) {
+      result=restoreStrippedSerializedPage(_page);
+    }
+ else {
+      result=_page;
+    }
+  }
+  if (result != null) {
+    return result;
+  }
+  return page;
+}

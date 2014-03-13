@@ -1,0 +1,16 @@
+{
+  if (maxSize > 0) {
+    Args.notNull(sessionId,"sessionId");
+    Args.notNull(pageId,"pageId");
+    Args.notNull(page,"page");
+    for (Iterator<SoftReference<SerializedPage>> i=cache.iterator(); i.hasNext(); ) {
+      SoftReference<SerializedPage> r=i.next();
+      SerializedPage entry=r.get();
+      if (entry != null && entry.equals(page)) {
+        i.remove();
+        break;
+      }
+    }
+    internalStore(page);
+  }
+}

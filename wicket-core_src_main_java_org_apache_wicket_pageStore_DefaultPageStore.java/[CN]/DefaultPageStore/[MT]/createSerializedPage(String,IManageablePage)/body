@@ -1,0 +1,13 @@
+{
+  Args.notNull(sessionId,"sessionId");
+  Args.notNull(page,"page");
+  SerializedPage serializedPage=null;
+  byte[] data=serializePage(page);
+  if (data != null) {
+    serializedPage=new SerializedPage(sessionId,page.getPageId(),data);
+  }
+ else   if (LOG.isWarnEnabled()) {
+    LOG.warn("Page {} cannot be serialized. See previous logs for possible reasons.",page);
+  }
+  return serializedPage;
+}
