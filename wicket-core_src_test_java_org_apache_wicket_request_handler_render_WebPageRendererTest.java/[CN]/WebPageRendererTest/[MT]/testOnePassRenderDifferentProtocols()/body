@@ -1,0 +1,19 @@
+{
+  final AtomicBoolean responseBuffered=new AtomicBoolean(false);
+  PageRenderer renderer=new TestPageRenderer(handler){
+    @Override protected boolean isOnePassRender(){
+      return true;
+    }
+    @Override protected void storeBufferedResponse(    Url url,    BufferedWebResponse response){
+      responseBuffered.set(true);
+    }
+  }
+;
+  when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("https://host/base"));
+  when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("http://host/base/a"));
+  when(request.shouldPreserveClientUrl()).thenReturn(false);
+  renderer.respond(requestCycle);
+  verify(response,never()).write(any(byte[].class));
+  verify(response).sendRedirect(anyString());
+  assertTrue(responseBuffered.get());
+}
