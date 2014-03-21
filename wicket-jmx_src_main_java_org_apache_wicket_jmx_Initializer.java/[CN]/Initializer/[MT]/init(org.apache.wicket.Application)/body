@@ -54,19 +54,19 @@
     }
     domain=tempDomain;
     Application appBean=new Application(application);
-    register(appBean,appBeanName);
-    register(new ApplicationSettings(application),new ObjectName(domain + ":type=Application,name=ApplicationSettings"));
-    register(new DebugSettings(application),new ObjectName(domain + ":type=Application,name=DebugSettings"));
-    register(new MarkupSettings(application),new ObjectName(domain + ":type=Application,name=MarkupSettings"));
-    register(new ResourceSettings(application),new ObjectName(domain + ":type=Application,name=ResourceSettings"));
-    register(new PageSettings(application),new ObjectName(domain + ":type=Application,name=PageSettings"));
-    register(new RequestCycleSettings(application),new ObjectName(domain + ":type=Application,name=RequestCycleSettings"));
-    register(new SecuritySettings(application),new ObjectName(domain + ":type=Application,name=SecuritySettings"));
-    register(new SessionSettings(application),new ObjectName(domain + ":type=Application,name=SessionSettings"));
-    register(new StoreSettings(application),new ObjectName(domain + ":type=Application,name=StoreSettings"));
+    register(application,appBean,appBeanName);
+    register(application,new ApplicationSettings(application),new ObjectName(domain + ":type=Application,name=ApplicationSettings"));
+    register(application,new DebugSettings(application),new ObjectName(domain + ":type=Application,name=DebugSettings"));
+    register(application,new MarkupSettings(application),new ObjectName(domain + ":type=Application,name=MarkupSettings"));
+    register(application,new ResourceSettings(application),new ObjectName(domain + ":type=Application,name=ResourceSettings"));
+    register(application,new PageSettings(application),new ObjectName(domain + ":type=Application,name=PageSettings"));
+    register(application,new RequestCycleSettings(application),new ObjectName(domain + ":type=Application,name=RequestCycleSettings"));
+    register(application,new SecuritySettings(application),new ObjectName(domain + ":type=Application,name=SecuritySettings"));
+    register(application,new SessionSettings(application),new ObjectName(domain + ":type=Application,name=SessionSettings"));
+    register(application,new StoreSettings(application),new ObjectName(domain + ":type=Application,name=StoreSettings"));
     RequestLogger sessionsBean=new RequestLogger(application);
     ObjectName sessionsBeanName=new ObjectName(domain + ":type=RequestLogger");
-    register(sessionsBean,sessionsBeanName);
+    register(application,sessionsBean,sessionsBeanName);
   }
  catch (  MalformedObjectNameException e) {
     throw new WicketRuntimeException(e);

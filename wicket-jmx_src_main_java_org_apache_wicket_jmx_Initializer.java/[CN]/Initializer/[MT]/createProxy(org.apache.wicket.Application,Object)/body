@@ -1,0 +1,29 @@
+{
+  Enhancer e=new Enhancer();
+  e.setInterfaces(o.getClass().getInterfaces());
+  e.setSuperclass(Object.class);
+  e.setCallback(new net.sf.cglib.proxy.InvocationHandler(){
+    @Override public Object invoke(    Object proxy,    Method method,    Object[] args) throws Throwable {
+      boolean existed=ThreadContext.exists();
+      if (existed == false) {
+        ThreadContext.setApplication(application);
+      }
+      try {
+        return method.invoke(o,args);
+      }
+  finally {
+        if (existed == false) {
+          ThreadContext.detach();
+        }
+      }
+    }
+  }
+);
+  e.setNamingPolicy(new DefaultNamingPolicy(){
+    @Override public String getClassName(    final String prefix,    final String source,    final Object key,    final Predicate names){
+      return o.getClass().getName().replace(".wrapper","");
+    }
+  }
+);
+  return e.create();
+}
