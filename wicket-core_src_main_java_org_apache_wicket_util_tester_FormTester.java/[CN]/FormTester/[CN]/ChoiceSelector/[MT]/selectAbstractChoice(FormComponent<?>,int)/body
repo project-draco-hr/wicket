@@ -5,7 +5,7 @@
     List<Object> choices=(List<Object>)getChoicesMethod.invoke(formComponent,(Object[])null);
     Method getChoiceRendererMethod=formComponent.getClass().getMethod("getChoiceRenderer",(Class<?>[])null);
     getChoiceRendererMethod.setAccessible(true);
-    ChoiceRenderer<Object> choiceRenderer=(ChoiceRenderer<Object>)getChoiceRendererMethod.invoke(formComponent,(Object[])null);
+    IChoiceRenderer<Object> choiceRenderer=(IChoiceRenderer<Object>)getChoiceRendererMethod.invoke(formComponent,(Object[])null);
     return choiceRenderer.getIdValue(choices.get(index),index);
   }
  catch (  SecurityException e) {
