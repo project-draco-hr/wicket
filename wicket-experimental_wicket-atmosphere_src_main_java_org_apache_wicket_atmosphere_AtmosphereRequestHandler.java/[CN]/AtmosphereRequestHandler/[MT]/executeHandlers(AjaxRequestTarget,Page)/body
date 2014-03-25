@@ -1,9 +1,19 @@
 {
   for (  EventSubscription curSubscription : subscriptions) {
     if (curSubscription.getContextAwareFilter().apply(event)) {
-      Component component=page.get(curSubscription.getComponentPath());
-      if (curSubscription.getBehaviorIndex() == null)       invokeMethod(target,curSubscription,component);
- else       invokeMethod(target,curSubscription,component.getBehaviorById(curSubscription.getBehaviorIndex()));
+      String componentPath=curSubscription.getComponentPath();
+      Component component=page.get(componentPath);
+      if (component != null) {
+        if (curSubscription.getBehaviorIndex() == null) {
+          invokeMethod(target,curSubscription,component);
+        }
+ else {
+          invokeMethod(target,curSubscription,component.getBehaviorById(curSubscription.getBehaviorIndex()));
+        }
+      }
+ else {
+        LOGGER.debug("Cannot find component with path '{}' in page '{}'. Maybe it has been removed already.",componentPath,page);
+      }
     }
   }
 }
