@@ -1,0 +1,7 @@
+{
+  if (log.isDebugEnabled()) {
+    log.debug("unregistering {} for page {} for session {}: {}{}",new Object[]{subscription.getBehaviorIndex() == null ? "component" : "behavior",page.getPageId(),Session.get().getId(),subscription.getComponentPath(),subscription.getBehaviorIndex() == null ? "" : ":" + subscription.getBehaviorIndex()});
+  }
+  PageKey pageKey=new PageKey(page.getPageId(),Session.get().getId());
+  subscriptions.remove(pageKey,subscription);
+}

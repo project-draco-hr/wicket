@@ -1,0 +1,9 @@
+{
+  String componentPath=component.getPageRelativePath();
+  PageKey pageKey=new PageKey(component.getPage().getPageId(),Session.get().getId());
+  Collection<EventSubscription> subscriptionsForPage=subscriptions.get(pageKey);
+  Iterator<EventSubscription> it=subscriptionsForPage.iterator();
+  while (it.hasNext()) {
+    if (it.next().getComponentPath().equals(componentPath))     it.remove();
+  }
+}
