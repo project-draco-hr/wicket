@@ -1,7 +1,7 @@
 {
   final RequestCycle rc=(RequestCycle)requestCycle;
   final WebResponse response=(WebResponse)requestCycle.getResponse();
-  if (responseObject.containsPage()) {
+  if (shouldRedirectToPage(requestCycle)) {
     IRequestHandler handler=new RenderPageRequestHandler(new PageProvider(page));
     final String url=rc.urlFor(handler).toString();
     response.sendRedirect(url);
