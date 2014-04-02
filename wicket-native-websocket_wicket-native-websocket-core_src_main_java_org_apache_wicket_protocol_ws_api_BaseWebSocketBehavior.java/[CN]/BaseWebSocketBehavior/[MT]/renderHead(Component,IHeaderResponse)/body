@@ -18,6 +18,12 @@
   String contextPath=component.getRequest().getContextPath();
   variables.put("contextPath",contextPath);
   variables.put("applicationName",component.getApplication().getName());
+  if (USING_JAVAX_WEB_SOCKET) {
+    variables.put("filterPrefix","");
+  }
+ else {
+    variables.put("filterPrefix",component.getRequest().getFilterPath());
+  }
   String webSocketSetupScript=webSocketSetupTemplate.asString(variables);
   response.render(OnDomReadyHeaderItem.forScript(webSocketSetupScript));
 }
