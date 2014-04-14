@@ -108,7 +108,9 @@
     addMarkupElement(element);
     if (element instanceof ComponentTag && resource != null) {
       ComponentTag tag=(ComponentTag)element;
-      tag.setMarkupClass(markupClass);
+      if (tag.getMarkupClass() == null) {
+        tag.setMarkupClass(markupClass);
+      }
     }
   }
   if (Page.class.isAssignableFrom(markup.getMarkupResourceStream().getMarkupClass())) {
