@@ -1,0 +1,15 @@
+import sys
+from xml.dom.minidom import parse
+pom = parse('pom.xml')
+groupId = 'org.apache.wicket'
+relVersions = []
+devVersions = []
+for moduleTag in pom.getElementsByTagName('module'):
+    module = moduleTag.childNodes[0].nodeValue.replace('testing/', '').replace('archetypes/quickstart', 'wicket-archetype-quickstart')
+    relVersions.append(((((('project.rel.' + groupId) + '\\:') + module) + '=') + sys.argv[1]))
+    devVersions.append((((('project.dev.' + groupId) + '\\:') + module) + '=7.0.0-SNAPSHOT'))
+for version in relVersions:
+    print version
+print 
+for version in devVersions:
+    print version
