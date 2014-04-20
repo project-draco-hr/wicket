@@ -1,0 +1,5 @@
+def getModulesFromParent(parentPomFile):
+    pom = parse(parentPomFile)
+    for moduleTag in pom.getElementsByTagName('module'):
+        module = moduleTag.childNodes[0].nodeValue.replace('testing/', '').replace('archetypes/quickstart', 'wicket-archetype-quickstart')
+        addVersions(module)

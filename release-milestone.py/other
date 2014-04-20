@@ -1,13 +1,16 @@
 import sys
 from xml.dom.minidom import parse
-pom = parse('pom.xml')
 groupId = 'org.apache.wicket'
-relVersions = [('project.rel.org.apache.wicket\\:wicket-parent=' + sys.argv[1])]
-devVersions = ['project.dev.org.apache.wicket\\:wicket-parent=7.0.0-SNAPSHOT']
-for moduleTag in pom.getElementsByTagName('module'):
-    module = moduleTag.childNodes[0].nodeValue.replace('testing/', '').replace('archetypes/quickstart', 'wicket-archetype-quickstart')
-    relVersions.append(((((('project.rel.' + groupId) + '\\:') + module) + '=') + sys.argv[1]))
-    devVersions.append((((('project.dev.' + groupId) + '\\:') + module) + '=7.0.0-SNAPSHOT'))
+if (len(sys.argv) != 3):
+    print ('Usage: %s <release-version> <dev-version>' % sys.argv[0])
+    sys.exit(1)
+relVersion = sys.argv[1]
+devVersion = sys.argv[2]
+relVersions = []
+devVersions = []
+addVersions('wicket-parent')
+getModulesFromParent('pom.xml')
+getModulesFromParent('wicket-native-websocket/pom.xml')
 for version in relVersions:
     print version
 print 
