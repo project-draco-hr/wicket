@@ -1,6 +1,4 @@
 {
   CharSequence js=getCallbackScript();
-  js=JavaScriptUtils.escapeQuotes(js);
-  String timeoutHandle=getTimeoutHandle();
-  return timeoutHandle + " = setTimeout('" + js+ "', "+ updateInterval.getMilliseconds()+ ')';
+  return String.format("Wicket.Timer.set('%s', function(){%s}, %d);",getComponent().getMarkupId(),js,updateInterval.getMilliseconds());
 }
