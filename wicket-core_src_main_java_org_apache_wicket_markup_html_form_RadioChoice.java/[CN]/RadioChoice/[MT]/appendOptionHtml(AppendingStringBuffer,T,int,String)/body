@@ -33,11 +33,16 @@
         }
       }
     }
-    if (getApplication().getDebugSettings().isOutputComponentPath()) {
+    DebugSettings debugSettings=getApplication().getDebugSettings();
+    String componentPathAttributeName=debugSettings.getComponentPathAttributeName();
+    if (Strings.isEmpty(componentPathAttributeName) && debugSettings.isOutputComponentPath()) {
+      componentPathAttributeName="wicketpath";
+    }
+    if (Strings.isEmpty(componentPathAttributeName) == false) {
       CharSequence path=getPageRelativePath();
       path=Strings.replaceAll(path,"_","__");
       path=Strings.replaceAll(path,":","_");
-      buffer.append(" wicketpath=\"").append(path).append("_input_").append(index).append('"');
+      buffer.append(' ').append(componentPathAttributeName).append("=\"").append(path).append("_input_").append(index).append('"');
     }
     buffer.append("/>");
     String display=label;
