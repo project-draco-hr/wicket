@@ -2,8 +2,7 @@
   Application application=Application.get();
   RequestCycle originalRequestCycle=RequestCycle.get();
   BufferedWebResponse tempResponse=new BufferedWebResponse(null);
-  RequestCycleContext requestCycleContext=new RequestCycleContext(originalRequestCycle.getRequest(),tempResponse,application.getRootRequestMapper(),application.getExceptionMapperProvider().get());
-  RequestCycle tempRequestCycle=new RequestCycle(requestCycleContext);
+  RequestCycle tempRequestCycle=application.createRequestCycle(originalRequestCycle.getRequest(),tempResponse);
   try {
     ThreadContext.setRequestCycle(tempRequestCycle);
     pageProvider.getPageInstance().renderPage();
