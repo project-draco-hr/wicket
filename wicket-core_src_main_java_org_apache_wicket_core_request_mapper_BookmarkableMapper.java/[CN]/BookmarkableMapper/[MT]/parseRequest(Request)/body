@@ -16,8 +16,7 @@
         Application application=Application.get();
         if (application.getSecuritySettings().getEnforceMounts()) {
           if (!pageClass.equals(application.getHomePage())) {
-            Url reverseUrl=application.getRootRequestMapper().mapHandler(new RenderPageRequestHandler(new PageProvider(pageClass)));
-            if (!matches(request.cloneWithUrl(reverseUrl))) {
+            if (isPageMounted(pageClass,application)) {
               return null;
             }
           }
