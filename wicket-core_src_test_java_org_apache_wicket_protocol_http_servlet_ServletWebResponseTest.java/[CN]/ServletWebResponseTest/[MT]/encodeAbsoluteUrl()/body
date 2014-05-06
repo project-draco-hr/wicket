@@ -1,0 +1,18 @@
+{
+  final String url="http://localhost:8080/path";
+  ServletWebRequest webRequest=mock(ServletWebRequest.class);
+  when(webRequest.isAjax()).thenReturn(Boolean.FALSE);
+  Url baseUrl=Url.parse("./baseUrl");
+  baseUrl.setProtocol("http");
+  baseUrl.setHost("someHost");
+  baseUrl.setPort(80);
+  when(webRequest.getClientUrl()).thenReturn(baseUrl);
+  UrlRenderer renderer=new UrlRenderer(webRequest);
+  RequestCycle requestCycle=mock(RequestCycle.class);
+  ThreadContext.setRequestCycle(requestCycle);
+  when(requestCycle.getUrlRenderer()).thenReturn(renderer);
+  HttpServletResponse httpServletResponse=mock(HttpServletResponse.class);
+  when(httpServletResponse.encodeURL(Matchers.eq(url))).thenReturn(url + ";foo");
+  ServletWebResponse webResponse=new ServletWebResponse(webRequest,httpServletResponse);
+  assertEquals(url + ";foo",webResponse.encodeURL(url));
+}

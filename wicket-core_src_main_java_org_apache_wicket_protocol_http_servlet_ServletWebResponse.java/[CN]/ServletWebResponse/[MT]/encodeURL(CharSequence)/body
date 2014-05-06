@@ -1,16 +1,21 @@
 {
   Args.notNull(url,"url");
   UrlRenderer urlRenderer=RequestCycle.get().getUrlRenderer();
-  Url relativeUrl=Url.parse(url);
-  String fullUrl=urlRenderer.renderFullUrl(relativeUrl);
+  Url originalUrl=Url.parse(url);
+  String fullUrl=urlRenderer.renderFullUrl(originalUrl);
   String encodedFullUrl=httpServletResponse.encodeURL(fullUrl);
-  final String encodedRelativeUrl;
-  if (fullUrl.equals(encodedFullUrl)) {
-    encodedRelativeUrl=url.toString();
+  final String encodedUrl;
+  if (originalUrl.isFull()) {
+    encodedUrl=encodedFullUrl;
   }
  else {
-    Url _encoded=Url.parse(encodedFullUrl);
-    encodedRelativeUrl=urlRenderer.renderRelativeUrl(_encoded);
+    if (fullUrl.equals(encodedFullUrl)) {
+      encodedUrl=url.toString();
+    }
+ else {
+      Url _encoded=Url.parse(encodedFullUrl);
+      encodedUrl=urlRenderer.renderRelativeUrl(_encoded);
+    }
   }
-  return encodedRelativeUrl;
+  return encodedUrl;
 }
