@@ -5,7 +5,7 @@
   add(dateField=newDateTextField(DATE,dateFieldModel));
   dateField.add(newDatePicker());
   add(hoursField=new TextField<Integer>(HOURS,new PropertyModel<Integer>(this,HOURS),Integer.class));
-  hoursField.add(new HoursValidator());
+  hoursField.add(getMaximumHours() == 24 ? RangeValidator.range(0,23) : RangeValidator.range(1,12));
   hoursField.setLabel(new Model<>(HOURS));
   add(minutesField=new TextField<Integer>(MINUTES,new PropertyModel<Integer>(this,MINUTES),Integer.class){
     private static final long serialVersionUID=1L;
