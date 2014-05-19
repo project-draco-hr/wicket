@@ -1,7 +1,7 @@
 {
   checkComponentTag(tag,"select");
   if (wantOnSelectionChangedNotifications()) {
-    CharSequence url=urlFor(new ListenerInterfaceRequestHandler(new PageAndComponentProvider(getPage(),this,new PageParameters()),IOnChangeListener.INTERFACE));
+    CharSequence url=urlFor(IOnChangeListener.INTERFACE,new PageParameters());
     Form<?> form=findParent(Form.class);
     if (form != null) {
       tag.put("onchange",form.getJsForInterfaceUrl(url.toString()));
