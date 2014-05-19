@@ -1,0 +1,19 @@
+{
+  final String customMarkupId="custom";
+  IMarkupIdGenerator generator=new IMarkupIdGenerator(){
+    @Override public String generateMarkupId(    Component component){
+      return customMarkupId;
+    }
+  }
+;
+  tester.getApplication().getMarkupSettings().setMarkupIdGenerator(generator);
+  MockPageWithLink page=new MockPageWithLink();
+  Link link=new Link(MockPageWithLink.LINK_ID){
+    @Override public void onClick(){
+    }
+  }
+;
+  link.setOutputMarkupId(true);
+  page.add(link);
+  assertEquals(customMarkupId,link.getMarkupId());
+}

@@ -1,0 +1,29 @@
+{
+  Object storedMarkupId=component.getMarkupIdImpl();
+  if (storedMarkupId instanceof String) {
+    return (String)storedMarkupId;
+  }
+  Session session=component.getSession();
+  int generatedMarkupId=storedMarkupId instanceof Integer ? (Integer)storedMarkupId : session.nextSequenceValue();
+  if (generatedMarkupId == 0xAD) {
+    generatedMarkupId=session.nextSequenceValue();
+  }
+  if (storedMarkupId == null) {
+    component.setMarkupIdImpl(generatedMarkupId);
+  }
+  String markupIdPrefix="id";
+  if (component.getApplication().usesDevelopmentConfig()) {
+    markupIdPrefix=component.getId();
+  }
+  String markupIdPostfix=Integer.toHexString(generatedMarkupId).toLowerCase();
+  String markupId=markupIdPrefix + markupIdPostfix;
+  char c=markupId.charAt(0);
+  if (!Character.isLetter(c)) {
+    markupId="id" + markupId;
+  }
+  markupId=Strings.replaceAll(markupId,"_","__").toString();
+  markupId=markupId.replace('.','_');
+  markupId=markupId.replace('-','_');
+  markupId=markupId.replace(' ','_');
+  return markupId;
+}
