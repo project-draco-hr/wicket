@@ -1,5 +1,15 @@
 {
   Args.notNull(buttonComponent,"buttonComponent");
   setValue(buttonComponent,"marked");
-  return submit();
+  if (buttonComponent instanceof AjaxButton || buttonComponent instanceof AjaxSubmitLink) {
+    if (clearFeedbackMessagesBeforeSubmit) {
+      tester.clearFeedbackMessages();
+    }
+    tester.getRequest().setUseMultiPartContentType(workingForm.isMultiPart());
+    tester.executeAjaxEvent(buttonComponent,"click");
+    return this;
+  }
+ else {
+    return submit();
+  }
 }

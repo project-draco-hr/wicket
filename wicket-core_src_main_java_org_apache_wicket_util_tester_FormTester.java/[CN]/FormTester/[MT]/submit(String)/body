@@ -1,4 +1,7 @@
 {
-  setValue(buttonComponentId,"marked");
-  return submit();
+  Component submitter=getForm().get(buttonComponentId);
+  if (submitter == null) {
+    fail("Cannot submit the form because there is no submitting component with id: " + buttonComponentId);
+  }
+  return submit(submitter);
 }

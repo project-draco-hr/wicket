@@ -1,12 +1,27 @@
 {
-  MockFormSubmitsPage page=new MockFormSubmitsPage();
+  final AtomicBoolean ajaxButtonSubmitted=new AtomicBoolean(false);
+  final AtomicBoolean ajaxSubmitLinkSubmitted=new AtomicBoolean(false);
+  MockFormSubmitsPage page=new MockFormSubmitsPage(){
+    @Override protected void onAjaxSubmitLinkSubmit(    AjaxRequestTarget target,    Form<?> form){
+      ajaxSubmitLinkSubmitted.set(true);
+    }
+    @Override protected void onAjaxButtonSubmit(    AjaxRequestTarget target,    Form<?> form){
+      ajaxButtonSubmitted.set(true);
+    }
+  }
+;
   tester.startPage(page);
   tester.newFormTester("form").submit();
   assertEquals("a text value",page.text);
-  tester.executeAjaxEvent(page.get("form:ajaxButton"),"click");
+  assertFalse(ajaxButtonSubmitted.get());
+  tester.newFormTester("form").submit("ajaxButton");
   assertEquals("a text value",page.text);
-  tester.clickLink("form:ajaxlink");
+  assertTrue(ajaxButtonSubmitted.get());
+  assertFalse(ajaxSubmitLinkSubmitted.get());
+  Component submitter=page.form.get("ajaxlink");
+  tester.newFormTester("form").submit(submitter);
   assertEquals("a text value",page.text);
+  assertTrue(ajaxSubmitLinkSubmitted.get());
   tester.clickLink("form:link");
   assertEquals("a text value",page.text);
   tester.submitForm(page.form);
