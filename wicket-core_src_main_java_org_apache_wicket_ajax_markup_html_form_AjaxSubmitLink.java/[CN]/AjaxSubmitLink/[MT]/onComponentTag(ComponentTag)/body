@@ -1,8 +1,11 @@
 {
   super.onComponentTag(tag);
   if (isEnabledInHierarchy()) {
-    if (tag.getName().toLowerCase().equals("a")) {
+    if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
       tag.put("href","javascript:;");
+    }
+ else     if (tag.getName().equalsIgnoreCase("button")) {
+      tag.put("type","button");
     }
   }
  else {
