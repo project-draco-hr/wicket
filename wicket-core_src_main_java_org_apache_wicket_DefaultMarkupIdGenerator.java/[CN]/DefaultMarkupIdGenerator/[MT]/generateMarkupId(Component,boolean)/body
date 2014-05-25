@@ -3,6 +3,9 @@
   if (storedMarkupId instanceof String) {
     return (String)storedMarkupId;
   }
+  if (storedMarkupId == null && createIfDoesNotExist == false) {
+    return null;
+  }
   Session session=component.getSession();
   int generatedMarkupId=storedMarkupId instanceof Integer ? (Integer)storedMarkupId : session.nextSequenceValue();
   if (generatedMarkupId == 0xAD) {
