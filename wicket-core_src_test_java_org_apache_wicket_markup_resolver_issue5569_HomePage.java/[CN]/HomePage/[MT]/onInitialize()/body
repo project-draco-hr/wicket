@@ -1,0 +1,17 @@
+{
+  super.onInitialize();
+  add(new AjaxLink<Void>("link"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      target.add(getPage().get("special"));
+    }
+  }
+);
+  WebMarkupContainer mc1=new TransparentWebMarkupContainer("mc1");
+  add(mc1);
+  mc1.add(new WebMarkupContainer("special"));
+  WebMarkupContainer mc2=new WebMarkupContainer("mc2");
+  add(mc2);
+  WebMarkupContainer mc3=new ComponentResolvingWebMarkupContainer("mc3",HomePage.this);
+  mc2.add(mc3);
+  add(new WebMarkupContainer("special").setOutputMarkupId(true));
+}

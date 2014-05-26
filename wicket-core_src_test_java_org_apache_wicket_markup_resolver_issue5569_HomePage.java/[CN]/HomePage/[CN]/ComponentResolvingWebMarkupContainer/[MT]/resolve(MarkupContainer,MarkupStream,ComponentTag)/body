@@ -1,0 +1,10 @@
+{
+  Component c=resolveTarget.get(tag.getId());
+  if (c == null && resolveTarget instanceof IComponentResolver) {
+    c=((IComponentResolver)resolveTarget).resolve(container,markupStream,tag);
+  }
+  if (c != null && getPage().wasRendered(c)) {
+    return null;
+  }
+  return c;
+}
