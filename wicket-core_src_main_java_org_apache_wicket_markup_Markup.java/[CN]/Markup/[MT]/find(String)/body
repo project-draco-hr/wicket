@@ -1,21 +1,3 @@
 {
-  Args.notEmpty(id,"id");
-  MarkupStream stream=new MarkupStream(this);
-  stream.setCurrentIndex(0);
-  while (stream.hasMore()) {
-    MarkupElement elem=stream.get();
-    if (elem instanceof ComponentTag) {
-      ComponentTag tag=stream.getTag();
-      if (tag.isOpen() || tag.isOpenClose()) {
-        if (tag.getId().equals(id)) {
-          return stream.getMarkupFragment();
-        }
-        if (tag.isOpen() && !tag.hasNoCloseTag() && !(tag instanceof WicketTag)&& !"head".equals(tag.getName())&& !tag.isAutoComponentTag()) {
-          stream.skipToMatchingCloseTag(tag);
-        }
-      }
-    }
-    stream.next();
-  }
-  return null;
+  return find(id,0);
 }
