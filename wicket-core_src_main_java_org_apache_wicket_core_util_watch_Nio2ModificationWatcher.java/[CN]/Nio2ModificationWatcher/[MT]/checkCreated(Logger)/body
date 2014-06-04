@@ -1,0 +1,20 @@
+{
+  WatchKey watchKey=watchService.poll();
+  if (watchKey != null) {
+    List<WatchEvent<?>> events=watchKey.pollEvents();
+    for (    WatchEvent<?> event : events) {
+      WatchEvent.Kind<?> eventKind=event.kind();
+      Path eventPath=(Path)event.context();
+      if (eventKind == ENTRY_CREATE) {
+        entryCreated(eventPath,log);
+      }
+ else       if (eventKind == ENTRY_DELETE) {
+        entryDeleted(eventPath,log);
+      }
+ else       if (eventKind == ENTRY_MODIFY) {
+        entryModified(eventPath,log);
+      }
+    }
+    watchKey.reset();
+  }
+}

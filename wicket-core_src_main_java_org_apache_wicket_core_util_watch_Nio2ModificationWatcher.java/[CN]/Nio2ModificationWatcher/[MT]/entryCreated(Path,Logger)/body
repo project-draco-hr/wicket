@@ -1,0 +1,20 @@
+{
+  if (Files.isDirectory(path)) {
+    try {
+      register(path,watchService);
+    }
+ catch (    IOException iox) {
+      log.warn("Cannot register folder '" + path + "' to be watched.",iox);
+    }
+  }
+ else {
+    String absolutePath=path.toAbsolutePath().toFile().toURI().toString();
+    try {
+      ThreadContext.setApplication(application);
+      application.getMarkupSettings().getMarkupFactory().getMarkupCache().removeMarkup(absolutePath);
+    }
+  finally {
+      ThreadContext.setApplication(null);
+    }
+  }
+}

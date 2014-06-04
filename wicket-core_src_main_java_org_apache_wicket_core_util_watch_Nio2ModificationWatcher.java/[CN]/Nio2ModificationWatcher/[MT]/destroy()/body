@@ -1,6 +1,11 @@
 {
-  if (task != null) {
-    task.interrupt();
+  try {
+    super.destroy();
+    if (task != null) {
+      task.interrupt();
+    }
   }
-  IOUtils.closeQuietly(watchService);
+  finally {
+    IOUtils.closeQuietly(watchService);
+  }
 }
