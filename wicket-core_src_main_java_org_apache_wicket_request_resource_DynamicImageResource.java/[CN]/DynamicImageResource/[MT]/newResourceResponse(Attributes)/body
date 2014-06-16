@@ -7,13 +7,13 @@
     response.setLastModified(Time.now());
   }
   if (response.dataNeedsToBeWritten(attributes)) {
-    response.setContentType("image/" + getFormat());
     response.setContentDisposition(ContentDisposition.INLINE);
     final byte[] imageData=getImageData(attributes);
     if (imageData == null) {
       response.setError(HttpServletResponse.SC_NOT_FOUND);
     }
  else {
+      response.setContentType("image/" + getFormat());
       response.setWriteCallback(new WriteCallback(){
         @Override public void writeData(        final Attributes attributes){
           attributes.getResponse().write(imageData);
