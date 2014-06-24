@@ -12,9 +12,10 @@
     oldStyles.put(keyValue[0],keyValue[1]);
   }
   Map<String,String> newStyles=update(oldStyles);
+  String separator=getSeparator();
   StringBuilder result=new StringBuilder();
   for (  Map.Entry<String,String> entry : newStyles.entrySet()) {
-    result.append(entry.getKey()).append(':').append(entry.getValue()).append(getSeparator());
+    result.append(entry.getKey()).append(':').append(entry.getValue()).append(separator);
   }
   return result.length() > 0 ? result.toString() : VALUELESS_ATTRIBUTE_REMOVE;
 }
