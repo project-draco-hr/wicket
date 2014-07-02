@@ -1,0 +1,12 @@
+{
+  tester=new WicketTester();
+  WebSocketSettings webSocketSettings=WebSocketSettings.Holder.get(tester.getApplication());
+  webSocketSettings.setSendPayloadExecutor(new WebSocketSettings.SameThreadExecutor(){
+    @Override public void run(    Runnable command){
+      context.set(true);
+      super.run(command);
+      context.set(false);
+    }
+  }
+);
+}

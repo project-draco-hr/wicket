@@ -1,0 +1,14 @@
+{
+  SendPayloadWithContextTestPage page=new SendPayloadWithContextTestPage();
+  tester.startPage(page);
+  WebSocketTester webSocketTester=new WebSocketTester(tester,page){
+    @Override protected void onOutMessage(    String message){
+      assertThat(Boolean.parseBoolean(message),is(equalTo(Boolean.TRUE)));
+    }
+  }
+;
+  assertThat(context.get(),is(false));
+  webSocketTester.sendMessage("trigger web socket communication");
+  assertThat(context.get(),is(false));
+  webSocketTester.destroy();
+}

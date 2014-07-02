@@ -1,7 +1,7 @@
 {
   add(new WebSocketBehavior(){
     @Override protected void onMessage(    WebSocketRequestHandler handler,    TextMessage message){
-      Assert.assertEquals(expectedMessage,message.getText());
+      Assert.assertThat(message.getText(),is(equalTo(expectedMessage)));
       handler.push(Strings.capitalize(expectedMessage));
     }
   }
