@@ -1,0 +1,14 @@
+{
+  JavaSerializer serializer=new JavaSerializer("JavaSerializerTest"){
+    @Override protected ObjectOutputStream newObjectOutputStream(    OutputStream out) throws IOException {
+      IObjectChecker checker=new DifferentPageChecker();
+      return new CheckingObjectOutputStream(out,checker);
+    }
+  }
+;
+  WebComponent component=new ComponentThatKeepsAReferenceToAnotherPage(MockPageWithLink.LINK_ID);
+  MockPageWithLink rootPage=new MockPageWithLink();
+  rootPage.add(component);
+  byte[] serialized=serializer.serialize(rootPage);
+  assertNull("The produced byte[] must be null if there was an error",serialized);
+}
