@@ -1,0 +1,49 @@
+{
+  super(parameters);
+  CompoundPropertyModel<ParentModel> parentModel=new CompoundPropertyModel<ParentModel>(new LoadableDetachableModel<ParentModel>(){
+    @Override protected ParentModel load(){
+      String id=Session.get().getId();
+      ParentModel pm=pmMap.get(id);
+      if (pm == null) {
+        pm=new ParentModel();
+        pmMap.put(id,pm);
+      }
+      return pm;
+    }
+  }
+);
+  setDefaultModel(parentModel);
+  Form parentForm=new Form("parentForm",parentModel){
+    @Override protected void onValidateModelObjects(){
+      super.onValidateModelObjects();
+      ((ParentModel)getModelObject()).setParentValidated(true);
+    }
+  }
+;
+  parentForm.add(new TextField("name"));
+  parentForm.add(new TextField("company"));
+  add(parentForm);
+  IModel<ChildModel> childModel=new CompoundPropertyModel(parentModel);
+  parentForm.add(new AddressFormPanel("addressInfo",(IModel<ChildModel>)childModel));
+  parentForm.add(new AjaxSubmitLink("parentSubmitBtn",parentForm){
+    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      super.onSubmit(target,form);
+      target.add(getThePage().get("validations"));
+    }
+  }
+);
+  add(new AjaxLink("resetSubmits"){
+    @Override public void onClick(    AjaxRequestTarget target){
+      ParentModel pm=(ParentModel)getPage().getDefaultModelObject();
+      pm.setChildValidated(false);
+      pm.setParentValidated(false);
+      target.add(getThePage().get("validations"));
+    }
+  }
+);
+  WebMarkupContainer cont=new WebMarkupContainer("validations");
+  cont.setOutputMarkupPlaceholderTag(true);
+  add(cont);
+  cont.add(new Label("parentValidated"));
+  cont.add(new Label("childValidated"));
+}

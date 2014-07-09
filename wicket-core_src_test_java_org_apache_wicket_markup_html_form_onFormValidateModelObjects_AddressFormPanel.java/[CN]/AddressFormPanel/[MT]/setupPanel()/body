@@ -1,0 +1,21 @@
+{
+  Form form=new Form("childForm",getDefaultModel()){
+    @Override protected void onValidateModelObjects(){
+      super.onValidateModelObjects();
+      ((ChildModel)getModelObject()).setChildValidated(true);
+    }
+  }
+;
+  add(form);
+  form.add(new TextField("address1"));
+  form.add(new TextField("address2"));
+  form.add(new TextField("city"));
+  form.add(new TextField("state"));
+  form.add(new TextField("zip"));
+  add(new AjaxSubmitLink("childSubmitButton",form){
+    @Override public void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+      ((ChildModel)getPanelInstance().getDefaultModelObject()).submittedCalled(target);
+    }
+  }
+);
+}
