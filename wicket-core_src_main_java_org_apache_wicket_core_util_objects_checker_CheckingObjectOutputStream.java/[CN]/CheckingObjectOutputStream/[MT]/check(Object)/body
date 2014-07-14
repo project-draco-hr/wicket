@@ -2,20 +2,8 @@
   if (obj == null) {
     return;
   }
-  try {
-    if (stack.contains(obj)) {
-      return;
-    }
-  }
- catch (  RuntimeException e) {
-    log.warn(String.format("Wasn't possible to check the object '%s' possible due an problematic " + "implementation of equals method",obj.getClass()),e);
+  if (checked.containsKey(obj)) {
     return;
   }
-  stack.push(obj);
-  try {
-    internalCheck(obj);
-  }
-  finally {
-    stack.pop();
-  }
+  internalCheck(obj);
 }
