@@ -13,49 +13,72 @@
     buffer.append(getPrefix(index,choice));
     String id=getChoiceRenderer().getIdValue(choice,index);
     final String idAttr=getCheckBoxMarkupId(id);
-    buffer.append("<input name=\"");
-    buffer.append(getInputName());
-    buffer.append('"');
-    buffer.append(" type=\"checkbox\"");
-    if (isSelected(choice,index,selected)) {
-      buffer.append(" checked=\"checked\"");
-    }
-    if (isDisabled(choice,index,selected) || !isEnabledInHierarchy()) {
-      buffer.append(" disabled=\"disabled\"");
-    }
-    buffer.append(" value=\"");
-    buffer.append(id);
-    buffer.append("\" id=\"");
-    buffer.append(idAttr);
-    buffer.append('"');
-{
-      IValueMap attrs=getAdditionalAttributes(index,choice);
-      if (attrs != null) {
-        for (        Map.Entry<String,Object> attr : attrs.entrySet()) {
-          buffer.append(' ').append(attr.getKey()).append("=\"").append(attr.getValue()).append('"');
-        }
-      }
-    }
-    DebugSettings debugSettings=getApplication().getDebugSettings();
-    String componentPathAttributeName=debugSettings.getComponentPathAttributeName();
-    if (Strings.isEmpty(componentPathAttributeName) && debugSettings.isOutputComponentPath()) {
-      componentPathAttributeName="wicketpath";
-    }
-    if (Strings.isEmpty(componentPathAttributeName) == false) {
-      CharSequence path=getPageRelativePath();
-      path=Strings.replaceAll(path,"_","__");
-      path=Strings.replaceAll(path,":","_");
-      buffer.append(' ').append(componentPathAttributeName).append("=\"").append(path).append("_input_").append(index).append('"');
-    }
-    buffer.append("/>");
     String display=label;
     if (localizeDisplayValues()) {
       display=getLocalizer().getString(label,this,label);
     }
     final CharSequence escaped=(getEscapeModelStrings() ? Strings.escapeMarkup(display) : display);
-    buffer.append("<label for=\"");
+switch (labelPosition) {
+case BEFORE:
+      buffer.append("<label for=\"");
     buffer.append(idAttr);
-    buffer.append("\">").append(escaped).append("</label>");
-    buffer.append(getSuffix(index,choice));
-  }
+  buffer.append("\">").append(escaped).append("</label>");
+break;
+case WRAP_AFTER:
+buffer.append("<label>");
+case WRAP_BEFORE:
+buffer.append("<label>");
+buffer.append(escaped).append(' ');
+break;
+}
+buffer.append("<input name=\"");
+buffer.append(getInputName());
+buffer.append('"');
+buffer.append(" type=\"checkbox\"");
+if (isSelected(choice,index,selected)) {
+buffer.append(" checked=\"checked\"");
+}
+if (isDisabled(choice,index,selected) || !isEnabledInHierarchy()) {
+buffer.append(" disabled=\"disabled\"");
+}
+buffer.append(" value=\"");
+buffer.append(id);
+buffer.append("\" id=\"");
+buffer.append(idAttr);
+buffer.append('"');
+{
+IValueMap attrs=getAdditionalAttributes(index,choice);
+if (attrs != null) {
+for (Map.Entry<String,Object> attr : attrs.entrySet()) {
+buffer.append(' ').append(attr.getKey()).append("=\"").append(attr.getValue()).append('"');
+}
+}
+}
+DebugSettings debugSettings=getApplication().getDebugSettings();
+String componentPathAttributeName=debugSettings.getComponentPathAttributeName();
+if (Strings.isEmpty(componentPathAttributeName) && debugSettings.isOutputComponentPath()) {
+componentPathAttributeName="wicketpath";
+}
+if (Strings.isEmpty(componentPathAttributeName) == false) {
+CharSequence path=getPageRelativePath();
+path=Strings.replaceAll(path,"_","__");
+path=Strings.replaceAll(path,":","_");
+buffer.append(' ').append(componentPathAttributeName).append("=\"").append(path).append("_input_").append(index).append('"');
+}
+buffer.append("/>");
+switch (labelPosition) {
+case WRAP_BEFORE:
+buffer.append("</label>");
+break;
+case WRAP_AFTER:
+buffer.append(' ').append(escaped).append("</label>");
+break;
+case AFTER:
+buffer.append("<label for=\"");
+buffer.append(idAttr);
+buffer.append("\">").append(escaped).append("</label>");
+break;
+}
+buffer.append(getSuffix(index,choice));
+}
 }
