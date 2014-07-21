@@ -1,0 +1,8 @@
+{
+  ResourceReferenceRegistry registry=new ResourceReferenceRegistry();
+  registry.setResourceReferenceFactory(new LessResourceReferenceTest.LessResourceReferenceFactory());
+  ResourceReference.Key key=new ResourceReference.Key(ResourceReferenceRegistryTest.class.getName(),"LessResourceReference.less",null,null,null);
+  ResourceReference reference=registry.createDefaultResourceReference(key);
+  assertThat(reference,is(instanceOf(LessResourceReferenceTest.LessResourceReference.class)));
+  assertThat(reference.getResource(),is(instanceOf(LessResourceReferenceTest.LessPackageResource.class)));
+}

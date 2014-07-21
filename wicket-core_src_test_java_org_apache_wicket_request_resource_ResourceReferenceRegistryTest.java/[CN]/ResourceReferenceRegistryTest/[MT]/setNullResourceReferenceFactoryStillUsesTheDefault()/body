@@ -1,0 +1,8 @@
+{
+  ResourceReferenceRegistry registry=new ResourceReferenceRegistry();
+  registry.setResourceReferenceFactory(null);
+  ResourceReference.Key key=new ResourceReference.Key(ResourceReferenceRegistryTest.class.getName(),"a.css",null,null,null);
+  ResourceReference reference=registry.createDefaultResourceReference(key);
+  assertThat(reference,is(instanceOf(ResourceReference.class)));
+  assertThat(reference.getResource(),is(instanceOf(CssPackageResource.class)));
+}

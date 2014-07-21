@@ -1,3 +1,7 @@
 {
-  return resourceReferenceFactory.create(key);
+  IResourceReferenceFactory factory=getResourceReferenceFactory();
+  if (factory == null) {
+    factory=new DefaultResourceReferenceFactory();
+  }
+  return factory.create(key);
 }
