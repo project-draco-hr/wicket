@@ -1,0 +1,11 @@
+{
+  Args.notNull(tagName,"tagName");
+  TagTester childTagTester=null;
+  if (openTag.isOpen()) {
+    int startPos=openTag.getPos() + openTag.getLength();
+    int endPos=closeTag.getPos();
+    String markup=parser.getInput(startPos,endPos).toString();
+    childTagTester=createTagByAttribute(markup,tagName);
+  }
+  return childTagTester;
+}
