@@ -4,16 +4,18 @@
   File nonExistingFile=new File("/somethingThatDoesntExistsOnMostMachines-111111111111111111111111111111");
   assertTrue("Even non existing file are scheduled for deletion.",Files.removeFolderAsync(nonExistingFile,fileCleaner));
   assertFalse(nonExistingFile.exists());
-  java.io.File file=java.io.File.createTempFile("wicket-test--",".tmp");
-  assertTrue("The just created file should exist!",file.exists());
+  java.io.File file=getFile();
   file.createNewFile();
+  assertTrue("The just created file should exist!",file.exists());
   assertTrue(file.isFile());
   assertTrue("The file is scheduled for deletion.",Files.removeAsync(file,fileCleaner));
+  file=null;
   System.gc();
   boolean exists=true;
   for (int i=0; i < 10; i++) {
     Thread.sleep(5);
-    if (!file.exists()) {
+    java.io.File newFileReference=getFile();
+    if (!newFileReference.exists()) {
       exists=false;
       break;
     }
