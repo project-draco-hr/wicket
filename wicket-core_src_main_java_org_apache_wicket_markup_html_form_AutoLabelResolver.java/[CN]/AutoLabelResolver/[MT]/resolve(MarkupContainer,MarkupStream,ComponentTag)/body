@@ -5,7 +5,7 @@
   final String id=tag.getAttribute(getWicketNamespace(markupStream) + WICKET_FOR).trim();
   Component component=findRelatedComponent(container,id);
   if (component == null) {
-    throw new WicketRuntimeException("Could not find form component with id '" + id + "' while trying to resolve wicket:for attribute");
+    throw new ComponentNotFoundException("Could not find form component with id '" + id + "' while trying to resolve wicket:for attribute");
   }
   if (!(component instanceof ILabelProvider)) {
     throw new WicketRuntimeException("Component pointed to by wicket:for attribute '" + id + "' does not implement "+ ILabelProvider.class.getName());
