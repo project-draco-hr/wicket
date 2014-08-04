@@ -1,14 +1,16 @@
 {
-  Collection<FileUpload> uploads=getConvertedInput();
-  if (uploads != null) {
-    for (    FileUpload upload : uploads) {
-      upload.closeStreams();
+  if (forceCloseStreamsOnDetach()) {
+    Collection<FileUpload> uploads=getConvertedInput();
+    if (uploads != null) {
+      for (      FileUpload upload : uploads) {
+        upload.closeStreams();
+      }
     }
-  }
-  inputArrayCache=null;
-  Collection<FileUpload> modelObject=getModelObject();
-  if (modelObject != null) {
-    modelObject.clear();
+    inputArrayCache=null;
+    Collection<FileUpload> modelObject=getModelObject();
+    if (modelObject != null) {
+      modelObject.clear();
+    }
   }
   super.onDetach();
 }
