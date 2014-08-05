@@ -1,6 +1,18 @@
 {
   if (supportsField(field)) {
-    String beanName=getBeanName(field);
+    SpringBean annot=field.getAnnotation(SpringBean.class);
+    String name;
+    boolean required;
+    if (annot != null) {
+      name=annot.name();
+      required=annot.required();
+    }
+ else {
+      Named named=field.getAnnotation(Named.class);
+      name=named != null ? named.value() : "";
+      required=false;
+    }
+    String beanName=getBeanName(field,name,required);
     if (beanName == null) {
       return null;
     }
@@ -10,11 +22,19 @@
       return cachedValue;
     }
     Object target;
+    try {
+      target=locator.locateProxyTarget();
+    }
+ catch (    IllegalStateException isx) {
+      if (required) {
+        throw isx;
+      }
+ else {
+        return null;
+      }
+    }
     if (wrapInProxies) {
       target=LazyInitProxyFactory.createProxy(field.getType(),locator);
-    }
- else {
-      target=locator.locateProxyTarget();
     }
     if (locator.isSingletonBean()) {
       Object tmpTarget=cache.putIfAbsent(locator,target);
