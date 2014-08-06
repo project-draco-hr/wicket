@@ -1,6 +1,6 @@
 {
   super.renderHead(component,response);
-  if (component.isEnabledInHierarchy()) {
+  if (canCallListenerInterface(component,null)) {
     CharSequence js=getCallbackScript(component);
     response.render(OnDomReadyHeaderItem.forScript(js.toString()));
   }
