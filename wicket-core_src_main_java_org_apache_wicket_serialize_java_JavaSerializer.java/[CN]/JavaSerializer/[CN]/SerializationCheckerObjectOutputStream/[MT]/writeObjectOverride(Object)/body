@@ -4,8 +4,19 @@
   }
  catch (  NotSerializableException nsx) {
     if (CheckingObjectOutputStream.isAvailable()) {
-      CheckingObjectOutputStream checkingObjectOutputStream=new CheckingObjectOutputStream(outputStream,new ObjectSerializationChecker(nsx));
-      checkingObjectOutputStream.writeObject(obj);
+      try {
+        CheckingObjectOutputStream checkingObjectOutputStream=new CheckingObjectOutputStream(outputStream,new ObjectSerializationChecker(nsx));
+        checkingObjectOutputStream.writeObject(obj);
+      }
+ catch (      Exception x) {
+        if (x instanceof CheckingObjectOutputStream.ObjectCheckException) {
+          throw (CheckingObjectOutputStream.ObjectCheckException)x;
+        }
+ else {
+          x.initCause(nsx);
+          throw new WicketRuntimeException("A problem occurred while trying to collect debug information about not serializable object",x);
+        }
+      }
       throw nsx;
     }
     throw nsx;
