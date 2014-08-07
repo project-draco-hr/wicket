@@ -1,12 +1,5 @@
 {
   final Localizer localizer=getLocalizer();
-  final Locale locale;
-  if (component != null) {
-    locale=component.getLocale();
-  }
- else {
-    locale=Session.exists() ? Session.get().getLocale() : Locale.getDefault();
-  }
   String value;
   Object[] parameters=getParameters();
   if (parameters == null || parameters.length == 0) {
@@ -41,7 +34,7 @@
       if (model != null) {
         value=Strings.replaceAll(value,"${","$'{'").toString();
       }
-      final MessageFormat format=new MessageFormat(value,locale);
+      final MessageFormat format=new MessageFormat(value,getLocale());
       value=format.format(realParams);
       if (model != null) {
         value=Strings.replaceAll(value,"$'{'","${").toString();
