@@ -1,0 +1,33 @@
+{
+  PageParameters p=new PageParameters().add("pathName1","pathValue1",INamedParameters.Type.PATH).add("pathName1","pathValue1.1",INamedParameters.Type.PATH).add("pathName2","pathValue2",INamedParameters.Type.PATH).add("queryName1","queryValue1",INamedParameters.Type.QUERY_STRING).add("queryName1","queryValue1.1",INamedParameters.Type.QUERY_STRING).add("queryName2","queryValue2",INamedParameters.Type.QUERY_STRING).add("manualName1","manualValue1",INamedParameters.Type.MANUAL).add("manualName1","manualValue1.1",INamedParameters.Type.MANUAL).add("manualName2","manualValue2",INamedParameters.Type.MANUAL);
+{
+    assertThat(p.getAllNamedByType(INamedParameters.Type.PATH).size(),is(3));
+    List<StringValue> pathName1Values=p.getValues("pathName1");
+    assertThat(pathName1Values.size(),is(2));
+    assertThat(pathName1Values.get(0).toString(),is("pathValue1"));
+    assertThat(pathName1Values.get(1).toString(),is("pathValue1.1"));
+    List<StringValue> pathName2Values=p.getValues("pathName2");
+    assertThat(pathName2Values.size(),is(1));
+    assertThat(pathName2Values.get(0).toString(),is("pathValue2"));
+  }
+{
+    assertThat(p.getAllNamedByType(INamedParameters.Type.QUERY_STRING).size(),is(3));
+    List<StringValue> queryName1Values=p.getValues("queryName1");
+    assertThat(queryName1Values.size(),is(2));
+    assertThat(queryName1Values.get(0).toString(),is("queryValue1"));
+    assertThat(queryName1Values.get(1).toString(),is("queryValue1.1"));
+    List<StringValue> queryName2Values=p.getValues("queryName2");
+    assertThat(queryName2Values.size(),is(1));
+    assertThat(queryName2Values.get(0).toString(),is("queryValue2"));
+  }
+{
+    assertThat(p.getAllNamedByType(INamedParameters.Type.MANUAL).size(),is(3));
+    List<StringValue> manualName1Values=p.getValues("manualName1");
+    assertThat(manualName1Values.size(),is(2));
+    assertThat(manualName1Values.get(0).toString(),is("manualValue1"));
+    assertThat(manualName1Values.get(1).toString(),is("manualValue1.1"));
+    List<StringValue> manualName2Values=p.getValues("manualName2");
+    assertThat(manualName2Values.size(),is(1));
+    assertThat(manualName2Values.get(0).toString(),is("manualValue2"));
+  }
+}
