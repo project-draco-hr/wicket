@@ -4,8 +4,8 @@
   page.setCreatedBookmarkable(true);
   page.setPageStateless(true);
   IPageProvider provider=new PageProvider(page);
-  page.getPageParameters().set("foo","fooValue");
-  page.getPageParameters().set("bar","barValue");
+  page.getPageParameters().set("foo","fooValue",INamedParameters.Type.PATH);
+  page.getPageParameters().set("bar","barValue",INamedParameters.Type.PATH);
   IRequestHandler handler=new RenderPageRequestHandler(provider);
   Url url=namedParametersEncoder.mapHandler(handler);
   assertEquals(MOUNT_PATH + "/fooValue/barValue/" + PAGE_CLASS_NAME,url.toString());

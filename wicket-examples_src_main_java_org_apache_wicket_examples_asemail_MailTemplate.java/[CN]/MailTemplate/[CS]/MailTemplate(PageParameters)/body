@@ -15,7 +15,7 @@
     private static final long serialVersionUID=1L;
     @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
       PageParameters parameters=new PageParameters();
-      parameters.set("name",name);
+      parameters.set("name",name,INamedParameters.Type.MANUAL);
       PageProvider pageProvider=new PageProvider(TemplateBasedOnPage.class,parameters);
       CharSequence pageHtml=ComponentRenderer.renderPage(pageProvider);
       updateResult(result,pageHtml,target);

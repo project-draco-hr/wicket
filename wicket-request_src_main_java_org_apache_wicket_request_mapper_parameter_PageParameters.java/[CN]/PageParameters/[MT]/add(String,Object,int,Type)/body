@@ -1,5 +1,5 @@
 {
-  Args.notNull(name,"name");
+  Args.notEmpty(name,"name");
   Args.notNull(value,"value");
   if (namedParameters == null) {
     namedParameters=new ArrayList<>(1);
@@ -12,7 +12,7 @@
     values.add(value.toString());
   }
   for (  String val : values) {
-    NamedPair entry=new NamedPair(name,val);
+    NamedPair entry=new NamedPair(name,val,type);
     if (index < 0 || index > namedParameters.size()) {
       namedParameters.add(entry);
     }
