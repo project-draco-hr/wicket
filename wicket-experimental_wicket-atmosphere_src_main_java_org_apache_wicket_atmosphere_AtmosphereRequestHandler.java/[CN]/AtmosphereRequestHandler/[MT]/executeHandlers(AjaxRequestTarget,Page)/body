@@ -4,11 +4,13 @@
       String componentPath=curSubscription.getComponentPath();
       Component component=page.get(componentPath);
       if (component != null) {
-        if (curSubscription.getBehaviorIndex() == null) {
+        Integer behaviorIndex=curSubscription.getBehaviorIndex();
+        if (behaviorIndex == null) {
           invokeMethod(target,curSubscription,component);
         }
  else {
-          invokeMethod(target,curSubscription,component.getBehaviorById(curSubscription.getBehaviorIndex()));
+          Behavior behavior=component.getBehaviorById(behaviorIndex);
+          invokeMethod(target,curSubscription,behavior);
         }
       }
  else {
