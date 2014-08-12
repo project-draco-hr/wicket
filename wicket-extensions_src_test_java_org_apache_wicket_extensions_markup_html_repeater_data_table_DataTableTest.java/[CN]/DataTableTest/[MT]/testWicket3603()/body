@@ -1,10 +1,10 @@
 {
   PageParameters parameters=new PageParameters();
-  parameters.add("empty",Boolean.TRUE,INamedParameters.Type.MANUAL);
+  parameters.add("empty",Boolean.TRUE);
   tester.startPage(Wicket3603Page.class,parameters);
   Assert.assertTrue(tester.getLastResponseAsString().contains("thead"));
   Assert.assertTrue(tester.getLastResponseAsString().contains("tfoot"));
-  parameters.set("empty",Boolean.FALSE,INamedParameters.Type.MANUAL);
+  parameters.set("empty",Boolean.FALSE);
   tester.startPage(Wicket3603Page.class);
   Assert.assertFalse(tester.getLastResponseAsString().contains("thead"));
   Assert.assertFalse(tester.getLastResponseAsString().contains("tfoot"));
