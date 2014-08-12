@@ -4,6 +4,7 @@
     @Subscribe public void updateTime(    AjaxRequestTarget target,    Date event){
       super.updateTime(target,event);
       System.err.println("updateTime");
+      target.appendJavaScript("updateTime is executed");
     }
     @Subscribe(contextAwareFilter=ReceiverFilter.class) public void receiveMessage(    AjaxRequestTarget target,    ChatMessage message){
       super.receiveMessage(target,message);
@@ -15,5 +16,6 @@
   WicketAtmosphereTester waTester=new WicketAtmosphereTester(tester,page);
   Date payload=new Date();
   waTester.post(payload);
+  System.err.println(tester.getLastResponseAsString());
   tester.destroy();
 }
