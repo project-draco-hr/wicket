@@ -9,6 +9,16 @@
  else {
       if (submitter == null) {
         submitter=findSubmittingButton();
+        if (submitter instanceof IFormSubmittingComponent) {
+          IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)submitter;
+          Component component=(Component)submitter;
+          if (!component.isVisibleInHierarchy()) {
+            throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not visible");
+          }
+          if (!component.isEnabledInHierarchy()) {
+            throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not enabled");
+          }
+        }
       }
       if (submitter != null && !submitter.getDefaultFormProcessing()) {
         submitter.onSubmit();
