@@ -1,7 +1,7 @@
 {
   if (log.isDebugEnabled()) {
     AtmosphereRequest atmosphereRequest=event.getResource().getRequest();
-    String transport=atmosphereRequest.getHeader("X-Atmosphere-Transport");
+    String transport=atmosphereRequest.getHeader(HeaderConfig.X_ATMOSPHERE_TRANSPORT);
     log.debug(String.format("%s connection dropped from ip %s:%s",transport == null ? "websocket" : transport,atmosphereRequest.getRemoteAddr(),atmosphereRequest.getRemotePort()));
   }
   if (Application.get(applicationKey) != null) {
