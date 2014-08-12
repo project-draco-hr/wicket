@@ -1,0 +1,19 @@
+{
+  WicketTester tester=new WicketTester();
+  HomePage page=new HomePage(new PageParameters()){
+    @Subscribe public void updateTime(    AjaxRequestTarget target,    Date event){
+      super.updateTime(target,event);
+      System.err.println("updateTime");
+    }
+    @Subscribe(contextAwareFilter=ReceiverFilter.class) public void receiveMessage(    AjaxRequestTarget target,    ChatMessage message){
+      super.receiveMessage(target,message);
+      System.err.println("receiveMessage");
+    }
+  }
+;
+  tester.startPage(page);
+  WicketAtmosphereTester waTester=new WicketAtmosphereTester(tester,page);
+  Date payload=new Date();
+  waTester.post(payload);
+  tester.destroy();
+}

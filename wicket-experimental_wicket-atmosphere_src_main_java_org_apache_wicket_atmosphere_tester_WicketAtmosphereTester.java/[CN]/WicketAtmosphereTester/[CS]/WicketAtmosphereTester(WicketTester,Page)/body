@@ -1,0 +1,24 @@
+{
+  WebApplication application=wicketTester.getApplication();
+  this.eventBus=new TesterEventBus(application);
+  AtmosphereBehavior atmosphereBehavior=new AtmosphereBehavior(){
+    @Override public void onRequest(){
+      SimpleBroadcaster broadcaster=eventBus.getBroadcaster();
+      AtmosphereResource atmosphereResource=new AtmosphereResourceImpl();
+      AtmosphereRequest atmosphereRequest=AtmosphereRequest.wrap(wicketTester.getRequest());
+      AtmosphereResponse atmosphereResponse=AtmosphereResponse.wrap(wicketTester.getResponse());
+      TesterAsyncSupport asyncSupport=new TesterAsyncSupport();
+      atmosphereResource.initialize(eventBus.config,broadcaster,atmosphereRequest,atmosphereResponse,asyncSupport,new AtmosphereHandlerAdapter());
+      atmosphereResource.setBroadcaster(broadcaster);
+      broadcaster.addAtmosphereResource(atmosphereResource);
+      String uuid=atmosphereResource.uuid();
+      Page page=getComponent().getPage();
+      eventBus.eventSubscriptionCollector.onBeforeRender(page);
+      page.setMetaData(ATMOSPHERE_UUID,uuid);
+      eventBus.registerPage(uuid,page);
+    }
+  }
+;
+  page.add(atmosphereBehavior);
+  wicketTester.executeBehavior(atmosphereBehavior);
+}
