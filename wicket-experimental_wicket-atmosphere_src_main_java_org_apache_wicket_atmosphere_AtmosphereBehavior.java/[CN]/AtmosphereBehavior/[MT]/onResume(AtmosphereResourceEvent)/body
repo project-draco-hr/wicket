@@ -1,7 +1,7 @@
 {
   if (log.isDebugEnabled()) {
-    String transport=event.getResource().getRequest().getHeader("X-Atmosphere-Transport");
-    HttpServletRequest req=event.getResource().getRequest();
-    log.debug(String.format("Resuming the %s response from ip %s:%s",transport == null ? "websocket" : transport,req.getRemoteAddr(),req.getRemotePort()));
+    AtmosphereRequest atmosphereRequest=event.getResource().getRequest();
+    String transport=atmosphereRequest.getHeader("X-Atmosphere-Transport");
+    log.debug(String.format("Resuming the %s response from ip %s:%s",transport == null ? "websocket" : transport,atmosphereRequest.getRemoteAddr(),atmosphereRequest.getRemotePort()));
   }
 }
