@@ -5,16 +5,18 @@
   String namespace=getContext().getNamespace();
   String bookmarkableIdentifier=getContext().getBookmarkableIdentifier();
   String pageIdentifier=getContext().getPageIdentifier();
-  if (url.getSegments().size() >= 3 && urlStartsWith(url,namespace,bookmarkableIdentifier)) {
+  List<String> segments=url.getSegments();
+  int segmentsSize=segments.size();
+  if (segmentsSize >= 3 && urlStartsWithAndHasPageClass(url,namespace,bookmarkableIdentifier)) {
     matches=true;
   }
- else   if (baseUrl.getSegments().size() == 3 && urlStartsWith(baseUrl,namespace,bookmarkableIdentifier) && url.getSegments().size() >= 2 && urlStartsWith(url,bookmarkableIdentifier)) {
+ else   if (baseUrl.getSegments().size() == 3 && urlStartsWith(baseUrl,namespace,bookmarkableIdentifier) && segmentsSize >= 2 && urlStartsWithAndHasPageClass(url,bookmarkableIdentifier)) {
     matches=true;
   }
- else   if (baseUrl.getSegments().size() == 2 && urlStartsWith(baseUrl,bookmarkableIdentifier) && url.getSegments().size() == 2 && urlStartsWith(url,bookmarkableIdentifier)) {
+ else   if (baseUrl.getSegments().size() == 2 && urlStartsWith(baseUrl,bookmarkableIdentifier) && segmentsSize == 2 && urlStartsWithAndHasPageClass(url,bookmarkableIdentifier)) {
     matches=true;
   }
- else   if (baseUrl.getSegments().size() == 2 && urlStartsWith(baseUrl,namespace,pageIdentifier) && url.getSegments().size() >= 2 && urlStartsWith(url,bookmarkableIdentifier)) {
+ else   if (baseUrl.getSegments().size() == 2 && urlStartsWith(baseUrl,namespace,pageIdentifier) && segmentsSize >= 2 && urlStartsWithAndHasPageClass(url,bookmarkableIdentifier)) {
     matches=true;
   }
   return matches;
