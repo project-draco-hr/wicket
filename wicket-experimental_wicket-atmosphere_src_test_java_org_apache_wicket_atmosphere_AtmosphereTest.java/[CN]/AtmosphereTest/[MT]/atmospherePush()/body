@@ -1,10 +1,10 @@
 {
+  final String updateTimeIsExecuted="updateTime is executed!";
   WicketTester tester=new WicketTester();
   HomePage page=new HomePage(new PageParameters()){
     @Subscribe public void updateTime(    AjaxRequestTarget target,    Date event){
       super.updateTime(target,event);
-      System.err.println("updateTime");
-      target.appendJavaScript("updateTime is executed");
+      target.appendJavaScript(updateTimeIsExecuted);
     }
     @Subscribe(contextAwareFilter=ReceiverFilter.class) public void receiveMessage(    AjaxRequestTarget target,    ChatMessage message){
       super.receiveMessage(target,message);
@@ -15,6 +15,6 @@
   AtmosphereTester waTester=new AtmosphereTester(tester,page);
   Date payload=new Date();
   waTester.post(payload);
-  System.err.println("Ajax response:\n" + tester.getLastResponseAsString());
+  tester.assertContains(updateTimeIsExecuted);
   tester.destroy();
 }
