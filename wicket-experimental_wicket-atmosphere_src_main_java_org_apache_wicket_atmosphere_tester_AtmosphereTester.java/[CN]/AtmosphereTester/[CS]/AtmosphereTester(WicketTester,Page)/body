@@ -13,12 +13,12 @@
       broadcaster.addAtmosphereResource(atmosphereResource);
       String uuid=atmosphereResource.uuid();
       Page page=getComponent().getPage();
-      eventBus.eventSubscriptionCollector.onBeforeRender(page);
       page.setMetaData(ATMOSPHERE_UUID,uuid);
       eventBus.registerPage(uuid,page);
     }
   }
 ;
   page.add(atmosphereBehavior);
+  wicketTester.startPage(page);
   wicketTester.executeBehavior(atmosphereBehavior);
 }
