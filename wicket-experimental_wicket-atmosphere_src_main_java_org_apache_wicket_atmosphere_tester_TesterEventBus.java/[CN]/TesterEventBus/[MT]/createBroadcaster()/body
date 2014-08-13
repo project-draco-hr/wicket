@@ -5,10 +5,5 @@
   TesterBroadcasterFactory broadcasterFactory=new TesterBroadcasterFactory(config,broadcaster);
   framework.setBroadcasterFactory(broadcasterFactory);
   broadcaster.initialize("wicket-atmosphere-tester",config);
-  VoidExecutorService sameThreadExecutorService=new VoidExecutorService();
-  BroadcasterConfig broadcasterConfig=new BroadcasterConfig(sameThreadExecutorService,sameThreadExecutorService,Executors.newSingleThreadScheduledExecutor(),config,"tester-broadcaster-config");
-  broadcaster.setBroadcasterConfig(broadcasterConfig);
-  broadcasterConfig.setAsyncWriteService(sameThreadExecutorService);
-  broadcasterConfig.setExecutorService(sameThreadExecutorService);
   return broadcaster;
 }
