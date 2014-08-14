@@ -4,4 +4,8 @@
     String transport=atmosphereRequest.getHeader(HeaderConfig.X_ATMOSPHERE_TRANSPORT);
     log.debug(String.format("Resuming the %s response from ip %s:%s",transport == null ? "websocket" : transport,atmosphereRequest.getRemoteAddr(),atmosphereRequest.getRemotePort()));
   }
+  EventBus eventBus=findEventBus();
+  if (eventBus.isWantAtmosphereNotifications()) {
+    eventBus.post(new AtmosphereInternalEvent(AtmosphereInternalEvent.Type.Resume,event));
+  }
 }

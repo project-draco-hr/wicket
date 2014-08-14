@@ -4,7 +4,11 @@
     String transport=atmosphereRequest.getHeader(HeaderConfig.X_ATMOSPHERE_TRANSPORT);
     log.debug(String.format("%s connection dropped from ip %s:%s",transport == null ? "websocket" : transport,atmosphereRequest.getRemoteAddr(),atmosphereRequest.getRemotePort()));
   }
+  EventBus eventBus=findEventBus();
   if (Application.get(applicationKey) != null) {
-    findEventBus().unregisterConnection(event.getResource().uuid());
+    eventBus.unregisterConnection(event.getResource().uuid());
+  }
+  if (eventBus.isWantAtmosphereNotifications()) {
+    eventBus.post(new AtmosphereInternalEvent(AtmosphereInternalEvent.Type.Disconnect,event));
   }
 }

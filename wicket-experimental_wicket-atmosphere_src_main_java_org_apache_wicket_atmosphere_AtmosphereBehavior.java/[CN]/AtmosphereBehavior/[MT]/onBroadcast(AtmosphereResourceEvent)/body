@@ -7,4 +7,8 @@
     Meteor meteor=Meteor.lookup(event.getResource().getRequest());
     meteor.resume();
   }
+  EventBus eventBus=findEventBus();
+  if (eventBus.isWantAtmosphereNotifications()) {
+    eventBus.post(new AtmosphereInternalEvent(AtmosphereInternalEvent.Type.Broadcast,event));
+  }
 }

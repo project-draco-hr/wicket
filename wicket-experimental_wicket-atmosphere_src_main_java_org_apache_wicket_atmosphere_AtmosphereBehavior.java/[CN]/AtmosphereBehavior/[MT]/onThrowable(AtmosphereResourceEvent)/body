@@ -1,4 +1,8 @@
 {
   Throwable throwable=event.throwable();
   log.error(throwable.getMessage(),throwable);
+  EventBus eventBus=findEventBus();
+  if (eventBus.isWantAtmosphereNotifications()) {
+    eventBus.post(new AtmosphereInternalEvent(AtmosphereInternalEvent.Type.Throwable,event));
+  }
 }
