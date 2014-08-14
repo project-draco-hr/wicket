@@ -1,0 +1,10 @@
+{
+  List<AtmosphereBehavior> behaviors=page.getBehaviors(AtmosphereBehavior.class);
+  page.remove(behaviors.toArray(new AtmosphereBehavior[behaviors.size()]));
+  AtmosphereBehavior atmosphereBehavior=new TesterAtmosphereBehavior(wicketTester,eventBus);
+  page.add(atmosphereBehavior);
+  wicketTester.startPage(page);
+  wicketTester.getRequest().setHeader(HeaderConfig.X_ATMOSPHERE_TRANSPORT,AtmosphereResource.TRANSPORT.WEBSOCKET.name());
+  suspendedResponse=wicketTester.getResponse();
+  wicketTester.executeBehavior(atmosphereBehavior);
+}

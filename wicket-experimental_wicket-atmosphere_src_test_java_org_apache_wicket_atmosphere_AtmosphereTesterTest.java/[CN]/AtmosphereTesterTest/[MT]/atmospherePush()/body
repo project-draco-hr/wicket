@@ -1,0 +1,36 @@
+{
+  final String updateTimeIsExecuted="updateTime is executed!";
+  WicketTester tester=new WicketTester();
+  HomePage page=new HomePage(new PageParameters()){
+    @Subscribe public void updateTime(    AjaxRequestTarget target,    Date event){
+      super.updateTime(target,event);
+      updateTimeCalled.set(true);
+      target.appendJavaScript(updateTimeIsExecuted);
+    }
+    @Subscribe(contextAwareFilter=ReceiverFilter.class) public void receiveMessage(    AjaxRequestTarget target,    ChatMessage message){
+      super.receiveMessage(target,message);
+      receiveMessageCalled.set(true);
+    }
+  }
+;
+  AtmosphereTester waTester=new AtmosphereTester(tester,page);
+  assertThat(updateTimeCalled.get(),is(false));
+  assertThat(receiveMessageCalled.get(),is(false));
+  Date payload=new Date();
+  waTester.post(payload);
+  assertThat(updateTimeCalled.get(),is(true));
+  assertThat(receiveMessageCalled.get(),is(false));
+  tester.assertContains(updateTimeIsExecuted);
+  final FormTester form=tester.newFormTester("form");
+  form.setValue("input","Atmosphere rocks!");
+  form.submit("send");
+  assertThat(updateTimeCalled.get(),is(true));
+  assertThat(receiveMessageCalled.get(),is(true));
+  String atmosphereResponse=waTester.getPushedResponse();
+  Assert.assertFalse("<?xml version=\"1.0\" encoding=\"UTF-8\"?><ajax-response></ajax-response>".equals(atmosphereResponse));
+  waTester.switchOnTestMode();
+  tester.assertComponentOnAjaxResponse("message");
+  waTester.switchOffTestMode();
+  tester.assertLabel("message","Atmosphere rocks!");
+  tester.destroy();
+}
