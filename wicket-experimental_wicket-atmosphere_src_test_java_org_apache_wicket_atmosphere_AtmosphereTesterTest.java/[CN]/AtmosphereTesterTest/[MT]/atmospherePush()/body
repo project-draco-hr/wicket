@@ -27,7 +27,7 @@
   assertThat(updateTimeCalled.get(),is(true));
   assertThat(receiveMessageCalled.get(),is(true));
   String atmosphereResponse=waTester.getPushedResponse();
-  Assert.assertFalse("<?xml version=\"1.0\" encoding=\"UTF-8\"?><ajax-response></ajax-response>".equals(atmosphereResponse));
+  assertThat(atmosphereResponse,is(not(equalTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?><ajax-response></ajax-response>"))));
   waTester.switchOnTestMode();
   tester.assertComponentOnAjaxResponse("message");
   waTester.switchOffTestMode();
