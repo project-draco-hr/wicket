@@ -1,6 +1,13 @@
 {
   WebApplication application=WebApplication.get();
-  Page page=(Page)application.getMapperContext().getPageInstance(pageKey.getPageId());
-  AjaxRequestTarget target=application.newAjaxRequestTarget(page);
-  executeHandlers(target,page);
+  Integer pageId=pageKey.getPageId();
+  Page page=(Page)Session.get().getPageManager().getPage(pageId);
+  if (page != null) {
+    AjaxRequestTarget target=application.newAjaxRequestTarget(page);
+    executeHandlers(target,page);
+  }
+ else {
+    LOGGER.warn("Could not find a page with id '{}' for session with id '{}' in the page stores. It will be unregistered",pageId,pageKey.getSessionId());
+    EventBus.get(application).unregister(pageKey);
+  }
 }
