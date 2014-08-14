@@ -3,11 +3,15 @@
   ThreadContext.detach();
   ThreadContext.setApplication(application);
   PageKey key;
-  Collection<EventSubscription> subscriptionsForPage;
+  Iterable<EventSubscription> subscriptionsForPage;
 synchronized (this) {
     key=trackedPages.get(resource.uuid());
-    subscriptionsForPage=Collections2.filter(Collections.unmodifiableCollection(subscriptions.get(key)),new EventFilter(event));
+    Collection<EventSubscription> eventSubscriptions=subscriptions.get(key);
+    subscriptionsForPage=Iterables.filter(eventSubscriptions,new EventFilter(event));
   }
   if (key == null)   broadcaster.removeAtmosphereResource(resource);
- else   if (!subscriptionsForPage.isEmpty())   post(resource,key,subscriptionsForPage,event);
+ else {
+    Iterator<EventSubscription> iterator=subscriptionsForPage.iterator();
+    if (iterator.hasNext())     post(resource,key,iterator,event);
+  }
 }
