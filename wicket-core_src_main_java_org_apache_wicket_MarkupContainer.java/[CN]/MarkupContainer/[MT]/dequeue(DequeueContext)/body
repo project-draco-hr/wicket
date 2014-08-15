@@ -32,7 +32,7 @@
     if (tag.isOpen() && !tag.hasNoCloseTag()) {
       ComponentTag close=dequeue.takeTag();
       if (!close.closes(tag)) {
-        throw new IllegalStateException();
+        throw new IllegalStateException(String.format("Tag '%s' should be the closing one for '%s'",close,tag));
       }
     }
   }
