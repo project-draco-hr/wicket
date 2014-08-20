@@ -1,0 +1,20 @@
+{
+  ValidatorFactory factory=Validation.buildDefaultValidatorFactory();
+  Validator validator=factory.getValidator();
+  DefaultViolationTranslator translator=new DefaultViolationTranslator();
+  BeanWithPassword bean=new BeanWithPassword("short");
+  Set<ConstraintViolation<BeanWithPassword>> constraintViolations=validator.validate(bean);
+  assertEquals(1,constraintViolations.size());
+  @SuppressWarnings("unchecked") ConstraintViolation<BeanWithPassword> shortViolation=(ConstraintViolation<BeanWithPassword>)constraintViolations.toArray()[0];
+  ValidationError error=translator.convert(shortViolation);
+  checkErrorBundleKeys(error,DEFAULT_BUNDLE_KEY + ".String",DEFAULT_BUNDLE_KEY);
+  bean.setPassword("notWord&%$??");
+  constraintViolations=validator.validate(bean);
+  assertEquals(1,constraintViolations.size());
+  @SuppressWarnings("unchecked") ConstraintViolation<BeanWithPassword> nonWordviolation=(ConstraintViolation<BeanWithPassword>)constraintViolations.toArray()[0];
+  error=translator.convert(nonWordviolation);
+  checkErrorBundleKeys(error,CUSTOM_BUNDLE_KEY + ".String",CUSTOM_BUNDLE_KEY,DEFAULT_BUNDLE_KEY + ".String",DEFAULT_BUNDLE_KEY);
+  bean.setPassword("aValidPassword1234");
+  constraintViolations=validator.validate(bean);
+  assertEquals(0,constraintViolations.size());
+}

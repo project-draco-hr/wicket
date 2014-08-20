@@ -1,0 +1,14 @@
+{
+  String defaultMessage=(String)desc.getAttributes().get("message");
+  String violationMessage=violation.getMessage();
+  String violationMessageTemplate=violation.getMessageTemplate();
+  List<String> messages=new ArrayList<String>();
+  if (!Strings.isEqual(violationMessage,violationMessageTemplate)) {
+    messages.add(violationMessageTemplate);
+  }
+  messages.add(violationMessage);
+  if (!Strings.isEqual(defaultMessage,violationMessageTemplate)) {
+    messages.add(defaultMessage);
+  }
+  return messages;
+}

@@ -1,0 +1,12 @@
+{
+  if (Strings.isEmpty(value) || value.length() < 8) {
+    return false;
+  }
+  Matcher matcher=MetaPattern.NON_WORD.matcher(value);
+  if (matcher.find()) {
+    context.disableDefaultConstraintViolation();
+    context.buildConstraintViolationWithTemplate("{" + PasswordConstraintAnnotation.CUSTOM_BUNDLE_KEY + "}").addConstraintViolation();
+    return false;
+  }
+  return true;
+}
