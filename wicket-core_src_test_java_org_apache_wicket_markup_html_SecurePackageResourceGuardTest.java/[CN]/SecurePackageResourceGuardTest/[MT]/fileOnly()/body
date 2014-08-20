@@ -5,12 +5,12 @@
   guard.addPattern("+*.gif*");
   guard.addPattern("+*.gi*");
   guard.addPattern("+test*.gif");
-  assertTrue(guard.acceptAbsolutePath("test.gif"));
-  assertTrue(guard.acceptAbsolutePath("mydir/test.gif"));
-  assertTrue(guard.acceptAbsolutePath("/root/mydir/test.gif"));
-  assertTrue(guard.acceptAbsolutePath("test.giX"));
-  assertTrue(guard.acceptAbsolutePath("mydir/test.gifABCD"));
-  assertTrue(guard.acceptAbsolutePath("mydir/testXXX.gif"));
+  assertTrue(guard.accept("test.gif"));
+  assertTrue(guard.accept("mydir/test.gif"));
+  assertTrue(guard.accept("/root/mydir/test.gif"));
+  assertTrue(guard.accept("test.giX"));
+  assertTrue(guard.accept("mydir/test.gifABCD"));
+  assertTrue(guard.accept("mydir/testXXX.gif"));
   guard.addPattern("-**/testA.gif");
-  assertFalse(guard.acceptAbsolutePath("mydir/testA.gif"));
+  assertFalse(guard.accept("mydir/testA.gif"));
 }

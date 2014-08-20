@@ -1,7 +1,6 @@
 {
   IResourceStreamLocator resourceStreamLocator=Application.get().getResourceSettings().getResourceStreamLocator();
   IResourceStream resourceStream=resourceStreamLocator.locate(getScope(),absolutePath,style,variation,locale,null,false);
-  Class<?> realScope=getScope();
   String realPath=absolutePath;
   if (resourceStream instanceof IFixedLocationResourceStream) {
     realPath=((IFixedLocationResourceStream)resourceStream).locationAsString();
@@ -10,15 +9,12 @@
       if (index != -1) {
         realPath=realPath.substring(index);
       }
- else {
-        realScope=null;
-      }
     }
  else {
       realPath=absolutePath;
     }
   }
-  if (accept(realScope,realPath) == false) {
+  if (accept(realPath) == false) {
     throw new PackageResourceBlockedException("Access denied to (static) package resource " + absolutePath + ". See IPackageResourceGuard");
   }
   if (resourceStream != null) {

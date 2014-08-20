@@ -2,17 +2,17 @@
   SecurePackageResourceGuard guard=new SecurePackageResourceGuard();
   guard.setAllowAccessToRootResources(false);
   guard.addPattern("+*.gif");
-  assertTrue(guard.accept(Application.class,Packages.absolutePath(Application.class,"test.gif")));
-  assertTrue(guard.accept(Application.class,Packages.absolutePath(Application.class,"mydir/test.gif")));
-  assertTrue(guard.accept(Application.class,"/root/mydir/test.gif"));
-  assertTrue(guard.accept(Application.class,Packages.absolutePath(Application.class,"../test.gif")));
-  assertTrue(guard.accept(Application.class,Packages.absolutePath(Application.class,"../../test.gif")));
-  assertFalse(guard.accept(Application.class,Packages.absolutePath(Application.class,"../../../test.gif")));
+  assertTrue(guard.accept(Packages.absolutePath(Application.class,"test.gif")));
+  assertTrue(guard.accept(Packages.absolutePath(Application.class,"mydir/test.gif")));
+  assertTrue(guard.accept("/root/mydir/test.gif"));
+  assertTrue(guard.accept(Packages.absolutePath(Application.class,"../test.gif")));
+  assertTrue(guard.accept(Packages.absolutePath(Application.class,"../../test.gif")));
+  assertFalse(guard.accept(Packages.absolutePath(Application.class,"../../../test.gif")));
   guard.setAllowAccessToRootResources(true);
-  assertTrue(guard.accept(Application.class,Packages.absolutePath(Application.class,"../../../test.gif")));
+  assertTrue(guard.accept(Packages.absolutePath(Application.class,"../../../test.gif")));
   boolean hit=false;
   try {
-    assertTrue(guard.accept(Application.class,Packages.absolutePath(Application.class,"../../../../test.gif")));
+    assertTrue(guard.accept(Packages.absolutePath(Application.class,"../../../../test.gif")));
   }
  catch (  IllegalArgumentException ex) {
     hit=true;
