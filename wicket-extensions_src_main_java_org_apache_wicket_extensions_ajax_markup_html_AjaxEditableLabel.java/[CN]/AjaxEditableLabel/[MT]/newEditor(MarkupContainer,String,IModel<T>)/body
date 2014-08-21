@@ -25,7 +25,7 @@
       CharSequence precondition="var kc=Wicket.Event.keyCode(attrs.event)," + "evtType=attrs.event.type," + "ret=false;"+ "if (evtType==='blur' || (evtType==='keyup' && kc===27) || (evtType==='keydown' && kc===13)) {attrs.event.preventDefault(); ret = true;}"+ "return ret;";
       AjaxCallListener ajaxCallListener=new AjaxCallListener();
       ajaxCallListener.onPrecondition(precondition);
-      CharSequence dynamicExtraParameters="var result = []," + "evtType=attrs.event.type;" + "if (evtType === 'keyup') { result.push( { name: 'save', value: false } ); }"+ "else { result = Wicket.Form.serializeElement(attrs.c); result.push( { name: 'save', value: true } ); }"+ "return result;";
+      CharSequence dynamicExtraParameters="var result," + "evtType=attrs.event.type;" + "if (evtType === 'keyup') { result = { 'save': false }; }"+ "else { result = { 'save': true }; }"+ "return result;";
       attributes.getDynamicExtraParameters().add(dynamicExtraParameters);
       attributes.getAjaxCallListeners().add(ajaxCallListener);
     }
