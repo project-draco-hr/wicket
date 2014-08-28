@@ -1,0 +1,10 @@
+{
+  Field field=obj.getClass().getDeclaredField("nonExisting");
+  try {
+    factory.getFieldValue(field,obj);
+    fail("Fields annotated with @Inject are required!");
+  }
+ catch (  IllegalStateException isx) {
+    assertTrue(true);
+  }
+}
