@@ -1,0 +1,12 @@
+{
+  JavaxInjectTestComponent component=newTestComponent("id");
+  IAjaxCallListener nonExisting=component.getNonExisting();
+  try {
+    nonExisting.getAfterHandler(null);
+    fail("Fields annotated with @javax.inject.Inject are required!");
+  }
+ catch (  ConfigurationException cx) {
+    Message message=cx.getErrorMessages().iterator().next();
+    assertThat(message.getMessage(),is(equalTo("No implementation for org.apache.wicket.ajax.attributes.IAjaxCallListener was bound.")));
+  }
+}
