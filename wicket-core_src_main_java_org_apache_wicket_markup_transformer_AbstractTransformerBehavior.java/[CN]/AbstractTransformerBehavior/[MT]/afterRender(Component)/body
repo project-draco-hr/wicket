@@ -2,6 +2,9 @@
   final RequestCycle requestCycle=RequestCycle.get();
   try {
     BufferedWebResponse tempResponse=(BufferedWebResponse)requestCycle.getResponse();
+    if (component instanceof Page && originalResponse instanceof WebResponse) {
+      tempResponse.writeMetaData((WebResponse)originalResponse);
+    }
     CharSequence output=transform(component,tempResponse.getText());
     originalResponse.write(output);
   }
