@@ -5,8 +5,9 @@
     javax.inject.Inject javaxInjectAnnotation=field.getAnnotation(javax.inject.Inject.class);
     if (!Modifier.isStatic(field.getModifiers()) && (injectAnnotation != null || javaxInjectAnnotation != null)) {
       try {
+        boolean optional=injectAnnotation != null && injectAnnotation.optional();
         Annotation bindingAnnotation=findBindingAnnotation(field.getAnnotations());
-        final IProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,injectAnnotation != null ? injectAnnotation.optional() : false);
+        final IProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,optional);
         if (wrapInProxies) {
           target=LazyInitProxyFactory.createProxy(field.getType(),locator);
         }
@@ -16,12 +17,8 @@
         if (!field.isAccessible()) {
           field.setAccessible(true);
         }
-        field.set(fieldOwner,target);
       }
- catch (      IllegalAccessException e) {
-        throw new WicketRuntimeException("Error Guice-injecting field " + field.getName() + " in "+ fieldOwner,e);
-      }
-catch (      MoreThanOneBindingException e) {
+ catch (      MoreThanOneBindingException e) {
         throw new RuntimeException("Can't have more than one BindingAnnotation on field " + field.getName() + " of class "+ fieldOwner.getClass().getName());
       }
     }
