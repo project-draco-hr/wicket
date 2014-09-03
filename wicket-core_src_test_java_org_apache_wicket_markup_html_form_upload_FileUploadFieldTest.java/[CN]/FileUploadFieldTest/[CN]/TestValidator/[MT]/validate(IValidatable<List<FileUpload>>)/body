@@ -1,8 +1,12 @@
 {
-  if (validatable.getValue() instanceof List == false) {
+  List<FileUpload> fieldValue=validatable.getValue();
+  if (fieldValue.size() == 0) {
+    return;
+  }
+  if (fieldValue instanceof List == false) {
     validatable.error(new ValidationError().addKey("validatable value type not expected"));
   }
-  FileUpload upload=validatable.getValue().get(0);
+  FileUpload upload=fieldValue.get(0);
   if (!upload.getClientFileName().contains(TEST_FILE_NAME)) {
     validatable.error(new ValidationError().addKey("uploaded file name not expected"));
   }
