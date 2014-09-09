@@ -1,12 +1,7 @@
 {
   Url currentUrl=requestCycle.getUrlRenderer().getBaseUrl();
   Url targetUrl=requestCycle.mapUrlFor(getRenderPageRequestHandler());
-  BufferedWebResponse bufferedResponse=getAndRemoveBufferedResponse(currentUrl);
-  if (bufferedResponse != null) {
-    logger.warn("The Buffered response should be handled by BufferedResponseRequestHandler");
-    bufferedResponse.writeTo((WebResponse)requestCycle.getResponse());
-  }
- else   if (shouldRenderPageAndWriteResponse(requestCycle,currentUrl,targetUrl)) {
+  if (shouldRenderPageAndWriteResponse(requestCycle,currentUrl,targetUrl)) {
     BufferedWebResponse response=renderPage(currentUrl,requestCycle);
     if (response != null) {
       response.writeTo((WebResponse)requestCycle.getResponse());
