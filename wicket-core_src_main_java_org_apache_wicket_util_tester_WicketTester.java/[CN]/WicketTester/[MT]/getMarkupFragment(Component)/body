@@ -1,0 +1,13 @@
+{
+  IMarkupFragment markup=null;
+  if (component instanceof MarkupContainer) {
+    markup=((MarkupContainer)component).getAssociatedMarkup();
+  }
+  if (markup == null) {
+    markup=component.getMarkup();
+  }
+  if (markup == null) {
+    throw new AssertionFailedError(String.format("Cannot find the markup of component: %s",component.getPageRelativePath()));
+  }
+  return markup;
+}

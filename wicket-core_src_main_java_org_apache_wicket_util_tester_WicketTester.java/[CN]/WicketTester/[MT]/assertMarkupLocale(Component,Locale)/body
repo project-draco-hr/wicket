@@ -1,0 +1,9 @@
+{
+  Result result=Result.PASS;
+  IMarkupFragment markup=getMarkupFragment(component);
+  Locale actualLocale=markup.getMarkupResourceStream().getLocale();
+  if (Objects.equal(expectedLocale,actualLocale) == false) {
+    result=Result.fail(String.format("Wrong locale for component '%s'. Actual: '%s', expected: '%s'",component.getPageRelativePath(),actualLocale,expectedLocale));
+  }
+  assertResult(result);
+}

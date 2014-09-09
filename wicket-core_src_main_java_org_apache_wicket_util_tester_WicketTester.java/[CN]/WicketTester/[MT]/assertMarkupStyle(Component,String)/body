@@ -1,0 +1,9 @@
+{
+  Result result=Result.PASS;
+  IMarkupFragment markup=getMarkupFragment(component);
+  String actualStyle=markup.getMarkupResourceStream().getStyle();
+  if (Objects.equal(expectedStyle,actualStyle) == false) {
+    result=Result.fail(String.format("Wrong style for component '%s'. Actual: '%s', expected: '%s'",component.getPageRelativePath(),actualStyle,expectedStyle));
+  }
+  assertResult(result);
+}

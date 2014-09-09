@@ -1,9 +1,15 @@
 {
   tester.startPage(new VariationPage());
   tester.assertContainsNot("Two");
+  tester.assertMarkupVariation(getVariationPanel(),"one");
+  tester.assertMarkupVariation(tester.getLastRenderedPage(),null);
   tester.clickLink("p:l");
   tester.assertContainsNot("One");
+  tester.assertMarkupVariation(getVariationPanel(),"two");
+  tester.assertMarkupVariation(tester.getLastRenderedPage(),null);
   tester.clickLink("p:l");
   tester.assertContainsNot("Two");
+  tester.assertMarkupVariation(getVariationPanel(),"one");
+  tester.assertMarkupVariation(tester.getLastRenderedPage(),null);
   tester.clickLink("p:l");
 }

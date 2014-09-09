@@ -1,0 +1,9 @@
+{
+  Result result=Result.PASS;
+  IMarkupFragment markup=getMarkupFragment(component);
+  String actualVariation=markup.getMarkupResourceStream().getVariation();
+  if (Objects.equal(expectedVariation,actualVariation) == false) {
+    result=Result.fail(String.format("Wrong variation for component '%s'. Actual: '%s', expected: '%s'",component.getPageRelativePath(),actualVariation,expectedVariation));
+  }
+  assertResult(result);
+}
