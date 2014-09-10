@@ -1,0 +1,10 @@
+{
+  final AtomicInteger count=new AtomicInteger(0);
+  parent.visitChildren(filter,new IVisitor<Component,Void>(){
+    @Override public void component(    Component object,    IVisit<Void> visit){
+      count.incrementAndGet();
+    }
+  }
+);
+  return count.get();
+}
