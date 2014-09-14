@@ -1,6 +1,5 @@
 {
-  Dynamic mockRegistration=Mockito.mock(ServletRegistration.Dynamic.class);
-  Mockito.when(mockRegistration.getMappings()).thenReturn(Arrays.asList(servletName));
+  Dynamic mockRegistration=(Dynamic)Proxy.newProxyInstance(Dynamic.class.getClassLoader(),new Class<?>[]{Dynamic.class},new MockedServletRegistationHandler(servletName));
   servletRegistration.put(servletName,mockRegistration);
   return mockRegistration;
 }
