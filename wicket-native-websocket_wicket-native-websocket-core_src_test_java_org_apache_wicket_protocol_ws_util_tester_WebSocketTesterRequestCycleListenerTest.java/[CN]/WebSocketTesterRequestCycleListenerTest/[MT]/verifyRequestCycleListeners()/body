@@ -1,0 +1,22 @@
+{
+  final String expectedMessage="some message";
+  WebSocketBehaviorTestPage page=new WebSocketBehaviorTestPage(expectedMessage);
+  tester.startPage(page);
+  beginRequestCalled.set(false);
+  endRequestCalled.set(false);
+  detachCalled.set(false);
+  WebSocketTester webSocketTester=new WebSocketTester(tester,page){
+    @Override protected void onOutMessage(    String message){
+      assertEquals(Strings.capitalize(expectedMessage),message);
+    }
+  }
+;
+  assertThat(beginRequestCalled.compareAndSet(true,false),is(true));
+  assertThat(endRequestCalled.compareAndSet(true,false),is(true));
+  assertThat(detachCalled.compareAndSet(true,false),is(true));
+  webSocketTester.sendMessage(expectedMessage);
+  assertThat(beginRequestCalled.get(),is(true));
+  assertThat(endRequestCalled.get(),is(true));
+  assertThat(detachCalled.get(),is(true));
+  webSocketTester.destroy();
+}

@@ -1,0 +1,15 @@
+{
+  RequestCycleContext context=new RequestCycleContext(webRequest,webResponse,requestMapper,application.getExceptionMapperProvider().get());
+  RequestCycle requestCycle=application.getRequestCycleProvider().get(context);
+  requestCycle.getListeners().add(application.getRequestCycleListeners());
+  requestCycle.getListeners().add(new AbstractRequestCycleListener(){
+    @Override public void onDetach(    final RequestCycle requestCycle){
+      if (Session.exists()) {
+        Session.get().getPageManager().commitRequest();
+      }
+    }
+  }
+);
+  requestCycle.getUrlRenderer().setBaseUrl(baseUrl);
+  return requestCycle;
+}

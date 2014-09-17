@@ -7,16 +7,9 @@
     RequestCycle oldRequestCycle=ThreadContext.getRequestCycle();
     WebSocketResponse webResponse=new WebSocketResponse(connection);
     try {
-      RequestCycle requestCycle;
-      if (oldRequestCycle == null || message instanceof IWebSocketPushMessage) {
-        RequestCycleContext context=new RequestCycleContext(webRequest,webResponse,application.getRootRequestMapper(),application.getExceptionMapperProvider().get());
-        requestCycle=application.getRequestCycleProvider().get(context);
-        requestCycle.getUrlRenderer().setBaseUrl(baseUrl);
-        ThreadContext.setRequestCycle(requestCycle);
-      }
- else {
-        requestCycle=oldRequestCycle;
-      }
+      WebSocketRequestMapper requestMapper=new WebSocketRequestMapper(application.getRootRequestMapper());
+      RequestCycle requestCycle=createRequestCycle(requestMapper,webResponse);
+      ThreadContext.setRequestCycle(requestCycle);
       ThreadContext.setApplication(application);
       Session session;
       if (oldSession == null || message instanceof IWebSocketPushMessage) {
@@ -28,18 +21,15 @@
         session=oldSession;
       }
       IPageManager pageManager=session.getPageManager();
-      try {
-        Page page=getPage(pageManager);
-        WebSocketRequestHandler requestHandler=new WebSocketRequestHandler(page,connection);
-        WebSocketPayload payload=createEventPayload(message,requestHandler);
-        sendPayload(payload,page);
-        if (!(message instanceof ConnectedMessage || message instanceof ClosedMessage)) {
-          requestHandler.respond(requestCycle);
-        }
+      Page page=getPage(pageManager);
+      WebSocketRequestHandler requestHandler=new WebSocketRequestHandler(page,connection);
+      WebSocketPayload payload=createEventPayload(message,requestHandler);
+      if (!(message instanceof ConnectedMessage || message instanceof ClosedMessage)) {
+        requestCycle.scheduleRequestHandlerAfterCurrent(requestHandler);
       }
-  finally {
-        pageManager.commitRequest();
-      }
+      IRequestHandler broadcastingHandler=new WebSocketMessageBroadcastHandler(pageId,resourceName,payload);
+      requestMapper.setHandler(broadcastingHandler);
+      requestCycle.processRequestAndDetach();
     }
  catch (    Exception x) {
       LOG.error("An error occurred during processing of a WebSocket message",x);
