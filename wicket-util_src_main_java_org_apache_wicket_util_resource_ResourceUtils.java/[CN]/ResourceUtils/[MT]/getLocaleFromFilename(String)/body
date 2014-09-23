@@ -1,6 +1,6 @@
 {
   String extension="";
-  int pos=path.indexOf('.');
+  int pos=path.lastIndexOf('.');
   if (pos != -1) {
     extension=path.substring(pos);
     path=path.substring(0,pos);
@@ -31,5 +31,5 @@
       return new PathLocale(basePath,locale);
     }
   }
-  return new PathLocale(path,null);
+  return new PathLocale(path + extension,null);
 }
