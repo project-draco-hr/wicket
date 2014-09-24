@@ -1,0 +1,14 @@
+{
+class NumberListView extends ListView<Number> {
+    private static final long serialVersionUID=1L;
+    public NumberListView(    String id,    IModel<? extends List<? extends Number>> model){
+      super(id,model);
+    }
+    @Override protected void populateItem(    ListItem<Number> item){
+      add(new Label("label",item.getModel()));
+    }
+  }
+  ;
+  IModel<List<Integer>> integers=new ListModel<>(new ArrayList<Integer>());
+  new NumberListView("integers",integers);
+}
