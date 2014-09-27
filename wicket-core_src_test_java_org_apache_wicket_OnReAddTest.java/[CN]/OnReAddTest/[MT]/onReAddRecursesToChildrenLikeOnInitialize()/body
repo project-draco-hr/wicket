@@ -1,0 +1,15 @@
+{
+  Page page=createPage();
+  page.internalInitialize();
+  Component probe=createNestedProbe();
+  page.add(probe);
+  assertFalse(onReAddCalled);
+  assertTrue(onInitializeCalled);
+  onInitializeCalled=false;
+  probe.remove();
+  assertFalse(onInitializeCalled);
+  assertFalse(onReAddCalled);
+  page.add(probe);
+  assertFalse(onInitializeCalled);
+  assertTrue(onReAddCalled);
+}

@@ -1,0 +1,26 @@
+{
+  Page page=createPage();
+  page.internalInitialize();
+  Component probe=createUninitializedProbe();
+  page.add(probe);
+  assertFalse(onReAddCalled);
+  assertTrue(onInitializeCalled);
+  onInitializeCalled=false;
+  page.internalInitialize();
+  assertFalse(onReAddCalled);
+  assertFalse(onInitializeCalled);
+  page.remove(probe);
+  assertFalse(onReAddCalled);
+  assertFalse(onInitializeCalled);
+  page.add(probe);
+  assertTrue(onReAddCalled);
+  assertFalse(onInitializeCalled);
+  onReAddCalled=false;
+  page.internalInitialize();
+  assertFalse(onReAddCalled);
+  assertFalse(onInitializeCalled);
+  page.remove(probe);
+  page.add(probe);
+  assertTrue(onReAddCalled);
+  assertFalse(onInitializeCalled);
+}

@@ -1,0 +1,20 @@
+{
+  Page page=createPage();
+  page.internalInitialize();
+  Label brokenProbe=new Label("foo"){
+    @Override protected void onReAdd(){
+      ;
+    }
+  }
+;
+  brokenProbe.internalInitialize();
+  page.add(brokenProbe);
+  page.remove(brokenProbe);
+  try {
+    page.add(brokenProbe);
+    fail("should have thrown exception");
+  }
+ catch (  IllegalStateException e) {
+    assertTrue(e.getMessage().contains("super.onReAdd"));
+  }
+}

@@ -9,4 +9,14 @@
     setRequestFlag(RFLAG_INITIALIZE_SUPER_CALL_VERIFIED,false);
     getApplication().getComponentInitializationListeners().onInitialize(this);
   }
+ else {
+    if (getFlag(FLAG_REMOVED)) {
+      setFlag(FLAG_REMOVED,false);
+      setRequestFlag(RFLAG_ON_RE_ADD_SUPER_CALL_VERIFIED,false);
+      onReAdd();
+      if (!getRequestFlag(RFLAG_ON_RE_ADD_SUPER_CALL_VERIFIED)) {
+        throw new IllegalStateException(Component.class.getName() + " has not been properly added. Something in the hierarchy of " + getClass().getName()+ " has not called super.onReAdd() in the override of onReAdd() method");
+      }
+    }
+  }
 }

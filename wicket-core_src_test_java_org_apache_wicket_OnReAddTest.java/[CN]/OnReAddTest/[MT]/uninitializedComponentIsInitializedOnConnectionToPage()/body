@@ -1,0 +1,12 @@
+{
+  MarkupContainer container=createContainer();
+  container.internalInitialize();
+  container.add(createUninitializedProbe());
+  assertFalse(onReAddCalled);
+  assertFalse(onInitializeCalled);
+  WebPage page=createPage();
+  page.internalInitialize();
+  page.add(container);
+  assertFalse(onReAddCalled);
+  assertTrue(onInitializeCalled);
+}
