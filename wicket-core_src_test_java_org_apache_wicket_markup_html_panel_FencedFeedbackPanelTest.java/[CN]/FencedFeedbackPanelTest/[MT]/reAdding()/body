@@ -1,0 +1,10 @@
+{
+  TestPage page=scope.getTester().startPage(TestPage.class);
+  MarkupContainer container=page.containerFeedback.getParent();
+  page.containerFeedback.remove();
+  page.containerFeedback2.remove();
+  container.add(page.containerFeedback);
+  page.containerInput.error("error");
+  assertTrue(page.containerFeedback.anyMessage());
+  assertFalse(page.formFeedback.anyMessage());
+}

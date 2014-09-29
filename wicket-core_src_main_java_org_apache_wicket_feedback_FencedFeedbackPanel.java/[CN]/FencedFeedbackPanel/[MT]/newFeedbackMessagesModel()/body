@@ -5,7 +5,7 @@
       if (fence == null) {
         return new FeedbackCollector(panel.getPage()){
           @Override protected boolean shouldRecurseInto(          Component component){
-            return component.getMetaData(FENCE_KEY) == null;
+            return !componentIsMarkedAsFence(component);
           }
         }
 .collect(filter);
@@ -13,7 +13,7 @@
  else {
         return new FeedbackCollector(fence){
           @Override protected boolean shouldRecurseInto(          Component component){
-            return component.getMetaData(FENCE_KEY) == null;
+            return !componentIsMarkedAsFence(component);
           }
         }
 .setIncludeSession(false).collect(filter);
