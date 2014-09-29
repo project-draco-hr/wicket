@@ -2,7 +2,7 @@
   tester.startPage(EscapeTestPage.class);
   String response=tester.getLastResponseAsString();
   assertTrue(response.contains(EscapeTestPage.TEST_QUERY_STRING));
-  tester.executeAjaxEvent("form:textfield","onchange");
+  tester.executeAjaxEvent("form:textfield","change");
   EscapeTestPage testPage=(EscapeTestPage)tester.getLastRenderedPage();
   IRequestParameters lastParameters=testPage.getLastQueryParameters();
   assertEquals(StringValue.valueOf("value_1"),lastParameters.getParameterValue("query_p_1"));

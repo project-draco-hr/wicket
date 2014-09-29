@@ -1,7 +1,7 @@
 {
   final MockPageWithOneComponent page=new MockPageWithOneComponent();
   Label label=new Label("component","Dblclick This To See Magick");
-  label.add(new AjaxEventBehavior("ondblclick"){
+  label.add(new AjaxEventBehavior("dblclick"){
     private static final long serialVersionUID=1L;
     @Override protected void onEvent(    AjaxRequestTarget target){
       eventExecuted=true;
@@ -10,6 +10,6 @@
 );
   page.add(label);
   tester.startPage(page);
-  tester.executeAjaxEvent(label,"ondblclick");
+  tester.executeAjaxEvent(label,"dblclick");
   assertTrue(eventExecuted);
 }
