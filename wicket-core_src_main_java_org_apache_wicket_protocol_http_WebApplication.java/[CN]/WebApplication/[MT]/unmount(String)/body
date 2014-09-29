@@ -3,5 +3,30 @@
   if (path.charAt(0) == '/') {
     path=path.substring(1);
   }
-  getRootRequestMapperAsCompound().unmount(path);
+  IRequestMapper mapper=getRootRequestMapper();
+  while (mapper instanceof IRequestMapperDelegate) {
+    mapper=((IRequestMapperDelegate)mapper).getDelegateMapper();
+  }
+  if (mapper instanceof ICompoundRequestMapper) {
+    final Url url=Url.parse(path);
+    Request request=new Request(){
+      @Override public Url getUrl(){
+        return url;
+      }
+      @Override public Url getClientUrl(){
+        return url;
+      }
+      @Override public Locale getLocale(){
+        return null;
+      }
+      @Override public Charset getCharset(){
+        return null;
+      }
+      @Override public Object getContainerRequest(){
+        return null;
+      }
+    }
+;
+    unmountFromCompound((ICompoundRequestMapper)mapper,request);
+  }
 }

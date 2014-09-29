@@ -1,0 +1,20 @@
+{
+  Collection<IRequestMapper> toRemove=new LinkedList<>();
+  for (  IRequestMapper mapper : parent) {
+    if (mapper.mapRequest(request) != null) {
+      IRequestMapper actualMapper=mapper;
+      while (actualMapper instanceof IRequestMapperDelegate) {
+        actualMapper=((IRequestMapperDelegate)actualMapper).getDelegateMapper();
+      }
+      if (actualMapper instanceof ICompoundRequestMapper) {
+        unmountFromCompound((ICompoundRequestMapper)actualMapper,request);
+      }
+ else {
+        toRemove.add(mapper);
+      }
+    }
+  }
+  for (  IRequestMapper mapper : toRemove) {
+    parent.remove(mapper);
+  }
+}

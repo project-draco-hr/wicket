@@ -1,0 +1,22 @@
+{
+  CompoundRequestMapper nestedCompound=new CompoundRequestMapper();
+  nestedCompound.add(tester.getApplication().getRootRequestMapper());
+  nestedCompound.add(new MountMapper(MOUNT_PATH_1,new EmptyRequestHandler()));
+  nestedCompound.add(new MountMapper(MOUNT_PATH_2,new EmptyRequestHandler()));
+  CompoundRequestMapper rootCompound=new CompoundRequestMapper();
+  rootCompound.add(new SimpleRequestMapperDelegate(nestedCompound));
+  rootCompound.add(new MountMapper(MOUNT_PATH_3,new EmptyRequestHandler()));
+  rootCompound.add(new MountMapper(MOUNT_PATH_4,new EmptyRequestHandler()));
+  tester.getApplication().setRootRequestMapper(new SimpleRequestMapperDelegate(rootCompound));
+  tester.getApplication().unmount(MOUNT_PATH_1);
+  assertEquals("Compound size should be 2",2,getCompoundRequestMapperSize(nestedCompound));
+  assertNull("Mount path 1 should not be mounted",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_1)));
+  assertTrue("Mount path 2 should match",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_2)) instanceof EmptyRequestHandler);
+  assertTrue("Mount path 3 should match",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_3)) instanceof EmptyRequestHandler);
+  assertTrue("Mount path 4 should match",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_4)) instanceof EmptyRequestHandler);
+  tester.getApplication().unmount(MOUNT_PATH_3);
+  assertNull("Mount path 1 should not be mounted",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_1)));
+  assertTrue("Mount path 2 should match",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_2)) instanceof EmptyRequestHandler);
+  assertNull("Mount path 3 should not be mounted",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_3)));
+  assertTrue("Mount path 4 should match",tester.getApplication().getRootRequestMapper().mapRequest(createMockRequest(MOUNT_PATH_4)) instanceof EmptyRequestHandler);
+}
