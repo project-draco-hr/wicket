@@ -5,6 +5,11 @@
   String url=_url.toString();
   final String queryString;
   final String absoluteUrl;
+  final int fragmentAt=url.indexOf('#');
+  if (fragmentAt > -1 && url.length() > fragmentAt + 1 && url.charAt(fragmentAt + 1) != '{') {
+    result.fragment=url.substring(fragmentAt + 1);
+    url=url.substring(0,fragmentAt);
+  }
   final int queryAt=url.indexOf('?');
   if (queryAt == -1) {
     queryString="";
