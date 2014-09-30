@@ -21,4 +21,9 @@
   tester.assertRenderedPage(MockPageWithLink.class);
   tester.clickLink(MockPageWithLink.LINK_ID);
   Assert.assertNull(tester.getLastRenderedPage());
+  tester.getApplication().setRootRequestMapper(new HttpsMapper(tester.getApplication().getRootRequestMapper(),new HttpsConfig()));
+  tester.startPage(pageWithLink);
+  tester.assertRenderedPage(MockPageWithLink.class);
+  tester.clickLink(MockPageWithLink.LINK_ID);
+  Assert.assertNull(tester.getLastRenderedPage());
 }
