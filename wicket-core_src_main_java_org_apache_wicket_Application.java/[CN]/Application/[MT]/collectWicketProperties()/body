@@ -1,19 +1,19 @@
 {
-  Iterator<URL> wicketResources=getApplicationSettings().getClassResolver().getResources("META-INF/wicket");
+  Iterator<URL> wicketResources=getApplicationSettings().getClassResolver().getResources("META-INF/wicket/");
   while (wicketResources.hasNext()) {
     URL metaInfWicket=wicketResources.next();
     String protocol=metaInfWicket.getProtocol();
     if ("jar".equals(protocol)) {
-      URLConnection urlConnection=metaInfWicket.openConnection();
-      JarURLConnection jarURLConnection=(JarURLConnection)urlConnection;
+      JarURLConnection jarURLConnection=(JarURLConnection)metaInfWicket.openConnection();
+      ;
       JarFile jarFile=jarURLConnection.getJarFile();
       Enumeration<JarEntry> jarEntries=jarFile.entries();
       while (jarEntries.hasMoreElements()) {
         JarEntry jarEntry=jarEntries.nextElement();
         String entryName=jarEntry.getName();
         if (entryName.startsWith("META-INF/wicket/") && entryName.endsWith(".properties")) {
-          Properties properties=new Properties();
           try (InputStream jarEntryStream=jarFile.getInputStream(jarEntry)){
+            Properties properties=new Properties();
             properties.load(jarEntryStream);
             load(properties);
             break;
@@ -26,20 +26,20 @@
       File[] files=metaInfWicketFolder.getFiles(new Folder.FileFilter(){
         @Override public boolean accept(        File file){
           String fileName=file.getAbsolutePath();
-          return fileName.contains("/META-INF/wicket/") && fileName.endsWith(".properties");
+          return fileName.contains("/META-INF/wicket/") && fileName.endsWith(PROPERTIES_FILE_EXTENSION);
         }
       }
 );
       for (      File wicketPropertiesFile : files) {
-        Properties properties=new Properties();
         try (InputStream stream=wicketPropertiesFile.inputStream()){
+          Properties properties=new Properties();
           properties.load(stream);
           load(properties);
         }
        }
     }
  else {
-      throw new WicketRuntimeException("Unknown protocol: " + protocol);
+      log.error("Cannot load '{}'. The protocol '{}' is not supported!",metaInfWicket,protocol);
     }
   }
 }
