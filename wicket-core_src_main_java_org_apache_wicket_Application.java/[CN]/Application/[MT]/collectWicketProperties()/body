@@ -1,0 +1,44 @@
+{
+  Iterator<URL> wicketResources=getApplicationSettings().getClassResolver().getResources("META-INF/wicket");
+  while (wicketResources.hasNext()) {
+    URL metaInfWicket=wicketResources.next();
+    String protocol=metaInfWicket.getProtocol();
+    if ("jar".equals(protocol)) {
+      URLConnection urlConnection=metaInfWicket.openConnection();
+      JarURLConnection jarURLConnection=(JarURLConnection)urlConnection;
+      JarFile jarFile=jarURLConnection.getJarFile();
+      Enumeration<JarEntry> jarEntries=jarFile.entries();
+      while (jarEntries.hasMoreElements()) {
+        JarEntry jarEntry=jarEntries.nextElement();
+        String entryName=jarEntry.getName();
+        if (entryName.startsWith("META-INF/wicket/") && entryName.endsWith(".properties")) {
+          Properties properties=new Properties();
+          try (InputStream jarEntryStream=jarFile.getInputStream(jarEntry)){
+            properties.load(jarEntryStream);
+            load(properties);
+          }
+         }
+      }
+    }
+ else     if ("file".equals(protocol)) {
+      Folder metaInfWicketFolder=new Folder(metaInfWicket.toURI());
+      File[] files=metaInfWicketFolder.getFiles(new Folder.FileFilter(){
+        @Override public boolean accept(        File file){
+          String fileName=file.getAbsolutePath();
+          return fileName.contains("/META-INF/wicket/") && fileName.endsWith(".properties");
+        }
+      }
+);
+      for (      File wicketPropertiesFile : files) {
+        Properties properties=new Properties();
+        try (InputStream stream=wicketPropertiesFile.inputStream()){
+          properties.load(stream);
+          load(properties);
+        }
+       }
+    }
+ else {
+      throw new WicketRuntimeException("Unknown protocol: " + protocol);
+    }
+  }
+}

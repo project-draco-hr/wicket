@@ -1,21 +1,18 @@
 {
   try {
+    collectWicketProperties();
     final Iterator<URL> resources=getApplicationSettings().getClassResolver().getResources("wicket.properties");
     while (resources.hasNext()) {
-      InputStream in=null;
-      try {
-        final URL url=resources.next();
-        final Properties properties=new Properties();
-        in=Streams.readNonCaching(url);
+      final URL url=resources.next();
+      log.warn("Found '{}'. /wicket.properties location is deprecated. Please move the file to" + " /META-INF/wicket/ folder and give it a name that matches your packages' name," + " e.g. com.example.myapp.properties",url);
+      final Properties properties=new Properties();
+      try (InputStream in=Streams.readNonCaching(url)){
         properties.load(in);
         load(properties);
       }
-  finally {
-        IOUtils.close(in);
-      }
-    }
+     }
   }
- catch (  IOException e) {
+ catch (  IOException|URISyntaxException e) {
     throw new WicketRuntimeException("Unable to load initializers file",e);
   }
   initInitializers();
