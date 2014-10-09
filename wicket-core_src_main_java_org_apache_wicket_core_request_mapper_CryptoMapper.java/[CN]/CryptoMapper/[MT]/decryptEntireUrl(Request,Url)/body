@@ -8,6 +8,14 @@
   if (Strings.isEmpty(encryptedUrlString)) {
     return null;
   }
+  if (getMarkEncryptedUrls()) {
+    if (encryptedUrlString.startsWith(ENCRYPTED_URL_MARKER_PREFIX)) {
+      encryptedUrlString=encryptedUrlString.substring(ENCRYPTED_URL_MARKER_PREFIX.length());
+    }
+ else {
+      return null;
+    }
+  }
   String decryptedUrl;
   try {
     decryptedUrl=getCrypt().decryptUrlSafe(encryptedUrlString);
@@ -17,7 +25,12 @@
     return null;
   }
   if (decryptedUrl == null) {
-    return null;
+    if (getMarkEncryptedUrls()) {
+      throw new PageExpiredException("Encrypted URL is no longer decryptable");
+    }
+ else {
+      return null;
+    }
   }
   Url originalUrl=Url.parse(decryptedUrl,request.getCharset());
   int originalNumberOfSegments=originalUrl.getSegments().size();

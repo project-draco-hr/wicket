@@ -1,7 +1,12 @@
 {
   String encryptedUrlString=getCrypt().encryptUrlSafe(url.toString());
   Url encryptedUrl=new Url(url.getCharset());
-  encryptedUrl.getSegments().add(encryptedUrlString);
+  if (getMarkEncryptedUrls()) {
+    encryptedUrl.getSegments().add(ENCRYPTED_URL_MARKER_PREFIX + encryptedUrlString);
+  }
+ else {
+    encryptedUrl.getSegments().add(encryptedUrlString);
+  }
   int numberOfSegments=url.getSegments().size() - 1;
   HashedSegmentGenerator generator=new HashedSegmentGenerator(encryptedUrlString);
   for (int segNo=0; segNo < numberOfSegments; segNo++) {

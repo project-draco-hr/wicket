@@ -1,0 +1,10 @@
+{
+  mapper.setMarkEncryptedUrls(true);
+  Request request=getRequest(Url.parse("crypt." + ENCRYPTED_BOOKMARKABLE_URL));
+  IRequestHandler requestHandler=mapper.mapRequest(request);
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
+  assertTrue(requestHandler instanceof RenderPageRequestHandler);
+  RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
+  assertEquals(Page2.class,handler.getPageClass());
+}

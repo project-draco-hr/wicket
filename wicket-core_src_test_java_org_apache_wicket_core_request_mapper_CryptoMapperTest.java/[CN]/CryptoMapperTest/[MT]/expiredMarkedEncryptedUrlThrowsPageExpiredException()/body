@@ -1,0 +1,8 @@
+{
+  mapper.setMarkEncryptedUrls(true);
+  Url encryptedUrl=mapper.mapHandler(new RenderPageRequestHandler(new PageProvider(Page2.class)));
+  assertTrue(encryptedUrl.getSegments().get(0).startsWith("crypt."));
+  encryptedUrl.getSegments().remove(0);
+  encryptedUrl.getSegments().add(0,"crypt.no decryptable");
+  mapper.mapRequest(getRequest(encryptedUrl));
+}
