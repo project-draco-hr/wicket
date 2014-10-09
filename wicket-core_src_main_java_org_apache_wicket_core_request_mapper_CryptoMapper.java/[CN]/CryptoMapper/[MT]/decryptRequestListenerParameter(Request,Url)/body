@@ -1,0 +1,42 @@
+{
+  Url url=new Url(encryptedUrl);
+  url.getQueryParameters().clear();
+  for (  Url.QueryParameter qp : encryptedUrl.getQueryParameters()) {
+    if (Strings.isEmpty(qp.getValue()) && Strings.isEmpty(qp.getName()) == false) {
+      if (PageComponentInfo.parse(qp.getName()) != null) {
+        if (request.getOriginalUrl().getQueryParameter(qp.getName()) == null) {
+          url.getQueryParameters().add(qp);
+        }
+ else {
+          return null;
+        }
+      }
+    }
+ else     if (ENCRYPTED_PAGE_COMPONENT_INFO_PARAMETER.equals(qp.getName())) {
+      String encryptedValue=qp.getValue();
+      if (Strings.isEmpty(encryptedValue)) {
+        url.getQueryParameters().add(qp);
+      }
+ else {
+        String decryptedValue=null;
+        try {
+          decryptedValue=getCrypt().decryptUrlSafe(encryptedValue);
+        }
+ catch (        Exception e) {
+          log.error("Error decrypting encrypted request listener query parameter",e);
+        }
+        if (Strings.isEmpty(decryptedValue)) {
+          url.getQueryParameters().add(qp);
+        }
+ else {
+          Url.QueryParameter decryptedParamter=new Url.QueryParameter(decryptedValue,"");
+          url.getQueryParameters().add(0,decryptedParamter);
+        }
+      }
+    }
+ else {
+      url.getQueryParameters().add(qp);
+    }
+  }
+  return url;
+}

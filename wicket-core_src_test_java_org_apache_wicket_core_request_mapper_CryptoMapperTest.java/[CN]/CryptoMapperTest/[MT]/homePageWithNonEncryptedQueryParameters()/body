@@ -7,11 +7,11 @@
   assertEquals(expectedEncrypted,url.toString());
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
-  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
   assertThat(requestHandler,instanceOf(RenderPageRequestHandler.class));
   RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
   assertEquals(tester.getApplication().getHomePage(),handler.getPageClass());
-  PageParameters actualParameters=handler.getPageParameters();
-  assertEquals(expectedParameters,actualParameters);
+  StringValue queryParam=handler.getPageParameters().get("namedKey1");
+  assertEquals("namedValue1",queryParam.toOptionalString());
 }

@@ -1,0 +1,47 @@
+{
+  Url url=new Url(request.getCharset());
+  List<String> encryptedSegments=encryptedUrl.getSegments();
+  if (encryptedSegments.isEmpty()) {
+    return null;
+  }
+  String encryptedUrlString=encryptedSegments.get(0);
+  if (Strings.isEmpty(encryptedUrlString)) {
+    return null;
+  }
+  String decryptedUrl;
+  try {
+    decryptedUrl=getCrypt().decryptUrlSafe(encryptedUrlString);
+  }
+ catch (  Exception e) {
+    log.error("Error decrypting URL",e);
+    return null;
+  }
+  if (decryptedUrl == null) {
+    return null;
+  }
+  Url originalUrl=Url.parse(decryptedUrl,request.getCharset());
+  int originalNumberOfSegments=originalUrl.getSegments().size();
+  int encryptedNumberOfSegments=encryptedUrl.getSegments().size();
+  if (originalNumberOfSegments > 0) {
+    url.getSegments().add(originalUrl.getSegments().get(0));
+  }
+  HashedSegmentGenerator generator=new HashedSegmentGenerator(encryptedUrlString);
+  int segNo=1;
+  for (; segNo < encryptedNumberOfSegments; segNo++) {
+    if (segNo > originalNumberOfSegments) {
+      break;
+    }
+    String next=generator.next();
+    String encryptedSegment=encryptedSegments.get(segNo);
+    if (!next.equals(encryptedSegment)) {
+      break;
+    }
+    url.getSegments().add(originalUrl.getSegments().get(segNo));
+  }
+  for (; segNo < encryptedNumberOfSegments; segNo++) {
+    url.getSegments().add(encryptedUrl.getSegments().get(segNo));
+  }
+  url.getQueryParameters().addAll(originalUrl.getQueryParameters());
+  url.getQueryParameters().addAll(encryptedUrl.getQueryParameters());
+  return url;
+}

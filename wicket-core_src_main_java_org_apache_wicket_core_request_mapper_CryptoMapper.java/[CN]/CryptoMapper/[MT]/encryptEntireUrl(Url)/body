@@ -1,0 +1,11 @@
+{
+  String encryptedUrlString=getCrypt().encryptUrlSafe(url.toString());
+  Url encryptedUrl=new Url(url.getCharset());
+  encryptedUrl.getSegments().add(encryptedUrlString);
+  int numberOfSegments=url.getSegments().size() - 1;
+  HashedSegmentGenerator generator=new HashedSegmentGenerator(encryptedUrlString);
+  for (int segNo=0; segNo < numberOfSegments; segNo++) {
+    encryptedUrl.getSegments().add(generator.next());
+  }
+  return encryptedUrl;
+}

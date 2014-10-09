@@ -1,0 +1,8 @@
+{
+  IRequestHandler requestHandler=mapper.mapRequest(getRequest(Url.parse(ENCRYPTED_PAGE_INSTANCE_URL)));
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
+  assertThat(requestHandler,instanceOf(RenderPageRequestHandler.class));
+  RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
+  assertEquals(5,handler.getPageId().intValue());
+}

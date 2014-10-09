@@ -1,0 +1,31 @@
+{
+  final String componentPath="some:path:to:link";
+  PageAndComponentProvider provider=new PageAndComponentProvider(Page1.class,componentPath);
+  IRequestHandler requestHandler=new ListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
+  Url plainUrl=mapper.getDelegateMapper().mapHandler(requestHandler);
+  assertTrue(plainUrl.toString().startsWith(MOUNTED_URL));
+  assertNull(mapper.mapRequest(getRequest(plainUrl)));
+  Url encryptedUrl=mapper.mapHandler(requestHandler);
+  assertEquals(Url.parse(MOUNTED_URL).getSegments(),encryptedUrl.getSegments());
+  assertTrue(encryptedUrl.getQueryParameters().size() > 0);
+  for (  Url.QueryParameter qp : encryptedUrl.getQueryParameters()) {
+    if (Strings.isEmpty(qp.getValue())) {
+      PageComponentInfo pci=PageComponentInfo.parse(qp.getName());
+      assertNull("PageComponentInfo query parameter not encrypted",pci);
+    }
+  }
+  requestHandler=mapper.mapRequest(getRequest(encryptedUrl));
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
+  assertThat(requestHandler,instanceOf(ListenerInterfaceRequestHandler.class));
+  ListenerInterfaceRequestHandler handler=(ListenerInterfaceRequestHandler)requestHandler;
+  assertEquals(componentPath,handler.getComponentPath());
+  assertEquals(Page1.class,handler.getPageClass());
+  requestHandler=new CryptoMapper(mapper,tester.getApplication()).mapRequest(getRequest(encryptedUrl));
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
+  assertThat(requestHandler,instanceOf(ListenerInterfaceRequestHandler.class));
+  handler=(ListenerInterfaceRequestHandler)requestHandler;
+  assertEquals(componentPath,handler.getComponentPath());
+  assertEquals(Page1.class,handler.getPageClass());
+}

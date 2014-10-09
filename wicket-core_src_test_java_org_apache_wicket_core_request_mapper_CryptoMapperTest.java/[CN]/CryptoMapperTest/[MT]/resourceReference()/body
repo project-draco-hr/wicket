@@ -3,8 +3,8 @@
   Url url=mapper.mapHandler(new ResourceReferenceRequestHandler(resource));
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
-  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
   assertThat(requestHandler,instanceOf(ResourceReferenceRequestHandler.class));
   ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;
   assertEquals(getClass(),handler.getResourceReference().getScope());

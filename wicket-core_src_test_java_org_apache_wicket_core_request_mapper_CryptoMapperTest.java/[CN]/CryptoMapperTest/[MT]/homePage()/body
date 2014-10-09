@@ -1,0 +1,8 @@
+{
+  IRequestHandler requestHandler=mapper.mapRequest(getRequest(Url.parse("")));
+  assertNotNull("Unable to map request for home page",requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
+  assertThat(requestHandler,instanceOf(RenderPageRequestHandler.class));
+  RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
+  assertSame(tester.getApplication().getHomePage(),handler.getPageClass());
+}

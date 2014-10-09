@@ -1,0 +1,7 @@
+{
+  PageAndComponentProvider provider=new PageAndComponentProvider(tester.getApplication().getHomePage(),"some:link");
+  IRequestHandler requestHandler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
+  Url plainUrl=mapper.getDelegateMapper().mapHandler(requestHandler);
+  assertTrue("Plain URL for home page has segments: " + plainUrl.toString(),plainUrl.getSegments().isEmpty());
+  assertNull(mapper.mapRequest(getRequest(plainUrl)));
+}

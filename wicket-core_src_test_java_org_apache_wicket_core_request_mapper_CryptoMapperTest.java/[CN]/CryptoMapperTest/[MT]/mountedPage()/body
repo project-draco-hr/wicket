@@ -1,0 +1,9 @@
+{
+  IRequestHandler requestHandler=new RenderPageRequestHandler(new PageProvider(Page1.class));
+  assertEquals(MOUNTED_URL,mapper.mapHandler(requestHandler).toString());
+  requestHandler=mapper.mapRequest(getRequest(Url.parse(MOUNTED_URL)));
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
+  assertThat(requestHandler,instanceOf(RenderPageRequestHandler.class));
+  assertEquals(Page1.class,((RenderPageRequestHandler)requestHandler).getPageClass());
+}

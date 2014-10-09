@@ -6,9 +6,8 @@
   url.getSegments().add("more-crypt.txt");
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
-  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
-  assertThat(requestHandler,instanceOf(ResourceReferenceRequestHandler.class));
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
   ResourceReferenceRequestHandler handler=(ResourceReferenceRequestHandler)requestHandler;
   assertEquals(getClass(),handler.getResourceReference().getScope());
   assertEquals("crypt/more/more-crypt.txt",handler.getResourceReference().getName());

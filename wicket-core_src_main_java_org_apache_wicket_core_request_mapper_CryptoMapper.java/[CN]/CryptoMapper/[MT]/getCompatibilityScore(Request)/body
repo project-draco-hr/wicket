@@ -1,3 +1,8 @@
 {
-  return wrappedMapper.getCompatibilityScore(request);
+  Url decryptedUrl=decryptUrl(request,request.getUrl());
+  if (decryptedUrl == null) {
+    return 0;
+  }
+  Request decryptedRequest=request.cloneWithUrl(decryptedUrl);
+  return wrappedMapper.getCompatibilityScore(decryptedRequest);
 }

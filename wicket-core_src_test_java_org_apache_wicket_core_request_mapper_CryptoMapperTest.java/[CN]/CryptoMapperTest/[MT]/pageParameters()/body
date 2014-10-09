@@ -1,20 +1,20 @@
 {
-  String expectedEncrypted="ywKWg-Qpk7YQBiYCmj9MaAJSIV1gtssNinjiALijtet62VMQc2-sMK_RchttkidUpYM_cplXKeZSfGxBkvWzH_E_zWv4Ii7MNSm5nXKno7o/ywK6c/MK_c0/nji3c/Qpk1b/XKnba/c2-cd";
+  String expectedEncrypted="L7ExSNbPC4sb6TPJDblCAopL53TWmZP5y7BQEaJSJAC05HXod5M5U7gT2yNT0lK5L6L09ZAOoZkGyUhseyPrC4S5tqUUrV6zipc4_Ni877FDOOoE5C_Cd7YCyK1xSScpVhno6LeBz2wiu5oWyf7hB1RKcv6zkhEBmbx8vU7K7-e4xe1_LO8Y3fhEjMSQyU9BVh7Uz4HKzkR2OxFo5LaDzQ/L7E59/yPr6a/5L6ae/OxF2c";
   PageParameters expectedParameters=new PageParameters();
   expectedParameters.add("namedKey1","namedValue1");
   expectedParameters.add("namedKey2","namedValue2");
   expectedParameters.set(0,"indexedValue1");
   expectedParameters.set(1,"indexedValue2");
-  RenderPageRequestHandler renderPageRequestHandler=new RenderPageRequestHandler(new PageProvider(DummyHomePage.class,expectedParameters));
+  RenderPageRequestHandler renderPageRequestHandler=new RenderPageRequestHandler(new PageProvider(Page2.class,expectedParameters));
   Url url=mapper.mapHandler(renderPageRequestHandler);
   assertEquals(expectedEncrypted,url.toString());
   Request request=getRequest(url);
   IRequestHandler requestHandler=mapper.mapRequest(request);
-  assertThat(requestHandler,instanceOf(RequestSettingRequestHandler.class));
-  requestHandler=((RequestSettingRequestHandler)requestHandler).getDelegateHandler();
+  assertNotNull(requestHandler);
+  requestHandler=unwrapRequestHandlerDelegate(requestHandler);
   assertThat(requestHandler,instanceOf(RenderPageRequestHandler.class));
   RenderPageRequestHandler handler=(RenderPageRequestHandler)requestHandler;
-  assertEquals(DummyHomePage.class,handler.getPageClass());
+  assertEquals(Page2.class,handler.getPageClass());
   PageParameters actualParameters=handler.getPageParameters();
   assertEquals(expectedParameters,actualParameters);
 }

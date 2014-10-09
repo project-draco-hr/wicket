@@ -1,14 +1,8 @@
 {
-  if (url.getSegments().isEmpty()) {
-    return url;
+  if (url.getSegments().size() > 0 && url.getSegments().get(0).equals(Application.get().getMapperContext().getNamespace())) {
+    return encryptEntireUrl(url);
   }
-  String encryptedUrlString=getCrypt().encryptUrlSafe(url.toString());
-  Url encryptedUrl=new Url(url.getCharset());
-  encryptedUrl.getSegments().add(encryptedUrlString);
-  int numberOfSegments=url.getSegments().size();
-  HashedSegmentGenerator generator=new HashedSegmentGenerator(encryptedUrlString);
-  for (int segNo=0; segNo < numberOfSegments; segNo++) {
-    encryptedUrl.getSegments().add(generator.next());
+ else {
+    return encryptRequestListenerParameter(url);
   }
-  return encryptedUrl;
 }

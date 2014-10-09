@@ -1,0 +1,11 @@
+{
+  int delegateHomePageScore=mapper.getDelegateMapper().getCompatibilityScore(getRequest(Url.parse("")));
+  int cryptoHomePageScore=mapper.getCompatibilityScore(getRequest(Url.parse("")));
+  assertEquals(delegateHomePageScore,cryptoHomePageScore);
+  int delegateBookmarkableScore=mapper.getDelegateMapper().getCompatibilityScore(getRequest(Url.parse(PLAIN_BOOKMARKABLE_URL)));
+  int cryptoBookmarkableScore=mapper.getCompatibilityScore(getRequest(Url.parse(ENCRYPTED_BOOKMARKABLE_URL)));
+  assertEquals(delegateBookmarkableScore,cryptoBookmarkableScore);
+  int delegatePageInstanceScore=mapper.getDelegateMapper().getCompatibilityScore(getRequest(Url.parse(PLAIN_PAGE_INSTANCE_URL)));
+  int cryptoPageInstanceScore=mapper.getCompatibilityScore(getRequest(Url.parse(ENCRYPTED_PAGE_INSTANCE_URL)));
+  assertEquals(delegatePageInstanceScore,cryptoPageInstanceScore);
+}
