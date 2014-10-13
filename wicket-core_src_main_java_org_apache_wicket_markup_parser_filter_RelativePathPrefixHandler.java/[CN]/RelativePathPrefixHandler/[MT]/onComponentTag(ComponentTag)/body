@@ -1,6 +1,12 @@
 {
   if (tag.isClose()) {
+    if (isHeadTag(tag)) {
+      insideHead=false;
+    }
     return tag;
+  }
+  if (isHeadTag(tag)) {
+    insideHead=true;
   }
   String wicketIdAttr=getWicketNamespace() + ":" + "id";
   if ((tag instanceof WicketTag) || (tag.isAutolinkEnabled() == true) || (tag.getAttributes().get(wicketIdAttr) != null)) {
@@ -12,6 +18,16 @@
       if (tag.getId() == null) {
         tag.setId(getWicketRelativePathPrefix(null));
         tag.setAutoComponentTag(true);
+        if (!insideHead) {
+          tag.setAutoComponentFactory(new ComponentTag.IAutoComponentFactory(){
+            @Override public Component newComponent(            MarkupContainer container,            ComponentTag tag){
+              String id=tag.getId() + container.getPage().getAutoIndex();
+              tag.setId(id);
+              return new TransparentWebMarkupContainer(id);
+            }
+          }
+);
+        }
       }
       tag.addBehavior(RELATIVE_PATH_BEHAVIOR);
       tag.setModified(true);

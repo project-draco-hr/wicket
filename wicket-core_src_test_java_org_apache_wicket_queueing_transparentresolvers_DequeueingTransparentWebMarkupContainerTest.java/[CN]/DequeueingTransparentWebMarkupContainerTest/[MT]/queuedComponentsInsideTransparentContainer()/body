@@ -1,0 +1,14 @@
+{
+  tester.startPage(TransparentContainerQueuePage.class);
+  tester.assertRenderedPage(TransparentContainerQueuePage.class);
+  Page lastRenderedPage=tester.getLastRenderedPage();
+  boolean containsQueuedLabel=lastRenderedPage.visitChildren(new IVisitor<Component,Boolean>(){
+    @Override public void component(    Component component,    IVisit<Boolean> visit){
+      if (component instanceof Label) {
+        visit.stop(true);
+      }
+    }
+  }
+);
+  assertTrue(containsQueuedLabel);
+}
