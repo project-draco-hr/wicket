@@ -1,12 +1,3 @@
 {
-  Args.notNull(url,"url");
-  for (  QueryParameter queryParameter : url.getQueryParameters()) {
-    if (Strings.isEmpty(queryParameter.getValue())) {
-      PageComponentInfo pageComponentInfo=PageComponentInfo.parse(queryParameter.getName());
-      if (pageComponentInfo != null) {
-        return pageComponentInfo;
-      }
-    }
-  }
-  return null;
+  return MapperUtils.getPageComponentInfo(url);
 }

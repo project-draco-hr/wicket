@@ -2,14 +2,12 @@
   Url url=new Url(encryptedUrl);
   url.getQueryParameters().clear();
   for (  Url.QueryParameter qp : encryptedUrl.getQueryParameters()) {
-    if (Strings.isEmpty(qp.getValue()) && Strings.isEmpty(qp.getName()) == false) {
-      if (PageComponentInfo.parse(qp.getName()) != null) {
-        if (request.getOriginalUrl().getQueryParameter(qp.getName()) == null) {
-          url.getQueryParameters().add(qp);
-        }
+    if (MapperUtils.parsePageComponentInfoParameter(qp) != null) {
+      if (request.getOriginalUrl().getQueryParameter(qp.getName()) == null) {
+        url.getQueryParameters().add(qp);
+      }
  else {
-          return null;
-        }
+        return null;
       }
     }
  else     if (ENCRYPTED_PAGE_COMPONENT_INFO_PARAMETER.equals(qp.getName())) {

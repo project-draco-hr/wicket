@@ -2,14 +2,12 @@
   Url encryptedUrl=new Url(url);
   for (Iterator<Url.QueryParameter> it=encryptedUrl.getQueryParameters().iterator(); it.hasNext(); ) {
     Url.QueryParameter qp=it.next();
-    if (Strings.isEmpty(qp.getValue()) == true && Strings.isEmpty(qp.getName()) == false) {
-      if (PageComponentInfo.parse(qp.getName()) != null) {
-        it.remove();
-        String encryptedParameterValue=getCrypt().encryptUrlSafe(qp.getName());
-        Url.QueryParameter encryptedParameter=new Url.QueryParameter(ENCRYPTED_PAGE_COMPONENT_INFO_PARAMETER,encryptedParameterValue);
-        encryptedUrl.getQueryParameters().add(0,encryptedParameter);
-        break;
-      }
+    if (MapperUtils.parsePageComponentInfoParameter(qp) != null) {
+      it.remove();
+      String encryptedParameterValue=getCrypt().encryptUrlSafe(qp.getName());
+      Url.QueryParameter encryptedParameter=new Url.QueryParameter(ENCRYPTED_PAGE_COMPONENT_INFO_PARAMETER,encryptedParameterValue);
+      encryptedUrl.getQueryParameters().add(0,encryptedParameter);
+      break;
     }
   }
   return encryptedUrl;
