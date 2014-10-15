@@ -5,7 +5,6 @@
     String protocol=metaInfWicket.getProtocol();
     if ("jar".equals(protocol)) {
       JarURLConnection jarURLConnection=(JarURLConnection)metaInfWicket.openConnection();
-      ;
       JarFile jarFile=jarURLConnection.getJarFile();
       Enumeration<JarEntry> jarEntries=jarFile.entries();
       while (jarEntries.hasMoreElements()) {
@@ -19,6 +18,29 @@
             break;
           }
          }
+      }
+    }
+ else     if ("vfs".equals(protocol)) {
+      URLConnection connection=metaInfWicket.openConnection();
+      JarInputStream inputStream=(JarInputStream)connection.getInputStream();
+      int offset=0;
+      JarEntry jarEntry;
+      while ((jarEntry=inputStream.getNextJarEntry()) != null) {
+        String jarEntryName=jarEntry.getName();
+        int size=(int)jarEntry.getSize();
+        if (jarEntryName.endsWith(PROPERTIES_FILE_EXTENSION)) {
+          byte[] buf=new byte[size];
+          int read=inputStream.read(buf,offset,size);
+          if (read == size) {
+            Properties properties=new Properties();
+            properties.load(new ByteArrayInputStream(buf));
+            load(properties);
+          }
+ else {
+            log.warn("Expected to read '{}' bytes from '{}' but actually read '{}'",size,jarEntryName,read);
+          }
+        }
+        offset+=size;
       }
     }
  else     if ("file".equals(protocol)) {
