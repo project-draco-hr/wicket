@@ -2,6 +2,7 @@
   return container.visitChildren(MarkupContainer.class,new IVisitor<MarkupContainer,IMarkupFragment>(){
     @Override public void component(    MarkupContainer resolvingContainer,    IVisit<IMarkupFragment> visit){
       if (resolvingContainer instanceof IComponentResolver) {
+        visit.dontGoDeeper();
         IMarkupFragment childMarkup=resolvingContainer.getMarkup(child);
         if (childMarkup != null && childMarkup.size() > 0) {
           IComponentResolver componentResolver=(IComponentResolver)resolvingContainer;
