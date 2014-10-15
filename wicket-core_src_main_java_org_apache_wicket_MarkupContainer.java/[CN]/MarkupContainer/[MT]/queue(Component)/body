@@ -3,22 +3,5 @@
     queue=new ComponentQueue();
   }
   queue.add(components);
-  MarkupContainer region=null;
-  Page page=null;
-  MarkupContainer cursor=this;
-  while (cursor != null) {
-    if (region == null && cursor instanceof IQueueRegion) {
-      region=cursor;
-    }
-    if (cursor instanceof Page) {
-      page=(Page)cursor;
-    }
-    cursor=cursor.getParent();
-  }
-  if (page != null) {
-    if (!region.getRequestFlag(RFLAG_CONTAINER_DEQUEING)) {
-      region.dequeue();
-    }
-  }
-  return this;
+  return innerQueue();
 }

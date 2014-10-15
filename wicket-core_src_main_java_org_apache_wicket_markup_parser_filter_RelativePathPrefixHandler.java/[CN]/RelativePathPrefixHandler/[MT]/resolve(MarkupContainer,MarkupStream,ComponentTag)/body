@@ -1,7 +1,6 @@
 {
-  if ((tag != null) && (tag.getId().equals(getWicketRelativePathPrefix(markupStream)))) {
-    String id=tag.getId() + container.getPage().getAutoIndex();
-    return new TransparentWebMarkupContainer(id);
+  if ((tag != null) && (tag.getId().startsWith(getWicketRelativePathPrefix(markupStream)))) {
+    return new TransparentWebMarkupContainer(tag.getId());
   }
   return null;
 }
