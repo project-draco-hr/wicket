@@ -11,8 +11,10 @@
     inputName.prepend(Component.PATH_SEPARATOR);
     id=c.getId();
   }
-  if ("submit".equals(inputName.toString())) {
+  if (JavaScriptReservedNames.isNameReserved(inputName.toString())) {
     inputName.prepend(Component.PATH_SEPARATOR);
+    inputName.prepend(Component.PATH_SEPARATOR);
+    inputName.prepend("p");
   }
   return inputName.toString();
 }
