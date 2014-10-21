@@ -25,6 +25,17 @@
   models.setOutputMarkupId(true);
   form.add(makes);
   form.add(models);
+  final FeedbackPanel feedback=new FeedbackPanel("feedback");
+  feedback.setOutputMarkupId(true);
+  add(feedback);
+  form.add(new AjaxButton("go"){
+    @Override protected void onAfterSubmit(    AjaxRequestTarget target,    Form<?> form){
+      super.onAfterSubmit(target,form);
+      info("You have selected: " + makes.getModelObject() + " "+ models.getModelObject());
+      target.add(feedback);
+    }
+  }
+);
   makes.add(new AjaxFormComponentUpdatingBehavior("change"){
     @Override protected void onUpdate(    AjaxRequestTarget target){
       target.add(models);
