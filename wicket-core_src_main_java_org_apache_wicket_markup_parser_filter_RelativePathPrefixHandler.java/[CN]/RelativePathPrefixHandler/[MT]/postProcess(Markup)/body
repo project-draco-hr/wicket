@@ -1,0 +1,12 @@
+{
+  Iterator<MarkupElement> markupIterator=markup.iterator();
+  while (markupIterator.hasNext()) {
+    MarkupElement next=markupIterator.next();
+    if (next instanceof ComponentTag) {
+      ComponentTag componentTag=(ComponentTag)next;
+      if (componentTag.containsWicketId() && componentTag.getId().startsWith(getWicketRelativePathPrefix(null))) {
+        componentTag.setAutoComponentFactory(FACTORY);
+      }
+    }
+  }
+}

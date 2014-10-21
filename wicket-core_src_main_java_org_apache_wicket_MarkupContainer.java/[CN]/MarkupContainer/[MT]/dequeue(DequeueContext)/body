@@ -6,34 +6,10 @@
       child=dequeue.findComponentToDequeue(tag);
       if (child != null) {
         addDequeuedComponent(child,tag);
-        if (child instanceof IQueueRegion) {
-          ((MarkupContainer)child).dequeue();
-        }
-      }
-    }
-    if (child == null || !(child instanceof MarkupContainer)) {
-      if (tag.isOpen() && !tag.hasNoCloseTag()) {
-        dequeue.skipToCloseTag();
-      }
-    }
- else {
-      MarkupContainer container=(MarkupContainer)child;
-      if (container instanceof IQueueRegion) {
-        if (tag.isOpen()) {
-          dequeue.skipToCloseTag();
-        }
-      }
- else       if (tag.isOpen()) {
-        dequeue.pushContainer(container);
-        container.dequeue(dequeue);
-        dequeue.popContainer();
       }
     }
     if (tag.isOpen() && !tag.hasNoCloseTag()) {
-      ComponentTag close=dequeue.takeTag();
-      if (!close.closes(tag)) {
-        throw new IllegalStateException(String.format("Tag '%s' should be the closing one for '%s'",close,tag));
-      }
+      dequeueChild(child,tag,dequeue);
     }
   }
 }

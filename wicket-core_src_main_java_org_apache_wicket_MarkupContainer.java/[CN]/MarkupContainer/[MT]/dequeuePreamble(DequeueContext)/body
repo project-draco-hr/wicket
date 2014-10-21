@@ -1,0 +1,17 @@
+{
+  if (getRequestFlag(RFLAG_CONTAINER_DEQUEING)) {
+    throw new IllegalStateException("This container is already dequeing: " + this);
+  }
+  setRequestFlag(RFLAG_CONTAINER_DEQUEING,true);
+  try {
+    if (dequeue == null) {
+      return;
+    }
+    if (dequeue.peekTag() != null) {
+      dequeue(dequeue);
+    }
+  }
+  finally {
+    setRequestFlag(RFLAG_CONTAINER_DEQUEING,false);
+  }
+}

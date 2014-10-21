@@ -1,21 +1,12 @@
 {
-  if (!(this instanceof IQueueRegion)) {
-    throw new UnsupportedOperationException("Only implementations of IQueueRegion can use component queueing");
-  }
-  if (getRequestFlag(RFLAG_CONTAINER_DEQUEING)) {
-    throw new IllegalStateException("This container is already dequeing: " + this);
-  }
-  setRequestFlag(RFLAG_CONTAINER_DEQUEING,true);
-  try {
+  if (this instanceof IQueueRegion) {
     DequeueContext dequeue=newDequeueContext();
-    if (dequeue == null) {
-      return;
-    }
-    if (dequeue.peekTag() != null) {
-      dequeue(dequeue);
-    }
+    dequeuePreamble(dequeue);
   }
-  finally {
-    setRequestFlag(RFLAG_CONTAINER_DEQUEING,false);
+ else {
+    MarkupContainer queueRegion=(MarkupContainer)findParent(IQueueRegion.class);
+    if (!queueRegion.getRequestFlag(RFLAG_CONTAINER_DEQUEING)) {
+      queueRegion.dequeue();
+    }
   }
 }

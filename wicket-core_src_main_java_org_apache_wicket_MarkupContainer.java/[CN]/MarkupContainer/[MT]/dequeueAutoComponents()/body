@@ -6,6 +6,9 @@
       if (autoComponentFactory != null) {
         queue(autoComponentFactory.newComponent(this,tag));
       }
+      if (tag.isOpen() && !tag.hasNoCloseTag()) {
+        context.skipToCloseTag();
+      }
     }
   }
 }

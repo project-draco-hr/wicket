@@ -1,0 +1,15 @@
+{
+  if (child == null || child instanceof IQueueRegion) {
+    dequeue.skipToCloseTag();
+  }
+ else   if (child instanceof MarkupContainer) {
+    MarkupContainer childContainer=(MarkupContainer)child;
+    dequeue.pushContainer(childContainer);
+    childContainer.dequeue(dequeue);
+    dequeue.popContainer();
+  }
+  ComponentTag close=dequeue.takeTag();
+  if (!close.closes(tag)) {
+    throw new IllegalStateException(String.format("Tag '%s' should be the closing one for '%s'",close,tag));
+  }
+}
