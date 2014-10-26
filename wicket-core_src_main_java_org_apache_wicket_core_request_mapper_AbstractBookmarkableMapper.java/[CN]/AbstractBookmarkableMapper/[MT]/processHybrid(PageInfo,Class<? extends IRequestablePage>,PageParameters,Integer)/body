@@ -5,7 +5,7 @@
     throw new PageExpiredException(String.format("Bookmarkable page id '%d' has expired.",pageInfo.getPageId()));
   }
  else {
-    PageParameters constructionPageParameters=provider.getPageInstance().getPageParameters();
+    PageParameters constructionPageParameters=provider.hasPageInstance() ? provider.getPageInstance().getPageParameters() : new PageParameters();
     if (PageParameters.equals(constructionPageParameters,pageParameters) == false) {
       return new RenderPageRequestHandler(new PageProvider(pageClass,pageParameters));
     }

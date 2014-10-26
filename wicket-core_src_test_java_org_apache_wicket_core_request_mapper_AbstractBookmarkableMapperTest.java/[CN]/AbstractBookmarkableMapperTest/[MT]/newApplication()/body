@@ -1,0 +1,17 @@
+{
+  return new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      getSecuritySettings().setAuthorizationStrategy(new AbstractPageAuthorizationStrategy(){
+        @Override protected <T extends Page>boolean isPageAuthorized(        Class<T> pageClass){
+          if (pageClass == EmptyPage.class) {
+            throw new RestartResponseAtInterceptPageException(getHomePage());
+          }
+          return true;
+        }
+      }
+);
+    }
+  }
+;
+}
