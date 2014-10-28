@@ -1,0 +1,12 @@
+{
+  ServletFileUpload fileUpload=new ServletFileUpload(fileItemFactory);
+  if (encoding != null) {
+    fileUpload.setHeaderEncoding(encoding);
+  }
+  fileUpload.setSizeMax(getMaxSize().bytes());
+  Bytes fileMaxSize=getFileMaxSize();
+  if (fileMaxSize != null) {
+    fileUpload.setFileSizeMax(fileMaxSize.bytes());
+  }
+  return fileUpload;
+}

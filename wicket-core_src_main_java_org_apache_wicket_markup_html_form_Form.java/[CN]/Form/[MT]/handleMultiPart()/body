@@ -2,13 +2,16 @@
   if (isMultiPart()) {
     try {
       ServletWebRequest request=(ServletWebRequest)getRequest();
-      final WebRequest multipartWebRequest=request.newMultipartWebRequest(getMaxSize(),getPage().getId());
+      final MultipartServletWebRequest multipartWebRequest=request.newMultipartWebRequest(getMaxSize(),getPage().getId());
+      multipartWebRequest.setFileMaxSize(getFileMaxSize());
+      multipartWebRequest.parseFileParts();
       getRequestCycle().setRequest(multipartWebRequest);
     }
  catch (    final FileUploadException fux) {
       final Map<String,Object> model=new HashMap<>();
       model.put("exception",fux);
       model.put("maxSize",getMaxSize());
+      model.put("fileMaxSize",getFileMaxSize());
       onFileUploadException(fux,model);
       return false;
     }

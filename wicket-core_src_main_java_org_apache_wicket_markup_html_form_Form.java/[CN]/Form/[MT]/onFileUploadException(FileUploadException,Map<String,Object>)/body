@@ -3,6 +3,10 @@
     String msg=getString(UPLOAD_TOO_LARGE_RESOURCE_KEY,Model.ofMap(model));
     error(msg);
   }
+ else   if (e instanceof FileUploadBase.FileSizeLimitExceededException) {
+    String msg=getString(UPLOAD_SINGLE_FILE_TOO_LARGE_RESOURCE_KEY,Model.ofMap(model));
+    error(msg);
+  }
  else {
     String msg=getString(UPLOAD_FAILED_RESOURCE_KEY,Model.ofMap(model));
     error(msg);

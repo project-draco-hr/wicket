@@ -1,0 +1,53 @@
+{
+  HttpServletRequest request=getContainerRequest();
+  String encoding=request.getCharacterEncoding();
+  if (encoding == null) {
+    encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
+  }
+  FileUploadBase fileUpload=newFileUpload(encoding);
+  final List<FileItem> items;
+  if (wantUploadProgressUpdates()) {
+    ServletRequestContext ctx=new ServletRequestContext(request){
+      @Override public InputStream getInputStream() throws IOException {
+        return new CountingInputStream(super.getInputStream());
+      }
+    }
+;
+    totalBytes=request.getContentLength();
+    onUploadStarted(totalBytes);
+    try {
+      items=fileUpload.parseRequest(ctx);
+    }
+  finally {
+      onUploadCompleted();
+    }
+  }
+ else {
+    items=fileUpload.parseRequest(new ServletRequestContext(request));
+  }
+  for (  final FileItem item : items) {
+    if (item.isFormField()) {
+      final String value;
+      if (encoding != null) {
+        try {
+          value=item.getString(encoding);
+        }
+ catch (        UnsupportedEncodingException e) {
+          throw new WicketRuntimeException(e);
+        }
+      }
+ else {
+        value=item.getString();
+      }
+      addParameter(item.getFieldName(),value);
+    }
+ else {
+      List<FileItem> fileItems=files.get(item.getFieldName());
+      if (fileItems == null) {
+        fileItems=new ArrayList<>();
+        files.put(item.getFieldName(),fileItems);
+      }
+      fileItems.add(item);
+    }
+  }
+}

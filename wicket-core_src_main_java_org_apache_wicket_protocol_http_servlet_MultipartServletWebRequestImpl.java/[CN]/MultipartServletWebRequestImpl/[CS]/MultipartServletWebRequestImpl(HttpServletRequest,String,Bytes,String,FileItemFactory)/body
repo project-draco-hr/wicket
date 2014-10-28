@@ -1,66 +1,13 @@
 {
   super(request,filterPrefix);
-  Args.notNull(maxSize,"maxSize");
   Args.notNull(upload,"upload");
   this.upload=upload;
+  this.fileItemFactory=factory;
   parameters=new ValueMap();
   files=new HashMap<>();
   final boolean isMultipart=ServletFileUpload.isMultipartContent(request);
   if (!isMultipart) {
     throw new IllegalStateException("ServletRequest does not contain multipart content. One possible solution is to explicitly call Form.setMultipart(true), Wicket tries its best to auto-detect multipart forms but there are certain situation where it cannot.");
   }
-  ServletFileUpload fileUpload=new ServletFileUpload(factory);
-  String encoding=request.getCharacterEncoding();
-  if (encoding == null) {
-    encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
-  }
-  if (encoding != null) {
-    fileUpload.setHeaderEncoding(encoding);
-  }
-  fileUpload.setSizeMax(maxSize.bytes());
-  final List<FileItem> items;
-  if (wantUploadProgressUpdates()) {
-    ServletRequestContext ctx=new ServletRequestContext(request){
-      @Override public InputStream getInputStream() throws IOException {
-        return new CountingInputStream(super.getInputStream());
-      }
-    }
-;
-    totalBytes=request.getContentLength();
-    onUploadStarted(totalBytes);
-    try {
-      items=fileUpload.parseRequest(ctx);
-    }
-  finally {
-      onUploadCompleted();
-    }
-  }
- else {
-    items=fileUpload.parseRequest(request);
-  }
-  for (  final FileItem item : items) {
-    if (item.isFormField()) {
-      final String value;
-      if (encoding != null) {
-        try {
-          value=item.getString(encoding);
-        }
- catch (        UnsupportedEncodingException e) {
-          throw new WicketRuntimeException(e);
-        }
-      }
- else {
-        value=item.getString();
-      }
-      addParameter(item.getFieldName(),value);
-    }
- else {
-      List<FileItem> fileItems=files.get(item.getFieldName());
-      if (fileItems == null) {
-        fileItems=new ArrayList<>();
-        files.put(item.getFieldName(),fileItems);
-      }
-      fileItems.add(item);
-    }
-  }
+  setMaxSize(maxSize);
 }
