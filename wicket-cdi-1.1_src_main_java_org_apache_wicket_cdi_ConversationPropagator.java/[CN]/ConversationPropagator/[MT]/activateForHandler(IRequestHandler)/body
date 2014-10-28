@@ -1,6 +1,13 @@
 {
   if (handler != null) {
+    String handlerClassName=Classes.name(handler.getClass());
     if (handler instanceof BufferedResponseRequestHandler) {
+      return false;
+    }
+ else     if ("org.apache.wicket.protocol.ws.api.WebSocketRequestHandler".equals(handlerClassName)) {
+      return false;
+    }
+ else     if ("org.apache.wicket.atmosphere.AtmosphereRequestHandler".equals(handlerClassName)) {
       return false;
     }
   }
