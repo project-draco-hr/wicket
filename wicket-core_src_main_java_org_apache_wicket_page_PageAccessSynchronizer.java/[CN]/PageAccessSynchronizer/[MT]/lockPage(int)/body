@@ -5,6 +5,7 @@
   boolean locked=false;
   final boolean isDebugEnabled=logger.isDebugEnabled();
   PageLock previous=null;
+  Duration timeout=getTimeout(pageId);
   while (!locked && start.elapsedSince().lessThan(timeout)) {
     if (isDebugEnabled) {
       logger.debug("'{}' attempting to acquire lock to page with id '{}'",thread.getName(),pageId);
