@@ -1,4 +1,9 @@
 {
   add(new Label("testlabel",new ResourceModel("testlabel")));
+  Label testlabelWithDefault=new Label("testlabelWithDefault");
+  IModel<String> defaultModel=new ResourceModel("testlabel").wrapOnAssignment(testlabelWithDefault);
+  ResourceModel labelWithDefaultModel=new ResourceModel("missingKey",defaultModel);
+  testlabelWithDefault.setDefaultModel(labelWithDefaultModel);
+  add(testlabelWithDefault);
   add(new Label("otherlabel",new ResourceModel("testlabel").wrapOnAssignment(this)));
 }

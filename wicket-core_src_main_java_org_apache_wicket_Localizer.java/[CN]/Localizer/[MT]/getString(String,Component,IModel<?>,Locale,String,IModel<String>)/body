@@ -1,0 +1,26 @@
+{
+  final ResourceSettings resourceSettings=Application.get().getResourceSettings();
+  String value=getStringIgnoreSettings(key,component,model,locale,style,null);
+  if (value != null) {
+    return value;
+  }
+ else   if (defaultValue != null && resourceSettings.getUseDefaultOnMissingResource()) {
+    value=defaultValue.getObject();
+    if (value != null) {
+      return substitutePropertyExpressions(component,value,model);
+    }
+  }
+  if (resourceSettings.getThrowExceptionOnMissingResource()) {
+    AppendingStringBuffer message=new AppendingStringBuffer("Unable to find property: '");
+    message.append(key);
+    message.append('\'');
+    if (component != null) {
+      message.append(" for component: ");
+      message.append(component.getPageRelativePath());
+      message.append(" [class=").append(component.getClass().getName()).append(']');
+    }
+    message.append(". Locale: ").append(locale).append(", style: ").append(style);
+    throw new MissingResourceException(message.toString(),(component != null ? component.getClass().getName() : ""),key);
+  }
+  return "[Warning: Property for '" + key + "' not found]";
+}
