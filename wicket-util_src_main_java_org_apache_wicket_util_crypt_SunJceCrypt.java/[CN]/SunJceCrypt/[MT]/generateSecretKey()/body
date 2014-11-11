@@ -1,4 +1,5 @@
 {
-  final PBEKeySpec spec=new PBEKeySpec(getKey().toCharArray());
-  return SecretKeyFactory.getInstance(CRYPT_METHOD).generateSecret(spec);
+  SecretKeyFactory keyFactory=SecretKeyFactory.getInstance(cryptMethod);
+  KeySpec spec=createKeySpec();
+  return keyFactory.generateSecret(spec);
 }

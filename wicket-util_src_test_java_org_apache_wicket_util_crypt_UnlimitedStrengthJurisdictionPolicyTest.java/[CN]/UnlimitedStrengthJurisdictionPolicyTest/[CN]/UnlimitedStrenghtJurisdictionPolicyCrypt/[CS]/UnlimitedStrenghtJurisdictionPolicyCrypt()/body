@@ -1,0 +1,13 @@
+{
+  SecretKeyFactory factory=SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+  KeySpec spec=new PBEKeySpec(getKey().toCharArray(),SunJceCrypt.SALT,65536,256);
+  SecretKey tmp=factory.generateSecret(spec);
+  SecretKey secret=new SecretKeySpec(tmp.getEncoded(),"AES");
+  String transformation="AES/CBC/PKCS5Padding";
+  crypter=Cipher.getInstance(transformation);
+  crypter.init(Cipher.ENCRYPT_MODE,secret);
+  AlgorithmParameters params=crypter.getParameters();
+  byte[] iv=params.getParameterSpec(IvParameterSpec.class).getIV();
+  decrypter=Cipher.getInstance(transformation);
+  decrypter.init(Cipher.DECRYPT_MODE,secret,new IvParameterSpec(iv));
+}

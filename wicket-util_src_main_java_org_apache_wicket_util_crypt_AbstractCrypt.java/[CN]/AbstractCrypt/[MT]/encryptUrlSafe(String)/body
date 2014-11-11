@@ -1,7 +1,9 @@
 {
   try {
     byte[] encrypted=encryptStringToByteArray(plainText);
-    return new String(new Base64(-1,null,true).encode(encrypted),CHARACTER_ENCODING);
+    Base64 base64=new Base64(-1,null,true);
+    byte[] encoded=base64.encode(encrypted);
+    return new String(encoded,CHARACTER_ENCODING);
   }
  catch (  GeneralSecurityException e) {
     log.error("Unable to encrypt text '" + plainText + "'",e);

@@ -1,0 +1,9 @@
+{
+  boolean unlimitedStrengthJurisdictionPolicyInstalled=isUnlimitedStrengthJurisdictionPolicyInstalled();
+  Assume.assumeThat(unlimitedStrengthJurisdictionPolicyInstalled,is(true));
+  SunJceCrypt crypt=new SunJceCrypt("PBEWithMD5AndTripleDES");
+  String input="input";
+  byte[] encrypted=crypt.crypt(input.getBytes(),Cipher.ENCRYPT_MODE);
+  byte[] decrypted=crypt.crypt(encrypted,Cipher.DECRYPT_MODE);
+  assertThat(new String(decrypted),is(equalTo(input)));
+}

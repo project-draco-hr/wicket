@@ -1,0 +1,13 @@
+{
+  boolean unlimitedStrengthJurisdictionPolicyInstalled=SunJceCryptTest.isUnlimitedStrengthJurisdictionPolicyInstalled();
+  Assume.assumeThat(unlimitedStrengthJurisdictionPolicyInstalled,is(true));
+  AbstractCrypt crypt=new UnlimitedStrenghtJurisdictionPolicyCrypt();
+  String input1="input1";
+  byte[] encrypted=crypt.crypt(input1.getBytes(),Cipher.ENCRYPT_MODE);
+  String input2="input2";
+  byte[] encrypted2=crypt.crypt(input2.getBytes(),Cipher.ENCRYPT_MODE);
+  byte[] decrypted=crypt.crypt(encrypted,Cipher.DECRYPT_MODE);
+  assertThat(new String(decrypted),is(equalTo(input1)));
+  byte[] decrypted2=crypt.crypt(encrypted2,Cipher.DECRYPT_MODE);
+  assertThat(new String(decrypted2),is(equalTo(input2)));
+}
