@@ -1,9 +1,14 @@
 {
   StringBuilder combinedScript=new StringBuilder();
-  for (  OnDomReadyHeaderItem curItem : domReadyItemsToBeRendered) {
+  for (  HeaderItem curItem : domReadyItemsToBeRendered) {
     if (markItemRendered(curItem)) {
       combinedScript.append('\n');
-      combinedScript.append(curItem.getJavaScript());
+      if (curItem instanceof OnDomReadyHeaderItem) {
+        combinedScript.append(((OnDomReadyHeaderItem)curItem).getJavaScript());
+      }
+ else       if (curItem instanceof OnEventHeaderItem) {
+        combinedScript.append(((OnEventHeaderItem)curItem).getCompleteJavaScript());
+      }
       combinedScript.append(';');
     }
   }
