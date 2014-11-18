@@ -1,4 +1,5 @@
 {
   AjaxCallbackPage page=tester.startPage(AjaxCallbackPage.class);
-  assertEquals("function () {\n" + "var attrs = {\"u\":\"./wicket/bookmarkable/org.apache.wicket.ajax.AjaxCallbackPage?0-1.IBehaviorListener.0-\"};\n" + "var params = {'resolved': window.location.href};\n"+ "attrs.ep = params;\n"+ "Wicket.Ajax.ajax(attrs);\n"+ "}\n",page.getBehavior().getCallbackFunction(resolved("resolved","window.location.href")).toString());
+  assertEquals("function () {\n" + "var attrs = {\"u\":\"./wicket/bookmarkable/org.apache.wicket.ajax.AjaxCallbackPage?0-1.IBehaviorListener.0-\"};\n" + "var params = [{\"name\":\"resolved\",\"value\":window.location.href}];\n"+ "attrs.ep = params.concat(attrs.ep);\n"+ "Wicket.Ajax.ajax(attrs);\n"+ "}\n",page.getBehavior1().getCallbackFunction(resolved("resolved","window.location.href")).toString());
+  assertEquals("function () {\n" + "var attrs = {\"u\":\"./wicket/bookmarkable/org.apache.wicket.ajax.AjaxCallbackPage?0-1.IBehaviorListener.1-\"," + "\"ep\":[{\"name\":\"param1\",\"value\":123},{\"name\":\"param2\",\"value\":\"zh_CN\"}]};\n"+ "var params = [{\"name\":\"resolved\",\"value\":window.location.href}];\n"+ "attrs.ep = params.concat(attrs.ep);\n"+ "Wicket.Ajax.ajax(attrs);\n"+ "}\n",page.getBehavior2().getCallbackFunction(resolved("resolved","window.location.href")).toString());
 }
