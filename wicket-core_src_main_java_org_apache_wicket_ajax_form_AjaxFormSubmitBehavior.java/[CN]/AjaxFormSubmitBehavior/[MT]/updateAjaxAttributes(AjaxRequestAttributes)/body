@@ -10,8 +10,9 @@
     attributes.setMultipart(true);
     attributes.setMethod(Method.POST);
   }
-  if (getComponent() instanceof IFormSubmittingComponent) {
-    String submittingComponentName=((IFormSubmittingComponent)getComponent()).getInputName();
+  IFormSubmittingComponent submittingComponent=getFormSubmittingComponent();
+  if (submittingComponent != null) {
+    String submittingComponentName=submittingComponent.getInputName();
     attributes.setSubmittingComponentName(submittingComponentName);
   }
 }
