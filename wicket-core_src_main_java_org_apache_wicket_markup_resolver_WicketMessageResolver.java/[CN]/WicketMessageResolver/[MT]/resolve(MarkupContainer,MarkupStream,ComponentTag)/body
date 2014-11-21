@@ -6,8 +6,9 @@
       if ((messageKey == null) || (messageKey.trim().length() == 0)) {
         throw new MarkupException("Wrong format of <wicket:message key='xxx'>: attribute 'key' is missing");
       }
+      boolean escape=wtag.getAttributes().getBoolean("escape");
       final String id="_message_" + container.getPage().getAutoIndex();
-      MessageContainer label=new MessageContainer(id,messageKey);
+      MessageContainer label=new MessageContainer(id,messageKey,escape);
       label.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
       return label;
     }

@@ -1,7 +1,7 @@
 {
   final Map<String,CharSequence> childTags=findAndRenderChildWicketTags(markupStream,openTag);
   final Map<String,Object> variablesReplaced=new HashMap<String,Object>();
-  String text=new MapVariableInterpolator(value,childTags){
+  CharSequence text=new MapVariableInterpolator(value,childTags){
     @Override protected String getValue(    final String variableName){
       String value=super.getValue(variableName);
       if (value != null) {
@@ -27,6 +27,9 @@
     }
   }
 .toString();
+  if (escapeValue) {
+    text=Strings.escapeMarkup(text);
+  }
   getResponse().write(text);
   for (  String id : childTags.keySet()) {
     if (variablesReplaced.containsKey(id) == false) {
