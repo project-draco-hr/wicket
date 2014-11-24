@@ -1,0 +1,9 @@
+{
+  UrlRenderer renderer=new UrlRenderer(new MockWebRequest(Url.parse("any/thing")));
+  String fullUrl=renderer.renderFullUrl(Url.parse("/./../one/two/three"));
+  assertEquals("/one/two/three",fullUrl);
+  fullUrl=renderer.renderFullUrl(Url.parse("/.././one/two/three"));
+  assertEquals("/one/two/three",fullUrl);
+  fullUrl=renderer.renderFullUrl(Url.parse("/one/.././two/three"));
+  assertEquals("/two/three",fullUrl);
+}
