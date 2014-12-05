@@ -1,3 +1,16 @@
 {
-  return event;
+  String events=event.toLowerCase();
+  String[] splitEvents=events.split("\\s+");
+  List<String> cleanedEvents=new ArrayList<>(splitEvents.length);
+  for (  String evt : splitEvents) {
+    if (Strings.isEmpty(evt) == false) {
+      if (evt.startsWith("on")) {
+        String shortName=evt.substring(2);
+        LOGGER.warn("Since version 6.0.0 Wicket uses JavaScript event registration so there is no need of the leading " + "'on' in the event name '{}'. Please use just '{}'. Wicket 8.x won't manipulate the provided event " + "names so the leading 'on' may break your application.",evt,shortName);
+        evt=shortName;
+      }
+      cleanedEvents.add(evt);
+    }
+  }
+  return Strings.join(" ",cleanedEvents);
 }
