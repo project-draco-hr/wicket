@@ -4,9 +4,7 @@
   PropertyModel<Date> dateFieldModel=new PropertyModel<>(this,DATE);
   add(dateField=newDateTextField(DATE,dateFieldModel));
   dateField.add(newDatePicker());
-  add(hoursField=new TextField<Integer>(HOURS,new PropertyModel<Integer>(this,HOURS),Integer.class));
-  hoursField.add(getMaximumHours() == 24 ? RangeValidator.range(0,23) : RangeValidator.range(1,12));
-  hoursField.setLabel(new Model<>(HOURS));
+  add(hoursField=newHoursTextField(HOURS,new PropertyModel<Integer>(this,HOURS),Integer.class));
   add(minutesField=new TextField<Integer>(MINUTES,new PropertyModel<Integer>(this,MINUTES),Integer.class){
     private static final long serialVersionUID=1L;
     @SuppressWarnings("unchecked") @Override public <C>IConverter<C> getConverter(    Class<C> type){
