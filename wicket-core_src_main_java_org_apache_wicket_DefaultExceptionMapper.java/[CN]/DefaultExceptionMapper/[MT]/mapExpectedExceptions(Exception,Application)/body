@@ -1,0 +1,20 @@
+{
+  if (e instanceof StalePageException) {
+    return new RenderPageRequestHandler(new PageProvider(((StalePageException)e).getPage()));
+  }
+ else   if (e instanceof PageExpiredException) {
+    return createPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getPageExpiredErrorPage()));
+  }
+ else   if (e instanceof AuthorizationException || e instanceof ListenerInvocationNotAllowedException) {
+    return createPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getAccessDeniedPage()));
+  }
+ else   if (e instanceof ResponseIOException) {
+    logger.error("Connection lost, give up responding.",e);
+    return new EmptyRequestHandler();
+  }
+ else   if (e instanceof PackageResource.PackageResourceBlockedException && application.usesDeploymentConfig()) {
+    logger.debug(e.getMessage(),e);
+    return new ErrorCodeRequestHandler(404);
+  }
+  return null;
+}

@@ -6,35 +6,9 @@ case INVOKE_FAILURE_HANDLER:
       return new ErrorCodeRequestHandler(500);
   }
 }
-if (e instanceof StalePageException) {
-  return new RenderPageRequestHandler(new PageProvider(((StalePageException)e).getPage()));
+IRequestHandler handleExpectedExceptions=mapExpectedExceptions(e,application);
+if (handleExpectedExceptions != null) {
+  return handleExpectedExceptions;
 }
- else if (e instanceof PageExpiredException) {
-  return createPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getPageExpiredErrorPage()));
-}
- else if (e instanceof AuthorizationException || e instanceof ListenerInvocationNotAllowedException) {
-  return createPageRequestHandler(new PageProvider(Application.get().getApplicationSettings().getAccessDeniedPage()));
-}
- else if (e instanceof ResponseIOException) {
-  logger.error("Connection lost, give up responding.",e);
-  return new EmptyRequestHandler();
-}
- else if (e instanceof PackageResource.PackageResourceBlockedException && application.usesDeploymentConfig()) {
-  logger.debug(e.getMessage(),e);
-  return new ErrorCodeRequestHandler(404);
-}
- else {
-  final ExceptionSettings.UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
-  logger.error("Unexpected error occurred",e);
-  if (ExceptionSettings.SHOW_EXCEPTION_PAGE.equals(unexpectedExceptionDisplay)) {
-    Page currentPage=extractCurrentPage();
-    return createPageRequestHandler(new PageProvider(new ExceptionErrorPage(e,currentPage)));
-  }
- else   if (ExceptionSettings.SHOW_INTERNAL_ERROR_PAGE.equals(unexpectedExceptionDisplay)) {
-    return createPageRequestHandler(new PageProvider(application.getApplicationSettings().getInternalErrorPage()));
-  }
- else {
-    return new ErrorCodeRequestHandler(500);
-  }
-}
+return mapUnexpectedExceptions(e,application);
 }

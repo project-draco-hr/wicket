@@ -1,0 +1,12 @@
+{
+  final ExceptionSettings.UnexpectedExceptionDisplay unexpectedExceptionDisplay=application.getExceptionSettings().getUnexpectedExceptionDisplay();
+  logger.error("Unexpected error occurred",e);
+  if (ExceptionSettings.SHOW_EXCEPTION_PAGE.equals(unexpectedExceptionDisplay)) {
+    Page currentPage=extractCurrentPage();
+    return createPageRequestHandler(new PageProvider(new ExceptionErrorPage(e,currentPage)));
+  }
+ else   if (ExceptionSettings.SHOW_INTERNAL_ERROR_PAGE.equals(unexpectedExceptionDisplay)) {
+    return createPageRequestHandler(new PageProvider(application.getApplicationSettings().getInternalErrorPage()));
+  }
+  return new ErrorCodeRequestHandler(500);
+}
