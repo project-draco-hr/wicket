@@ -43,14 +43,16 @@
       hostAndPort=afterProto.substring(0,relativeAt);
     }
     final int credentialsAt=hostAndPort.lastIndexOf('@') + 1;
-    final int portAt=hostAndPort.substring(credentialsAt).lastIndexOf(':');
+    final int closeSqrBracketAt=hostAndPort.lastIndexOf(']') + 1;
+    final int portAt=hostAndPort.substring(credentialsAt).substring(closeSqrBracketAt).lastIndexOf(':');
     if (portAt == -1) {
       result.host=hostAndPort;
       result.port=getDefaultPortForProtocol(result.protocol);
     }
  else {
-      result.host=hostAndPort.substring(0,portAt + credentialsAt);
-      result.port=Integer.parseInt(hostAndPort.substring(portAt + credentialsAt + 1));
+      final int portOffset=portAt + credentialsAt + closeSqrBracketAt;
+      result.host=hostAndPort.substring(0,portOffset);
+      result.port=Integer.parseInt(hostAndPort.substring(portOffset + 1));
     }
     if (relativeAt < 0) {
       relativeUrl="/";
