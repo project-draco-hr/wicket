@@ -5,20 +5,7 @@
   add(dateField=newDateTextField(DATE,dateFieldModel));
   dateField.add(newDatePicker());
   add(hoursField=newHoursTextField(HOURS,new PropertyModel<Integer>(this,HOURS),Integer.class));
-  add(minutesField=new TextField<Integer>(MINUTES,new PropertyModel<Integer>(this,MINUTES),Integer.class){
-    private static final long serialVersionUID=1L;
-    @SuppressWarnings("unchecked") @Override public <C>IConverter<C> getConverter(    Class<C> type){
-      if (Integer.class.isAssignableFrom(type)) {
-        return (IConverter<C>)MINUTES_CONVERTER;
-      }
- else {
-        return super.getConverter(type);
-      }
-    }
-  }
-);
-  minutesField.add(new RangeValidator<>(0,59));
-  minutesField.setLabel(new Model<>(MINUTES));
+  add(minutesField=newMinutesTextField(MINUTES,new PropertyModel<Integer>(this,MINUTES),Integer.class));
   add(amOrPmChoice=new DropDownChoice<AM_PM>(AM_OR_PM_CHOICE,new PropertyModel<AM_PM>(this,AM_OR_PM),Arrays.asList(AM_PM.values())));
   add(new WebMarkupContainer("hoursSeparator"){
     private static final long serialVersionUID=1L;
