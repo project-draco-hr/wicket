@@ -1,0 +1,9 @@
+{
+  WicketTester tester=new WicketTester();
+  PageParameters parameters=new PageParameters();
+  parameters.add("foo","foo");
+  parameters.add("bar","bar");
+  CharSequence pageUrl=tester.getRequestCycle().urlFor(SimplePage.class,parameters);
+  MetaDataHeaderItem importLink=HtmlImportHeaderItem.forImportLinkTag(SimplePage.class,parameters,"monitor",true);
+  assertEquals("<link rel=\"import\" href=\"" + pageUrl + "\" media=\"monitor\" async />\n",importLink.generateString());
+}

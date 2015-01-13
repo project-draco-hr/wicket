@@ -1,0 +1,7 @@
+{
+  String url="/path/to/page.html";
+  MetaDataHeaderItem result=HtmlImportHeaderItem.forImportLinkTag(url);
+  assertEquals("<link rel=\"import\" href=\"" + url + "\" />\n",result.generateString());
+  result=HtmlImportHeaderItem.forImportLinkTag(url,true);
+  assertEquals("<link rel=\"import\" href=\"" + url + "\" async />\n",result.generateString());
+}
