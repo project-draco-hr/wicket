@@ -1,3 +1,6 @@
 {
-  return style != null ? style : Session.get().getStyle();
+  if (style == null && Session.exists()) {
+    return Session.get().getStyle();
+  }
+  return style;
 }
