@@ -1,0 +1,14 @@
+{
+  Args.notNull(locator,"locator");
+  Args.notNull(beanType,"beanType");
+  this.beanName=beanName;
+  beanTypeCache=new WeakReference<Class<?>>(beanType);
+  beanTypeName=beanType.getName();
+  springContextLocator=locator;
+  if (beanField != null) {
+    fieldName=beanField.getName();
+    fieldResolvableType=ResolvableType.forField(beanField);
+    Class<?> collectionFieldType=GenericCollectionTypeResolver.getCollectionFieldType(beanField);
+    fieldCollectionResolvableType=collectionFieldType != null ? ResolvableType.forClass(collectionFieldType) : null;
+  }
+}

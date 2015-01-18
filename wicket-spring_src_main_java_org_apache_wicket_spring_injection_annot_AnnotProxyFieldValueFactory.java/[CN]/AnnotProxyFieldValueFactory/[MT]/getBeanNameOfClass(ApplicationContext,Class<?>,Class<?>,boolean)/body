@@ -1,4 +1,7 @@
 {
+  if (clazz == List.class) {
+    return null;
+  }
   List<String> names=new ArrayList<String>(Arrays.asList(BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx,clazz)));
   if (ctx instanceof AbstractApplicationContext) {
     Iterator<String> it=names.iterator();
@@ -30,6 +33,9 @@
       if (primaries.size() == 1) {
         return primaries.get(0);
       }
+    }
+    if (generic != null) {
+      return null;
     }
     StringBuilder msg=new StringBuilder();
     msg.append("More than one bean of type [");

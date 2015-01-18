@@ -1,0 +1,29 @@
+{
+  ArrayList<Object> beansAsList=new ArrayList<>();
+  for (  String beanName : names) {
+    RootBeanDefinition beanDef=getBeanDefinition(ctx,beanName);
+    if (beanDef == null) {
+      continue;
+    }
+    ResolvableType candidateRt=null;
+    if (beanDef.hasBeanClass()) {
+      candidateRt=ResolvableType.forClass(beanDef.getBeanClass());
+    }
+ else     if (beanDef.getResolvedFactoryMethod() != null) {
+      candidateRt=ResolvableType.forMethodReturnType(beanDef.getResolvedFactoryMethod());
+    }
+    if (candidateRt == null) {
+      continue;
+    }
+    boolean exactMatch=fieldResolvableType.isAssignableFrom(candidateRt);
+    boolean elementMatch=fieldCollectionResolvableType != null ? fieldCollectionResolvableType.isAssignableFrom(candidateRt) : false;
+    if (exactMatch || elementMatch) {
+      beansAsList.add(ctx.getBean(beanName));
+    }
+    if (exactMatch) {
+      this.beanName=beanName;
+      return beansAsList;
+    }
+  }
+  return beansAsList;
+}

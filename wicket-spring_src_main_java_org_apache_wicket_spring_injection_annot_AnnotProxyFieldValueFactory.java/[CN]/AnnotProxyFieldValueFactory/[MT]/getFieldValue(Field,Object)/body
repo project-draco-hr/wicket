@@ -12,11 +12,9 @@
       name=named != null ? named.value() : "";
       required=true;
     }
-    String beanName=getBeanName(field,name,required);
-    if (beanName == null) {
-      return null;
-    }
-    SpringBeanLocator locator=new SpringBeanLocator(beanName,field.getType(),contextLocator);
+    Class<?> generic=ResolvableType.forField(field).resolveGeneric(0);
+    String beanName=getBeanName(field,name,required,generic);
+    SpringBeanLocator locator=new SpringBeanLocator(beanName,field.getType(),field,contextLocator);
     Object cachedValue=cache.get(locator);
     if (cachedValue != null) {
       return cachedValue;
@@ -36,7 +34,7 @@
     if (wrapInProxies) {
       target=LazyInitProxyFactory.createProxy(field.getType(),locator);
     }
-    if (locator.isSingletonBean()) {
+    if (field.getType() == List.class || locator.isSingletonBean()) {
       Object tmpTarget=cache.putIfAbsent(locator,target);
       if (tmpTarget != null) {
         target=tmpTarget;
