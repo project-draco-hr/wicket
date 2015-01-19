@@ -1,3 +1,6 @@
 {
-  return super.getCallbackUrl() + "&" + WebRequest.PARAM_AJAX+ "=true&"+ WebRequest.PARAM_AJAX_BASE_URL+ "=.";
+  RequestCycle requestCycle=getComponent().getRequestCycle();
+  Url baseUrl=requestCycle.getUrlRenderer().getBaseUrl();
+  CharSequence ajaxBaseUrl=Strings.escapeMarkup(baseUrl.toString());
+  return new StringBuilder(256).append(super.getCallbackUrl()).append('&').append(WebRequest.PARAM_AJAX).append("=true&").append(WebRequest.PARAM_AJAX_BASE_URL).append('=').append(ajaxBaseUrl);
 }
