@@ -1,0 +1,6 @@
+{
+  wicketTester.startPage(ImageResourceReferenceTestPage.class);
+  String lastResponseAsString=wicketTester.getLastResponse().getDocument();
+  TagTester createTagByAttribute=TagTester.createTagByAttribute(lastResponseAsString,"img");
+  Assert.assertFalse(createTagByAttribute.hasAttribute("srcset"));
+}

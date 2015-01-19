@@ -1,0 +1,15 @@
+{
+  final IResource resource=this.getImageResource();
+  if (resource != null) {
+    this.localizedImageResource.setResource(resource);
+  }
+  final ResourceReference resourceReference=this.getImageResourceReference();
+  if (resourceReference != null) {
+    this.localizedImageResource.setResourceReference(resourceReference);
+  }
+  this.localizedImageResource.setSrcAttribute(tag);
+  if (this.shouldAddAntiCacheParameter()) {
+    this.addAntiCacheParameter(tag);
+  }
+  return tag.getAttribute("src");
+}

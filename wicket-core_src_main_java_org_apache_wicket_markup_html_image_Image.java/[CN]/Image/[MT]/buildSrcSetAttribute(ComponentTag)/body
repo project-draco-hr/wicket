@@ -1,0 +1,16 @@
+{
+  int srcSetPosition=0;
+  for (  LocalizedImageResource localizedImageResource : this.localizedImageResources) {
+    localizedImageResource.setSrcAttribute(tag);
+    if (this.shouldAddAntiCacheParameter()) {
+      this.addAntiCacheParameter(tag);
+    }
+    String srcset=tag.getAttribute("srcset");
+    String xValue="";
+    if (this.xValues != null) {
+      xValue=this.xValues.size() > srcSetPosition && this.xValues.get(srcSetPosition) != null ? " " + this.xValues.get(srcSetPosition) : "";
+    }
+    tag.put("srcset",(srcset != null ? srcset + ", " : "") + tag.getAttribute("src") + xValue);
+    srcSetPosition++;
+  }
+}

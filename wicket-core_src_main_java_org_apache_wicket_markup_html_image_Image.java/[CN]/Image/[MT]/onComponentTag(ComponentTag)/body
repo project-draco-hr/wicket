@@ -1,16 +1,14 @@
 {
-  checkComponentTag(tag,"img");
   super.onComponentTag(tag);
-  final IResource resource=getImageResource();
-  if (resource != null) {
-    localizedImageResource.setResource(resource);
+  if (tag.getName().equals("source")) {
+    this.buildSrcSetAttribute(tag);
+    tag.remove("src");
   }
-  final ResourceReference resourceReference=getImageResourceReference();
-  if (resourceReference != null) {
-    localizedImageResource.setResourceReference(resourceReference);
+ else {
+    this.checkComponentTag(tag,"img");
+    String srcAttribute=this.buildSrcAttribute(tag);
+    this.buildSrcSetAttribute(tag);
+    tag.put("src",srcAttribute);
   }
-  localizedImageResource.setSrcAttribute(tag);
-  if (shouldAddAntiCacheParameter()) {
-    addAntiCacheParameter(tag);
-  }
+  this.buildSizesAttribute(tag);
 }
