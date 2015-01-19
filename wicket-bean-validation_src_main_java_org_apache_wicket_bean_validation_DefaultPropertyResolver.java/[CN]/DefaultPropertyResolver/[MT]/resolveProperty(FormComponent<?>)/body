@@ -1,19 +1,5 @@
 {
-  IModel<?> model=component.getModel();
-  while (true) {
-    if (model == null) {
-      return null;
-    }
-    if (model instanceof IPropertyReflectionAwareModel) {
-      break;
-    }
-    if (model instanceof IWrapModel<?>) {
-      model=((IWrapModel<?>)model).getWrappedModel();
-      continue;
-    }
-    return null;
-  }
-  IPropertyReflectionAwareModel<?> delegate=(IPropertyReflectionAwareModel<?>)model;
+  IPropertyReflectionAwareModel<?> delegate=ValidationModelResolver.resolvePropertyModelFrom(component);
   String name;
   Method getter=delegate.getPropertyGetter();
   if (getter != null) {
