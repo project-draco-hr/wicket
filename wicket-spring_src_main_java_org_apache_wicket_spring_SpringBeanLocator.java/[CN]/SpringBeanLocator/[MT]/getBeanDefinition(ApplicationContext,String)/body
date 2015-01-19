@@ -1,6 +1,6 @@
 {
   ConfigurableListableBeanFactory beanFactory=((AbstractApplicationContext)ctx).getBeanFactory();
-  BeanDefinition beanDef=beanFactory.getMergedBeanDefinition(name);
+  BeanDefinition beanDef=beanFactory.containsBean(name) ? beanFactory.getMergedBeanDefinition(name) : null;
   if (beanDef instanceof RootBeanDefinition) {
     return (RootBeanDefinition)beanDef;
   }

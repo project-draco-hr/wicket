@@ -1,9 +1,17 @@
 {
   List<String> beanNames=new ArrayList<>();
-  String[] beanNamesArr=BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx,lookupClass);
-  if (ctx.containsBean(fieldName)) {
-    beanNames.add(fieldName);
-  }
+  Class<?> fieldType=getBeanType();
+  String[] beanNamesArr=ctx.getBeanNamesForType(fieldType);
   beanNames.addAll(Arrays.asList(beanNamesArr));
+  if (lookupClass != fieldType) {
+    beanNamesArr=ctx.getBeanNamesForType(lookupClass);
+    beanNames.addAll(Arrays.asList(beanNamesArr));
+  }
+  Iterator<String> nameIterator=beanNames.iterator();
+  while (nameIterator.hasNext()) {
+    if (!ctx.containsBeanDefinition(nameIterator.next())) {
+      nameIterator.remove();
+    }
+  }
   return beanNames;
 }

@@ -6,14 +6,12 @@
     if (fieldResolvableType == null) {
       return ctx.getBean(clazz);
     }
-    Class<?> lookupClass=clazz == List.class ? fieldResolvableType.getGeneric(0).resolve() : clazz;
+    final boolean isList=clazz == List.class;
+    Class<?> lookupClass=isList ? fieldResolvableType.getGeneric(0).resolve() : clazz;
     List<String> names=loadBeanNames(ctx,lookupClass);
-    List<Object> beansAsList=getBeansByName(ctx,names);
-    if (beansAsList.size() == 1) {
-      return beansAsList.get(0);
-    }
-    if (!beansAsList.isEmpty()) {
-      return beansAsList;
+    Object foundBeans=getBeansByName(ctx,names);
+    if (foundBeans != null) {
+      return foundBeans;
     }
     throw new IllegalStateException("Concrete bean could not be received from the application context for class: " + clazz.getName() + ".");
   }

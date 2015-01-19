@@ -8,7 +8,6 @@
   if (beanField != null) {
     fieldName=beanField.getName();
     fieldResolvableType=ResolvableType.forField(beanField);
-    Class<?> collectionFieldType=GenericCollectionTypeResolver.getCollectionFieldType(beanField);
-    fieldCollectionResolvableType=collectionFieldType != null ? ResolvableType.forClass(collectionFieldType) : null;
+    fieldCollectionResolvableType=fieldResolvableType.getGeneric();
   }
 }
