@@ -8,14 +8,14 @@
     }
     Class<?> lookupClass=clazz == List.class ? fieldResolvableType.getGeneric(0).resolve() : clazz;
     List<String> names=loadBeanNames(ctx,lookupClass);
-    ArrayList<Object> beansAsList=getBeansByName(ctx,names);
+    List<Object> beansAsList=getBeansByName(ctx,names);
     if (beansAsList.size() == 1) {
       return beansAsList.get(0);
     }
     if (!beansAsList.isEmpty()) {
       return beansAsList;
     }
-    throw new IllegalStateException("Concrete bean could not be received from the application context " + clazz.getName() + ".");
+    throw new IllegalStateException("Concrete bean could not be received from the application context for class: " + clazz.getName() + ".");
   }
  catch (  NoSuchBeanDefinitionException e) {
     throw new IllegalStateException("bean with name [" + name + "] and class ["+ clazz.getName()+ "] not found",e);
