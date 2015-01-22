@@ -1,0 +1,34 @@
+{
+  super.onComponentTag(tag);
+  String timeManagement="";
+  if (this.startTime != null) {
+    timeManagement=timeManagement+="#t=" + this.startTime + (this.endTime != null ? "," + this.endTime : "");
+  }
+  if (this.mediaStreamingResourceReference != null) {
+    tag.put("src",RequestCycle.get().urlFor(this.mediaStreamingResourceReference,this.pageParameters) + timeManagement);
+  }
+  if (this.url != null) {
+    tag.put("src",this.url + timeManagement);
+  }
+  if (this.mediaGroup != null) {
+    tag.put("mediagroup",this.mediaGroup);
+  }
+  if (this.autoplay != null && this.autoplay) {
+    tag.put("autoplay","autoplay");
+  }
+  if (this.loop != null && this.loop) {
+    tag.put("loop","loop");
+  }
+  if (this.muted != null && this.muted) {
+    tag.put("muted","muted");
+  }
+  if (this.getControls()) {
+    tag.put("controls","controls");
+  }
+  if (this.preload != null) {
+    tag.put("preload",this.preload.name());
+  }
+  if (this.crossorigin != null) {
+    tag.put("crossorigin",this.crossorigin.getRealName());
+  }
+}

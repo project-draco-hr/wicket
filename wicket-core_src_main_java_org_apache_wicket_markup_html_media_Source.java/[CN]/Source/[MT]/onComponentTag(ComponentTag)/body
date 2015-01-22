@@ -1,0 +1,21 @@
+{
+  this.checkComponentTag(tag,"source");
+  super.onComponentTag(tag);
+  if (this.mediaStreamingResourceReference != null) {
+    tag.put("src",RequestCycle.get().urlFor(this.mediaStreamingResourceReference,this.pageParameters));
+  }
+  if (this.url != null) {
+    tag.put("src",this.url);
+  }
+  if (this.getDisplayType()) {
+    if (this.type != null) {
+      tag.put("type",this.type);
+    }
+ else     if (this.mediaStreamingResourceReference != null) {
+      tag.put("type",this.mediaStreamingResourceReference.getType());
+    }
+  }
+  if (this.media != null) {
+    tag.put("media",this.media);
+  }
+}
