@@ -1,0 +1,25 @@
+{
+  this.checkComponentTag(tag,"track");
+  super.onComponentTag(tag);
+  if (this.resourceReference != null) {
+    tag.put("src",RequestCycle.get().urlFor(this.resourceReference,this.pageParameters));
+  }
+  if (this.url != null) {
+    tag.put("src",this.url);
+  }
+  if (this.kind != null) {
+    tag.put("kind",this.kind.name());
+  }
+  if (this.label != null) {
+    tag.put("label",this.label);
+  }
+  if (this.defaultTrack != null && this.defaultTrack) {
+    tag.put("default","default");
+  }
+  if (this.srclang != null) {
+    tag.put("srclang",this.srclang.getLanguage());
+  }
+ else   if (this.resourceReference != null && this.resourceReference.getLocale() != null) {
+    tag.put("srclang",this.resourceReference.getLocale().getLanguage());
+  }
+}
