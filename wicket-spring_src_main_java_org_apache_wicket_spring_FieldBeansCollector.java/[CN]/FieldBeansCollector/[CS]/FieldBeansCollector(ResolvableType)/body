@@ -1,0 +1,23 @@
+{
+  Class<?> clazz=fieldResolvableType.resolve();
+  if (clazz == Map.class) {
+    fieldType=FieldType.MAP;
+    beansToInjectColl=null;
+    beansToInjectMap=new HashMap<>();
+  }
+ else   if (clazz == Set.class) {
+    fieldType=FieldType.SET;
+    beansToInjectColl=new HashSet<>();
+    beansToInjectMap=null;
+  }
+ else   if (clazz == List.class) {
+    fieldType=FieldType.LIST;
+    beansToInjectColl=new ArrayList<>();
+    beansToInjectMap=null;
+  }
+ else {
+    fieldType=FieldType.NONE;
+    beansToInjectColl=null;
+    beansToInjectMap=null;
+  }
+}

@@ -34,7 +34,7 @@
     if (wrapInProxies) {
       target=LazyInitProxyFactory.createProxy(field.getType(),locator);
     }
-    if (field.getType() == List.class || locator.isSingletonBean()) {
+    if (locator.isSingletonBean()) {
       Object tmpTarget=cache.putIfAbsent(locator,target);
       if (tmpTarget != null) {
         target=tmpTarget;

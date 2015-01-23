@@ -6,8 +6,7 @@
     if (fieldResolvableType == null) {
       return ctx.getBean(clazz);
     }
-    final boolean isList=clazz == List.class;
-    Class<?> lookupClass=isList ? fieldResolvableType.getGeneric(0).resolve() : clazz;
+    Class<?> lookupClass=fieldElementsResolvableType != null ? fieldElementsResolvableType.resolve() : clazz;
     List<String> names=loadBeanNames(ctx,lookupClass);
     Object foundBeans=getBeansByName(ctx,names);
     if (foundBeans != null) {
