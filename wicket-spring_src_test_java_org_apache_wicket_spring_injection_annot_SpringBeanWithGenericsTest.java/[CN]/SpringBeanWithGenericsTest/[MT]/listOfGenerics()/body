@@ -1,5 +1,8 @@
 {
   AnnotatedListOfBeanGenericQualifier page=tester.startPage(new AnnotatedListOfBeanGenericQualifier());
-  assertNotNull(page.getBeans());
-  assertEquals(2,page.getBeans().size());
+  List<BeanWithGeneric<?>> beans=page.getBeans();
+  assertNotNull(beans);
+  assertEquals(2,beans.size());
+  assertTrue(beans.contains(ctx.getBean("stringBean")));
+  assertTrue(beans.contains(ctx.getBean("integerBean")));
 }
