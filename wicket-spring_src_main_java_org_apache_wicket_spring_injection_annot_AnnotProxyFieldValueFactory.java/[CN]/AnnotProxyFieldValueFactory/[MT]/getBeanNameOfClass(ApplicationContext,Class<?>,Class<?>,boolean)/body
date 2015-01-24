@@ -10,13 +10,7 @@
       }
     }
   }
-  if (names.isEmpty()) {
-    if (required) {
-      throw new IllegalStateException("bean of type [" + clazz.getName() + "] not found");
-    }
-    return null;
-  }
- else   if (names.size() > 1) {
+  if (names.size() > 1) {
     if (ctx instanceof AbstractApplicationContext) {
       List<String> primaries=new ArrayList<>();
       for (      String name : names) {
@@ -43,7 +37,8 @@
     msg.append(Strings.join(",",names.toArray(new String[names.size()])));
     throw new IllegalStateException(msg.toString());
   }
- else {
+ else   if (!names.isEmpty()) {
     return names.get(0);
   }
+  return null;
 }
