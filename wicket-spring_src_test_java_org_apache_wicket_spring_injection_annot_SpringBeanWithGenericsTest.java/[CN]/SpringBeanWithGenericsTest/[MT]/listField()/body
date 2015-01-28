@@ -2,4 +2,10 @@
   AnnotatedListField page=tester.startPage(new AnnotatedListField());
   assertNotNull(page.getStringsList());
   assertEquals(3,page.getStringsList().size());
+  ArrayList<String> arrayListStrings=page.getArrayListStrings();
+  assertThat(arrayListStrings,is(notNullValue()));
+  assertThat(arrayListStrings.size(),is(3));
+  assertThat(arrayListStrings.get(0),is(equalTo("one")));
+  assertThat(arrayListStrings.get(1),is(equalTo("two")));
+  assertThat(arrayListStrings.get(2),is(equalTo("three")));
 }
