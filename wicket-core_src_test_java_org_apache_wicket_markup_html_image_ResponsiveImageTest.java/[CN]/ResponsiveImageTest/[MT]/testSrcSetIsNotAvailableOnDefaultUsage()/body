@@ -1,7 +1,7 @@
 {
-  wicketTester.startPage(ImageResourceReferenceTestPage.class);
-  String lastResponseAsString=wicketTester.getLastResponse().getDocument();
+  tester.startPage(ImageResourceReferenceTestPage.class);
+  String lastResponseAsString=tester.getLastResponse().getDocument();
   TagTester createTagByAttribute=TagTester.createTagByAttribute(lastResponseAsString,"img");
   Assert.assertFalse(createTagByAttribute.hasAttribute("srcset"));
-  Assert.assertEquals("anonymous",createTagByAttribute.getAttribute("crossorigin"));
+  Assert.assertEquals(Image.Cors.ANONYMOUS.getRealName(),createTagByAttribute.getAttribute("crossorigin"));
 }

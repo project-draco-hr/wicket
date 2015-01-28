@@ -1,17 +1,18 @@
 {
   super.onComponentTag(tag);
-  if (tag.getName().equals("source")) {
-    this.buildSrcSetAttribute(tag);
+  if ("source".equals(tag.getName())) {
+    buildSrcSetAttribute(tag);
     tag.remove("src");
   }
  else {
-    this.checkComponentTag(tag,"img");
-    String srcAttribute=this.buildSrcAttribute(tag);
-    this.buildSrcSetAttribute(tag);
+    checkComponentTag(tag,"img");
+    String srcAttribute=buildSrcAttribute(tag);
+    buildSrcSetAttribute(tag);
     tag.put("src",srcAttribute);
   }
-  this.buildSizesAttribute(tag);
-  if (this.crossorigin != null) {
-    tag.put("crossorigin",this.crossorigin.getRealName());
+  buildSizesAttribute(tag);
+  Cors crossOrigin=getCrossOrigin();
+  if (crossOrigin != null && Cors.NO_CORS != crossOrigin) {
+    tag.put("crossOrigin",crossOrigin.getRealName());
   }
 }

@@ -1,14 +1,14 @@
 {
   int srcSetPosition=0;
-  for (  LocalizedImageResource localizedImageResource : this.localizedImageResources) {
+  for (  LocalizedImageResource localizedImageResource : localizedImageResources) {
     localizedImageResource.setSrcAttribute(tag);
-    if (this.shouldAddAntiCacheParameter()) {
-      this.addAntiCacheParameter(tag);
+    if (shouldAddAntiCacheParameter()) {
+      addAntiCacheParameter(tag);
     }
     String srcset=tag.getAttribute("srcset");
     String xValue="";
-    if (this.xValues != null) {
-      xValue=this.xValues.size() > srcSetPosition && this.xValues.get(srcSetPosition) != null ? " " + this.xValues.get(srcSetPosition) : "";
+    if (xValues != null) {
+      xValue=xValues.size() > srcSetPosition && xValues.get(srcSetPosition) != null ? " " + xValues.get(srcSetPosition) : "";
     }
     tag.put("srcset",(srcset != null ? srcset + ", " : "") + tag.getAttribute("src") + xValue);
     srcSetPosition++;
