@@ -1,6 +1,12 @@
 {
   if (model != null) {
-    return new PropertyVariableInterpolator(resourceKey,model.getObject()).toString();
+    return new PropertyVariableInterpolator(resourceKey,model.getObject()){
+      protected String getValue(      String variableName){
+        String result=super.getValue(variableName);
+        return result == null ? "null" : result;
+      }
+    }
+.toString();
   }
  else {
     return resourceKey;
