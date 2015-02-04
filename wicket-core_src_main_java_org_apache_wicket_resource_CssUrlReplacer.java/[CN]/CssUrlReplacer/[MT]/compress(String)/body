@@ -4,7 +4,7 @@
     Collection<String> pageNames=this.pageNames.keySet();
     for (    String pageName : pageNames) {
       try {
-        Class<Page> pageClass=(Class<Page>)Class.forName(pageName);
+        Class<Page> pageClass=WicketObjects.resolveClass(pageName);
         String url=matcher.group(1);
         if (!url.contains("/")) {
           URL urlResource=pageClass.getResource(url);
