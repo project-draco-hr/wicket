@@ -11,13 +11,13 @@
         if (request instanceof WebRequest && response instanceof WebResponse) {
           WebRequest webRequest=(WebRequest)request;
           WebResponse webResponse=(WebResponse)response;
-          this.packageResourceStream=new PackageResourceStream(MediaStreamingResourceReference.this.getScope(),MediaStreamingResourceReference.this.getName(),MediaStreamingResourceReference.this.getLocale(),MediaStreamingResourceReference.this.getStyle(),MediaStreamingResourceReference.this.getVariation());
-          long length=this.packageResourceStream.length().bytes();
+          packageResourceStream=new PackageResourceStream(MediaStreamingResourceReference.this.getScope(),MediaStreamingResourceReference.this.getName(),MediaStreamingResourceReference.this.getLocale(),MediaStreamingResourceReference.this.getStyle(),MediaStreamingResourceReference.this.getVariation());
+          long length=packageResourceStream.length().bytes();
           ResourceResponse resourceResponse=new ResourceResponse();
-          resourceResponse.setContentType(this.packageResourceStream.getContentType());
+          resourceResponse.setContentType(packageResourceStream.getContentType());
           resourceResponse.setFileName(MediaStreamingResourceReference.this.getName());
           resourceResponse.setContentDisposition(ContentDisposition.ATTACHMENT);
-          resourceResponse.setLastModified(this.packageResourceStream.lastModifiedTime());
+          resourceResponse.setLastModified(packageResourceStream.lastModifiedTime());
           webResponse.setHeader("Accept-Range","bytes");
           String rangeHeader=webRequest.getHeader("range");
           if (rangeHeader == null || "".equals(rangeHeader)) {
@@ -34,15 +34,15 @@
               resourceResponse.setContentLength(length);
             }
  else {
-              this.startbyte=Long.parseLong(rangeParts[0]);
+              startbyte=Long.parseLong(rangeParts[0]);
               if (rangeParts.length == 2) {
-                this.endbyte=Long.parseLong(rangeParts[1]);
+                endbyte=Long.parseLong(rangeParts[1]);
               }
  else {
-                this.endbyte=length - 1;
+                endbyte=length - 1;
               }
-              webResponse.setHeader("Content-Range","bytes " + this.startbyte + "-"+ this.endbyte+ "/"+ length);
-              resourceResponse.setContentLength((this.endbyte - this.startbyte) + 1);
+              webResponse.setHeader("Content-Range","bytes " + startbyte + "-"+ endbyte+ "/"+ length);
+              resourceResponse.setContentLength((endbyte - startbyte) + 1);
             }
           }
           resourceResponse.setWriteCallback(new WriteCallback(){
@@ -77,8 +77,7 @@
  catch (              ResponseIOException e) {
               }
 catch (              Exception e) {
-                StringWriter stringWriter=printStack(e);
-                throw new WicketRuntimeException(stringWriter.toString());
+                throw new WicketRuntimeException("A problem occurred while writing the buffer to the output stream.",e);
               }
             }
           }
@@ -90,31 +89,18 @@ catch (              Exception e) {
         }
       }
  catch (      Exception e) {
-        StringWriter stringWriter=this.printStack(e);
-        throw new WicketRuntimeException(stringWriter.toString());
+        throw new WicketRuntimeException("A problem occurred while creating the video response.",e);
       }
  finally {
-        if (this.packageResourceStream != null) {
+        if (packageResourceStream != null) {
           try {
-            this.packageResourceStream.close();
+            packageResourceStream.close();
           }
  catch (          IOException e) {
-            StringWriter stringWriter=this.printStack(e);
-            throw new WicketRuntimeException(stringWriter.toString());
+            throw new WicketRuntimeException("A problem occurred while closing the video response stream.",e);
           }
         }
       }
-    }
-    /** 
- * Prints the stack trace to a print writer
- * @param exceptionthe exception
- * @return the string writer containing the stack trace
- */
-    private StringWriter printStack(    Exception exception){
-      StringWriter stringWriter=new StringWriter();
-      PrintWriter printWriter=new PrintWriter(stringWriter);
-      exception.printStackTrace(printWriter);
-      return stringWriter;
     }
   }
 ;
