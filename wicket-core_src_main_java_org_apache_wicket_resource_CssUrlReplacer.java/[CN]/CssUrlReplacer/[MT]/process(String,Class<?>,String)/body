@@ -1,0 +1,15 @@
+{
+  PackageResourceReference cssReference=new PackageResourceReference(scope,name);
+  CharSequence urlToCss=RequestCycle.get().urlFor(cssReference,null);
+  Url cssUrl=Url.parse(urlToCss);
+  Matcher matcher=URL_PATTERN.matcher(input);
+  StringBuffer output=new StringBuffer();
+  while (matcher.find()) {
+    Url imageRelativeUrl=Url.parse(matcher.group(1));
+    Url cssUrlCopy=new Url(cssUrl);
+    cssUrlCopy.resolveRelative(imageRelativeUrl);
+    matcher.appendReplacement(output,"url('" + cssUrlCopy.toString() + "')");
+  }
+  matcher.appendTail(output);
+  return output.toString();
+}
