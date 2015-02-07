@@ -1,92 +1,54 @@
 {
   AbstractResource mediaStreamingResource=new AbstractResource(){
     private static final long serialVersionUID=1L;
-    private Long startbyte;
-    private Long endbyte;
-    private PackageResourceStream packageResourceStream;
     @Override protected ResourceResponse newResourceResponse(    Attributes attributes){
+      PackageResourceStream packageResourceStream=null;
+      Long startbyte=null;
+      Long endbyte=null;
       try {
         Request request=attributes.getRequest();
         Response response=attributes.getResponse();
-        if (request instanceof WebRequest && response instanceof WebResponse) {
-          WebRequest webRequest=(WebRequest)request;
-          WebResponse webResponse=(WebResponse)response;
-          packageResourceStream=new PackageResourceStream(MediaStreamingResourceReference.this.getScope(),MediaStreamingResourceReference.this.getName(),MediaStreamingResourceReference.this.getLocale(),MediaStreamingResourceReference.this.getStyle(),MediaStreamingResourceReference.this.getVariation());
-          long length=packageResourceStream.length().bytes();
-          ResourceResponse resourceResponse=new ResourceResponse();
-          resourceResponse.setContentType(packageResourceStream.getContentType());
-          resourceResponse.setFileName(MediaStreamingResourceReference.this.getName());
-          resourceResponse.setContentDisposition(ContentDisposition.ATTACHMENT);
-          resourceResponse.setLastModified(packageResourceStream.lastModifiedTime());
-          webResponse.setHeader("Accept-Range","bytes");
-          String rangeHeader=webRequest.getHeader("range");
-          if (rangeHeader == null || "".equals(rangeHeader)) {
-            resourceResponse.setStatusCode(200);
+        if (!(request instanceof WebRequest) || !(response instanceof WebResponse)) {
+          throw new IllegalStateException("Either the request is no web request or the response is no web response");
+        }
+        WebRequest webRequest=(WebRequest)request;
+        WebResponse webResponse=(WebResponse)response;
+        packageResourceStream=new PackageResourceStream(MediaStreamingResourceReference.this.getScope(),MediaStreamingResourceReference.this.getName(),MediaStreamingResourceReference.this.getLocale(),MediaStreamingResourceReference.this.getStyle(),MediaStreamingResourceReference.this.getVariation());
+        long length=packageResourceStream.length().bytes();
+        ResourceResponse resourceResponse=new ResourceResponse();
+        resourceResponse.setContentType(packageResourceStream.getContentType());
+        resourceResponse.setFileName(MediaStreamingResourceReference.this.getName());
+        resourceResponse.setContentDisposition(ContentDisposition.ATTACHMENT);
+        resourceResponse.setLastModified(packageResourceStream.lastModifiedTime());
+        webResponse.setHeader("Accept-Range","bytes");
+        String rangeHeader=webRequest.getHeader("range");
+        if (rangeHeader == null || "".equals(rangeHeader)) {
+          resourceResponse.setStatusCode(200);
+          resourceResponse.setContentLength(length);
+        }
+ else {
+          rangeHeader=rangeHeader.replaceAll(" ","");
+          resourceResponse.setStatusCode(206);
+          String range=rangeHeader.substring(rangeHeader.indexOf('=') + 1,rangeHeader.length());
+          String[] rangeParts=range.split("-");
+          if (rangeParts[0].equals("0")) {
+            webResponse.setHeader("Content-Range","bytes 0-" + (length - 1) + "/"+ length);
             resourceResponse.setContentLength(length);
           }
  else {
-            rangeHeader=rangeHeader.replaceAll(" ","");
-            resourceResponse.setStatusCode(206);
-            String range=rangeHeader.substring(rangeHeader.indexOf('=') + 1,rangeHeader.length());
-            String[] rangeParts=range.split("-");
-            if (rangeParts[0].equals("0")) {
-              webResponse.setHeader("Content-Range","bytes 0-" + (length - 1) + "/"+ length);
-              resourceResponse.setContentLength(length);
+            startbyte=Long.parseLong(rangeParts[0]);
+            if (rangeParts.length == 2) {
+              endbyte=Long.parseLong(rangeParts[1]);
             }
  else {
-              startbyte=Long.parseLong(rangeParts[0]);
-              if (rangeParts.length == 2) {
-                endbyte=Long.parseLong(rangeParts[1]);
-              }
- else {
-                endbyte=length - 1;
-              }
-              webResponse.setHeader("Content-Range","bytes " + startbyte + "-"+ endbyte+ "/"+ length);
-              resourceResponse.setContentLength((endbyte - startbyte) + 1);
+              endbyte=length - 1;
             }
+            webResponse.setHeader("Content-Range","bytes " + startbyte + "-"+ endbyte+ "/"+ length);
+            resourceResponse.setContentLength((endbyte - startbyte) + 1);
           }
-          resourceResponse.setWriteCallback(new WriteCallback(){
-            @Override public void writeData(            Attributes attributes) throws IOException {
-              try {
-                InputStream inputStream=packageResourceStream.getInputStream();
-                OutputStream outputStream=attributes.getResponse().getOutputStream();
-                byte[] buffer=new byte[MediaStreamingResourceReference.this.getBuffer()];
-                if (startbyte != null || endbyte != null) {
-                  inputStream.skip(startbyte);
-                  long totalBytes=0;
-                  int actualReadBytes=0;
-                  while ((actualReadBytes=inputStream.read(buffer)) != -1) {
-                    totalBytes=totalBytes + buffer.length;
-                    long lowerBuffer=endbyte - totalBytes;
-                    if (lowerBuffer <= 0) {
-                      buffer=(byte[])resizeArray(buffer,actualReadBytes);
-                      outputStream.write(buffer);
-                      break;
-                    }
- else {
-                      outputStream.write(buffer);
-                    }
-                  }
-                }
- else {
-                  while (inputStream.read(buffer) != -1) {
-                    outputStream.write(buffer);
-                  }
-                }
-              }
- catch (              ResponseIOException e) {
-              }
-catch (              Exception e) {
-                throw new WicketRuntimeException("A problem occurred while writing the buffer to the output stream.",e);
-              }
-            }
-          }
-);
-          return resourceResponse;
         }
- else {
-          throw new IllegalStateException("Either the request is no web request or the response is no web response");
-        }
+        resourceResponse.setWriteCallback(new PartWriterCallback(packageResourceStream,startbyte,endbyte));
+        return resourceResponse;
       }
  catch (      Exception e) {
         throw new WicketRuntimeException("A problem occurred while creating the video response.",e);
