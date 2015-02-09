@@ -1,0 +1,13 @@
+{
+  Args.notNull(application,"application");
+  Args.notNull(sessionId,"sessionId");
+  Collection<IWebSocketConnection> connections=Collections.emptyList();
+  ConcurrentMap<String,ConcurrentMap<IKey,IWebSocketConnection>> connectionsBySession=application.getMetaData(KEY);
+  if (connectionsBySession != null) {
+    ConcurrentMap<IKey,IWebSocketConnection> connectionsByPage=connectionsBySession.get(sessionId);
+    if (connectionsByPage != null) {
+      connections=connectionsByPage.values();
+    }
+  }
+  return connections;
+}
