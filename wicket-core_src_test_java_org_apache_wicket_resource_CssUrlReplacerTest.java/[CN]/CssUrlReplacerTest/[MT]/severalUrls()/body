@@ -1,0 +1,9 @@
+{
+  String input=".class {\n" + "a: url('../images/a.img');\n" + "b: url('./b.img');\n"+ "}";
+  Class<?> scope=CssUrlReplacerTest.class;
+  String cssRelativePath="res/css/some.css";
+  CssUrlReplacer replacer=new CssUrlReplacer();
+  String processed=replacer.process(input,scope,cssRelativePath);
+  assertThat(processed,containsString("CssUrlReplacerTest/res/images/a.img" + DECORATION_SUFFIX + "');"));
+  assertThat(processed,containsString("CssUrlReplacerTest/res/css/b.img" + DECORATION_SUFFIX + "');"));
+}

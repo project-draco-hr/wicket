@@ -1,0 +1,14 @@
+{
+  return new MockApplication(){
+    @Override protected void init(){
+      super.init();
+      getResourceSettings().setCachingStrategy(new FilenameWithVersionResourceCachingStrategy("=VER=",new MessageDigestResourceVersion()){
+        @Override public void decorateUrl(        ResourceUrl url,        IStaticCacheableResource resource){
+          url.setFileName(url.getFileName() + DECORATION_SUFFIX);
+        }
+      }
+);
+    }
+  }
+;
+}

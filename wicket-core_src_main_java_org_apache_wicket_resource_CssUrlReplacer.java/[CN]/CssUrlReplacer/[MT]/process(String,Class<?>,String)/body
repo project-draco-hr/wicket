@@ -1,0 +1,25 @@
+{
+  RequestCycle cycle=RequestCycle.get();
+  Url cssUrl=Url.parse(name);
+  Matcher matcher=URL_PATTERN.matcher(input);
+  StringBuffer output=new StringBuffer();
+  while (matcher.find()) {
+    Url imageCandidateUrl=Url.parse(matcher.group(1));
+    CharSequence processedUrl;
+    if (imageCandidateUrl.isFull()) {
+      processedUrl=imageCandidateUrl.toString(Url.StringMode.FULL);
+    }
+ else     if (imageCandidateUrl.isContextAbsolute()) {
+      processedUrl=imageCandidateUrl.toString();
+    }
+ else {
+      Url cssUrlCopy=new Url(cssUrl);
+      cssUrlCopy.resolveRelative(imageCandidateUrl);
+      PackageResourceReference imageReference=new PackageResourceReference(scope,cssUrlCopy.toString());
+      processedUrl=cycle.urlFor(imageReference,null);
+    }
+    matcher.appendReplacement(output,"url('" + processedUrl + "')");
+  }
+  matcher.appendTail(output);
+  return output.toString();
+}
