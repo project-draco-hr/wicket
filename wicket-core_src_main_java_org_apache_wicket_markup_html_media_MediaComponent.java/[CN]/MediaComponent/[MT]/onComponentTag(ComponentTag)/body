@@ -1,0 +1,34 @@
+{
+  super.onComponentTag(tag);
+  String timeManagement="";
+  if (startTime != null) {
+    timeManagement=timeManagement+="#t=" + startTime + (endTime != null ? "," + endTime : "");
+  }
+  if (mediaStreamingResourceReference != null) {
+    tag.put("src",RequestCycle.get().urlFor(mediaStreamingResourceReference,pageParameters) + timeManagement);
+  }
+  if (url != null) {
+    tag.put("src",url + timeManagement);
+  }
+  if (mediaGroup != null) {
+    tag.put("mediagroup",mediaGroup);
+  }
+  if (autoplay != null && autoplay) {
+    tag.put("autoplay","autoplay");
+  }
+  if (loop != null && loop) {
+    tag.put("loop","loop");
+  }
+  if (muted != null && muted) {
+    tag.put("muted","muted");
+  }
+  if (getControls()) {
+    tag.put("controls","controls");
+  }
+  if (preload != null) {
+    tag.put("preload",preload.getRealName());
+  }
+  if (crossOrigin != null) {
+    tag.put("crossorigin",crossOrigin.getRealName());
+  }
+}

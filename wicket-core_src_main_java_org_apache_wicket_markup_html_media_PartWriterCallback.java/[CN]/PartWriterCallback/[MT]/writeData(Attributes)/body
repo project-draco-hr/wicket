@@ -1,0 +1,39 @@
+{
+  try {
+    InputStream inputStream=packageResourceStream.getInputStream();
+    OutputStream outputStream=attributes.getResponse().getOutputStream();
+    byte[] buffer=new byte[getBuffer()];
+    if (startbyte != null || endbyte != null) {
+      if (startbyte != null) {
+        inputStream.skip(startbyte);
+      }
+      if (endbyte == null) {
+        endbyte=packageResourceStream.length().bytes();
+      }
+      long totalBytes=0;
+      int actualReadBytes=0;
+      while ((actualReadBytes=inputStream.read(buffer)) != -1) {
+        totalBytes=totalBytes + buffer.length;
+        long lowerBuffer=endbyte - totalBytes;
+        if (lowerBuffer <= 0) {
+          buffer=(byte[])resizeArray(buffer,actualReadBytes);
+          outputStream.write(buffer);
+          break;
+        }
+ else {
+          outputStream.write(buffer);
+        }
+      }
+    }
+ else {
+      while (inputStream.read(buffer) != -1) {
+        outputStream.write(buffer);
+      }
+    }
+  }
+ catch (  ResponseIOException e) {
+  }
+catch (  Exception e) {
+    throw new WicketRuntimeException("A problem occurred while writing the buffer to the output stream.",e);
+  }
+}

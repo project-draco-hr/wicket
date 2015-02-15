@@ -1,0 +1,21 @@
+{
+  checkComponentTag(tag,"source");
+  super.onComponentTag(tag);
+  if (mediaStreamingResourceReference != null) {
+    tag.put("src",RequestCycle.get().urlFor(mediaStreamingResourceReference,pageParameters));
+  }
+  if (url != null) {
+    tag.put("src",url);
+  }
+  if (getDisplayType()) {
+    if (type != null) {
+      tag.put("type",type);
+    }
+ else     if (mediaStreamingResourceReference != null) {
+      tag.put("type",mediaStreamingResourceReference.getType());
+    }
+  }
+  if (media != null) {
+    tag.put("media",media);
+  }
+}
