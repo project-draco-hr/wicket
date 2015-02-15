@@ -2,33 +2,37 @@
   super.onComponentTag(tag);
   String timeManagement="";
   if (startTime != null) {
-    timeManagement=timeManagement+="#t=" + startTime + (endTime != null ? "," + endTime : "");
+    timeManagement+="#t=" + startTime + (endTime != null ? "," + endTime : "");
   }
   if (mediaStreamingResourceReference != null) {
-    tag.put("src",RequestCycle.get().urlFor(mediaStreamingResourceReference,pageParameters) + timeManagement);
+    CharSequence urlToMediaReference=RequestCycle.get().urlFor(mediaStreamingResourceReference,pageParameters);
+    tag.put("src",urlToMediaReference + timeManagement);
   }
-  if (url != null) {
+ else   if (url != null) {
     tag.put("src",url + timeManagement);
   }
-  if (mediaGroup != null) {
-    tag.put("mediagroup",mediaGroup);
+  String mg=getMediaGroup();
+  if (mg != null) {
+    tag.put("mediagroup",mg);
   }
-  if (autoplay != null && autoplay) {
+  if (isAutoplay()) {
     tag.put("autoplay","autoplay");
   }
-  if (loop != null && loop) {
+  if (isLooping()) {
     tag.put("loop","loop");
   }
-  if (muted != null && muted) {
+  if (isMuted()) {
     tag.put("muted","muted");
   }
-  if (getControls()) {
+  if (hasControls()) {
     tag.put("controls","controls");
   }
-  if (preload != null) {
-    tag.put("preload",preload.getRealName());
+  Preload _preload=getPreload();
+  if (_preload != null) {
+    tag.put("preload",_preload.getRealName());
   }
-  if (crossOrigin != null) {
-    tag.put("crossorigin",crossOrigin.getRealName());
+  Cors cors=getCrossOrigin();
+  if (cors != null) {
+    tag.put("crossorigin",cors.getRealName());
   }
 }

@@ -1,0 +1,13 @@
+{
+  tester.startPage(MediaTagsTestPage.class);
+  String lastResponseAsString=tester.getLastResponse().getDocument();
+  TagTester createTagByAttribute=TagTester.createTagByAttribute(lastResponseAsString,"audio");
+  assertTrue(createTagByAttribute.hasAttribute("autoplay"));
+  assertTrue(createTagByAttribute.hasAttribute("controls"));
+  assertTrue(createTagByAttribute.hasAttribute("loop"));
+  assertTrue(createTagByAttribute.hasAttribute("muted"));
+  assertEquals("user-credentials",createTagByAttribute.getAttribute("crossorigin"));
+  String attribute=createTagByAttribute.getAttribute("src");
+  assertTrue("The time period is set right in the src attribute",attribute.contains("#t=5,10"));
+  assertTrue("page parameter is in the url of the src attribute",attribute.contains("test=test"));
+}

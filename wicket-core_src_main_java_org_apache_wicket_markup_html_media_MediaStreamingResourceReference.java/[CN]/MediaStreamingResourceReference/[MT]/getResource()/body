@@ -1,19 +1,18 @@
 {
-  AbstractResource mediaStreamingResource=new AbstractResource(){
+  return new PackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation()){
     private static final long serialVersionUID=1L;
     @Override protected ResourceResponse newResourceResponse(    Attributes attributes){
-      PackageResourceStream packageResourceStream=null;
+      IResourceStream packageResourceStream=getResourceStream();
       Long startbyte=null;
       Long endbyte=null;
       try {
         Request request=attributes.getRequest();
         Response response=attributes.getResponse();
         if (!(request instanceof WebRequest) || !(response instanceof WebResponse)) {
-          throw new IllegalStateException("Either the request is no web request or the response is no web response");
+          throw new IllegalStateException("Web request/response are required! Request: " + request + ", response: "+ response);
         }
         WebRequest webRequest=(WebRequest)request;
         WebResponse webResponse=(WebResponse)response;
-        packageResourceStream=new PackageResourceStream(MediaStreamingResourceReference.this.getScope(),MediaStreamingResourceReference.this.getName(),MediaStreamingResourceReference.this.getLocale(),MediaStreamingResourceReference.this.getStyle(),MediaStreamingResourceReference.this.getVariation());
         long length=packageResourceStream.length().bytes();
         ResourceResponse resourceResponse=new ResourceResponse();
         resourceResponse.setContentType(packageResourceStream.getContentType());
@@ -22,7 +21,7 @@
         resourceResponse.setLastModified(packageResourceStream.lastModifiedTime());
         webResponse.setHeader("Accept-Range","bytes");
         String rangeHeader=webRequest.getHeader("range");
-        if (rangeHeader == null || "".equals(rangeHeader)) {
+        if (Strings.isEmpty(rangeHeader)) {
           resourceResponse.setStatusCode(200);
           resourceResponse.setContentLength(length);
         }
@@ -30,8 +29,8 @@
           rangeHeader=rangeHeader.replaceAll(" ","");
           resourceResponse.setStatusCode(206);
           String range=rangeHeader.substring(rangeHeader.indexOf('=') + 1,rangeHeader.length());
-          String[] rangeParts=range.split("-");
-          if (rangeParts[0].equals("0")) {
+          String[] rangeParts=Strings.split(range,'-');
+          if ("0".equals(rangeParts[0])) {
             webResponse.setHeader("Content-Range","bytes 0-" + (length - 1) + "/"+ length);
             resourceResponse.setContentLength(length);
           }
@@ -43,7 +42,7 @@
  else {
               endbyte=length - 1;
             }
-            webResponse.setHeader("Content-Range","bytes " + startbyte + "-"+ endbyte+ "/"+ length);
+            webResponse.setHeader("Content-Range","bytes " + startbyte + '-'+ endbyte+ '/'+ length);
             resourceResponse.setContentLength((endbyte - startbyte) + 1);
           }
         }
@@ -66,5 +65,4 @@
     }
   }
 ;
-  return mediaStreamingResource;
 }

@@ -1,22 +1,22 @@
 {
   try {
-    InputStream inputStream=packageResourceStream.getInputStream();
+    InputStream inputStream=resourceStream.getInputStream();
     OutputStream outputStream=attributes.getResponse().getOutputStream();
-    byte[] buffer=new byte[getBuffer()];
+    byte[] buffer=new byte[getBufferSize()];
     if (startbyte != null || endbyte != null) {
       if (startbyte != null) {
         inputStream.skip(startbyte);
       }
       if (endbyte == null) {
-        endbyte=packageResourceStream.length().bytes();
+        endbyte=resourceStream.length().bytes();
       }
       long totalBytes=0;
-      int actualReadBytes=0;
+      int actualReadBytes;
       while ((actualReadBytes=inputStream.read(buffer)) != -1) {
         totalBytes=totalBytes + buffer.length;
         long lowerBuffer=endbyte - totalBytes;
         if (lowerBuffer <= 0) {
-          buffer=(byte[])resizeArray(buffer,actualReadBytes);
+          buffer=resizeArray(buffer,actualReadBytes);
           outputStream.write(buffer);
           break;
         }
