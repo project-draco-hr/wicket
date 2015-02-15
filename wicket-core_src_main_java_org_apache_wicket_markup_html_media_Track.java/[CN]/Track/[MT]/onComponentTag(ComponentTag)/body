@@ -4,20 +4,23 @@
   if (resourceReference != null) {
     tag.put("src",RequestCycle.get().urlFor(resourceReference,pageParameters));
   }
-  if (url != null) {
+ else   if (url != null) {
     tag.put("src",url);
   }
-  if (kind != null) {
-    tag.put("kind",kind.name());
+  Kind _kind=getKind();
+  if (_kind != null) {
+    tag.put("kind",_kind.name());
   }
-  if (label != null) {
-    tag.put("label",label);
+  String _label=getLabel();
+  if (_label != null) {
+    tag.put("label",_label);
   }
-  if (defaultTrack != null && defaultTrack) {
+  if (defaultTrack) {
     tag.put("default","default");
   }
-  if (srclang != null) {
-    tag.put("srclang",srclang.getLanguage());
+  Locale _srclang=getSrclang();
+  if (_srclang != null) {
+    tag.put("srclang",_srclang.getLanguage());
   }
  else   if (resourceReference != null && resourceReference.getLocale() != null) {
     tag.put("srclang",resourceReference.getLocale().getLanguage());
