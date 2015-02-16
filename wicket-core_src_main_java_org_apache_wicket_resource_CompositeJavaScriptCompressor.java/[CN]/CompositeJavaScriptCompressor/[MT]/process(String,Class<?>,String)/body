@@ -1,0 +1,13 @@
+{
+  String compressed=input;
+  for (  IJavaScriptCompressor compressor : compressors) {
+    if (compressor instanceof IScopeAwareTextResourceProcessor) {
+      IScopeAwareTextResourceProcessor processor=(IScopeAwareTextResourceProcessor)compressor;
+      compressed=processor.process(compressed,scope,name);
+    }
+ else {
+      compressed=compressor.compress(compressed);
+    }
+  }
+  return compressed;
+}

@@ -4,7 +4,15 @@
   if (compressor != null && getCompress()) {
     try {
       String nonCompressed=new String(processedResponse,"UTF-8");
-      return compressor.compress(nonCompressed).getBytes("UTF-8");
+      String output;
+      if (compressor instanceof IScopeAwareTextResourceProcessor) {
+        IScopeAwareTextResourceProcessor scopeAwareProcessor=(IScopeAwareTextResourceProcessor)compressor;
+        output=scopeAwareProcessor.process(nonCompressed,getScope(),name);
+      }
+ else {
+        output=compressor.compress(nonCompressed);
+      }
+      return output.getBytes();
     }
  catch (    Exception e) {
       log.error("Error while filtering content",e);
