@@ -1,0 +1,23 @@
+{
+  Video video1=new Video("video1",new MediaStreamingResourceReference(Home.class,"video.mp4"));
+  video1.setAutoplay(false);
+  video1.setControls(true);
+  video1.setLooping(false);
+  video1.setWidth(320);
+  video1.setHeight(240);
+  video1.setPoster(new PackageResourceReference(Home.class,"novideo.gif"));
+  add(video1);
+  PageParameters pageParameters=new PageParameters();
+  pageParameters.add("random",UUID.randomUUID().toString());
+  pageParameters.add("test","test");
+  Video video2=new Video("video2","http://media.w3.org/2010/05/video/movie_300.mp4",pageParameters);
+  video2.setCrossOrigin(Cors.ANONYMOUS);
+  add(video2);
+  Video video3=new Video("video3");
+  video3.setPoster(new PackageResourceReference(Home.class,"novideo.gif"));
+  Source source3=new Source("source3",new MediaStreamingResourceReference(Home.class,"video.mp4"));
+  source3.setDisplayType(true);
+  source3.setType("video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"");
+  video3.add(source3);
+  add(video3);
+}

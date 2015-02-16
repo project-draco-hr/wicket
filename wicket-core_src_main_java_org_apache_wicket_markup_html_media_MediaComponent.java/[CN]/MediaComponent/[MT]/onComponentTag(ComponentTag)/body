@@ -9,7 +9,9 @@
     tag.put("src",urlToMediaReference + timeManagement);
   }
  else   if (url != null) {
-    tag.put("src",url + timeManagement);
+    Url encoded=new PageParametersEncoder().encodePageParameters(pageParameters);
+    String queryString=encoded.getQueryString();
+    tag.put("src",url + (queryString != null ? "?" + queryString : "") + timeManagement);
   }
   String mg=getMediaGroup();
   if (mg != null) {

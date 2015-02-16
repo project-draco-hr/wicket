@@ -2,7 +2,10 @@
   return new PackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation()){
     private static final long serialVersionUID=1L;
     @Override protected ResourceResponse newResourceResponse(    Attributes attributes){
-      IResourceStream packageResourceStream=getResourceStream();
+      IResourceStream resourceStream=getResourceStream();
+      if (resourceStream == null) {
+        throw new WicketRuntimeException("Cannot find resource: " + toString());
+      }
       Long startbyte=null;
       Long endbyte=null;
       try {
@@ -13,12 +16,12 @@
         }
         WebRequest webRequest=(WebRequest)request;
         WebResponse webResponse=(WebResponse)response;
-        long length=packageResourceStream.length().bytes();
+        long length=resourceStream.length().bytes();
         ResourceResponse resourceResponse=new ResourceResponse();
-        resourceResponse.setContentType(packageResourceStream.getContentType());
+        resourceResponse.setContentType(resourceStream.getContentType());
         resourceResponse.setFileName(MediaStreamingResourceReference.this.getName());
         resourceResponse.setContentDisposition(ContentDisposition.ATTACHMENT);
-        resourceResponse.setLastModified(packageResourceStream.lastModifiedTime());
+        resourceResponse.setLastModified(resourceStream.lastModifiedTime());
         webResponse.setHeader("Accept-Range","bytes");
         String rangeHeader=webRequest.getHeader("range");
         if (Strings.isEmpty(rangeHeader)) {
@@ -37,7 +40,12 @@
  else {
             startbyte=Long.parseLong(rangeParts[0]);
             if (rangeParts.length == 2) {
-              endbyte=Long.parseLong(rangeParts[1]);
+              if (!"".equals(rangeParts[1].trim())) {
+                endbyte=Long.parseLong(rangeParts[1]);
+              }
+ else {
+                endbyte=length - 1;
+              }
             }
  else {
               endbyte=length - 1;
@@ -46,16 +54,16 @@
             resourceResponse.setContentLength((endbyte - startbyte) + 1);
           }
         }
-        resourceResponse.setWriteCallback(new PartWriterCallback(packageResourceStream,startbyte,endbyte));
+        resourceResponse.setWriteCallback(new PartWriterCallback(resourceStream,startbyte,endbyte));
         return resourceResponse;
       }
  catch (      Exception e) {
         throw new WicketRuntimeException("A problem occurred while creating the video response.",e);
       }
  finally {
-        if (packageResourceStream != null) {
+        if (resourceStream != null) {
           try {
-            packageResourceStream.close();
+            resourceStream.close();
           }
  catch (          IOException e) {
             throw new WicketRuntimeException("A problem occurred while closing the video response stream.",e);
