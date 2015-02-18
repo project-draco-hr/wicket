@@ -1,0 +1,12 @@
+{
+  IResourceStream resourceStream=imageReference.getResource().getResourceStream();
+  InputStream inputStream=resourceStream.getInputStream();
+  try {
+    byte[] bytes=IOUtils.toByteArray(inputStream);
+    String base64EncodedImage=Base64.encodeBase64String(bytes);
+    return "data:" + resourceStream.getContentType() + ";base64,"+ base64EncodedImage.replaceAll("\\s","");
+  }
+  finally {
+    IOUtils.closeQuietly(inputStream);
+  }
+}

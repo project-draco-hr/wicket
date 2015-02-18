@@ -1,0 +1,8 @@
+{
+  String input=".class {background-image: url('Beer.gif?embedBase64');}";
+  Class<?> scope=ImageTest.class;
+  String cssRelativePath="some.css";
+  CssUrlReplacer replacer=new CssUrlReplacer();
+  String processed=replacer.process(input,scope,cssRelativePath);
+  assertThat(processed,containsString(".class {background-image: url(data:image/gif;base64,R0lGODlh1wATAXAAACH5BAEAAP8ALAAAAADXA"));
+}

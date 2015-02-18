@@ -6,6 +6,7 @@
   while (matcher.find()) {
     Url imageCandidateUrl=Url.parse(matcher.group(1));
     CharSequence processedUrl;
+    boolean embedded=false;
     if (imageCandidateUrl.isFull()) {
       processedUrl=imageCandidateUrl.toString(Url.StringMode.FULL);
     }
@@ -15,10 +16,22 @@
  else {
       Url cssUrlCopy=new Url(cssUrl);
       cssUrlCopy.resolveRelative(imageCandidateUrl);
-      PackageResourceReference imageReference=new PackageResourceReference(scope,cssUrlCopy.toString());
-      processedUrl=cycle.urlFor(imageReference,null);
+      if (cssUrlCopy.getQueryString() != null && cssUrlCopy.getQueryString().contains(EMBED_BASE64)) {
+        embedded=true;
+        PackageResourceReference imageReference=new PackageResourceReference(scope,cssUrlCopy.toString().replace("?" + EMBED_BASE64,""));
+        try {
+          processedUrl=createBase64EncodedImage(imageReference);
+        }
+ catch (        Exception e) {
+          throw new WicketRuntimeException("Error while embedding an image into the css: " + imageReference,e);
+        }
+      }
+ else {
+        PackageResourceReference imageReference=new PackageResourceReference(scope,cssUrlCopy.toString());
+        processedUrl=cycle.urlFor(imageReference,null);
+      }
     }
-    matcher.appendReplacement(output,"url('" + processedUrl + "')");
+    matcher.appendReplacement(output,embedded ? "url(" + processedUrl + ")" : "url('" + processedUrl + "')");
   }
   matcher.appendTail(output);
   return output.toString();
