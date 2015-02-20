@@ -9,18 +9,7 @@
       getCookieUtils().remove(cookieKey);
       value=null;
     }
-    if (Strings.isEmpty(value) == false) {
-      String username=null;
-      String password=null;
-      String[] values=value.split(VALUE_SEPARATOR);
-      if ((values.length > 0) && (Strings.isEmpty(values[0]) == false)) {
-        username=values[0];
-      }
-      if ((values.length > 1) && (Strings.isEmpty(values[1]) == false)) {
-        password=values[1];
-      }
-      return new String[]{username,password};
-    }
+    return decode(value);
   }
   return null;
 }
