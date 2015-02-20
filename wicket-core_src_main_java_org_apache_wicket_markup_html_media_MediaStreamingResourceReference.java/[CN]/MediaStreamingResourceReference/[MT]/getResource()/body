@@ -6,8 +6,6 @@
       if (resourceStream == null) {
         throw new WicketRuntimeException("Cannot find resource: " + toString());
       }
-      Long startbyte=null;
-      Long endbyte=null;
       try {
         Request request=attributes.getRequest();
         Response response=attributes.getResponse();
@@ -23,6 +21,8 @@
         resourceResponse.setContentDisposition(ContentDisposition.ATTACHMENT);
         resourceResponse.setLastModified(resourceStream.lastModifiedTime());
         webResponse.setHeader("Accept-Range","bytes");
+        Long startbyte=null;
+        Long endbyte=null;
         String rangeHeader=webRequest.getHeader("range");
         if (Strings.isEmpty(rangeHeader)) {
           resourceResponse.setStatusCode(200);
