@@ -1,3 +1,4 @@
 {
-  return checkResource(resource.getClass().getAnnotation(AuthorizeResource.class)) || checkResource(resource.getClass().getPackage().getAnnotation(AuthorizeResource.class));
+  Class<? extends IResource> resourceClass=resource.getClass();
+  return checkResource(resourceClass.getAnnotation(AuthorizeResource.class)) || checkResource(resourceClass.getPackage().getAnnotation(AuthorizeResource.class));
 }
