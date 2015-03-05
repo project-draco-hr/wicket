@@ -5,14 +5,7 @@
  else   if (type.isInterface()) {
     JdkHandler handler=new JdkHandler(type,locator);
     try {
-      ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
-      if (Application.exists()) {
-        IClassResolver classResolver=Application.get().getApplicationSettings().getClassResolver();
-        if (classResolver != null) {
-          classLoader=classResolver.getClassLoader();
-        }
-      }
-      return Proxy.newProxyInstance(classLoader,new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
+      return Proxy.newProxyInstance(resolveClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
     }
  catch (    IllegalArgumentException e) {
       return Proxy.newProxyInstance(LazyInitProxyFactory.class.getClassLoader(),new Class[]{type,Serializable.class,ILazyInitProxy.class,IWriteReplace.class},handler);
@@ -21,15 +14,11 @@
  else {
     CGLibInterceptor handler=new CGLibInterceptor(type,locator);
     Enhancer e=new Enhancer();
+    e.setClassLoader(resolveClassLoader());
     e.setInterfaces(new Class[]{Serializable.class,ILazyInitProxy.class,IWriteReplace.class});
     e.setSuperclass(type);
     e.setCallback(handler);
-    e.setNamingPolicy(new DefaultNamingPolicy(){
-      @Override public String getClassName(      final String prefix,      final String source,      final Object key,      final Predicate names){
-        return super.getClassName("WICKET_" + prefix,source,key,names);
-      }
-    }
-);
+    e.setNamingPolicy(WicketNamingPolicy.INSTANCE);
     return e.create();
   }
 }
