@@ -1,0 +1,28 @@
+{
+  checkComponentTag(tag,"track");
+  super.onComponentTag(tag);
+  if (resourceReference != null) {
+    tag.put("src",RequestCycle.get().urlFor(resourceReference,pageParameters));
+  }
+ else   if (url != null) {
+    tag.put("src",url);
+  }
+  Kind _kind=getKind();
+  if (_kind != null) {
+    tag.put("kind",_kind.getRealName());
+  }
+  String _label=getLabel();
+  if (_label != null) {
+    tag.put("label",_label);
+  }
+  if (defaultTrack) {
+    tag.put("default","default");
+  }
+  Locale _srclang=getSrclang();
+  if (_srclang != null) {
+    tag.put("srclang",_srclang.getLanguage());
+  }
+ else   if (resourceReference != null && resourceReference.getLocale() != null) {
+    tag.put("srclang",resourceReference.getLocale().getLanguage());
+  }
+}

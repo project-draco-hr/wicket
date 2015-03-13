@@ -1,0 +1,23 @@
+{
+  checkComponentTag(tag,"source");
+  super.onComponentTag(tag);
+  if (mediaStreamingResourceReference != null) {
+    CharSequence url=RequestCycle.get().urlFor(mediaStreamingResourceReference,pageParameters);
+    tag.put("src",url);
+  }
+ else   if (url != null) {
+    tag.put("src",url);
+  }
+  if (getDisplayType()) {
+    if (type != null) {
+      tag.put("type",type);
+    }
+ else     if (mediaStreamingResourceReference != null) {
+      tag.put("type",mediaStreamingResourceReference.getType());
+    }
+  }
+  String _media=getMedia();
+  if (_media != null) {
+    tag.put("media",_media);
+  }
+}

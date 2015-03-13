@@ -1,0 +1,60 @@
+{
+  return new PackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation()){
+    private static final long serialVersionUID=1L;
+    @Override protected ResourceResponse newResourceResponse(    Attributes attributes){
+      IResourceStream resourceStream=getResourceStream();
+      if (resourceStream == null) {
+        throw new WicketRuntimeException("Cannot find resource: " + toString());
+      }
+      try {
+        Request request=attributes.getRequest();
+        Response response=attributes.getResponse();
+        if (!(request instanceof WebRequest) || !(response instanceof WebResponse)) {
+          throw new IllegalStateException("Web request/response are required! Request: " + request + ", response: "+ response);
+        }
+        WebRequest webRequest=(WebRequest)request;
+        WebResponse webResponse=(WebResponse)response;
+        long length=resourceStream.length().bytes();
+        ResourceResponse resourceResponse=new ResourceResponse();
+        resourceResponse.setContentType(resourceStream.getContentType());
+        resourceResponse.setFileName(MediaStreamingResourceReference.this.getName());
+        resourceResponse.setContentDisposition(ContentDisposition.ATTACHMENT);
+        resourceResponse.setLastModified(resourceStream.lastModifiedTime());
+        webResponse.setHeader("Accept-Range","bytes");
+        Long startbyte=null;
+        Long endbyte=null;
+        String rangeHeader=webRequest.getHeader("range");
+        if (Strings.isEmpty(rangeHeader)) {
+          resourceResponse.setStatusCode(200);
+          resourceResponse.setContentLength(length);
+        }
+ else {
+          rangeHeader=rangeHeader.replaceAll(" ","");
+          resourceResponse.setStatusCode(206);
+          String range=rangeHeader.substring(rangeHeader.indexOf('=') + 1,rangeHeader.length());
+          String[] rangeParts=Strings.split(range,'-');
+          String startByteString=rangeParts[0];
+          String endByteString=rangeParts[1];
+          startbyte=startByteString != null && !startByteString.trim().equals("") ? Long.parseLong(startByteString) : 0;
+          endbyte=endByteString != null && !endByteString.trim().equals("") ? Long.parseLong(endByteString) : length - 1;
+          webResponse.setHeader("Content-Range","bytes " + startbyte + '-'+ endbyte+ '/'+ length);
+          resourceResponse.setContentLength((endbyte - startbyte) + 1);
+        }
+        resourceResponse.setWriteCallback(new PartWriterCallback(resourceStream,startbyte,endbyte));
+        return resourceResponse;
+      }
+ catch (      Exception e) {
+        throw new WicketRuntimeException("A problem occurred while creating the video response.",e);
+      }
+ finally {
+        try {
+          resourceStream.close();
+        }
+ catch (        IOException e) {
+          throw new WicketRuntimeException("A problem occurred while closing the video response stream.",e);
+        }
+      }
+    }
+  }
+;
+}
