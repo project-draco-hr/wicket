@@ -1,5 +1,13 @@
 {
   IKey key=getRegistryKey();
-  connectionRegistry.setConnection(getApplication(),getSessionId(),key,connection);
-  broadcastMessage(new ConnectedMessage(getApplication(),getSessionId(),key));
+  try {
+    connectionRegistry.setConnection(getApplication(),getSessionId(),key,connection);
+    connectionFilter.doFilter(servletRequest);
+    broadcastMessage(new ConnectedMessage(getApplication(),getSessionId(),key));
+  }
+ catch (  ConnectionRejectedException e) {
+    broadcastMessage(new AbortedMessage(getApplication(),getSessionId(),key));
+    connectionRegistry.removeConnection(getApplication(),getSessionId(),key);
+    connection.close(POLICY_VIOLATION,ORIGIN_MISMATCH);
+  }
 }

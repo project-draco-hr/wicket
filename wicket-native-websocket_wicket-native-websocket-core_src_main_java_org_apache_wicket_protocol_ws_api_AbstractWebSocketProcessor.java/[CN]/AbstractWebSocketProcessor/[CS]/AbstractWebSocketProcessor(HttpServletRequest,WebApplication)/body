@@ -15,8 +15,10 @@
   Checks.notNull(baseUrl,String.format("Request parameter '%s' is required!",WebRequest.PARAM_AJAX_BASE_URL));
   this.baseUrl=Url.parse(baseUrl);
   WicketFilter wicketFilter=application.getWicketFilter();
-  this.webRequest=new WebSocketRequest(new ServletRequestCopy(request),wicketFilter.getFilterPath());
+  this.servletRequest=new ServletRequestCopy(request);
+  this.webRequest=new WebSocketRequest(servletRequest,wicketFilter.getFilterPath());
   this.application=Args.notNull(application,"application");
   this.webSocketSettings=WebSocketSettings.Holder.get(application);
   this.connectionRegistry=webSocketSettings.getConnectionRegistry();
+  this.connectionFilter=new WebSocketConnectionOriginFilter(webSocketSettings);
 }

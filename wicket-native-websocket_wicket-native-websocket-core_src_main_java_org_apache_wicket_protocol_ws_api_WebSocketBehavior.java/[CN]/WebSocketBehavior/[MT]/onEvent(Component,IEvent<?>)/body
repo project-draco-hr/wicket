@@ -24,6 +24,11 @@
       ClosedMessage message=closedPayload.getMessage();
       onClose(message);
     }
+ else     if (wsPayload instanceof WebSocketAbortedPayload) {
+      WebSocketAbortedPayload abortedPayload=(WebSocketAbortedPayload)wsPayload;
+      AbortedMessage message=abortedPayload.getMessage();
+      onAbort(message);
+    }
  else     if (wsPayload instanceof WebSocketPushPayload) {
       WebSocketPushPayload pushPayload=(WebSocketPushPayload)wsPayload;
       IWebSocketPushMessage message=pushPayload.getMessage();
