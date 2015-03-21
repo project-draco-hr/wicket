@@ -17,7 +17,13 @@
  catch (  ConversionException e) {
   }
   try {
-    converter.convertToObject("" + ((long)Integer.MAX_VALUE + 1),Locale.US);
+    converter.convertToObject("1.0",Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    converter.convertToObject("1" + Integer.MAX_VALUE,Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

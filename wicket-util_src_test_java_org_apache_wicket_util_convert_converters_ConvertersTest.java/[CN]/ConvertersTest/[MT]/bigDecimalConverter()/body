@@ -1,0 +1,9 @@
+{
+  BigDecimal bd=new BigDecimalConverter().convertToObject("0.1",Locale.US);
+  assertEquals(new BigDecimal("0.1"),bd);
+  bd=new BigDecimalConverter().convertToObject("0,1",Locale.GERMAN);
+  assertEquals(new BigDecimal("0.1"),bd);
+  String max="1" + Double.MAX_VALUE;
+  bd=new BigDecimalConverter().convertToObject(max,Locale.US);
+  assertEquals(new BigDecimal(max),bd);
+}

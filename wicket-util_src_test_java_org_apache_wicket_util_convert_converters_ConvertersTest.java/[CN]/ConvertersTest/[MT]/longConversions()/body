@@ -16,7 +16,23 @@
  catch (  ConversionException e) {
   }
   try {
-    converter.convertToObject("" + Long.MAX_VALUE + "0",Locale.US);
+    converter.convertToObject("1" + Long.MAX_VALUE,Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    final String biggerThanLong="9223372036854776833";
+    assertEquals(1,new BigDecimal(biggerThanLong).compareTo(BigDecimal.valueOf(Long.MAX_VALUE)));
+    converter.convertToObject(biggerThanLong,Locale.US);
+    fail("Conversion should have thrown an exception");
+  }
+ catch (  ConversionException e) {
+  }
+  try {
+    final String biggerThanLong="9223372036854776832";
+    assertEquals(1,new BigDecimal(biggerThanLong).compareTo(BigDecimal.valueOf(Long.MAX_VALUE)));
+    converter.convertToObject(biggerThanLong,Locale.US);
     fail("Conversion should have thrown an exception");
   }
  catch (  ConversionException e) {

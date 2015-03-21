@@ -1,0 +1,14 @@
+{
+  NumberFormat numberFormat=numberFormats.get(locale);
+  if (numberFormat == null) {
+    numberFormat=newNumberFormat(locale);
+    if (numberFormat instanceof DecimalFormat) {
+      ((DecimalFormat)numberFormat).setParseBigDecimal(true);
+    }
+    NumberFormat tmpNumberFormat=numberFormats.putIfAbsent(locale,numberFormat);
+    if (tmpNumberFormat != null) {
+      numberFormat=tmpNumberFormat;
+    }
+  }
+  return (NumberFormat)numberFormat.clone();
+}
