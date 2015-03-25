@@ -13,15 +13,13 @@
     }
     resourceResponse.setContentType(contentType);
     resourceResponse.setTextEncoding(getTextEncoding());
+    resourceResponse.setAcceptRange(ContentRangeType.BYTES);
     try {
-      final byte[] bytes=IOUtils.toByteArray(resourceStream.getInputStream());
-      resourceResponse.setContentLength(bytes.length);
-      resourceResponse.setWriteCallback(new WriteCallback(){
-        @Override public void writeData(        Attributes attributes){
-          attributes.getResponse().write(bytes);
-        }
-      }
-);
+      long contentLength=IOUtils.toByteArray(resourceStream.getInputStream()).length;
+      resourceResponse.setContentLength(contentLength);
+      Long startbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_STARTBYTE);
+      Long endbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_ENDBYTE);
+      resourceResponse.setWriteCallback(new PartWriterCallback(resourceStream.getInputStream(),contentLength,startbyte,endbyte));
     }
  catch (    IOException e) {
       log.debug(e.getMessage(),e);

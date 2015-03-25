@@ -1,0 +1,17 @@
+{
+  boolean contentRangeApplied=false;
+  if (attributes.getRequest() instanceof WebRequest) {
+    Long startbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_STARTBYTE);
+    Long endbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_ENDBYTE);
+    if (startbyte != null && endbyte != null) {
+      if (endbyte == -1) {
+        endbyte=contentLength - 1;
+      }
+      webResponse.setStatus(206);
+      webResponse.setContentRange(ContentRangeType.BYTES.getTypeName() + " " + startbyte+ '-'+ endbyte+ '/'+ contentLength);
+      webResponse.setContentLength((endbyte - startbyte) + 1);
+      contentRangeApplied=true;
+    }
+  }
+  return contentRangeApplied;
+}
