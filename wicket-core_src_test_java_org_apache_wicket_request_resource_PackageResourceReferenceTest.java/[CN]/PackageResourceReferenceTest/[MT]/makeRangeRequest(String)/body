@@ -1,0 +1,10 @@
+{
+  ResourceReference reference=new PackageResourceReference(scope,"resource.txt",locales[1],styles[1],variations[1]);
+  ByteArrayResponse byteResponse=new ByteArrayResponse();
+  Request request=tester.getRequestCycle().getRequest();
+  MockHttpServletRequest mockHttpServletRequest=(MockHttpServletRequest)request.getContainerRequest();
+  mockHttpServletRequest.setHeader("range",range);
+  Attributes mockAttributes=new Attributes(request,byteResponse);
+  reference.getResource().respond(mockAttributes);
+  return new String(byteResponse.getBytes());
+}

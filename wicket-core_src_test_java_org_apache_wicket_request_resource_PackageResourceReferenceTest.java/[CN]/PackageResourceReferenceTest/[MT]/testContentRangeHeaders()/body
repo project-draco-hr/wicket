@@ -1,0 +1,10 @@
+{
+  ResourceReference reference=new PackageResourceReference(scope,"resource.txt",locales[1],styles[1],variations[1]);
+  Request request=tester.getRequestCycle().getRequest();
+  Response response=tester.getRequestCycle().getResponse();
+  MockHttpServletResponse mockHttpServletResponse=(MockHttpServletResponse)response.getContainerResponse();
+  Attributes mockAttributes=new Attributes(request,response);
+  reference.getResource().respond(mockAttributes);
+  Assert.assertEquals(ContentRangeType.BYTES.getTypeName(),mockHttpServletResponse.getHeader("Accept-Range"));
+  Assert.assertEquals("resource_var_style_en.txt",new String(mockHttpServletResponse.getBinaryContent()));
+}
