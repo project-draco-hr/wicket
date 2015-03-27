@@ -6,21 +6,23 @@
       if (startbyte != null) {
         inputStream.skip(startbyte);
       }
+ else {
+        startbyte=0L;
+      }
       if (endbyte == null || Long.valueOf(-1).equals(endbyte)) {
         endbyte=contentLength;
       }
-      int readBytes;
-      long totalBytes=0;
-      while ((readBytes=inputStream.read(buffer)) != -1) {
-        totalBytes+=readBytes;
-        if (endbyte - totalBytes < 0) {
-          int leftBytesToBeRead=(int)(totalBytes - startbyte) - (int)(totalBytes - endbyte);
-          outputStream.write(buffer,0,leftBytesToBeRead);
-          break;
-        }
- else {
+      BoundedInputStream boundedInputStream=null;
+      try {
+        boundedInputStream=new BoundedInputStream(inputStream,endbyte - startbyte);
+        boundedInputStream.setPropagateClose(false);
+        int readBytes;
+        while ((readBytes=boundedInputStream.read(buffer)) != -1) {
           outputStream.write(buffer,0,readBytes);
         }
+      }
+  finally {
+        IOUtils.closeQuietly(boundedInputStream);
       }
     }
  else {

@@ -1,0 +1,20 @@
+{
+  InputStream resourceAsStream=null;
+  try {
+    resourceAsStream=PackageResourceReference.class.getResourceAsStream("resource_gt_4096.txt");
+    String content=new String(IOUtils.toByteArray(resourceAsStream));
+    String bytes4094_4106=makeRangeRequestToBigResource("bytes=4094-4106");
+    assertEquals(12,bytes4094_4106.length());
+    assertEquals("River Roller",bytes4094_4106);
+    String bytes1000_5000=makeRangeRequestToBigResource("bytes=1000-5000");
+    assertEquals(4000,bytes1000_5000.length());
+    assertEquals(content.substring(1000,5000),bytes1000_5000);
+    String bytes1000_end=makeRangeRequestToBigResource("bytes=1000-");
+    assertEquals(4529,bytes1000_end.length());
+    assertEquals(content.substring(1000,content.length()),bytes1000_end);
+    assertEquals(content.length(),makeRangeRequestToBigResource("bytes=-").length());
+  }
+  finally {
+    IOUtils.closeQuietly(resourceAsStream);
+  }
+}
