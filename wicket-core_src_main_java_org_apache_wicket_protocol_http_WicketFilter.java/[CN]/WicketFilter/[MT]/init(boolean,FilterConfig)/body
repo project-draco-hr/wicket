@@ -12,7 +12,9 @@
       applicationFactory=getApplicationFactory();
       application=applicationFactory.createApplication(this);
     }
-    application.setName(filterConfig.getFilterName());
+    if (application.getName() == null) {
+      application.setName(filterConfig.getFilterName());
+    }
     application.setWicketFilter(this);
     String configureFilterPath=getFilterPath();
     if (configureFilterPath == null) {
