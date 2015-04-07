@@ -20,5 +20,6 @@
   this.application=Args.notNull(application,"application");
   this.webSocketSettings=WebSocketSettings.Holder.get(application);
   this.connectionRegistry=webSocketSettings.getConnectionRegistry();
-  this.connectionFilter=new WebSocketConnectionOriginFilter(webSocketSettings);
+  this.connectionFilters=new WebSocketConnectionFilterCollection();
+  connectionFilters.add(new WebSocketConnectionOriginFilter(webSocketSettings));
 }

@@ -2,12 +2,12 @@
   IKey key=getRegistryKey();
   try {
     connectionRegistry.setConnection(getApplication(),getSessionId(),key,connection);
-    connectionFilter.doFilter(servletRequest);
+    connectionFilters.doFilter(servletRequest);
     broadcastMessage(new ConnectedMessage(getApplication(),getSessionId(),key));
   }
  catch (  ConnectionRejectedException e) {
     broadcastMessage(new AbortedMessage(getApplication(),getSessionId(),key));
     connectionRegistry.removeConnection(getApplication(),getSessionId(),key);
-    connection.close(POLICY_VIOLATION,ORIGIN_MISMATCH);
+    connection.close(e.getCode(),e.getReason());
   }
 }
