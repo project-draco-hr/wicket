@@ -5,8 +5,10 @@
   MarkupContainer oldParent=component.getParent();
   try {
     requestCycle.setResponse(tempResponse);
-    RenderPage page=new RenderPage(component);
-    page.internalInitialize();
+    if (component.getParent() == null) {
+      RenderPage page=new RenderPage(component);
+      page.internalInitialize();
+    }
     component.render();
   }
   finally {
