@@ -1,13 +1,14 @@
 {
   IKey key=getRegistryKey();
-  try {
-    connectionRegistry.setConnection(getApplication(),getSessionId(),key,connection);
-    connectionFilters.doFilter(servletRequest);
-    broadcastMessage(new ConnectedMessage(getApplication(),getSessionId(),key));
+  connectionRegistry.setConnection(getApplication(),getSessionId(),key,connection);
+  if (connectionFilter != null) {
+    ConnectionRejected connectionRejected=connectionFilter.doFilter(servletRequest);
+    if (connectionRejected != null) {
+      broadcastMessage(new AbortedMessage(getApplication(),getSessionId(),key));
+      connectionRegistry.removeConnection(getApplication(),getSessionId(),key);
+      connection.close(connectionRejected.getCode(),connectionRejected.getReason());
+      return;
+    }
   }
- catch (  ConnectionRejectedException e) {
-    broadcastMessage(new AbortedMessage(getApplication(),getSessionId(),key));
-    connectionRegistry.removeConnection(getApplication(),getSessionId(),key);
-    connection.close(e.getCode(),e.getReason());
-  }
+  broadcastMessage(new ConnectedMessage(getApplication(),getSessionId(),key));
 }

@@ -13,7 +13,8 @@
   Enumeration<String> e=request.getHeaderNames();
   while (e != null && e.hasMoreElements()) {
     s=e.nextElement();
-    headers.put(s,request.getHeader(s));
+    Enumeration<String> headerValues=request.getHeaders(s);
+    this.headers.put(s,headerValues);
   }
   e=request.getAttributeNames();
   while (e != null && e.hasMoreElements()) {

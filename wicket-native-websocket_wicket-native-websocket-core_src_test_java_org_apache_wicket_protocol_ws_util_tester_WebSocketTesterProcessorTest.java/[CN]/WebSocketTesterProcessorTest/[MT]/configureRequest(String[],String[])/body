@@ -1,0 +1,11 @@
+{
+  WebSocketSettings webSocketSettings=WebSocketSettings.Holder.get(application);
+  WebSocketConnectionOriginFilter connectionFilter=new WebSocketConnectionOriginFilter(Arrays.asList(allowedDomains));
+  webSocketSettings.setConnectionFilter(connectionFilter);
+  MockHttpServletRequest request=tester.getRequest();
+  for (  String origin : origins) {
+    request.addHeader("Origin",origin);
+  }
+  request.addParameter("resourceName",TestWebSocketResource.TEXT);
+  request.addParameter(WebRequest.PARAM_AJAX_BASE_URL,".");
+}

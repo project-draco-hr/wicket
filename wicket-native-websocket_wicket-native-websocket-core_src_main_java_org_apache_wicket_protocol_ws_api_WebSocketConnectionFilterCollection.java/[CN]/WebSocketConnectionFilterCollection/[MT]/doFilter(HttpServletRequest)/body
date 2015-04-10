@@ -1,5 +1,9 @@
 {
   for (  IWebSocketConnectionFilter filter : this) {
-    filter.doFilter(servletRequest);
+    ConnectionRejected connectionRejected=filter.doFilter(servletRequest);
+    if (connectionRejected != null) {
+      return connectionRejected;
+    }
   }
+  return null;
 }
