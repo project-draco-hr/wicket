@@ -1,0 +1,14 @@
+{
+  LoadableDetachableModel<Collection<String>> model=new LoadableDetachableModel<Collection<String>>(){
+    @Override protected Collection<String> load(){
+      return null;
+    }
+  }
+;
+  FormComponent<Collection<String>> formComponent=new FormComponent<Collection<String>>("formComponent",model){
+  }
+;
+  formComponent.setConvertedInput(null);
+  FormComponent.updateCollectionModel(formComponent);
+  Assert.assertTrue(formComponent.getModelObject().isEmpty());
+}

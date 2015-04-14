@@ -1,5 +1,8 @@
 {
   Collection<S> convertedInput=formComponent.getConvertedInput();
+  if (convertedInput == null) {
+    convertedInput=Collections.emptyList();
+  }
   Collection<S> collection=formComponent.getModelObject();
   if (collection == null) {
     collection=new ArrayList<>(convertedInput);
@@ -10,9 +13,7 @@
     formComponent.modelChanging();
     try {
       collection.clear();
-      if (convertedInput != null) {
-        collection.addAll(convertedInput);
-      }
+      collection.addAll(convertedInput);
       modified=true;
     }
  catch (    UnsupportedOperationException unmodifiable) {
