@@ -1,11 +1,15 @@
 {
   super.onComponentTag(tag);
   if (isEnabledInHierarchy()) {
-    if (tag.getName().equalsIgnoreCase("a") || tag.getName().equalsIgnoreCase("link") || tag.getName().equalsIgnoreCase("area")) {
+    String tagName=tag.getName();
+    if (tagName.equalsIgnoreCase("a") || tagName.equalsIgnoreCase("link") || tagName.equalsIgnoreCase("area")) {
       tag.put("href","javascript:;");
     }
- else     if (tag.getName().equalsIgnoreCase("button")) {
+ else     if (tagName.equalsIgnoreCase("button")) {
       tag.put("type","button");
+    }
+ else     if (tagName.equalsIgnoreCase("input") && "submit".equalsIgnoreCase(tag.getAttribute("type"))) {
+      tag.getAttributes().put("type","button");
     }
   }
  else {
