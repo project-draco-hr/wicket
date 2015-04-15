@@ -3,6 +3,9 @@
   final Response originalResponse=requestCycle.getResponse();
   BufferedWebResponse tempResponse=new BufferedWebResponse(null);
   MarkupContainer oldParent=component.getParent();
+  if (oldParent != null && LOGGER.isWarnEnabled()) {
+    LOGGER.warn("Component '{}' with a parent '{}' is passed for standalone rendering. " + "It is recommended to render only orphan components because they are not cleaned up/detached" + " after the rendering.",component,oldParent);
+  }
   try {
     requestCycle.setResponse(tempResponse);
     RenderPage page=new RenderPage(component);
