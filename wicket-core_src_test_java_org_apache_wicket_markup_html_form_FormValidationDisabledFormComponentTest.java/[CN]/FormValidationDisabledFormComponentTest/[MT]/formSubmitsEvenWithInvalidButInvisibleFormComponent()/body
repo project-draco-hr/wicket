@@ -1,0 +1,17 @@
+{
+  TestPage page=tester.startPage(TestPage.class);
+  assertFalse(page.onSubmitCalled.get());
+  assertFalse(page.onErrorCalled.get());
+  FormTester formTester=tester.newFormTester(page.form.getPageRelativePath());
+  formTester.submit();
+  assertTrue(page.field1.hasErrorMessage());
+  assertFalse(page.onSubmitCalled.get());
+  assertTrue(page.onErrorCalled.get());
+  page.onErrorCalled.set(false);
+  page.field1.setVisible(false);
+  formTester=tester.newFormTester(page.form.getPageRelativePath());
+  formTester.submit();
+  assertTrue(page.field1.hasErrorMessage());
+  assertTrue(page.onSubmitCalled.get());
+  assertFalse(page.onErrorCalled.get());
+}

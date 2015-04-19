@@ -1,0 +1,16 @@
+{
+  form=new Form("form"){
+    @Override protected void onSubmit(){
+      super.onSubmit();
+      onSubmitCalled.set(true);
+    }
+    @Override protected void onError(){
+      super.onError();
+      onErrorCalled.set(true);
+    }
+  }
+;
+  add(form);
+  form.add(field1=new TextField<String>("field1",Model.of("")));
+  field1.setRequired(true);
+}

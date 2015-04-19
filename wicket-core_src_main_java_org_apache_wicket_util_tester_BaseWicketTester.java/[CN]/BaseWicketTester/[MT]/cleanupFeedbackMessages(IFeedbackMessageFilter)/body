@@ -1,6 +1,8 @@
 {
-  application.getApplicationSettings().setFeedbackMessageCleanupFilter(filter);
+  ApplicationSettings applicationSettings=application.getApplicationSettings();
+  IFeedbackMessageFilter old=applicationSettings.getFeedbackMessageCleanupFilter();
+  applicationSettings.setFeedbackMessageCleanupFilter(filter);
   getLastRenderedPage().detach();
   getSession().detach();
-  application.getApplicationSettings().setFeedbackMessageCleanupFilter(IFeedbackMessageFilter.NONE);
+  applicationSettings.setFeedbackMessageCleanupFilter(old);
 }
