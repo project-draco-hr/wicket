@@ -1,9 +1,9 @@
 {
   onValidateModelObjects();
   visitChildren(Form.class,new IVisitor<Form<?>,Void>(){
-    @Override public void component(    Form<?> nestedForm,    IVisit<Void> visit){
-      if (nestedForm.isEnabledInHierarchy() && nestedForm.isVisibleInHierarchy()) {
-        nestedForm.onValidateModelObjects();
+    @Override public void component(    Form<?> form,    IVisit<Void> visit){
+      if (form.isSubmitted()) {
+        form.onValidateModelObjects();
       }
  else {
         visit.dontGoDeeper();
