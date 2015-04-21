@@ -1,4 +1,6 @@
 {
   Class<? extends IResource> resourceClass=resource.getClass();
-  return checkResource(resourceClass.getAnnotation(AuthorizeResource.class)) || checkResource(resourceClass.getPackage().getAnnotation(AuthorizeResource.class));
+  boolean allowedByResourceItself=isResourceAnnotationSatisfied(resourceClass.getAnnotation(AuthorizeResource.class));
+  boolean allowedByPackage=isResourceAnnotationSatisfied(resourceClass.getPackage().getAnnotation(AuthorizeResource.class));
+  return allowedByResourceItself && allowedByPackage;
 }
