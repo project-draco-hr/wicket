@@ -1,15 +1,11 @@
 {
   if (clientInfo == null) {
     RequestCycle requestCycle=RequestCycle.get();
-    if (getApplication().getRequestCycleSettings().getGatherExtendedBrowserInfo()) {
-      if (getMetaData(BROWSER_WAS_POLLED_KEY) == null) {
-        setMetaData(BROWSER_WAS_POLLED_KEY,Boolean.TRUE);
-        WebPage browserInfoPage=newBrowserInfoPage();
-        throw new RestartResponseAtInterceptPageException(browserInfoPage);
-      }
-      setMetaData(BROWSER_WAS_POLLED_KEY,null);
-    }
     clientInfo=new WebClientInfo(requestCycle);
+    if (getApplication().getRequestCycleSettings().getGatherExtendedBrowserInfo()) {
+      WebPage browserInfoPage=newBrowserInfoPage();
+      throw new RestartResponseAtInterceptPageException(browserInfoPage);
+    }
   }
   return (WebClientInfo)clientInfo;
 }

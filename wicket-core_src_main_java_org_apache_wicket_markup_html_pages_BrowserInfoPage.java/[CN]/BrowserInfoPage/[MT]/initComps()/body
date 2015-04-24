@@ -1,24 +1,15 @@
 {
+  final ContinueLink link=new ContinueLink("link");
+  add(link);
   WebComponent meta=new WebComponent("meta");
-  final IModel<String> urlModel=new LoadableDetachableModel<String>(){
-    private static final long serialVersionUID=1L;
-    @Override protected String load(){
-      CharSequence url=urlFor(BrowserInfoPage.class,null);
-      return url.toString();
-    }
-  }
-;
   meta.add(AttributeModifier.replace("content",new AbstractReadOnlyModel<String>(){
     private static final long serialVersionUID=1L;
     @Override public String getObject(){
-      return "0; url=" + urlModel.getObject();
+      return "0; url=" + link.getURL();
     }
   }
 ));
   add(meta);
-  WebMarkupContainer link=new WebMarkupContainer("link");
-  link.add(AttributeModifier.replace("href",urlModel));
-  add(link);
   IModel<ClientProperties> properties=new AbstractReadOnlyModel<ClientProperties>(){
     @Override public ClientProperties getObject(){
       return WebSession.get().getClientInfo().getProperties();
