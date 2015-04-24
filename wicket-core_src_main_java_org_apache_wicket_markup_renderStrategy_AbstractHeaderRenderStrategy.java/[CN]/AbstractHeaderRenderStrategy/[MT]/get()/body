@@ -1,18 +1,14 @@
 {
   String className=System.getProperty("Wicket_HeaderRenderStrategy");
   if (className != null) {
-    Class<?> clazz=null;
+    Class<?> clazz;
     try {
       clazz=Application.get().getApplicationSettings().getClassResolver().resolveClass(className);
       if (clazz != null) {
         return (IHeaderRenderStrategy)clazz.newInstance();
       }
     }
- catch (    ClassNotFoundException ex) {
-    }
-catch (    InstantiationException ex) {
-    }
-catch (    IllegalAccessException ex) {
+ catch (    ClassNotFoundException|InstantiationException|IllegalAccessException ex) {
     }
   }
   return new ChildFirstHeaderRenderStrategy();
