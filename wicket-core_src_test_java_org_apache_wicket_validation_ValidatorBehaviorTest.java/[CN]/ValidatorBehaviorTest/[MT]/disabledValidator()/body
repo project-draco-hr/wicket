@@ -1,0 +1,10 @@
+{
+  TestPage page=new TestPage();
+  page.name.add(new DisabledValidator());
+  tester.startPage(page);
+  assertTrue(page.name.isValid());
+  FormTester ft=tester.newFormTester("form");
+  ft.setValue("name","22");
+  ft.submit();
+  assertTrue(page.name.isValid());
+}
