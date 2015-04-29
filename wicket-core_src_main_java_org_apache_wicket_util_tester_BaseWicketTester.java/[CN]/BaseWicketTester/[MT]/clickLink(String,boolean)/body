@@ -31,6 +31,15 @@
       executeBehavior(behavior);
     }
   }
+ else   if (linkComponent instanceof IAjaxLink) {
+    if (isAjax == false) {
+      fail("Link " + path + "is an AjaxLink and will "+ "not be invoked when AJAX (javascript) is disabled.");
+    }
+    List<AjaxEventBehavior> behaviors=WicketTesterHelper.findAjaxEventBehaviors(linkComponent,"click");
+    for (    AjaxEventBehavior behavior : behaviors) {
+      executeBehavior(behavior);
+    }
+  }
  else   if (linkComponent instanceof SubmitLink) {
     SubmitLink submitLink=(SubmitLink)linkComponent;
     String pageRelativePath=submitLink.getInputName();
