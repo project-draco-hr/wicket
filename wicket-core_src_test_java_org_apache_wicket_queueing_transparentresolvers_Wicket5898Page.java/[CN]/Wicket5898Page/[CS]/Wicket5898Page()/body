@@ -1,0 +1,14 @@
+{
+  final Label label=new Label("label","Label");
+  label.setOutputMarkupId(true);
+  add(label);
+  add(new WebMarkupContainer("group"));
+  add(new TransparentWebMarkupContainer("twmc"));
+  add(new AjaxFallbackLink<Void>("link"){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      if (target != null)       target.add(label);
+    }
+  }
+);
+}
