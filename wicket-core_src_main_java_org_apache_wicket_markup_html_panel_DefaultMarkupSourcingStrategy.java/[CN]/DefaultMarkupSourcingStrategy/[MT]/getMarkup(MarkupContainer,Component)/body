@@ -10,6 +10,8 @@
   if (markup != null) {
     return markup;
   }
-  markup=searchMarkupInTransparentResolvers(container,child);
+  if (!(child instanceof IComponentResolver)) {
+    markup=searchMarkupInTransparentResolvers(container,child);
+  }
   return markup;
 }
