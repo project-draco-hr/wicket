@@ -31,6 +31,8 @@
     }
     for (    IAjaxCallListener ajaxCallListener : attributes.getAjaxCallListeners()) {
       if (ajaxCallListener != null) {
+        CharSequence initHandler=ajaxCallListener.getInitHandler(component);
+        appendListenerHandler(initHandler,attributesJson,AjaxAttributeName.INIT_HANDLER.jsonName(),INIT_HANDLER_FUNCTION_TEMPLATE);
         CharSequence beforeHandler=ajaxCallListener.getBeforeHandler(component);
         appendListenerHandler(beforeHandler,attributesJson,AjaxAttributeName.BEFORE_HANDLER.jsonName(),BEFORE_HANDLER_FUNCTION_TEMPLATE);
         CharSequence beforeSendHandler=ajaxCallListener.getBeforeSendHandler(component);
