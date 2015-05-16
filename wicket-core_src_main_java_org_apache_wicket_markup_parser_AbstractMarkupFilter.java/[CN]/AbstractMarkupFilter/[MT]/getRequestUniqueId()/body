@@ -1,0 +1,8 @@
+{
+  AtomicLong counter=RequestCycle.get().getMetaData(REQUEST_COUNTER_KEY);
+  if (counter == null) {
+    counter=new AtomicLong();
+    RequestCycle.get().setMetaData(REQUEST_COUNTER_KEY,counter);
+  }
+  return counter.getAndIncrement();
+}

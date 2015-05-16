@@ -10,7 +10,7 @@
     String attrValue=tag.getAttributes().getString(attrName);
     if ((attrValue != null) && (attrValue.startsWith("/") == false) && (!attrValue.contains(":"))&& !(attrValue.startsWith("#"))) {
       if (tag.getId() == null) {
-        tag.setId(getWicketRelativePathPrefix(null) + componentIndex.getAndIncrement());
+        tag.setId(getWicketRelativePathPrefix(null) + getRequestUniqueId());
         tag.setAutoComponentTag(true);
       }
       tag.addBehavior(RELATIVE_PATH_BEHAVIOR);
