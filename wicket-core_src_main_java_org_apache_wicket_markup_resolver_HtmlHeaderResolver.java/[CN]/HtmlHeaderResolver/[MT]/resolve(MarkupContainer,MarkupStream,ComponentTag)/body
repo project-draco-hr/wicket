@@ -1,7 +1,7 @@
 {
   final Page page=container.getPage();
   if (tag.getId().equals(HtmlHeaderSectionHandler.HEADER_ID)) {
-    return newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + page.getAutoIndex(),tag);
+    return newHtmlHeaderContainer(tag.getId(),tag);
   }
  else   if ((tag instanceof WicketTag) && ((WicketTag)tag).isHeadTag()) {
     if (container instanceof WebPage) {
@@ -17,7 +17,7 @@
       }
 );
       if (header == null) {
-        header=newHtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID + page.getAutoIndex(),tag);
+        header=newHtmlHeaderContainer(tag.getId(),tag);
         header.add(new WicketHeadContainer());
         return header;
       }

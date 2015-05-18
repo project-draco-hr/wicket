@@ -1,0 +1,9 @@
+{
+  AutoComponentsPage autoComponentsPage=new AutoComponentsPage();
+  tester.startPage(autoComponentsPage);
+  int childrenNumber=tester.getLastRenderedPage().size();
+  IMarkupCache markupCache=tester.getApplication().getMarkupSettings().getMarkupFactory().getMarkupCache();
+  markupCache.clear();
+  tester.startPage(autoComponentsPage);
+  assertEquals(childrenNumber,tester.getLastRenderedPage().size());
+}
