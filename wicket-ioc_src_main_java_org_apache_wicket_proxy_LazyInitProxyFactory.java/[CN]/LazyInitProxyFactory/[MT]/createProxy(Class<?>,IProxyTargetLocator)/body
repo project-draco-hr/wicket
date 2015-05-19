@@ -13,11 +13,15 @@
   }
  else {
     CGLibInterceptor handler=new CGLibInterceptor(type,locator);
+    Callback[] callbacks=new Callback[2];
+    callbacks[CGLIB_CALLBACK_NO_OVERRIDE]=new SerializableNoOpCallback();
+    callbacks[CGLIB_CALLBACK_HANDLER]=handler;
     Enhancer e=new Enhancer();
     e.setClassLoader(resolveClassLoader());
     e.setInterfaces(new Class[]{Serializable.class,ILazyInitProxy.class,IWriteReplace.class});
     e.setSuperclass(type);
-    e.setCallback(handler);
+    e.setCallbackFilter(new NoOpForProtectedMethodsCGLibCallbackFilter());
+    e.setCallbacks(callbacks);
     e.setNamingPolicy(WicketNamingPolicy.INSTANCE);
     return e.create();
   }
