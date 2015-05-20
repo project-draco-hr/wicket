@@ -1,0 +1,14 @@
+{
+  WebMarkupContainer a1=new WebMarkupContainer("a1"){
+    @Override protected void onBeforeRender(){
+      super.onBeforeRender();
+      beforeRenderCalls++;
+      if (firstRender) {
+        firstRender=false;
+        throw new WicketRuntimeException();
+      }
+    }
+  }
+;
+  add(a1);
+}
