@@ -15,11 +15,13 @@
     resourceResponse.setTextEncoding(getTextEncoding());
     resourceResponse.setAcceptRange(ContentRangeType.BYTES);
     try {
-      long contentLength=IOUtils.toByteArray(resourceStream.getInputStream()).length;
+      InputStream inputStream=resourceStream.getInputStream();
+      byte[] bytes=IOUtils.toByteArray(inputStream);
+      long contentLength=bytes.length;
       resourceResponse.setContentLength(contentLength);
       Long startbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_STARTBYTE);
       Long endbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_ENDBYTE);
-      resourceResponse.setWriteCallback(new PartWriterCallback(resourceStream.getInputStream(),contentLength,startbyte,endbyte));
+      resourceResponse.setWriteCallback(new PartWriterCallback(new ByteArrayInputStream(bytes),contentLength,startbyte,endbyte));
     }
  catch (    IOException e) {
       log.debug(e.getMessage(),e);
