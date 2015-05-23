@@ -16,12 +16,18 @@
     resourceResponse.setAcceptRange(ContentRangeType.BYTES);
     try {
       InputStream inputStream=resourceStream.getInputStream();
-      byte[] bytes=IOUtils.toByteArray(inputStream);
-      long contentLength=bytes.length;
-      resourceResponse.setContentLength(contentLength);
+      byte[] bytes=null;
+      if (readBuffered) {
+        bytes=IOUtils.toByteArray(inputStream);
+        resourceResponse.setContentLength(new Long(bytes.length));
+      }
+ else {
+        resourceResponse.setContentLength(resourceStream.length().bytes());
+      }
       Long startbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_STARTBYTE);
       Long endbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_ENDBYTE);
-      resourceResponse.setWriteCallback(new PartWriterCallback(new ByteArrayInputStream(bytes),contentLength,startbyte,endbyte));
+      PartWriterCallback partWriterCallback=new PartWriterCallback(bytes != null ? new ByteArrayInputStream(bytes) : inputStream,resourceResponse.getContentLength(),startbyte,endbyte);
+      resourceResponse.setWriteCallback(partWriterCallback.setClose(!readBuffered));
     }
  catch (    IOException e) {
       log.debug(e.getMessage(),e);
@@ -33,7 +39,9 @@ catch (    ResourceStreamNotFoundException e) {
     }
  finally {
       try {
-        resourceStream.close();
+        if (readBuffered) {
+          IOUtils.close(resourceStream);
+        }
       }
  catch (      IOException e) {
         log.warn("Unable to close the resource stream",e);

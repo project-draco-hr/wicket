@@ -1,14 +1,16 @@
 {
-  byte[] bytes;
+  byte[] bytes=null;
   InputStream inputStream=super.getInputStream();
-  try {
-    bytes=IOUtils.toByteArray(inputStream);
-  }
- catch (  IOException iox) {
-    throw new WicketRuntimeException(iox);
-  }
+  if (readBuffered) {
+    try {
+      bytes=IOUtils.toByteArray(inputStream);
+    }
+ catch (    IOException iox) {
+      throw new WicketRuntimeException(iox);
+    }
  finally {
-    IOUtils.closeQuietly(this);
+      IOUtils.closeQuietly(this);
+    }
   }
   RequestCycle cycle=RequestCycle.get();
   Attributes attributes;
@@ -18,6 +20,11 @@
  else {
     attributes=new Attributes(new MockWebRequest(Url.parse("")),new StringResponse());
   }
-  byte[] processedBytes=processResponse(attributes,bytes);
-  return new ByteArrayInputStream(processedBytes);
+  if (bytes != null) {
+    byte[] processedBytes=processResponse(attributes,bytes);
+    return new ByteArrayInputStream(processedBytes);
+  }
+ else {
+    return inputStream;
+  }
 }
