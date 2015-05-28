@@ -5,10 +5,11 @@
     log.debug("Replacing " + child.getId() + " in "+ this);
   }
   if (child.getParent() != this) {
-    final Component replaced=put(child);
+    final Component replaced=children_get(child.getId());
     if (replaced == null) {
       throw new WicketRuntimeException(exceptionMessage("Cannot replace a component which has not been added: id='" + child.getId() + "', component="+ child));
     }
+    put(child);
     removedComponent(replaced);
     child.setMarkupId(replaced);
     addedComponent(child);
