@@ -1,10 +1,11 @@
 {
-  if (!attached) {
+  if (attached == AttachingState.DETACHED) {
+    attached=AttachingState.ATTACHING;
     transientModelObject=load();
     if (log.isDebugEnabled()) {
       log.debug("loaded transient object " + transientModelObject + " for "+ this+ ", requestCycle "+ RequestCycle.get());
     }
-    attached=true;
+    attached=AttachingState.ATTACHED;
     onAttach();
   }
   return transientModelObject;

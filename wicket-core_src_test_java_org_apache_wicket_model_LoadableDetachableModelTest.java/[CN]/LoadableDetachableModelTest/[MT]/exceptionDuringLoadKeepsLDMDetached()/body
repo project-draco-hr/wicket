@@ -1,0 +1,17 @@
+{
+class ExceptionalLoad extends LoadableDetachableModel<Integer> {
+    private static final long serialVersionUID=1L;
+    @Override protected Integer load(){
+      throw new RuntimeException();
+    }
+  }
+  ExceptionalLoad ldm=new ExceptionalLoad();
+  assertThat(ldm.isAttached(),is(false));
+  try {
+    assertThat(ldm.getObject(),is(1));
+    fail("shouldn't get here");
+  }
+ catch (  RuntimeException e) {
+    assertThat(ldm.isAttached(),is(false));
+  }
+}

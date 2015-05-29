@@ -1,10 +1,10 @@
 {
-  if (attached) {
+  if (attached == AttachingState.ATTACHED) {
     try {
       onDetach();
     }
   finally {
-      attached=false;
+      attached=AttachingState.DETACHED;
       transientModelObject=null;
       log.debug("removed transient object for {}, requestCycle {}",this,RequestCycle.get());
     }

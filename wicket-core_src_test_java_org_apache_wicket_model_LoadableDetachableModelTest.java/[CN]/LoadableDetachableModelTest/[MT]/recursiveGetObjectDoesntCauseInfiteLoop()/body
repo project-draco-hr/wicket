@@ -1,0 +1,15 @@
+{
+class RecursiveLoad extends LoadableDetachableModel<Integer> {
+    private static final long serialVersionUID=1L;
+    private int count=0;
+    @Override protected Integer load(){
+      count++;
+      getObject();
+      return count;
+    }
+  }
+  RecursiveLoad ldm=new RecursiveLoad();
+  assertThat(ldm.isAttached(),is(false));
+  assertThat(ldm.getObject(),is(1));
+  assertThat(ldm.isAttached(),is(true));
+}
