@@ -1,0 +1,12 @@
+{
+  SerializedLoad ldm=new SerializedLoad();
+  assertThat(ldm.getObject(),is(1));
+  ldm.detach();
+  byte[] serialized=serialize(ldm);
+  LoadableDetachableModel<Integer> deserialized=deserialize(serialized);
+  assertThat(deserialized.isAttached(),is(false));
+  assertThat(deserialized.getObject(),is(2));
+  assertThat(deserialized.isAttached(),is(true));
+  deserialized.detach();
+  assertThat(deserialized.isAttached(),is(false));
+}
