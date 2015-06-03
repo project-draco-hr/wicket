@@ -1,0 +1,12 @@
+{
+  if (isSingletonCache == null) {
+    try {
+      isSingletonCache=Scopes.isSingleton(getInjector().getBinding(newGuiceKey()));
+    }
+ catch (    ConfigurationException ex) {
+      if (optional)       isSingletonCache=true;
+ else       throw ex;
+    }
+  }
+  return isSingletonCache;
+}
