@@ -1,0 +1,12 @@
+{
+  ObjenesisCGLibInterceptor handler=new ObjenesisCGLibInterceptor(type,locator);
+  Enhancer e=new Enhancer();
+  e.setInterfaces(new Class[]{Serializable.class,ILazyInitProxy.class,IWriteReplace.class});
+  e.setSuperclass(type);
+  e.setCallbackType(handler.getClass());
+  e.setNamingPolicy(namingPolicy);
+  e.setUseCache(false);
+  Class<?> proxyClass=e.createClass();
+  Enhancer.registerCallbacks(proxyClass,new Callback[]{handler});
+  return OBJENESIS.newInstance(proxyClass);
+}

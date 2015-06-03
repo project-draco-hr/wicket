@@ -12,6 +12,9 @@
     }
   }
  else {
+    if (useObjenesis && !hasNoArgConstructor(type)) {
+      return ObjenesisProxyFactory.createProxy(type,locator,WicketNamingPolicy.INSTANCE);
+    }
     CGLibInterceptor handler=new CGLibInterceptor(type,locator);
     Callback[] callbacks=new Callback[2];
     callbacks[CGLIB_CALLBACK_NO_OVERRIDE]=new SerializableNoOpCallback();
