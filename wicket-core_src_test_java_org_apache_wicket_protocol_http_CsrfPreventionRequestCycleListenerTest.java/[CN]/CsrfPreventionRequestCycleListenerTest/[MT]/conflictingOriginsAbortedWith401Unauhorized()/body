@@ -1,0 +1,8 @@
+{
+  setErrorCode(401);
+  setErrorMessage("NOT AUTHORIZED");
+  tester.addRequestHeader("Origin","http://example.com/");
+  csrfListener.setNoOriginAction(CsrfAction.ABORT);
+  tester.clickLink("link");
+  assertConflictingOriginsRequestAborted();
+}

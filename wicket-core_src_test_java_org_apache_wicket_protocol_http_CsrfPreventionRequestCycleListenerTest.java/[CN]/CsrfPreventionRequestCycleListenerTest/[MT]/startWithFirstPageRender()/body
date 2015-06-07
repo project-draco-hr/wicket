@@ -1,0 +1,10 @@
+{
+  WebApplication application=tester.getApplication();
+  csrfListener=new MockCsrfPreventionRequestCycleListener();
+  setErrorCode(errorCode);
+  setErrorMessage(errorMessage);
+  application.getRequestCycleListeners().add(csrfListener);
+  tester.addRequestHeader("Origin","https://google.com/");
+  tester.startPage(FirstPage.class);
+  tester.assertRenderedPage(FirstPage.class);
+}

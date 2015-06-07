@@ -1,0 +1,17 @@
+{
+  try {
+    final URI originUri=new URI(origin);
+    final String originHost=originUri.getHost();
+    if (Strings.isEmpty(originHost))     return false;
+    for (    String whitelistedOrigin : acceptedOrigins) {
+      if (originHost.equalsIgnoreCase(whitelistedOrigin) || originHost.endsWith("." + whitelistedOrigin)) {
+        log.trace("Origin {} matched whitelisted origin {}, request accepted",origin,whitelistedOrigin);
+        return true;
+      }
+    }
+  }
+ catch (  URISyntaxException e) {
+    log.debug("Origin: {} not parseable as an URI. Whitelisted-origin check skipped.",origin);
+  }
+  return false;
+}

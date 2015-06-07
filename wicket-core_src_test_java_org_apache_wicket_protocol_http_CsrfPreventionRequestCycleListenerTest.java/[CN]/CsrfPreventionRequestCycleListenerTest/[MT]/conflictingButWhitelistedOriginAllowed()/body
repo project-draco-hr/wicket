@@ -1,0 +1,8 @@
+{
+  csrfListener.setConflictingOriginAction(CsrfAction.ALLOW);
+  csrfListener.addAcceptedOrigin("example.com");
+  tester.addRequestHeader("Origin","http://example.com/");
+  tester.clickLink("link");
+  assertOriginsWhitelisted();
+  tester.assertRenderedPage(SecondPage.class);
+}

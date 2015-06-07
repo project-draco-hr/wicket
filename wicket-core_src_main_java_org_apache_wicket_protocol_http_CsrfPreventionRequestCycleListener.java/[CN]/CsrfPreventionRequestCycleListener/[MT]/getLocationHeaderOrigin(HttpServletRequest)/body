@@ -1,0 +1,23 @@
+{
+  StringBuilder target=new StringBuilder();
+  String scheme=request.getScheme();
+  if (scheme == null) {
+    return null;
+  }
+ else {
+    scheme=scheme.toLowerCase(Locale.ENGLISH);
+  }
+  target.append(scheme);
+  target.append("://");
+  String host=request.getServerName();
+  if (host == null) {
+    return null;
+  }
+  target.append(host);
+  int port=request.getServerPort();
+  if ("http".equals(scheme) && port != 80 || "https".equals(scheme) && port != 443) {
+    target.append(':');
+    target.append(port);
+  }
+  return target.toString();
+}
