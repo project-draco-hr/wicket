@@ -1,0 +1,14 @@
+{
+  Runnable thirdPageRedirect=new Runnable(){
+    @Override public void run(){
+      throw new RestartResponseException(new ThirdPage());
+    }
+  }
+;
+  setAbortHandler(thirdPageRedirect);
+  tester.addRequestHeader("Origin","http://example.com/");
+  csrfListener.setConflictingOriginAction(CsrfAction.ABORT);
+  tester.clickLink("link");
+  if (!aborted)   throw new AssertionError("Request was not aborted");
+  tester.assertRenderedPage(ThirdPage.class);
+}

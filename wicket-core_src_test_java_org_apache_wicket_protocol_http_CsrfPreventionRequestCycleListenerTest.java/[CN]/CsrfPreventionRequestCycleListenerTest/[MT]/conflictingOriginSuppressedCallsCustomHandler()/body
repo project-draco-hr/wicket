@@ -1,0 +1,14 @@
+{
+  Runnable thirdPageRedirect=new Runnable(){
+    @Override public void run(){
+      throw new RestartResponseException(new ThirdPage());
+    }
+  }
+;
+  setSuppressHandler(thirdPageRedirect);
+  csrfListener.setConflictingOriginAction(CsrfAction.SUPPRESS);
+  tester.addRequestHeader("Origin","http://example.com/");
+  tester.clickLink("link");
+  assertConflictingOriginsRequestSuppressed();
+  tester.assertRenderedPage(ThirdPage.class);
+}

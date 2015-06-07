@@ -1,0 +1,31 @@
+{
+  if ("null".equals(origin))   return null;
+  StringBuilder target=new StringBuilder();
+  try {
+    URI originUri=new URI(origin);
+    String scheme=originUri.getScheme();
+    if (scheme == null) {
+      return null;
+    }
+ else {
+      scheme=scheme.toLowerCase(Locale.ENGLISH);
+    }
+    target.append(scheme);
+    target.append("://");
+    String host=originUri.getHost();
+    if (host == null) {
+      return null;
+    }
+    target.append(host);
+    int port=originUri.getPort();
+    if (port != -1 && "http".equals(scheme) && port != 80 || "https".equals(scheme) && port != 443) {
+      target.append(':');
+      target.append(port);
+    }
+    return target.toString();
+  }
+ catch (  URISyntaxException e) {
+    log.debug("Invalid Origin header provided: {}, marked conflicting",origin);
+    return null;
+  }
+}

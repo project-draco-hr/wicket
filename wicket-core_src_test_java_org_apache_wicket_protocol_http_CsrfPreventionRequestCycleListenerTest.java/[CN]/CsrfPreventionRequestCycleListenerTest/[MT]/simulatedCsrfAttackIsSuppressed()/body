@@ -1,0 +1,11 @@
+{
+  csrfListener.setConflictingOriginAction(CsrfAction.SUPPRESS);
+  tester.addRequestHeader("Origin","http://localhost");
+  tester.startPage(ThirdPage.class);
+  assertOriginsNotChecked();
+  tester.assertRenderedPage(ThirdPage.class);
+  tester.addRequestHeader("Origin","http://attacker.com/");
+  tester.clickLink("link",true);
+  assertConflictingOriginsRequestSuppressed();
+  tester.assertRenderedPage(ThirdPage.class);
+}
