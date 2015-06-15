@@ -1,0 +1,17 @@
+{
+  Locale locale=null;
+  String style=null;
+  String variation=null;
+  if (Strings.isEmpty(encodedAttributes) == false) {
+    String split[]=Strings.split(encodedAttributes,'-');
+    locale=parseLocale(split[0]);
+    if (split.length == 2) {
+      style=Strings.defaultIfEmpty(unescapeAttributesSeparator(split[1]),null);
+    }
+ else     if (split.length == 3) {
+      style=Strings.defaultIfEmpty(unescapeAttributesSeparator(split[1]),null);
+      variation=Strings.defaultIfEmpty(unescapeAttributesSeparator(split[2]),null);
+    }
+  }
+  return new ResourceReference.UrlAttributes(locale,style,variation);
+}

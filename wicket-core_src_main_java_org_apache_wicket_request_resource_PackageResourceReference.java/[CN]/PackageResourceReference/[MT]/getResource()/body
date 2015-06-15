@@ -1,14 +1,16 @@
 {
   final String extension=getExtension();
   final PackageResource resource;
+  final Url url=RequestCycle.get().getRequest().getUrl();
+  final UrlAttributes urlAttributes=ResourceUtil.decodeResourceReferenceAttributes(url);
   if (CSS_EXTENSION.equals(extension)) {
-    resource=new CssPackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation()).readBuffered(readBuffered);
+    resource=new CssPackageResource(getScope(),getName(),getCurrentLocale(urlAttributes),getCurrentStyle(urlAttributes),getCurrentVariation(urlAttributes)).readBuffered(readBuffered);
   }
  else   if (JAVASCRIPT_EXTENSION.equals(extension)) {
-    resource=new JavaScriptPackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation()).readBuffered(readBuffered);
+    resource=new JavaScriptPackageResource(getScope(),getName(),getCurrentLocale(urlAttributes),getCurrentStyle(urlAttributes),getCurrentVariation(urlAttributes)).readBuffered(readBuffered);
   }
  else {
-    resource=new PackageResource(getScope(),getName(),getLocale(),getStyle(),getVariation()).readBuffered(readBuffered);
+    resource=new PackageResource(getScope(),getName(),getCurrentLocale(urlAttributes),getCurrentStyle(urlAttributes),getCurrentVariation(urlAttributes)).readBuffered(readBuffered);
   }
   removeCompressFlagIfUnnecessary(resource);
   return resource;
