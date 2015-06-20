@@ -19,11 +19,13 @@
   for (  String element : elements) {
     File[] files=current.listFiles();
     boolean match=false;
-    for (    File file : files) {
-      if (file.getName().equals(element) && file.isDirectory()) {
-        current=file;
-        match=true;
-        break;
+    if (files != null) {
+      for (      File file : files) {
+        if (file.getName().equals(element) && file.isDirectory()) {
+          current=file;
+          match=true;
+          break;
+        }
       }
     }
     if (!match) {
@@ -31,14 +33,16 @@
     }
   }
   File[] files=current.listFiles();
-  Set<String> result=new HashSet<String>();
-  int stripLength=webappRoot.getPath().length();
-  for (  File file : files) {
-    String s=file.getPath().substring(stripLength).replace('\\','/');
-    if (file.isDirectory()) {
-      s=s + "/";
+  Set<String> result=new HashSet<>();
+  if (files != null) {
+    int stripLength=webappRoot.getPath().length();
+    for (    File file : files) {
+      String s=file.getPath().substring(stripLength).replace('\\','/');
+      if (file.isDirectory()) {
+        s=s + "/";
+      }
+      result.add(s);
     }
-    result.add(s);
   }
   return result;
 }
