@@ -29,8 +29,9 @@
       }
     }
     if (uploadedFiles != null) {
-      for (      String fieldName : uploadedFiles.keySet()) {
-        List<UploadedFile> files=uploadedFiles.get(fieldName);
+      for (      Map.Entry<String,List<UploadedFile>> entry : uploadedFiles.entrySet()) {
+        String fieldName=entry.getKey();
+        List<UploadedFile> files=entry.getValue();
         for (        UploadedFile uf : files) {
           newAttachment(out);
           out.write("; name=\"".getBytes());
