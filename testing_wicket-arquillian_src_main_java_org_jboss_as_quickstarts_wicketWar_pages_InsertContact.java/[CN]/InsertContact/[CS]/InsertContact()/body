@@ -1,0 +1,13 @@
+{
+  add(new FeedbackPanel("feedback"));
+  insertForm=new Form<Contact>("insertForm"){
+    @Override protected void onSubmit(){
+      contactDao.addContact(name,email);
+      setResponsePage(ListContacts.class);
+    }
+  }
+;
+  insertForm.add(new RequiredTextField<String>("name",new PropertyModel<String>(this,"name")));
+  insertForm.add(new RequiredTextField<String>("email",new PropertyModel<String>(this,"email")));
+  add(insertForm);
+}

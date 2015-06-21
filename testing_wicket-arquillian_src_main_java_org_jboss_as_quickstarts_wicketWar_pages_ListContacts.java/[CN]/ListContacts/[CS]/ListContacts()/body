@@ -1,0 +1,18 @@
+{
+  add(new Label("welcomeMessage",welcome));
+  add(new ListView<Contact>("contacts",contactDao.getContacts()){
+    @Override protected void populateItem(    final ListItem<Contact> item){
+      Contact contact=item.getModelObject();
+      item.add(new Label("name",contact.getName()));
+      item.add(new Label("email",contact.getEmail()));
+      item.add(new Link<Contact>("delete",item.getModel()){
+        @Override public void onClick(){
+          contactDao.remove(item.getModelObject());
+          setResponsePage(ListContacts.class);
+        }
+      }
+);
+    }
+  }
+);
+}

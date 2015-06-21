@@ -1,0 +1,13 @@
+{
+  if (pathname.startsWith(WEB_INF) == false) {
+    try {
+      final URL url=servletContext.getResource(pathname.replaceFirst(basePath,""));
+      if (url != null) {
+        return new UrlResourceStream(url);
+      }
+    }
+ catch (    Exception ex) {
+    }
+  }
+  return null;
+}
