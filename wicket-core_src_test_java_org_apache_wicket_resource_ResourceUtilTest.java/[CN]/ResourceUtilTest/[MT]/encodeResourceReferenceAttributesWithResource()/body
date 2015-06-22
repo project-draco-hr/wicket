@@ -1,0 +1,20 @@
+{
+  ResourceReference resourceReference=Mockito.mock(ResourceReference.class);
+  UrlAttributes attributes=new UrlAttributes(null,null,null);
+  String urlString="www.funny.url";
+  Url url=Url.parse(urlString);
+  Mockito.when(resourceReference.getUrlAttributes()).thenReturn(attributes);
+  ResourceUtil.encodeResourceReferenceAttributes(url,resourceReference);
+  assertEquals(urlString,url.toString());
+  Mockito.reset(resourceReference);
+  attributes=new UrlAttributes(Locale.CANADA_FRENCH,"style","variation");
+  Mockito.when(resourceReference.getUrlAttributes()).thenReturn(attributes);
+  ResourceUtil.encodeResourceReferenceAttributes(url,resourceReference);
+  assertEquals(urlString + "?fr_CA-style-variation",url.toString());
+  Mockito.reset(resourceReference);
+  attributes=new UrlAttributes(null,null,"variation");
+  url=Url.parse(urlString);
+  Mockito.when(resourceReference.getUrlAttributes()).thenReturn(attributes);
+  ResourceUtil.encodeResourceReferenceAttributes(url,resourceReference);
+  assertEquals(urlString + "?--variation",url.toString());
+}

@@ -1,6 +1,6 @@
 {
   final ResourceResponse resourceResponse=new ResourceResponse();
-  final IResourceStream resourceStream=getResourceStream();
+  final IResourceStream resourceStream=getCacheableResourceStream();
   if (resourceStream == null) {
     return sendResourceError(resourceResponse,HttpServletResponse.SC_NOT_FOUND,"Unable to find resource");
   }
@@ -19,7 +19,7 @@
       byte[] bytes=null;
       if (readBuffered) {
         bytes=IOUtils.toByteArray(inputStream);
-        resourceResponse.setContentLength(new Long(bytes.length));
+        resourceResponse.setContentLength(bytes.length);
       }
  else {
         resourceResponse.setContentLength(resourceStream.length().bytes());
