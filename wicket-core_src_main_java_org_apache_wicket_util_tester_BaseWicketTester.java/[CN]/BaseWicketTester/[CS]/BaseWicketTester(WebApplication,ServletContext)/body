@@ -1,34 +1,3 @@
 {
-  servletContext=servletCtx != null ? servletCtx : new MockServletContext(application,null);
-  final FilterConfig filterConfig=new TestFilterConfig();
-  WicketFilter filter=new WicketFilter(){
-    @Override public FilterConfig getFilterConfig(){
-      return filterConfig;
-    }
-  }
-;
-  application.setWicketFilter(filter);
-  httpSession=new MockHttpSession(servletContext);
-  ThreadContext.detach();
-  this.application=application;
-  application.setName("WicketTesterApplication-" + UUID.randomUUID());
-  ThreadContext.setApplication(application);
-  application.setServletContext(servletContext);
-  application.initApplication();
-  application.getResourceSettings().setResourcePollFrequency(getResourcePollFrequency());
-  application.setPageRendererProvider(new LastPageRecordingPageRendererProvider(application.getPageRendererProvider()));
-  application.setRequestCycleProvider(new TestRequestCycleProvider(application.getRequestCycleProvider()));
-  originalFeedbackMessageCleanupFilter=application.getApplicationSettings().getFeedbackMessageCleanupFilter();
-  application.getApplicationSettings().setFeedbackMessageCleanupFilter(IFeedbackMessageFilter.NONE);
-  IPageManagerProvider pageManagerProvider=newTestPageManagerProvider();
-  if (pageManagerProvider != null) {
-    application.setPageManagerProvider(pageManagerProvider);
-  }
-  application.getSessionStore().registerUnboundListener(new UnboundListener(){
-    @Override public void sessionUnbound(    String sessionId){
-      newSession();
-    }
-  }
-);
-  setupNextRequestCycle();
+  this(application,servletCtx,true);
 }

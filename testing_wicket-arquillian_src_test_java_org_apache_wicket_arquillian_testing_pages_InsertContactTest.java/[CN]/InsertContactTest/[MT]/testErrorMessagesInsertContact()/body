@@ -1,0 +1,10 @@
+{
+  Class<InsertContact> pageClass=InsertContact.class;
+  getWicketTester().startPage(pageClass);
+  getWicketTester().assertRenderedPage(pageClass);
+  FormTester formTester=getWicketTester().newFormTester(INSERT_FORM);
+  formTester.submit();
+  getWicketTester().assertErrorMessages(NAME_IS_REQUIRED,EMAIL_IS_REQUIRED);
+  log.info("Required Messages: " + NAME_IS_REQUIRED + " and "+ EMAIL_IS_REQUIRED);
+  getWicketTester().assertRenderedPage(pageClass);
+}

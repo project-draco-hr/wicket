@@ -1,0 +1,23 @@
+{
+  Class<InsertContact> pageClass=InsertContact.class;
+  getWicketTester().startPage(pageClass);
+  getWicketTester().assertRenderedPage(pageClass);
+  FormTester formTester=getWicketTester().newFormTester(INSERT_FORM);
+  formTester.setValue(NAME,WICKET_ARQUILLIAN_TEST);
+  formTester.setValue(EMAIL,WICKET_ARQUILLIAN_TEST_APACHE_ORG);
+  formTester.submit();
+  getWicketTester().assertNoErrorMessage();
+  getWicketTester().assertRenderedPage(ListContacts.class);
+  log.info("Retrieving contacts to assert:");
+  List<Contact> contacts=contactDao.getContacts();
+  int contactsSize=contacts.size();
+  assertEquals(1,contactsSize);
+  Contact contact=contacts.get(0);
+  assertNotNull(contact.getId());
+  assertEquals(WICKET_ARQUILLIAN_TEST,contact.getName());
+  assertEquals(WICKET_ARQUILLIAN_TEST_APACHE_ORG,contact.getEmail());
+  log.info("Contacts size: " + contactsSize);
+  for (  Contact infoContact : contacts) {
+    log.info("Contacts info: " + infoContact);
+  }
+}
