@@ -7,12 +7,24 @@
       try {
         boolean optional=injectAnnotation != null && injectAnnotation.optional();
         Annotation bindingAnnotation=findBindingAnnotation(field.getAnnotations());
-        final IProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,optional);
-        if (wrapInProxies) {
-          target=LazyInitProxyFactory.createProxy(field.getType(),locator);
+        final GuiceProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,optional);
+        Object cachedValue=cache.get(locator);
+        if (cachedValue != null) {
+          return cachedValue;
+        }
+        target=locator.locateProxyTarget();
+        if (target == null) {
         }
  else {
-          target=locator.locateProxyTarget();
+          if (wrapInProxies) {
+            target=LazyInitProxyFactory.createProxy(field.getType(),locator);
+          }
+        }
+        if (locator.isSingletonScope()) {
+          Object tmpTarget=cache.putIfAbsent(locator,target == null ? NULL_SENTINEL : target);
+          if (tmpTarget != null) {
+            target=tmpTarget;
+          }
         }
         if (!field.isAccessible()) {
           field.setAccessible(true);
@@ -23,5 +35,5 @@
       }
     }
   }
-  return target;
+  return target == NULL_SENTINEL ? null : target;
 }
