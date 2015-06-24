@@ -1,6 +1,8 @@
 {
+  JavaxInjectTestComponent component=newTestComponent("id");
+  IAjaxCallListener nonExisting=component.getNonExisting();
   try {
-    JavaxInjectTestComponent component=new MyJavaxInjectWithNonExistingTestComponent();
+    nonExisting.getAfterHandler(null);
     fail("Fields annotated with @javax.inject.Inject are required!");
   }
  catch (  ConfigurationException cx) {
