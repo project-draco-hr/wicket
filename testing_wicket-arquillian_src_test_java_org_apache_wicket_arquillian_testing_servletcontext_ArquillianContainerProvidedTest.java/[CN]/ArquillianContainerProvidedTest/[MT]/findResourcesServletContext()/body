@@ -1,14 +1,8 @@
 {
-  try {
-    URL resource=getWicketTester().getServletContext().getResource("/pages/InsertContact.html");
-    if (resource == null) {
-      throw new MalformedURLException("Resource /pages/InsertContact.html not found.");
-    }
-    log.info("Resource found " + resource.getFile());
-    assertTrue(resource.getFile().contains("/pages/InsertContact.html"));
+  URL resource=getWicketTester().getServletContext().getResource("/pages/InsertContact.html");
+  if (resource == null) {
+    throw new IllegalStateException(RESOURCE_PAGES_INSERT_CONTACT_HTML_NOT_FOUND);
   }
- catch (  Exception e) {
-    assertEquals("Resource /pages/InsertContact.html not found.",e.getMessage());
-    log.error("Resource cannot be found.",e);
-  }
+  log.info("Resource found " + resource.getFile());
+  assertTrue(resource.getFile().contains("/pages/InsertContact.html"));
 }

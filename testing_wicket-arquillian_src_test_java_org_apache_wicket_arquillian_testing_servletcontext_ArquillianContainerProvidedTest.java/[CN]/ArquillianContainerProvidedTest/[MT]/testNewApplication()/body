@@ -1,15 +1,16 @@
 {
+  setWicketTester(new WicketTester(new TestWicketJavaEEApplication()));
+  assertNotNull(getWicketTester().getApplication());
+  log.info("Using mock servletcontext.");
+  log.info("WebApplication MOCK after wicketTester Name: " + getWicketTester().getApplication().getName());
+  log.info("ServletContext MOCK after wicketTester Name: " + getWicketTester().getServletContext().getServletContextName());
+  log.info("Server info: " + getWicketTester().getServletContext().getServerInfo());
+  assertEquals("Wicket Mock Test Environment v1.0",getWicketTester().getServletContext().getServerInfo());
   try {
-    setWicketTester(new WicketTester(new TestWicketJavaEEApplication()));
-    assertNotNull(getWicketTester().getApplication());
-    log.info("Using mock servletcontext.");
-    log.info("WebApplication MOCK after wicketTester Name: " + getWicketTester().getApplication().getName());
-    log.info("ServletContext MOCK after wicketTester Name: " + getWicketTester().getServletContext().getServletContextName());
-    log.info("Server info: " + getWicketTester().getServletContext().getServerInfo());
-    assertEquals("Wicket Mock Test Environment v1.0",getWicketTester().getServletContext().getServerInfo());
+    findResourcesServletContext();
+    fail("Should not be able to find '/pages/InsertContact.html' in the mocked servlet context");
   }
- catch (  IllegalStateException e) {
-    fail("Cannot use a mock ServletContext.");
+ catch (  IllegalStateException isx) {
+    assertEquals(RESOURCE_PAGES_INSERT_CONTACT_HTML_NOT_FOUND,isx.getMessage());
   }
-  findResourcesServletContext();
 }
