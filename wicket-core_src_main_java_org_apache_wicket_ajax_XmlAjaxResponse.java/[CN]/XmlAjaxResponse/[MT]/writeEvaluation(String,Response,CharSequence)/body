@@ -1,17 +1,10 @@
 {
-  boolean encoded=false;
   CharSequence javascript=js;
   if (needsEncoding(js)) {
-    encoded=true;
     javascript=encode(js);
   }
   response.write("<");
   response.write(invocation);
-  if (encoded) {
-    response.write(" encoding=\"");
-    response.write(getEncodingName());
-    response.write("\"");
-  }
   response.write(">");
   response.write("<![CDATA[");
   response.write(javascript);
