@@ -6,7 +6,7 @@
   final IPageManager pageManager=getSession().getPageManager();
   if (!getFlag(FLAG_IS_DIRTY) && (isVersioned() && pageManager.supportsVersioning() || isInitialization)) {
     setFlag(FLAG_IS_DIRTY,true);
-    setNextAvailableId();
+    setNextAvailableId(isInitialization);
     if (isInitialization == false) {
       pageManager.touchPage(this);
     }
