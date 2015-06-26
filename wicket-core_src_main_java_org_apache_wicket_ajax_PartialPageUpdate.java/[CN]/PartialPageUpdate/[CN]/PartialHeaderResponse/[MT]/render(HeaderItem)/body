@@ -1,0 +1,38 @@
+{
+  PriorityHeaderItem priorityHeaderItem=null;
+  while (item instanceof IWrappedHeaderItem) {
+    if (item instanceof PriorityHeaderItem) {
+      priorityHeaderItem=(PriorityHeaderItem)item;
+    }
+    item=((IWrappedHeaderItem)item).getWrapped();
+  }
+  if (item instanceof OnLoadHeaderItem) {
+    if (!wasItemRendered(item)) {
+      PartialPageUpdate.this.appendJavaScript(((OnLoadHeaderItem)item).getJavaScript());
+      markItemRendered(item);
+    }
+  }
+ else   if (item instanceof OnEventHeaderItem) {
+    if (!wasItemRendered(item)) {
+      PartialPageUpdate.this.appendJavaScript(((OnEventHeaderItem)item).getCompleteJavaScript());
+      markItemRendered(item);
+    }
+  }
+ else   if (item instanceof OnDomReadyHeaderItem) {
+    if (!wasItemRendered(item)) {
+      if (priorityHeaderItem != null) {
+        PartialPageUpdate.this.domReadyJavaScripts.add(0,((OnDomReadyHeaderItem)item).getJavaScript());
+      }
+ else {
+        PartialPageUpdate.this.domReadyJavaScripts.add(((OnDomReadyHeaderItem)item).getJavaScript());
+      }
+      markItemRendered(item);
+    }
+  }
+ else   if (headerRendering) {
+    super.render(item);
+  }
+ else {
+    LOG.debug("Only methods that can be called on IHeaderResponse outside renderHead() are #render(OnLoadHeaderItem) and #render(OnDomReadyHeaderItem)");
+  }
+}
