@@ -5,7 +5,7 @@
     encoding=Application.get().getRequestCycleSettings().getResponseRequestEncoding();
   }
   FileUploadBase fileUpload=newFileUpload(encoding);
-  final List<FileItem> items;
+  List<FileItem> items;
   if (wantUploadProgressUpdates()) {
     ServletRequestContext ctx=new ServletRequestContext(request){
       @Override public InputStream getInputStream() throws IOException {
@@ -24,6 +24,9 @@
   }
  else {
     items=fileUpload.parseRequest(new ServletRequestContext(request));
+    if (items.isEmpty()) {
+      items=readParts(request);
+    }
   }
   for (  final FileItem item : items) {
     if (item.isFormField()) {

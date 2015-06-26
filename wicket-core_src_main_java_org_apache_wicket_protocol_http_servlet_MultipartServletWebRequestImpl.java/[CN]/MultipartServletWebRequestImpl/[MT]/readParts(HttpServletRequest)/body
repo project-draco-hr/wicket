@@ -1,0 +1,16 @@
+{
+  List<FileItem> itemsFromParts=new ArrayList<>();
+  try {
+    Collection<Part> parts=request.getParts();
+    if (parts != null) {
+      for (      Part part : parts) {
+        FileItem fileItem=new PartFileItem(part);
+        itemsFromParts.add(fileItem);
+      }
+    }
+  }
+ catch (  IOException|ServletException e) {
+    throw new FileUploadException("",e);
+  }
+  return itemsFromParts;
+}
