@@ -1,12 +1,25 @@
 {
   this.page=Args.notNull(page,"page");
-  responseObject=new XmlPartialPageUpdate(page){
+  update=new XmlPartialPageUpdate(page){
+    /** 
+ * Freezes the {@link AjaxRequestHandler#listeners} before firing the event and
+ * un-freezes them afterwards to allow components to add more{@link AjaxRequestTarget.IListener}s for the second event.
+ */
+    @Override protected void onBeforeRespond(    final Response response){
+      listenersFrozen=true;
+      if (listeners != null) {
+        for (        AjaxRequestTarget.IListener listener : listeners) {
+          listener.onBeforeRespond(markupIdToComponent,AjaxRequestHandler.this);
+        }
+      }
+      listenersFrozen=false;
+    }
     /** 
  * Freezes the {@link AjaxRequestHandler#listeners}, and does not un-freeze them as the
  * events will have been fired by now.
  * @param responsethe response to write to
  */
-    @Override protected void fireOnAfterRespondListeners(    final Response response){
+    @Override protected void onAfterRespond(    final Response response){
       listenersFrozen=true;
       if (listeners != null) {
         final Map<String,Component> components=Collections.unmodifiableMap(markupIdToComponent);
@@ -20,19 +33,6 @@
           listener.onAfterRespond(components,jsresponse);
         }
       }
-    }
-    /** 
- * Freezes the {@link AjaxRequestHandler#listeners} before firing the event and
- * un-freezes them afterwards to allow components to add more{@link AjaxRequestTarget.IListener}s for the second event.
- */
-    @Override protected void fireOnBeforeRespondListeners(){
-      listenersFrozen=true;
-      if (listeners != null) {
-        for (        AjaxRequestTarget.IListener listener : listeners) {
-          listener.onBeforeRespond(markupIdToComponent,AjaxRequestHandler.this);
-        }
-      }
-      listenersFrozen=false;
     }
   }
 ;
