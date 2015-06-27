@@ -1,0 +1,18 @@
+{
+  componentsFrozen=true;
+  for (  Map.Entry<String,Component> stringComponentEntry : markupIdToComponent.entrySet()) {
+    final Component component=stringComponentEntry.getValue();
+    if (!containsAncestorFor(component)) {
+      writeComponent(response,component.getAjaxRegionMarkupId(),component,encoding);
+    }
+  }
+  if (header != null) {
+    headerRendering=true;
+    Response oldResponse=RequestCycle.get().setResponse(headerBuffer);
+    headerBuffer.reset();
+    header.getHeaderResponse().close();
+    RequestCycle.get().setResponse(oldResponse);
+    writeHeaderContribution(response);
+    headerRendering=false;
+  }
+}
