@@ -1,5 +1,6 @@
 {
-  for (  String cd : part.getHeader("content-disposition").split(";")) {
+  String contentDisposition=part.getHeader("content-disposition");
+  for (  String cd : Strings.split(contentDisposition,';')) {
     if (cd.trim().startsWith("filename")) {
       return cd.substring(cd.indexOf('=') + 1).trim().replace("\"","");
     }
