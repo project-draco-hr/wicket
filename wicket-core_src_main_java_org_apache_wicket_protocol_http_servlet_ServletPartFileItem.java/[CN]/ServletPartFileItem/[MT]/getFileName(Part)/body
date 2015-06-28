@@ -1,5 +1,5 @@
 {
-  String contentDisposition=part.getHeader("content-disposition");
+  String contentDisposition=part.getHeader(AbstractResource.CONTENT_DISPOSITION_HEADER_NAME);
   for (  String cd : Strings.split(contentDisposition,';')) {
     if (cd.trim().startsWith("filename")) {
       return cd.substring(cd.indexOf('=') + 1).trim().replace("\"","");
