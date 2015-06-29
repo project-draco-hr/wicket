@@ -24,8 +24,9 @@
  else {
         resourceResponse.setContentLength(resourceStream.length().bytes());
       }
-      Long startbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_STARTBYTE);
-      Long endbyte=RequestCycle.get().getMetaData(CONTENT_RANGE_ENDBYTE);
+      RequestCycle cycle=RequestCycle.get();
+      Long startbyte=cycle.getMetaData(CONTENT_RANGE_STARTBYTE);
+      Long endbyte=cycle.getMetaData(CONTENT_RANGE_ENDBYTE);
       PartWriterCallback partWriterCallback=new PartWriterCallback(bytes != null ? new ByteArrayInputStream(bytes) : inputStream,resourceResponse.getContentLength(),startbyte,endbyte);
       resourceResponse.setWriteCallback(partWriterCallback.setClose(!readBuffered));
     }
