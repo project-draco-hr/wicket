@@ -1,5 +1,5 @@
 {
-  if (!AutoLabelTagHandler.class.getName().equals(tag.getId())) {
+  if (!tag.getId().startsWith(LABEL_ATTR)) {
     return null;
   }
   final String id=tag.getAttribute(getWicketNamespace(markupStream) + WICKET_FOR).trim();
@@ -19,5 +19,5 @@
   if (component instanceof FormComponent) {
     component.setMetaData(MARKER_KEY,new AutoLabelMarker((FormComponent<?>)component));
   }
-  return new AutoLabel("label" + container.getPage().getAutoIndex(),component);
+  return new AutoLabel(tag.getId(),component);
 }

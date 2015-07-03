@@ -1,7 +1,6 @@
 {
   final MarkupContainer container=pathInfo.getContainer();
-  final Page page=container.getPage();
-  final String autoId=id + Integer.toString(page.getAutoIndex());
+  final String componentId=tag.getId();
   final String tagName=tag.getName();
   if (tag.getId() == null) {
     tag.setAutoComponentTag(true);
@@ -9,10 +8,10 @@
   IAutolinkResolverDelegate autolinkResolverDelegate=tagNameToAutolinkResolverDelegates.get(tagName);
   Component autoComponent=null;
   if (autolinkResolverDelegate != null) {
-    autoComponent=autolinkResolverDelegate.newAutoComponent(autoId,pathInfo);
+    autoComponent=autolinkResolverDelegate.newAutoComponent(componentId,pathInfo);
   }
   if (autoComponent == null) {
-    autoComponent=new AutolinkExternalLink(autoId,pathInfo.reference);
+    autoComponent=new AutolinkExternalLink(componentId,pathInfo.reference);
   }
   return autoComponent;
 }
