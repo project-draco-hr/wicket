@@ -18,7 +18,10 @@
     }
     target.append(host);
     int port=originUri.getPort();
-    if (port != -1 && "http".equals(scheme) && port != 80 || "https".equals(scheme) && port != 443) {
+    boolean portIsSpecified=port != -1;
+    boolean isAlternateHttpPort="http".equals(scheme) && port != 80;
+    boolean isAlternateHttpsPort="https".equals(scheme) && port != 443;
+    if (portIsSpecified && (isAlternateHttpPort || isAlternateHttpsPort)) {
       target.append(':');
       target.append(port);
     }
