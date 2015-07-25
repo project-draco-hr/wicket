@@ -1,0 +1,13 @@
+{
+  tester.startPage(new MockHomePage(){
+    @Override public void renderHead(    IHeaderResponse response){
+      super.renderHead(response);
+      CoreLibrariesContributor.contribute(getApplication(),response);
+    }
+    @Override protected void reportMissingHead(    CharSequence collectedHeaderOutput){
+      fail("missing headers should not be reported for unrendered page");
+    }
+  }
+);
+  tester.assertRenderedPage(RedirectPage.class);
+}

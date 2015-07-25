@@ -3,8 +3,11 @@
     @Override protected void init(){
       super.init();
       getSecuritySettings().setAuthorizationStrategy(new AbstractPageAuthorizationStrategy(){
-        @Override protected <T extends Page>boolean isPageAuthorized(        Class<T> pageClass){
-          if (pageClass != RedirectPage.class) {
+        /** 
+ * No rendering for pages other than RedirectPage.
+ */
+        @Override public boolean isActionAuthorized(        Component c,        Action action){
+          if ((action.toString() == Action.RENDER) && c instanceof WebPage && c.getClass() != RedirectPage.class) {
             RedirectPage intercept=new RedirectPage("http://example.com/path");
             throw new RestartResponseAtInterceptPageException(intercept);
           }
