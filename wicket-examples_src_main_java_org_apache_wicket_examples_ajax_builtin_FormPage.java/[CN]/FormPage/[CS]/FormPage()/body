@@ -1,9 +1,18 @@
 {
-  final FeedbackPanel feedback=new FeedbackPanel("feedback");
-  feedback.setOutputMarkupId(true);
-  add(feedback);
+  final FeedbackPanel feedbackErrors=new FeedbackPanel("feedbackErrors",new ExactLevelFeedbackMessageFilter(FeedbackMessage.ERROR));
+  feedbackErrors.setOutputMarkupId(true);
+  add(feedbackErrors);
+  final FeedbackPanel feedbackSuccess=new FeedbackPanel("feedbackSuccess",new ExactLevelFeedbackMessageFilter(FeedbackMessage.INFO));
+  feedbackSuccess.setOutputMarkupId(true);
+  add(feedbackSuccess);
   Bean bean=new Bean();
-  Form<Bean> form=new Form<>("form",new CompoundPropertyModel<>(bean));
+  Form<Bean> form=new Form<Bean>("form",new CompoundPropertyModel<>(bean)){
+    @Override protected void onSubmit(){
+      super.onSubmit();
+      info("Form successfully submitted!");
+    }
+  }
+;
   add(form);
   form.setOutputMarkupId(true);
   FormComponent fc;
@@ -18,13 +27,4 @@
   form.add(fc);
   form.add(new SimpleFormComponentLabel("email-label",fc));
   form.add(new AjaxFormValidatingBehavior("keydown",Duration.ONE_SECOND));
-  form.add(new AjaxButton("ajax-button",form){
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      target.add(feedback);
-    }
-    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
-      target.add(feedback);
-    }
-  }
-);
 }

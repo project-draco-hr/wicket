@@ -1,0 +1,18 @@
+{
+  MarkupStream stream=new MarkupStream(getMarkup());
+  while (stream.hasMore()) {
+    MarkupElement childOpenTag=stream.nextOpenTag();
+    if ((childOpenTag instanceof ComponentTag) && !stream.atCloseTag()) {
+      final ComponentTag tag=(ComponentTag)childOpenTag;
+      final String id=tag.getId();
+      Component component=null;
+      if (get(id) == null) {
+        component=ComponentResolvers.resolveByComponentHierarchy(this,stream,tag);
+      }
+      if (component != null) {
+        component.internalRenderHead(container);
+      }
+      stream.skipToMatchingCloseTag(tag);
+    }
+  }
+}

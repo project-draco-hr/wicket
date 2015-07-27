@@ -1,12 +1,8 @@
 {
-  super.onAfterRender();
   if (getApplication().usesDevelopmentConfig()) {
-    IRequestHandler activeHandler=getRequestCycle().getActiveRequestHandler();
-    if (activeHandler instanceof IPageRequestHandler) {
-      IPageRequestHandler h=(IPageRequestHandler)activeHandler;
-      if (h.getPage() == this) {
-        validateHeaders();
-      }
+    if (wasRendered(this)) {
+      validateHeaders();
     }
   }
+  super.onAfterRender();
 }
