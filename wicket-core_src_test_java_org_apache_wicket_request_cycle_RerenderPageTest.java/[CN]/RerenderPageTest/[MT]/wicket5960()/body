@@ -1,0 +1,18 @@
+{
+  tester.getApplication().mount(new MountedMapper("/rerender/${value}",RerenderPage.class));
+  PageParameters pars=new PageParameters();
+  pars.add("value",1);
+  RerenderPage page=tester.startPage(RerenderPage.class,pars);
+  tester.assertRenderedPage(RerenderPage.class);
+  tester.assertContains("<!-- I should be present 1 -->");
+  page.setNewValueHandler(new Supplier<Integer>(){
+    private static final long serialVersionUID=1L;
+    @Override public Integer get(){
+      return 2;
+    }
+  }
+);
+  tester.startPage(page);
+  tester.assertRenderedPage(RerenderPage.class);
+  tester.assertContains("<!-- I should be present 2 -->");
+}
