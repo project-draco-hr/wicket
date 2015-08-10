@@ -1,0 +1,9 @@
+{
+  Locale locale=test.getLocale();
+  String style=test.getStyle();
+  String variation=test.getVariation();
+  String extension=test.getExtension();
+  PackageResourceReference reference=new PackageResourceReference(ResourceReferenceLocatingTest.class,"b.js",locale,style,variation);
+  tester.startResourceReference(reference);
+  assertThat(test.toString(),tester.getLastResponseAsString().trim(),is("// " + expectedResult));
+}

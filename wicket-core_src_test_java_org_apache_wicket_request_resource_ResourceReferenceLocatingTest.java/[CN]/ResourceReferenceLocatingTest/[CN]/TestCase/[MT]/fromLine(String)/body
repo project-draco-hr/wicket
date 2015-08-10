@@ -1,0 +1,18 @@
+{
+  String splitter;
+  if (line.contains("\t"))   splitter="\t";
+ else   if (line.contains(";"))   splitter=";";
+ else   if (line.contains(","))   splitter=",";
+ else   throw new IllegalArgumentException("Unable to split line with either tab, komma or semicolon");
+  String[] pars=line.split(splitter);
+  Locale locale=isNull(pars[0]) ? null : Locale.forLanguageTag(pars[0].replace('_','-'));
+  String style=nullOrValue(pars[1]);
+  String variation=nullOrValue(pars[2]);
+  String extension=nullOrValue(pars[3]);
+  String resultNonMin=nullOrValue(pars[4]);
+  String resultMin=nullOrValue(pars[5]);
+  String resultStrictNonMin=nullOrValue(pars[6]);
+  String resultStrictMin=nullOrValue(pars[7]);
+  TestCase test=new TestCase(locale,style,variation,extension,resultNonMin,resultMin,resultStrictNonMin,resultStrictMin);
+  return test;
+}

@@ -1,0 +1,16 @@
+{
+  try (InputStream is=ResourceReferenceLocatingTest.class.getResourceAsStream("ResourceReferenceLocatingTest.csv")){
+    String csv=Streams.readString(is);
+    StringReader sr=new StringReader(csv);
+    BufferedReader br=new BufferedReader(sr);
+    List<Object[]> result=new ArrayList<>();
+    String line=br.readLine();
+    while ((line=br.readLine()) != null) {
+      if (!line.isEmpty())       result.add(new Object[]{TestCase.fromLine(line)});
+    }
+    return result;
+  }
+ catch (  Exception e) {
+    throw new AssertionError(e);
+  }
+}
