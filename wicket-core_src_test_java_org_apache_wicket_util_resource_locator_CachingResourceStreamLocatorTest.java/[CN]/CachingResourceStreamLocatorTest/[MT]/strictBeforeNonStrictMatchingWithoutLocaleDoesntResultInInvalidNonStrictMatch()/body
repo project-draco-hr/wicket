@@ -1,0 +1,13 @@
+{
+  IResourceStreamLocator resourceStreamLocator=new ResourceStreamLocator(new ClassPathResourceFinder(""));
+  CachingResourceStreamLocator cachingLocator=new CachingResourceStreamLocator(resourceStreamLocator);
+  String style=null;
+  String variation=null;
+  Locale locale=null;
+  String extension=null;
+  String filename="org/apache/wicket/ajax/res/js/wicket-ajax-jquery-debug.js";
+  IResourceStream strictLocate=cachingLocator.locate(AbstractDefaultAjaxBehavior.class,filename,style,variation,locale,extension,true);
+  assertThat(strictLocate,is(not(nullValue())));
+  IResourceStream nonStrictLocate=cachingLocator.locate(AbstractDefaultAjaxBehavior.class,filename,style,variation,locale,extension,false);
+  assertThat(nonStrictLocate,is(not(nullValue())));
+}

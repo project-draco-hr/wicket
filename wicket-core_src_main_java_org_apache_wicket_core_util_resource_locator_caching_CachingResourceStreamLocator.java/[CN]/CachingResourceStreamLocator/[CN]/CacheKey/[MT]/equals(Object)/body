@@ -1,7 +1,12 @@
 {
-  if (this == o)   return true;
-  if (o == null || getClass() != o.getClass())   return false;
-  if (!super.equals(o))   return false;
-  CacheKey cacheKey=(CacheKey)o;
-  return !(extension != null ? !extension.equals(cacheKey.extension) : cacheKey.extension != null);
+  if (this == obj)   return true;
+  if (!super.equals(obj))   return false;
+  if (getClass() != obj.getClass())   return false;
+  CacheKey other=(CacheKey)obj;
+  if (extension == null) {
+    if (other.extension != null)     return false;
+  }
+ else   if (!extension.equals(other.extension))   return false;
+  if (strict != other.strict)   return false;
+  return true;
 }
