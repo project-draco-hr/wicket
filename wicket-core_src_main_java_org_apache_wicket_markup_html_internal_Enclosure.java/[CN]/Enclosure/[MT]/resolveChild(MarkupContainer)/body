@@ -1,0 +1,11 @@
+{
+  Component childController=container.get(childId);
+  Iterator<Component> children=container.iterator();
+  while (children.hasNext() && childController == null) {
+    Component transparentChild=children.next();
+    if (transparentChild instanceof TransparentWebMarkupContainer) {
+      childController=resolveChild((MarkupContainer)transparentChild);
+    }
+  }
+  return childController;
+}
