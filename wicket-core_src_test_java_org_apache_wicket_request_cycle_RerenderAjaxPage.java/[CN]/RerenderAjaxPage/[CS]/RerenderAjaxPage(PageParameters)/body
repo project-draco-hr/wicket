@@ -1,0 +1,18 @@
+{
+  super(parameters);
+  feedback=new FeedbackPanel("feedback");
+  add(feedback.setOutputMarkupPlaceholderTag(true));
+  Form<Void> form=new Form<Void>("form");
+  add(form);
+  TextField<String> username=new TextField<String>("username",Model.of(""));
+  username.add(StringValidator.minimumLength(Integer.MAX_VALUE));
+  form.add(username.setRequired(true));
+  username.add(new AjaxFormValidatingBehavior("blur"){
+    private static final long serialVersionUID=1L;
+    @Override protected void onError(    AjaxRequestTarget target){
+      super.onError(target);
+      target.add(feedback);
+    }
+  }
+);
+}
