@@ -1,0 +1,14 @@
+{
+  tester.startPage(RerenderAjaxPage.class);
+  tester.assertRenderedPage(RerenderAjaxPage.class);
+  MockHttpServletResponse firstResponseBeforeAjaxUpdate=tester.getLastResponse();
+  tester.executeAjaxEvent("form:username","blur");
+  tester.assertComponentOnAjaxResponse("feedback");
+  tester.submitForm("form");
+  MockHttpServletResponse normalResponseAfterAjaxUpdate=tester.getLastResponse();
+  tester.submitForm("form");
+  MockHttpServletResponse secondNormalResponse=tester.getLastResponse();
+  assertThat(firstResponseBeforeAjaxUpdate.getDocument(),containsString(RerenderAjaxPage.HEAD_TEXT));
+  assertThat(secondNormalResponse.getDocument(),containsString(RerenderAjaxPage.HEAD_TEXT));
+  assertThat(normalResponseAfterAjaxUpdate.getDocument(),containsString(RerenderAjaxPage.HEAD_TEXT));
+}
