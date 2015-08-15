@@ -1,12 +1,20 @@
 {
-  writeHeader(response,encoding);
-  onBeforeRespond(response);
-  writeComponents(response,encoding);
-  onAfterRespond(response);
-  writePriorityEvaluations(response,prependJavaScripts);
-  List<CharSequence> evaluationScripts=new ArrayList<>();
-  evaluationScripts.addAll(domReadyJavaScripts);
-  evaluationScripts.addAll(appendJavaScripts);
-  writeNormalEvaluations(response,evaluationScripts);
-  writeFooter(response,encoding);
+  try {
+    writeHeader(response,encoding);
+    onBeforeRespond(response);
+    writeComponents(response,encoding);
+    onAfterRespond(response);
+    writePriorityEvaluations(response,prependJavaScripts);
+    List<CharSequence> evaluationScripts=new ArrayList<>();
+    evaluationScripts.addAll(domReadyJavaScripts);
+    evaluationScripts.addAll(appendJavaScripts);
+    writeNormalEvaluations(response,evaluationScripts);
+    writeFooter(response,encoding);
+  }
+  finally {
+    if (header != null) {
+      page.replace(new HtmlHeaderContainer(HtmlHeaderSectionHandler.HEADER_ID));
+      header=null;
+    }
+  }
 }
