@@ -1,0 +1,7 @@
+{
+  UrlRenderer renderer=new UrlRenderer(new MockWebRequest(Url.parse("authorize")));
+  Url urlWithFragment=Url.parse("http://localhost:8080/redirect#access_token=123456");
+  assertEquals("access_token=123456",urlWithFragment.getFragment());
+  String renderedUrl=renderer.renderFullUrl(urlWithFragment);
+  assertEquals("http://localhost:8080/redirect#access_token=123456",renderedUrl);
+}

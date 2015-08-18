@@ -34,7 +34,9 @@
     }
   }
   newSegments.addAll(urlSegments);
-  String renderedUrl=new Url(newSegments,url.getQueryParameters()).toString();
+  Url relativeUrl=new Url(newSegments,url.getQueryParameters());
+  relativeUrl.setFragment(url.getFragment());
+  String renderedUrl=relativeUrl.toString();
   if (!renderedUrl.startsWith("..") && !renderedUrl.equals(".")) {
     renderedUrl="./" + renderedUrl;
   }
