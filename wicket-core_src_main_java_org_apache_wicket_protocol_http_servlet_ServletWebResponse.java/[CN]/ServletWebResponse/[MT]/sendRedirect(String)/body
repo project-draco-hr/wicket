@@ -4,10 +4,9 @@
     url=encodeRedirectURL(url);
     disableCaching();
     if (webRequest.isAjax()) {
-      httpServletResponse.setHeader("Ajax-Location",url);
-      httpServletResponse.getWriter().write("<ajax-response><redirect><![CDATA[" + url + "]]></redirect></ajax-response>");
+      setHeader("Ajax-Location",url);
       setContentType("text/xml;charset=" + webRequest.getContainerRequest().getCharacterEncoding());
-      disableCaching();
+      httpServletResponse.getWriter().write("<ajax-response><redirect><![CDATA[" + url + "]]></redirect></ajax-response>");
     }
  else {
       if (url.startsWith("./")) {
