@@ -9,6 +9,7 @@
   assertEquals(proxy2.getMessage(),"concrete");
   final IObjectMethodTester tester=new ObjectMethodTester();
   assertTrue(tester.isValid());
+  assertSame(proxy.getClass(),LazyInitProxyFactory.createProxy(ConcreteObject.class,concreteObjectLocator).getClass());
   IProxyTargetLocator testerLocator=new IProxyTargetLocator(){
     private static final long serialVersionUID=1L;
     @Override public Object locateProxyTarget(){
