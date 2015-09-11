@@ -1,0 +1,9 @@
+{
+  FilterTestingConfig config=new FilterTestingConfig();
+  config.initParameters.clear();
+  config.initParameters.put("applicationClassName","org.apache.wicket.mock.MockApplication");
+  WicketFilter filter=new AnnotatedServlet3Filter();
+  filter.init(config);
+  application=filter.getApplication();
+  assertThat(filter.getFilterPath(),is("web/"));
+}
