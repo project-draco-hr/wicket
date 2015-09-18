@@ -1,10 +1,43 @@
 {
-  int index=children_indexOf(child);
-  if (index == -1) {
-    children_add(child);
+  if (children == null) {
+    children=child;
     return null;
   }
+  if (children instanceof Component) {
+    Component oldChild=(Component)children;
+    if (oldChild.getId().equals(child.getId())) {
+      children=child;
+      return oldChild;
+    }
  else {
-    return children_set(index,child);
+      Component originalChild=(Component)children;
+      List<Component> newChildren=new ArrayList<>(INITIAL_CHILD_LIST_CAPACITY);
+      newChildren.add(originalChild);
+      newChildren.add(child);
+      children=newChildren;
+      return null;
+    }
   }
+  if (children instanceof List) {
+    List<Component> childrenList=(List<Component>)children;
+    for (int i=0; i < childrenList.size(); i++) {
+      Component curChild=childrenList.get(i);
+      if (curChild.getId().equals(child.getId())) {
+        return childrenList.set(i,child);
+      }
+    }
+    if (childrenList.size() < MAPIFY_THRESHOLD) {
+      childrenList.add(child);
+    }
+ else {
+      Map<String,Component> newChildren=new LinkedHashMap<>(MAPIFY_THRESHOLD * 2);
+      for (      Component curChild : childrenList) {
+        newChildren.put(curChild.getId(),curChild);
+      }
+      newChildren.put(child.getId(),child);
+      children=newChildren;
+    }
+    return null;
+  }
+  return ((Map<String,Component>)children).put(child.getId(),child);
 }

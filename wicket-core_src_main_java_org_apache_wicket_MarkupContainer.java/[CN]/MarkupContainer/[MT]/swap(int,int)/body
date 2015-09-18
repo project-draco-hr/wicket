@@ -9,16 +9,17 @@
   if (idx1 == idx2) {
     return;
   }
-  if (children instanceof Object[]) {
-    final Object[] array=(Object[])children;
-    Object tmp=array[idx1];
-    array[idx1]=array[idx2];
-    array[idx2]=tmp;
+  if (children instanceof List) {
+    @SuppressWarnings("unchecked") List<Component> childrenList=(List<Component>)children;
+    childrenList.set(idx1,childrenList.set(idx2,childrenList.get(idx1)));
   }
  else {
-    ChildList list=(ChildList)children;
-    Object tmp=list.childs[idx1];
-    list.childs[idx1]=list.childs[idx2];
-    list.childs[idx2]=tmp;
+    @SuppressWarnings("unchecked") Map<String,Component> childrenMap=(Map<String,Component>)children;
+    List<Component> childrenList=copyChildren();
+    childrenList.set(idx1,childrenList.set(idx2,childrenList.get(idx1)));
+    childrenMap.clear();
+    for (    Component child : childrenList) {
+      childrenMap.put(child.getId(),child);
+    }
   }
 }

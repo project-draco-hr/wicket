@@ -1,7 +1,34 @@
 {
-  int index=children_indexOf(component);
-  if (index != -1) {
-    return children_remove(index);
+  if (children == null) {
+    return null;
   }
-  return null;
+  if (children instanceof Component) {
+    if (((Component)children).getId().equals(component.getId())) {
+      Component oldChild=(Component)children;
+      children=null;
+      return oldChild;
+    }
+    return null;
+  }
+  if (children instanceof List) {
+    @SuppressWarnings("unchecked") List<Component> childrenList=(List<Component>)children;
+    Iterator<Component> it=childrenList.iterator();
+    while (it.hasNext()) {
+      Component child=it.next();
+      if (child.getId().equals(component.getId())) {
+        it.remove();
+        if (childrenList.size() == 1) {
+          children=childrenList.get(0);
+        }
+        return child;
+      }
+    }
+    return null;
+  }
+  @SuppressWarnings("unchecked") Map<String,Component> childrenMap=(Map<String,Component>)children;
+  Component oldChild=childrenMap.remove(component.getId());
+  if (childrenMap.size() == 1) {
+    children=childrenMap.values().iterator().next();
+  }
+  return oldChild;
 }

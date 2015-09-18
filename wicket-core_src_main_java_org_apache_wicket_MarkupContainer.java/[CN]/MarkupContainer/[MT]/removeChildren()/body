@@ -1,10 +1,6 @@
 {
   super.removeChildren();
-  for (int i=children_size(); i-- > 0; ) {
-    Object child=children_get(i,false);
-    if (child instanceof Component) {
-      Component component=(Component)child;
-      component.internalOnRemove();
-    }
+  for (  Component component : this) {
+    component.internalOnRemove();
   }
 }

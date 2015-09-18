@@ -1,8 +1,14 @@
 {
-  int size=children_size();
-  Component result[]=new Component[size];
-  for (int i=0; i < size; ++i) {
-    result[i]=children_get(i);
+  if (children == null) {
+    return Collections.emptyList();
   }
-  return result;
+ else   if (children instanceof Component) {
+    return Collections.singletonList((Component)children);
+  }
+ else   if (children instanceof List) {
+    return new ArrayList<>((List<Component>)children);
+  }
+ else {
+    return new ArrayList<>(((Map<String,Component>)children).values());
+  }
 }

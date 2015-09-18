@@ -2,13 +2,11 @@
   if (children == null) {
     return 0;
   }
- else {
-    if (children instanceof Component) {
-      return 1;
-    }
- else     if (children instanceof ChildList) {
-      return ((ChildList)children).size;
-    }
-    return ((Object[])children).length;
+  if (children instanceof Component) {
+    return 1;
   }
+  if (children instanceof List) {
+    return ((List<?>)children).size();
+  }
+  return ((Map<?,?>)children).size();
 }
