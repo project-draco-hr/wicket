@@ -23,8 +23,9 @@
     if (parent != null) {
       parent.remove(child);
     }
-    if (put(child) != null) {
-      throw new IllegalArgumentException(exceptionMessage("A child with id '" + child.getId() + "' already exists"));
+    Component previousChild=put(child);
+    if (previousChild != null) {
+      throw new IllegalArgumentException(exceptionMessage("A child '" + previousChild.getClass().getSimpleName() + "' with id '"+ child.getId()+ "' already exists"));
     }
     addedComponent(child);
   }
