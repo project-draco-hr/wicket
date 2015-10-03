@@ -1,0 +1,9 @@
+{
+  final HttpSession oldSession=getSession(false);
+  if (oldSession == null) {
+    throw new IllegalStateException("There is no active session associated with the current request");
+  }
+  oldSession.invalidate();
+  final HttpSession newSession=getSession(true);
+  return newSession.getId();
+}

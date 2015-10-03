@@ -2,7 +2,19 @@
   byte[] request=buildRequest();
   final ByteArrayInputStream bais=new ByteArrayInputStream(request);
   return new ServletInputStream(){
+    private boolean isFinished=false;
+    private boolean isReady=true;
+    @Override public boolean isFinished(){
+      return isFinished;
+    }
+    @Override public boolean isReady(){
+      return isReady;
+    }
+    @Override public void setReadListener(    ReadListener readListener){
+    }
     @Override public int read(){
+      isFinished=true;
+      isReady=false;
       return bais.read();
     }
   }
