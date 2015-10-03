@@ -1,24 +1,27 @@
 {
   super.onComponentTag(tag);
   IValueMap attributes=tag.getAttributes();
-  if (minimum != null) {
-    attributes.put("min",Objects.stringValue(minimum));
+  final N min=minimum.getObject();
+  if (min != null) {
+    attributes.put("min",Objects.stringValue(min));
   }
  else {
     attributes.remove("min");
   }
-  if (maximum != null) {
-    attributes.put("max",Objects.stringValue(maximum));
+  final N max=maximum.getObject();
+  if (max != null) {
+    attributes.put("max",Objects.stringValue(max));
   }
  else {
     attributes.remove("max");
   }
-  if (step != null) {
-    if (step.doubleValue() == ANY) {
+  final N _step=step.getObject();
+  if (_step != null) {
+    if (_step.doubleValue() == ANY) {
       attributes.put("step","any");
     }
  else {
-      attributes.put("step",Objects.stringValue(step));
+      attributes.put("step",Objects.stringValue(_step));
     }
   }
  else {
