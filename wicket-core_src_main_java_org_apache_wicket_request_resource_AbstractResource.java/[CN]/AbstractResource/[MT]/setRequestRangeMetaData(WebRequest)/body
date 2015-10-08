@@ -3,7 +3,8 @@
   if (!Strings.isEmpty(rangeHeader) && rangeHeader.contains(ContentRangeType.BYTES.getTypeName())) {
     rangeHeader=rangeHeader.replaceAll(" ","");
     String range=rangeHeader.substring(rangeHeader.indexOf('=') + 1,rangeHeader.length());
-    String[] rangeParts=Strings.split(range,'-');
+    String firstRange=range.contains(",") ? range.substring(0,range.indexOf(',')) : range;
+    String[] rangeParts=Strings.split(firstRange,'-');
     String startByteString=rangeParts[0];
     String endByteString=rangeParts[1];
     Long startbyte=startByteString != null && !startByteString.trim().equals("") ? Long.parseLong(startByteString) : 0;
