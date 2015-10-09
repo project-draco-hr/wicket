@@ -14,14 +14,17 @@
     }
   }
 );
+  FilterChain chain=mock(FilterChain.class);
   for (int i=0; i < 3; i++) {
-    boolean isProcessed=filter.processRequest(request,response);
+    boolean isProcessed=filter.processRequest(request,response,chain);
     assertFalse(isProcessed);
     verify(application,Mockito.never()).newWebRequest(Matchers.eq(request),Matchers.anyString());
     verify(application,Mockito.never()).newWebResponse(Matchers.any(WebRequest.class),Matchers.eq(response));
+    verify(chain,Mockito.times(i + 1)).doFilter(request,response);
   }
-  boolean isProcessed=filter.processRequest(request,response);
+  boolean isProcessed=filter.processRequest(request,response,chain);
   assertTrue(isProcessed);
   verify(application).newWebRequest(Matchers.eq(request),Matchers.anyString());
   verify(application).newWebResponse(Matchers.any(WebRequest.class),Matchers.eq(response));
+  verify(chain,Mockito.times(3)).doFilter(request,response);
 }
