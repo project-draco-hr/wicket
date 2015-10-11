@@ -1,0 +1,14 @@
+{
+  Args.notEmpty(url,"url");
+  if (url.charAt(0) != '/') {
+    url='/' + url;
+  }
+  try {
+    ServletContext servletContext=getWebApplication().getServletContext();
+    URL resource=servletContext.getResource(url);
+    return importUrl(resource);
+  }
+ catch (  MalformedURLException mux) {
+    throw new WicketRuntimeException(mux);
+  }
+}
