@@ -3,13 +3,15 @@
   if (!Strings.isEmpty(rangeHeader) && rangeHeader.contains(ContentRangeType.BYTES.getTypeName())) {
     rangeHeader=rangeHeader.replaceAll(" ","");
     String range=rangeHeader.substring(rangeHeader.indexOf('=') + 1,rangeHeader.length());
-    String firstRange=range.contains(",") ? range.substring(0,range.indexOf(',')) : range;
+    final int idxOfComma=range.indexOf(',');
+    String firstRange=idxOfComma > -1 ? range.substring(0,idxOfComma) : range;
     String[] rangeParts=Strings.split(firstRange,'-');
     String startByteString=rangeParts[0];
     String endByteString=rangeParts[1];
-    Long startbyte=startByteString != null && !startByteString.trim().equals("") ? Long.parseLong(startByteString) : 0;
-    Long endbyte=endByteString != null && !endByteString.trim().equals("") ? Long.parseLong(endByteString) : -1;
-    RequestCycle.get().setMetaData(CONTENT_RANGE_STARTBYTE,startbyte);
-    RequestCycle.get().setMetaData(CONTENT_RANGE_ENDBYTE,endbyte);
+    long startbyte=!Strings.isEmpty(startByteString) ? Long.parseLong(startByteString) : 0;
+    long endbyte=!Strings.isEmpty(endByteString) ? Long.parseLong(endByteString) : -1;
+    RequestCycle requestCycle=RequestCycle.get();
+    requestCycle.setMetaData(CONTENT_RANGE_STARTBYTE,startbyte);
+    requestCycle.setMetaData(CONTENT_RANGE_ENDBYTE,endbyte);
   }
 }
