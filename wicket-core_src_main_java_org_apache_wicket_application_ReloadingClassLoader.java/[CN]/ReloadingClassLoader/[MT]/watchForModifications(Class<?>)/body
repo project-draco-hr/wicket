@@ -9,11 +9,11 @@
     final File finalClzFile=clzFile;
     if (clzFile.exists()) {
       log.info("Watching changes of class " + clzFile);
-      watcher.add(clzFile,new IChangeListener(){
-        @Override public void onChange(){
+      watcher.add(clzFile,new IChangeListener<IModifiable>(){
+        @Override public void onChange(        IModifiable modifiable){
           log.info("Class file " + finalClzFile + " has changed, reloading");
           try {
-            listener.onChange();
+            listener.onChange(clz);
           }
  catch (          Exception e) {
             log.error("Could not notify listener",e);
