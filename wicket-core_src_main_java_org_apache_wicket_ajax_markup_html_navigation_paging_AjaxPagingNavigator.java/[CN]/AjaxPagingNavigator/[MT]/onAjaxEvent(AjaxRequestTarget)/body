@@ -1,10 +1,11 @@
 {
   Component container=((Component)pageable);
   while (container instanceof AbstractRepeater || container.getOutputMarkupId() == false) {
-    container=container.getParent();
-    if (container == null) {
-      throw new WicketRuntimeException("Unable to find a parent component that is no repeater and has setOutputMarkupId(true)");
+    Component parent=container.getParent();
+    if (parent == null) {
+      break;
     }
+    container=parent;
   }
   target.add(container);
   if (((MarkupContainer)container).contains(this,true) == false) {
