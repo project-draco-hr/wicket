@@ -14,7 +14,7 @@
           String entryName=jarEntry.getName();
           if (entryName.startsWith("META-INF/wicket/") && entryName.endsWith(".properties")) {
             try (InputStream jarEntryStream=jarFile.getInputStream(jarEntry)){
-              log.warn("Found '{}' in '{}'. /META-INF/wicket/*.properties doesn't work in OSGi " + "and single-jar environments and is not supported anymore! " + "Please see https://issues.apache.org/jira/browse/WICKET-5997 for more details "+ "and report a issue for the library that still uses it.",entryName,metaInfWicket);
+              log.warn("Found '{}' in '{}'. /META-INF/wicket/*.properties doesn't work in OSGi " + "and single-jar environments and is not supported anymore! " + "Please see https://issues.apache.org/jira/browse/WICKET-5997 for more details "+ "and report an issue for the library that still uses it.",entryName,metaInfWicket);
               Properties properties=new Properties();
               properties.load(jarEntryStream);
               load(properties);
@@ -36,7 +36,7 @@
           byte[] buf=new byte[size];
           int read=inputStream.read(buf,offset,size);
           if (read == size) {
-            log.warn("Found '{}' in '{}'. /META-INF/wicket/*.properties doesn't work in OSGi " + "and single-jar environments and is not supported anymore! " + "Please see https://issues.apache.org/jira/browse/WICKET-5997 for more "+ "details and report a issue for the library that still uses it.",jarEntryName,metaInfWicket);
+            log.warn("Found '{}' in '{}'. /META-INF/wicket/*.properties doesn't work in OSGi " + "and single-jar environments and is not supported anymore! " + "Please see https://issues.apache.org/jira/browse/WICKET-5997 for more "+ "details and report an issue for the library that still uses it.",jarEntryName,metaInfWicket);
             Properties properties=new Properties();
             properties.load(new ByteArrayInputStream(buf));
             load(properties);
@@ -59,7 +59,7 @@
 );
       for (      File wicketPropertiesFile : files) {
         try (InputStream stream=wicketPropertiesFile.inputStream()){
-          log.warn("Found '{}'. /META-INF/wicket/*.properties doesn't work in OSGi " + "and single-jar environments and is not supported anymore! " + "Please see https://issues.apache.org/jira/browse/WICKET-5997 for more "+ "details and report a issue for the library that still uses it.",wicketPropertiesFile);
+          log.warn("Found '{}'. /META-INF/wicket/*.properties doesn't work in OSGi " + "and single-jar environments and is not supported anymore! " + "Please see https://issues.apache.org/jira/browse/WICKET-5997 for more "+ "details and report an issue for the library that still uses it.",wicketPropertiesFile);
           Properties properties=new Properties();
           properties.load(stream);
           load(properties);
