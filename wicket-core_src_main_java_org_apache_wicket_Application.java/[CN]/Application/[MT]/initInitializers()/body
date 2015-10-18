@@ -1,6 +1,12 @@
 {
   for (  IInitializer initializer : initializers) {
-    log.info("[" + getName() + "] init: "+ initializer);
+    log.info("[{}] init: {}",getName(),initializer);
     initializer.init(this);
+  }
+  final ServiceLoader<IInitializer> serviceLoaderInitializers=ServiceLoader.load(IInitializer.class);
+  for (  IInitializer serviceLoaderInitializer : serviceLoaderInitializers) {
+    log.info("[{}] init: {}",getName(),serviceLoaderInitializer);
+    serviceLoaderInitializer.init(this);
+    initializers.add(serviceLoaderInitializer);
   }
 }
