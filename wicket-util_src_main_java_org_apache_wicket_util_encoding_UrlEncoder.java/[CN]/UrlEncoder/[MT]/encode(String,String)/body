@@ -10,13 +10,9 @@
  catch (  IllegalCharsetNameException|UnsupportedCharsetException e) {
     throw new RuntimeException(new UnsupportedEncodingException(charsetName));
   }
-  boolean stopEncoding=false;
   for (int i=0; i < s.length(); ) {
     int c=s.charAt(i);
-    if ((stopEncoding == false) && (c == '?' && type == Type.FULL_PATH)) {
-      stopEncoding=true;
-    }
-    if (stopEncoding || dontNeedEncoding.get(c)) {
+    if (dontNeedEncoding.get(c)) {
       if (c == ' ') {
         c='+';
       }
