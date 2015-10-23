@@ -1,0 +1,9 @@
+{
+  String unencoded="azAZ09.-_~!$&+#^`|";
+  assertEquals(unencoded,UrlEncoder.HEADER_INSTANCE.encode(unencoded,CharEncoding.UTF_8));
+  for (  char candidate : encodingCandidates) {
+    if (unencoded.indexOf(candidate) == -1) {
+      assertNotEquals("" + candidate,UrlEncoder.HEADER_INSTANCE.encode("" + candidate,CharEncoding.UTF_8));
+    }
+  }
+}
