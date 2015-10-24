@@ -1,0 +1,8 @@
+{
+  XmlReader reader=new XmlReader(this.getClass().getResourceAsStream("test_1.html"),null);
+  assertNull(reader.getEncoding());
+  try (BufferedReader bufReader=new BufferedReader(reader)){
+    assertEquals("Zeile 1",bufReader.readLine());
+    assertNull(bufReader.readLine());
+  }
+ }

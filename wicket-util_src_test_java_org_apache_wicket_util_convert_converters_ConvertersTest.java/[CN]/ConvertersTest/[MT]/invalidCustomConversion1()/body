@@ -1,0 +1,10 @@
+{
+  @SuppressWarnings("serial") IntegerConverter converter=new IntegerConverter(){
+    protected NumberFormat newNumberFormat(    Locale locale){
+      return new ChoiceFormat(new double[]{1,2,3},new String[]{"one","two","three"});
+    }
+  }
+;
+  converter.convertToObject("four",Locale.US);
+  fail("Conversion should have thrown an exception");
+}

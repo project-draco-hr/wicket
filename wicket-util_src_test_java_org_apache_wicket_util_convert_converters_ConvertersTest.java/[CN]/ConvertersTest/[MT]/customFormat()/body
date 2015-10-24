@@ -1,5 +1,5 @@
 {
-  IntegerConverter converter=new IntegerConverter(){
+  @SuppressWarnings("serial") IntegerConverter converter=new IntegerConverter(){
     protected NumberFormat newNumberFormat(    Locale locale){
       return new ChoiceFormat(new double[]{1,2,3},new String[]{"one","two","three"});
     }
@@ -7,10 +7,4 @@
 ;
   Integer integer=converter.convertToObject("two",Locale.US);
   assertEquals(new Integer(2),integer);
-  try {
-    converter.convertToObject("four",Locale.US);
-    fail("Conversion should have thrown an exception");
-  }
- catch (  ConversionException e) {
-  }
 }
