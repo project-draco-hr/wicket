@@ -1,6 +1,9 @@
 {
-  return new AjaxFallbackOrderByBorder<S>(borderId,property,locator,getAjaxCallListener()){
+  return new AjaxFallbackOrderByBorder<S>(borderId,property,locator){
     private static final long serialVersionUID=1L;
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      AjaxFallbackHeadersToolbar.this.updateAjaxAttributes(attributes);
+    }
     @Override protected void onAjaxClick(    final AjaxRequestTarget target){
       target.add(getTable());
     }

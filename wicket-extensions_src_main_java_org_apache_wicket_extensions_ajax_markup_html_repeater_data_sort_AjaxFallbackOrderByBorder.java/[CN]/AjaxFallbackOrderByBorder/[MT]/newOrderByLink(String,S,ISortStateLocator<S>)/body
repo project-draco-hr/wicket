@@ -1,6 +1,9 @@
 {
-  return new AjaxFallbackOrderByLink<S>("orderByLink",property,stateLocator,ajaxCallListener){
+  return new AjaxFallbackOrderByLink<S>("orderByLink",property,stateLocator){
     private static final long serialVersionUID=1L;
+    @Override protected void updateAjaxAttributes(    AjaxRequestAttributes attributes){
+      AjaxFallbackOrderByBorder.this.updateAjaxAttributes(attributes);
+    }
     @Override protected void onSortChanged(){
       AjaxFallbackOrderByBorder.this.onSortChanged();
     }
