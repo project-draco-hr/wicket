@@ -1,5 +1,9 @@
 {
-  if (child == null || child instanceof IQueueRegion) {
+  if (child == null) {
+    dequeue.skipToCloseTag();
+  }
+ else   if (child instanceof IQueueRegion) {
+    ((IQueueRegion)child).dequeue();
     dequeue.skipToCloseTag();
   }
  else   if (child instanceof MarkupContainer) {
