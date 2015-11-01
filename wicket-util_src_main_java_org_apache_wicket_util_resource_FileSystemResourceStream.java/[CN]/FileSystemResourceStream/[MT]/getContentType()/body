@@ -1,0 +1,12 @@
+{
+  try {
+    String contentType=Files.probeContentType(path);
+    if (contentType == null) {
+      contentType=URLConnection.getFileNameMap().getContentTypeFor(path.getFileName().toString());
+    }
+    return contentType;
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Content type of path " + path + " could not be acquired",e);
+  }
+}

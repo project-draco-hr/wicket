@@ -1,0 +1,17 @@
+{
+  try {
+    long size=getSize();
+    ResourceResponse resourceResponse=new ResourceResponse();
+    resourceResponse.setContentType(getMimeType());
+    resourceResponse.setAcceptRange(ContentRangeType.BYTES);
+    resourceResponse.setContentLength(size);
+    RequestCycle cycle=RequestCycle.get();
+    Long startbyte=cycle.getMetaData(CONTENT_RANGE_STARTBYTE);
+    Long endbyte=cycle.getMetaData(CONTENT_RANGE_ENDBYTE);
+    resourceResponse.setWriteCallback(new PartWriterCallback(getInputStream(),size,startbyte,endbyte));
+    return resourceResponse;
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("An error occured while processing the media resource response",e);
+  }
+}

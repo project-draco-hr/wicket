@@ -1,0 +1,28 @@
+{
+  URL resource=FileSystemResourceReferenceTest.class.getResource("FileSystemResourceReference.uke");
+  Path path=FileSystemResourceReference.getPath(resource.toURI());
+  final FileSystemResource fileSystemResource=new FileSystemResource(path);
+  FileSystemResourceReference fileSystemResourceReference=new FileSystemResourceReference("test",path){
+    private static final long serialVersionUID=1L;
+    protected FileSystemResource getFileSystemResource(){
+      return fileSystemResource;
+    }
+  }
+;
+  Assert.assertEquals("text/plain_provided_by_detector",fileSystemResource.getMimeType());
+  final FileSystemResource fileSystemResourceMime=new FileSystemResource(path){
+    private static final long serialVersionUID=1L;
+    protected String getMimeType() throws IOException {
+      return "text/plain";
+    }
+  }
+;
+  FileSystemResourceReference fileSystemResourceReferenceOverriddenMime=new FileSystemResourceReference("test",path){
+    private static final long serialVersionUID=1L;
+    @Override protected FileSystemResource getFileSystemResource(){
+      return fileSystemResourceMime;
+    }
+  }
+;
+  Assert.assertEquals("text/plain",fileSystemResourceMime.getMimeType());
+}

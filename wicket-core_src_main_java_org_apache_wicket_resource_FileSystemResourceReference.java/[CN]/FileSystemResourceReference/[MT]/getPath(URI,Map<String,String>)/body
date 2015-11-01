@@ -1,0 +1,27 @@
+{
+  String uriString=uri.toString();
+  int indexOfExclamationMark=uriString.indexOf('!');
+  if (indexOfExclamationMark == -1) {
+    return Paths.get(uri);
+  }
+  String zipFile=uriString.substring(0,indexOfExclamationMark);
+  FileSystem fileSystem=null;
+synchronized (FILE_SYSTEM_META_DATA_KEY) {
+    Map<URI,FileSystem> metaData=Application.get().getMetaData(FILE_SYSTEM_META_DATA_KEY);
+    if (metaData == null) {
+      metaData=new HashMap<URI,FileSystem>();
+      Application.get().setMetaData(FILE_SYSTEM_META_DATA_KEY,metaData);
+    }
+    if (fileSystem == null) {
+      if (env == null) {
+        env=new HashMap<>();
+        env.put("create","true");
+        env.put("encoding","UTF-8");
+      }
+      fileSystem=FileSystems.newFileSystem(new URI(zipFile),env);
+      metaData.put(uri,fileSystem);
+    }
+  }
+  String fileName=uriString.substring(uriString.indexOf('!') + 1);
+  return fileSystem.getPath(fileName);
+}

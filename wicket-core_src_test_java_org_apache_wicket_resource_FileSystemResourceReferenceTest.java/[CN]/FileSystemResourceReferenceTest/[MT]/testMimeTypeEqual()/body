@@ -1,0 +1,19 @@
+{
+  URL resource=FileSystemResourceReferenceTest.class.getResource("FileSystemResourceReference.txt");
+  Path path=FileSystemResourceReference.getPath(resource.toURI());
+  final FileSystemResource fileSystemResource=new FileSystemResource(path){
+    private static final long serialVersionUID=1L;
+    protected String getMimeType() throws IOException {
+      return "test/mime1";
+    }
+  }
+;
+  FileSystemResourceReference fileSystemResourceReference=new FileSystemResourceReference("test",path){
+    private static final long serialVersionUID=1L;
+    @Override protected FileSystemResource getFileSystemResource(){
+      return fileSystemResource;
+    }
+  }
+;
+  Assert.assertEquals("test/mime1",fileSystemResource.getMimeType());
+}

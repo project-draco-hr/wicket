@@ -1,0 +1,11 @@
+{
+  try {
+    BasicFileAttributes attributes=Files.readAttributes(path,BasicFileAttributes.class);
+    FileTime lastModifiedTime=attributes.lastModifiedTime();
+    long millis=lastModifiedTime.toMillis();
+    return Time.millis(millis);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Modification time of path " + path + " could not be acquired",e);
+  }
+}

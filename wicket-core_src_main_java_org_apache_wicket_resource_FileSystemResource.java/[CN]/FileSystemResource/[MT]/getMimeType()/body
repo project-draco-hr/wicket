@@ -1,0 +1,10 @@
+{
+  String mimeType=null;
+  if (Application.exists()) {
+    mimeType=Application.get().getMimeType(path.getFileName().toString());
+  }
+  if (mimeType == null) {
+    mimeType=Files.probeContentType(path);
+  }
+  return mimeType;
+}
