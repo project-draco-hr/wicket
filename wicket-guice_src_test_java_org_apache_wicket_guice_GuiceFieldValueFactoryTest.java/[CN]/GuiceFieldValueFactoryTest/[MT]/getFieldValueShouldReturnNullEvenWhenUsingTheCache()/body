@@ -1,0 +1,9 @@
+{
+  GuiceFieldValueFactory factory=new GuiceFieldValueFactory(false);
+  TestComponent owner=new TestComponent("id");
+  Field field=TestComponent.class.getDeclaredField("injectedOptionalField");
+  Object value=factory.getFieldValue(field,owner);
+  assertNull(value);
+  Object value2=factory.getFieldValue(field,owner);
+  assertNull(value2);
+}

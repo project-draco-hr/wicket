@@ -10,7 +10,7 @@
         final GuiceProxyTargetLocator locator=new GuiceProxyTargetLocator(field,bindingAnnotation,optional);
         Object cachedValue=cache.get(locator);
         if (cachedValue != null) {
-          return cachedValue;
+          return cachedValue == NULL_SENTINEL ? null : cachedValue;
         }
         target=locator.locateProxyTarget();
         if (target == null) {
