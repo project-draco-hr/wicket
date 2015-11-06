@@ -1,0 +1,15 @@
+{
+  WebMarkupContainer wmc=new WebMarkupContainer("id");
+  Label label1=new Label("label1","Label1");
+  Component label2=new Label("label2","Label2");
+  addNChildren(wmc,NUMBER_OF_CHILDREN_FOR_A_MAP);
+  wmc.add(label1);
+  wmc.add(label2);
+  Iterator<Component> iterator=wmc.iterator();
+  takeNChildren(iterator,NUMBER_OF_CHILDREN_FOR_A_MAP);
+  iterator.next();
+  Label newChild=new Label("label1","newChild");
+  wmc.replace(newChild);
+  assertThat(iterator.next(),is(sameInstance(label2)));
+  Assert.assertThat(iterator.hasNext(),is(false));
+}

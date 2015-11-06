@@ -1,0 +1,8 @@
+{
+  WebMarkupContainer wmc=new WebMarkupContainer("id");
+  addNChildren(wmc,5);
+  Field childrenField=MarkupContainer.class.getDeclaredField("children");
+  childrenField.setAccessible(true);
+  Object field=childrenField.get(wmc);
+  assertThat(field,is(instanceOf(List.class)));
+}

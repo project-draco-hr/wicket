@@ -3,15 +3,18 @@
     return null;
   }
   if (children instanceof Component) {
-    return ((Component)children).getId().equals(id) ? (Component)children : null;
+    Component child=children();
+    return child.getId().equals(childId) ? child : null;
   }
   if (children instanceof List) {
-    for (    Component child : (List<Component>)children) {
-      if (child.getId().equals(id)) {
+    List<Component> kids=children();
+    for (    Component child : kids) {
+      if (child.getId().equals(childId)) {
         return child;
       }
     }
     return null;
   }
-  return ((Map<String,Component>)children).get(id);
+  Map<String,Component> kids=children();
+  return kids.get(childId);
 }

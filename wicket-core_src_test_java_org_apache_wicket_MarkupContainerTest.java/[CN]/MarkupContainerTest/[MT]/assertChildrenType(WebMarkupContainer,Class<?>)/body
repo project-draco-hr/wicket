@@ -1,0 +1,11 @@
+{
+  try {
+    Field childrenField=MarkupContainer.class.getDeclaredField("children");
+    childrenField.setAccessible(true);
+    Object field=childrenField.get(wmc);
+    assertThat(field,is(instanceOf(type)));
+  }
+ catch (  Exception e) {
+    throw new AssertionError("Unable to read children",e);
+  }
+}

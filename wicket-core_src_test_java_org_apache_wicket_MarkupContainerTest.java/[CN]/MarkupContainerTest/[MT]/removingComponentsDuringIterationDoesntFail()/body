@@ -1,0 +1,22 @@
+{
+  WebMarkupContainer wmc=new WebMarkupContainer("id");
+  Component label1=new Label("label1","Label1");
+  Component label2=new Label("label2","Label2");
+  Component label3=new Label("label3","Label3");
+  Component label4=new Label("label4","Label4");
+  Component label5=new Label("label5","Label5");
+  wmc.add(label1);
+  wmc.add(label2);
+  wmc.add(label3);
+  wmc.add(label4);
+  wmc.add(label5);
+  Iterator<Component> iterator=wmc.iterator();
+  assertThat(iterator.next(),is(sameInstance(label1)));
+  assertThat(iterator.next(),is(sameInstance(label2)));
+  assertThat(iterator.next(),is(sameInstance(label3)));
+  wmc.remove(label3);
+  wmc.remove(label2);
+  wmc.remove(label4);
+  assertThat(iterator.next(),is(sameInstance(label5)));
+  Assert.assertThat(iterator.hasNext(),is(false));
+}

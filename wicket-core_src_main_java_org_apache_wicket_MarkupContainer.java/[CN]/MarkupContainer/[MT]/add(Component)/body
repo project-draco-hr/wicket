@@ -1,5 +1,5 @@
 {
-  for (  Component child : childs) {
+  for (  Component child : children) {
     Args.notNull(child,"child");
     if (this == child) {
       throw new IllegalArgumentException(exceptionMessage("Trying to add this component to itself."));
@@ -19,12 +19,8 @@
     if (log.isDebugEnabled()) {
       log.debug("Add " + child.getId() + " to "+ this);
     }
-    parent=child.getParent();
-    if (parent != null) {
-      parent.remove(child);
-    }
-    Component previousChild=put(child);
-    if (previousChild != null) {
+    Component previousChild=children_put(child);
+    if (previousChild != null && previousChild != child) {
       throw new IllegalArgumentException(exceptionMessage("A child '" + previousChild.getClass().getSimpleName() + "' with id '"+ child.getId()+ "' already exists"));
     }
     addedComponent(child);

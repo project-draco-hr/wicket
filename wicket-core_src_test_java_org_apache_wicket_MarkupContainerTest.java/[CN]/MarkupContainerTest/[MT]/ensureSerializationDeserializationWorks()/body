@@ -1,0 +1,16 @@
+{
+  WebMarkupContainer wmc=new WebMarkupContainer("id");
+  Iterator<Component> iterator=wmc.iterator();
+  addNChildren(wmc,NUMBER_OF_CHILDREN_FOR_A_MAP);
+  assertThat(wmc.size(),is(NUMBER_OF_CHILDREN_FOR_A_MAP));
+  assertThat(WicketObjects.cloneObject(wmc),is(not(nullValue())));
+  removeNChildren(iterator,1);
+  assertThat(wmc.size(),is(NUMBER_OF_CHILDREN_FOR_A_MAP - 1));
+  assertThat(WicketObjects.cloneObject(wmc),is(not(nullValue())));
+  removeNChildren(iterator,NUMBER_OF_CHILDREN_FOR_A_MAP - 2);
+  assertThat(WicketObjects.cloneObject(wmc),is(not(nullValue())));
+  assertThat(wmc.size(),is(1));
+  removeNChildren(iterator,1);
+  assertThat(wmc.size(),is(0));
+  assertThat(WicketObjects.cloneObject(wmc),is(not(nullValue())));
+}

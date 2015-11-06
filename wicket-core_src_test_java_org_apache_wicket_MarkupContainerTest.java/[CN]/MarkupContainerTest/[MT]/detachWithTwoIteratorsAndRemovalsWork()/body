@@ -1,0 +1,28 @@
+{
+  int n=NUMBER_OF_CHILDREN_FOR_A_MAP * 2;
+  WebMarkupContainer wmc=new WebMarkupContainer("id");
+  addNChildren(wmc,n);
+  Iterator<Component> iterator1=wmc.iterator();
+  Iterator<Component> iterator2=wmc.iterator();
+  Random r=new Random();
+  for (int i=0; i < NUMBER_OF_CHILDREN_FOR_A_MAP; i++) {
+    Iterator<Component> iterator=r.nextBoolean() ? iterator1 : iterator2;
+    if (iterator.hasNext()) {
+      iterator.next();
+      iterator.remove();
+    }
+  }
+  wmc.detach();
+  iterator1.next();
+  iterator2.next();
+  iterator1.remove();
+  while (iterator1.hasNext() || iterator2.hasNext()) {
+    Iterator<Component> iterator=r.nextBoolean() ? iterator1 : iterator2;
+    if (iterator.hasNext()) {
+      iterator.next();
+      iterator.remove();
+    }
+  }
+  assertThat(iterator1.hasNext(),is(false));
+  assertThat(iterator2.hasNext(),is(false));
+}

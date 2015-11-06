@@ -1,0 +1,11 @@
+{
+  WebMarkupContainer wmc=new WebMarkupContainer("id");
+  Label label1=new Label("label1","Label1");
+  Label label2=new Label("label1","Label2");
+  Iterator<Component> iterator=wmc.iterator();
+  wmc.add(label1);
+  wmc.replace(label2);
+  Assert.assertThat(iterator.hasNext(),is(true));
+  Assert.assertThat(iterator.next(),is(equalToObject(label2)));
+  Assert.assertThat(iterator.hasNext(),is(false));
+}
