@@ -1,6 +1,11 @@
 {
   if (wicketTester == null) {
-    wicketTester=new WicketTester(useServletContextContainer(),false);
+    wicketTester=new WicketTester(useServletContextContainer(),false){
+      @Override protected Locale servletRequestLocale(){
+        return Locale.US;
+      }
+    }
+;
   }
   return wicketTester;
 }
