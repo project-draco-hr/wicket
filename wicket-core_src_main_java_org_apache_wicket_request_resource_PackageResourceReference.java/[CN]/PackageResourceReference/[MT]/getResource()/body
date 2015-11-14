@@ -1,8 +1,12 @@
 {
   final String extension=getExtension();
   final PackageResource resource;
-  final Url url=RequestCycle.get().getRequest().getUrl();
-  final UrlAttributes urlAttributes=ResourceUtil.decodeResourceReferenceAttributes(url);
+  RequestCycle requestCycle=RequestCycle.get();
+  UrlAttributes urlAttributes=null;
+  if (requestCycle != null) {
+    final Url url=requestCycle.getRequest().getUrl();
+    urlAttributes=ResourceUtil.decodeResourceReferenceAttributes(url);
+  }
   final String currentVariation=getCurrentVariation(urlAttributes);
   final String currentStyle=getCurrentStyle(urlAttributes);
   final Locale currentLocale=getCurrentLocale(urlAttributes);
