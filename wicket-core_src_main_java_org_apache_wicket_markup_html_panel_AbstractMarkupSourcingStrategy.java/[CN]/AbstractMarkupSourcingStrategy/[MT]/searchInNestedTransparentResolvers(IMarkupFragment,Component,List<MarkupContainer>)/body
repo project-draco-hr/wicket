@@ -1,0 +1,28 @@
+{
+  IMarkupFragment childMarkupFound=null;
+  for (  MarkupContainer componentResolver : componentResolvers) {
+    IMarkupFragment resolverMarkup=containerMarkup.find(componentResolver.getId());
+    IMarkupFragment childMarkup=resolverMarkup != null ? resolverMarkup.find(child.getId()) : null;
+    if (childMarkup != null) {
+      IComponentResolver resolverContainer=(IComponentResolver)componentResolver;
+      MarkupStream stream=new MarkupStream(childMarkup);
+      ComponentTag tag=stream.getTag();
+      Component resolvedComponent=componentResolver.get(tag.getId());
+      if (resolvedComponent == null) {
+        resolvedComponent=resolverContainer.resolve(componentResolver,stream,tag);
+      }
+      if (child == resolvedComponent) {
+        childMarkupFound=childMarkup;
+      }
+    }
+ else     if (resolverMarkup != null) {
+      List<MarkupContainer> otherResolvers=new ArrayList<>(componentResolvers);
+      otherResolvers.remove(componentResolver);
+      childMarkupFound=searchInNestedTransparentResolvers(resolverMarkup,child,otherResolvers);
+    }
+    if (childMarkupFound != null) {
+      break;
+    }
+  }
+  return childMarkupFound;
+}

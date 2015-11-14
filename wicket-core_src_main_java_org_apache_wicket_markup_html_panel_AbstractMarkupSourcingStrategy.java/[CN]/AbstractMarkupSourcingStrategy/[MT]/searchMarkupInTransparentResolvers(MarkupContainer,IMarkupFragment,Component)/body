@@ -1,25 +1,22 @@
 {
   IMarkupFragment childMarkupFound=null;
   Iterator<Component> childrenIterator=container.iterator();
+  final List<MarkupContainer> componentResolvers=new ArrayList<>();
+  container.visitChildren(IComponentResolver.class,new IVisitor<MarkupContainer,Void>(){
+    @Override public void component(    MarkupContainer child,    IVisit<Void> visit){
+      componentResolvers.add(child);
+    }
+  }
+);
   while (childrenIterator.hasNext() && childMarkupFound == null) {
     Component sibling=childrenIterator.next();
-    if (sibling == child || !sibling.isVisible()) {
+    if (sibling == child || !sibling.isVisible() || !(sibling instanceof MarkupContainer)) {
       continue;
     }
     IMarkupFragment siblingMarkup=containerMarkup.find(sibling.getId());
-    if (siblingMarkup != null && sibling instanceof MarkupContainer) {
-      IMarkupFragment childMarkup=siblingMarkup.find(child.getId());
-      if (childMarkup != null && sibling instanceof IComponentResolver) {
-        IComponentResolver componentResolver=(IComponentResolver)sibling;
-        MarkupStream stream=new MarkupStream(childMarkup);
-        ComponentTag tag=stream.getTag();
-        Component resolvedComponent=sibling.get(tag.getId());
-        if (resolvedComponent == null) {
-          resolvedComponent=componentResolver.resolve((MarkupContainer)sibling,stream,tag);
-        }
-        if (child == resolvedComponent) {
-          childMarkupFound=childMarkup;
-        }
+    if (siblingMarkup != null) {
+      if (sibling instanceof IComponentResolver) {
+        childMarkupFound=searchInNestedTransparentResolvers(containerMarkup,child,componentResolvers);
       }
  else {
         childMarkupFound=searchMarkupInTransparentResolvers((MarkupContainer)sibling,siblingMarkup,child);
