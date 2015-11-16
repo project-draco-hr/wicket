@@ -9,7 +9,10 @@
   try {
     requestHandlerExecutor.detach();
   }
-  finally {
+ catch (  RuntimeException exception) {
+    handleDetachException(exception);
+  }
+ finally {
     listeners.onDetach(this);
   }
   if (Session.exists()) {
