@@ -1,5 +1,8 @@
 {
-  boolean isBufferedResponse=Application.get().getRequestCycleSettings().getBufferResponse();
+  boolean isBufferedResponse=true;
+  if (Application.exists()) {
+    isBufferedResponse=Application.get().getRequestCycleSettings().getBufferResponse();
+  }
   if (isBufferedResponse) {
     throw exception;
   }
