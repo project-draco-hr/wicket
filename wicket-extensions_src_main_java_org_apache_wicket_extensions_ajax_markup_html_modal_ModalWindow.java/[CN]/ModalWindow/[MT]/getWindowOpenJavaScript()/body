@@ -44,9 +44,10 @@
   if (getCookieName() != null) {
     appendAssignment(buffer,"settings.cookieId",getCookieName());
   }
-  Object title=getTitle() != null ? getTitle().getObject() : null;
+  String title=getTitle() != null ? getTitle().getObject() : null;
   if (title != null) {
-    appendAssignment(buffer,"settings.title",escapeQuotes(title.toString()));
+    String escaped=getDefaultModelObjectAsString(title);
+    appendAssignment(buffer,"settings.title",escaped);
   }
   if (getMaskType() == MaskType.TRANSPARENT) {
     buffer.append("settings.mask=\"transparent\";\n");
