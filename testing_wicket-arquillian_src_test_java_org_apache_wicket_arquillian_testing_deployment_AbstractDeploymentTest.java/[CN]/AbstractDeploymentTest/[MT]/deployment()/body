@@ -3,5 +3,5 @@
   GenericArchive webappTest=ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class).importDirectory(WEBAPP_TEST_SRC).as(GenericArchive.class);
   ByteArrayAsset resource=new ByteArrayAsset("Dependencies: org.jboss.msc".getBytes());
   File[] asFile=Maven.configureResolver().workOffline().withMavenCentralRepo(false).loadPomFromFile("./pom.xml").importCompileAndRuntimeDependencies().resolve().withTransitivity().asFile();
-  return ShrinkWrap.create(WebArchive.class,"wicket-servletContext.war").addPackages(true,TestWicketJavaEEApplication.class.getPackage()).addAsResource("META-INF/persistence.xml").addAsManifestResource(resource,"MANIFEST.MF").merge(webapp,"/",Filters.exclude(".*\\web.xml")).merge(webappTest,"/",Filters.includeAll()).addAsLibraries(asFile);
+  return ShrinkWrap.create(WebArchive.class,"wicket-servletContext8.war").addPackages(true,TestWicketJavaEEApplication.class.getPackage()).addAsResource("META-INF/persistence.xml").addAsManifestResource(resource,"MANIFEST.MF").merge(webapp,"/",Filters.exclude(".*\\web.xml")).merge(webappTest,"/",Filters.includeAll()).addAsLibraries(asFile);
 }
