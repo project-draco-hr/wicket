@@ -6,7 +6,10 @@
     if (Strings.isEmpty(wicketIdValue)) {
       tag.setId(namespace + "_" + tag.getName()+ getRequestUniqueId());
       tag.setModified(true);
-      if (tag.isClose() == false) {
+      if (isRaw(tag)) {
+        tag.setFlag(ComponentTag.RENDER_RAW,true);
+      }
+ else       if (tag.isClose() == false) {
         tag.setAutoComponentTag(true);
       }
     }
