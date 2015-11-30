@@ -1,0 +1,19 @@
+{
+  super.onComponentTag(tag);
+  if ("source".equals(tag.getName())) {
+    buildSrcSetAttribute(tag,getSrcSet());
+  }
+ else {
+    List<IModel<?>> srcSet=getSrcSet();
+    checkComponentTag(tag,"img");
+    buildSrcAttribute(tag,getDefaultModel());
+    if (srcSet.size() > 1) {
+      buildSrcSetAttribute(tag,srcSet);
+    }
+  }
+  buildSizesAttribute(tag);
+  Cors crossOrigin=getCrossOrigin();
+  if (crossOrigin != null && Cors.NO_CORS != crossOrigin) {
+    tag.put("crossOrigin",crossOrigin.getRealName());
+  }
+}
