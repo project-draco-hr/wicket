@@ -1,15 +1,13 @@
 {
   int srcSetPosition=0;
-  List<Serializable> srcSetItems=srcSetModels.getObject();
-  if (srcSetItems != null) {
-    for (    Serializable srcSetModel : srcSetItems) {
-      String srcset=tag.getAttribute("srcset");
-      String xValue="";
-      if (xValues != null) {
-        xValue=xValues.size() > srcSetPosition && xValues.get(srcSetPosition) != null ? " " + xValues.get(srcSetPosition) : "";
-      }
-      tag.put("srcset",(srcset != null ? srcset + ", " : "") + srcSetModel + xValue);
-      srcSetPosition++;
+  List<Serializable> srcSetItems=srcSetModel.getObject();
+  for (  Serializable srcSet : srcSetItems) {
+    String srcset=tag.getAttribute("srcset");
+    String xValue="";
+    if (xValues != null) {
+      xValue=xValues.size() > srcSetPosition && xValues.get(srcSetPosition) != null ? " " + xValues.get(srcSetPosition) : "";
     }
+    tag.put("srcset",(srcset != null ? srcset + ", " : "") + srcSet + xValue);
+    srcSetPosition++;
   }
 }
