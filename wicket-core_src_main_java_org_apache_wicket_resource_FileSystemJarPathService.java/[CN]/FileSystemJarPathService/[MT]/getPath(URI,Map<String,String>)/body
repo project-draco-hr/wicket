@@ -1,0 +1,30 @@
+{
+  try {
+    String uriString=uri.toString();
+    int indexOfExclamationMark=uriString.indexOf('!');
+    String jarFile=uriString.substring(0,indexOfExclamationMark);
+    FileSystem fileSystem=null;
+synchronized (FILE_SYSTEM_META_DATA_KEY) {
+      Map<String,FileSystem> metaData=Application.get().getMetaData(FILE_SYSTEM_META_DATA_KEY);
+      if (metaData == null) {
+        metaData=new HashMap<String,FileSystem>();
+        Application.get().setMetaData(FILE_SYSTEM_META_DATA_KEY,metaData);
+      }
+      fileSystem=metaData.get(jarFile);
+      if (fileSystem == null) {
+        if (env == null) {
+          env=new HashMap<>();
+          env.put("create","true");
+          env.put("encoding","UTF-8");
+        }
+        fileSystem=FileSystems.newFileSystem(new URI(jarFile),env);
+        metaData.put(jarFile,fileSystem);
+      }
+    }
+    String fileName=uriString.substring(uriString.indexOf('!') + 1);
+    return fileSystem.getPath(fileName);
+  }
+ catch (  IOException|URISyntaxException e) {
+    throw new WicketRuntimeException("Error while creating a jar file system",e);
+  }
+}

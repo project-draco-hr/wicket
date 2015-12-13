@@ -1,28 +1,13 @@
 {
-  String uriString=uri.toString();
-  int indexOfExclamationMark=uriString.indexOf('!');
-  if (indexOfExclamationMark == -1) {
-    return Paths.get(uri);
-  }
-  String zipFile=uriString.substring(0,indexOfExclamationMark);
-  FileSystem fileSystem=null;
-synchronized (FILE_SYSTEM_META_DATA_KEY) {
-    Map<String,FileSystem> metaData=Application.get().getMetaData(FILE_SYSTEM_META_DATA_KEY);
-    if (metaData == null) {
-      metaData=new HashMap<String,FileSystem>();
-      Application.get().setMetaData(FILE_SYSTEM_META_DATA_KEY,metaData);
-    }
-    fileSystem=metaData.get(zipFile);
-    if (fileSystem == null) {
-      if (env == null) {
-        env=new HashMap<>();
-        env.put("create","true");
-        env.put("encoding","UTF-8");
+  Iterator<FileSystemPathService> pathServiceIterator=ServiceLoader.load(FileSystemPathService.class).iterator();
+  while (pathServiceIterator.hasNext()) {
+    FileSystemPathService pathService=pathServiceIterator.next();
+    if (pathService.isResponsible(uri)) {
+      Path fileSystemPath=pathService.getPath(uri,env);
+      if (fileSystemPath != null) {
+        return fileSystemPath;
       }
-      fileSystem=FileSystems.newFileSystem(new URI(zipFile),env);
-      metaData.put(zipFile,fileSystem);
     }
   }
-  String fileName=uriString.substring(uriString.indexOf('!') + 1);
-  return fileSystem.getPath(fileName);
+  return Paths.get(uri);
 }
