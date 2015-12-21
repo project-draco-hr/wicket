@@ -21,7 +21,7 @@
 switch (labelPosition) {
 case BEFORE:
       buffer.append("<label for=\"");
-    buffer.append(idAttr);
+    buffer.append(Strings.escapeMarkup(idAttr));
   buffer.append("\">").append(escaped).append("</label>");
 break;
 case WRAP_AFTER:
@@ -43,15 +43,15 @@ if (isDisabled(choice,index,selected) || !isEnabledInHierarchy()) {
 buffer.append(" disabled=\"disabled\"");
 }
 buffer.append(" value=\"");
-buffer.append(id);
+buffer.append(Strings.escapeMarkup(id));
 buffer.append("\" id=\"");
-buffer.append(idAttr);
+buffer.append(Strings.escapeMarkup(idAttr));
 buffer.append('"');
 {
 IValueMap attrs=getAdditionalAttributes(index,choice);
 if (attrs != null) {
 for (Map.Entry<String,Object> attr : attrs.entrySet()) {
-buffer.append(' ').append(attr.getKey()).append("=\"").append(attr.getValue()).append('"');
+buffer.append(' ').append(Strings.escapeMarkup(attr.getKey())).append("=\"").append(Strings.escapeMarkup(attr.getValue().toString())).append('"');
 }
 }
 }
@@ -73,7 +73,7 @@ buffer.append(' ').append(escaped).append("</label>");
 break;
 case AFTER:
 buffer.append("<label for=\"");
-buffer.append(idAttr);
+buffer.append(Strings.escapeMarkup(idAttr));
 buffer.append("\">").append(escaped).append("</label>");
 break;
 }
