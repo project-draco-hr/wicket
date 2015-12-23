@@ -2,7 +2,7 @@
   tester=new WicketTester();
   WebApplication application=tester.getApplication();
   application.mountPage(MOUNTED_URL,Page1.class);
-  IProvider<ICrypt> cryptProvider=new IProvider<ICrypt>(){
+  Supplier<ICrypt> cryptProvider=new Supplier<ICrypt>(){
     private ICryptFactory cryptFactory=new CachingSunJceCryptFactory(SecuritySettings.DEFAULT_ENCRYPTION_KEY);
     @Override public ICrypt get(){
       return cryptFactory.newCrypt();

@@ -1,27 +1,2 @@
 {
-  settingsAccessible=true;
-  PageSettings pageSettings=getPageSettings();
-  pageSettings.addComponentResolver(new HtmlHeaderResolver());
-  pageSettings.addComponentResolver(new WicketLinkTagHandler());
-  pageSettings.addComponentResolver(new WicketMessageResolver());
-  pageSettings.addComponentResolver(new FragmentResolver());
-  pageSettings.addComponentResolver(new RelativePathPrefixHandler());
-  pageSettings.addComponentResolver(new EnclosureHandler());
-  pageSettings.addComponentResolver(new InlineEnclosureHandler());
-  pageSettings.addComponentResolver(new WicketMessageTagHandler());
-  pageSettings.addComponentResolver(new WicketContainerResolver());
-  getResourceSettings().getResourceFinders().add(new ClassPathResourceFinder(""));
-  getResourceSettings().addResourceFactory("buttonFactory",new DefaultButtonImageResourceFactory());
-  String applicationKey=getApplicationKey();
-  applicationKeyToApplication.put(applicationKey,this);
-  converterLocator=newConverterLocator();
-  setPageManagerProvider(new DefaultPageManagerProvider(this));
-  resourceReferenceRegistry=newResourceReferenceRegistry();
-  sharedResources=newSharedResources(resourceReferenceRegistry);
-  resourceBundles=newResourceBundles(resourceReferenceRegistry);
-  setRootRequestMapper(new SystemMapper(this));
-  pageFactory=newPageFactory();
-  requestCycleProvider=new DefaultRequestCycleProvider();
-  exceptionMapperProvider=new DefaultExceptionMapperProvider();
-  getRequestCycleListeners().add(new RequestLoggerRequestCycleListener());
 }
