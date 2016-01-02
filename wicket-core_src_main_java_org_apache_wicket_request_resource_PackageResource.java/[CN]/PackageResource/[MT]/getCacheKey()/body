@@ -1,7 +1,9 @@
 {
-  IResourceStream stream=getResourceStream();
-  if (stream == null) {
-    return null;
+  Class<?> scope=getScope();
+  String currentStyle=getCurrentStyle();
+  Locale currentLocale=getCurrentLocale();
+  if (exists(scope,absolutePath,currentLocale,currentStyle,variation)) {
+    return new CacheKey(scopeName,absolutePath,currentLocale,currentStyle,variation);
   }
-  return new CacheKey(scopeName,absolutePath,stream.getLocale(),stream.getStyle(),stream.getVariation());
+  return null;
 }
