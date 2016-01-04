@@ -1,0 +1,13 @@
+{
+  tester.getApplication().setSessionStoreProvider(new IProvider<ISessionStore>(){
+    @Override public ISessionStore get(){
+      return new HttpSessionStore();
+    }
+  }
+);
+  tester.getSession().bind();
+  String firstId=tester.getSession().getId();
+  tester.getSession().invalidateNow();
+  String secondId=tester.getSession().getId();
+  assertNotEquals(firstId,secondId);
+}
