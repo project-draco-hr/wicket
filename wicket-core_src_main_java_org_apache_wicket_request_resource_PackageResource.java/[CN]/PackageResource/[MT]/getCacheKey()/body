@@ -2,7 +2,8 @@
   Class<?> scope=getScope();
   String currentStyle=getCurrentStyle();
   Locale currentLocale=getCurrentLocale();
-  if (exists(scope,absolutePath,currentLocale,currentStyle,variation)) {
+  IResourceStream packageResource=Application.get().getResourceSettings().getResourceStreamLocator().locate(scope,absolutePath,currentStyle,variation,currentLocale,null,false);
+  if (packageResource != null) {
     return new CacheKey(scopeName,absolutePath,currentLocale,currentStyle,variation);
   }
   return null;
