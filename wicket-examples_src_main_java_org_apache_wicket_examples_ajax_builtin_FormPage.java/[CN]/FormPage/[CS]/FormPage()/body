@@ -5,26 +5,6 @@
   final FeedbackPanel feedbackSuccess=new FeedbackPanel("feedbackSuccess",new ExactLevelFeedbackMessageFilter(FeedbackMessage.INFO));
   feedbackSuccess.setOutputMarkupId(true);
   add(feedbackSuccess);
-  Bean bean=new Bean();
-  Form<Bean> form=new Form<Bean>("form",new CompoundPropertyModel<>(bean)){
-    @Override protected void onSubmit(){
-      super.onSubmit();
-      info("Form successfully submitted!");
-    }
-  }
-;
-  add(form);
-  form.setOutputMarkupId(true);
-  FormComponent fc;
-  fc=new RequiredTextField<>("name");
-  fc.add(new StringValidator(4,null));
-  fc.setLabel(new ResourceModel("label.name"));
-  form.add(fc);
-  form.add(new SimpleFormComponentLabel("name-label",fc));
-  fc=new RequiredTextField<>("email");
-  fc.add(EmailAddressValidator.getInstance());
-  fc.setLabel(new ResourceModel("label.email"));
-  form.add(fc);
-  form.add(new SimpleFormComponentLabel("email-label",fc));
-  form.add(new AjaxFormValidatingBehavior("keydown",Duration.ONE_SECOND));
+  addInstantValidationForm();
+  addPreventEnterSubmitForm();
 }

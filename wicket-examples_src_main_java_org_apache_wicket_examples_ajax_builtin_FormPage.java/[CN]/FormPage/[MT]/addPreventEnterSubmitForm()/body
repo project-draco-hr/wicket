@@ -1,0 +1,14 @@
+{
+  Bean bean=new Bean();
+  Form<Bean> form=new Form<Bean>("preventEnterForm",new CompoundPropertyModel<>(bean)){
+    @Override protected void onSubmit(){
+      super.onSubmit();
+      info("Form successfully submitted!");
+    }
+  }
+;
+  add(form);
+  form.setOutputMarkupId(true);
+  addFormComponents(form);
+  form.add(new AjaxPreventSubmitBehavior());
+}

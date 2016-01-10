@@ -1,0 +1,14 @@
+{
+  Bean bean=new Bean();
+  Form<Bean> form=new Form<Bean>("form",new CompoundPropertyModel<>(bean)){
+    @Override protected void onSubmit(){
+      super.onSubmit();
+      info("Form successfully submitted!");
+    }
+  }
+;
+  add(form);
+  form.setOutputMarkupId(true);
+  addFormComponents(form);
+  form.add(new AjaxFormValidatingBehavior("keydown",Duration.ONE_SECOND));
+}

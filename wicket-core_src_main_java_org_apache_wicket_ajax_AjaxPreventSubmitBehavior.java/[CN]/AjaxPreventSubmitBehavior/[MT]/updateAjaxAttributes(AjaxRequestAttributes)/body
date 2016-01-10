@@ -1,0 +1,10 @@
+{
+  super.updateAjaxAttributes(attributes);
+  Component component=getComponent();
+  if (component instanceof TextField<?> == false) {
+    attributes.setChildSelector("input");
+  }
+  AjaxCallListener listener=new AjaxCallListener();
+  listener.onPrecondition("if (Wicket.Event.keyCode(attrs.event) === 13) {attrs.event.preventDefault();} return false;");
+  attributes.getAjaxCallListeners().add(listener);
+}
