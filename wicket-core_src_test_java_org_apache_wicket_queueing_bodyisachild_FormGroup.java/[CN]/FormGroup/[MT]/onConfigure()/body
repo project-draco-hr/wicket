@@ -1,0 +1,18 @@
+{
+  super.onConfigure();
+  help.setVisible(true);
+  label.setVisible(true);
+  feedback.setVisible(true);
+  stateClassName="";
+  feedback.setDefaultModelObject("");
+  final List<FormComponent<?>> formComponents=findFormComponents();
+  for (  final FormComponent<?> fc : formComponents) {
+    final FeedbackMessages messages=fc.getFeedbackMessages();
+    if (!messages.isEmpty()) {
+      final FeedbackMessage worstMessage=getWorstMessage(messages);
+      worstMessage.markRendered();
+      feedback.setDefaultModelObject(worstMessage.getMessage());
+      break;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  super.onInitialize();
+  this.label=newLabel("label",labelModel);
+  this.help=newHelpLabel("help",helpModel);
+  this.feedback=newFeedbackMessageContainer("error");
+  addToBorder(this.label,this.help,this.feedback);
+  final List<FormComponent<?>> formComponents=findFormComponents();
+  final int size=formComponents.size();
+  if (size > 0) {
+    addOutputMarkupId(formComponents);
+    final FormComponent<?> formComponent=formComponents.get(size - 1);
+    label.add(new AttributeModifier("for",formComponent.getMarkupId()));
+    final boolean useFormComponentLabel=true;
+    if (useFormComponentLabel) {
+      label.setDefaultModel(new LoadableDetachableModel<String>(){
+        @Override protected String load(){
+          if (formComponent.getLabel() != null && !Strings.isEmpty(formComponent.getLabel().getObject())) {
+            return formComponent.getLabel().getObject();
+          }
+ else {
+            String text=formComponent.getDefaultLabel("wicket:unknown");
+            if (!"wicket:unknown".equals(text) && !Strings.isEmpty(text)) {
+              return text;
+            }
+ else {
+              return labelModel.getObject();
+            }
+          }
+        }
+      }
+);
+    }
+  }
+}
