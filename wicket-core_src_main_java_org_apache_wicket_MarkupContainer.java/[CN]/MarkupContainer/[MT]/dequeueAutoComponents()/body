@@ -4,7 +4,8 @@
     for (ComponentTag tag=context.takeTag(); tag != null; tag=context.takeTag()) {
       ComponentTag.IAutoComponentFactory autoComponentFactory=tag.getAutoComponentFactory();
       if (autoComponentFactory != null) {
-        queue(autoComponentFactory.newComponent(this,tag));
+        Component autoComponent=autoComponentFactory.newComponent(this,tag);
+        addDequeuedComponent(autoComponent,tag);
       }
       if (tag.isOpen() && !tag.hasNoCloseTag()) {
         context.skipToCloseTag();
