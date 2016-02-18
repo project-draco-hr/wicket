@@ -11,7 +11,7 @@
     }
     @Override protected void populateItem(    Item<IColumn<T,S>> item){
       final IColumn<T,S> column=item.getModelObject();
-      WebMarkupContainer header=null;
+      WebMarkupContainer header;
       if (column.isSortable()) {
         header=newSortableHeader("header",column.getSortProperty(),stateLocator);
       }
@@ -27,6 +27,12 @@
         }
 ;
         header.add(cssAttributeBehavior);
+      }
+      if (column.getColspan() > 1) {
+        header.add(AttributeModifier.replace("colspan",column.getColspan()));
+      }
+      if (column.getRowspan() > 1) {
+        header.add(AttributeModifier.replace("rowspan",column.getRowspan()));
       }
       item.add(header);
       item.setRenderBodyOnly(true);
