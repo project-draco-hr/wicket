@@ -4,6 +4,10 @@
     Component child=get(tag.getId());
     if (child == null) {
       child=dequeue.findComponentToDequeue(tag);
+      if (child == null && tag.getAutoComponentFactory() != null) {
+        IAutoComponentFactory autoComponentFactory=tag.getAutoComponentFactory();
+        child=autoComponentFactory.newComponent(this,tag);
+      }
       if (child != null) {
         addDequeuedComponent(child,tag);
       }

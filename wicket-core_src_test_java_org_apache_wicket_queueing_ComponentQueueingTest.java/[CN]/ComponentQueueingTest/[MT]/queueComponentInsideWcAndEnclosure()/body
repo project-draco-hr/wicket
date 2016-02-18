@@ -1,0 +1,15 @@
+{
+  TestPage page=new TestPage();
+  page.setPageMarkup(" <div wicket:id=\"container\">\n" + "    <div wicket:enclosure=\"child\">\n" + "      <p wicket:id=\"child\">1</p>\n"+ "      <a wicket:id=\"child2\">2</a>\n"+ "    </div>\n"+ "  </div>");
+  WebMarkupContainer container=new WebMarkupContainer("container");
+  container.queue(new Label("child"){
+    @Override protected void onInitialize(){
+      super.onInitialize();
+      setDefaultModel(Model.of("test"));
+    }
+  }
+);
+  container.queue(new WebMarkupContainer("child2").setVisible(false));
+  page.queue(container);
+  tester.startPage(page);
+}
