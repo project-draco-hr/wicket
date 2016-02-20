@@ -1,6 +1,9 @@
 {
   PageTable pageTable=getPageTable(false);
   if (pageTable != null) {
-    pageTable.removePage(pageId);
+    byte[] bytes=pageTable.removePage(pageId);
+    if (LOG.isDebugEnabled() && bytes != null) {
+      LOG.debug("Removed page '{}' in session '{}'",pageId,sessionId);
+    }
   }
 }
