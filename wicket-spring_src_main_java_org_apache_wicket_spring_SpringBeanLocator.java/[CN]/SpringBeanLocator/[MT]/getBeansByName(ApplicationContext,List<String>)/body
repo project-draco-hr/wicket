@@ -16,7 +16,7 @@
       continue;
     }
     boolean exactMatch=fieldResolvableType.isAssignableFrom(candidateResolvableType);
-    boolean elementMatch=fieldElementsResolvableType != null ? fieldElementsResolvableType.isAssignableFrom(candidateResolvableType) : false;
+    boolean elementMatch=fieldElementsResolvableType != null && fieldElementsResolvableType.isAssignableFrom(candidateResolvableType);
     if (exactMatch) {
       this.beanName=beanName;
       return ctx.getBean(beanName);
