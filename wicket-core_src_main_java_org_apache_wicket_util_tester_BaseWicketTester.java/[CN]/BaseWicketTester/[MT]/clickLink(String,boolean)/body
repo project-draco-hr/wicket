@@ -19,7 +19,7 @@
     request.getPostParameters().setParameterValue(pageRelativePath,"x");
     submitAjaxFormSubmitBehavior(link,(AjaxFormSubmitBehavior)WicketTesterHelper.findAjaxEventBehavior(link,"click"));
   }
- else   if (linkComponent instanceof IAjaxLink && isAjax) {
+ else   if (isAjax && (linkComponent instanceof IAjaxLink || linkComponent instanceof AjaxFallbackLink)) {
     List<AjaxEventBehavior> behaviors=WicketTesterHelper.findAjaxEventBehaviors(linkComponent,"click");
     for (    AjaxEventBehavior behavior : behaviors) {
       executeBehavior(behavior);

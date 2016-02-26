@@ -20,10 +20,10 @@
 ;
     }
     @Override protected Component newLabelComponent(    String id,    final IModel<Foo> model){
-      return new AjaxEditableLabel<String>(id,new PropertyModel<String>(model,"bar")){
+      return new AjaxEditableLabel<String>(id,new PropertyModel<>(model,"bar")){
         @Override protected void onSubmit(        AjaxRequestTarget target){
           super.onSubmit(target);
-          tree.updateNode(model.getObject(),target);
+          tree.updateNode(model.getObject(),Optional.of(target));
         }
       }
 ;
