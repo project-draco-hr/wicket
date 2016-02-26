@@ -24,7 +24,7 @@
       Page page=getPage(pageManager);
       WebSocketRequestHandler requestHandler=webSocketSettings.newWebSocketRequestHandler(page,connection);
       WebSocketPayload payload=createEventPayload(message,requestHandler);
-      if (!(message instanceof ConnectedMessage || message instanceof ClosedMessage)) {
+      if (!(message instanceof ConnectedMessage || message instanceof ClosedMessage || message instanceof AbortedMessage)) {
         requestCycle.scheduleRequestHandlerAfterCurrent(requestHandler);
       }
       IRequestHandler broadcastingHandler=new WebSocketMessageBroadcastHandler(pageId,resourceName,payload);
