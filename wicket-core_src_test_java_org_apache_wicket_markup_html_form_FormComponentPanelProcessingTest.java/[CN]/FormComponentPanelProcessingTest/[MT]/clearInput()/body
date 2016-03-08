@@ -1,0 +1,8 @@
+{
+  tester.startPage(new TestPage());
+  tester.assertRenderedPage(TestPage.class);
+  TestFormComponentPanel fcp=(TestFormComponentPanel)tester.getComponentFromLastRenderedPage("form:panel");
+  assertThat(fcp.isChildClearInputCalled(),is(false));
+  fcp.clearInput();
+  assertThat(fcp.isChildClearInputCalled(),is(true));
+}
