@@ -1,4 +1,7 @@
 {
+  if (input == null) {
+    return new AppendingStringBuffer();
+  }
   char[] chars=input.getValue();
   AppendingStringBuffer out=null;
   boolean isDebugEnabled=LOG.isDebugEnabled();
@@ -11,7 +14,7 @@
         out=new AppendingStringBuffer(chars.length);
         out.append(input.subSequence(0,i));
         if (isDebugEnabled) {
-          LOG.debug("An invalid character '{}' found at position '{}' in '{}'",new Object[]{String.format("0x%X",codePoint),i,new String(chars)});
+          LOG.debug("An invalid character '{}' found at position '{}' in '{}'",String.format("0x%X",codePoint),i,new String(chars));
         }
       }
  else       if (isDebugEnabled) {
