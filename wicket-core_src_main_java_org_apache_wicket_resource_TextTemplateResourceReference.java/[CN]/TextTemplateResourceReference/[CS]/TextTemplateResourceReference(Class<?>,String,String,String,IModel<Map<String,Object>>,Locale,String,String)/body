@@ -3,7 +3,7 @@
   textTemplate=new PackageTextTemplate(scope,fileName,contentType,encoding);
   this.variablesModel=variablesModel;
   resource=new ResourceStreamResource(null){
-    @Override protected IResourceStream getResourceStream(){
+    @Override protected IResourceStream getResourceStream(    Attributes attributes){
       IModel<Map<String,Object>> variables=TextTemplateResourceReference.this.variablesModel;
       String stringValue=textTemplate.asString(variables.getObject());
       variables.detach();
