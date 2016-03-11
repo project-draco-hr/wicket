@@ -1,0 +1,9 @@
+{
+  if (WicketMetrics.enabled) {
+    getMetricRegistry().meter(PREFIX + name + renderClassName(joinPoint)).mark();
+  }
+  if (joinPoint != null) {
+    return joinPoint.proceed();
+  }
+  return null;
+}
