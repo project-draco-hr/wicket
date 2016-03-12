@@ -1,0 +1,13 @@
+{
+  Args.notNull(onUpdate,"onUpdate");
+  Args.notNull(onError,"onError");
+  return new AjaxFormComponentUpdatingBehavior(eventName){
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      onUpdate.accept(target);
+    }
+    @Override protected void onError(    AjaxRequestTarget target,    RuntimeException e){
+      onError.accept(target,e);
+    }
+  }
+;
+}

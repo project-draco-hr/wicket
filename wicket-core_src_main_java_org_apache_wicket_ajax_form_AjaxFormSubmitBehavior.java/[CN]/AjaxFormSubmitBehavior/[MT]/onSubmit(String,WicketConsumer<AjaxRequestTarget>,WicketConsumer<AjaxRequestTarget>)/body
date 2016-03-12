@@ -1,13 +1,3 @@
 {
-  Args.notNull(onSubmit,"onSubmit");
-  Args.notNull(onError,"onError");
-  return new AjaxFormSubmitBehavior(eventName){
-    @Override protected void onSubmit(    AjaxRequestTarget target){
-      onSubmit.accept(target);
-    }
-    @Override protected void onError(    AjaxRequestTarget target){
-      onError.accept(target);
-    }
-  }
-;
+  return Lambdas.onSubmit(eventName,onSubmit,onError);
 }

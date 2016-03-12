@@ -1,13 +1,3 @@
 {
-  Args.notNull(onChange,"onChange");
-  Args.notNull(onError,"onError");
-  return new OnChangeAjaxBehavior(){
-    @Override protected void onUpdate(    AjaxRequestTarget target){
-      onChange.accept(target);
-    }
-    @Override protected void onError(    AjaxRequestTarget target,    RuntimeException e){
-      onError.accept(target,e);
-    }
-  }
-;
+  return Lambdas.onChange(onChange,onError);
 }

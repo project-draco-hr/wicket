@@ -1,13 +1,3 @@
 {
-  Args.notNull(onSubmit,"onSubmit");
-  Args.notNull(onError,"onError");
-  return new AjaxSubmitLink(id){
-    @Override public void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      onSubmit.accept(target,form);
-    }
-    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
-      onError.accept(target,form);
-    }
-  }
-;
+  return Lambdas.ajaxSubmitLink(id,onSubmit,onError);
 }
