@@ -1,0 +1,9 @@
+{
+  Args.notNull(onTimer,"onTimer");
+  return new AjaxSelfUpdatingTimerBehavior(interval){
+    @Override protected void onPostProcessTarget(    AjaxRequestTarget target){
+      onTimer.accept(target);
+    }
+  }
+;
+}
