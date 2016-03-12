@@ -10,7 +10,7 @@
   tester=new WicketTester(application){
     @Override protected IPageManagerProvider newTestPageManagerProvider(){
       return new IPageManagerProvider(){
-        @Override public IPageManager get(        IPageManagerContext pageManagerContext){
+        @Override public IPageManager apply(        IPageManagerContext pageManagerContext){
           IPageStore pageStore=new DefaultPageStore(new JavaSerializer(application.getApplicationKey()),dataStore,4);
           return new PageStoreManager(application.getName(),pageStore,pageManagerContext);
         }

@@ -1,7 +1,7 @@
 {
   return new PageRenderer(handler){
     @Override public void respond(    RequestCycle requestCycle){
-      delegate.get(handler).respond(requestCycle);
+      delegate.apply(handler).respond(requestCycle);
       if (handler.getPageProvider().hasPageInstance()) {
         Page renderedPage=(Page)handler.getPageProvider().getPageInstance();
         if (componentInPage != null && lastPage != null && lastPage.getPageClass() != renderedPage.getPageClass()) {
