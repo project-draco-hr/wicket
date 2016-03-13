@@ -1,6 +1,9 @@
 {
+  Application application=Application.get();
+  MetricRegistry metricRegistry=application.getMetaData(METRIC_REGISTRY);
   if (metricRegistry == null) {
     metricRegistry=new MetricRegistry();
+    application.setMetaData(METRIC_REGISTRY,metricRegistry);
   }
   return metricRegistry;
 }

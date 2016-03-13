@@ -1,6 +1,8 @@
 {
-  if (WicketMetrics.enabled) {
-    getMetricRegistry().meter(PREFIX + name + renderClassName(joinPoint)).mark();
+  WicketMetricsSettings settings=getSettings();
+  MetricRegistry registry=getMetricRegistry();
+  if (settings.isEnabled()) {
+    registry.meter(settings.getPrefix() + name + renderClassName(joinPoint)).mark();
   }
   if (joinPoint != null) {
     return joinPoint.proceed();

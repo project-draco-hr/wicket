@@ -1,6 +1,8 @@
 {
-  if (WicketMetrics.enabled) {
-    Context context=getMetricRegistry().timer(PREFIX + name + renderClassName(joinPoint)).time();
+  WicketMetricsSettings settings=getSettings();
+  MetricRegistry registry=getMetricRegistry();
+  if (settings.isEnabled()) {
+    Context context=registry.timer(settings.getPrefix() + name + renderClassName(joinPoint)).time();
     try {
       return joinPoint.proceed();
     }
