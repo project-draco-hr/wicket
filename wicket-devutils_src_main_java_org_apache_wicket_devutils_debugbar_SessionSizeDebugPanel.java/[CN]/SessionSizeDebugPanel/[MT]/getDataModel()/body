@@ -1,5 +1,5 @@
 {
-  return new AbstractReadOnlyModel<String>(){
+  return new IModel<String>(){
     private static final long serialVersionUID=1L;
     private final IModel<Bytes> size=new SessionSizeModel();
     @Override public String getObject(){
@@ -8,7 +8,6 @@
       return "Session: " + sessionSizeAsString;
     }
     @Override public void detach(){
-      super.detach();
       size.detach();
     }
   }
