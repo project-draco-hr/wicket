@@ -3,7 +3,7 @@
   WebMarkupContainer brdr=new WebMarkupContainer("border");
   brdr.add(feedback=new FeedbackPanel("feedback",getMessagesFilter()));
   brdr.add(getBodyContainer());
-  brdr.add(AttributeModifier.replace("style",new AbstractReadOnlyModel<String>(){
+  brdr.add(AttributeModifier.replace("style",new IModel<String>(){
     @Override public String getObject(){
       final IFeedbackMessageFilter filter=feedback.getFilter();
       boolean error=new FeedbackCollector(getPage()).collect(new IFeedbackMessageFilter(){

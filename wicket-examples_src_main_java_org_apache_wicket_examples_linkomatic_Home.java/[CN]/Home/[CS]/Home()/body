@@ -1,5 +1,5 @@
 {
-  final Link actionLink=new Link("actionLink"){
+  final Link<Void> actionLink=new Link<Void>("actionLink"){
     @Override public void onClick(){
       linkClickCount++;
     }
@@ -7,7 +7,7 @@
 ;
   actionLink.add(new Label("linkClickCount",new PropertyModel<Integer>(this,"linkClickCount")));
   add(actionLink);
-  final Link actionOnClickLink=new Link("actionOnClickLink"){
+  final Link<Void> actionOnClickLink=new Link<Void>("actionOnClickLink"){
     @Override public void onClick(){
       onClickLinkClickCount++;
     }
@@ -41,7 +41,7 @@
   PopupSettings googlePopupSettings=new PopupSettings(PopupSettings.RESIZABLE | PopupSettings.SCROLLBARS).setHeight(500).setWidth(700);
   add(new ExternalLink("googlePopup","http://www.google.com","Click this link to go to Google in a popup").setPopupSettings(googlePopupSettings));
   add(new ResourceLink<>("cancelButtonLink",new SharedResourceReference("cancelButton")));
-  add(new DownloadLink("downloadLink",new AbstractReadOnlyModel<File>(){
+  add(new DownloadLink("downloadLink",new IModel<File>(){
     private static final long serialVersionUID=1L;
     @Override public File getObject(){
       File tempFile;
@@ -60,13 +60,13 @@
   FeedbackPanel feedbackPanel=new FeedbackPanel("feedback");
   add(feedbackPanel);
   add(new RedirectForm("redirectForm"));
-  Link linkToAnchor=new Link("linkToAnchor"){
+  Link<Void> linkToAnchor=new Link<Void>("linkToAnchor"){
     @Override public void onClick(){
     }
   }
 ;
   add(linkToAnchor);
-  Link anotherlinkToAnchor=new Link("anotherlinkToAnchor"){
+  Link<Void> anotherlinkToAnchor=new Link<Void>("anotherlinkToAnchor"){
     @Override public void onClick(){
     }
   }

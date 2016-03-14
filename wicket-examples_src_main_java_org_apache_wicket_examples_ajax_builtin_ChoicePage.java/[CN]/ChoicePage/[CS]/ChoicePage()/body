@@ -2,13 +2,13 @@
   modelsMap.put("AUDI",Arrays.asList("A4","A6","TT"));
   modelsMap.put("CADILLAC",Arrays.asList("CTS","DTS","ESCALADE","SRX","DEVILLE"));
   modelsMap.put("FORD",Arrays.asList("CROWN","ESCAPE","EXPEDITION","EXPLORER","F-150"));
-  IModel<List<String>> makeChoices=new AbstractReadOnlyModel<List<String>>(){
+  IModel<List<String>> makeChoices=new IModel<List<String>>(){
     @Override public List<String> getObject(){
       return new ArrayList<>(modelsMap.keySet());
     }
   }
 ;
-  IModel<List<String>> modelChoices=new AbstractReadOnlyModel<List<String>>(){
+  IModel<List<String>> modelChoices=new IModel<List<String>>(){
     @Override public List<String> getObject(){
       List<String> models=modelsMap.get(selectedMake);
       if (models == null) {

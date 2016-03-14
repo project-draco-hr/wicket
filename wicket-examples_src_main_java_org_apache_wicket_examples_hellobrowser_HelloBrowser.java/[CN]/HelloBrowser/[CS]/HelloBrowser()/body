@@ -1,10 +1,7 @@
 {
   final ClientProperties properties=((WebClientInfo)Session.get().getClientInfo()).getProperties();
   add(new MultiLineLabel("clientinfo",properties.toString()));
-  IModel<String> clientTimeModel=new AbstractReadOnlyModel<String>(){
-    /** 
- * @see org.apache.wicket.model.AbstractReadOnlyModel#getObject()
- */
+  IModel<String> clientTimeModel=new IModel<String>(){
     @Override public String getObject(){
       TimeZone timeZone=properties.getTimeZone();
       if (timeZone != null) {
