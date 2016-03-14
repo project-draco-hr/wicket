@@ -8,7 +8,7 @@ synchronized (this) {
       container=cache.get(classLoader);
       if (container == null) {
         container=new ConcurrentHashMap<>();
-        Map<ClassLoader,ConcurrentHashMap<String,T>> newCache=new WeakHashMap<ClassLoader,ConcurrentHashMap<String,T>>(cache);
+        Map<ClassLoader,ConcurrentHashMap<String,T>> newCache=new WeakHashMap<>(cache);
         newCache.put(classLoader,container);
         cache=Collections.unmodifiableMap(newCache);
       }
