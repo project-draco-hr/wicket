@@ -1,11 +1,6 @@
 {
   final RequestListenerInterface existingInterface=RequestListenerInterface.forName(requestListenerInterface.getName());
-  if (existingInterface != null) {
-    if (existingInterface.getMethod().equals(requestListenerInterface.getMethod()) == false) {
-      throw new IllegalStateException("Cannot register listener interface " + requestListenerInterface + " because it conflicts with the already registered interface "+ existingInterface);
-    }
-  }
- else {
+  if (existingInterface == null) {
     interfaces.put(requestListenerInterface.getName(),requestListenerInterface);
     log.info("registered listener interface " + this);
   }
