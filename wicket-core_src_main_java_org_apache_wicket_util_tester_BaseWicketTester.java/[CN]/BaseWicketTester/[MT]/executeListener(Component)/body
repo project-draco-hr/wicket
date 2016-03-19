@@ -1,8 +1,7 @@
 {
   Args.notNull(component,"component");
-  for (  RequestListenerInterface iface : RequestListenerInterface.getRegisteredInterfaces()) {
-    if (iface.getListenerInterfaceClass().isAssignableFrom(component.getClass())) {
-      executeListener(component,iface);
-    }
-  }
+  IRequestHandler handler=new ListenerInterfaceRequestHandler(new PageAndComponentProvider(component.getPage(),component));
+  Url url=urlFor(handler);
+  request.setUrl(url);
+  processRequest(request,null);
 }

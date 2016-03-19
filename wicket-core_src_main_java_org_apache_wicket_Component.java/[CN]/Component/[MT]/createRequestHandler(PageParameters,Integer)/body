@@ -1,0 +1,10 @@
+{
+  Page page=getPage();
+  PageAndComponentProvider provider=new PageAndComponentProvider(page,this,parameters);
+  if (page.isPageStateless() || (getApplication().getPageSettings().getRecreateBookmarkablePagesAfterExpiry() && page.isBookmarkable() && page.wasCreatedBookmarkable())) {
+    return new BookmarkableListenerInterfaceRequestHandler(provider,id);
+  }
+ else {
+    return new ListenerInterfaceRequestHandler(provider,id);
+  }
+}

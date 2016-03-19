@@ -1,6 +1,6 @@
 {
   PageAndComponentProvider provider=new PageAndComponentProvider(Page2.class,"some:link");
-  IRequestHandler requestHandler=new BookmarkableListenerInterfaceRequestHandler(provider,ILinkListener.INTERFACE);
+  IRequestHandler requestHandler=new BookmarkableListenerInterfaceRequestHandler(provider);
   Url plainUrl=mapper.getDelegateMapper().mapHandler(requestHandler);
   assertTrue("Plain text request listener URL for bookmarkable page does not start with: " + PLAIN_BOOKMARKABLE_URL + ": "+ plainUrl.toString(),plainUrl.toString().startsWith(PLAIN_BOOKMARKABLE_URL));
   assertNull(mapper.mapRequest(getRequest(plainUrl)));

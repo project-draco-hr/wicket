@@ -1,0 +1,22 @@
+{
+  super(pageAndComponentProvider);
+  componentClass=tryToGetComponentClass(pageAndComponentProvider);
+  componentPath=tryToGetComponentPath(pageAndComponentProvider);
+  this.behaviorIndex=behaviorIndex;
+  if (behaviorIndex != null && componentClass != null) {
+    try {
+      behaviorClass=pageAndComponentProvider.getComponent().getBehaviorById(behaviorIndex).getClass();
+    }
+ catch (    Exception ignore) {
+      behaviorClass=null;
+    }
+  }
+ else {
+    behaviorClass=null;
+  }
+  final Component formSubmitter=tryToGetFormSubmittingComponent(pageAndComponentProvider);
+  if (formSubmitter != null) {
+    submittingComponentClass=formSubmitter.getClass();
+    submittingComponentPath=formSubmitter.getPageRelativePath();
+  }
+}

@@ -1,0 +1,14 @@
+{
+  if (getBehaviorIndex() == null) {
+    invoke(requestCycle,policy,ajax,getComponent());
+  }
+ else {
+    try {
+      Behavior behavior=getComponent().getBehaviorById(behaviorId);
+      invoke(requestCycle,policy,ajax,getComponent(),behavior);
+    }
+ catch (    IndexOutOfBoundsException e) {
+      throw new WicketRuntimeException("Couldn't find component behavior.",e);
+    }
+  }
+}

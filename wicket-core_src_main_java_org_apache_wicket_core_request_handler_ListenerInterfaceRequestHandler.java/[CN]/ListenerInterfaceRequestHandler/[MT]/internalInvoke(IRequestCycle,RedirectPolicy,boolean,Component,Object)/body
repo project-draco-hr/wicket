@@ -1,0 +1,11 @@
+{
+  Page page=component.getPage();
+  if (!page.isInitialized()) {
+    page.internalInitialize();
+  }
+  IRequestListener requestListener=(IRequestListener)target;
+  if (requestListener.includeRenderCount() && !ajax) {
+    requestCycle.scheduleRequestHandlerAfterCurrent(new RenderPageRequestHandler(new PageProvider(page),policy));
+  }
+  requestListener.onRequest();
+}
