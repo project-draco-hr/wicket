@@ -1,7 +1,5 @@
 {
-  final boolean first=requestHandlers.isEmpty();
   requestHandlers.add(handler);
-  IRequestHandler replacementHandler=null;
   try {
     respond(handler);
   }
@@ -10,10 +8,10 @@
     if (replacer == null) {
       throw exception;
     }
-    if (replacer.removeAll && !first) {
+    if (replacer.removeAll) {
+      scheduledAfterCurrent=null;
       throw exception;
     }
-    replacementHandler=replacer.replacementRequestHandler;
   }
  finally {
     requestHandlers.poll();
@@ -21,10 +19,5 @@
   }
   IRequestHandler scheduled=scheduledAfterCurrent;
   scheduledAfterCurrent=null;
-  if (replacementHandler != null) {
-    execute(replacementHandler);
-  }
- else   if (scheduled != null) {
-    execute(scheduled);
-  }
+  return scheduled;
 }

@@ -1,17 +1,20 @@
 {
   Args.notNull(handler,"handler");
-  try {
-    listeners.onRequestHandlerResolved(this,handler);
-    requestHandlerExecutor.execute(handler);
-    listeners.onRequestHandlerExecuted(this,handler);
-  }
- catch (  RuntimeException e) {
-    IRequestHandler replacement=requestHandlerExecutor.resolveHandler(e);
-    if (replacement != null) {
-      execute(replacement);
+  while (handler != null) {
+    try {
+      listeners.onRequestHandlerResolved(this,handler);
+      IRequestHandler next=requestHandlerExecutor.execute(handler);
+      listeners.onRequestHandlerExecuted(this,handler);
+      handler=next;
     }
+ catch (    RuntimeException e) {
+      IRequestHandler replacement=requestHandlerExecutor.resolveHandler(e);
+      if (replacement != null) {
+        handler=replacement;
+      }
  else {
-      throw e;
+        throw e;
+      }
     }
   }
 }
