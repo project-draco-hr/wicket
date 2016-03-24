@@ -1,16 +1,3 @@
 {
-  WicketMetricsSettings settings=getSettings();
-  MetricRegistry registry=getMetricRegistry();
-  if (settings.isEnabled()) {
-    Context context=registry.timer(settings.getPrefix() + name + renderClassName(joinPoint)).time();
-    try {
-      return joinPoint.proceed();
-    }
-  finally {
-      stopQuietly(context);
-    }
-  }
- else {
-    return joinPoint.proceed();
-  }
+  return this.measureTime(name,joinPoint,true);
 }

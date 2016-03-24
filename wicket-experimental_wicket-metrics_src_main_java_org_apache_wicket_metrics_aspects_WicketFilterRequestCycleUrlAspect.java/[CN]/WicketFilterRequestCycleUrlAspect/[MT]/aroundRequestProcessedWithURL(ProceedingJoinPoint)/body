@@ -1,0 +1,15 @@
+{
+  Object[] args=joinPoint.getArgs();
+  if (args.length >= 3) {
+    Object requestAsObject=args[2];
+    if (requestAsObject != null && requestAsObject instanceof HttpServletRequest) {
+      HttpServletRequest httpServletRequest=(HttpServletRequest)requestAsObject;
+      String requestUrl=httpServletRequest.getRequestURL().toString();
+      String replacedUrl=requestUrl.replace('/','_');
+      replacedUrl=replacedUrl.replace('.','_');
+      replacedUrl=replacedUrl.replaceAll(";jsessionid=.*?(?=\\?|$)","");
+      return measureTime("core/application/request/" + replacedUrl,joinPoint,false);
+    }
+  }
+  return joinPoint.proceed();
+}

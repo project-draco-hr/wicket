@@ -1,9 +1,20 @@
 {
-  Application application=Application.get();
-  WicketMetricsSettings metricRegistry=application.getMetaData(METRIC_SETTINGS);
-  if (metricRegistry == null) {
-    metricRegistry=new WicketMetricsSettings();
-    application.setMetaData(METRIC_SETTINGS,metricRegistry);
+  if (!applicationResolved) {
+    application=getApplication();
+    applicationResolved=true;
   }
-  return metricRegistry;
+  if (application != null && System.getProperty(METRICS_STATIC_REGISTRATION) == null) {
+    WicketMetricsSettings wicketMetricsSettings=application.getMetaData(METRIC_SETTINGS);
+    if (wicketMetricsSettings == null) {
+      wicketMetricsSettings=new WicketMetricsSettings();
+      application.setMetaData(METRIC_SETTINGS,wicketMetricsSettings);
+    }
+    return wicketMetricsSettings;
+  }
+ else {
+    if (wicketMetricsSettings == null) {
+      wicketMetricsSettings=new WicketMetricsSettings();
+    }
+    return wicketMetricsSettings;
+  }
 }
