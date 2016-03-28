@@ -1,7 +1,8 @@
 {
   ServletContext servletContext=event.getSession().getServletContext();
   MetricRegistry metricRegistry=(MetricRegistry)servletContext.getAttribute(METRICS_SERVLET_REGISTRY);
+  WicketMetricsSettings metricsSettings=(WicketMetricsSettings)servletContext.getAttribute(WICKET_METRICS_SETTINGS);
   if (metricRegistry != null) {
-    inc(event,metricRegistry);
+    inc(event,metricRegistry,metricsSettings);
   }
 }

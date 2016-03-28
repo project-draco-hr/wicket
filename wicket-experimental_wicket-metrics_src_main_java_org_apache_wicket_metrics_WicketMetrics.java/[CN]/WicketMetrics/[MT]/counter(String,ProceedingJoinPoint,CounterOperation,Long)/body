@@ -1,17 +1,5 @@
 {
   WicketMetricsSettings settings=getSettings();
   MetricRegistry registry=getMetricRegistry();
-  if (settings.isEnabled()) {
-    Counter counter=registry.counter(settings.getPrefix() + name + renderClassName(joinPoint));
-    if (counterOperation == CounterOperation.INC) {
-      counter.inc(value);
-    }
- else {
-      counter.dec(value);
-    }
-  }
-  if (joinPoint != null) {
-    return joinPoint.proceed();
-  }
-  return null;
+  return counter(name,joinPoint,counterOperation,value,registry,settings);
 }
