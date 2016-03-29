@@ -4,13 +4,13 @@
   if (settings.isEnabled()) {
     Context context=registry.timer(settings.getPrefix() + name + (renderClass ? renderClassName(joinPoint) : "")).time();
     try {
-      return joinPoint.proceed();
+      return proceedSilent(joinPoint);
     }
   finally {
       stopQuietly(context);
     }
   }
  else {
-    return joinPoint.proceed();
+    return proceedSilent(joinPoint);
   }
 }

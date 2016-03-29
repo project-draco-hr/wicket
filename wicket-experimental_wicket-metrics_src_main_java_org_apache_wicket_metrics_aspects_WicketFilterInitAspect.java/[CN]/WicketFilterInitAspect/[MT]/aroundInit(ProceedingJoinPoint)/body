@@ -1,0 +1,14 @@
+{
+  Object[] args=joinPoint.getArgs();
+  String filterName=null;
+  if (args.length == 2) {
+    FilterConfig filterConfig=(FilterConfig)args[1];
+    filterName=filterConfig.getFilterName();
+  }
+ else {
+    FilterConfig filterConfig=(FilterConfig)args[0];
+    filterName=filterConfig.getFilterName();
+  }
+  WicketMetrics.setFilterName(filterName);
+  return joinPoint.proceed();
+}

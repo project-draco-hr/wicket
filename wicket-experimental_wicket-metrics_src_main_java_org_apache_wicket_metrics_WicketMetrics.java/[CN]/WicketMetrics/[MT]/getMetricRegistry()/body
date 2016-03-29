@@ -1,20 +1,12 @@
 {
-  if (!applicationResolved) {
-    application=getApplication();
-    applicationResolved=true;
+  Application application=Application.get(getFilterName());
+  if (application == null) {
+    throw new WicketRuntimeException(APPLICATION_ERROR);
   }
-  if (application != null && System.getProperty(METRICS_STATIC_REGISTRATION) == null) {
-    MetricRegistry metricRegistry=application.getMetaData(METRIC_REGISTRY);
-    if (metricRegistry == null) {
-      metricRegistry=new MetricRegistry();
-      application.setMetaData(METRIC_REGISTRY,metricRegistry);
-    }
-    return metricRegistry;
+  MetricRegistry metricRegistry=application.getMetaData(METRIC_REGISTRY);
+  if (metricRegistry == null) {
+    metricRegistry=new MetricRegistry();
+    application.setMetaData(METRIC_REGISTRY,metricRegistry);
   }
- else {
-    if (WicketMetrics.metricRegistry == null) {
-      WicketMetrics.metricRegistry=new MetricRegistry();
-    }
-    return WicketMetrics.metricRegistry;
-  }
+  return metricRegistry;
 }

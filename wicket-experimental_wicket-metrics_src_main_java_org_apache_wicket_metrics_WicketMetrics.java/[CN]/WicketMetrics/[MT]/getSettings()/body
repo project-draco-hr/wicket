@@ -1,20 +1,13 @@
 {
-  if (!applicationResolved) {
-    application=getApplication();
-    applicationResolved=true;
+  Application application=Application.get(getFilterName());
+  if (application == null) {
+    throw new WicketRuntimeException(APPLICATION_ERROR);
   }
-  if (application != null && System.getProperty(METRICS_STATIC_REGISTRATION) == null) {
-    WicketMetricsSettings wicketMetricsSettings=application.getMetaData(METRIC_SETTINGS);
-    if (wicketMetricsSettings == null) {
-      wicketMetricsSettings=new WicketMetricsSettings();
-      application.setMetaData(METRIC_SETTINGS,wicketMetricsSettings);
-    }
-    return wicketMetricsSettings;
+  WicketMetricsSettings wicketMetricsSettings=application.getMetaData(METRIC_SETTINGS);
+  if (wicketMetricsSettings == null) {
+    wicketMetricsSettings=new WicketMetricsSettings();
+    wicketMetricsSettings.setPrefix(getFilterName());
+    application.setMetaData(METRIC_SETTINGS,wicketMetricsSettings);
   }
- else {
-    if (wicketMetricsSettings == null) {
-      wicketMetricsSettings=new WicketMetricsSettings();
-    }
-    return wicketMetricsSettings;
-  }
+  return wicketMetricsSettings;
 }

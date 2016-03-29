@@ -4,8 +4,5 @@
   if (settings.isEnabled()) {
     registry.meter(settings.getPrefix() + name + renderClassName(joinPoint)).mark();
   }
-  if (joinPoint != null) {
-    return joinPoint.proceed();
-  }
-  return null;
+  return proceedSilent(joinPoint);
 }
