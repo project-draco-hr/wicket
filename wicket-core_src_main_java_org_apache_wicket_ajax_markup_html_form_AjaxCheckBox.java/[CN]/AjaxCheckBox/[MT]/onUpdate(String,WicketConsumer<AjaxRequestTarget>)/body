@@ -1,3 +1,10 @@
 {
-  return Lambdas.ajaxCheckBox(id,onUpdate);
+  Args.notNull(onUpdate,"onUpdate");
+  return new AjaxCheckBox(id){
+    private static final long serialVersionUID=1L;
+    @Override public void onUpdate(    AjaxRequestTarget target){
+      onUpdate.accept(target);
+    }
+  }
+;
 }

@@ -1,14 +1,3 @@
 {
-  Args.notNull(onUpdateChoice,"onUpdateChoice");
-  Args.notNull(onError,"onError");
-  return new AjaxFormChoiceComponentUpdatingBehavior(){
-    private static final long serialVersionUID=1L;
-    @Override protected void onUpdate(    AjaxRequestTarget target){
-      onUpdateChoice.accept(target);
-    }
-    @Override protected void onError(    AjaxRequestTarget target,    RuntimeException e){
-      onError.accept(target,e);
-    }
-  }
-;
+  return AjaxFormChoiceComponentUpdatingBehavior.onUpdateChoice(onUpdateChoice,onError);
 }

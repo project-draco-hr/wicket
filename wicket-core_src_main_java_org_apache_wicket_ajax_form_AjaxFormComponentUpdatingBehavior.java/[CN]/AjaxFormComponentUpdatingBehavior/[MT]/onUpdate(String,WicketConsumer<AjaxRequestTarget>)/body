@@ -1,3 +1,10 @@
 {
-  return Lambdas.onUpdate(eventName,onUpdate);
+  Args.notNull(onUpdate,"onUpdate");
+  return new AjaxFormComponentUpdatingBehavior(eventName){
+    private static final long serialVersionUID=1L;
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      onUpdate.accept(target);
+    }
+  }
+;
 }

@@ -1,3 +1,10 @@
 {
-  return Lambdas.onEvent(eventName,onEvent);
+  Args.notNull(onEvent,"onEvent");
+  return new AjaxEventBehavior(eventName){
+    private static final long serialVersionUID=1L;
+    @Override protected void onEvent(    AjaxRequestTarget target){
+      onEvent.accept(target);
+    }
+  }
+;
 }

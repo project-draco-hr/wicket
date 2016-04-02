@@ -1,3 +1,10 @@
 {
-  return Lambdas.link(id,onClick);
+  Args.notNull(onClick,"onClick");
+  return new Link<T>(id){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(){
+      onClick.accept((Void)null);
+    }
+  }
+;
 }

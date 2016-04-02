@@ -1,3 +1,14 @@
 {
-  return Lambdas.onChange(onChange,onError);
+  Args.notNull(onChange,"onChange");
+  Args.notNull(onError,"onError");
+  return new OnChangeAjaxBehavior(){
+    private static final long serialVersionUID=1L;
+    @Override protected void onUpdate(    AjaxRequestTarget target){
+      onChange.accept(target);
+    }
+    @Override protected void onError(    AjaxRequestTarget target,    RuntimeException e){
+      onError.accept(target,e);
+    }
+  }
+;
 }

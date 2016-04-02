@@ -1,3 +1,10 @@
 {
-  return Lambdas.onClientInfo(onClientInfo);
+  Args.notNull(onClientInfo,"onClientInfo");
+  return new AjaxClientInfoBehavior(){
+    private static final long serialVersionUID=1L;
+    @Override protected void onClientInfo(    AjaxRequestTarget target,    WebClientInfo clientInfo){
+      onClientInfo.accept(target,clientInfo);
+    }
+  }
+;
 }

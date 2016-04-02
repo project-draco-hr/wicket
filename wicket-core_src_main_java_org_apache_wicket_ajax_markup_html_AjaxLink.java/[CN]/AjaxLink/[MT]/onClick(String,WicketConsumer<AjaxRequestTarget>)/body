@@ -1,3 +1,10 @@
 {
-  return Lambdas.ajaxLink(id,onClick);
+  Args.notNull(onClick,"onClick");
+  return new AjaxLink<T>(id){
+    private static final long serialVersionUID=1L;
+    @Override public void onClick(    AjaxRequestTarget target){
+      onClick.accept(target);
+    }
+  }
+;
 }
