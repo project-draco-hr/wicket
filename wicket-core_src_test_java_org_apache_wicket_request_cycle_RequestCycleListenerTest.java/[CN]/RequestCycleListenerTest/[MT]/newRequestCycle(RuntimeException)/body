@@ -3,8 +3,8 @@
   Request request=new MockWebRequest(Url.parse("http://wicket.apache.org"));
   handler=new IRequestHandler(){
     @Override public void respond(    IRequestCycle requestCycle){
-      if (throwExceptionInRespond) {
-        throw new RuntimeException("testing purposes only");
+      if (exception != null) {
+        throw exception;
       }
       responses++;
     }

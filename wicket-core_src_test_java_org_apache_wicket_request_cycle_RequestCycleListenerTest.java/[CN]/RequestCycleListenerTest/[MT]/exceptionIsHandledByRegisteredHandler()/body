@@ -2,7 +2,7 @@
   IncrementingListener incrementingListener=new IncrementingListener();
   Application.get().getRequestCycleListeners().add(incrementingListener);
   Application.get().getRequestCycleListeners().add(new ErrorCodeListener(401));
-  RequestCycle cycle=newRequestCycle(true);
+  RequestCycle cycle=newRequestCycle(new RuntimeException("testing purposes only"));
   cycle.processRequestAndDetach();
   assertEquals(401,errorCode);
   assertEquals(1,incrementingListener.exceptionResolutions);
