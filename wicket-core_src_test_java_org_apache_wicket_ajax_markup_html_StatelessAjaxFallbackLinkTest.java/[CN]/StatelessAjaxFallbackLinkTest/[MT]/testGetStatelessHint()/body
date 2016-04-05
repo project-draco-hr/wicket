@@ -1,0 +1,11 @@
+{
+  tester.startPage(StatelessPage.class);
+  final StatelessPage page=(StatelessPage)tester.getLastRenderedPage();
+  final AjaxFallbackLink<Void> link=(AjaxFallbackLink<Void>)page.get("more");
+  assertTrue(link.isStateless());
+  link.onClick();
+  final List<? extends Behavior> behaviors=link.getBehaviors();
+  final AjaxEventBehavior behavior=(AjaxEventBehavior)behaviors.get(0);
+  behavior.onRequest();
+  assertTrue(link.isStateless());
+}

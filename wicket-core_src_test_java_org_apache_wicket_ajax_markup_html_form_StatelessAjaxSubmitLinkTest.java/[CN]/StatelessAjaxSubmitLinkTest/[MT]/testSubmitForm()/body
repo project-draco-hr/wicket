@@ -1,0 +1,12 @@
+{
+  tester.startPage(StatelessPage.class);
+  FormTester formTester=tester.newFormTester("inputForm");
+  formTester.setValue("name","myname");
+  formTester.setValue("surname","mysurname");
+  tester.executeAjaxEvent("inputForm:submit","click");
+  String response=tester.getLastResponseAsString();
+  boolean isAjaxResponse=response.contains(XmlPartialPageUpdate.START_ROOT_ELEMENT) && response.contains(XmlPartialPageUpdate.END_ROOT_ELEMENT);
+  assertTrue(isAjaxResponse);
+  boolean formAjaxSubmit=response.contains(StatelessPage.FORM_SUBMIT) && response.contains(StatelessPage.AJAX_SUBMIT);
+  assertTrue(formAjaxSubmit);
+}
