@@ -1,9 +1,11 @@
 {
+  Args.notEmpty(name,"name");
   Args.notNull(onAttribute,"onAttribute");
   return new Behavior(){
     @Override public void onComponentTag(    Component component,    ComponentTag tag){
       if (tag.getType() != TagType.CLOSE) {
-        tag.put(name,onAttribute.apply(tag.getAttribute(name)));
+        String oldValue=tag.getAttribute(name);
+        tag.put(name,onAttribute.apply(oldValue));
       }
     }
   }
