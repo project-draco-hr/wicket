@@ -8,13 +8,14 @@
       handler=next;
     }
  catch (    RuntimeException e) {
-      IRequestHandler replacement=requestHandlerExecutor.resolveHandler(e);
-      if (replacement != null) {
-        handler=replacement;
-      }
- else {
+      ReplaceHandlerException replacer=Exceptions.findCause(e,ReplaceHandlerException.class);
+      if (replacer == null) {
         throw e;
       }
+      if (replacer.isRemoveAll()) {
+        requestHandlerExecutor.schedule(null);
+      }
+      handler=replacer.getReplacementRequestHandler();
     }
   }
 }

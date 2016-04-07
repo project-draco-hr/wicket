@@ -3,17 +3,7 @@
   try {
     respond(handler);
   }
- catch (  RuntimeException exception) {
-    ReplaceHandlerException replacer=Exceptions.findCause(exception,ReplaceHandlerException.class);
-    if (replacer == null) {
-      throw exception;
-    }
-    if (replacer.removeAll) {
-      scheduledAfterCurrent=null;
-    }
-    throw replacer;
-  }
- finally {
+  finally {
     requestHandlers.poll();
     inactiveRequestHandlers.add(handler);
   }
