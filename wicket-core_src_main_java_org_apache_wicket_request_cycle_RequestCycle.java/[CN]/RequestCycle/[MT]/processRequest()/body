@@ -13,13 +13,7 @@
     }
   }
  catch (  Exception exception) {
-    IRequestHandler handler=handleException(exception);
-    if (handler != null) {
-      executeExceptionRequestHandler(exception,handler,getExceptionRetryCount());
-    }
- else {
-      log.error("Error during request processing. URL=" + request.getUrl(),exception);
-    }
+    executeExceptionRequestHandler(exception,getExceptionRetryCount());
     return true;
   }
  finally {

@@ -1,0 +1,20 @@
+{
+  scheduleRequestHandlerAfterCurrent(null);
+  IRequestHandler handler=handleException(exception);
+  if (handler == null) {
+    log.error("Error during request processing. URL=" + request.getUrl(),exception);
+    return;
+  }
+  try {
+    listeners.onExceptionRequestHandlerResolved(this,handler,exception);
+    execute(handler);
+  }
+ catch (  Exception e) {
+    if (retryCount <= 0) {
+      log.error("Exception retry count exceeded",e);
+    }
+ else {
+      executeExceptionRequestHandler(exception,retryCount - 1);
+    }
+  }
+}
