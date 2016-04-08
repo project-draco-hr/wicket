@@ -1,8 +1,8 @@
 {
-  if (!requestHandlers.isEmpty()) {
-    log.warn("Some of the request handlers are still active.");
-    inactiveRequestHandlers.addAll(requestHandlers);
-    requestHandlers.clear();
+  if (active != null) {
+    log.warn("request handler is still active.");
+    inactiveRequestHandlers.add(active);
+    active=null;
   }
   for (  IRequestHandler handler : inactiveRequestHandlers) {
     try {
