@@ -1,13 +1,14 @@
 {
   scheduleRequestHandlerAfterCurrent(null);
   try {
-    requestHandlerExecutor.execute(handler);
+    listeners.onExceptionRequestHandlerResolved(this,handler,exception);
+    execute(handler);
   }
  catch (  Exception e) {
     if (retryCount > 0) {
       IRequestHandler next=handleException(e);
       if (next != null) {
-        executeExceptionRequestHandler(next,retryCount - 1);
+        executeExceptionRequestHandler(exception,next,retryCount - 1);
         return;
       }
     }
