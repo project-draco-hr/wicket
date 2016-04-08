@@ -5,13 +5,15 @@
     execute(handler);
   }
  catch (  Exception e) {
-    if (retryCount > 0) {
+    if (retryCount <= 0) {
+      log.error("Error during executing exception request handler",e);
+    }
+ else {
       IRequestHandler next=handleException(e);
       if (next != null) {
         executeExceptionRequestHandler(exception,next,retryCount - 1);
         return;
       }
     }
-    log.error("Error during executing exception request handler",e);
   }
 }
