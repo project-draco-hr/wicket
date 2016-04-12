@@ -1,11 +1,12 @@
 {
   if (Strings.isEmpty(name)) {
     Class<?> fieldType=field.getType();
+    SimpleEntry<Class<?>,Class<?>> keyPair=new SimpleEntry<Class<?>,Class<?>>(fieldType,generic);
     name=beanNameCache.get(fieldType);
     if (name == null) {
-      name=getBeanNameOfClass(contextLocator.getSpringContext(),fieldType,generic);
+      name=getBeanNameOfClass(contextLocator.getSpringContext(),fieldType,generic,field.getName());
       if (name != null) {
-        String tmpName=beanNameCache.putIfAbsent(fieldType,name);
+        String tmpName=beanNameCache.putIfAbsent(keyPair,name);
         if (tmpName != null) {
           name=tmpName;
         }
