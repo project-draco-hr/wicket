@@ -16,11 +16,11 @@
   httpSession=new MockHttpSession(servletContext);
   ThreadContext.detach();
   this.application=application;
-  if (init) {
-    application.setName("WicketTesterApplication-" + UUID.randomUUID());
-  }
   ThreadContext.setApplication(application);
   if (init) {
+    if (application.getName() == null) {
+      application.setName("WicketTesterApplication-" + UUID.randomUUID());
+    }
     application.setServletContext(servletContext);
     application.initApplication();
   }
