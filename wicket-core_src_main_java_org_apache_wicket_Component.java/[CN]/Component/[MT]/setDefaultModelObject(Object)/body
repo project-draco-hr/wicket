@@ -1,7 +1,7 @@
 {
   final IModel<Object> model=(IModel<Object>)getDefaultModel();
   if (model == null) {
-    throw new IllegalStateException("Attempt to set model object on null model of component: " + getPageRelativePath());
+    throw new IllegalStateException("Attempt to set a model object on a component without a model! " + "Either pass an IModel to the constructor or use #setDefaultModel(new SomeModel(object)). " + "Component: "+ getPageRelativePath());
   }
   if (!isActionAuthorized(ENABLE)) {
     throw new UnauthorizedActionException(this,ENABLE);
