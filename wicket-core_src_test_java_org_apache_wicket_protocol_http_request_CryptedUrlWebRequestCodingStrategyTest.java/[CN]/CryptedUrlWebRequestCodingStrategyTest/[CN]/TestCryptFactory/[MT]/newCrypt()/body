@@ -1,10 +1,10 @@
 {
   return new ICrypt(){
     @Override public String decryptUrlSafe(    String text){
-      return new String(new Base64(true).decode(text));
+      return new String(Base64.getUrlDecoder().decode(text));
     }
     @Override public String encryptUrlSafe(    String plainText){
-      return new String(new Base64(true).encode(plainText.getBytes()));
+      return new String(Base64.getUrlEncoder().encode(plainText.getBytes()));
     }
     @Override public void setKey(    String key){
     }
