@@ -1,0 +1,10 @@
+{
+  RequestCycle cycle=component.getRequestCycle();
+  if (cycle.find(IPartialPageRequestHandler.class) == null) {
+    Object contributed=cycle.getMetaData(IS_JAVA_SCRIPT_CONTRIBUTED);
+    if (contributed == null) {
+      cycle.setMetaData(IS_JAVA_SCRIPT_CONTRIBUTED,new Object());
+      super.renderHead(component,response);
+    }
+  }
+}
