@@ -10,11 +10,11 @@
     execute(handler);
   }
  catch (  Exception e) {
-    if (retryCount <= 0) {
-      log.error("Exception retry count exceeded",e);
+    if (retryCount > 0) {
+      executeExceptionRequestHandler(exception,retryCount - 1);
     }
  else {
-      executeExceptionRequestHandler(exception,retryCount - 1);
+      log.error("Exception retry count exceeded",e);
     }
   }
 }
