@@ -7,7 +7,7 @@
       Iterator<Contact> contacts=DatabaseLocator.getDatabase().find(0,10,sort).iterator();
       return new ModelIteratorAdapter<Contact>(contacts){
         @Override protected IModel<Contact> model(        Contact object){
-          return new CompoundPropertyModel<Contact>(new DetachableContactModel(object));
+          return new CompoundPropertyModel<>(new DetachableContactModel(object));
         }
       }
 ;
