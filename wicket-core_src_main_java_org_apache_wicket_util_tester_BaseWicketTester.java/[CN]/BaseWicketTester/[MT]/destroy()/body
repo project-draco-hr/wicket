@@ -1,4 +1,9 @@
 {
-  application.internalDestroy();
-  ThreadContext.detach();
+  try {
+    ThreadContext.setApplication(application);
+    application.internalDestroy();
+  }
+  finally {
+    ThreadContext.detach();
+  }
 }
