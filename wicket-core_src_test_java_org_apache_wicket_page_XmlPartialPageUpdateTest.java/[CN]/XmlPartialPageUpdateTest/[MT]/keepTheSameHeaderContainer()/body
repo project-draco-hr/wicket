@@ -1,0 +1,10 @@
+{
+  PageForPartialUpdate page=new PageForPartialUpdate();
+  tester.startPage(page);
+  Component originalHeader=page.get(HtmlHeaderSectionHandler.HEADER_ID);
+  XmlPartialPageUpdate update=new XmlPartialPageUpdate(page);
+  update.add(page.container,page.container.getMarkupId());
+  MockWebResponse response=new MockWebResponse();
+  update.writeTo(response,"UTF-8");
+  assertEquals(originalHeader,page.get(HtmlHeaderSectionHandler.HEADER_ID));
+}
