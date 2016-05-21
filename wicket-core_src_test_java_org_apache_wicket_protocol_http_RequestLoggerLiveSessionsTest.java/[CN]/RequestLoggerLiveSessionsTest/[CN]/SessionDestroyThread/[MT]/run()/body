@@ -1,0 +1,16 @@
+{
+  while (!isInterrupted()) {
+    if (sessionIds.size() > 0) {
+      String sessionId=sessionIds.get(random.nextInt(sessionIds.size()));
+      requestLogger.sessionDestroyed(sessionId);
+synchronized (sessionIds) {
+        sessionIds.remove(sessionId);
+      }
+    }
+    try {
+      Thread.sleep(random.nextInt(20));
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+}

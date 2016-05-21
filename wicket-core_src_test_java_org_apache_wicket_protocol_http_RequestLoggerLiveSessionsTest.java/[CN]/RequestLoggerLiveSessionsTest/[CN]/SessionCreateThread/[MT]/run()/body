@@ -1,0 +1,16 @@
+{
+  while (!isInterrupted()) {
+    if (sessionIds.size() < 50) {
+      String sessionId=UUID.randomUUID().toString();
+synchronized (sessionIds) {
+        sessionIds.add(sessionId);
+      }
+      requestLogger.sessionCreated(sessionId);
+    }
+    try {
+      Thread.sleep(random.nextInt(20));
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+}

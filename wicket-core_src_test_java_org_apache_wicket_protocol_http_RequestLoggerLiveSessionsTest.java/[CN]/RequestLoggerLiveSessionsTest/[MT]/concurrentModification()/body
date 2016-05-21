@@ -1,0 +1,23 @@
+{
+  SessionCreateThread sct=new SessionCreateThread();
+  SessionDestroyThread sdt=new SessionDestroyThread();
+  sct.start();
+  sdt.start();
+  AtomicBoolean nullPointerExceptionThrown=new AtomicBoolean(false);
+  int count=10000000;
+  while (count-- > 0) {
+    try {
+      requestLogger.getLiveSessions();
+    }
+ catch (    NullPointerException e) {
+      e.printStackTrace();
+      nullPointerExceptionThrown.set(true);
+      break;
+    }
+  }
+  sct.interrupt();
+  sdt.interrupt();
+  if (nullPointerExceptionThrown.get()) {
+    Assert.fail("The test should not fail with NullPointerException");
+  }
+}
