@@ -1,0 +1,11 @@
+{
+  return new MockApplication(){
+    @Override public void init(){
+      super.init();
+      getResourceSettings().setCachingStrategy(new FilenameWithVersionResourceCachingStrategy(new CachingResourceVersion(new MessageDigestResourceVersion())));
+      mountResource("stylesheet.css",new CssResourceReference(ResourceMapperWithDecoratedResourcesTest.class,"decorated-resource.css"));
+      mountPage("/",HomePage.class);
+    }
+  }
+;
+}
