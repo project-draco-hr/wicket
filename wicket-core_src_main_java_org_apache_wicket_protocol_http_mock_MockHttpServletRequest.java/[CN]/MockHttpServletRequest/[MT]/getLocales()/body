@@ -1,7 +1,11 @@
 {
-  List<Locale> list=new ArrayList<Locale>();
-  final String header=getHeader("Accept-Language");
+  List<Locale> list=new ArrayList<>();
+  String header=getHeader("Accept-Language");
   if (header != null) {
+    int idxOfSemicolon=header.indexOf(';');
+    if (idxOfSemicolon > -1) {
+      header=header.substring(0,idxOfSemicolon);
+    }
     final String[] locales=Strings.split(header,',');
     for (    String value : locales) {
       Locale locale=getLocale(value);

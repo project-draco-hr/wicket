@@ -1,0 +1,7 @@
+{
+  Session session=tester.getSession();
+  session.setLocale(Locale.US);
+  tester.getRequest().setLocale(Locale.CANADA_FRENCH);
+  session.invalidateNow();
+  assertThat(tester.getSession().getLocale(),is(Locale.CANADA_FRENCH));
+}
