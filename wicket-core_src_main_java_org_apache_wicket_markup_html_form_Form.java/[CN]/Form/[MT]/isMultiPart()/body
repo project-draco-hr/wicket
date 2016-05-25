@@ -1,31 +1,32 @@
 {
-  if (multiPart != 0) {
-    return true;
-  }
-  Boolean anyEmbeddedMultipart=visitChildren(Component.class,new IVisitor<Component,Boolean>(){
-    @Override public void component(    final Component component,    final IVisit<Boolean> visit){
-      boolean isMultiPart=false;
-      if (component instanceof Form<?>) {
-        Form<?> form=(Form<?>)component;
-        if (form.isVisibleInHierarchy() && form.isEnabledInHierarchy()) {
-          isMultiPart=(form.multiPart != 0);
+  if (multiPart == 0) {
+    Boolean anyEmbeddedMultipart=visitChildren(Component.class,new IVisitor<Component,Boolean>(){
+      @Override public void component(      final Component component,      final IVisit<Boolean> visit){
+        boolean isMultiPart=false;
+        if (component instanceof Form<?>) {
+          Form<?> form=(Form<?>)component;
+          if (form.isVisibleInHierarchy() && form.isEnabledInHierarchy()) {
+            isMultiPart=(form.multiPart & MULTIPART_HARD) != 0;
+          }
         }
-      }
- else       if (component instanceof FormComponent<?>) {
-        FormComponent<?> fc=(FormComponent<?>)component;
-        if (fc.isVisibleInHierarchy() && fc.isEnabledInHierarchy()) {
-          isMultiPart=fc.isMultiPart();
+ else         if (component instanceof FormComponent<?>) {
+          FormComponent<?> fc=(FormComponent<?>)component;
+          if (fc.isVisibleInHierarchy() && fc.isEnabledInHierarchy()) {
+            isMultiPart=fc.isMultiPart();
+          }
         }
-      }
-      if (isMultiPart) {
-        visit.stop(true);
+        if (isMultiPart) {
+          visit.stop(true);
+        }
       }
     }
-  }
 );
-  boolean mp=Boolean.TRUE.equals(anyEmbeddedMultipart);
-  if (mp) {
-    multiPart|=MULTIPART_HINT;
+    if (Boolean.TRUE.equals(anyEmbeddedMultipart)) {
+      multiPart|=MULTIPART_HINT_YES;
+    }
+ else {
+      multiPart|=MULTIPART_HINT_NO;
+    }
   }
-  return mp;
+  return (multiPart & (MULTIPART_HARD | MULTIPART_HINT_YES)) != 0;
 }
