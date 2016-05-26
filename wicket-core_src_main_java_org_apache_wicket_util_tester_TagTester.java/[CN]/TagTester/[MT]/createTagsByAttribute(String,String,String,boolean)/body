@@ -6,7 +6,7 @@
       markup=AJAX_COMPONENT_CDATA_CLOSE.matcher(markup).replaceAll("</component>");
       XmlPullParser parser=new XmlPullParser();
       parser.parse(markup);
-      XmlTag elm=null;
+      XmlTag elm;
       XmlTag openTag=null;
       XmlTag closeTag=null;
       int level=0;
@@ -44,6 +44,12 @@
         }
         if ((openTag != null) && (closeTag != null) && (level == 0)) {
           TagTester tester=new TagTester(parser,openTag,closeTag);
+          testers.add(tester);
+          openTag=null;
+          closeTag=null;
+        }
+ else         if (openTag != null) {
+          TagTester tester=new TagTester(parser,openTag,openTag);
           testers.add(tester);
           openTag=null;
           closeTag=null;
