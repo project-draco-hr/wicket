@@ -8,7 +8,7 @@
     }
     buffer.append(' ').append(Strings.escapeMarkup(entry.getKey()));
     if (value != null) {
-      buffer.append('=').append('"').append(JavaScriptUtils.escapeQuotes(value.toString())).append('"');
+      buffer.append('=').append('"').append(Strings.replaceAll(value.toString(),"\"","\\\"")).append('"');
     }
   }
   for (  String attrName : tagMinimizedAttributes) {
