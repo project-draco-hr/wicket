@@ -1,5 +1,5 @@
 {
-  add(new RatingPanel("rating1",new PropertyModel<Integer>(rating1,"rating"),5,new PropertyModel<Integer>(rating1,"nrOfVotes"),true){
+  add(new RatingPanel("rating1",new PropertyModel<Integer>(rating1,"rating"),5,new PropertyModel<>(rating1,"nrOfVotes"),true){
     @Override public boolean onIsStarActive(    int star){
       return RatingsPage.rating1.isActive(star);
     }
@@ -8,7 +8,7 @@
     }
   }
 );
-  add(new RatingPanel("rating2",new PropertyModel<Integer>(rating2,"rating"),new Model<Integer>(5),new PropertyModel<Integer>(rating2,"nrOfVotes"),new PropertyModel<Boolean>(this,"hasVoted"),true){
+  add(new RatingPanel("rating2",new PropertyModel<Integer>(rating2,"rating"),new Model<>(5),new PropertyModel<>(rating2,"nrOfVotes"),new PropertyModel<>(this,"hasVoted"),true){
     @Override protected String getActiveStarUrl(    int iteration){
       IRequestHandler handler=new ResourceReferenceRequestHandler(WICKETSTAR1);
       return getRequestCycle().urlFor(handler).toString();
