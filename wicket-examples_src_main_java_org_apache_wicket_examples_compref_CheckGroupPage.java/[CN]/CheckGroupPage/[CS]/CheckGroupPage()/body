@@ -1,6 +1,6 @@
 {
   final CheckGroup<Person> group=new CheckGroup<>("group",new ArrayList<Person>());
-  Form<?> form=new Form("form"){
+  Form<Void> form=new Form<Void>("form"){
     @Override protected void onSubmit(){
       info("selected person(s): " + group.getDefaultModelObjectAsString());
     }
@@ -10,9 +10,6 @@
   form.add(group);
   group.add(new CheckGroupSelector("groupselector"));
   ListView<Person> persons=new ListView<Person>("persons",ComponentReferenceApplication.getPersons()){
-    /** 
- * @see org.apache.wicket.markup.html.list.ListView#populateItem(org.apache.wicket.markup.html.list.ListItem)
- */
     @Override protected void populateItem(    ListItem<Person> item){
       item.add(new Check<>("checkbox",item.getModel()));
       item.add(new Label("name",new PropertyModel<>(item.getDefaultModel(),"name")));

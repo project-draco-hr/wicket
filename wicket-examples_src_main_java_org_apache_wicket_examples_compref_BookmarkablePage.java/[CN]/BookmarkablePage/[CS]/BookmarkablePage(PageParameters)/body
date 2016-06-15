@@ -1,11 +1,6 @@
 {
-  String message;
-  if (pageParameters == null || pageParameters.get("message").toOptionalString() == null) {
-    message="This is the default message";
-  }
- else {
-    message=pageParameters.get("message").toOptionalString();
-  }
+  super(pageParameters);
+  String message=pageParameters.get("message").toString("This is the default message");
   add(new Label("messageLabel",message));
   add(new BookmarkablePageLink<>("navigateBackLink",BookmarkablePageLinkPage.class));
 }

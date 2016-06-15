@@ -15,10 +15,11 @@
   group2.add(new CheckGroupSelector("groupselector2",group2));
   ListView<Person> persons=new ListView<Person>("persons",ComponentReferenceApplication.getPersons()){
     @Override protected void populateItem(    ListItem<Person> item){
-      item.add(new Check<>("checkbox",item.getModel(),group));
-      item.add(new Check<>("checkbox2",item.getModel(),group2));
+      IModel<Person> personModel=item.getModel();
+      item.add(new Check<>("checkbox",personModel,group));
+      item.add(new Check<>("checkbox2",personModel,group2));
       item.add(new Label("name",new PropertyModel<>(item.getDefaultModel(),"name")));
-      item.add(new Label("lastName",new PropertyModel<String>(item.getDefaultModel(),"lastName")));
+      item.add(new Label("lastName",new PropertyModel<String>(personModel,"lastName")));
     }
   }
 ;
