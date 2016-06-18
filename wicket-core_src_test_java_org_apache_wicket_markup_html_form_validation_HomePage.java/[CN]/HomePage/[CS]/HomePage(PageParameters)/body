@@ -10,12 +10,12 @@
   form.add(new Label("lbltextfield2",new PropertyModel<String>(this,"textfieldForm2")));
   form.add(new AjaxSubmitLink("submit"){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target){
       info("onSubmit");
       hitOnSubmit=true;
       target.add(form);
     }
-    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onError(    AjaxRequestTarget target){
       error("onError");
       hitOnError=true;
       target.add(form);
@@ -33,11 +33,11 @@
   form3.add(panel);
   form3.add(new AjaxSubmitLink("submit"){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target){
       formSubmitted=formSubmitted | AJAX;
       target.add(form);
     }
-    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onError(    AjaxRequestTarget target){
     }
   }
 );

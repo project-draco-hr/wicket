@@ -13,7 +13,7 @@
   add(result);
   AjaxSubmitLink basedOnPageLink=new AjaxSubmitLink("pageBasedLink",form){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target){
       PageParameters parameters=new PageParameters();
       parameters.set("name",name);
       PageProvider pageProvider=new PageProvider(TemplateBasedOnPage.class,parameters);
@@ -21,26 +21,26 @@
       updateResult(result,pageHtml,target);
       target.add(feedback);
     }
-    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onError(    AjaxRequestTarget target){
       target.add(feedback);
     }
   }
 ;
   AjaxSubmitLink basedOnPanelLink=new AjaxSubmitLink("panelBasedLink",form){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target){
       CharSequence panelHtml=ComponentRenderer.renderComponent(new MailTemplatePanel("someId",new PropertyModel<>(MailTemplate.this,"name")));
       updateResult(result,panelHtml,target);
       target.add(feedback);
     }
-    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onError(    AjaxRequestTarget target){
       target.add(feedback);
     }
   }
 ;
   AjaxSubmitLink basedOnTextTemplateLink=new AjaxSubmitLink("textTemplateBasedLink",form){
     private static final long serialVersionUID=1L;
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onSubmit(    AjaxRequestTarget target){
       Map<String,Object> variables=new HashMap<>();
       variables.put("name",name);
       CharSequence relativeUrl=urlFor(new PackageResourceReference(MailTemplate.class,"resource.txt"),null);
@@ -51,7 +51,7 @@
       updateResult(result,templateHtml,target);
       target.add(feedback);
     }
-    @Override protected void onError(    AjaxRequestTarget target,    Form<?> form){
+    @Override protected void onError(    AjaxRequestTarget target){
       target.add(feedback);
     }
   }

@@ -26,8 +26,7 @@
   IModel<ChildModel> childModel=new CompoundPropertyModel(parentModel);
   parentForm.add(new AddressFormPanel("addressInfo",(IModel<ChildModel>)childModel));
   parentForm.add(new AjaxSubmitLink("parentSubmitBtn",parentForm){
-    @Override protected void onSubmit(    AjaxRequestTarget target,    Form<?> form){
-      super.onSubmit(target,form);
+    @Override protected void onSubmit(    AjaxRequestTarget target){
       target.add(getThePage().get("validations"));
     }
   }
