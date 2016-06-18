@@ -1,14 +1,10 @@
 {
   PageProvider provider=new PageProvider(pageInfo.getPageId(),pageClass,pageParameters,renderCount);
   provider.setPageSource(getContext());
-  if (provider.isNewPageInstance() && !getRecreateMountedPagesAfterExpiry()) {
-    throw new PageExpiredException(String.format("Bookmarkable page id '%d' has expired.",pageInfo.getPageId()));
+  checkExpiration(provider,pageInfo);
+  PageParameters constructionPageParameters=provider.hasPageInstance() ? provider.getPageInstance().getPageParameters() : new PageParameters();
+  if (PageParameters.equals(constructionPageParameters,pageParameters) == false) {
+    return new RenderPageRequestHandler(new PageProvider(pageClass,pageParameters));
   }
- else {
-    PageParameters constructionPageParameters=provider.hasPageInstance() ? provider.getPageInstance().getPageParameters() : new PageParameters();
-    if (PageParameters.equals(constructionPageParameters,pageParameters) == false) {
-      return new RenderPageRequestHandler(new PageProvider(pageClass,pageParameters));
-    }
-    return new RenderPageRequestHandler(provider);
-  }
+  return new RenderPageRequestHandler(provider);
 }
