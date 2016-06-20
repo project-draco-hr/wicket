@@ -1,23 +1,2 @@
 {
-  add(captcha=new KittenCaptchaPanel("captcha",new Dimension(400,200)));
-  add(new AjaxLink<Void>("checkKittens"){
-    private static final long serialVersionUID=642245961797905032L;
-    @Override public void onClick(    final AjaxRequestTarget target){
-      if (!isSpamBot() && captcha.allKittensSelected()) {
-        target.appendJavaScript("alert('you win! happy kittens!');");
-      }
- else {
-        errors++;
-        if (isSpamBot()) {
-          target.appendJavaScript("alert('spammer alert');");
-        }
- else {
-          target.appendJavaScript("alert('please try again');");
-        }
-        target.add(captcha);
-      }
-      captcha.reset();
-    }
-  }
-);
 }
