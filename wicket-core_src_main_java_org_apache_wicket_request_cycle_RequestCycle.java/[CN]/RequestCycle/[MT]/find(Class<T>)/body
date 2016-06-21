@@ -1,13 +1,14 @@
 {
   if (type == null) {
-    return null;
+    return Optional.empty();
   }
   IRequestHandler result=getActiveRequestHandler();
-  if (result == null || type.isAssignableFrom(result.getClass()) == false) {
-    result=getRequestHandlerScheduledAfterCurrent();
-    if (result == null || type.isAssignableFrom(result.getClass()) == false) {
-      result=null;
-    }
+  if (type.isInstance(result)) {
+    return (Optional<T>)Optional.of(result);
   }
-  return (T)result;
+  result=getRequestHandlerScheduledAfterCurrent();
+  if (type.isInstance(result)) {
+    return (Optional<T>)Optional.of(result);
+  }
+  return Optional.empty();
 }

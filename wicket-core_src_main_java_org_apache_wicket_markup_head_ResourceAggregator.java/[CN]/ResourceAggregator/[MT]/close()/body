@@ -1,10 +1,10 @@
 {
   renderHeaderItems();
-  if (RequestCycle.get().find(IPartialPageRequestHandler.class) == null) {
-    renderCombinedEventScripts();
+  if (RequestCycle.get().find(IPartialPageRequestHandler.class).isPresent()) {
+    renderSeperateEventScripts();
   }
  else {
-    renderSeperateEventScripts();
+    renderCombinedEventScripts();
   }
   super.close();
 }

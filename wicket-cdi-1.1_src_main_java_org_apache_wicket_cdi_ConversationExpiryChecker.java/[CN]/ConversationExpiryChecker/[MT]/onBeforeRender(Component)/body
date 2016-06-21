@@ -1,5 +1,5 @@
 {
-  if (component instanceof Page || RequestCycle.get().find(IPartialPageRequestHandler.class) != null) {
+  if (component instanceof Page || RequestCycle.get().find(IPartialPageRequestHandler.class).isPresent()) {
     Page page=component.getPage();
     String cid=ConversationPropagator.getConversationIdFromPage(page);
     if (cid != null && !Objects.isEqual(conversation.getId(),cid)) {

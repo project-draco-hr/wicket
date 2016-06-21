@@ -2,7 +2,7 @@
   Args.notEmpty(url,"url");
   boolean hasCondition=Strings.isEmpty(condition) == false;
   if (hasCondition) {
-    if (RequestCycle.get().find(IPartialPageRequestHandler.class) != null) {
+    if (RequestCycle.get().find(IPartialPageRequestHandler.class).isPresent()) {
       logger.warn("IE CSS engine doesn't support dynamically injected links in " + "conditional comments. See the javadoc of IHeaderResponse for alternative solution.");
     }
     response.write("<!--[if ");

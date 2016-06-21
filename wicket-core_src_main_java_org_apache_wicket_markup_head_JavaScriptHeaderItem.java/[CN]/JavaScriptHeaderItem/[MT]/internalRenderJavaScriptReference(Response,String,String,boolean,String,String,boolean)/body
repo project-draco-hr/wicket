@@ -6,7 +6,7 @@
     response.write(condition);
     response.write("]>");
   }
-  boolean isAjax=RequestCycle.get().find(IPartialPageRequestHandler.class) != null;
+  boolean isAjax=RequestCycle.get().find(IPartialPageRequestHandler.class).isPresent();
   CharSequence escapedUrl=isAjax ? Strings.escapeMarkup(url) : url;
   JavaScriptUtils.writeJavaScriptUrl(response,escapedUrl,id,defer,charset,async);
   if (hasCondition) {
