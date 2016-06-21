@@ -1,7 +1,8 @@
 {
   RequestCycle requestCycle=RequestCycle.get();
   Map<String,AtomicInteger> markupUniqueCounters=requestCycle.getMetaData(REQUEST_COUNTER_KEY);
-  String cacheKey=getMarkupResourceStream().getCacheKey();
+  ContainerInfo containerInfo=getMarkupResourceStream().getContainerInfo();
+  String cacheKey=containerInfo != null ? containerInfo.getContainerClass().getCanonicalName() : null;
   if (markupUniqueCounters == null) {
     markupUniqueCounters=new HashMap<>();
     requestCycle.setMetaData(REQUEST_COUNTER_KEY,markupUniqueCounters);

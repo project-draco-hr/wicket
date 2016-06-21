@@ -14,7 +14,13 @@
   }
 {
     InlineEnclosureWithAdditionalAjaxTargetPage ajaxPage=(InlineEnclosureWithAdditionalAjaxTargetPage)tester.getLastRenderedPage();
-    tester.assertComponentOnAjaxResponse("wicket_InlineEnclosure-0");
+    InlineEnclosure children=ajaxPage.visitChildren(InlineEnclosure.class,new IVisitor<InlineEnclosure,InlineEnclosure>(){
+      @Override public void component(      InlineEnclosure component,      IVisit<InlineEnclosure> visit){
+        visit.stop(component);
+      }
+    }
+);
+    tester.assertComponentOnAjaxResponse(children.getId());
     tester.assertComponentOnAjaxResponse(ajaxPage.getLabel2());
     assertVisible(ajaxPage.getLabel1());
     assertVisible(ajaxPage.getLabel2());
