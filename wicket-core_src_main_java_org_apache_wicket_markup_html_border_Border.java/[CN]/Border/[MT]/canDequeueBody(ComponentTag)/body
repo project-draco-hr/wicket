@@ -1,0 +1,7 @@
+{
+  ContainerInfo containerInfo=(ContainerInfo)tag.getUserData(WicketTagIdentifier.CONTAINER_INFO);
+  Class<?> containerClass=containerInfo != null ? containerInfo.getContainerClass() : null;
+  boolean isBodyTag=(tag instanceof WicketTag) && ((WicketTag)tag).isBodyTag();
+  boolean isBorderBodyTag=containerClass == null || containerClass.equals(getClass());
+  return isBodyTag && isBorderBodyTag;
+}

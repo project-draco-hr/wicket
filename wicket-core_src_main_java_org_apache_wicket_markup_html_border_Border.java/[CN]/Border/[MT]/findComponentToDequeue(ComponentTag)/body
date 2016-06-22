@@ -1,6 +1,7 @@
 {
-  if ((tag instanceof WicketTag) && ((WicketTag)tag).isBodyTag()) {
-    return getBodyContainer();
+  if (canDequeueBody(tag)) {
+    tag.setId(body.getId());
+    return body;
   }
   return super.findComponentToDequeue(tag);
 }

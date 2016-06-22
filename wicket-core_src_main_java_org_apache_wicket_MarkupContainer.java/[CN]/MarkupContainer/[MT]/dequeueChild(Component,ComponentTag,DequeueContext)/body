@@ -1,16 +1,16 @@
 {
-  if (child == null) {
-    dequeue.skipToCloseTag();
-  }
- else   if (child instanceof IQueueRegion) {
+  ChildToDequeueType childType=ChildToDequeueType.fromChild(child);
+  if (childType == ChildToDequeueType.QUEUE_REGION || childType == ChildToDequeueType.BORDER) {
     ((IQueueRegion)child).dequeue();
-    dequeue.skipToCloseTag();
   }
- else   if (child instanceof MarkupContainer) {
+  if (childType == ChildToDequeueType.MARKUP_CONTAINER || childType == ChildToDequeueType.BORDER) {
     MarkupContainer childContainer=(MarkupContainer)child;
     dequeue.pushContainer(childContainer);
     childContainer.dequeue(dequeue);
     dequeue.popContainer();
+  }
+  if (childType == ChildToDequeueType.NULL || childType == ChildToDequeueType.QUEUE_REGION) {
+    dequeue.skipToCloseTag();
   }
   ComponentTag close=dequeue.takeTag();
   do {
