@@ -1,0 +1,20 @@
+{
+  if (replacedPlaceHolder == null) {
+    if (resourceSettings.getThrowExceptionOnMissingResource()) {
+      AppendingStringBuffer message=new AppendingStringBuffer("Unable to find property: '");
+      message.append(nestedKey);
+      message.append('\'');
+      if (component != null) {
+        message.append(" for component: ");
+        message.append(component.getPageRelativePath());
+        message.append(" [class=").append(component.getClass().getName()).append(']');
+      }
+      message.append(". Locale: ").append(locale).append(", style: ").append(style);
+      throw new MissingResourceException(message.toString(),(component != null ? component.getClass().getName() : ""),nestedKey);
+    }
+ else {
+      replacedPlaceHolder="[Warning: Property for '" + nestedKey + "' not found]";
+    }
+  }
+  return replacedPlaceHolder;
+}

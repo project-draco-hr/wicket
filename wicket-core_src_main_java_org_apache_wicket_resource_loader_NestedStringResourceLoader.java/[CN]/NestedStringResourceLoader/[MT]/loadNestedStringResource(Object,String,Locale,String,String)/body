@@ -1,0 +1,29 @@
+{
+  Class<?> clazz=null;
+  Component component=null;
+  if (scope instanceof Component) {
+    component=(Component)scope;
+  }
+ else {
+    clazz=(Class<?>)scope;
+  }
+  Iterator<IStringResourceLoader> iter=loaders.iterator();
+  String value=null;
+  while (iter.hasNext() && (value == null)) {
+    IStringResourceLoader loader=iter.next();
+    value=component != null ? loader.loadStringResource(component,key,locale,style,variation) : loader.loadStringResource(clazz,key,locale,style,variation);
+  }
+  if (value == null) {
+    return handleMissingKey(key,locale,style,component,value);
+  }
+  StringBuffer output=new StringBuffer();
+  Matcher matcher=pattern.matcher(value);
+  while (matcher.find()) {
+    String nestedKey=matcher.group(1);
+    String replacedPlaceHolder=component != null ? loadNestedStringResource(component,nestedKey,locale,style,variation) : loadNestedStringResource(clazz,nestedKey,locale,style,variation);
+    replacedPlaceHolder=handleMissingKey(nestedKey,locale,style,component,replacedPlaceHolder);
+    matcher.appendReplacement(output,replacedPlaceHolder);
+  }
+  matcher.appendTail(output);
+  return output.toString();
+}
