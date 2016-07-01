@@ -1,0 +1,8 @@
+{
+  HttpServletRequest request=getContainerRequest(RequestCycle.get().getRequest());
+  if (isHttp2(request)) {
+    for (    String url : urls) {
+      org.eclipse.jetty.server.Request.getBaseRequest(request).getPushBuilder().path(url.toString()).push();
+    }
+  }
+}
