@@ -6,7 +6,9 @@
     }
   }
 ;
-  WebComponent component=new ComponentWithAReferenceToTheSession("id");
-  byte[] serialized=serializer.serialize(component);
+  WebMarkupContainer container=new WebMarkupContainer("container");
+  container.add(new Label("id1"));
+  container.add(new ComponentWithAReferenceToTheSession("id2"));
+  byte[] serialized=serializer.serialize(container);
   assertNull("The produced byte[] must be null if there was an error",serialized);
 }
