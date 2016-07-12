@@ -1,0 +1,7 @@
+{
+  Object assumedHttpServletRequest=request.getContainerRequest();
+  if (!(assumedHttpServletRequest instanceof HttpServletRequest)) {
+    throw new WicketRuntimeException("The request is not a HttpServletRequest - the usage of PushHeaderItem is not support in the current environment: " + request.getClass().getName());
+  }
+  return (HttpServletRequest)assumedHttpServletRequest;
+}

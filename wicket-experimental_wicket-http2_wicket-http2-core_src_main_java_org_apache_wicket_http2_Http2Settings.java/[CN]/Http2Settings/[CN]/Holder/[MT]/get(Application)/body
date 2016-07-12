@@ -1,0 +1,12 @@
+{
+  Http2Settings settings=application.getMetaData(KEY);
+  if (settings == null) {
+synchronized (application) {
+      if (settings == null) {
+        settings=new Http2Settings();
+        set(application,settings);
+      }
+    }
+  }
+  return settings;
+}

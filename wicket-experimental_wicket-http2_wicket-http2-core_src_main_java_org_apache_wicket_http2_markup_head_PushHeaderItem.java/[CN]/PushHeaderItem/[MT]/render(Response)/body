@@ -1,0 +1,8 @@
+{
+  HttpServletRequest request=getContainerRequest(RequestCycle.get().getRequest());
+  if (isHttp2(request)) {
+    Http2Settings http2Settings=Http2Settings.Holder.get(Application.get());
+    PushBuilder pushBuilder=http2Settings.getPushBuilder();
+    pushBuilder.push(request,urls.toArray(new String[urls.size()]));
+  }
+}

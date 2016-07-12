@@ -2,7 +2,15 @@
   super(id,(IModel<Collection<FileUpload>>)model);
   this.max=max;
   this.useMultipleAttr=useMultipleAttr;
-  upload=new WebComponent("upload");
+  upload=new WebComponent("upload"){
+    @Override protected void onComponentTag(    ComponentTag tag){
+      super.onComponentTag(tag);
+      if (!isEnabledInHierarchy()) {
+        onDisabled(tag);
+      }
+    }
+  }
+;
   upload.setOutputMarkupId(true);
   add(upload);
   container=new WebMarkupContainer("container");
