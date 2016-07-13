@@ -1,0 +1,90 @@
+{
+  IGetAndSet getAndSet;
+  Method method=null;
+  Field field;
+  if (exp.startsWith("[")) {
+    exp=exp.substring(1,exp.length() - 1);
+  }
+ else   if (exp.endsWith("()")) {
+    method=findMethod(clz,exp);
+  }
+ else {
+    method=findGetter(clz,exp);
+  }
+  if (method == null) {
+    if (List.class.isAssignableFrom(clz)) {
+      try {
+        int index=Integer.parseInt(exp);
+        getAndSet=new ListGetAndSet(index);
+      }
+ catch (      NumberFormatException ex) {
+        method=findMethod(clz,exp);
+        if (method != null) {
+          getAndSet=new MethodGetAndSet(method,MethodGetAndSet.findSetter(method,clz),null);
+        }
+ else {
+          field=findField(clz,exp);
+          if (field != null) {
+            getAndSet=new FieldGetAndSet(field);
+          }
+ else {
+            throw new WicketRuntimeException("The expression '" + exp + "' is neither an index nor is it a method or field for the list "+ clz);
+          }
+        }
+      }
+    }
+ else     if (Map.class.isAssignableFrom(clz)) {
+      getAndSet=new MapGetAndSet(exp);
+    }
+ else     if (clz.isArray()) {
+      try {
+        int index=Integer.parseInt(exp);
+        getAndSet=new ArrayGetAndSet(clz.getComponentType(),index);
+      }
+ catch (      NumberFormatException ex) {
+        if (exp.equals("length") || exp.equals("size")) {
+          getAndSet=new ArrayLengthGetAndSet();
+        }
+ else {
+          throw new WicketRuntimeException("Can't parse the expression '" + exp + "' as an index for an array lookup");
+        }
+      }
+    }
+ else {
+      field=findField(clz,exp);
+      if (field == null) {
+        method=findMethod(clz,exp);
+        if (method == null) {
+          int index=exp.indexOf('.');
+          if (index != -1) {
+            String propertyName=exp.substring(0,index);
+            String propertyIndex=exp.substring(index + 1);
+            try {
+              int parsedIndex=Integer.parseInt(propertyIndex);
+              String name=Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
+              method=clz.getMethod(GET + name,new Class[]{int.class});
+              getAndSet=new IndexedPropertyGetAndSet(method,parsedIndex);
+            }
+ catch (            Exception e) {
+              throw new WicketRuntimeException("No get method defined for class: " + clz + " expression: "+ propertyName);
+            }
+          }
+ else {
+            throw new WicketRuntimeException("No get method defined for class: " + clz + " expression: "+ exp);
+          }
+        }
+ else {
+          getAndSet=new MethodGetAndSet(method,MethodGetAndSet.findSetter(method,clz),null);
+        }
+      }
+ else {
+        getAndSet=new FieldGetAndSet(field);
+      }
+    }
+  }
+ else {
+    field=findField(clz,exp);
+    getAndSet=new MethodGetAndSet(method,MethodGetAndSet.findSetter(method,clz),field);
+  }
+  return getAndSet;
+}

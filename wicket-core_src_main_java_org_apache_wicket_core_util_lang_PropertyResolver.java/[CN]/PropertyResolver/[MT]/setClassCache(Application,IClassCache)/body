@@ -1,8 +1,19 @@
 {
-  if (application != null) {
-    applicationToClassesToGetAndSetters.put(application,classCache);
+  setLocator(application,new IGetAndSetLocator(){
+    private DefaultGetAndSetLocator locator=new DefaultGetAndSetLocator();
+    @Override public IGetAndSet getAndSet(    Class<?> clz,    String name){
+      Map<String,IGetAndSet> map=classCache.get(clz);
+      if (map == null) {
+        map=new ConcurrentHashMap<String,IGetAndSet>(8);
+        classCache.put(clz,map);
+      }
+      IGetAndSet getAndSetter=map.get(name);
+      if (getAndSetter == null) {
+        getAndSetter=locator.getAndSet(clz,name);
+        map.put(name,getAndSetter);
+      }
+      return getAndSetter;
+    }
   }
- else {
-    applicationToClassesToGetAndSetters.put(PropertyResolver.class,classCache);
-  }
+);
 }

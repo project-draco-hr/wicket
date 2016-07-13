@@ -5,9 +5,9 @@
   if (object == null) {
     throw new WicketRuntimeException("Attempted to set property value on a null object. Property expression: " + expression + " Value: "+ value);
   }
-  ObjectAndGetSetter setter=getObjectAndGetSetter(expression,object,CREATE_NEW_VALUE);
-  if (setter == null) {
+  ObjectWithGetAndSet objectWithGetAndSet=getObjectWithGetAndSet(expression,object,CREATE_NEW_VALUE);
+  if (objectWithGetAndSet == null) {
     throw new WicketRuntimeException("Null object returned for expression: " + expression + " for setting value: "+ value+ " on: "+ object);
   }
-  setter.setValue(value,converter == null ? new PropertyResolverConverter(Application.get().getConverterLocator(),Session.get().getLocale()) : converter);
+  objectWithGetAndSet.setValue(value,converter == null ? new PropertyResolverConverter(Application.get().getConverterLocator(),Session.get().getLocale()) : converter);
 }

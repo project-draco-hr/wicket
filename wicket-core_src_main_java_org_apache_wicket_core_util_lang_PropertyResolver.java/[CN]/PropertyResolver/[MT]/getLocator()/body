@@ -1,0 +1,17 @@
+{
+  Object key;
+  if (Application.exists()) {
+    key=Application.get();
+  }
+ else {
+    key=PropertyResolver.class;
+  }
+  IGetAndSetLocator result=applicationToLocators.get(key);
+  if (result == null) {
+    IGetAndSetLocator tmpResult=applicationToLocators.putIfAbsent(key,result=new CachingGetAndSetLocator(new DefaultGetAndSetLocator()));
+    if (tmpResult != null) {
+      result=tmpResult;
+    }
+  }
+  return result;
+}
