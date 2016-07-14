@@ -6,9 +6,9 @@
  else {
     key=PropertyResolver.class;
   }
-  IGetAndSetLocator result=applicationToLocators.get(key);
+  IPropertyLocator result=applicationToLocators.get(key);
   if (result == null) {
-    IGetAndSetLocator tmpResult=applicationToLocators.putIfAbsent(key,result=new CachingGetAndSetLocator(new DefaultGetAndSetLocator()));
+    IPropertyLocator tmpResult=applicationToLocators.putIfAbsent(key,result=new CachingGetAndSetLocator(new DefaultGetAndSetLocator()));
     if (tmpResult != null) {
       result=tmpResult;
     }

@@ -1,0 +1,15 @@
+{
+  String key=clz.getName() + "#" + exp;
+  IGetAndSet located=map.get(key);
+  if (located == null) {
+    located=locator.get(clz,exp);
+    if (located == null) {
+      located=NONE;
+    }
+    map.put(key,located);
+  }
+  if (located == NONE) {
+    located=null;
+  }
+  return located;
+}

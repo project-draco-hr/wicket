@@ -1,4 +1,8 @@
 {
-  IGetAndSetLocator locator=getLocator();
-  return locator.getAndSet(clz,exp);
+  IPropertyLocator locator=getLocator();
+  IGetAndSet getAndSet=locator.get(clz,exp);
+  if (getAndSet == null) {
+    throw new WicketRuntimeException("Property could not be resolved for class: " + clz + " expression: "+ exp);
+  }
+  return getAndSet;
 }

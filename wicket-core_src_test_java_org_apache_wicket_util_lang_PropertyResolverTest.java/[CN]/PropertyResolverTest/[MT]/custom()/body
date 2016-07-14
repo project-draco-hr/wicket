@@ -1,0 +1,12 @@
+{
+  Document document=new Document();
+  document.setType("type");
+  document.setProperty("string","string");
+  Document nestedCustom=new Document();
+  nestedCustom.setProperty("string","string2");
+  document.setProperty("nested",nestedCustom);
+  PropertyResolver.setLocator(tester.getApplication(),new CachingGetAndSetLocator(new CustomGetAndSetLocator()));
+  assertEquals("type",PropertyResolver.getValue("type",document));
+  assertEquals("string",PropertyResolver.getValue("string",document));
+  assertEquals("string2",PropertyResolver.getValue("nested.string",document));
+}
