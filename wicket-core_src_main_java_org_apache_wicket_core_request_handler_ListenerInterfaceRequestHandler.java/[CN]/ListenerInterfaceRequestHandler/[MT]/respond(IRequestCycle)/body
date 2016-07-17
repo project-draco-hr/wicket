@@ -17,7 +17,7 @@
   }
   final boolean isStateless=page.isPageStateless();
   RedirectPolicy policy=isStateless ? RedirectPolicy.NEVER_REDIRECT : RedirectPolicy.AUTO_REDIRECT;
-  final boolean canCallListenerInterfaceAfterExpiry=component != null ? component.canCallListenerInterfaceAfterExpiry() : false;
+  final boolean canCallListenerInterfaceAfterExpiry=component != null && component.canCallListenerInterfaceAfterExpiry();
   if (!canCallListenerInterfaceAfterExpiry && freshPage && (isStateless == false || component == null)) {
     if (LOG.isDebugEnabled()) {
       LOG.debug("An IRequestListener on '{}' is executed on an expired stateful page. " + "Scheduling re-create of the page and ignoring the listener interface...",getComponentPath());
