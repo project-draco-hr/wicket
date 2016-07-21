@@ -1,13 +1,11 @@
 {
   TextField<Integer> minutesField=new TextField<Integer>(id,model,type){
     private static final long serialVersionUID=1L;
-    @SuppressWarnings("unchecked") @Override public <C>IConverter<C> getConverter(    Class<C> type){
+    @Override public IConverter<?> createConverter(    Class<?> type){
       if (Integer.class.isAssignableFrom(type)) {
-        return (IConverter<C>)MINUTES_CONVERTER;
+        return MINUTES_CONVERTER;
       }
- else {
-        return super.getConverter(type);
-      }
+      return null;
     }
   }
 ;
