@@ -1,0 +1,65 @@
+{
+  List<TagTester> testers=new ArrayList<>();
+  if ((Strings.isEmpty(markup) == false)) {
+    try {
+      markup=AJAX_COMPONENT_CDATA_OPEN.matcher(markup).replaceAll("<component>");
+      markup=AJAX_COMPONENT_CDATA_CLOSE.matcher(markup).replaceAll("</component>");
+      XmlPullParser parser=new XmlPullParser();
+      parser.parse(markup);
+      XmlTag openTag=null;
+      XmlTag closeTag=null;
+      Stack<XmlTag> stack=new Stack<>();
+      while (true) {
+        XmlTag xmlTag=parser.nextTag();
+        if (xmlTag == null) {
+          break;
+        }
+        if (openTag == null) {
+          if (accept.apply(xmlTag)) {
+            if (xmlTag.isOpen()) {
+              openTag=xmlTag;
+            }
+ else             if (xmlTag.isOpenClose()) {
+              openTag=xmlTag;
+              closeTag=xmlTag;
+            }
+          }
+        }
+ else {
+          if (xmlTag.isOpen() && !xmlTag.isOpenClose()) {
+            stack.push(xmlTag);
+          }
+          if (xmlTag.isClose()) {
+            XmlTag foundTag=findOpenTag(xmlTag,stack);
+            if (foundTag == null) {
+              if (xmlTag.getName().equals(openTag.getName())) {
+                closeTag=xmlTag;
+                closeTag.setOpenTag(openTag);
+              }
+ else               if (requiresCloseTag(openTag.getName()) == false) {
+                closeTag=openTag;
+              }
+ else {
+                openTag=null;
+                closeTag=null;
+              }
+            }
+          }
+        }
+        if ((openTag != null) && (closeTag != null)) {
+          TagTester tester=new TagTester(parser,openTag,closeTag);
+          testers.add(tester);
+          openTag=null;
+          closeTag=null;
+        }
+        if (stopAfterFirst && (closeTag != null)) {
+          break;
+        }
+      }
+    }
+ catch (    Exception e) {
+      throw new WicketRuntimeException(e);
+    }
+  }
+  return testers;
+}

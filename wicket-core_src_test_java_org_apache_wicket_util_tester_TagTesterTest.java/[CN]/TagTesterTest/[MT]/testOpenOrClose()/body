@@ -1,0 +1,10 @@
+{
+  List<TagTester> tags=TagTester.createTagsByAttribute(MARKUP,"wicket:id","p",false);
+  assertEquals(2,tags.size());
+  assertEquals("p",tags.get(0).getName());
+  assertEquals("p1",tags.get(0).getAttribute("id"));
+  assertEquals("<img wicket:id=\"img\" src=\"bild1.jpg\">",tags.get(0).getValue());
+  assertEquals("p",tags.get(1).getName());
+  assertEquals("p2",tags.get(1).getAttribute("id"));
+  assertEquals("<p wicket:id=\"p\" id=\"p2\">",tags.get(1).getMarkup());
+}
