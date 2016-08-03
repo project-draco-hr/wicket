@@ -1,7 +1,7 @@
 {
-  ContainerInfo containerInfo=(ContainerInfo)tag.getUserData(WicketTagIdentifier.CONTAINER_INFO);
-  Class<?> containerClass=containerInfo != null ? containerInfo.getContainerClass() : null;
+  String tagCacheKey=(String)tag.getUserData(WicketTagIdentifier.MARKUP_CACHE_KEY);
+  String borderCacheKey=getAssociatedMarkup().getMarkupResourceStream().getCacheKey();
   boolean isBodyTag=(tag instanceof WicketTag) && ((WicketTag)tag).isBodyTag();
-  boolean isBorderBodyTag=containerClass == null || containerClass.equals(getClass());
+  boolean isBorderBodyTag=Objects.equals(tagCacheKey,borderCacheKey);
   return isBodyTag && isBorderBodyTag;
 }
