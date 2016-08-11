@@ -1,0 +1,12 @@
+{
+  URL resource=page.getClass().getResource(page.getClass().getSimpleName() + ".html");
+  if (resource == null) {
+    throw new WicketRuntimeException("The markup to the page couldn't be found: " + page.getClass().getName());
+  }
+  try {
+    return Time.valueOf(new Date(resource.openConnection().getLastModified()));
+  }
+ catch (  IOException e) {
+    throw new WicketRuntimeException("The time couln't be determined of the markup file of the page: " + page.getClass().getName(),e);
+  }
+}
