@@ -1,0 +1,16 @@
+{
+  tester.getApplication().getMarkupSettings().setStripWicketTags(false);
+  String text="some text & another text";
+  final String textInHtml="Button label in HTML";
+  TestPage testPage=new TestPage(Model.of("")){
+    @Override public IResourceStream getMarkupResourceStream(    MarkupContainer container,    Class<?> containerClass){
+      return new StringResourceStream("<html><body>" + "<form wicket:id=\"form\"><button wicket:id=\"button\">" + textInHtml + "</button></form></body></html>");
+    }
+  }
+;
+  tester.startPage(testPage);
+  TagTester buttonTagTester=tester.getTagByWicketId("button");
+  assertThat(buttonTagTester,is(notNullValue()));
+  assertThat(buttonTagTester.getAttribute("value"),is(nullValue()));
+  assertThat(buttonTagTester.getValue(),is(equalTo(textInHtml)));
+}
