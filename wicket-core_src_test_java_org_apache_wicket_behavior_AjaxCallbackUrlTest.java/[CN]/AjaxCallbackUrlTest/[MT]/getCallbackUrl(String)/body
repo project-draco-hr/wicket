@@ -1,0 +1,10 @@
+{
+  WebApplication application=tester.getApplication();
+  application.mountPage(pageMountPath,TestPage.class);
+  application.getPageSettings().setRecreateBookmarkablePagesAfterExpiry(false);
+  PageParameters pageParameters=new PageParameters();
+  pageParameters.set("b","BBB",INamedParameters.Type.PATH);
+  pageParameters.set("c","CCC",INamedParameters.Type.PATH);
+  TestPage page=tester.startPage(TestPage.class,pageParameters);
+  return page.getAjaxCallbackUrl();
+}
