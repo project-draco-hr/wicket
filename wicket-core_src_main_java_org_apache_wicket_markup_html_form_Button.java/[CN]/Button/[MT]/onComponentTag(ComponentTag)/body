@@ -1,8 +1,10 @@
 {
   super.onComponentTag(tag);
-  String value=getDefaultModelObjectAsString();
-  if (value != null && !"".equals(value)) {
-    tag.put("value",value);
+  if ("input".equals(tag.getName())) {
+    String value=getDefaultModelObjectAsString();
+    if (Strings.isEmpty(value) == false) {
+      tag.put("value",value);
+    }
   }
   final String onClickJavaScript=getOnClickScript();
   if (onClickJavaScript != null) {
