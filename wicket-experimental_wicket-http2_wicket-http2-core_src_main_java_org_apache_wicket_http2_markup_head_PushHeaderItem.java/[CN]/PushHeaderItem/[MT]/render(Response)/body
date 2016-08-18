@@ -6,15 +6,17 @@
       Time pageModificationTime=getPageModificationTime();
       String ifModifiedSinceHeader=pageWebRequest.getHeader("If-Modified-Since");
       if (ifModifiedSinceHeader != null) {
-        Time ifModifiedSinceFromRequestTime=Time.valueOf(headerDateFormat.parse(ifModifiedSinceHeader));
+        Time ifModifiedSinceFromRequestTime=Time.valueOf(Date.from(LocalDateTime.parse(ifModifiedSinceHeader,headerDateFormat).toInstant(ZoneOffset.UTC)));
         if (ifModifiedSinceFromRequestTime.before(pageModificationTime)) {
           push(request);
         }
       }
  else {
+        push(request);
       }
     }
- catch (    ParseException e) {
+ catch (    DateTimeParseException e) {
+      push(request);
     }
   }
 }
