@@ -8,7 +8,7 @@
   }
   IPropertyLocator result=applicationToLocators.get(key);
   if (result == null) {
-    IPropertyLocator tmpResult=applicationToLocators.putIfAbsent(key,result=new CachingGetAndSetLocator(new DefaultGetAndSetLocator()));
+    IPropertyLocator tmpResult=applicationToLocators.putIfAbsent(key,result=new CachingPropertyLocator(new DefaultPropertyLocator()));
     if (tmpResult != null) {
       result=tmpResult;
     }
