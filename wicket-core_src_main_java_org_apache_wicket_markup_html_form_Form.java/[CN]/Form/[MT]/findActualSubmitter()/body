@@ -1,0 +1,14 @@
+{
+  IFormSubmitter actualSubmitter=findSubmittingButton();
+  if (actualSubmitter instanceof IFormSubmittingComponent) {
+    IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)actualSubmitter;
+    Component component=(Component)actualSubmitter;
+    if (!component.isVisibleInHierarchy()) {
+      throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not visible");
+    }
+    if (!component.isEnabledInHierarchy()) {
+      throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPageRelativePath()+ ") is not enabled");
+    }
+  }
+  return actualSubmitter;
+}

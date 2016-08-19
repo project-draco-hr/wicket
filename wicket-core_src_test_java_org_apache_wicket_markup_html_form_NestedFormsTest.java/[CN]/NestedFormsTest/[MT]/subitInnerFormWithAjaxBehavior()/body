@@ -1,0 +1,8 @@
+{
+  tester.startPage(TestAjaxPage.class);
+  FormTester formTester=tester.newFormTester("formA");
+  formTester.submit("formB:submit");
+  TestAjaxPage testPage=(TestAjaxPage)tester.getLastRenderedPage();
+  assertFalse(testPage.isFormAsubmitted());
+  assertTrue(testPage.isFormBsubmitted());
+}

@@ -1,0 +1,22 @@
+{
+  final Form<Void> formA=new Form<Void>("formA"){
+    @Override public void onDetach(){
+      formAsubmitted=isSubmitted();
+      super.onDetach();
+    }
+  }
+;
+  final Form<Void> formB=new Form<Void>("formB"){
+    @Override protected void onDetach(){
+      formBsubmitted=isSubmitted();
+      super.onDetach();
+    }
+  }
+;
+  formB.add(new AjaxButton("submit"){
+    private static final long serialVersionUID=1L;
+  }
+);
+  formA.add(formB);
+  add(formA);
+}
