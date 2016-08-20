@@ -1,9 +1,4 @@
 {
-  try {
-    tester.startComponentInPage(FragmentTestPanel_2.class);
-    fail();
-  }
- catch (  MarkupNotFoundException ex) {
-    assertTrue(ex.getMessage().contains("is not a <wicket:fragment> tag"));
-  }
+  tester.startComponentInPage(FragmentTestPanel_2.class);
+  assertThat(tester.getLastResponseAsString(),containsString("fragment body"));
 }

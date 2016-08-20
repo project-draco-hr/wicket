@@ -1,4 +1,7 @@
 {
+  if (tag instanceof WicketTag && ((WicketTag)tag).isFragmentTag()) {
+    return null;
+  }
   Component resolvedComponent=getParent().get(tag.getId());
   if (resolvedComponent != null && getPage().wasRendered(resolvedComponent)) {
     return null;

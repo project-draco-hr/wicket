@@ -2,6 +2,9 @@
   final MarkupElement element=markupStream.get();
   if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
     final ComponentTag tag=(ComponentTag)element;
+    if (tag instanceof WicketTag && ((WicketTag)tag).isFragmentTag()) {
+      return false;
+    }
     final String id=tag.getId();
     Component component=get(id);
     if (component == null) {

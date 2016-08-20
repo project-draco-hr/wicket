@@ -3,7 +3,7 @@
   if (markup == null) {
     throw new MarkupException("The fragments markup provider has no associated markup. " + "No markup to search for fragment markup with id: " + markupId);
   }
-  IMarkupFragment childMarkup=markup.find(markupId);
+  IMarkupFragment childMarkup=TagUtils.findTagMarkup(markup,markupId,FRAGMENT,1);
   if (childMarkup == null) {
     MarkupContainer markupProvider=getMarkupProvider(container);
     Markup associatedMarkup=markupProvider.getAssociatedMarkup();
