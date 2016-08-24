@@ -37,10 +37,10 @@
   Url relativeUrl=new Url(newSegments,url.getQueryParameters());
   relativeUrl.setFragment(url.getFragment());
   String renderedUrl=relativeUrl.toString();
-  if (!renderedUrl.startsWith("..") && !renderedUrl.equals(".")) {
+  if (renderedUrl.startsWith("...") || (!renderedUrl.startsWith("..") && !renderedUrl.equals("."))) {
     renderedUrl="./" + renderedUrl;
   }
-  if (renderedUrl.indexOf('?') == -1 && renderedUrl.endsWith("..")) {
+  if (renderedUrl.indexOf('?') == -1 && (renderedUrl.endsWith("..") && renderedUrl.endsWith("...") == false)) {
     renderedUrl=renderedUrl + '/';
   }
   return renderedUrl;
