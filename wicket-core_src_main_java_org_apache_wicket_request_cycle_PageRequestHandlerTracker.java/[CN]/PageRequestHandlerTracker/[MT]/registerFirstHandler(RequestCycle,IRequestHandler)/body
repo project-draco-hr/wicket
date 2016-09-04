@@ -1,5 +1,8 @@
 {
-  if (handler instanceof IPageRequestHandler && getFirstHandler(cycle) == null) {
-    cycle.setMetaData(FIRST_HANDLER_KEY,(IPageRequestHandler)handler);
+  if (getFirstHandler(cycle) == null) {
+    final IPageRequestHandler pageRequestHandler=findPageRequestHandler(handler);
+    if (pageRequestHandler != null) {
+      cycle.setMetaData(FIRST_HANDLER_KEY,pageRequestHandler);
+    }
   }
 }

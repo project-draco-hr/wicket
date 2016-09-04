@@ -1,0 +1,9 @@
+{
+  if (handler instanceof IPageRequestHandler) {
+    return (IPageRequestHandler)handler;
+  }
+  if (handler instanceof IRequestHandlerDelegate) {
+    return findPageRequestHandler(((IRequestHandlerDelegate)handler).getDelegateHandler());
+  }
+  return null;
+}
