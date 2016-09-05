@@ -1,11 +1,14 @@
 {
-  tester.getApplication().getRequestCycleListeners().add(new PageRequestHandlerTracker());
   tester.getApplication().getRequestCycleListeners().add(new AbstractRequestCycleListener(){
     @Override public void onDetach(    RequestCycle cycle){
       IPageRequestHandler firstHandler=PageRequestHandlerTracker.getFirstHandler(cycle);
-      assertEquals(PageA.class,firstHandler.getPageClass());
+      if (firstHandler != null) {
+        assertEquals(PageA.class,firstHandler.getPageClass());
+      }
       IPageRequestHandler lastHandler=PageRequestHandlerTracker.getLastHandler(cycle);
-      assertEquals(PageB.class,lastHandler.getPageClass());
+      if (lastHandler != null) {
+        assertEquals(PageB.class,lastHandler.getPageClass());
+      }
     }
   }
 );

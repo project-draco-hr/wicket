@@ -1,0 +1,8 @@
+{
+  Request decryptedRequest=request.cloneWithUrl(request.getUrl());
+  IRequestHandler handler=mapper.mapRequest(decryptedRequest);
+  if (handler != null) {
+    handler=new RequestSettingRequestHandler(decryptedRequest,handler);
+  }
+  return handler;
+}
