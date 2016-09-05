@@ -2,7 +2,7 @@
   Map<String,CharSequence> childTags=new HashMap<String,CharSequence>();
   ComponentTag tag=markupStream.getPreviousTag();
   if (!tag.isOpenClose()) {
-    while (markupStream.hasMore() && !markupStream.get().closes(openTag)) {
+    while (markupStream.isCurrentIndexInsideTheStream() && !markupStream.get().closes(openTag)) {
       MarkupElement element=markupStream.get();
       if ((element instanceof ComponentTag) && !markupStream.atCloseTag()) {
         ComponentTag currentTag=(ComponentTag)element;

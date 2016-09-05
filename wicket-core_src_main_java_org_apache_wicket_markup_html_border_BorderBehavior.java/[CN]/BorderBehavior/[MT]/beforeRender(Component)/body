@@ -3,7 +3,7 @@
   final Response response=component.getResponse();
   stream.setCurrentIndex(0);
   boolean insideBorderMarkup=false;
-  while (stream.hasMore()) {
+  while (stream.isCurrentIndexInsideTheStream()) {
     MarkupElement elem=stream.get();
     stream.next();
     if (elem instanceof WicketTag) {
@@ -30,7 +30,7 @@
       response.write(elem.toCharSequence());
     }
   }
-  if (!stream.hasMore()) {
+  if (!stream.isCurrentIndexInsideTheStream()) {
     throw new WicketRuntimeException("Markup for component border " + getClass().getName() + " ended prematurely, was expecting </wicket:border>");
   }
 }
