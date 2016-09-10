@@ -1,7 +1,10 @@
 {
-  signedIn=authenticate(username,password);
-  if (signedIn) {
-    bind();
+  if (signedIn.compareAndSet(false,true)) {
+    boolean authenticated=authenticate(username,password);
+    if (authenticated) {
+      bind();
+    }
+    signedIn.set(authenticated);
   }
-  return signedIn;
+  return signedIn.get();
 }
