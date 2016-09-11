@@ -1,0 +1,7 @@
+{
+  Locale.setDefault(Locale.US);
+  WicketTester tester=new WicketTester();
+  tester.getSession().setLocale(Locale.CANADA);
+  tester.startPage(PageWithAutoLinkedLocalResource.class);
+  assertThat(tester.getLastResponseAsString(),CoreMatchers.containsString("en_CA"));
+}
