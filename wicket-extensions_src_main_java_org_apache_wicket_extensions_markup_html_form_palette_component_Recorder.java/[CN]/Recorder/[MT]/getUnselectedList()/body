@@ -2,7 +2,7 @@
   final IChoiceRenderer<? super T> renderer=getPalette().getChoiceRenderer();
   final Collection<? extends T> choices=getPalette().getChoices();
   final List<T> unselected=new ArrayList<>(choices.size());
-  final String ids=getValue();
+  final Set<String> ids=new TreeSet<>(Arrays.asList(Strings.split(getValue(),',')));
   for (  final T choice : choices) {
     final String choiceId=renderer.getIdValue(choice,0);
     if (ids.contains(choiceId) == false) {
