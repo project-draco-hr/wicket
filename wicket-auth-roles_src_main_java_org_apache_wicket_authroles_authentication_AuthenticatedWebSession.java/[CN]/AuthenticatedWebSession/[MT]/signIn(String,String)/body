@@ -1,12 +1,7 @@
 {
-  if (signedIn.compareAndSet(false,true)) {
-    boolean authenticated=authenticate(username,password);
-    if (authenticated) {
-      bind();
-    }
- else {
-      signedIn.set(false);
-    }
+  boolean authenticated=authenticate(username,password);
+  if (authenticated && signedIn.compareAndSet(false,true)) {
+    bind();
   }
   return signedIn.get();
 }
