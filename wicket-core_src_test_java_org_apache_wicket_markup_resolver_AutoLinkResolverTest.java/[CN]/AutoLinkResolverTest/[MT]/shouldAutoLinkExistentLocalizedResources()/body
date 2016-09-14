@@ -1,0 +1,7 @@
+{
+  tester.getSession().setLocale(NON_EXISTENT_RESOURCE_LOCALE);
+  tester.startPage(PageWithAutoLinkedLocalResource.class);
+  tester.getSession().setLocale(EXISTENT_RESOURCE_LOCALE);
+  tester.startPage(PageWithAutoLinkedLocalResource.class);
+  assertThat(tester.getLastResponseAsString(),containsString(EXISTENT_RESOURCE_LOCALE.getCountry()));
+}
