@@ -1,0 +1,39 @@
+{
+  if (sourceUri == null || sourceUri.isEmpty()) {
+    log.debug("Source URI not present in request, {}",noOriginAction);
+switch (noOriginAction) {
+case ALLOW:
+      allowHandler(request,sourceUri,page);
+    break;
+case SUPPRESS:
+  suppressHandler(request,sourceUri,page);
+break;
+case ABORT:
+abortHandler(request,sourceUri,page);
+break;
+}
+return;
+}
+sourceUri=sourceUri.toLowerCase();
+if (isWhitelistedHost(sourceUri)) {
+whitelistedHandler(request,sourceUri,page);
+return;
+}
+if (!isLocalOrigin(request,sourceUri)) {
+log.debug("Source URI conflicts with request origin, {}",conflictingOriginAction);
+switch (conflictingOriginAction) {
+case ALLOW:
+allowHandler(request,sourceUri,page);
+break;
+case SUPPRESS:
+suppressHandler(request,sourceUri,page);
+break;
+case ABORT:
+abortHandler(request,sourceUri,page);
+break;
+}
+}
+ else {
+matchingOrigin(request,sourceUri,page);
+}
+}

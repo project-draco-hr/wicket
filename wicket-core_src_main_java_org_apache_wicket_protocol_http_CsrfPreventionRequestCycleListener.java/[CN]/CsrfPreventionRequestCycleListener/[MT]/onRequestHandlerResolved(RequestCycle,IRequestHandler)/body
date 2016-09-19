@@ -3,20 +3,21 @@
     log.trace("CSRF listener is disabled, no checks performed");
     return;
   }
+  handler=unwrap(handler);
   if (isChecked(handler)) {
     IPageRequestHandler prh=(IPageRequestHandler)handler;
     IRequestablePage targetedPage=prh.getPage();
     HttpServletRequest containerRequest=(HttpServletRequest)cycle.getRequest().getContainerRequest();
-    String origin=containerRequest.getHeader("Origin");
+    String sourceUri=getSourceUri(containerRequest);
     if (isChecked(targetedPage)) {
-      checkOrigin(containerRequest,origin,targetedPage);
+      checkRequest(containerRequest,sourceUri,targetedPage);
     }
  else {
       log.debug("Targeted page {} was opted out of the CSRF origin checks, allowed",targetedPage.getClass().getName());
-      allowHandler(containerRequest,origin,targetedPage);
+      allowHandler(containerRequest,sourceUri,targetedPage);
     }
   }
  else {
-    if (log.isTraceEnabled())     log.trace("Resolved handler {} doesn't target a page, no CSRF check performed",handler.getClass().getName());
+    if (log.isTraceEnabled())     log.trace("Resolved handler {} doesn't target an action on a page, no CSRF check performed",handler.getClass().getName());
   }
 }

@@ -1,7 +1,7 @@
 {
-  String origin=getOriginHeaderOrigin(originHeader);
+  String origin=normalizeUri(originHeader);
   if (origin == null)   return false;
-  String request=getLocationHeaderOrigin(containerRequest);
+  String request=getTargetUriFromRequest(containerRequest);
   if (request == null)   return false;
   return origin.equalsIgnoreCase(request);
 }

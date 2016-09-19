@@ -1,8 +1,8 @@
 {
-  if ("null".equals(origin))   return null;
+  if (Strings.isEmpty(uri) || "null".equals(uri))   return null;
   StringBuilder target=new StringBuilder();
   try {
-    URI originUri=new URI(origin);
+    URI originUri=new URI(uri);
     String scheme=originUri.getScheme();
     if (scheme == null) {
       return null;
@@ -28,7 +28,7 @@
     return target.toString();
   }
  catch (  URISyntaxException e) {
-    log.debug("Invalid Origin header provided: {}, marked conflicting",origin);
+    log.debug("Invalid URI provided: {}, marked conflicting",uri);
     return null;
   }
 }
