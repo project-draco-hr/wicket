@@ -13,7 +13,9 @@
       checkRequest(containerRequest,sourceUri,targetedPage);
     }
  else {
-      log.debug("Targeted page {} was opted out of the CSRF origin checks, allowed",targetedPage.getClass().getName());
+      if (log.isDebugEnabled()) {
+        log.debug("Targeted page {} was opted out of the CSRF origin checks, allowed",targetedPage.getClass().getName());
+      }
       allowHandler(containerRequest,sourceUri,targetedPage);
     }
   }
