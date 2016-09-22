@@ -7,6 +7,6 @@
   when(urlRenderer.getBaseUrl()).thenReturn(Url.parse("base"));
   when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("base/a"));
   renderer.respond(requestCycle);
-  verify(response).sendRedirect(anyString());
+  verify(response).sendRedirect(isNull());
   verify(response,never()).write(any(byte[].class));
 }

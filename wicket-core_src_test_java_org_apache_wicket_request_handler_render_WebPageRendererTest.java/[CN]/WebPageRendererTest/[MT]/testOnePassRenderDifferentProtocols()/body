@@ -14,6 +14,6 @@
   when(request.shouldPreserveClientUrl()).thenReturn(false);
   renderer.respond(requestCycle);
   verify(response,never()).write(any(byte[].class));
-  verify(response).sendRedirect(anyString());
+  verify(response).sendRedirect(isNull());
   assertTrue(responseBuffered.get());
 }

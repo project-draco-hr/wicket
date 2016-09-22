@@ -24,6 +24,6 @@
   when(requestCycle.mapUrlFor(eq(handler))).thenReturn(Url.parse("url2"));
   renderer.respond(requestCycle);
   verify(response,never()).write(any(byte[].class));
-  verify(response).sendRedirect(anyString());
+  verify(response).sendRedirect(isNull());
   Assert.assertTrue(stored.get());
 }
