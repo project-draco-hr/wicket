@@ -1,8 +1,12 @@
 {
 class ExceptionalLoad extends LoadableDetachableModel<Integer> {
     private static final long serialVersionUID=1L;
+    private boolean detachCalled=false;
     @Override protected Integer load(){
       throw new RuntimeException();
+    }
+    @Override protected void onDetach(){
+      detachCalled=true;
     }
   }
   ExceptionalLoad ldm=new ExceptionalLoad();
@@ -12,6 +16,8 @@ class ExceptionalLoad extends LoadableDetachableModel<Integer> {
     fail("shouldn't get here");
   }
  catch (  RuntimeException e) {
-    assertThat(ldm.isAttached(),is(false));
   }
+  ldm.detach();
+  assertThat(ldm.isAttached(),is(false));
+  assertThat(ldm.detachCalled,is(true));
 }

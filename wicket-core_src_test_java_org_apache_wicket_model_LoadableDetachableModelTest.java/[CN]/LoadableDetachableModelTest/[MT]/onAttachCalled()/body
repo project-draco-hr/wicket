@@ -1,0 +1,16 @@
+{
+class AttachingLoadableModel extends LoadableDetachableModel<Integer> {
+    private static final long serialVersionUID=1L;
+    private boolean attachCalled=false;
+    @Override protected Integer load(){
+      return null;
+    }
+    @Override protected void onAttach(){
+      attachCalled=true;
+    }
+  }
+  AttachingLoadableModel m=new AttachingLoadableModel();
+  m.getObject();
+  assertThat(m.isAttached(),is(true));
+  assertThat(m.attachCalled,is(true));
+}
