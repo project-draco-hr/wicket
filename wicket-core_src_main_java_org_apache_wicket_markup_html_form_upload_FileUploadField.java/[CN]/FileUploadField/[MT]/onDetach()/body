@@ -1,12 +1,14 @@
 {
-  if ((fileUploads != null) && forceCloseStreamsOnDetach()) {
-    for (    FileUpload fu : fileUploads) {
-      fu.closeStreams();
+  if (fileUploads != null) {
+    if (forceCloseStreamsOnDetach()) {
+      for (      FileUpload fu : fileUploads) {
+        fu.closeStreams();
+      }
+      if (getModel() != null) {
+        getModel().setObject(null);
+      }
     }
     fileUploads=null;
-    if (getModel() != null) {
-      getModel().setObject(null);
-    }
   }
   super.onDetach();
 }
