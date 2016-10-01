@@ -2,20 +2,21 @@
   applyPageCacheHeader();
   HttpServletRequest request=getContainerRequest(RequestCycle.get().getRequest());
   if (isHttp2(request)) {
-    try {
-      Time pageModificationTime=getPageModificationTime();
-      String ifModifiedSinceHeader=pageWebRequest.getHeader("If-Modified-Since");
-      if (ifModifiedSinceHeader != null) {
-        Time ifModifiedSinceFromRequestTime=Time.valueOf(Date.from(LocalDateTime.parse(ifModifiedSinceHeader,headerDateFormat).toInstant(ZoneOffset.UTC)));
-        if (ifModifiedSinceFromRequestTime.before(pageModificationTime)) {
-          push(request);
-        }
+    Time pageModificationTime=getPageModificationTime();
+    String ifModifiedSinceHeader=pageWebRequest.getHeader("If-Modified-Since");
+    if (ifModifiedSinceHeader != null) {
+      Time ifModifiedSinceFromRequestTime=parseIfModifiedSinceHeader(ifModifiedSinceHeader,headerDateFormat_RFC1123);
+      if (ifModifiedSinceFromRequestTime == null) {
+        ifModifiedSinceFromRequestTime=parseIfModifiedSinceHeader(ifModifiedSinceHeader,headerDateFormat_ASCTIME);
       }
- else {
+      if (ifModifiedSinceFromRequestTime == null) {
+        ifModifiedSinceFromRequestTime=parseIfModifiedSinceHeader(ifModifiedSinceHeader,headerDateFormat_RFC1036);
+      }
+ else       if (ifModifiedSinceFromRequestTime == null || ifModifiedSinceFromRequestTime.before(pageModificationTime)) {
         push(request);
       }
     }
- catch (    DateTimeParseException e) {
+ else {
       push(request);
     }
   }
