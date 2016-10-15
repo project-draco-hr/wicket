@@ -1,0 +1,11 @@
+{
+  if (filterPrefix.get() == null) {
+    if (USING_JAVAX_WEB_SOCKET) {
+      filterPrefix.compareAndSet(null,"");
+    }
+ else {
+      filterPrefix.compareAndSet(null,RequestCycle.get().getRequest().getFilterPath());
+    }
+  }
+  return filterPrefix.get();
+}
