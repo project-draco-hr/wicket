@@ -12,18 +12,14 @@
     variables.put("resourceName",resourceName);
     variables.put("pageId",false);
   }
-  Url baseUrl=component.getRequestCycle().getUrlRenderer().getBaseUrl();
-  CharSequence ajaxBaseUrl=Strings.escapeMarkup(baseUrl.toString());
-  variables.put("baseUrl",ajaxBaseUrl);
-  String contextPath=component.getRequest().getContextPath();
+  CharSequence baseUrl=getBaseUrl(component);
+  Args.notEmpty(baseUrl,"baseUrl");
+  variables.put("baseUrl",baseUrl);
+  String contextPath=getContextPath(component);
   variables.put("contextPath",contextPath);
   variables.put("applicationName",component.getApplication().getName());
-  if (USING_JAVAX_WEB_SOCKET) {
-    variables.put("filterPrefix","");
-  }
- else {
-    variables.put("filterPrefix",component.getRequest().getFilterPath());
-  }
+  CharSequence filterPrefix=getFilterPrefix(component);
+  variables.put("filterPrefix",filterPrefix);
   String webSocketSetupScript=webSocketSetupTemplate.asString(variables);
   response.render(OnDomReadyHeaderItem.forScript(webSocketSetupScript));
 }
