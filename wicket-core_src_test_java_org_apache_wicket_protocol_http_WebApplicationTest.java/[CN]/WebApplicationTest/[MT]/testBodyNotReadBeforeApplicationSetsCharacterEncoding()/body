@@ -1,0 +1,29 @@
+{
+  WebApplication application=tester.getApplication();
+  HttpServletRequest request=new MockHttpServletRequest(application,null,null){
+    @Override public Map<String,String[]> getParameterMap(){
+      fail("body should not be read before character encoding is set");
+      return null;
+    }
+    @Override public String getParameter(    String name){
+      fail("body should not be read before character encoding is set");
+      return null;
+    }
+    @Override public Enumeration<String> getParameterNames(){
+      fail("body should not be read before character encoding is set");
+      return null;
+    }
+    @Override public String[] getParameterValues(    String name){
+      fail("body should not be read before character encoding is set");
+      return null;
+    }
+    @Override public MockRequestParameters getPostParameters(){
+      fail("body should not be read before character encoding is set");
+      return null;
+    }
+  }
+;
+  request.setCharacterEncoding(null);
+  application.createWebRequest(request,"/");
+  assertEquals("UTF-8",request.getCharacterEncoding());
+}

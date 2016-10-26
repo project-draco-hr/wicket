@@ -1,8 +1,13 @@
 {
+  if (hasFilterFactoryManager()) {
+    for (    AbstractRequestWrapperFactory factory : getFilterFactoryManager()) {
+      servletRequest=factory.getWrapper(servletRequest);
+    }
+  }
+  WebRequest webRequest=newWebRequest(servletRequest,filterPath);
   if (servletRequest.getCharacterEncoding() == null) {
     try {
-      String wicketAjaxHeader=servletRequest.getHeader(WebRequest.HEADER_AJAX);
-      if (Strings.isTrue(wicketAjaxHeader)) {
+      if (webRequest.isAjax()) {
         servletRequest.setCharacterEncoding(CharEncoding.UTF_8);
       }
  else {
@@ -14,11 +19,5 @@
       throw new WicketRuntimeException(e);
     }
   }
-  if (hasFilterFactoryManager()) {
-    for (    AbstractRequestWrapperFactory factory : getFilterFactoryManager()) {
-      servletRequest=factory.getWrapper(servletRequest);
-    }
-  }
-  WebRequest webRequest=newWebRequest(servletRequest,filterPath);
   return webRequest;
 }
