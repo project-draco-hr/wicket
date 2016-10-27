@@ -14,14 +14,14 @@
   }
   WebSocketSettings webSocketSettings=WebSocketSettings.Holder.get(component.getApplication());
   CharSequence baseUrl=getBaseUrl(webSocketSettings);
-  Args.notEmpty(baseUrl,"baseUrl");
+  Args.notNull(baseUrl,"baseUrl");
   variables.put("baseUrl",baseUrl);
   CharSequence contextPath=getContextPath(webSocketSettings);
-  Args.notEmpty(contextPath,"contextPath");
+  Args.notNull(contextPath,"contextPath");
   variables.put("contextPath",contextPath);
   variables.put("applicationName",component.getApplication().getName());
   CharSequence filterPrefix=getFilterPrefix(webSocketSettings);
-  Args.notEmpty(filterPrefix,"filterPrefix");
+  Args.notNull(filterPrefix,"filterPrefix");
   variables.put("filterPrefix",filterPrefix);
   String webSocketSetupScript=webSocketSetupTemplate.asString(variables);
   response.render(OnDomReadyHeaderItem.forScript(webSocketSetupScript));
