@@ -4,12 +4,10 @@
     IFormSubmittingComponent submittingComponent=(IFormSubmittingComponent)actualSubmitter;
     Component component=(Component)actualSubmitter;
     if (!component.isVisibleInHierarchy()) {
-      Page page=findPage();
-      throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPath()+ ", pageClass="+ (page == null ? "<unknown>" : page.getPageClass().getName())+ ") is not visible");
+      throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " ("+ component.toString(true)+ ") is not visible");
     }
     if (!component.isEnabledInHierarchy()) {
-      Page page=findPage();
-      throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " (path="+ component.getPath()+ ", pageClass="+ (page == null ? "<unknown>" : page.getPageClass().getName())+ ") is not enabled");
+      throw new WicketRuntimeException("Submit Button " + submittingComponent.getInputName() + " ("+ component.toString(true)+ ") is not enabled");
     }
   }
   return actualSubmitter;
