@@ -1,0 +1,14 @@
+{
+  Args.notEmpty(name,"name");
+  Args.notNull(onAttribute,"onAttribute");
+  return new Behavior(){
+    private static final long serialVersionUID=1L;
+    @Override public void onComponentTag(    Component component,    ComponentTag tag){
+      if (tag.getType() != TagType.CLOSE) {
+        String oldValue=tag.getAttribute(name);
+        tag.put(name,onAttribute.apply(oldValue));
+      }
+    }
+  }
+;
+}
