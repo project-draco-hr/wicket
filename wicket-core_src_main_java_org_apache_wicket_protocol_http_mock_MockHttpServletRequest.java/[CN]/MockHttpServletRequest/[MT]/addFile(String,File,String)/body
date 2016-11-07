@@ -1,10 +1,11 @@
 {
-  Args.notNull(file,"file");
-  if (file.exists() == false) {
-    throw new IllegalArgumentException("File does not exists. You must provide an existing file: " + file.getAbsolutePath());
-  }
-  if (file.isFile() == false) {
-    throw new IllegalArgumentException("You can only add a File, which is not a directory. Only files can be uploaded.");
+  if (file != null) {
+    if (file.exists() == false) {
+      throw new IllegalArgumentException("File does not exists. You must provide an existing file: " + file.getAbsolutePath());
+    }
+    if (file.isFile() == false) {
+      throw new IllegalArgumentException("You can only add a File, which is not a directory. Only files can be uploaded.");
+    }
   }
   if (uploadedFiles == null) {
     uploadedFiles=new HashMap<>();

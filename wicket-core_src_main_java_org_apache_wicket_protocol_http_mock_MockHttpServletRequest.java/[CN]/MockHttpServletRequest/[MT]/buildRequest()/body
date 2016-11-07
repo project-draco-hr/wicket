@@ -37,19 +37,23 @@
           out.write("; name=\"".getBytes());
           out.write(fieldName.getBytes());
           out.write("\"; filename=\"".getBytes());
-          out.write(uf.getFile().getName().getBytes());
+          if (uf.getFile() != null) {
+            out.write(uf.getFile().getName().getBytes());
+          }
           out.write("\"".getBytes());
           out.write(crlf.getBytes());
           out.write("Content-Type: ".getBytes());
           out.write(uf.getContentType().getBytes());
           out.write(crlf.getBytes());
           out.write(crlf.getBytes());
-          FileInputStream fis=new FileInputStream(uf.getFile());
-          try {
-            IOUtils.copy(fis,out);
-          }
+          if (uf.getFile() != null) {
+            FileInputStream fis=new FileInputStream(uf.getFile());
+            try {
+              IOUtils.copy(fis,out);
+            }
   finally {
-            fis.close();
+              fis.close();
+            }
           }
           out.write(crlf.getBytes());
         }
